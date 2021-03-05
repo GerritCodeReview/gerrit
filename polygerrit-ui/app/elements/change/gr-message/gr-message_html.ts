@@ -288,7 +288,8 @@ export const htmlTemplate = html`
                 items="[[update.reviewers]]"
                 as="reviewer"
               >
-                <gr-account-chip account="[[reviewer]]"> </gr-account-chip>
+                <gr-account-chip account="[[reviewer]]" change="[[change]]">
+                </gr-account-chip>
               </template>
             </div>
           </template>

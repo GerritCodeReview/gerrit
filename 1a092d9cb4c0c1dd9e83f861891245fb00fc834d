@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0613e6e5_14aa7302",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-05T07:06:41Z",
+      "side": 1,
+      "message": "@Davido how comes that this documentation-only change took 30 mins on RBE? I\u0027ve noticed that all tests were executed again, which is surprising :-O\n\nWhat do you think?\n\n@Albert thanks for your contribution: this is very much needed based on the recent California and EU regulations on privacy.",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

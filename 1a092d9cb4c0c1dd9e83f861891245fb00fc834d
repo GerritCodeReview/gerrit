@@ -261,6 +261,24 @@
       "parentUuid": "fd384ef3_a104cf27",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a99d6bc_4c456679",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-05T11:51:01Z",
+      "side": 1,
+      "message": "Isn\u0027t the username a type of external ID? Sounds like it should be.",
+      "parentUuid": "03836842_e6620098",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

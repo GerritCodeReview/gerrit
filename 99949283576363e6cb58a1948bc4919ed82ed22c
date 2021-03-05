@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5910769b_3767f916",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-05T11:20:09Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be this.isSectionExpandedByUser.set(category, this.isSectionExpandedByUser.get(category) ?? true)?",
+      "range": {
+        "startLine": 511,
+        "startChar": 47,
+        "endLine": 511,
+        "endChar": 51
+      },
+      "revId": "99949283576363e6cb58a1948bc4919ed82ed22c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

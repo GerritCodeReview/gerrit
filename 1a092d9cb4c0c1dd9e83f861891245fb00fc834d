@@ -243,6 +243,24 @@
       "parentUuid": "0f239fa6_d6c7a3e3",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03836842_e6620098",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-05T11:32:04Z",
+      "side": 1,
+      "message": "\u003e \u003e The only tricky thing is: how can the username be blanked as well? It isn\u0027t  currently possible in Gerrit though.\n\u003e \n\u003e AFAIK, we don\u0027t have usernames for googlesource at all. What are they used for anyway?\n\nLDAP authentication, SSH authentication, you don\u0027t have any of them on GS.com.",
+      "parentUuid": "fd384ef3_a104cf27",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

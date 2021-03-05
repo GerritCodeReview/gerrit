@@ -213,6 +213,24 @@
       "parentUuid": "abf9047e_a7726652",
       "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5e4cff0_e8c782bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-03-05T10:30:11Z",
+      "side": 1,
+      "message": "Thanks Luca!",
+      "parentUuid": "937979ab_640c239a",
+      "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -65,7 +65,7 @@ export const grReportingMock: ReportingService = {
   error: () => {
     log('error');
   },
-  reportExecution: (id: string, details: EventDetails) => {
+  reportExecution: (id: string, details?: EventDetails) => {
     log(`reportExecution '${id}': ${JSON.stringify(details)}`);
   },
   trackApi: (plugin: PluginApi, object: string, method: string) => {

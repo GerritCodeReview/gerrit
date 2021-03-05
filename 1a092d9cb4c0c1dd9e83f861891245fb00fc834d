@@ -315,6 +315,24 @@
       "parentUuid": "6450b2df_288fe5e4",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b94829d3_0d3ee47e",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-05T12:21:32Z",
+      "side": 1,
+      "message": "\u003e\u003e for example: the attention set feature has been writing names into NoteDb in places where they are difficult to remove.\n\n\u003e Names and not account_id? I didn\u0027t realise that, and it should be fixed IMHO.\n\u003e Can you raise it as a bug?\n\nI am confused as well. I thought that\u0027s because we could also add non registered user (without account_id) to the attention set, like it\u0027s already the case for reviewers and CC: you could add reviewer per email. But you can\u0027t, see for example: change 298606. One reviewer on that change is per email reviewer, that is a non registered user. I cannot add that user to attention set. So that adding user per name to attention set and not per account_id is a bug?",
+      "parentUuid": "6450b2df_288fe5e4",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

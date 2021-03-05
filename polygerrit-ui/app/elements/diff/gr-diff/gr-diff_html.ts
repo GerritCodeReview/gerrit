@@ -436,10 +436,16 @@ export const htmlTemplate = html`
     }
     td.lost div {
       background-color: var(--blue-50);
-      padding: var(--spacing-s);
+      padding: var(--spacing-s) 0 0 0;
+    }
+    td.lost div:first-of-type {
+      font-family: var(--font-family, 'Roboto');
+      font-size: var(--font-size-normal, 14px);
+      line-height: var(--line-height-normal);
     }
     td.lost iron-icon {
-      margin-right: var(--spacing-s);
+      padding: 0 var(--spacing-s) 0 var(--spacing-m);
+      color: var(--blue-700);
     }
     col.blame {
       display: none;

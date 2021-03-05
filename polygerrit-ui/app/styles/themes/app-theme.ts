@@ -45,6 +45,7 @@ const styleSheet = safeStyleSheet`
     --red-200: #f6aea9;
     --red-50: #fce8e6;
     --blue-900: #174ea6;
+    --blue-800: #185abc;
     --blue-700: #1967d2;
     --blue-200: #aecbfa;
     --blue-50: #e8f0fe;
@@ -74,7 +75,7 @@ const styleSheet = safeStyleSheet`
     --warning-background: var(--orange-50);
     --info-foreground: var(--blue-700);
     --info-background: var(--blue-50);
-    --selected-foreground: var(--blue-700);
+    --selected-foreground: var(--blue-800);
     --selected-background: var(--blue-50);
     --success-foreground: var(--green-700);
     --success-background: var(--green-50);

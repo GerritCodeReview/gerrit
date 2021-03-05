@@ -45,28 +45,7 @@ import {
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
-
-export interface RunSelectedEventDetail {
-  checkName: string;
-}
-
-export type RunSelectedEvent = CustomEvent<RunSelectedEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'run-selected': RunSelectedEvent;
-  }
-}
-
-function fireRunSelected(target: EventTarget, checkName: string) {
-  target.dispatchEvent(
-    new CustomEvent('run-selected', {
-      detail: {checkName},
-      composed: true,
-      bubbles: true,
-    })
-  );
-}
+import {fireRunSelected} from './gr-checks-util';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends GrLitElement {
@@ -130,20 +109,13 @@ export class GrChecksRun extends GrLitElement {
         }
         /* Additional 'div' for increased specificity. */
         div.chip.selected {
-          border: 1px solid var(--selected-foreground);
+          border: 1px solid var(--selected-background);
           background-color: var(--selected-background);
           padding-left: calc(var(--spacing-m) + var(--thick-border) - 1px);
         }
-        div.chip.deselected {
-          border: 1px solid var(--gray-foreground);
-          background-color: transparent;
-          padding-left: calc(var(--spacing-m) + var(--thick-border) - 1px);
-        }
-        div.chip.selected iron-icon {
+        div.chip.selected .name,
+        div.chip.selected iron-icon.filter {
           color: var(--selected-foreground);
-        }
-        div.chip.deselected iron-icon {
-          color: var(--gray-foreground);
         }
         .chip.selected gr-button.action,
         .chip.deselected gr-button.action {
@@ -188,7 +160,7 @@ export class GrChecksRun extends GrLitElement {
   render() {
     if (!this.shouldRender) return html`<div class="chip">Loading ...</div>`;
 
-    const icon = this.selected ? 'filter' : iconForRun(this.run);
+    const icon = iconForRun(this.run);
     const classes = {
       chip: true,
       [icon]: true,
@@ -200,6 +172,7 @@ export class GrChecksRun extends GrLitElement {
     return html`
       <div @click="${this.handleChipClick}" class="${classMap(classes)}">
         <div class="left">
+          ${this.renderFilterIcon()}
           <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
@@ -215,6 +188,13 @@ export class GrChecksRun extends GrLitElement {
             : ''}
         </div>
       </div>
+    `;
+  }
+
+  renderFilterIcon() {
+    if (!this.selected) return;
+    return html`
+      <iron-icon class="filter" icon="gr-icons:filter"></iron-icon>
     `;
   }
 

@@ -180,6 +180,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3e6a95c_2e27197d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-03-05T06:44:12Z",
+      "side": 1,
+      "message": "@Youssef thanks for the explanation, makes sense now!",
+      "parentUuid": "d107f526_159f56f8",
+      "revId": "78d75bbde22459487c0eaedc899d41131af25f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ba0c1a8_0ae6adf5",

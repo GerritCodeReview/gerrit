@@ -167,6 +167,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71671ec2_1e83212e",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-05T10:35:56Z",
+      "side": 0,
+      "message": "I agree. I wish there was a doc like that, but I don\u0027t have the expertise to write it.",
+      "parentUuid": "d2e02d8b_746052ed",
+      "range": {
+        "startLine": 410,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 14
+      },
+      "revId": "5f39431c027cbe909c44fdd6a26d42ddabc66e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2c43edb_6f5d2b9b",

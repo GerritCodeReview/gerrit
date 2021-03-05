@@ -16,6 +16,24 @@
       "message": "Looks good other than all the TODOs. Do you need help from me or Luca to resolve those in this change (via comments or new patchsets) or are you looking for follow up changes to fill those in? My preference would be to not merge with TODOs, so another option would be to break up the edits that resulted in TODOs into their own changes so the rest can get merged sooner.",
       "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e09cb3ac_7db4de63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-05T10:35:56Z",
+      "side": 1,
+      "message": "The TODOs are in comments (//), so they don\u0027t appear in the resulting HTML. So I think it should be OK to submit with the TODOs in this format.",
+      "parentUuid": "6ebf3170_7d6acb89",
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

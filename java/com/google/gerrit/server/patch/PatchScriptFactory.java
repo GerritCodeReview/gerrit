@@ -354,15 +354,53 @@ public class PatchScriptFactory implements Callable<PatchScript> {
    * comparison method shall give a strong signal that both patchscripts are almost identical.
    */
   private static boolean areEqualPatchscripts(PatchScript ps1, PatchScript ps2) {
-    return ps1.getChangeType().equals(ps2.getChangeType())
-        && ps1.getPatchHeader().equals(ps2.getPatchHeader())
-        && Objects.equals(ps1.getOldName(), ps2.getOldName())
-        && Objects.equals(ps1.getNewName(), ps2.getNewName())
-        && ps1.getEdits().containsAll(ps2.getEdits())
-        && ps2.getEdits().containsAll(ps1.getEdits())
-        && ps1.getEditsDueToRebase().equals(ps2.getEditsDueToRebase())
-        && ps1.getA().equals(ps2.getA())
-        && ps1.getB().equals(ps2.getB());
+    boolean equal = true;
+    if (!ps1.getChangeType().equals(ps2.getChangeType())) {
+      equal = false;
+      logger.atWarning().log(
+          "Mismatching change type: old = %s, new = %s.", ps1.getChangeType(), ps2.getChangeType());
+    }
+    if (!ps1.getPatchHeader().equals(ps2.getPatchHeader())) {
+      equal = false;
+      logger.atWarning().log(
+          "Mismatching patch header: old = %s, new = %s.",
+          ps1.getPatchHeader(), ps2.getPatchHeader());
+    }
+    if (!Objects.equals(ps1.getOldName(), ps2.getOldName())) {
+      equal = false;
+      logger.atWarning().log(
+          "Mismatching old name: old = %s, new = %s.", ps1.getOldName(), ps2.getOldName());
+    }
+    if (!Objects.equals(ps1.getNewName(), ps2.getNewName())) {
+      equal = false;
+      logger.atWarning().log(
+          "Mismatching new name: old = %s, new = %s.", ps1.getNewName(), ps2.getNewName());
+    }
+    if (!ps1.getEdits().containsAll(ps2.getEdits())) {
+      equal = false;
+      logger.atWarning().log(
+          "Mismatching edits: old = %s, new = %s.", ps1.getEdits(), ps2.getEdits());
+    }
+    if (!ps2.getEdits().containsAll(ps1.getEdits())) {
+      equal = false;
+      logger.atWarning().log(
+          "Mismatching edits: old = %s, new = %s.", ps1.getEdits(), ps2.getEdits());
+    }
+    if (!ps1.getEditsDueToRebase().equals(ps2.getEditsDueToRebase())) {
+      equal = false;
+      logger.atWarning().log(
+          "Mismatching edits due to rebase: old = %s, new = %s.",
+          ps1.getEditsDueToRebase(), ps2.getEditsDueToRebase());
+    }
+    if (!ps1.getA().equals(ps2.getA())) {
+      equal = false;
+      logger.atWarning().log("Mismatching sparse file content in old commit.");
+    }
+    if (!ps1.getB().equals(ps2.getB())) {
+      equal = false;
+      logger.atWarning().log("Mismatching sparse file content in new commit.");
+    }
+    return equal;
   }
 
   private Optional<ObjectId> getAId() {

@@ -387,6 +387,24 @@
       "parentUuid": "64c217e3_2491aaf8",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0441196d_96a3f8f4",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-05T12:49:29Z",
+      "side": 1,
+      "message": "Thanks for all the valuable feedback on the topic :-)\nCan we then include in the user-privacy.txt also what we can and cannot do *at the moment* about the RTBF?\n\n- We cannot remove the user\u0027s e-mail from all existing commits\n- We cannot remove references to the user\u0027s e-mail in attention-set\n- We cannot remove the user\u0027s username\n\nAll of them are Personally Identifiable Information.\n\nOnce we\u0027ll fix those issues in Gerrit, we can then update the privacy statement.",
+      "parentUuid": "20b0a4e2_ec83c78b",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

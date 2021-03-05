@@ -177,6 +177,24 @@
       "parentUuid": "85340a9f_b5b58ee3",
       "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abf9047e_a7726652",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-03-05T09:35:14Z",
+      "side": 1,
+      "message": "\u003e \u003e If this fix were aimed at fixing the issue in current releases, why was it applied on master and not stable-3.2 (which also seems affected)?\n\u003e \n\u003e Yes we could, Java 11 officially supported starting from stable-3.3, would you approve that series on stable-3.2? If you already voted CRVW-1 on stable-3.3 branch?!\n\nI\u0027m sorry, that was an unnecessary rhetorical comment from me, I don\u0027t think it should be applied to any stable-branches.",
+      "parentUuid": "85916978_99639b17",
+      "revId": "2a046a187f5498ba4f9780e5d11eadcaf7e69d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -246,7 +246,7 @@ refreshed and missing dependency JARs can be downloaded by running
 with BUILD Files` button of link:https://ij.bazel.build[Bazel plugin].
 
 [[documentation]]
-=== Documentation
+== Documentation
 
 To build only the documentation for testing or static hosting:
 

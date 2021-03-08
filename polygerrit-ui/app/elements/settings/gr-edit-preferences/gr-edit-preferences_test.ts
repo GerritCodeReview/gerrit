@@ -15,29 +15,34 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-edit-preferences.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-edit-preferences';
+import {stubRestApi} from '../../../test/test-utils';
+import {GrEditPreferences} from './gr-edit-preferences';
+import {EditPreferencesInfo} from '../../../types/common';
+import {IronInputElement} from '@polymer/iron-input';
 
 const basicFixture = fixtureFromElement('gr-edit-preferences');
 
 suite('gr-edit-preferences tests', () => {
-  let element;
+  let element: GrEditPreferences;
 
-  let editPreferences;
+  let editPreferences: EditPreferencesInfo;
 
-  function valueOf(title, fieldsetid) {
-    const sections = element.$[fieldsetid].querySelectorAll('section');
+  function valueOf(title: string, id: string): Element {
+    const sections = element.root?.querySelectorAll(`#${id} section`) ?? [];
     let titleEl;
     for (let i = 0; i < sections.length; i++) {
       titleEl = sections[i].querySelector('.title');
-      if (titleEl.textContent.trim() === title) {
-        return sections[i].querySelector('.value');
+      if (titleEl?.textContent?.trim() === title) {
+        const el = sections[i].querySelector('.value');
+        if (el) return el;
       }
     }
+    assert.fail(`element with title ${title} not found`);
   }
 
-  setup(() => {
+  setup(async () => {
     editPreferences = {
       auto_close_brackets: false,
       cursor_blink_rate: 0,
@@ -61,47 +66,60 @@ suite('gr-edit-preferences tests', () => {
 
     element = basicFixture.instantiate();
 
-    return element.loadData();
+    await element.loadData();
+    await flush();
   });
 
   test('renders', () => {
     // Rendered with the expected preferences selected.
-    assert.equal(valueOf('Tab width', 'editPreferences')
-        .firstElementChild.bindValue, editPreferences.tab_size);
-    assert.equal(valueOf('Columns', 'editPreferences')
-        .firstElementChild.bindValue, editPreferences.line_length);
-    assert.equal(valueOf('Indent unit', 'editPreferences')
-        .firstElementChild.bindValue, editPreferences.indent_unit);
-    assert.equal(valueOf('Syntax highlighting', 'editPreferences')
-        .firstElementChild.checked, editPreferences.syntax_highlighting);
-    assert.equal(valueOf('Show tabs', 'editPreferences')
-        .firstElementChild.checked, editPreferences.show_tabs);
-    assert.equal(valueOf('Match brackets', 'editPreferences')
-        .firstElementChild.checked, editPreferences.match_brackets);
-    assert.equal(valueOf('Line wrapping', 'editPreferences')
-        .firstElementChild.checked, editPreferences.line_wrapping);
-    assert.equal(valueOf('Indent with tabs', 'editPreferences')
-        .firstElementChild.checked, editPreferences.indent_with_tabs);
-    assert.equal(valueOf('Auto close brackets', 'editPreferences')
-        .firstElementChild.checked, editPreferences.auto_close_brackets);
+    const tabWidthInput = valueOf('Tab width', 'editPreferences')
+      .firstElementChild as IronInputElement;
+    assert.equal(tabWidthInput.bindValue, `${editPreferences.tab_size}`);
+
+    const columnsInput = valueOf('Columns', 'editPreferences')
+      .firstElementChild as IronInputElement;
+    assert.equal(columnsInput.bindValue, `${editPreferences.line_length}`);
+
+    const indentInput = valueOf('Indent unit', 'editPreferences')
+      .firstElementChild as IronInputElement;
+    assert.equal(indentInput.bindValue, `${editPreferences.indent_unit}`);
+
+    const syntaxInput = valueOf('Syntax highlighting', 'editPreferences')
+      .firstElementChild as HTMLInputElement;
+    assert.equal(syntaxInput.checked, editPreferences.syntax_highlighting);
+
+    const tabsInput = valueOf('Show tabs', 'editPreferences')
+      .firstElementChild as HTMLInputElement;
+    assert.equal(tabsInput.checked, editPreferences.show_tabs);
+
+    const bracketsInput = valueOf('Match brackets', 'editPreferences')
+      .firstElementChild as HTMLInputElement;
+    assert.equal(bracketsInput.checked, editPreferences.match_brackets);
+
+    const wrappingInput = valueOf('Line wrapping', 'editPreferences')
+      .firstElementChild as HTMLInputElement;
+    assert.equal(wrappingInput.checked, editPreferences.line_wrapping);
+
+    const indentTabsInput = valueOf('Indent with tabs', 'editPreferences')
+      .firstElementChild as HTMLInputElement;
+    assert.equal(indentTabsInput.checked, editPreferences.indent_with_tabs);
+
+    const autoCloseInput = valueOf('Auto close brackets', 'editPreferences')
+      .firstElementChild as HTMLInputElement;
+    assert.equal(autoCloseInput.checked, editPreferences.auto_close_brackets);
 
     assert.isFalse(element.hasUnsavedChanges);
   });
 
-  test('save changes', () => {
-    stubRestApi('saveEditPreferences')
-        .returns(Promise.resolve());
+  test('save changes', async () => {
     const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
-        .firstElementChild;
+      .firstElementChild as HTMLInputElement;
     showTabsCheckbox.checked = false;
     element._handleEditShowTabsChanged();
 
     assert.isTrue(element.hasUnsavedChanges);
 
-    // Save the change.
-    return element.save().then(() => {
-      assert.isFalse(element.hasUnsavedChanges);
-    });
+    await element.save();
+    assert.isFalse(element.hasUnsavedChanges);
   });
 });
-

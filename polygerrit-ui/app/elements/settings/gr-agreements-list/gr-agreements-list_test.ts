@@ -14,41 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import '../../../test/common-test-setup-karma.js';
-import './gr-agreements-list.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-agreements-list';
+import {stubRestApi} from '../../../test/test-utils';
+import {GrAgreementsList} from './gr-agreements-list';
+import {ContributorAgreementInfo} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-agreements-list');
 
 suite('gr-agreements-list tests', () => {
-  let element;
-  let agreements;
+  let element: GrAgreementsList;
 
   setup(done => {
-    agreements = [{
-      url: 'some url',
-      description: 'Agreements 1 description',
-      name: 'Agreements 1',
-    }];
+    const agreements: ContributorAgreementInfo[] = [
+      {
+        url: 'some url',
+        description: 'Agreements 1 description',
+        name: 'Agreements 1',
+      },
+    ];
 
     stubRestApi('getAccountAgreements').returns(Promise.resolve(agreements));
 
     element = basicFixture.instantiate();
 
-    element.loadData().then(() => { flush(done); });
+    element.loadData().then(() => {
+      flush(done);
+    });
   });
 
   test('renders', () => {
-    const rows = element.root.querySelectorAll('tbody tr');
-
+    const rows = element.root?.querySelectorAll('tbody tr') ?? [];
     assert.equal(rows.length, 1);
 
     const nameCells = Array.from(rows).map(row =>
-      row.querySelectorAll('td')[0].textContent.trim()
+      row.querySelectorAll('td')[0].textContent?.trim()
     );
 
     assert.equal(nameCells[0], 'Agreements 1');
   });
 });
-

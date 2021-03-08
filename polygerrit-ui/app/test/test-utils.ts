@@ -43,10 +43,21 @@ export function isHidden(el: Element | undefined | null) {
   return getComputedStyle(el).display === 'none';
 }
 
-export function query(el: Element | undefined, selectors: string) {
+export function query(el: Element | undefined, selector: string) {
   if (!el) return null;
   const root = el.shadowRoot || el;
-  return root.querySelector(selectors);
+  return root.querySelector(selector);
+}
+
+export function queryAndAssert<E extends Element = Element>(
+  el: Element | undefined,
+  selector: string
+): E {
+  if (!el) assert.fail('element is undefined');
+  const root = el.shadowRoot || el;
+  const found = root.querySelector<E>(selector);
+  if (!found) assert.fail(`selector '${selector}' did not match anything'`);
+  return found;
 }
 
 // Some tests/elements can define its own binding. We want to restore bindings

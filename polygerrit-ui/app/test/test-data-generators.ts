@@ -453,6 +453,7 @@ export function createComment(): UIComment {
     message: 'hello world',
     updated: '2018-02-13 22:48:48.018000000' as Timestamp,
     unresolved: false,
+    path: 'abc.txt',
   };
 }
 

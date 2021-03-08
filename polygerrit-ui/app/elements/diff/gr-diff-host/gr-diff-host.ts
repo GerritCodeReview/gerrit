@@ -120,7 +120,6 @@ interface LineInfo {
 
 export interface GrDiffHost {
   $: {
-    syntaxLayer: GrSyntaxLayer & Element;
     diff: GrDiff;
   };
 }
@@ -271,6 +270,8 @@ export class GrDiffHost extends GestureEventListeners(
 
   private readonly jsAPI = appContext.jsApiService;
 
+  private readonly syntaxLayer = new GrSyntaxLayer();
+
   /** @override */
   created() {
     super.created();
@@ -385,7 +386,7 @@ export class GrDiffHost extends GestureEventListeners(
       if (needsSyntaxHighlighting) {
         this.reporting.time(TimingLabel.SYNTAX);
         try {
-          await this.$.syntaxLayer.process();
+          await this.syntaxLayer.process();
         } finally {
           this.reporting.timeEnd(TimingLabel.SYNTAX);
         }
@@ -403,7 +404,7 @@ export class GrDiffHost extends GestureEventListeners(
 
   private _getLayers(path: string, changeNum: NumericChangeId): DiffLayer[] {
     // Get layers from plugins (if any).
-    return [this.$.syntaxLayer, ...this.jsAPI.getDiffLayers(path, changeNum)];
+    return [this.syntaxLayer, ...this.jsAPI.getDiffLayers(path, changeNum)];
   }
 
   clear() {
@@ -501,7 +502,7 @@ export class GrDiffHost extends GestureEventListeners(
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
     this.$.diff.cancel();
-    this.$.syntaxLayer.cancel();
+    this.syntaxLayer.cancel();
   }
 
   getCursorStops() {
@@ -1039,11 +1040,11 @@ export class GrDiffHost extends GestureEventListeners(
     const renderUpdateListener: DiffLayerListener = start => {
       if (start > NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT) {
         this.reporting.diffViewDisplayed();
-        this.$.syntaxLayer.removeListener(renderUpdateListener);
+        this.syntaxLayer.removeListener(renderUpdateListener);
       }
     };
 
-    this.$.syntaxLayer.addListener(renderUpdateListener);
+    this.syntaxLayer.addListener(renderUpdateListener);
   }
 
   _handleRenderStart() {

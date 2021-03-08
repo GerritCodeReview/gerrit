@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "701cf22d_6f6188b0",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-08T14:51:59Z",
+      "side": 1,
+      "message": "It\u0027s nice function but it\u0027s not used in gr-agreements.test",
+      "range": {
+        "startLine": 52,
+        "startChar": 16,
+        "endLine": 52,
+        "endChar": 30
+      },
+      "revId": "bc70627ea5efcf4384f21ae84a41ebb68fdf94d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       },
       "revId": "facc0d927cf21b9174fbe03ae87e52c80bc31f33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60968629_76a761f1",
+        "filename": "java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-08T15:10:29Z",
+      "side": 1,
+      "message": "Not using it is even better :-)",
+      "parentUuid": "2ea4efdb_c54e2dca",
+      "range": {
+        "startLine": 90,
+        "startChar": 32,
+        "endLine": 90,
+        "endChar": 55
+      },
+      "revId": "facc0d927cf21b9174fbe03ae87e52c80bc31f33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

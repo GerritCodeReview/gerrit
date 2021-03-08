@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9219e2d4_7c67d9a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-08T19:02:24Z",
+      "side": 1,
+      "message": "It\u0027s hard to review this, since file was moved. I assume that if tests passed, it\u0027s ok",
+      "revId": "4a776699bcb924677d303587857f73596b5f9677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

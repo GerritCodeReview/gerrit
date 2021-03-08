@@ -659,6 +659,7 @@ export interface RestApiService {
     topic: string,
     changeNum: NumericChangeId
   ): Promise<ChangeInfo[] | undefined>;
+  getChangesWithSimilarTopic(topic: string): Promise<ChangeInfo[] | undefined>;
 
   hasPendingDiffDrafts(): number;
   awaitPendingDiffDrafts(): Promise<void>;

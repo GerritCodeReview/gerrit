@@ -41,11 +41,12 @@ export const DisplayRules = {
     Metadata.REVIEWERS,
     Metadata.REPO_BRANCH,
     Metadata.SUBMITTED,
+    Metadata.TOPIC,
   ],
   SHOW_IF_SET: [
     Metadata.CC,
     Metadata.HASHTAGS,
-    Metadata.TOPIC,
+    // Metadata.TOPIC,
     Metadata.UPLOADER,
     Metadata.AUTHOR,
     Metadata.COMMITTER,

@@ -363,6 +363,8 @@ export const htmlTemplate = html`
             read-only="[[_topicReadOnly]]"
             on-changed="_handleTopicChanged"
             show-as-edit-pencil="[[_isNewChangeSummaryUiEnabled]]"
+            autocomplete="true"
+            query="[[queryTopic]]"
           ></gr-editable-label>
         </template>
       </span>

@@ -285,9 +285,15 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   }
 
   @observe('text', 'threshold', 'noDebounce')
-  _updateSuggestions(text?: string, threshold?: number, noDebounce?: boolean) {
+  _updateSuggestions(
+    text?: string | null,
+    threshold?: number,
+    noDebounce?: boolean
+  ) {
+    // text === "" is ok, so !text cannot be used
     if (
       text === undefined ||
+      text === null ||
       threshold === undefined ||
       noDebounce === undefined
     )

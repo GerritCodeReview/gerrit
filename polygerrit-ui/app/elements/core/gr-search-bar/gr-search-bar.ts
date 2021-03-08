@@ -89,6 +89,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'is:submittable',
   'is:watched',
   'is:wip',
+  'is:initialcommit',
   'label:',
   'mergedafter:',
   'mergedbefore:',

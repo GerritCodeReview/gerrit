@@ -747,7 +747,7 @@ export interface AccountsConfigInfo {
 export interface AuthInfo {
   auth_type: AuthType; // docs incorrectly names it 'type'
   use_contributor_agreements?: boolean;
-  contributor_agreements?: ContributorAgreementInfo;
+  contributor_agreements?: ContributorAgreementInfo[];
   editable_account_fields: EditableAccountField[];
   login_url?: string;
   login_text?: string;

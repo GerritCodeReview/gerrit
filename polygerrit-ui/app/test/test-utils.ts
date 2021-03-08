@@ -43,19 +43,29 @@ export function isHidden(el: Element | undefined | null) {
   return getComputedStyle(el).display === 'none';
 }
 
-export function query(el: Element | undefined, selector: string) {
-  if (!el) return null;
-  const root = el.shadowRoot || el;
-  return root.querySelector(selector);
+export function queryAll<E extends Element = Element>(
+  el: Element | undefined,
+  selector: string
+): NodeListOf<E> {
+  if (!el) assert.fail(`element not defined`);
+  const root = el.shadowRoot ?? el;
+  return root.querySelectorAll<E>(selector);
+}
+
+export function query<E extends Element = Element>(
+  el: Element | undefined,
+  selector: string
+): E | undefined {
+  if (!el) return undefined;
+  const root = el.shadowRoot ?? el;
+  return root.querySelector<E>(selector) ?? undefined;
 }
 
 export function queryAndAssert<E extends Element = Element>(
   el: Element | undefined,
   selector: string
 ): E {
-  if (!el) assert.fail('element is undefined');
-  const root = el.shadowRoot || el;
-  const found = root.querySelector<E>(selector);
+  const found = query<E>(el, selector);
   if (!found) assert.fail(`selector '${selector}' did not match anything'`);
   return found;
 }

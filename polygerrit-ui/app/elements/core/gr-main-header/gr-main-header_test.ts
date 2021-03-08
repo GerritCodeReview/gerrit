@@ -478,7 +478,7 @@ suite('gr-main-header tests', () => {
 
   test('shows feedback icon when URL provided', async () => {
     assert.isEmpty(element._feedbackURL);
-    assert.isNull(query(element, '.feedbackButton'));
+    assert.isNotOk(query(element, '.feedbackButton'));
 
     const url = 'report_bug_url';
     const config: ServerInfo = {

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5a7e5a4_0fd8d9fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-08T18:49:00Z",
+      "side": 1,
+      "message": "This should probably mention TODOs and areas we discussed that should go into other docs.",
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6ebf3170_7d6acb89",
@@ -49,6 +66,150 @@
       "writtenOn": "2021-03-08T18:25:01Z",
       "side": 1,
       "message": "ping nasser?",
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adeb3f7b_af5f4aea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-08T18:49:00Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "e09cb3ac_7db4de63",
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a21d2f_cf2822eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-08T18:49:00Z",
+      "side": 1,
+      "message": "Luca, it\u0027d be great if you could take another look. Adding Saša as well since he\u0027s been a maintainer a lot longer than I have 😊",
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a861ce_83310e0f",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-08T18:49:00Z",
+      "side": 1,
+      "message": "This should mention that Jetty is bundled in the standard release WAR?",
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a5b8d81_021a72fc",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-08T18:49:00Z",
+      "side": 1,
+      "message": "Not a complete statement?",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 7
+      },
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de14962d_cf52b550",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-08T18:49:00Z",
+      "side": 1,
+      "message": "Do we care to make this a link?",
+      "range": {
+        "startLine": 291,
+        "startChar": 34,
+        "endLine": 291,
+        "endChar": 43
+      },
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e77fcf_8306a061",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-08T18:49:00Z",
+      "side": 1,
+      "message": "code browsing",
+      "range": {
+        "startLine": 299,
+        "startChar": 39,
+        "endLine": 299,
+        "endChar": 45
+      },
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "202002c9_d5f3da08",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-08T18:49:00Z",
+      "side": 1,
+      "message": "Since these are also non-noteDb and non-latest-Gerrit/JGit numbers, should we not include them?",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 456,
+        "endChar": 55
+      },
       "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

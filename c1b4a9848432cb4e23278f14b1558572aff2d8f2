@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0d86a4c_9970a024",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T12:48:47Z",
+      "side": 1,
+      "message": "IIRC, we don\u0027t do camel case in req parameters. maybe simply --old ?",
+      "range": {
+        "startLine": 45,
+        "startChar": 20,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1731becd_968c78b1",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T12:48:47Z",
+      "side": 1,
+      "message": "default this to newMeta\u0027s predecessor",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 40
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37802921_a667c33a",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T12:48:47Z",
+      "side": 1,
+      "message": "default this to the current metaRevId ?",
+      "range": {
+        "startLine": 71,
+        "startChar": 26,
+        "endLine": 71,
+        "endChar": 35
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "266f4ddd_aa6d4f53",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T12:48:47Z",
+      "side": 1,
+      "message": "old \u0026 new should have different behavior for unreachable sha1; i\u0027m missing that.",
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60108173_c197045e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T12:48:47Z",
+      "side": 1,
+      "message": "I wonder if we should add this to the gApi changes API.",
+      "range": {
+        "startLine": 115,
+        "startChar": 5,
+        "endLine": 115,
+        "endChar": 29
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4496580_26a56bc4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T12:48:47Z",
+      "side": 1,
+      "message": "this is exercising 2 unreachable cases in one go.",
+      "range": {
+        "startLine": 120,
+        "startChar": 17,
+        "endLine": 121,
+        "endChar": 35
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

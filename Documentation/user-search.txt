@@ -520,6 +520,11 @@ is:merge::
 +
 True if the change is a merge commit.
 
+[[initial]]
+is:initial::
++
+True if the change is an initial commit.
+
 [[status]]
 status:open, status:pending, status:new::
 +

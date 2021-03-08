@@ -334,7 +334,7 @@ public class ChangeData {
   private PersonIdent author;
   private PersonIdent committer;
   private ImmutableSet<AttentionSetUpdate> attentionSet;
-  private int parentCount;
+  private Integer parentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
@@ -993,6 +993,16 @@ public class ChangeData {
       }
     }
     return merge;
+  }
+
+  @Nullable
+  public Integer parentCount() {
+    if (parentCount == null) {
+      if (!loadCommitData()) {
+        return null;
+      }
+    }
+    return parentCount;
   }
 
   public Set<Account.Id> editsByUser() {

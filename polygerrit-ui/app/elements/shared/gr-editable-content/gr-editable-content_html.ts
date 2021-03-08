@@ -62,7 +62,6 @@ export const htmlTemplate = html`
       background-color: var(--view-background-color);
       display: flex;
       justify-content: flex-end;
-      margin-bottom: 8px;
       border-top-width: 1px;
       border-top-style: solid;
       border-radius: 0 0 4px 4px;
@@ -87,6 +86,11 @@ export const htmlTemplate = html`
     }
     .save-button {
       margin-right: var(--spacing-xs);
+    }
+    gr-button {
+      font-family: var(--font-family);
+      line-height: var(--line-height-normal);
+      padding: var(--spacing-xs);
     }
   </style>
   <div

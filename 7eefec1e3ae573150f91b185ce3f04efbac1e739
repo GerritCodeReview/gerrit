@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d56fa460_a9191268",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-08T18:28:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca3eebad_df5b4eff",
+      "revId": "7eefec1e3ae573150f91b185ce3f04efbac1e739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58c5a623_5224d184",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-03-08T15:01:36Z",
       "side": 1,
       "message": "Nit: I would drop the `window.`.",
+      "range": {
+        "startLine": 316,
+        "startChar": 38,
+        "endLine": 316,
+        "endChar": 44
+      },
+      "revId": "7eefec1e3ae573150f91b185ce3f04efbac1e739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df057bff_ed31baaf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-08T18:28:45Z",
+      "side": 1,
+      "message": "Typescript compiler was picking up the wrong version of setTimeout by default I think. \nhttps://stackoverflow.com/questions/55550096/ts2322-type-timeout-is-not-assignable-to-type-number-when-running-unit-te",
+      "parentUuid": "58c5a623_5224d184",
       "range": {
         "startLine": 316,
         "startChar": 38,

@@ -51,7 +51,6 @@ import {
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
 import {CommentSide, Side} from '../../../constants/constants';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {pluralize} from '../../../utils/string-util';
 
 export type CommentIdToCommentThreadMap = {
@@ -611,8 +610,6 @@ export class GrCommentApi extends GestureEventListeners(
 
   private readonly flagsService = appContext.flagsService;
 
-  private isPortingCommentsExperimentEnabled = false;
-
   /** @override */
   created() {
     super.created();
@@ -620,9 +617,6 @@ export class GrCommentApi extends GestureEventListeners(
 
   constructor() {
     super();
-    this.isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.PORTING_COMMENTS
-    );
   }
 
   /**
@@ -636,12 +630,8 @@ export class GrCommentApi extends GestureEventListeners(
       this.restApiService.getDiffComments(changeNum),
       this.restApiService.getDiffRobotComments(changeNum),
       this.restApiService.getDiffDrafts(changeNum),
-      this.isPortingCommentsExperimentEnabled
-        ? this.restApiService.getPortedComments(changeNum, revision)
-        : Promise.resolve({}),
-      this.isPortingCommentsExperimentEnabled
-        ? this.restApiService.getPortedDrafts(changeNum, revision)
-        : Promise.resolve({}),
+      this.restApiService.getPortedComments(changeNum, revision),
+      this.restApiService.getPortedDrafts(changeNum, revision),
     ];
 
     return Promise.all(commentsPromise).then(

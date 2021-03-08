@@ -993,6 +993,16 @@ public class ChangeData {
     return parentCount > 1;
   }
 
+  @Nullable
+  public Integer parentCount() {
+    if (parentCount == null) {
+      if (!loadCommitData()) {
+        return null;
+      }
+    }
+    return parentCount;
+  }
+
   public Set<Account.Id> editsByUser() {
     return editRefs().keySet();
   }

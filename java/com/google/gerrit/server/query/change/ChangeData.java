@@ -334,13 +334,14 @@ public class ChangeData {
   private PersonIdent author;
   private PersonIdent committer;
   private ImmutableSet<AttentionSetUpdate> attentionSet;
-  private int parentCount;
+  private Integer parentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
   private Optional<Timestamp> mergedOn;
   private ImmutableSetMultimap<NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
+  private Boolean initialcommit;
 
   @Inject
   private ChangeData(
@@ -993,6 +994,16 @@ public class ChangeData {
       }
     }
     return merge;
+  }
+
+  @Nullable
+  public Integer parentCount() {
+    if (parentCount == null) {
+      if (!loadCommitData()) {
+        return null;
+      }
+    }
+    return parentCount;
   }
 
   public Set<Account.Id> editsByUser() {

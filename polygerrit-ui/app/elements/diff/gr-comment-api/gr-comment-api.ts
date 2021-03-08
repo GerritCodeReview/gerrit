@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-api_html';
@@ -596,9 +595,7 @@ export const _testOnly_findCommentById =
 export const _testOnly_getCommentsForPath =
   ChangeComments.prototype.getCommentsForPath;
 @customElement('gr-comment-api')
-export class GrCommentApi extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrCommentApi extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

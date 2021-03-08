@@ -17,7 +17,6 @@
 
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-agreements-list_html';
@@ -27,9 +26,7 @@ import {ContributorAgreementInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 
 @customElement('gr-agreements-list')
-export class GrAgreementsList extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrAgreementsList extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

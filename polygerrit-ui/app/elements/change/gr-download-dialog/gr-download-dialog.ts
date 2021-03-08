@@ -16,7 +16,6 @@
  */
 import '../../../styles/shared-styles';
 import '../../shared/gr-download-commands/gr-download-commands';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-download-dialog_html';
@@ -38,9 +37,7 @@ export interface GrDownloadDialog {
 }
 
 @customElement('gr-download-dialog')
-export class GrDownloadDialog extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDownloadDialog extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

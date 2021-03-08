@@ -21,7 +21,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../../styles/shared-styles';
 import '../gr-thread-list/gr-thread-list';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-submit-dialog_html';
@@ -37,9 +36,7 @@ export interface GrConfirmSubmitDialog {
   };
 }
 @customElement('gr-confirm-submit-dialog')
-export class GrConfirmSubmitDialog extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrConfirmSubmitDialog extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

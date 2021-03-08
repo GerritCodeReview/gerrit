@@ -82,7 +82,7 @@ module.exports = {
     ],
     // https://eslint.org/docs/rules/new-cap
     'new-cap': ['error', {
-      capIsNewExceptions: ['Polymer', 'GestureEventListeners'],
+      capIsNewExceptions: ['Polymer'],
       capIsNewExceptionPattern: '^.*Mixin$',
     }],
     // https://eslint.org/docs/rules/no-console

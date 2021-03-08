@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-ranged-comment-layer_html';
@@ -72,8 +71,7 @@ const RANGE_HIGHLIGHT = 'style-scope gr-diff range rangeHighlight';
 const HOVER_HIGHLIGHT = 'style-scope gr-diff range rangeHoverHighlight';
 
 @customElement('gr-ranged-comment-layer')
-export class GrRangedCommentLayer
-  extends GestureEventListeners(LegacyElementMixin(PolymerElement))
+export class GrRangedCommentLayer extends LegacyElementMixin(PolymerElement)
   implements DiffLayer {
   static get template() {
     return htmlTemplate;

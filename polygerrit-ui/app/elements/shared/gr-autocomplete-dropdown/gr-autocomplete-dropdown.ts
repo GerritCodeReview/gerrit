@@ -18,7 +18,6 @@ import '@polymer/iron-dropdown/iron-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../../../styles/shared-styles';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-autocomplete-dropdown_html';
@@ -55,9 +54,7 @@ interface Item {
  */
 @customElement('gr-autocomplete-dropdown')
 export class GrAutocompleteDropdown extends IronFitMixin(
-  KeyboardShortcutMixin(
-    GestureEventListeners(LegacyElementMixin(PolymerElement))
-  ),
+  KeyboardShortcutMixin(LegacyElementMixin(PolymerElement)),
   IronFitBehavior as IronFitBehavior
 ) {
   static get template() {

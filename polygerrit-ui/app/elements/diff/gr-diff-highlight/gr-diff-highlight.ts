@@ -17,7 +17,6 @@
 import '../../../styles/shared-styles';
 import '../gr-selection-action-box/gr-selection-action-box';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-highlight_html';
@@ -57,9 +56,7 @@ interface CommentThreadElement extends HTMLElement {
 const DEBOUNCER_SELECTION_CHANGE = 'selectionChange';
 
 @customElement('gr-diff-highlight')
-export class GrDiffHighlight extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDiffHighlight extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

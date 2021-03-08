@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../shared/gr-overlay/gr-overlay';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-plugin-popup_html';
@@ -34,9 +33,7 @@ export interface GrPluginPopup {
   };
 }
 @customElement('gr-plugin-popup')
-export class GrPluginPopup extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrPluginPopup extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

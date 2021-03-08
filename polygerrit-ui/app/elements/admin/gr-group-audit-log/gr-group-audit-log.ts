@@ -19,7 +19,6 @@ import '../../../styles/gr-table-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-account-link/gr-account-link';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group-audit-log_html';
@@ -40,7 +39,7 @@ const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
 @customElement('gr-group-audit-log')
 export class GrGroupAuditLog extends ListViewMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
+  LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
     return htmlTemplate;

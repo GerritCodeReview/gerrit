@@ -18,7 +18,6 @@
 import '../../../styles/dashboard-header-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-header_html';
@@ -28,9 +27,7 @@ import {RepoName} from '../../../types/common';
 
 /** @extends PolymerElement */
 @customElement('gr-repo-header')
-class GrRepoHeader extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+class GrRepoHeader extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

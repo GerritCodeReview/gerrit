@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-cursor-manager_html';
@@ -62,9 +61,7 @@ export function isTargetable(stop: Stop): stop is HTMLElement {
 }
 
 @customElement('gr-cursor-manager')
-export class GrCursorManager extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrCursorManager extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

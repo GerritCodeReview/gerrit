@@ -18,7 +18,6 @@ import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-select/gr-select';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-preferences_html';
@@ -40,9 +39,7 @@ export interface GrDiffPreferences {
 }
 
 @customElement('gr-diff-preferences')
-export class GrDiffPreferences extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDiffPreferences extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

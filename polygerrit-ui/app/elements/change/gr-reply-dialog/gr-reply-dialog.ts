@@ -26,7 +26,6 @@ import '../../shared/gr-account-list/gr-account-list';
 import '../gr-label-scores/gr-label-scores';
 import '../gr-thread-list/gr-thread-list';
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-reply-dialog_html';
@@ -173,7 +172,7 @@ const DEBOUNCER_STORE = 'store';
 
 @customElement('gr-reply-dialog')
 export class GrReplyDialog extends KeyboardShortcutMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
+  LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
     return htmlTemplate;

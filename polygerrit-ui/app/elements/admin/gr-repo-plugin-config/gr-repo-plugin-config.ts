@@ -24,7 +24,6 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-plugin-config_html';
@@ -62,9 +61,7 @@ export interface PluginConfigChangeDetail {
 }
 
 @customElement('gr-repo-plugin-config')
-class GrRepoPluginConfig extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+class GrRepoPluginConfig extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

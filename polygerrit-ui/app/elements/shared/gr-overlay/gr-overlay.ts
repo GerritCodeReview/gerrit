@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-overlay_html';
@@ -37,7 +36,7 @@ declare global {
 
 @customElement('gr-overlay')
 export class GrOverlay extends IronOverlayMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement)),
+  LegacyElementMixin(PolymerElement),
   IronOverlayBehavior as IronOverlayBehavior
 ) {
   static get template() {

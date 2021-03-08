@@ -17,7 +17,6 @@
 import '@polymer/paper-tabs/paper-tabs';
 import '../gr-shell-command/gr-shell-command';
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-download-commands_html';
@@ -43,9 +42,7 @@ export interface Command {
 }
 
 @customElement('gr-download-commands')
-export class GrDownloadCommands extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDownloadCommands extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

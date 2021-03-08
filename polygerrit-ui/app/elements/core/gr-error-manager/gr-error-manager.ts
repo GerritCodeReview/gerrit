@@ -19,7 +19,6 @@
 import '../gr-error-dialog/gr-error-dialog';
 import '../../shared/gr-alert/gr-alert';
 import '../../shared/gr-overlay/gr-overlay';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-error-manager_html';
@@ -77,9 +76,7 @@ export interface GrErrorManager {
 const DEBOUNCER_CHECK_LOGGED_IN = 'checkLoggedIn';
 
 @customElement('gr-error-manager')
-export class GrErrorManager extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

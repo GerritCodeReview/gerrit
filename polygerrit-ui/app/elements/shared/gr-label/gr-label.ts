@@ -21,7 +21,6 @@
  * used in gr-label-info.
  */
 
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement} from '@polymer/decorators';
@@ -35,9 +34,7 @@ declare global {
 }
 
 @customElement('gr-label')
-export class GrLabel extends TooltipMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
-) {
+export class GrLabel extends TooltipMixin(LegacyElementMixin(PolymerElement)) {
   static get template() {
     return htmlTemplate;
   }

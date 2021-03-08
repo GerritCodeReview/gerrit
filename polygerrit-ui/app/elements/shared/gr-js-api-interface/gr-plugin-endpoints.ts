@@ -19,6 +19,7 @@ import {importHref} from '../../../scripts/import-href';
 import {PluginApi} from '../../../api/plugin';
 import {notUndefined} from '../../../types/types';
 import {HookApi} from '../../../api/hook';
+import {appContext} from '../../../services/app-context';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (value: any) => void;
@@ -50,6 +51,8 @@ export class GrPluginEndpoints {
   private readonly _dynamicPlugins = new Map<string, Set<string>>();
 
   private readonly _importedUrls = new Set<string>();
+
+  private readonly reporting = appContext.reportingService;
 
   private pluginLoaded = false;
 
@@ -181,6 +184,7 @@ export class GrPluginEndpoints {
   }
 
   importUrl(pluginUrl: URL) {
+    this.reporting.reportExecution('import-href-endpoints', {pluginUrl});
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let timerId: any;
     return Promise.race([

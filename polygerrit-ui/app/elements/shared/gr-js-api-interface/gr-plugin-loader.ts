@@ -354,6 +354,7 @@ export class PluginLoader {
       };
     }
 
+    this._getReporting().reportExecution('import-href-loader', {url});
     importHref(url, () => {}, onerror, !sync);
   }
 

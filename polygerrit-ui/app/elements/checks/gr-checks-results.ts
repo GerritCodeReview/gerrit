@@ -44,6 +44,8 @@ import {
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
+import {pluralize} from '../../utils/string-util';
+import {fireRunSelectionReset} from './gr-checks-util';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -307,6 +309,14 @@ export class GrChecksResults extends GrLitElement {
   runs: CheckRun[] = [];
 
   /**
+   * How many runs are selected in the runs panel?
+   * If 0, then the `runs` property contains all the runs there are.
+   * If >0, then it only contains the data of certain selected runs.
+   */
+  @property()
+  selectedRunsCount = 0;
+
+  /**
    * This is the current state of whether a section is expanded or not. As long
    * as isSectionExpandedByUser is false this will be computed by a default rule
    * on every render.
@@ -328,10 +338,23 @@ export class GrChecksResults extends GrLitElement {
           display: block;
           padding: var(--spacing-xl);
         }
-        input#filterInput {
+        .filterDiv {
+          display: flex;
           margin-top: var(--spacing-s);
+          align-items: center;
+        }
+        .filterDiv input#filterInput {
           padding: var(--spacing-s) var(--spacing-m);
           min-width: 400px;
+        }
+        .filterDiv .selection {
+          padding: var(--spacing-s) var(--spacing-m);
+        }
+        .filterDiv iron-icon.filter {
+          color: var(--selected-foreground);
+        }
+        .filterDiv gr-button.reset {
+          margin: calc(0px - var(--spacing-s)) var(--spacing-l);
         }
         .categoryHeader {
           margin-top: var(--spacing-l);
@@ -361,6 +384,9 @@ export class GrChecksResults extends GrLitElement {
         }
         .categoryHeader .statusIcon.success {
           color: var(--success-foreground);
+        }
+        .categoryHeader .filtered {
+          color: var(--deemphasized-text-color);
         }
         .collapsed .noResultsMessage,
         .collapsed table {
@@ -405,20 +431,42 @@ export class GrChecksResults extends GrLitElement {
   }
 
   renderFilter() {
-    if (allResults(this.runs).length <= 3) {
+    if (this.selectedRunsCount === 0 && allResults(this.runs).length <= 3) {
       if (this.filterRegExp.source.length > 0) {
         this.filterRegExp = new RegExp('');
       }
       return;
     }
     return html`
-      <input
-        id="filterInput"
-        type="text"
-        placeholder="Filter results by regular expression"
-        @input="${this.onInput}"
-      />
+      <div class="filterDiv">
+        <input
+          id="filterInput"
+          type="text"
+          placeholder="Filter results by regular expression"
+          @input="${this.onInput}"
+        />
+        <div class="selection">
+          ${this.renderSelectionFilter()}
+        </div>
+      </div>
     `;
+  }
+
+  renderSelectionFilter() {
+    const count = this.selectedRunsCount;
+    if (count === 0) return;
+    return html`
+      <iron-icon class="filter" icon="gr-icons:filter"></iron-icon>
+      <span>Filtered by ${pluralize(count, 'run')}</span>
+      <gr-button link class="reset" @click="${this.handleClick}"
+        >Reset View</gr-button
+      >
+    `;
+  }
+
+  handleClick() {
+    this.filterRegExp = new RegExp('');
+    fireRunSelectionReset(this);
   }
 
   onInput() {
@@ -470,15 +518,18 @@ export class GrChecksResults extends GrLitElement {
   }
 
   renderResults(all: RunResult[], filtered: RunResult[]) {
+    if (all.length === 0 && this.selectedRunsCount > 0) {
+      return html`<div class="noResultsMessage">
+        No results for this filtered view
+      </div>`;
+    }
     if (all.length === 0) {
       return html`<div class="noResultsMessage">No results</div>`;
     }
     if (filtered.length === 0) {
-      return html`
-        <div class="noResultsMessage">
-          None of the results match the filter.
-        </div>
-      `;
+      return html`<div class="noResultsMessage">
+        No results match the regular expression
+      </div>`;
     }
     return html`
       <table class="resultsTable">
@@ -500,6 +551,9 @@ export class GrChecksResults extends GrLitElement {
   }
 
   renderCount(all: RunResult[], filtered: RunResult[]) {
+    if (this.selectedRunsCount > 0) {
+      return html`<span class="filtered"> - filtered</span>`;
+    }
     if (all.length === filtered.length) {
       return html`(${all.length})`;
     } else {

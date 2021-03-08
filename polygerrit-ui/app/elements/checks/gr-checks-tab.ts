@@ -45,7 +45,7 @@ import {
   check,
   checkRequiredProperty,
 } from '../../utils/common-util';
-import {RunSelectedEvent} from './gr-checks-runs';
+import {RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {fireAlert} from '../../utils/event-util';
 import {appContext} from '../../services/app-context';
@@ -162,6 +162,8 @@ export class GrChecksTab extends GrLitElement {
         <gr-checks-results
           class="results"
           .runs="${filteredRuns}"
+          .selectedRunsCount="${this.selectedRuns.length}"
+          @run-selected="${this.handleRunSelected}"
         ></gr-checks-results>
       </div>
     `;
@@ -235,7 +237,13 @@ export class GrChecksTab extends GrLitElement {
   }
 
   handleRunSelected(e: RunSelectedEvent) {
-    this.toggleSelected(e.detail.checkName);
+    if (e.detail.reset) {
+      this.selectedRuns = [];
+      return;
+    }
+    if (e.detail.checkName) {
+      this.toggleSelected(e.detail.checkName);
+    }
   }
 
   toggleSelected(checkName: string) {

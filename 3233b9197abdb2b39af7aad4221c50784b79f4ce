@@ -46,6 +46,30 @@
       },
       "revId": "3233b9197abdb2b39af7aad4221c50784b79f4ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43d4e1e2_7e7b3248",
+        "filename": "java/com/google/gerrit/server/restapi/group/GroupsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-08T19:40:53Z",
+      "side": 1,
+      "message": "Looks like 95 callers in 3.1, but I agree, that\u0027s a big scope to review if we wanted to check isIdentifiedUser(). I\u0027m just worried we\u0027re still going to be finding and fixing these one-by-one.",
+      "parentUuid": "79476b6e_40b1df9c",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 40
+      },
+      "revId": "3233b9197abdb2b39af7aad4221c50784b79f4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

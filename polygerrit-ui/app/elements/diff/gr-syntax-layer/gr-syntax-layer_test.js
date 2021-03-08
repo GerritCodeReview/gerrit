@@ -20,8 +20,7 @@ import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-syntax-layer.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
-
-const basicFixture = fixtureFromElement('gr-syntax-layer');
+import {GrSyntaxLayer} from './gr-syntax-layer.js';
 
 suite('gr-syntax-layer tests', () => {
   let diff;
@@ -48,7 +47,7 @@ suite('gr-syntax-layer tests', () => {
   }
 
   setup(() => {
-    element = basicFixture.instantiate();
+    element = new GrSyntaxLayer();
     diff = getMockDiffResponse();
     element.diff = diff;
   });
@@ -76,7 +75,7 @@ suite('gr-syntax-layer tests', () => {
     el.textContent = str;
     const line = new GrDiffLine(GrDiffLineType.REMOVE);
     line.beforeNumber = 12;
-    element._baseRanges[11] = [{
+    element.baseRanges[11] = [{
       start,
       length,
       className,
@@ -103,7 +102,7 @@ suite('gr-syntax-layer tests', () => {
     el.textContent = str;
     const line = new GrDiffLine(GrDiffLineType.REMOVE);
     line.beforeNumber = 12;
-    element._baseRanges[11] = [{
+    element.baseRanges[11] = [{
       start,
       length,
       className,
@@ -127,8 +126,8 @@ suite('gr-syntax-layer tests', () => {
 
     processPromise.then(() => {
       assert.isFalse(processNextSpy.called);
-      assert.equal(element._baseRanges.length, 0);
-      assert.equal(element._revisionRanges.length, 0);
+      assert.equal(element.baseRanges.length, 0);
+      assert.equal(element.revisionRanges.length, 0);
       done();
     });
   });
@@ -145,8 +144,8 @@ suite('gr-syntax-layer tests', () => {
 
     processPromise.then(() => {
       assert.isFalse(processNextSpy.called);
-      assert.equal(element._baseRanges.length, 0);
-      assert.equal(element._revisionRanges.length, 0);
+      assert.equal(element.baseRanges.length, 0);
+      assert.equal(element.revisionRanges.length, 0);
       done();
     });
   });
@@ -160,8 +159,8 @@ suite('gr-syntax-layer tests', () => {
 
     processPromise.then(() => {
       assert.isFalse(processNextSpy.called);
-      assert.equal(element._baseRanges.length, 0);
-      assert.equal(element._revisionRanges.length, 0);
+      assert.equal(element.baseRanges.length, 0);
+      assert.equal(element.revisionRanges.length, 0);
       assert.isFalse(loadHLJSSpy.called);
       done();
     });
@@ -183,13 +182,13 @@ suite('gr-syntax-layer tests', () => {
       const linesB = diff.meta_b.lines;
 
       assert.isTrue(processNextSpy.called);
-      assert.equal(element._baseRanges.length, linesA);
-      assert.equal(element._revisionRanges.length, linesB);
+      assert.equal(element.baseRanges.length, linesA);
+      assert.equal(element.revisionRanges.length, linesB);
 
       assert.equal(highlightSpy.callCount, linesA + linesB);
 
       // The first line of both sides have a range.
-      let ranges = [element._baseRanges[0], element._revisionRanges[0]];
+      let ranges = [element.baseRanges[0], element.revisionRanges[0]];
       for (const range of ranges) {
         assert.equal(range.length, 1);
         assert.equal(range[0].className,
@@ -200,8 +199,8 @@ suite('gr-syntax-layer tests', () => {
 
       // There are no ranges from ll.1-12 on the left and ll.1-11 on the
       // right.
-      ranges = element._baseRanges.slice(1, 12)
-          .concat(element._revisionRanges.slice(1, 11));
+      ranges = element.baseRanges.slice(1, 12)
+          .concat(element.revisionRanges.slice(1, 11));
 
       for (const range of ranges) {
         assert.equal(range.length, 0);
@@ -209,7 +208,7 @@ suite('gr-syntax-layer tests', () => {
 
       // There should be another pair of ranges on l.13 for the left and
       // l.12 for the right.
-      ranges = [element._baseRanges[13], element._revisionRanges[12]];
+      ranges = [element.baseRanges[13], element.revisionRanges[12]];
 
       for (const range of ranges) {
         assert.equal(range.length, 1);
@@ -221,13 +220,13 @@ suite('gr-syntax-layer tests', () => {
 
       // The next group should have a similar instance on either side.
 
-      let range = element._baseRanges[15];
+      let range = element.baseRanges[15];
       assert.equal(range.length, 1);
       assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
       assert.equal(range[0].start, 34);
       assert.equal(range[0].length, 'ipsum'.length);
 
-      range = element._revisionRanges[14];
+      range = element.revisionRanges[14];
       assert.equal(range.length, 1);
       assert.equal(range[0].className, 'gr-diff gr-syntax gr-syntax-string');
       assert.equal(range[0].start, 35);
@@ -237,9 +236,9 @@ suite('gr-syntax-layer tests', () => {
     });
   });
 
-  test('_diffChanged calls cancel', () => {
-    const cancelSpy = sinon.spy(element, '_diffChanged');
-    element.diff = {content: []};
+  test('init calls cancel', () => {
+    const cancelSpy = sinon.spy(element, 'cancel');
+    element.init({content: []});
     assert.isTrue(cancelSpy.called);
   });
 

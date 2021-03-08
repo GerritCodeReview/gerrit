@@ -62,6 +62,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
 import {check, assertIsDefined} from '../../../utils/common-util';
 import {waitForEventOnce} from '../../../utils/event-util';
+import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -213,6 +214,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
 
   readonly storage = new GrStorage();
 
+  private readonly syntaxLayer = new GrSyntaxLayer();
+
   private isCommentContextExperimentEnabled = this.flagsService.isEnabled(
     KnownExperimentId.COMMENT_CONTEXT
   );
@@ -250,13 +253,15 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     if (this.comments === undefined || this.path === undefined) return;
     if (!this.comments[0]?.context_lines?.length) return;
     waitForEventOnce(this, 'render').then(() => {
-      this.shadowRoot?.querySelector('gr-syntax-layer')?.process();
+      this.syntaxLayer.process();
     });
-    return computeDiffFromContext(
+    const diff = computeDiffFromContext(
       this.comments[0].context_lines,
       this.path,
       this.comments[0].source_content_type
     );
+    this.syntaxLayer.init(diff);
+    return diff;
   }
 
   _shouldShowCommentContext(diff?: DiffInfo) {
@@ -343,7 +348,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
 
   _getLayers(diff?: DiffInfo) {
     if (!diff) return [];
-    return [this.shadowRoot?.querySelector('gr-syntax-layer')];
+    return [this.syntaxLayer];
   }
 
   _getUrlForViewDiff(comments: UIComment[]) {

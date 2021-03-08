@@ -258,6 +258,9 @@ export const grRestApiMock: RestApiService = {
   getChangesWithSameTopic(): Promise<ChangeInfo[] | undefined> {
     return Promise.resolve([]);
   },
+  getChangesWithSimilarTopic(): Promise<ChangeInfo[] | undefined> {
+    return Promise.resolve([]);
+  },
   getConfig(): Promise<ServerInfo | undefined> {
     return Promise.resolve(createServerInfo());
   },

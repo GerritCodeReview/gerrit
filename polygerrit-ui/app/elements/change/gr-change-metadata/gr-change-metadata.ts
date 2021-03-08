@@ -78,7 +78,15 @@ import {
   DisplayRules,
 } from '../../../utils/change-metadata-util';
 import {fireEvent} from '../../../utils/event-util';
-import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
+import {
+  EditRevisionInfo,
+  notUndefined,
+  ParsedChangeInfo,
+} from '../../../types/types';
+import {
+  AutocompleteQuery,
+  AutocompleteSuggestion,
+} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -206,6 +214,9 @@ export class GrChangeMetadata extends GestureEventListeners(
   @property({type: Boolean})
   _isNewChangeSummaryUiEnabled = false;
 
+  @property({type: Object})
+  queryTopic?: AutocompleteQuery;
+
   flagsService = appContext.flagsService;
 
   restApiService = appContext.restApiService;
@@ -218,6 +229,7 @@ export class GrChangeMetadata extends GestureEventListeners(
     this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
       KnownExperimentId.NEW_CHANGE_SUMMARY_UI
     );
+    this.queryTopic = (input: string) => this._getTopicSuggestions(input);
   }
 
   @observe('change.labels')
@@ -677,6 +689,22 @@ export class GrChangeMetadata extends GestureEventListeners(
     );
     provider.init();
     return provider;
+  }
+
+  _getTopicSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
+    return this.restApiService
+      .getChangesWithSimilarTopic(input)
+      .then(response => {
+        const sameTopicChanges = response ?? [];
+        const topics = sameTopicChanges
+          .map(change => change.topic)
+          .filter(notUndefined)
+          .filter((v, i, a) => a.indexOf(v) === i);
+        return topics.map(topic => ({
+          name: topic,
+          value: topic,
+        }));
+      });
   }
 }
 

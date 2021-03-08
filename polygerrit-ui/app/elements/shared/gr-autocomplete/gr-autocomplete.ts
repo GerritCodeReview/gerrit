@@ -285,13 +285,12 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   }
 
   @observe('text', 'threshold', 'noDebounce')
-  _updateSuggestions(text?: string, threshold?: number, noDebounce?: boolean) {
-    if (
-      text === undefined ||
-      threshold === undefined ||
-      noDebounce === undefined
-    )
-      return;
+  _updateSuggestions(
+    text?: string | null,
+    threshold?: number,
+    noDebounce?: boolean
+  ) {
+    if (!text || threshold === undefined || noDebounce === undefined) return;
 
     // Reset _suggestions for every update
     // This will also prevent from carrying over suggestions:

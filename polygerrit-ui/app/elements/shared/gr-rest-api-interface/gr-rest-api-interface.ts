@@ -1774,6 +1774,15 @@ export class GrRestApiInterface extends PolymerElement
     }) as Promise<ChangeInfo[] | undefined>;
   }
 
+  getChangesWithSimilarTopic(topic: string): Promise<ChangeInfo[] | undefined> {
+    const query = [`intopic:"${topic}"`].join(' ');
+    return this._restApiHelper.fetchJSON({
+      url: '/changes/',
+      params: {q: query},
+      anonymizedUrl: '/changes/intopic:*',
+    }) as Promise<ChangeInfo[] | undefined>;
+  }
+
   getReviewedFiles(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum

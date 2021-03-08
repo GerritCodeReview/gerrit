@@ -44,6 +44,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'age:',
   'age:1week', // Give an example age
   'assignee:',
+  'attention:',
   'author:',
   'before:',
   'branch:',

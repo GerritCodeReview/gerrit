@@ -14,10 +14,11 @@
 
 package gerrit;
 
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
-import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
@@ -27,15 +28,8 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
-import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.regex.Pattern;
-import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /**
  * Given a regular expression, checks it against the file list in the most recent patchset of a
@@ -82,21 +76,10 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
     engine.r3 = arg3;
     engine.r4 = arg4;
 
-    Repository repository = StoredValues.REPOSITORY.get(engine);
+    PatchList pl = StoredValues.PATCH_LIST.get(engine);
+    Iterator<PatchListEntry> iter = pl.getPatches().iterator();
 
-    try (DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
-      diffFormatter.setRepository(repository);
-      diffFormatter.setDetectRenames(true);
-      RevCommit commit = StoredValues.COMMIT.get(engine);
-      List<DiffEntry> diffEntries =
-          diffFormatter.scan(
-              // In case of a merge commit, i.e. >1 parents, we use parent #0 by convention. So
-              // parent #0 is always the right choice, if it exists.
-              commit.getParentCount() > 0 ? commit.getParent(0) : null, commit);
-      engine.r5 = new JavaObjectTerm(diffEntries.iterator());
-    } catch (IOException e) {
-      throw new JavaException(e);
-    }
+    engine.r5 = new JavaObjectTerm(iter);
 
     return engine.jtry5(commit_delta_check, commit_delta_next);
   }
@@ -112,18 +95,24 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
 
       Pattern regex = (Pattern) ((JavaObjectTerm) a1).object();
       @SuppressWarnings("unchecked")
-      Iterator<DiffEntry> iter = (Iterator<DiffEntry>) ((JavaObjectTerm) a5).object();
+      Iterator<PatchListEntry> iter = (Iterator<PatchListEntry>) ((JavaObjectTerm) a5).object();
       while (iter.hasNext()) {
-        DiffEntry diffEntry = iter.next();
-        String newName = diffEntry.getNewPath();
-        String oldName = diffEntry.getOldPath();
-        DiffEntry.ChangeType changeType = diffEntry.getChangeType();
+        PatchListEntry patch = iter.next();
+        String newName = patch.getNewName();
+        String oldName = patch.getOldName();
+        Patch.ChangeType changeType = patch.getChangeType();
 
-        if ((!isNull(newName) && regex.matcher(newName).find())
-            || (!isNull(oldName) && regex.matcher(oldName).find())) {
+        if (Patch.isMagic(newName)) {
+          continue;
+        }
+
+        if (regex.matcher(newName).find() || (oldName != null && regex.matcher(oldName).find())) {
           SymbolTerm changeSym = getTypeSymbol(changeType);
-          SymbolTerm newSym = isNull(newName) ? Prolog.Nil : SymbolTerm.create(newName);
-          SymbolTerm oldSym = isNull(oldName) ? Prolog.Nil : SymbolTerm.create(oldName);
+          SymbolTerm newSym = SymbolTerm.create(newName);
+          SymbolTerm oldSym = Prolog.Nil;
+          if (oldName != null) {
+            oldSym = SymbolTerm.create(oldName);
+          }
 
           if (!a2.unify(changeSym, engine.trail)) {
             continue;
@@ -139,10 +128,6 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
       }
       return engine.fail();
     }
-  }
-
-  private static boolean isNull(String path) {
-    return path.equals("/dev/null");
   }
 
   private static final class PRED_commit_delta_next extends Operation {
@@ -167,18 +152,20 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
     }
   }
 
-  private static SymbolTerm getTypeSymbol(DiffEntry.ChangeType type) {
+  private static SymbolTerm getTypeSymbol(Patch.ChangeType type) {
     switch (type) {
-      case ADD:
+      case ADDED:
         return add;
-      case MODIFY:
+      case MODIFIED:
         return modify;
-      case DELETE:
+      case DELETED:
         return delete;
-      case RENAME:
+      case RENAMED:
         return rename;
-      case COPY:
+      case COPIED:
         return copy;
+      case REWRITE:
+        break;
     }
     throw new IllegalArgumentException("ChangeType not recognized");
   }

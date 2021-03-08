@@ -38,6 +38,7 @@ import {EventType, PluginApi} from '../../../api/plugin';
 import 'lodash/lodash';
 import {
   stubRestApi,
+  SinonSpyMember,
   TestKeyboardShortcutBinder,
 } from '../../../test/test-utils';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
@@ -87,11 +88,7 @@ import {
 } from '@polymer/iron-test-helpers/mock-interactions';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {AppElementChangeViewParams} from '../../gr-app-types';
-import {
-  SinonFakeTimers,
-  SinonSpy,
-  SinonStubbedMember,
-} from 'sinon/pkg/sinon-esm';
+import {SinonFakeTimers, SinonStubbedMember} from 'sinon/pkg/sinon-esm';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {
@@ -109,11 +106,6 @@ import {appContext} from '../../../services/app-context';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
-
-type SinonSpyMember<F extends (...args: any) => any> = SinonSpy<
-  Parameters<F>,
-  ReturnType<F>
->;
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;

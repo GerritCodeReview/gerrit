@@ -313,7 +313,10 @@ module.exports = {
       },
     },
     {
-      files: ['*_test.ts'],
+      files: [
+        '*_test.ts',
+        'test-utils.ts',
+      ],
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
       },

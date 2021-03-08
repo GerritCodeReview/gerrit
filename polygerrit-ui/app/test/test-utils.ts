@@ -23,6 +23,7 @@ import {
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {appContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
+import {SinonSpy} from 'sinon/pkg/sinon-esm';
 
 export interface MockPromise extends Promise<unknown> {
   resolve: (value?: unknown) => void;
@@ -142,6 +143,11 @@ export function stubRestApi<K extends keyof RestApiService>(method: K) {
 export function spyRestApi<K extends keyof RestApiService>(method: K) {
   return sinon.spy(appContext.restApiService, method);
 }
+
+export type SinonSpyMember<F extends (...args: any) => any> = SinonSpy<
+  Parameters<F>,
+  ReturnType<F>
+>;
 
 /**
  * Forcing an opacity of 0 onto the ironOverlayBackdrop is required, because

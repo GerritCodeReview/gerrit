@@ -18,7 +18,6 @@ import '@polymer/iron-dropdown/iron-dropdown';
 import '@polymer/paper-input/paper-input';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
@@ -47,8 +46,7 @@ export interface GrEditableLabel {
 
 @customElement('gr-editable-label')
 export class GrEditableLabel extends KeyboardShortcutMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
-) {
+  LegacyElementMixin(PolymerElement)) {
   static get template() {
     return htmlTemplate;
   }

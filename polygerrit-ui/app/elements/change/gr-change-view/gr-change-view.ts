@@ -45,7 +45,6 @@ import '../gr-thread-list/gr-thread-list';
 import '../gr-upload-help-dialog/gr-upload-help-dialog';
 import '../../checks/gr-checks-tab';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-view_html';
@@ -250,8 +249,7 @@ const DEBOUNCER_SCROLL = 'scroll';
 
 @customElement('gr-change-view')
 export class GrChangeView extends KeyboardShortcutMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
-) {
+  LegacyElementMixin(PolymerElement)) {
   static get template() {
     return htmlTemplate;
   }

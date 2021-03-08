@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {
@@ -92,9 +91,7 @@ const DEBOUNCER_RESET_IS_SCROLLING = 'resetIsScrolling';
  *    the rest is not.
  */
 @customElement('gr-diff-processor')
-export class GrDiffProcessor extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDiffProcessor extends LegacyElementMixin(PolymerElement) {
   @property({type: Number})
   context = 3;
 

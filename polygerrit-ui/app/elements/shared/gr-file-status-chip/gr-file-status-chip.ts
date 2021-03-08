@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {htmlTemplate} from './gr-file-status-chip_html';
 import {customElement, property} from '@polymer/decorators';
@@ -35,9 +34,7 @@ const FileStatus = {
 };
 
 @customElement('gr-file-status-chip')
-export class GrFileStatusChip extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrFileStatusChip extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

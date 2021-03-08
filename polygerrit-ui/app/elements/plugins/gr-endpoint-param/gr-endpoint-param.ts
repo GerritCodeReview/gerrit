@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
@@ -26,9 +25,7 @@ declare global {
 }
 
 @customElement('gr-endpoint-param')
-export class GrEndpointParam extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrEndpointParam extends LegacyElementMixin(PolymerElement) {
   @property({type: String, reflectToAttribute: true})
   name = '';
 

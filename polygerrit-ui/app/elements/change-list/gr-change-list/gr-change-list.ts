@@ -21,7 +21,6 @@ import '../gr-change-list-item/gr-change-list-item';
 import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-list_html';
@@ -75,7 +74,7 @@ export interface GrChangeList {
 @customElement('gr-change-list')
 export class GrChangeList extends ChangeTableMixin(
   KeyboardShortcutMixin(
-    GestureEventListeners(LegacyElementMixin(PolymerElement))
+    LegacyElementMixin(PolymerElement)
   )
 ) {
   static get template() {

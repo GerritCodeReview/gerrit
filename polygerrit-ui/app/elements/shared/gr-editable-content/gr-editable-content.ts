@@ -19,7 +19,6 @@ import '../../../styles/shared-styles';
 import '../gr-storage/gr-storage';
 import '../gr-button/gr-button';
 import {GrStorage} from '../gr-storage/gr-storage';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
@@ -40,9 +39,7 @@ declare global {
 const DEBOUNCER_STORE = 'store';
 
 @customElement('gr-editable-content')
-export class GrEditableContent extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrEditableContent extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

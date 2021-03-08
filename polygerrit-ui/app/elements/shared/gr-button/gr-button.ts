@@ -16,7 +16,6 @@
  */
 import '@polymer/paper-button/paper-button';
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property, computed, observe} from '@polymer/decorators';
@@ -36,7 +35,7 @@ declare global {
 
 @customElement('gr-button')
 export class GrButton extends LegacyElementMixin(
-  KeyboardShortcutMixin(TooltipMixin(GestureEventListeners(PolymerElement)))
+  KeyboardShortcutMixin(TooltipMixin(PolymerElement))
 ) {
   static get template() {
     return htmlTemplate;

@@ -24,7 +24,6 @@ import '../../../styles/gr-form-styles';
 import '../../../styles/gr-subpage-styles';
 import '../../../styles/shared-styles';
 import '../gr-repo-plugin-config/gr-repo-plugin-config';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo_html';
@@ -83,9 +82,7 @@ const SUBMIT_TYPES = {
 };
 
 @customElement('gr-repo')
-export class GrRepo extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrRepo extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

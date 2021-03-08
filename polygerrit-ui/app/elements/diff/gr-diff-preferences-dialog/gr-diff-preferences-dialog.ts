@@ -18,7 +18,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-diff-preferences/gr-diff-preferences';
 import '../../shared/gr-overlay/gr-overlay';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-preferences-dialog_html';
@@ -37,9 +36,7 @@ export interface GrDiffPreferencesDialog {
   };
 }
 @customElement('gr-diff-preferences-dialog')
-export class GrDiffPreferencesDialog extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDiffPreferencesDialog extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

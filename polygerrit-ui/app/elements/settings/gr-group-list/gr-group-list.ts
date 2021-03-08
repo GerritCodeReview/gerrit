@@ -16,7 +16,6 @@
  */
 import '../../../styles/shared-styles';
 import '../../../styles/gr-form-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group-list_html';
@@ -31,9 +30,7 @@ declare global {
   }
 }
 @customElement('gr-group-list')
-export class GrGroupList extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrGroupList extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

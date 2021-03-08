@@ -16,7 +16,6 @@
  */
 import '../../../styles/shared-styles';
 import '../gr-copy-clipboard/gr-copy-clipboard';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-shell-command_html';
@@ -29,9 +28,7 @@ declare global {
 }
 
 @customElement('gr-shell-command')
-class GrShellCommand extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+class GrShellCommand extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

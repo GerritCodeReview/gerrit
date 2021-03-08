@@ -19,7 +19,6 @@ import '../../../styles/gr-subpage-styles';
 import '../../../styles/shared-styles';
 import '../gr-access-section/gr-access-section';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-access_html';
@@ -63,9 +62,7 @@ const MAX_AUTOCOMPLETE_RESULTS = 50;
  * @event show-alert
  */
 @customElement('gr-repo-access')
-export class GrRepoAccess extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrRepoAccess extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

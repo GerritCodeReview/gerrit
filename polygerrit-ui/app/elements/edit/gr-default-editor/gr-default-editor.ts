@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-default-editor_html';
@@ -33,9 +32,7 @@ declare global {
 
 @customElement('gr-default-editor')
 /** @extends PolymerElement */
-export class GrDefaultEditor extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDefaultEditor extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

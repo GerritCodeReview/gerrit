@@ -21,7 +21,6 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-group-dialog/gr-create-group-dialog';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-admin-group-list_html';
@@ -50,8 +49,7 @@ export interface GrAdminGroupList {
 
 @customElement('gr-admin-group-list')
 export class GrAdminGroupList extends ListViewMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
-) {
+  LegacyElementMixin(PolymerElement)) {
   static get template() {
     return htmlTemplate;
   }

@@ -14,17 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import '../../../test/common-test-setup-karma.js';
-import './gr-change-table-editor.js';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import '../../../test/common-test-setup-karma';
+import './gr-change-table-editor';
+import {GrChangeTableEditor} from './gr-change-table-editor';
+import {queryAndAssert} from '../../../test/test-utils';
+import {createServerInfo} from '../../../test/test-data-generators';
+import {ServerInfo} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-change-table-editor');
 
 suite('gr-change-table-editor tests', () => {
-  let element;
-  let columns;
+  let element: GrChangeTableEditor;
+  let columns: string[];
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
 
     columns = [
@@ -41,15 +45,12 @@ suite('gr-change-table-editor tests', () => {
 
     element.set('displayedColumns', columns);
     element.showNumber = false;
-    element.serverConfig = {
-      change: {},
-    };
-    flush();
+    element.serverConfig = createServerInfo();
+    await flush();
   });
 
   test('renders', () => {
-    const rows = element.shadowRoot
-        .querySelector('tbody').querySelectorAll('tr');
+    const rows = queryAndAssert(element, 'tbody').querySelectorAll('tr');
     let tds;
 
     // The `+ 1` is for the number column, which isn't included in the change
@@ -64,18 +65,18 @@ suite('gr-change-table-editor tests', () => {
   test('disabled experiments are hidden', () => {
     assert.isFalse(element.displayedColumns.includes('Assignee'));
     element.set('displayedColumns', columns);
-    element.serverConfig = {
-      change: {
-        enable_assignee: true,
-      },
-    };
+    const config: ServerInfo = {...createServerInfo()};
+    config.change.enable_assignee = true;
+    element.serverConfig = config;
     flush();
     assert.isTrue(element.displayedColumns.includes('Assignee'));
   });
 
   test('hide item', () => {
-    const checkbox = element.shadowRoot
-        .querySelector('table tr:nth-child(2) input');
+    const checkbox = queryAndAssert<HTMLInputElement>(
+      element,
+      'table tr:nth-child(2) input'
+    );
     const isChecked = checkbox.checked;
     const displayedLength = element.displayedColumns.length;
     assert.isTrue(isChecked);
@@ -96,78 +97,86 @@ suite('gr-change-table-editor tests', () => {
       'Updated',
     ]);
     // trigger computation of enabled displayed columns
-    element.serverConfig = {
-      change: {},
-    };
+    element.serverConfig = createServerInfo();
     flush();
-    const checkbox = element.shadowRoot
-        .querySelector('table tr:nth-child(2) input');
+    const checkbox = queryAndAssert<HTMLInputElement>(
+      element,
+      'table tr:nth-child(2) input'
+    );
     const isChecked = checkbox.checked;
     const displayedLength = element.displayedColumns.length;
     assert.isFalse(isChecked);
-    assert.equal(element.shadowRoot
-        .querySelector('table').style.display, '');
+    const table = queryAndAssert<HTMLTableElement>(element, 'table');
+    assert.equal(table.style.display, '');
 
     MockInteractions.tap(checkbox);
     flush();
 
-    assert.equal(element.displayedColumns.length,
-        displayedLength + 1);
+    assert.equal(element.displayedColumns.length, displayedLength + 1);
   });
 
   test('_getDisplayedColumns', () => {
-    const enabledColumns = columns.filter(column => element.isColumnEnabled(
-        column, element.serverConfig, []
-    ));
+    const enabledColumns = columns.filter(column =>
+      element.isColumnEnabled(column, element.serverConfig!, [])
+    );
     assert.deepEqual(element._getDisplayedColumns(), enabledColumns);
-    MockInteractions.tap(
-        element.shadowRoot
-            .querySelector('.checkboxContainer input[name=Subject]'));
-    assert.deepEqual(element._getDisplayedColumns(),
-        enabledColumns.filter(c => c !== 'Subject'));
+    const input = queryAndAssert<HTMLInputElement>(
+      element,
+      '.checkboxContainer input[name=Subject]'
+    );
+    MockInteractions.tap(input);
+    assert.deepEqual(
+      element._getDisplayedColumns(),
+      enabledColumns.filter(c => c !== 'Subject')
+    );
   });
 
   test('_handleCheckboxContainerClick relays taps to checkboxes', () => {
-    sinon.stub(element, '_handleNumberCheckboxClick');
-    sinon.stub(element, '_handleTargetClick');
+    const checkBoxClickStub = sinon.stub(element, '_handleNumberCheckboxClick');
+    const targetClickStub = sinon.stub(element, '_handleTargetClick');
 
-    MockInteractions.tap(
-        element.shadowRoot
-            .querySelector('table tr:first-of-type .checkboxContainer'));
-    assert.isTrue(element._handleNumberCheckboxClick.calledOnce);
-    assert.isFalse(element._handleTargetClick.called);
+    const firstContainer = queryAndAssert(
+      element,
+      'table tr:first-of-type .checkboxContainer'
+    );
+    MockInteractions.tap(firstContainer);
+    assert.isTrue(checkBoxClickStub.calledOnce);
+    assert.isFalse(targetClickStub.called);
 
-    MockInteractions.tap(
-        element.shadowRoot
-            .querySelector('table tr:last-of-type .checkboxContainer'));
-    assert.isTrue(element._handleNumberCheckboxClick.calledOnce);
-    assert.isTrue(element._handleTargetClick.calledOnce);
+    const lastContainer = queryAndAssert(
+      element,
+      'table tr:last-of-type .checkboxContainer'
+    );
+    MockInteractions.tap(lastContainer);
+    assert.isTrue(checkBoxClickStub.calledOnce);
+    assert.isTrue(targetClickStub.calledOnce);
   });
 
   test('_handleNumberCheckboxClick', () => {
-    sinon.spy(element, '_handleNumberCheckboxClick');
+    const checkBoxClickSpy = sinon.spy(element, '_handleNumberCheckboxClick');
 
-    MockInteractions
-        .tap(element.shadowRoot
-            .querySelector('.checkboxContainer input[name=number]'));
-    assert.isTrue(element._handleNumberCheckboxClick.calledOnce);
+    const numberInput = queryAndAssert(
+      element,
+      '.checkboxContainer input[name=number]'
+    );
+    MockInteractions.tap(numberInput);
+    assert.isTrue(checkBoxClickSpy.calledOnce);
     assert.isTrue(element.showNumber);
 
-    MockInteractions
-        .tap(element.shadowRoot
-            .querySelector('.checkboxContainer input[name=number]'));
-    assert.isTrue(element._handleNumberCheckboxClick.calledTwice);
+    MockInteractions.tap(numberInput);
+    assert.isTrue(checkBoxClickSpy.calledTwice);
     assert.isFalse(element.showNumber);
   });
 
   test('_handleTargetClick', () => {
-    sinon.spy(element, '_handleTargetClick');
+    const targetClickSpy = sinon.spy(element, '_handleTargetClick');
     assert.include(element.displayedColumns, 'Subject');
-    MockInteractions
-        .tap(element.shadowRoot
-            .querySelector('.checkboxContainer input[name=Subject]'));
-    assert.isTrue(element._handleTargetClick.calledOnce);
+    const subjectInput = queryAndAssert(
+      element,
+      '.checkboxContainer input[name=Subject]'
+    );
+    MockInteractions.tap(subjectInput);
+    assert.isTrue(targetClickSpy.calledOnce);
     assert.notInclude(element.displayedColumns, 'Subject');
   });
 });
-

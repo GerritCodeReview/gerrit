@@ -29,7 +29,7 @@ import {ServerInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 
 @customElement('gr-change-table-editor')
-class GrChangeTableEditor extends ChangeTableMixin(
+export class GrChangeTableEditor extends ChangeTableMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
 ) {
   static get template() {
@@ -37,7 +37,7 @@ class GrChangeTableEditor extends ChangeTableMixin(
   }
 
   @property({type: Array, notify: true})
-  displayedColumns?: string[];
+  displayedColumns: string[] = [];
 
   @property({type: Boolean, notify: true})
   showNumber?: boolean;
@@ -46,7 +46,7 @@ class GrChangeTableEditor extends ChangeTableMixin(
   serverConfig?: ServerInfo;
 
   @property({type: Array})
-  defaultColumns?: string[];
+  defaultColumns: string[] = [];
 
   flagsService = appContext.flagsService;
 

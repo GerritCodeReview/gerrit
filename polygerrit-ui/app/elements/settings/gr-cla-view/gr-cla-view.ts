@@ -155,7 +155,7 @@ export class GrClaView extends GestureEventListeners(
 
   _disableAgreements(
     item: ContributorAgreementInfo,
-    groups: GroupInfo[],
+    groups?: GroupInfo[],
     signedAgreements?: ContributorAgreementInfo[]
   ) {
     if (!groups) return false;
@@ -189,7 +189,7 @@ export class GrClaView extends GestureEventListeners(
   // then hides the text box and submit button.
   _computeHideAgreementClass(
     name: string,
-    contributorAgreements: ContributorAgreementInfo[]
+    contributorAgreements?: ContributorAgreementInfo[]
   ) {
     if (!contributorAgreements) return '';
     return contributorAgreements.some(

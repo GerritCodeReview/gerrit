@@ -712,6 +712,19 @@ public class ChangeField {
                 return m ? "1" : "0";
               });
 
+  /** Whether the change is an initial commit. */
+  public static final FieldDef<ChangeData, String> INITIALCOMMIT =
+      exact(ChangeQueryBuilder.FIELD_INITIAL_COMMIT)
+          .stored()
+          .build(
+              cd -> {
+                Boolean i = cd.isInitialCommit();
+                if (i == null) {
+                  return null;
+                }
+                return i ? "1" : "0";
+              });
+
   /** The number of inserted lines in this change. */
   public static final FieldDef<ChangeData, Integer> ADDED =
       intRange(ChangeQueryBuilder.FIELD_ADDED)

@@ -323,6 +323,7 @@ public class ChangeData {
   private Optional<Timestamp> mergedOn;
   private ImmutableSetMultimap<NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
+  private Boolean initialcommit;
 
   @Inject
   private ChangeData(
@@ -608,6 +609,7 @@ public class ChangeData {
       committer = c.getCommitterIdent();
       parentCount = c.getParentCount();
       merge = parentCount > 0;
+      initialcommit = parentCount > 0;
     } catch (IOException e) {
       throw new StorageException(
           String.format(
@@ -964,6 +966,16 @@ public class ChangeData {
       }
     }
     return merge;
+  }
+
+  @Nullable
+  public Boolean isInitialCommit() {
+    if (initialcommit == null) {
+      if (!loadCommitData()) {
+        return null;
+      }
+    }
+    return initialcommit;
   }
 
   public Set<Account.Id> editsByUser() {

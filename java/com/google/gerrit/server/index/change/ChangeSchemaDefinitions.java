@@ -136,7 +136,11 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
 
   /** Added new field {@link ChangeField#MERGED_ON} */
   static final Schema<ChangeData> V61 =
-      new Schema.Builder<ChangeData>().add(V60).add(ChangeField.MERGED_ON).build();
+      new Schema.Builder<ChangeData>()
+          .add(V60)
+          .add(ChangeField.MERGED_ON)
+          .add(ChangeField.INITIALCOMMIT)
+          .build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

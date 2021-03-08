@@ -200,6 +200,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_CHERRY_PICK_OF = "cherrypickof";
   public static final String FIELD_CHERRY_PICK_OF_CHANGE = "cherrypickofchange";
   public static final String FIELD_CHERRY_PICK_OF_PATCHSET = "cherrypickofpatchset";
+  public static final String FIELD_INITIAL_COMMIT="initialcommit";
 
   public static final String ARG_ID_NAME = "name";
   public static final String ARG_ID_USER = "user";
@@ -689,6 +690,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         return new BooleanPredicate(ChangeField.WIP);
       }
       throw new QueryParseException("'is:wip' operator is not supported by change index version");
+    }
+
+    if ("initialcommit".equalsIgnoreCase(value)){
+      if (args.getSchema().hasField(ChangeField.INITIALCOMMIT)){
+        return new BooleanPredicate(ChangeField.INITIALCOMMIT);
+      }
+      throw new QueryParseException("'is:initialcommit' operator is not supported by change index version");
     }
 
     // for plugins the value will be operandName_pluginName

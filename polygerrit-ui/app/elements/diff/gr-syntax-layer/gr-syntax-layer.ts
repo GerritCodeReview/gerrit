@@ -15,13 +15,8 @@
  * limitations under the License.
  */
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {FILE, GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {CancelablePromise, util} from '../../../scripts/util';
-import {customElement, property} from '@polymer/decorators';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener, HighlightJS} from '../../../types/types';
 import {GrLibLoader} from '../../shared/gr-lib-loader/gr-lib-loader';
@@ -158,48 +153,42 @@ interface SyntaxLayerState {
   lastNotify: {left: number; right: number};
 }
 
-@customElement('gr-syntax-layer')
-export class GrSyntaxLayer
-  extends GestureEventListeners(LegacyElementMixin(PolymerElement))
-  implements DiffLayer {
-  static get template() {
-    return html``;
-  }
-
-  @property({type: Object, observer: '_diffChanged'})
+export class GrSyntaxLayer implements DiffLayer {
   diff?: DiffInfo;
 
-  @property({type: Boolean})
   enabled = true;
 
-  @property({type: Array})
   _baseRanges: SyntaxLayerRange[][] = [];
 
-  @property({type: Array})
   _revisionRanges: SyntaxLayerRange[][] = [];
 
-  @property({type: String})
   _baseLanguage?: string;
 
-  @property({type: String})
   _revisionLanguage?: string;
 
-  @property({type: Array})
   _listeners: DiffLayerListener[] = [];
 
-  @property({type: Number})
   _processHandle: number | null = null;
 
-  @property({type: Object})
   _processPromise: CancelablePromise<unknown> | null = null;
 
-  @property({type: Object})
   _hljs?: HighlightJS;
 
   private readonly libLoader = new GrLibLoader();
 
+  init(diff?: DiffInfo) {
+    this.cancel();
+    this._baseRanges = [];
+    this._revisionRanges = [];
+    this.diff = diff;
+  }
+
+  setEnabled(enabled: boolean) {
+    this.enabled = enabled;
+  }
+
   addListener(listener: DiffLayerListener) {
-    this.push('_listeners', listener);
+    this._listeners.push(listener);
   }
 
   removeListener(listener: DiffLayerListener) {
@@ -324,13 +313,13 @@ export class GrSyntaxLayer
 
               if (state.lineIndex % 100 === 0) {
                 this._notify(state);
-                this._processHandle = this.async(nextStep, ASYNC_DELAY);
+                this._processHandle = window.setTimeout(nextStep, ASYNC_DELAY);
               } else {
                 nextStep.call(this);
               }
             };
 
-            this._processHandle = this.async(nextStep, 1);
+            this._processHandle = window.setTimeout(nextStep, 1);
           })
       )
     );
@@ -344,18 +333,12 @@ export class GrSyntaxLayer
    */
   cancel() {
     if (this._processHandle !== null) {
-      this.cancelAsync(this._processHandle);
+      clearTimeout(this._processHandle);
       this._processHandle = null;
     }
     if (this._processPromise) {
       this._processPromise.cancel();
     }
-  }
-
-  _diffChanged() {
-    this.cancel();
-    this._baseRanges = [];
-    this._revisionRanges = [];
   }
 
   /**
@@ -461,10 +444,7 @@ export class GrSyntaxLayer
         true,
         state.baseContext
       );
-      this.push(
-        '_baseRanges',
-        this._rangesFromString(result.value, rangesCache)
-      );
+      this._baseRanges.push(this._rangesFromString(result.value, rangesCache));
       state.baseContext = result.top;
     }
 
@@ -480,8 +460,7 @@ export class GrSyntaxLayer
         true,
         state.revisionContext
       );
-      this.push(
-        '_revisionRanges',
+      this._revisionRanges.push(
         this._rangesFromString(result.value, rangesCache)
       );
       state.revisionContext = result.top;
@@ -600,11 +579,5 @@ export class GrSyntaxLayer
     return this.libLoader.getHLJS().then(hljs => {
       this._hljs = hljs;
     });
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-syntax-layer': GrSyntaxLayer;
   }
 }

@@ -20,8 +20,7 @@ import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-syntax-layer.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
-
-const basicFixture = fixtureFromElement('gr-syntax-layer');
+import {GrSyntaxLayer} from './gr-syntax-layer.js';
 
 suite('gr-syntax-layer tests', () => {
   let diff;
@@ -48,7 +47,7 @@ suite('gr-syntax-layer tests', () => {
   }
 
   setup(() => {
-    element = basicFixture.instantiate();
+    element = new GrSyntaxLayer();
     diff = getMockDiffResponse();
     element.diff = diff;
   });
@@ -237,9 +236,9 @@ suite('gr-syntax-layer tests', () => {
     });
   });
 
-  test('_diffChanged calls cancel', () => {
-    const cancelSpy = sinon.spy(element, '_diffChanged');
-    element.diff = {content: []};
+  test('init calls cancel', () => {
+    const cancelSpy = sinon.spy(element, 'cancel');
+    element.init({content: []});
     assert.isTrue(cancelSpy.called);
   });
 

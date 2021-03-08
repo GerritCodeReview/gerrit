@@ -16,7 +16,6 @@
  */
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../gr-diff/gr-diff';
-import '../gr-syntax-layer/gr-syntax-layer';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
@@ -120,7 +119,6 @@ interface LineInfo {
 
 export interface GrDiffHost {
   $: {
-    syntaxLayer: GrSyntaxLayer & Element;
     diff: GrDiff;
   };
 }
@@ -238,7 +236,7 @@ export class GrDiffHost extends GestureEventListeners(
   @property({type: Object})
   _revisionImage: Base64ImageFile | null = null;
 
-  @property({type: Object, notify: true})
+  @property({type: Object, notify: true, observer: 'diffChanged'})
   diff?: DiffInfo;
 
   @property({type: Object})
@@ -259,6 +257,7 @@ export class GrDiffHost extends GestureEventListeners(
   @property({
     type: Boolean,
     computed: '_isSyntaxHighlightingEnabled(prefs.*, diff)',
+    observer: '_syntaxHighlightingEnabledChanged',
   })
   _syntaxHighlightingEnabled?: boolean;
 
@@ -270,6 +269,8 @@ export class GrDiffHost extends GestureEventListeners(
   private readonly restApiService = appContext.restApiService;
 
   private readonly jsAPI = appContext.jsApiService;
+
+  private readonly syntaxLayer = new GrSyntaxLayer();
 
   /** @override */
   created() {
@@ -337,6 +338,10 @@ export class GrDiffHost extends GestureEventListeners(
       });
   }
 
+  diffChanged(diff?: DiffInfo) {
+    this.syntaxLayer.init(diff);
+  }
+
   /**
    * @param shouldReportMetric indicate a new Diff Page. This is a
    * signal to report metrics event that started on location change.
@@ -385,7 +390,7 @@ export class GrDiffHost extends GestureEventListeners(
       if (needsSyntaxHighlighting) {
         this.reporting.time(TimingLabel.SYNTAX);
         try {
-          await this.$.syntaxLayer.process();
+          await this.syntaxLayer.process();
         } finally {
           this.reporting.timeEnd(TimingLabel.SYNTAX);
         }
@@ -403,7 +408,7 @@ export class GrDiffHost extends GestureEventListeners(
 
   private _getLayers(path: string, changeNum: NumericChangeId): DiffLayer[] {
     // Get layers from plugins (if any).
-    return [this.$.syntaxLayer, ...this.jsAPI.getDiffLayers(path, changeNum)];
+    return [this.syntaxLayer, ...this.jsAPI.getDiffLayers(path, changeNum)];
   }
 
   clear() {
@@ -501,7 +506,7 @@ export class GrDiffHost extends GestureEventListeners(
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
     this.$.diff.cancel();
-    this.$.syntaxLayer.cancel();
+    this.syntaxLayer.cancel();
   }
 
   getCursorStops() {
@@ -992,6 +997,10 @@ export class GrDiffHost extends GestureEventListeners(
     fireEvent(this, 'diff-comments-modified');
   }
 
+  _syntaxHighlightingEnabledChanged(_syntaxHighlightingEnabled: boolean) {
+    this.syntaxLayer.setEnabled(_syntaxHighlightingEnabled);
+  }
+
   _isSyntaxHighlightingEnabled(
     preferenceChangeRecord?: PolymerDeepPropertyChange<
       DiffPreferencesInfo,
@@ -1039,11 +1048,11 @@ export class GrDiffHost extends GestureEventListeners(
     const renderUpdateListener: DiffLayerListener = start => {
       if (start > NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT) {
         this.reporting.diffViewDisplayed();
-        this.$.syntaxLayer.removeListener(renderUpdateListener);
+        this.syntaxLayer.removeListener(renderUpdateListener);
       }
     };
 
-    this.$.syntaxLayer.addListener(renderUpdateListener);
+    this.syntaxLayer.addListener(renderUpdateListener);
   }
 
   _handleRenderStart() {

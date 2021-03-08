@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0356e1_654ddb5d",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T13:52:47Z",
+      "side": 1,
+      "message": "there is also an intopic operator with more freeform strings, IIRC.",
+      "range": {
+        "startLine": 239,
+        "startChar": 33,
+        "endLine": 239,
+        "endChar": 54
+      },
+      "revId": "7c6afefbc539bc608032fa7c182b2f155dcff9af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94afa50c_ab656c65",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T13:52:47Z",
+      "side": 1,
+      "message": "this is how it works, but I\u0027d hesitate to spell it out, in case we ever want to change this decision.",
+      "range": {
+        "startLine": 241,
+        "startChar": 72,
+        "endLine": 243,
+        "endChar": 31
+      },
+      "revId": "7c6afefbc539bc608032fa7c182b2f155dcff9af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

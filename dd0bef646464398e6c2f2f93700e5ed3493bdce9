@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc9550bf_02d25483",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T13:52:47Z",
+      "side": 1,
+      "message": "you can get at the data if you can execute curl (I think it\u0027s not privileged), but it looks as if we should have some way of surfacing this data in the UI.",
+      "parentUuid": "ce3804a6_594c0625",
+      "range": {
+        "startLine": 19,
+        "startChar": 21,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "720f52c0_a6ccdbd9",
         "filename": "Documentation/cross-repository-changes.txt",
         "patchSetId": 1
@@ -377,6 +401,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32c4648e_1813083a",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T13:52:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "822cb39a_9942feeb",
+      "range": {
+        "startLine": 112,
+        "startChar": 56,
+        "endLine": 113,
+        "endChar": 6
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f51c8540_69097087",
@@ -461,6 +509,30 @@
       "side": 1,
       "message": "Tried to do this, PTAL.",
       "parentUuid": "a11f80c3_09d27af8",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 171
+      },
+      "revId": "dd0bef646464398e6c2f2f93700e5ed3493bdce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbc204fe_4f0fcb37",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-08T13:52:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "731038eb_fd0d9024",
       "range": {
         "startLine": 144,
         "startChar": 4,

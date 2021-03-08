@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb5b236_9623ff76",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-08T09:22:34Z",
+      "side": 1,
+      "message": "I would prefer to avoid dynamic label. I think it was fine before with\nthis.reportExecution(\u0027plugin-api\u0027, dynamicDetails)\n\n* It\u0027s easy to query with details\n* I prefer limited number of labels and not querying with like \u0027plugin-api%\"\n\nWe can do it later. I will probably introduce an enum for labels, so we don\u0027t use these dynamic labels.",
+      "range": {
+        "startLine": 811,
+        "startChar": 25,
+        "endLine": 811,
+        "endChar": 27
+      },
+      "revId": "13edc7ce92f3f31a4609e0d990871e3396379599",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

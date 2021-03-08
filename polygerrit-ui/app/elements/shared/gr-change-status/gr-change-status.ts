@@ -16,7 +16,6 @@
  */
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-status_html';
@@ -46,9 +45,7 @@ const PRIVATE_TOOLTIP =
 
 /** @extends PolymerElement */
 @customElement('gr-change-status')
-class GrChangeStatus extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+class GrChangeStatus extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

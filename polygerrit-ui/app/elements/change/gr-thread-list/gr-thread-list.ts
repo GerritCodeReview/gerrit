@@ -18,7 +18,6 @@ import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../../styles/shared-styles';
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-thread-list_html';
@@ -57,9 +56,7 @@ interface CommentThreadWithInfo {
 }
 
 @customElement('gr-thread-list')
-export class GrThreadList extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrThreadList extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

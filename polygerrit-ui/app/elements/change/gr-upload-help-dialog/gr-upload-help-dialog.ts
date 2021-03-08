@@ -17,7 +17,6 @@
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-shell-command/gr-shell-command';
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-upload-help-dialog_html';
@@ -32,9 +31,7 @@ const PUSH_COMMAND_PREFIX = 'git push origin HEAD:refs/for/';
 const PREFERRED_FETCH_COMMAND_ORDER = ['checkout', 'cherry pick', 'pull'];
 
 @customElement('gr-upload-help-dialog')
-export class GrUploadHelpDialog extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrUploadHelpDialog extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

@@ -47,7 +47,7 @@ export function queryAll<E extends Element = Element>(
   el: Element | undefined,
   selector: string
 ): NodeListOf<E> {
-  if (!el) assert.fail(`element not defined`);
+  if (!el) assert.fail('element not defined');
   const root = el.shadowRoot ?? el;
   return root.querySelectorAll<E>(selector);
 }

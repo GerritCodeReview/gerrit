@@ -21,7 +21,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-permission/gr-permission';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {htmlTemplate} from './gr-access-section_html';
 import {
@@ -71,9 +70,7 @@ export interface GrAccessSection {
 }
 
 @customElement('gr-access-section')
-export class GrAccessSection extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrAccessSection extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

@@ -16,7 +16,6 @@
  */
 import '../gr-button/gr-button';
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-dialog_html';
@@ -36,9 +35,7 @@ export interface GrDialog {
 }
 
 @customElement('gr-dialog')
-export class GrDialog extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDialog extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

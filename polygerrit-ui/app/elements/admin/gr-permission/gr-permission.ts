@@ -23,7 +23,6 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../gr-rule-editor/gr-rule-editor';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-permission_html';
@@ -94,9 +93,7 @@ interface GroupSuggestion {
  * @event added-permission-removed
  */
 @customElement('gr-permission')
-export class GrPermission extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrPermission extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

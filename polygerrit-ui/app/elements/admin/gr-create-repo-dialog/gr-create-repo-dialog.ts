@@ -20,7 +20,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-create-repo-dialog_html';
@@ -43,9 +42,7 @@ declare global {
 }
 
 @customElement('gr-create-repo-dialog')
-export class GrCreateRepoDialog extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrCreateRepoDialog extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

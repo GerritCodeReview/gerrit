@@ -19,7 +19,6 @@ import '../../../styles/gr-form-styles';
 import '../../admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-overlay/gr-overlay';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-identities_html';
@@ -39,9 +38,7 @@ export interface GrIdentities {
 }
 
 @customElement('gr-identities')
-export class GrIdentities extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrIdentities extends LegacyElementMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

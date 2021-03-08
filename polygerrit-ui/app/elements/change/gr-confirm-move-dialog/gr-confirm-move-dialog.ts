@@ -17,7 +17,6 @@
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-move-dialog_html';
@@ -31,7 +30,7 @@ const SUGGESTIONS_LIMIT = 15;
 
 @customElement('gr-confirm-move-dialog')
 export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
+  LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
     return htmlTemplate;

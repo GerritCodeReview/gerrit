@@ -16,7 +16,6 @@
  */
 
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard_html';
 import {hovercardBehaviorMixin} from './gr-hovercard-behavior';
@@ -25,8 +24,8 @@ import './gr-hovercard-shared-style';
 import {customElement} from '@polymer/decorators';
 
 @customElement('gr-hovercard')
-export class GrHovercard extends GestureEventListeners(
-  hovercardBehaviorMixin(LegacyElementMixin(PolymerElement))
+export class GrHovercard extends hovercardBehaviorMixin(
+  LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
     return htmlTemplate;

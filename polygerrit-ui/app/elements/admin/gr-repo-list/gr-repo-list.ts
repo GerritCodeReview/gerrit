@@ -20,7 +20,6 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-list_html';
@@ -50,7 +49,7 @@ export interface GrRepoList {
 
 @customElement('gr-repo-list')
 export class GrRepoList extends ListViewMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
+  LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
     return htmlTemplate;

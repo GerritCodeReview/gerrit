@@ -25,7 +25,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-commit-info/gr-commit-info';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-file-list-header_html';
@@ -75,7 +74,7 @@ export interface GrFileListHeader {
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends KeyboardShortcutMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
+  LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
     return htmlTemplate;

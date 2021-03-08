@@ -17,7 +17,6 @@
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../../styles/shared-styles';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-abandon-dialog_html';
@@ -42,7 +41,7 @@ declare global {
  */
 @customElement('gr-confirm-abandon-dialog')
 export class GrConfirmAbandonDialog extends KeyboardShortcutMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
+  LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
     return htmlTemplate;

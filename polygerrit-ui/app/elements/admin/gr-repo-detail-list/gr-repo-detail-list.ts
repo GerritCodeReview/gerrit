@@ -28,7 +28,6 @@ import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-pointer-dialog/gr-create-pointer-dialog';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-detail-list_html';
@@ -63,7 +62,7 @@ export interface GrRepoDetailList {
 }
 @customElement('gr-repo-detail-list')
 export class GrRepoDetailList extends ListViewMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
+  LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
     return htmlTemplate;

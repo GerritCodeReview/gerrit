@@ -18,6 +18,7 @@ import '@polymer/iron-dropdown/iron-dropdown';
 import '@polymer/paper-input/paper-input';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
+import '../../shared/gr-autocomplete/gr-autocomplete';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
@@ -28,6 +29,10 @@ import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PaperInputElementExt} from '../../../types/types';
 import {CustomKeyboardEvent} from '../../../types/events';
+import {
+  AutocompleteQuery,
+  GrAutocomplete,
+} from '../gr-autocomplete/gr-autocomplete';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -40,7 +45,6 @@ declare global {
 
 export interface GrEditableLabel {
   $: {
-    input: PaperInputElementExt;
     dropdown: IronDropdownElement;
   };
 }
@@ -92,6 +96,12 @@ export class GrEditableLabel extends KeyboardShortcutMixin(
   @property({type: Boolean})
   showAsEditPencil = false;
 
+  @property({type: Boolean})
+  autocomplete = false;
+
+  @property({type: Object})
+  query?: AutocompleteQuery;
+
   /** @override */
   ready() {
     super.ready();
@@ -120,8 +130,9 @@ export class GrEditableLabel extends KeyboardShortcutMixin(
     if (this.readOnly || this.editing) return;
     return this._open().then(() => {
       this._nativeInput.focus();
-      if (!this.$.input.value) return;
-      this._nativeInput.setSelectionRange(0, this.$.input.value.length);
+      const input = this.getInput();
+      if (!input?.value) return;
+      this._nativeInput.setSelectionRange(0, input.value.length);
     });
   }
 
@@ -190,8 +201,9 @@ export class GrEditableLabel extends KeyboardShortcutMixin(
 
   get _nativeInput(): HTMLInputElement {
     // In Polymer 2 inputElement isn't nativeInput anymore
-    return (this.$.input.$.nativeInput ||
-      this.$.input.inputElement) as HTMLInputElement;
+    return (this.getInput()?.$.nativeInput ||
+      this.getInput()?.inputElement ||
+      this.getGrAutocomplete()) as HTMLInputElement;
   }
 
   _handleEnter(e: CustomKeyboardEvent) {
@@ -212,6 +224,10 @@ export class GrEditableLabel extends KeyboardShortcutMixin(
     }
   }
 
+  _handleCommit() {
+    this._save();
+  }
+
   _computeLabelClass(readOnly?: boolean, value?: string, placeholder?: string) {
     const classes = [];
     if (!readOnly) {
@@ -225,5 +241,13 @@ export class GrEditableLabel extends KeyboardShortcutMixin(
 
   _updateTitle(value?: string) {
     this.setAttribute('title', this._computeLabel(value, this.placeholder));
+  }
+
+  getInput(): PaperInputElementExt | null {
+    return this.shadowRoot!.querySelector<PaperInputElementExt>('#input');
+  }
+
+  getGrAutocomplete(): GrAutocomplete | null {
+    return this.shadowRoot!.querySelector<GrAutocomplete>('#autocomplete');
   }
 }

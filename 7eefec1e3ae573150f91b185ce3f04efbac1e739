@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "442a59d5_63139d02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-08T15:01:36Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "7eefec1e3ae573150f91b185ce3f04efbac1e739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca3eebad_df5b4eff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-08T15:01:36Z",
+      "side": 1,
+      "message": "Would you mind also removing the underscores and adding `private` or even `private readonly` where possible?",
+      "revId": "7eefec1e3ae573150f91b185ce3f04efbac1e739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58c5a623_5224d184",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-08T15:01:36Z",
+      "side": 1,
+      "message": "Nit: I would drop the `window.`.",
+      "range": {
+        "startLine": 316,
+        "startChar": 38,
+        "endLine": 316,
+        "endChar": 44
+      },
+      "revId": "7eefec1e3ae573150f91b185ce3f04efbac1e739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

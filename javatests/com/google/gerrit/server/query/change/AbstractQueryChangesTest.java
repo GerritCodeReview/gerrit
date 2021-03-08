@@ -2683,6 +2683,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void initialCommit() throws Exception {
+    TestRepository<Repo> repo1 = createProject("repo1");
+    RevCommit commit1 = repo1.parseBody(repo1.commit().message("message").create());
+    Change change1 = insert(repo1, newChangeForCommit(repo1, commit1));
+    assertQuery("is:initialcommit");
+
+    RevCommit commit2 = repo1.parseBody(repo1.commit(commit1));
+    Change change2 = insert(repo1, newChangeForCommit(repo1, commit2));
+    assertQuery("is:initialcommit", change2);
+  }
+
+  @Test
   public void byCommitsOnBranchNotMerged() throws Exception {
     TestRepository<Repo> tr = createProject("repo");
     testByCommitsOnBranchNotMerged(tr, ImmutableSet.of());

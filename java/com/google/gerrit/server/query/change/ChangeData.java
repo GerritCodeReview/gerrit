@@ -334,13 +334,14 @@ public class ChangeData {
   private PersonIdent author;
   private PersonIdent committer;
   private ImmutableSet<AttentionSetUpdate> attentionSet;
-  private int parentCount;
+  private Integer parentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
   private Optional<Timestamp> mergedOn;
   private ImmutableSetMultimap<NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
+  private Boolean initialcommit;
 
   @Inject
   private ChangeData(
@@ -439,7 +440,7 @@ public class ChangeData {
         return Optional.empty();
       }
 
-      PatchListKey pk = PatchListKey.againstBase(ps.commitId(), parentCount);
+      PatchListKey pk = PatchListKey.againstBase(ps.commitId(), parentCount.intValue());
       DiffSummaryKey key = DiffSummaryKey.fromPatchListKey(pk);
       try {
         diffSummary = Optional.of(patchListCache.getDiffSummary(key, c.getProject()));
@@ -630,8 +631,8 @@ public class ChangeData {
       commitFooters = c.getFooterLines();
       author = c.getAuthorIdent();
       committer = c.getCommitterIdent();
-      parentCount = c.getParentCount();
-      merge = parentCount > 1;
+      parentCount = Integer.valueOf(c.getParentCount());
+      merge = parentCount.intValue() > 1;
     } catch (IOException e) {
       throw new StorageException(
           String.format(
@@ -993,6 +994,16 @@ public class ChangeData {
       }
     }
     return merge;
+  }
+
+  @Nullable
+  public Integer parentCount() {
+    if (parentCount == null) {
+      if (!loadCommitData()) {
+        return null;
+      }
+    }
+    return parentCount;
   }
 
   public Set<Account.Id> editsByUser() {

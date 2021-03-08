@@ -66,7 +66,10 @@ import {
 import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
+import {
+  EditWebLinks,
+  FilesWebLinks,
+} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber, FILE} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {
@@ -192,6 +195,9 @@ export class GrDiffHost extends PolymerElement {
 
   @property({type: Object, notify: true})
   filesWeblinks: FilesWebLinks | {} = {};
+
+  @property({type: Object, notify: true})
+  editWeblinks: EditWebLinks | {} = {};
 
   @property({type: Boolean, reflectToAttribute: true})
   hidden = false;
@@ -374,6 +380,8 @@ export class GrDiffHost extends PolymerElement {
       // plugin loading should not block the content rendering
 
       this.filesWeblinks = this._getFilesWeblinks(diff);
+      this.editWeblinks = this._getEditWeblinks(diff);
+      console.log('edit links:', this.editWeblinks);
       this.diff = diff;
       const event = (await waitForEventOnce(this, 'render')) as CustomEvent;
       if (shouldReportMetric) {
@@ -481,6 +489,7 @@ export class GrDiffHost extends PolymerElement {
   }
 
   _getEditWeblinks(diff: DiffInfo) {
+    console.log('_geteditweblinks');
     if (!this.projectName || !this.commitRange || !this.path) return {};
     return {
       meta_a: GerritNav.getEditWebLinks(

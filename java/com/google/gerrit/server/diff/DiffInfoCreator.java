@@ -159,6 +159,7 @@ public class DiffInfoCreator {
     ImmutableList<WebLinkInfo> links =
         ImmutableList.<WebLinkInfo>builder()
             .addAll(webLinksProvider.getFileWebLinks(side.type()))
+            // TDOO: wrong!
             .addAll(webLinksProvider.getEditWebLinks(side.type()))
             .build();
     result.webLinks = links.isEmpty() ? null : links;

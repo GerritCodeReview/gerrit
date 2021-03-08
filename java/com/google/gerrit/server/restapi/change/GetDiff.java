@@ -242,7 +242,7 @@ public class GetDiff implements RestReadView<FileResource> {
         rev = revB;
         side = sideB;
       }
-      return webLinks.getFileLinks(projectName.get(), rev, side.fileName());
+      return webLinks.getEditLinks(projectName.get(), rev, side.fileName());
     }
 
     @Override

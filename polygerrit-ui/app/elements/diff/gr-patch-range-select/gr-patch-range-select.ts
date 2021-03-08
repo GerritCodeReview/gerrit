@@ -67,6 +67,11 @@ export interface FilesWebLinks {
   meta_b: GeneratedWebLink[];
 }
 
+export interface EditWebLinks {
+  meta_a: GeneratedWebLink[];
+  meta_b: GeneratedWebLink[];
+}
+
 export interface GrPatchRangeSelect {
   $: {
     patchNumDropdown: GrDropdownList;

@@ -384,6 +384,7 @@ export class GrRouter extends PolymerElement {
   ): GeneratedWebLink[] | GeneratedWebLink {
     switch (params.type) {
       case WeblinkType.EDIT:
+        console.log('_generateWeblinks');
         return this._getEditWebLinks(params);
       case WeblinkType.FILE:
         return this._getFileWebLinks(params);
@@ -414,7 +415,7 @@ export class GrRouter extends PolymerElement {
   _firstCodeBrowserWeblink(weblinks: GeneratedWebLink[]) {
     // This is an ordered allowed list of web link types that provide direct
     // links to the commit in the url property.
-    const codeBrowserLinks = ['gitiles', 'browse', 'gitweb'];
+    const codeBrowserLinks = ['gitiles', 'gitweb'];
     for (let i = 0; i < codeBrowserLinks.length; i++) {
       const weblink = weblinks.find(
         weblink => weblink.name === codeBrowserLinks[i]
@@ -461,6 +462,8 @@ export class GrRouter extends PolymerElement {
   }
 
   _getEditWebLinks(params: GenerateWebLinksEditParameters): GeneratedWebLink[] {
+    console.log('_geteditweblinks');
+    // TDOO: this confuses me, is .weblinks all kinds?
     return params.options?.weblinks || [];
   }
 

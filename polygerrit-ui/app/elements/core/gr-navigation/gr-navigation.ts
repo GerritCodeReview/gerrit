@@ -904,6 +904,7 @@ export const GerritNav = {
     file: string,
     options?: GenerateWebLinksOptions
   ): GeneratedWebLink[] {
+    console.log('geteditweblinks');
     const params: GenerateWebLinksEditParameters = {
       type: WeblinkType.EDIT,
       repo,

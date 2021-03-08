@@ -15,52 +15,63 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-account-info.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-account-info';
+import {SinonSpyMember, stubRestApi} from '../../../test/test-utils';
+import {GrAccountInfo} from './gr-account-info';
+import {AccountDetailInfo, ServerInfo} from '../../../types/common';
+import {
+  createAccountWithIdNameAndEmail,
+  createPreferences,
+  createServerInfo,
+} from '../../../test/test-data-generators';
+import {IronInputElement} from '@polymer/iron-input';
+import {SinonStubbedMember} from 'sinon/pkg/sinon-esm';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 const basicFixture = fixtureFromElement('gr-account-info');
 
 suite('gr-account-info tests', () => {
-  let element;
-  let account;
-  let config;
+  let element!: GrAccountInfo;
+  let account: AccountDetailInfo;
+  let config: ServerInfo;
 
-  function valueOf(title) {
-    const sections = element.root.querySelectorAll('section');
+  function queryIronInput(selector: string): IronInputElement {
+    const input = element.root?.querySelector<IronInputElement>(selector);
+    if (!input) assert.fail(`<iron-input> with id ${selector} not found.`);
+    return input;
+  }
+
+  function valueOf(title: string): Element {
+    const sections = element.root?.querySelectorAll('section') ?? [];
     let titleEl;
     for (let i = 0; i < sections.length; i++) {
       titleEl = sections[i].querySelector('.title');
-      if (titleEl.textContent === title) {
-        return sections[i].querySelector('.value');
+      if (titleEl?.textContent === title) {
+        const el = sections[i].querySelector('.value');
+        if (el) return el;
       }
     }
+    assert.fail(`element with title ${title} not found`);
   }
 
-  setup(done => {
-    account = {
-      _account_id: 123,
-      name: 'user name',
-      email: 'user@email',
-      username: 'user username',
-      registered: '2000-01-01 00:00:00.000000000',
-    };
-    config = {auth: {editable_account_fields: []}};
+  setup(async () => {
+    account = createAccountWithIdNameAndEmail(123) as AccountDetailInfo;
+    config = createServerInfo();
 
     stubRestApi('getAccount').returns(Promise.resolve(account));
     stubRestApi('getConfig').returns(Promise.resolve(config));
-    stubRestApi('getPreferences').returns(
-        Promise.resolve({time_format: 'HHMM_12'}));
+    stubRestApi('getPreferences').returns(Promise.resolve(createPreferences()));
 
     element = basicFixture.instantiate();
-    // Allow the element to render.
-    element.loadData().then(() => { flush(done); });
+    await element.loadData();
+    await flush();
   });
 
   test('basic account info render', () => {
     assert.isFalse(element._loading);
 
-    assert.equal(valueOf('ID').textContent, account._account_id);
+    assert.equal(valueOf('ID').textContent, `${account._account_id}`);
     assert.equal(valueOf('Email').textContent, account.email);
     assert.equal(valueOf('Username').textContent, account.username);
   });
@@ -77,8 +88,9 @@ suite('gr-account-info tests', () => {
   });
 
   test('full name render (mutable)', () => {
-    element.set('_serverConfig',
-        {auth: {editable_account_fields: ['FULL_NAME']}});
+    element.set('_serverConfig', {
+      auth: {editable_account_fields: ['FULL_NAME']},
+    });
 
     const section = element.$.nameSection;
     const displaySpan = section.querySelectorAll('.value')[0];
@@ -86,7 +98,7 @@ suite('gr-account-info tests', () => {
 
     assert.isTrue(element.nameMutable);
     assert.isTrue(displaySpan.hasAttribute('hidden'));
-    assert.equal(element.$.nameInput.bindValue, account.name);
+    assert.equal(queryIronInput('#nameIronInput').bindValue, account.name);
     assert.isFalse(inputSpan.hasAttribute('hidden'));
   });
 
@@ -102,8 +114,9 @@ suite('gr-account-info tests', () => {
   });
 
   test('username render (mutable)', () => {
-    element.set('_serverConfig',
-        {auth: {editable_account_fields: ['USER_NAME']}});
+    element.set('_serverConfig', {
+      auth: {editable_account_fields: ['USER_NAME']},
+    });
     element.set('_account.username', '');
     element.set('_username', '');
 
@@ -113,32 +126,34 @@ suite('gr-account-info tests', () => {
 
     assert.isTrue(element.usernameMutable);
     assert.isTrue(displaySpan.hasAttribute('hidden'));
-    assert.equal(element.$.usernameInput.bindValue, account.username);
+    assert.equal(
+      queryIronInput('#usernameIronInput').bindValue,
+      account.username
+    );
     assert.isFalse(inputSpan.hasAttribute('hidden'));
   });
 
   suite('account info edit', () => {
-    let nameChangedSpy;
-    let usernameChangedSpy;
-    let statusChangedSpy;
-    let nameStub;
-    let usernameStub;
-    let statusStub;
+    let nameChangedSpy: SinonSpyMember<typeof element._nameChanged>;
+    let usernameChangedSpy: SinonSpyMember<typeof element._usernameChanged>;
+    let statusChangedSpy: SinonSpyMember<typeof element._statusChanged>;
+    let nameStub: SinonStubbedMember<RestApiService['setAccountName']>;
+    let usernameStub: SinonStubbedMember<RestApiService['setAccountUsername']>;
+    let statusStub: SinonStubbedMember<RestApiService['setAccountStatus']>;
 
     setup(() => {
       nameChangedSpy = sinon.spy(element, '_nameChanged');
       usernameChangedSpy = sinon.spy(element, '_usernameChanged');
       statusChangedSpy = sinon.spy(element, '_statusChanged');
-      element.set('_serverConfig',
-          {auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']}});
+      element.set('_serverConfig', {
+        auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']},
+      });
 
-      nameStub = stubRestApi('setAccountName').callsFake(
-          name => Promise.resolve());
-      usernameStub = stubRestApi('setAccountUsername')
-          .callsFake(username => Promise.resolve());
-      statusStub = stubRestApi(
-          'setAccountStatus').callsFake(
-          status => Promise.resolve());
+      nameStub = stubRestApi('setAccountName').returns(Promise.resolve());
+      usernameStub = stubRestApi('setAccountUsername').returns(
+        Promise.resolve()
+      );
+      statusStub = stubRestApi('setAccountStatus').returns(Promise.resolve());
     });
 
     test('name', done => {
@@ -206,24 +221,21 @@ suite('gr-account-info tests', () => {
   });
 
   suite('edit name and status', () => {
-    let nameChangedSpy;
-    let statusChangedSpy;
-    let nameStub;
-    let statusStub;
+    let nameChangedSpy: SinonSpyMember<typeof element._nameChanged>;
+    let statusChangedSpy: SinonSpyMember<typeof element._statusChanged>;
+    let nameStub: SinonStubbedMember<RestApiService['setAccountName']>;
+    let statusStub: SinonStubbedMember<RestApiService['setAccountStatus']>;
 
     setup(() => {
       nameChangedSpy = sinon.spy(element, '_nameChanged');
       statusChangedSpy = sinon.spy(element, '_statusChanged');
-      element.set('_serverConfig',
-          {auth: {editable_account_fields: ['FULL_NAME']}});
+      element.set('_serverConfig', {
+        auth: {editable_account_fields: ['FULL_NAME']},
+      });
 
-      nameStub = stubRestApi('setAccountName').callsFake(
-          name => Promise.resolve());
-      statusStub = stubRestApi(
-          'setAccountStatus').callsFake(
-          status => Promise.resolve());
-      stubRestApi('setAccountUsername').callsFake(
-          username => Promise.resolve());
+      nameStub = stubRestApi('setAccountName').returns(Promise.resolve());
+      statusStub = stubRestApi('setAccountStatus').returns(Promise.resolve());
+      stubRestApi('setAccountUsername').returns(Promise.resolve());
     });
 
     test('set name and status', done => {
@@ -254,17 +266,14 @@ suite('gr-account-info tests', () => {
   });
 
   suite('set status but read name', () => {
-    let statusChangedSpy;
-    let statusStub;
+    let statusChangedSpy: SinonSpyMember<typeof element._statusChanged>;
+    let statusStub: SinonStubbedMember<RestApiService['setAccountStatus']>;
 
     setup(() => {
       statusChangedSpy = sinon.spy(element, '_statusChanged');
-      element.set('_serverConfig',
-          {auth: {editable_account_fields: []}});
+      element.set('_serverConfig', {auth: {editable_account_fields: []}});
 
-      statusStub = stubRestApi(
-          'setAccountStatus').callsFake(
-          status => Promise.resolve());
+      statusStub = stubRestApi('setAccountStatus').returns(Promise.resolve());
     });
 
     test('read full name but set status', done => {
@@ -320,4 +329,3 @@ suite('gr-account-info tests', () => {
     assert.equal(element._hideAvatarChangeUrl('https://example.com'), '');
   });
 });
-

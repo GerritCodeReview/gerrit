@@ -805,12 +805,10 @@ export class GrReporting implements ReportingService {
     );
   }
 
-  trackApi(plugin: PluginApi, object: string, method: string) {
-    this.reportExecution('plugin-api', {
-      plugin: plugin.getPluginName(),
-      object,
-      method,
-    });
+  trackApi(pluginApi: PluginApi, object: string, method: string) {
+    const plugin = pluginApi.getPluginName();
+    const id = `plugin-api-${plugin}-${object}-${method}`;
+    this.reportExecution(id, {plugin, object, method});
   }
 
   /**

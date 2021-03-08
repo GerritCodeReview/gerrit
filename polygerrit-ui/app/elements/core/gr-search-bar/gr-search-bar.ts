@@ -69,6 +69,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'has:',
   'has:draft',
   'has:edit',
+  'has:gitparent',
   'has:star',
   'has:stars',
   'has:unresolved',

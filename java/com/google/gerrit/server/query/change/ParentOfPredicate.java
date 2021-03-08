@@ -45,7 +45,7 @@ public class ParentOfPredicate extends OperatorPredicate<ChangeData>
     return 1;
   }
 
-  protected Set<RevCommit> getParents(ChangeData change, GitRepositoryManager repoManager) {
+  protected static Set<RevCommit> getParents(ChangeData change, GitRepositoryManager repoManager) {
     PatchSet ps = change.currentPatchSet();
     try (Repository repo = repoManager.openRepository(change.project());
         RevWalk walk = new RevWalk(repo)) {

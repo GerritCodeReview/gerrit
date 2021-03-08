@@ -416,6 +416,9 @@ has:edit::
 +
 True if the change has inline edit created by the current user.
 
+has:gitparent::
+True if the change has any git parent.
+
 has:unresolved::
 +
 True if the change has unresolved comments.

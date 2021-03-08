@@ -200,6 +200,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_CHERRY_PICK_OF = "cherrypickof";
   public static final String FIELD_CHERRY_PICK_OF_CHANGE = "cherrypickofchange";
   public static final String FIELD_CHERRY_PICK_OF_PATCHSET = "cherrypickofpatchset";
+  public static final String FIELD_GITPARENT="gitparent";
 
   public static final String ARG_ID_NAME = "name";
   public static final String ARG_ID_USER = "user";
@@ -581,6 +582,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     if ("unresolved".equalsIgnoreCase(value)) {
       return new IsUnresolvedPredicate();
+    }
+
+    if ("gitparent".equalsIgnoreCase(value)) {
+      return new HasGitParentPredicate(value, args.repoManager);
     }
 
     // for plugins the value will be operandName_pluginName

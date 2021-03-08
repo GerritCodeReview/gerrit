@@ -122,3 +122,7 @@ export function toggleSetMembership<T>(set: Set<T>, value: T): void {
     set.add(value);
   }
 }
+
+export function unique<T>(item: T, index: number, array: T[]) {
+  return array.indexOf(item) === index;
+}

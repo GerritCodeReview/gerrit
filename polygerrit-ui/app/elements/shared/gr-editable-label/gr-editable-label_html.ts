@@ -105,12 +105,24 @@ export const htmlTemplate = html`
   >
     <div class="dropdown-content" slot="dropdown-content">
       <div class="inputContainer">
-        <paper-input
-          id="input"
-          label="[[labelText]]"
-          maxlength="[[maxLength]]"
-          value="{{_inputText}}"
-        ></paper-input>
+        <template is="dom-if" if="[[!autocomplete]]">
+          <paper-input
+            id="input"
+            label="[[labelText]]"
+            maxlength="[[maxLength]]"
+            value="{{_inputText}}"
+          ></paper-input>
+        </template>
+        <template is="dom-if" if="[[autocomplete]]">
+          <gr-autocomplete
+            label="[[labelText]]"
+            id="autocomplete"
+            text="{{_inputText}}"
+            query="[[query]]"
+            on-commit="_handleCommit"
+          >
+          </gr-autocomplete>
+        </template>
         <div class="buttons">
           <gr-button link="" id="cancelBtn" on-click="_cancel"
             >cancel</gr-button

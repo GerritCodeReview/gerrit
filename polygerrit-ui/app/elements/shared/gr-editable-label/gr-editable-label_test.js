@@ -50,7 +50,8 @@ suite('gr-editable-label tests', () => {
 
     await flush();
     // In Polymer 2 inputElement isn't nativeInput anymore
-    input = element.$.input.$.nativeInput || element.$.input.inputElement;
+    const paperInput = element.shadowRoot.querySelector('#input');
+    input = paperInput.$.nativeInput || paperInput.inputElement;
   });
 
   test('element render', () => {

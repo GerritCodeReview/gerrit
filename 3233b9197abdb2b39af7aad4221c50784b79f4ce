@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ab0525_ab5805f9",
+        "filename": "java/com/google/gerrit/server/restapi/group/GroupsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-08T18:12:27Z",
+      "side": 1,
+      "message": "Should we be fixing isIdentifiedUser to check isInternalUser always? I feel like there have been several fixes like this where we need to explicitly consider internal user now.",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 40
+      },
+      "revId": "3233b9197abdb2b39af7aad4221c50784b79f4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

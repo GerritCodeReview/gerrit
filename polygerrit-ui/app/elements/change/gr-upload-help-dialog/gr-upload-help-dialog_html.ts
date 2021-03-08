@@ -43,7 +43,10 @@ export const htmlTemplate = html`
             the files.
           </p>
           <template is="dom-if" if="[[_fetchCommand]]">
-            <gr-shell-command command="[[_fetchCommand]]"></gr-shell-command>
+            <gr-shell-command
+              class="fetch-command"
+              command="[[_fetchCommand]]"
+            ></gr-shell-command>
           </template>
         </li>
         <li>
@@ -51,14 +54,20 @@ export const htmlTemplate = html`
             Update the local commit with your modifications using the following
             command.
           </p>
-          <gr-shell-command command="[[_commitCommand]]"></gr-shell-command>
+          <gr-shell-command
+            class="commit-command"
+            command="[[_commitCommand]]"
+          ></gr-shell-command>
           <p>
             Leave the "Change-Id:" line of the commit message as is.
           </p>
         </li>
         <li>
           <p>Push the updated commit to Gerrit.</p>
-          <gr-shell-command command="[[_pushCommand]]"></gr-shell-command>
+          <gr-shell-command
+            class="push-command"
+            command="[[_pushCommand]]"
+          ></gr-shell-command>
         </li>
         <li>
           <p>Refresh this page to view the the update.</p>

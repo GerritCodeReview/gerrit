@@ -78,6 +78,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'is:assigned',
   'is:closed',
   'is:ignored',
+  'is:initial',
   'is:merge',
   'is:merged',
   'is:open',

@@ -3996,4 +3996,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   protected Schema<ChangeData> getSchema() {
     return indexes.getSearchIndex().getSchema();
   }
+
+  @Test
+  public void initial() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.INITIAL)).isTrue();
+    TestRepository<Repo> repo1 = createProject("repo1");
+    RevCommit commit1 = repo1.parseBody(repo1.commit().message("message").create());
+    Change change1 = insert(repo1, newChangeForCommit(repo1, commit1));
+    assertQuery("is:initial", change1);
+    assertQuery("-is:initial");
+
+    RevCommit commit2 = repo1.parseBody(repo1.commit(commit1));
+    Change change2 = insert(repo1, newChangeForCommit(repo1, commit2));
+    assertQuery("-is:initial", change2);
+  }
 }

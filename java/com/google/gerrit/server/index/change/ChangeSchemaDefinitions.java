@@ -140,8 +140,13 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       new Schema.Builder<ChangeData>().add(V60).add(ChangeField.MERGED_ON).build();
 
   /** Added new field {@link ChangeField#FUZZY_HASHTAG} */
+  @Deprecated
   static final Schema<ChangeData> V62 =
       new Schema.Builder<ChangeData>().add(V61).add(ChangeField.FUZZY_HASHTAG).build();
+
+  /** Added new field {@link ChangeField#INITIAL} */
+  static final Schema<ChangeData> V63 =
+      new Schema.Builder<ChangeData>().add(V62).add(ChangeField.INITIAL).build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

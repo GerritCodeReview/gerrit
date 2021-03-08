@@ -22,6 +22,30 @@
       },
       "revId": "bc70627ea5efcf4384f21ae84a41ebb68fdf94d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34abb0c2_14713874",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-08T15:05:19Z",
+      "side": 1,
+      "message": "No, not yet, but I will use it before the end of the week. I promise!",
+      "parentUuid": "701cf22d_6f6188b0",
+      "range": {
+        "startLine": 52,
+        "startChar": 16,
+        "endLine": 52,
+        "endChar": 30
+      },
+      "revId": "bc70627ea5efcf4384f21ae84a41ebb68fdf94d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

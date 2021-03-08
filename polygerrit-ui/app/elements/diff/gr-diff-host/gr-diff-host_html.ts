@@ -42,9 +42,4 @@ export const htmlTemplate = html`
     show-newline-warning-right="[[_showNewlineWarningRight(diff)]]"
   >
   </gr-diff>
-  <gr-syntax-layer
-    id="syntaxLayer"
-    enabled="[[_syntaxHighlightingEnabled]]"
-    diff="[[diff]]"
-  ></gr-syntax-layer>
 `;

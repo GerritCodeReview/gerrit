@@ -15,13 +15,8 @@
  * limitations under the License.
  */
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {FILE, GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {CancelablePromise, util} from '../../../scripts/util';
-import {customElement, property} from '@polymer/decorators';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener, HighlightJS} from '../../../types/types';
 import {GrLibLoader} from '../../shared/gr-lib-loader/gr-lib-loader';
@@ -158,52 +153,46 @@ interface SyntaxLayerState {
   lastNotify: {left: number; right: number};
 }
 
-@customElement('gr-syntax-layer')
-export class GrSyntaxLayer
-  extends GestureEventListeners(LegacyElementMixin(PolymerElement))
-  implements DiffLayer {
-  static get template() {
-    return html``;
-  }
-
-  @property({type: Object, observer: '_diffChanged'})
+export class GrSyntaxLayer implements DiffLayer {
   diff?: DiffInfo;
 
-  @property({type: Boolean})
   enabled = true;
 
-  @property({type: Array})
-  _baseRanges: SyntaxLayerRange[][] = [];
+  private baseRanges: SyntaxLayerRange[][] = [];
 
-  @property({type: Array})
-  _revisionRanges: SyntaxLayerRange[][] = [];
+  private revisionRanges: SyntaxLayerRange[][] = [];
 
-  @property({type: String})
-  _baseLanguage?: string;
+  private baseLanguage?: string;
 
-  @property({type: String})
-  _revisionLanguage?: string;
+  private revisionLanguage?: string;
 
-  @property({type: Array})
-  _listeners: DiffLayerListener[] = [];
+  private listeners: DiffLayerListener[] = [];
 
-  @property({type: Number})
-  _processHandle: number | null = null;
+  private processHandle: number | null = null;
 
-  @property({type: Object})
-  _processPromise: CancelablePromise<unknown> | null = null;
+  private processPromise: CancelablePromise<unknown> | null = null;
 
-  @property({type: Object})
-  _hljs?: HighlightJS;
+  private hljs?: HighlightJS;
 
   private readonly libLoader = new GrLibLoader();
 
+  init(diff?: DiffInfo) {
+    this.cancel();
+    this.baseRanges = [];
+    this.revisionRanges = [];
+    this.diff = diff;
+  }
+
+  setEnabled(enabled: boolean) {
+    this.enabled = enabled;
+  }
+
   addListener(listener: DiffLayerListener) {
-    this.push('_listeners', listener);
+    this.listeners.push(listener);
   }
 
   removeListener(listener: DiffLayerListener) {
-    this._listeners = this._listeners.filter(f => f !== listener);
+    this.listeners = this.listeners.filter(f => f !== listener);
   }
 
   /**
@@ -231,13 +220,13 @@ export class GrSyntaxLayer
 
     // Find the relevant syntax ranges, if any.
     let ranges: SyntaxLayerRange[] = [];
-    if (side === 'left' && this._baseRanges.length >= line.beforeNumber) {
-      ranges = this._baseRanges[line.beforeNumber - 1] || [];
+    if (side === 'left' && this.baseRanges.length >= line.beforeNumber) {
+      ranges = this.baseRanges[line.beforeNumber - 1] || [];
     } else if (
       side === 'right' &&
-      this._revisionRanges.length >= line.afterNumber
+      this.revisionRanges.length >= line.afterNumber
     ) {
-      ranges = this._revisionRanges[line.afterNumber - 1] || [];
+      ranges = this.revisionRanges[line.afterNumber - 1] || [];
     }
 
     // Apply the ranges to the element.
@@ -263,24 +252,24 @@ export class GrSyntaxLayer
    */
   process() {
     // Cancel any still running process() calls, because they append to the
-    // same _baseRanges and _revisionRanges fields.
+    // same baseRanges and revisionRanges fields.
     this.cancel();
 
     // Discard existing ranges.
-    this._baseRanges = [];
-    this._revisionRanges = [];
+    this.baseRanges = [];
+    this.revisionRanges = [];
 
     if (!this.enabled || !this.diff?.content.length) {
       return Promise.resolve();
     }
 
     if (this.diff.meta_a) {
-      this._baseLanguage = this._getLanguage(this.diff.meta_a);
+      this.baseLanguage = this._getLanguage(this.diff.meta_a);
     }
     if (this.diff.meta_b) {
-      this._revisionLanguage = this._getLanguage(this.diff.meta_b);
+      this.revisionLanguage = this._getLanguage(this.diff.meta_b);
     }
-    if (!this._baseLanguage && !this._revisionLanguage) {
+    if (!this.baseLanguage && !this.revisionLanguage) {
       return Promise.resolve();
     }
 
@@ -295,12 +284,12 @@ export class GrSyntaxLayer
 
     const rangesCache = new Map<string, SyntaxLayerRange[]>();
 
-    this._processPromise = util.makeCancelable(
+    this.processPromise = util.makeCancelable(
       this._loadHLJS().then(
         () =>
           new Promise<void>(resolve => {
             const nextStep = () => {
-              this._processHandle = null;
+              this.processHandle = null;
               this._processNextLine(state, rangesCache);
 
               // Move to the next line in the section.
@@ -324,18 +313,18 @@ export class GrSyntaxLayer
 
               if (state.lineIndex % 100 === 0) {
                 this._notify(state);
-                this._processHandle = this.async(nextStep, ASYNC_DELAY);
+                this.processHandle = window.setTimeout(nextStep, ASYNC_DELAY);
               } else {
                 nextStep.call(this);
               }
             };
 
-            this._processHandle = this.async(nextStep, 1);
+            this.processHandle = window.setTimeout(nextStep, 1);
           })
       )
     );
-    return this._processPromise.finally(() => {
-      this._processPromise = null;
+    return this.processPromise.finally(() => {
+      this.processPromise = null;
     });
   }
 
@@ -343,19 +332,13 @@ export class GrSyntaxLayer
    * Cancel any asynchronous syntax processing jobs.
    */
   cancel() {
-    if (this._processHandle !== null) {
-      this.cancelAsync(this._processHandle);
-      this._processHandle = null;
+    if (this.processHandle !== null) {
+      clearTimeout(this.processHandle);
+      this.processHandle = null;
     }
-    if (this._processPromise) {
-      this._processPromise.cancel();
+    if (this.processPromise) {
+      this.processPromise.cancel();
     }
-  }
-
-  _diffChanged() {
-    this.cancel();
-    this._baseRanges = [];
-    this._revisionRanges = [];
   }
 
   /**
@@ -420,7 +403,7 @@ export class GrSyntaxLayer
     rangesCache: Map<string, SyntaxLayerRange[]>
   ) {
     if (!this.diff) return;
-    if (!this._hljs) return;
+    if (!this.hljs) return;
 
     let baseLine;
     let revisionLine;
@@ -442,7 +425,7 @@ export class GrSyntaxLayer
       if (section.skip) {
         state.lineNums.left += section.skip;
         state.lineNums.right += section.skip;
-        for (let i = 0; i < section.skip; i++) this._revisionRanges.push([]);
+        for (let i = 0; i < section.skip; i++) this.revisionRanges.push([]);
       }
     }
 
@@ -450,38 +433,34 @@ export class GrSyntaxLayer
     let result;
 
     if (
-      this._baseLanguage &&
+      this.baseLanguage &&
       baseLine !== undefined &&
-      this._hljs.getLanguage(this._baseLanguage)
+      this.hljs.getLanguage(this.baseLanguage)
     ) {
-      baseLine = this._workaround(this._baseLanguage, baseLine);
-      result = this._hljs.highlight(
-        this._baseLanguage,
+      baseLine = this._workaround(this.baseLanguage, baseLine);
+      result = this.hljs.highlight(
+        this.baseLanguage,
         baseLine,
         true,
         state.baseContext
       );
-      this.push(
-        '_baseRanges',
-        this._rangesFromString(result.value, rangesCache)
-      );
+      this.baseRanges.push(this._rangesFromString(result.value, rangesCache));
       state.baseContext = result.top;
     }
 
     if (
-      this._revisionLanguage &&
+      this.revisionLanguage &&
       revisionLine !== undefined &&
-      this._hljs.getLanguage(this._revisionLanguage)
+      this.hljs.getLanguage(this.revisionLanguage)
     ) {
-      revisionLine = this._workaround(this._revisionLanguage, revisionLine);
-      result = this._hljs.highlight(
-        this._revisionLanguage,
+      revisionLine = this._workaround(this.revisionLanguage, revisionLine);
+      result = this.hljs.highlight(
+        this.revisionLanguage,
         revisionLine,
         true,
         state.revisionContext
       );
-      this.push(
-        '_revisionRanges',
+      this.revisionRanges.push(
         this._rangesFromString(result.value, rangesCache)
       );
       state.revisionContext = result.top;
@@ -591,20 +570,14 @@ export class GrSyntaxLayer
   }
 
   _notifyRange(start: number, end: number, side: Side) {
-    for (const listener of this._listeners) {
+    for (const listener of this.listeners) {
       listener(start, end, side);
     }
   }
 
   _loadHLJS() {
     return this.libLoader.getHLJS().then(hljs => {
-      this._hljs = hljs;
+      this.hljs = hljs;
     });
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-syntax-layer': GrSyntaxLayer;
   }
 }

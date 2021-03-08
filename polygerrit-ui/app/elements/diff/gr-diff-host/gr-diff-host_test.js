@@ -130,7 +130,7 @@ suite('gr-diff-host tests', () => {
     test('ends total and syntax timer after syntax layer', async () => {
       sinon.stub(element.reporting, 'diffViewContentDisplayed');
       let notifySyntaxProcessed;
-      sinon.stub(element.$.syntaxLayer, 'process').returns(
+      sinon.stub(element.syntaxLayer, 'process').returns(
           new Promise(resolve => {
             notifySyntaxProcessed = resolve;
           })
@@ -170,7 +170,7 @@ suite('gr-diff-host tests', () => {
 
     test('completes reload promise after syntax layer processing', async () => {
       let notifySyntaxProcessed;
-      sinon.stub(element.$.syntaxLayer, 'process').returns(new Promise(
+      sinon.stub(element.syntaxLayer, 'process').returns(new Promise(
           resolve => {
             notifySyntaxProcessed = resolve;
           }));
@@ -1292,7 +1292,7 @@ suite('gr-diff-host tests', () => {
     test('gr-diff-host provides syntax highlighting layer', async () => {
       stubRestApi('getDiff').returns(Promise.resolve({content: []}));
       await element.reload();
-      assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
+      assert.equal(element.$.diff.layers[0], element.syntaxLayer);
     });
 
     test('rendering normal-sized diff does not disable syntax', () => {
@@ -1301,7 +1301,7 @@ suite('gr-diff-host tests', () => {
           a: ['foo'],
         }],
       };
-      assert.isTrue(element.$.syntaxLayer.enabled);
+      assert.isTrue(element.syntaxLayer.enabled);
     });
 
     test('rendering large diff disables syntax', () => {
@@ -1311,17 +1311,17 @@ suite('gr-diff-host tests', () => {
           a: [new Array(501).join('*')],
         }],
       };
-      assert.isFalse(element.$.syntaxLayer.enabled);
+      assert.isFalse(element.syntaxLayer.enabled);
     });
 
     test('starts syntax layer processing on render event', async () => {
-      sinon.stub(element.$.syntaxLayer, 'process')
+      sinon.stub(element.syntaxLayer, 'process')
           .returns(Promise.resolve());
       stubRestApi('getDiff').returns(Promise.resolve({content: []}));
       await element.reload();
       element.dispatchEvent(
           new CustomEvent('render', {bubbles: true, composed: true}));
-      assert.isTrue(element.$.syntaxLayer.process.called);
+      assert.isTrue(element.syntaxLayer.process.called);
     });
   });
 
@@ -1346,11 +1346,11 @@ suite('gr-diff-host tests', () => {
     test('gr-diff-host provides syntax highlighting layer', async () => {
       stubRestApi('getDiff').returns(Promise.resolve({content: []}));
       await element.reload();
-      assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
+      assert.equal(element.$.diff.layers[0], element.syntaxLayer);
     });
 
     test('syntax layer should be disabled', () => {
-      assert.isFalse(element.$.syntaxLayer.enabled);
+      assert.isFalse(element.syntaxLayer.enabled);
     });
 
     test('still disabled for large diff', () => {
@@ -1360,7 +1360,7 @@ suite('gr-diff-host tests', () => {
           a: [new Array(501).join('*')],
         }],
       };
-      assert.isFalse(element.$.syntaxLayer.enabled);
+      assert.isFalse(element.syntaxLayer.enabled);
     });
   });
 

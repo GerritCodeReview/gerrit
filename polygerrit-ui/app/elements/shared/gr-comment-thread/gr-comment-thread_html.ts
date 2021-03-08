@@ -217,9 +217,4 @@ export const htmlTemplate = html`
       </div>
     </template>
   </div>
-  <gr-syntax-layer
-    id="syntaxLayer"
-    enabled="[[true]]"
-    diff="[[_diff]]"
-  ></gr-syntax-layer>
 `;

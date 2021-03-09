@@ -22,7 +22,7 @@ import '../gr-diff-highlight/gr-diff-highlight';
 import '../gr-diff-selection/gr-diff-selection';
 import '../gr-syntax-themes/gr-syntax-theme';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
-import '../gr-ranged-comment-chip/gr-ranged-comment-chip';
+import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
@@ -815,7 +815,7 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
   }
 
   _handleRenderContent() {
-    this.querySelectorAll('gr-ranged-comment-chip').forEach(element =>
+    this.querySelectorAll('gr-ranged-comment-hint').forEach(element =>
       element.remove()
     );
     this._setLoading(false);
@@ -863,14 +863,14 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
 
         const slotAtt = threadEl.getAttribute('slot');
         if (range && isLongCommentRange(range) && slotAtt) {
-          const longRangeCommentChip = document.createElement(
-            'gr-ranged-comment-chip'
+          const longRangeCommentHint = document.createElement(
+            'gr-ranged-comment-hint'
           );
-          longRangeCommentChip.range = range;
-          longRangeCommentChip.setAttribute('threadElRootId', threadEl.rootId);
-          longRangeCommentChip.setAttribute('slot', slotAtt);
-          this.insertBefore(longRangeCommentChip, threadEl);
-          this._redispatchHoverEvents(longRangeCommentChip, threadEl);
+          longRangeCommentHint.range = range;
+          longRangeCommentHint.setAttribute('threadElRootId', threadEl.rootId);
+          longRangeCommentHint.setAttribute('slot', slotAtt);
+          this.insertBefore(longRangeCommentHint, threadEl);
+          this._redispatchHoverEvents(longRangeCommentHint, threadEl);
         }
 
         // Create a slot for the thread and attach it to the thread group.
@@ -895,7 +895,7 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
       const removedThreadEls = info.removedNodes.filter(isThreadEl);
       for (const threadEl of removedThreadEls) {
         this.querySelector(
-          `gr-ranged-comment-chip[threadElRootId="${threadEl.rootId}"]`
+          `gr-ranged-comment-hint[threadElRootId="${threadEl.rootId}"]`
         )?.remove();
       }
     });

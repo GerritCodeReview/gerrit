@@ -17,13 +17,13 @@
 
 import '../../../test/common-test-setup-karma';
 import {CommentRange} from '../../../types/common';
-import {GrRangedCommentChip} from './gr-ranged-comment-chip';
+import {GrRangedCommentHint} from './gr-ranged-comment-hint';
 
-suite('gr-ranged-comment-chip tests', () => {
-  let element: GrRangedCommentChip;
+suite('gr-ranged-comment-hint tests', () => {
+  let element: GrRangedCommentHint;
 
   setup(() => {
-    element = fixtureFromElement('gr-ranged-comment-chip').instantiate();
+    element = fixtureFromElement('gr-ranged-comment-hint').instantiate();
   });
 
   test('shows line range', async () => {
@@ -34,7 +34,7 @@ suite('gr-ranged-comment-chip tests', () => {
       end_character: 3,
     } as CommentRange;
     await flush();
-    const textDiv = element.root!.querySelector<HTMLDivElement>('.chip');
+    const textDiv = element.root!.querySelector<HTMLDivElement>('.row');
     assert.equal(textDiv!.innerText.trim(), 'Long comment range 2 - 5');
   });
 });

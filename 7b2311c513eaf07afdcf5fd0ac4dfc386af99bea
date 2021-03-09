@@ -34,6 +34,24 @@
       "parentUuid": "6ceef8b6_1d3c45a1",
       "revId": "7b2311c513eaf07afdcf5fd0ac4dfc386af99bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d9aa581_bc676be4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-09T10:42:11Z",
+      "side": 1,
+      "message": "If possible I would prefer a test in Gerrit core, but not insisting on it if it\u0027s too much work. Up to you :)",
+      "parentUuid": "7d154015_523231b8",
+      "revId": "7b2311c513eaf07afdcf5fd0ac4dfc386af99bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

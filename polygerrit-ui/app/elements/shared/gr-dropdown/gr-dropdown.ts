@@ -128,6 +128,11 @@ export class GrDropdown extends KeyboardShortcutMixin(
     };
   }
 
+  /** @override */
+  detached() {
+    this.$.cursor.unsetCursor();
+  }
+
   /**
    * Handle the up key.
    */

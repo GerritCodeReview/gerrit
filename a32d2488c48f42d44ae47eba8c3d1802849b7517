@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e51b943c_05bcab5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T17:05:39Z",
+      "side": 1,
+      "message": "GerritSimulation: Add\n\nOtherwise it is harder for potential reviewers to decide on reviewing this change; clarifies its scope.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "668eee2b_fc393e36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T17:05:39Z",
+      "side": 1,
+      "message": "Not 100% true, because before this change, the test code was able to get properties, in order to use them in the first place. Refine this commit message to make it more precise, intent-wise?",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d4cd8c3_3bf522cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T17:05:39Z",
+      "side": 1,
+      "message": "Minor comments I think.",
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90502799_a8797dfd",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T17:05:39Z",
+      "side": 1,
+      "message": "val",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 7
+      },
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5adbc39f_ce2dc4d1",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T17:05:39Z",
+      "side": 1,
+      "message": "Unrelated move, it seems; clutters the diff (harder review).",
+      "range": {
+        "startLine": 97,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 30
+      },
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd862ad5_081300c2",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T17:05:39Z",
+      "side": 1,
+      "message": "Unrelated to this change, as the other protected methods in this file don\u0027t all have such doc, consistently (at least not yet).\n\nSo far, only the specifically more complex methods are documented, to not over-document and have to maintain that across. I think this method should be trivial enough to not document it this way.",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 5
+      },
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -132,6 +132,11 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
   }
 
+  /** @override */
+  detached() {
+    this.$.cursorManager.unsetCursor();
+  }
+
   // Don't remove - used by clients embedding gr-diff outside of Gerrit.
   isAtStart() {
     return this.$.cursorManager.isAtStart();

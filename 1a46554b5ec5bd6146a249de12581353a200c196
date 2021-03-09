@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ab601a8_4454edd4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-09T21:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "299cc383_bfea097f",
+      "revId": "1a46554b5ec5bd6146a249de12581353a200c196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c5b5d84_92292287",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07414a18_52ddb647",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-09T21:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c5b5d84_92292287",
+      "revId": "1a46554b5ec5bd6146a249de12581353a200c196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51c9d0d7_bea59971",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-03-09T08:18:31Z",
       "side": 1,
       "message": "For tests I have just introduced a queryAndAssert() method. Maybe we should actually move that to dom-util?\n\nIf we had the following two utils, then you could just do `queryAndAssert\u003cPaperInputElementExt\u003e(this, \u0027#input\u0027)` here.\n\n```\nexport function query\u003cE extends Element \u003d Element\u003e(\n  el: Element | undefined,\n  selector: string\n): E | undefined {\n  if (!el) return undefined;\n  const root \u003d el.shadowRoot ?? el;\n  return root.querySelector\u003cE\u003e(selector) ?? undefined;\n}\n\nexport function queryAndAssert\u003cE extends Element \u003d Element\u003e(\n  el: Element | undefined,\n  selector: string\n): E {\n  const found \u003d query\u003cE\u003e(el, selector);\n  if (!found) throw new Error(`selector \u0027${selector}\u0027 did not match anything\u0027`);\n  return found;\n}\n```",
+      "revId": "1a46554b5ec5bd6146a249de12581353a200c196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be5f1ae0_20379ed0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-09T21:53:09Z",
+      "side": 1,
+      "message": "Sure, we can do it. The query would work better here, because it\u0027s ok if it doesn\u0027t match. There is either input or autocomplete. Can we do it in separate change?",
+      "parentUuid": "51c9d0d7_bea59971",
       "revId": "1a46554b5ec5bd6146a249de12581353a200c196",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

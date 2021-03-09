@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a0f068_76434c94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-09T18:40:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e51b943c_05bcab5a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "668eee2b_fc393e36",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-09T17:05:39Z",
       "side": 1,
       "message": "Not 100% true, because before this change, the test code was able to get properties, in order to use them in the first place. Refine this commit message to make it more precise, intent-wise?",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ea412a7_381b49c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-09T18:40:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "668eee2b_fc393e36",
       "range": {
         "startLine": 9,
         "startChar": 29,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98c45707_a0043ded",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-09T18:40:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90502799_a8797dfd",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 93,
+        "endChar": 7
+      },
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5adbc39f_ce2dc4d1",
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1069aa9_db3318fe",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-09T18:40:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5adbc39f_ce2dc4d1",
+      "range": {
+        "startLine": 97,
+        "startChar": 16,
+        "endLine": 97,
+        "endChar": 30
+      },
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd862ad5_081300c2",
@@ -123,6 +219,30 @@
       "writtenOn": "2021-03-09T17:05:39Z",
       "side": 1,
       "message": "Unrelated to this change, as the other protected methods in this file don\u0027t all have such doc, consistently (at least not yet).\n\nSo far, only the specifically more complex methods are documented, to not over-document and have to maintain that across. I think this method should be trivial enough to not document it this way.",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 5
+      },
+      "revId": "a32d2488c48f42d44ae47eba8c3d1802849b7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb0e6b77_1805df2f",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-09T18:40:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd862ad5_081300c2",
       "range": {
         "startLine": 102,
         "startChar": 2,

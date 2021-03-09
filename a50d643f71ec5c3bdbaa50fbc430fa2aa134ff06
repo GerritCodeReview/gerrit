@@ -39,6 +39,30 @@
       },
       "revId": "a50d643f71ec5c3bdbaa50fbc430fa2aa134ff06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e649b084_f5654997",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-09T22:14:19Z",
+      "side": 1,
+      "message": "Ok, it\u0027s true. I just had to move `if (totalSize \u003e\u003d MAX_SIZE) break;` to start of for loop. Because unit test capture situation where each section has 3 with filler 4 so totalSize was 20. \n\nThanks for helping me to make it easier to read.",
+      "parentUuid": "0cbf39ee_e313c708",
+      "range": {
+        "startLine": 380,
+        "startChar": 8,
+        "endLine": 384,
+        "endChar": 19
+      },
+      "revId": "a50d643f71ec5c3bdbaa50fbc430fa2aa134ff06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

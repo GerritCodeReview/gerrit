@@ -81,10 +81,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
   }
 
   public boolean isEmpty() {
-    return tags.get() == null
-        && forceLogging.get() == null
-        && performanceLogging.get() == null
-        && performanceLogRecords.get() == null;
+    return tags.get() == null && forceLogging.get() == null && performanceLogging.get() == null;
   }
 
   public void clear() {

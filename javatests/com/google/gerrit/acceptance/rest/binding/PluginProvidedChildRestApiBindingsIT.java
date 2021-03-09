@@ -15,12 +15,16 @@
 package com.google.gerrit.acceptance.rest.binding;
 
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
+import static com.google.gerrit.server.change.RobotCommentResource.ROBOT_COMMENT_KIND;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -34,6 +38,8 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.RobotCommentResource;
+import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -47,6 +53,7 @@ import org.junit.Test;
  * not test the functionality of the plugin REST endpoints.
  */
 public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
+  @Inject private TestCommentHelper testCommentHelper;
 
   /** Resource to bind a child collection. */
   public static final TypeLiteral<RestView<TestPluginResource>> TEST_KIND =
@@ -54,7 +61,7 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
 
   private static final String PLUGIN_NAME = "my-plugin";
 
-  private static final ImmutableSet<RestCall> TEST_CALLS =
+  private static final ImmutableSet<RestCall> REVISION_TEST_CALLS =
       ImmutableSet.of(
           // Calls that have the plugin name as part of the collection name
           RestCall.get("/changes/%s/revisions/%s/" + PLUGIN_NAME + "~test-collection/"),
@@ -69,6 +76,9 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/changes/%s/revisions/%s/test-collection/1/detail"),
           RestCall.post("/changes/%s/revisions/%s/test-collection/"),
           RestCall.post("/changes/%s/revisions/%s/test-collection/1/update"));
+
+  private static final ImmutableSet<RestCall> ROBOTCOMMENT_TEST_CALLS =
+      ImmutableSet.of(RestCall.delete("/changes/%s/revisions/%s/robotcomments/%s"));
 
   /**
    * Module for all sys bindings.
@@ -89,6 +99,7 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
               postOnCollection(TEST_KIND).to(TestPostOnCollection.class);
               post(TEST_KIND, "update").to(TestPost.class);
               get(TEST_KIND, "detail").to(TestGet.class);
+              delete(ROBOT_COMMENT_KIND).to(TestDelete.class);
             }
           });
     }
@@ -148,15 +159,46 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
     }
   }
 
+  @Singleton
+  static class TestDelete implements RestModifyView<RobotCommentResource, String> {
+    @Override
+    public Response<?> apply(RobotCommentResource resource, String input) throws Exception {
+      return Response.none();
+    }
+  }
+
   @Test
-  public void testEndpoints() throws Exception {
+  public void testRevisionEndpoints() throws Exception {
     PatchSet.Id patchSetId = createChange().getPatchSetId();
     try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, MyPluginSysModule.class, null, null)) {
       RestApiCallHelper.execute(
           adminRestSession,
-          TEST_CALLS.asList(),
+          REVISION_TEST_CALLS.asList(),
           String.valueOf(patchSetId.changeId().get()),
           String.valueOf(patchSetId.get()));
     }
+  }
+
+  @Test
+  public void testRobotCommentEndpoints() throws Exception {
+    PatchSet.Id patchSetId = createChange().getPatchSetId();
+    String robotCommentUuid = createRobotComment(patchSetId.changeId());
+    try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, MyPluginSysModule.class, null, null)) {
+      RestApiCallHelper.execute(
+          adminRestSession,
+          ROBOTCOMMENT_TEST_CALLS.asList(),
+          String.valueOf(patchSetId.changeId().get()),
+          String.valueOf(patchSetId.get()),
+          robotCommentUuid);
+    }
+  }
+
+  private String createRobotComment(Change.Id changeId) throws Exception {
+    testCommentHelper.addRobotComment(
+        changeId, TestCommentHelper.createRobotCommentInput(PushOneCommit.FILE_NAME));
+    return Iterables.getOnlyElement(
+            Iterables.getOnlyElement(
+                gApi.changes().id(changeId.get()).current().robotComments().values()))
+        .id;
   }
 }

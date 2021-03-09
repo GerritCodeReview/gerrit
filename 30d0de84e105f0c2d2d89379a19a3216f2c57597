@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e123f2c_ba087e9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-09T16:45:12Z",
+      "side": 1,
+      "message": "nit: disabled :-)",
+      "range": {
+        "startLine": 16,
+        "startChar": 55,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "30d0de84e105f0c2d2d89379a19a3216f2c57597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f05944c_4a4f6e4b",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonComparingImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-09T16:45:12Z",
+      "side": 1,
+      "message": "You can have actual enums for the field (Field.ofEnumAsString()).",
+      "revId": "30d0de84e105f0c2d2d89379a19a3216f2c57597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "602b6c99_5ead35e2",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonComparingImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-09T16:45:12Z",
+      "side": 1,
+      "message": "Can\u0027t you suppress the \"return value ignored\" warning directly?",
+      "revId": "30d0de84e105f0c2d2d89379a19a3216f2c57597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f5b2075_d25495fa",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonComparingImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-09T16:45:12Z",
+      "side": 1,
+      "message": "I haven\u0027t looked into it, but can you use ExtraWork? Would that have advantages?\n\n[1] https://g3doc.corp.google.com/apps/framework/g3doc/dev/core/server-abstractions.md?cl\u003dhead#fire-and-forget",
+      "revId": "30d0de84e105f0c2d2d89379a19a3216f2c57597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8d15277_eed51e52",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonComparingImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-09T16:45:12Z",
+      "side": 1,
+      "message": "typo?",
+      "revId": "30d0de84e105f0c2d2d89379a19a3216f2c57597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c347baea_1342a0e0",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonComparingImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-09T16:45:12Z",
+      "side": 1,
+      "message": "logger.withException() (I think)",
+      "range": {
+        "startLine": 111,
+        "startChar": 26,
+        "endLine": 111,
+        "endChar": 57
+      },
+      "revId": "30d0de84e105f0c2d2d89379a19a3216f2c57597",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

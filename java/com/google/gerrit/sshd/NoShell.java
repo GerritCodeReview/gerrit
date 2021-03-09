@@ -109,10 +109,13 @@ class NoShell implements ShellFactory {
       }
       err.write(Constants.encode(message));
       err.flush();
+      out.flush();
 
       in.close();
       out.close();
       err.close();
+      channel.handleEof();
+      channel.close(false).setClosed();
       exit.onExit(127);
     }
 

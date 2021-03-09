@@ -70,6 +70,30 @@
       },
       "revId": "3233b9197abdb2b39af7aad4221c50784b79f4ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5657d09a_e736b123",
+        "filename": "java/com/google/gerrit/server/restapi/group/GroupsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-03-09T09:26:10Z",
+      "side": 1,
+      "message": "I am not sure we can simply make InternalUser a subtype of the IdentifiedUser. There might be assumptions that for each InternalUser we have its data in the All-Users repo which is not true for InternalUser.",
+      "parentUuid": "43d4e1e2_7e7b3248",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 40
+      },
+      "revId": "3233b9197abdb2b39af7aad4221c50784b79f4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

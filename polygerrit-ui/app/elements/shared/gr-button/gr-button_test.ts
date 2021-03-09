@@ -15,18 +15,21 @@
  * limitations under the License.
  */
 
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import '../../../test/common-test-setup-karma.js';
-import './gr-button.js';
 import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
 import {appContext} from '../../../services/app-context.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {GrButton} from './gr-button.js';
+import {queryAndAssert} from '../../../test/test-utils.js';
+import {PaperButtonElement} from '@polymer/paper-button';
 
 const basicFixture = fixtureFromElement('gr-button');
 
 const nestedFixture = fixtureFromTemplate(html`
-<div id="test">
-  <gr-button class="testBtn"></gr-button>
-</div>
+  <div id="test">
+    <gr-button class="testBtn"></gr-button>
+  </div>
 `);
 
 const tabindexFixture = fixtureFromTemplate(html`
@@ -34,11 +37,11 @@ const tabindexFixture = fixtureFromTemplate(html`
 `);
 
 suite('gr-button tests', () => {
-  let element;
+  let element: GrButton;
 
-  const addSpyOn = function(eventName) {
+  const addSpyOn = function (eventName: string) {
     const spy = sinon.spy();
-    if (eventName == 'tap') {
+    if (eventName === 'tap') {
       addListener(element, eventName, spy);
     } else {
       element.addEventListener(eventName, spy);
@@ -51,7 +54,10 @@ suite('gr-button tests', () => {
   });
 
   test('disabled is set by disabled', () => {
-    const paperBtn = element.shadowRoot.querySelector('paper-button');
+    const paperBtn = queryAndAssert(
+      element,
+      'paper-button'
+    ) as PaperButtonElement;
     assert.isFalse(paperBtn.disabled);
     element.disabled = true;
     assert.isTrue(paperBtn.disabled);
@@ -60,17 +66,21 @@ suite('gr-button tests', () => {
   });
 
   test('loading set from listener', () => {
-    let resolve;
+    let resolve: Function;
     element.addEventListener('click', e => {
-      e.target.loading = true;
-      resolve = () => e.target.loading = false;
+      const target = e.target as HTMLElement;
+      target.setAttribute('loading', 'true');
+      resolve = () => target.removeAttribute('loading');
     });
-    const paperBtn = element.shadowRoot.querySelector('paper-button');
+    const paperBtn = queryAndAssert(
+      element,
+      'paper-button'
+    ) as PaperButtonElement;
     assert.isFalse(paperBtn.disabled);
     MockInteractions.tap(element);
     assert.isTrue(paperBtn.disabled);
     assert.isTrue(element.hasAttribute('loading'));
-    resolve();
+    resolve!();
     flush();
     assert.isFalse(paperBtn.disabled);
     assert.isFalse(element.hasAttribute('loading'));
@@ -92,13 +102,13 @@ suite('gr-button tests', () => {
   });
 
   test('tabindex should be preserved', () => {
-    element = tabindexFixture.instantiate();
-    element.disabled = false;
-    assert.equal(element.getAttribute('tabindex'), '3');
-    element.disabled = true;
-    assert.equal(element.getAttribute('tabindex'), '-1');
-    element.disabled = false;
-    assert.equal(element.getAttribute('tabindex'), '3');
+    const tabIndexElement = tabindexFixture.instantiate() as GrButton;
+    tabIndexElement.disabled = false;
+    assert.equal(tabIndexElement.getAttribute('tabindex'), '3');
+    tabIndexElement.disabled = true;
+    assert.equal(tabIndexElement.getAttribute('tabindex'), '-1');
+    tabIndexElement.disabled = false;
+    assert.equal(tabIndexElement.getAttribute('tabindex'), '3');
   });
 
   // 'tap' event is tested so we don't loose backward compatibility with older
@@ -123,14 +133,14 @@ suite('gr-button tests', () => {
 
   // Keycodes: 32 for Space, 13 for Enter.
   for (const key of [32, 13]) {
-    test('dispatches click event on keycode ' + key, () => {
+    test(`dispatches click event on keycode ${key}`, () => {
       const tapSpy = sinon.spy();
       element.addEventListener('click', tapSpy);
       MockInteractions.pressAndReleaseKeyOn(element, key);
       assert.isTrue(tapSpy.calledOnce);
     });
 
-    test('dispatches no click event with modifier on keycode ' + key, () => {
+    test(`dispatches no click event with modifier on keycode ${key}`, () => {
       const tapSpy = sinon.spy();
       element.addEventListener('click', tapSpy);
       MockInteractions.pressAndReleaseKeyOn(element, key, 'shift');
@@ -156,7 +166,7 @@ suite('gr-button tests', () => {
 
     // Keycodes: 32 for Space, 13 for Enter.
     for (const key of [32, 13]) {
-      test('stops click event on keycode ' + key, () => {
+      test(`stops click event on keycode ${key}`, () => {
         const tapSpy = sinon.spy();
         element.addEventListener('click', tapSpy);
         MockInteractions.pressAndReleaseKeyOn(element, key);
@@ -166,10 +176,9 @@ suite('gr-button tests', () => {
   });
 
   suite('reporting', () => {
-    let reportStub;
+    let reportStub: sinon.SinonStub;
     setup(() => {
-      reportStub = sinon.stub(appContext.reportingService,
-          'reportInteraction');
+      reportStub = sinon.stub(appContext.reportingService, 'reportInteraction');
       reportStub.reset();
     });
 
@@ -178,20 +187,20 @@ suite('gr-button tests', () => {
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
-        path: `html>body>test-fixture#${basicFixture.fixtureId}>gr-button`,
+        path: `html>body>test-fixture#${element.parentElement!.id}>gr-button`,
       });
     });
 
     test('report event after click on nested', () => {
-      element = nestedFixture.instantiate();
-      MockInteractions.click(element.querySelector('gr-button'));
+      const nestedElement = nestedFixture.instantiate() as HTMLDivElement;
+      MockInteractions.click(queryAndAssert(nestedElement, 'gr-button'));
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
-        path: `html>body>test-fixture#${nestedFixture.fixtureId}` +
-            `>div#test>gr-button.testBtn`,
+        path:
+          `html>body>test-fixture#${nestedElement.parentElement!.id}` +
+          '>div#test>gr-button.testBtn',
       });
     });
   });
 });
-

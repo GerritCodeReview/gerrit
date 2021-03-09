@@ -78,7 +78,7 @@ export class GrCursorManager extends LegacyElementMixin(PolymerElement) {
   /**
    * The index of the current target (if any). -1 otherwise.
    */
-  @property({type: Number, notify: true})
+  @property({type: Number})
   index = -1;
 
   /**

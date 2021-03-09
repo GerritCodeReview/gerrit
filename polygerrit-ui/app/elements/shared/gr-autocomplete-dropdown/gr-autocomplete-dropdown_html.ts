@@ -93,7 +93,7 @@ export const htmlTemplate = html`
   </div>
   <gr-cursor-manager
     id="cursor"
-    index="{{index}}"
+    index="[[index]]"
     cursor-target-class="selected"
     scroll-mode="never"
     focus-on-move=""

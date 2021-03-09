@@ -98,6 +98,13 @@ class NoShell implements ShellFactory {
       this.context = sshScope.newContext(s, "");
     }
 
+    /**
+     * This can be tested with <code>./ressources/com/google/gerrit/sshd/NoShell_test.sh</code>
+     *
+     * @param channel the channel session used by the command
+     * @param env the command's environment
+     * @throws IOException an exception thrown for error handling purposes.
+     */
     @Override
     public void start(ChannelSession channel, Environment env) throws IOException {
       Context old = sshScope.set(context);
@@ -109,10 +116,14 @@ class NoShell implements ShellFactory {
       }
       err.write(Constants.encode(message));
       err.flush();
+      out.flush();
 
       in.close();
       out.close();
       err.close();
+
+      channel.handleEof();
+      channel.close(false);
       exit.onExit(127);
     }
 

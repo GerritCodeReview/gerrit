@@ -453,6 +453,7 @@ export function createComment(): UIComment {
     message: 'hello world',
     updated: '2018-02-13 22:48:48.018000000' as Timestamp,
     unresolved: false,
+    path: 'abc.txt',
   };
 }
 
@@ -569,9 +570,12 @@ export function createChangeComments(): ChangeComments {
 }
 
 export function createCommentThread(comments: UIComment[]) {
+  if (!comments.length) {
+    throw new Error('comment is required to create a thread');
+  }
   comments = comments.map(comment => {
     return {...createComment(), ...comment};
   });
   const threads = createCommentThreads(comments);
-  return threads.length > 0 ? threads[0] : {};
+  return threads[0];
 }

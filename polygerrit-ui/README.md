@@ -116,7 +116,7 @@ it patches the `config/server/info` response with plugin information provided on
 the command line:
 
 ```sh
-./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js,plugins/my_plugin/static/my_plugin.html
+./polygerrit-ui/run-server.sh --plugins=plugins/my_plugin/static/my_plugin.js
 ```
 
 If any issues occured, please refer to the Troubleshooting section at the bottom or contact the team!

@@ -358,7 +358,6 @@ export function createPluginConfig(): PluginConfigInfo {
   return {
     has_avatars: false,
     js_resource_paths: [],
-    html_resource_paths: [],
   };
 }
 

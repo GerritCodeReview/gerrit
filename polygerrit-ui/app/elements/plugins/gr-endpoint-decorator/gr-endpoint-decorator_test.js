@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import '../../../test/common-test-setup-karma.js';
 import './gr-endpoint-decorator.js';
 import '../gr-endpoint-param/gr-endpoint-param.js';
@@ -22,7 +21,6 @@ import '../gr-endpoint-slot/gr-endpoint-slot.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
@@ -56,10 +54,8 @@ suite('gr-endpoint-decorator', () => {
   setup(done => {
     resetPlugins();
     container = basicFixture.instantiate();
-    sinon.stub(getPluginEndpoints(), 'importUrl')
-        .callsFake( url => Promise.resolve());
     pluginApi.install(p => plugin = p, '0.1',
-        'http://some/plugin/url.html');
+        'http://some/plugin/url.js');
     // Decoration
     decorationHook = plugin.registerCustomComponent('first', 'some-module');
     decorationHookWithSlot = plugin.registerCustomComponent(
@@ -83,9 +79,6 @@ suite('gr-endpoint-decorator', () => {
     const endpoints =
         Array.from(container.querySelectorAll('gr-endpoint-decorator'));
     assert.equal(endpoints.length, 3);
-    assert.isTrue(getPluginEndpoints().importUrl.calledWith(
-        new URL('http://some/plugin/url.html')
-    ));
   });
 
   test('decoration', () => {

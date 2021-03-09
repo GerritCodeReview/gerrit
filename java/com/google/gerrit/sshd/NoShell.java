@@ -61,7 +61,6 @@ class NoShell implements ShellFactory {
     private final SshScope sshScope;
 
     private InputStream in;
-    private OutputStream out;
     private OutputStream err;
     private ExitCallback exit;
     private Context context;
@@ -77,10 +76,8 @@ class NoShell implements ShellFactory {
       this.in = in;
     }
 
-    @Override
-    public void setOutputStream(OutputStream out) {
-      this.out = out;
-    }
+   @Override
+    public void setOutputStream(OutputStream out) {}
 
     @Override
     public void setErrorStream(OutputStream err) {
@@ -111,7 +108,7 @@ class NoShell implements ShellFactory {
       err.flush();
 
       in.close();
-      out.close();
+      // closing the out instance produces an error length=0, stream is already closed
       err.close();
       exit.onExit(127);
     }

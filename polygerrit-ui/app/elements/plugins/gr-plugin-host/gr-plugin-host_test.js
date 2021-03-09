@@ -34,8 +34,7 @@ suite('gr-plugin-host tests', () => {
     sinon.stub(getPluginLoader(), 'loadPlugins');
     element.config = {
       plugin: {
-        html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
-        js_resource_paths: ['plugins/42'],
+        js_resource_paths: ['plugins/42', 'plugins/foo/bar', 'plugins/baz'],
       },
     };
     assert.isTrue(getPluginLoader().loadPlugins.calledOnce);
@@ -47,16 +46,15 @@ suite('gr-plugin-host tests', () => {
   test('theme plugins should be loaded if enabled', () => {
     sinon.stub(getPluginLoader(), 'loadPlugins');
     element.config = {
-      default_theme: 'gerrit-theme.html',
+      default_theme: 'gerrit-theme.js',
       plugin: {
-        html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
-        js_resource_paths: ['plugins/42'],
+        js_resource_paths: ['plugins/42', 'plugins/foo/bar', 'plugins/baz'],
       },
     };
     assert.isTrue(getPluginLoader().loadPlugins.calledOnce);
     assert.isTrue(getPluginLoader().loadPlugins.calledWith([
-      'gerrit-theme.html', 'plugins/42', 'plugins/foo/bar', 'plugins/baz',
-    ], {'gerrit-theme.html': {sync: true}}));
+      'gerrit-theme.js', 'plugins/42', 'plugins/foo/bar', 'plugins/baz',
+    ], {'gerrit-theme.js': {sync: true}}));
   });
 
   test('skip theme if preloaded', () => {

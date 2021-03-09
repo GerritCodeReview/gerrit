@@ -557,7 +557,7 @@ suite('gr-related-changes-list plugin tests', () => {
               .then(el => hookEl = el);
         },
         '0.1',
-        'http://some/plugins/url1.html');
+        'http://some/plugins/url1.js');
     getPluginLoader().loadPlugins([]);
     flush(() => {
       assert.strictEqual(hookEl.plugin, plugin);
@@ -581,7 +581,7 @@ suite('gr-related-changes-list plugin tests', () => {
               .then(el => hookEl = el);
         },
         '0.1',
-        'http://some/plugins/url2.html');
+        'http://some/plugins/url2.js');
     getPluginLoader().loadPlugins([]);
     flush(() => {
       // No changes, and plugin without hidden attribute. So it's visible.

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf03ab53_ed2116be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-09T21:50:02Z",
+      "side": 1,
+      "message": "Feel free to resolve and self+2",
+      "revId": "a50d643f71ec5c3bdbaa50fbc430fa2aa134ff06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cbf39ee_e313c708",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-09T21:50:02Z",
+      "side": 1,
+      "message": "At this point you have\n\n  sizeObj.len \u003e defaultSectionSize\n\nso you must also have\n\n  defaultSectionSize \u003e\u003d DEFALT_NUM_CHANGES_WHEN_COLLAPSED\n\nWe also know that\n\n  MAX_SIZE - totalSize \u003e 0\n\nSo\n\n  Math.max(MAX_SIZE - totalSize + defaultSectionSize,\n          DEFALT_NUM_CHANGES_WHEN_COLLAPSED)\n\nmust be the same as\n\n  MAX_SIZE - totalSize + defaultSectionSize",
+      "range": {
+        "startLine": 380,
+        "startChar": 8,
+        "endLine": 384,
+        "endChar": 19
+      },
+      "revId": "a50d643f71ec5c3bdbaa50fbc430fa2aa134ff06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

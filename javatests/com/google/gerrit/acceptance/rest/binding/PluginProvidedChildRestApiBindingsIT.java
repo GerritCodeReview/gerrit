@@ -61,6 +61,7 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/changes/%s/revisions/%s/" + PLUGIN_NAME + "~test-collection/1/detail"),
           RestCall.post("/changes/%s/revisions/%s/" + PLUGIN_NAME + "~test-collection/"),
           RestCall.post("/changes/%s/revisions/%s/" + PLUGIN_NAME + "~test-collection/1/update"),
+          RestCall.delete("/changes/%s/revisions/%s"),
           // Same tests but without the plugin name as part of the collection name. This works as
           // long as there is no core collection with the same name (which takes precedence) and no
           // other plugin binds a collection with the same name. We highly encourage plugin authors
@@ -89,6 +90,7 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
               postOnCollection(TEST_KIND).to(TestPostOnCollection.class);
               post(TEST_KIND, "update").to(TestPost.class);
               get(TEST_KIND, "detail").to(TestGet.class);
+              delete(REVISION_KIND).to(TestDelete.class);
             }
           });
     }
@@ -145,6 +147,14 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
     @Override
     public Response<String> apply(TestPluginResource resource) throws Exception {
       return Response.ok("test");
+    }
+  }
+
+  @Singleton
+  static class TestDelete implements RestModifyView<RevisionResource, String> {
+    @Override
+    public Response<?> apply(RevisionResource resource, String input) throws Exception {
+      return Response.none();
     }
   }
 

@@ -16,6 +16,24 @@
       "message": "Is it possible to cover this by a test?",
       "revId": "7b2311c513eaf07afdcf5fd0ac4dfc386af99bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d154015_523231b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-03-09T10:40:25Z",
+      "side": 1,
+      "message": "There is a test in the related change in the delete-project plugin. Or do you want a test in the core? I am not sure if core is affected by this issue.",
+      "parentUuid": "6ceef8b6_1d3c45a1",
+      "revId": "7b2311c513eaf07afdcf5fd0ac4dfc386af99bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

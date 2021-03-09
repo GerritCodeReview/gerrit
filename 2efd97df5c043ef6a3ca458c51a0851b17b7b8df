@@ -160,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "439d41ed_411d4b98",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-09T15:23:17Z",
+      "side": 1,
+      "message": "Standard install steps [1] will get you Gerrit running with the embedded Jetty container. Which is actually described at the top of [2], where you can also find instructions on how to use a different j2ee container of your choice.\n\n[1] https://gerrit-review.googlesource.com/Documentation/install.html\n[2] https://gerrit-review.googlesource.com/Documentation/install-j2ee.html",
+      "parentUuid": "df51580e_c90b0f27",
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a5b8d81_021a72fc",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 10
@@ -312,6 +330,30 @@
       "side": 1,
       "message": "IN NoteDb, the storage format uses a sequence of commits, and each commit is not a snapshot, but just contains the increments. This means that extracting the full state requires walking the meta ref back to its origin, which is gets expensive for changes with lots of history. Since we don\u0027t have changes with 90k comments on googlesource, I was hesitant to include the numbers. We\u0027ve seen gerrit scale further in other dimensions on gs.com, so I\u0027m more confident about Gerrit on a single-host in those aspects.",
       "parentUuid": "202002c9_d5f3da08",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 456,
+        "endChar": 55
+      },
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3200997_88ce3fa9",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-09T15:23:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "209c52cc_960328a3",
       "range": {
         "startLine": 453,
         "startChar": 0,

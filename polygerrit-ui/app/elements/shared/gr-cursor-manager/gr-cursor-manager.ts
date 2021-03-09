@@ -112,12 +112,6 @@ export class GrCursorManager extends LegacyElementMixin(PolymerElement) {
     return this.stops.filter(isTargetable);
   }
 
-  /** @override */
-  detached() {
-    super.detached();
-    this.unsetCursor();
-  }
-
   /**
    * Move the cursor forward. Clipped to the ends of the stop list.
    *

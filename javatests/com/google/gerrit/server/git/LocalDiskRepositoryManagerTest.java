@@ -208,6 +208,11 @@ public class LocalDiskRepositoryManagerTest extends GerritBaseTests {
     newRepoManager.createRepository(new Project.NameKey("A"));
   }
 
+  @Test
+  public void testRepositoryCanPerformGC() throws Exception {
+    assertThat(repoManager.canPerformGC()).isTrue();
+  }
+
   private void createSymLink(Project.NameKey project, String link) throws IOException {
     Path base = repoManager.getBasePath(project);
     Path projectDir = base.resolve(project.get() + ".git");

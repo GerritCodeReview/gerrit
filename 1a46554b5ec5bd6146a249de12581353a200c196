@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95bb2e09_de80930d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-09T08:18:31Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "1a46554b5ec5bd6146a249de12581353a200c196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "299cc383_bfea097f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-09T08:18:31Z",
+      "side": 1,
+      "message": "Nit: Neither of the two local vars are needed I find.",
+      "revId": "1a46554b5ec5bd6146a249de12581353a200c196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c5b5d84_92292287",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-09T08:18:31Z",
+      "side": 1,
+      "message": "How can this be null? Can we avoid that?",
+      "revId": "1a46554b5ec5bd6146a249de12581353a200c196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51c9d0d7_bea59971",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-09T08:18:31Z",
+      "side": 1,
+      "message": "For tests I have just introduced a queryAndAssert() method. Maybe we should actually move that to dom-util?\n\nIf we had the following two utils, then you could just do `queryAndAssert\u003cPaperInputElementExt\u003e(this, \u0027#input\u0027)` here.\n\n```\nexport function query\u003cE extends Element \u003d Element\u003e(\n  el: Element | undefined,\n  selector: string\n): E | undefined {\n  if (!el) return undefined;\n  const root \u003d el.shadowRoot ?? el;\n  return root.querySelector\u003cE\u003e(selector) ?? undefined;\n}\n\nexport function queryAndAssert\u003cE extends Element \u003d Element\u003e(\n  el: Element | undefined,\n  selector: string\n): E {\n  const found \u003d query\u003cE\u003e(el, selector);\n  if (!found) throw new Error(`selector \u0027${selector}\u0027 did not match anything\u0027`);\n  return found;\n}\n```",
+      "revId": "1a46554b5ec5bd6146a249de12581353a200c196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

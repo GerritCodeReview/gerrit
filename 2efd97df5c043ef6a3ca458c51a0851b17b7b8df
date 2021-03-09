@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a9af701b_7d4cf27a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-09T11:21:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5a7e5a4_0fd8d9fb",
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6ebf3170_7d6acb89",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10
@@ -124,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df51580e_c90b0f27",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-09T11:21:02Z",
+      "side": 1,
+      "message": "I actually have no idea about this part of the stack. Is there a link for how to run with \"j2ee servlet container\"",
+      "parentUuid": "53a861ce_83310e0f",
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a5b8d81_021a72fc",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 10
@@ -135,6 +171,30 @@
       "writtenOn": "2021-03-08T18:49:00Z",
       "side": 1,
       "message": "Not a complete statement?",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 7
+      },
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0105a2_ce63b11f",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-09T11:21:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a5b8d81_021a72fc",
       "range": {
         "startLine": 227,
         "startChar": 0,
@@ -191,6 +251,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d28fd67_5f66a4ca",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-09T11:21:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1e77fcf_8306a061",
+      "range": {
+        "startLine": 299,
+        "startChar": 39,
+        "endLine": 299,
+        "endChar": 45
+      },
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "202002c9_d5f3da08",
@@ -204,6 +288,30 @@
       "writtenOn": "2021-03-08T18:49:00Z",
       "side": 1,
       "message": "Since these are also non-noteDb and non-latest-Gerrit/JGit numbers, should we not include them?",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 456,
+        "endChar": 55
+      },
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "209c52cc_960328a3",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-09T11:21:02Z",
+      "side": 1,
+      "message": "IN NoteDb, the storage format uses a sequence of commits, and each commit is not a snapshot, but just contains the increments. This means that extracting the full state requires walking the meta ref back to its origin, which is gets expensive for changes with lots of history. Since we don\u0027t have changes with 90k comments on googlesource, I was hesitant to include the numbers. We\u0027ve seen gerrit scale further in other dimensions on gs.com, so I\u0027m more confident about Gerrit on a single-host in those aspects.",
+      "parentUuid": "202002c9_d5f3da08",
       "range": {
         "startLine": 453,
         "startChar": 0,

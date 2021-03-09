@@ -46,6 +46,30 @@
       },
       "revId": "ae34fd9f4835c61f3f46ec4c7973c50e759a7efe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68e77f44_4cad1c68",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T20:33:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d6371b4a_3d4fbd5e",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "ae34fd9f4835c61f3f46ec4c7973c50e759a7efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

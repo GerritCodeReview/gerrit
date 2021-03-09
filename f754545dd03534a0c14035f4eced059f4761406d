@@ -39,6 +39,30 @@
       },
       "revId": "f754545dd03534a0c14035f4eced059f4761406d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01546a3a_27330386",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-09T19:44:41Z",
+      "side": 1,
+      "message": "You are right, I am inconsistent here. I needed + 1 for header, so if there is section, it will not take only 3 rows, but 4 - 3 changes + header. \n\nI cleaned it up little bit. I tested it on several changes. It\u0027s a lot of +1, -1 :).",
+      "parentUuid": "7ea36473_733ea719",
+      "range": {
+        "startLine": 341,
+        "startChar": 6,
+        "endLine": 341,
+        "endChar": 24
+      },
+      "revId": "f754545dd03534a0c14035f4eced059f4761406d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

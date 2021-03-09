@@ -37,7 +37,7 @@ class CheckProjectsCacheFlushEntries extends CacheFlushSimulation {
         }
       })
       .exec(http(uniqueName).get("${url}")
-          .check(regex("\"" + memKey + "\": (\\d+)")
+          .check(regex("\"" + memKey + "\":(\\d+)")
               .is(session => session(entriesKey).as[String])))
 
   setUp(

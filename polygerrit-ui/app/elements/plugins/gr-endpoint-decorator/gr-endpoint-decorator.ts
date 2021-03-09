@@ -181,7 +181,6 @@ export class GrEndpointDecorator extends LegacyElementMixin(PolymerElement) {
     if (this.name) {
       getPluginLoader()
         .awaitPluginsLoaded()
-        .then(() => getPluginEndpoints().getAndImportPlugins(this.name))
         .then(() =>
           getPluginEndpoints()
             .getDetails(this.name)

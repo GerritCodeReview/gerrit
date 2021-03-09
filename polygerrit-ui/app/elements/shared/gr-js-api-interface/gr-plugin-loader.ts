@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {appContext} from '../../../services/app-context';
-import {importHref} from '../../../scripts/import-href';
 import {
   PLUGIN_LOADING_TIMEOUT_MS,
   PRELOADED_PROTOCOL,
@@ -70,8 +69,8 @@ interface GerritGlobal {
 
 // Prefix for any unrecognized plugin urls.
 // Url should match following patterns:
-// /plugins/PLUGINNAME/static/SCRIPTNAME.(html|js)
-// /plugins/PLUGINNAME.(js|html)
+// /plugins/PLUGINNAME/static/SCRIPTNAME.js
+// /plugins/PLUGINNAME.js
 const UNKNOWN_PLUGIN_PREFIX = '__$$__';
 
 // Current API version for Plugin,
@@ -117,7 +116,7 @@ export class PluginLoader {
   /**
    * Load multiple plugins with certain options.
    */
-  loadPlugins(plugins: string[] = [], opts: PluginOptionMap = {}) {
+  loadPlugins(plugins: string[] = []) {
     this._pluginListLoaded = true;
 
     plugins.forEach(path => {
@@ -135,9 +134,7 @@ export class PluginLoader {
         plugin: null,
       });
 
-      if (this._isPathEndsWith(url, '.html')) {
-        this._importHtmlPlugin(path, opts && opts[path]);
-      } else if (this._isPathEndsWith(url, '.js')) {
+      if (this._isPathEndsWith(url, '.js')) {
         this._loadJsPlugin(path);
       } else {
         this._failToLoad(`Unrecognized plugin path ${path}`, path);
@@ -337,34 +334,6 @@ export class PluginLoader {
       : false;
   }
 
-  _importHtmlPlugin(pluginUrl: string, opts: PluginOption = {}) {
-    const urlWithAP = this._urlFor(pluginUrl, window.ASSETS_PATH);
-    const urlWithoutAP = this._urlFor(pluginUrl);
-    let onerror = undefined;
-    this._getReporting().reportExecution(Execution.METHOD_USED, {
-      id: 'html-plugin',
-      pluginUrl,
-    });
-    if (urlWithAP !== urlWithoutAP) {
-      onerror = () => this._loadHtmlPlugin(urlWithoutAP, opts.sync);
-    }
-    this._loadHtmlPlugin(urlWithAP, opts.sync, onerror);
-  }
-
-  _loadHtmlPlugin(url: string, sync?: boolean, onerror?: (e: Event) => void) {
-    if (!onerror) {
-      onerror = () => {
-        this._failToLoad(`${url} import error`, url);
-      };
-    }
-
-    this._getReporting().reportExecution(Execution.METHOD_USED, {
-      id: 'import-href-loader',
-      url,
-    });
-    importHref(url, () => {}, onerror, !sync);
-  }
-
   _loadJsPlugin(pluginUrl: string) {
     const urlWithAP = this._urlFor(pluginUrl, window.ASSETS_PATH);
     const urlWithoutAP = this._urlFor(pluginUrl);
@@ -394,9 +363,7 @@ export class PluginLoader {
 
   _urlFor(pathOrUrl: string, assetsPath?: string): string {
     // theme is per host, should always load from assetsPath
-    const isThemeFile =
-      pathOrUrl.endsWith('static/gerrit-theme.html') ||
-      pathOrUrl.endsWith('static/gerrit-theme.js');
+    const isThemeFile = pathOrUrl.endsWith('static/gerrit-theme.js');
     const shouldTryLoadFromAssetsPathFirst = !isThemeFile && assetsPath;
     if (
       pathOrUrl.startsWith(PRELOADED_PROTOCOL) ||

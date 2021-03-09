@@ -236,7 +236,7 @@ suite('GrJsApiInterface tests', () => {
       revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
     const spy = sinon.spy();
-    getPluginLoader().loadPlugins(['plugins/test.html']);
+    getPluginLoader().loadPlugins(['plugins/test.js']);
     plugin.on(EventType.SHOW_CHANGE, spy);
     element.handleEvent(EventType.SHOW_CHANGE,
         {change: testChange, patchNum: 1});

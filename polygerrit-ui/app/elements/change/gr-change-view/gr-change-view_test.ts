@@ -390,7 +390,7 @@ suite('gr-change-view tests', () => {
         );
       },
       '0.1',
-      'http://some/plugins/url.html'
+      'http://some/plugins/url.js'
     );
   });
 
@@ -2861,7 +2861,7 @@ suite('gr-change-view tests', () => {
             .then(el => (hookEl = el));
         },
         '0.1',
-        'http://some/plugins/url.html'
+        'http://some/plugins/url.js'
       );
       flush(() => {
         assert.strictEqual((hookEl as any).plugin, plugin);

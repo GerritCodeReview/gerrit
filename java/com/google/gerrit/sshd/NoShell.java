@@ -111,7 +111,7 @@ class NoShell implements ShellFactory {
       err.flush();
 
       in.close();
-      out.close();
+      // closing the out instance produces an error length=0, stream is already closed
       err.close();
       exit.onExit(127);
     }

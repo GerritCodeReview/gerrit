@@ -246,6 +246,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b308ee7_15050f37",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-09T15:52:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de14962d_cf52b550",
+      "range": {
+        "startLine": 291,
+        "startChar": 34,
+        "endLine": 291,
+        "endChar": 43
+      },
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1e77fcf_8306a061",
@@ -306,6 +330,30 @@
       "writtenOn": "2021-03-09T15:44:51Z",
       "side": 1,
       "message": "this",
+      "range": {
+        "startLine": 425,
+        "startChar": 48,
+        "endLine": 425,
+        "endChar": 50
+      },
+      "revId": "2efd97df5c043ef6a3ca458c51a0851b17b7b8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e413fe30_3ed1b9e2",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-09T15:52:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37fa9e8d_13c2084f",
       "range": {
         "startLine": 425,
         "startChar": 48,

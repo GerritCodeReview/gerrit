@@ -56,10 +56,8 @@ suite('gr-endpoint-decorator', () => {
   setup(done => {
     resetPlugins();
     container = basicFixture.instantiate();
-    sinon.stub(getPluginEndpoints(), 'importUrl')
-        .callsFake( url => Promise.resolve());
     pluginApi.install(p => plugin = p, '0.1',
-        'http://some/plugin/url.html');
+        'http://some/plugin/url.js');
     // Decoration
     decorationHook = plugin.registerCustomComponent('first', 'some-module');
     decorationHookWithSlot = plugin.registerCustomComponent(
@@ -83,9 +81,6 @@ suite('gr-endpoint-decorator', () => {
     const endpoints =
         Array.from(container.querySelectorAll('gr-endpoint-decorator'));
     assert.equal(endpoints.length, 3);
-    assert.isTrue(getPluginEndpoints().importUrl.calledWith(
-        new URL('http://some/plugin/url.html')
-    ));
   });
 
   test('decoration', () => {

@@ -270,13 +270,8 @@ suite('gr-plugin-loader tests', () => {
   });
 
   suite('plugin path and url', () => {
-    let importHtmlPluginStub;
     let loadJsPluginStub;
     setup(() => {
-      importHtmlPluginStub = sinon.stub();
-      sinon.stub(pluginLoader, '_loadHtmlPlugin').callsFake( url => {
-        importHtmlPluginStub(url);
-      });
       loadJsPluginStub = sinon.stub();
       sinon.stub(pluginLoader, '_createScriptTag').callsFake( url => {
         loadJsPluginStub(url);
@@ -303,13 +298,8 @@ suite('gr-plugin-loader tests', () => {
     test('relative path for plugins', () => {
       pluginLoader.loadPlugins([
         'foo/bar.js',
-        'foo/bar.html',
       ]);
 
-      assert.isTrue(importHtmlPluginStub.calledOnce);
-      assert.isTrue(
-          importHtmlPluginStub.calledWithExactly(`${url}/foo/bar.html`)
-      );
       assert.isTrue(loadJsPluginStub.calledOnce);
       assert.isTrue(
           loadJsPluginStub.calledWithExactly(`${url}/foo/bar.js`)
@@ -322,16 +312,9 @@ suite('gr-plugin-loader tests', () => {
 
       pluginLoader.loadPlugins([
         'foo/bar.js',
-        'foo/bar.html',
       ]);
 
-      assert.isTrue(importHtmlPluginStub.calledOnce);
       assert.isTrue(loadJsPluginStub.calledOnce);
-      assert.isTrue(
-          importHtmlPluginStub.calledWithExactly(
-              `${url}${testUrl}/foo/bar.html`
-          )
-      );
       assert.isTrue(
           loadJsPluginStub.calledWithExactly(`${url}${testUrl}/foo/bar.js`)
       );
@@ -340,13 +323,8 @@ suite('gr-plugin-loader tests', () => {
     test('absolute path for plugins', () => {
       pluginLoader.loadPlugins([
         'http://e.com/foo/bar.js',
-        'http://e.com/foo/bar.html',
       ]);
 
-      assert.isTrue(importHtmlPluginStub.calledOnce);
-      assert.isTrue(
-          importHtmlPluginStub.calledWithExactly(`http://e.com/foo/bar.html`)
-      );
       assert.isTrue(loadJsPluginStub.calledOnce);
       assert.isTrue(
           loadJsPluginStub.calledWithExactly(`http://e.com/foo/bar.js`)
@@ -355,14 +333,9 @@ suite('gr-plugin-loader tests', () => {
   });
 
   suite('With ASSETS_PATH', () => {
-    let importHtmlPluginStub;
     let loadJsPluginStub;
     setup(() => {
       window.ASSETS_PATH = 'https://cdn.com';
-      importHtmlPluginStub = sinon.stub();
-      sinon.stub(pluginLoader, '_loadHtmlPlugin').callsFake( url => {
-        importHtmlPluginStub(url);
-      });
       loadJsPluginStub = sinon.stub();
       sinon.stub(pluginLoader, '_createScriptTag').callsFake( url => {
         loadJsPluginStub(url);
@@ -376,13 +349,8 @@ suite('gr-plugin-loader tests', () => {
     test('Should try load plugins from assets path instead', () => {
       pluginLoader.loadPlugins([
         'foo/bar.js',
-        'foo/bar.html',
       ]);
 
-      assert.isTrue(importHtmlPluginStub.calledOnce);
-      assert.isTrue(
-          importHtmlPluginStub.calledWithExactly(`https://cdn.com/foo/bar.html`)
-      );
       assert.isTrue(loadJsPluginStub.calledOnce);
       assert.isTrue(
           loadJsPluginStub.calledWithExactly(`https://cdn.com/foo/bar.js`));
@@ -390,14 +358,9 @@ suite('gr-plugin-loader tests', () => {
 
     test('Should honor original path if exists', () => {
       pluginLoader.loadPlugins([
-        'http://e.com/foo/bar.html',
         'http://e.com/foo/bar.js',
       ]);
 
-      assert.isTrue(importHtmlPluginStub.calledOnce);
-      assert.isTrue(
-          importHtmlPluginStub.calledWithExactly(`http://e.com/foo/bar.html`)
-      );
       assert.isTrue(loadJsPluginStub.calledOnce);
       assert.isTrue(
           loadJsPluginStub.calledWithExactly(`http://e.com/foo/bar.js`));
@@ -406,14 +369,9 @@ suite('gr-plugin-loader tests', () => {
     test('Should try replace current host with assetsPath', () => {
       const host = window.location.origin;
       pluginLoader.loadPlugins([
-        `${host}/foo/bar.html`,
         `${host}/foo/bar.js`,
       ]);
 
-      assert.isTrue(importHtmlPluginStub.calledOnce);
-      assert.isTrue(
-          importHtmlPluginStub.calledWithExactly(`https://cdn.com/foo/bar.html`)
-      );
       assert.isTrue(loadJsPluginStub.calledOnce);
       assert.isTrue(
           loadJsPluginStub.calledWithExactly(`https://cdn.com/foo/bar.js`));
@@ -456,10 +414,6 @@ suite('gr-plugin-loader tests', () => {
       window.Gerrit._preloadedPlugins = null;
     });
     test('skips preloaded plugins when load plugins', () => {
-      const importHtmlPluginStub = sinon.stub();
-      sinon.stub(pluginLoader, '_importHtmlPlugin').callsFake( url => {
-        importHtmlPluginStub(url);
-      });
       const loadJsPluginStub = sinon.stub();
       sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
         loadJsPluginStub(url);
@@ -472,11 +426,9 @@ suite('gr-plugin-loader tests', () => {
 
       pluginLoader.loadPlugins([
         'http://e.com/plugins/foo.js',
-        'plugins/bar.html',
         'http://e.com/plugins/test/foo.js',
       ]);
 
-      assert.isTrue(importHtmlPluginStub.notCalled);
       assert.isTrue(loadJsPluginStub.calledOnce);
     });
 
@@ -502,8 +454,8 @@ suite('gr-plugin-loader tests', () => {
       let plugin;
       pluginApi.install(p => { plugin = p; }, '0.1', 'preloaded:foo');
       assert.strictEqual(plugin.getPluginName(), 'foo');
-      assert.strictEqual(plugin.url('/some/thing.html'),
-          `${window.location.origin}/plugins/foo/some/thing.html`);
+      assert.strictEqual(plugin.url('/some/thing.js'),
+          `${window.location.origin}/plugins/foo/some/thing.js`);
     });
   });
 });

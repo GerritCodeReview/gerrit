@@ -53,14 +53,10 @@ class GrExternalStyle extends LegacyElementMixin(PolymerElement) {
   }
 
   _importAndApply() {
-    getPluginEndpoints()
-      .getAndImportPlugins(this.name)
-      .then(() => {
-        const moduleNames = getPluginEndpoints().getModules(this.name);
-        for (const name of moduleNames) {
-          this._applyStyle(name);
-        }
-      });
+    const moduleNames = getPluginEndpoints().getModules(this.name);
+    for (const name of moduleNames) {
+      this._applyStyle(name);
+    }
   }
 
   /** @override */

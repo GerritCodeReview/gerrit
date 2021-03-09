@@ -30,7 +30,7 @@ const basicFixture = fixtureFromTemplate(
 );
 
 suite('gr-external-style integration tests', () => {
-  const TEST_URL = 'http://some.com/plugins/url.html';
+  const TEST_URL = 'http://some.com/plugins/url.js';
 
   let element;
   let plugin;
@@ -66,8 +66,6 @@ suite('gr-external-style integration tests', () => {
   };
 
   setup(() => {
-    sinon.stub(getPluginEndpoints(), 'importUrl')
-        .callsFake( url => Promise.resolve());
     sinon.stub(getPluginLoader(), 'awaitPluginsLoaded')
         .returns(Promise.resolve());
   });
@@ -78,25 +76,10 @@ suite('gr-external-style integration tests', () => {
         .forEach(style => style.remove());
   });
 
-  test('imports plugin-provided module', async () => {
-    lateRegister();
-    await new Promise(flush);
-    assert.isTrue(getPluginEndpoints().importUrl.calledWith(new URL(TEST_URL)));
-  });
-
   test('applies plugin-provided styles', async () => {
     lateRegister();
     await new Promise(flush);
     assert.isTrue(element._applyStyle.calledWith('some-module'));
-  });
-
-  test('does not double import', async () => {
-    earlyRegister();
-    await new Promise(flush);
-    plugin.registerStyleModule('foo', 'some-module');
-    await new Promise(flush);
-    // since loaded, should not call again
-    assert.isFalse(getPluginEndpoints().importUrl.calledOnce);
   });
 
   test('does not double apply', async () => {

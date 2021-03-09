@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e57cad3_b971cc8d",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-09T21:32:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09b3bdda_6a3ae12c",
+      "range": {
+        "startLine": 337,
+        "startChar": 4,
+        "endLine": 338,
+        "endChar": 41
+      },
+      "revId": "50a144f7ff4709b8a05cf7023b6a52bed3a18e33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e570a66_8449e501",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18170efc_dc25e8b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-09T21:32:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e570a66_8449e501",
+      "range": {
+        "startLine": 340,
+        "startChar": 6,
+        "endLine": 341,
+        "endChar": 20
+      },
+      "revId": "50a144f7ff4709b8a05cf7023b6a52bed3a18e33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "927c753a_50501cf4",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-03-09T21:05:57Z",
       "side": 1,
       "message": "The \u00273\u0027 is a hard dependency on how calcDefaultSize is implemented.\n\nI also don\u0027t know why you have to use `max` at all here, because (MAX_SIZE - totalSize) cannot become negative, right? Btw, you could add a breaking condition:\n\n  if (totalSize \u003d\u003d\u003d MAX_SIZE) break;\n\nThis statement could also make the algorithm easier to read:\n\n  if (defaultSectionSize \u003d\u003d\u003d sizeObj.len) continue;",
+      "revId": "50a144f7ff4709b8a05cf7023b6a52bed3a18e33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b645c11_6ceb5029",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-09T21:32:17Z",
+      "side": 1,
+      "message": "1, yes \u00273\u0027 is const. I changed it with DEFALT_NUM_CHANGES_WHEN_COLLAPSED\n2, I would not be surprised if MAX_SIZE - totalSize + defaultSectionSize is actually negative. But, the 3 is guarding that we always have at least 3 shown when collapsed\n3, added `if (defaultSectionSize \u003d\u003d\u003d sizeObj.len) continue;`",
+      "parentUuid": "927c753a_50501cf4",
       "revId": "50a144f7ff4709b8a05cf7023b6a52bed3a18e33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

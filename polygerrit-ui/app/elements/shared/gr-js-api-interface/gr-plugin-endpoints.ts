@@ -14,13 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {importHref} from '../../../scripts/import-href';
 import {PluginApi} from '../../../api/plugin';
 import {notUndefined} from '../../../types/types';
 import {HookApi} from '../../../api/hook';
-import {appContext} from '../../../services/app-context';
-import {Execution} from '../../../constants/reporting';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (value: any) => void;
@@ -50,10 +46,6 @@ export class GrPluginEndpoints {
   private readonly _callbacks = new Map<string, ((value: any) => void)[]>();
 
   private readonly _dynamicPlugins = new Map<string, Set<string>>();
-
-  private readonly _importedUrls = new Set<string>();
-
-  private readonly reporting = appContext.reportingService;
 
   private pluginLoaded = false;
 
@@ -181,47 +173,6 @@ export class GrPluginEndpoints {
     }
     return Array.from(new Set(modulesData.map(m => m.pluginUrl))).filter(
       notUndefined
-    );
-  }
-
-  importUrl(pluginUrl: URL) {
-    this.reporting.reportExecution(Execution.METHOD_USED, {
-      id: 'import-href-endpoints',
-      pluginUrl,
-    });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let timerId: any;
-    return Promise.race([
-      new Promise((resolve, reject) => {
-        this._importedUrls.add(pluginUrl.href);
-        importHref(pluginUrl.href, resolve, reject);
-      }),
-      // Timeout after 3s
-      new Promise(r => (timerId = setTimeout(r, 3000))),
-    ]).finally(() => {
-      if (timerId) clearTimeout(timerId);
-    });
-  }
-
-  /**
-   * Get plugin URLs with element and module definitions.
-   */
-  getAndImportPlugins(name: string, options?: Options) {
-    return Promise.all(
-      this.getPlugins(name, options).map(pluginUrl => {
-        if (this._importedUrls.has(pluginUrl.href)) {
-          return Promise.resolve();
-        }
-
-        // TODO: we will deprecate html plugins entirely
-        // for now, keep the original behavior and import
-        // only for html ones
-        if (pluginUrl?.pathname.endsWith('.html')) {
-          return this.importUrl(pluginUrl);
-        } else {
-          return Promise.resolve();
-        }
-      })
     );
   }
 }

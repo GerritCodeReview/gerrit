@@ -33,7 +33,7 @@ suite('gr-plugin-endpoints tests', () => {
     domHook = {};
     instance = new GrPluginEndpoints();
     pluginApi.install(p => { pluginFoo = p; }, '0.1',
-        'http://test.com/plugins/testplugin/static/foo.html');
+        'http://test.com/plugins/testplugin/static/foo.js');
     instance.registerModule(
         pluginFoo,
         {
@@ -44,7 +44,7 @@ suite('gr-plugin-endpoints tests', () => {
         }
     );
     pluginApi.install(p => { pluginBar = p; }, '0.1',
-        'http://test.com/plugins/testplugin/static/bar.html');
+        'http://test.com/plugins/testplugin/static/bar.js');
     instance.registerModule(
         pluginBar,
         {
@@ -54,7 +54,6 @@ suite('gr-plugin-endpoints tests', () => {
           domHook,
         }
     );
-    sinon.spy(instance, 'importUrl');
   });
 
   teardown(() => {
@@ -118,14 +117,6 @@ suite('gr-plugin-endpoints tests', () => {
   test('getPlugins', () => {
     assert.deepEqual(
         instance.getPlugins('a-place'), [pluginFoo._url]);
-  });
-
-  test('getAndImportPlugins', () => {
-    instance.getAndImportPlugins('a-place');
-    assert.isTrue(instance.importUrl.called);
-    assert.isTrue(instance.importUrl.calledOnce);
-    instance.getAndImportPlugins('a-place');
-    assert.isTrue(instance.importUrl.calledOnce);
   });
 
   test('onNewEndpoint', () => {

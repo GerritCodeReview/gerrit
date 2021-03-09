@@ -938,7 +938,7 @@ suite('gr-change-metadata tests', () => {
             .then(el => (hookEl = el as MetadataGrEndpointDecorator));
         },
         '0.1',
-        'http://some/plugins/url.html'
+        'http://some/plugins/url.js'
       );
       getPluginLoader().loadPlugins([]);
       flush(() => {

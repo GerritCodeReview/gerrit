@@ -52,6 +52,24 @@
       "parentUuid": "7d154015_523231b8",
       "revId": "7b2311c513eaf07afdcf5fd0ac4dfc386af99bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca22f9cc_e4ce9176",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-03-09T17:28:59Z",
+      "side": 1,
+      "message": "So I added a new test but I am not sure if it is testing what it is supposed to test. The test succeeds with or without the fix in the RestApiServlet.",
+      "parentUuid": "1d9aa581_bc676be4",
+      "revId": "7b2311c513eaf07afdcf5fd0ac4dfc386af99bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

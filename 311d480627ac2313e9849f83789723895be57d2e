@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea61f073_b506e2b7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/PluginProvidedChildRestApiBindingsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-03-09T17:28:59Z",
+      "side": 1,
+      "message": "The test succeeds with or without the fix in the RestApiServlet. Any idea how to code it properly?\n\nNote that for binding DELETE requests from plugins we don\u0027t use PLUGIN_NAME in the path, so there is no obvious way how to distinguish between a binding in Gerrit core and in a plugin.",
+      "revId": "311d480627ac2313e9849f83789723895be57d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

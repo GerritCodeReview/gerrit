@@ -42,13 +42,21 @@ import {
 } from '../../../utils/change-util';
 
 /** What is the maximum number of shown changes in collapsed list? */
-const MAX_CHANGES_WHEN_COLLAPSED = 3;
+const DEFALT_NUM_CHANGES_WHEN_COLLAPSED = 3;
 
-interface ChangeMarkersInList {
+export interface ChangeMarkersInList {
   showCurrentChangeArrow: boolean;
   showWhenCollapsed: boolean;
   showTopArrow: boolean;
   showBottomArrow: boolean;
+}
+
+export enum Section {
+  RELATED_CHANGES = 'related changes',
+  SUBMITTED_TOGETHER = 'submitted together',
+  SAME_TOPIC = 'same topic',
+  MERGE_CONFLICTS = 'merge conflicts',
+  CHERRY_PICKS = 'cherry picks',
 }
 
 @customElement('gr-related-changes-list-experimental')
@@ -108,11 +116,19 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
   }
 
   render() {
+    const sectionSize = this.sectionSizeFactory(
+      this.relatedChanges.length,
+      this.submittedTogether?.changes.length || 0,
+      this.sameTopicChanges.length,
+      this.conflictingChanges.length,
+      this.cherryPickChanges.length
+    );
     const relatedChangesMarkersPredicate = this.markersPredicateFactory(
       this.relatedChanges.length,
       this.relatedChanges.findIndex(relatedChange =>
         this._changesEqual(relatedChange, this.change)
-      )
+      ),
+      sectionSize(Section.RELATED_CHANGES)
     );
     const connectedRevisions = this._computeConnectedRevisions(
       this.change,
@@ -126,6 +142,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       <gr-related-collapse
         title="Relation chain"
         .length=${this.relatedChanges.length}
+        .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
         ${this.relatedChanges.map(
           (change, index) =>
@@ -159,7 +176,8 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       submittedTogetherChanges.length,
       submittedTogetherChanges.findIndex(relatedChange =>
         this._changesEqual(relatedChange, this.change)
-      )
+      ),
+      sectionSize(Section.SUBMITTED_TOGETHER)
     );
     const submittedTogetherSection = html`<section
       id="submittedTogether"
@@ -169,6 +187,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       <gr-related-collapse
         title="Submitted together"
         .length=${submittedTogetherChanges.length}
+        .numChangesWhenCollapsed=${sectionSize(Section.SUBMITTED_TOGETHER)}
       >
         ${submittedTogetherChanges.map(
           (change, index) =>
@@ -198,7 +217,8 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
 
     const sameTopicMarkersPredicate = this.markersPredicateFactory(
       this.sameTopicChanges.length,
-      -1
+      -1,
+      sectionSize(Section.SAME_TOPIC)
     );
     const sameTopicSection = html`<section
       id="sameTopic"
@@ -207,6 +227,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       <gr-related-collapse
         title="Same topic"
         .length=${this.sameTopicChanges.length}
+        .numChangesWhenCollapsed=${sectionSize(Section.SAME_TOPIC)}
       >
         ${this.sameTopicChanges.map(
           (change, index) =>
@@ -231,7 +252,8 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
 
     const mergeConflictsMarkersPredicate = this.markersPredicateFactory(
       this.conflictingChanges.length,
-      -1
+      -1,
+      sectionSize(Section.MERGE_CONFLICTS)
     );
     const mergeConflictsSection = html`<section
       id="mergeConflicts"
@@ -240,6 +262,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       <gr-related-collapse
         title="Merge conflicts"
         .length=${this.conflictingChanges.length}
+        .numChangesWhenCollapsed=${sectionSize(Section.MERGE_CONFLICTS)}
       >
         ${this.conflictingChanges.map(
           (change, index) =>
@@ -263,7 +286,8 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
 
     const cherryPicksMarkersPredicate = this.markersPredicateFactory(
       this.cherryPickChanges.length,
-      -1
+      -1,
+      sectionSize(Section.CHERRY_PICKS)
     );
     const cherryPicksSection = html`<section
       id="cherryPicks"
@@ -272,6 +296,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       <gr-related-collapse
         title="Cherry picks"
         .length=${this.cherryPickChanges.length}
+        .numChangesWhenCollapsed=${sectionSize(Section.CHERRY_PICKS)}
       >
         ${this.cherryPickChanges.map(
           (change, index) =>
@@ -302,18 +327,99 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     </gr-endpoint-decorator>`;
   }
 
+  sectionSizeFactory(
+    relatedChangesLen: number,
+    submittedTogetherLen: number,
+    sameTopicLen: number,
+    mergeConflictsLen: number,
+    cherryPicksLen: number
+  ) {
+    const calcDefaultSize = (length: number) =>
+      Math.min(length, DEFALT_NUM_CHANGES_WHEN_COLLAPSED);
+
+    const sectionSizes = [
+      {
+        section: Section.RELATED_CHANGES,
+        size: calcDefaultSize(relatedChangesLen),
+        len: relatedChangesLen,
+      },
+      {
+        section: Section.SUBMITTED_TOGETHER,
+        size: calcDefaultSize(submittedTogetherLen),
+        len: submittedTogetherLen,
+      },
+      {
+        section: Section.SAME_TOPIC,
+        size: calcDefaultSize(sameTopicLen),
+        len: sameTopicLen,
+      },
+      {
+        section: Section.MERGE_CONFLICTS,
+        size: calcDefaultSize(mergeConflictsLen),
+        len: mergeConflictsLen,
+      },
+      {
+        section: Section.CHERRY_PICKS,
+        size: calcDefaultSize(cherryPicksLen),
+        len: cherryPicksLen,
+      },
+    ];
+
+    const FILLER = 1; // space for header
+    let totalSize = sectionSizes.reduce(
+      (acc, val) => acc + val.size + (val.size !== 0 ? FILLER : 0),
+      0
+    );
+
+    const MAX_SIZE = 16;
+    for (let i = 0; i < sectionSizes.length; i++) {
+      const sizeObj = sectionSizes[i];
+      const defaultSectionSize = sizeObj.size;
+      if (defaultSectionSize === sizeObj.len) continue;
+      const newSize = Math.min(
+        Math.max(
+          MAX_SIZE - totalSize + defaultSectionSize,
+          DEFALT_NUM_CHANGES_WHEN_COLLAPSED
+        ),
+        sizeObj.len
+      );
+      if (newSize !== sizeObj.size) {
+        totalSize += newSize - defaultSectionSize;
+        sizeObj.size = newSize;
+      }
+      if (totalSize >= MAX_SIZE) break;
+    }
+
+    return (section: Section) => {
+      const sizeObj = sectionSizes.find(sizeObj => sizeObj.section === section);
+      if (sizeObj) return sizeObj.size;
+      return DEFALT_NUM_CHANGES_WHEN_COLLAPSED;
+    };
+  }
+
   markersPredicateFactory(
     length: number,
-    highlightIndex: number
+    highlightIndex: number,
+    numChangesShownWhenCollapsed = DEFALT_NUM_CHANGES_WHEN_COLLAPSED
   ): (index: number) => ChangeMarkersInList {
     const showWhenCollapsedPredicate = (index: number) => {
-      if (highlightIndex === -1) return index < MAX_CHANGES_WHEN_COLLAPSED;
-      if (highlightIndex === 0) return index <= MAX_CHANGES_WHEN_COLLAPSED - 1;
+      if (highlightIndex === -1) return index < numChangesShownWhenCollapsed;
+      if (highlightIndex === 0)
+        return index <= numChangesShownWhenCollapsed - 1;
       if (highlightIndex === length - 1)
-        return index >= length - MAX_CHANGES_WHEN_COLLAPSED;
+        return index >= length - numChangesShownWhenCollapsed;
+      let numBeforeHighlight = Math.floor(numChangesShownWhenCollapsed / 2);
+      let numAfterHighlight =
+        Math.floor(numChangesShownWhenCollapsed / 2) -
+        (numChangesShownWhenCollapsed % 2 ? 0 : 1);
+      numBeforeHighlight += Math.max(
+        highlightIndex + numAfterHighlight - length + 1,
+        0
+      );
+      numAfterHighlight -= Math.min(0, highlightIndex - numBeforeHighlight);
       return (
-        highlightIndex - MAX_CHANGES_WHEN_COLLAPSED + 2 <= index &&
-        index <= highlightIndex + MAX_CHANGES_WHEN_COLLAPSED - 2
+        highlightIndex - numBeforeHighlight <= index &&
+        index <= highlightIndex + numAfterHighlight
       );
     };
     return (index: number) => {
@@ -508,6 +614,9 @@ export class GrRelatedCollapse extends GrLitElement {
   @property()
   length = 0;
 
+  @property()
+  numChangesWhenCollapsed = DEFALT_NUM_CHANGES_WHEN_COLLAPSED;
+
   private readonly reporting = appContext.reportingService;
 
   static get styles() {
@@ -574,7 +683,7 @@ export class GrRelatedCollapse extends GrLitElement {
   render() {
     const title = html`<h4 class="title">${this.title}</h4>`;
 
-    const collapsible = this.length > MAX_CHANGES_WHEN_COLLAPSED;
+    const collapsible = this.length > this.numChangesWhenCollapsed;
     const items = html` <div
       class="${!this.showAll && collapsible ? 'collapsed' : 'show-all'}"
     >

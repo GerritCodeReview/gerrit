@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82a6b0b_f8857942",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T20:49:51Z",
+      "side": 1,
+      "message": "to the replaceProperty",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "5b3b738935b85c2a4a30a0318c0bb243ceb29dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71487678_b274e82c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T20:49:51Z",
+      "side": 1,
+      "message": "once",
+      "range": {
+        "startLine": 12,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "5b3b738935b85c2a4a30a0318c0bb243ceb29dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a737adee_64a35ab6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T20:49:51Z",
+      "side": 1,
+      "message": "This small part would need rewriting. Maybe make this idea a following sentence instead, while reworking it.",
+      "range": {
+        "startLine": 12,
+        "startChar": 67,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "5b3b738935b85c2a4a30a0318c0bb243ceb29dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "282977ef_1e1c10a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-09T20:49:51Z",
+      "side": 1,
+      "message": "Cleaner now I think; just a few nits left.",
+      "revId": "5b3b738935b85c2a4a30a0318c0bb243ceb29dca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

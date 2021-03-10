@@ -63,11 +63,11 @@ suite('gr-reporting-js-api tests', () => {
       assert.isTrue(appContext.reportingService.reportLifeCycle.called);
       assert.equal(
           appContext.reportingService.reportLifeCycle.lastCall.args[0],
-          'testplugin-test'
+          'Plugin life cycle'
       );
       assert.deepEqual(
           appContext.reportingService.reportLifeCycle.lastCall.args[1],
-          {}
+          {pluginName: 'testplugin', eventName: 'test'}
       );
     });
   });

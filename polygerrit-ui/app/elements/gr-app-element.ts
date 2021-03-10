@@ -79,6 +79,7 @@ import {ViewState} from '../types/types';
 import {EventType} from '../utils/event-util';
 import {GerritView} from '../services/router/router-model';
 import {windowLocationReload} from '../utils/dom-util';
+import {LifeCycle} from '../constants/reporting';
 
 interface ErrorInfo {
   text: string;
@@ -253,8 +254,11 @@ export class GrAppElement extends KeyboardShortcutMixin(
 
     this.restApiService.getAccount().then(account => {
       this._account = account;
-      const role = account ? 'user' : 'guest';
-      this.reporting.reportLifeCycle(`Started as ${role}`);
+      if (account) {
+        this.reporting.reportLifeCycle(LifeCycle.STARTED_AS_USER);
+      } else {
+        this.reporting.reportLifeCycle(LifeCycle.STARTED_AS_GUEST);
+      }
     });
     this.restApiService.getConfig().then(config => {
       this._serverConfig = config;

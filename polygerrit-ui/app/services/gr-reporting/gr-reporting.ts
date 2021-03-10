@@ -18,6 +18,7 @@
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
+import {LifeCycle} from '../../constants/reporting';
 
 export type EventValue = string | number | {error?: Error};
 
@@ -87,7 +88,7 @@ export interface ReportingService {
    * @param elapsed The time elapsed of the RPC.
    */
   reportRpcTiming(anonymizedUrl: string, elapsed: number): void;
-  reportLifeCycle(eventName: string, details?: EventDetails): void;
+  reportLifeCycle(eventName: LifeCycle, details?: EventDetails): void;
 
   /**
    * Use this method, if you want to check/count how often a certain code path

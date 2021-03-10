@@ -158,11 +158,4 @@ export const htmlTemplate = html`
       </ul>
     </div>
   </iron-dropdown>
-  <gr-cursor-manager
-    id="cursor"
-    cursor-target-class="selected"
-    scroll-mode="never"
-    focus-on-move=""
-    stops="[[_listElements]]"
-  ></gr-cursor-manager>
 `;

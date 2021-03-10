@@ -22,6 +22,30 @@
       },
       "revId": "68798ab6deb47e55d671ab4e3271e57adfe1bae2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa0ddc2c_530c4107",
+        "filename": "java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-10T16:19:27Z",
+      "side": 1,
+      "message": "I checked all usages and the only usage of the change type is checking for added OWNERS files. Ironically that works best when a rename is an add and a delete; you could actually bypass that rule by submitting a file named foo and then renaming it to OWNERS :-) So I think even if we could produce the rename type, the simple add+delete is better or at least more expectation conformant.",
+      "parentUuid": "e10ea831_cd7bed00",
+      "range": {
+        "startLine": 90,
+        "startChar": 9,
+        "endLine": 90,
+        "endChar": 15
+      },
+      "revId": "68798ab6deb47e55d671ab4e3271e57adfe1bae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

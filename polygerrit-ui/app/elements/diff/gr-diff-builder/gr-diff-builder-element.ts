@@ -326,7 +326,7 @@ export class GrDiffBuilderElement extends LegacyElementMixin(PolymerElement) {
       sectionEl.parentNode.removeChild(sectionEl);
     }
 
-    this.async(() => fireEvent(this, 'render-content'), 1);
+    setTimeout(() => fireEvent(this, 'render-content'), 1);
   }
 
   cancel() {

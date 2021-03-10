@@ -2326,18 +2326,11 @@ suite('gr-change-view tests', () => {
     });
 
     suite('update checks', () => {
+      let clock: SinonFakeTimers;
       let startUpdateCheckTimerSpy: SinonSpyMember<typeof element._startUpdateCheckTimer>;
-      let asyncStub: SinonStubbedMember<typeof element.async>;
       setup(() => {
+        clock = sinon.useFakeTimers();
         startUpdateCheckTimerSpy = sinon.spy(element, '_startUpdateCheckTimer');
-        asyncStub = sinon.stub(element, 'async').callsFake(f => {
-          // Only fire the async callback one time.
-          if (asyncStub.callCount > 1) {
-            return 1;
-          }
-          f.call(element);
-          return 1;
-        });
         element._change = {
           ...createChange(),
           revisions: createRevisions(1),
@@ -2381,14 +2374,14 @@ suite('gr-change-view tests', () => {
           ...createServerInfo(),
           change: {...createChangeConfig(), update_delay: 12345},
         };
+        clock.tick(12345 * 1000);
         await flush();
 
         assert.equal(startUpdateCheckTimerSpy.callCount, 2);
         assert.isTrue(getChangeDetailStub.called);
-        assert.equal(asyncStub.lastCall.args[1], 12345 * 1000);
       });
 
-      test('_startUpdateCheckTimer out-of-date shows an alert', done => {
+      test('_startUpdateCheckTimer out-of-date shows an alert', async () => {
         stubRestApi('getChangeDetail').callsFake(() =>
           Promise.resolve({
             ...createChange(),
@@ -2399,15 +2392,18 @@ suite('gr-change-view tests', () => {
           })
         );
 
+        let alertMessage = 'alert not fired';
         element.addEventListener('show-alert', e => {
-          assert.equal(e.detail.message, 'A newer patch set has been uploaded');
-          done();
+          alertMessage = e.detail.message;
         });
         element._serverConfig = {
           ...createServerInfo(),
           change: {...createChangeConfig(), update_delay: 12345},
         };
+        clock.tick(12345 * 1000);
+        await flush();
 
+        assert.equal(alertMessage, 'A newer patch set has been uploaded');
         assert.equal(startUpdateCheckTimerSpy.callCount, 1);
       });
 
@@ -2427,13 +2423,14 @@ suite('gr-change-view tests', () => {
           ...createServerInfo(),
           change: {...createChangeConfig(), update_delay: 12345},
         };
+        clock.tick(12345 * 1000 * 2);
         await flush();
 
         // No toast, instead a second call to _startUpdateCheckTimer().
         assert.equal(startUpdateCheckTimerSpy.callCount, 2);
       });
 
-      test('_startUpdateCheckTimer new status shows an alert', done => {
+      test('_startUpdateCheckTimer new status shows an alert', async () => {
         stubRestApi('getChangeDetail').callsFake(() =>
           Promise.resolve({
             ...createChange(),
@@ -2445,17 +2442,21 @@ suite('gr-change-view tests', () => {
           })
         );
 
+        let alertMessage = 'alert not fired';
         element.addEventListener('show-alert', e => {
-          assert.equal(e.detail.message, 'This change has been merged');
-          done();
+          alertMessage = e.detail.message;
         });
         element._serverConfig = {
           ...createServerInfo(),
           change: {...createChangeConfig(), update_delay: 12345},
         };
+        clock.tick(12345 * 1000);
+        await flush();
+
+        assert.equal(alertMessage, 'This change has been merged');
       });
 
-      test('_startUpdateCheckTimer new messages shows an alert', done => {
+      test('_startUpdateCheckTimer new messages shows an alert', async () => {
         stubRestApi('getChangeDetail').callsFake(() =>
           Promise.resolve({
             ...createChange(),
@@ -2465,17 +2466,19 @@ suite('gr-change-view tests', () => {
             current_revision: 'rev1' as CommitId,
           })
         );
+
+        let alertMessage = 'alert not fired';
         element.addEventListener('show-alert', e => {
-          assert.equal(
-            e.detail.message,
-            'There are new messages on this change'
-          );
-          done();
+          alertMessage = e.detail.message;
         });
         element._serverConfig = {
           ...createServerInfo(),
           change: {...createChangeConfig(), update_delay: 12345},
         };
+        clock.tick(12345 * 1000);
+        await flush();
+
+        assert.equal(alertMessage, 'There are new messages on this change');
       });
     });
 

@@ -135,7 +135,7 @@ export class GrOverlay extends IronOverlayMixin(
   _awaitOpen(fn: (this: GrOverlay) => void, reject: (error: Error) => void) {
     let iters = 0;
     const step = () => {
-      this.async(() => {
+      setTimeout(() => {
         if (this.style.display !== 'none') {
           fn.call(this);
         } else if (iters++ < AWAIT_MAX_ITERS) {

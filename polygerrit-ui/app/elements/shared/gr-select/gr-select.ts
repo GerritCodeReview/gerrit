@@ -54,7 +54,7 @@ export class GrSelect extends LegacyElementMixin(PolymerElement) {
       // Async needed for firefox to populate value. It was trying to do it
       // before options from a dom-repeat were rendered previously.
       // See https://bugs.chromium.org/p/gerrit/issues/detail?id=7735
-      this.async(() => {
+      setTimeout(() => {
         // TODO(TS): maybe should check for undefined before assigning
         // or fallback to ''
         this.nativeSelect.value = this.bindValue!;

@@ -81,16 +81,17 @@ public class PluginUtil {
     return 0 < ext ? name.substring(0, ext) : name;
   }
 
-  static ClassLoader parentFor(Plugin.ApiType type) throws InvalidPluginException {
+  static ClassLoader parentFor(Plugin.ApiType type) {
     switch (type) {
       case EXTENSION:
         return PluginName.class.getClassLoader();
       case PLUGIN:
+      case PLUGIN_API:
         return PluginLoader.class.getClassLoader();
       case JS:
         return JavaScriptPlugin.class.getClassLoader();
       default:
-        throw new InvalidPluginException("Unsupported ApiType " + type);
+        throw new IllegalArgumentException("Unsupported ApiType " + type);
     }
   }
 }

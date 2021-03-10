@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26145d9_fcb3e11f",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-10T09:44:29Z",
+      "side": 1,
+      "message": "Note that this must also be true. You can drop the if-statement.\n\nAnd you can assign to `sizeObj.size` directly. No need for the `newSize` variable.\n\nI am also unsure about the helpfulness of using a local variable for `defaultSectionSize`. Maybe just work with sizeObj.size directly.",
+      "revId": "72597562b66f750a6ab6fb1d5030c832418f9362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

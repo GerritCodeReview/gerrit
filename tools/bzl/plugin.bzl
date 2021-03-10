@@ -17,6 +17,7 @@ PLUGIN_TEST_DEPS = [
 
 def gerrit_plugin(
         name,
+        type = "plugin",
         deps = [],
         provided_deps = [],
         srcs = [],
@@ -42,7 +43,7 @@ def gerrit_plugin(
     java_binary(
         name = "%s__non_stamped" % name,
         deploy_manifest_lines = manifest_entries + [
-            "Gerrit-ApiType: plugin",
+            "Gerrit-ApiType: " + type,
             "Gerrit-ApiVersion: " + GERRIT_VERSION,
         ],
         main_class = "Dummy",

@@ -91,12 +91,4 @@ export const htmlTemplate = html`
       </template>
     </ul>
   </div>
-  <gr-cursor-manager
-    id="cursor"
-    index="[[index]]"
-    cursor-target-class="selected"
-    scroll-mode="never"
-    focus-on-move=""
-    stops="[[_suggestionEls]]"
-  ></gr-cursor-manager>
 `;

@@ -17,8 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-group.js';
-import {stubRestApi} from '../../../test/test-utils.js';
-import {addListenerForTest} from '../../../test/test-utils.js';
+import {stubRestApi, addListenerForTest} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-group');
 

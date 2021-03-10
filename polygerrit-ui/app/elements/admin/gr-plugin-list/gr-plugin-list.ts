@@ -26,8 +26,7 @@ import {
 } from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {customElement, property} from '@polymer/decorators';
 import {PluginInfo} from '../../../types/common';
-import {firePageError} from '../../../utils/event-util';
-import {fireTitleChange} from '../../../utils/event-util';
+import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 

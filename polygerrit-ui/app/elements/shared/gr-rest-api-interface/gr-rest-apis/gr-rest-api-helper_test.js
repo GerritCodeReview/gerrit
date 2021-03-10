@@ -16,8 +16,7 @@
  */
 
 import '../../../../test/common-test-setup-karma.js';
-import {SiteBasedCache} from './gr-rest-api-helper.js';
-import {FetchPromisesCache, GrRestApiHelper} from './gr-rest-api-helper.js';
+import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-api-helper.js';
 import {appContext} from '../../../../services/app-context.js';
 
 suite('gr-rest-api-helper tests', () => {

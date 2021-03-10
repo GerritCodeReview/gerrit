@@ -16,12 +16,11 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import {resetPlugins} from '../../../test/test-utils.js';
+import {resetPlugins, stubRestApi} from '../../../test/test-utils.js';
 import './gr-reply-dialog.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
-import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 const pluginApi = _testOnly_initGerritPluginApi();

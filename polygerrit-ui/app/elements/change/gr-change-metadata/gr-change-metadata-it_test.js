@@ -18,10 +18,9 @@
 import '../../../test/common-test-setup-karma.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import './gr-change-metadata.js';
-import {resetPlugins} from '../../../test/test-utils.js';
+import {resetPlugins, stubRestApi} from '../../../test/test-utils.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
-import {stubRestApi} from '../../../test/test-utils.js';
 
 const testHtmlPlugin = document.createElement('dom-module');
 testHtmlPlugin.innerHTML = `

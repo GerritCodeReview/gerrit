@@ -18,10 +18,9 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-search-bar.js';
 import '../../../scripts/util.js';
-import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {TestKeyboardShortcutBinder, stubRestApi} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util.js';
-import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-search-bar');
 

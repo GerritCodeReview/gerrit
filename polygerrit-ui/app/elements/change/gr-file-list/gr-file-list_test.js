@@ -16,7 +16,6 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import {listenOnce} from '../../../test/test-utils.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-file-list.js';
@@ -26,7 +25,7 @@ import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {TestKeyboardShortcutBinder, stubRestApi, spyRestApi} from '../../../test/test-utils.js';
+import {TestKeyboardShortcutBinder, stubRestApi, spyRestApi, listenOnce} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
 import {createChangeComments} from '../../../test/test-data-generators.js';

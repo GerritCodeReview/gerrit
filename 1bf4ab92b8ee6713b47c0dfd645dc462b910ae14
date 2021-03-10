@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4be1874c_c7b9cccd",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-10T16:04:50Z",
+      "side": 1,
+      "message": "I will start applying these changes to other changes in the topic once we agree on resolution for this",
+      "parentUuid": "0a2008f6_cce4f7b5",
+      "range": {
+        "startLine": 60,
+        "startChar": 23,
+        "endLine": 60,
+        "endChar": 33
+      },
+      "revId": "1bf4ab92b8ee6713b47c0dfd645dc462b910ae14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fad79ad_682533b6",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
         "patchSetId": 6

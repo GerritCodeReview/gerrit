@@ -47,9 +47,7 @@ const RIGHT_SIDE_CLASS = 'target-side-right';
 const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
 export interface GrDiffCursor {
-  $: {
-    cursorManager: GrCursorManager;
-  };
+  $: {};
 }
 
 @customElement('gr-diff-cursor')
@@ -96,6 +94,19 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
   @property({type: Boolean})
   _listeningForScroll = false;
 
+  private cursorManager = new GrCursorManager();
+
+  constructor() {
+    super();
+    // TODO: Binding
+    this.cursorManager.scrollMode = this._scrollMode;
+    this.cursorManager.cursorTargetClass = 'target-row';
+    this.cursorManager.focusOnMove = this._focusOnMove;
+    this.cursorManager.target$.subscribe(target => {
+      this.diffRow = target || undefined;
+    });
+  }
+
   /** @override */
   ready() {
     super.ready();
@@ -129,18 +140,18 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
   /** @override */
   disconnectedCallback() {
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
-    this.$.cursorManager.unsetCursor();
+    this.cursorManager.unsetCursor();
     super.disconnectedCallback();
   }
 
   // Don't remove - used by clients embedding gr-diff outside of Gerrit.
   isAtStart() {
-    return this.$.cursorManager.isAtStart();
+    return this.cursorManager.isAtStart();
   }
 
   // Don't remove - used by clients embedding gr-diff outside of Gerrit.
   isAtEnd() {
-    return this.$.cursorManager.isAtEnd();
+    return this.cursorManager.isAtEnd();
   }
 
   moveLeft() {
@@ -159,31 +170,31 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
 
   moveDown() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      return this.$.cursorManager.next({
+      return this.cursorManager.next({
         filter: (row: Element) => this._rowHasSide(row),
       });
     } else {
-      return this.$.cursorManager.next();
+      return this.cursorManager.next();
     }
   }
 
   moveUp() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      return this.$.cursorManager.previous({
+      return this.cursorManager.previous({
         filter: (row: Element) => this._rowHasSide(row),
       });
     } else {
-      return this.$.cursorManager.previous();
+      return this.cursorManager.previous();
     }
   }
 
   moveToVisibleArea() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.moveToVisibleArea((row: Element) =>
+      this.cursorManager.moveToVisibleArea((row: Element) =>
         this._rowHasSide(row)
       );
     } else {
-      this.$.cursorManager.moveToVisibleArea();
+      this.cursorManager.moveToVisibleArea();
     }
   }
 
@@ -191,7 +202,7 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
     clipToTop?: boolean,
     navigateToNextFile?: boolean
   ): CursorMoveResult {
-    const result = this.$.cursorManager.next({
+    const result = this.cursorManager.next({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
       getTargetHeight: target =>
         (target?.parentNode as HTMLElement)?.scrollHeight || 0,
@@ -226,7 +237,7 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
   }
 
   moveToPreviousChunk(): CursorMoveResult {
-    const result = this.$.cursorManager.previous({
+    const result = this.cursorManager.previous({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
     });
     this._fixSide();
@@ -238,7 +249,7 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
       fireEvent(this, 'navigate-to-next-file-with-comments');
       return;
     }
-    const result = this.$.cursorManager.next({
+    const result = this.cursorManager.next({
       filter: (row: HTMLElement) => this._rowHasThread(row),
     });
     this._fixSide();
@@ -246,7 +257,7 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
   }
 
   moveToPreviousCommentThread(): CursorMoveResult {
-    const result = this.$.cursorManager.previous({
+    const result = this.cursorManager.previous({
       filter: (row: HTMLElement) => this._rowHasThread(row),
     });
     this._fixSide();
@@ -257,7 +268,7 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
     const row = this._findRowByNumberAndFile(number, side, path);
     if (row) {
       this.side = side;
-      this.$.cursorManager.setCursor(row);
+      this.cursorManager.setCursor(row);
     }
   }
 
@@ -289,7 +300,7 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
   }
 
   moveToFirstChunk() {
-    this.$.cursorManager.moveToStart();
+    this.cursorManager.moveToStart();
     if (this.diffRow && !this._isFirstRowOfChunk(this.diffRow)) {
       this.moveToNextChunk(true);
     } else {
@@ -298,7 +309,7 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
   }
 
   moveToLastChunk() {
-    this.$.cursorManager.moveToEnd();
+    this.cursorManager.moveToEnd();
     if (this.diffRow && !this._isFirstRowOfChunk(this.diffRow)) {
       this.moveToPreviousChunk();
     } else {
@@ -523,7 +534,7 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
   }
 
   _updateStops() {
-    this.$.cursorManager.stops = this.diffs.reduce(
+    this.cursorManager.stops = this.diffs.reduce(
       (stops: Stop[], diff) => stops.concat(diff.getCursorStops()),
       []
     );
@@ -602,7 +613,7 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
       const diff = this.diffs.filter(diff => diff.path === path)[0];
       stops = diff.getCursorStops();
     } else {
-      stops = this.$.cursorManager.stops;
+      stops = this.cursorManager.stops;
     }
     // Sadly needed for type narrowing to understand that the result is always
     // targetable.

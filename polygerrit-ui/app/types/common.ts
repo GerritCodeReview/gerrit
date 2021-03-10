@@ -76,12 +76,13 @@ export type ElementPropertyDeepChange<
 export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
 
 export type PatchSetNum = BrandType<'PARENT' | 'edit' | number, '_patchSet'>;
+export type BasePatchSetNum = BrandType<'PARENT' | number, '_patchSet'>;
 export type PatchSetNumber = BrandType<number, '_patchSet'>;
 
 export const EditPatchSetNum = 'edit' as PatchSetNum;
 // TODO(TS): This is not correct, it is better to have a separate ApiPatchSetNum
 // without 'parent'.
-export const ParentPatchSetNum = 'PARENT' as PatchSetNum;
+export const ParentPatchSetNum = 'PARENT' as BasePatchSetNum;
 
 export type ChangeId = BrandType<string, '_changeId'>;
 export type ChangeMessageId = BrandType<string, '_changeMessageId'>;
@@ -551,7 +552,7 @@ export interface RevisionInfo {
   commit_with_footers?: boolean;
   push_certificate?: PushCertificateInfo;
   description?: string;
-  basePatchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
 }
 
 /**
@@ -1621,7 +1622,7 @@ export interface HashtagsInput {
  */
 export interface PatchRange {
   patchNum: PatchSetNum;
-  basePatchNum: PatchSetNum;
+  basePatchNum: BasePatchSetNum;
 }
 
 /**
@@ -1938,7 +1939,7 @@ export interface AttentionSetInput {
  */
 export interface EditInfo {
   commit: CommitInfo;
-  base_patch_set_number: PatchSetNum;
+  base_patch_set_number: BasePatchSetNum;
   base_revision: string;
   ref: GitRef;
   fetch?: ProtocolToFetchInfoMap;

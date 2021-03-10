@@ -49,6 +49,7 @@ import {convertToPatchSetNum} from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {assertNever} from '../../../utils/common-util';
 import {
+  BasePatchSetNum,
   DashboardId,
   GroupId,
   NumericChangeId,
@@ -282,7 +283,7 @@ type GenerateUrlLegacyDiffViewParameters = Omit<
 
 interface PatchRangeParams {
   patchNum?: PatchSetNum | null;
-  basePatchNum?: PatchSetNum | null;
+  basePatchNum?: BasePatchSetNum | null;
 }
 
 @customElement('gr-router')
@@ -1559,7 +1560,7 @@ export class GrRouter extends LegacyElementMixin(PolymerElement) {
     const params: GenerateUrlChangeViewParameters = {
       project: ctx.params[0] as RepoName,
       changeNum,
-      basePatchNum: convertToPatchSetNum(ctx.params[4]),
+      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
       patchNum: convertToPatchSetNum(ctx.params[6]),
       view: GerritView.CHANGE,
       queryMap: ctx.queryMap,
@@ -1590,7 +1591,7 @@ export class GrRouter extends LegacyElementMixin(PolymerElement) {
     const params: GenerateUrlDiffViewParameters = {
       project: ctx.params[0] as RepoName,
       changeNum,
-      basePatchNum: convertToPatchSetNum(ctx.params[4]),
+      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
       patchNum: convertToPatchSetNum(ctx.params[6]),
       path: ctx.params[8],
       view: GerritView.DIFF,
@@ -1609,7 +1610,7 @@ export class GrRouter extends LegacyElementMixin(PolymerElement) {
     // Parameter order is based on the regex group number matched.
     const params: GenerateUrlLegacyChangeViewParameters = {
       changeNum: Number(ctx.params[0]) as NumericChangeId,
-      basePatchNum: convertToPatchSetNum(ctx.params[3]),
+      basePatchNum: convertToPatchSetNum(ctx.params[3]) as BasePatchSetNum,
       patchNum: convertToPatchSetNum(ctx.params[5]),
       view: GerritView.CHANGE,
       querystring: ctx.querystring,
@@ -1626,7 +1627,7 @@ export class GrRouter extends LegacyElementMixin(PolymerElement) {
     // Parameter order is based on the regex group number matched.
     const params: GenerateUrlLegacyDiffViewParameters = {
       changeNum: Number(ctx.params[0]) as NumericChangeId,
-      basePatchNum: convertToPatchSetNum(ctx.params[2]),
+      basePatchNum: convertToPatchSetNum(ctx.params[2]) as BasePatchSetNum,
       patchNum: convertToPatchSetNum(ctx.params[4]),
       path: ctx.params[5],
       view: GerritView.DIFF,

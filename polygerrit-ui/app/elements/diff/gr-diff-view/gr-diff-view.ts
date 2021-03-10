@@ -63,6 +63,7 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeComments, GrCommentApi} from '../gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
 import {
+  BasePatchSetNum,
   ChangeInfo,
   CommitId,
   ConfigInfo,
@@ -1666,7 +1667,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       this._change,
       this._path,
       this._patchRange.basePatchNum,
-      'PARENT' as PatchSetNum,
+      'PARENT' as BasePatchSetNum,
       this.params?.view === GerritView.DIFF && this.params?.commentLink
         ? this._focusLineNum
         : undefined
@@ -1708,7 +1709,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       this._change,
       this._path,
       latestPatchNum,
-      this._patchRange.patchNum
+      this._patchRange.patchNum as BasePatchSetNum
     );
   }
 

@@ -47,6 +47,7 @@ import {
   ConfigInfo,
   PatchSetNum,
   RepoName,
+  BasePatchSetNum,
 } from '../../../types/common';
 import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
@@ -929,7 +930,7 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _getPatchNum(): PatchSetNum {
     const patchNum = this.isOnParent()
-      ? ('PARENT' as PatchSetNum)
+      ? ('PARENT' as BasePatchSetNum)
       : this.patchNum;
     if (patchNum === undefined) throw new Error('patchNum undefined');
     return patchNum;

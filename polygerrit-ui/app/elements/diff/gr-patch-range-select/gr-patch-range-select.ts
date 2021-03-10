@@ -37,6 +37,7 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
+  BasePatchSetNum,
   ParentPatchSetNum,
   PatchSetNum,
   RevisionInfo,
@@ -57,7 +58,7 @@ const PATCH_DESC_MAX_LENGTH = 500;
 
 export interface PatchRangeChangeDetail {
   patchNum?: PatchSetNum;
-  basePatchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
 }
 
 export type PatchRangeChangeEvent = CustomEvent<PatchRangeChangeDetail>;
@@ -120,7 +121,7 @@ export class GrPatchRangeSelect extends LegacyElementMixin(PolymerElement) {
   patchNum?: PatchSetNum;
 
   @property({type: String})
-  basePatchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
 
   @property({type: Object})
   revisions?: RevisionInfo[];
@@ -219,7 +220,7 @@ export class GrPatchRangeSelect extends LegacyElementMixin(PolymerElement) {
 
   _computePatchDropdownContent(
     availablePatches?: PatchSet[],
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     _sortedRevisions?: RevisionInfo[],
     changeComments?: ChangeComments
   ): DropdownItem[] | undefined {
@@ -446,7 +447,7 @@ export class GrPatchRangeSelect extends LegacyElementMixin(PolymerElement) {
           patchNum: patchSetValue,
         }),
       });
-      detail.basePatchNum = patchSetValue;
+      detail.basePatchNum = patchSetValue as BasePatchSetNum;
     }
 
     this.dispatchEvent(

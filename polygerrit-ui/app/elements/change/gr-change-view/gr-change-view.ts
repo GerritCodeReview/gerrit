@@ -110,6 +110,7 @@ import {
   ChangeId,
   RelatedChangeAndCommitInfo,
   RelatedChangesInfo,
+  BasePatchSetNum,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrReplyDialog, FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
@@ -1771,7 +1772,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     GerritNav.navigateToChange(
       this._change,
       latestPatchNum,
-      this._patchRange.patchNum
+      this._patchRange.patchNum as BasePatchSetNum
     );
   }
 

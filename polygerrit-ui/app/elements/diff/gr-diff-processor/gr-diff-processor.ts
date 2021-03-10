@@ -173,7 +173,7 @@ export class GrDiffProcessor extends LegacyElementMixin(PolymerElement) {
         let currentBatch = 0;
         const nextStep = () => {
           if (this._isScrolling) {
-            this._nextStepHandle = this.async(nextStep, 100);
+            this._nextStepHandle = window.setTimeout(nextStep, 100);
             return;
           }
           // If we are done, resolve the promise.
@@ -196,7 +196,7 @@ export class GrDiffProcessor extends LegacyElementMixin(PolymerElement) {
           state.chunkIndex = stateUpdate.newChunkIndex;
           if (currentBatch >= this._asyncThreshold) {
             currentBatch = 0;
-            this._nextStepHandle = this.async(nextStep, 1);
+            this._nextStepHandle = window.setTimeout(nextStep, 1);
           } else {
             nextStep.call(this);
           }

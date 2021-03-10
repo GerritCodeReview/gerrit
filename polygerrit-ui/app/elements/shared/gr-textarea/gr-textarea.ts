@@ -185,7 +185,7 @@ export class GrTextarea extends KeyboardShortcutMixin(
     // Put the cursor at the end always.
     textarea.selectionStart = textarea.value.length;
     textarea.selectionEnd = textarea.selectionStart;
-    this.async(() => {
+    setTimeout(() => {
       textarea.focus();
     });
   }

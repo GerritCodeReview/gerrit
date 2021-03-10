@@ -164,7 +164,7 @@ export class GrEditControls extends LegacyElementMixin(PolymerElement) {
       if (autocomplete) {
         autocomplete.focus();
       }
-      this.async(() => {
+      setTimeout(() => {
         this.$.overlay.center();
       }, 1);
     });

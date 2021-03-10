@@ -1777,7 +1777,7 @@ export class GrFileList extends KeyboardShortcutMixin(
    */
   _reportRenderedRow(index: number) {
     if (index === this._shownFiles.length - 1) {
-      this.async(() => {
+      setTimeout(() => {
         this.reporting.timeEndWithAverage(
           RENDER_TIMING_LABEL,
           RENDER_AVG_TIMING_LABEL,

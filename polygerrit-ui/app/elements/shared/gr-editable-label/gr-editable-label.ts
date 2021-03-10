@@ -158,7 +158,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(
   _awaitOpen(fn: () => void) {
     let iters = 0;
     const step = () => {
-      this.async(() => {
+      setTimeout(() => {
         if (this.$.dropdown.style.display !== 'none') {
           fn.call(this);
         } else if (iters++ < AWAIT_MAX_ITERS) {

@@ -321,7 +321,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
       // Persist alert until navigation.
       this.listen(document, 'location-change', '_hideAlert');
     } else {
-      this._hideAlertHandle = this.async(
+      this._hideAlertHandle = window.setTimeout(
         this._hideAlert,
         HIDE_ALERT_TIMEOUT_MS
       );

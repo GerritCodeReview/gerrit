@@ -586,7 +586,7 @@ export class GrComment extends KeyboardShortcutMixin(
       this._fireUpdate();
     }
     if (editing) {
-      this.async(() => {
+      setTimeout(() => {
         flush();
         this.textarea && this.textarea.putCursorAtEnd();
       }, 1);

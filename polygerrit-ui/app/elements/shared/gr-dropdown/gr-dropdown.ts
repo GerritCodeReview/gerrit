@@ -219,7 +219,7 @@ export class GrDropdown extends KeyboardShortcutMixin(
   _close() {
     // async is needed so that that the click event is fired before the
     // dropdown closes (This was a bug for touch devices).
-    this.async(() => {
+    setTimeout(() => {
       this.$.dropdown.close();
     }, 1);
   }

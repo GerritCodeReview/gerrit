@@ -2081,7 +2081,7 @@ export class GrChangeActions extends LegacyElementMixin(PolymerElement)
             }
 
             if (attemptsRemaining) {
-              this.async(check, AWAIT_CHANGE_TIMEOUT_MS);
+              setTimeout(check, AWAIT_CHANGE_TIMEOUT_MS);
             } else {
               resolve(false);
             }

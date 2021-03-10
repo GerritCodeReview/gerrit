@@ -15,21 +15,25 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-error-dialog.js';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import '../../../test/common-test-setup-karma';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {GrErrorDialog} from './gr-error-dialog';
 
 const basicFixture = fixtureFromElement('gr-error-dialog');
 
 suite('gr-error-dialog tests', () => {
-  let element;
+  let element: GrErrorDialog;
 
   setup(() => {
     element = basicFixture.instantiate();
   });
 
   test('dismiss tap fires event', done => {
-    element.addEventListener('dismiss', () => { done(); });
-    MockInteractions.tap(element.$.dialog.$.confirm);
+    element.addEventListener('dismiss', () => done());
+    MockInteractions.tap(
+      (queryAndAssert(element, '#dialog') as GrDialog).$.confirm
+    );
   });
 });
-

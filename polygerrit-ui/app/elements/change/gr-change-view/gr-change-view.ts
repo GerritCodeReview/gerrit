@@ -1375,7 +1375,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
     this._sendShowChangeEvent();
 
-    this.async(() => {
+    setTimeout(() => {
       if (this.viewState.scrollTop) {
         document.documentElement.scrollTop = document.body.scrollTop = this.viewState.scrollTop;
       } else {
@@ -1487,10 +1487,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
       if (this.viewState.showReplyDialog) {
         this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
         // TODO(kaspern@): Find a better signal for when to call center.
-        this.async(() => {
+        setTimeout(() => {
           this.$.replyOverlay.center();
         }, 100);
-        this.async(() => {
+        setTimeout(() => {
           this.$.replyOverlay.center();
         }, 1000);
         this.set('viewState.showReplyDialog', false);
@@ -2588,7 +2588,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       return;
     }
 
-    this._updateCheckTimerHandle = this.async(() => {
+    this._updateCheckTimerHandle = window.setTimeout(() => {
       assertIsDefined(this._change, '_change');
       const change = this._change;
       fetchChangeUpdates(change, this.restApiService).then(result => {
@@ -2644,7 +2644,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _cancelUpdateCheckTimer() {
     if (this._updateCheckTimerHandle) {
-      this.cancelAsync(this._updateCheckTimerHandle);
+      window.clearTimeout(this._updateCheckTimerHandle);
     }
     this._updateCheckTimerHandle = null;
   }

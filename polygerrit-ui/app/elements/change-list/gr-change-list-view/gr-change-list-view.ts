@@ -141,7 +141,7 @@ export class GrChangeListView extends LegacyElementMixin(PolymerElement) {
 
     // NOTE: This method may be called before attachment. Fire title-change
     // in an async so that attachment to the DOM can take place first.
-    this.async(() => fireTitleChange(this, this._query));
+    setTimeout(() => fireTitleChange(this, this._query));
 
     this.restApiService
       .getPreferences()

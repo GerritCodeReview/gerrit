@@ -84,7 +84,7 @@ export class GrCopyClipboard extends LegacyElementMixin(PolymerElement) {
       this.$.input.style.display = 'none';
     }
     this.$.icon.icon = 'gr-icons:check';
-    this.async(
+    setTimeout(
       () => (this.$.icon.icon = 'gr-icons:content-copy'),
       COPY_TIMEOUT_MS
     );

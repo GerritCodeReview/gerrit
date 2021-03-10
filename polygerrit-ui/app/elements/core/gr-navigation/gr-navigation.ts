@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {
+  BasePatchSetNum,
   BranchName,
   ChangeConfigInfo,
   ChangeInfo,
@@ -253,7 +254,7 @@ export interface GenerateUrlChangeViewParameters {
   changeNum: NumericChangeId;
   project: RepoName;
   patchNum?: PatchSetNum;
-  basePatchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
   edit?: boolean;
   host?: string;
   messageHash?: string;
@@ -310,7 +311,7 @@ export interface GenerateUrlDiffViewParameters {
   project: RepoName;
   path?: string;
   patchNum?: PatchSetNum | null;
-  basePatchNum?: PatchSetNum | null;
+  basePatchNum?: BasePatchSetNum | null;
   lineNum?: number | string;
   leftSide?: boolean;
   commentId?: UrlEncodedCommentId;
@@ -435,7 +436,7 @@ export const GerritNav = {
 
   mapCommentlinks: uninitializedMapCommentLinks,
 
-  _checkPatchRange(patchNum?: PatchSetNum, basePatchNum?: PatchSetNum) {
+  _checkPatchRange(patchNum?: PatchSetNum, basePatchNum?: BasePatchSetNum) {
     if (basePatchNum && !patchNum) {
       throw new Error('Cannot use base patch number without patch number.');
     }
@@ -591,7 +592,7 @@ export const GerritNav = {
   getUrlForChange(
     change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
     patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     isEdit?: boolean,
     messageHash?: string
   ) {
@@ -635,7 +636,7 @@ export const GerritNav = {
   navigateToChange(
     change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
     patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     isEdit?: boolean,
     redirect?: boolean
   ) {
@@ -652,7 +653,7 @@ export const GerritNav = {
     change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
     patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     lineNum?: number
   ) {
     return this.getUrlForDiffById(
@@ -686,7 +687,7 @@ export const GerritNav = {
     project: RepoName,
     filePath: string,
     patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     lineNum?: number,
     leftSide?: boolean
   ) {
@@ -751,7 +752,7 @@ export const GerritNav = {
     change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
     patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     lineNum?: number
   ) {
     this._navigate(

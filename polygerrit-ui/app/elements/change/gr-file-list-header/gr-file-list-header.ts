@@ -45,6 +45,7 @@ import {
   ServerInfo,
   RevisionInfo,
   NumericChangeId,
+  BasePatchSetNum,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
@@ -150,7 +151,7 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
   patchNum?: PatchSetNum;
 
   @property({type: String})
-  basePatchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
 
   @property({type: String})
   filesExpanded?: FilesExpandedState;

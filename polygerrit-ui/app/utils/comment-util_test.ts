@@ -28,6 +28,7 @@ import {
 } from '../test/test-data-generators.js';
 import {CommentSide, Side} from '../constants/constants.js';
 import {
+  BasePatchSetNum,
   ParentPatchSetNum,
   PatchSetNum,
   Timestamp,
@@ -152,7 +153,7 @@ suite('comment-util', () => {
       ];
 
       const actualThreads = createCommentThreads(comments, {
-        basePatchNum: 1 as PatchSetNum,
+        basePatchNum: 1 as BasePatchSetNum,
         patchNum: 4 as PatchSetNum,
       });
 
@@ -226,7 +227,7 @@ suite('comment-util', () => {
 
       assert.deepEqual(
         createCommentThreads(comments, {
-          basePatchNum: 5 as PatchSetNum,
+          basePatchNum: 5 as BasePatchSetNum,
           patchNum: 10 as PatchSetNum,
         }),
         expectedThreads

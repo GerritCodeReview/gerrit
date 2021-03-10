@@ -61,6 +61,7 @@ import {
   Requirement,
   RequirementType,
   UrlEncodedCommentId,
+  BasePatchSetNum,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -221,7 +222,7 @@ export function createRevision(patchSetNum = 1): RevisionInfo {
 export function createEditRevision(): EditRevisionInfo {
   return {
     _number: EditPatchSetNum,
-    basePatchNum: 1 as PatchSetNum,
+    basePatchNum: 1 as BasePatchSetNum,
     commit: createCommit(),
   };
 }

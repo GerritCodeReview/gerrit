@@ -21,6 +21,7 @@ import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {
   AccountInfo,
+  BasePatchSetNum,
   ChangeId,
   ChangeViewChangeInfo,
   CommitId,
@@ -237,7 +238,7 @@ export interface FormattedReviewerUpdateInfo {
 export interface EditRevisionInfo extends Partial<RevisionInfo> {
   // EditRevisionInfo has less required properties then RevisionInfo
   _number: PatchSetNum;
-  basePatchNum: PatchSetNum;
+  basePatchNum: BasePatchSetNum;
   commit: CommitInfo;
 }
 

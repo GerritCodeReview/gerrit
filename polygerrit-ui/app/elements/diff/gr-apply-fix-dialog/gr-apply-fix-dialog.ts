@@ -31,6 +31,7 @@ import {
   FixSuggestionInfo,
   PatchSetNum,
   RobotId,
+  BasePatchSetNum,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -277,7 +278,11 @@ export class GrApplyFixDialog extends LegacyElementMixin(PolymerElement) {
       .applyFixSuggestion(changeNum, patchNum, this._currentFix.fix_id)
       .then(res => {
         if (res && res.ok) {
-          GerritNav.navigateToChange(change, EditPatchSetNum, patchNum);
+          GerritNav.navigateToChange(
+            change,
+            EditPatchSetNum,
+            patchNum as BasePatchSetNum
+          );
           this._close();
         }
         this._isApplyFixLoading = false;

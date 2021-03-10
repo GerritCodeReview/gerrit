@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd423ea1_64456620",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-10T19:44:56Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e \u003e This is already possible today: the replication plugin exposes an API that is consumed by the multi-site plugin.\n\u003e \u003e \u003e \n\u003e \u003e \u003e I don\u0027t believe this is an accurate statement. From my understanding, technically the \"lib\" mechanism exposes the API, not the plugin. \n\u003e \u003e \n\u003e \u003e You are indeed correct, it is documented at [1]. Because Davido\u0027s change about plugins dependency mechanism in the plugin loader was not merged, we still have to use this technical solution to expose a common API.\n\u003e \n\u003e That change does something very cool, it has this class:\n\u003e \n\u003e https://gerrit-review.googlesource.com/c/gerrit/+/54428/25/gerrit-server/src/main/java/com/google/gerrit/server/plugins/MultiParentClassLoader.java\n\u003e \n\u003e which I wanted to implement also, but had not tried yet to see if it would work. If that class works, then I have a proposal that I am trying to get prototyped that will avoid the load ordering issues of that change, which I believe was the major downside of that specific approach.\n\u003e \n\u003e The basic idea is to take advantage of the fact that most execution paths are \"short lived\", i.e. they start with a request, and they end when the request is finished. This means that you only need the MultiParentClassloader available for that short duration. Since for request based use cases you do not need the MultiParentClassloader available at plugin load time, you can simply ignore the plugin ordering issue altogether! It only matters at request time whether the other plugins are loaded. If they aren\u0027t, then the functionality of the dependent plugin can be gracefully unavailable as if none of the plugins were loaded.\n\u003e \n\u003e Basically my new proposal will combine the MultiParentClassloader with the ideas of this change: https://gerrit-review.googlesource.com/c/gerrit/+/129917 and this change: https://gerrit-review.googlesource.com/c/gerrit/+/129918 We can define another interface that would allow DynamicBeans to explicitly (the approach in those changes is implicit and can only use one other plugin) specify which other plugins to add to the current request\u0027s MultiParentClassloader and core can instantiate the DynamicBean from that classloader.\n\nBut that means that the plugin making the request needs to know the list of other plugins that are needed for serving that request, which is exactly the opposite of the Dynamic* approach in Gerrit.\n\nDo you have the code of your prototype, so that I can run and understand better how it works?\n\n\u003e Combine the approach above with this change, and I believe you will be able to access the APIs from other plugins without the need for reflection since you should now have the other plugin\u0027s classloader as a parent classloader! @DavidO, do you think this would work?\n\nI\u0027ve posted a PoC (see Change-Id: I63c9b7f2a) where plugins have other plugins in their parent class-loader, based on the definition of an exported ApiModule, but I believe you want to do that at *request time* and not through the plugin loader.\n\nVery intriguing idea, similar to what Voyager did in Java around 18 years ago: did you have a look at Voyager ORB and why their idea did not have success? (nobody uses Voyager in Java anymore).\n\n\u003e \u003e Let me rephrase: I was interested to know what is the functional use-case that is not possible with the current \u0027/lib\u0027 loading mechanism. From the technical functionality perspective, I agree with you, it is not possible to share a common interface between plugins at the moment, if not through the \u0027/lib\u0027.\n\u003e \n\u003e Gotcha, thanks. We will try to capture that better in the next patchset.\n\u003e \n\u003e \u003e If it is the technical problem that you are willing to address, I do understand your point and I believe we should involve Davido in the discussion as he had some interesting ideas to share.\n\u003e \n\u003e Yes, agreed! I hope he will join the discussion.\n\nHe did and pointed out that, actually, we already have plugins that depends on other plugins :-O and I was the author of it, just had forgotten about it :-(",
+      "parentUuid": "bc78b244_55ddd75d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "52b3151436aa7552b3adb6b31b55903ba785b680",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "733fc14c_28bdaa29",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

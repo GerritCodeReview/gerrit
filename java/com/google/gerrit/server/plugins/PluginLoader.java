@@ -62,6 +62,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
+import java.util.jar.JarFile;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.Config;
 
@@ -397,7 +398,7 @@ public class PluginLoader implements LifecycleListener {
       syncDisabledPlugins(pluginsFiles);
 
       Map<String, Path> activePlugins = filterDisabled(pluginsFiles);
-      for (Map.Entry<String, Path> entry : jarsFirstSortedPluginsSet(activePlugins)) {
+      for (Map.Entry<String, Path> entry : jarsApiFirstSortedPluginsSet(activePlugins)) {
         String name = entry.getKey();
         Path path = entry.getValue();
         String fileName = path.getFileName().toString();
@@ -454,7 +455,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private TreeSet<Map.Entry<String, Path>> jarsFirstSortedPluginsSet(
+  private TreeSet<Map.Entry<String, Path>> jarsApiFirstSortedPluginsSet(
       Map<String, Path> activePlugins) {
     TreeSet<Map.Entry<String, Path>> sortedPlugins =
         Sets.newTreeSet(
@@ -463,14 +464,32 @@ public class PluginLoader implements LifecycleListener {
               public int compare(Map.Entry<String, Path> e1, Map.Entry<String, Path> e2) {
                 Path n1 = e1.getValue().getFileName();
                 Path n2 = e2.getValue().getFileName();
-                return ComparisonChain.start()
-                    .compareTrueFirst(isJar(n1), isJar(n2))
-                    .compare(n1, n2)
-                    .result();
+
+                try {
+                  return ComparisonChain.start()
+                      .compareTrueFirst(isApi(n1), isApi(n2))
+                      .compareTrueFirst(isJar(n1), isJar(n2))
+                      .compare(n1, n2)
+                      .result();
+                } catch (IOException ioe) {
+                  logger.atSevere().withCause(ioe).log("Unable to compare %s and %s", n1, n2);
+                  return 0;
+                }
               }
 
-              private boolean isJar(Path n1) {
-                return n1.toString().endsWith(".jar");
+              private boolean isJar(Path pluginPath) {
+                return pluginPath.toString().endsWith(".jar");
+              }
+
+              private boolean isApi(Path pluginPath) throws IOException {
+                return isJar(pluginPath) && hasApiModuleEntryInManifest(pluginPath);
+              }
+
+              private boolean hasApiModuleEntryInManifest(Path pluginPath) throws IOException {
+                try (JarFile jarFile = new JarFile(pluginPath.toFile())) {
+                  return Strings.isNullOrEmpty(
+                      jarFile.getManifest().getMainAttributes().getValue("Gerrit-ApiModule"));
+                }
               }
             });
 

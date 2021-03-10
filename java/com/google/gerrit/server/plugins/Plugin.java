@@ -21,10 +21,12 @@ import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.PluginUser;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
@@ -143,6 +145,10 @@ public abstract class Plugin {
   @Nullable
   public abstract Injector getHttpInjector();
 
+  public Optional<Injector> getApiInjector() {
+    return Optional.empty();
+  }
+
   public void add(RegistrationHandle handle) {
     if (manager != null) {
       if (handle instanceof ReloadableRegistrationHandle) {
@@ -171,5 +177,9 @@ public abstract class Plugin {
 
   boolean isModified(Path jar) {
     return snapshot.isModified(jar.toFile());
+  }
+
+  public Optional<Module> getApiModule() {
+    return Optional.empty();
   }
 }

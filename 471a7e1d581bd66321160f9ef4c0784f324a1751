@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9baad72_d916bfd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-10T14:33:58Z",
+      "side": 1,
+      "message": "in this example, if you have two plugins working together, would you make 3 plugins (one declaring the API), and 2 implementing the API (consumer \u0026 provider) or just 2 altogether, ie. Provider (PLUGIN_API) and Consumer (PLUGIN)?\n\nIn the latter case, wouldn\u0027t the dependencies of the provider leak into the consumer leading to conflicts with version mismatches?\n\nRegardless, with this setup, you can\u0027t chain APIs, right? Ie. if you have a plugin providing a new type as an extension (say: a new Input/Info), then you can only build one layer of types that are provided by a plugin, right?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 63
+      },
+      "revId": "471a7e1d581bd66321160f9ef4c0784f324a1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "39ac3b9d_cb28bfa7",

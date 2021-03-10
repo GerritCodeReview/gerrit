@@ -16,6 +16,29 @@
       "message": "This is now fully working E2E and ready for review.\nI\u0027ll also check that it isn\u0027t breaking any existing use-cases.",
       "revId": "5b789bae6a5453b1f514572d465277d79903d8a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2e12c36_84b39f3b",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-10T17:18:53Z",
+      "side": 1,
+      "message": "This step is *fundamental* for allowing the other plugins to report back their injected overrides of the Dynamic* back to the API provider.",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 284,
+        "endChar": 7
+      },
+      "revId": "5b789bae6a5453b1f514572d465277d79903d8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -128,8 +128,8 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
-    super.disconnectedCallback();
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
+    super.disconnectedCallback();
   }
 
   // Don't remove - used by clients embedding gr-diff outside of Gerrit.

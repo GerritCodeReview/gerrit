@@ -230,8 +230,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;
     });

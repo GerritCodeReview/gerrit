@@ -394,8 +394,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     ((IronA11yAnnouncer as unknown) as FixIronA11yAnnouncer).requestAvailability();
     this._getAccount().then(account => {
       if (account) this._account = account;
@@ -428,8 +428,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  detached() {
+  disconnectedCallback() {
     this.cancelDebouncer(DEBOUNCER_STORE);
+    super.disconnectedCallback();
   }
 
   open(focusTarget?: FocusTarget) {

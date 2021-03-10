@@ -88,8 +88,9 @@ export class GrDiffHighlight extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  detached() {
+  disconnectedCallback() {
     this.cancelDebouncer(DEBOUNCER_SELECTION_CHANGE);
+    super.disconnectedCallback();
   }
 
   get diffBuilder() {

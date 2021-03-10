@@ -140,16 +140,17 @@ export class GrEditorView extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._getEditPrefs().then(prefs => {
       this._prefs = prefs;
     });
   }
 
   /** @override */
-  detached() {
+  disconnectedCallback() {
     this.cancelDebouncer(DEBOUNCER_STORE);
+    super.disconnectedCallback();
   }
 
   get storageKey() {

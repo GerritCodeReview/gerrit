@@ -133,8 +133,8 @@ export class GrDateFormatter extends TooltipMixin(
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._loadPreferences();
   }
 

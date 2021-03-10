@@ -960,10 +960,10 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
 
       /** @override */
       disconnectedCallback() {
-        super.disconnectedCallback();
         if (shortcutManager.detachHost(this)) {
           this.removeOwnKeyBindings();
         }
+        super.disconnectedCallback();
       }
 
       keyboardShortcuts() {

@@ -198,8 +198,8 @@ export class GrSearchBar extends KeyboardShortcutMixin(
     this.query = (input: string) => this._getSearchSuggestions(input);
   }
 
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.restApiService.getConfig().then((serverConfig?: ServerInfo) => {
       const mergeability =
         serverConfig &&

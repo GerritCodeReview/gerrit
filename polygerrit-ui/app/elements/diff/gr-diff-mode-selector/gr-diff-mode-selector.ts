@@ -45,7 +45,9 @@ export class GrDiffModeSelector extends LegacyElementMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  attached() {
+  /** @override */
+  connectedCallback() {
+    super.connectedCallback();
     ((IronA11yAnnouncer as unknown) as FixIronA11yAnnouncer).requestAvailability();
   }
 

@@ -75,19 +75,19 @@ export class GrKeyboardShortcutsDialog extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.addKeyboardShortcutDirectoryListener(
       this.keyboardShortcutDirectoryListener
     );
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
     this.removeKeyboardShortcutDirectoryListener(
       this.keyboardShortcutDirectoryListener
     );
+    super.disconnectedCallback();
   }
 
   _handleCloseTap(e: MouseEvent) {

@@ -128,8 +128,9 @@ export class GrEditableContent extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  detached() {
+  disconnectedCallback() {
     this.cancelDebouncer(DEBOUNCER_STORE);
+    super.disconnectedCallback();
   }
 
   _contentChanged() {

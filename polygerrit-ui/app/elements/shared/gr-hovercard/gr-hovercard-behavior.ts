@@ -119,8 +119,8 @@ export const hovercardBehaviorMixin = dedupingMixin(
       private isScheduledToHide?: boolean;
 
       /** @override */
-      attached() {
-        super.attached();
+      connectedCallback() {
+        super.connectedCallback();
         if (!this._target) {
           this._target = this.target;
         }
@@ -141,11 +141,11 @@ export const hovercardBehaviorMixin = dedupingMixin(
         this.listen(this, 'mouseleave', 'unlock');
       }
 
-      detached() {
-        super.detached();
+      disconnectedCallback() {
         this.cancelShowDebouncer();
         this.cancelHideDebouncer();
         this.unlock();
+        super.disconnectedCallback();
       }
 
       /** @override */

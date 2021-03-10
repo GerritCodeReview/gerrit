@@ -197,7 +197,7 @@ suite('gr-rule-editor tests', () => {
       element._setupValues(element.rule);
       flush();
       flush(() => {
-        element.attached();
+        element.connectedCallback();
         done();
       });
     });
@@ -306,7 +306,7 @@ suite('gr-rule-editor tests', () => {
       flush();
       element.rule.value.added = true;
       flush(() => {
-        element.attached();
+        element.connectedCallback();
         done();
       });
     });
@@ -371,7 +371,7 @@ suite('gr-rule-editor tests', () => {
       element._setupValues(element.rule);
       flush();
       flush(() => {
-        element.attached();
+        element.connectedCallback();
         done();
       });
     });
@@ -425,7 +425,7 @@ suite('gr-rule-editor tests', () => {
       flush();
       element.rule.value.added = true;
       flush(() => {
-        element.attached();
+        element.connectedCallback();
         done();
       });
     });
@@ -482,7 +482,7 @@ suite('gr-rule-editor tests', () => {
       element._setupValues(element.rule);
       flush();
       flush(() => {
-        element.attached();
+        element.connectedCallback();
         done();
       });
     });
@@ -524,7 +524,7 @@ suite('gr-rule-editor tests', () => {
       flush();
       element.rule.value.added = true;
       flush(() => {
-        element.attached();
+        element.connectedCallback();
         done();
       });
     });
@@ -571,7 +571,7 @@ suite('gr-rule-editor tests', () => {
       element._setupValues(element.rule);
       flush();
       flush(() => {
-        element.attached();
+        element.connectedCallback();
         done();
       });
     });

@@ -88,7 +88,6 @@ export const TooltipMixin = dedupingMixin(
 
       /** @override */
       disconnectedCallback() {
-        super.disconnectedCallback();
         // NOTE: if you define your own `detached` in your component
         // then this won't take affect (as its not a class yet)
         this._handleHideTooltip();
@@ -96,6 +95,7 @@ export const TooltipMixin = dedupingMixin(
           this.removeEventListener('mouseenter', this.mouseenterHandler);
         }
         window.removeEventListener('scroll', this.windowScrollHandler);
+        super.disconnectedCallback();
       }
 
       @observe('hasTooltip')

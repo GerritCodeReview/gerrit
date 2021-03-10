@@ -127,8 +127,8 @@ export class GrDashboardView extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._loadPreferences();
     this.addEventListener('reload', e => {
       e.stopPropagation();

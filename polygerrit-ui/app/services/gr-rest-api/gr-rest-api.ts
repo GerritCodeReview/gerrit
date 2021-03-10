@@ -24,6 +24,7 @@ import {
   AccountInfo,
   ActionNameToActionInfoMap,
   Base64FileContent,
+  BasePatchSetNum,
   BlameInfo,
   BranchInfo,
   BranchInput,
@@ -422,7 +423,7 @@ export interface RestApiService {
   ): Promise<GetDiffCommentsOutput>;
   getDiffComments(
     changeNum: NumericChangeId,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ):
@@ -440,7 +441,7 @@ export interface RestApiService {
   ): Promise<GetDiffRobotCommentsOutput>;
   getDiffRobotComments(
     changeNum: NumericChangeId,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ):
@@ -458,7 +459,7 @@ export interface RestApiService {
   ): Promise<GetDiffCommentsOutput>;
   getDiffDrafts(
     changeNum: NumericChangeId,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ):

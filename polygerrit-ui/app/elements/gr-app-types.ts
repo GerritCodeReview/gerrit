@@ -20,6 +20,7 @@ import {
   RepoDetailView,
 } from './core/gr-navigation/gr-navigation';
 import {
+  BasePatchSetNum,
   DashboardId,
   GroupId,
   NumericChangeId,
@@ -100,7 +101,7 @@ export interface AppElementDiffViewParam {
   commentId?: UrlEncodedCommentId;
   path?: string;
   patchNum?: PatchSetNum;
-  basePatchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
   lineNum: number;
   leftSide?: boolean;
   commentLink?: boolean;
@@ -111,7 +112,7 @@ export interface AppElementChangeViewParams {
   project: RepoName;
   edit?: boolean;
   patchNum?: PatchSetNum;
-  basePatchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
   queryMap?: Map<string, string> | URLSearchParams;
 }
 

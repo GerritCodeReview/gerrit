@@ -65,6 +65,7 @@ import {ChangeViewPatchRange, GrChangeView} from './gr-change-view';
 import {
   AccountId,
   ApprovalInfo,
+  BasePatchSetNum,
   ChangeId,
   ChangeInfo,
   CommitId,
@@ -427,7 +428,7 @@ suite('gr-change-view tests', () => {
     };
     element._patchRange = {
       patchNum: 3 as PatchSetNum,
-      basePatchNum: 1 as PatchSetNum,
+      basePatchNum: 1 as BasePatchSetNum,
     };
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffAgainstBase(new CustomEvent('') as CustomKeyboardEvent);
@@ -443,7 +444,7 @@ suite('gr-change-view tests', () => {
       revisions: createRevisions(10),
     };
     element._patchRange = {
-      basePatchNum: 1 as PatchSetNum,
+      basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as PatchSetNum,
     };
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
@@ -464,7 +465,7 @@ suite('gr-change-view tests', () => {
     };
     element._patchRange = {
       patchNum: 3 as PatchSetNum,
-      basePatchNum: 1 as PatchSetNum,
+      basePatchNum: 1 as BasePatchSetNum,
     };
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffBaseAgainstLeft(
@@ -482,7 +483,7 @@ suite('gr-change-view tests', () => {
       revisions: createRevisions(10),
     };
     element._patchRange = {
-      basePatchNum: 1 as PatchSetNum,
+      basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as PatchSetNum,
     };
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
@@ -501,7 +502,7 @@ suite('gr-change-view tests', () => {
       revisions: createRevisions(10),
     };
     element._patchRange = {
-      basePatchNum: 1 as PatchSetNum,
+      basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as PatchSetNum,
     };
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
@@ -1526,7 +1527,7 @@ suite('gr-change-view tests', () => {
 
     element._initialLoadComplete = true;
 
-    value.basePatchNum = 1 as PatchSetNum;
+    value.basePatchNum = 1 as BasePatchSetNum;
     value.patchNum = 2 as PatchSetNum;
     element._paramsChanged(value);
     assert.isFalse(reloadStub.calledTwice);
@@ -1559,7 +1560,7 @@ suite('gr-change-view tests', () => {
 
     element._initialLoadComplete = true;
 
-    value.basePatchNum = 1 as PatchSetNum;
+    value.basePatchNum = 1 as BasePatchSetNum;
     value.patchNum = 2 as PatchSetNum;
     element._paramsChanged(value);
     assert.isTrue(reloadPortedCommentsStub.calledOnce);
@@ -2554,15 +2555,9 @@ suite('gr-change-view tests', () => {
         createAppElementChangeViewParams()
       )
     );
-    assert.isFalse(
-      callCompute(
-        {basePatchNum: EditPatchSetNum, patchNum: 1 as PatchSetNum},
-        createAppElementChangeViewParams()
-      )
-    );
     assert.isTrue(
       callCompute(
-        {basePatchNum: 1 as PatchSetNum, patchNum: EditPatchSetNum},
+        {basePatchNum: 1 as BasePatchSetNum, patchNum: EditPatchSetNum},
         createAppElementChangeViewParams()
       )
     );

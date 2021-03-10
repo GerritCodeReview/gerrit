@@ -40,6 +40,7 @@ import {
   ChangeMessageId,
   PatchSetNum,
   AccountInfo,
+  BasePatchSetNum,
 } from '../../../types/common';
 import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
@@ -303,7 +304,7 @@ export class GrMessage extends LegacyElementMixin(PolymerElement) {
       const match = this.message.message.match(MERGED_PATCHSET_PATTERN)!;
       if (isNaN(Number(match[1])))
         throw new Error('invalid patchnum in message');
-      basePatchNum = Number(match[1]) as PatchSetNum;
+      basePatchNum = Number(match[1]) as BasePatchSetNum;
       patchNum = computeLatestPatchNum(computeAllPatchSets(this.change))!;
     } else {
       // Message is of the form "Commit Message was updated" or "Patchset X

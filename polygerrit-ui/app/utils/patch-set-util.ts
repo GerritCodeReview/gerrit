@@ -5,6 +5,7 @@ import {
   EditPatchSetNum,
   ParentPatchSetNum,
   PatchSetNumber,
+  BasePatchSetNum,
 } from '../types/common';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
@@ -47,7 +48,7 @@ export interface PatchSet {
 
 interface PatchRange {
   patchNum?: PatchSetNum;
-  basePatchNum?: PatchSetNum;
+  basePatchNum?: BasePatchSetNum;
 }
 
 /**
@@ -263,7 +264,7 @@ export function computeLatestPatchNum(
 
 export function computePredecessor(
   patchset?: PatchSetNum
-): PatchSetNum | undefined {
+): BasePatchSetNum | undefined {
   if (
     !patchset ||
     patchset === ParentPatchSetNum ||
@@ -272,7 +273,7 @@ export function computePredecessor(
     return undefined;
   }
   if (patchset === 1) return ParentPatchSetNum;
-  return (Number(patchset) - 1) as PatchSetNum;
+  return (Number(patchset) - 1) as BasePatchSetNum;
 }
 
 export function hasEditBasedOnCurrentPatchSet(allPatchSets: PatchSet[]) {

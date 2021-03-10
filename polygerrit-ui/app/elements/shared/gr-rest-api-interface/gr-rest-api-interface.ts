@@ -52,6 +52,7 @@ import {
   Base64File,
   Base64FileContent,
   Base64ImageFile,
+  BasePatchSetNum,
   BlameInfo,
   BranchInfo,
   BranchInput,
@@ -2229,14 +2230,14 @@ export class GrRestApiInterface extends PolymerElement
 
   getDiffComments(
     changeNum: NumericChangeId,
-    basePatchNum: PatchSetNum,
+    basePatchNum: BasePatchSetNum,
     patchNum: PatchSetNum,
     path: string
   ): Promise<GetDiffCommentsOutput>;
 
   getDiffComments(
     changeNum: NumericChangeId,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ) {
@@ -2262,14 +2263,14 @@ export class GrRestApiInterface extends PolymerElement
 
   getDiffRobotComments(
     changeNum: NumericChangeId,
-    basePatchNum: PatchSetNum,
+    basePatchNum: BasePatchSetNum,
     patchNum: PatchSetNum,
     path: string
   ): Promise<GetDiffRobotCommentsOutput>;
 
   getDiffRobotComments(
     changeNum: NumericChangeId,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ) {
@@ -2298,14 +2299,14 @@ export class GrRestApiInterface extends PolymerElement
 
   getDiffDrafts(
     changeNum: NumericChangeId,
-    basePatchNum: PatchSetNum,
+    basePatchNum: BasePatchSetNum,
     patchNum: PatchSetNum,
     path: string
   ): Promise<GetDiffCommentsOutput>;
 
   getDiffDrafts(
     changeNum: NumericChangeId,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ) {
@@ -2365,7 +2366,7 @@ export class GrRestApiInterface extends PolymerElement
     changeNum: NumericChangeId,
     endpoint: '/comments' | '/drafts',
     params?: FetchParams,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ): Promise<GetDiffCommentsOutput>;
@@ -2374,7 +2375,7 @@ export class GrRestApiInterface extends PolymerElement
     changeNum: NumericChangeId,
     endpoint: '/robotcomments',
     params?: FetchParams,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ): Promise<GetDiffRobotCommentsOutput>;
@@ -2383,7 +2384,7 @@ export class GrRestApiInterface extends PolymerElement
     changeNum: NumericChangeId,
     endpoint: string,
     params?: FetchParams,
-    basePatchNum?: PatchSetNum,
+    basePatchNum?: BasePatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ): Promise<

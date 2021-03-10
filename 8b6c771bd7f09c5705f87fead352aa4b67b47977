@@ -196,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85a5dcbd_0f0cadd3",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-10T22:17:36Z",
+      "side": 1,
+      "message": "Paraphrased from this section in the Fowler link: \"If you always make things a little better, then repeated applications will make a big impact that\u0027s focused on the areas that are frequently visited - which are exactly the areas where clean code is most valuable.\" (which I thought was the general section you were modeling this after)",
+      "parentUuid": "95797ae6_c7920cd5",
+      "revId": "8b6c771bd7f09c5705f87fead352aa4b67b47977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "05fa1ea2_4e4d0673",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 1

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30787884_44692703",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-10T11:50:00Z",
+      "side": 1,
+      "message": "Blocking this change, as it is NOT supposed to be merged.",
+      "revId": "786d5eb13d9e5b2b41a9bdc1c312549b52dda4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2befa164_bde677eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-10T17:28:41Z",
+      "side": 1,
+      "message": "\u003e OK. pretty neat \n\u003e \n\u003e I considered proposing something that would let you install a new libmodule , and then reboot Gerrit. This seems like a principled version of that.\n\nYes, sort-of-more-limited though. With a libModule you can replace parts of Gerrit (e.g. the repository manager) whilst this is more for avoiding the use of libModules when you simply want to expose an API from one plugin (e.g. replication) and use it from another plugin.\n\nThanks to the design document written by Qualcomm, I have now clear in my mind what they want to achieve and the problem and use-case is something makes sense to me.",
+      "parentUuid": "4d6b796b_d72db8a5",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 63
+      },
+      "revId": "471a7e1d581bd66321160f9ef4c0784f324a1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "39ac3b9d_cb28bfa7",

@@ -173,6 +173,7 @@ import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
 import {GrRelatedChangesListExperimental} from '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
+import {debounce, Debouncer} from '../../../utils/async-util';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -242,10 +243,6 @@ export interface GrChangeView {
 }
 
 export type ChangeViewPatchRange = Partial<PatchRange>;
-
-const DEBOUNCER_REPLY_OVERLAY_REFIT = 'reply-overlay-refit';
-
-const DEBOUNCER_SCROLL = 'scroll';
 
 @customElement('gr-change-view')
 export class GrChangeView extends KeyboardShortcutMixin(
@@ -592,6 +589,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   disconnected$ = new Subject();
 
+  private replyRefitDebouncer?: Debouncer;
+
+  private scrollDebouncer?: Debouncer;
+
   /** @override */
   ready() {
     super.ready();
@@ -711,8 +712,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this.disconnected$.next();
     this.unlisten(window, 'scroll', '_handleScroll');
     this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
-    this.cancelDebouncer(DEBOUNCER_REPLY_OVERLAY_REFIT);
-    this.cancelDebouncer(DEBOUNCER_SCROLL);
+    this.replyRefitDebouncer?.cancel();
+    this.scrollDebouncer?.cancel();
 
     if (this._updateCheckTimerHandle) {
       this._cancelUpdateCheckTimer();
@@ -1237,8 +1238,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _handleReplyAutogrow() {
     // If the textarea resizes, we need to re-fit the overlay.
-    this.debounce(
-      DEBOUNCER_REPLY_OVERLAY_REFIT,
+    this.replyRefitDebouncer = debounce(
+      this.replyRefitDebouncer,
       () => {
         this.$.replyOverlay.refit();
       },
@@ -1255,8 +1256,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleScroll() {
-    this.debounce(
-      DEBOUNCER_SCROLL,
+    this.scrollDebouncer = debounce(
+      this.scrollDebouncer,
       () => {
         this.viewState.scrollTop = document.body.scrollTop;
       },

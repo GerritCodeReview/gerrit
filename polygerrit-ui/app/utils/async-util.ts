@@ -42,3 +42,41 @@ export function asyncForeach<T>(
     return asyncForeach(array.slice(1), fn);
   });
 }
+
+export class Debouncer {
+  private timer?: number;
+
+  constructor(private callback: () => void, wait: number) {
+    this.timer = window.setTimeout(() => {
+      this.timer = undefined;
+      if (this.callback) this.callback();
+    }, wait);
+  }
+
+  cancel() {
+    if (this.isActive()) {
+      window.clearTimeout(this.timer);
+      this.timer = undefined;
+    }
+  }
+
+  flush() {
+    if (this.isActive()) {
+      this.cancel();
+      if (this.callback) this.callback();
+    }
+  }
+
+  isActive() {
+    return this.timer !== undefined;
+  }
+}
+
+export function debounce(
+  debouncer: Debouncer | undefined,
+  callback: () => void,
+  waitMs: number
+) {
+  if (debouncer !== undefined) debouncer.cancel();
+  return new Debouncer(callback, waitMs);
+}

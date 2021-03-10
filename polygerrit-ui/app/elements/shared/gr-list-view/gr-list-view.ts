@@ -25,6 +25,7 @@ import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {property, customElement} from '@polymer/decorators';
 import {fireEvent} from '../../../utils/event-util';
+import {debounce, Debouncer} from '../../../utils/async-util';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
@@ -33,8 +34,6 @@ declare global {
     'gr-list-view': GrListView;
   }
 }
-
-const DEBOUNCER_RELOAD = 'reload';
 
 @customElement('gr-list-view')
 class GrListView extends LegacyElementMixin(PolymerElement) {
@@ -63,9 +62,11 @@ class GrListView extends LegacyElementMixin(PolymerElement) {
   @property({type: String})
   path?: string;
 
+  private reloadDebouncer?: Debouncer;
+
   /** @override */
   disconnectedCallback() {
-    this.cancelDebouncer(DEBOUNCER_RELOAD);
+    this.reloadDebouncer?.cancel();
     super.disconnectedCallback();
   }
 
@@ -79,8 +80,8 @@ class GrListView extends LegacyElementMixin(PolymerElement) {
   }
 
   _debounceReload(filter?: string) {
-    this.debounce(
-      DEBOUNCER_RELOAD,
+    this.reloadDebouncer = debounce(
+      this.reloadDebouncer,
       () => {
         if (this.path) {
           if (filter) {

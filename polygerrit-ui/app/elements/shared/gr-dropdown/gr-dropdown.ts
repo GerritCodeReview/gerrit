@@ -41,7 +41,6 @@ declare global {
 export interface GrDropdown {
   $: {
     dropdown: IronDropdownElement;
-    cursor: GrCursorManager;
   };
 }
 
@@ -128,9 +127,18 @@ export class GrDropdown extends KeyboardShortcutMixin(
     };
   }
 
+  private cursor = new GrCursorManager();
+
+  constructor() {
+    super();
+    this.cursor.cursorTargetClass = 'selected';
+    // TODO: observe?
+    this.cursor.stops = this._listElements;
+  }
+
   /** @override */
   detached() {
-    this.$.cursor.unsetCursor();
+    this.cursor.unsetCursor();
   }
 
   /**
@@ -140,7 +148,7 @@ export class GrDropdown extends KeyboardShortcutMixin(
     if (this.$.dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
-      this.$.cursor.previous();
+      this.cursor.previous();
     } else {
       this._open();
     }
@@ -153,7 +161,7 @@ export class GrDropdown extends KeyboardShortcutMixin(
     if (this.$.dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
-      this.$.cursor.next();
+      this.cursor.next();
     } else {
       this._open();
     }
@@ -180,8 +188,8 @@ export class GrDropdown extends KeyboardShortcutMixin(
       // TODO(milutin): This solution is not particularly robust in general.
       // Since gr-tooltip-content click on shadow dom is not propagated down,
       // we have to target `a` inside it.
-      if (this.$.cursor.target !== null) {
-        const el = this.$.cursor.target.querySelector(':not([hidden]) a');
+      if (this.cursor.target !== null) {
+        const el = this.cursor.target.querySelector(':not([hidden]) a');
         if (el) {
           (el as HTMLElement).click();
         }
@@ -217,8 +225,8 @@ export class GrDropdown extends KeyboardShortcutMixin(
   _open() {
     this.$.dropdown.open();
     this._resetCursorStops();
-    this.$.cursor.setCursorAtIndex(0);
-    if (this.$.cursor.target !== null) this.$.cursor.target.focus();
+    this.cursor.setCursorAtIndex(0);
+    if (this.cursor.target !== null) this.cursor.target.focus();
   }
 
   _close() {

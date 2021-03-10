@@ -16,97 +16,131 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-message.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {createChange, createRevisions} from '../../../test/test-data-generators.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import './gr-message';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  createChange,
+  createChangeMessage,
+  createComment,
+  createRevisions,
+} from '../../../test/test-data-generators';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {GrMessage} from './gr-message';
+import {
+  AccountId,
+  ChangeMessageId,
+  EmailAddress,
+  NumericChangeId,
+  PatchSetNum,
+  ReviewInputTag,
+  Timestamp,
+  UrlEncodedCommentId,
+} from '../../../types/common.js';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
+import {
+  ChangeMessageDeletedEventDetail,
+  ReplyEventDetail,
+} from '../../../types/events.js';
+import {GrButton} from '../../shared/gr-button/gr-button.js';
+import {SinonStub} from 'sinon';
+import {CommentSide} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-message');
 
 suite('gr-message tests', () => {
-  let element;
+  let element: GrMessage;
 
   suite('when admin and logged in', () => {
     setup(done => {
-      stubRestApi('getPreferences').returns(Promise.resolve({}));
       stubRestApi('getIsAdmin').returns(Promise.resolve(true));
-      stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
       flush(done);
     });
 
     test('reply event', done => {
       element.message = {
-        id: '47c43261_55aa2c41',
+        ...createChangeMessage(),
+        id: '47c43261_55aa2c41' as ChangeMessageId,
         author: {
-          _account_id: 1115495,
+          _account_id: 1115495 as AccountId,
           name: 'Andrew Bonventre',
-          email: 'andybons@chromium.org',
+          email: 'andybons@chromium.org' as EmailAddress,
         },
-        date: '2016-01-12 20:24:49.448000000',
+        date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'Uploaded patch set 1.',
-        _revision_number: 1,
+        _revision_number: 1 as PatchSetNum,
         expanded: true,
       };
 
-      element.addEventListener('reply', e => {
+      element.addEventListener('reply', (e: CustomEvent<ReplyEventDetail>) => {
         assert.deepEqual(e.detail.message, element.message);
         done();
       });
       flush();
       assert.isFalse(
-          element.shadowRoot.querySelector('.replyActionContainer').hidden
+        (queryAndAssert(element, '.replyActionContainer') as HTMLElement).hidden
       );
-      MockInteractions.tap(element.shadowRoot.querySelector('.replyBtn'));
+      tap(queryAndAssert(element, '.replyBtn'));
     });
 
     test('can see delete button', () => {
       element.message = {
-        id: '47c43261_55aa2c41',
+        ...createChangeMessage(),
+        id: '47c43261_55aa2c41' as ChangeMessageId,
         author: {
-          _account_id: 1115495,
+          _account_id: 1115495 as AccountId,
           name: 'Andrew Bonventre',
-          email: 'andybons@chromium.org',
+          email: 'andybons@chromium.org' as EmailAddress,
         },
-        date: '2016-01-12 20:24:49.448000000',
+        date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'Uploaded patch set 1.',
-        _revision_number: 1,
+        _revision_number: 1 as PatchSetNum,
         expanded: true,
       };
 
       flush();
-      assert.isFalse(element.shadowRoot.querySelector('.deleteBtn').hidden);
+      assert.isFalse(
+        (queryAndAssert(element, '.deleteBtn') as HTMLElement).hidden
+      );
     });
 
     test('delete change message', done => {
-      element.changeNum = 314159;
+      element.changeNum = 314159 as NumericChangeId;
       element.message = {
-        id: '47c43261_55aa2c41',
+        ...createChangeMessage(),
+        id: '47c43261_55aa2c41' as ChangeMessageId,
         author: {
-          _account_id: 1115495,
+          _account_id: 1115495 as AccountId,
           name: 'Andrew Bonventre',
-          email: 'andybons@chromium.org',
+          email: 'andybons@chromium.org' as EmailAddress,
         },
-        date: '2016-01-12 20:24:49.448000000',
+        date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'Uploaded patch set 1.',
-        _revision_number: 1,
+        _revision_number: 1 as PatchSetNum,
         expanded: true,
       };
 
-      element.addEventListener('change-message-deleted', e => {
-        assert.deepEqual(e.detail.message, element.message);
-        assert.isFalse(element.shadowRoot.querySelector('.deleteBtn').disabled);
-        done();
-      });
+      element.addEventListener(
+        'change-message-deleted',
+        (e: CustomEvent<ChangeMessageDeletedEventDetail>) => {
+          assert.deepEqual(e.detail.message, element.message);
+          assert.isFalse(
+            (queryAndAssert(element, '.deleteBtn') as GrButton).disabled
+          );
+          done();
+        }
+      );
       flush();
-      MockInteractions.tap(element.shadowRoot.querySelector('.deleteBtn'));
-      assert.isTrue(element.shadowRoot.querySelector('.deleteBtn').disabled);
+      tap(queryAndAssert(element, '.deleteBtn'));
+      assert.isTrue(
+        (queryAndAssert(element, '.deleteBtn') as GrButton).disabled
+      );
     });
 
     test('autogenerated prefix hiding', () => {
       element.message = {
-        tag: 'autogenerated:gerrit:test',
-        updated: '2016-01-12 20:24:49.448000000',
+        ...createChangeMessage(),
+        tag: 'autogenerated:gerrit:test' as ReviewInputTag,
         expanded: false,
       };
 
@@ -120,8 +154,8 @@ suite('gr-message tests', () => {
 
     test('reviewer message treated as autogenerated', () => {
       element.message = {
-        tag: 'autogenerated:gerrit:test',
-        updated: '2016-01-12 20:24:49.448000000',
+        ...createChangeMessage(),
+        tag: 'autogenerated:gerrit:test' as ReviewInputTag,
         reviewer: {},
         expanded: false,
       };
@@ -136,8 +170,8 @@ suite('gr-message tests', () => {
 
     test('batch reviewer message treated as autogenerated', () => {
       element.message = {
+        ...createChangeMessage(),
         type: 'REVIEWER_UPDATE',
-        updated: '2016-01-12 20:24:49.448000000',
         reviewer: {},
         expanded: false,
       };
@@ -152,8 +186,8 @@ suite('gr-message tests', () => {
 
     test('tag that is not autogenerated prefix does not hide', () => {
       element.message = {
-        tag: 'something',
-        updated: '2016-01-12 20:24:49.448000000',
+        ...createChangeMessage(),
+        tag: 'something' as ReviewInputTag,
         expanded: false,
       };
 
@@ -167,6 +201,7 @@ suite('gr-message tests', () => {
 
     test('reply button hidden unless logged in', () => {
       const message = {
+        ...createChangeMessage(),
         message: 'Uploaded patch set 1.',
         expanded: false,
       };
@@ -176,15 +211,16 @@ suite('gr-message tests', () => {
 
     test('_computeShowOnBehalfOf', () => {
       const message = {
+        ...createChangeMessage(),
         message: '...',
         expanded: false,
       };
       assert.isNotOk(element._computeShowOnBehalfOf(message));
-      message.author = {_account_id: 1115495};
+      message.author = {_account_id: 1115495 as AccountId};
       assert.isNotOk(element._computeShowOnBehalfOf(message));
-      message.real_author = {_account_id: 1115495};
+      message.real_author = {_account_id: 1115495 as AccountId};
       assert.isNotOk(element._computeShowOnBehalfOf(message));
-      message.real_author._account_id = 123456;
+      message.real_author._account_id = 123456 as AccountId;
       assert.isOk(element._computeShowOnBehalfOf(message));
       message.updated_by = message.author;
       delete message.author;
@@ -196,39 +232,37 @@ suite('gr-message tests', () => {
     ['Trybot-Ready', 'Tryjob-Request', 'Commit-Queue'].forEach(label => {
       test(`${label} ignored for color voting`, () => {
         element.message = {
+          ...createChangeMessage(),
           author: {},
           expanded: false,
           message: `Patch Set 1: ${label}+1`,
         };
-        assert.isNotOk(
-            element.root.querySelector('.negativeVote'));
-        assert.isNotOk(
-            element.root.querySelector('.positiveVote'));
+        assert.isNotOk(element.root?.querySelector('.negativeVote'));
+        assert.isNotOk(element.root?.querySelector('.positiveVote'));
       });
     });
 
     test('clicking on date link fires event', () => {
       element.message = {
+        ...createChangeMessage(),
         type: 'REVIEWER_UPDATE',
-        updated: '2016-01-12 20:24:49.448000000',
         reviewer: {},
-        id: '47c43261_55aa2c41',
+        id: '47c43261_55aa2c41' as ChangeMessageId,
         expanded: false,
       };
       flush();
       const stub = sinon.stub();
       element.addEventListener('message-anchor-tap', stub);
-      const dateEl = element.shadowRoot
-          .querySelector('.date');
+      const dateEl = queryAndAssert(element, '.date');
       assert.ok(dateEl);
-      MockInteractions.tap(dateEl);
+      tap(dateEl);
 
       assert.isTrue(stub.called);
       assert.deepEqual(stub.lastCall.args[0].detail, {id: element.message.id});
     });
 
     suite('uploaded patchset X message navigates to X - 1 vs  X', () => {
-      let navStub;
+      let navStub: SinonStub;
       setup(() => {
         element.change = {...createChange(), revisions: createRevisions(4)};
         navStub = sinon.stub(GerritNav, 'navigateToChange');
@@ -236,21 +270,23 @@ suite('gr-message tests', () => {
 
       test('Patchset 1 navigates to Base', () => {
         element.message = {
+          ...createChangeMessage(),
           message: 'Uploaded patch set 1.',
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
-        assert.isTrue(navStub.calledWithExactly(element.change, 1,
-            'PARENT'));
+        assert.isTrue(navStub.calledWithExactly(element.change, 1, 'PARENT'));
       });
 
       test('Patchset X navigates to X vs X - 1', () => {
         element.message = {
+          ...createChangeMessage(),
           message: 'Uploaded patch set 2.',
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(navStub.calledWithExactly(element.change, 2, 1));
 
         element.message = {
+          ...createChangeMessage(),
           message: 'Uploaded patch set 200.',
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
@@ -259,6 +295,7 @@ suite('gr-message tests', () => {
 
       test('Commit message updated', () => {
         element.message = {
+          ...createChangeMessage(),
           message: 'Commit message updated.',
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
@@ -267,6 +304,7 @@ suite('gr-message tests', () => {
 
       test('Merged patchset change message', () => {
         element.message = {
+          ...createChangeMessage(),
           message: 'abcd↵3 is the latest approved patch-set.↵abc',
         };
         element._handleViewPatchsetDiff(new MouseEvent('click'));
@@ -276,16 +314,24 @@ suite('gr-message tests', () => {
 
     suite('compute messages', () => {
       test('empty', () => {
-        assert.equal(element._computeMessageContent(true, '', ''), '');
-        assert.equal(element._computeMessageContent(false, '', ''), '');
+        assert.equal(
+          element._computeMessageContent(true, '', '' as ReviewInputTag),
+          ''
+        );
+        assert.equal(
+          element._computeMessageContent(false, '', '' as ReviewInputTag),
+          ''
+        );
       });
 
       test('new patchset', () => {
         const original = 'Uploaded patch set 1.';
-        const tag = 'autogenerated:gerrit:newPatchSet';
+        const tag = 'autogenerated:gerrit:newPatchSet' as ReviewInputTag;
         let actual = element._computeMessageContent(true, original, tag);
-        assert.equal(actual, element._computeMessageContentCollapsed(
-            original, tag, []));
+        assert.equal(
+          actual,
+          element._computeMessageContentCollapsed(original, tag, [])
+        );
         assert.equal(actual, original);
         actual = element._computeMessageContent(false, original, tag);
         assert.equal(actual, original);
@@ -293,12 +339,14 @@ suite('gr-message tests', () => {
 
       test('new patchset rebased', () => {
         const original = 'Patch Set 27: Patch Set 26 was rebased';
-        const tag = 'autogenerated:gerrit:newPatchSet';
+        const tag = 'autogenerated:gerrit:newPatchSet' as ReviewInputTag;
         const expected = 'Patch Set 26 was rebased';
         let actual = element._computeMessageContent(true, original, tag);
         assert.equal(actual, expected);
-        assert.equal(actual, element._computeMessageContentCollapsed(
-            original, tag, []));
+        assert.equal(
+          actual,
+          element._computeMessageContentCollapsed(original, tag, [])
+        );
         actual = element._computeMessageContent(false, original, tag);
         assert.equal(actual, expected);
       });
@@ -309,8 +357,10 @@ suite('gr-message tests', () => {
         const expected = 'This change is ready for review.';
         let actual = element._computeMessageContent(true, original, tag);
         assert.equal(actual, expected);
-        assert.equal(actual, element._computeMessageContentCollapsed(
-            original, tag, []));
+        assert.equal(
+          actual,
+          element._computeMessageContentCollapsed(original, tag, [])
+        );
         actual = element._computeMessageContent(false, original, tag);
         assert.equal(actual, expected);
       });
@@ -338,17 +388,18 @@ suite('gr-message tests', () => {
 
     test('votes', () => {
       element.message = {
+        ...createChangeMessage(),
         author: {},
         expanded: false,
         message: 'Patch Set 1: Verified+1 Code-Review-2 Trybot-Label3+1 Blub+1',
       };
       element.labelExtremes = {
-        'Verified': {max: 1, min: -1},
+        Verified: {max: 1, min: -1},
         'Code-Review': {max: 2, min: -2},
         'Trybot-Label3': {max: 3, min: 0},
       };
       flush();
-      const scoreChips = element.root.querySelectorAll('.score');
+      const scoreChips = element.root!.querySelectorAll('.score');
       assert.equal(scoreChips.length, 3);
 
       assert.isTrue(scoreChips[0].classList.contains('positive'));
@@ -363,18 +414,20 @@ suite('gr-message tests', () => {
 
     test('Uploaded patch set X', () => {
       element.message = {
+        ...createChangeMessage(),
         author: {},
         expanded: false,
-        message: 'Uploaded patch set 1:' +
-         'Verified+1 Code-Review-2 Trybot-Label3+1 Blub+1',
+        message:
+          'Uploaded patch set 1:' +
+          'Verified+1 Code-Review-2 Trybot-Label3+1 Blub+1',
       };
       element.labelExtremes = {
-        'Verified': {max: 1, min: -1},
+        Verified: {max: 1, min: -1},
         'Code-Review': {max: 2, min: -2},
         'Trybot-Label3': {max: 3, min: 0},
       };
       flush();
-      const scoreChips = element.root.querySelectorAll('.score');
+      const scoreChips = element.root!.querySelectorAll('.score');
       assert.equal(scoreChips.length, 3);
 
       assert.isTrue(scoreChips[0].classList.contains('positive'));
@@ -389,17 +442,18 @@ suite('gr-message tests', () => {
 
     test('removed votes', () => {
       element.message = {
+        ...createChangeMessage(),
         author: {},
         expanded: false,
         message: 'Patch Set 1: Verified+1 -Code-Review -Commit-Queue',
       };
       element.labelExtremes = {
-        'Verified': {max: 1, min: -1},
+        Verified: {max: 1, min: -1},
         'Code-Review': {max: 2, min: -2},
         'Commit-Queue': {max: 3, min: 0},
       };
       flush();
-      const scoreChips = element.root.querySelectorAll('.score');
+      const scoreChips = element.root!.querySelectorAll('.score');
       assert.equal(scoreChips.length, 3);
 
       assert.isTrue(scoreChips[1].classList.contains('removed'));
@@ -408,12 +462,13 @@ suite('gr-message tests', () => {
 
     test('false negative vote', () => {
       element.message = {
+        ...createChangeMessage(),
         author: {},
         expanded: false,
         message: 'Patch Set 1: Cherry Picked from branch stable-2.14.',
       };
       element.labelExtremes = {};
-      const scoreChips = element.root.querySelectorAll('.score');
+      const scoreChips = element.root!.querySelectorAll('.score');
       assert.equal(scoreChips.length, 0);
     });
   });
@@ -421,33 +476,32 @@ suite('gr-message tests', () => {
   suite('when not logged in', () => {
     setup(done => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-      stubRestApi('getPreferences').returns(Promise.resolve({}));
       stubRestApi('getIsAdmin').returns(Promise.resolve(false));
-      stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
       flush(done);
     });
 
     test('reply and delete button should be hidden', () => {
       element.message = {
-        id: '47c43261_55aa2c41',
+        ...createChangeMessage(),
+        id: '47c43261_55aa2c41' as ChangeMessageId,
         author: {
-          _account_id: 1115495,
+          _account_id: 1115495 as AccountId,
           name: 'Andrew Bonventre',
-          email: 'andybons@chromium.org',
+          email: 'andybons@chromium.org' as EmailAddress,
         },
-        date: '2016-01-12 20:24:49.448000000',
+        date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'Uploaded patch set 1.',
-        _revision_number: 1,
+        _revision_number: 1 as PatchSetNum,
         expanded: true,
       };
 
       flush();
       assert.isTrue(
-          element.shadowRoot.querySelector('.replyActionContainer').hidden
+        (queryAndAssert(element, '.replyActionContainer') as HTMLElement).hidden
       );
       assert.isTrue(
-          element.shadowRoot.querySelector('.deleteBtn').hidden
+        (queryAndAssert(element, '.deleteBtn') as HTMLElement).hidden
       );
     });
   });
@@ -455,58 +509,78 @@ suite('gr-message tests', () => {
   suite('patchset comment summary', () => {
     setup(() => {
       element = basicFixture.instantiate();
-      element.message = {id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3'};
+      element.message = {
+        ...createChangeMessage(),
+        id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3' as ChangeMessageId,
+      };
     });
 
     test('single patchset comment posted', () => {
-      const threads = [{
-        comments: [{
-          change_message_id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3',
-          patch_set: 1,
-          id: 'e365b138_bed65caa',
-          updated: '2020-05-15 13:35:56.000000000',
-          message: 'testing the load',
-          unresolved: false,
+      const threads = [
+        {
+          comments: [
+            {
+              ...createComment(),
+              change_message_id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3' as ChangeMessageId,
+              patch_set: 1 as PatchSetNum,
+              id: 'e365b138_bed65caa' as UrlEncodedCommentId,
+              updated: '2020-05-15 13:35:56.000000000' as Timestamp,
+              message: 'testing the load',
+              unresolved: false,
+              path: '/PATCHSET_LEVEL',
+              collapsed: false,
+            },
+          ],
+          patchNum: 1 as PatchSetNum,
           path: '/PATCHSET_LEVEL',
-          collapsed: false,
-        }],
-        patchNum: 1,
-        path: '/PATCHSET_LEVEL',
-        rootId: 'e365b138_bed65caa',
-      }];
-      assert.equal(element._computeMessageContentCollapsed(
-          '', undefined, threads), 'testing the load');
+          rootId: 'e365b138_bed65caa' as UrlEncodedCommentId,
+          commentSide: CommentSide.REVISION,
+        },
+      ];
+      assert.equal(
+        element._computeMessageContentCollapsed('', undefined, threads),
+        'testing the load'
+      );
       assert.equal(element._computeMessageContent(false, '', undefined), '');
     });
 
     test('single patchset comment with reply', () => {
-      const threads = [{
-        comments: [{
-          patch_set: 1,
-          id: 'e365b138_bed65caa',
-          updated: '2020-05-15 13:35:56.000000000',
-          message: 'testing the load',
-          unresolved: false,
+      const threads = [
+        {
+          comments: [
+            {
+              ...createComment(),
+              patch_set: 1 as PatchSetNum,
+              id: 'e365b138_bed65caa' as UrlEncodedCommentId,
+              updated: '2020-05-15 13:35:56.000000000' as Timestamp,
+              message: 'testing the load',
+              unresolved: false,
+              path: '/PATCHSET_LEVEL',
+              collapsed: false,
+            },
+            {
+              change_message_id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3',
+              patch_set: 1 as PatchSetNum,
+              id: 'd6efcc85_4cbbb6f4' as UrlEncodedCommentId,
+              in_reply_to: 'e365b138_bed65caa' as UrlEncodedCommentId,
+              updated: '2020-05-15 16:55:28.000000000' as Timestamp,
+              message: 'n',
+              unresolved: false,
+              path: '/PATCHSET_LEVEL',
+              __draft: true,
+              collapsed: true,
+            },
+          ],
+          patchNum: 1 as PatchSetNum,
           path: '/PATCHSET_LEVEL',
-          collapsed: false,
-        }, {
-          change_message_id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3',
-          patch_set: 1,
-          id: 'd6efcc85_4cbbb6f4',
-          in_reply_to: 'e365b138_bed65caa',
-          updated: '2020-05-15 16:55:28.000000000',
-          message: 'n',
-          unresolved: false,
-          path: '/PATCHSET_LEVEL',
-          __draft: true,
-          collapsed: true,
-        }],
-        patchNum: 1,
-        path: '/PATCHSET_LEVEL',
-        rootId: 'e365b138_bed65caa',
-      }];
-      assert.equal(element._computeMessageContentCollapsed(
-          '', undefined, threads), 'n');
+          rootId: 'e365b138_bed65caa' as UrlEncodedCommentId,
+          commentSide: CommentSide.REVISION,
+        },
+      ];
+      assert.equal(
+        element._computeMessageContentCollapsed('', undefined, threads),
+        'n'
+      );
       assert.equal(element._computeMessageContent(false, '', undefined), '');
     });
   });
@@ -514,59 +588,62 @@ suite('gr-message tests', () => {
   suite('when logged in but not admin', () => {
     setup(async () => {
       stubRestApi('getIsAdmin').returns(Promise.resolve(false));
-      stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
       await flush();
     });
 
     test('can see reply but not delete button', () => {
       element.message = {
-        id: '47c43261_55aa2c41',
+        ...createChangeMessage(),
+        id: '47c43261_55aa2c41' as ChangeMessageId,
         author: {
-          _account_id: 1115495,
+          _account_id: 1115495 as AccountId,
           name: 'Andrew Bonventre',
-          email: 'andybons@chromium.org',
+          email: 'andybons@chromium.org' as EmailAddress,
         },
-        date: '2016-01-12 20:24:49.448000000',
+        date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'Uploaded patch set 1.',
-        _revision_number: 1,
+        _revision_number: 1 as PatchSetNum,
         expanded: true,
       };
 
       flush();
       assert.isFalse(
-          element.shadowRoot.querySelector('.replyActionContainer').hidden
+        (queryAndAssert(element, '.replyActionContainer') as HTMLElement).hidden
       );
       assert.isTrue(
-          element.shadowRoot.querySelector('.deleteBtn').hidden
+        (queryAndAssert(element, '.deleteBtn') as HTMLElement).hidden
       );
     });
 
     test('reply button shown when message is updated', () => {
       element.message = undefined;
       flush();
-      let replyEl = element.shadowRoot.querySelector('.replyActionContainer');
+      let replyEl: HTMLElement = queryAndAssert(
+        element,
+        '.replyActionContainer'
+      );
       // We don't even expect the button to show up in the DOM when the message
       // is undefined.
       assert.isNotOk(replyEl);
 
       element.message = {
-        id: '47c43261_55aa2c41',
+        ...createChangeMessage(),
+        id: '47c43261_55aa2c41' as ChangeMessageId,
         author: {
-          _account_id: 1115495,
+          _account_id: 1115495 as AccountId,
           name: 'Andrew Bonventre',
-          email: 'andybons@chromium.org',
+          email: 'andybons@chromium.org' as EmailAddress,
         },
-        date: '2016-01-12 20:24:49.448000000',
+        date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'not empty',
-        _revision_number: 1,
+        _revision_number: 1 as PatchSetNum,
         expanded: true,
       };
       flush();
-      replyEl = element.shadowRoot.querySelector('.replyActionContainer');
+      replyEl = queryAndAssert(element, '.replyActionContainer');
       assert.isOk(replyEl);
       assert.isFalse(replyEl.hidden);
     });
   });
 });
-

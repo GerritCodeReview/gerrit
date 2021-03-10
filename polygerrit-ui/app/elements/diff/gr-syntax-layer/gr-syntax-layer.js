@@ -58,7 +58,6 @@
     'text/x-julia': 'julia',
     'text/x-kotlin': 'kotlin',
     'text/x-latex': 'latex',
-    'text/x-latex': 'tex',
     'text/x-less': 'less',
     'text/x-lua': 'lua',
     'text/x-mathematica': 'mathematica',

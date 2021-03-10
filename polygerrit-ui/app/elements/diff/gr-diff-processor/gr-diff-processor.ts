@@ -32,6 +32,7 @@ import {CancelablePromise, util} from '../../../scripts/util';
 import {customElement, property} from '@polymer/decorators';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 
 const WHOLE_FILE = -1;
 
@@ -62,8 +63,6 @@ export interface KeyLocations {
  * performance needs.
  */
 const MAX_GROUP_SIZE = 120;
-
-const DEBOUNCER_RESET_IS_SCROLLING = 'resetIsScrolling';
 
 /**
  * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
@@ -113,6 +112,8 @@ export class GrDiffProcessor extends LegacyElementMixin(PolymerElement) {
   @property({type: Boolean})
   _isScrolling?: boolean;
 
+  private resetIsScrollingTask?: DelayedTask;
+
   /** @override */
   connectedCallback() {
     super.connectedCallback();
@@ -121,7 +122,7 @@ export class GrDiffProcessor extends LegacyElementMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
-    this.cancelDebouncer(DEBOUNCER_RESET_IS_SCROLLING);
+    this.resetIsScrollingTask?.cancel();
     this.cancel();
     this.unlisten(window, 'scroll', '_handleWindowScroll');
     super.disconnectedCallback();
@@ -129,8 +130,8 @@ export class GrDiffProcessor extends LegacyElementMixin(PolymerElement) {
 
   _handleWindowScroll() {
     this._isScrolling = true;
-    this.debounce(
-      DEBOUNCER_RESET_IS_SCROLLING,
+    this.resetIsScrollingTask = debounce(
+      this.resetIsScrollingTask,
       () => {
         this._isScrolling = false;
       },

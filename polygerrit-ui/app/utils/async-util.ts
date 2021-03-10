@@ -42,3 +42,66 @@ export function asyncForeach<T>(
     return asyncForeach(array.slice(1), fn);
   });
 }
+
+/**
+ * This is just a very simple and small wrapper around setTimeout(). Instead of
+ * the usual:
+ *
+ * const timer = window.setTimeout(() => {...do stuff...}, 123);
+ * window.clearTimeout(timer);
+ *
+ * With this class you can do:
+ *
+ * const task = new Task(() => {...do stuff...}, 123);
+ * task.cancel();
+ *
+ * It is just nicer to have an object for this instead of a number as a handle.
+ */
+export class DelayedTask {
+  private timer?: number;
+
+  constructor(private callback: () => void, waitMs = 0) {
+    this.timer = window.setTimeout(() => {
+      this.timer = undefined;
+      if (this.callback) this.callback();
+    }, waitMs);
+  }
+
+  cancel() {
+    if (this.isActive()) {
+      window.clearTimeout(this.timer);
+      this.timer = undefined;
+    }
+  }
+
+  flush() {
+    if (this.isActive()) {
+      this.cancel();
+      if (this.callback) this.callback();
+    }
+  }
+
+  isActive() {
+    return this.timer !== undefined;
+  }
+}
+
+/**
+ * The usage pattern is:
+ *
+ * this.myDebouncedTask = debounce(this.myDebouncedTask, () => {...}, 123);
+ *
+ * It is identical to:
+ *
+ * this.myTask = new DelayedTask(() => {...}, 123);
+ *
+ * But it would cancel a potentially scheduled task beforehand.
+ */
+export function debounce(
+  existingTask: DelayedTask | undefined,
+  callback: () => void,
+  waitMs = 0
+) {
+  existingTask?.cancel();
+  return new DelayedTask(callback, waitMs);
+}

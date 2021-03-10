@@ -121,7 +121,7 @@ suite('gr-hovercard tests', () => {
 
     await enterPromise;
     assert.isTrue(element.isScheduledToShow);
-    element.showDebouncer.flush();
+    element.showTask.flush();
     assert.isTrue(element._isShowing);
     assert.isFalse(element.isScheduledToShow);
 
@@ -130,7 +130,7 @@ suite('gr-hovercard tests', () => {
     await leavePromise;
     assert.isTrue(element.isScheduledToHide);
     assert.isTrue(element._isShowing);
-    element.hideDebouncer.flush();
+    element.hideTask.flush();
     assert.isFalse(element.isScheduledToShow);
     assert.isFalse(element._isShowing);
 

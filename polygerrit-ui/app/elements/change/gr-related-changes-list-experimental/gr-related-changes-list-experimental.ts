@@ -21,7 +21,7 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import {classMap} from 'lit-html/directives/class-map';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {customElement, property, css, internalProperty} from 'lit-element';
+import {customElement, property, css, internalProperty, TemplateResult} from 'lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   SubmittedTogetherInfo,
@@ -684,7 +684,7 @@ export class GrRelatedCollapse extends GrLitElement {
       <slot></slot>
     </div>`;
 
-    let button = nothing;
+    let button: TemplateResult | typeof nothing = nothing;
     if (collapsible) {
       if (this.showAll) {
         button = html`<gr-button link="" @click="${this.toggle}"

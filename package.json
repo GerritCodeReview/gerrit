@@ -33,8 +33,8 @@
     "eslint": "npm run safe_bazelisk test polygerrit-ui/app:lint_test",
     "eslintfix": "npm run safe_bazelisk run polygerrit-ui/app:lint_bin -- -- --fix $(pwd)/polygerrit-ui/app",
     "polylint": "npm run safe_bazelisk test polygerrit-ui/app:polylint_test",
-    "test:debug": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --browsers ChromeDev --no-single-run --testFiles",
-    "test:single": "npm run compile:local && npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --testFiles"
+    "test:debug": "npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --browsers ChromeDev --no-single-run --testFiles",
+    "test:single": "npm run safe_bazelisk run //polygerrit-ui:karma_bin -- -- start $(pwd)/polygerrit-ui/karma.conf.js --testFiles"
   },
   "repository": {
     "type": "git",

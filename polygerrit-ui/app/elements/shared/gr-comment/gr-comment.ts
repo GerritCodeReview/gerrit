@@ -61,6 +61,7 @@ import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -99,12 +100,6 @@ export interface GrComment {
     resolvedCheckbox: HTMLInputElement;
   };
 }
-
-const DEBOUNCER_FIRE_UPDATE = 'fire-update';
-
-const DEBOUNCER_STORE = 'store';
-
-const DEBOUNCER_DRAFT_TOAST = 'draft-toast';
 
 @customElement('gr-comment')
 export class GrComment extends KeyboardShortcutMixin(
@@ -280,6 +275,12 @@ export class GrComment extends KeyboardShortcutMixin(
 
   reporting = appContext.reportingService;
 
+  private fireUpdateTask?: DelayedTask;
+
+  private storeTask?: DelayedTask;
+
+  private draftToastTask?: DelayedTask;
+
   /** @override */
   connectedCallback() {
     super.connectedCallback();
@@ -298,9 +299,9 @@ export class GrComment extends KeyboardShortcutMixin(
 
   /** @override */
   disconnectedCallback() {
-    this.cancelDebouncer(DEBOUNCER_FIRE_UPDATE);
-    this.cancelDebouncer(DEBOUNCER_STORE);
-    this.cancelDebouncer(DEBOUNCER_DRAFT_TOAST);
+    this.fireUpdateTask?.cancel();
+    this.storeTask?.cancel();
+    this.draftToastTask?.cancel();
     if (this.textarea) {
       this.textarea.closeDropdown();
     }
@@ -494,7 +495,7 @@ export class GrComment extends KeyboardShortcutMixin(
   _eraseDraftComment() {
     // Prevents a race condition in which removing the draft comment occurs
     // prior to it being saved.
-    this.cancelDebouncer(DEBOUNCER_STORE);
+    this.storeTask?.cancel();
 
     assertIsDefined(this.comment?.path, 'comment.path');
     assertIsDefined(this.changeNum, 'changeNum');
@@ -544,7 +545,7 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   _fireUpdate() {
-    this.debounce(DEBOUNCER_FIRE_UPDATE, () => {
+    this.fireUpdateTask = debounce(this.fireUpdateTask, () => {
       this.dispatchEvent(
         new CustomEvent('comment-update', {
           detail: this._getEventPayload(),
@@ -652,8 +653,8 @@ export class GrComment extends KeyboardShortcutMixin(
       : this._getPatchNum();
     const {path, line, range} = this.comment;
     if (path) {
-      this.debounce(
-        DEBOUNCER_STORE,
+      this.storeTask = debounce(
+        this.storeTask,
         () => {
           const message = this._messageText;
           if (this.changeNum === undefined) {
@@ -735,7 +736,7 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   _fireDiscard() {
-    this.cancelDebouncer(DEBOUNCER_FIRE_UPDATE);
+    this.fireUpdateTask?.cancel();
     this.dispatchEvent(
       new CustomEvent('comment-discard', {
         detail: this._getEventPayload(),
@@ -858,7 +859,7 @@ export class GrComment extends KeyboardShortcutMixin(
 
     // Cancel the debouncer so that error toasts from the error-manager will
     // not be overridden.
-    this.cancelDebouncer(DEBOUNCER_DRAFT_TOAST);
+    this.draftToastTask?.cancel();
     this._updateRequestToast(
       this._numPendingDraftRequests.number,
       /* requestFailed=*/ true
@@ -867,8 +868,8 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _updateRequestToast(numPending: number, requestFailed?: boolean) {
     const message = this._getSavingMessage(numPending, requestFailed);
-    this.debounce(
-      DEBOUNCER_DRAFT_TOAST,
+    this.draftToastTask = debounce(
+      this.draftToastTask,
       () => {
         // Note: the event is fired on the body rather than this element because
         // this element may not be attached by the time this executes, in which

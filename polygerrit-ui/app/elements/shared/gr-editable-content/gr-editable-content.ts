@@ -26,6 +26,7 @@ import {htmlTemplate} from './gr-editable-content_html';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -35,8 +36,6 @@ declare global {
     'gr-editable-content': GrEditableContent;
   }
 }
-
-const DEBOUNCER_STORE = 'store';
 
 @customElement('gr-editable-content')
 export class GrEditableContent extends LegacyElementMixin(PolymerElement) {
@@ -119,6 +118,8 @@ export class GrEditableContent extends LegacyElementMixin(PolymerElement) {
 
   private readonly reporting = appContext.reportingService;
 
+  private storeTask?: DelayedTask;
+
   /** @override */
   ready() {
     super.ready();
@@ -129,7 +130,7 @@ export class GrEditableContent extends LegacyElementMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
-    this.cancelDebouncer(DEBOUNCER_STORE);
+    this.storeTask?.cancel();
     super.disconnectedCallback();
   }
 
@@ -149,8 +150,8 @@ export class GrEditableContent extends LegacyElementMixin(PolymerElement) {
     if (!this.storageKey) return;
     const storageKey = this.storageKey;
 
-    this.debounce(
-      DEBOUNCER_STORE,
+    this.storeTask = debounce(
+      this.storeTask,
       () => {
         if (newContent.length) {
           this.storage.setEditableContentItem(storageKey, newContent);

@@ -21,6 +21,7 @@ import {hasOwnProperty} from '../../utils/common-util';
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
+import {LifeCycle} from '../../constants/reporting';
 
 // Latency reporting constants.
 
@@ -449,17 +450,23 @@ export class GrReporting implements ReportingService {
 
   onVisibilityChange() {
     this.hiddenDurationTimer.onVisibilityChange();
-    const eventName = `Visibility changed to ${document.visibilityState}`;
-    this.reporter(
-      LIFECYCLE.TYPE,
-      LIFECYCLE.CATEGORY.VISIBILITY,
-      eventName,
-      undefined,
-      {
-        hiddenDurationMs: this.hiddenDurationTimer.hiddenDurationMs,
-      },
-      true
-    );
+    let eventName;
+    if (document.visibilityState === 'hidden') {
+      eventName = LifeCycle.VISIBILILITY_HIDDEN;
+    } else if (document.visibilityState === 'visible') {
+      eventName = LifeCycle.VISIBILILITY_VISIBLE;
+    }
+    if (eventName)
+      this.reporter(
+        LIFECYCLE.TYPE,
+        LIFECYCLE.CATEGORY.VISIBILITY,
+        eventName,
+        undefined,
+        {
+          hiddenDurationMs: this.hiddenDurationTimer.hiddenDurationMs,
+        },
+        false
+      );
   }
 
   /**
@@ -607,7 +614,13 @@ export class GrReporting implements ReportingService {
   }
 
   reportExtension(name: string) {
-    this.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.EXTENSION_DETECTED, name);
+    this.reporter(
+      LIFECYCLE.TYPE,
+      LIFECYCLE.CATEGORY.EXTENSION_DETECTED,
+      LifeCycle.EXTENSION_DETECTED,
+      undefined,
+      {name}
+    );
   }
 
   pluginLoaded(name: string) {
@@ -621,7 +634,7 @@ export class GrReporting implements ReportingService {
     this.reporter(
       LIFECYCLE.TYPE,
       LIFECYCLE.CATEGORY.PLUGINS_INSTALLED,
-      LIFECYCLE.CATEGORY.PLUGINS_INSTALLED,
+      LifeCycle.PLUGINS_INSTALLED,
       undefined,
       {pluginsList: pluginsList || []},
       true
@@ -770,7 +783,7 @@ export class GrReporting implements ReportingService {
     }
   }
 
-  reportLifeCycle(eventName: string, details: EventDetails) {
+  reportLifeCycle(eventName: LifeCycle, details: EventDetails) {
     this.reporter(
       LIFECYCLE.TYPE,
       LIFECYCLE.CATEGORY.DEFAULT,

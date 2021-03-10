@@ -322,7 +322,8 @@ suite('gr-reporting tests', () => {
   test('reportExtension', () => {
     service.reportExtension('foo');
     assert.isTrue(service.reporter.calledWithExactly(
-        'lifecycle', 'Extension detected', 'foo'
+        'lifecycle', 'Extension detected', 'Extension detected', undefined,
+        {name: 'foo'}
     ));
   });
 

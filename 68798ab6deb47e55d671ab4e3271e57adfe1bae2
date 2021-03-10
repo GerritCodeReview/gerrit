@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e10ea831_cd7bed00",
+        "filename": "java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-10T16:00:39Z",
+      "side": 1,
+      "message": "fwiw: Han-Wen mentioned that there is a variant of the rename detector that works purely with object hashes.",
+      "range": {
+        "startLine": 90,
+        "startChar": 9,
+        "endLine": 90,
+        "endChar": 15
+      },
+      "revId": "68798ab6deb47e55d671ab4e3271e57adfe1bae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

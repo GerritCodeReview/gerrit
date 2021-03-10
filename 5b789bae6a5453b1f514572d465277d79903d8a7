@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96c4c69d_3b9f74e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-10T17:16:50Z",
+      "side": 1,
+      "message": "This is now fully working E2E and ready for review.\nI\u0027ll also check that it isn\u0027t breaking any existing use-cases.",
+      "revId": "5b789bae6a5453b1f514572d465277d79903d8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

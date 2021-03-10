@@ -106,4 +106,9 @@ class JsPlugin extends Plugin {
   public PluginContentScanner getContentScanner() {
     return PluginContentScanner.EMPTY;
   }
+
+  @Override
+  public Injector getApiInjector() {
+    return null;
+  }
 }

@@ -138,6 +138,9 @@ public class ProjectOperationsImpl implements ProjectOperations {
         throws IOException, ConfigInvalidException {
       try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(nameKey)) {
         ProjectConfig projectConfig = projectConfigFactory.read(metaDataUpdate);
+        if (projectUpdate.removeAllAccessSections()) {
+          projectConfig.getAccessSections().forEach(as -> projectConfig.remove(as));
+        }
         removePermissions(projectConfig, projectUpdate.removedPermissions());
         addCapabilities(projectConfig, projectUpdate.addedCapabilities());
         addPermissions(projectConfig, projectUpdate.addedPermissions());

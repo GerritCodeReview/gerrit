@@ -53,6 +53,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,6 +61,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.servlet.http.HttpServletRequest;
@@ -87,6 +89,8 @@ public class PluginGuiceEnvironment {
   private Module sysModule;
   private Module sshModule;
   private Module httpModule;
+  private List<Module> apiModules;
+  private Injector apiInjector;
 
   private Provider<ModuleGenerator> sshGen;
   private Provider<ModuleGenerator> httpGen;
@@ -94,14 +98,17 @@ public class PluginGuiceEnvironment {
   private Map<TypeLiteral<?>, DynamicItem<?>> sysItems;
   private Map<TypeLiteral<?>, DynamicItem<?>> sshItems;
   private Map<TypeLiteral<?>, DynamicItem<?>> httpItems;
+  private Map<TypeLiteral<?>, DynamicItem<?>> apiItems;
 
   private Map<TypeLiteral<?>, DynamicSet<?>> sysSets;
   private Map<TypeLiteral<?>, DynamicSet<?>> sshSets;
   private Map<TypeLiteral<?>, DynamicSet<?>> httpSets;
+  private Map<TypeLiteral<?>, DynamicSet<?>> apiSets;
 
   private Map<TypeLiteral<?>, DynamicMap<?>> sysMaps;
   private Map<TypeLiteral<?>, DynamicMap<?>> sshMaps;
   private Map<TypeLiteral<?>, DynamicMap<?>> httpMaps;
+  private Map<TypeLiteral<?>, DynamicMap<?>> apiMaps;
 
   @Inject
   PluginGuiceEnvironment(
@@ -129,6 +136,8 @@ public class PluginGuiceEnvironment {
     sysItems = dynamicItemsOf(sysInjector);
     sysSets = dynamicSetsOf(sysInjector);
     sysMaps = dynamicMapsOf(sysInjector);
+
+    apiModules = new ArrayList<>();
   }
 
   ServerInformation getServerInformation() {
@@ -258,6 +267,36 @@ public class PluginGuiceEnvironment {
       attachMap(sysMaps, plugin.getSysInjector(), plugin);
       attachMap(sshMaps, plugin.getSshInjector(), plugin);
       attachMap(httpMaps, plugin.getHttpInjector(), plugin);
+
+      Injector pluginApiInjector = plugin.getApiInjector();
+      if (pluginApiInjector != null) {
+        apiInjector = pluginApiInjector;
+      }
+
+      Module apiModule = plugin.getApiModule();
+      if (apiModule != null) {
+        apiModules.add(apiModule);
+      }
+
+      if (apiInjector != null) {
+        apiItems = dynamicItemsOf(apiInjector);
+        apiSets = dynamicSetsOf(apiInjector);
+        apiMaps = dynamicMapsOf(apiInjector);
+
+        attachItem(apiItems, plugin.getSysInjector(), plugin);
+        attachItem(apiItems, plugin.getSshInjector(), plugin);
+        attachItem(apiItems, plugin.getHttpInjector(), plugin);
+
+        attachSet(apiSets, plugin.getSysInjector(), plugin);
+        attachSet(apiSets, plugin.getSshInjector(), plugin);
+        attachSet(apiSets, plugin.getHttpInjector(), plugin);
+
+        attachMap(apiMaps, plugin.getSysInjector(), plugin);
+        attachMap(apiMaps, plugin.getSshInjector(), plugin);
+        attachMap(apiMaps, plugin.getHttpInjector(), plugin);
+      }
+
+      Optional.ofNullable(plugin.getApiModule()).ifPresent(apiModules::add);
     } finally {
       exit(oldContext);
     }
@@ -308,14 +347,17 @@ public class PluginGuiceEnvironment {
 
     RequestContext oldContext = enter(newPlugin);
     try {
+      reattachMap(old, apiMaps, newPlugin.getApiInjector(), newPlugin);
       reattachMap(old, sysMaps, newPlugin.getSysInjector(), newPlugin);
       reattachMap(old, sshMaps, newPlugin.getSshInjector(), newPlugin);
       reattachMap(old, httpMaps, newPlugin.getHttpInjector(), newPlugin);
 
+      reattachSet(old, apiSets, newPlugin.getApiInjector(), newPlugin);
       reattachSet(old, sysSets, newPlugin.getSysInjector(), newPlugin);
       reattachSet(old, sshSets, newPlugin.getSshInjector(), newPlugin);
       reattachSet(old, httpSets, newPlugin.getHttpInjector(), newPlugin);
 
+      reattachItem(old, apiItems, newPlugin.getApiInjector(), newPlugin);
       reattachItem(old, sysItems, newPlugin.getSysInjector(), newPlugin);
       reattachItem(old, sshItems, newPlugin.getSshInjector(), newPlugin);
       reattachItem(old, httpItems, newPlugin.getHttpInjector(), newPlugin);
@@ -647,5 +689,13 @@ public class PluginGuiceEnvironment {
       type = type.getSuperclass();
     }
     return false;
+  }
+
+  public Injector getApiInjector() {
+    return apiInjector;
+  }
+
+  public List<Module> getApiModules() {
+    return apiModules;
   }
 }

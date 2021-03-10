@@ -95,7 +95,7 @@ import {
   assertNever,
   containsAll,
 } from '../../../utils/common-util';
-import {CommentThread} from '../../../utils/comment-util';
+import {CommentThread, isUnresolved} from '../../../utils/comment-util';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -106,7 +106,6 @@ import {
   getApprovalInfo,
   getMaxAccounts,
 } from '../../../utils/label-util';
-import {isUnresolved} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireAlert, fireEvent, fireServerError} from '../../../utils/event-util';
 import {ErrorCallback} from '../../../api/rest';

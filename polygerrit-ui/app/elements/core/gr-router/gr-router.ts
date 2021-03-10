@@ -22,7 +22,6 @@ import {
   PageNextCallback,
 } from '../../../utils/page-wrapper-utils';
 import {htmlTemplate} from './gr-router_html';
-import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {
   DashboardSection,
   GeneratedWebLink,
@@ -68,7 +67,13 @@ import {GerritView, updateState} from '../../../services/router/router-model';
 import {firePageError} from '../../../utils/event-util';
 import {addQuotesWhen} from '../../../utils/string-util';
 import {windowLocationReload} from '../../../utils/dom-util';
-import {toPath, toPathname, toSearchParams} from '../../../utils/url-util';
+import {
+  encodeURL,
+  getBaseUrl,
+  toPath,
+  toPathname,
+  toSearchParams,
+} from '../../../utils/url-util';
 
 const RoutePattern = {
   ROOT: '/',

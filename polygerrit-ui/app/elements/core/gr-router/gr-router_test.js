@@ -19,10 +19,8 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-router.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
-import {stubBaseUrl} from '../../../test/test-utils.js';
+import {stubBaseUrl, stubRestApi, addListenerForTest} from '../../../test/test-utils.js';
 import {_testOnly_RoutePattern} from './gr-router.js';
-import {stubRestApi} from '../../../test/test-utils.js';
-import {addListenerForTest} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-router');
 

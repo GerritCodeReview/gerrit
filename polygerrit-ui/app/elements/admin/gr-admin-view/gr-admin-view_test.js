@@ -20,9 +20,8 @@ import './gr-admin-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {stubBaseUrl} from '../../../test/test-utils.js';
+import {stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';
 import {GerritView} from '../../../services/router/router-model.js';
-import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-admin-view');
 

@@ -17,8 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-label-info.js';
-import {isHidden} from '../../../test/test-utils.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {isHidden, stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-label-info');
 

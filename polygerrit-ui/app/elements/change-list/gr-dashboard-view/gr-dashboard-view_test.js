@@ -17,13 +17,12 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-dashboard-view.js';
-import {isHidden} from '../../../test/test-utils.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {GerritView} from '../../../services/router/router-model.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {createAccountWithId} from '../../../test/test-data-generators.js';
-import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, stubRestApi, isHidden} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-dashboard-view');
 

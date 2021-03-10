@@ -166,9 +166,9 @@ import {
   fireEvent,
   firePageError,
   fireDialogChange,
+  fireTitleChange,
 } from '../../../utils/event-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';

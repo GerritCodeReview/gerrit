@@ -21,11 +21,10 @@ import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
-import {Side} from '../../../constants/constants.js';
+import {Side, createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {createChange} from '../../../test/test-data-generators.js';
 import {CoverageType} from '../../../types/types.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
-import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');

@@ -802,12 +802,12 @@ suite('gr-reply-dialog tests', () => {
     const location = element._getStorageLocation();
 
     element.draft = firstEdit;
-    element.flushDebouncer('store');
+    element.flushTask('store');
 
     assert.isTrue(setDraftCommentStub.calledWith(location, firstEdit));
 
     element.draft = '';
-    element.flushDebouncer('store');
+    element.flushTask('store');
 
     assert.isTrue(eraseDraftCommentStub.calledWith(location));
   });

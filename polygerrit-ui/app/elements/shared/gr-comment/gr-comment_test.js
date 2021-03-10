@@ -769,7 +769,7 @@ suite('gr-comment tests', () => {
       });
       MockInteractions.tap(element.shadowRoot
           .querySelector('.cancel'));
-      element.flushDebouncer('fire-update');
+      element.flushTask('fire-update');
       element._messageText = '';
       flush();
       MockInteractions.pressAndReleaseKeyOn(element.textarea, 27); // esc
@@ -868,21 +868,21 @@ suite('gr-comment tests', () => {
 
     test('draft saving/editing', done => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
-      const cancelDebounce = sinon.stub(element, 'cancelDebouncer');
+      const cancelDebounce = sinon.stub(element, 'cancelTask');
 
       element.draft = true;
       flush();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       element._messageText = 'good news, everyone!';
-      element.flushDebouncer('fire-update');
-      element.flushDebouncer('store');
+      element.flushTask('fire-update');
+      element.flushTask('store');
       assert.equal(dispatchEventStub.lastCall.args[0].type, 'comment-update');
       assert.isTrue(dispatchEventStub.calledTwice);
 
       element._messageText = 'good news, everyone!';
-      element.flushDebouncer('fire-update');
-      element.flushDebouncer('store');
+      element.flushTask('fire-update');
+      element.flushTask('store');
       assert.isTrue(dispatchEventStub.calledTwice);
 
       MockInteractions.tap(element.shadowRoot
@@ -941,8 +941,8 @@ suite('gr-comment tests', () => {
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       element._messageText = 'good news, everyone!';
-      element.flushDebouncer('fire-update');
-      element.flushDebouncer('store');
+      element.flushTask('fire-update');
+      element.flushTask('store');
 
       element.disabled = true;
       MockInteractions.tap(element.shadowRoot
@@ -1028,7 +1028,7 @@ suite('gr-comment tests', () => {
       const eraseStub = sinon.stub(element.storage, 'eraseDraftComment');
       element._messageText = 'test text';
       flush();
-      element.flushDebouncer('store');
+      element.flushTask('store');
 
       assert.isTrue(storeStub.called);
       assert.equal(storeStub.lastCall.args[1], 'test text');
@@ -1043,7 +1043,7 @@ suite('gr-comment tests', () => {
       const storeStub = sinon.stub(element.storage, 'setDraftComment');
       element._messageText = 'test text';
       flush();
-      element.flushDebouncer('store');
+      element.flushTask('store');
 
       assert.isFalse(storeStub.called);
       element._handleCancel({preventDefault: () => {}});

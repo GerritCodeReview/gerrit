@@ -30,6 +30,7 @@ import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-acti
 import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
 import {FILE} from '../gr-diff/gr-diff-line';
 import {getRange, getSide} from '../gr-diff/gr-diff-utils';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 
 interface SidedRange {
   side: Side;
@@ -53,8 +54,6 @@ interface CommentThreadElement extends HTMLElement {
   rootId: string;
 }
 
-const DEBOUNCER_SELECTION_CHANGE = 'selectionChange';
-
 @customElement('gr-diff-highlight')
 export class GrDiffHighlight extends LegacyElementMixin(PolymerElement) {
   static get template() {
@@ -73,6 +72,8 @@ export class GrDiffHighlight extends LegacyElementMixin(PolymerElement) {
   @property({type: Object, notify: true})
   selectedRange?: SidedRange;
 
+  private selectionChangeTask?: DelayedTask;
+
   /** @override */
   created() {
     super.created();
@@ -89,7 +90,7 @@ export class GrDiffHighlight extends LegacyElementMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
-    this.cancelDebouncer(DEBOUNCER_SELECTION_CHANGE);
+    this.selectionChangeTask?.cancel();
     super.disconnectedCallback();
   }
 
@@ -127,8 +128,8 @@ export class GrDiffHighlight extends LegacyElementMixin(PolymerElement) {
     // quick 'c' press after the selection change. If you wait less than 10
     // ms, then you will have about 50 _handleSelection calls when doing a
     // simple drag for select.
-    this.debounce(
-      DEBOUNCER_SELECTION_CHANGE,
+    this.selectionChangeTask = debounce(
+      this.selectionChangeTask,
       () => this._handleSelection(selection, isMouseUp),
       10
     );

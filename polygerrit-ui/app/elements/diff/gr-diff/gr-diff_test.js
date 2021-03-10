@@ -660,14 +660,14 @@ suite('gr-diff tests', () => {
           change_type: 'MODIFIED',
           content: [{skip: 66}],
         };
-        element.flushDebouncer('renderDiffTable');
+        element.flushTask('renderDiffTable');
       });
 
       test('change in preferences re-renders diff', () => {
         sinon.stub(element, '_renderDiffTable');
         element.prefs = {
           ...MINIMAL_PREFS, time_format: 'HHMM_12'};
-        element.flushDebouncer('renderDiffTable');
+        element.flushTask('renderDiffTable');
         assert.isTrue(element._renderDiffTable.called);
       });
 
@@ -676,14 +676,14 @@ suite('gr-diff tests', () => {
         const newPrefs1 = {...MINIMAL_PREFS,
           line_wrapping: true};
         element.prefs = newPrefs1;
-        element.flushDebouncer('renderDiffTable');
+        element.flushTask('renderDiffTable');
         assert.isTrue(element._renderDiffTable.called);
         stub.reset();
 
         const newPrefs2 = {...newPrefs1};
         delete newPrefs2.line_wrapping;
         element.prefs = newPrefs2;
-        element.flushDebouncer('renderDiffTable');
+        element.flushTask('renderDiffTable');
         assert.isTrue(element._renderDiffTable.called);
       });
 
@@ -693,7 +693,7 @@ suite('gr-diff tests', () => {
         element.noRenderOnPrefsChange = true;
         element.prefs = {
           ...MINIMAL_PREFS, time_format: 'HHMM_12'};
-        element.flushDebouncer('renderDiffTable');
+        element.flushTask('renderDiffTable');
         assert.isFalse(element._renderDiffTable.called);
       });
     });

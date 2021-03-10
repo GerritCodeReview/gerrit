@@ -110,6 +110,7 @@ import {isUnresolved} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireAlert, fireEvent, fireServerError} from '../../../utils/event-util';
 import {ErrorCallback} from '../../../api/rest';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -167,8 +168,6 @@ export interface GrReplyDialog {
     reviewerConfirmationOverlay: GrOverlay;
   };
 }
-
-const DEBOUNCER_STORE = 'store';
 
 @customElement('gr-reply-dialog')
 export class GrReplyDialog extends KeyboardShortcutMixin(
@@ -378,6 +377,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   private readonly jsAPI = appContext.jsApiService;
 
+  private storeTask?: DelayedTask;
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -429,7 +430,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   /** @override */
   disconnectedCallback() {
-    this.cancelDebouncer(DEBOUNCER_STORE);
+    this.storeTask?.cancel();
     super.disconnectedCallback();
   }
 
@@ -1339,8 +1340,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   _draftChanged(newDraft: string, oldDraft?: string) {
-    this.debounce(
-      DEBOUNCER_STORE,
+    this.storeTask = debounce(
+      this.storeTask,
       () => {
         if (!newDraft.length && oldDraft) {
           // If the draft has been modified to be empty, then erase the storage

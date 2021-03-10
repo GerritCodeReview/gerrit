@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a2008f6_cce4f7b5",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-10T11:29:00Z",
+      "side": 1,
+      "message": "Done. Should numberKey in saveAs part include \"_\"? To stay consistent with the previous version and to make use of partial function? if Yes the same needs to be applied on line 62 as well.",
+      "parentUuid": "03cc2088_bda34c15",
+      "range": {
+        "startLine": 60,
+        "startChar": 23,
+        "endLine": 60,
+        "endChar": 33
+      },
+      "revId": "1bf4ab92b8ee6713b47c0dfd645dc462b910ae14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fad79ad_682533b6",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-09T20:33:25Z",
       "side": 1,
       "message": "Replace as well?",
+      "range": {
+        "startLine": 70,
+        "startChar": 38,
+        "endLine": 70,
+        "endChar": 44
+      },
+      "revId": "1bf4ab92b8ee6713b47c0dfd645dc462b910ae14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faf67c48_cc4c333f",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-10T11:29:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fad79ad_682533b6",
       "range": {
         "startLine": 70,
         "startChar": 38,

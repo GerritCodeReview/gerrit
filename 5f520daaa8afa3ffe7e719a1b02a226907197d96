@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64f5e9e6_ce19b353",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-10T19:01:59Z",
+      "side": 1,
+      "message": "I am surprised that super.disconnectedCallback is not first but last call in disconnectedCallback? \n\nhttps://polymer-library.polymer-project.org/2.0/docs/devguide/events#listener-on-outside-elements:~:text\u003ddisconnectedCallback()%20%7B",
+      "revId": "5f520daaa8afa3ffe7e719a1b02a226907197d96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

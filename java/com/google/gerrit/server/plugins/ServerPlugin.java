@@ -49,12 +49,16 @@ public class ServerPlugin extends Plugin {
   protected Class<? extends Module> batchModule;
   protected Class<? extends Module> sshModule;
   protected Class<? extends Module> httpModule;
+  private Class<? extends Module> apiModuleClass;
 
+  private Injector apiInjector;
   private Injector sysInjector;
   private Injector sshInjector;
   private Injector httpInjector;
   private LifecycleManager serverManager;
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
+
+  private Module apiModule;
 
   public ServerPlugin(
       String name,
@@ -93,6 +97,7 @@ public class ServerPlugin extends Plugin {
     String sshName = main.getValue("Gerrit-SshModule");
     String httpName = main.getValue("Gerrit-HttpModule");
     String batchName = main.getValue("Gerrit-BatchModule");
+    String apiName = main.getValue("Gerrit-ApiModule");
 
     if (!Strings.isNullOrEmpty(sshName) && getApiType() != Plugin.ApiType.PLUGIN) {
       throw new InvalidPluginException(
@@ -105,6 +110,7 @@ public class ServerPlugin extends Plugin {
       this.sysModule = load(sysName, classLoader);
       this.sshModule = load(sshName, classLoader);
       this.httpModule = load(httpName, classLoader);
+      this.apiModuleClass = load(apiName, classLoader);
     } catch (ClassNotFoundException e) {
       throw new InvalidPluginException("Unable to load plugin Guice Modules", e);
     }
@@ -203,19 +209,26 @@ public class ServerPlugin extends Plugin {
     }
 
     AutoRegisterModules auto = null;
-    if (sysModule == null && sshModule == null && httpModule == null) {
+    if (sysModule == null && sshModule == null && httpModule == null && apiModuleClass == null) {
       auto = new AutoRegisterModules(getName(), env, scanner, classLoader);
       auto.discover();
     }
 
+    Injector baseInjector = root;
+    if (apiModuleClass != null) {
+      apiModule = baseInjector.getInstance(apiModuleClass);
+      apiInjector = baseInjector.createChildInjector(apiModule);
+      baseInjector = apiInjector;
+    }
+
     if (sysModule != null) {
-      sysInjector = root.createChildInjector(root.getInstance(sysModule));
+      sysInjector = baseInjector.createChildInjector(baseInjector.getInstance(sysModule));
       serverManager.add(sysInjector);
     } else if (auto != null && auto.sysModule != null) {
-      sysInjector = root.createChildInjector(auto.sysModule);
+      sysInjector = baseInjector.createChildInjector(auto.sysModule);
       serverManager.add(sysInjector);
     } else {
-      sysInjector = root;
+      sysInjector = baseInjector;
     }
 
     if (env.hasSshModule()) {
@@ -256,6 +269,10 @@ public class ServerPlugin extends Plugin {
   private Injector newRootInjector(PluginGuiceEnvironment env) {
     List<Module> modules = Lists.newArrayListWithCapacity(2);
     if (getApiType() == ApiType.PLUGIN) {
+      if (env.getApiInjector() != null) {
+        return env.getApiInjector();
+      }
+
       modules.add(env.getSysModule());
     }
     modules.add(new ServerPluginInfoModule(this, env.getServerMetrics()));
@@ -281,6 +298,16 @@ public class ServerPlugin extends Plugin {
   @Override
   public Injector getSysInjector() {
     return sysInjector;
+  }
+
+  @Override
+  public Injector getApiInjector() {
+    return apiInjector;
+  }
+
+  @Override
+  public Module getApiModule() {
+    return apiModule;
   }
 
   @Override

@@ -16,12 +16,4 @@
  */
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
-export const htmlTemplate = html`
-  <gr-cursor-manager
-    id="cursorManager"
-    scroll-mode="[[_scrollMode]]"
-    cursor-target-class="target-row"
-    focus-on-move="[[_focusOnMove]]"
-    target="{{diffRow}}"
-  ></gr-cursor-manager>
-`;
+export const htmlTemplate = html``;

@@ -30,7 +30,6 @@ import {fireEvent} from '../../../utils/event-util';
 
 export interface GrAutocompleteDropdown {
   $: {
-    cursor: GrCursorManager;
     suggestions: Element;
   };
 }
@@ -101,9 +100,20 @@ export class GrAutocompleteDropdown extends IronFitMixin(
     };
   }
 
+  private cursor = new GrCursorManager();
+
+  constructor() {
+    super();
+    // TODO: Binding
+    this.cursor.index = this.index || -1;
+    this.cursor.cursorTargetClass = 'selected';
+    // TODO: Binding
+    this.cursor.stops = this._suggestionEls;
+  }
+
   /** @override */
   disconnectedCallback() {
-    this.$.cursor.unsetCursor();
+    this.cursor.unsetCursor();
     super.disconnectedCallback();
   }
 
@@ -140,13 +150,13 @@ export class GrAutocompleteDropdown extends IronFitMixin(
 
   cursorDown() {
     if (!this.isHidden) {
-      this.$.cursor.next();
+      this.cursor.next();
     }
   }
 
   cursorUp() {
     if (!this.isHidden) {
-      this.$.cursor.previous();
+      this.cursor.previous();
     }
   }
 
@@ -157,7 +167,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
       new CustomEvent('item-selected', {
         detail: {
           trigger: 'tab',
-          selected: this.$.cursor.target,
+          selected: this.cursor.target,
         },
         composed: true,
         bubbles: true,
@@ -172,7 +182,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
       new CustomEvent('item-selected', {
         detail: {
           trigger: 'enter',
-          selected: this.$.cursor.target,
+          selected: this.cursor.target,
         },
         composed: true,
         bubbles: true,
@@ -212,7 +222,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   }
 
   getCursorTarget() {
-    return this.$.cursor.target;
+    return this.cursor.target;
   }
 
   @observe('suggestions')
@@ -231,7 +241,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   }
 
   _resetCursorIndex() {
-    this.$.cursor.setCursorAtIndex(0);
+    this.cursor.setCursorAtIndex(0);
   }
 
   _computeLabelClass(item: Item) {

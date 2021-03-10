@@ -55,6 +55,7 @@ import {
 import {CustomKeyboardEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
 import {windowLocationReload} from '../../../utils/dom-util';
+import { ScrollMode } from '../../../constants/constants';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -67,9 +68,7 @@ export interface ChangeListSection {
   results: ChangeInfo[];
 }
 export interface GrChangeList {
-  $: {
-    cursor: GrCursorManager;
-  };
+  $: {};
 }
 @customElement('gr-change-list')
 export class GrChangeList extends ChangeTableMixin(
@@ -158,6 +157,13 @@ export class GrChangeList extends ChangeTableMixin(
     };
   }
 
+  private cursor = new GrCursorManager();
+
+  constructor() {
+    super();
+    this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
+  }
+
   /** @override */
   created() {
     super.created();
@@ -186,7 +192,7 @@ export class GrChangeList extends ChangeTableMixin(
 
   /** @override */
   disconnectedCallback() {
-    this.$.cursor.unsetCursor();
+    this.cursor.unsetCursor();
     super.disconnectedCallback();
   }
 
@@ -398,8 +404,8 @@ export class GrChangeList extends ChangeTableMixin(
     }
 
     e.preventDefault();
-    this.$.cursor.next();
-    this.selectedIndex = this.$.cursor.index;
+    this.cursor.next();
+    this.selectedIndex = this.cursor.index;
   }
 
   _prevChange(e: CustomKeyboardEvent) {
@@ -408,8 +414,8 @@ export class GrChangeList extends ChangeTableMixin(
     }
 
     e.preventDefault();
-    this.$.cursor.previous();
-    this.selectedIndex = this.$.cursor.index;
+    this.cursor.previous();
+    this.selectedIndex = this.cursor.index;
   }
 
   _openChange(e: CustomKeyboardEvent) {
@@ -522,10 +528,9 @@ export class GrChangeList extends ChangeTableMixin(
   _sectionsChanged() {
     // Flush DOM operations so that the list item elements will be loaded.
     afterNextRender(this, () => {
-      this.$.cursor.stops = this._getListItems();
-      this.$.cursor.moveToStart();
-      if (this.selectedIndex)
-        this.$.cursor.setCursorAtIndex(this.selectedIndex);
+      this.cursor.stops = this._getListItems();
+      this.cursor.moveToStart();
+      if (this.selectedIndex) this.cursor.setCursorAtIndex(this.selectedIndex);
     });
   }
 

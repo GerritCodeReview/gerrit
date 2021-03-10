@@ -31,7 +31,6 @@ suite('gr-change-reply-js-api tests', () => {
   let plugin;
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
     stubRestApi('getAccount').returns(Promise.resolve(null));
   });
 

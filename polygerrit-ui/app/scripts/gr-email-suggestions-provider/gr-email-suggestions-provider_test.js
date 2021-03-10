@@ -32,7 +32,6 @@ suite('GrEmailSuggestionsProvider tests', () => {
   };
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
     provider = new GrEmailSuggestionsProvider(appContext.restApiService);
   });
 

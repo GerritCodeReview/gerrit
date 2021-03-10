@@ -1916,7 +1916,7 @@ suite('gr-diff-view tests', () => {
         'a/b/test.c': {},
       };
       stubRestApi('getConfig').returns(Promise.resolve({change: {}}));
-      stubRestApi('getLoggedIn').returns(Promise.resolve(true));
+
       stubRestApi('getProjectConfig').returns(Promise.resolve({}));
       stubRestApi('getDiffChangeDetail').returns(Promise.resolve({}));
       stubRestApi('getChangeFiles').returns(Promise.resolve(changedFiles));

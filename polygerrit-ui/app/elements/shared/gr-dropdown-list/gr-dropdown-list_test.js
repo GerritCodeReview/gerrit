@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-dropdown-list.js';
-import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-dropdown-list');
 
@@ -25,7 +24,6 @@ suite('gr-dropdown-list tests', () => {
   let element;
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
     element = basicFixture.instantiate();
   });
 

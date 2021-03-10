@@ -804,7 +804,6 @@ suite('gr-router tests', () => {
       });
 
       test('redirects to dashboard if logged in', () => {
-        stubRestApi('getLoggedIn').returns(Promise.resolve(true));
         const data = {
           canonicalPath: '/', path: '/', querystring: '', hash: '',
         };
@@ -934,7 +933,6 @@ suite('gr-router tests', () => {
       });
 
       test('dashboard while signed in sets params', () => {
-        stubRestApi('getLoggedIn').returns(Promise.resolve(true));
         const data = {canonicalPath: '/dashboard/', params: {0: 'foo'}};
         return element._handleDashboardRoute(data, '').then(() => {
           assert.isFalse(redirectToLoginStub.called);

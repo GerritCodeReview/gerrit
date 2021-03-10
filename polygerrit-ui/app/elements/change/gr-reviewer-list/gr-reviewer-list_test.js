@@ -28,7 +28,6 @@ suite('gr-reviewer-list tests', () => {
     element = basicFixture.instantiate();
     element.serverConfig = {};
 
-    stubRestApi('getConfig').returns(Promise.resolve({}));
     stubRestApi('removeChangeReviewer').returns(Promise.resolve({ok: true}));
   });
 

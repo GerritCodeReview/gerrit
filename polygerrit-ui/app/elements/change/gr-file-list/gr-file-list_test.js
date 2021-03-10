@@ -80,7 +80,6 @@ suite('gr-file-list tests', () => {
 
   suite('basic tests', () => {
     setup(done => {
-      stubRestApi('getLoggedIn').returns(Promise.resolve(true));
       stubRestApi('getPreferences').returns(Promise.resolve({}));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));

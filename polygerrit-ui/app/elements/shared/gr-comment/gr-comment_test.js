@@ -442,7 +442,6 @@ suite('gr-comment tests', () => {
 
     setup(() => {
       stubRestApi('getAccount').returns(Promise.resolve(null));
-      stubRestApi('getConfig').returns(Promise.resolve({}));
       stubRestApi('saveDiffDraft').returns(Promise.resolve({
         ok: true,
         text() {

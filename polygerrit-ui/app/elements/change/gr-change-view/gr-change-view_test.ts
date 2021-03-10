@@ -1983,7 +1983,6 @@ suite('gr-change-view tests', () => {
   });
 
   test('revert dialog opened with revert param', done => {
-    stubRestApi('getLoggedIn').returns(Promise.resolve(true));
     const awaitPluginsLoadedStub = sinon
       .stub(getPluginLoader(), 'awaitPluginsLoaded')
       .callsFake(() => Promise.resolve());

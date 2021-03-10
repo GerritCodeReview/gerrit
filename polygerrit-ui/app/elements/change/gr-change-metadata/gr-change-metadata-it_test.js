@@ -87,7 +87,6 @@ suite('gr-change-metadata integration tests', () => {
   }
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('deleteVote').returns(Promise.resolve({ok: true}));
   });

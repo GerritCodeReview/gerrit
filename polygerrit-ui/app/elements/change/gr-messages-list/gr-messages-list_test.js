@@ -133,7 +133,6 @@ suite('gr-messages-list tests', () => {
 
   suite('basic tests', () => {
     setup(() => {
-      stubRestApi('getConfig').returns(Promise.resolve({}));
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getDiffComments').returns(Promise.resolve(comments));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
@@ -440,7 +439,6 @@ suite('gr-messages-list tests', () => {
     let commentApiWrapper;
 
     setup(() => {
-      stubRestApi('getConfig').returns(Promise.resolve({}));
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));

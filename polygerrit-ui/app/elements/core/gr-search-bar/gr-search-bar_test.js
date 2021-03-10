@@ -126,7 +126,6 @@ suite('gr-search-bar tests', () => {
   suite('_getSearchSuggestions', () => {
     setup(() => {
       // Ensure that config.change.mergeability_computation_behavior is not set.
-      stubRestApi('getConfig').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
     });
 

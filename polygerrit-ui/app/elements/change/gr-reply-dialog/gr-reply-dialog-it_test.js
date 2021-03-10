@@ -75,7 +75,6 @@ suite('gr-reply-dialog-it tests', () => {
     changeNum = 42;
     patchNum = 1;
 
-    stubRestApi('getConfig').returns(Promise.resolve({}));
     stubRestApi('getAccount').returns(Promise.resolve({_account_id: 42}));
 
     element = basicFixture.instantiate();

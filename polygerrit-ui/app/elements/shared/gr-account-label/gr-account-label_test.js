@@ -29,7 +29,6 @@ suite('gr-account-label tests', () => {
   }
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
     element._config = {

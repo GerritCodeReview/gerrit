@@ -33,7 +33,6 @@ suite('GrGroupSuggestionsProvider tests', () => {
   };
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
     provider = new GrGroupSuggestionsProvider(appContext.restApiService);
   });
 

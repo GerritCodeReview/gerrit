@@ -60,7 +60,6 @@ suite('gr-comment-api tests', () => {
   test('loads logged-in', () => {
     const changeNum = 1234;
 
-    stubRestApi('getLoggedIn').returns(Promise.resolve(true));
     const getCommentsStub = stubRestApi('getDiffComments').returns(
         Promise.resolve({
           'foo.c': [{id: '123', message: 'foo bar', in_reply_to: '321'}],

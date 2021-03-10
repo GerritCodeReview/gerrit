@@ -28,9 +28,7 @@ suite('gr-message tests', () => {
 
   suite('when admin and logged in', () => {
     setup(done => {
-      stubRestApi('getLoggedIn').returns(Promise.resolve(true));
       stubRestApi('getPreferences').returns(Promise.resolve({}));
-      stubRestApi('getConfig').returns(Promise.resolve({}));
       stubRestApi('getIsAdmin').returns(Promise.resolve(true));
       stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
@@ -424,7 +422,6 @@ suite('gr-message tests', () => {
     setup(done => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getPreferences').returns(Promise.resolve({}));
-      stubRestApi('getConfig').returns(Promise.resolve({}));
       stubRestApi('getIsAdmin').returns(Promise.resolve(false));
       stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
@@ -516,8 +513,6 @@ suite('gr-message tests', () => {
 
   suite('when logged in but not admin', () => {
     setup(async () => {
-      stubRestApi('getLoggedIn').returns(Promise.resolve(true));
-      stubRestApi('getConfig').returns(Promise.resolve({}));
       stubRestApi('getIsAdmin').returns(Promise.resolve(false));
       stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();

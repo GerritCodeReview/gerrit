@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e56b6f6_9057f604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-10T14:44:28Z",
+      "side": 1,
+      "message": "\u003e in this example, if you have two plugins working together, would you make 3 plugins (one declaring the API), and 2 implementing the API (consumer \u0026 provider) or just 2 altogether, ie. Provider (PLUGIN_API) and Consumer (PLUGIN)?\n\nCorrect.\n\n\u003e In the latter case, wouldn\u0027t the dependencies of the provider leak into the consumer leading to conflicts with version mismatches?\n\nYes, indeed. That\u0027s why the first option (1x PLUGIN_API and 2x PLUGIN) is best. The PLUGIN_API should not introduce *any extra* dependency on top of Gerrit so that the other 2x PLUGIN can have any freedom of having their own isolated deps.\n\n\u003e Regardless, with this setup, you can\u0027t chain APIs, right?\n\nIn theory, yes, because I chain the API class-loaders one with the others. However, because this dependency system is very rudimentary, you won\u0027t know which one comes first, so, at this stage, they need to be self-contained.\n\n\u003e Ie. if you have a plugin providing a new type as an extension (say: a new Input/Info), then you can only build one layer of types that are provided by a plugin, right?\n\nYes, at this PoC stage all PLUGIN_API need to be self-contained and independent.\n\nAs I mentioned, it is simply a *first step* to show the concept.",
+      "parentUuid": "b9baad72_d916bfd1",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 63
+      },
+      "revId": "471a7e1d581bd66321160f9ef4c0784f324a1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "39ac3b9d_cb28bfa7",

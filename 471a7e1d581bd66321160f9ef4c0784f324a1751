@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39ac3b9d_cb28bfa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-10T13:52:33Z",
+      "side": 1,
+      "message": "There is still one piece missing: even though the two plugins are now loaded with the correct class-loader dependency and the correct parent injector, they do not share the same dynamic items and therefore they won\u0027t be able to \"discover each other\".\n\nGoing to address that now.",
+      "revId": "471a7e1d581bd66321160f9ef4c0784f324a1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

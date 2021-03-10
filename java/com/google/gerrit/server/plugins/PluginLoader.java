@@ -398,7 +398,7 @@ public class PluginLoader implements LifecycleListener {
       syncDisabledPlugins(pluginsFiles);
 
       Map<String, Path> activePlugins = filterDisabled(pluginsFiles);
-      for (Map.Entry<String, Path> entry : jarsFirstSortedPluginsSet(activePlugins)) {
+      for (Map.Entry<String, Path> entry : jarsApiFirstSortedPluginsSet(activePlugins)) {
         String name = entry.getKey();
         Path path = entry.getValue();
         String fileName = path.getFileName().toString();
@@ -455,7 +455,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private TreeSet<Map.Entry<String, Path>> jarsFirstSortedPluginsSet(
+  private TreeSet<Map.Entry<String, Path>> jarsApiFirstSortedPluginsSet(
       Map<String, Path> activePlugins) {
     TreeSet<Map.Entry<String, Path>> sortedPlugins =
         Sets.newTreeSet(
@@ -465,13 +465,18 @@ public class PluginLoader implements LifecycleListener {
                 Path n1 = e1.getValue().getFileName();
                 Path n2 = e2.getValue().getFileName();
                 return ComparisonChain.start()
+                    .compareTrueFirst(isApi(n1), isApi(n2))
                     .compareTrueFirst(isJar(n1), isJar(n2))
                     .compare(n1, n2)
                     .result();
               }
 
-              private boolean isJar(Path n1) {
-                return n1.toString().endsWith(".jar");
+              private boolean isJar(Path pluginPath) {
+                return pluginPath.toString().endsWith(".jar");
+              }
+
+              private boolean isApi(Path pluginPath) {
+                return pluginPath.toString().endsWith(".api.jar");
               }
             });
 

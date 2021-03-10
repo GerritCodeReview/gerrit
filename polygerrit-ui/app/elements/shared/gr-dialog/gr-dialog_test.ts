@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-dialog.js';
-import {isHidden} from '../../../test/test-utils.js';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import '../../../test/common-test-setup-karma';
+import {GrDialog} from './gr-dialog';
+import {isHidden, queryAndAssert} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-dialog');
 
 suite('gr-dialog tests', () => {
-  let element;
+  let element: GrDialog;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -34,12 +35,10 @@ suite('gr-dialog tests', () => {
     element.addEventListener('confirm', confirm);
     element.addEventListener('cancel', cancel);
 
-    MockInteractions.tap(
-        element.shadowRoot.querySelector('gr-button[primary]'));
+    MockInteractions.tap(queryAndAssert(element, 'gr-button[primary]'));
     assert.equal(confirm.callCount, 1);
 
-    MockInteractions.tap(
-        element.shadowRoot.querySelector('gr-button:not([primary])'));
+    MockInteractions.tap(queryAndAssert(element, 'gr-button:not([primary])'));
     assert.equal(cancel.callCount, 1);
   });
 
@@ -48,7 +47,11 @@ suite('gr-dialog tests', () => {
     const handleConfirmStub = sinon.stub(element, '_handleConfirm');
     const handleKeydownSpy = sinon.spy(element, '_handleKeydown');
     MockInteractions.pressAndReleaseKeyOn(
-        element.shadowRoot.querySelector('main'), 13, null, 'enter');
+      queryAndAssert(element, 'main'),
+      13,
+      null,
+      'enter'
+    );
     flush();
 
     assert.isTrue(handleKeydownSpy.called);
@@ -56,7 +59,11 @@ suite('gr-dialog tests', () => {
 
     element.confirmOnEnter = true;
     MockInteractions.pressAndReleaseKeyOn(
-        element.shadowRoot.querySelector('main'), 13, null, 'enter');
+      queryAndAssert(element, 'main'),
+      13,
+      null,
+      'enter'
+    );
     flush();
 
     assert.isTrue(handleConfirmStub.called);
@@ -81,11 +88,11 @@ suite('gr-dialog tests', () => {
   });
 
   test('empty cancel label hides cancel btn', () => {
-    assert.isFalse(isHidden(element.$.cancel));
+    const cancelButton = queryAndAssert(element, '#cancel');
+    assert.isFalse(isHidden(cancelButton));
     element.cancelLabel = '';
     flush();
 
-    assert.isTrue(isHidden(element.$.cancel));
+    assert.isTrue(isHidden(cancelButton));
   });
 });
-

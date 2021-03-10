@@ -111,6 +111,24 @@
       "message": "That is already possible with the current mechanism in Gerrit, and we actually use it in multi-site.\n\nI do not disagree with this alternative approach, however, it would be best to understand the differences and benefits of this approach against the current one implemented in Gerrit.\n\nI know that this change is small enough to not require a design document. However, a simple markdown file that describes what Gerrit can do today, what are the limits and problems with the current approach and what this new approach provides as benefits, would help me and other reviewers to better understand and appreciate this change.\n\nThanks for your time coding this solution and answering to my questions and comments, I do appreciate it.",
       "revId": "52b3151436aa7552b3adb6b31b55903ba785b680",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0db1fe3b_18a2977a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-10T19:37:40Z",
+      "side": 1,
+      "message": "I\u0027ve created a simple PoC of how you could reuse the current plugin loader mechanism to achieve exactly this use-case.\n\nI tested with the replication plugin and works like a charm :-)\nNo need to use libModules, just define an ApiModule and with the extra interfaces, ready to be used by any other plugin.\n\nSee the PoC Change-Id: I63c9b7f",
+      "parentUuid": "733fc14c_28bdaa29",
+      "revId": "52b3151436aa7552b3adb6b31b55903ba785b680",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

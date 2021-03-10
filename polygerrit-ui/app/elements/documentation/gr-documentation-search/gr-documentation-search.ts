@@ -56,8 +56,8 @@ export class GrDocumentationSearch extends ListViewMixin(
   private readonly restApiService = appContext.restApiService;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     fireTitleChange(this, 'Documentation Search');
   }
 

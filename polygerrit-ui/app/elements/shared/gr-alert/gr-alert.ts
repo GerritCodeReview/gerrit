@@ -72,15 +72,15 @@ export class GrAlert extends LegacyElementMixin(PolymerElement) {
   _actionCallback?: () => void;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._boundTransitionEndHandler = () => this._handleTransitionEnd();
     this.addEventListener('transitionend', this._boundTransitionEndHandler);
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     if (this._boundTransitionEndHandler) {
       this.removeEventListener(
         'transitionend',

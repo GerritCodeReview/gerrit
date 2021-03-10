@@ -281,8 +281,8 @@ export class GrComment extends KeyboardShortcutMixin(
   reporting = appContext.reportingService;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.restApiService.getAccount().then(account => {
       this._selfAccount = account;
     });
@@ -297,8 +297,8 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     this.cancelDebouncer(DEBOUNCER_FIRE_UPDATE);
     this.cancelDebouncer(DEBOUNCER_STORE);
     this.cancelDebouncer(DEBOUNCER_DRAFT_TOAST);

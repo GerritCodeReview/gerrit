@@ -117,8 +117,8 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
   private readonly restApiService = appContext.restApiService;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.listen(document, EventType.SERVER_ERROR, '_handleServerError');
     this.listen(document, EventType.NETWORK_ERROR, '_handleNetworkError');
     this.listen(document, EventType.SHOW_ALERT, '_handleShowAlert');
@@ -138,8 +138,8 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     this._clearHideAlertHandle();
     this.unlisten(document, EventType.SERVER_ERROR, '_handleServerError');
     this.unlisten(document, EventType.NETWORK_ERROR, '_handleNetworkError');

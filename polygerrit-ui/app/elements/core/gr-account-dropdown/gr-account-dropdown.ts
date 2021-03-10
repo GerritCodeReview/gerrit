@@ -65,8 +65,8 @@ export class GrAccountDropdown extends LegacyElementMixin(PolymerElement) {
   private readonly restApiService = appContext.restApiService;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._handleLocationChange();
     this.listen(window, 'location-change', '_handleLocationChange');
     this.restApiService.getConfig().then(cfg => {
@@ -82,8 +82,8 @@ export class GrAccountDropdown extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     this.unlisten(window, 'location-change', '_handleLocationChange');
   }
 

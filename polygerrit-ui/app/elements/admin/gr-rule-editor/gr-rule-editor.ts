@@ -155,8 +155,8 @@ export class GrRuleEditor extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     // Check needed for test purposes.
     if (!this._originalRuleValues && this.rule) {
       // Observer _handleValueChange is called after the ready()

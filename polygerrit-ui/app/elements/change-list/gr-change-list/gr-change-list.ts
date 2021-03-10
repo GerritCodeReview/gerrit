@@ -173,8 +173,8 @@ export class GrChangeList extends ChangeTableMixin(
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {

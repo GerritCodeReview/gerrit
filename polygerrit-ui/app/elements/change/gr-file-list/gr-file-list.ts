@@ -355,8 +355,8 @@ export class GrFileList extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -404,8 +404,8 @@ export class GrFileList extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     this._cancelDiffs();
     this.cancelDebouncer(DEBOUNCER_LOADING_CHANGE);
   }

@@ -64,8 +64,8 @@ class GrListView extends LegacyElementMixin(PolymerElement) {
   path?: string;
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     this.cancelDebouncer(DEBOUNCER_RELOAD);
   }
 

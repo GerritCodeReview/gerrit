@@ -48,13 +48,13 @@ export class GrPageNav extends LegacyElementMixin(PolymerElement) {
     this.bodyScrollHandler = () => this._handleBodyScroll();
   }
 
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     window.addEventListener('scroll', this.bodyScrollHandler);
   }
 
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     window.removeEventListener('scroll', this.bodyScrollHandler);
   }
 

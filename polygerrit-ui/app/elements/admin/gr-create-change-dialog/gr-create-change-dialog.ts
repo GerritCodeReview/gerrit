@@ -95,8 +95,8 @@ export class GrCreateChangeDialog extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     if (!this.repoName) {
       return Promise.resolve();
     }

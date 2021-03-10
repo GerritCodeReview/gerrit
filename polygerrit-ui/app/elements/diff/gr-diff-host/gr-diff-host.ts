@@ -307,16 +307,16 @@ export class GrDiffHost extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     this.clear();
   }
 

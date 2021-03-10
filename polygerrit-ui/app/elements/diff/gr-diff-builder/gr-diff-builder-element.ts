@@ -161,8 +161,8 @@ export class GrDiffBuilderElement extends LegacyElementMixin(PolymerElement) {
   _cancelableRenderPromise: CancelablePromise<unknown> | null = null;
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     if (this._builder) {
       this._builder.clear();
     }

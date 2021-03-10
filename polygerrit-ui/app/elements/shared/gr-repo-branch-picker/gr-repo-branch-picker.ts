@@ -72,8 +72,8 @@ export class GrRepoBranchPicker extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     if (this.repo) {
       this.$.repoInput.setText(this.repo);
     }

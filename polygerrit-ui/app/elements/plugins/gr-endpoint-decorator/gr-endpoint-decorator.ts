@@ -51,8 +51,8 @@ export class GrEndpointDecorator extends LegacyElementMixin(PolymerElement) {
   _endpointCallBack: (info: ModuleInfo) => void = () => {};
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     for (const [el, domHook] of this._domHooks) {
       domHook.handleInstanceDetached(el);
     }

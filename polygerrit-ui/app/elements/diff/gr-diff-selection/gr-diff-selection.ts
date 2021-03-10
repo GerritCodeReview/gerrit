@@ -74,8 +74,8 @@ export class GrDiffSelection extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.classList.add(SelectionClass.RIGHT);
   }
 

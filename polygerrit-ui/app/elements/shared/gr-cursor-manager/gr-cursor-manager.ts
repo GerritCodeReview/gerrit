@@ -113,8 +113,8 @@ export class GrCursorManager extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
     this.unsetCursor();
   }
 

@@ -175,8 +175,8 @@ export class GrAdminView extends LegacyElementMixin(PolymerElement) {
   private readonly jsAPI = appContext.jsApiService;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.reload();
   }
 

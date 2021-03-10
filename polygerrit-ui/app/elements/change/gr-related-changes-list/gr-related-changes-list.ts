@@ -300,8 +300,8 @@ export class GrRelatedChangesList extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     // We listen to `new-section-loaded` events to allow plugins to trigger
     // visibility computations, if their content or visibility changed.
     this.addEventListener('new-section-loaded', () =>

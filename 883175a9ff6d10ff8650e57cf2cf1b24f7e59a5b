@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95024b63_071a7541",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-10T17:36:00Z",
+      "side": 1,
+      "message": "... and 😎 this change doesn\u0027t break any existing functionality, yay !",
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

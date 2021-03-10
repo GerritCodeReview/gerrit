@@ -16,8 +16,6 @@
  */
 import '../../../styles/shared-styles';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {Debouncer} from '@polymer/polymer/lib/utils/debounce';
-import {timeOut} from '@polymer/polymer/lib/utils/async';
 import {getRootElement} from '../../../scripts/rootElement';
 import {Constructor} from '../../../utils/common-util';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
@@ -29,6 +27,7 @@ import {
   removeScrollLock,
 } from '@polymer/iron-overlay-behavior/iron-scroll-manager';
 import {ShowAlertEventDetail} from '../../../types/events';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 interface ReloadEventDetail {
   clearPatchset?: boolean;
 }
@@ -110,9 +109,9 @@ export const hovercardBehaviorMixin = dedupingMixin(
       @property({type: String})
       containerId = 'gr-hovercard-container';
 
-      private hideDebouncer: Debouncer | null = null;
+      private hideTask?: DelayedTask;
 
-      private showDebouncer: Debouncer | null = null;
+      private showTask?: DelayedTask;
 
       private isScheduledToShow?: boolean;
 
@@ -142,8 +141,8 @@ export const hovercardBehaviorMixin = dedupingMixin(
       }
 
       disconnectedCallback() {
-        this.cancelShowDebouncer();
-        this.cancelHideDebouncer();
+        this.cancelShowTask();
+        this.cancelHideTask();
         this.unlock();
         super.disconnectedCallback();
       }
@@ -173,24 +172,24 @@ export const hovercardBehaviorMixin = dedupingMixin(
       }
 
       readonly debounceHide = () => {
-        this.cancelShowDebouncer();
+        this.cancelShowTask();
         if (!this._isShowing || this.isScheduledToHide) return;
         this.isScheduledToHide = true;
-        this.hideDebouncer = Debouncer.debounce(
-          this.hideDebouncer,
-          timeOut.after(HIDE_DELAY_MS),
+        this.hideTask = debounce(
+          this.hideTask,
           () => {
             // This happens when hide immediately through click or mouse leave
             // on the hovercard
             if (!this.isScheduledToHide) return;
             this.hide();
-          }
+          },
+          HIDE_DELAY_MS
         );
       };
 
-      cancelHideDebouncer() {
-        if (this.hideDebouncer) {
-          this.hideDebouncer.cancel();
+      cancelHideTask() {
+        if (this.hideTask) {
+          this.hideTask.cancel();
           this.isScheduledToHide = false;
         }
       }
@@ -258,8 +257,8 @@ export const hovercardBehaviorMixin = dedupingMixin(
        *
        */
       readonly hide = (e?: MouseEvent) => {
-        this.cancelHideDebouncer();
-        this.cancelShowDebouncer();
+        this.cancelHideTask();
+        this.cancelShowTask();
         if (!this._isShowing) {
           return;
         }
@@ -304,23 +303,23 @@ export const hovercardBehaviorMixin = dedupingMixin(
        * Shows/opens the hovercard with the given delay.
        */
       debounceShowBy(delayMs: number) {
-        this.cancelHideDebouncer();
+        this.cancelHideTask();
         if (this._isShowing || this.isScheduledToShow) return;
         this.isScheduledToShow = true;
-        this.showDebouncer = Debouncer.debounce(
-          this.showDebouncer,
-          timeOut.after(delayMs),
+        this.showTask = debounce(
+          this.showTask,
           () => {
             // This happens when the mouse leaves the target before the delay is over.
             if (!this.isScheduledToShow) return;
             this.show();
-          }
+          },
+          delayMs
         );
       }
 
-      cancelShowDebouncer() {
-        if (this.showDebouncer) {
-          this.showDebouncer.cancel();
+      cancelShowTask() {
+        if (this.showTask) {
+          this.showTask.cancel();
           this.isScheduledToShow = false;
         }
       }
@@ -337,8 +336,8 @@ export const hovercardBehaviorMixin = dedupingMixin(
        * `mousenter` event on the hovercard's `target` element.
        */
       readonly show = () => {
-        this.cancelHideDebouncer();
-        this.cancelShowDebouncer();
+        this.cancelHideTask();
+        this.cancelShowTask();
         if (this._isShowing || !this.container) {
           return;
         }
@@ -483,12 +482,12 @@ export interface GrHovercardBehaviorInterface {
   ready(): void;
   removeListeners(): void;
   debounceHide(): void;
-  cancelHideDebouncer(): void;
+  cancelHideTask(): void;
   dispatchEventThroughTarget(eventName: string, detail?: unknown): void;
   hide(e?: MouseEvent): void;
   debounceShow(): void;
   debounceShowBy(delayMs: number): void;
-  cancelShowDebouncer(): void;
+  cancelShowTask(): void;
   show(): void;
   updatePosition(): void;
   updatePositionTo(position: string): void;

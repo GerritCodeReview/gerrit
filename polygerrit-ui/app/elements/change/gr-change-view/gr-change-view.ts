@@ -174,6 +174,7 @@ import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
 import {GrRelatedChangesListExperimental} from '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -243,10 +244,6 @@ export interface GrChangeView {
 }
 
 export type ChangeViewPatchRange = Partial<PatchRange>;
-
-const DEBOUNCER_REPLY_OVERLAY_REFIT = 'reply-overlay-refit';
-
-const DEBOUNCER_SCROLL = 'scroll';
 
 @customElement('gr-change-view')
 export class GrChangeView extends KeyboardShortcutMixin(
@@ -593,6 +590,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   disconnected$ = new Subject();
 
+  private replyRefitTask?: DelayedTask;
+
+  private scrollTask?: DelayedTask;
+
   /** @override */
   ready() {
     super.ready();
@@ -715,8 +716,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
       'visibilitychange',
       this.handleVisibilityChange
     );
-    this.cancelDebouncer(DEBOUNCER_REPLY_OVERLAY_REFIT);
-    this.cancelDebouncer(DEBOUNCER_SCROLL);
+    this.replyRefitTask?.cancel();
+    this.scrollTask?.cancel();
 
     if (this._updateCheckTimerHandle) {
       this._cancelUpdateCheckTimer();
@@ -1241,11 +1242,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _handleReplyAutogrow() {
     // If the textarea resizes, we need to re-fit the overlay.
-    this.debounce(
-      DEBOUNCER_REPLY_OVERLAY_REFIT,
-      () => {
-        this.$.replyOverlay.refit();
-      },
+    this.replyRefitTask = debounce(
+      this.replyRefitTask,
+      () => this.$.replyOverlay.refit(),
       REPLY_REFIT_DEBOUNCE_INTERVAL_MS
     );
   }
@@ -1259,11 +1258,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   readonly handleScroll = () => {
-    this.debounce(
-      DEBOUNCER_SCROLL,
-      () => {
-        this.viewState.scrollTop = document.body.scrollTop;
-      },
+    this.scrollTask = debounce(
+      this.scrollTask,
+      () => (this.viewState.scrollTop = document.body.scrollTop),
       150
     );
   };

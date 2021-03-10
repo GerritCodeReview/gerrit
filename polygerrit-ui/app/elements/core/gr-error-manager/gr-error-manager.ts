@@ -39,6 +39,7 @@ import {
   ShowErrorEvent,
 } from '../../../types/events';
 import {windowLocationReload} from '../../../utils/dom-util';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -73,8 +74,6 @@ export interface GrErrorManager {
     errorOverlay: GrOverlay;
   };
 }
-
-const DEBOUNCER_CHECK_LOGGED_IN = 'checkLoggedIn';
 
 @customElement('gr-error-manager')
 export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
@@ -117,6 +116,8 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
+  private checkLoggedInTask?: DelayedTask;
+
   /** @override */
   connectedCallback() {
     super.connectedCallback();
@@ -157,7 +158,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
       this.handleVisibilityChange
     );
     document.removeEventListener('show-auth-required', this.handleAuthRequired);
-    this.cancelDebouncer(DEBOUNCER_CHECK_LOGGED_IN);
+    this.checkLoggedInTask?.cancel();
 
     if (this._authErrorHandlerDeregistrationHook) {
       this._authErrorHandlerDeregistrationHook();
@@ -414,9 +415,9 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
   };
 
   _requestCheckLoggedIn() {
-    this.debounce(
-      DEBOUNCER_CHECK_LOGGED_IN,
-      this._checkSignedIn,
+    this.checkLoggedInTask = debounce(
+      this.checkLoggedInTask,
+      () => this._checkSignedIn(),
       CHECK_SIGN_IN_INTERVAL_MS
     );
   }
@@ -491,8 +492,8 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
   }
 
   private readonly handleWindowFocus = () => {
-    this.flushDebouncer(DEBOUNCER_CHECK_LOGGED_IN);
-  };
+    this.checkLoggedInTask?.flush();
+  }
 
   private readonly handleShowErrorDialog = (e: ShowErrorEvent) => {
     this._showErrorDialog(e.detail.message);

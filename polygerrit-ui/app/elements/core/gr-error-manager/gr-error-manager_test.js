@@ -298,7 +298,7 @@ suite('gr-error-manager tests', () => {
       // now fake authed
       fetchStub.returns(Promise.resolve({status: 204}));
       element.handleWindowFocus();
-      element.flushDebouncer('checkLoggedIn');
+      element.checkLoggedInTask.flush();
       await flush();
       assert.isTrue(refreshStub.called);
       assert.isTrue(hideToastSpy.called);

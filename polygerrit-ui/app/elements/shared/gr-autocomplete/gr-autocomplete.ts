@@ -29,6 +29,7 @@ import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplet
 import {PaperInputElementExt} from '../../../types/types';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -64,8 +65,6 @@ export interface AutocompleteCommitEventDetail {
 export type AutocompleteCommitEvent = CustomEvent<
   AutocompleteCommitEventDetail
 >;
-
-const DEBOUNCER_UPDATE_SUGGESTIONS = 'update-suggestions';
 
 @customElement('gr-autocomplete')
 export class GrAutocomplete extends KeyboardShortcutMixin(
@@ -200,6 +199,8 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   @property({type: Object})
   _selected: HTMLElement | null = null;
 
+  private updateSuggestionsTask?: DelayedTask;
+
   get _nativeInput() {
     // In Polymer 2 inputElement isn't nativeInput anymore
     return (this.$.input.$.nativeInput ||
@@ -215,7 +216,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   /** @override */
   disconnectedCallback() {
     document.removeEventListener('click', this.handleBodyClick);
-    this.cancelDebouncer(DEBOUNCER_UPDATE_SUGGESTIONS);
+    this.updateSuggestionsTask?.cancel();
     super.disconnectedCallback();
   }
 
@@ -329,7 +330,11 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
     if (noDebounce) {
       update();
     } else {
-      this.debounce(DEBOUNCER_UPDATE_SUGGESTIONS, update, DEBOUNCE_WAIT_MS);
+      this.updateSuggestionsTask = debounce(
+        this.updateSuggestionsTask,
+        update,
+        DEBOUNCE_WAIT_MS
+      );
     }
   }
 

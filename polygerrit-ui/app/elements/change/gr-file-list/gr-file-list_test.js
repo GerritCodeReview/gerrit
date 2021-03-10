@@ -1103,13 +1103,13 @@ suite('gr-file-list tests', () => {
 
       element.reload().then(() => {
         assert.isFalse(element._loading);
-        element.flushDebouncer('loading-change');
+        element.loadingTask.flush();
         assert.isFalse(element.classList.contains('loading'));
         done();
       });
       assert.isTrue(element._loading);
       assert.isFalse(element.classList.contains('loading'));
-      element.flushDebouncer('loading-change');
+      element.loadingTask.flush();
       assert.isTrue(element.classList.contains('loading'));
     });
 
@@ -1119,7 +1119,7 @@ suite('gr-file-list tests', () => {
       element.patchRange = {patchNum: 12};
       element.reload();
       assert.isTrue(element._loading);
-      element.flushDebouncer('loading-change');
+      element.loadingTask.flush();
       assert.isFalse(element.classList.contains('loading'));
     });
   });

@@ -22,6 +22,7 @@ import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-search-bar');
 
@@ -126,7 +127,7 @@ suite('gr-search-bar tests', () => {
   suite('_getSearchSuggestions', () => {
     setup(() => {
       // Ensure that config.change.mergeability_computation_behavior is not set.
-      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
       element = basicFixture.instantiate();
     });
 

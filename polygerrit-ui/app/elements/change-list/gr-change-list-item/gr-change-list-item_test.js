@@ -20,6 +20,7 @@ import './gr-change-list-item.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {LabelCategory} from './gr-change-list-item.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-change-list-item');
 
@@ -27,7 +28,7 @@ suite('gr-change-list-item tests', () => {
   let element;
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
   });

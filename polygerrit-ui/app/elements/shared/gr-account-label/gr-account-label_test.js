@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-account-label.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-account-label');
 
@@ -29,7 +30,7 @@ suite('gr-account-label tests', () => {
   }
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
     element._config = {

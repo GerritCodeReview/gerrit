@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-reviewer-list.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-reviewer-list');
 
@@ -28,7 +29,7 @@ suite('gr-reviewer-list tests', () => {
     element = basicFixture.instantiate();
     element.serverConfig = {};
 
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     stubRestApi('removeChangeReviewer').returns(Promise.resolve({ok: true}));
   });
 

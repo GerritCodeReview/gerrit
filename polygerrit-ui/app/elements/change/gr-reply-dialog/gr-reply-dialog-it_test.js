@@ -22,6 +22,7 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 const pluginApi = _testOnly_initGerritPluginApi();
@@ -75,7 +76,7 @@ suite('gr-reply-dialog-it tests', () => {
     changeNum = 42;
     patchNum = 1;
 
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     stubRestApi('getAccount').returns(Promise.resolve({_account_id: 42}));
 
     element = basicFixture.instantiate();

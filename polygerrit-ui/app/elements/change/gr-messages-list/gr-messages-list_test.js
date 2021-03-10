@@ -23,6 +23,7 @@ import {TEST_ONLY} from './gr-messages-list.js';
 import {MessageTag} from '../../../constants/constants.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 createCommentApiMockWithTemplateElement(
     'gr-messages-list-comment-mock-api', html`
@@ -133,7 +134,7 @@ suite('gr-messages-list tests', () => {
 
   suite('basic tests', () => {
     setup(() => {
-      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getDiffComments').returns(Promise.resolve(comments));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
@@ -440,7 +441,7 @@ suite('gr-messages-list tests', () => {
     let commentApiWrapper;
 
     setup(() => {
-      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));

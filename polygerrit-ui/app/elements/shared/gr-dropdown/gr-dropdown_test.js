@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-dropdown.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-dropdown');
 
@@ -26,7 +27,7 @@ suite('gr-dropdown tests', () => {
   let element;
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     element = basicFixture.instantiate();
   });
 

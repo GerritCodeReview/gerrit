@@ -21,6 +21,7 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {__testOnly_UNSAVED_MESSAGE} from './gr-comment.js';
 import {SpecialFilePath, Side} from '../../../constants/constants.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-comment');
 
@@ -442,7 +443,7 @@ suite('gr-comment tests', () => {
 
     setup(() => {
       stubRestApi('getAccount').returns(Promise.resolve(null));
-      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
       stubRestApi('saveDiffDraft').returns(Promise.resolve({
         ok: true,
         text() {

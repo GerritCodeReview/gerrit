@@ -20,6 +20,7 @@ import '../../change/gr-reply-dialog/gr-reply-dialog.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {appContext} from '../../../services/app-context.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -28,7 +29,7 @@ suite('gr-reporting-js-api tests', () => {
   let plugin;
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     stubRestApi('getAccount').returns(Promise.resolve(null));
   });
 

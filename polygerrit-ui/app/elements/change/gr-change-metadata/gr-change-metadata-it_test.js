@@ -22,6 +22,7 @@ import {resetPlugins} from '../../../test/test-utils.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const testHtmlPlugin = document.createElement('dom-module');
 testHtmlPlugin.innerHTML = `
@@ -87,7 +88,7 @@ suite('gr-change-metadata integration tests', () => {
   }
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('deleteVote').returns(Promise.resolve({ok: true}));
   });

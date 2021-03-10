@@ -18,8 +18,9 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-message.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {createChange, createRevisions} from '../../../test/test-data-generators.js';
+import {createChange, createRevisions, createServerInfo} from '../../../test/test-data-generators.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createDefaultPreferences} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-message');
 
@@ -29,8 +30,9 @@ suite('gr-message tests', () => {
   suite('when admin and logged in', () => {
     setup(done => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(true));
-      stubRestApi('getPreferences').returns(Promise.resolve({}));
-      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getPreferences').returns(Promise.resolve(
+        createDefaultPreferences()));
+      stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
       stubRestApi('getIsAdmin').returns(Promise.resolve(true));
       stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
@@ -423,8 +425,9 @@ suite('gr-message tests', () => {
   suite('when not logged in', () => {
     setup(done => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-      stubRestApi('getPreferences').returns(Promise.resolve({}));
-      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getPreferences').returns(Promise.resolve(
+        createDefaultPreferences()));
+      stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
       stubRestApi('getIsAdmin').returns(Promise.resolve(false));
       stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();
@@ -517,7 +520,7 @@ suite('gr-message tests', () => {
   suite('when logged in but not admin', () => {
     setup(async () => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(true));
-      stubRestApi('getConfig').returns(Promise.resolve({}));
+      stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
       stubRestApi('getIsAdmin').returns(Promise.resolve(false));
       stubRestApi('deleteChangeCommitMessage').returns(Promise.resolve({}));
       element = basicFixture.instantiate();

@@ -25,7 +25,7 @@ import {addListenerForTest} from '../../../test/test-utils.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 import {CODE_REVIEW} from '../../../utils/label-util.js';
-import {createAccountWithId} from '../../../test/test-data-generators.js';
+import {createAccountWithId, createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -65,7 +65,7 @@ suite('gr-reply-dialog tests', () => {
     changeNum = 42;
     patchNum = 1;
 
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     stubRestApi('getAccount').returns(Promise.resolve({}));
     stubRestApi('getChange').returns(Promise.resolve({}));
     stubRestApi('getChangeSuggestedReviewers').returns(Promise.resolve([]));

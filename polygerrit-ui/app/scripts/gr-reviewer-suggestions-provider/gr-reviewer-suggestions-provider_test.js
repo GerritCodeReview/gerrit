@@ -19,6 +19,7 @@ import '../../test/common-test-setup-karma.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from './gr-reviewer-suggestions-provider.js';
 import {appContext} from '../../services/app-context.js';
 import {stubRestApi} from '../../test/test-utils.js';
+import {createServerInfo} from '../../test/test-data-generators.js';
 
 suite('GrReviewerSuggestionsProvider tests', () => {
   let _nextAccountId = 0;
@@ -67,7 +68,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       },
     };
 
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
 
     change = {
       _number: 42,

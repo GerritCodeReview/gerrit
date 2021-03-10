@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-account-list.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-account-list');
 
@@ -61,7 +62,7 @@ suite('gr-account-list tests', () => {
     existingAccount1 = makeAccount();
     existingAccount2 = makeAccount();
 
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     element = basicFixture.instantiate();
     element.accounts = [existingAccount1, existingAccount2];
     suggestionsProvider = new MockSuggestionsProvider();

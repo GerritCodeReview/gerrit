@@ -30,6 +30,7 @@ import {TestKeyboardShortcutBinder, stubRestApi, spyRestApi} from '../../../test
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
 import {createChangeComments} from '../../../test/test-data-generators.js';
+import {createDefaultPreferences} from '../../../constants/constants.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
@@ -81,7 +82,8 @@ suite('gr-file-list tests', () => {
   suite('basic tests', () => {
     setup(done => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(true));
-      stubRestApi('getPreferences').returns(Promise.resolve({}));
+      stubRestApi('getPreferences').returns(Promise.resolve(
+        createDefaultPreferences()));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
@@ -1407,7 +1409,8 @@ suite('gr-file-list tests', () => {
     }
 
     setup(done => {
-      stubRestApi('getPreferences').returns(Promise.resolve({}));
+      stubRestApi('getPreferences').returns(Promise.resolve(
+        createDefaultPreferences()));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));

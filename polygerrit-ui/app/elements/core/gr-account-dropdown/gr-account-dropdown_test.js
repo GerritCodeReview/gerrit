@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-account-dropdown.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-account-dropdown');
 
@@ -25,7 +26,7 @@ suite('gr-account-dropdown tests', () => {
   let element;
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     element = basicFixture.instantiate();
   });
 

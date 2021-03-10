@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-account-link.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-account-link');
 
@@ -26,7 +27,7 @@ suite('gr-account-link tests', () => {
   let element;
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     element = basicFixture.instantiate();
   });
 

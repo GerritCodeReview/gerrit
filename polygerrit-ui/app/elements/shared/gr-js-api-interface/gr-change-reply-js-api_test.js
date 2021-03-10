@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-reply-dialog/gr-reply-dialog.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubRestApi} from '../../../test/test-utils.js';
+import {createServerInfo} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -31,7 +32,7 @@ suite('gr-change-reply-js-api tests', () => {
   let plugin;
 
   setup(() => {
-    stubRestApi('getConfig').returns(Promise.resolve({}));
+    stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
     stubRestApi('getAccount').returns(Promise.resolve(null));
   });
 

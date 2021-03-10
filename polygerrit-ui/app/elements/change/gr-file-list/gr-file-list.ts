@@ -31,7 +31,7 @@ import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-file-list_html';
-import {asyncForeach} from '../../../utils/async-util';
+import {asyncForeach, debounce, DelayedTask} from '../../../utils/async-util';
 import {
   KeyboardShortcutMixin,
   Modifier,
@@ -153,8 +153,6 @@ interface FileRow {
 }
 
 export type FileNameToReviewedFileInfoMap = {[name: string]: ReviewedFileInfo};
-
-const DEBOUNCER_LOADING_CHANGE = 'loading-change';
 
 /**
  * Type for FileInfo
@@ -282,6 +280,8 @@ export class GrFileList extends KeyboardShortcutMixin(
   _showSizeBars = true;
 
   private _cancelForEachDiff?: () => void;
+
+  loadingTask?: DelayedTask;
 
   @property({
     type: Boolean,
@@ -418,7 +418,7 @@ export class GrFileList extends KeyboardShortcutMixin(
   disconnectedCallback() {
     this.fileCursor.unsetCursor();
     this._cancelDiffs();
-    this.cancelDebouncer(DEBOUNCER_LOADING_CHANGE);
+    this.loadingTask?.cancel();
     super.disconnectedCallback();
   }
 
@@ -1606,8 +1606,8 @@ export class GrFileList extends KeyboardShortcutMixin(
    * are reasonably fast.
    */
   _loadingChanged(loading?: boolean) {
-    this.debounce(
-      DEBOUNCER_LOADING_CHANGE,
+    this.loadingTask = debounce(
+      this.loadingTask,
       () => {
         // Only show set the loading if there have been files loaded to show. In
         // this way, the gray loading style is not shown on initial loads.

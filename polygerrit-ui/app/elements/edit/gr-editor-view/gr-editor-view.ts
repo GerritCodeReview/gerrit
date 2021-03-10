@@ -45,6 +45,7 @@ import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -54,8 +55,6 @@ const PUBLISHING_EDIT_MSG = 'Publishing edit...';
 const PUBLISH_FAILED_MSG = 'Failed to publish edit';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
-
-const DEBOUNCER_STORE = 'store';
 
 @customElement('gr-editor-view')
 export class GrEditorView extends KeyboardShortcutMixin(
@@ -123,6 +122,8 @@ export class GrEditorView extends KeyboardShortcutMixin(
 
   private readonly storage = new GrStorage();
 
+  private storeTask?: DelayedTask;
+
   reporting = appContext.reportingService;
 
   get keyBindings() {
@@ -149,7 +150,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
 
   /** @override */
   disconnectedCallback() {
-    this.cancelDebouncer(DEBOUNCER_STORE);
+    this.storeTask?.cancel();
     super.disconnectedCallback();
   }
 
@@ -355,8 +356,8 @@ export class GrEditorView extends KeyboardShortcutMixin(
   }
 
   _handleContentChange(e: CustomEvent<{value: string}>) {
-    this.debounce(
-      DEBOUNCER_STORE,
+    this.storeTask = debounce(
+      this.storeTask,
       () => {
         const content = e.detail.value;
         if (content) {

@@ -215,19 +215,18 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('noDebounce=false debounces the query', () => {
+    const clock = sinon.useFakeTimers();
     const queryStub = sinon.spy(() => Promise.resolve([]));
-    let callback;
-    const debounceStub = sinon.stub(element, 'debounce').callsFake(
-        (name, cb) => { callback = cb; });
     element.query = queryStub;
     element.noDebounce = false;
     focusOnInput(element);
     element.text = 'a';
+
+    // not called right away
     assert.isFalse(queryStub.called);
-    assert.isTrue(debounceStub.called);
-    assert.equal(debounceStub.lastCall.args[2], 200);
-    assert.isFunction(callback);
-    callback();
+
+    // but called after a while
+    clock.tick(1000);
     assert.isTrue(queryStub.called);
   });
 

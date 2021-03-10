@@ -126,7 +126,7 @@ suite('gr-editable-content tests', () => {
 
       element._newContent = 'new content';
       flush();
-      element.flushDebouncer('store');
+      element.storeTask.flush();
 
       assert.isTrue(storeStub.called);
       assert.deepEqual(
@@ -135,7 +135,7 @@ suite('gr-editable-content tests', () => {
 
       element._newContent = '';
       flush();
-      element.flushDebouncer('store');
+      element.storeTask.flush();
 
       assert.isTrue(eraseStub.called);
       assert.deepEqual([element.storageKey], eraseStub.lastCall.args);

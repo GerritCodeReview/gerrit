@@ -109,7 +109,7 @@ suite('gr-editor-view tests', () => {
       bubbles: true, composed: true,
       detail: {value: 'new content value'},
     }));
-    element.flushDebouncer('store');
+    element.storeTask.flush();
     flush();
 
     assert.equal(element._newContent, 'new content value');

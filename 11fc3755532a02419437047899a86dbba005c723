@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4af40f7b_0355f695",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-03-10T19:46:24Z",
+      "side": 1,
+      "message": "only change to the code is putting these section views into the right type (SectionView instead of string)",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 72
+      },
+      "revId": "11fc3755532a02419437047899a86dbba005c723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

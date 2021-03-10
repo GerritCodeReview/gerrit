@@ -294,7 +294,8 @@ public abstract class TestProjectUpdate {
     return new AutoValue_TestProjectUpdate.Builder()
         .nameKey(nameKey)
         .allProjectsName(allProjectsName)
-        .projectUpdater(projectUpdater);
+        .projectUpdater(projectUpdater)
+        .removeAllAccessSections(false);
   }
 
   /** Builder for {@link TestProjectUpdate}. */
@@ -313,6 +314,16 @@ public abstract class TestProjectUpdate {
     abstract ImmutableList.Builder<TestPermissionKey> removedPermissionsBuilder();
 
     abstract ImmutableMap.Builder<TestPermissionKey, Boolean> exclusiveGroupPermissionsBuilder();
+
+    abstract Builder removeAllAccessSections(boolean value);
+
+    /**
+     * Removes all access sections. Useful when testing against a specific set of access sections or
+     * permissions.
+     */
+    public Builder removeAllAccessSections() {
+      return removeAllAccessSections(true);
+    }
 
     /** Adds a permission to be included in this update. */
     public Builder add(TestPermission testPermission) {
@@ -417,6 +428,8 @@ public abstract class TestProjectUpdate {
   abstract ImmutableMap<TestPermissionKey, Boolean> exclusiveGroupPermissions();
 
   abstract ThrowingConsumer<TestProjectUpdate> projectUpdater();
+
+  abstract boolean removeAllAccessSections();
 
   boolean hasCapabilityUpdates() {
     return !addedCapabilities().isEmpty()

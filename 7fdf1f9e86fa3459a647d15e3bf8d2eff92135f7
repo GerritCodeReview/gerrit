@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8d0c67c_ebf3fe9a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-03-10T19:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b15e588_0e337334",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 40
+      },
+      "revId": "7fdf1f9e86fa3459a647d15e3bf8d2eff92135f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23ec5be8_cd85162a",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-10T08:25:27Z",
       "side": 1,
       "message": "You can use the new queryAndAssert() utility function for that.\n\n  const paperBtn \u003d queryAndAssert(element, \u0027paper-button\u0027);\n\nAlso below.",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 71
+      },
+      "revId": "7fdf1f9e86fa3459a647d15e3bf8d2eff92135f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19ed9c30_9eea05a4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-03-10T19:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23ec5be8_cd85162a",
       "range": {
         "startLine": 56,
         "startChar": 4,

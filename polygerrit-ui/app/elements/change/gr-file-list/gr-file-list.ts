@@ -1815,6 +1815,16 @@ export class GrFileList extends KeyboardShortcutMixin(
   _computeTruncatedPath(path: string) {
     return computeTruncatedPath(path);
   }
+
+  _getOldPath(file: NormalizedFileInfo) {
+    // The gr-endpoint-decorator is waiting until all gr-endpoint-param
+    // values are updated.
+    // The old_path property is undefined for added files, and the
+    // gr-endpoint-param value bound to file.old_path is never updates.
+    // As a results, the gr-endpoint-decorator doesn't work for added files.
+    // As a workaround, this method returns null instead of undefined.
+    return file.old_path ?? null;
+  }
 }
 
 declare global {

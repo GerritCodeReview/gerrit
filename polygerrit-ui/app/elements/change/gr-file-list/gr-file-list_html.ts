@@ -375,7 +375,7 @@ export const htmlTemplate = html`
                 </gr-endpoint-param>
                 <gr-endpoint-param name="path" value="[[file.__path]]">
                 </gr-endpoint-param>
-                <gr-endpoint-param name="oldPath" value="[[file.old_path]]">
+                <gr-endpoint-param name="oldPath" value="[[_getOldPath(file)]]">
                 </gr-endpoint-param>
               </gr-endpoint-decorator>
             </template>

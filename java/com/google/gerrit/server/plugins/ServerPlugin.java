@@ -31,8 +31,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 public class ServerPlugin extends Plugin {
@@ -49,12 +51,16 @@ public class ServerPlugin extends Plugin {
   protected Class<? extends Module> batchModule;
   protected Class<? extends Module> sshModule;
   protected Class<? extends Module> httpModule;
+  private Class<? extends Module> apiModuleClass;
 
+  private Injector apiInjector;
   private Injector sysInjector;
   private Injector sshInjector;
   private Injector httpInjector;
   private LifecycleManager serverManager;
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
+
+  private Module apiModule;
 
   public ServerPlugin(
       String name,
@@ -93,6 +99,7 @@ public class ServerPlugin extends Plugin {
     String sshName = main.getValue("Gerrit-SshModule");
     String httpName = main.getValue("Gerrit-HttpModule");
     String batchName = main.getValue("Gerrit-BatchModule");
+    String apiName = main.getValue("Gerrit-ApiModule");
 
     if (!Strings.isNullOrEmpty(sshName) && getApiType() != Plugin.ApiType.PLUGIN) {
       throw new InvalidPluginException(
@@ -105,6 +112,7 @@ public class ServerPlugin extends Plugin {
       this.sysModule = load(sysName, classLoader);
       this.sshModule = load(sshName, classLoader);
       this.httpModule = load(httpName, classLoader);
+      this.apiModuleClass = load(apiName, classLoader);
     } catch (ClassNotFoundException e) {
       throw new InvalidPluginException("Unable to load plugin Guice Modules", e);
     }
@@ -187,11 +195,10 @@ public class ServerPlugin extends Plugin {
   }
 
   private void startPlugin(PluginGuiceEnvironment env) throws Exception {
-    Injector root = newRootInjector(env);
     serverManager = new LifecycleManager();
-    serverManager.add(root);
 
     if (gerritRuntime == GerritRuntime.BATCH) {
+      Injector root = newRootInjector(env);
       if (batchModule != null) {
         sysInjector = root.createChildInjector(root.getInstance(batchModule));
         serverManager.add(sysInjector);
@@ -204,19 +211,27 @@ public class ServerPlugin extends Plugin {
     }
 
     AutoRegisterModules auto = null;
-    if (sysModule == null && sshModule == null && httpModule == null) {
+    if (sysModule == null && sshModule == null && httpModule == null && apiModuleClass == null) {
       auto = new AutoRegisterModules(getName(), env, scanner, classLoader);
       auto.discover();
     }
 
+    Injector baseInjector;
+    if (apiModuleClass == null) {
+      baseInjector = newRootInjector(env);
+    } else {
+      baseInjector = newRootInjectorWithApiModule(env, apiModuleClass);
+    }
+    serverManager.add(baseInjector);
+
     if (sysModule != null) {
-      sysInjector = root.createChildInjector(root.getInstance(sysModule));
+      sysInjector = baseInjector.createChildInjector(baseInjector.getInstance(sysModule));
       serverManager.add(sysInjector);
     } else if (auto != null && auto.sysModule != null) {
-      sysInjector = root.createChildInjector(auto.sysModule);
+      sysInjector = baseInjector.createChildInjector(auto.sysModule);
       serverManager.add(sysInjector);
     } else {
-      sysInjector = root;
+      sysInjector = baseInjector;
     }
 
     if (env.hasSshModule()) {
@@ -255,12 +270,37 @@ public class ServerPlugin extends Plugin {
   }
 
   private Injector newRootInjector(PluginGuiceEnvironment env) {
+    Optional<Injector> apiInjector = Optional.ofNullable(env.getApiInjector());
+
     List<Module> modules = Lists.newArrayListWithCapacity(2);
     if (getApiType() == ApiType.PLUGIN) {
-      modules.add(env.getSysModule());
+      if (!apiInjector.isPresent()) {
+        modules.add(env.getSysModule());
+      }
     }
     modules.add(new ServerPluginInfoModule(this, env.getServerMetrics()));
-    return Guice.createInjector(modules);
+    return apiInjector
+        .map(injector -> injector.createChildInjector(modules))
+        .orElse(Guice.createInjector(modules));
+  }
+
+  private Injector newRootInjectorWithApiModule(
+      PluginGuiceEnvironment env, Class<? extends Module> apiModuleClass) {
+    Injector baseInjector = Guice.createInjector(env.getSysModule());
+    apiModule = baseInjector.getInstance(apiModuleClass);
+
+    List<Module> modules = Lists.newArrayListWithCapacity(2);
+    List<Module> apiModulesNoDuplicates =
+        env.getApiModules().stream()
+            .filter(module -> !module.getClass().getName().equals(apiModuleClass.getName()))
+            .collect(Collectors.toList());
+    modules.addAll(apiModulesNoDuplicates);
+    modules.add(apiModule);
+
+    apiInjector = baseInjector.createChildInjector(modules);
+
+    return apiInjector.createChildInjector(
+        new ServerPluginInfoModule(this, env.getServerMetrics()));
   }
 
   @Override
@@ -282,6 +322,16 @@ public class ServerPlugin extends Plugin {
   @Override
   public Injector getSysInjector() {
     return sysInjector;
+  }
+
+  @Override
+  public Injector getApiInjector() {
+    return apiInjector;
+  }
+
+  @Override
+  public Module getApiModule() {
+    return apiModule;
   }
 
   @Override

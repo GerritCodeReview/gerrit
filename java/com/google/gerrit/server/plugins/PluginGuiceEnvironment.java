@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.registration.PrivateInternals_Dynamic
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicSetsOf;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -53,6 +54,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,6 +62,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.servlet.http.HttpServletRequest;
@@ -87,6 +90,8 @@ public class PluginGuiceEnvironment {
   private Module sysModule;
   private Module sshModule;
   private Module httpModule;
+  private List<Module> apiModules;
+  private Injector apiInjector;
 
   private Provider<ModuleGenerator> sshGen;
   private Provider<ModuleGenerator> httpGen;
@@ -129,6 +134,8 @@ public class PluginGuiceEnvironment {
     sysItems = dynamicItemsOf(sysInjector);
     sysSets = dynamicSetsOf(sysInjector);
     sysMaps = dynamicMapsOf(sysInjector);
+
+    apiModules = new ArrayList<>();
   }
 
   ServerInformation getServerInformation() {
@@ -258,6 +265,9 @@ public class PluginGuiceEnvironment {
       attachMap(sysMaps, plugin.getSysInjector(), plugin);
       attachMap(sshMaps, plugin.getSshInjector(), plugin);
       attachMap(httpMaps, plugin.getHttpInjector(), plugin);
+
+      apiInjector = MoreObjects.firstNonNull(plugin.getApiInjector(), apiInjector);
+      Optional.ofNullable(plugin.getApiModule()).ifPresent(apiModules::add);
     } finally {
       exit(oldContext);
     }
@@ -647,5 +657,13 @@ public class PluginGuiceEnvironment {
       type = type.getSuperclass();
     }
     return false;
+  }
+
+  public Injector getApiInjector() {
+    return MoreObjects.firstNonNull(apiInjector, Guice.createInjector());
+  }
+
+  public List<Module> getApiModules() {
+    return apiModules;
   }
 }

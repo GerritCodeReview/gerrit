@@ -20,7 +20,9 @@ import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.plugins.Plugin.ApiType;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -37,6 +39,7 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
+@Singleton
 public class JarPluginProvider implements ServerPluginProvider {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -45,6 +48,8 @@ public class JarPluginProvider implements ServerPluginProvider {
 
   private final Path tmpDir;
   private final PluginConfigFactory configFactory;
+
+  private ClassLoader pluginApiClassLoader = PluginUtil.parentFor(ApiType.PLUGIN);
 
   @Inject
   JarPluginProvider(SitePaths sitePaths, PluginConfigFactory configFactory) {
@@ -55,7 +60,8 @@ public class JarPluginProvider implements ServerPluginProvider {
   @Override
   public boolean handles(Path srcPath) {
     String fileName = srcPath.getFileName().toString();
-    return fileName.endsWith(JAR_EXTENSION) || fileName.endsWith(JAR_EXTENSION + ".disabled");
+    return fileName.indexOf('.') == fileName.lastIndexOf('.')
+        && (fileName.endsWith(JAR_EXTENSION) || fileName.endsWith(JAR_EXTENSION + ".disabled"));
   }
 
   @Override
@@ -133,9 +139,14 @@ public class JarPluginProvider implements ServerPluginProvider {
       }
       urls.add(tmp.toUri().toURL());
 
-      ClassLoader pluginLoader =
-          URLClassLoader.newInstance(
-              urls.toArray(new URL[urls.size()]), PluginUtil.parentFor(type));
+      ClassLoader parentClassLoader = parentFor(type);
+
+      URLClassLoader pluginLoader =
+          URLClassLoader.newInstance(urls.toArray(new URL[urls.size()]), parentClassLoader);
+
+      if (type == ApiType.PLUGIN_API) {
+        pluginApiClassLoader = pluginLoader;
+      }
 
       JarScanner jarScanner = createJarScanner(tmp);
       PluginConfig pluginConfig = configFactory.getFromGerritConfig(name);
@@ -159,6 +170,18 @@ public class JarPluginProvider implements ServerPluginProvider {
       if (!keep) {
         jarFile.close();
       }
+    }
+  }
+
+  private ClassLoader parentFor(ApiType type) {
+    switch (type) {
+      case PLUGIN:
+      case PLUGIN_API:
+        return pluginApiClassLoader;
+
+        // $CASES-OMITTED$
+      default:
+        return PluginUtil.parentFor(type);
     }
   }
 

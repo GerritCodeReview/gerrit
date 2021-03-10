@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.PluginUser;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +34,7 @@ public abstract class Plugin {
   public enum ApiType {
     EXTENSION,
     PLUGIN,
+    PLUGIN_API,
     JS
   }
 
@@ -58,6 +60,8 @@ public abstract class Plugin {
       return ApiType.EXTENSION;
     } else if (ApiType.PLUGIN.name().equalsIgnoreCase(v)) {
       return ApiType.PLUGIN;
+    } else if (ApiType.PLUGIN_API.name().equalsIgnoreCase(v)) {
+      return ApiType.PLUGIN_API;
     } else if (ApiType.JS.name().equalsIgnoreCase(v)) {
       return ApiType.JS;
     } else {
@@ -143,6 +147,11 @@ public abstract class Plugin {
   @Nullable
   public abstract Injector getHttpInjector();
 
+  @Nullable
+  public Injector getApiInjector() {
+    return null;
+  }
+
   public void add(RegistrationHandle handle) {
     if (manager != null) {
       if (handle instanceof ReloadableRegistrationHandle) {
@@ -171,5 +180,9 @@ public abstract class Plugin {
 
   boolean isModified(Path jar) {
     return snapshot.isModified(jar.toFile());
+  }
+
+  public Module getApiModule() {
+    return null;
   }
 }

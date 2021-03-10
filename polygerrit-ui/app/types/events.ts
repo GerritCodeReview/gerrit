@@ -20,6 +20,7 @@ import {UIComment} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
+import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 
 export interface TitleChangeEventDetail {
   title: string;
@@ -30,6 +31,32 @@ export type TitleChangeEvent = CustomEvent<TitleChangeEventDetail>;
 declare global {
   interface HTMLElementEventMap {
     'title-change': TitleChangeEvent;
+  }
+}
+
+export interface ChangeMessageDeletedEventDetail {
+  message: ChangeMessage;
+}
+
+export type ChangeMessageDeletedEvent = CustomEvent<
+  ChangeMessageDeletedEventDetail
+>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'change-message-deleted': ChangeMessageDeletedEvent;
+  }
+}
+
+export interface ReplyEventDetail {
+  message: ChangeMessage;
+}
+
+export type ReplyEvent = CustomEvent<ReplyEventDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    reply: ReplyEvent;
   }
 }
 

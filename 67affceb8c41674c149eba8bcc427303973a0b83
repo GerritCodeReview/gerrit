@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ae6f732_16059c69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-10T21:21:55Z",
+      "side": 1,
+      "message": "You could also do it like this to avoid the casting:\n\n  queryAndAssert\u003cPaperButtonElement\u003e(...",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "67affceb8c41674c149eba8bcc427303973a0b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

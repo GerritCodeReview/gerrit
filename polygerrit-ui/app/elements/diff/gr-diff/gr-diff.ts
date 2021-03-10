@@ -75,6 +75,7 @@ import {
 } from '../../../api/diff';
 import {isSafari} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -91,8 +92,6 @@ const COMMIT_MSG_PATH = '/COMMIT_MSG';
  * 4 + 72 + 4
  */
 const COMMIT_MSG_LINE_LENGTH = 72;
-
-const RENDER_DIFF_TABLE_DEBOUNCE_NAME = 'renderDiffTable';
 
 export interface LineOfInterest {
   number: number;
@@ -283,6 +282,8 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
   @property({type: Array})
   layers?: DiffLayer[];
 
+  private renderDiffTableTask?: DelayedTask;
+
   /** @override */
   created() {
     super.created();
@@ -302,7 +303,7 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
-    this.cancelDebouncer(RENDER_DIFF_TABLE_DEBOUNCE_NAME);
+    this.renderDiffTableTask?.cancel();
     this._unobserveIncrementalNodes();
     this._unobserveNodes();
     super.disconnectedCallback();
@@ -477,7 +478,7 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
     this.$.diffBuilder.cancel();
-    this.cancelDebouncer(RENDER_DIFF_TABLE_DEBOUNCE_NAME);
+    this.renderDiffTableTask?.cancel();
   }
 
   getCursorStops(): Array<HTMLElement | AbortStop> {
@@ -776,7 +777,7 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
    * render once.
    */
   _debounceRenderDiffTable() {
-    this.debounce(RENDER_DIFF_TABLE_DEBOUNCE_NAME, () =>
+    this.renderDiffTableTask = debounce(this.renderDiffTableTask, () =>
       this._renderDiffTable()
     );
   }

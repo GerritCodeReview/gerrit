@@ -253,7 +253,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve([]);
   },
   getChangesSubmittedTogether(): Promise<SubmittedTogetherInfo | undefined> {
-    throw new Error('getChangesSubmittedTogether() not implemented by mock.');
+    return Promise.resolve(undefined);
   },
   getChangesWithSameTopic(): Promise<ChangeInfo[] | undefined> {
     return Promise.resolve([]);

@@ -62,6 +62,7 @@ import {
   RequirementType,
   UrlEncodedCommentId,
   BasePatchSetNum,
+  RelatedChangeAndCommitInfo,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -201,10 +202,12 @@ export function createCommit(): CommitInfo {
   };
 }
 
-export function createCommitInfoWithRequiredCommit(): CommitInfoWithRequiredCommit {
+export function createCommitInfoWithRequiredCommit(
+  commit = 'commit'
+): CommitInfoWithRequiredCommit {
   return {
     ...createCommit(),
-    commit: 'commit' as CommitId,
+    commit: commit as CommitId,
   };
 }
 
@@ -579,4 +582,11 @@ export function createCommentThread(comments: UIComment[]) {
   });
   const threads = createCommentThreads(comments);
   return threads[0];
+}
+
+export function createRelatedChangeAndCommitInfo(): RelatedChangeAndCommitInfo {
+  return {
+    project: TEST_PROJECT_NAME,
+    commit: createCommitInfoWithRequiredCommit(),
+  };
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f4d831b_f79a04d4",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-10T22:17:36Z",
+      "side": 1,
+      "message": "nit: focusing",
+      "range": {
+        "startLine": 326,
+        "startChar": 38,
+        "endLine": 326,
+        "endChar": 47
+      },
+      "revId": "7c2255831df4305347598d6c06e24066dc0ad9d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

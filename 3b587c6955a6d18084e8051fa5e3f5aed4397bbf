@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c19651_7ce16660",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-10T14:49:34Z",
+      "side": 1,
+      "message": "TODO: I am still missing the copying of DynamicItems, DynamicSets and DynamicMaps from the apiInjector down to the other plugin\u0027s injectors (sysInjector, httpInjector, sshInjector) so that they can modify them for replacing interfaces with implementations.",
+      "revId": "3b587c6955a6d18084e8051fa5e3f5aed4397bbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

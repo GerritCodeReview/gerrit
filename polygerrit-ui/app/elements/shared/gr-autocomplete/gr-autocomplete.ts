@@ -211,12 +211,12 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   /** @override */
   connectedCallback() {
     super.connectedCallback();
-    this.listen(document.body, 'click', '_handleBodyClick');
+    document.addEventListener('click', this.handleBodyClick);
   }
 
   /** @override */
   disconnectedCallback() {
-    this.unlisten(document.body, 'click', '_handleBodyClick');
+    document.removeEventListener('click', this.handleBodyClick);
     this.cancelDebouncer(DEBOUNCER_UPDATE_SUGGESTIONS);
     super.disconnectedCallback();
   }
@@ -444,7 +444,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
     }
   }
 
-  _handleBodyClick(e: Event) {
+  private readonly handleBodyClick = (e: Event) => {
     const eventPath = e.composedPath();
     if (!eventPath) return;
     for (let i = 0; i < eventPath.length; i++) {

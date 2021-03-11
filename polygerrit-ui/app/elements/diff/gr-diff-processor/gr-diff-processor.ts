@@ -116,18 +116,18 @@ export class GrDiffProcessor extends LegacyElementMixin(PolymerElement) {
   /** @override */
   connectedCallback() {
     super.connectedCallback();
-    this.listen(window, 'scroll', '_handleWindowScroll');
+    window.addEventListener('scroll', this.handleWindowScroll);
   }
 
   /** @override */
   disconnectedCallback() {
     this.cancelDebouncer(DEBOUNCER_RESET_IS_SCROLLING);
     this.cancel();
-    this.unlisten(window, 'scroll', '_handleWindowScroll');
+    window.removeEventListener('scroll', this.handleWindowScroll);
     super.disconnectedCallback();
   }
 
-  _handleWindowScroll() {
+  private readonly handleWindowScroll = () => {
     this._isScrolling = true;
     this.debounce(
       DEBOUNCER_RESET_IS_SCROLLING,
@@ -136,7 +136,7 @@ export class GrDiffProcessor extends LegacyElementMixin(PolymerElement) {
       },
       50
     );
-  }
+  };
 
   /**
    * Asynchronously process the diff chunks into groups. As it processes, it

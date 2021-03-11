@@ -689,8 +689,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.addEventListener('close-fix-preview', () => this._onCloseFixPreview());
-    this.listen(window, 'scroll', '_handleScroll');
-    this.listen(document, 'visibilitychange', '_handleVisibilityChange');
+    window.addEventListener('scroll', this.handleScroll);
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
 
     this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
       this._setActivePrimaryTab(e)
@@ -710,8 +710,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
   /** @override */
   disconnectedCallback() {
     this.disconnected$.next();
-    this.unlisten(window, 'scroll', '_handleScroll');
-    this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
+    window.removeEventListener('scroll', this.handleScroll);
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     this.cancelDebouncer(DEBOUNCER_REPLY_OVERLAY_REFIT);
     this.cancelDebouncer(DEBOUNCER_SCROLL);
 
@@ -1255,7 +1255,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this._openReplyDialog(target);
   }
 
-  _handleScroll() {
+  readonly handleScroll = () => {
     this.debounce(
       DEBOUNCER_SCROLL,
       () => {
@@ -1263,7 +1263,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       },
       150
     );
-  }
+  };
 
   _setShownFiles(e: CustomEvent<{length: number}>) {
     this._shownFileCount = e.detail.length;
@@ -2650,13 +2650,13 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this._updateCheckTimerHandle = null;
   }
 
-  _handleVisibilityChange() {
+  private readonly handleVisibilityChange = () => {
     if (document.hidden && this._updateCheckTimerHandle) {
       this._cancelUpdateCheckTimer();
     } else if (!this._updateCheckTimerHandle) {
       this._startUpdateCheckTimer();
     }
-  }
+  };
 
   _handleTopicChanged() {
     this.getRelatedChangesList()?.reload();

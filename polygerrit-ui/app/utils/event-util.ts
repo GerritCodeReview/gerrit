@@ -21,6 +21,7 @@ import {DialogChangeEventDetail, TabState} from '../types/events';
 
 export enum EventType {
   SHOW_ALERT = 'show-alert',
+  SHOW_ERROR = 'show-error',
   PAGE_ERROR = 'page-error',
   SERVER_ERROR = 'server-error',
   NETWORK_ERROR = 'network-error',

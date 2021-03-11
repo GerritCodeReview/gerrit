@@ -67,8 +67,8 @@ export class GrAccountDropdown extends LegacyElementMixin(PolymerElement) {
   /** @override */
   connectedCallback() {
     super.connectedCallback();
-    this._handleLocationChange();
-    this.listen(window, 'location-change', '_handleLocationChange');
+    this.handleLocationChange();
+    window.addEventListener('location-change', this.handleLocationChange);
     this.restApiService.getConfig().then(cfg => {
       this.config = cfg;
 
@@ -83,7 +83,7 @@ export class GrAccountDropdown extends LegacyElementMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
-    this.unlisten(window, 'location-change', '_handleLocationChange');
+    window.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();
   }
 
@@ -116,10 +116,10 @@ export class GrAccountDropdown extends LegacyElementMixin(PolymerElement) {
     fireEvent(this, 'show-keyboard-shortcuts');
   }
 
-  _handleLocationChange() {
+  private readonly handleLocationChange = () => {
     this._path =
       window.location.pathname + window.location.search + window.location.hash;
-  }
+  };
 
   _interpolateUrl(url: string, replacements: {[key: string]: string}) {
     return url.replace(

@@ -332,37 +332,35 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
     }
 
     if (loggedIn && isAttached) {
-      this.listen(
-        document,
+      document.addEventListener(
         '-shadow-selectionchange',
-        '_handleSelectionChange'
+        this.handleSelectionChange
       );
-      this.listen(document, 'mouseup', '_handleMouseUp');
+      document.addEventListener('mouseup', this.handleMouseUp);
     } else {
-      this.unlisten(
-        document,
+      document.removeEventListener(
         '-shadow-selectionchange',
-        '_handleSelectionChange'
+        this.handleSelectionChange
       );
-      this.unlisten(document, 'mouseup', '_handleMouseUp');
+      document.removeEventListener('mouseup', this.handleMouseUp);
     }
   }
 
-  _handleSelectionChange() {
+  private readonly handleSelectionChange = () => {
     // Because of shadow DOM selections, we handle the selectionchange here,
     // and pass the shadow DOM selection into gr-diff-highlight, where the
     // corresponding range is determined and normalized.
     const selection = this._getShadowOrDocumentSelection();
     this.$.highlights.handleSelectionChange(selection, false);
-  }
+  };
 
-  _handleMouseUp() {
+  private readonly handleMouseUp = () => {
     // To handle double-click outside of text creating comments, we check on
     // mouse-up if there's a selection that just covers a line change. We
     // can't do that on selection change since the user may still be dragging.
     const selection = this._getShadowOrDocumentSelection();
     this.$.highlights.handleSelectionChange(selection, true);
-  }
+  };
 
   /** Gets the current selection, preferring the shadow DOM selection. */
   _getShadowOrDocumentSelection() {

@@ -21,6 +21,12 @@ import {FetchRequest} from './types';
 import {MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
 
+declare global {
+  interface HTMLElementEventMap {
+    'click': MouseEvent;
+  }
+}
+
 export interface TitleChangeEventDetail {
   title: string;
 }
@@ -210,6 +216,28 @@ export type ShowAlertEvent = CustomEvent<ShowAlertEventDetail>;
 declare global {
   interface HTMLElementEventMap {
     'show-alert': ShowAlertEvent;
+  }
+}
+declare global {
+  interface DocumentEventMap {
+    'show-alert': ShowAlertEvent;
+  }
+}
+
+export interface ShowErrorEventDetail {
+  message: string;
+}
+
+export type ShowErrorEvent = CustomEvent<ShowErrorEventDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'show-error': ShowErrorEvent;
+  }
+}
+declare global {
+  interface DocumentEventMap {
+    'show-error': ShowErrorEvent;
   }
 }
 

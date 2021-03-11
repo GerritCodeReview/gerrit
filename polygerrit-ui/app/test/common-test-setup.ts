@@ -34,7 +34,7 @@ import {
 } from './test-utils';
 import {flushDebouncers} from '@polymer/polymer/lib/utils/debounce';
 import {_testOnly_getShortcutManagerInstance} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import sinon, {SinonSpy} from 'sinon/pkg/sinon-esm';
+import sinon from 'sinon/pkg/sinon-esm';
 import {safeTypesBridge} from '../utils/safe-types-util';
 import {_testOnly_initGerritPluginApi} from '../elements/shared/gr-js-api-interface/gr-gerrit';
 import {initGlobalVariables} from '../elements/gr-app-global-var-init';
@@ -129,19 +129,21 @@ setup(() => {
 function stubImpl<T extends keyof HTMLElementTagNameMap>(
   tagName: T,
   implementation: Partial<HTMLElementTagNameMap[T]>
-) {
+): Map<Partial<HTMLElementTagNameMap[T]>, sinon.SinonStub> {
   // This method is inspired by web-component-tester method
   const proto = document.createElement(tagName).constructor
     .prototype as HTMLElementTagNameMap[T];
-  const stubs: SinonSpy[] = [];
+  const stubs = new Map();
   for (const [key, value] of Object.entries(implementation)) {
-    stubs.push(sinon.stub(proto, key).callsFake(value));
+    stubs.set(key, sinon.stub(proto, key).callsFake(value));
   }
   registerTestCleanup(() => {
     stubs.forEach(stub => {
       stub.restore();
     });
   });
+
+  return stubs;
 }
 
 window.stub = stubImpl;

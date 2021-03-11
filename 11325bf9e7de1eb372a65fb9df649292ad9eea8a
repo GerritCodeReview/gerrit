@@ -46,6 +46,30 @@
       },
       "revId": "11325bf9e7de1eb372a65fb9df649292ad9eea8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd33bd81_c6d9f760",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-11T09:42:51Z",
+      "side": 1,
+      "message": "I\u0027m sorry I commented on the wrong file.\nI meant is this property needed in gr-autocomplete-dropdown then?",
+      "parentUuid": "76980b31_8d7e0624",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 0
+      },
+      "revId": "11325bf9e7de1eb372a65fb9df649292ad9eea8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

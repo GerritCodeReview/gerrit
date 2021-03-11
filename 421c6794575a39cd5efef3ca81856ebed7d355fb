@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1be61458_d4282d97",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T22:48:56Z",
+      "side": 1,
+      "message": "Change this to getMetaDiffProvider",
+      "range": {
+        "startLine": 210,
+        "startChar": 28,
+        "endLine": 210,
+        "endChar": 44
+      },
+      "revId": "421c6794575a39cd5efef3ca81856ebed7d355fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

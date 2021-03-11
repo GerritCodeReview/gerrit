@@ -23,6 +23,6 @@ suite('dark-theme_test.js', () => {
     applyTheme();
     assert.equal(document.head.querySelectorAll('#dark-theme').length, 1);
     removeTheme();
-    assert.equal(document.head.querySelectorAll('#dark-theme').length, 0);
+    assert.isEmpty(document.head.querySelectorAll('#dark-theme'));
   });
 });

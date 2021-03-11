@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "659a97cf_24738f7f",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-11T17:51:13Z",
+      "side": 1,
+      "message": "no, I meant the parent revision of the current meta SHA1. So you can walk back in history by repeatedly calling metadiff, and plugging the old meta_rev_id from the output into the next call of metadiff.\n\ndon\u0027t forget to handle the first commit correctly (it has no parent.)",
+      "parentUuid": "bb0db902_2e642218",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 40
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37802921_a667c33a",
         "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
         "patchSetId": 4
@@ -214,6 +238,30 @@
       "side": 1,
       "message": "Would you like that in another change or in this one?",
       "parentUuid": "60108173_c197045e",
+      "range": {
+        "startLine": 115,
+        "startChar": 5,
+        "endLine": 115,
+        "endChar": 29
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8676cbbb_5c0175c2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-11T17:51:13Z",
+      "side": 1,
+      "message": "depends; if  you want to add lots of tests, maybe it\u0027s better in this change.",
+      "parentUuid": "df701ba8_8b9cc345",
       "range": {
         "startLine": 115,
         "startChar": 5,

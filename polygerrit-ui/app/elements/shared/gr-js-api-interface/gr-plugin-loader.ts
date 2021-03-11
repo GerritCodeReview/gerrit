@@ -28,6 +28,7 @@ import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {ShowAlertEventDetail} from '../../../types/events';
+import {Execution} from '../../../constants/reporting';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -340,7 +341,10 @@ export class PluginLoader {
     const urlWithAP = this._urlFor(pluginUrl, window.ASSETS_PATH);
     const urlWithoutAP = this._urlFor(pluginUrl);
     let onerror = undefined;
-    this._getReporting().reportExecution('html-plugin', {pluginUrl});
+    this._getReporting().reportExecution(Execution.METHOD_USED, {
+      id: 'html-plugin',
+      pluginUrl,
+    });
     if (urlWithAP !== urlWithoutAP) {
       onerror = () => this._loadHtmlPlugin(urlWithoutAP, opts.sync);
     }
@@ -354,7 +358,10 @@ export class PluginLoader {
       };
     }
 
-    this._getReporting().reportExecution('import-href-loader', {url});
+    this._getReporting().reportExecution(Execution.METHOD_USED, {
+      id: 'import-href-loader',
+      url,
+    });
     importHref(url, () => {}, onerror, !sync);
   }
 

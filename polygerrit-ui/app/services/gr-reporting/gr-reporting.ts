@@ -18,7 +18,7 @@
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
-import {LifeCycle} from '../../constants/reporting';
+import {Execution, LifeCycle} from '../../constants/reporting';
 
 export type EventValue = string | number | {error?: Error};
 
@@ -94,11 +94,11 @@ export interface ReportingService {
    * Use this method, if you want to check/count how often a certain code path
    * is executed. For example you can use this method to prove that certain code
    * paths are dead: Add reportExecution(), check the logs a week later, then
-   * safely remove the coe.
+   * safely remove the code.
    *
    * Every execution is only reported once per session.
    */
-  reportExecution(id: string, details?: EventDetails): void;
+  reportExecution(id: Execution, details?: EventDetails): void;
   trackApi(plugin: PluginApi, object: string, method: string): void;
   reportInteraction(eventName: string, details?: EventDetails): void;
   /**

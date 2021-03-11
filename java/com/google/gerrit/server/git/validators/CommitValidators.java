@@ -451,8 +451,9 @@ public class CommitValidators {
     private long countChangedFiles(CommitReceivedEvent receiveEvent) throws IOException {
       try (Repository repository = repoManager.openRepository(receiveEvent.project.getNameKey());
           DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
+        // Do not detect renames; that would require reading file contents, which is slow for large
+        // files.
         diffFormatter.setRepository(repository);
-        diffFormatter.setDetectRenames(true);
         // For merge commits, i.e. >1 parents, we use parent #0 by convention.
         List<DiffEntry> diffEntries =
             diffFormatter.scan(

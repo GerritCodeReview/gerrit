@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
+import '../../test/common-test-setup-karma.js';
 import {GrStorage} from './gr-storage.js';
 
 suite('gr-storage tests', () => {

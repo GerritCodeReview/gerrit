@@ -39,7 +39,6 @@ import {appContext} from '../../../services/app-context';
 import {customElement, observe, property} from '@polymer/decorators';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
-import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
 import {
   AccountDetailInfo,
@@ -62,6 +61,8 @@ import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
+import {GrStorage} from '../../../services/storage/gr-storage_impl';
+import {StorageLocation} from '../../../services/storage/gr-storage';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;

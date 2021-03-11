@@ -64,7 +64,10 @@ import {
   BasePatchSetNum,
   RelatedChangeAndCommitInfo,
   SubmittedTogetherInfo,
+<<<<<<< HEAD
   RelatedChangesInfo,
+=======
+>>>>>>> 6e2b6ff6e2 (Convert gr-comment_test to typescript)
   FixSuggestionInfo,
   FixId,
 } from '../types/common';
@@ -617,10 +620,17 @@ export function createSubmittedTogetherInfo(): SubmittedTogetherInfo {
   };
 }
 
+<<<<<<< HEAD
 export function createFixSuggestionInfo(fixId = 'fix_1'): FixSuggestionInfo {
   return {
     fix_id: fixId as FixId,
     description: `Fix ${fixId}`,
+=======
+export function createFixSuggestionInfo(): FixSuggestionInfo {
+  return {
+    fix_id: '' as FixId,
+    description: '',
+>>>>>>> 6e2b6ff6e2 (Convert gr-comment_test to typescript)
     replacements: [],
   };
 }

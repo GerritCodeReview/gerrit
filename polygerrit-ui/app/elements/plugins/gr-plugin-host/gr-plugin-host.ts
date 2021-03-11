@@ -20,7 +20,7 @@ import {customElement, property} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
 
 @customElement('gr-plugin-host')
-class GrPluginHost extends PolymerElement {
+export class GrPluginHost extends PolymerElement {
   @property({type: Object, observer: '_configChanged'})
   config?: ServerInfo;
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ee5cc78_cd529b5d",
+        "filename": "package.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-11T16:18:55Z",
+      "side": 0,
+      "message": "Why are you removing compile in this change?",
+      "range": {
+        "startLine": 37,
+        "startChar": 28,
+        "endLine": 37,
+        "endChar": 48
+      },
+      "revId": "6b07893cd3b69ac169fbdaa1741787416bcb0262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c824d498_353b839c",
+        "filename": "polygerrit-ui/app/test/common-test-setup.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-11T16:18:55Z",
+      "side": 0,
+      "message": "Maybe DelayedTask could have debouncerQueue.",
+      "range": {
+        "startLine": 205,
+        "startChar": 2,
+        "endLine": 205,
+        "endChar": 17
+      },
+      "revId": "6b07893cd3b69ac169fbdaa1741787416bcb0262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -78,6 +78,7 @@ import {
   createConfig,
   createPreferences,
   createServerInfo,
+  createSubmittedTogetherInfo,
 } from '../test-data-generators';
 import {
   createDefaultDiffPrefs,
@@ -253,7 +254,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve([]);
   },
   getChangesSubmittedTogether(): Promise<SubmittedTogetherInfo | undefined> {
-    throw new Error('getChangesSubmittedTogether() not implemented by mock.');
+    return Promise.resolve(createSubmittedTogetherInfo());
   },
   getChangesWithSameTopic(): Promise<ChangeInfo[] | undefined> {
     return Promise.resolve([]);

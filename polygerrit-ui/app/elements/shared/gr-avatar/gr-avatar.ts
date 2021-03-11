@@ -42,8 +42,8 @@ export class GrAvatar extends LegacyElementMixin(PolymerElement) {
   private readonly restApiService = appContext.restApiService;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     Promise.all([
       this._getConfig(),
       getPluginLoader().awaitPluginsLoaded(),

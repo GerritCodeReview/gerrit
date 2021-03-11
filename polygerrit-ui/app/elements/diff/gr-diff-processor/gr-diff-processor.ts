@@ -114,17 +114,17 @@ export class GrDiffProcessor extends LegacyElementMixin(PolymerElement) {
   _isScrolling?: boolean;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.listen(window, 'scroll', '_handleWindowScroll');
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
     this.cancelDebouncer(DEBOUNCER_RESET_IS_SCROLLING);
     this.cancel();
     this.unlisten(window, 'scroll', '_handleWindowScroll');
+    super.disconnectedCallback();
   }
 
   _handleWindowScroll() {

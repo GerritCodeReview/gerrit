@@ -605,20 +605,6 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  connectedCallback() {
-    super.connectedCallback();
-    this._throttledToggleChangeStar = this._throttleWrap(e =>
-      this._handleToggleChangeStar(e as CustomKeyboardEvent)
-    );
-  }
-
-  /** @override */
-  disconnectedCallback() {
-    this.disconnected$.next();
-    super.disconnectedCallback();
-  }
-
-  /** @override */
   created() {
     super.created();
 
@@ -651,8 +637,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
+    this._throttledToggleChangeStar = this._throttleWrap(e =>
+      this._handleToggleChangeStar(e as CustomKeyboardEvent)
+    );
     this._getServerConfig().then(config => {
       this._serverConfig = config;
       this._replyDisabled = false;
@@ -719,8 +708,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    this.disconnected$.next();
     this.unlisten(window, 'scroll', '_handleScroll');
     this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
     this.cancelDebouncer(DEBOUNCER_REPLY_OVERLAY_REFIT);
@@ -729,6 +718,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (this._updateCheckTimerHandle) {
       this._cancelUpdateCheckTimer();
     }
+    super.disconnectedCallback();
   }
 
   get messagesList(): GrMessagesList | null {

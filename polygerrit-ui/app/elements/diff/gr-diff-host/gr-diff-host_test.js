@@ -969,7 +969,7 @@ suite('gr-diff-host tests', () => {
   suite('create-comment', () => {
     setup(async () => {
       loggedIn = true;
-      element.attached();
+      element.connectedCallback();
       await flush();
     });
 

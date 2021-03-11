@@ -329,7 +329,7 @@ suite('gr-settings-view tests', () => {
   test('emails are loaded without emailToken', () => {
     sinon.stub(element.$.emailEditor, 'loadData');
     element.params = {};
-    element.attached();
+    element.connectedCallback();
     assert.isTrue(element.$.emailEditor.loadData.calledOnce);
   });
 
@@ -465,7 +465,7 @@ suite('gr-settings-view tests', () => {
       confirmEmailStub = stubRestApi('confirmEmail').returns(
           new Promise(resolve => { resolveConfirm = resolve; }));
       element.params = {view: GerritView.SETTINGS, emailToken: 'foo'};
-      element.attached();
+      element.connectedCallback();
     });
 
     test('it is used to confirm email via rest API', () => {

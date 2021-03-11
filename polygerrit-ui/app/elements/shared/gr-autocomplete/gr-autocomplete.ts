@@ -209,16 +209,16 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.listen(document.body, 'click', '_handleBodyClick');
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
     this.unlisten(document.body, 'click', '_handleBodyClick');
     this.cancelDebouncer(DEBOUNCER_UPDATE_SUGGESTIONS);
+    super.disconnectedCallback();
   }
 
   get focusStart() {

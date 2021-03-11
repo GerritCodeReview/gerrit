@@ -95,8 +95,8 @@ export class GrHovercardAccount extends hovercardBehaviorMixin(
     this.reporting = appContext.reportingService;
   }
 
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.restApiService.getConfig().then(config => {
       this._config = config;
     });

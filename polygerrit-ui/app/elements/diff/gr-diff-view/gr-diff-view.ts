@@ -326,11 +326,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
     this._throttledToggleFileReviewed = this._throttleWrap(e =>
       this._handleToggleFileReviewed(e as CustomKeyboardEvent)
     );
-  }
-
-  /** @override */
-  attached() {
-    super.attached();
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
@@ -344,10 +339,11 @@ export class GrDiffView extends KeyboardShortcutMixin(
   }
 
   /** @override */
-  detached() {
+  disconnectedCallback() {
     if (this._onRenderHandler) {
       this.$.diffHost.removeEventListener('render', this._onRenderHandler);
     }
+    super.disconnectedCallback();
   }
 
   _getLoggedIn() {

@@ -162,15 +162,15 @@ export class GrMainHeader extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._loadAccount();
     this._loadConfig();
   }
 
   /** @override */
-  detached() {
-    super.detached();
+  disconnectedCallback() {
+    super.disconnectedCallback();
   }
 
   reload() {

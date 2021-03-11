@@ -132,8 +132,8 @@ export class GrApplyFixDialog extends LegacyElementMixin(PolymerElement) {
     });
   }
 
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.refitOverlay = () => {
       // re-center the dialog as content changed
       fireEvent(this.$.applyFixOverlay, 'iron-resize');
@@ -141,11 +141,11 @@ export class GrApplyFixDialog extends LegacyElementMixin(PolymerElement) {
     this.addEventListener('diff-context-expanded', this.refitOverlay);
   }
 
-  detached() {
-    super.detached();
+  disconnectedCallback() {
     if (this.refitOverlay) {
       this.removeEventListener('diff-context-expanded', this.refitOverlay);
     }
+    super.disconnectedCallback();
   }
 
   _showSelectedFixSuggestion(fixSuggestion: FixSuggestionInfo) {

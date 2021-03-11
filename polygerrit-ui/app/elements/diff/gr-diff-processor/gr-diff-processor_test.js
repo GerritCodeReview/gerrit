@@ -1113,7 +1113,7 @@ suite('gr-diff-processor tests', () => {
   test('detaching cancels', () => {
     element = basicFixture.instantiate();
     sinon.stub(element, 'cancel');
-    element.detached();
+    element.disconnectedCallback();
     assert(element.cancel.called);
   });
 });

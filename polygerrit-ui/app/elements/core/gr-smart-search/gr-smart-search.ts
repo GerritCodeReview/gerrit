@@ -63,8 +63,8 @@ export class GrSmartSearch extends LegacyElementMixin(PolymerElement) {
   private readonly restApiService = appContext.restApiService;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.restApiService.getConfig().then(cfg => {
       this._config = cfg;
     });

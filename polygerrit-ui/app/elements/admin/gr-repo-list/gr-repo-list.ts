@@ -90,8 +90,8 @@ export class GrRepoList extends ListViewMixin(
   private readonly restApiService = appContext.restApiService;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._getCreateRepoCapability();
     fireTitleChange(this, 'Repos');
     this._maybeOpenCreateOverlay(this.params);

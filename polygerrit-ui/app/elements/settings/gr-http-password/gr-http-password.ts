@@ -56,8 +56,8 @@ export class GrHttpPassword extends LegacyElementMixin(PolymerElement) {
   private readonly restApiService = appContext.restApiService;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.loadData();
   }
 

@@ -78,8 +78,8 @@ export class GrPluginList extends ListViewMixin(
   private readonly restApiService = appContext.restApiService;
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     fireTitleChange(this, 'Plugins');
   }
 

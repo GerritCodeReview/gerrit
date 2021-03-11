@@ -131,8 +131,8 @@ export class GrGroup extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._loadGroup();
   }
 

@@ -202,8 +202,8 @@ export class GrMessage extends LegacyElementMixin(PolymerElement) {
     this.addEventListener('click', e => this._handleClick(e));
   }
 
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this.restApiService.getConfig().then(config => {
       this.config = config;
     });

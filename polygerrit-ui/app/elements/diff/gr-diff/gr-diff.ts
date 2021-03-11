@@ -295,17 +295,17 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     this._observeNodes();
   }
 
   /** @override */
-  detached() {
+  disconnectedCallback() {
     this.cancelDebouncer(RENDER_DIFF_TABLE_DEBOUNCE_NAME);
-    super.detached();
     this._unobserveIncrementalNodes();
     this._unobserveNodes();
+    super.disconnectedCallback();
   }
 
   showNoChangeMessage(

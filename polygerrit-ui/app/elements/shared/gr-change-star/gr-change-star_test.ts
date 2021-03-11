@@ -15,58 +15,57 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-change-star.js';
+import {IronIconElement} from '@polymer/iron-icon';
+import '../../../test/common-test-setup-karma';
+import {queryAndAssert} from '../../../test/test-utils';
+import {GrChangeStar} from './gr-change-star';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {createChange} from '../../../test/test-data-generators';
 
 const basicFixture = fixtureFromElement('gr-change-star');
 
 suite('gr-change-star tests', () => {
-  let element;
+  let element: GrChangeStar;
 
   setup(() => {
     element = basicFixture.instantiate();
     element.change = {
-      _number: 2,
+      ...createChange(),
       starred: true,
     };
   });
 
-  test('star visibility states', () => {
+  test('star visibility states', async () => {
     element.set('change.starred', true);
-    let icon = element.shadowRoot
-        .querySelector('iron-icon');
+    await flush();
+    let icon = queryAndAssert<IronIconElement>(element, 'iron-icon');
     assert.isTrue(icon.classList.contains('active'));
     assert.equal(icon.icon, 'gr-icons:star');
 
     element.set('change.starred', false);
-    icon = element.shadowRoot
-        .querySelector('iron-icon');
+    await flush();
+    icon = queryAndAssert<IronIconElement>(element, 'iron-icon');
     assert.isFalse(icon.classList.contains('active'));
     assert.equal(icon.icon, 'gr-icons:star-border');
   });
 
   test('starring', async () => {
-    let resolve;
-    const promise = new Promise(r => resolve = r);
-    element.addEventListener('toggle-star', resolve);
     element.set('change.starred', false);
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('button'));
+    await flush();
+    assert.equal(element.change!.starred, false);
 
-    await promise;
-    assert.equal(element.change.starred, true);
+    MockInteractions.tap(queryAndAssert(element, 'button'));
+    await flush();
+    assert.equal(element.change!.starred, true);
   });
 
   test('unstarring', async () => {
-    let resolve;
-    const promise = new Promise(r => resolve = r);
-    element.addEventListener('toggle-star', resolve);
     element.set('change.starred', true);
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('button'));
+    await flush();
+    assert.equal(element.change!.starred, true);
 
-    await promise;
-    assert.equal(element.change.starred, false);
+    MockInteractions.tap(queryAndAssert(element, 'button'));
+    await flush();
+    assert.equal(element.change!.starred, false);
   });
 });
-

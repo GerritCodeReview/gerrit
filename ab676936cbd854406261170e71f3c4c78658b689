@@ -16,6 +16,24 @@
       "message": "That does not work with the executionReported set, which tracks the reported ids per session.",
       "revId": "ab676936cbd854406261170e71f3c4c78658b689",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0fd159f_faea0ce8",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-11T11:12:46Z",
+      "side": 1,
+      "message": "Thanks for catching this!",
+      "parentUuid": "c2003820_71e8aa83",
+      "revId": "ab676936cbd854406261170e71f3c4c78658b689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

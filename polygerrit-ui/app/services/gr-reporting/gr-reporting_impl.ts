@@ -21,7 +21,7 @@ import {hasOwnProperty} from '../../utils/common-util';
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
-import {LifeCycle} from '../../constants/reporting';
+import {Execution, LifeCycle} from '../../constants/reporting';
 
 // Latency reporting constants.
 
@@ -805,7 +805,7 @@ export class GrReporting implements ReportingService {
     );
   }
 
-  reportExecution(id: string, details?: EventDetails) {
+  reportExecution(id: Execution, details?: EventDetails) {
     if (this.executionReported.has(id)) return;
     this.executionReported.add(id);
     this.reporter(
@@ -820,8 +820,7 @@ export class GrReporting implements ReportingService {
 
   trackApi(pluginApi: PluginApi, object: string, method: string) {
     const plugin = pluginApi?.getPluginName() ?? 'unknown';
-    const id = `plugin-api-${plugin}-${object}-${method}`;
-    this.reportExecution(id, {plugin, object, method});
+    this.reportExecution(Execution.PLUGIN_API, {plugin, object, method});
   }
 
   /**

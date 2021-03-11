@@ -74,6 +74,7 @@ import {
   toPathname,
   toSearchParams,
 } from '../../../utils/url-util';
+import {Execution} from '../../../constants/reporting';
 
 const RoutePattern = {
   ROOT: '/',
@@ -776,7 +777,9 @@ export class GrRouter extends LegacyElementMixin(PolymerElement) {
       if (window.URLSearchParams) {
         return new URLSearchParams(ctx.querystring);
       } else {
-        this.reporting.reportExecution('noURLSearchParams');
+        this.reporting.reportExecution(Execution.REACHABLE_CODE, {
+          id: 'noURLSearchParams',
+        });
         return new Map(this._parseQueryString(ctx.querystring));
       }
     }

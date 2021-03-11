@@ -37,6 +37,7 @@ import {
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {appContext} from '../../../services/app-context';
 import {labelCompare} from '../../../utils/label-util';
+import {Execution} from '../../../constants/reporting';
 
 @customElement('gr-label-scores')
 export class GrLabelScores extends LegacyElementMixin(PolymerElement) {
@@ -101,7 +102,10 @@ export class GrLabelScores extends LegacyElementMixin(PolymerElement) {
       }
     }
     const stringVal = `${numberValue}`;
-    this.reporting.reportExecution('label-value-not-found', {value: stringVal});
+    this.reporting.reportExecution(Execution.REACHABLE_CODE, {
+      value: stringVal,
+      id: 'label-value-not-found',
+    });
     return stringVal;
   }
 

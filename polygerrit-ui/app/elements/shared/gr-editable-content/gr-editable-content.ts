@@ -18,7 +18,6 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/shared-styles';
 import '../gr-storage/gr-storage';
 import '../gr-button/gr-button';
-import {GrStorage} from '../gr-storage/gr-storage';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
@@ -27,6 +26,7 @@ import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {GrStorageService} from '../../../services/storage/gr-storage_impl';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -112,7 +112,7 @@ export class GrEditableContent extends LegacyElementMixin(PolymerElement) {
   @property({type: Boolean})
   _isNewChangeSummaryUiEnabled = false;
 
-  private readonly storage = new GrStorage();
+  private readonly storage = new GrStorageService();
 
   private readonly flagsService = appContext.flagsService;
 

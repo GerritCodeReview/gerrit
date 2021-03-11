@@ -52,7 +52,6 @@ import {
 } from '../../../types/common';
 import {GrComment} from '../gr-comment/gr-comment';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
@@ -62,6 +61,8 @@ import {RenderPreferences} from '../../../api/diff';
 import {check, assertIsDefined} from '../../../utils/common-util';
 import {waitForEventOnce} from '../../../utils/event-util';
 import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
+import {StorageLocation} from '../../../services/storage/gr-storage';
+import {GrStorageService} from '../../../services/storage/gr-storage_impl';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -211,7 +212,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
 
   flagsService = appContext.flagsService;
 
-  readonly storage = new GrStorage();
+  readonly storage = new GrStorageService();
 
   private readonly syntaxLayer = new GrSyntaxLayer();
 

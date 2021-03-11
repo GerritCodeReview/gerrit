@@ -39,13 +39,13 @@ import {
   NumericChangeId,
   EditPatchSetNum,
 } from '../../../types/common';
-import {GrStorage} from '../../shared/gr-storage/gr-storage';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {GrStorageService} from '../../../services/storage/gr-storage_impl';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -120,7 +120,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
 
   private readonly restApiService = appContext.restApiService;
 
-  private readonly storage = new GrStorage();
+  private readonly storage = new GrStorageService();
 
   private storeTask?: DelayedTask;
 

@@ -69,7 +69,7 @@ export interface MessageAnchorTapDetail {
   id: ChangeMessageId;
 }
 
-interface ChangeMessage extends ChangeMessageInfo {
+export interface ChangeMessage extends ChangeMessageInfo {
   // TODO(TS): maybe should be an enum instead
   type: string;
   expanded: boolean;

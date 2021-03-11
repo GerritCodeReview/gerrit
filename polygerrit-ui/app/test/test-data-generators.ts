@@ -92,6 +92,7 @@ import {UIComment, UIDraft, createCommentThreads} from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
+import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
@@ -231,11 +232,20 @@ export function createEditRevision(): EditRevisionInfo {
   };
 }
 
-export function createChangeMessage(id = 'cm_id_1'): ChangeMessageInfo {
+export function createChangeMessageInfo(id = 'cm_id_1'): ChangeMessageInfo {
   return {
     id: id as ChangeMessageId,
     date: dateToTimestamp(TEST_CHANGE_CREATED),
     message: `This is a message with id ${id}`,
+  };
+}
+
+export function createChangeMessage(id = 'cm_id_1'): ChangeMessage {
+  return {
+    ...createChangeMessageInfo(id),
+    type: '',
+    expanded: false,
+    commentThreads: [],
   };
 }
 
@@ -270,7 +280,7 @@ export function createChangeMessages(count: number): ChangeMessageInfo[] {
   const messageDate = TEST_CHANGE_CREATED;
   for (let i = 0; i < count; i++) {
     messages.push({
-      ...createChangeMessage((i + messageIdStart).toString(16)),
+      ...createChangeMessageInfo((i + messageIdStart).toString(16)),
       date: dateToTimestamp(messageDate),
     });
     messageDate.setDate(messageDate.getDate() + 1);

@@ -170,6 +170,10 @@ export function stubStorage<K extends keyof StorageService>(method: K) {
   return sinon.stub(appContext.storageService, method);
 }
 
+export function spyStorage<K extends keyof StorageService>(method: K) {
+  return sinon.spy(appContext.storageService, method);
+}
+
 export type SinonSpyMember<F extends (...args: any) => any> = SinonSpy<
   Parameters<F>,
   ReturnType<F>

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2ce3ddd_fb9594d9",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T22:47:39Z",
+      "side": 1,
+      "message": "It looks like GetMetaDiff is appropriate. Done.",
+      "parentUuid": "f9276d72_92dc8094",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "4889e12e104210521ddbccd0df05e0d0dc3b93b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d546e2c7_7870ff6d",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f117aba7_5a8057ef",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T22:47:39Z",
+      "side": 1,
+      "message": "Aha! Found something for it - ObjectId.zeroId(). Changed it to return new ChangeInfo() though",
+      "parentUuid": "d546e2c7_7870ff6d",
+      "range": {
+        "startLine": 41,
+        "startChar": 67,
+        "endLine": 41,
+        "endChar": 77
+      },
+      "revId": "4889e12e104210521ddbccd0df05e0d0dc3b93b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8c130fc_ee149b3e",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-03-11T17:53:07Z",
       "side": 1,
       "message": "you could probably shortcut completely in this case, by doing\n\n  return new ChangeInfo()",
+      "revId": "4889e12e104210521ddbccd0df05e0d0dc3b93b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afe7c966_8bb82593",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T22:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c130fc_ee149b3e",
       "revId": "4889e12e104210521ddbccd0df05e0d0dc3b93b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -100,6 +166,24 @@
       "writtenOn": "2021-03-11T17:51:13Z",
       "side": 1,
       "message": "also, a test for the basics, which is:\n\n- check that we can see changes (votes, etc.) reflected in the metadiff output\n- check that GetChange options work.",
+      "revId": "4889e12e104210521ddbccd0df05e0d0dc3b93b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45cc0b68_2c636263",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/MetaDiffIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T22:47:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00bb39b2_57551469",
       "revId": "4889e12e104210521ddbccd0df05e0d0dc3b93b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

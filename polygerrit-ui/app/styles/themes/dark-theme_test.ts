@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {applyTheme, removeTheme} from './dark-theme.js';
+import '../../test/common-test-setup-karma';
+import {applyTheme, removeTheme} from './dark-theme';
 
-suite('dark-theme_test.js', () => {
+suite('dark-theme test', () => {
   test('apply and remove theme', () => {
     applyTheme();
     assert.equal(document.head.querySelectorAll('#dark-theme').length, 1);
     removeTheme();
-    assert.equal(document.head.querySelectorAll('#dark-theme').length, 0);
+    assert.isEmpty(document.head.querySelectorAll('#dark-theme'));
   });
 });

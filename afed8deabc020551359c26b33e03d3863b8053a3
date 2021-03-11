@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "654adee6_c857689b",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-11T10:45:16Z",
+      "side": 1,
+      "message": "explicitly call diff.setDetectRenames(false) ?\n\njgit is pretty good with backward compat, but this will simplify the comment and is more robust.",
+      "range": {
+        "startLine": 454,
+        "startChar": 12,
+        "endLine": 454,
+        "endChar": 33
+      },
+      "revId": "afed8deabc020551359c26b33e03d3863b8053a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

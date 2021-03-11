@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eaed9f7_5e88c0fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-11T21:12:15Z",
+      "side": 1,
+      "message": "I believe we should introduce a permission to expose the Gerrit configuration over the wire.\nWDYT?",
+      "revId": "35dc92487d291429aedb23851d9276107047990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

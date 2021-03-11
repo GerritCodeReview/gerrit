@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b8d4d3f_a873d2f4",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-11T22:05:30Z",
+      "side": 1,
+      "message": "Nit: EventType.SHOW_ALERT",
+      "range": {
+        "startLine": 125,
+        "startChar": 36,
+        "endLine": 125,
+        "endChar": 41
+      },
+      "revId": "dafb74e8f8fee1a1899ce5c5ce39bdc8e623e725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

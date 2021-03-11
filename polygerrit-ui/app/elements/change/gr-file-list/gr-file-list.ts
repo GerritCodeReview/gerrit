@@ -405,6 +405,7 @@ export class GrFileList extends KeyboardShortcutMixin(
 
   /** @override */
   disconnectedCallback() {
+    this.$.fileCursor.unsetCursor();
     this._cancelDiffs();
     this.cancelDebouncer(DEBOUNCER_LOADING_CHANGE);
     super.disconnectedCallback();

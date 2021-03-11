@@ -184,6 +184,12 @@ export class GrChangeList extends ChangeTableMixin(
       });
   }
 
+  /** @override */
+  disconnectedCallback() {
+    this.$.cursor.unsetCursor();
+    super.disconnectedCallback();
+  }
+
   /**
    * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
    * events must be scoped to a component level (e.g. `enter`) in order to not

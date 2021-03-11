@@ -129,6 +129,7 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
   /** @override */
   disconnectedCallback() {
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
+    this.$.cursorManager.unsetCursor();
     super.disconnectedCallback();
   }
 

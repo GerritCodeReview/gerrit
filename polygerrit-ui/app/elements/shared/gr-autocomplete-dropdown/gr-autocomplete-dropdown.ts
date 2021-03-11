@@ -101,6 +101,12 @@ export class GrAutocompleteDropdown extends IronFitMixin(
     };
   }
 
+  /** @override */
+  disconnectedCallback() {
+    this.$.cursor.unsetCursor();
+    super.disconnectedCallback();
+  }
+
   close() {
     this.isHidden = true;
   }

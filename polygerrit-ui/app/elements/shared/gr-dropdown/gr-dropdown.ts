@@ -128,6 +128,12 @@ export class GrDropdown extends KeyboardShortcutMixin(
     };
   }
 
+  /** @override */
+  disconnectedCallback() {
+    this.$.cursor.unsetCursor();
+    super.disconnectedCallback();
+  }
+
   /**
    * Handle the up key.
    */

@@ -75,6 +75,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af03ad01_31f60988",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-11T02:55:29Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "3d22b556_c64b5029",
+      "range": {
+        "startLine": 12,
+        "startChar": 61,
+        "endLine": 12,
+        "endChar": 69
+      },
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f69f4c0_af426b9f",
@@ -98,6 +122,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fab1b250_5ef85b3a",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-11T02:55:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f69f4c0_af426b9f",
+      "range": {
+        "startLine": 31,
+        "startChar": 35,
+        "endLine": 31,
+        "endChar": 37
+      },
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fc6039c_47d5d820",
@@ -111,6 +159,30 @@
       "writtenOn": "2021-03-05T07:50:55Z",
       "side": 1,
       "message": "nit `ALL`\n\nAsicdoc generally uses ` instead of \" to put a grey box behind what you are quoting.",
+      "range": {
+        "startLine": 37,
+        "startChar": 62,
+        "endLine": 37,
+        "endChar": 63
+      },
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8449b16f_598d8a55",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-11T02:55:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fc6039c_47d5d820",
       "range": {
         "startLine": 37,
         "startChar": 62,
@@ -168,6 +240,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeca4f2a_28437f0f",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-11T02:55:29Z",
+      "side": 1,
+      "message": "Added working about `auth.registerPageUrl` config.",
+      "parentUuid": "9847f780_291d97d6",
+      "range": {
+        "startLine": 47,
+        "startChar": 7,
+        "endLine": 50,
+        "endChar": 39
+      },
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7eca1354_abbed862",
@@ -181,6 +277,30 @@
       "writtenOn": "2021-03-05T07:50:55Z",
       "side": 1,
       "message": "nit: wrap all quoted values in `VALUE`",
+      "range": {
+        "startLine": 62,
+        "startChar": 28,
+        "endLine": 62,
+        "endChar": 30
+      },
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c501a10d_4ba305ac",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-11T02:55:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7eca1354_abbed862",
       "range": {
         "startLine": 62,
         "startChar": 28,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da11ed63_e2ceadea",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-11T14:24:32Z",
+      "side": 1,
+      "message": "one left-over :-)",
+      "range": {
+        "startLine": 652,
+        "startChar": 20,
+        "endLine": 652,
+        "endChar": 54
+      },
+      "revId": "04ef4bb67d46ed7e56577b50ff0fb049fce761ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

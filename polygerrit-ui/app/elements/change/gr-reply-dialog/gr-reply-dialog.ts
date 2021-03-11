@@ -21,7 +21,6 @@ import '../../shared/gr-textarea/gr-textarea';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../shared/gr-storage/gr-storage';
 import '../../shared/gr-account-list/gr-account-list';
 import '../gr-label-scores/gr-label-scores';
 import '../gr-thread-list/gr-thread-list';
@@ -98,7 +97,6 @@ import {CommentThread, isUnresolved} from '../../../utils/comment-util';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {GrStorage, StorageLocation} from '../../shared/gr-storage/gr-storage';
 import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
 import {
   CODE_REVIEW,
@@ -114,6 +112,7 @@ import {
 } from '../../../utils/event-util';
 import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {StorageLocation} from '../../../services/storage/gr-storage';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -374,7 +373,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  private readonly storage = new GrStorage();
+  private readonly storage = appContext.storageService;
 
   private readonly jsAPI = appContext.jsApiService;
 

@@ -16,6 +16,24 @@
       "message": "I am surprised that super.disconnectedCallback is not first but last call in disconnectedCallback? \n\nhttps://polymer-library.polymer-project.org/2.0/docs/devguide/events#listener-on-outside-elements:~:text\u003ddisconnectedCallback()%20%7B",
       "revId": "5f520daaa8afa3ffe7e719a1b02a226907197d96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "529c367c_7d96c5ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-11T07:47:35Z",
+      "side": 1,
+      "message": "I think the idea is that in cleanup and disconnect methods you want the parent to clean up last, after you have cleaned up your own stuff. Something like\n\n  parent setup\n    child setup\n      do stuff\n    child cleanup\n  parent cleanup\n\nI have browsed around a bit and I was actually surprised about the link that you mention. And the code that I have encountered was something like 50% split between the two approaches.\n\nAnyway, I don\u0027t think it matters anywhere in the code that I have touched. And I was trying to be consistent. And at the end made more sense to me personally. But I am happy to change that, if you prefer the call at the start. It should just be consistent across the code base.\n\nSubmitting, because that could be done in a follow-up change.",
+      "parentUuid": "64f5e9e6_ce19b353",
+      "revId": "5f520daaa8afa3ffe7e719a1b02a226907197d96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

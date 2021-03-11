@@ -26,6 +26,7 @@ import {
   ParentPatchSetNum,
   ContextLine,
   BasePatchSetNum,
+  RevisionPatchSetNum,
 } from '../types/common';
 import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -283,7 +284,7 @@ export function getPatchRangeForCommentUrl(
     };
   } else {
     return {
-      patchNum: latestPatchNum,
+      patchNum: latestPatchNum as RevisionPatchSetNum,
       basePatchNum: comment.patch_set as BasePatchSetNum,
     };
   }

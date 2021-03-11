@@ -24,8 +24,8 @@ import {
   DashboardId,
   GroupId,
   NumericChangeId,
-  PatchSetNum,
   RepoName,
+  RevisionPatchSetNum,
   UrlEncodedCommentId,
 } from '../types/common';
 import {GerritView} from '../services/router/router-model';
@@ -100,7 +100,7 @@ export interface AppElementDiffViewParam {
   project?: RepoName;
   commentId?: UrlEncodedCommentId;
   path?: string;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   lineNum: number;
   leftSide?: boolean;
@@ -111,7 +111,7 @@ export interface AppElementChangeViewParams {
   changeNum: NumericChangeId;
   project: RepoName;
   edit?: boolean;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   queryMap?: Map<string, string> | URLSearchParams;
 }

@@ -78,6 +78,7 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionInfo,
+  RevisionPatchSetNum,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
@@ -1470,7 +1471,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     const comparedAgainstParent = patchRange.basePatchNum === 'PARENT';
 
     if (isBase && !comparedAgainstParent) {
-      patchNum = patchRange.basePatchNum;
+      patchNum = patchRange.basePatchNum as RevisionPatchSetNum;
     }
 
     let url =

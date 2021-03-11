@@ -77,6 +77,7 @@ export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
 
 export type PatchSetNum = BrandType<'PARENT' | 'edit' | number, '_patchSet'>;
 export type BasePatchSetNum = BrandType<'PARENT' | number, '_patchSet'>;
+export type RevisionPatchSetNum = BrandType<'edit' | number, '_patchSet'>;
 export type PatchSetNumber = BrandType<number, '_patchSet'>;
 
 export const EditPatchSetNum = 'edit' as PatchSetNum;
@@ -1621,7 +1622,7 @@ export interface HashtagsInput {
  * doesn't exist in Rest API
  */
 export interface PatchRange {
-  patchNum: PatchSetNum;
+  patchNum: RevisionPatchSetNum;
   basePatchNum: BasePatchSetNum;
 }
 

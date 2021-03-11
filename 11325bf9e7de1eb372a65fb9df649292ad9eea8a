@@ -22,6 +22,30 @@
       },
       "revId": "11325bf9e7de1eb372a65fb9df649292ad9eea8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76980b31_8d7e0624",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-11T09:28:30Z",
+      "side": 1,
+      "message": "I think the commit message might have been confusing - I have updated it\n\nGrCursorManager.index is read from inside of GrCursorManager.\n\nWhat is not read is whatever was notified back to \nGrAutocompleteDropdown.index\n\nThat one is a property that is passed to GrCursorManager, but no one reads whether it is updated when the index changes in GrCursorManager.",
+      "parentUuid": "f2ebb050_8d49c93e",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 0
+      },
+      "revId": "11325bf9e7de1eb372a65fb9df649292ad9eea8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

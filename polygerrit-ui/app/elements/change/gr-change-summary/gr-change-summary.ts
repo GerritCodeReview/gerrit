@@ -432,7 +432,7 @@ export class GrChangeSummary extends GrLitElement {
                 !!draftCount ||
                 !!countUnresolvedComments}
               >
-                No Comments</span
+                No comments</span
               ><gr-summary-chip
                 styleType=${SummaryChipStyles.WARNING}
                 category=${CommentTabState.DRAFTS}

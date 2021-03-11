@@ -40,35 +40,66 @@ const styleSheet = safeStyleSheet`
      */
 
     /* color palette */
+    --gerrit-blue-light: #1565c0;
+    --gerrit-blue-dark: #90caf9;
     --red-900: #a50e0e;
     --red-700: #c5221f;
+    --red-400: #ee675c;
     --red-200: #f6aea9;
     --red-50: #fce8e6;
+    --red-tonal: #6c322f;
     --blue-900: #174ea6;
     --blue-800: #185abc;
     --blue-700: #1967d2;
+    --blue-700-16: #1967d229;
+    --blue-700-24: #1967d23d;
     --blue-200: #aecbfa;
+    --blue-200-04: #aecbfa0a;
+    --blue-200-10: #aecbfa1a;
+    --blue-200-12: #aecbfa1f;
+    --blue-200-16: #aecbfa29;
+    --blue-200-24: #aecbfa3d;
     --blue-50: #e8f0fe;
+    --blue-tonal: #314972;
     --orange-900: #b06000;
     --orange-700: #d56e0c;
     --orange-200: #fdc69c;
     --orange-50: #feefe3;
+    --orange-tonal: #714625;
     --cyan-900: #007b83;
     --cyan-700: #129eaf;
+    --cyan-200: #a1e4f2;
     --cyan-100: #cbf0f8;
     --cyan-50: #e4f7fb;
+    --cyan-tonal: #275e6b;
     --green-900: #0d652d;
     --green-700: #188038;
+    --green-300: #81c995;
     --green-200: #a8dab5;
     --green-50: #e6f4ea;
+    --green-tonal: #2c553a;
     --gray-900: #202124;
+    --gray-900-04: #2021240a;
+    --gray-900-10: #2021241a;
+    --gray-900-12: #2021241f;
     --gray-800: #3c4043;
+    --gray-800-12: #3c40431f;
+    --gray-800-38: #3c404361;
     --gray-700: #5f6368;
     --gray-300: #dadce0;
+    --gray-200: #e8eaed;
+    --gray-200-04: #e8eaed0a;
+    --gray-200-10: #e8eaed1a;
+    --gray-200-12: #e8eaed1f;
+    --gray-200-38: #e8eaed61;
     --gray-100: #f1f3f4;
     --gray-50: #f8f9fa;
+    --gray-tonal: #505357;
     --purple-900: #681da8;
+    --purple-700: #8430ce;
+    --purple-200: #d7aefb;
     --purple-50: #f3e8fd;
+    --purple-tonal: #523272;
 
     --chip-color: var(--gray-900);
     --error-color: var(--red-900);
@@ -86,15 +117,17 @@ const styleSheet = safeStyleSheet`
     --gray-background: var(--gray-100);
     --tag-background: var(--cyan-100);
     --label-background: var(--red-50);
+    --disabled-foreground: var(--gray-800-38);
+    --disabled-background: var(--gray-800-12);
 
     /* text colors */
-    --primary-text-color: black;
-    --link-color: var(--blue-700);
-    --comment-text-color: black;
+    --primary-text-color: var(--gray-900);
+    --link-color: var(--gerrit-blue-light);
+    --comment-text-color: var(--gray-900);
     --deemphasized-text-color: var(--gray-700);
-    --default-button-text-color: var(--blue-700);
-    --chip-selected-text-color: var(--default-button-text-color);
-    --error-text-color: red;
+    --default-button-text-color: var(--gerrit-blue-light);
+    --chip-selected-text-color: var(--selected-foreground);
+    --error-text-color: var(--red-700);
     --primary-button-text-color: white;
       /* Used on text color for change list that doesn't need user's attention. */
     --reviewed-text-color: black;
@@ -133,18 +166,29 @@ const styleSheet = safeStyleSheet`
     --hover-background-color: rgba(161, 194, 250, 0.2);
     --disabled-button-background-color: #e8eaed;
     --primary-button-background-color: var(--blue-700);
+    --primary-button-background-hover: var(--blue-700-16);
+    --primary-button-background-focus: var(--blue-700-24);
     --selection-background-color: rgba(161, 194, 250, 0.1);
     --tooltip-background-color: var(--gray-900);
+    --ripple: var(--gray-900-10);
+
     /* comment background colors */
     --comment-background-color: #e8eaed;
     --robot-comment-background-color: var(--blue-50);
     --unresolved-comment-background-color: #fef7e0;
+
     /* vote background colors */
-    --vote-color-approved: #9fcc6b;
-    --vote-color-disliked: #f7c4cb;
-    --vote-color-neutral: #ebf5fb;
-    --vote-color-recommended: #c9dfaf;
-    --vote-color-rejected: #f7a1ad;
+    --vote-color-approved: var(--green-300);
+    --vote-color-disliked: var(--red-50);
+    --vote-outline-disliked: var(--red-700);
+    --vote-color-neutral: var(--gray-300);
+    --vote-color-recommended: var(--green-50);
+    --vote-outline-recommended: var(--green-300);
+    --vote-color-rejected: var(--red-400);
+
+    --background-color-hover: var(--gray-900-04);
+    --background-color-focus: var(--gray-900-12);
+    --outline-color-focus: var(--gray-900);
 
     /* misc colors */
     --border-color: var(--gray-300);

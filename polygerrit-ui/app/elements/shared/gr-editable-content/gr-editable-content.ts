@@ -16,9 +16,7 @@
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/shared-styles';
-import '../gr-storage/gr-storage';
 import '../gr-button/gr-button';
-import {GrStorage} from '../gr-storage/gr-storage';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
@@ -112,7 +110,7 @@ export class GrEditableContent extends LegacyElementMixin(PolymerElement) {
   @property({type: Boolean})
   _isNewChangeSummaryUiEnabled = false;
 
-  private readonly storage = new GrStorage();
+  private readonly storage = appContext.storageService;
 
   private readonly flagsService = appContext.flagsService;
 

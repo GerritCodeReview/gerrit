@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import {IronOverlayManager} from '@polymer/iron-overlay-behavior/iron-overlay-manager.js';
 import './gr-reply-dialog.js';
-import {mockPromise} from '../../../test/test-utils.js';
+import {mockPromise, stubStorage} from '../../../test/test-utils.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {appContext} from '../../../services/app-context.js';
 import {addListenerForTest} from '../../../test/test-utils.js';
@@ -113,9 +113,9 @@ suite('gr-reply-dialog tests', () => {
       ],
     };
 
-    getDraftCommentStub = sinon.stub(element.storage, 'getDraftComment');
-    setDraftCommentStub = sinon.stub(element.storage, 'setDraftComment');
-    eraseDraftCommentStub = sinon.stub(element.storage, 'eraseDraftComment');
+    getDraftCommentStub = stubStorage('getDraftComment');
+    setDraftCommentStub = stubStorage('setDraftComment');
+    eraseDraftCommentStub = stubStorage('eraseDraftComment');
 
     // sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
     //     .returns(Promise.resolve({isLatest: true}));

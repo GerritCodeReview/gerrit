@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3274e68_23cc8d27",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-11T09:40:30Z",
+      "side": 1,
+      "message": "Sorry, since I gave you the advice to do this, we discovered new, exciting failure modes.\n\nRename detection can be really slow because it reads file contents and and compares them. For changes with many files or large files, this is problematic.\n\nIn this class, we actually need rename detection (in other places where DiffFormatter is used) we don\u0027t, so we just turned it off.\n\nGiven these new insights, I think it\u0027s better to stick with using the cache here. Sorry for the churn.",
+      "range": {
+        "startLine": 405,
+        "startChar": 19,
+        "endLine": 405,
+        "endChar": 43
+      },
+      "revId": "12ef06c9409172ba371e7be30da4d4da0a7925d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

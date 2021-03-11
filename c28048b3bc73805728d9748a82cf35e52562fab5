@@ -25,6 +25,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33b3a38e_99aae94c",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-11T16:04:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0f2198a_d555521e",
+      "range": {
+        "startLine": 108,
+        "startChar": 15,
+        "endLine": 108,
+        "endChar": 15
+      },
+      "revId": "c28048b3bc73805728d9748a82cf35e52562fab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dec74be9_8e141c83",

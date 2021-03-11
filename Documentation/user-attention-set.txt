@@ -48,6 +48,7 @@ changing the attention set:
 * For merged and abandoned changes the owner is added only when a human creates
   an unresolved comment.
 * Only owner, uploader, reviewers and ccs can be in the attention set.
+* The rules for service accounts are different, see link:#bots[Bots].
 
 *!IMPORTANT!* These rules are not meant to be super smart and to always do the
 right thing, e.g. if the change owner sends a reply, then they are often
@@ -85,7 +86,7 @@ take action.
 
 image::images/user-attention-set-reply-select.png["reply dialog section for selecting users", align="center"]
 
-=== Bots
+=== Bots [[bots]]
 
 The attention set is meant for human reviews only. Triggering bots and reacting
 to their results is a different workflow and not in scope of the attenion set.

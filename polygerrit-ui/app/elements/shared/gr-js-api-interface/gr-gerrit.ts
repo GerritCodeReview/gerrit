@@ -210,8 +210,8 @@ function initGerritPluginsMethods(globalGerritObj: GerritGlobal) {
 
   // TODO(taoalpha): consider removing these proxy methods
   // and using getPluginLoader() directly
-  globalGerritObj._loadPlugins = (plugins, opt_option) => {
-    getPluginLoader().loadPlugins(plugins, opt_option);
+  globalGerritObj._loadPlugins = plugins => {
+    getPluginLoader().loadPlugins(plugins);
   };
 
   globalGerritObj._arePluginsLoaded = () => {

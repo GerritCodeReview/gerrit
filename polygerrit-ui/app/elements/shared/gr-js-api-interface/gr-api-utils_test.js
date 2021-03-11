@@ -34,18 +34,18 @@ suite('gr-api-utils tests', () => {
     test('with random invalid url', () => {
       assert.equal(getPluginNameFromUrl('http://example.com'), null);
       assert.equal(
-          getPluginNameFromUrl('http://example.com/static/a.html'),
+          getPluginNameFromUrl('http://example.com/static/a.js'),
           null
       );
     });
 
     test('with valid urls', () => {
       assert.equal(
-          getPluginNameFromUrl('http://example.com/plugins/a.html'),
+          getPluginNameFromUrl('http://example.com/plugins/a.js'),
           'a'
       );
       assert.equal(
-          getPluginNameFromUrl('http://example.com/plugins/a/static/t.html'),
+          getPluginNameFromUrl('http://example.com/plugins/a/static/t.js'),
           'a'
       );
     });
@@ -56,7 +56,7 @@ suite('gr-api-utils tests', () => {
 
     test('with gerrit-theme override', () => {
       assert.equal(
-          getPluginNameFromUrl('http://example.com/static/gerrit-theme.html'),
+          getPluginNameFromUrl('http://example.com/static/gerrit-theme.js'),
           'gerrit-theme'
       );
     });
@@ -64,7 +64,7 @@ suite('gr-api-utils tests', () => {
     test('with ASSETS_PATH', () => {
       window.ASSETS_PATH = 'http://cdn.com/2';
       assert.equal(
-          getPluginNameFromUrl(`${window.ASSETS_PATH}/plugins/a.html`),
+          getPluginNameFromUrl(`${window.ASSETS_PATH}/plugins/a.js`),
           'a'
       );
       window.ASSETS_PATH = undefined;

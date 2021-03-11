@@ -735,7 +735,7 @@ suite('gr-related-changes-list tests', () => {
             .then(el => (hookEl = el as RelatedChangesListGrEndpointDecorator));
         },
         '0.1',
-        'http://some/plugins/url1.html'
+        'http://some/plugins/url1.js'
       );
       getPluginLoader().loadPlugins([]);
       flush(() => {
@@ -769,7 +769,7 @@ suite('gr-related-changes-list tests', () => {
           .then(el => (hookEl = el));
       },
       '0.1',
-      'http://some/plugins/url2.html'
+      'http://some/plugins/url2.js'
     );
     getPluginLoader().loadPlugins([]);
     flush(() => {

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import '../gr-storage/gr-storage';
 import '../gr-comment/gr-comment';
 import '../../diff/gr-diff/gr-diff';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
@@ -51,7 +50,6 @@ import {
 } from '../../../types/common';
 import {GrComment} from '../gr-comment/gr-comment';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
@@ -61,6 +59,7 @@ import {RenderPreferences} from '../../../api/diff';
 import {check, assertIsDefined} from '../../../utils/common-util';
 import {waitForEventOnce} from '../../../utils/event-util';
 import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
+import {StorageLocation} from '../../../services/storage/gr-storage';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -208,7 +207,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
 
   flagsService = appContext.flagsService;
 
-  readonly storage = new GrStorage();
+  readonly storage = appContext.storageService;
 
   private readonly syntaxLayer = new GrSyntaxLayer();
 

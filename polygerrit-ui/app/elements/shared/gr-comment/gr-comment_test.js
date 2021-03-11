@@ -20,7 +20,7 @@ import './gr-comment.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {__testOnly_UNSAVED_MESSAGE} from './gr-comment.js';
 import {SpecialFilePath, Side} from '../../../constants/constants.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import {stubRestApi, stubStorage} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-comment');
 
@@ -115,7 +115,7 @@ suite('gr-comment tests', () => {
     });
 
     test('message is not retrieved from storage when other edits', done => {
-      const storageStub = sinon.stub(element.storage, 'getDraftComment');
+      const storageStub = stubStorage('getDraftComment');
       const loadSpy = sinon.spy(element, '_loadLocalDraft');
 
       element.changeNum = 1;
@@ -135,7 +135,7 @@ suite('gr-comment tests', () => {
     });
 
     test('message is retrieved from storage when no other edits', done => {
-      const storageStub = sinon.stub(element.storage, 'getDraftComment');
+      const storageStub = stubStorage('getDraftComment');
       const loadSpy = sinon.spy(element, '_loadLocalDraft');
 
       element.changeNum = 1;
@@ -1022,8 +1022,8 @@ suite('gr-comment tests', () => {
 
     test('cancelling an unsaved draft discards, persists in storage', () => {
       const discardSpy = sinon.spy(element, '_fireDiscard');
-      const storeStub = sinon.stub(element.storage, 'setDraftComment');
-      const eraseStub = sinon.stub(element.storage, 'eraseDraftComment');
+      const storeStub = stubStorage('setDraftComment');
+      const eraseStub = stubStorage('eraseDraftComment');
       element._messageText = 'test text';
       flush();
       element.storeTask.flush();
@@ -1038,7 +1038,7 @@ suite('gr-comment tests', () => {
     test('cancelling edit on a saved draft does not store', () => {
       element.comment.id = 'foo';
       const discardSpy = sinon.spy(element, '_fireDiscard');
-      const storeStub = sinon.stub(element.storage, 'setDraftComment');
+      const storeStub = stubStorage('setDraftComment');
       element._messageText = 'test text';
       flush();
       if (element.storeTask) element.storeTask.flush();

@@ -44,8 +44,8 @@ import {
   tap,
   pressAndReleaseKeyOn,
 } from '@polymer/iron-test-helpers/mock-interactions';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
-import {stubRestApi} from '../../../test/test-utils';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {stubRestApi, stubStorage} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
 
@@ -652,7 +652,7 @@ suite('comment action tests with unresolved thread', () => {
           __draft: true,
         },
       ];
-      const storageStub = sinon.stub(element.storage, 'setDraftComment');
+      const storageStub = stubStorage('setDraftComment');
       flush();
 
       const draftEl = element.root?.querySelectorAll('gr-comment')[1];

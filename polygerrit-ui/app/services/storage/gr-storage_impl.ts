@@ -14,22 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {CommentRange, PatchSetNum} from '../../../types/common';
 
-export interface StorageLocation {
-  changeNum: number;
-  patchNum: PatchSetNum | '@change';
-  path?: string;
-  line?: number;
-  range?: CommentRange;
-}
+import {StorageLocation, StorageObject, StorageService} from './gr-storage';
 
-export interface StorageObject {
-  message?: string;
-  updated: number;
-}
-
-const DURATION_DAY = 24 * 60 * 60 * 1000;
+export const DURATION_DAY = 24 * 60 * 60 * 1000;
 
 // Clean up old entries no more frequently than one day.
 const CLEANUP_THROTTLE_INTERVAL = DURATION_DAY;
@@ -39,7 +27,7 @@ CLEANUP_PREFIXES_MAX_AGE_MAP.set('respectfultip', 14 * DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('draft', DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('editablecontent', DURATION_DAY);
 
-export class GrStorage {
+export class GrStorageService implements StorageService {
   private lastCleanup = 0;
 
   private readonly storage = window.localStorage;
@@ -47,49 +35,49 @@ export class GrStorage {
   private exceededQuota = false;
 
   getDraftComment(location: StorageLocation): StorageObject | null {
-    this._cleanupItems();
-    return this._getObject(this._getDraftKey(location));
+    this.cleanupItems();
+    return this.getObject(this.getDraftKey(location));
   }
 
   setDraftComment(location: StorageLocation, message: string) {
-    const key = this._getDraftKey(location);
-    this._setObject(key, {message, updated: Date.now()});
+    const key = this.getDraftKey(location);
+    this.setObject(key, {message, updated: Date.now()});
   }
 
   eraseDraftComment(location: StorageLocation) {
-    const key = this._getDraftKey(location);
+    const key = this.getDraftKey(location);
     this.storage.removeItem(key);
   }
 
   getEditableContentItem(key: string): StorageObject | null {
-    this._cleanupItems();
-    return this._getObject(this._getEditableContentKey(key));
+    this.cleanupItems();
+    return this.getObject(this.getEditableContentKey(key));
   }
 
   setEditableContentItem(key: string, message: string) {
-    this._setObject(this._getEditableContentKey(key), {
+    this.setObject(this.getEditableContentKey(key), {
       message,
       updated: Date.now(),
     });
   }
 
   getRespectfulTipVisibility(): StorageObject | null {
-    this._cleanupItems();
-    return this._getObject('respectfultip:visibility');
+    this.cleanupItems();
+    return this.getObject('respectfultip:visibility');
   }
 
   setRespectfulTipVisibility(delayDays = 0) {
-    this._cleanupItems();
-    this._setObject('respectfultip:visibility', {
+    this.cleanupItems();
+    this.setObject('respectfultip:visibility', {
       updated: Date.now() + delayDays * DURATION_DAY,
     });
   }
 
   eraseEditableContentItem(key: string) {
-    this.storage.removeItem(this._getEditableContentKey(key));
+    this.storage.removeItem(this.getEditableContentKey(key));
   }
 
-  _getDraftKey(location: StorageLocation): string {
+  private getDraftKey(location: StorageLocation): string {
     const range = location.range
       ? `${location.range.start_line}-${location.range.start_character}` +
         `-${location.range.end_character}-${location.range.end_line}`
@@ -107,11 +95,11 @@ export class GrStorage {
     return key;
   }
 
-  _getEditableContentKey(key: string): string {
+  private getEditableContentKey(key: string): string {
     return `editablecontent:${key}`;
   }
 
-  _cleanupItems() {
+  private cleanupItems() {
     // Throttle cleanup to the throttle interval.
     if (
       this.lastCleanup &&
@@ -125,7 +113,7 @@ export class GrStorage {
       const entries = CLEANUP_PREFIXES_MAX_AGE_MAP.entries();
       for (const [prefix, expiration] of entries) {
         if (key.startsWith(prefix)) {
-          const item = this._getObject(key);
+          const item = this.getObject(key);
           if (!item || Date.now() - item.updated > expiration) {
             this.storage.removeItem(key);
           }
@@ -134,7 +122,7 @@ export class GrStorage {
     });
   }
 
-  _getObject(key: string): StorageObject | null {
+  private getObject(key: string): StorageObject | null {
     const serial = this.storage.getItem(key);
     if (!serial) {
       return null;
@@ -142,7 +130,7 @@ export class GrStorage {
     return JSON.parse(serial) as StorageObject;
   }
 
-  _setObject(key: string, obj: StorageObject) {
+  private setObject(key: string, obj: StorageObject) {
     if (this.exceededQuota) {
       return;
     }

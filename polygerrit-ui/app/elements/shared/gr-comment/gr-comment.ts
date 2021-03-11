@@ -24,7 +24,6 @@ import '../gr-date-formatter/gr-date-formatter';
 import '../gr-formatted-text/gr-formatted-text';
 import '../gr-icons/gr-icons';
 import '../gr-overlay/gr-overlay';
-import '../gr-storage/gr-storage';
 import '../gr-textarea/gr-textarea';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
@@ -38,7 +37,6 @@ import {appContext} from '../../../services/app-context';
 import {customElement, observe, property} from '@polymer/decorators';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
-import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
 import {
   AccountDetailInfo,
@@ -62,6 +60,7 @@ import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {StorageLocation} from '../../../services/storage/gr-storage';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -269,7 +268,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  private readonly storage = new GrStorage();
+  private readonly storage = appContext.storageService;
 
   reporting = appContext.reportingService;
 

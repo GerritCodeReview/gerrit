@@ -99,7 +99,6 @@ import {CommentThread, isUnresolved} from '../../../utils/comment-util';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {GrStorage, StorageLocation} from '../../shared/gr-storage/gr-storage';
 import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
 import {
   CODE_REVIEW,
@@ -110,6 +109,8 @@ import {pluralize} from '../../../utils/string-util';
 import {fireAlert, fireEvent, fireServerError} from '../../../utils/event-util';
 import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {StorageLocation} from '../../../services/storage/gr-storage';
+import {GrStorage} from '../../../services/storage/gr-storage_impl';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 

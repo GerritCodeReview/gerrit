@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d98280a_b4f734aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-11T13:48:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31b862d8_1c1991a4",
+      "range": {
+        "startLine": 82,
+        "startChar": 9,
+        "endLine": 82,
+        "endChar": 23
+      },
+      "revId": "52bbf3f3e88f8529515b4f3e862a6c271d85d247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3727a15_e17ad87a",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90fdd558_b3ecacf3",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-11T13:48:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3727a15_e17ad87a",
+      "range": {
+        "startLine": 241,
+        "startChar": 23,
+        "endLine": 241,
+        "endChar": 68
+      },
+      "revId": "52bbf3f3e88f8529515b4f3e862a6c271d85d247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "659bb98e_c8bc0ab2",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-03-11T07:33:54Z",
       "side": 1,
       "message": "queryAll(element, \u0027...\u0027) from util\n\nalso below",
+      "range": {
+        "startLine": 433,
+        "startChar": 25,
+        "endLine": 433,
+        "endChar": 66
+      },
+      "revId": "52bbf3f3e88f8529515b4f3e862a6c271d85d247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d549b36b_40c960f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-11T13:48:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "659bb98e_c8bc0ab2",
       "range": {
         "startLine": 433,
         "startChar": 25,

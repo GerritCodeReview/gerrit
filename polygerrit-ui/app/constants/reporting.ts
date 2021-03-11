@@ -24,3 +24,9 @@ export enum LifeCycle {
   EXTENSION_DETECTED = 'Extension detected',
   PLUGINS_INSTALLED = 'Plugins installed',
 }
+
+export enum Execution {
+  PLUGIN_API = 'plugin-api',
+  REACHABLE_CODE = 'reachable code',
+  METHOD_USED = 'method used',
+}

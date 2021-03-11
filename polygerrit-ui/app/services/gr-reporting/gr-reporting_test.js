@@ -341,6 +341,16 @@ suite('gr-reporting tests', () => {
     ));
   });
 
+  test('trackApi reports same event only once', () => {
+    sinon.spy(service, '_reportEvent');
+    const pluginApi = {getPluginName: () => 'test'};
+    service.trackApi(pluginApi, 'object', 'method');
+    service.trackApi(pluginApi, 'object', 'method');
+    assert.isTrue(service.reporter.calledOnce);
+    service.trackApi(pluginApi, 'object', 'method2');
+    assert.isTrue(service.reporter.calledTwice);
+  });
+
   test('report start time', () => {
     service.reporter.restore();
     sinon.stub(window.performance, 'now').returns(42);

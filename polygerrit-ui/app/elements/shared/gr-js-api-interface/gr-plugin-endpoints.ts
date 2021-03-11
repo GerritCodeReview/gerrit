@@ -20,6 +20,7 @@ import {PluginApi} from '../../../api/plugin';
 import {notUndefined} from '../../../types/types';
 import {HookApi} from '../../../api/hook';
 import {appContext} from '../../../services/app-context';
+import {Execution} from '../../../constants/reporting';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (value: any) => void;
@@ -184,7 +185,10 @@ export class GrPluginEndpoints {
   }
 
   importUrl(pluginUrl: URL) {
-    this.reporting.reportExecution('import-href-endpoints', {pluginUrl});
+    this.reporting.reportExecution(Execution.METHOD_USED, {
+      id: 'import-href-endpoints',
+      pluginUrl,
+    });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let timerId: any;
     return Promise.race([

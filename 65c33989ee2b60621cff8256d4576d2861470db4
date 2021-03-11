@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "972df766_f5a7a0d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026270
+      },
+      "writtenOn": "2021-03-11T03:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acddcb09_118d952f",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 41
+      },
+      "revId": "65c33989ee2b60621cff8256d4576d2861470db4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2e6c0823_b9283b4d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2021-03-02T14:14:51Z",
       "side": 1,
       "message": "Thanks for the fix.\n\nWe usually upload fixes to oldest supported stable branch. At the moment it\u0027s stable-3.1. Could you please move this change (with Gerrit UI) to stable-3.1 branch and rebase it?",
+      "revId": "65c33989ee2b60621cff8256d4576d2861470db4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21863523_d3fba356",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026270
+      },
+      "writtenOn": "2021-03-11T03:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e6c0823_b9283b4d",
       "revId": "65c33989ee2b60621cff8256d4576d2861470db4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

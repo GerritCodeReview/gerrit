@@ -137,6 +137,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d202e2a_e113df07",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-11T21:33:54Z",
+      "side": 1,
+      "message": "\u003e \u003e introducing the _ back now may break the code reusing this key elsewhere.\n\u003e \n\u003e We are not introducing it back. It was there originally.\n\nI know; maybe my comment was unclear sorry.",
+      "parentUuid": "bb875cb4_9a67126b",
+      "range": {
+        "startLine": 60,
+        "startChar": 23,
+        "endLine": 60,
+        "endChar": 33
+      },
+      "revId": "1bf4ab92b8ee6713b47c0dfd645dc462b910ae14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fad79ad_682533b6",

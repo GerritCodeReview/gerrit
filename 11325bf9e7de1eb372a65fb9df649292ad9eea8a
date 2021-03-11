@@ -70,6 +70,30 @@
       },
       "revId": "11325bf9e7de1eb372a65fb9df649292ad9eea8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8b2f994_08e7a6d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-11T09:44:37Z",
+      "side": 1,
+      "message": "gr-autocomplete-dropdown is never using \"this.index\" to read anything and is directly setting the index of the cursor(this.$.cursor) IIUC?",
+      "parentUuid": "cd33bd81_c6d9f760",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 0
+      },
+      "revId": "11325bf9e7de1eb372a65fb9df649292ad9eea8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

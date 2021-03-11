@@ -2017,14 +2017,14 @@ suite('gr-change-view tests', () => {
   suite('scroll related tests', () => {
     test('document scrolling calls function to set scroll height', done => {
       const originalHeight = document.body.scrollHeight;
-      const scrollStub = sinon.stub(element, '_handleScroll').callsFake(() => {
+      const scrollStub = sinon.stub(element, 'handleScroll').callsFake(() => {
         assert.isTrue(scrollStub.called);
         document.body.style.height = `${originalHeight}px`;
         scrollStub.restore();
         done();
       });
       document.body.style.height = '10000px';
-      element._handleScroll();
+      element.handleScroll();
     });
 
     test('scrollTop is set correctly', () => {

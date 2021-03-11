@@ -297,7 +297,7 @@ suite('gr-error-manager tests', () => {
 
       // now fake authed
       fetchStub.returns(Promise.resolve({status: 204}));
-      element._handleWindowFocus();
+      element.handleWindowFocus();
       element.flushDebouncer('checkLoggedIn');
       await flush();
       assert.isTrue(refreshStub.called);
@@ -443,14 +443,14 @@ suite('gr-error-manager tests', () => {
           '_checkSignedIn');
       sinon.stub(Date, 'now').returns(999999);
       element._lastCredentialCheck = 0;
-      element._handleVisibilityChange();
+      element.handleVisibilityChange();
 
       // Since there is no known account, it should not test credentials.
       assert.isFalse(refreshStub.called);
       assert.equal(element._lastCredentialCheck, 0);
 
       element.knownAccountId = 123;
-      element._handleVisibilityChange();
+      element.handleVisibilityChange();
 
       // Should test credentials, since there is a known account.
       assert.isTrue(refreshStub.called);
@@ -463,7 +463,7 @@ suite('gr-error-manager tests', () => {
           .returns(accountPromise);
       const requestCheckStub = sinon.stub(element, '_requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(element,
-          '_handleCredentialRefreshed');
+          'handleCredentialRefreshed');
       const reloadStub = sinon.stub(element, '_reloadPage');
 
       element.knownAccountId = 1234;
@@ -480,7 +480,7 @@ suite('gr-error-manager tests', () => {
 
     test('_showAlert hides existing alerts', () => {
       element._alertElement = element._createToastAlert();
-      const hideStub = sinon.stub(element, '_hideAlert');
+      const hideStub = sinon.stub(element, 'hideAlert');
       element._showAlert();
       assert.isTrue(hideStub.calledOnce);
     });
@@ -522,7 +522,7 @@ suite('gr-error-manager tests', () => {
           element,
           '_requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(element,
-          '_handleCredentialRefreshed');
+          'handleCredentialRefreshed');
       const reloadStub = sinon.stub(element, '_reloadPage');
 
       element.knownAccountId = 4321; // Different from 1234
@@ -557,7 +557,7 @@ suite('gr-error-manager tests', () => {
           element,
           '_requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(element,
-          '_handleCredentialRefreshed');
+          'handleCredentialRefreshed');
       const reloadStub = sinon.stub(element, '_reloadPage');
 
       element._refreshingCredentials = true;

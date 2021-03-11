@@ -239,6 +239,28 @@ declare global {
     'show-alert': ShowAlertEvent;
   }
 }
+declare global {
+  interface DocumentEventMap {
+    'show-alert': ShowAlertEvent;
+  }
+}
+
+export interface ShowErrorEventDetail {
+  message: string;
+}
+
+export type ShowErrorEvent = CustomEvent<ShowErrorEventDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'show-error': ShowErrorEvent;
+  }
+}
+declare global {
+  interface DocumentEventMap {
+    'show-error': ShowErrorEvent;
+  }
+}
 
 /**
  * Keyboard events emitted from polymer elements.

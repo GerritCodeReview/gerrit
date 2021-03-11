@@ -35,7 +35,8 @@ import {EventType} from '../../../utils/event-util';
 import {
   NetworkErrorEvent,
   ServerErrorEvent,
-  ShowAlertEvent,
+  ShowAlertEventDetail,
+  ShowErrorEvent,
 } from '../../../types/events';
 import {windowLocationReload} from '../../../utils/dom-util';
 
@@ -119,13 +120,13 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
   /** @override */
   connectedCallback() {
     super.connectedCallback();
-    this.listen(document, EventType.SERVER_ERROR, '_handleServerError');
-    this.listen(document, EventType.NETWORK_ERROR, '_handleNetworkError');
-    this.listen(document, EventType.SHOW_ALERT, '_handleShowAlert');
-    this.listen(document, 'hide-alert', '_hideAlert');
-    this.listen(document, 'show-error', '_handleShowErrorDialog');
-    this.listen(document, 'visibilitychange', '_handleVisibilityChange');
-    this.listen(document, 'show-auth-required', '_handleAuthRequired');
+    document.addEventListener(EventType.SERVER_ERROR, this.handleServerError);
+    document.addEventListener(EventType.NETWORK_ERROR, this.handleNetworkError);
+    document.addEventListener(EventType.SHOW_ALERT, this.handleShowAlert);
+    document.addEventListener('hide-alert', this.hideAlert);
+    document.addEventListener('show-error', this.handleShowErrorDialog);
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    document.addEventListener('show-auth-required', this.handleAuthRequired);
 
     this._authErrorHandlerDeregistrationHook = this.eventEmitter.on(
       'auth-error',
@@ -140,13 +141,22 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
   /** @override */
   disconnectedCallback() {
     this._clearHideAlertHandle();
-    this.unlisten(document, EventType.SERVER_ERROR, '_handleServerError');
-    this.unlisten(document, EventType.NETWORK_ERROR, '_handleNetworkError');
-    this.unlisten(document, EventType.SHOW_ALERT, '_handleShowAlert');
-    this.unlisten(document, 'hide-alert', '_hideAlert');
-    this.unlisten(document, 'show-error', '_handleShowErrorDialog');
-    this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
-    this.unlisten(document, 'show-auth-required', '_handleAuthRequired');
+    document.removeEventListener(
+      EventType.SERVER_ERROR,
+      this.handleServerError
+    );
+    document.removeEventListener(
+      EventType.NETWORK_ERROR,
+      this.handleNetworkError
+    );
+    document.removeEventListener(EventType.SHOW_ALERT, this.handleShowAlert);
+    document.removeEventListener('hide-alert', this.hideAlert);
+    document.removeEventListener('show-error', this.handleShowErrorDialog);
+    document.removeEventListener(
+      'visibilitychange',
+      this.handleVisibilityChange
+    );
+    document.removeEventListener('show-auth-required', this.handleAuthRequired);
     this.cancelDebouncer(DEBOUNCER_CHECK_LOGGED_IN);
 
     if (this._authErrorHandlerDeregistrationHook) {
@@ -159,12 +169,12 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     return msg.includes(TOO_MANY_FILES);
   }
 
-  _handleAuthRequired() {
+  private readonly handleAuthRequired = () => {
     this._showAuthErrorAlert(
       'Log in is required to perform that action.',
       'Log in.'
     );
-  }
+  };
 
   _handleAuthError(msg: string, action: string) {
     this.$.noInteractionOverlay.open().then(() => {
@@ -172,7 +182,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     });
   }
 
-  _handleServerError(e: ServerErrorEvent) {
+  private readonly handleServerError = (e: ServerErrorEvent) => {
     const {request, response} = e.detail;
     response.text().then(errorText => {
       const url = request && (request.anonymizedUrl || request.url);
@@ -184,7 +194,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
       ) {
         // if not authed previously, this is trying to access auth required APIs
         // show auth required alert
-        this._handleAuthRequired();
+        this.handleAuthRequired();
       } else if (
         response.status === 403 &&
         this._authService.isAuthed &&
@@ -220,7 +230,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
       }
       console.info(`server error: ${errorText}`);
     });
-  }
+  };
 
   _showNotFoundMessageWithTip({
     status,
@@ -280,7 +290,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     return err;
   }
 
-  _handleShowAlert(e: ShowAlertEvent) {
+  private readonly handleShowAlert = (e: CustomEvent<ShowAlertEventDetail>) => {
     this._showAlert(
       e.detail.message,
       e.detail.action,
@@ -289,12 +299,12 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
       undefined,
       e.detail.showDismiss
     );
-  }
+  };
 
-  _handleNetworkError(e: NetworkErrorEvent) {
+  private readonly handleNetworkError = (e: NetworkErrorEvent) => {
     this._showAlert('Server unavailable');
     console.error(e.detail.error.message);
-  }
+  };
 
   // TODO(dhruvsr): allow less priority alerts to override high priority alerts
   // In some use cases we may want generic alerts to show along/over errors
@@ -313,16 +323,16 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     if (this._alertElement) {
       // check priority before hiding
       if (!this._canOverride(type, this._alertElement.type)) return;
-      this._hideAlert();
+      this.hideAlert();
     }
 
     this._clearHideAlertHandle();
     if (dismissOnNavigation) {
       // Persist alert until navigation.
-      this.listen(document, 'location-change', '_hideAlert');
+      document.addEventListener('location-change', this.hideAlert);
     } else {
       this._hideAlertHandle = window.setTimeout(
-        this._hideAlert,
+        this.hideAlert,
         HIDE_ALERT_TIMEOUT_MS
       );
     }
@@ -333,7 +343,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     this.reporting.reportInteraction('show-alert', {text});
   }
 
-  _hideAlert() {
+  private readonly hideAlert = () => {
     if (!this._alertElement) {
       return;
     }
@@ -342,8 +352,8 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     this._alertElement = null;
 
     // Remove listener for page navigation, if it exists.
-    this.unlisten(document, 'location-change', '_hideAlert');
-  }
+    document.removeEventListener('location-change', this.hideAlert);
+  };
 
   _clearHideAlertHandle() {
     if (this._hideAlertHandle !== null) {
@@ -369,7 +379,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     this._refreshingCredentials = true;
     this._requestCheckLoggedIn();
     if (!document.hidden) {
-      this._handleVisibilityChange();
+      this.handleVisibilityChange();
     }
   }
 
@@ -380,7 +390,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     return el;
   }
 
-  _handleVisibilityChange() {
+  private readonly handleVisibilityChange = () => {
     // Ignore when the page is transitioning to hidden (or hidden is undefined).
     if (document.hidden !== false) return;
 
@@ -401,7 +411,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
       // - user switched account
       this._checkSignedIn();
     }
-  }
+  };
 
   _requestCheckLoggedIn() {
     this.debounce(
@@ -441,7 +451,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
               return;
             }
 
-            this._handleCredentialRefreshed();
+            this.handleCredentialRefreshed();
           }
         });
       }
@@ -466,13 +476,13 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
       '_blank',
       options.join(',')
     );
-    this.listen(window, 'focus', '_handleWindowFocus');
+    window.addEventListener('focus', this.handleWindowFocus);
   }
 
-  _handleCredentialRefreshed() {
-    this.unlisten(window, 'focus', '_handleWindowFocus');
+  handleCredentialRefreshed() {
+    window.removeEventListener('focus', this.handleWindowFocus);
     this._refreshingCredentials = false;
-    this._hideAlert();
+    this.hideAlert();
     this._showAlert('Credentials refreshed.');
     this.$.noInteractionOverlay.close();
 
@@ -480,13 +490,13 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     this._authService.clearCache();
   }
 
-  _handleWindowFocus() {
+  private readonly handleWindowFocus = () => {
     this.flushDebouncer(DEBOUNCER_CHECK_LOGGED_IN);
-  }
+  };
 
-  _handleShowErrorDialog(e: CustomEvent) {
+  private readonly handleShowErrorDialog = (e: ShowErrorEvent) => {
     this._showErrorDialog(e.detail.message);
-  }
+  };
 
   _handleDismissErrorDialog() {
     this.$.errorOverlay.close();

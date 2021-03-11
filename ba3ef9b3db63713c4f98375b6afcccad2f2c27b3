@@ -16,6 +16,24 @@
       "message": "By default the mock should pretend that the call resulted in an error?",
       "revId": "ba3ef9b3db63713c4f98375b6afcccad2f2c27b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1f8d5b4_08ab65d2",
+        "filename": "polygerrit-ui/app/test/mocks/gr-rest-api_mock.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-11T10:12:14Z",
+      "side": 1,
+      "message": "That\u0027s good point. Fixed.",
+      "parentUuid": "a57d381a_8ff53833",
+      "revId": "ba3ef9b3db63713c4f98375b6afcccad2f2c27b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

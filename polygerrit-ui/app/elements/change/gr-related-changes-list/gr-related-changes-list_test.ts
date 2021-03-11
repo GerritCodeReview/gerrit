@@ -50,6 +50,7 @@ import {SinonStubbedMember} from 'sinon/pkg/sinon-esm';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {PluginApi} from '../../../api/plugin';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -59,6 +60,8 @@ suite('gr-related-changes-list tests', () => {
   let element: GrRelatedChangesList;
 
   setup(() => {
+    // Since pluginEndpoints are global, must reset state.
+    _testOnly_resetEndpoints();
     element = basicFixture.instantiate();
   });
 

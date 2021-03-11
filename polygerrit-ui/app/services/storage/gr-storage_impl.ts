@@ -14,20 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {CommentRange, PatchSetNum} from '../../../types/common';
 
-export interface StorageLocation {
-  changeNum: number;
-  patchNum: PatchSetNum | '@change';
-  path?: string;
-  line?: number;
-  range?: CommentRange;
-}
-
-export interface StorageObject {
-  message?: string;
-  updated: number;
-}
+import {StorageLocation, StorageObject} from './gr-storage';
 
 const DURATION_DAY = 24 * 60 * 60 * 1000;
 

@@ -36,4 +36,5 @@ export function _testOnlyInitAppContext() {
   }
   setMock('reportingService', grReportingMock);
   setMock('restApiService', grRestApiMock);
+  setMock('storageService', grStorageMock);
 }

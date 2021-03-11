@@ -22,6 +22,30 @@
       },
       "revId": "12ef06c9409172ba371e7be30da4d4da0a7925d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca74fce5_0e556953",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-11T09:53:59Z",
+      "side": 1,
+      "message": "sure, no problem!\n\nMaybe this can still be good after the JGit fix that Youssef is working on is implemented?\nhttps://git.eclipse.org/r/c/jgit/jgit/+/177553",
+      "parentUuid": "d3274e68_23cc8d27",
+      "range": {
+        "startLine": 405,
+        "startChar": 19,
+        "endLine": 405,
+        "endChar": 43
+      },
+      "revId": "12ef06c9409172ba371e7be30da4d4da0a7925d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

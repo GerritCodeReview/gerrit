@@ -18,7 +18,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-editable-label/gr-editable-label';
-import '../../shared/gr-storage/gr-storage';
 import '../gr-default-editor/gr-default-editor';
 import '../../../styles/shared-styles';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
@@ -39,7 +38,6 @@ import {
   NumericChangeId,
   EditPatchSetNum,
 } from '../../../types/common';
-import {GrStorage} from '../../shared/gr-storage/gr-storage';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
@@ -120,7 +118,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
 
   private readonly restApiService = appContext.restApiService;
 
-  private readonly storage = new GrStorage();
+  private readonly storage = appContext.storageService;
 
   private storeTask?: DelayedTask;
 

@@ -14,20 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {CommentRange, PatchSetNum} from '../../../types/common';
 
-export interface StorageLocation {
-  changeNum: number;
-  patchNum: PatchSetNum | '@change';
-  path?: string;
-  line?: number;
-  range?: CommentRange;
-}
-
-export interface StorageObject {
-  message?: string;
-  updated: number;
-}
+import {StorageLocation, StorageObject, StorageService} from './gr-storage';
 
 const DURATION_DAY = 24 * 60 * 60 * 1000;
 
@@ -39,7 +27,7 @@ CLEANUP_PREFIXES_MAX_AGE_MAP.set('respectfultip', 14 * DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('draft', DURATION_DAY);
 CLEANUP_PREFIXES_MAX_AGE_MAP.set('editablecontent', DURATION_DAY);
 
-export class GrStorage {
+export class GrStorageService implements StorageService {
   private lastCleanup = 0;
 
   private readonly storage = window.localStorage;

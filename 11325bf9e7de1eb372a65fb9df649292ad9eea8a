@@ -94,6 +94,30 @@
       },
       "revId": "11325bf9e7de1eb372a65fb9df649292ad9eea8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2951ab85_d719502c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-11T09:45:04Z",
+      "side": 1,
+      "message": "Yes, it is needed because we still pass the index in from the outside via that property. We just to not care whether it is passed out again. That is why I am replacing two way binding with one way binding.",
+      "parentUuid": "cd33bd81_c6d9f760",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 0
+      },
+      "revId": "11325bf9e7de1eb372a65fb9df649292ad9eea8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

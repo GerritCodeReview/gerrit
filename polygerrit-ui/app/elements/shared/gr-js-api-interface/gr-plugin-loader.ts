@@ -27,7 +27,6 @@ import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {ShowAlertEventDetail} from '../../../types/events';
-import {Execution} from '../../../constants/reporting';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */

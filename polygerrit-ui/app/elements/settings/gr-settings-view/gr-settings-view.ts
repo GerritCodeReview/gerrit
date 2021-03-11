@@ -215,7 +215,7 @@ export class GrSettingsView extends ChangeTableMixin(
     super.connectedCallback();
     // Polymer 2: anchor tag won't work on shadow DOM
     // we need to manually calling scrollIntoView when hash changed
-    this.listen(window, 'location-change', '_handleLocationChange');
+    window.addEventListener('location-change', this.handleLocationChange);
     fireTitleChange(this, 'Settings');
 
     this._isDark = !!window.localStorage.getItem('dark-theme');
@@ -295,16 +295,16 @@ export class GrSettingsView extends ChangeTableMixin(
       this._loading = false;
 
       // Handle anchor tag for initial load
-      this._handleLocationChange();
+      this.handleLocationChange();
     });
   }
 
   disconnectedCallback() {
-    this.unlisten(window, 'location-change', '_handleLocationChange');
+    window.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();
   }
 
-  _handleLocationChange() {
+  private readonly handleLocationChange = () => {
     // Handle anchor tag after dom attached
     const urlHash = window.location.hash;
     if (urlHash) {
@@ -314,7 +314,7 @@ export class GrSettingsView extends ChangeTableMixin(
         elem.scrollIntoView();
       }
     }
-  }
+  };
 
   reloadAccountDetail() {
     Promise.all([this.$.accountInfo.loadData(), this.$.emailEditor.loadData()]);

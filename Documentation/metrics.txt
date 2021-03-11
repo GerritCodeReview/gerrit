@@ -11,6 +11,7 @@ The following metrics are reported.
 === General
 
 * `build/label`: Version of Gerrit server software.
+* `config/current`: Currently used server settings.
 * `events`: Triggered events.
 
 === Actions

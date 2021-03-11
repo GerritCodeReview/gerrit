@@ -69,6 +69,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.ConfigMetricModule;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
@@ -428,6 +429,7 @@ public class Daemon extends SiteProgram {
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(cfgInjector.getInstance(ConfigMetricModule.class));
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());
 

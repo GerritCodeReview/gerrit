@@ -52,23 +52,25 @@ function getStyleEl() {
       --gray-background: var(--gray-900);
       --tag-background: var(--cyan-900);
       --label-background: var(--red-900);
+      --disabled-foreground: var(--gray-200-38);
+      --disabled-background: var(--gray-200-12);
 
       /* text colors */
-      --primary-text-color: #e8eaed;
-      --link-color: #8ab4f8;
+      --primary-text-color: var(--gray-200);
+      --link-color: var(--gerrit-blue-dark);
       --comment-text-color: var(--primary-text-color);
       --deemphasized-text-color: #9aa0a6;
-      --default-button-text-color: #8ab4f8;
+      --default-button-text-color: var(--gerrit-blue-dark);
       --chip-selected-text-color: #d2e3fc;
-      --error-text-color: red;
+      --error-text-color: var(--red-200);
       --primary-button-text-color: black;
         /* Used on text color for change list doesn't need user's attention. */
-      --reviewed-text-color: #dadce0;
+      --reviewed-text-color: var(--gray-300);
       --vote-text-color: black;
       --status-text-color: black;
       --tooltip-text-color: var(--gray-200);
-      --negative-red-text-color: #f28b82;
-      --positive-green-text-color: #81c995;
+      --negative-red-text-color: var(--red-200);
+      --positive-green-text-color: var(--green-200);
 
       /* background colors */
       /* primary background colors */
@@ -85,19 +87,24 @@ function getStyleEl() {
       --emphasis-color: #383f4a;
       --hover-background-color: rgba(161, 194, 250, 0.2);
       --disabled-button-background-color: #484a4d;
-      --primary-button-background-color: var(--link-color);
+      --primary-button-background-color: var(--blue-200);
+      --primary-button-background-hover: var(--blue-200-16);
+      --primary-button-background-focus: var(--blue-200-24);
       --selection-background-color: rgba(161, 194, 250, 0.1);
       --tooltip-background-color: var(--gray-800);
+      --ripple: var(--gray-200-10);
+
       /* comment background colors */
       --comment-background-color: #3c3f43;
       --robot-comment-background-color: #1e3a5f;
       --unresolved-comment-background-color: #614a19;
+
       /* vote background colors */
-      --vote-color-approved: #7fb66b;
-      --vote-color-disliked: #bf6874;
-      --vote-color-neutral: #597280;
-      --vote-color-recommended: #3f6732;
-      --vote-color-rejected: #ac2d3e;
+      --vote-color-approved: var(--green-300);
+      --vote-color-disliked: var(--red-tonal);
+      --vote-color-neutral: var(--gray-700);
+      --vote-color-recommended: var(--green-tonal);
+      --vote-color-rejected: var(--red-200);
 
       /* misc colors */
       --border-color: var(--gray-700);

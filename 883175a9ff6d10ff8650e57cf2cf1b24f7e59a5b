@@ -1,6 +1,144 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d062295d_b857522a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-11T09:41:16Z",
+      "side": 1,
+      "message": "This new plugin type is unnecessary: if a type\u003dPLUGIN declares an ApiModule then it can be automatically considered a \"Plugin API\" module and its injector used as a base for other plugins using it.",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 14
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a501aab_2615eb21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-11T09:41:16Z",
+      "side": 1,
+      "message": "Also this extra extension is unnecessary: the sorting can be easily done by parsing the manifest file.",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 22
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e9d9001_a00601a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-11T09:41:16Z",
+      "side": 1,
+      "message": "Ones that expose an ApiModule",
+      "range": {
+        "startLine": 29,
+        "startChar": 52,
+        "endLine": 30,
+        "endChar": 24
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a985583_4270cabb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-11T09:41:16Z",
+      "side": 1,
+      "message": "If we merge @DavidO\u0027s change about topological sorting of plugins, we could also have API that depends on other API, which it would be cool.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f7145f3_34e492d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-11T09:41:16Z",
+      "side": 1,
+      "message": "It would be nice to automatically process in Bazel this declared dependency and, when the plugin loader is loading the plugin, it could add the API class loaders chain ONLY IF there is the need for it.\n\nThat would further increase encapsulation between plugins and avoid unnecessary libraries clashes.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 13
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f447f8ba_1077c936",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-11T09:41:16Z",
+      "side": 1,
+      "message": "This is completely unnecessary.",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 119,
+        "endChar": 22
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "95024b63_071a7541",
@@ -14,6 +152,23 @@
       "writtenOn": "2021-03-10T17:36:00Z",
       "side": 1,
       "message": "... and 😎 this change doesn\u0027t break any existing functionality, yay !",
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29ff60dd_8e3c811e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-11T09:41:16Z",
+      "side": 1,
+      "message": "Looking at my own PoC the next day, I\u0027ve provided some further feedback for simplification and keeping the class-loader and injectors isolations as tight as possible.",
       "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

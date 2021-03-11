@@ -40,76 +40,155 @@ const styleSheet = safeStyleSheet`
      */
 
     /* color palette */
+    --gerrit-blue-light: #1565c0;
+    --gerrit-blue-dark: #90caf9;
     --red-900: #a50e0e;
     --red-700: #c5221f;
+    --red-700-04: #c5221f0a;
+    --red-700-10: #c5221f1a;
+    --red-700-12: #c5221f1f;
+    --red-600: #d93025;
+    --red-300: #f28b82;
     --red-200: #f6aea9;
     --red-50: #fce8e6;
+    --red-tonal: #6c322f;
     --blue-900: #174ea6;
     --blue-800: #185abc;
     --blue-700: #1967d2;
+    --blue-700-04: #1967d20a;
+    --blue-700-10: #1967d21a;
+    --blue-700-12: #1967d21f;
+    --blue-700-16: #1967d229;
+    --blue-700-24: #1967d23d;
+    --blue-400: #669df6;
     --blue-200: #aecbfa;
+    --blue-200-04: #aecbfa0a;
+    --blue-200-10: #aecbfa1a;
+    --blue-200-12: #aecbfa1f;
+    --blue-200-16: #aecbfa29;
+    --blue-200-24: #aecbfa3d;
+    --blue-100: #d2e3fc;
     --blue-50: #e8f0fe;
+    --blue-tonal: #314972;
     --orange-900: #b06000;
     --orange-700: #d56e0c;
+    --orange-700-04: #d56e0c0a;
+    --orange-700-10: #d56e0c1a;
+    --orange-700-12: #d56e0c1f;
     --orange-200: #fdc69c;
     --orange-50: #feefe3;
+    --orange-tonal: #714625;
     --cyan-900: #007b83;
     --cyan-700: #129eaf;
+    --cyan-200: #a1e4f2;
     --cyan-100: #cbf0f8;
     --cyan-50: #e4f7fb;
+    --cyan-tonal: #275e6b;
     --green-900: #0d652d;
     --green-700: #188038;
+    --green-700-04: #1880380a;
+    --green-700-10: #1880381a;
+    --green-700-12: #1880381f;
+    --green-300: #81c995;
     --green-200: #a8dab5;
     --green-50: #e6f4ea;
+    --green-tonal: #2c553a;
     --gray-900: #202124;
+    --gray-900-04: #2021240a;
+    --gray-900-10: #2021241a;
+    --gray-900-12: #2021241f;
     --gray-800: #3c4043;
+    --gray-800-12: #3c40431f;
+    --gray-800-38: #3c404361;
     --gray-700: #5f6368;
+    --gray-500: #9aa0a6;
     --gray-300: #dadce0;
+    --gray-200: #e8eaed;
+    --gray-200-04: #e8eaed0a;
+    --gray-200-10: #e8eaed1a;
+    --gray-200-12: #e8eaed1f;
+    --gray-200-38: #e8eaed61;
     --gray-100: #f1f3f4;
     --gray-50: #f8f9fa;
+    --gray-tonal: #505357;
     --purple-900: #681da8;
+    --purple-700: #8430ce;
+    --purple-500: #a142f4;
+    --purple-400: #af5cf7;
+    --purple-200: #d7aefb;
     --purple-50: #f3e8fd;
+    --purple-tonal: #523272;
+    --pink-800: #b80672;
+    --pink-500: #f538a0;
+
+    --error-foreground: var(--red-700);
+    --error-background: var(--red-50);
+    --error-background-hover: var(--red-700-04);
+    --error-background-focus: var(--red-700-12);
+    --error-ripple: var(--red-700-10);
+
+    --warning-foreground: var(--orange-700);
+    --warning-background: var(--orange-50);
+    --warning-background-hover: var(--orange-700-04);
+    --warning-background-focus: var(--orange-700-12);
+    --warning-ripple: var(--orange-700-10);
+
+    --info-foreground: var(--blue-700);
+    --info-background: var(--blue-50);
+    --info-background-hover: var(--blue-700-04);
+    --info-background-focus: var(--blue-700-12);
+    --info-ripple: var(--blue-700-10);
+
+    --primary-button-text-color: white;
+    --primary-button-background-color: var(--blue-700);
+    --primary-button-background-hover: var(--blue-700-16);
+    --primary-button-background-focus: var(--blue-700-24);
+
+    --selected-foreground: var(--blue-800);
+    --selected-background: var(--blue-50);
+
+    --success-foreground: var(--green-700);
+    --success-background: var(--green-50);
+    --success-background-hover: var(--green-700-04);
+    --success-background-focus: var(--green-700-12);
+    --success-ripple: var(--green-700-10);
+
+    --gray-foreground: var(--gray-700);
+    --gray-background: var(--gray-100);
+    --gray-background-hover: var(--gray-900-04);
+    --gray-background-focus: var(--gray-900-12);
+    --gray-ripple: var(--gray-900-10);
+
+    --disabled-foreground: var(--gray-800-38);
+    --disabled-background: var(--gray-800-12);
 
     --chip-color: var(--gray-900);
     --error-color: var(--red-900);
-    --error-foreground: var(--red-700);
-    --error-background: var(--red-50);
-    --warning-foreground: var(--orange-700);
-    --warning-background: var(--orange-50);
-    --info-foreground: var(--blue-700);
-    --info-background: var(--blue-50);
-    --selected-foreground: var(--blue-800);
-    --selected-background: var(--blue-50);
-    --success-foreground: var(--green-700);
-    --success-background: var(--green-50);
-    --gray-foreground: var(--gray-700);
-    --gray-background: var(--gray-100);
     --tag-background: var(--cyan-100);
     --label-background: var(--red-50);
 
     /* text colors */
-    --primary-text-color: black;
-    --link-color: var(--blue-700);
-    --comment-text-color: black;
+    --primary-text-color: var(--gray-900);
+    --link-color: var(--gerrit-blue-light);
+    --comment-text-color: var(--gray-900);
     --deemphasized-text-color: var(--gray-700);
-    --default-button-text-color: var(--blue-700);
-    --chip-selected-text-color: var(--default-button-text-color);
-    --error-text-color: red;
-    --primary-button-text-color: white;
-      /* Used on text color for change list that doesn't need user's attention. */
+    --default-button-text-color: var(--gerrit-blue-light);
+    --chip-selected-text-color: var(--selected-foreground);
+    --error-text-color: var(--red-700);
+    /* Used on text color for change list that doesn't need user's attention. */
     --reviewed-text-color: black;
     --vote-text-color: black;
     --status-text-color: white;
     --tooltip-text-color: white;
-    --negative-red-text-color: #d93025;
-    --positive-green-text-color: #188038;
+    --negative-red-text-color: var(--red-600);
+    --positive-green-text-color: var(--green-700);
     --indirect-ancestor-text-color: var(--green-700);
 
     /* background colors */
     /* primary background colors */
-    --background-color-primary: #ffffff;
-    --background-color-secondary: #f8f9fa;
-    --background-color-tertiary: #f1f3f4;
+    --background-color-primary: white;
+    --background-color-secondary: var(--gray-50);
+    --background-color-tertiary: var(--gray-100);
     /* directly derived from primary background colors */
     --chip-background-color: var(--background-color-tertiary);
     --default-button-background-color: var(--background-color-primary);
@@ -131,34 +210,39 @@ const styleSheet = safeStyleSheet`
     --edit-mode-background-color: #ebf5fb;
     --emphasis-color: #fff9c4;
     --hover-background-color: rgba(161, 194, 250, 0.2);
-    --disabled-button-background-color: #e8eaed;
-    --primary-button-background-color: var(--blue-700);
+    --disabled-button-background-color: var(--gray-200);
     --selection-background-color: rgba(161, 194, 250, 0.1);
     --tooltip-background-color: var(--gray-900);
+
     /* comment background colors */
-    --comment-background-color: #e8eaed;
+    --comment-background-color: var(--gray-200);
     --robot-comment-background-color: var(--blue-50);
     --unresolved-comment-background-color: #fef7e0;
+
     /* vote background colors */
-    --vote-color-approved: #9fcc6b;
-    --vote-color-disliked: #f7c4cb;
-    --vote-color-neutral: #ebf5fb;
-    --vote-color-recommended: #c9dfaf;
-    --vote-color-rejected: #f7a1ad;
+    --vote-color-approved: var(--green-300);
+    --vote-color-disliked: var(--red-50);
+    --vote-outline-disliked: var(--red-700);
+    --vote-color-neutral: var(--gray-300);
+    --vote-color-recommended: var(--green-50);
+    --vote-outline-recommended: var(--green-300);
+    --vote-color-rejected: var(--red-300);
+
+    --outline-color-focus: var(--gray-900);
 
     /* misc colors */
     --border-color: var(--gray-300);
     --comment-separator-color: var(--gray-300);
 
     /* status colors */
-    --status-merged: #188038;
+    --status-merged: var(--green-700);
     --status-abandoned: var(--gray-700);
     --status-wip: #795548;
-    --status-private: #a142f4;
-    --status-conflict: #d93025;
-    --status-active: #1976d2;
-    --status-ready: #b80672;
-    --status-custom: #681da8;
+    --status-private: var(--purple-500);
+    --status-conflict: var(--red-600);
+    --status-active: var(--blue-700);
+    --status-ready: var(--pink-800);
+    --status-custom: var(--purple-900);
 
     /* fonts */
     --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';

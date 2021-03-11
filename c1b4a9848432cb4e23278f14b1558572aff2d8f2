@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d9e584e_c70be413",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T17:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0d86a4c_9970a024",
+      "range": {
+        "startLine": 45,
+        "startChar": 20,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1731becd_968c78b1",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-08T12:48:47Z",
       "side": 1,
       "message": "default this to newMeta\u0027s predecessor",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 40
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb0db902_2e642218",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T17:37:43Z",
+      "side": 1,
+      "message": "defaulting to the ref of the previous patch set - is that correct?",
+      "parentUuid": "1731becd_968c78b1",
       "range": {
         "startLine": 69,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b79372_9ca2880e",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T17:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37802921_a667c33a",
+      "range": {
+        "startLine": 71,
+        "startChar": 26,
+        "endLine": 71,
+        "endChar": 35
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "266f4ddd_aa6d4f53",
@@ -83,6 +155,24 @@
       "writtenOn": "2021-03-08T12:48:47Z",
       "side": 1,
       "message": "old \u0026 new should have different behavior for unreachable sha1; i\u0027m missing that.",
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d3f89f8_af1d260f",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T17:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "266f4ddd_aa6d4f53",
       "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -112,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df701ba8_8b9cc345",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T17:37:43Z",
+      "side": 1,
+      "message": "Would you like that in another change or in this one?",
+      "parentUuid": "60108173_c197045e",
+      "range": {
+        "startLine": 115,
+        "startChar": 5,
+        "endLine": 115,
+        "endChar": 29
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c4496580_26a56bc4",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
         "patchSetId": 4
@@ -123,6 +237,30 @@
       "writtenOn": "2021-03-08T12:48:47Z",
       "side": 1,
       "message": "this is exercising 2 unreachable cases in one go.",
+      "range": {
+        "startLine": 120,
+        "startChar": 17,
+        "endLine": 121,
+        "endChar": 35
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14c8e850_71f5ac7f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMetaIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-11T17:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4496580_26a56bc4",
       "range": {
         "startLine": 120,
         "startChar": 17,

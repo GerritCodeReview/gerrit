@@ -485,7 +485,7 @@ export class GrAppElement extends KeyboardShortcutMixin(
     // because _showPluginScreen value does not change. To force restamp,
     // change _showPluginScreen value between true and false.
     if (isPluginScreen) {
-      this.async(() => this.set('_showPluginScreen', true), 1);
+      setTimeout(() => this.set('_showPluginScreen', true), 1);
     }
     this.set(
       '_showDocumentationSearch',

@@ -880,7 +880,7 @@ export class GrRouter extends LegacyElementMixin(PolymerElement) {
 
       // Fire asynchronously so that the URL is changed by the time the event
       // is processed.
-      this.async(() => {
+      setTimeout(() => {
         const detail: LocationChangeEventDetail = {
           hash: window.location.hash,
           pathname: window.location.pathname,

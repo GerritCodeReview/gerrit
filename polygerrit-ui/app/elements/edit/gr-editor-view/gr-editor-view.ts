@@ -179,7 +179,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
     // NOTE: This may be called before attachment (e.g. while parentElement is
     // null). Fire title-change in an async so that, if attachment to the DOM
     // has been queued, the event can bubble up to the handler in gr-app.
-    this.async(() => {
+    setTimeout(() => {
       const title = `Editing ${computeTruncatedPath(value.path)}`;
       fireTitleChange(this, title);
     });

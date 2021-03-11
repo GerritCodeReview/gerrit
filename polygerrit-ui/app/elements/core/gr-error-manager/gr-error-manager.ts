@@ -321,7 +321,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
       // Persist alert until navigation.
       this.listen(document, 'location-change', '_hideAlert');
     } else {
-      this._hideAlertHandle = this.async(
+      this._hideAlertHandle = window.setTimeout(
         this._hideAlert,
         HIDE_ALERT_TIMEOUT_MS
       );
@@ -347,7 +347,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
 
   _clearHideAlertHandle() {
     if (this._hideAlertHandle !== null) {
-      this.cancelAsync(this._hideAlertHandle);
+      window.clearTimeout(this._hideAlertHandle);
       this._hideAlertHandle = null;
     }
   }

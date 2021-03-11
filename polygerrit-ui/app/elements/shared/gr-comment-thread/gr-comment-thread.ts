@@ -521,7 +521,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
 
     if (!isEditing) {
       // Allow the reply to render in the dom-repeat.
-      this.async(() => {
+      setTimeout(() => {
         const commentEl = this._commentElWithDraftID(reply.__draftID);
         if (commentEl) commentEl.save();
       }, 1);

@@ -26,6 +26,7 @@ import {
   ParentPatchSetNum,
   ContextLine,
   BasePatchSetNum,
+  RevisionPatchSetNum,
 } from '../types/common';
 import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -266,14 +267,16 @@ export function isInPatchRange(
 
 export function getPatchRangeForCommentUrl(
   comment: UIComment,
-  latestPatchNum: PatchSetNum
+  latestPatchNum: RevisionPatchSetNum
 ) {
   if (!comment.patch_set) throw new Error('Missing comment.patch_set');
 
   // TODO(dhruvsri): Add handling for comment left on parents of merge commits
   if (comment.side === CommentSide.PARENT) {
+    if (comment.patch_set === ParentPatchSetNum)
+      throw new Error('diffSide cannot be PARENT');
     return {
-      patchNum: comment.patch_set,
+      patchNum: comment.patch_set as RevisionPatchSetNum,
       basePatchNum: ParentPatchSetNum,
     };
   } else if (latestPatchNum === comment.patch_set) {
@@ -283,7 +286,7 @@ export function getPatchRangeForCommentUrl(
     };
   } else {
     return {
-      patchNum: latestPatchNum,
+      patchNum: latestPatchNum as RevisionPatchSetNum,
       basePatchNum: comment.patch_set as BasePatchSetNum,
     };
   }

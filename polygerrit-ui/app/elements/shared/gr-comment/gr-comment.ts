@@ -97,6 +97,7 @@ export interface GrComment {
   $: {
     container: HTMLDivElement;
     resolvedCheckbox: HTMLInputElement;
+    header: HTMLDivElement;
   };
 }
 

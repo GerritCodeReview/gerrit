@@ -54,6 +54,7 @@ declare global {
     'iron-announce': IronAnnounceEvent;
     'moved-link-clicked': MovedLinkClickedEvent;
     'open-fix-preview': OpenFixPreviewEvent;
+    'create-fix-comment': CreateFixCommentEvent;
     /* prettier-ignore */
     'reload': ReloadEvent;
     /* prettier-ignore */
@@ -132,6 +133,12 @@ export interface OpenFixPreviewEventDetail {
   comment?: UIComment;
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
+
+export interface CreateFixCommentEventDetail {
+  patchNum?: PatchSetNum;
+  comment?: UIComment;
+}
+export type CreateFixCommentEvent = CustomEvent<CreateFixCommentEventDetail>;
 
 export interface PageErrorEventDetail {
   response?: Response;

@@ -27,7 +27,7 @@ export const htmlTemplate = html`
       bottom: 1.25rem;
       border-radius: var(--border-radius);
       box-shadow: var(--elevation-level-2);
-      color: var(--view-background-color);
+      color: var(--tooltip-text-color);
       left: 1.25rem;
       position: fixed;
       transform: translateY(5rem);

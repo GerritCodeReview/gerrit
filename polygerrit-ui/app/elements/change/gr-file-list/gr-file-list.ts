@@ -96,7 +96,6 @@ const FILE_ROW_CLASS = 'file-row';
 export interface GrFileList {
   $: {
     diffPreferencesDialog: GrDiffPreferencesDialog;
-    diffCursor: GrDiffCursor;
   };
 }
 
@@ -353,6 +352,8 @@ export class GrFileList extends KeyboardShortcutMixin(
 
   private fileCursor = new GrCursorManager();
 
+  private diffCursor = new GrDiffCursor();
+
   constructor() {
     super();
     this.fileCursor.scrollMode = ScrollMode.KEEP_VISIBLE;
@@ -604,7 +605,7 @@ export class GrFileList extends KeyboardShortcutMixin(
       this._expandedFiles.length,
       this._files.length
     );
-    this.$.diffCursor.handleDiffUpdate();
+    this.diffCursor.handleDiffUpdate();
   }
 
   /**
@@ -881,7 +882,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     }
 
     e.preventDefault();
-    this.$.diffCursor.moveLeft();
+    this.diffCursor.moveLeft();
   }
 
   _handleRightPane(e: CustomKeyboardEvent) {
@@ -890,7 +891,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     }
 
     e.preventDefault();
-    this.$.diffCursor.moveRight();
+    this.diffCursor.moveRight();
   }
 
   _handleToggleInlineDiff(e: CustomKeyboardEvent) {
@@ -931,7 +932,7 @@ export class GrFileList extends KeyboardShortcutMixin(
 
     if (this._showInlineDiffs) {
       e.preventDefault();
-      this.$.diffCursor.moveDown();
+      this.diffCursor.moveDown();
       this._displayLine = true;
     } else {
       // Down key
@@ -951,7 +952,7 @@ export class GrFileList extends KeyboardShortcutMixin(
 
     if (this._showInlineDiffs) {
       e.preventDefault();
-      this.$.diffCursor.moveUp();
+      this.diffCursor.moveUp();
       this._displayLine = true;
     } else {
       // Up key
@@ -970,7 +971,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     }
     e.preventDefault();
     this.classList.remove('hideComments');
-    this.$.diffCursor.createCommentInPlace();
+    this.diffCursor.createCommentInPlace();
   }
 
   _handleOpenLastFile(e: CustomKeyboardEvent) {
@@ -1025,9 +1026,9 @@ export class GrFileList extends KeyboardShortcutMixin(
 
     e.preventDefault();
     if (this.isModifierPressed(e, Modifier.SHIFT_KEY)) {
-      this.$.diffCursor.moveToNextCommentThread();
+      this.diffCursor.moveToNextCommentThread();
     } else {
-      this.$.diffCursor.moveToNextChunk();
+      this.diffCursor.moveToNextChunk();
     }
   }
 
@@ -1043,9 +1044,9 @@ export class GrFileList extends KeyboardShortcutMixin(
 
     e.preventDefault();
     if (this.isModifierPressed(e, Modifier.SHIFT_KEY)) {
-      this.$.diffCursor.moveToPreviousCommentThread();
+      this.diffCursor.moveToPreviousCommentThread();
     } else {
-      this.$.diffCursor.moveToPreviousChunk();
+      this.diffCursor.moveToPreviousChunk();
     }
   }
 
@@ -1081,7 +1082,7 @@ export class GrFileList extends KeyboardShortcutMixin(
   }
 
   _openCursorFile() {
-    const diff = this.$.diffCursor.getTargetDiffElement();
+    const diff = this.diffCursor.getTargetDiffElement();
     if (!this.change || !diff || !this.patchRange || !diff.path) {
       throw new Error('change, diff and patchRange must be all set and valid');
     }
@@ -1112,8 +1113,8 @@ export class GrFileList extends KeyboardShortcutMixin(
   }
 
   _addDraftAtTarget() {
-    const diff = this.$.diffCursor.getTargetDiffElement();
-    const target = this.$.diffCursor.getTargetLineElement();
+    const diff = this.diffCursor.getTargetDiffElement();
+    const target = this.diffCursor.getTargetLineElement();
     if (diff && target) {
       diff.addDraftAtLine(target);
     }
@@ -1296,12 +1297,8 @@ export class GrFileList extends KeyboardShortcutMixin(
 
   _updateDiffCursor() {
     // Overwrite the cursor's list of diffs:
-    this.$.diffCursor.splice(
-      'diffs',
-      0,
-      this.$.diffCursor.diffs.length,
-      ...this.diffs
-    );
+    this.diffCursor.clearDiffs();
+    this.diffCursor.registerDiffs(this.diffs);
   }
 
   _filesChanged() {
@@ -1438,7 +1435,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     }
 
     this._updateDiffCursor();
-    this.$.diffCursor.reInitAndUpdateStops();
+    this.diffCursor.reInitAndUpdateStops();
   }
 
   private _clearCollapsedDiffs(collapsedDiffs: GrDiffHost[]) {
@@ -1526,7 +1523,7 @@ export class GrFileList extends KeyboardShortcutMixin(
        * prevented the issue of scrolling to top when we expand the second
        * file individually.
        */
-        this.$.diffCursor.reInitAndUpdateStops();
+        this.diffCursor.reInitAndUpdateStops();
       })
     );
   }

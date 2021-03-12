@@ -20,7 +20,6 @@ import '../../../styles/shared-styles';
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';
 import {hovercardBehaviorMixin} from '../gr-hovercard/gr-hovercard-behavior';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-account_html';
 import {appContext} from '../../../services/app-context';
@@ -48,7 +47,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 
 @customElement('gr-hovercard-account')
 export class GrHovercardAccount extends hovercardBehaviorMixin(
-  LegacyElementMixin(PolymerElement)
+  PolymerElement
 ) {
   static get template() {
     return htmlTemplate;

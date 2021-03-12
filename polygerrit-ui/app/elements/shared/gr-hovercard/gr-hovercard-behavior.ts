@@ -21,7 +21,6 @@ import {Constructor} from '../../../utils/common-util';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property, observe} from '@polymer/decorators';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {
   pushScrollLock,
   removeScrollLock,
@@ -54,11 +53,8 @@ const HIDE_DELAY_MS = 500;
  *
  * @example
  *
- * // LegacyElementMixin is still needed to support the old lifecycles
- * // TODO: Replace old life cycles with new ones.
- *
  * class YourComponent extends hovercardBehaviorMixin(
- *  LegacyElementMixin(PolymerElement)
+ *  PolymerElement
  *
  * @see gr-hovercard.ts
  *
@@ -67,7 +63,7 @@ const HIDE_DELAY_MS = 500;
  * @mixinFunction
  */
 export const hovercardBehaviorMixin = dedupingMixin(
-  <T extends Constructor<PolymerElement & LegacyElementMixin>>(
+  <T extends Constructor<PolymerElement>>(
     superClass: T
   ): T & Constructor<GrHovercardBehaviorInterface> => {
     /**

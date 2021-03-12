@@ -19,7 +19,6 @@ import '../gr-storage/gr-storage';
 import '../gr-comment/gr-comment';
 import '../../diff/gr-diff/gr-diff';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-thread_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
@@ -75,7 +74,7 @@ export interface GrCommentThread {
 
 @customElement('gr-comment-thread')
 export class GrCommentThread extends KeyboardShortcutMixin(
-  LegacyElementMixin(PolymerElement)
+  PolymerElement
 ) {
   // KeyboardShortcutMixin Not used in this element rather other elements tests
 

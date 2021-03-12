@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../gr-icons/gr-icons';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-tooltip-content_html';
 import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin';
@@ -32,7 +31,7 @@ declare global {
  */
 @customElement('gr-tooltip-content')
 export class GrTooltipContent extends TooltipMixin(
-  LegacyElementMixin(PolymerElement)
+  PolymerElement
 ) {
   static get template() {
     return htmlTemplate;

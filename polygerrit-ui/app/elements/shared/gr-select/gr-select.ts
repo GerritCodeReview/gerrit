@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {customElement, property, observe} from '@polymer/decorators';
@@ -29,7 +28,7 @@ declare global {
  * GrSelect `gr-select` component.
  */
 @customElement('gr-select')
-export class GrSelect extends LegacyElementMixin(PolymerElement) {
+export class GrSelect extends PolymerElement {
   static get template() {
     return html` <slot></slot> `;
   }

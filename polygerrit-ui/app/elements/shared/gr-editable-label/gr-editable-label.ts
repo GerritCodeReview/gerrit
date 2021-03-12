@@ -19,7 +19,6 @@ import '@polymer/paper-input/paper-input';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {customElement, property} from '@polymer/decorators';
@@ -50,7 +49,7 @@ export interface GrEditableLabel {
 
 @customElement('gr-editable-label')
 export class GrEditableLabel extends KeyboardShortcutMixin(
-  LegacyElementMixin(PolymerElement)
+  PolymerElement
 ) {
   static get template() {
     return htmlTemplate;

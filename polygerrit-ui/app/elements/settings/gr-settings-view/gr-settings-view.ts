@@ -42,7 +42,6 @@ import '../gr-identities/gr-identities';
 import '../gr-menu-editor/gr-menu-editor';
 import '../gr-ssh-editor/gr-ssh-editor';
 import '../gr-watched-projects-editor/gr-watched-projects-editor';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-settings-view_html';
 import {getDocsBaseUrl} from '../../../utils/url-util';
@@ -119,7 +118,7 @@ export interface GrSettingsView {
 
 @customElement('gr-settings-view')
 export class GrSettingsView extends ChangeTableMixin(
-  LegacyElementMixin(PolymerElement)
+  PolymerElement
 ) {
   static get template() {
     return htmlTemplate;

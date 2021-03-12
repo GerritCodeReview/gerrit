@@ -26,7 +26,6 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-list-item_html';
 import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin';
@@ -78,7 +77,7 @@ const PRIMARY_REVIEWERS_COUNT = 2;
 
 @customElement('gr-change-list-item')
 export class GrChangeListItem extends ChangeTableMixin(
-  LegacyElementMixin(PolymerElement)
+  PolymerElement
 ) {
   static get template() {
     return htmlTemplate;

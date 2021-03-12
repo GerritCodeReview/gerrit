@@ -17,7 +17,6 @@
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-search-bar_html';
 import {
@@ -147,7 +146,7 @@ export interface GrSearchBar {
 
 @customElement('gr-search-bar')
 export class GrSearchBar extends KeyboardShortcutMixin(
-  LegacyElementMixin(PolymerElement)
+  PolymerElement
 ) {
   static get template() {
     return htmlTemplate;

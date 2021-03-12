@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {htmlTemplate} from './gr-file-status-chip_html';
 import {customElement, property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
@@ -34,7 +33,7 @@ const FileStatus = {
 };
 
 @customElement('gr-file-status-chip')
-export class GrFileStatusChip extends LegacyElementMixin(PolymerElement) {
+export class GrFileStatusChip extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

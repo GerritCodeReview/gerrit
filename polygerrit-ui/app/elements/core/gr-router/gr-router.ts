@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {
   page,
@@ -293,7 +292,7 @@ interface PatchRangeParams {
 }
 
 @customElement('gr-router')
-export class GrRouter extends LegacyElementMixin(PolymerElement) {
+export class GrRouter extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

@@ -17,7 +17,6 @@
 import '../../../styles/shared-styles';
 import '../gr-selection-action-box/gr-selection-action-box';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-highlight_html';
 import {GrAnnotation} from './gr-annotation';
@@ -55,7 +54,7 @@ interface CommentThreadElement extends HTMLElement {
 }
 
 @customElement('gr-diff-highlight')
-export class GrDiffHighlight extends LegacyElementMixin(PolymerElement) {
+export class GrDiffHighlight extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

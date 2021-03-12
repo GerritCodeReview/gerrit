@@ -22,7 +22,6 @@ import {ChangeReplyPluginApi} from './change-reply';
 import {ChecksPluginApi} from './checks';
 import {EventHelperPluginApi} from './event-helper';
 import {PopupPluginApi} from './popup';
-import {RepoPluginApi} from './repo';
 import {ReportingPluginApi} from './reporting';
 import {SettingsPluginApi} from './settings';
 import {StylesPluginApi} from './styles';
@@ -70,7 +69,6 @@ export interface PluginApi {
   popup(): Promise<PopupPluginApi>;
   popup(moduleName: string): Promise<PopupPluginApi>;
   popup(moduleName?: string): Promise<PopupPluginApi | null>;
-  project(): RepoPluginApi;
   registerCustomComponent(
     endpointName: string,
     moduleName?: string,

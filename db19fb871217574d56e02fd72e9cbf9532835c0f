@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "657648b0_c5ae184d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2021-03-12T14:03:43Z",
+      "side": 1,
+      "message": "also, just realized that it would be great if we could log the user role (author, reviewer, cc, other) if this gets reported on a change. I realize that might not be easy to do, so I am happy to ahead with this change without that in there at this point.",
+      "range": {
+        "startLine": 865,
+        "startChar": 25,
+        "endLine": 865,
+        "endChar": 40
+      },
+      "revId": "db19fb871217574d56e02fd72e9cbf9532835c0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

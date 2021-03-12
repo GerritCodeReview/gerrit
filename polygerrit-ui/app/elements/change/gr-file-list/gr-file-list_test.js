@@ -543,7 +543,7 @@ suite('gr-file-list tests', () => {
         assert.equal(element.fileCursor.index, 0);
         assert.equal(element.selectedIndex, 0);
 
-        const createCommentInPlaceStub = sinon.stub(element.$.diffCursor,
+        const createCommentInPlaceStub = sinon.stub(element.diffCursor,
             'createCommentInPlace');
         MockInteractions.pressAndReleaseKeyOn(element, 67, null, 'c');
         assert.isTrue(createCommentInPlaceStub.called);
@@ -664,8 +664,8 @@ suite('gr-file-list tests', () => {
       });
 
       test('shift+left/shift+right', () => {
-        const moveLeftStub = sinon.stub(element.$.diffCursor, 'moveLeft');
-        const moveRightStub = sinon.stub(element.$.diffCursor, 'moveRight');
+        const moveLeftStub = sinon.stub(element.diffCursor, 'moveLeft');
+        const moveRightStub = sinon.stub(element.diffCursor, 'moveRight');
 
         let noDiffsExpanded = true;
         sinon.stub(element, '_noDiffsExpanded')
@@ -913,9 +913,9 @@ suite('gr-file-list tests', () => {
 
     test('expandAllDiffs and collapseAllDiffs', () => {
       const collapseStub = sinon.stub(element, '_clearCollapsedDiffs');
-      const cursorUpdateStub = sinon.stub(element.$.diffCursor,
+      const cursorUpdateStub = sinon.stub(element.diffCursor,
           'handleDiffUpdate');
-      const reInitStub = sinon.stub(element.$.diffCursor,
+      const reInitStub = sinon.stub(element.diffCursor,
           'reInitAndUpdateStops');
 
       const path = 'path/to/my/file.txt';
@@ -1398,7 +1398,7 @@ suite('gr-file-list tests', () => {
       }
 
       element._updateDiffCursor();
-      element.$.diffCursor.handleDiffUpdate();
+      element.diffCursor.handleDiffUpdate();
       return diffs;
     }
 
@@ -1484,10 +1484,11 @@ suite('gr-file-list tests', () => {
 
       // The file cursor is now at 1.
       assert.equal(element.fileCursor.index, 1);
+
       MockInteractions.keyUpOn(element, 73, null, 'i');
       flush();
-
       diffs = await renderAndGetNewDiffs(1);
+
       // Two diffs should be rendered.
       assert.equal(diffs.length, 2);
       const diffStopsFirst = diffs[0].getCursorStops();
@@ -1537,9 +1538,9 @@ suite('gr-file-list tests', () => {
       setup(() => {
         sinon.stub(element, '_renderInOrder').returns(Promise.resolve());
         nKeySpy = sinon.spy(element, '_handleNextChunk');
-        nextCommentStub = sinon.stub(element.$.diffCursor,
+        nextCommentStub = sinon.stub(element.diffCursor,
             'moveToNextCommentThread');
-        nextChunkStub = sinon.stub(element.$.diffCursor,
+        nextChunkStub = sinon.stub(element.diffCursor,
             'moveToNextChunk');
         fileRows =
             element.root.querySelectorAll('.row:not(.header-row)');

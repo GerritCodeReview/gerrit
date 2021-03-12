@@ -70,6 +70,24 @@
       "parentUuid": "f8f9fdce_c6f63d17",
       "revId": "35dc92487d291429aedb23851d9276107047990e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1101d54d_0e6ea8ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-12T09:06:42Z",
+      "side": 1,
+      "message": "Would it make sense to add a view metrics capability to gerrit core and change the metrics-reporter plugins to respect that centrally defined one instead of each defining its own capability ?\n\nWe currently use metrics-reporter-jmx, metrics-reporter-prometheus and javamelody plugins for our sites.",
+      "parentUuid": "bf4fe98a_ac4e2053",
+      "revId": "35dc92487d291429aedb23851d9276107047990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

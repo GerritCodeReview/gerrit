@@ -145,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c894a11b_8ac95714",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-12T13:08:14Z",
+      "side": 1,
+      "message": "something like\n\ntry ( RevWalk rw \u003d ..  ) {\n\n RevCommit commit \u003d rw.parseCommit(metaRevId)\n commit.getParent()\n}",
+      "parentUuid": "4c0f7a84_441eb958",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 40
+      },
+      "revId": "c1b4a9848432cb4e23278f14b1558572aff2d8f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37802921_a667c33a",
         "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
         "patchSetId": 4

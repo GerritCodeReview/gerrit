@@ -26,6 +26,7 @@ import {customElement, property} from '@polymer/decorators';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
+import {fireIronAnnounce} from '../../../utils/event-util';
 
 @customElement('gr-diff-mode-selector')
 export class GrDiffModeSelector extends LegacyElementMixin(PolymerElement) {
@@ -66,13 +67,7 @@ export class GrDiffModeSelector extends LegacyElementMixin(PolymerElement) {
       announcement = 'Changed diff view to side by side';
     }
     if (announcement) {
-      this.fire(
-        'iron-announce',
-        {
-          text: announcement,
-        },
-        {bubbles: true}
-      );
+      fireIronAnnounce(this, announcement);
     }
   }
 

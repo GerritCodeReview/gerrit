@@ -20,6 +20,7 @@ import {FetchRequest} from '../types/types';
 import {
   DialogChangeEventDetail,
   EventType,
+  IronAnnounceEventDetail,
   NetworkErrorEventDetail,
   PageErrorEventDetail,
   ServerErrorEventDetail,
@@ -80,6 +81,10 @@ export function fireDialogChange(
   detail: DialogChangeEventDetail
 ) {
   fire<DialogChangeEventDetail>(target, EventType.DIALOG_CHANGE, detail);
+}
+
+export function fireIronAnnounce(target: EventTarget, text: string) {
+  fire<IronAnnounceEventDetail>(target, EventType.IRON_ANNOUNCE, {text});
 }
 
 export function fireThreadListModifiedEvent(

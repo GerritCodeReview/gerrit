@@ -107,7 +107,12 @@ import {
   getMaxAccounts,
 } from '../../../utils/label-util';
 import {pluralize} from '../../../utils/string-util';
-import {fireAlert, fireEvent, fireServerError} from '../../../utils/event-util';
+import {
+  fireAlert,
+  fireEvent,
+  fireIronAnnounce,
+  fireServerError,
+} from '../../../utils/event-util';
 import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 
@@ -732,7 +737,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
             bubbles: false,
           })
         );
-        this.fire('iron-announce', {text: 'Reply sent'}, {bubbles: true});
+        fireIronAnnounce(this, 'Reply sent');
         return accountAdditions;
       })
       .then(result => {

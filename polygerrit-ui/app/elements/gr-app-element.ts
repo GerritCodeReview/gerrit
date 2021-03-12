@@ -80,6 +80,7 @@ import {ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
 import {windowLocationReload} from '../utils/dom-util';
 import {LifeCycle} from '../constants/reporting';
+import {fireIronAnnounce} from '../utils/event-util';
 
 interface ErrorInfo {
   text: string;
@@ -511,7 +512,7 @@ export class GrAppElement extends KeyboardShortcutMixin(
     }
     // To fix bug announce read after each new view, we reset announce with
     // empty space
-    this.fire('iron-announce', {text: ' '}, {bubbles: true});
+    fireIronAnnounce(this, ' ');
   }
 
   _handleShortcutTriggered(event: ShortcutTriggeredEvent) {

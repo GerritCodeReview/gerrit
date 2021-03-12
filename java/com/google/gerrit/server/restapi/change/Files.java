@@ -43,11 +43,11 @@ import com.google.gerrit.server.change.FileInfoJson;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.inject.Inject;
@@ -63,6 +63,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -112,30 +113,30 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     @Option(name = "-q")
     String query;
 
+    private final DiffOperations diffOperations;
     private final Provider<CurrentUser> self;
     private final FileInfoJson fileInfoJson;
     private final Revisions revisions;
     private final GitRepositoryManager gitManager;
-    private final PatchListCache patchListCache;
     private final PatchSetUtil psUtil;
     private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
     private final GerritApi gApi;
 
     @Inject
     ListFiles(
+        DiffOperations diffOperations,
         Provider<CurrentUser> self,
         FileInfoJson fileInfoJson,
         Revisions revisions,
         GitRepositoryManager gitManager,
-        PatchListCache patchListCache,
         PatchSetUtil psUtil,
         PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore,
         GerritApi gApi) {
+      this.diffOperations = diffOperations;
       this.self = self;
       this.fileInfoJson = fileInfoJson;
       this.revisions = revisions;
       this.gitManager = gitManager;
-      this.patchListCache = patchListCache;
       this.psUtil = psUtil;
       this.accountPatchReviewStore = accountPatchReviewStore;
       this.gApi = gApi;
@@ -252,9 +253,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
         try {
           return copy(res.files(), res.patchSetId(), resource, userId);
-        } catch (PatchListObjectTooLargeException e) {
-          logger.atWarning().log("Cannot copy patch review flags: %s", e.getMessage());
-        } catch (IOException | PatchListNotAvailableException e) {
+        } catch (IOException | DiffNotAvailableException e) {
           logger.atWarning().withCause(e).log("Cannot copy patch review flags");
         }
       }
@@ -264,7 +263,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     private List<String> copy(
         Set<String> paths, PatchSet.Id old, RevisionResource resource, Account.Id userId)
-        throws IOException, PatchListNotAvailableException {
+        throws IOException, DiffNotAvailableException {
       Project.NameKey project = resource.getChange().getProject();
       try (Repository git = gitManager.openRepository(project);
           ObjectReader reader = git.newObjectReader();
@@ -273,31 +272,35 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         Change change = resource.getChange();
         PatchSet patchSet = psUtil.get(resource.getNotes(), old);
         if (patchSet == null) {
-          throw new PatchListNotAvailableException(
+          throw new DiffNotAvailableException(
               String.format(
                   "patch set %s of change %s not found", old.get(), change.getId().get()));
         }
 
-        PatchList oldList = patchListCache.get(change, patchSet);
+        Map<String, FileDiffOutput> oldList =
+            diffOperations.listModifiedFilesAgainstParent(
+                project, patchSet.commitId(), /* parentNum= */ null);
 
-        PatchList curList = patchListCache.get(change, resource.getPatchSet());
+        Map<String, FileDiffOutput> curList =
+            diffOperations.listModifiedFilesAgainstParent(
+                project, resource.getPatchSet().commitId(), /* parentNum= */ null);
 
         int sz = paths.size();
         List<String> pathList = Lists.newArrayListWithCapacity(sz);
 
         tw.setFilter(PathFilterGroup.createFromStrings(paths));
         tw.setRecursive(true);
-        int o = tw.addTree(rw.parseCommit(oldList.getNewId()).getTree());
-        int c = tw.addTree(rw.parseCommit(curList.getNewId()).getTree());
+        int o = tw.addTree(rw.parseCommit(getNewId(oldList)).getTree());
+        int c = tw.addTree(rw.parseCommit(getNewId(curList)).getTree());
 
         int op = -1;
-        if (oldList.getOldId() != null) {
-          op = tw.addTree(rw.parseTree(oldList.getOldId()));
+        if (getOldId(oldList) != null) {
+          op = tw.addTree(rw.parseTree(getOldId(oldList)));
         }
 
         int cp = -1;
-        if (curList.getOldId() != null) {
-          cp = tw.addTree(rw.parseTree(curList.getOldId()));
+        if (getOldId(curList) != null) {
+          cp = tw.addTree(rw.parseTree(getOldId(curList)));
         }
 
         while (tw.next()) {
@@ -353,6 +356,14 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       // invalidate ETag.
       h.putLong(PatchListKey.serialVersionUID);
       return h.hash().toString();
+    }
+
+    private ObjectId getOldId(Map<String, FileDiffOutput> fileDiffList) {
+      return fileDiffList.isEmpty() ? null : fileDiffList.values().iterator().next().oldCommitId();
+    }
+
+    private ObjectId getNewId(Map<String, FileDiffOutput> fileDiffList) {
+      return fileDiffList.isEmpty() ? null : fileDiffList.values().iterator().next().newCommitId();
     }
   }
 }

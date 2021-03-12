@@ -17,7 +17,6 @@
 import {AdminPluginApi} from './admin';
 import {AnnotationPluginApi} from './annotation';
 import {AttributeHelperPluginApi} from './attribute-helper';
-import {ChangeMetadataPluginApi} from './change-metadata';
 import {ChangeReplyPluginApi} from './change-reply';
 import {ChecksPluginApi} from './checks';
 import {EventHelperPluginApi} from './event-helper';
@@ -55,7 +54,6 @@ export interface PluginApi {
   annotationApi(): AnnotationPluginApi;
   attributeHelper(element: Element): AttributeHelperPluginApi;
   changeActions(): ChangeActionsPluginApi;
-  changeMetadata(): ChangeMetadataPluginApi;
   changeReply(): ChangeReplyPluginApi;
   checks(): ChecksPluginApi;
   eventHelper(element: Node): EventHelperPluginApi;

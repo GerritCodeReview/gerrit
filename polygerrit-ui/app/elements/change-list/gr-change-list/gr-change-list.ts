@@ -162,11 +162,6 @@ export class GrChangeList extends ChangeTableMixin(
   constructor() {
     super();
     this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
-  }
-
-  /** @override */
-  created() {
-    super.created();
     this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
   }
 

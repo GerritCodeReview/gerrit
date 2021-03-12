@@ -53,10 +53,8 @@ export class GrSelectionActionBox extends LegacyElementMixin(PolymerElement) {
   @property({type: Boolean})
   positionBelow = false;
 
-  /** @override */
-  created() {
-    super.created();
-
+  constructor() {
+    super();
     // See https://crbug.com/gerrit/4767
     this.addEventListener('mousedown', e => this._handleMouseDown(e));
   }

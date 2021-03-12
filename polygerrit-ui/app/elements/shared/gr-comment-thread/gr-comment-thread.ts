@@ -221,9 +221,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
 
   readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('comment-update', e =>
       this._handleCommentUpdate(e as CustomEvent)
     );

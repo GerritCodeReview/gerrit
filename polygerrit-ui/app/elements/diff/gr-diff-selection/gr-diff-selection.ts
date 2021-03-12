@@ -66,9 +66,8 @@ export class GrDiffSelection extends LegacyElementMixin(PolymerElement) {
   @property({type: Object})
   _linesCache: LinesCache = {left: null, right: null};
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('copy', e => this._handleCopy(e));
     addListener(this, 'down', e => this._handleDown(e));
   }

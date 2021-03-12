@@ -110,9 +110,8 @@ export class GrChangeListView extends LegacyElementMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('next-page', () => this._handleNextPage());
     this.addEventListener('previous-page', () => this._handlePreviousPage());
   }

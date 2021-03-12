@@ -82,9 +82,8 @@ export class GrButton extends LegacyElementMixin(
 
   private readonly reporting: ReportingService = appContext.reportingService;
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this._initialTabindex = this.getAttribute('tabindex') || '0';
     // TODO(TS): try avoid using unknown
     this.addEventListener('click', e =>

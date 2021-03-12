@@ -197,8 +197,8 @@ export class GrMessage extends LegacyElementMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('click', e => this._handleClick(e));
   }
 

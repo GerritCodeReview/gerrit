@@ -142,11 +142,6 @@ export class GrPermission extends LegacyElementMixin(PolymerElement) {
   constructor() {
     super();
     this._query = () => this._getGroupSuggestions();
-  }
-
-  /** @override */
-  created() {
-    super.created();
     this.addEventListener('access-saved', () => this._handleAccessSaved());
   }
 

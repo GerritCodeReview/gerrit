@@ -605,15 +605,6 @@ export class GrCommentApi extends LegacyElementMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  created() {
-    super.created();
-  }
-
-  constructor() {
-    super();
-  }
-
   /**
    * Load all comments (with drafts and robot comments) for the given change
    * number. The returned promise resolves when the comments have loaded, but

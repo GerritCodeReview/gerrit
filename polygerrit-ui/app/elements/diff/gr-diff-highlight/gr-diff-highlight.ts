@@ -74,9 +74,8 @@ export class GrDiffHighlight extends LegacyElementMixin(PolymerElement) {
 
   private selectionChangeTask?: DelayedTask;
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('comment-thread-mouseleave', e =>
       this._handleCommentThreadMouseleave(e)
     );

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e626da06_964da0b8",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-12T08:10:15Z",
+      "side": 1,
+      "message": "The js endings should be removed.",
+      "range": {
+        "startLine": 18,
+        "startChar": 42,
+        "endLine": 18,
+        "endChar": 45
+      },
+      "revId": "c14fb959e0e2ec213d7cd7826217342b0bbf97c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

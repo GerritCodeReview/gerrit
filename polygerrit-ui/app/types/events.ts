@@ -62,7 +62,7 @@ declare global {
 }
 
 export interface PageErrorEventDetail {
-  response: Response;
+  response?: Response;
 }
 
 export type PageErrorEvent = CustomEvent<PageErrorEventDetail>;
@@ -168,7 +168,7 @@ declare global {
 }
 
 // Type for the custom event to switch tab.
-interface SwitchTabEventDetail {
+export interface SwitchTabEventDetail {
   // name of the tab to set as active, from custom event
   tab?: string;
   // index of tab to set as active, from paper-tabs event

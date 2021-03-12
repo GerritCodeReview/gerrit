@@ -547,17 +547,19 @@ export class GrAppElement extends KeyboardShortcutMixin(
     this.$.errorView.classList.add('show');
     const response = e.detail.response;
     const err: ErrorInfo = {
-      text: [response.status, response.statusText].join(' '),
+      text: [response?.status, response?.statusText].join(' '),
     };
-    if (response.status === 404) {
+    if (response?.status === 404) {
       err.emoji = '¯\\_(ツ)_/¯';
       this._lastError = err;
     } else {
       err.emoji = 'o_O';
-      response.text().then(text => {
-        err.moreInfo = text;
-        this._lastError = err;
-      });
+      if (response) {
+        response.text().then(text => {
+          err.moreInfo = text;
+          this._lastError = err;
+        });
+      }
     }
   }
 

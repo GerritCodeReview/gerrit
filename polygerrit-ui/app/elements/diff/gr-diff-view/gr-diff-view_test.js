@@ -420,19 +420,19 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
       assert(showPrefsStub.calledOnce);
 
-      let scrollStub = sinon.stub(element.$.cursor, 'moveToNextChunk');
+      let scrollStub = sinon.stub(element.cursor, 'moveToNextChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
       assert(scrollStub.calledOnce);
 
-      scrollStub = sinon.stub(element.$.cursor, 'moveToPreviousChunk');
+      scrollStub = sinon.stub(element.cursor, 'moveToPreviousChunk');
       MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
       assert(scrollStub.calledOnce);
 
-      scrollStub = sinon.stub(element.$.cursor, 'moveToNextCommentThread');
+      scrollStub = sinon.stub(element.cursor, 'moveToNextCommentThread');
       MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
       assert(scrollStub.calledOnce);
 
-      scrollStub = sinon.stub(element.$.cursor,
+      scrollStub = sinon.stub(element.cursor,
           'moveToPreviousCommentThread');
       MockInteractions.pressAndReleaseKeyOn(element, 80, 'shift', 'p');
       assert(scrollStub.calledOnce);
@@ -468,7 +468,7 @@ suite('gr-diff-view tests', () => {
     test('moveToNextCommentThread navigates to next file', () => {
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const diffChangeStub = sinon.stub(element, '_navigateToChange');
-      sinon.stub(element.$.cursor, 'isAtEnd').returns(true);
+      sinon.stub(element.cursor, 'isAtEnd').returns(true);
       element._changeNum = '42';
       const comment = {
         'wheatley.md': [{
@@ -855,7 +855,7 @@ suite('gr-diff-view tests', () => {
           b: {_number: 2, commit: {parents: []}},
         },
       };
-      sinon.stub(element.$.cursor, 'getAddress')
+      sinon.stub(element.cursor, 'getAddress')
           .returns({number: lineNumber, isLeftSide: false});
       const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
       flush(() => {
@@ -1378,34 +1378,34 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_initCursor', () => {
-      assert.isNotOk(element.$.cursor.initialLineNumber);
+      assert.isNotOk(element.cursor.initialLineNumber);
 
       // Does nothing when params specify no cursor address:
       element._initCursor(false);
-      assert.isNotOk(element.$.cursor.initialLineNumber);
+      assert.isNotOk(element.cursor.initialLineNumber);
 
       // Does nothing when params specify side but no number:
       element._initCursor(true);
-      assert.isNotOk(element.$.cursor.initialLineNumber);
+      assert.isNotOk(element.cursor.initialLineNumber);
 
       // Revision hash: specifies lineNum but not side.
 
       element._focusLineNum = 234;
       element._initCursor(false);
-      assert.equal(element.$.cursor.initialLineNumber, 234);
-      assert.equal(element.$.cursor.side, 'right');
+      assert.equal(element.cursor.initialLineNumber, 234);
+      assert.equal(element.cursor.side, 'right');
 
       // Base hash: specifies lineNum and side.
       element._focusLineNum = 345;
       element._initCursor(true);
-      assert.equal(element.$.cursor.initialLineNumber, 345);
-      assert.equal(element.$.cursor.side, 'left');
+      assert.equal(element.cursor.initialLineNumber, 345);
+      assert.equal(element.cursor.side, 'left');
 
       // Specifies right side:
       element._focusLineNum = 123;
       element._initCursor(false);
-      assert.equal(element.$.cursor.initialLineNumber, 123);
-      assert.equal(element.$.cursor.side, 'right');
+      assert.equal(element.cursor.initialLineNumber, 123);
+      assert.equal(element.cursor.side, 'right');
     });
 
     test('_getLineOfInterest', () => {
@@ -1424,7 +1424,7 @@ suite('gr-diff-view tests', () => {
     test('_onLineSelected', () => {
       const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
       const replaceStateStub = sinon.stub(history, 'replaceState');
-      sinon.stub(element.$.cursor, 'getAddress')
+      sinon.stub(element.cursor, 'getAddress')
           .returns({number: 123, isLeftSide: false});
 
       element._changeNum = 321;
@@ -1446,7 +1446,7 @@ suite('gr-diff-view tests', () => {
     test('line selected on left side', () => {
       const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
       const replaceStateStub = sinon.stub(history, 'replaceState');
-      sinon.stub(element.$.cursor, 'getAddress')
+      sinon.stub(element.cursor, 'getAddress')
           .returns({number: 123, isLeftSide: true});
 
       element._changeNum = 321;

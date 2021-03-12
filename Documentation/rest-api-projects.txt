@@ -4213,6 +4213,8 @@ A list of branches that should be initially created. +
 For the branch names the `refs/heads/` prefix can be omitted. +
 The first entry of the list will be the default branch (ie. the target
 of the `HEAD` symbolic ref). +
+If the list is empty link:config-gerrit.html#defaultProjectBranch[host-level default],
+is used as the default branch.
 Branches in the Gerrit internal ref space are not allowed, such as
 refs/groups/, refs/changes/, etc...
 |`owners`                    |optional|

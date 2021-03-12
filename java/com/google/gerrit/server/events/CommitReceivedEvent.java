@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
   public ReceiveCommand command;
   public Project project;
   public String refName;
+  public ImmutableListMultimap<String, String> pushOptions;
   public Config repoConfig;
   public RevWalk revWalk;
   public RevCommit commit;
@@ -42,6 +44,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
       ReceiveCommand command,
       Project project,
       String refName,
+      ImmutableListMultimap<String, String> pushOptions,
       Config repoConfig,
       ObjectReader reader,
       ObjectId commitId,
@@ -51,6 +54,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
     this.command = command;
     this.project = project;
     this.refName = refName;
+    this.pushOptions = pushOptions;
     this.repoConfig = repoConfig;
     this.revWalk = new RevWalk(reader);
     this.commit = revWalk.parseCommit(commitId);

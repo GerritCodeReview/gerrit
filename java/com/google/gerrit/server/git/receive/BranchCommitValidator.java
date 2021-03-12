@@ -19,6 +19,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
@@ -109,12 +110,13 @@ public class BranchCommitValidator {
       ObjectReader objectReader,
       ReceiveCommand cmd,
       RevCommit commit,
+      ImmutableListMultimap<String, String> pushOptions,
       boolean isMerged,
       NoteMap rejectCommits,
       @Nullable Change change)
       throws IOException {
     return validateCommit(
-        repository, objectReader, cmd, commit, isMerged, rejectCommits, change, false);
+        repository, objectReader, cmd, commit, pushOptions, isMerged, rejectCommits, change, false);
   }
 
   /**
@@ -134,6 +136,7 @@ public class BranchCommitValidator {
       ObjectReader objectReader,
       ReceiveCommand cmd,
       RevCommit commit,
+      ImmutableListMultimap<String, String> pushOptions,
       boolean isMerged,
       NoteMap rejectCommits,
       @Nullable Change change,
@@ -146,6 +149,7 @@ public class BranchCommitValidator {
               cmd,
               project,
               branch.branch(),
+              pushOptions,
               new Config(repository.getConfig()),
               objectReader,
               commit,

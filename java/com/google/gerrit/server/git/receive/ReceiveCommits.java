@@ -48,6 +48,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -2219,6 +2220,7 @@ class ReceiveCommits {
                   receivePack.getRevWalk().getObjectReader(),
                   magicBranch.cmd,
                   c,
+                  ImmutableListMultimap.copyOf(pushOptions),
                   magicBranch.merged,
                   rejectCommits,
                   null);
@@ -3231,7 +3233,15 @@ class ReceiveCommits {
 
           BranchCommitValidator.Result validationResult =
               validator.validateCommit(
-                  repo, walk.getObjectReader(), cmd, c, false, rejectCommits, null, skipValidation);
+                  repo,
+                  walk.getObjectReader(),
+                  cmd,
+                  c,
+                  ImmutableListMultimap.copyOf(pushOptions),
+                  false,
+                  rejectCommits,
+                  null,
+                  skipValidation);
           messages.addAll(validationResult.messages());
           if (!validationResult.isValid()) {
             break;

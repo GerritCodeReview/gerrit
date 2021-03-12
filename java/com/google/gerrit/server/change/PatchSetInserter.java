@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
@@ -342,6 +343,7 @@ public class PatchSetInserter implements BatchUpdateOp {
                 .orElseThrow(illegalState(origNotes.getProjectName()))
                 .getProject(),
             origNotes.getChange().getDest().branch(),
+            ImmutableListMultimap.of(),
             ctx.getRepoView().getConfig(),
             ctx.getRevWalk().getObjectReader(),
             commitId,

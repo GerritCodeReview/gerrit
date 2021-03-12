@@ -62,6 +62,7 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
@@ -2364,6 +2365,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     private final AtomicInteger count = new AtomicInteger();
     private final boolean validateAll;
 
+    @Nullable private CommitReceivedEvent receivedEvent;
+
     TestValidator(boolean validateAll) {
       this.validateAll = validateAll;
     }
@@ -2373,7 +2376,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     }
 
     @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent) {
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receivedEvent) {
+      this.receivedEvent = receivedEvent;
       count.incrementAndGet();
       return Collections.emptyList();
     }
@@ -2385,6 +2389,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     public int count() {
       return count.get();
+    }
+
+    @Nullable
+    public CommitReceivedEvent getReceivedEvent() {
+      return receivedEvent;
     }
   }
 
@@ -2445,6 +2454,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         // Second listener was called.
         assertThat(validator2.count()).isEqualTo(1);
       }
+    }
+  }
+
+  @Test
+  public void pushOptionsArePassedToCommitValidationListener() throws Exception {
+    TestValidator validator = new TestValidator();
+    try (Registration registration = extensionRegistry.newRegistration().add(validator)) {
+      PushOneCommit push =
+          pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
+      push.setPushOptions(ImmutableList.of("trace=123"));
+      PushOneCommit.Result r = push.to("refs/for/master");
+      r.assertOkStatus();
+      assertThat(validator.getReceivedEvent().pushOptions).containsExactly("trace", "123");
     }
   }
 

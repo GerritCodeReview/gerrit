@@ -20,7 +20,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-create-change-dialog_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -49,7 +48,7 @@ export interface GrCreateChangeDialog {
   };
 }
 @customElement('gr-create-change-dialog')
-export class GrCreateChangeDialog extends LegacyElementMixin(PolymerElement) {
+export class GrCreateChangeDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

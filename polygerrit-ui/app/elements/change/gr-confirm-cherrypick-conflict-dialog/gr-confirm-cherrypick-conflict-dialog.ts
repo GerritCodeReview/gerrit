@@ -16,7 +16,6 @@
  */
 import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-cherrypick-conflict-dialog_html';
 import {customElement} from '@polymer/decorators';
@@ -28,9 +27,7 @@ declare global {
 }
 
 @customElement('gr-confirm-cherrypick-conflict-dialog')
-export class GrConfirmCherrypickConflictDialog extends LegacyElementMixin(
-  PolymerElement
-) {
+export class GrConfirmCherrypickConflictDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

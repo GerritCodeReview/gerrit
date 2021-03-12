@@ -18,7 +18,6 @@
 import '../../../styles/dashboard-header-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-header_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -27,7 +26,7 @@ import {RepoName} from '../../../types/common';
 
 /** @extends PolymerElement */
 @customElement('gr-repo-header')
-class GrRepoHeader extends LegacyElementMixin(PolymerElement) {
+class GrRepoHeader extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

@@ -37,7 +37,6 @@ import './plugins/gr-plugin-host/gr-plugin-host';
 import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
 import './settings/gr-settings-view/gr-settings-view';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-app-element_html';
 import {getBaseUrl} from '../utils/url-util';
@@ -99,9 +98,7 @@ export interface GrAppElement {
 
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
-export class GrAppElement extends KeyboardShortcutMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

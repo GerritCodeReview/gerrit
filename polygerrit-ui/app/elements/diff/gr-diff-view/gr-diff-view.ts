@@ -31,7 +31,6 @@ import '../gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-view_html';
 import {
@@ -128,9 +127,7 @@ export interface GrDiffView {
 }
 
 @customElement('gr-diff-view')
-export class GrDiffView extends KeyboardShortcutMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

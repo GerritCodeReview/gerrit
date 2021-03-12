@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-overlay_html';
 import {IronOverlayMixin} from '../../../mixins/iron-overlay-mixin/iron-overlay-mixin';
@@ -36,7 +35,7 @@ declare global {
 
 @customElement('gr-overlay')
 export class GrOverlay extends IronOverlayMixin(
-  LegacyElementMixin(PolymerElement),
+  PolymerElement,
   IronOverlayBehavior as IronOverlayBehavior
 ) {
   static get template() {

@@ -143,7 +143,7 @@ final class CreateProjectCommand extends SshCommand {
       name = "--branch",
       aliases = {"-b"},
       metaVar = "BRANCH",
-      usage = "initial branch name\n(default: master)")
+      usage = "initial branch name\n(default: gerrit.defaultProject)")
   private List<String> branch;
 
   @Option(name = "--empty-commit", usage = "to create initial empty commit")

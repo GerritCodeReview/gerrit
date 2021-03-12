@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import {Subscription} from 'rxjs';
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {
   AbortStop,
@@ -25,17 +26,15 @@ import {
 } from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-diff-cursor_html';
+import {PolymerElement} from '@polymer/polymer';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {DiffViewMode, LineNumberEventDetail} from '../../../api/diff';
 import {ScrollMode, Side} from '../../../constants/constants';
-import {customElement, property, observe} from '@polymer/decorators';
+import {customElement, observe, property} from '@polymer/decorators';
 import {GrDiffLineType} from '../gr-diff/gr-diff-line';
-import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {PolymerDomWrapper} from '../../../types/types';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
-import {Subscription} from 'rxjs';
 import {toggleClass} from '../../../utils/dom-util';
 
 type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
@@ -43,26 +42,52 @@ type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
 const LEFT_SIDE_CLASS = 'target-side-left';
 const RIGHT_SIDE_CLASS = 'target-side-right';
 
-export interface GrDiffCursor {
-  $: {};
+/** A subset of the GrDiff API that the cursor is using. */
+export interface GrDiffCursorable extends HTMLElement {
+  isRangeSelected(): boolean;
+  createRangeComment(): void;
+  getCursorStops(): Stop[];
+  path?: string;
 }
 
-@customElement('gr-diff-cursor')
-export class GrDiffCursor extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrDiffCursor {
   private preventAutoScrollOnManualScroll = false;
 
-  @property({type: String, notify: true, observer: '_updateSide'})
-  side = Side.RIGHT;
+  set side(side: Side) {
+    this.sideInternal = side;
+    this.updateSideClass();
+  }
 
-  @property({type: Object, notify: true, observer: '_rowChanged'})
-  diffRow?: HTMLElement;
+  get side(): Side {
+    return this.sideInternal;
+  }
 
-  @property({type: Object})
-  diffs: GrDiff[] = [];
+  private sideInternal = Side.RIGHT;
+
+  set diffRow(diffRow: HTMLElement | undefined) {
+    if (this.diffRowInternal) {
+      this.diffRowInternal.classList.remove(LEFT_SIDE_CLASS, RIGHT_SIDE_CLASS);
+      this.fireCursorMoved(
+        'line-cursor-moved-out',
+        this.diffRowInternal,
+        this.side
+      );
+    }
+    this.diffRowInternal = diffRow;
+
+    this.updateSideClass();
+    if (this.diffRow) {
+      this.fireCursorMoved('line-cursor-moved-in', this.diffRow, this.side);
+    }
+  }
+
+  get diffRow(): HTMLElement | undefined {
+    return this.diffRowInternal;
+  }
+
+  private diffRowInternal?: HTMLElement;
+
+  private diffs: GrDiffCursorable[] = [];
 
   /**
    * If set, the cursor will attempt to move to the line number (instead of
@@ -72,62 +97,27 @@ export class GrDiffCursor extends PolymerElement {
    * to that position. This parameter should be set at most for one gr-diff
    * element in the page.
    */
-  @property({type: Number})
   initialLineNumber: number | null = null;
-
-  @property({type: Boolean})
-  _listeningForScroll = false;
 
   private cursorManager = new GrCursorManager();
 
+  private targetSubscription?: Subscription;
+
   constructor() {
-    super();
     this.cursorManager.cursorTargetClass = 'target-row';
     this.cursorManager.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.cursorManager.focusOnMove = true;
-  }
 
-  /** @override */
-  ready() {
-    super.ready();
-    afterNextRender(this, () => {
-      /*
-      This represents the diff cursor is ready for interaction coming from
-      client components. It is more then Polymer "ready" lifecycle, as no
-      "ready" events are automatically fired by Polymer, it means
-      the cursor is completely interactable - in this case attached and
-      painted on the page. We name it "ready" instead of "rendered" as the
-      long-term goal is to make gr-diff-cursor a javascript class - not a DOM
-      element with an actual lifecycle. This will be triggered only once
-      per element.
-      */
-      this.dispatchEvent(
-        new CustomEvent('ready', {
-          composed: true,
-          bubbles: false,
-        })
-      );
-    });
-  }
-
-  private targetSubscription?: Subscription;
-
-  /** @override */
-  connectedCallback() {
-    super.connectedCallback();
-    // Catch when users are scrolling as the view loads.
     window.addEventListener('scroll', this._boundHandleWindowScroll);
     this.targetSubscription = this.cursorManager.target$.subscribe(target => {
       this.diffRow = target || undefined;
     });
   }
 
-  /** @override */
-  disconnectedCallback() {
+  dispose() {
     if (this.targetSubscription) this.targetSubscription.unsubscribe();
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
     this.cursorManager.unsetCursor();
-    super.disconnectedCallback();
   }
 
   // Don't remove - used by clients embedding gr-diff outside of Gerrit.
@@ -297,10 +287,10 @@ export class GrDiffCursor extends PolymerElement {
         this.moveToFirstChunk();
       }
     }
-    this.reInit();
+    this.resetScrollMode();
   }
 
-  reInit() {
+  resetScrollMode() {
     this.cursorManager.scrollMode = ScrollMode.KEEP_VISIBLE;
   }
 
@@ -313,7 +303,7 @@ export class GrDiffCursor extends PolymerElement {
   };
 
   reInitAndUpdateStops() {
-    this.reInit();
+    this.resetScrollMode();
     this._updateStops();
   }
 
@@ -366,7 +356,6 @@ export class GrDiffCursor extends PolymerElement {
    * {leftSide: false, number: 123} for line 123 of the revision, or
    * {leftSide: true, number: 321} for line 321 of the base patch.
    * Returns null if an address is not available.
-   *
    */
   getAddress() {
     if (!this.diffRow) {
@@ -459,16 +448,6 @@ export class GrDiffCursor extends PolymerElement {
     );
   }
 
-  _rowChanged(_: HTMLElement, oldRow: HTMLElement) {
-    if (oldRow) {
-      this.fireCursorMoved('line-cursor-moved-out', oldRow, this.side);
-    }
-    this.updateSideClass();
-    if (this.diffRow) {
-      this.fireCursorMoved('line-cursor-moved-in', this.diffRow, this.side);
-    }
-  }
-
   private fireCursorMoved(
     event: 'line-cursor-moved-out' | 'line-cursor-moved-in',
     row: HTMLElement,
@@ -537,67 +516,51 @@ export class GrDiffCursor extends PolymerElement {
     );
   }
 
-  /**
-   * Setup and tear down on-render listeners for any diffs that are added or
-   * removed from the cursor.
-   */
-  @observe('diffs.splices')
-  _diffsChanged(changeRecord: PolymerSpliceChange<GrDiff[]>) {
-    if (!changeRecord) {
-      return;
+  replaceDiffs(diffs: GrDiffCursorable[]) {
+    for (const diff of this.diffs) {
+      this.removeEventListeners(diff);
     }
-
+    this.diffs = [];
+    for (const diff of diffs) {
+      this.addEventListeners(diff);
+    }
+    this.diffs.push(...diffs);
     this._updateStops();
+  }
 
-    let splice;
-    let i;
-    for (
-      let spliceIdx = 0;
-      changeRecord.indexSplices && spliceIdx < changeRecord.indexSplices.length;
-      spliceIdx++
-    ) {
-      splice = changeRecord.indexSplices[spliceIdx];
-
-      // Removals must come before additions, because the gr-diff instances
-      // might be the same.
-      for (i = 0; i < splice?.removed.length; i++) {
-        splice.removed[i].removeEventListener(
-          'loading-changed',
-          this.boundHandleDiffLoadingChanged
-        );
-        splice.removed[i].removeEventListener(
-          'render-start',
-          this._boundHandleDiffRenderStart
-        );
-        splice.removed[i].removeEventListener(
-          'render-content',
-          this._boundHandleDiffRenderContent
-        );
-        splice.removed[i].removeEventListener(
-          'line-selected',
-          this._boundHandleDiffLineSelected
-        );
-      }
-
-      for (i = splice.index; i < splice.index + splice.addedCount; i++) {
-        this.diffs[i].addEventListener(
-          'loading-changed',
-          this.boundHandleDiffLoadingChanged
-        );
-        this.diffs[i].addEventListener(
-          'render-start',
-          this._boundHandleDiffRenderStart
-        );
-        this.diffs[i].addEventListener(
-          'render-content',
-          this._boundHandleDiffRenderContent
-        );
-        this.diffs[i].addEventListener(
-          'line-selected',
-          this._boundHandleDiffLineSelected
-        );
-      }
+  unregisterDiff(diff: GrDiffCursorable) {
+    // This can happen during destruction - just don't unregister then.
+    if (!this.diffs) return;
+    const i = this.diffs.indexOf(diff);
+    if (i !== -1) {
+      this.diffs.splice(i, 1);
     }
+  }
+
+  private removeEventListeners(diff: GrDiffCursorable) {
+    diff.removeEventListener(
+      'loading-changed',
+      this.boundHandleDiffLoadingChanged
+    );
+    diff.removeEventListener('render-start', this._boundHandleDiffRenderStart);
+    diff.removeEventListener(
+      'render-content',
+      this._boundHandleDiffRenderContent
+    );
+    diff.removeEventListener(
+      'line-selected',
+      this._boundHandleDiffLineSelected
+    );
+  }
+
+  private addEventListeners(diff: GrDiffCursorable) {
+    diff.addEventListener(
+      'loading-changed',
+      this.boundHandleDiffLoadingChanged
+    );
+    diff.addEventListener('render-start', this._boundHandleDiffRenderStart);
+    diff.addEventListener('render-content', this._boundHandleDiffRenderContent);
+    diff.addEventListener('line-selected', this._boundHandleDiffLineSelected);
   }
 
   _findRowByNumberAndFile(
@@ -620,8 +583,97 @@ export class GrDiffCursor extends PolymerElement {
   }
 }
 
+// TODO(oler): Remove this once clients have migrated to using GrDiffCursor service.
+@customElement('gr-diff-cursor')
+export class GrDiffCursorElement extends PolymerElement {
+  static get template() {
+    return html``;
+  }
+
+  @property({type: String, observer: '_sideChanged'})
+  side: Side = Side.RIGHT;
+
+  _sideChanged(side: Side) {
+    this.cursor.side = side;
+  }
+
+  @property({type: Object}) diffs: GrDiff[] = [];
+
+  @observe('diffs.splices')
+  _diffsChanged() {
+    if (this.diffs) {
+      this.cursor.replaceDiffs(this.diffs);
+    }
+  }
+
+  private cursor = new GrDiffCursor();
+
+  /** @override */
+  ready() {
+    super.ready();
+    afterNextRender(this, () => {
+      /*
+      This represents the diff cursor is ready for interaction coming from
+      client components. It is more then Polymer "ready" lifecycle, as no
+      "ready" events are automatically fired by Polymer, it means
+      the cursor is completely interactable - in this case attached and
+      painted on the page. We name it "ready" instead of "rendered" as the
+      long-term goal is to make gr-diff-cursor a javascript class - not a DOM
+      element with an actual lifecycle. This will be triggered only once
+      per element.
+      */
+      this.dispatchEvent(
+        new CustomEvent('ready', {
+          composed: true,
+          bubbles: false,
+        })
+      );
+    });
+  }
+
+  /** @override */
+  disconnectedCallback() {
+    this.cursor.dispose();
+    super.disconnectedCallback();
+  }
+
+  isAtStart = this.cursor.isAtStart.bind(this.cursor);
+
+  isAtEnd = this.cursor.isAtEnd.bind(this.cursor);
+
+  moveLeft = this.cursor.moveLeft.bind(this.cursor);
+
+  moveRight = this.cursor.moveRight.bind(this.cursor);
+
+  moveDown = this.cursor.moveDown.bind(this.cursor);
+
+  moveUp = this.cursor.moveUp.bind(this.cursor);
+
+  moveToNextChunk = this.cursor.moveToNextChunk.bind(this.cursor);
+
+  moveToPreviousChunk = this.cursor.moveToPreviousChunk.bind(this.cursor);
+
+  moveToNextCommentThread = this.cursor.moveToNextCommentThread.bind(
+    this.cursor
+  );
+
+  moveToPreviousCommentThread = this.cursor.moveToPreviousCommentThread.bind(
+    this.cursor
+  );
+
+  moveToLineNumber = this.cursor.moveToLineNumber.bind(this.cursor);
+
+  moveToFirstChunk = this.cursor.moveToFirstChunk.bind(this.cursor);
+
+  moveToLastChunk = this.cursor.moveToLastChunk.bind(this.cursor);
+
+  reInit = this.cursor.resetScrollMode.bind(this.cursor);
+
+  createCommentInPlace = this.cursor.createCommentInPlace.bind(this.cursor);
+}
+
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-diff-cursor': GrDiffCursor;
+    'gr-diff-cursor': GrDiffCursorElement;
   }
 }

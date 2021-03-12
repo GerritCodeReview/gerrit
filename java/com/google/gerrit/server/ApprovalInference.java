@@ -31,17 +31,15 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -64,21 +62,21 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class ApprovalInference {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final DiffOperations diffOperations;
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
-  private final PatchListCache patchListCache;
 
   @Inject
   ApprovalInference(
+      DiffOperations diffOperations,
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
-      LabelNormalizer labelNormalizer,
-      PatchListCache patchListCache) {
+      LabelNormalizer labelNormalizer) {
+    this.diffOperations = diffOperations;
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
-    this.patchListCache = patchListCache;
   }
 
   /**
@@ -111,7 +109,7 @@ public class ApprovalInference {
       PatchSet.Id psId,
       ChangeKind kind,
       LabelType type,
-      @Nullable PatchList patchList) {
+      @Nullable Map<String, FileDiffOutput> modifiedFiles) {
     int n = psa.key().patchSetId().get();
     checkArgument(n != psId.get());
 
@@ -172,11 +170,9 @@ public class ApprovalInference {
           project.getName());
       return true;
     } else if (type.isCopyAllScoresIfListOfFilesDidNotChange()
-        && patchList.getPatches().stream()
+        && modifiedFiles.values().stream()
             .noneMatch(
-                p ->
-                    p.getChangeType() == ChangeType.ADDED
-                        || p.getChangeType() == ChangeType.DELETED)) {
+                p -> p.changeType() == ChangeType.ADDED || p.changeType() == ChangeType.DELETED)) {
       logger.atFine().log(
           "approval %d on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set "
@@ -368,18 +364,20 @@ public class ApprovalInference {
     logger.atFine().log(
         "change kind for patch set %d of change %d against prior patch set %s is %s",
         ps.id().get(), ps.id().changeId().get(), priorPatchSet.getValue().id().changeId(), kind);
-    PatchList patchList = null;
+    Map<String, FileDiffOutput> modifiedFiles = null;
     LabelTypes labelTypes = project.getLabelTypes();
     for (PatchSetApproval psa : priorApprovals) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;
       }
       LabelType type = labelTypes.byLabel(psa.labelId());
-      // Only compute patchList if there is a relevant label, since this is expensive.
-      if (patchList == null && type != null && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
-        patchList = getPatchList(project, ps, priorPatchSet);
+      // Only compute modified files if there is a relevant label, since this is expensive.
+      if (modifiedFiles == null
+          && type != null
+          && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
+        modifiedFiles = listModifiedFiles(project, ps, priorPatchSet);
       }
-      if (!canCopy(project, psa, ps.id(), kind, type, patchList)) {
+      if (!canCopy(project, psa, ps.id(), kind, type, modifiedFiles)) {
         continue;
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
@@ -388,19 +386,15 @@ public class ApprovalInference {
   }
 
   /**
-   * Gets the {@link PatchList} between the two latest patch-sets. Can be used to compute difference
-   * in files between those two patch-sets .
+   * Gets the modified files between the two latest patch-sets. Can be used to compute difference in
+   * files between those two patch-sets .
    */
-  private PatchList getPatchList(
+  private Map<String, FileDiffOutput> listModifiedFiles(
       ProjectState project, PatchSet ps, Map.Entry<PatchSet.Id, PatchSet> priorPatchSet) {
-    PatchListKey key =
-        PatchListKey.againstCommit(
-            priorPatchSet.getValue().commitId(),
-            ps.commitId(),
-            DiffPreferencesInfo.Whitespace.IGNORE_NONE);
     try {
-      return patchListCache.get(key, project.getNameKey());
-    } catch (PatchListNotAvailableException ex) {
+      return diffOperations.listModifiedFiles(
+          project.getNameKey(), priorPatchSet.getValue().commitId(), ps.commitId());
+    } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"
               + " votes on labels even if list of files is the same and "

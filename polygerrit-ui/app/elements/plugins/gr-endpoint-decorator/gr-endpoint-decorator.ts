@@ -68,7 +68,9 @@ export class GrEndpointDecorator extends LegacyElementMixin(PolymerElement) {
     return this._initProperties(
       el,
       plugin,
-      this.getContentChildren().find(el => el.nodeName !== 'GR-ENDPOINT-PARAM')
+      // The direct children are slotted into <slot>, so this is identical to
+      // this.shadowRoot.querySelector('slot').assignedElements()[0].
+      this.firstElementChild
     ).then(el => {
       const slotEl = slot
         ? this.querySelector(`gr-endpoint-slot[name=${slot}]`)
@@ -82,9 +84,16 @@ export class GrEndpointDecorator extends LegacyElementMixin(PolymerElement) {
     });
   }
 
+  // As of March 2021 the only known plugin that replaces an endpoint instead
+  // of decorating it is codemirror_editor.
   _initReplacement(name: string, plugin: PluginApi): Promise<HTMLElement> {
-    this.getContentChildNodes()
+    // The direct children are slotted into <slot>, so they are identical to
+    // this.shadowRoot.querySelector('slot').assignedElements().
+    const directChildren = [...this.childNodes];
+    const shadowChildren = [...(this.shadowRoot?.childNodes ?? [])];
+    [...directChildren, ...shadowChildren]
       .filter(node => node.nodeName !== 'GR-ENDPOINT-PARAM')
+      .filter(node => node.nodeName !== 'SLOT')
       .forEach(node => (node as ChildNode).remove());
     const el = document.createElement(name);
     return this._initProperties(el, plugin).then((el: HTMLElement) =>
@@ -99,13 +108,16 @@ export class GrEndpointDecorator extends LegacyElementMixin(PolymerElement) {
   _initProperties(
     htmlEl: HTMLElement,
     plugin: PluginApi,
-    content?: HTMLElement
+    content?: Element | null
   ) {
     const el = htmlEl as HTMLElement & {
       plugin?: PluginApi;
-      content?: HTMLElement;
+      content?: Element;
     };
     el.plugin = plugin;
+    // The content is (only?) used in ChangeReplyPluginApi.
+    // Maybe it would be better for the consumer side to figure out the content
+    // with something like el.getRootNode().host, etc.
     if (content) {
       el.content = content;
     }

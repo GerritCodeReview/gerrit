@@ -102,8 +102,7 @@ suite('gr-diff-host tests', () => {
 
     threadEls[0].dispatchEvent(
         new CustomEvent('thread-discard', {detail: {rootId: 4711}}));
-    const attachedThreads = element.queryAllEffectiveChildren(
-        'gr-comment-thread');
+    const attachedThreads = element.querySelectorAll('gr-comment-thread');
     assert.equal(attachedThreads.length, 1);
     assert.equal(attachedThreads[0].comments[0].id, 42);
   });

@@ -18,7 +18,6 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
-import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {EventType} from '../../../api/plugin.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {getPluginLoader} from './gr-plugin-loader.js';

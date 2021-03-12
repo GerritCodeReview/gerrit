@@ -20,15 +20,12 @@ import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-
 import {GrChangeActionsInterface} from './gr-change-actions-js-api';
 import {GrChangeReplyInterface} from './gr-change-reply-js-api';
 import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks';
-import {GrThemeApi} from '../../plugins/gr-theme-api/gr-theme-api';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface';
 import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {GrChangeMetadataApi} from '../../plugins/gr-change-metadata-api/gr-change-metadata-api';
 import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
 import {GrPluginRestApi} from './gr-plugin-rest-api';
-import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api';
-import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
 
 import {getPluginNameFromUrl, PRELOADED_PROTOCOL, send} from './gr-api-utils';
@@ -41,11 +38,8 @@ import {GrChecksApi} from '../../plugins/gr-checks-api/gr-checks-api';
 import {appContext} from '../../../services/app-context';
 import {AdminPluginApi} from '../../../api/admin';
 import {AnnotationPluginApi} from '../../../api/annotation';
-import {StylesPluginApi} from '../../../api/styles';
-import {ThemePluginApi} from '../../../api/theme';
 import {EventHelperPluginApi} from '../../../api/event-helper';
 import {PopupPluginApi} from '../../../api/popup';
-import {SettingsPluginApi} from '../../../api/settings';
 import {ReportingPluginApi} from '../../../api/reporting';
 import {ChangeActionsPluginApi} from '../../../api/change-actions';
 import {ChangeMetadataPluginApi} from '../../../api/change-metadata';
@@ -279,24 +273,12 @@ export class Plugin implements PluginApi {
     return new GrReportingJsApi(this);
   }
 
-  theme(): ThemePluginApi {
-    return new GrThemeApi(this);
-  }
-
   changeMetadata(): ChangeMetadataPluginApi {
     return new GrChangeMetadataApi(this);
   }
 
   admin(): AdminPluginApi {
     return new GrAdminApi(this);
-  }
-
-  settings(): SettingsPluginApi {
-    return new GrSettingsApi(this);
-  }
-
-  styles(): StylesPluginApi {
-    return new GrStylesApi(this);
   }
 
   restApi(prefix?: string): RestPluginApi {

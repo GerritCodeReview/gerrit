@@ -2122,6 +2122,13 @@ relative to `gerrit.basePath`.
 +
 Defaults to `All-Projects` if not set.
 
+[[gerrit.defaultProjectBranch]]gerrit.defaultProjectBranch::
++
+The branch to use as the target of the `HEAD` symbolic ref,
+if no other branches were specified on the project creation.
++
+Defaults to `refs/heads/master` if not set.
+
 [[gerrit.allUsers]]gerrit.allUsers::
 +
 Name of the project in which meta data of all users is stored.

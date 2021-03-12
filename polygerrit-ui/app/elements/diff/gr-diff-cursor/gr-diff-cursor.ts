@@ -38,6 +38,7 @@ import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {Subscription} from 'rxjs';
+import {toggleClass} from '../../../utils/dom-util';
 
 type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
 
@@ -502,8 +503,8 @@ export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
     if (!this.diffRow) {
       return;
     }
-    this.toggleClass(LEFT_SIDE_CLASS, this.side === Side.LEFT, this.diffRow);
-    this.toggleClass(RIGHT_SIDE_CLASS, this.side === Side.RIGHT, this.diffRow);
+    toggleClass(this.diffRow, LEFT_SIDE_CLASS, this.side === Side.LEFT);
+    toggleClass(this.diffRow, RIGHT_SIDE_CLASS, this.side === Side.RIGHT);
   }
 
   _isActionType(type: GrDiffRowType) {

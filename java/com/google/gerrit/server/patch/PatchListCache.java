@@ -21,10 +21,38 @@ import org.eclipse.jgit.lib.ObjectId;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 public interface PatchListCache {
+  /**
+   * Returns the patch list - list of modified files - between two commits.
+   *
+   * @param key identifies the old / new commits.
+   * @param project name key identifying a specific git project (repository).
+   * @return patch list containing the modified files between two commits.
+   * @deprecated use {@link DiffOperations} instead.
+   */
+  @Deprecated
   PatchList get(PatchListKey key, Project.NameKey project) throws PatchListNotAvailableException;
 
+  /**
+   * Returns the patch list - list of modified files - between two commits.
+   *
+   * @param change entity containing all change data.
+   * @param patchSet single revision of a {@link Change}.
+   * @return patch list containing the modified files between two commits.
+   * @deprecated use {@link DiffOperations} instead.
+   */
+  @Deprecated
   PatchList get(Change change, PatchSet patchSet) throws PatchListNotAvailableException;
 
+  /**
+   * Returns the patch list - list of modified files - between two commits.
+   *
+   * @param change entity containing all change data.
+   * @param patchSet single revision of a {@link Change}.
+   * @param parentNum 1-based parent number when new commit used in comparison is a merge commit.
+   * @return patch list containing the modified files between two commits.
+   * @deprecated use {@link DiffOperations} instead.
+   */
+  @Deprecated
   ObjectId getOldId(Change change, PatchSet patchSet, Integer parentNum)
       throws PatchListNotAvailableException;
 

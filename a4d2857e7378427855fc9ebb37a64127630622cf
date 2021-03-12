@@ -16,6 +16,24 @@
       "message": "To cater Han-Wen\u0027s comment further down, should the be a general open-source software disclaimer here?\n\nGerrit is open-source software licensed under the Apache 2.0 license.  Unless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.",
       "revId": "a4d2857e7378427855fc9ebb37a64127630622cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f027d59_26819e2f",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-12T02:18:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58280c15_4ae22957",
+      "revId": "a4d2857e7378427855fc9ebb37a64127630622cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

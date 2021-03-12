@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -60,6 +61,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 
@@ -79,6 +81,8 @@ public class CreateProject
   private final PluginItemContext<ProjectNameLockManager> lockManager;
   private final ProjectCreator projectCreator;
 
+  private final Config gerritConfig;
+
   @Inject
   CreateProject(
       ProjectCreator projectCreator,
@@ -90,7 +94,8 @@ public class CreateProject
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
       AllUsersName allUsers,
-      PluginItemContext<ProjectNameLockManager> lockManager) {
+      PluginItemContext<ProjectNameLockManager> lockManager,
+      @GerritServerConfig Config gerritConfig) {
     this.projectsCollection = projectsCollection;
     this.projectCreator = projectCreator;
     this.groupResolver = groupResolver;
@@ -101,6 +106,7 @@ public class CreateProject
     this.allProjects = allProjects;
     this.allUsers = allUsers;
     this.lockManager = lockManager;
+    this.gerritConfig = gerritConfig;
   }
 
   @Override
@@ -128,7 +134,25 @@ public class CreateProject
     args.permissionsOnly = input.permissionsOnly;
     args.projectDescription = Strings.emptyToNull(input.description);
     args.submitType = input.submitType;
-    args.branch = normalizeBranchNames(input.branches);
+
+    String defaultBranch = gerritConfig.getString("gerrit", null, "defaultProjectBranch");
+
+    List<String> branches = new ArrayList<>();
+    if (defaultBranch != null) {
+      // Use host-level default for HEAD, if nothig else was specified in input
+      branches.add(defaultBranch);
+    }
+    if (input.branches != null) {
+      branches.addAll(input.branches);
+    }
+    if (!branches.isEmpty()) {
+      args.branch = normalizeBranchNames(branches);
+    } else {
+      // Only create default 'master' branch if there is nothing in the input and no host-level
+      // default.
+      args.branch = Collections.singletonList(Constants.R_HEADS + Constants.MASTER);
+    }
+
     if (input.owners == null || input.owners.isEmpty()) {
       args.ownerIds = new ArrayList<>(projectOwnerGroups.create(args.getProject()).get());
     } else {
@@ -189,10 +213,6 @@ public class CreateProject
   }
 
   private List<String> normalizeBranchNames(List<String> branches) throws BadRequestException {
-    if (branches == null || branches.isEmpty()) {
-      return Collections.singletonList(Constants.R_HEADS + Constants.MASTER);
-    }
-
     List<String> normalizedBranches = new ArrayList<>();
     for (String branch : branches) {
       while (branch.startsWith("/")) {

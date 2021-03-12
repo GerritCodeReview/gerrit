@@ -26,6 +26,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
@@ -40,6 +41,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -304,13 +306,15 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createProjectWithEmptyCommit() throws Exception {
+  @GerritConfig(name = "gerrit.defaultBranch", value = "main")
+  public void createPermissionOnlyProject_WhenDefaultBranchIsSet() throws Exception {
     String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();
     in.name = newProjectName;
-    in.createEmptyCommit = true;
+    in.permissionsOnly = true;
     gApi.projects().create(in);
-    assertEmptyCommit(newProjectName, "refs/heads/master");
+    // For permissionOnly, don't use host-level default branch.
+    assertHead(newProjectName, RefNames.REFS_CONFIG);
   }
 
   @Test
@@ -341,6 +345,63 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("Cannot create a project with branch refs/changes/34/1234");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultProjectBranch", value = "main")
+  public void createProject_WhenDefaultBranchIsSet() throws Exception {
+    String newProjectName = name("newProject");
+    gApi.projects().create(newProjectName).get();
+    ImmutableMap<String, BranchInfo> branches = getProjectBranches(newProjectName);
+    assertThat(branches.keySet()).containsExactly("HEAD", "refs/meta/config");
+    assertHead(newProjectName, "refs/heads/main");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultProjectBranch", value = "main")
+  public void createProjectWithEmptyCommit_WhenDefaultBranchIsSet() throws Exception {
+    String newProjectName = name("newProject");
+    ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
+    in.createEmptyCommit = true;
+    gApi.projects().create(in);
+    ImmutableMap<String, BranchInfo> branches = getProjectBranches(newProjectName);
+    assertThat(branches.keySet()).containsExactly("HEAD", "refs/meta/config", "refs/heads/main");
+    assertHead(newProjectName, "refs/heads/main");
+    assertEmptyCommit(newProjectName, "HEAD", "refs/heads/main");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultProjectBranch", value = "refs/heads/main")
+  public void createProject_WhenDefaultBranchIsSet_WithBranches() throws Exception {
+    String newProjectName = name("newProject");
+    ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
+    in.createEmptyCommit = true;
+    in.branches = ImmutableList.of("refs/heads/test", "release");
+    gApi.projects().create(in);
+    ImmutableMap<String, BranchInfo> branches = getProjectBranches(newProjectName);
+    assertThat(branches.keySet())
+        .containsExactly(
+            "HEAD", "refs/meta/config", "refs/heads/main", "refs/heads/test", "refs/heads/release");
+    assertHead(newProjectName, "refs/heads/main");
+    assertEmptyCommit(newProjectName, "refs/heads/test", "refs/heads/release", "refs/heads/main");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultProjectBranch", value = "refs/heads/main")
+  public void createProject_WhenDefaultBranchIsSet_WithDuplicateBranches() throws Exception {
+    String newProjectName = name("newProject");
+    ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
+    in.createEmptyCommit = true;
+    in.branches = ImmutableList.of("refs/heads/test", "main");
+    gApi.projects().create(in);
+    ImmutableMap<String, BranchInfo> branches = getProjectBranches(newProjectName);
+    assertThat(branches.keySet())
+        .containsExactly("HEAD", "refs/meta/config", "refs/heads/main", "refs/heads/test");
+    assertHead(newProjectName, "refs/heads/main");
+    assertEmptyCommit(newProjectName, "refs/heads/test", "refs/heads/main");
   }
 
   @Test
@@ -495,6 +556,10 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   private void assertHead(String projectName, String expectedRef) throws Exception {
+    // Assert gerrit's project head point to the correct branch
+    assertThat(getProjectBranches(projectName).get(Constants.HEAD).revision)
+        .isEqualTo(RefNames.shortName(expectedRef));
+    // Assert git head points to the correct branch
     try (Repository repo = repoManager.openRepository(Project.nameKey(projectName))) {
       assertThat(repo.exactRef(Constants.HEAD).getTarget().getName()).isEqualTo(expectedRef);
     }
@@ -533,5 +598,11 @@ public class CreateProjectIT extends AbstractDaemonTest {
               .open(tr.get(rw.parseTree(ref.getObjectId()), PROJECT_CONFIG), Constants.OBJ_BLOB);
       return Optional.of(new String(obj.getCachedBytes(Integer.MAX_VALUE), UTF_8));
     }
+  }
+
+  private ImmutableMap<String, BranchInfo> getProjectBranches(String projectName)
+      throws RestApiException {
+    return gApi.projects().name(projectName).branches().get().stream()
+        .collect(ImmutableMap.toImmutableMap(branch -> branch.ref, branch -> branch));
   }
 }

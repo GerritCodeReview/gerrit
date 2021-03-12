@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
-import {pluralize} from './string-util.js';
+import '../test/common-test-setup-karma';
+import {pluralize} from './string-util';
 
 suite('formatter util tests', () => {
   test('pluralize', () => {

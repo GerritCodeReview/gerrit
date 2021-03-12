@@ -15,18 +15,15 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
+import '../test/common-test-setup-karma';
 import {
   isUnresolved,
   getPatchRangeForCommentUrl,
   createCommentThreads,
   sortComments,
-} from './comment-util.js';
-import {
-  createComment,
-  createCommentThread,
-} from '../test/test-data-generators.js';
-import {CommentSide, Side} from '../constants/constants.js';
+} from './comment-util';
+import {createComment, createCommentThread} from '../test/test-data-generators';
+import {CommentSide, Side} from '../constants/constants';
 import {
   BasePatchSetNum,
   ParentPatchSetNum,
@@ -34,7 +31,7 @@ import {
   RevisionPatchSetNum,
   Timestamp,
   UrlEncodedCommentId,
-} from '../types/common.js';
+} from '../types/common';
 
 suite('comment-util', () => {
   test('isUnresolved', () => {

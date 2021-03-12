@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import '../../../test/common-test-setup-karma';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit';
 import {PluginApi} from '../../../api/plugin';
 import {ChecksPluginApi} from '../../../api/checks';
 

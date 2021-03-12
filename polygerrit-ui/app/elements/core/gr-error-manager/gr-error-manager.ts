@@ -19,7 +19,6 @@
 import '../gr-error-dialog/gr-error-dialog';
 import '../../shared/gr-alert/gr-alert';
 import '../../shared/gr-overlay/gr-overlay';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-error-manager_html';
 import {getBaseUrl} from '../../../utils/url-util';
@@ -77,7 +76,7 @@ export interface GrErrorManager {
 }
 
 @customElement('gr-error-manager')
-export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
+export class GrErrorManager extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

@@ -16,7 +16,6 @@
  */
 import '../gr-label-score-row/gr-label-score-row';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-label-scores_html';
 import {customElement, property} from '@polymer/decorators';
@@ -40,7 +39,7 @@ import {labelCompare} from '../../../utils/label-util';
 import {Execution} from '../../../constants/reporting';
 
 @customElement('gr-label-scores')
-export class GrLabelScores extends LegacyElementMixin(PolymerElement) {
+export class GrLabelScores extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

@@ -45,7 +45,6 @@ import '../gr-thread-list/gr-thread-list';
 import '../gr-upload-help-dialog/gr-upload-help-dialog';
 import '../../checks/gr-checks-tab';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-view_html';
 import {
@@ -246,9 +245,7 @@ export interface GrChangeView {
 export type ChangeViewPatchRange = Partial<PatchRange>;
 
 @customElement('gr-change-view')
-export class GrChangeView extends KeyboardShortcutMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

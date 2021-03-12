@@ -19,7 +19,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-diff/gr-diff';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-apply-fix-dialog_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -53,7 +52,7 @@ interface FilePreview {
 }
 
 @customElement('gr-apply-fix-dialog')
-export class GrApplyFixDialog extends LegacyElementMixin(PolymerElement) {
+export class GrApplyFixDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

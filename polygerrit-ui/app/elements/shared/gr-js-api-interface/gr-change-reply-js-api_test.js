@@ -55,10 +55,6 @@ suite('gr-change-reply-js-api tests', () => {
       assert.isTrue(
           element.setLabelValue.calledWithExactly('My-Label', '+1337'));
 
-      sinon.stub(element, 'send');
-      changeReply.send(false);
-      assert.isTrue(element.send.calledWithExactly(false));
-
       sinon.stub(element, 'setPluginMessage');
       changeReply.showMessage('foobar');
       assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
@@ -85,10 +81,6 @@ suite('gr-change-reply-js-api tests', () => {
       changeReply.setLabelValue('My-Label', '+1337');
       assert.isTrue(
           element.setLabelValue.calledWithExactly('My-Label', '+1337'));
-
-      sinon.stub(element, 'send');
-      changeReply.send(false);
-      assert.isTrue(element.send.calledWithExactly(false));
 
       sinon.stub(element, 'setPluginMessage');
       changeReply.showMessage('foobar');

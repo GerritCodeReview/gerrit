@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.git.validators.CommentCumulativeSizeValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.Config;
@@ -58,20 +60,20 @@ import org.eclipse.jgit.lib.Config;
  * <p>We exclude the magic files from the returned diff to make it shorter and more concise.
  */
 public class SubmitWithStickyApprovalDiff {
+  private final DiffOperations diffOperations;
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
-  private final PatchListCache patchListCache;
   private final int maxCumulativeSize;
 
   @Inject
   SubmitWithStickyApprovalDiff(
+      DiffOperations diffOperations,
       ProjectCache projectCache,
       PatchScriptFactory.Factory patchScriptFactoryFactory,
-      PatchListCache patchListCache,
       @GerritServerConfig Config serverConfig) {
+    this.diffOperations = diffOperations;
     this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
-    this.patchListCache = patchListCache;
     maxCumulativeSize =
         serverConfig.getInt(
             "change",
@@ -102,19 +104,19 @@ public class SubmitWithStickyApprovalDiff {
         new StringBuilder(
             String.format(
                 "\n\n%d is the latest approved patch-set.\n", latestApprovedPatchsetId.get()));
-    PatchList patchList =
-        getPatchList(
+    Map<String, FileDiffOutput> modifiedFiles =
+        listModifiedFiles(
             notes.getProjectName(),
             currentPatchset,
             notes.getPatchSets().get(latestApprovedPatchsetId));
 
     // To make the message a bit more concise, we skip the magic files.
-    List<PatchListEntry> patchListEntryList =
-        patchList.getPatches().stream()
-            .filter(p -> !Patch.isMagic(p.getNewName()))
+    List<FileDiffOutput> modifiedFilesList =
+        modifiedFiles.values().stream()
+            .filter(p -> !Patch.isMagic(p.newPath().orElse(null)))
             .collect(Collectors.toList());
 
-    if (patchListEntryList.isEmpty()) {
+    if (modifiedFilesList.isEmpty()) {
       diff.append(
           "No files were changed between the latest approved patch-set and the submitted one.\n");
       return diff.toString();
@@ -122,10 +124,10 @@ public class SubmitWithStickyApprovalDiff {
 
     diff.append("The change was submitted with unreviewed changes in the following files:\n\n");
 
-    for (PatchListEntry patchListEntry : patchListEntryList) {
+    for (FileDiffOutput fileDiff : modifiedFilesList) {
       diff.append(
           getDiffForFile(
-              notes, currentPatchset.id(), latestApprovedPatchsetId, patchListEntry, currentUser));
+              notes, currentPatchset.id(), latestApprovedPatchsetId, fileDiff, currentUser));
     }
     if (diff.length() > maxCumulativeSize) {
       // The diff length is not counted as part of the limit (for technical reasons, since we'd
@@ -144,7 +146,7 @@ public class SubmitWithStickyApprovalDiff {
       ChangeNotes notes,
       PatchSet.Id currentPatchsetId,
       PatchSet.Id latestApprovedPatchsetId,
-      PatchListEntry patchListEntry,
+      FileDiffOutput fileDiffOutput,
       CurrentUser currentUser)
       throws AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException {
@@ -152,14 +154,18 @@ public class SubmitWithStickyApprovalDiff {
         new StringBuilder(
             String.format(
                 "The name of the file: %s\nInsertions: %d, Deletions: %d.\n\n",
-                patchListEntry.getNewName(),
-                patchListEntry.getInsertions(),
-                patchListEntry.getDeletions()));
+                fileDiffOutput.newPath().isPresent()
+                    ? fileDiffOutput.newPath().get()
+                    : fileDiffOutput.oldPath().get(),
+                fileDiffOutput.insertions(),
+                fileDiffOutput.deletions()));
     DiffPreferencesInfo diffPreferencesInfo = createDefaultDiffPreferencesInfo();
     PatchScriptFactory patchScriptFactory =
         patchScriptFactoryFactory.create(
             notes,
-            patchListEntry.getNewName(),
+            fileDiffOutput.newPath().isPresent()
+                ? fileDiffOutput.newPath().get()
+                : fileDiffOutput.oldPath().get(),
             latestApprovedPatchsetId,
             currentPatchsetId,
             diffPreferencesInfo,
@@ -176,7 +182,7 @@ public class SubmitWithStickyApprovalDiff {
       diff.append(
           String.format(
               "The file %s was renamed to %s\n",
-              patchListEntry.getOldName(), patchListEntry.getNewName()));
+              fileDiffOutput.oldPath().get(), fileDiffOutput.newPath().get()));
     }
     SparseFileContent.Accessor fileA = patchScript.getA().createAccessor();
     SparseFileContent.Accessor fileB = patchScript.getB().createAccessor();
@@ -260,16 +266,14 @@ public class SubmitWithStickyApprovalDiff {
   }
 
   /**
-   * Gets the {@link PatchList} between the two latest patch-sets. Can be used to compute difference
-   * in files between those two patch-sets .
+   * Gets the list of modified files between the two latest patch-sets. Can be used to compute
+   * difference in files between those two patch-sets.
    */
-  private PatchList getPatchList(Project.NameKey project, PatchSet ps, PatchSet priorPatchSet) {
-    PatchListKey key =
-        PatchListKey.againstCommit(
-            priorPatchSet.commitId(), ps.commitId(), DiffPreferencesInfo.Whitespace.IGNORE_NONE);
+  private Map<String, FileDiffOutput> listModifiedFiles(
+      Project.NameKey project, PatchSet ps, PatchSet priorPatchSet) {
     try {
-      return patchListCache.get(key, project);
-    } catch (PatchListNotAvailableException ex) {
+      return diffOperations.listModifiedFiles(project, priorPatchSet.commitId(), ps.commitId());
+    } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't post diff messsage on submit although "
               + "the latest approved patch-set was not the same as the submitted patch-set.",

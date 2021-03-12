@@ -26,7 +26,6 @@ import '../../shared/gr-account-list/gr-account-list';
 import '../gr-label-scores/gr-label-scores';
 import '../gr-thread-list/gr-thread-list';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-reply-dialog_html';
 import {
@@ -174,9 +173,7 @@ export interface GrReplyDialog {
 }
 
 @customElement('gr-reply-dialog')
-export class GrReplyDialog extends KeyboardShortcutMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

@@ -16,7 +16,6 @@
  */
 import '../gr-dialog/gr-dialog';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-delete-comment-dialog_html';
 import {property, customElement} from '@polymer/decorators';
@@ -34,9 +33,7 @@ export interface GrConfirmDeleteCommentDialog {
 }
 
 @customElement('gr-confirm-delete-comment-dialog')
-export class GrConfirmDeleteCommentDialog extends LegacyElementMixin(
-  PolymerElement
-) {
+export class GrConfirmDeleteCommentDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

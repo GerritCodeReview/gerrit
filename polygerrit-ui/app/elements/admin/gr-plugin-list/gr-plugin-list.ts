@@ -17,7 +17,6 @@
 import '../../../styles/gr-table-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-list-view/gr-list-view';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-plugin-list_html';
 import {
@@ -34,9 +33,7 @@ interface PluginInfoWithName extends PluginInfo {
   name: string;
 }
 @customElement('gr-plugin-list')
-export class GrPluginList extends ListViewMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrPluginList extends ListViewMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

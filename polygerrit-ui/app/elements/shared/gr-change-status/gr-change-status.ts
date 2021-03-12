@@ -16,7 +16,6 @@
  */
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-status_html';
 import {customElement, property} from '@polymer/decorators';
@@ -43,9 +42,8 @@ const PRIVATE_TOOLTIP =
   'This change is only visible to its owner and ' +
   'current reviewers (or anyone with "View Private Changes" permission).';
 
-/** @extends PolymerElement */
 @customElement('gr-change-status')
-class GrChangeStatus extends LegacyElementMixin(PolymerElement) {
+class GrChangeStatus extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

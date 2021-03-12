@@ -1854,8 +1854,9 @@ suite('gr-change-actions tests', () => {
       });
 
       suite('_waitForChangeReachable', () => {
+        let clock;
         setup(() => {
-          sinon.stub(element, 'async').callsFake( fn => fn());
+          clock = sinon.useFakeTimers();
         });
 
         const makeGetChange = numTries => () => {
@@ -1867,20 +1868,27 @@ suite('gr-change-actions tests', () => {
           }
         };
 
-        test('succeed', () => {
-          stubRestApi('getChange')
-              .callsFake( makeGetChange(5));
-          return element._waitForChangeReachable(123).then(success => {
-            assert.isTrue(success);
-          });
+        const tickAndFlush = async repetitions => {
+          for (let i = 1; i <= repetitions; i++) {
+            clock.tick(1000);
+            await flush();
+          }
+        };
+
+        test('succeed', async () => {
+          stubRestApi('getChange').callsFake(makeGetChange(5));
+          const promise = element._waitForChangeReachable(123);
+          tickAndFlush(5);
+          const success = await promise;
+          assert.isTrue(success);
         });
 
-        test('fail', () => {
-          stubRestApi('getChange')
-              .callsFake( makeGetChange(6));
-          return element._waitForChangeReachable(123).then(success => {
-            assert.isFalse(success);
-          });
+        test('fail', async () => {
+          stubRestApi('getChange').callsFake(makeGetChange(6));
+          const promise = element._waitForChangeReachable(123);
+          tickAndFlush(6);
+          const success = await promise;
+          assert.isFalse(success);
         });
       });
     });

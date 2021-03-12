@@ -20,7 +20,6 @@ import '../gr-cursor-manager/gr-cursor-manager';
 import '../gr-icons/gr-icons';
 import '../../../styles/shared-styles';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-autocomplete_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
@@ -67,9 +66,7 @@ export type AutocompleteCommitEvent = CustomEvent<
 >;
 
 @customElement('gr-autocomplete')
-export class GrAutocomplete extends KeyboardShortcutMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

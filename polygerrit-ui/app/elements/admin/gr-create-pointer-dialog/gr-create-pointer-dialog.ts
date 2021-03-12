@@ -19,7 +19,6 @@ import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-create-pointer-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
@@ -34,7 +33,7 @@ enum DetailType {
 }
 
 @customElement('gr-create-pointer-dialog')
-export class GrCreatePointerDialog extends LegacyElementMixin(PolymerElement) {
+export class GrCreatePointerDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

@@ -23,9 +23,6 @@ import {ChecksPluginApi} from './checks';
 import {EventHelperPluginApi} from './event-helper';
 import {PopupPluginApi} from './popup';
 import {ReportingPluginApi} from './reporting';
-import {SettingsPluginApi} from './settings';
-import {StylesPluginApi} from './styles';
-import {ThemePluginApi} from './theme';
 import {ChangeActionsPluginApi} from './change-actions';
 import {RestPluginApi} from './rest';
 import {HookApi, RegisterOptions} from './hook';
@@ -84,7 +81,4 @@ export interface PluginApi {
   restApi(): RestPluginApi;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   screen(screenName: string, moduleName?: string): any;
-  settings(): SettingsPluginApi;
-  styles(): StylesPluginApi;
-  theme(): ThemePluginApi;
 }

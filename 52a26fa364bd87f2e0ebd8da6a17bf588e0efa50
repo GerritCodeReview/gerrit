@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a0ea4ad_81fde9b4",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-12T08:22:50Z",
+      "side": 1,
+      "message": "any reason why only this one need the prettier-ignore exception?",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 25
+      },
+      "revId": "52a26fa364bd87f2e0ebd8da6a17bf588e0efa50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

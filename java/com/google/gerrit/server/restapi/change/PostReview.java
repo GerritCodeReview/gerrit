@@ -356,7 +356,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       // Add WorkInProgressOp if requested.
-      if (input.ready || input.workInProgress) {
+      if ((input.ready || input.workInProgress)
+          && didWorkInProgressChange(revision.getChange().isWorkInProgress(), input)) {
         if (input.ready && input.workInProgress) {
           output.error = ERROR_WIP_READY_MUTUALLY_EXCLUSIVE;
           return Response.withStatusCode(SC_BAD_REQUEST, output);
@@ -403,6 +404,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     return Response.ok(output);
+  }
+
+  private boolean didWorkInProgressChange(boolean currentWorkInProgress, ReviewInput input) {
+    return input.ready == currentWorkInProgress || input.workInProgress != currentWorkInProgress;
   }
 
   private NotifyHandling defaultNotify(Change c, ReviewInput in) {

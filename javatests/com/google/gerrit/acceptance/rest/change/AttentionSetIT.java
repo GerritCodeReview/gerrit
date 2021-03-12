@@ -482,16 +482,41 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void readyForReviewAddsAllReviewersToAttentionSet() throws Exception {
+  public void readyForReviewHasNoEffectOnReadyChanges() throws Exception {
     PushOneCommit.Result r = createChange();
-    change(r).setWorkInProgress();
-    change(r).addReviewer(user.email());
+    change(r)
+        .current()
+        .review(ReviewInput.create().reviewer(user.email()).blockAutomaticAttentionSetRules());
 
-    change(r).setReadyForReview();
+    change(r).current().review(ReviewInput.create().setWorkInProgress(false));
+    assertThat(r.getChange().attentionSet()).isEmpty();
+
+    change(r).current().review(ReviewInput.create().setReady(true));
+    assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
+  public void workInProgressHasNoEffectOnWorkInProgressChanges() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r)
+        .current()
+        .review(
+            ReviewInput.create()
+                .reviewer(user.email())
+                .setWorkInProgress(true)
+                .addUserToAttentionSet(user.email(), /* reason= */ "reason"));
+
+    change(r).current().review(ReviewInput.create().setWorkInProgress(true));
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
     assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
     assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet).hasReasonThat().isEqualTo("Change was marked ready for review");
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
+
+    change(r).current().review(ReviewInput.create().setReady(false));
+    attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
   }
 
   @Test

@@ -158,6 +158,7 @@ suite('gr-diff-host tests', () => {
       element.reload();
       // Multiple cascading microtasks are scheduled.
       await flush();
+      await flush();
       // Reporting can be called with other parameters (ex. PluginsLoaded),
       // but only 'Diff Total Render' is important in this test.
       assert.equal(

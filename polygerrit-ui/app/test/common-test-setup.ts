@@ -32,7 +32,6 @@ import {
   removeIronOverlayBackdropStyleEl,
   TestKeyboardShortcutBinder,
 } from './test-utils';
-import {flushDebouncers} from '@polymer/polymer/lib/utils/debounce';
 import {_testOnly_getShortcutManagerInstance} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import sinon, {SinonSpy} from 'sinon/pkg/sinon-esm';
 import {safeTypesBridge} from '../utils/safe-types-util';
@@ -43,6 +42,7 @@ import {
   _testOnly_defaultResinReportHandler,
   installPolymerResin,
 } from '../scripts/polymer-resin-install';
+import {_testOnly_allTasks} from '../utils/async-util';
 
 declare global {
   interface Window {
@@ -190,19 +190,20 @@ function checkGlobalSpace() {
   }
 }
 
+function cancelAllTasks() {
+  for (const task of _testOnly_allTasks.values()) {
+    console.warn('ATTENTION! A task was still active at the end of the test!');
+    task.cancel();
+  }
+}
+
 teardown(() => {
   sinon.restore();
   cleanupTestUtils();
   TestKeyboardShortcutBinder.pop();
   checkGlobalSpace();
   removeIronOverlayBackdropStyleEl();
-  // Clean Polymer debouncer queue, so next tests will not be affected.
-  // WARNING! This will most likely not do what you expect. `flushDebouncers()`
-  // will only flush debouncers that were added using `enqueueDebouncer()`. So
-  // this will not affect "normal" debouncers that were added using
-  // `this.debounce()`. For those please be careful and cancel them using
-  // `this.cancelDebouncer()` in the `detached()` lifecycle hook.
-  flushDebouncers();
+  cancelAllTasks();
   const testTeardownTimestampMs = new Date().getTime();
   const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;
   if (elapsedMs > 1000) {

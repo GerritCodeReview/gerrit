@@ -18,7 +18,6 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
-import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {EventType} from '../../../api/plugin.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {getPluginLoader} from './gr-plugin-loader.js';
@@ -451,13 +450,6 @@ suite('GrJsApiInterface tests', () => {
       plugin.screen('foo', 'some-module');
       assert.isTrue(plugin.registerCustomComponent.calledWith(
           'testplugin-screen-foo', 'some-module'));
-    });
-  });
-
-  suite('settingsScreen', () => {
-    test('plugin.settings() returns GrSettingsApi', () => {
-      assert.isOk(plugin.settings());
-      assert.isTrue(plugin.settings() instanceof GrSettingsApi);
     });
   });
 });

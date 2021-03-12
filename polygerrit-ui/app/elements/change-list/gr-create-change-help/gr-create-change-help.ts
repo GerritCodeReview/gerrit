@@ -18,7 +18,6 @@
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement} from '@polymer/decorators';
 import {htmlTemplate} from './gr-create-change-help_html';
@@ -31,7 +30,7 @@ declare global {
 }
 
 @customElement('gr-create-change-help')
-class GrCreateChangeHelp extends LegacyElementMixin(PolymerElement) {
+class GrCreateChangeHelp extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

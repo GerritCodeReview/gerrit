@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 
@@ -25,7 +24,7 @@ declare global {
 }
 
 @customElement('gr-endpoint-param')
-export class GrEndpointParam extends LegacyElementMixin(PolymerElement) {
+export class GrEndpointParam extends PolymerElement {
   @property({type: String, reflectToAttribute: true})
   name = '';
 

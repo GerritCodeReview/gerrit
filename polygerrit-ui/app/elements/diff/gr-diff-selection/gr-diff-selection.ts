@@ -17,7 +17,6 @@
 import '../../../styles/shared-styles';
 import {addListener} from '@polymer/polymer/lib/utils/gestures';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-selection_html';
 import {
@@ -52,7 +51,7 @@ function getNewCache(): LinesCache {
 }
 
 @customElement('gr-diff-selection')
-export class GrDiffSelection extends LegacyElementMixin(PolymerElement) {
+export class GrDiffSelection extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

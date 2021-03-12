@@ -19,7 +19,6 @@ import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-cla-view_html';
 import {getBaseUrl} from '../../../utils/url-util';
@@ -39,7 +38,7 @@ declare global {
 }
 
 @customElement('gr-cla-view')
-export class GrClaView extends LegacyElementMixin(PolymerElement) {
+export class GrClaView extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

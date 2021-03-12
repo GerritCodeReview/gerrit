@@ -14,14 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {customElement, property} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
 
 @customElement('gr-plugin-host')
-class GrPluginHost extends LegacyElementMixin(PolymerElement) {
+class GrPluginHost extends PolymerElement {
   @property({type: Object, observer: '_configChanged'})
   config?: ServerInfo;
 

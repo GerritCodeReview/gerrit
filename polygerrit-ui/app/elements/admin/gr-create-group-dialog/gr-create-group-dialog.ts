@@ -17,7 +17,6 @@
 import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-create-group-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
@@ -27,7 +26,7 @@ import {GroupName} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 
 @customElement('gr-create-group-dialog')
-export class GrCreateGroupDialog extends LegacyElementMixin(PolymerElement) {
+export class GrCreateGroupDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

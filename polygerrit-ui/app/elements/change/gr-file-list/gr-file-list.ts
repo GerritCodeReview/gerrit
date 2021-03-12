@@ -28,7 +28,6 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-file-status-chip/gr-file-status-chip';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-file-list_html';
 import {asyncForeach, debounce, DelayedTask} from '../../../utils/async-util';
@@ -170,9 +169,7 @@ export type FileNameToReviewedFileInfoMap = {[name: string]: ReviewedFileInfo};
  */
 
 @customElement('gr-file-list')
-export class GrFileList extends KeyboardShortcutMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

@@ -124,6 +124,24 @@
       "parentUuid": "f9444f39_3820a6cb",
       "revId": "35dc92487d291429aedb23851d9276107047990e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7238af96_2782dacf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-12T11:31:37Z",
+      "side": 1,
+      "message": "\u003e On which branch should such Capability refactoring happen, master ?\n\nYep.\n\n\u003e I am not sure if it\u0027s a good idea to expose a metric which is subject to different or additional permissions compared to all the other metrics because monitoring systems tend to have a more coarse granular permission model and the user looking at a monitoring dashboard is not the one used by the monitoring system to fetch the metrics from Gerrit.\n\nI don\u0027t believe this new metric you are exposing is supposed to be graphed in any way, isn\u0027t it?\nI believe Gerrit should just hide the metric *IF* the incoming HTTP user (the monitoring one, not the person looking at the metrics) doesn\u0027t have permissions to see it.\n\n\u003e Transferring metrics from Gerrit to a monitoring system doesn\u0027t propagate permission settings so this would need to be done manually if the monitoring system allows that.\n\nI don\u0027t believe that is needed IMHO.\n\n\u003e If we want to have additional restrictions for access to current config maybe it\u0027s better to add another REST endpoint and/or ssh command ?\n\nThat would be best IMHO rather than using the metric system, which isn\u0027t necessarily the correct channel.",
+      "parentUuid": "44b176eb_bc1e895b",
+      "revId": "35dc92487d291429aedb23851d9276107047990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {getBaseUrl} from '../../../utils/url-util';
 import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper';
 import {GrChangeActionsInterface} from './gr-change-actions-js-api';
@@ -217,35 +216,6 @@ export class Plugin implements PluginApi {
     payload?: RequestPayload
   ) {
     return send(method, this.url(url), callback, payload);
-  }
-
-  get(url: string, callback?: SendCallback) {
-    this.report.trackApi(this, 'plugin', 'get');
-    console.warn('.get() is deprecated! Use .restApi().get()');
-    return this._send(HttpMethod.GET, url, callback);
-  }
-
-  post(url: string, payload: RequestPayload, callback?: SendCallback) {
-    this.report.trackApi(this, 'plugin', 'post');
-    console.warn('.post() is deprecated! Use .restApi().post()');
-    return this._send(HttpMethod.POST, url, callback, payload);
-  }
-
-  put(url: string, payload: RequestPayload, callback?: SendCallback) {
-    this.report.trackApi(this, 'plugin', 'put');
-    console.warn('.put() is deprecated! Use .restApi().put()');
-    return this._send(HttpMethod.PUT, url, callback, payload);
-  }
-
-  delete(url: string, callback?: SendCallback) {
-    this.report.trackApi(this, 'plugin', 'delete');
-    console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
-    return this.restApi()
-      .delete(this.url(url))
-      .then(res => {
-        if (callback) callback(res);
-        return res;
-      });
   }
 
   annotationApi(): AnnotationPluginApi {

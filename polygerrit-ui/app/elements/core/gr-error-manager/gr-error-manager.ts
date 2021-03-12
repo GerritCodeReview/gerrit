@@ -40,6 +40,7 @@ import {
 } from '../../../types/events';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {fireIronAnnounce} from '../../../utils/event-util';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -340,7 +341,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     const el = this._createToastAlert(showDismiss);
     el.show(text, actionText, actionCallback);
     this._alertElement = el;
-    this.fire('iron-announce', {text: `Alert: ${text}`}, {bubbles: true});
+    fireIronAnnounce(this, `Alert: ${text}`);
     this.reporting.reportInteraction('show-alert', {text});
   }
 
@@ -375,7 +376,7 @@ export class GrErrorManager extends LegacyElementMixin(PolymerElement) {
     this._alertElement.show(errorText, actionText, () =>
       this._createLoginPopup()
     );
-    this.fire('iron-announce', {text: errorText}, {bubbles: true});
+    fireIronAnnounce(this, errorText);
     this.reporting.reportInteraction('show-auth-error', {text: errorText});
     this._refreshingCredentials = true;
     this._requestCheckLoggedIn();

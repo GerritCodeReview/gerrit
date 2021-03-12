@@ -28,6 +28,7 @@ export enum EventType {
   EDITABLE_CONTENT_SAVE = 'editable-content-save',
   GR_RPC_LOG = 'gr-rpc-log',
   LOCATION_CHANGE = 'location-change',
+  IRON_ANNOUNCE = 'iron-announce',
   MOVED_LINK_CLICKED = 'moved-link-clicked',
   NETWORK_ERROR = 'network-error',
   OPEN_FIX_PREVIEW = 'open-fix-preview',
@@ -50,6 +51,7 @@ declare global {
     'dialog-change': DialogChangeEvent;
     'editable-content-save': EditableContentSaveEvent;
     'location-change': LocationChangeEvent;
+    'iron-announce': IronAnnounceEvent;
     'moved-link-clicked': MovedLinkClickedEvent;
     'open-fix-preview': OpenFixPreviewEvent;
     /* prettier-ignore */
@@ -106,6 +108,11 @@ export interface RpcLogEventDetail {
   anonymizedUrl: string;
 }
 export type RpcLogEvent = CustomEvent<RpcLogEventDetail>;
+
+export interface IronAnnounceEventDetail {
+  text: string;
+}
+export type IronAnnounceEvent = CustomEvent<IronAnnounceEventDetail>;
 
 export interface LocationChangeEventDetail {
   hash: string;

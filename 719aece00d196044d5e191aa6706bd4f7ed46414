@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "185d4a51_0e9cfa8a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-03-12T08:52:21Z",
+      "side": 1,
+      "message": "leaving these parameters as basic types and only casting within the function so that calling checkComputeReviewers is more readable.",
+      "range": {
+        "startLine": 413,
+        "startChar": 12,
+        "endLine": 413,
+        "endChar": 19
+      },
+      "revId": "719aece00d196044d5e191aa6706bd4f7ed46414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

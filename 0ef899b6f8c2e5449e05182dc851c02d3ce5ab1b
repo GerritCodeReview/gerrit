@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b0e9f5c_9598ab58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-12T15:49:42Z",
+      "side": 1,
+      "message": "I think it doesn\u0027t because this event is fired before change id (view properties) are set. Ben can check. \n\nDo we need it? We can calculate it with join with changeview by tabsession.",
+      "parentUuid": "a612fb4f_85421fb7",
+      "revId": "0ef899b6f8c2e5449e05182dc851c02d3ce5ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bc7a4657_bf35971b",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2021-03-12T08:37:09Z",
       "side": 1,
       "message": "shouldn\u0027t this be `USER_REFERRED_FROM`?",
+      "range": {
+        "startLine": 822,
+        "startChar": 51,
+        "endLine": 822,
+        "endChar": 69
+      },
+      "revId": "0ef899b6f8c2e5449e05182dc851c02d3ce5ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3daf900_2c1161ac",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-12T15:49:42Z",
+      "side": 1,
+      "message": "I also think it should be USER_REFERRED_FROM",
+      "parentUuid": "bc7a4657_bf35971b",
       "range": {
         "startLine": 822,
         "startChar": 51,

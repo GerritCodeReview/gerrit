@@ -18,7 +18,6 @@ import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
 import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-reviewer-list_html';
 import {isServiceUser} from '../../../utils/account-util';
@@ -44,7 +43,7 @@ import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 
 @customElement('gr-reviewer-list')
-export class GrReviewerList extends LegacyElementMixin(PolymerElement) {
+export class GrReviewerList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

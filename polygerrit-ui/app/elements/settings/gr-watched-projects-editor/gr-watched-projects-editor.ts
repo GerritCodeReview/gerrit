@@ -20,7 +20,6 @@ import '../../shared/gr-button/gr-button';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-watched-projects-editor_html';
 import {customElement, property} from '@polymer/decorators';
@@ -48,9 +47,7 @@ export interface GrWatchedProjectsEditor {
   };
 }
 @customElement('gr-watched-projects-editor')
-export class GrWatchedProjectsEditor extends LegacyElementMixin(
-  PolymerElement
-) {
+export class GrWatchedProjectsEditor extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

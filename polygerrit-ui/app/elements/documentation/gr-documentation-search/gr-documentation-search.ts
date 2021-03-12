@@ -17,7 +17,6 @@
 import '../../../styles/gr-table-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-list-view/gr-list-view';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-documentation-search_html';
 import {
@@ -31,9 +30,7 @@ import {fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 
 @customElement('gr-documentation-search')
-export class GrDocumentationSearch extends ListViewMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDocumentationSearch extends ListViewMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

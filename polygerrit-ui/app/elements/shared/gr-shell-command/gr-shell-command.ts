@@ -16,7 +16,6 @@
  */
 import '../../../styles/shared-styles';
 import '../gr-copy-clipboard/gr-copy-clipboard';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-shell-command_html';
 import {customElement, property} from '@polymer/decorators';
@@ -28,7 +27,7 @@ declare global {
 }
 
 @customElement('gr-shell-command')
-class GrShellCommand extends LegacyElementMixin(PolymerElement) {
+class GrShellCommand extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

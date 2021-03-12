@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/gr-page-nav-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-settings-menu-item_html';
 import {property, customElement} from '@polymer/decorators';
@@ -27,7 +26,7 @@ declare global {
 }
 
 @customElement('gr-settings-menu-item')
-class GrSettingsMenuItem extends LegacyElementMixin(PolymerElement) {
+class GrSettingsMenuItem extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

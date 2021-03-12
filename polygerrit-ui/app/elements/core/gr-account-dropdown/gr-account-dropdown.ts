@@ -18,7 +18,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../../styles/shared-styles';
 import '../../shared/gr-avatar/gr-avatar';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-account-dropdown_html';
 import {getUserName} from '../../../utils/display-name-util';
@@ -36,7 +35,7 @@ declare global {
 }
 
 @customElement('gr-account-dropdown')
-export class GrAccountDropdown extends LegacyElementMixin(PolymerElement) {
+export class GrAccountDropdown extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

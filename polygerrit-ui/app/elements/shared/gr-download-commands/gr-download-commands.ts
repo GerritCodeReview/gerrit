@@ -17,7 +17,6 @@
 import '@polymer/paper-tabs/paper-tabs';
 import '../gr-shell-command/gr-shell-command';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-download-commands_html';
 import {customElement, property, observe} from '@polymer/decorators';
@@ -42,7 +41,7 @@ export interface Command {
 }
 
 @customElement('gr-download-commands')
-export class GrDownloadCommands extends LegacyElementMixin(PolymerElement) {
+export class GrDownloadCommands extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

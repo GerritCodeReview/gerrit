@@ -19,7 +19,6 @@ import '../../../styles/shared-styles';
 import '../gr-storage/gr-storage';
 import '../gr-button/gr-button';
 import {GrStorage} from '../gr-storage/gr-storage';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-content_html';
@@ -38,7 +37,7 @@ declare global {
 }
 
 @customElement('gr-editable-content')
-export class GrEditableContent extends LegacyElementMixin(PolymerElement) {
+export class GrEditableContent extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

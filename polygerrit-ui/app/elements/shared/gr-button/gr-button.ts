@@ -16,7 +16,6 @@
  */
 import '@polymer/paper-button/paper-button';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {htmlTemplate} from './gr-button_html';
@@ -34,8 +33,8 @@ declare global {
 }
 
 @customElement('gr-button')
-export class GrButton extends LegacyElementMixin(
-  KeyboardShortcutMixin(TooltipMixin(PolymerElement))
+export class GrButton extends KeyboardShortcutMixin(
+  TooltipMixin(PolymerElement)
 ) {
   static get template() {
     return htmlTemplate;

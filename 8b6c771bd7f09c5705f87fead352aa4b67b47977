@@ -230,6 +230,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60c0a1e5_f437fa6c",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-12T13:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe39078d_4917d291",
+      "revId": "8b6c771bd7f09c5705f87fead352aa4b67b47977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05fa1ea2_4e4d0673",

@@ -16,6 +16,64 @@
       "message": "I am not able to run the test locally to adjust the failing test",
       "revId": "1dd15cb9b5c33b758f71e2fc2600f550f0ab1450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10e2466a_3426eba2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-12T19:37:19Z",
+      "side": 1,
+      "message": "Can I help you with running the test locally? Doesn\u0027t following command work?\n\n`npm run test:single gr-rest-api-interface_test.js`",
+      "parentUuid": "95441bd1_3ee7a271",
+      "revId": "1dd15cb9b5c33b758f71e2fc2600f550f0ab1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eb81c26_e33de9ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-12T19:37:19Z",
+      "side": 1,
+      "message": "Hi, thanks a lot for improving gerrit. Can I ask why this is done on stable-3.1 branch and not on master? It would be better if this was fixed on master, however it will be difficult to cherry pick it to stable-3.1 since we migrated to typescript and we did a lot of refactoring.\n\nI don\u0027t think the restApi is good place to solve this issue. I think restApi should be as simple as possible. I think it would be better done on gr-repo-list, or in some repo-util and shared with gr-repo-list and others. What do you think?",
+      "revId": "1dd15cb9b5c33b758f71e2fc2600f550f0ab1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9532c6b_8687675c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-12T19:37:19Z",
+      "side": 1,
+      "message": "I think response can be undefined",
+      "range": {
+        "startLine": 1324,
+        "startChar": 8,
+        "endLine": 1324,
+        "endChar": 16
+      },
+      "revId": "1dd15cb9b5c33b758f71e2fc2600f550f0ab1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

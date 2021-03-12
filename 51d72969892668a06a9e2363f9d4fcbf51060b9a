@@ -16,6 +16,24 @@
       "message": "While I am here, I could also add \u0027merger\u0027 field to the ChangeNotes and cache, so it\nwould be possible to deprecate LEGACY_SUBMIT? WDYTH?\n",
       "revId": "51d72969892668a06a9e2363f9d4fcbf51060b9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c81ab27_945c2178",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-03-12T08:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b80b0092_df30f784",
+      "revId": "51d72969892668a06a9e2363f9d4fcbf51060b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

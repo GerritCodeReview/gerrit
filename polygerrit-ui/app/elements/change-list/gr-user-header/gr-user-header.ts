@@ -21,7 +21,6 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../../styles/dashboard-header-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-user-header_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -31,7 +30,7 @@ import {getDisplayName} from '../../../utils/display-name-util';
 import {appContext} from '../../../services/app-context';
 
 @customElement('gr-user-header')
-export class GrUserHeader extends LegacyElementMixin(PolymerElement) {
+export class GrUserHeader extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

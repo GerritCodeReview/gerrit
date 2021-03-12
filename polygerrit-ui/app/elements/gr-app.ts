@@ -36,7 +36,6 @@ setPassiveTouchGestures(true);
 
 import {initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-app_html';
 import {initGerritPluginApi} from './shared/gr-js-api-interface/gr-gerrit';
@@ -46,7 +45,7 @@ import {installPolymerResin} from '../scripts/polymer-resin-install';
 installPolymerResin(safeTypesBridge);
 
 @customElement('gr-app')
-class GrApp extends LegacyElementMixin(PolymerElement) {
+class GrApp extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

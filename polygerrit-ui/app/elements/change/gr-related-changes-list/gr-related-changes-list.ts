@@ -19,7 +19,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-related-changes-list_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -52,7 +51,7 @@ function getEmptySubmitTogetherInfo(): SubmittedTogetherInfo {
 }
 
 @customElement('gr-related-changes-list')
-export class GrRelatedChangesList extends LegacyElementMixin(PolymerElement) {
+export class GrRelatedChangesList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

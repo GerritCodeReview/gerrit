@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-coverage-layer_html';
 import {CoverageRange, CoverageType, DiffLayer} from '../../../types/types';
@@ -34,8 +33,7 @@ const TOOLTIP_MAP = new Map([
 ]);
 
 @customElement('gr-coverage-layer')
-export class GrCoverageLayer extends LegacyElementMixin(PolymerElement)
-  implements DiffLayer {
+export class GrCoverageLayer extends PolymerElement implements DiffLayer {
   static get template() {
     return htmlTemplate;
   }

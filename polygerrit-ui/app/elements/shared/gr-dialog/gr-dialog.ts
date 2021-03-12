@@ -16,7 +16,6 @@
  */
 import '../gr-button/gr-button';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-dialog_html';
 import {customElement, property, observe} from '@polymer/decorators';
@@ -35,7 +34,7 @@ export interface GrDialog {
 }
 
 @customElement('gr-dialog')
-export class GrDialog extends LegacyElementMixin(PolymerElement) {
+export class GrDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

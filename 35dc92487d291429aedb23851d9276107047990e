@@ -106,6 +106,24 @@
       "parentUuid": "1101d54d_0e6ea8ff",
       "revId": "35dc92487d291429aedb23851d9276107047990e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44b176eb_bc1e895b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-12T11:27:47Z",
+      "side": 1,
+      "message": "On which branch should such Capability refactoring happen, master ?\n\nI am not sure if it\u0027s a good idea to expose a metric which is subject to different or additional permissions compared to all the other metrics because monitoring systems tend to have a more coarse granular permission model and the user looking at a monitoring dashboard is not the one used by the monitoring system to fetch the metrics from Gerrit. Transferring metrics from Gerrit to a monitoring system doesn\u0027t propagate permission settings so this would need to be done manually if the monitoring system allows that.\n\nIf we want to have additional restrictions for access to current config maybe it\u0027s better to add another REST endpoint and/or ssh command ?",
+      "parentUuid": "f9444f39_3820a6cb",
+      "revId": "35dc92487d291429aedb23851d9276107047990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

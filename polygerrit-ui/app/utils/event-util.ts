@@ -19,7 +19,8 @@ import {UrlEncodedCommentId} from '../types/common';
 import {FetchRequest} from '../types/types';
 import {
   DialogChangeEventDetail,
-  EventType, IronAnnounceEventDetail,
+  EventType,
+  IronAnnounceEventDetail,
   NetworkErrorEventDetail,
   PageErrorEventDetail,
   ServerErrorEventDetail,

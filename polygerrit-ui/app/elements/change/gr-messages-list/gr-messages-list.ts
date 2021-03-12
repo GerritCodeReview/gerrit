@@ -19,7 +19,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-message/gr-message';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-messages-list_html';
 import {
@@ -212,9 +211,7 @@ export interface GrMessagesList {
 }
 
 @customElement('gr-messages-list')
-export class GrMessagesList extends KeyboardShortcutMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrMessagesList extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

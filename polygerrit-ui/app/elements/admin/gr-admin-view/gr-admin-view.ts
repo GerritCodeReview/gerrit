@@ -31,7 +31,6 @@ import '../gr-repo-commands/gr-repo-commands';
 import '../gr-repo-dashboards/gr-repo-dashboards';
 import '../gr-repo-detail-list/gr-repo-detail-list';
 import '../gr-repo-list/gr-repo-list';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-admin-view_html';
 import {getBaseUrl} from '../../../utils/url-util';
@@ -91,7 +90,7 @@ function getAdminViewParamsDetail(
 }
 
 @customElement('gr-admin-view')
-export class GrAdminView extends LegacyElementMixin(PolymerElement) {
+export class GrAdminView extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

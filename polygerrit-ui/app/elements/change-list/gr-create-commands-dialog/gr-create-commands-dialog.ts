@@ -19,7 +19,6 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-shell-command/gr-shell-command';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-create-commands-dialog_html';
@@ -43,7 +42,7 @@ export interface GrCreateCommandsDialog {
 }
 
 @customElement('gr-create-commands-dialog')
-export class GrCreateCommandsDialog extends LegacyElementMixin(PolymerElement) {
+export class GrCreateCommandsDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

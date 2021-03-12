@@ -19,7 +19,6 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-main-header_html';
 import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
@@ -100,7 +99,7 @@ const AUTH_TYPES_WITH_REGISTER_URL: Set<AuthType> = new Set([
 ]);
 
 @customElement('gr-main-header')
-export class GrMainHeader extends LegacyElementMixin(PolymerElement) {
+export class GrMainHeader extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

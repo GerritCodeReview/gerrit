@@ -19,7 +19,6 @@ import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../../styles/shared-styles';
 import '../../../styles/gr-form-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-table-editor_html';
 import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin';
@@ -28,9 +27,7 @@ import {ServerInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 
 @customElement('gr-change-table-editor')
-export class GrChangeTableEditor extends ChangeTableMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrChangeTableEditor extends ChangeTableMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

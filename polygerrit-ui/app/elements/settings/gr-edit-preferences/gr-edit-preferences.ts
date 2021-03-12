@@ -18,7 +18,6 @@ import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-select/gr-select';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-edit-preferences_html';
 import {customElement, property} from '@polymer/decorators';
@@ -36,7 +35,7 @@ export interface GrEditPreferences {
   };
 }
 @customElement('gr-edit-preferences')
-export class GrEditPreferences extends LegacyElementMixin(PolymerElement) {
+export class GrEditPreferences extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

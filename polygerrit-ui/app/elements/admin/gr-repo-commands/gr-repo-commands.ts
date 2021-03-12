@@ -23,7 +23,6 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-change-dialog/gr-create-change-dialog';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-commands_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -60,7 +59,7 @@ export interface GrRepoCommands {
 }
 
 @customElement('gr-repo-commands')
-export class GrRepoCommands extends LegacyElementMixin(PolymerElement) {
+export class GrRepoCommands extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

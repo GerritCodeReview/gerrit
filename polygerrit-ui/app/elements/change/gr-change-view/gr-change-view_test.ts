@@ -79,6 +79,7 @@ import {
   PatchRange,
   PatchSetNum,
   RevisionInfo,
+  RevisionPatchSetNum,
   RobotId,
   Timestamp,
   UrlEncodedCommentId,
@@ -182,7 +183,7 @@ suite('gr-change-view tests', () => {
           patch_set: 2 as PatchSetNum,
         },
       ],
-      patchNum: 4 as PatchSetNum,
+      patchNum: 4 as RevisionPatchSetNum,
       path: '/COMMIT_MSG',
       line: 5,
       rootId: 'ecf0b9fa_fe1a5f62' as UrlEncodedCommentId,
@@ -242,7 +243,7 @@ suite('gr-change-view tests', () => {
           unresolved: true,
         },
       ],
-      patchNum: 2 as PatchSetNum,
+      patchNum: 2 as RevisionPatchSetNum,
       path: '/COMMIT_MSG',
       line: 4,
       rootId: '8caddf38_44770ec1' as UrlEncodedCommentId,
@@ -265,7 +266,7 @@ suite('gr-change-view tests', () => {
           unresolved: true,
         },
       ],
-      patchNum: 2 as PatchSetNum,
+      patchNum: 2 as RevisionPatchSetNum,
       path: '/COMMIT_MSG',
       line: 4,
       rootId: 'scaddf38_44770ec1' as UrlEncodedCommentId,
@@ -286,7 +287,7 @@ suite('gr-change-view tests', () => {
           patch_set: 2 as PatchSetNum,
         },
       ],
-      patchNum: 4 as PatchSetNum,
+      patchNum: 4 as RevisionPatchSetNum,
       path: '/COMMIT_MSG',
       line: 6,
       rootId: 'zcf0b9fa_fe1a5f62' as UrlEncodedCommentId,
@@ -310,7 +311,7 @@ suite('gr-change-view tests', () => {
           robot_id: 'rc1' as RobotId,
         },
       ],
-      patchNum: 4 as PatchSetNum,
+      patchNum: 4 as RevisionPatchSetNum,
       path: '/COMMIT_MSG',
       line: 5,
       rootId: 'rc1' as UrlEncodedCommentId,
@@ -348,7 +349,7 @@ suite('gr-change-view tests', () => {
           unresolved: true,
         },
       ],
-      patchNum: 4 as PatchSetNum,
+      patchNum: 4 as RevisionPatchSetNum,
       path: '/COMMIT_MSG',
       line: 5,
       rootId: 'rc2' as UrlEncodedCommentId,
@@ -407,7 +408,7 @@ suite('gr-change-view tests', () => {
     element._changeNum = 1 as NumericChangeId;
     element._patchRange = {
       basePatchNum: ParentPatchSetNum,
-      patchNum: 1 as PatchSetNum,
+      patchNum: 1 as RevisionPatchSetNum,
     };
     element._change = createChange();
     const getUrlStub = sinon.stub(GerritNav, 'getUrlForChange');
@@ -426,7 +427,7 @@ suite('gr-change-view tests', () => {
       revisions: createRevisions(10),
     };
     element._patchRange = {
-      patchNum: 3 as PatchSetNum,
+      patchNum: 3 as RevisionPatchSetNum,
       basePatchNum: 1 as BasePatchSetNum,
     };
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
@@ -444,7 +445,7 @@ suite('gr-change-view tests', () => {
     };
     element._patchRange = {
       basePatchNum: 1 as BasePatchSetNum,
-      patchNum: 3 as PatchSetNum,
+      patchNum: 3 as RevisionPatchSetNum,
     };
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffAgainstLatest(
@@ -463,7 +464,7 @@ suite('gr-change-view tests', () => {
       revisions: createRevisions(10),
     };
     element._patchRange = {
-      patchNum: 3 as PatchSetNum,
+      patchNum: 3 as RevisionPatchSetNum,
       basePatchNum: 1 as BasePatchSetNum,
     };
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
@@ -483,7 +484,7 @@ suite('gr-change-view tests', () => {
     };
     element._patchRange = {
       basePatchNum: 1 as BasePatchSetNum,
-      patchNum: 3 as PatchSetNum,
+      patchNum: 3 as RevisionPatchSetNum,
     };
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffRightAgainstLatest(
@@ -502,7 +503,7 @@ suite('gr-change-view tests', () => {
     };
     element._patchRange = {
       basePatchNum: 1 as BasePatchSetNum,
-      patchNum: 3 as PatchSetNum,
+      patchNum: 3 as RevisionPatchSetNum,
     };
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffBaseAgainstLatest(
@@ -833,7 +834,7 @@ suite('gr-change-view tests', () => {
       element._changeNum = TEST_NUMERIC_CHANGE_ID;
       element._patchRange = {
         basePatchNum: ParentPatchSetNum,
-        patchNum: 1 as PatchSetNum,
+        patchNum: 1 as RevisionPatchSetNum,
       };
       element._change = {
         ...createChange(),
@@ -1076,7 +1077,7 @@ suite('gr-change-view tests', () => {
       element._changeNum = TEST_NUMERIC_CHANGE_ID;
       element._patchRange = {
         basePatchNum: ParentPatchSetNum,
-        patchNum: 1 as PatchSetNum,
+        patchNum: 1 as RevisionPatchSetNum,
       };
       element._change = {
         ...createChange(),
@@ -1306,7 +1307,7 @@ suite('gr-change-view tests', () => {
     element._changeNum = TEST_NUMERIC_CHANGE_ID;
     element._patchRange = {
       basePatchNum: ParentPatchSetNum,
-      patchNum: 1 as PatchSetNum,
+      patchNum: 1 as RevisionPatchSetNum,
     };
     const change = {
       ...createChange(),
@@ -1368,7 +1369,7 @@ suite('gr-change-view tests', () => {
   test('comment events properly update diff drafts', () => {
     element._patchRange = {
       basePatchNum: ParentPatchSetNum,
-      patchNum: 2 as PatchSetNum,
+      patchNum: 2 as RevisionPatchSetNum,
     };
     const draft: DraftInfo = {
       __draft: true,
@@ -1416,7 +1417,7 @@ suite('gr-change-view tests', () => {
     element._changeNum = undefined;
     element._patchRange = {
       basePatchNum: ParentPatchSetNum,
-      patchNum: 2 as PatchSetNum,
+      patchNum: 2 as RevisionPatchSetNum,
     };
     element._change = change;
     element.viewState.changeNum = null;
@@ -1518,7 +1519,7 @@ suite('gr-change-view tests', () => {
     const value: AppElementChangeViewParams = {
       ...createAppElementChangeViewParams(),
       view: GerritView.CHANGE,
-      patchNum: 1 as PatchSetNum,
+      patchNum: 1 as RevisionPatchSetNum,
     };
     element._paramsChanged(value);
     assert.isTrue(reloadStub.calledOnce);
@@ -1527,7 +1528,7 @@ suite('gr-change-view tests', () => {
     element._initialLoadComplete = true;
 
     value.basePatchNum = 1 as BasePatchSetNum;
-    value.patchNum = 2 as PatchSetNum;
+    value.patchNum = 2 as RevisionPatchSetNum;
     element._paramsChanged(value);
     assert.isFalse(reloadStub.calledTwice);
     assert.isTrue(reloadPatchDependentStub.calledOnce);
@@ -1553,14 +1554,14 @@ suite('gr-change-view tests', () => {
     const value: AppElementChangeViewParams = {
       ...createAppElementChangeViewParams(),
       view: GerritView.CHANGE,
-      patchNum: 1 as PatchSetNum,
+      patchNum: 1 as RevisionPatchSetNum,
     };
     element._paramsChanged(value);
 
     element._initialLoadComplete = true;
 
     value.basePatchNum = 1 as BasePatchSetNum;
-    value.patchNum = 2 as PatchSetNum;
+    value.patchNum = 2 as RevisionPatchSetNum;
     element._paramsChanged(value);
     assert.isTrue(reloadPortedCommentsStub.calledOnce);
   });
@@ -1900,7 +1901,7 @@ suite('gr-change-view tests', () => {
     };
     assert.equal(element._getBasePatchNum(_change2, _patchRange), -1);
 
-    _patchRange.patchNum = 1 as PatchSetNum;
+    _patchRange.patchNum = 1 as RevisionPatchSetNum;
     assert.equal(element._getBasePatchNum(_change2, _patchRange), 'PARENT');
   });
 
@@ -1989,7 +1990,7 @@ suite('gr-change-view tests', () => {
 
     element._patchRange = {
       basePatchNum: ParentPatchSetNum,
-      patchNum: 2 as PatchSetNum,
+      patchNum: 2 as RevisionPatchSetNum,
     };
     element._change = {
       ...createChange(),
@@ -2546,13 +2547,13 @@ suite('gr-change-view tests', () => {
       );
     assert.isTrue(
       callCompute(
-        {basePatchNum: ParentPatchSetNum, patchNum: 1 as PatchSetNum},
+        {basePatchNum: ParentPatchSetNum, patchNum: 1 as RevisionPatchSetNum},
         {...createAppElementChangeViewParams(), edit: true}
       )
     );
     assert.isFalse(
       callCompute(
-        {basePatchNum: ParentPatchSetNum, patchNum: 1 as PatchSetNum},
+        {basePatchNum: ParentPatchSetNum, patchNum: 1 as RevisionPatchSetNum},
         createAppElementChangeViewParams()
       )
     );
@@ -2609,17 +2610,17 @@ suite('gr-change-view tests', () => {
     );
 
     // If _patchRange.patchNum is defined, do not load edit.
-    element._patchRange.patchNum = 5 as PatchSetNum;
+    element._patchRange.patchNum = 5 as RevisionPatchSetNum;
     change.current_revision = 'baz' as CommitId;
     element._processEdit((mockChange = _.cloneDeep(change)), edit);
-    assert.equal(element._patchRange.patchNum, 5 as PatchSetNum);
+    assert.equal(element._patchRange.patchNum, 5 as RevisionPatchSetNum);
     assert.notOk(mockChange.revisions.bar.actions);
   });
 
   test('file-action-tap handling', () => {
     element._patchRange = {
       basePatchNum: ParentPatchSetNum,
-      patchNum: 1 as PatchSetNum,
+      patchNum: 1 as RevisionPatchSetNum,
     };
     element._change = {
       ...createChange(),
@@ -2714,7 +2715,7 @@ suite('gr-change-view tests', () => {
     sinon
       .stub(element, '_getPreferences')
       .returns(Promise.resolve(createPreferences()));
-    element._patchRange = {patchNum: 2 as PatchSetNum};
+    element._patchRange = {patchNum: 2 as RevisionPatchSetNum};
     return element._getChangeDetail().then(() => {
       assert.strictEqual(element._selectedRevision, revision2);
 
@@ -2753,7 +2754,7 @@ suite('gr-change-view tests', () => {
   test('_sendShowChangeEvent', () => {
     const change = {...createChange(), labels: {}};
     element._change = {...change};
-    element._patchRange = {patchNum: 4 as PatchSetNum};
+    element._patchRange = {patchNum: 4 as RevisionPatchSetNum};
     element._mergeable = true;
     const showStub = sinon.stub(appContext.jsApiService, 'handleEvent');
     element._sendShowChangeEvent();
@@ -2805,7 +2806,7 @@ suite('gr-change-view tests', () => {
       });
 
       element.set('_change.revisions.rev2', {_number: 2});
-      element._patchRange = {patchNum: 1 as PatchSetNum};
+      element._patchRange = {patchNum: 1 as RevisionPatchSetNum};
       flush();
 
       fireEdit();
@@ -2821,7 +2822,7 @@ suite('gr-change-view tests', () => {
       });
 
       element.set('_change.revisions.rev2', {_number: 2});
-      element._patchRange = {patchNum: 2 as PatchSetNum};
+      element._patchRange = {patchNum: 2 as RevisionPatchSetNum};
       flush();
 
       fireEdit();
@@ -2840,7 +2841,7 @@ suite('gr-change-view tests', () => {
       done();
     });
 
-    element._patchRange = {patchNum: 1 as PatchSetNum};
+    element._patchRange = {patchNum: 1 as RevisionPatchSetNum};
     element.$.actions.dispatchEvent(
       new CustomEvent('stop-edit-tap', {bubbles: false})
     );
@@ -2943,7 +2944,7 @@ suite('gr-change-view tests', () => {
     setup(() => {
       element._patchRange = {
         basePatchNum: ParentPatchSetNum,
-        patchNum: 1 as PatchSetNum,
+        patchNum: 1 as RevisionPatchSetNum,
       };
       sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(false));
       sinon.stub(element, '_getProjectConfig').returns(Promise.resolve());

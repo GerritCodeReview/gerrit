@@ -31,6 +31,7 @@ import {
   BasePatchSetNum,
   ParentPatchSetNum,
   PatchSetNum,
+  RevisionPatchSetNum,
   Timestamp,
   UrlEncodedCommentId,
 } from '../types/common.js';
@@ -84,10 +85,13 @@ suite('comment-util', () => {
         side: CommentSide.PARENT,
         path: '/COMMIT_MSG',
       };
-      assert.deepEqual(getPatchRangeForCommentUrl(comment, 11 as PatchSetNum), {
-        basePatchNum: ParentPatchSetNum,
-        patchNum: 4 as PatchSetNum,
-      });
+      assert.deepEqual(
+        getPatchRangeForCommentUrl(comment, 11 as RevisionPatchSetNum),
+        {
+          basePatchNum: ParentPatchSetNum,
+          patchNum: 4 as PatchSetNum,
+        }
+      );
     });
   });
 
@@ -154,7 +158,7 @@ suite('comment-util', () => {
 
       const actualThreads = createCommentThreads(comments, {
         basePatchNum: 1 as BasePatchSetNum,
-        patchNum: 4 as PatchSetNum,
+        patchNum: 4 as RevisionPatchSetNum,
       });
 
       assert.equal(actualThreads.length, 2);
@@ -228,7 +232,7 @@ suite('comment-util', () => {
       assert.deepEqual(
         createCommentThreads(comments, {
           basePatchNum: 5 as BasePatchSetNum,
-          patchNum: 10 as PatchSetNum,
+          patchNum: 10 as RevisionPatchSetNum,
         }),
         expectedThreads
       );

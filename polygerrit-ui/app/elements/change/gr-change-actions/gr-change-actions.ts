@@ -553,9 +553,8 @@ export class GrChangeActions extends LegacyElementMixin(PolymerElement)
 
   private readonly restApiService = appContext.restApiService;
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('fullscreen-overlay-opened', () =>
       this._handleHideBackgroundContent()
     );

@@ -73,7 +73,7 @@ import {
   CreateCommentEventDetail as CreateCommentEventDetailApi,
   RenderPreferences,
 } from '../../../api/diff';
-import {isSafari} from '../../../utils/dom-util';
+import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 
@@ -284,9 +284,8 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
 
   private renderDiffTableTask?: DelayedTask;
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this._setLoading(true);
     this.addEventListener('create-range-comment', (e: Event) =>
       this._handleCreateRangeComment(e as CustomEvent)
@@ -498,7 +497,7 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
   }
 
   toggleLeftDiff() {
-    this.toggleClass('no-left');
+    toggleClass(this, 'no-left');
   }
 
   _blameChanged(newValue?: BlameInfo[] | null) {

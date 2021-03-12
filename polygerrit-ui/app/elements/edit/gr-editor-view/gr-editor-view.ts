@@ -132,9 +132,8 @@ export class GrEditorView extends KeyboardShortcutMixin(
     };
   }
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('content-change', e => {
       this._handleContentChange(e as CustomEvent<{value: string}>);
     });

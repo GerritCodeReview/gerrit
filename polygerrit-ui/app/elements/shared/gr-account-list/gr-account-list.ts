@@ -189,11 +189,6 @@ export class GrAccountList extends LegacyElementMixin(PolymerElement) {
     super();
     this.reporting = appContext.reportingService;
     this._querySuggestions = input => this._getSuggestions(input);
-  }
-
-  /** @override */
-  created() {
-    super.created();
     this.addEventListener('remove', e =>
       this._handleRemove(e as CustomEvent<{account: AccountInput}>)
     );

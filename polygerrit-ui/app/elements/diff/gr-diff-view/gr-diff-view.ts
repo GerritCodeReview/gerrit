@@ -99,6 +99,7 @@ import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
+import {toggleClass} from '../../../utils/dom-util';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';
@@ -1624,7 +1625,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     if (this.shouldSuppressKeyboardShortcut(e)) return;
     if (this.modifierPressed(e)) return;
 
-    this.toggleClass('hideComments');
+    toggleClass(this, 'hideComments');
   }
 
   _handleOpenFileList(e: CustomKeyboardEvent) {

@@ -108,9 +108,8 @@ export class GrAccessSection extends LegacyElementMixin(PolymerElement) {
   @property({type: Array})
   _permissions?: PermissionArray<EditablePermissionInfo>;
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('access-saved', () => this._handleAccessSaved());
   }
 

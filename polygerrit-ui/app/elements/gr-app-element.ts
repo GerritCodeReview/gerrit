@@ -220,9 +220,8 @@ export class GrAppElement extends KeyboardShortcutMixin(
     };
   }
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this._bindKeyboardShortcuts();
     document.addEventListener(EventType.PAGE_ERROR, e => {
       this._handlePageError(e);

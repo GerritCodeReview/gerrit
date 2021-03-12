@@ -122,11 +122,6 @@ export class GrRepoAccess extends LegacyElementMixin(PolymerElement) {
   constructor() {
     super();
     this._query = () => this._getInheritFromSuggestions();
-  }
-
-  /** @override */
-  created() {
-    super.created();
     this.addEventListener('access-modified', () =>
       this._handleAccessModified()
     );

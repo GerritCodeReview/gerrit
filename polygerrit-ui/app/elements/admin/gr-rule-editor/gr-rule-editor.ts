@@ -137,9 +137,8 @@ export class GrRuleEditor extends LegacyElementMixin(PolymerElement) {
   @property({type: Object})
   _originalRuleValues?: RuleValue;
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('access-saved', () => this._handleAccessSaved());
   }
 

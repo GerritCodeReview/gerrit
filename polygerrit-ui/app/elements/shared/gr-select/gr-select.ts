@@ -70,9 +70,8 @@ export class GrSelect extends LegacyElementMixin(PolymerElement) {
     this.nativeSelect.focus();
   }
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('change', () => this._valueChanged());
     this.addEventListener('dom-change', () => this._updateValue());
   }

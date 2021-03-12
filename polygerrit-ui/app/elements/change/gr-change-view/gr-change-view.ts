@@ -605,12 +605,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
     );
   }
 
-  /** @override */
-  created() {
-    super.created();
-
+  constructor() {
+    super();
     this.addEventListener('topic-changed', () => this._handleTopicChanged());
-
     this.addEventListener(
       // When an overlay is opened in a mobile viewport, the overlay has a full
       // screen view. When it has a full screen view, we do not want the

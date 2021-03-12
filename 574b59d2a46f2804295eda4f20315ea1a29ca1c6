@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e865ee4c_7e335bfb",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-12T10:23:42Z",
+      "side": 1,
+      "message": "Also `--blue-700-10: #D0D9E3`  for the ripple on colored content",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "574b59d2a46f2804295eda4f20315ea1a29ca1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01eaea69_cf6b6bda",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-12T10:23:42Z",
+      "side": 1,
+      "message": "I\u0027d like to make an update on this color because `red-400` does pass WCAG AA for accessibility but it is not great to read the -1 at a glance. I propose we use `red-300` as it would work better.",
+      "range": {
+        "startLine": 187,
+        "startChar": 37,
+        "endLine": 187,
+        "endChar": 40
+      },
+      "revId": "574b59d2a46f2804295eda4f20315ea1a29ca1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ef8a62a_5048b334",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-12T10:23:42Z",
+      "side": 1,
+      "message": "I propose we also add the colorful states so that we could use them for the votes chips above and for the comments and checks chips states.\n\nFor the chips, we\u0027ll need colorful states for red and green. For checks, we\u0027ll also need orange (and can reuse the blue 700 states). For comments we also need orange.\n\nSo we would use the same pattern as for the blue for hover, focus and ripple:\n `--green-700-04:` (hover)\n `--green-700-12:` (focus)\n `--green-700-10:` (ripple)\n\nFor green, orange, red. We can update for other colors if needed in the future (thinking about the checks tags).\n\nWDYT?",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 43
+      },
+      "revId": "574b59d2a46f2804295eda4f20315ea1a29ca1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd1860f0_15fd294c",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-12T10:23:42Z",
+      "side": 1,
+      "message": "var(--gray-500)",
+      "range": {
+        "startLine": 62,
+        "startChar": 33,
+        "endLine": 62,
+        "endChar": 40
+      },
+      "revId": "574b59d2a46f2804295eda4f20315ea1a29ca1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80d41458_aa89e49f",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-12T10:23:42Z",
+      "side": 1,
+      "message": "I\u0027ll need to take a look at hover and focus state for dark theme and assign a bug to me.",
+      "revId": "574b59d2a46f2804295eda4f20315ea1a29ca1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -375,6 +375,24 @@ link:https://docs.bazel.build/versions/master/guide.html#specifying-targets-to-b
 for fine-grained test selection that can be combined with many of the examples
 above.
 
+[[debugging-tests]]
+== Debugging Unit Tests
+In some cases it may be necessary to debug a test while running it in bazel. For example, when we
+observe a different test result in Eclipse and bazel. Using the `--java_debug` option will start the
+JVM in debug mode and await for a remote debugger to attach.
+
+Example:
+[source,bash]
+----
+  bazel test --java_debug --test_tag_filters=delete-project //...
+  ...
+  Listening for transport dt_socket at address: 5005
+  ...
+----
+
+Now attach with a debugger to the port `5005`. For example use "Remote Java Application" launch
+configuration in Eclipe and specify the port `5005`.
+
 [[elasticsearch]]
 === Elasticsearch
 

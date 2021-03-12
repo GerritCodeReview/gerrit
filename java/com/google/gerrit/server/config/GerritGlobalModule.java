@@ -130,6 +130,7 @@ import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.receive.PluginPushOption;
 import com.google.gerrit.server.git.receive.ReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommentCountValidator;
 import com.google.gerrit.server.git.validators.CommentCumulativeSizeValidator;
@@ -388,6 +389,7 @@ public class GerritGlobalModule extends FactoryModule {
         .toInstance(SuggestReviewers.configListener());
     DynamicSet.setOf(binder(), ExternalIncludedIn.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
+    DynamicSet.setOf(binder(), PluginPushOption.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
     DynamicSet.setOf(binder(), ParentWebLink.class);
     DynamicSet.setOf(binder(), FileWebLink.class);

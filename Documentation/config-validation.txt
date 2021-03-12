@@ -21,6 +21,14 @@ and cherry-pick buttons.
 Out of the box, Gerrit includes a plugin that checks the length of the
 subject and body lines of commit messages on uploaded commits.
 
+[plugin-push-options]]
+=== Plugin push options
+
+Plugins can register push options by implementing the `PluginPushOption`
+interface. If a plugin push option was specified it is available from
+the `CommitReceivedEvent` that is passed into `CommitValidationListener`.
+This way the plugin commit validation can be controlled by push options.
+
 [[user-ref-operations-validation]]
 == User ref operations validation
 

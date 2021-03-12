@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.receive;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
@@ -212,6 +213,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -327,6 +329,7 @@ class ReceiveCommits {
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+  private final DynamicSet<PluginPushOption> pluginPushOptions;
   private final PluginSetContext<ReceivePackInitializer> initializers;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -409,6 +412,7 @@ class ReceiveCommits {
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      DynamicSet<PluginPushOption> pluginPushOptions,
       PluginSetContext<ReceivePackInitializer> initializers,
       PluginSetContext<CommentValidator> commentValidators,
       MergedByPushOp.Factory mergedByPushOpFactory,
@@ -468,6 +472,7 @@ class ReceiveCommits {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.permissionBackend = permissionBackend;
     this.pluginConfigEntries = pluginConfigEntries;
+    this.pluginPushOptions = pluginPushOptions;
     this.projectCache = projectCache;
     this.psUtil = psUtil;
     this.performanceLoggers = performanceLoggers;
@@ -1789,8 +1794,13 @@ class ReceiveCommits {
       String ref;
       magicBranch.cmdLineParser = optionParserFactory.create(magicBranch);
 
+      // Filter out plugin push options, as the parser would reject them as unknown.
+      ImmutableListMultimap<String, String> pushOptionsToParse =
+          pushOptions.entries().stream()
+              .filter(e -> !isPluginPushOption(e.getKey()))
+              .collect(toImmutableListMultimap(e -> e.getKey(), e -> e.getValue()));
       try {
-        ref = magicBranch.parse(pushOptions);
+        ref = magicBranch.parse(pushOptionsToParse);
       } catch (CmdLineException e) {
         if (!magicBranch.cmdLineParser.wasHelpRequestedByOption()) {
           logger.atFine().log("Invalid branch syntax");
@@ -1809,6 +1819,20 @@ class ReceiveCommits {
         StringWriter w = new StringWriter();
         w.write("\nHelp for refs/for/branch:\n\n");
         magicBranch.cmdLineParser.printUsage(w, null);
+
+        String pluginPushOptionsHelp =
+            StreamSupport.stream(pluginPushOptions.entries().spliterator(), /* parallel= */ false)
+                .map(
+                    e ->
+                        String.format(
+                            "-o %s~%s: %s",
+                            e.getPluginName(), e.get().getName(), e.get().getDescription()))
+                .sorted()
+                .collect(joining("\n"));
+        if (!pluginPushOptionsHelp.isEmpty()) {
+          w.write("\nPlugin push options:\n" + pluginPushOptionsHelp);
+        }
+
         addMessage(w.toString());
         reject(cmd, "see help");
         return;
@@ -1971,6 +1995,11 @@ class ReceiveCommits {
         this.result.magicPush(true);
       }
     }
+  }
+
+  private boolean isPluginPushOption(String pushOptionName) {
+    return StreamSupport.stream(pluginPushOptions.entries().spliterator(), /* parallel= */ false)
+        .anyMatch(e -> pushOptionName.equals(e.getPluginName() + "~" + e.get().getName()));
   }
 
   // Validate that the new commits are connected with the target

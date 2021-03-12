@@ -101,6 +101,7 @@ import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.receive.NoteDbPushOption;
+import com.google.gerrit.server.git.receive.PluginPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
@@ -2397,6 +2398,26 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     }
   }
 
+  private static class TestPluginPushOption implements PluginPushOption {
+    private final String name;
+    private final String description;
+
+    TestPluginPushOption(String name, String description) {
+      this.name = name;
+      this.description = description;
+    }
+
+    @Override
+    public String getName() {
+      return name;
+    }
+
+    @Override
+    public String getDescription() {
+      return description;
+    }
+  }
+
   private static class TopicValidator implements TopicEditedListener {
     private final AtomicInteger count = new AtomicInteger();
 
@@ -2460,13 +2481,32 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushOptionsArePassedToCommitValidationListener() throws Exception {
     TestValidator validator = new TestValidator();
-    try (Registration registration = extensionRegistry.newRegistration().add(validator)) {
+    PluginPushOption fooOption = new TestPluginPushOption("foo", "some description");
+    PluginPushOption barOption = new TestPluginPushOption("bar", "other description");
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(validator).add(fooOption).add(barOption)) {
       PushOneCommit push =
           pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
-      push.setPushOptions(ImmutableList.of("trace=123"));
+      push.setPushOptions(ImmutableList.of("trace=123", "gerrit~foo", "gerrit~bar=456"));
       PushOneCommit.Result r = push.to("refs/for/master");
       r.assertOkStatus();
-      assertThat(validator.getReceivedEvent().pushOptions).containsExactly("trace", "123");
+      assertThat(validator.getReceivedEvent().pushOptions)
+          .containsExactly("trace", "123", "gerrit~foo", "", "gerrit~bar", "456");
+    }
+  }
+
+  @Test
+  public void pluginPushOptionsHelp() throws Exception {
+    PluginPushOption fooOption = new TestPluginPushOption("foo", "some description");
+    PluginPushOption barOption = new TestPluginPushOption("bar", "other description");
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(fooOption).add(barOption)) {
+      PushOneCommit push =
+          pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
+      push.setPushOptions(ImmutableList.of("help"));
+      PushOneCommit.Result r = push.to("refs/for/master");
+      r.assertErrorStatus("see help");
+      r.assertMessage("-o gerrit~bar: other description\n-o gerrit~foo: some description\n");
     }
   }
 

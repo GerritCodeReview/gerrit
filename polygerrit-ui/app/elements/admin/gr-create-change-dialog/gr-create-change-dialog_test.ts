@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-create-change-dialog.js';
+import '../../../test/common-test-setup-karma';
+import './gr-create-change-dialog';
 import {GrCreateChangeDialog} from './gr-create-change-dialog';
 import {BranchName, GitRef, RepoName} from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';

@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-key-binding-display.js';
-import {GrKeyBindingDisplay} from './gr-key-binding-display.js';
+import '../../../test/common-test-setup-karma';
+import './gr-key-binding-display';
+import {GrKeyBindingDisplay} from './gr-key-binding-display';
 
 const basicFixture = fixtureFromElement('gr-key-binding-display');
 

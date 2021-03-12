@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
+import '../../../test/common-test-setup-karma';
 import './gr-message';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
@@ -41,14 +41,14 @@ import {
   ReviewInputTag,
   Timestamp,
   UrlEncodedCommentId,
-} from '../../../types/common.js';
+} from '../../../types/common';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {
   ChangeMessageDeletedEventDetail,
   ReplyEventDetail,
-} from '../../../types/events.js';
-import {GrButton} from '../../shared/gr-button/gr-button.js';
-import {CommentSide} from '../../../constants/constants.js';
+} from '../../../types/events';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {CommentSide} from '../../../constants/constants';
 import {SinonStubbedMember} from 'sinon/pkg/sinon-esm';
 
 const basicFixture = fixtureFromElement('gr-message');

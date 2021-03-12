@@ -73,7 +73,7 @@ import {
   CreateCommentEventDetail as CreateCommentEventDetailApi,
   RenderPreferences,
 } from '../../../api/diff';
-import {isSafari} from '../../../utils/dom-util';
+import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 
@@ -498,7 +498,7 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
   }
 
   toggleLeftDiff() {
-    this.toggleClass('no-left');
+    toggleClass(this, 'no-left');
   }
 
   _blameChanged(newValue?: BlameInfo[] | null) {

@@ -278,3 +278,17 @@ export function whenVisible(
   );
   observer.observe(element);
 }
+
+/**
+ * Toggles a CSS class on or off for an element.
+ */
+export function toggleClass(el: Element, className: string, bool?: boolean) {
+  if (bool === undefined) {
+    bool = !el.classList.contains(className);
+  }
+  if (bool) {
+    el.classList.add(className);
+  } else {
+    el.classList.remove(className);
+  }
+}

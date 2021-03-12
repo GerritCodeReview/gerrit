@@ -48,7 +48,7 @@ import {
   ScrollMode,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {descendedFromClass} from '../../../utils/dom-util';
+import {descendedFromClass, toggleClass} from '../../../utils/dom-util';
 import {
   addUnmodifiedFiles,
   computeDisplayPath,
@@ -921,7 +921,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     }
 
     e.preventDefault();
-    this.toggleClass('hideComments');
+    toggleClass(this, 'hideComments');
   }
 
   _handleCursorNext(e: CustomKeyboardEvent) {

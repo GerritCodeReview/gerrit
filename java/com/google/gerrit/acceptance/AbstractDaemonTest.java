@@ -174,6 +174,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -583,6 +584,7 @@ public abstract class AbstractDaemonTest {
     ProjectInput in = new ProjectInput();
     TestProjectInput ann = description.getAnnotation(TestProjectInput.class);
     in.name = name("project");
+    in.branches = ImmutableList.of(Constants.R_HEADS + Constants.MASTER);
     if (ann != null) {
       in.parent = Strings.emptyToNull(ann.parent());
       in.description = Strings.emptyToNull(ann.description());

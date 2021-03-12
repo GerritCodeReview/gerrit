@@ -56,11 +56,6 @@ export class GrChangeReplyInterface implements ChangeReplyPluginApi {
     this._el.setLabelValue(label, value);
   }
 
-  send(includeComments?: boolean) {
-    this.reporting.trackApi(this.plugin, 'reply', 'send');
-    this._el.send(includeComments);
-  }
-
   addReplyTextChangedCallback(handler: ReplyChangedCallback) {
     this.reporting.trackApi(this.plugin, 'reply', 'addReplyTextChangedCb');
     const hookApi = this.plugin.hook('reply-text');

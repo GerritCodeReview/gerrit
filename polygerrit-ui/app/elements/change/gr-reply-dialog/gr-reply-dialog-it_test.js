@@ -104,7 +104,7 @@ suite('gr-reply-dialog-it tests', () => {
     assert.isTrue(sendStub.called);
   });
 
-  test('lgtm plugin', done => {
+  test('lgtm plugin', async () => {
     resetPlugins();
     pluginApi.install(plugin => {
       const replyApi = plugin.changeReply();
@@ -121,20 +121,17 @@ suite('gr-reply-dialog-it tests', () => {
     element = basicFixture.instantiate();
     setupElement(element);
     getPluginLoader().loadPlugins([]);
-    getPluginLoader().awaitPluginsLoaded()
-        .then(() => {
-          flush(() => {
-            const textarea = element.$.textarea.getNativeTextarea();
-            textarea.value = 'LGTM';
-            textarea.dispatchEvent(new CustomEvent(
-                'input', {bubbles: true, composed: true}));
-            const labelScoreRows = dom(element.$.labelScores.root)
-                .querySelector('gr-label-score-row[name="Code-Review"]');
-            const selectedBtn = dom(labelScoreRows.root)
-                .querySelector('gr-button[data-value="+1"].iron-selected');
-            assert.isOk(selectedBtn);
-            done();
-          });
-        });
+    await getPluginLoader().awaitPluginsLoaded();
+    await flush();
+    const textarea = element.$.textarea.getNativeTextarea();
+    textarea.value = 'LGTM';
+    textarea.dispatchEvent(new CustomEvent(
+        'input', {bubbles: true, composed: true}));
+    await flush();
+    const labelScoreRows = element.$.labelScores.shadowRoot
+        .querySelector('gr-label-score-row[name="Code-Review"]');
+    const selectedBtn = labelScoreRows.shadowRoot
+        .querySelector('gr-button[data-value="+1"].iron-selected');
+    assert.isOk(selectedBtn);
   });
 });

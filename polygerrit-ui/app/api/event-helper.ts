@@ -18,12 +18,6 @@ export type UnsubscribeCallback = () => void;
 
 export interface EventHelperPluginApi {
   /**
-   * Add a callback to arbitrary event.
-   * The callback may return false to prevent event bubbling.
-   */
-  on(event: string, callback: (event: Event) => boolean): UnsubscribeCallback;
-
-  /**
    * Alias for @see onClick
    */
   onTap(callback: (event: Event) => boolean): UnsubscribeCallback;
@@ -33,17 +27,4 @@ export interface EventHelperPluginApi {
    * The callback may return false to prevent event bubbling.
    */
   onClick(callback: (event: Event) => boolean): UnsubscribeCallback;
-
-  /**
-   * Alias for @see captureClick
-   */
-  captureTap(callback: (event: Event) => boolean): UnsubscribeCallback;
-
-  /**
-   * Add a callback to element click or touch ahead of normal flow.
-   * Callback is installed on parent during capture phase.
-   * https://www.w3.org/TR/DOM-Level-3-Events/#event-flow
-   * The callback may return false to cancel regular event listeners.
-   */
-  captureClick(callback: (event: Event) => boolean): UnsubscribeCallback;
 }

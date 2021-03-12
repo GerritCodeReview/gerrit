@@ -21,25 +21,11 @@ import {
 import {PluginApi} from '../../../api/plugin';
 import {appContext} from '../../../services/app-context';
 
-export interface ListenOptions {
-  event?: string;
-  capture?: boolean;
-}
-
 export class GrEventHelper implements EventHelperPluginApi {
   private readonly reporting = appContext.reportingService;
 
   constructor(readonly plugin: PluginApi, readonly element: HTMLElement) {
     this.reporting.trackApi(this.plugin, 'event', 'constructor');
-  }
-
-  /**
-   * Add a callback to arbitrary event.
-   * The callback may return false to prevent event bubbling.
-   */
-  on(event: string, callback: (event: Event) => boolean) {
-    this.reporting.trackApi(this.plugin, 'event', 'on');
-    return this._listen(this.element, callback, {event});
   }
 
   /**
@@ -59,33 +45,10 @@ export class GrEventHelper implements EventHelperPluginApi {
     return this._listen(this.element, callback);
   }
 
-  /**
-   * Alias for @see captureClick
-   */
-  captureTap(callback: (event: Event) => boolean) {
-    this.reporting.trackApi(this.plugin, 'event', 'captureTap');
-    return this.captureClick(callback);
-  }
-
-  /**
-   * Add a callback to element click or touch ahead of normal flow.
-   * Callback is installed on parent during capture phase.
-   * https://www.w3.org/TR/DOM-Level-3-Events/#event-flow
-   * The callback may return false to cancel regular event listeners.
-   */
-  captureClick(callback: (event: Event) => boolean) {
-    this.reporting.trackApi(this.plugin, 'event', 'captureClick');
-    const parent = this.element.parentElement!;
-    return this._listen(parent, callback, {capture: true});
-  }
-
   _listen(
     container: HTMLElement,
-    callback: (event: Event) => boolean,
-    options?: ListenOptions | null
+    callback: (event: Event) => boolean
   ): UnsubscribeCallback {
-    const capture = options?.capture;
-    const event = options?.event || 'click';
     const handler = (e: Event) => {
       const path = e.composedPath();
       if (!path) return;
@@ -103,9 +66,8 @@ export class GrEventHelper implements EventHelperPluginApi {
         }
       }
     };
-    container.addEventListener(event, handler, capture);
-    const unsubscribe = () =>
-      container.removeEventListener(event, handler, capture);
+    container.addEventListener('click', handler);
+    const unsubscribe = () => container.removeEventListener('click', handler);
     return unsubscribe;
   }
 }

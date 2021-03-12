@@ -34,7 +34,6 @@ suite('GrJsApiInterface tests', () => {
   let plugin;
   let errorStub;
 
-  let getResponseObjectStub;
   let sendStub;
   let clock;
 
@@ -46,8 +45,6 @@ suite('GrJsApiInterface tests', () => {
     clock = sinon.useFakeTimers();
 
     stubRestApi('getAccount').returns(Promise.resolve({name: 'Judy Hopps'}));
-    getResponseObjectStub = stubRestApi('getResponseObject').returns(
-        Promise.resolve());
     sendStub = stubRestApi('send').returns(Promise.resolve({status: 200}));
     element = appContext.jsApiService;
     errorStub = sinon.stub(element.reporting, 'error');
@@ -103,76 +100,6 @@ suite('GrJsApiInterface tests', () => {
         {status: 400, text() { return Promise.resolve(null); }}));
     return plugin._send().catch(r => {
       assert.equal(r.message, '400');
-    });
-  });
-
-  test('get', () => {
-    const response = {foo: 'foo'};
-    getResponseObjectStub.returns(Promise.resolve(response));
-    return plugin.get('/url', r => {
-      assert.isTrue(sendStub.calledWith(
-          'GET', 'http://test.com/plugins/testplugin/url'));
-      assert.strictEqual(r, response);
-    });
-  });
-
-  test('get using Promise', () => {
-    const response = {foo: 'foo'};
-    getResponseObjectStub.returns(Promise.resolve(response));
-    return plugin.get('/url', r => 'rubbish').then(r => {
-      assert.isTrue(sendStub.calledWith(
-          'GET', 'http://test.com/plugins/testplugin/url'));
-      assert.strictEqual(r, response);
-    });
-  });
-
-  test('post', () => {
-    const payload = {foo: 'foo'};
-    const response = {bar: 'bar'};
-    getResponseObjectStub.returns(Promise.resolve(response));
-    return plugin.post('/url', payload, r => {
-      assert.isTrue(sendStub.calledWith(
-          'POST', 'http://test.com/plugins/testplugin/url', payload));
-      assert.strictEqual(r, response);
-    });
-  });
-
-  test('put', () => {
-    const payload = {foo: 'foo'};
-    const response = {bar: 'bar'};
-    getResponseObjectStub.returns(Promise.resolve(response));
-    return plugin.put('/url', payload, r => {
-      assert.isTrue(sendStub.calledWith(
-          'PUT', 'http://test.com/plugins/testplugin/url', payload));
-      assert.strictEqual(r, response);
-    });
-  });
-
-  test('delete works', () => {
-    const response = {status: 204};
-    sendStub.returns(Promise.resolve(response));
-    return plugin.delete('/url', r => {
-      assert.equal(sendStub.lastCall.args[0], 'DELETE');
-      assert.equal(
-          sendStub.lastCall.args[1],
-          'http://test.com/plugins/testplugin/url'
-      );
-      assert.strictEqual(r, response);
-    });
-  });
-
-  test('delete fails', () => {
-    sendStub.returns(Promise.resolve(
-        {status: 400, text() { return Promise.resolve('text'); }}));
-    return plugin.delete('/url', r => {
-      throw new Error('Should not resolve');
-    }).catch(err => {
-      assert.equal(sendStub.lastCall.args[0], 'DELETE');
-      assert.equal(
-          sendStub.lastCall.args[1],
-          'http://test.com/plugins/testplugin/url'
-      );
-      assert.equal('text', err.message);
     });
   });
 

@@ -74,12 +74,13 @@ import {
   ShortcutTriggeredEvent,
   TitleChangeEventDetail,
   DialogChangeEventDetail,
+  EventType,
 } from '../types/events';
 import {ViewState} from '../types/types';
-import {EventType} from '../utils/event-util';
 import {GerritView} from '../services/router/router-model';
 import {windowLocationReload} from '../utils/dom-util';
 import {LifeCycle} from '../constants/reporting';
+import {fireIronAnnounce} from '../utils/event-util';
 
 interface ErrorInfo {
   text: string;
@@ -511,7 +512,7 @@ export class GrAppElement extends KeyboardShortcutMixin(
     }
     // To fix bug announce read after each new view, we reset announce with
     // empty space
-    this.fire('iron-announce', {text: ' '}, {bubbles: true});
+    fireIronAnnounce(this, ' ');
   }
 
   _handleShortcutTriggered(event: ShortcutTriggeredEvent) {
@@ -547,17 +548,19 @@ export class GrAppElement extends KeyboardShortcutMixin(
     this.$.errorView.classList.add('show');
     const response = e.detail.response;
     const err: ErrorInfo = {
-      text: [response.status, response.statusText].join(' '),
+      text: [response?.status, response?.statusText].join(' '),
     };
-    if (response.status === 404) {
+    if (response?.status === 404) {
       err.emoji = '¯\\_(ツ)_/¯';
       this._lastError = err;
     } else {
       err.emoji = 'o_O';
-      response.text().then(text => {
-        err.moreInfo = text;
-        this._lastError = err;
-      });
+      if (response) {
+        response.text().then(text => {
+          err.moreInfo = text;
+          this._lastError = err;
+        });
+      }
     }
   }
 

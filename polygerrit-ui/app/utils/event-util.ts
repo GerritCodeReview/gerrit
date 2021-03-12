@@ -17,19 +17,19 @@
 
 import {UrlEncodedCommentId} from '../types/common';
 import {FetchRequest} from '../types/types';
-import {DialogChangeEventDetail, TabState} from '../types/events';
-
-export enum EventType {
-  SHOW_ALERT = 'show-alert',
-  SHOW_ERROR = 'show-error',
-  PAGE_ERROR = 'page-error',
-  SERVER_ERROR = 'server-error',
-  NETWORK_ERROR = 'network-error',
-  TITLE_CHANGE = 'title-change',
-  THREAD_LIST_MODIFIED = 'thread-list-modified',
-  DIALOG_CHANGE = 'dialog-change',
-  SHOW_PRIMARY_TAB = 'show-primary-tab',
-}
+import {
+  DialogChangeEventDetail,
+  EventType,
+  IronAnnounceEventDetail,
+  NetworkErrorEventDetail,
+  PageErrorEventDetail,
+  ServerErrorEventDetail,
+  ShowAlertEventDetail,
+  SwitchTabEventDetail,
+  TabState,
+  ThreadListModifiedDetail,
+  TitleChangeEventDetail,
+} from '../types/events';
 
 export function fireEvent(target: EventTarget, type: string) {
   target.dispatchEvent(
@@ -40,54 +40,38 @@ export function fireEvent(target: EventTarget, type: string) {
   );
 }
 
-export function fireAlert(target: EventTarget, message: string) {
+export function fire<T>(target: EventTarget, type: string, detail: T) {
   target.dispatchEvent(
-    new CustomEvent(EventType.SHOW_ALERT, {
-      detail: {message},
+    new CustomEvent<T>(type, {
+      detail,
       composed: true,
       bubbles: true,
     })
   );
+}
+
+export function fireAlert(target: EventTarget, message: string) {
+  fire<ShowAlertEventDetail>(target, EventType.SHOW_ALERT, {message});
 }
 
 export function firePageError(response?: Response | null) {
-  document.dispatchEvent(
-    new CustomEvent(EventType.PAGE_ERROR, {
-      detail: {response},
-      composed: true,
-      bubbles: true,
-    })
-  );
+  if (response === null) response = undefined;
+  fire<PageErrorEventDetail>(document, EventType.PAGE_ERROR, {response});
 }
 
 export function fireServerError(response: Response, request?: FetchRequest) {
-  document.dispatchEvent(
-    new CustomEvent(EventType.SERVER_ERROR, {
-      detail: {response, request},
-      composed: true,
-      bubbles: true,
-    })
-  );
+  fire<ServerErrorEventDetail>(document, EventType.SERVER_ERROR, {
+    response,
+    request,
+  });
 }
 
 export function fireNetworkError(error: Error) {
-  document.dispatchEvent(
-    new CustomEvent(EventType.NETWORK_ERROR, {
-      detail: {error},
-      composed: true,
-      bubbles: true,
-    })
-  );
+  fire<NetworkErrorEventDetail>(document, EventType.NETWORK_ERROR, {error});
 }
 
 export function fireTitleChange(target: EventTarget, title: string) {
-  target.dispatchEvent(
-    new CustomEvent(EventType.TITLE_CHANGE, {
-      detail: {title},
-      composed: true,
-      bubbles: true,
-    })
-  );
+  fire<TitleChangeEventDetail>(target, EventType.TITLE_CHANGE, {title});
 }
 
 // TODO(milutin) - remove once new gr-dialog will do it out of the box
@@ -96,13 +80,11 @@ export function fireDialogChange(
   target: EventTarget,
   detail: DialogChangeEventDetail
 ) {
-  target.dispatchEvent(
-    new CustomEvent(EventType.DIALOG_CHANGE, {
-      detail,
-      composed: true,
-      bubbles: true,
-    })
-  );
+  fire<DialogChangeEventDetail>(target, EventType.DIALOG_CHANGE, detail);
+}
+
+export function fireIronAnnounce(target: EventTarget, text: string) {
+  fire<IronAnnounceEventDetail>(target, EventType.IRON_ANNOUNCE, {text});
 }
 
 export function fireThreadListModifiedEvent(
@@ -110,13 +92,10 @@ export function fireThreadListModifiedEvent(
   rootId: UrlEncodedCommentId,
   path: string
 ) {
-  target.dispatchEvent(
-    new CustomEvent(EventType.THREAD_LIST_MODIFIED, {
-      detail: {rootId, path},
-      composed: true,
-      bubbles: true,
-    })
-  );
+  fire<ThreadListModifiedDetail>(target, EventType.THREAD_LIST_MODIFIED, {
+    rootId,
+    path,
+  });
 }
 
 export function fireShowPrimaryTab(
@@ -125,13 +104,8 @@ export function fireShowPrimaryTab(
   scrollIntoView?: boolean,
   tabState?: TabState
 ) {
-  target.dispatchEvent(
-    new CustomEvent(EventType.SHOW_PRIMARY_TAB, {
-      detail: {tab, scrollIntoView, tabState},
-      composed: true,
-      bubbles: true,
-    })
-  );
+  const detail: SwitchTabEventDetail = {tab, scrollIntoView, tabState};
+  fire<SwitchTabEventDetail>(target, EventType.SHOW_PRIMARY_TAB, detail);
 }
 
 export function waitForEventOnce<K extends keyof HTMLElementEventMap>(

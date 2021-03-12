@@ -22,94 +22,84 @@ import {MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
 import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 
-export interface TitleChangeEventDetail {
-  title: string;
+export enum EventType {
+  CHANGE_MESSAGE_DELETED = 'change-message-deleted',
+  DIALOG_CHANGE = 'dialog-change',
+  EDITABLE_CONTENT_SAVE = 'editable-content-save',
+  GR_RPC_LOG = 'gr-rpc-log',
+  LOCATION_CHANGE = 'location-change',
+  IRON_ANNOUNCE = 'iron-announce',
+  MOVED_LINK_CLICKED = 'moved-link-clicked',
+  NETWORK_ERROR = 'network-error',
+  OPEN_FIX_PREVIEW = 'open-fix-preview',
+  PAGE_ERROR = 'page-error',
+  RELOAD = 'reload',
+  REPLY = 'reply',
+  SERVER_ERROR = 'server-error',
+  SHORTCUT_TRIGGERERD = 'shortcut-triggered',
+  SHOW_ALERT = 'show-alert',
+  SHOW_ERROR = 'show-error',
+  SHOW_PRIMARY_TAB = 'show-primary-tab',
+  SHOW_SECONDARY_TAB = 'show-secondary-tab',
+  THREAD_LIST_MODIFIED = 'thread-list-modified',
+  TITLE_CHANGE = 'title-change',
 }
-
-export type TitleChangeEvent = CustomEvent<TitleChangeEventDetail>;
 
 declare global {
   interface HTMLElementEventMap {
+    'change-message-deleted': ChangeMessageDeletedEvent;
+    'dialog-change': DialogChangeEvent;
+    'editable-content-save': EditableContentSaveEvent;
+    'location-change': LocationChangeEvent;
+    'iron-announce': IronAnnounceEvent;
+    'moved-link-clicked': MovedLinkClickedEvent;
+    'open-fix-preview': OpenFixPreviewEvent;
+    /* prettier-ignore */
+    'reload': ReloadEvent;
+    /* prettier-ignore */
+    'reply': ReplyEvent;
+    'shortcut-triggered': ShortcutTriggeredEvent;
+    'show-alert': ShowAlertEvent;
+    'show-error': ShowErrorEvent;
+    'show-primary-tab': SwitchTabEvent;
+    'show-secondary-tab': SwitchTabEvent;
+    'thread-list-modified': ThreadListModifiedEvent;
     'title-change': TitleChangeEvent;
+  }
+}
+
+declare global {
+  interface DocumentEventMap {
+    'gr-rpc-log': RpcLogEvent;
+    'network-error': NetworkErrorEvent;
+    'page-error': PageErrorEvent;
+    'server-error': ServerErrorEvent;
+    'show-alert': ShowAlertEvent;
+    'show-error': ShowErrorEvent;
   }
 }
 
 export interface ChangeMessageDeletedEventDetail {
   message: ChangeMessage;
 }
-
 export type ChangeMessageDeletedEvent = CustomEvent<
   ChangeMessageDeletedEventDetail
 >;
 
-declare global {
-  interface HTMLElementEventMap {
-    'change-message-deleted': ChangeMessageDeletedEvent;
-  }
+// TODO(milutin) - remove once new gr-dialog will do it out of the box
+// This informs gr-app-element to remove footer, header from a11y tree
+export interface DialogChangeEventDetail {
+  canceled?: boolean;
+  opened?: boolean;
 }
+export type DialogChangeEvent = CustomEvent<DialogChangeEventDetail>;
 
-export interface ReplyEventDetail {
-  message: ChangeMessage;
+export interface EditableContentSaveEventDetail {
+  content: string;
 }
-
-export type ReplyEvent = CustomEvent<ReplyEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    /* prettier-ignore */
-    'reply': ReplyEvent;
-  }
-}
-
-export interface PageErrorEventDetail {
-  response: Response;
-}
-
-export type PageErrorEvent = CustomEvent<PageErrorEventDetail>;
-
-declare global {
-  interface DocumentEventMap {
-    'page-error': PageErrorEvent;
-  }
-}
-
-export interface ServerErrorEventDetail {
-  request?: FetchRequest;
-  response: Response;
-}
-
-export type ServerErrorEvent = CustomEvent<ServerErrorEventDetail>;
-
-declare global {
-  interface DocumentEventMap {
-    'server-error': ServerErrorEvent;
-  }
-}
-
-export interface NetworkErrorEventDetail {
-  error: Error;
-}
-
-export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
-
-declare global {
-  interface DocumentEventMap {
-    'network-error': NetworkErrorEvent;
-  }
-}
-
-export interface LocationChangeEventDetail {
-  hash: string;
-  pathname: string;
-}
-
-export type LocationChangeEvent = CustomEvent<LocationChangeEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'location-change': LocationChangeEvent;
-  }
-}
+export type EditableContentSaveEvent = CustomEvent<
+  EditableContentSaveEventDetail
+>;
 
 export interface RpcLogEventDetail {
   status: number | null;
@@ -117,58 +107,76 @@ export interface RpcLogEventDetail {
   elapsed: number;
   anonymizedUrl: string;
 }
-
 export type RpcLogEvent = CustomEvent<RpcLogEventDetail>;
 
-declare global {
-  interface DocumentEventMap {
-    'gr-rpc-log': RpcLogEvent;
-  }
+export interface IronAnnounceEventDetail {
+  text: string;
 }
+export type IronAnnounceEvent = CustomEvent<IronAnnounceEventDetail>;
+
+export interface LocationChangeEventDetail {
+  hash: string;
+  pathname: string;
+}
+export type LocationChangeEvent = CustomEvent<LocationChangeEventDetail>;
+
+export type MovedLinkClickedEvent = CustomEvent<MovedLinkClickedEventDetail>;
+
+export interface NetworkErrorEventDetail {
+  error: Error;
+}
+export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
+
+export interface OpenFixPreviewEventDetail {
+  patchNum?: PatchSetNum;
+  comment?: UIComment;
+}
+export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
+
+export interface PageErrorEventDetail {
+  response?: Response;
+}
+export type PageErrorEvent = CustomEvent<PageErrorEventDetail>;
+
+export interface ReloadEventDetail {
+  clearPatchset: boolean;
+}
+export type ReloadEvent = CustomEvent<ReloadEventDetail>;
+
+export interface ReplyEventDetail {
+  message: ChangeMessage;
+}
+export type ReplyEvent = CustomEvent<ReplyEventDetail>;
+
+export interface ServerErrorEventDetail {
+  request?: FetchRequest;
+  response: Response;
+}
+export type ServerErrorEvent = CustomEvent<ServerErrorEventDetail>;
 
 export interface ShortcutTriggeredEventDetail {
   event: CustomKeyboardEvent;
   goKey: boolean;
   vKey: boolean;
 }
-
 export type ShortcutTriggeredEvent = CustomEvent<ShortcutTriggeredEventDetail>;
 
-declare global {
-  interface HTMLElementEventMap {
-    'shortcut-triggered': ShortcutTriggeredEvent;
-  }
+export interface ShowAlertEventDetail {
+  message: string;
+  dismissOnNavigation?: boolean;
+  showDismiss?: boolean;
+  action?: string;
+  callback?: () => void;
 }
+export type ShowAlertEvent = CustomEvent<ShowAlertEventDetail>;
 
-export interface EditableContentSaveEventDetail {
-  content: string;
+export interface ShowErrorEventDetail {
+  message: string;
 }
-
-export type EditableContentSaveEvent = CustomEvent<
-  EditableContentSaveEventDetail
->;
-
-declare global {
-  interface HTMLElementEventMap {
-    'editable-content-save': EditableContentSaveEvent;
-  }
-}
-
-export interface OpenFixPreviewEventDetail {
-  patchNum?: PatchSetNum;
-  comment?: UIComment;
-}
-
-export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'open-fix-preview': OpenFixPreviewEvent;
-  }
-}
+export type ShowErrorEvent = CustomEvent<ShowErrorEventDetail>;
 
 // Type for the custom event to switch tab.
-interface SwitchTabEventDetail {
+export interface SwitchTabEventDetail {
   // name of the tab to set as active, from custom event
   tab?: string;
   // index of tab to set as active, from paper-tabs event
@@ -178,90 +186,31 @@ interface SwitchTabEventDetail {
   // define state of tab after opening
   tabState?: TabState;
 }
-
 export interface TabState {
   commentTab?: CommentTabState;
   checksTab?: ChecksTabState;
 }
-
 export enum CommentTabState {
   UNRESOLVED = 'unresolved',
   DRAFTS = 'drafts',
   SHOW_ALL = 'show all',
 }
-
 export interface ChecksTabState {
   statusOrCategory?: RunStatus | Category;
   checkName?: string;
 }
-
 export type SwitchTabEvent = CustomEvent<SwitchTabEventDetail>;
 
-declare global {
-  interface HTMLElementEventMap {
-    'show-primary-tab': SwitchTabEvent;
-    'show-secondary-tab': SwitchTabEvent;
-  }
+export interface ThreadListModifiedDetail {
+  rootId: UrlEncodedCommentId;
+  path: string;
 }
+export type ThreadListModifiedEvent = CustomEvent<ThreadListModifiedDetail>;
 
-export interface ReloadEventDetail {
-  clearPatchset: boolean;
+export interface TitleChangeEventDetail {
+  title: string;
 }
-
-export type ReloadEvent = CustomEvent<ReloadEventDetail>;
-
-export type MovedLinkClickedEvent = CustomEvent<MovedLinkClickedEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'moved-link-clicked': MovedLinkClickedEvent;
-  }
-}
-
-declare global {
-  interface HTMLElementEventMap {
-    /* prettier-ignore */
-    'reload': ReloadEvent;
-  }
-}
-
-export interface ShowAlertEventDetail {
-  message: string;
-  dismissOnNavigation?: boolean;
-  showDismiss?: boolean;
-  action?: string;
-  callback?: () => void;
-}
-
-export type ShowAlertEvent = CustomEvent<ShowAlertEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'show-alert': ShowAlertEvent;
-  }
-}
-declare global {
-  interface DocumentEventMap {
-    'show-alert': ShowAlertEvent;
-  }
-}
-
-export interface ShowErrorEventDetail {
-  message: string;
-}
-
-export type ShowErrorEvent = CustomEvent<ShowErrorEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'show-error': ShowErrorEvent;
-  }
-}
-declare global {
-  interface DocumentEventMap {
-    'show-error': ShowErrorEvent;
-  }
-}
+export type TitleChangeEvent = CustomEvent<TitleChangeEventDetail>;
 
 /**
  * Keyboard events emitted from polymer elements.
@@ -280,26 +229,4 @@ export interface CustomKeyboardEvent extends CustomEvent, EventApi {
   readonly shiftKey: boolean;
   readonly keyCode: number;
   readonly repeat: boolean;
-}
-
-export interface ThreadListModifiedDetail {
-  rootId: UrlEncodedCommentId;
-  path: string;
-}
-
-export type ThreadListModifiedEvent = CustomEvent<ThreadListModifiedDetail>;
-
-// TODO(milutin) - remove once new gr-dialog will do it out of the box
-// This informs gr-app-element to remove footer, header from a11y tree
-export interface DialogChangeEventDetail {
-  canceled?: boolean;
-  opened?: boolean;
-}
-
-export type DialogChangeEvent = CustomEvent<DialogChangeEventDetail>;
-
-declare global {
-  interface HTMLElementEventMap {
-    'thread-list-modified': ThreadListModifiedEvent;
-  }
 }

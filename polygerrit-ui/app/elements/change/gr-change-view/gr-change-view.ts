@@ -156,12 +156,12 @@ import {
   SwitchTabEvent,
   ThreadListModifiedEvent,
   TabState,
+  EventType,
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
-  EventType,
   fireAlert,
   fireEvent,
   firePageError,

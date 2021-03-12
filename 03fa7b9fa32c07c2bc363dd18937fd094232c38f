@@ -22,6 +22,30 @@
       },
       "revId": "03fa7b9fa32c07c2bc363dd18937fd094232c38f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e62a038_cec2500f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-03-12T08:56:48Z",
+      "side": 1,
+      "message": "Any reason? Our docs say ! is preferrable for better error message, and there could be bugs where assert.equal(a?.b?.c, null) may pass for the wrong reasons (a or b is not defined).\n\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#migrating-tests-to-typescript\nCtrl+F \"Usually the fix with ! is preferable\"",
+      "parentUuid": "1799dec5_8a876547",
+      "range": {
+        "startLine": 59,
+        "startChar": 25,
+        "endLine": 59,
+        "endChar": 31
+      },
+      "revId": "03fa7b9fa32c07c2bc363dd18937fd094232c38f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

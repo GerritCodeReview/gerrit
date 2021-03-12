@@ -55,6 +55,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc3ea8d4_c717edfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-12T19:51:04Z",
+      "side": 1,
+      "message": "I made the change for stable-3.1 because it is the least supported version for Gerrit. The problem exists from Gerrit 2.16 and higher. As you said it will more difficult to cherry-pick it in stable-3.1 from master, perhaps it will be easier to merge it upstream however. What do you think?\n\nConcerning the restApi, I agree, I will try then moving this change in gr-repo-list.",
+      "parentUuid": "6eb81c26_e33de9ed",
+      "revId": "1dd15cb9b5c33b758f71e2fc2600f550f0ab1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95cbd3c3_98b0a186",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-12T19:51:04Z",
+      "side": 1,
+      "message": "When I type this command, I have an error that it is missing script :single",
+      "parentUuid": "10e2466a_3426eba2",
+      "revId": "1dd15cb9b5c33b758f71e2fc2600f550f0ab1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9532c6b_8687675c",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4
@@ -66,6 +102,30 @@
       "writtenOn": "2021-03-12T19:37:19Z",
       "side": 1,
       "message": "I think response can be undefined",
+      "range": {
+        "startLine": 1324,
+        "startChar": 8,
+        "endLine": 1324,
+        "endChar": 16
+      },
+      "revId": "1dd15cb9b5c33b758f71e2fc2600f550f0ab1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "333a0c7c_6e38bdff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-12T19:51:04Z",
+      "side": 1,
+      "message": "This will depend eventually on the result of the other thread, I think.",
+      "parentUuid": "d9532c6b_8687675c",
       "range": {
         "startLine": 1324,
         "startChar": 8,

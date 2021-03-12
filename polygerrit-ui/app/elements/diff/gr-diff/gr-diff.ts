@@ -284,9 +284,8 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
 
   private renderDiffTableTask?: DelayedTask;
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this._setLoading(true);
     this.addEventListener('create-range-comment', (e: Event) =>
       this._handleCreateRangeComment(e as CustomEvent)

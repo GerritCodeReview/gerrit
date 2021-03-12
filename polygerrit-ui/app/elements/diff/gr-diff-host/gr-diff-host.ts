@@ -269,9 +269,8 @@ export class GrDiffHost extends LegacyElementMixin(PolymerElement) {
 
   private readonly syntaxLayer = new GrSyntaxLayer();
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener(
       // These are named inconsistently for a reason:
       // The create-comment event is fired to indicate that we should

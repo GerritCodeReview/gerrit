@@ -82,9 +82,8 @@ export class GrOverlay extends IronOverlayMixin(
     return (window.Polymer as any).IronFocusablesHelper.getTabbableNodes(this);
   }
 
-  /** @override */
-  created() {
-    super.created();
+  constructor() {
+    super();
     this.addEventListener('iron-overlay-closed', () => this._overlayClosed());
     this.addEventListener('iron-overlay-cancelled', () =>
       this._overlayClosed()

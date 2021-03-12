@@ -357,11 +357,6 @@ export class GrFileList extends KeyboardShortcutMixin(
     super();
     this.fileCursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.fileCursor.cursorTargetClass = 'selected';
-  }
-
-  /** @override */
-  created() {
-    super.created();
     this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
   }
 

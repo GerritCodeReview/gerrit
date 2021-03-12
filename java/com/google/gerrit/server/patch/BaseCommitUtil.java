@@ -21,6 +21,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -34,6 +35,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /** A utility class for computing the base commit / parent for a specific patchset commit. */
+@Singleton
 class BaseCommitUtil {
   private final AutoMerger autoMerger;
   private final ThreeWayMergeStrategy mergeStrategy;

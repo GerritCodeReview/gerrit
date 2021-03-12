@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c3429fc_ecf1de60",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-12T01:44:26Z",
+      "side": 1,
+      "message": "I need more information myself 😊\n\n* Storage / git layer failures?\n* Repository is getting updated at the same time?",
+      "parentUuid": "3b6f4051_7130a3ac",
+      "range": {
+        "startLine": 41,
+        "startChar": 52,
+        "endLine": 42,
+        "endChar": 13
+      },
+      "revId": "144ec8f445e04d156eaa53d0abed5b60ff4675ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3c9bff1_cb20e9a4",
         "filename": "Documentation/cross-repository-changes.txt",
         "patchSetId": 5
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-11T09:51:38Z",
       "side": 1,
       "message": "we don\u0027t currently support cherry-picking to another repository (only to another branch) - omit?",
+      "range": {
+        "startLine": 205,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 18
+      },
+      "revId": "144ec8f445e04d156eaa53d0abed5b60ff4675ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32f98e29_ac9c91de",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-12T01:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c9bff1_cb20e9a4",
       "range": {
         "startLine": 205,
         "startChar": 8,
@@ -77,6 +125,30 @@
       "writtenOn": "2021-03-11T09:51:38Z",
       "side": 1,
       "message": "more accurately, you can\u0027t cherry-pick if *any two* changes target the same repository.",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 0
+      },
+      "revId": "144ec8f445e04d156eaa53d0abed5b60ff4675ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae891876_6992a7a9",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-12T01:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2185c6e_20a7dd3b",
       "range": {
         "startLine": 231,
         "startChar": 0,

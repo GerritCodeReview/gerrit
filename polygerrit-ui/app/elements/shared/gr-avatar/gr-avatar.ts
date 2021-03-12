@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-avatar_html';
 import {getBaseUrl} from '../../../utils/url-util';
@@ -25,7 +24,7 @@ import {AccountInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 
 @customElement('gr-avatar')
-export class GrAvatar extends LegacyElementMixin(PolymerElement) {
+export class GrAvatar extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

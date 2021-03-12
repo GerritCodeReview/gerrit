@@ -20,7 +20,6 @@ import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-label/gr-label';
 import '../../shared/gr-label-info/gr-label-info';
 import '../../shared/gr-limited-text/gr-limited-text';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-requirements_html';
 import {customElement, property, observe} from '@polymer/decorators';
@@ -57,7 +56,7 @@ interface Label {
 }
 
 @customElement('gr-change-requirements')
-class GrChangeRequirements extends LegacyElementMixin(PolymerElement) {
+class GrChangeRequirements extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

@@ -16,7 +16,6 @@
  */
 import '../gr-linked-text/gr-linked-text';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-formatted-text_html';
@@ -44,7 +43,7 @@ export interface GrFormattedText {
 }
 
 @customElement('gr-formatted-text')
-export class GrFormattedText extends LegacyElementMixin(PolymerElement) {
+export class GrFormattedText extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

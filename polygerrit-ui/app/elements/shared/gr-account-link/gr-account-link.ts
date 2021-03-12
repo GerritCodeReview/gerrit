@@ -17,7 +17,6 @@
 
 import '../gr-account-label/gr-account-label';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-account-link_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -25,7 +24,7 @@ import {customElement, property} from '@polymer/decorators';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
 
 @customElement('gr-account-link')
-class GrAccountLink extends LegacyElementMixin(PolymerElement) {
+class GrAccountLink extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

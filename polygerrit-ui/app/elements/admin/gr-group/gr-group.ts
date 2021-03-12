@@ -22,7 +22,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group_html';
 import {customElement, property, observe} from '@polymer/decorators';
@@ -70,7 +69,7 @@ declare global {
 }
 
 @customElement('gr-group')
-export class GrGroup extends LegacyElementMixin(PolymerElement) {
+export class GrGroup extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

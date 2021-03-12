@@ -22,7 +22,6 @@ import '../gr-button/gr-button';
 import '../gr-date-formatter/gr-date-formatter';
 import '../gr-select/gr-select';
 import '../gr-file-status-chip/gr-file-status-chip';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-dropdown-list_html';
 import {customElement, property, observe} from '@polymer/decorators';
@@ -63,7 +62,7 @@ export interface ValueChangeDetail {
 export type DropDownValueChangeEvent = CustomEvent<ValueChangeDetail>;
 
 @customElement('gr-dropdown-list')
-export class GrDropdownList extends LegacyElementMixin(PolymerElement) {
+export class GrDropdownList extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

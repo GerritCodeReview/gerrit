@@ -25,7 +25,6 @@ import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {htmlTemplate} from './gr-diff_html';
 import {LineNumber} from './gr-diff-line';
 import {
@@ -111,7 +110,7 @@ export interface CreateCommentEventDetail extends CreateCommentEventDetailApi {
 }
 
 @customElement('gr-diff')
-export class GrDiff extends LegacyElementMixin(PolymerElement) {
+export class GrDiff extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {updateStyles} from '@polymer/polymer/lib/mixins/element-mixin';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-external-style_html';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
@@ -23,7 +22,7 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {customElement, property} from '@polymer/decorators';
 
 @customElement('gr-external-style')
-class GrExternalStyle extends LegacyElementMixin(PolymerElement) {
+class GrExternalStyle extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

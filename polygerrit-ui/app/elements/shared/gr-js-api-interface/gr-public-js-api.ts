@@ -27,7 +27,6 @@ import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {GrChangeMetadataApi} from '../../plugins/gr-change-metadata-api/gr-change-metadata-api';
 import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
 import {GrPluginRestApi} from './gr-plugin-rest-api';
-import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api';
 import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
@@ -50,7 +49,6 @@ import {SettingsPluginApi} from '../../../api/settings';
 import {ReportingPluginApi} from '../../../api/reporting';
 import {ChangeActionsPluginApi} from '../../../api/change-actions';
 import {ChangeMetadataPluginApi} from '../../../api/change-metadata';
-import {RepoPluginApi} from '../../../api/repo';
 import {ChangeReplyPluginApi} from '../../../api/change-reply';
 import {RestPluginApi} from '../../../api/rest';
 import {HookApi, RegisterOptions} from '../../../api/hook';
@@ -283,10 +281,6 @@ export class Plugin implements PluginApi {
 
   theme(): ThemePluginApi {
     return new GrThemeApi(this);
-  }
-
-  project(): RepoPluginApi {
-    return new GrRepoApi(this);
   }
 
   changeMetadata(): ChangeMetadataPluginApi {

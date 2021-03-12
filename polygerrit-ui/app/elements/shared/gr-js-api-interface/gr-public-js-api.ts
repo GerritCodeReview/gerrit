@@ -22,11 +22,9 @@ import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface';
 import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
-import {GrChangeMetadataApi} from '../../plugins/gr-change-metadata-api/gr-change-metadata-api';
 import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
 import {GrPluginRestApi} from './gr-plugin-rest-api';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
-
 import {getPluginNameFromUrl, PRELOADED_PROTOCOL, send} from './gr-api-utils';
 import {GrReportingJsApi} from './gr-reporting-js-api';
 import {EventType, PluginApi, TargetElement} from '../../../api/plugin';
@@ -41,7 +39,6 @@ import {EventHelperPluginApi} from '../../../api/event-helper';
 import {PopupPluginApi} from '../../../api/popup';
 import {ReportingPluginApi} from '../../../api/reporting';
 import {ChangeActionsPluginApi} from '../../../api/change-actions';
-import {ChangeMetadataPluginApi} from '../../../api/change-metadata';
 import {ChangeReplyPluginApi} from '../../../api/change-reply';
 import {RestPluginApi} from '../../../api/rest';
 import {HookApi, RegisterOptions} from '../../../api/hook';
@@ -241,10 +238,6 @@ export class Plugin implements PluginApi {
 
   reporting(): ReportingPluginApi {
     return new GrReportingJsApi(this);
-  }
-
-  changeMetadata(): ChangeMetadataPluginApi {
-    return new GrChangeMetadataApi(this);
   }
 
   admin(): AdminPluginApi {

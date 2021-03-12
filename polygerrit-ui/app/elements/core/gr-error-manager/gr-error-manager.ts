@@ -31,8 +31,8 @@ import {GrErrorDialog} from '../gr-error-dialog/gr-error-dialog';
 import {GrAlert} from '../../shared/gr-alert/gr-alert';
 import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
 import {AccountId} from '../../../types/common';
-import {EventType} from '../../../utils/event-util';
 import {
+  EventType,
   NetworkErrorEvent,
   ServerErrorEvent,
   ShowAlertEventDetail,

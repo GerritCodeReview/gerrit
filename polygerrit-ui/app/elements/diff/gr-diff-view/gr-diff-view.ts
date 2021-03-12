@@ -99,6 +99,8 @@ import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {toggleClass} from '../../../utils/dom-util';
+import {Subscription} from 'rxjs';
+
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';
@@ -116,7 +118,6 @@ interface CommentSkips {
 export interface GrDiffView {
   $: {
     commentAPI: GrCommentApi;
-    cursor: GrDiffCursor;
     diffHost: GrDiffHost;
     reviewed: HTMLInputElement;
     dropdown: GrDropdownList;
@@ -319,6 +320,10 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   _onRenderHandler?: EventListener;
 
+  private cursor = new GrDiffCursor();
+
+  private subscriptions: Subscription[] = [];
+
   /** @override */
   connectedCallback() {
     super.connectedCallback();
@@ -330,22 +335,40 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     });
 
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
-    this.$.cursor.push('diffs', this.$.diffHost);
+    this.cursor.registerDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
-      this.$.cursor.reInitCursor();
+      this.cursor.reInitCursor();
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
+    this.subscriptions.push(
+      this.cursor.nextUnreviewedFile$.subscribe(() =>
+        this._navigateToNextUnreviewedFile()
+      )
+    );
+    this.subscriptions.push(
+      this.cursor.prevUnreviewedFile$.subscribe(() =>
+        this._navigateToPreviousUnreviewedFile()
+      )
+    );
+    this.subscriptions.push(
+      this.cursor.nextFileWithComments$.subscribe(() =>
+        this._navigateToNextFileWithCommentThread()
+      )
+    );
   }
 
   /** @override */
   disconnectedCallback() {
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
     if (this._onRenderHandler) {
       this.$.diffHost.removeEventListener('render', this._onRenderHandler);
     }
     super.disconnectedCallback();
   }
 
-  _getLoggedIn() {
+  _getLoggedIn(): Promise<boolean> {
     return this.restApiService.getLoggedIn();
   }
 
@@ -481,14 +504,14 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     if (this.shouldSuppressKeyboardShortcut(e)) return;
 
     e.preventDefault();
-    this.$.cursor.moveLeft();
+    this.cursor.moveLeft();
   }
 
   _handleRightPane(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e)) return;
 
     e.preventDefault();
-    this.$.cursor.moveRight();
+    this.cursor.moveRight();
   }
 
   _handlePrevLineOrFileWithComments(e: CustomKeyboardEvent) {
@@ -508,14 +531,14 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
     e.preventDefault();
     this.$.diffHost.displayLine = true;
-    this.$.cursor.moveUp();
+    this.cursor.moveUp();
   }
 
   _handleVisibleLine(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e)) return;
 
     e.preventDefault();
-    this.$.cursor.moveToVisibleArea();
+    this.cursor.moveToVisibleArea();
   }
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
@@ -539,7 +562,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
     e.preventDefault();
     this.$.diffHost.displayLine = true;
-    this.$.cursor.moveDown();
+    this.cursor.moveDown();
   }
 
   _moveToPreviousFileWithComment() {
@@ -587,7 +610,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
     e.preventDefault();
     this.classList.remove('hideComments');
-    this.$.cursor.createCommentInPlace();
+    this.cursor.createCommentInPlace();
   }
 
   _handlePrevFile(e: CustomKeyboardEvent) {
@@ -617,11 +640,11 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
     e.preventDefault();
     if (e.detail.keyboardEvent?.shiftKey) {
-      this.$.cursor.moveToNextCommentThread();
+      this.cursor.moveToNextCommentThread();
     } else {
       if (this.modifierPressed(e)) return;
       // navigate to next file if key is not being held down
-      this.$.cursor.moveToNextChunk(
+      this.cursor.moveToNextChunk(
         /* opt_clipToTop = */ false,
         /* opt_navigateToNextFile = */ !e.detail.keyboardEvent?.repeat
       );
@@ -633,10 +656,10 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
     e.preventDefault();
     if (e.detail.keyboardEvent?.shiftKey) {
-      this.$.cursor.moveToPreviousCommentThread();
+      this.cursor.moveToPreviousCommentThread();
     } else {
       if (this.modifierPressed(e)) return;
-      this.$.cursor.moveToPreviousChunk(!e.detail.keyboardEvent?.repeat);
+      this.cursor.moveToPreviousChunk(!e.detail.keyboardEvent?.repeat);
     }
   }
 
@@ -789,7 +812,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     if (!this._patchRange) return;
 
     // TODO(taoalpha): add a shortcut for editing
-    const cursorAddress = this.$.cursor.getAddress();
+    const cursorAddress = this.cursor.getAddress();
     const editUrl = GerritNav.getEditUrlForDiff(
       this._change,
       this._path,
@@ -1178,11 +1201,11 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
       return;
     }
     if (leftSide) {
-      this.$.cursor.side = Side.LEFT;
+      this.cursor.side = Side.LEFT;
     } else {
-      this.$.cursor.side = Side.RIGHT;
+      this.cursor.side = Side.RIGHT;
     }
-    this.$.cursor.initialLineNumber = this._focusLineNum;
+    this.cursor.initialLineNumber = this._focusLineNum;
   }
 
   _getLineOfInterest(leftSide: boolean): LineOfInterest | undefined {

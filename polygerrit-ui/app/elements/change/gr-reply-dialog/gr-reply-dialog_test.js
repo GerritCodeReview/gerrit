@@ -887,42 +887,37 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(filter({group: cc2}));
   });
 
-  test('_focusOn', () => {
+  test('_focusOn', async () => {
     sinon.spy(element, '_chooseFocusTarget');
-    flush();
-    const textareaStub = sinon.stub(element.$.textarea, 'async');
-    const reviewerEntryStub = sinon.stub(element.$.reviewers.focusStart,
-        'async');
-    const ccStub = sinon.stub(element.$.ccs.focusStart, 'async');
     element._focusOn();
+    await flush();
     assert.equal(element._chooseFocusTarget.callCount, 1);
-    assert.deepEqual(textareaStub.callCount, 1);
-    assert.deepEqual(reviewerEntryStub.callCount, 0);
-    assert.deepEqual(ccStub.callCount, 0);
+    assert.equal(element.shadowRoot.activeElement.tagName, 'GR-TEXTAREA');
+    assert.equal(element.shadowRoot.activeElement.id, 'textarea');
 
     element._focusOn(element.FocusTarget.ANY);
+    await flush();
     assert.equal(element._chooseFocusTarget.callCount, 2);
-    assert.deepEqual(textareaStub.callCount, 2);
-    assert.deepEqual(reviewerEntryStub.callCount, 0);
-    assert.deepEqual(ccStub.callCount, 0);
+    assert.equal(element.shadowRoot.activeElement.tagName, 'GR-TEXTAREA');
+    assert.equal(element.shadowRoot.activeElement.id, 'textarea');
 
     element._focusOn(element.FocusTarget.BODY);
+    await flush();
     assert.equal(element._chooseFocusTarget.callCount, 2);
-    assert.deepEqual(textareaStub.callCount, 3);
-    assert.deepEqual(reviewerEntryStub.callCount, 0);
-    assert.deepEqual(ccStub.callCount, 0);
+    assert.equal(element.shadowRoot.activeElement.tagName, 'GR-TEXTAREA');
+    assert.equal(element.shadowRoot.activeElement.id, 'textarea');
 
     element._focusOn(element.FocusTarget.REVIEWERS);
+    await flush();
     assert.equal(element._chooseFocusTarget.callCount, 2);
-    assert.deepEqual(textareaStub.callCount, 3);
-    assert.deepEqual(reviewerEntryStub.callCount, 1);
-    assert.deepEqual(ccStub.callCount, 0);
+    assert.equal(element.shadowRoot.activeElement.tagName, 'GR-ACCOUNT-LIST');
+    assert.equal(element.shadowRoot.activeElement.id, 'reviewers');
 
     element._focusOn(element.FocusTarget.CCS);
+    await flush();
     assert.equal(element._chooseFocusTarget.callCount, 2);
-    assert.deepEqual(textareaStub.callCount, 3);
-    assert.deepEqual(reviewerEntryStub.callCount, 1);
-    assert.deepEqual(ccStub.callCount, 1);
+    assert.equal(element.shadowRoot.activeElement.tagName, 'GR-ACCOUNT-LIST');
+    assert.equal(element.shadowRoot.activeElement.id, 'ccs');
   });
 
   test('_chooseFocusTarget', () => {

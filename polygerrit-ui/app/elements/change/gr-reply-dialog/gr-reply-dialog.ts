@@ -757,13 +757,13 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     }
     if (section === FocusTarget.BODY) {
       const textarea = this.$.textarea;
-      textarea.async(() => textarea.getNativeTextarea().focus());
+      setTimeout(() => textarea.getNativeTextarea().focus());
     } else if (section === FocusTarget.REVIEWERS) {
       const reviewerEntry = this.$.reviewers.focusStart;
-      reviewerEntry.async(() => reviewerEntry.focus());
+      setTimeout(() => reviewerEntry.focus());
     } else if (section === FocusTarget.CCS) {
       const ccEntry = this.$.ccs.focusStart;
-      ccEntry.async(() => ccEntry.focus());
+      setTimeout(() => ccEntry.focus());
     }
   }
 

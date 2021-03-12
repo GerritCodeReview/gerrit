@@ -65,11 +65,7 @@ export class GrEndpointDecorator extends LegacyElementMixin(PolymerElement) {
     slot?: string
   ): Promise<HTMLElement> {
     const el = document.createElement(name);
-    return this._initProperties(
-      el,
-      plugin,
-      this.getContentChildren().find(el => el.nodeName !== 'GR-ENDPOINT-PARAM')
-    ).then(el => {
+    return this._initProperties(el, plugin).then(el => {
       const slotEl = slot
         ? this.querySelector(`gr-endpoint-slot[name=${slot}]`)
         : null;
@@ -82,8 +78,12 @@ export class GrEndpointDecorator extends LegacyElementMixin(PolymerElement) {
     });
   }
 
+  // As of March 2021 the only known plugin that replaces an endpoint instead
+  // of decorating it is codemirror_editor.
   _initReplacement(name: string, plugin: PluginApi): Promise<HTMLElement> {
-    this.getContentChildNodes()
+    const directChildren = [...this.childNodes];
+    const slotChildren = [...(this.querySelector('slot')?.childNodes ?? [])];
+    [...directChildren, ...slotChildren]
       .filter(node => node.nodeName !== 'GR-ENDPOINT-PARAM')
       .forEach(node => (node as ChildNode).remove());
     const el = document.createElement(name);
@@ -98,17 +98,12 @@ export class GrEndpointDecorator extends LegacyElementMixin(PolymerElement) {
 
   _initProperties(
     htmlEl: HTMLElement,
-    plugin: PluginApi,
-    content?: HTMLElement
+    plugin: PluginApi
   ) {
     const el = htmlEl as HTMLElement & {
       plugin?: PluginApi;
-      content?: HTMLElement;
     };
     el.plugin = plugin;
-    if (content) {
-      el.content = content;
-    }
     const expectProperties = this._getEndpointParams().map(paramEl => {
       const helper = plugin.attributeHelper(paramEl);
       // TODO: this should be replaced by accessing the property directly

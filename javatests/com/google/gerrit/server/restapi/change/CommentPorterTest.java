@@ -22,6 +22,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.entities.Account;
@@ -35,12 +36,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.patch.ComparisonType;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListEntry;
-import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.restapi.change.CommentPorter.Metrics;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import java.sql.Timestamp;
@@ -60,7 +57,7 @@ public class CommentPorterTest {
 
   @Rule public final MockitoRule mockito = MockitoJUnit.rule();
 
-  @Mock private PatchListCache patchListCache;
+  @Mock private DiffOperations diffOperations;
   @Mock private CommentsUtil commentsUtil;
 
   private static final CommentPorter.Metrics metrics = new Metrics(new DisabledMetricMaker());
@@ -76,12 +73,13 @@ public class CommentPorterTest {
     PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));
     ChangeNotes changeNotes = mockChangeNotes(project, change, patchset1, patchset2);
 
-    CommentPorter commentPorter = new CommentPorter(patchListCache, commentsUtil, metrics);
+    CommentPorter commentPorter = new CommentPorter(diffOperations, commentsUtil, metrics);
     HumanComment comment = createComment(patchset1.id(), "myFile");
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenReturn(Optional.of(dummyObjectId));
-    when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
-        .thenThrow(PatchListNotAvailableException.class);
+    when(diffOperations.listModifiedFiles(
+            any(Project.NameKey.class), any(ObjectId.class), any(ObjectId.class)))
+        .thenThrow(DiffNotAvailableException.class);
     ImmutableList<HumanComment> portedComments =
         commentPorter.portComments(
             changeNotes, patchset2, ImmutableList.of(comment), ImmutableList.of());
@@ -98,11 +96,12 @@ public class CommentPorterTest {
     PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));
     ChangeNotes changeNotes = mockChangeNotes(project, change, patchset1, patchset2);
 
-    CommentPorter commentPorter = new CommentPorter(patchListCache, commentsUtil, metrics);
+    CommentPorter commentPorter = new CommentPorter(diffOperations, commentsUtil, metrics);
     HumanComment comment = createComment(patchset1.id(), "myFile");
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenReturn(Optional.of(dummyObjectId));
-    when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
+    when(diffOperations.listModifiedFiles(
+            any(Project.NameKey.class), any(ObjectId.class), any(ObjectId.class)))
         .thenThrow(IllegalStateException.class);
     ImmutableList<HumanComment> portedComments =
         commentPorter.portComments(
@@ -120,7 +119,7 @@ public class CommentPorterTest {
     PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));
     ChangeNotes changeNotes = mockChangeNotes(project, change, patchset1, patchset2);
 
-    CommentPorter commentPorter = new CommentPorter(patchListCache, commentsUtil, metrics);
+    CommentPorter commentPorter = new CommentPorter(diffOperations, commentsUtil, metrics);
     HumanComment comment = createComment(patchset1.id(), "myFile");
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenThrow(IllegalStateException.class);
@@ -140,11 +139,12 @@ public class CommentPorterTest {
     PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));
     ChangeNotes changeNotes = mockChangeNotes(project, change, patchset1, patchset2);
 
-    CommentPorter commentPorter = new CommentPorter(patchListCache, commentsUtil, metrics);
+    CommentPorter commentPorter = new CommentPorter(diffOperations, commentsUtil, metrics);
     HumanComment comment = createComment(patchset1.id(), "myFile");
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenReturn(Optional.of(dummyObjectId));
-    when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
+    when(diffOperations.listModifiedFiles(
+            any(Project.NameKey.class), any(ObjectId.class), any(ObjectId.class)))
         .thenThrow(IllegalStateException.class);
     ImmutableList<HumanComment> portedComments =
         commentPorter.portComments(
@@ -165,17 +165,17 @@ public class CommentPorterTest {
     PatchSet patchset3 = createPatchset(PatchSet.id(changeId, 3));
     ChangeNotes changeNotes = mockChangeNotes(project, change, patchset1, patchset2, patchset3);
 
-    CommentPorter commentPorter = new CommentPorter(patchListCache, commentsUtil, metrics);
+    CommentPorter commentPorter = new CommentPorter(diffOperations, commentsUtil, metrics);
     // Place the comments on different patchsets to have two different diff requests.
     HumanComment comment1 = createComment(patchset1.id(), "myFile");
     HumanComment comment2 = createComment(patchset2.id(), "myFile");
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenReturn(Optional.of(dummyObjectId));
-    PatchList emptyDiff = getEmptyDiff();
     // Throw an exception on the first diff request but return an actual value on the second.
-    when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
+    when(diffOperations.listModifiedFiles(
+            any(Project.NameKey.class), any(ObjectId.class), any(ObjectId.class)))
         .thenThrow(IllegalStateException.class)
-        .thenReturn(emptyDiff);
+        .thenReturn(ImmutableMap.of());
     ImmutableList<HumanComment> portedComments =
         commentPorter.portComments(
             changeNotes, patchset3, ImmutableList.of(comment1, comment2), ImmutableList.of());
@@ -195,13 +195,13 @@ public class CommentPorterTest {
     // Leave out patchset 1 (e.g. reserved for draft patchsets in the past).
     ChangeNotes changeNotes = mockChangeNotes(project, change, patchset2);
 
-    CommentPorter commentPorter = new CommentPorter(patchListCache, commentsUtil, metrics);
+    CommentPorter commentPorter = new CommentPorter(diffOperations, commentsUtil, metrics);
     HumanComment comment = createComment(patchset1.id(), "myFile");
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenReturn(Optional.of(dummyObjectId));
-    PatchList emptyDiff = getEmptyDiff();
-    when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
-        .thenReturn(emptyDiff);
+    when(diffOperations.listModifiedFiles(
+            any(Project.NameKey.class), any(ObjectId.class), any(ObjectId.class)))
+        .thenReturn(ImmutableMap.of());
     ImmutableList<HumanComment> portedComments =
         commentPorter.portComments(
             changeNotes, patchset2, ImmutableList.of(comment), ImmutableList.of());
@@ -259,14 +259,5 @@ public class CommentPorterTest {
 
   private Correspondence<HumanComment, String> hasFilePath() {
     return NullAwareCorrespondence.transforming(comment -> comment.key.filename, "hasFilePath");
-  }
-
-  private PatchList getEmptyDiff() {
-    return new PatchList(
-        dummyObjectId,
-        dummyObjectId,
-        false,
-        ComparisonType.againstOtherPatchSet(),
-        new PatchListEntry[0]);
   }
 }

@@ -44,6 +44,7 @@ import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgorithmFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID}, the git diff will be evaluated against the empty
  * tree.
  */
+@Singleton
 public class FileDiffCacheImpl implements FileDiffCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

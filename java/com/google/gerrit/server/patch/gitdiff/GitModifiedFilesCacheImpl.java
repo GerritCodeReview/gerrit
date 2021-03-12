@@ -29,6 +29,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
@@ -43,6 +44,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /** Implementation of the {@link GitModifiedFilesCache} */
+@Singleton
 public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
   private static final String GIT_MODIFIED_FILES = "git_modified_files";
   private static final ImmutableMap<ChangeType, Patch.ChangeType> changeTypeMap =

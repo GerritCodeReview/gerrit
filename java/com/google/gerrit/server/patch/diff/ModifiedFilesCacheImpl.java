@@ -34,6 +34,7 @@ import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
@@ -56,6 +57,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * and the result will be exactly the same as the caller can get from {@link
  * GitModifiedFilesCache#get(GitModifiedFilesCacheKey)}
  */
+@Singleton
 public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

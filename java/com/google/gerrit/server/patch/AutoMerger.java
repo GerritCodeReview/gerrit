@@ -31,6 +31,8 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.dircache.DirCache;
@@ -70,6 +72,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * <p>The second point means that these commits are referenced from NoteDb. The consequence of this
  * is that these refs should never be deleted.
  */
+@Singleton
 public class AutoMerger {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -88,7 +91,7 @@ public class AutoMerger {
 
   private final Counter1<OperationType> counter;
   private final Timer1<OperationType> latency;
-  private final PersonIdent gerritIdent;
+  private final Provider<PersonIdent> gerritIdentProvider;
   private final boolean save;
   private final ThreeWayMergeStrategy configuredMergeStrategy;
 
@@ -96,7 +99,7 @@ public class AutoMerger {
   AutoMerger(
       MetricMaker metricMaker,
       @GerritServerConfig Config cfg,
-      @GerritPersonIdent PersonIdent gerritIdent) {
+      @GerritPersonIdent Provider<PersonIdent> gerritIdentProvider) {
     this.counter =
         metricMaker.newCounter(
             "git/auto-merge/num_operations",
@@ -110,7 +113,7 @@ public class AutoMerger {
                 .setUnit("milliseconds"),
             Field.ofEnum(OperationType.class, "type", Metadata.Builder::operationName).build());
     this.save = cacheAutomerge(cfg);
-    this.gerritIdent = gerritIdent;
+    this.gerritIdentProvider = gerritIdentProvider;
     this.configuredMergeStrategy = MergeUtil.getMergeStrategy(cfg);
   }
 
@@ -224,7 +227,9 @@ public class AutoMerger {
     // the input commit, using the server name and timezone.
     PersonIdent ident =
         new PersonIdent(
-            gerritIdent, merge.getCommitterIdent().getWhen(), gerritIdent.getTimeZone());
+            gerritIdentProvider.get(),
+            merge.getCommitterIdent().getWhen(),
+            gerritIdentProvider.get().getTimeZone());
     CommitBuilder cb = new CommitBuilder();
     cb.setAuthor(ident);
     cb.setCommitter(ident);

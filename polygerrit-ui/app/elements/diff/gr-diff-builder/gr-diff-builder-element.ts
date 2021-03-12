@@ -168,8 +168,9 @@ export class GrDiffBuilderElement extends LegacyElementMixin(PolymerElement) {
     super.disconnectedCallback();
   }
 
-  get diffElement() {
-    return this.queryEffectiveChildren('#diffTable') as HTMLTableElement;
+  get diffElement(): HTMLTableElement {
+    // Not searching in shadowRoot, because the diff table is slotted!
+    return this.querySelector('#diffTable') as HTMLTableElement;
   }
 
   _computeLeftCoverageRanges(coverageRanges: CoverageRange[]) {

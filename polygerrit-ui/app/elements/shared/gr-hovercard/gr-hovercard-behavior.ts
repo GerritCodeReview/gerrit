@@ -478,7 +478,6 @@ export const hovercardBehaviorMixin = dedupingMixin(
 );
 
 export interface GrHovercardBehaviorInterface {
-  attached(): void;
   ready(): void;
   removeListeners(): void;
   debounceHide(): void;

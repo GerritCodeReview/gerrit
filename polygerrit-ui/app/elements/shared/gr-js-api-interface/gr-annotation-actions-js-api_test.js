@@ -18,16 +18,6 @@
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-const basicFixture = fixtureFromTemplate(html`
-  <span hidden id="annotation-span">
-    <label for="annotation-checkbox" id="annotation-label"></label>
-    <iron-input type="checkbox" disabled>
-      <input is="iron-input" type="checkbox" id="annotation-checkbox" disabled>
-    </iron-input>
-  </span>
-`);
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -46,33 +36,9 @@ suite('gr-annotation-actions-js-api tests', () => {
     annotationActions = null;
   });
 
-  test('add/get layer', () => {
-    const str = 'lorem ipsum blah blah';
-    const line = {text: str};
-    const el = document.createElement('div');
-    el.textContent = str;
-    const changeNum = 1234;
-    let testLayerFuncCalled = false;
-
-    const testLayerFunc = context => {
-      testLayerFuncCalled = true;
-      assert.equal(context.line, line);
-      assert.equal(context.changeNum, changeNum);
-    };
-    annotationActions.setLayer(testLayerFunc);
-
-    const annotationLayer = annotationActions.createLayer(
-        '/dummy/path', changeNum);
-
-    const lineNumberEl = document.createElement('td');
-    annotationLayer.annotate(el, lineNumberEl, line);
-    assert.isTrue(testLayerFuncCalled);
-  });
-
   test('add notifier', () => {
     const path1 = '/dummy/path1';
     const path2 = '/dummy/path2';
-    annotationActions.setLayer(context => {});
     const annotationLayer1 = annotationActions.createLayer(path1, 1);
     const annotationLayer2 = annotationActions.createLayer(path2, 1);
     const layer1Spy = sinon.spy(annotationLayer1, 'notifyListeners');
@@ -98,44 +64,7 @@ suite('gr-annotation-actions-js-api tests', () => {
     assert.isTrue(layer2Spy.called);
   });
 
-  test('toggle checkbox', () => {
-    const fakeEl = {content: basicFixture.instantiate()};
-    const hookStub = {onAttached: sinon.stub()};
-    sinon.stub(plugin, 'hook').returns(hookStub);
-
-    let checkbox;
-    let onAttachedFuncCalled = false;
-    const onAttachedFunc = c => {
-      checkbox = c;
-      onAttachedFuncCalled = true;
-    };
-    annotationActions.enableToggleCheckbox('test label', onAttachedFunc);
-    const emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
-    emulateAttached();
-
-    // Assert that onAttachedFunc is called and HTML elements have the
-    // expected state.
-    assert.isTrue(onAttachedFuncCalled);
-    assert.equal(checkbox.id, 'annotation-checkbox');
-    assert.isTrue(checkbox.disabled);
-    assert.equal(document.getElementById('annotation-label').textContent,
-        'test label');
-    assert.isFalse(document.getElementById('annotation-span').hidden);
-
-    // Assert that error is shown if we try to enable checkbox again.
-    onAttachedFuncCalled = false;
-    annotationActions.enableToggleCheckbox('test label2', onAttachedFunc);
-    const errorStub = sinon.stub(annotationActions.reporting, 'error');
-    emulateAttached();
-    assert.isTrue(errorStub.called);
-    // Assert that onAttachedFunc is not called and the label has not changed.
-    assert.isFalse(onAttachedFuncCalled);
-    assert.equal(document.getElementById('annotation-label').textContent,
-        'test label');
-  });
-
   test('layer notify listeners', () => {
-    annotationActions.setLayer(context => {});
     const annotationLayer = annotationActions.createLayer('/dummy/path', 1);
     let listenerCalledTimes = 0;
     const startRange = 10;

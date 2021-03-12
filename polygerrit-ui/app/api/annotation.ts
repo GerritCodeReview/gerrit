@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {CoverageRange, GrDiffLine, Side} from './diff';
-import {StyleObject} from './styles';
+import {CoverageRange, Side} from './diff';
 
 /**
  * This is the callback object that Gerrit calls once for each diff. Gerrit
@@ -37,60 +36,7 @@ export type CoverageProvider = (
   change?: unknown
 ) => Promise<Array<CoverageRange>>;
 
-export type AnnotationCallback = (ctx: AnnotationContext) => void;
-
-/**
- * This object is passed to the plugin from Gerrit for each line of a diff that
- * is being rendered. The plugin can then call annotateRange() or
- * annotateLineNumber() to apply additional styles to the diff.
- */
-export interface AnnotationContext {
-  /** Set by Gerrit and consumed by the plugin provided AddLayerFunc. */
-  readonly changeNum: number;
-  /** Set by Gerrit and consumed by the plugin provided AddLayerFunc. */
-  readonly path: string;
-  /** Set by Gerrit and consumed by the plugin provided AddLayerFunc. */
-  readonly line: GrDiffLine;
-  /** Set by Gerrit and consumed by the plugin provided AddLayerFunc. */
-  readonly contentEl: HTMLElement;
-  /** Set by Gerrit and consumed by the plugin provided AddLayerFunc. */
-  readonly lineNumberEl: HTMLElement;
-
-  /**
-   * Can be called by the plugin to style a part of the given line of the
-   * context.
-   *
-   * @param offset The char offset where the update starts.
-   * @param length The number of chars that the update covers.
-   * @param styleObject The style object for the range.
-   * @param side The side of the update. ('left' or 'right')
-   */
-  annotateRange(
-    offset: number,
-    length: number,
-    styleObject: StyleObject,
-    side: string
-  ): void;
-
-  /**
-   * Can be called by the plugin to style a part of the given line of the
-   * context.
-   *
-   * @param styleObject The style object for the range.
-   * @param side The side of the update. ('left' or 'right')
-   */
-  annotateLineNumber(styleObject: StyleObject, side: string): void;
-}
-
 export interface AnnotationPluginApi {
-  /**
-   * Registers a callback for applying annotations. Gerrit will call the
-   * callback for every line of every file that is rendered and pass the
-   * information about the file and line as an AnnotationContext, which also
-   * provides methods for the plugin to style the content.
-   */
-  setLayer(callback: AnnotationCallback): AnnotationPluginApi;
-
   /**
    * The specified function will be called when a gr-diff component is built,
    * and feeds the returned coverage data into the diff. Optional.
@@ -100,28 +46,6 @@ export interface AnnotationPluginApi {
    * provider of the first call.
    */
   setCoverageProvider(coverageProvider: CoverageProvider): AnnotationPluginApi;
-
-  /**
-   * Returns a checkbox HTMLElement that can be used to toggle annotations
-   * on/off. The checkbox will be initially disabled. Plugins should enable it
-   * when data is ready and should add a click handler to toggle CSS on/off.
-   *
-   * Note1: Calling this method from multiple plugins will only work for the
-   * 1st call. It will print an error message for all subsequent calls
-   * and will not invoke their onAttached functions.
-   * Note2: This method will be deprecated and eventually removed when
-   * https://bugs.chromium.org/p/gerrit/issues/detail?id=8077 is
-   * implemented.
-   *
-   * @param checkboxLabel Will be used as the label for the checkbox.
-   * Optional. "Enable" is used if this is not specified.
-   * @param onAttached The function that will be called
-   * when the checkbox is attached to the page.
-   */
-  enableToggleCheckbox(
-    checkboxLabel: string,
-    onAttached: (checkboxEl: Element | null) => void
-  ): AnnotationPluginApi;
 
   /**
    * For plugins notifying Gerrit about new annotations being ready to be

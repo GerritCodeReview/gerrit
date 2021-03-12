@@ -324,8 +324,7 @@ export class GrDiffHost extends LegacyElementMixin(PolymerElement) {
       .awaitPluginsLoaded()
       .then(() => {
         assertIsDefined(this.path, 'path');
-        assertIsDefined(this.changeNum, 'changeNum');
-        this._layers = this._getLayers(this.path, this.changeNum);
+        this._layers = this._getLayers(this.path);
         this._coverageRanges = [];
         // We kick off fetching the data here, but we don't return the promise,
         // so awaiting initLayers() will not wait for coverage data to be
@@ -402,9 +401,9 @@ export class GrDiffHost extends LegacyElementMixin(PolymerElement) {
     }
   }
 
-  private _getLayers(path: string, changeNum: NumericChangeId): DiffLayer[] {
+  private _getLayers(path: string): DiffLayer[] {
     // Get layers from plugins (if any).
-    return [this.syntaxLayer, ...this.jsAPI.getDiffLayers(path, changeNum)];
+    return [this.syntaxLayer, ...this.jsAPI.getDiffLayers(path)];
   }
 
   clear() {

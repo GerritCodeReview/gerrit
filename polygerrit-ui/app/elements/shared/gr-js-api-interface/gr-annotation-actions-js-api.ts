@@ -14,17 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrAnnotationActionsContext} from './gr-annotation-actions-context';
-import {GrDiffLine} from '../../diff/gr-diff/gr-diff-line';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
 import {EventType, PluginApi} from '../../../api/plugin';
 import {appContext} from '../../../services/app-context';
-import {
-  AnnotationCallback,
-  AnnotationPluginApi,
-  CoverageProvider,
-} from '../../../api/annotation';
+import {AnnotationPluginApi, CoverageProvider} from '../../../api/annotation';
 
 export class GrAnnotationActionsInterface implements AnnotationPluginApi {
   /**
@@ -36,22 +30,11 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
 
   private coverageProvider?: CoverageProvider;
 
-  private annotationCallback?: AnnotationCallback;
-
   private readonly reporting = appContext.reportingService;
 
   constructor(private readonly plugin: PluginApi) {
     this.reporting.trackApi(this.plugin, 'annotation', 'constructor');
     plugin.on(EventType.ANNOTATE_DIFF, this);
-  }
-
-  setLayer(annotationCallback: AnnotationCallback) {
-    this.reporting.trackApi(this.plugin, 'annotation', 'setLayer');
-    if (this.annotationCallback) {
-      console.warn('Overwriting an existing plugin annotation layer.');
-    }
-    this.annotationCallback = annotationCallback;
-    return this;
   }
 
   setCoverageProvider(
@@ -73,40 +56,6 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
     return this.coverageProvider;
   }
 
-  enableToggleCheckbox(
-    checkboxLabel: string,
-    onAttached: (checkboxEl: Element | null) => void
-  ) {
-    this.reporting.trackApi(this.plugin, 'annotation', 'enableToggleCheckbox');
-    this.plugin.hook('annotation-toggler').onAttached(element => {
-      if (!element.content) {
-        this.reporting.error(new Error('plugin endpoint without content.'));
-        return;
-      }
-      if (!element.content.hidden) {
-        this.reporting.error(
-          new Error(
-            `${element.content.id} is already enabled. Cannot re-enable.`
-          )
-        );
-        return;
-      }
-      element.content.removeAttribute('hidden');
-
-      const label = element.content.querySelector('#annotation-label');
-      if (label) {
-        if (checkboxLabel) {
-          label.textContent = checkboxLabel;
-        } else {
-          label.textContent = 'Enable';
-        }
-      }
-      const checkbox = element.content.querySelector('#annotation-checkbox');
-      onAttached(checkbox);
-    });
-    return this;
-  }
-
   notify(path: string, start: number, end: number, side: Side) {
     this.reporting.trackApi(this.plugin, 'annotation', 'notify');
     for (const annotationLayer of this.annotationLayers) {
@@ -124,9 +73,8 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
    *
    * Don't forget to also call disposeLayer().
    */
-  createLayer(path: string, changeNum: number) {
-    const callbackFn = this.annotationCallback || (() => {});
-    const annotationLayer = new AnnotationLayer(path, changeNum, callbackFn);
+  createLayer(path: string) {
+    const annotationLayer = new AnnotationLayer(path);
     this.annotationLayers.push(annotationLayer);
     return annotationLayer;
   }
@@ -152,15 +100,8 @@ export class AnnotationLayer implements DiffLayer {
    * Used to create an instance of the Annotation Layer interface.
    *
    * @param path The file path (eg: /COMMIT_MSG').
-   * @param changeNum The Gerrit change number.
-   * @param annotationCallback The function
-   * that will be called when the AnnotationLayer is ready to annotate.
    */
-  constructor(
-    readonly path: string,
-    private readonly changeNum: number,
-    private readonly annotationCallback: AnnotationCallback
-  ) {
+  constructor(readonly path: string) {
     this.listeners = [];
   }
 
@@ -180,30 +121,7 @@ export class AnnotationLayer implements DiffLayer {
     this.listeners = this.listeners.filter(f => f !== listener);
   }
 
-  /**
-   * Called by Gerrit during diff rendering for each line. Delegates to the
-   * plugin provided callback for potentially annotating this line.
-   *
-   * @param contentEl The DIV.contentText element of the line
-   * content to apply the annotation to using annotateRange.
-   * @param lineNumberEl The TD element of the line number to
-   * apply the annotation to using annotateLineNumber.
-   * @param line The line object.
-   */
-  annotate(
-    contentEl: HTMLElement,
-    lineNumberEl: HTMLElement,
-    line: GrDiffLine
-  ) {
-    const context = new GrAnnotationActionsContext(
-      contentEl,
-      lineNumberEl,
-      line,
-      this.path,
-      this.changeNum
-    );
-    this.annotationCallback(context);
-  }
+  annotate() {}
 
   /**
    * Notify layer listeners (which typically is just Gerrit's diff renderer) of

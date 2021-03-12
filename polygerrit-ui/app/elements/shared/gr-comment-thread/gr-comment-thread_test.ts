@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-comment-thread.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {SpecialFilePath, Side} from '../../../constants/constants.js';
+import '../../../test/common-test-setup-karma';
+import './gr-comment-thread';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {SpecialFilePath, Side} from '../../../constants/constants';
 import {
   sortComments,
   UIComment,
   UIRobot,
   isDraft,
   UIDraft,
-} from '../../../utils/comment-util.js';
-import {GrCommentThread} from './gr-comment-thread.js';
+} from '../../../utils/comment-util';
+import {GrCommentThread} from './gr-comment-thread';
 import {
   PatchSetNum,
   NumericChangeId,
@@ -37,14 +37,14 @@ import {
   RepoName,
   ConfigInfo,
   EmailAddress,
-} from '../../../types/common.js';
-import {GrComment} from '../gr-comment/gr-comment.js';
-import {LineNumber} from '../../diff/gr-diff/gr-diff-line.js';
+} from '../../../types/common';
+import {GrComment} from '../gr-comment/gr-comment';
+import {LineNumber} from '../../diff/gr-diff/gr-diff-line';
 import {
   tap,
   pressAndReleaseKeyOn,
 } from '@polymer/iron-test-helpers/mock-interactions';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {stubRestApi} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');

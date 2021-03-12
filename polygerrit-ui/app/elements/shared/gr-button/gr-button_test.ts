@@ -16,12 +16,12 @@
  */
 
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import '../../../test/common-test-setup-karma.js';
-import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
-import {appContext} from '../../../services/app-context.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {GrButton} from './gr-button.js';
-import {queryAndAssert} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import {addListener} from '@polymer/polymer/lib/utils/gestures';
+import {appContext} from '../../../services/app-context';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {GrButton} from './gr-button';
+import {queryAndAssert} from '../../../test/test-utils';
 import {PaperButtonElement} from '@polymer/paper-button';
 
 const basicFixture = fixtureFromElement('gr-button');

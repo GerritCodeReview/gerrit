@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "daa90c2e_1d6cf73a",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-12T02:18:37Z",
+      "side": 1,
+      "message": "Are you thinking something along the lines of:\n\n\"This document covers Gerrit core. Plugins could also do stuff with user data.\"",
+      "parentUuid": "6e3ae031_63c086f8",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d22b556_c64b5029",
         "filename": "Documentation/user-privacy.txt",
         "patchSetId": 1
@@ -576,6 +594,24 @@
       "side": 1,
       "message": "\u003e renaming these refs is not implemented, Gerrit just disallows changing usernames.\n\noh no, another special case.",
       "parentUuid": "0441196d_96a3f8f4",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c06e576_d09b12b3",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-12T02:18:37Z",
+      "side": 1,
+      "message": "I added a new section \"Right to be Forgotten Limitations\" PTAL.",
+      "parentUuid": "f08e217d_c155b9e3",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

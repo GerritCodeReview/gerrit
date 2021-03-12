@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f788059_1e1d07bc",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-12T19:18:44Z",
+      "side": 1,
+      "message": "Imports should be with \u0027.js\u0027",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "052318dee206155ed7986596bae20de09175e93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5676272_c8ba2e2a",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-12T19:18:44Z",
+      "side": 1,
+      "message": "I mostly used SinonStubbedMember\u003c\u003e with generics. Wouldn\u0027t that be better?",
+      "range": {
+        "startLine": 41,
+        "startChar": 18,
+        "endLine": 41,
+        "endChar": 33
+      },
+      "revId": "052318dee206155ed7986596bae20de09175e93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce57dd1d_148ad25c",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-12T19:18:44Z",
+      "side": 1,
+      "message": "I am not very convinced by this approach. We should avoid !. There is not generic type for stub.\n\nwhy not \n```\nappStartedStub \u003d sinon.stub();\nrouterStarStub \u003d stub(\u0027gr-router\u0027, {start: appStartedStub})\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "052318dee206155ed7986596bae20de09175e93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56892230_9426f2b4",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-12T19:18:44Z",
+      "side": 1,
+      "message": "I would check which stubRestApi you really need. They should be part of gr-rest-api_mock.ts, so they can be removed.",
+      "range": {
+        "startLine": 61,
+        "startChar": 47,
+        "endLine": 62,
+        "endChar": 61
+      },
+      "revId": "052318dee206155ed7986596bae20de09175e93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,65 +16,22 @@
  */
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {
-  page,
-  PageContext,
-  PageNextCallback,
-} from '../../../utils/page-wrapper-utils';
+import {page, PageContext, PageNextCallback,} from '../../../utils/page-wrapper-utils';
 import {htmlTemplate} from './gr-router_html';
-import {
-  DashboardSection,
-  GeneratedWebLink,
-  GenerateUrlChangeViewParameters,
-  GenerateUrlDashboardViewParameters,
-  GenerateUrlDiffViewParameters,
-  GenerateUrlEditViewParameters,
-  GenerateUrlGroupViewParameters,
-  GenerateUrlParameters,
-  GenerateUrlRepoViewParameters,
-  GenerateUrlSearchViewParameters,
-  GenerateWebLinksChangeParameters,
-  GenerateWebLinksFileParameters,
-  GenerateWebLinksParameters,
-  GenerateWebLinksPatchsetParameters,
-  GerritNav,
-  GroupDetailView,
-  isGenerateUrlDiffViewParameters,
-  RepoDetailView,
-  WeblinkType,
-} from '../gr-navigation/gr-navigation';
+import {DashboardSection, GeneratedWebLink, GenerateUrlChangeViewParameters, GenerateUrlDashboardViewParameters, GenerateUrlDiffViewParameters, GenerateUrlEditViewParameters, GenerateUrlGroupViewParameters, GenerateUrlParameters, GenerateUrlRepoViewParameters, GenerateUrlSearchViewParameters, GenerateWebLinksChangeParameters, GenerateWebLinksFileParameters, GenerateWebLinksParameters, GenerateWebLinksPatchsetParameters, GerritNav, GroupDetailView, isGenerateUrlDiffViewParameters, RepoDetailView, WeblinkType,} from '../gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {assertNever} from '../../../utils/common-util';
-import {
-  BasePatchSetNum,
-  DashboardId,
-  GroupId,
-  NumericChangeId,
-  PatchSetNum,
-  RepoName,
-  ServerInfo,
-  UrlEncodedCommentId,
-} from '../../../types/common';
-import {
-  AppElement,
-  AppElementAgreementParam,
-  AppElementParams,
-} from '../../gr-app-types';
+import {BasePatchSetNum, DashboardId, GroupId, NumericChangeId, PatchSetNum, RepoName, ServerInfo, UrlEncodedCommentId,} from '../../../types/common';
+import {AppElement, AppElementAgreementParam, AppElementParams,} from '../../gr-app-types';
 import {LocationChangeEventDetail} from '../../../types/events';
 import {GerritView, updateState} from '../../../services/router/router-model';
 import {firePageError} from '../../../utils/event-util';
 import {addQuotesWhen} from '../../../utils/string-util';
 import {windowLocationReload} from '../../../utils/dom-util';
-import {
-  encodeURL,
-  getBaseUrl,
-  toPath,
-  toPathname,
-  toSearchParams,
-} from '../../../utils/url-util';
-import {Execution} from '../../../constants/reporting';
+import {encodeURL, getBaseUrl, toPath, toPathname, toSearchParams,} from '../../../utils/url-util';
+import {Execution, LifeCycle} from '../../../constants/reporting';
 
 const RoutePattern = {
   ROOT: '/',
@@ -861,6 +818,8 @@ export class GrRouter extends LegacyElementMixin(PolymerElement) {
         const pathname = toPathname(ctx.canonicalPath);
         const searchParams = toSearchParams(ctx.canonicalPath);
         if (searchParams.has('usp')) {
+          const usp = searchParams.get('usp');
+          this.reporting.reportLifeCycle(LifeCycle.EXTENSION_DETECTED, {usp});
           searchParams.delete('usp');
           this._redirect(toPath(pathname, searchParams));
           return;

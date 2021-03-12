@@ -23,6 +23,7 @@ export enum LifeCycle {
   VISIBILILITY_VISIBLE = 'Visibility changed to visible',
   EXTENSION_DETECTED = 'Extension detected',
   PLUGINS_INSTALLED = 'Plugins installed',
+  USER_REFERRED_FROM = 'User referred from',
 }
 
 export enum Execution {

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-date-formatter_html';
 import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin';
@@ -77,9 +76,7 @@ declare global {
 }
 
 @customElement('gr-date-formatter')
-export class GrDateFormatter extends TooltipMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrDateFormatter extends TooltipMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

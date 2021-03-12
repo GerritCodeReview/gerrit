@@ -18,7 +18,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-select/gr-select';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-patch-range-select_html';
 import {pluralize} from '../../../utils/string-util';
@@ -81,10 +80,9 @@ export interface GrPatchRangeSelect {
  *
  * @property {string} patchNum
  * @property {string} basePatchNum
- * @extends PolymerElement
  */
 @customElement('gr-patch-range-select')
-export class GrPatchRangeSelect extends LegacyElementMixin(PolymerElement) {
+export class GrPatchRangeSelect extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

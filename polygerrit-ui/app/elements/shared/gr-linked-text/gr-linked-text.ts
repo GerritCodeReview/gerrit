@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-linked-text_html';
 import {GrLinkTextParser, LinkTextParserConfig} from './link-text-parser';
@@ -35,7 +34,7 @@ export interface GrLinkedText {
 }
 
 @customElement('gr-linked-text')
-export class GrLinkedText extends LegacyElementMixin(PolymerElement) {
+export class GrLinkedText extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

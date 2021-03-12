@@ -16,7 +16,6 @@
  */
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../gr-diff/gr-diff';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-host_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -130,7 +129,7 @@ export interface GrDiffHost {
  * specific component, while <gr-diff> is a re-usable component.
  */
 @customElement('gr-diff-host')
-export class GrDiffHost extends LegacyElementMixin(PolymerElement) {
+export class GrDiffHost extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

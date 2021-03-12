@@ -1,6 +1,6 @@
 = commit already exists
 
-With "commit already exists (as current patchset)" or
+With "commit(s) already exists (as current patchset)" or
 "commit already exists (in the change)" error message
 Gerrit rejects to push a commit to an existing change via
 `refs/changes/n` if the commit was already successfully

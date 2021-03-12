@@ -282,6 +282,9 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
   @property({type: Array})
   layers?: DiffLayer[];
 
+  @property({type: Boolean})
+  isAttached = false;
+
   private renderDiffTableTask?: DelayedTask;
 
   constructor() {
@@ -298,10 +301,12 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
   connectedCallback() {
     super.connectedCallback();
     this._observeNodes();
+    this.isAttached = true;
   }
 
   /** @override */
   disconnectedCallback() {
+    this.isAttached = false;
     this.renderDiffTableTask?.cancel();
     this._unobserveIncrementalNodes();
     this._unobserveNodes();
@@ -325,12 +330,7 @@ export class GrDiff extends LegacyElementMixin(PolymerElement) {
   }
 
   @observe('loggedIn', 'isAttached')
-  _enableSelectionObserver(loggedIn: boolean, isAttached?: boolean) {
-    // Polymer 2: check for undefined
-    if ([loggedIn, isAttached].includes(undefined)) {
-      return;
-    }
-
+  _enableSelectionObserver(loggedIn: boolean, isAttached: boolean) {
     if (loggedIn && isAttached) {
       document.addEventListener(
         '-shadow-selectionchange',

@@ -609,7 +609,7 @@ suite('gr-reply-dialog tests', () => {
     return false;
   }
 
-  function testConfirmationDialog(done, cc) {
+  async function testConfirmationDialog(cc) {
     const yesButton = element
         .shadowRoot
         .querySelector('.reviewerConfirmationButtons gr-button:first-child');
@@ -651,95 +651,90 @@ suite('gr-reply-dialog tests', () => {
           element._pendingConfirmationDetails);
     }
 
-    observer
-        .then(() => {
-          assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
-          observer = overlayObserver('closed');
-          const expected = 'Group name has 10 members';
-          assert.notEqual(
-              element.$.reviewerConfirmationOverlay.innerText
-                  .indexOf(expected),
-              -1);
-          MockInteractions.tap(noButton); // close the overlay
-          return observer;
-        }).then(() => {
-          assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+    await observer;
+    assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
+    observer = overlayObserver('closed');
+    const expected = 'Group name has 10 members';
+    assert.notEqual(
+        element.$.reviewerConfirmationOverlay.innerText
+            .indexOf(expected),
+        -1);
+    MockInteractions.tap(noButton); // close the overlay
 
-          // We should be focused on account entry input.
-          assert.isTrue(
-              isFocusInsideElement(
-                  element.$.reviewers.$.entry.$.input.$.input
-              )
-          );
+    await observer;
+    assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
 
-          // No reviewer/CC should have been added.
-          assert.equal(element.$.ccs.additions().length, 0);
-          assert.equal(element.$.reviewers.additions().length, 0);
+    // We should be focused on account entry input.
+    assert.isTrue(
+        isFocusInsideElement(
+            element.$.reviewers.$.entry.$.input.$.input
+        )
+    );
 
-          // Reopen confirmation dialog.
-          observer = overlayObserver('opened');
-          if (cc) {
-            element._ccPendingConfirmation = {
-              group,
-              count: 10,
-            };
-          } else {
-            element._reviewerPendingConfirmation = {
-              group,
-              count: 10,
-            };
-          }
-          return observer;
-        })
-        .then(() => {
-          assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
-          observer = overlayObserver('closed');
-          MockInteractions.tap(yesButton); // Confirm the group.
-          return observer;
-        })
-        .then(() => {
-          assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
-          const additions = cc ?
-            element.$.ccs.additions() :
-            element.$.reviewers.additions();
-          assert.deepEqual(
-              additions,
-              [
-                {
-                  group: {
-                    id: 'id',
-                    name: 'name',
-                    confirmed: true,
-                    _group: true,
-                    _pendingAdd: true,
-                  },
-                },
-              ]);
+    // No reviewer/CC should have been added.
+    assert.equal(element.$.ccs.additions().length, 0);
+    assert.equal(element.$.reviewers.additions().length, 0);
 
-          // We should be focused on account entry input.
-          if (cc) {
-            assert.isTrue(
-                isFocusInsideElement(
-                    element.$.ccs.$.entry.$.input.$.input
-                )
-            );
-          } else {
-            assert.isTrue(
-                isFocusInsideElement(
-                    element.$.reviewers.$.entry.$.input.$.input
-                )
-            );
-          }
-        })
-        .then(done);
+    // Reopen confirmation dialog.
+    observer = overlayObserver('opened');
+    if (cc) {
+      element._ccPendingConfirmation = {
+        group,
+        count: 10,
+      };
+    } else {
+      element._reviewerPendingConfirmation = {
+        group,
+        count: 10,
+      };
+    }
+
+    await observer;
+    assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
+    observer = overlayObserver('closed');
+    MockInteractions.tap(yesButton); // Confirm the group.
+
+    await observer;
+    assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+    const additions = cc ?
+      element.$.ccs.additions() :
+      element.$.reviewers.additions();
+    assert.deepEqual(
+        additions,
+        [
+          {
+            group: {
+              id: 'id',
+              name: 'name',
+              confirmed: true,
+              _group: true,
+              _pendingAdd: true,
+            },
+          },
+        ]);
+
+    // We should be focused on account entry input.
+    if (cc) {
+      assert.isTrue(
+          isFocusInsideElement(
+              element.$.ccs.$.entry.$.input.$.input
+          )
+      );
+    } else {
+      assert.isTrue(
+          isFocusInsideElement(
+              element.$.reviewers.$.entry.$.input.$.input
+          )
+      );
+    }
   }
 
-  test('cc confirmation', done => {
-    testConfirmationDialog(done, true);
+  test('cc confirmation', async () => {
+    testConfirmationDialog(true);
   });
 
-  test('reviewer confirmation', done => {
-    testConfirmationDialog(done, false);
+  test('reviewer confirmation', async () => {
+    testConfirmationDialog(false);
   });
 
   test('_getStorageLocation', () => {
@@ -887,42 +882,37 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(filter({group: cc2}));
   });
 
-  test('_focusOn', () => {
+  test('_focusOn', async () => {
     sinon.spy(element, '_chooseFocusTarget');
-    flush();
-    const textareaStub = sinon.stub(element.$.textarea, 'async');
-    const reviewerEntryStub = sinon.stub(element.$.reviewers.focusStart,
-        'async');
-    const ccStub = sinon.stub(element.$.ccs.focusStart, 'async');
     element._focusOn();
+    await flush();
     assert.equal(element._chooseFocusTarget.callCount, 1);
-    assert.deepEqual(textareaStub.callCount, 1);
-    assert.deepEqual(reviewerEntryStub.callCount, 0);
-    assert.deepEqual(ccStub.callCount, 0);
+    assert.equal(element.shadowRoot.activeElement.tagName, 'GR-TEXTAREA');
+    assert.equal(element.shadowRoot.activeElement.id, 'textarea');
 
     element._focusOn(element.FocusTarget.ANY);
+    await flush();
     assert.equal(element._chooseFocusTarget.callCount, 2);
-    assert.deepEqual(textareaStub.callCount, 2);
-    assert.deepEqual(reviewerEntryStub.callCount, 0);
-    assert.deepEqual(ccStub.callCount, 0);
+    assert.equal(element.shadowRoot.activeElement.tagName, 'GR-TEXTAREA');
+    assert.equal(element.shadowRoot.activeElement.id, 'textarea');
 
     element._focusOn(element.FocusTarget.BODY);
+    await flush();
     assert.equal(element._chooseFocusTarget.callCount, 2);
-    assert.deepEqual(textareaStub.callCount, 3);
-    assert.deepEqual(reviewerEntryStub.callCount, 0);
-    assert.deepEqual(ccStub.callCount, 0);
+    assert.equal(element.shadowRoot.activeElement.tagName, 'GR-TEXTAREA');
+    assert.equal(element.shadowRoot.activeElement.id, 'textarea');
 
     element._focusOn(element.FocusTarget.REVIEWERS);
+    await flush();
     assert.equal(element._chooseFocusTarget.callCount, 2);
-    assert.deepEqual(textareaStub.callCount, 3);
-    assert.deepEqual(reviewerEntryStub.callCount, 1);
-    assert.deepEqual(ccStub.callCount, 0);
+    assert.equal(element.shadowRoot.activeElement.tagName, 'GR-ACCOUNT-LIST');
+    assert.equal(element.shadowRoot.activeElement.id, 'reviewers');
 
     element._focusOn(element.FocusTarget.CCS);
+    await flush();
     assert.equal(element._chooseFocusTarget.callCount, 2);
-    assert.deepEqual(textareaStub.callCount, 3);
-    assert.deepEqual(reviewerEntryStub.callCount, 1);
-    assert.deepEqual(ccStub.callCount, 1);
+    assert.equal(element.shadowRoot.activeElement.tagName, 'GR-ACCOUNT-LIST');
+    assert.equal(element.shadowRoot.activeElement.id, 'ccs');
   });
 
   test('_chooseFocusTarget', () => {

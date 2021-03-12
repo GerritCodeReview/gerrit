@@ -750,7 +750,6 @@ suite('gr-diff-processor tests', () => {
         ],
       };
       const content = _.times(200, _.constant(contentRow));
-      sinon.stub(element, 'async');
       element._isScrolling = true;
       element.process(content);
       // Just the files group - no more processing during scrolling.
@@ -770,7 +769,6 @@ suite('gr-diff-processor tests', () => {
         ],
       };
       const content = _.times(200, _.constant(contentRow));
-      sinon.stub(element, 'async');
       element.process(content, true);
       assert.equal(element.groups.length, 2);
 

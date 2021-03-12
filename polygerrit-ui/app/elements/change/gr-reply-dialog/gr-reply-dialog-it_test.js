@@ -18,7 +18,6 @@
 import '../../../test/common-test-setup-karma.js';
 import {resetPlugins, stubRestApi} from '../../../test/test-utils.js';
 import './gr-reply-dialog.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
@@ -104,7 +103,7 @@ suite('gr-reply-dialog-it tests', () => {
     assert.isTrue(sendStub.called);
   });
 
-  test('lgtm plugin', done => {
+  test('lgtm plugin', async () => {
     resetPlugins();
     pluginApi.install(plugin => {
       const replyApi = plugin.changeReply();
@@ -121,20 +120,17 @@ suite('gr-reply-dialog-it tests', () => {
     element = basicFixture.instantiate();
     setupElement(element);
     getPluginLoader().loadPlugins([]);
-    getPluginLoader().awaitPluginsLoaded()
-        .then(() => {
-          flush(() => {
-            const textarea = element.$.textarea.getNativeTextarea();
-            textarea.value = 'LGTM';
-            textarea.dispatchEvent(new CustomEvent(
-                'input', {bubbles: true, composed: true}));
-            const labelScoreRows = dom(element.$.labelScores.root)
-                .querySelector('gr-label-score-row[name="Code-Review"]');
-            const selectedBtn = dom(labelScoreRows.root)
-                .querySelector('gr-button[data-value="+1"].iron-selected');
-            assert.isOk(selectedBtn);
-            done();
-          });
-        });
+    await getPluginLoader().awaitPluginsLoaded();
+    await flush();
+    const textarea = element.$.textarea.getNativeTextarea();
+    textarea.value = 'LGTM';
+    textarea.dispatchEvent(new CustomEvent(
+        'input', {bubbles: true, composed: true}));
+    await flush();
+    const labelScoreRows = element.$.labelScores.shadowRoot
+        .querySelector('gr-label-score-row[name="Code-Review"]');
+    const selectedBtn = labelScoreRows.shadowRoot
+        .querySelector('gr-button[data-value="+1"].iron-selected');
+    assert.isOk(selectedBtn);
   });
 });

@@ -843,7 +843,7 @@ suite('gr-diff-builder tests', () => {
         },
       ];
       element = basicFixture.instantiate();
-      outputEl = element.queryEffectiveChildren('#diffTable');
+      outputEl = element.querySelector('#diffTable');
       keyLocations = {left: {}, right: {}};
       sinon.stub(element, '_getDiffBuilder').callsFake(() => {
         const builder = new GrDiffBuilderSideBySide({content}, prefs, outputEl);

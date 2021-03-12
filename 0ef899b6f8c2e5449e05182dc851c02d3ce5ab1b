@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a612fb4f_85421fb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2021-03-12T08:37:09Z",
+      "side": 1,
+      "message": "Thanks for adding this, Ben. Just to confirm (I guess Milutin might know): When accessing a change page from Gerrit monitor, would the Lifecycle event that gets fired here include the changeID?",
+      "revId": "0ef899b6f8c2e5449e05182dc851c02d3ce5ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc7a4657_bf35971b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2021-03-12T08:37:09Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be `USER_REFERRED_FROM`?",
+      "range": {
+        "startLine": 822,
+        "startChar": 51,
+        "endLine": 822,
+        "endChar": 69
+      },
+      "revId": "0ef899b6f8c2e5449e05182dc851c02d3ce5ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

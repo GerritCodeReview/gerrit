@@ -25,7 +25,6 @@ import {
 } from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-cursor_html';
 import {DiffViewMode} from '../../../api/diff';
@@ -53,7 +52,7 @@ export interface GrDiffCursor {
 }
 
 @customElement('gr-diff-cursor')
-export class GrDiffCursor extends LegacyElementMixin(PolymerElement) {
+export class GrDiffCursor extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

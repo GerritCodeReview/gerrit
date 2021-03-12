@@ -19,7 +19,6 @@ import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import {DiffViewMode} from '../../../constants/constants';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-mode-selector_html';
 import {customElement, property} from '@polymer/decorators';
@@ -29,7 +28,7 @@ import {appContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
 
 @customElement('gr-diff-mode-selector')
-export class GrDiffModeSelector extends LegacyElementMixin(PolymerElement) {
+export class GrDiffModeSelector extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

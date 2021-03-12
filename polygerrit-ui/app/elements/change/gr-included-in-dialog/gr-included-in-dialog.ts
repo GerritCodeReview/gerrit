@@ -17,7 +17,6 @@
 import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-included-in-dialog_html';
 import {customElement, property} from '@polymer/decorators';
@@ -30,7 +29,7 @@ interface DisplayGroup {
 }
 
 @customElement('gr-included-in-dialog')
-export class GrIncludedInDialog extends LegacyElementMixin(PolymerElement) {
+export class GrIncludedInDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

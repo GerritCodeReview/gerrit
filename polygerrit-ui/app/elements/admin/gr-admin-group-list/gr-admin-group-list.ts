@@ -21,7 +21,6 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-create-group-dialog/gr-create-group-dialog';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-admin-group-list_html';
 import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
@@ -48,9 +47,7 @@ export interface GrAdminGroupList {
 }
 
 @customElement('gr-admin-group-list')
-export class GrAdminGroupList extends ListViewMixin(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrAdminGroupList extends ListViewMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

@@ -24,7 +24,6 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-overlay/gr-overlay';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group-members_html';
 import {getBaseUrl} from '../../../utils/url-util';
@@ -62,7 +61,7 @@ export interface GrGroupMembers {
   };
 }
 @customElement('gr-group-members')
-export class GrGroupMembers extends LegacyElementMixin(PolymerElement) {
+export class GrGroupMembers extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

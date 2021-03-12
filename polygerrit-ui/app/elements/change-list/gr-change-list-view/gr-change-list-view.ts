@@ -20,7 +20,6 @@ import '../gr-change-list/gr-change-list';
 import '../gr-repo-header/gr-repo-header';
 import '../gr-user-header/gr-user-header';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-list-view_html';
 import {page} from '../../../utils/page-wrapper-utils';
@@ -61,7 +60,7 @@ export interface GrChangeListView {
 }
 
 @customElement('gr-change-list-view')
-export class GrChangeListView extends LegacyElementMixin(PolymerElement) {
+export class GrChangeListView extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

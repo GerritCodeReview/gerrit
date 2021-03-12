@@ -22,6 +22,30 @@
       },
       "revId": "db19fb871217574d56e02fd72e9cbf9532835c0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9aa5822_fbd98d3c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2021-03-12T14:06:11Z",
+      "side": 1,
+      "message": "Or, alternatively, the account ID. But that might have privacy implications.",
+      "parentUuid": "657648b0_c5ae184d",
+      "range": {
+        "startLine": 865,
+        "startChar": 25,
+        "endLine": 865,
+        "endChar": 40
+      },
+      "revId": "db19fb871217574d56e02fd72e9cbf9532835c0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -74,7 +74,7 @@ import {
   toPathname,
   toSearchParams,
 } from '../../../utils/url-util';
-import {Execution} from '../../../constants/reporting';
+import {Execution, LifeCycle} from '../../../constants/reporting';
 
 const RoutePattern = {
   ROOT: '/',
@@ -861,6 +861,8 @@ export class GrRouter extends LegacyElementMixin(PolymerElement) {
         const pathname = toPathname(ctx.canonicalPath);
         const searchParams = toSearchParams(ctx.canonicalPath);
         if (searchParams.has('usp')) {
+          const usp = searchParams.get('usp');
+          this.reporting.reportLifeCycle(LifeCycle.USER_REFERRED_FROM, {usp});
           searchParams.delete('usp');
           this._redirect(toPath(pathname, searchParams));
           return;

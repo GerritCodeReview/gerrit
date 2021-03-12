@@ -74,6 +74,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.projects.BranchApi;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -174,6 +175,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -583,6 +585,7 @@ public abstract class AbstractDaemonTest {
     ProjectInput in = new ProjectInput();
     TestProjectInput ann = description.getAnnotation(TestProjectInput.class);
     in.name = name("project");
+    in.branches = ImmutableList.of(Constants.R_HEADS + Constants.MASTER);
     if (ann != null) {
       in.parent = Strings.emptyToNull(ann.parent());
       in.description = Strings.emptyToNull(ann.description());
@@ -1349,6 +1352,16 @@ public abstract class AbstractDaemonTest {
     assertThat(rule.getMax()).isEqualTo(expectedMax);
   }
 
+  protected void assertHead(String projectName, String expectedRef) throws Exception {
+    // Assert gerrit's project head points to the correct branch
+    assertThat(getProjectBranches(projectName).get(Constants.HEAD).revision)
+        .isEqualTo(RefNames.shortName(expectedRef));
+    // Assert git head points to the correct branch
+    try (Repository repo = repoManager.openRepository(Project.nameKey(projectName))) {
+      assertThat(repo.exactRef(Constants.HEAD).getTarget().getName()).isEqualTo(expectedRef);
+    }
+  }
+
   protected InternalGroup group(AccountGroup.UUID groupUuid) {
     InternalGroup group = groupCache.get(groupUuid).orElse(null);
     assertWithMessage(groupUuid.get()).that(group).isNotNull();
@@ -1620,6 +1633,12 @@ public abstract class AbstractDaemonTest {
     }
     comments.sort(Comparator.comparing(c -> c.id));
     return comments;
+  }
+
+  protected ImmutableMap<String, BranchInfo> getProjectBranches(String projectName)
+      throws RestApiException {
+    return gApi.projects().name(projectName).branches().get().stream()
+        .collect(ImmutableMap.toImmutableMap(branch -> branch.ref, branch -> branch));
   }
 
   protected AutoCloseable installPlugin(String pluginName, Class<? extends Module> sysModuleClass)

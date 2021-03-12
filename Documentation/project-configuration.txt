@@ -108,6 +108,9 @@ link:access-control.html#category_push[Push] access right with the
 === Default Branch
 
 The default branch of a remote repository is defined by its `HEAD`.
+The default branch is selected from the initial branches of the newly created project,
+or set to link:config-gerrit.html#gerrit.defaultBranch[host-level default],
+if the project was created with empty branches.
 For convenience reasons, when the repository is cloned Git creates a
 local branch for this default branch and checks it out.
 

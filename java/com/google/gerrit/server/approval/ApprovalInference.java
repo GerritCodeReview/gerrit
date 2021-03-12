@@ -64,6 +64,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  *
  * <p>The result of a copy may either be stored, as when stamping approvals in the database at
  * submit time, or refreshed on demand, as when reading approvals from the NoteDb.
+ * TODO(ghareeb): migrate to new diff cache
  */
 @Singleton
 class ApprovalInference {

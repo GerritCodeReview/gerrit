@@ -56,7 +56,8 @@ export type ReplyEvent = CustomEvent<ReplyEventDetail>;
 
 declare global {
   interface HTMLElementEventMap {
-    reply: ReplyEvent;
+    /* prettier-ignore */
+    'reply': ReplyEvent;
   }
 }
 

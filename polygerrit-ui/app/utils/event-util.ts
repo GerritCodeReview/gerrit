@@ -17,29 +17,7 @@
 
 import {UrlEncodedCommentId} from '../types/common';
 import {FetchRequest} from '../types/types';
-import {
-  DialogChangeEventDetail,
-  NetworkErrorEventDetail,
-  PageErrorEventDetail,
-  ServerErrorEventDetail,
-  ShowAlertEventDetail,
-  SwitchTabEventDetail,
-  TabState,
-  ThreadListModifiedDetail,
-  TitleChangeEventDetail,
-} from '../types/events';
-
-export enum EventType {
-  SHOW_ALERT = 'show-alert',
-  SHOW_ERROR = 'show-error',
-  PAGE_ERROR = 'page-error',
-  SERVER_ERROR = 'server-error',
-  NETWORK_ERROR = 'network-error',
-  TITLE_CHANGE = 'title-change',
-  THREAD_LIST_MODIFIED = 'thread-list-modified',
-  DIALOG_CHANGE = 'dialog-change',
-  SHOW_PRIMARY_TAB = 'show-primary-tab',
-}
+import {DialogChangeEventDetail, EventType, NetworkErrorEventDetail, PageErrorEventDetail, ServerErrorEventDetail, ShowAlertEventDetail, SwitchTabEventDetail, TabState, ThreadListModifiedDetail, TitleChangeEventDetail,} from '../types/events';
 
 export function fireEvent(target: EventTarget, type: string) {
   target.dispatchEvent(

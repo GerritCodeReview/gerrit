@@ -74,9 +74,9 @@ import {
   ShortcutTriggeredEvent,
   TitleChangeEventDetail,
   DialogChangeEventDetail,
+  EventType,
 } from '../types/events';
 import {ViewState} from '../types/types';
-import {EventType} from '../utils/event-util';
 import {GerritView} from '../services/router/router-model';
 import {windowLocationReload} from '../utils/dom-util';
 import {LifeCycle} from '../constants/reporting';

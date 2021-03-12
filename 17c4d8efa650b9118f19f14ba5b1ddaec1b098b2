@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1f906b6_20480e20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-12T19:46:37Z",
+      "side": 1,
+      "message": "@Ben, this change requires an L-C score (Google); thanks.",
+      "revId": "17c4d8efa650b9118f19f14ba5b1ddaec1b098b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

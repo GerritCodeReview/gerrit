@@ -88,6 +88,24 @@
       "parentUuid": "bf4fe98a_ac4e2053",
       "revId": "35dc92487d291429aedb23851d9276107047990e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9444f39_3820a6cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-12T09:45:39Z",
+      "side": 1,
+      "message": "\u003e Would it make sense to add a view metrics capability to gerrit core and change the metrics-reporter plugins to respect that centrally defined one instead of each defining its own capability ?\n\nOh yes, that would make *a lot of sense* IMHO. The permission of accessing the metrics is an aspect different from the data format and protocol of the metrics.\n\n\u003e We currently use metrics-reporter-jmx, metrics-reporter-prometheus and javamelody \nplugins for our sites.\n\nAnd there are now also many other metrics reporters, we recently introduced CloudWatch and we could develop also StackDriver and DataDog in the near future.",
+      "parentUuid": "1101d54d_0e6ea8ff",
+      "revId": "35dc92487d291429aedb23851d9276107047990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

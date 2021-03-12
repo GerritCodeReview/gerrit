@@ -15,9 +15,9 @@
 package com.google.gerrit.acceptance.server.quota;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 import static com.google.gerrit.server.quota.QuotaResponse.ok;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.anyLong;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -34,7 +34,7 @@ import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.inject.Module;
 import java.util.Collections;
 import org.easymock.EasyMock;
-import org.eclipse.jgit.api.errors.TooLargeObjectInPackException;
+import org.eclipse.jgit.api.errors.TooLargePackException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,7 +77,7 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
   @Test
   public void pushWithAvailableTokens() throws Exception {
     expect(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
-        .andReturn(singletonAggregation(ok(276L)))
+        .andReturn(singletonAggregation(ok(277L)))
         .times(2);
     expect(quotaBackendWithResource.requestTokens(eq(REPOSITORY_SIZE_GROUP), anyLong()))
         .andReturn(singletonAggregation(ok()));
@@ -98,15 +98,10 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
     expect(quotaBackendWithUser.project(project)).andReturn(quotaBackendWithResource).anyTimes();
     replay(quotaBackendWithResource);
     replay(quotaBackendWithUser);
-    try {
-      pushCommit();
-      assert_().fail("expected TooLargeObjectInPackException");
-    } catch (TooLargeObjectInPackException e) {
-      String msg = e.getMessage();
-      assertThat(msg).contains("Object too large");
-      assertThat(msg)
-          .contains(String.format("Max object size limit is %d bytes.", availableTokens));
-    }
+    assertThat(assertThrows(TooLargePackException.class, () -> pushCommit()).getMessage())
+        .contains(
+            String.format(
+                "Pack exceeds the limit of %d bytes, rejecting the pack", availableTokens));
     verify(quotaBackendWithUser);
     verify(quotaBackendWithResource);
   }
@@ -120,12 +115,9 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
     expect(quotaBackendWithUser.project(project)).andReturn(quotaBackendWithResource).anyTimes();
     replay(quotaBackendWithResource);
     replay(quotaBackendWithUser);
-    try {
-      pushCommit();
-      assert_().fail("expected TransportException");
-    } catch (TransportException e) {
-      // TransportException has not much info about the cause
-    }
+
+    assertThrows(TransportException.class, () -> pushCommit());
+
     verify(quotaBackendWithUser);
     verify(quotaBackendWithResource);
   }

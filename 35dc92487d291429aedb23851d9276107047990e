@@ -52,6 +52,24 @@
       "parentUuid": "423c5562_3b5ea441",
       "revId": "35dc92487d291429aedb23851d9276107047990e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf4fe98a_ac4e2053",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-12T09:00:25Z",
+      "side": 1,
+      "message": "this looks like a mess\n\nThe javamelody plugin has the monitoring capability, prometheus reporter the view metrics capability, and the other reporters don\u0027t care about permissions. Though I didn\u0027t check if metrics are fetched by the other monitoring systems like this is done by prometheus and jmx or if gerrit pushes metrics to those systems.\n\nNow I add this new metric to Gerrit core and wonder which capability would be the right one ? Maybe administrate server ?",
+      "parentUuid": "f8f9fdce_c6f63d17",
+      "revId": "35dc92487d291429aedb23851d9276107047990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

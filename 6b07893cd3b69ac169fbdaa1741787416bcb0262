@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc01281_e0e560f2",
+        "filename": "package.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-12T08:26:34Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "3ee5cc78_cd529b5d",
+      "range": {
+        "startLine": 37,
+        "startChar": 28,
+        "endLine": 37,
+        "endChar": 48
+      },
+      "revId": "6b07893cd3b69ac169fbdaa1741787416bcb0262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c824d498_353b839c",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-11T16:18:55Z",
       "side": 0,
       "message": "Maybe DelayedTask could have debouncerQueue.",
+      "range": {
+        "startLine": 205,
+        "startChar": 2,
+        "endLine": 205,
+        "endChar": 17
+      },
+      "revId": "6b07893cd3b69ac169fbdaa1741787416bcb0262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0d3807_41bb34db",
+        "filename": "polygerrit-ui/app/test/common-test-setup.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-12T08:26:34Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c824d498_353b839c",
       "range": {
         "startLine": 205,
         "startChar": 2,

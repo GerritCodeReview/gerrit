@@ -19,7 +19,6 @@ import '../../../test/common-test-setup-karma.js';
 import {PRELOADED_PROTOCOL, PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {_testOnly_resetPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins, stubBaseUrl} from '../../../test/test-utils.js';
-import {_testOnly_flushPreinstalls} from './gr-gerrit.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 
@@ -55,16 +54,6 @@ suite('gr-plugin-loader tests', () => {
     pluginApi.install(p => { otherPlugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     assert.strictEqual(plugin, otherPlugin);
-  });
-
-  test('flushes preinstalls if provided', () => {
-    assert.doesNotThrow(() => {
-      _testOnly_flushPreinstalls();
-    });
-    window.Gerrit.flushPreinstalls = sinon.stub();
-    _testOnly_flushPreinstalls();
-    assert.isTrue(window.Gerrit.flushPreinstalls.calledOnce);
-    delete window.Gerrit.flushPreinstalls;
   });
 
   test('versioning', () => {

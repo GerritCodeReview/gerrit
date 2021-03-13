@@ -23,57 +23,16 @@
  */
 
 import {GrAnnotation} from './diff/gr-diff-highlight/gr-annotation';
-import {GrDiffLine, GrDiffLineType} from './diff/gr-diff/gr-diff-line';
-import {GrDiffGroup, GrDiffGroupType} from './diff/gr-diff/gr-diff-group';
-import {getPluginEndpoints} from './shared/gr-js-api-interface/gr-plugin-endpoints';
-import {util} from '../scripts/util';
 import {page} from '../utils/page-wrapper-utils';
 import {appContext} from '../services/app-context';
-import {
-  getPluginLoader,
-  PluginLoader,
-} from './shared/gr-js-api-interface/gr-plugin-loader';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context';
-import {
-  getPluginNameFromUrl,
-  PLUGIN_LOADING_TIMEOUT_MS,
-  PRELOADED_PROTOCOL,
-  send,
-} from './shared/gr-js-api-interface/gr-api-utils';
-import {getBaseUrl} from '../utils/url-util';
 import {GerritNav} from './core/gr-navigation/gr-navigation';
-import {getRootElement} from '../scripts/rootElement';
-import {RevisionInfo} from './shared/revision-info/revision-info';
 
 export function initGlobalVariables() {
   window.GrAnnotation = GrAnnotation;
-  window.GrDiffLine = GrDiffLine;
-  window.GrDiffLineType = GrDiffLineType;
-  window.GrDiffGroup = GrDiffGroup;
-  window.GrDiffGroupType = GrDiffGroupType;
-  window.util = util;
   window.page = page;
-  window.Auth = appContext.authService;
-  window.EventEmitter = appContext.eventEmitter;
-  window.PluginLoader = PluginLoader;
   window.GrPluginActionContext = GrPluginActionContext;
-
-  window._apiUtils = {
-    getPluginNameFromUrl,
-    send,
-    getBaseUrl,
-    PRELOADED_PROTOCOL,
-    PLUGIN_LOADING_TIMEOUT_MS,
-  };
-
   window.Gerrit = window.Gerrit || {};
   window.Gerrit.Nav = GerritNav;
-  window.Gerrit.getRootElement = getRootElement;
   window.Gerrit.Auth = appContext.authService;
-
-  window.Gerrit._pluginLoader = getPluginLoader();
-  // TODO: should define as a getter
-  window.Gerrit._endpoints = getPluginEndpoints();
-
-  window.Gerrit.RevisionInfo = RevisionInfo;
 }

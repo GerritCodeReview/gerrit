@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d70edcd1_b8cbf50d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-13T14:31:45Z",
+      "side": 1,
+      "message": "I made the change concerning the restApi",
+      "parentUuid": "bc3ea8d4_c717edfc",
+      "revId": "1dd15cb9b5c33b758f71e2fc2600f550f0ab1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9532c6b_8687675c",
@@ -126,6 +144,30 @@
       "side": 1,
       "message": "This will depend eventually on the result of the other thread, I think.",
       "parentUuid": "d9532c6b_8687675c",
+      "range": {
+        "startLine": 1324,
+        "startChar": 8,
+        "endLine": 1324,
+        "endChar": 16
+      },
+      "revId": "1dd15cb9b5c33b758f71e2fc2600f550f0ab1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0752e874_54dcc0d6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-13T14:31:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "333a0c7c_6e38bdff",
       "range": {
         "startLine": 1324,
         "startChar": 8,

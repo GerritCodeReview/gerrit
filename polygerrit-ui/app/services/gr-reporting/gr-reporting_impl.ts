@@ -819,7 +819,11 @@ export class GrReporting implements ReportingService {
     );
   }
 
-  trackApi(pluginApi: PluginApi, object: string, method: string) {
+  trackApi(
+    pluginApi: Pick<PluginApi, 'getPluginName'>,
+    object: string,
+    method: string
+  ) {
     const plugin = pluginApi?.getPluginName() ?? 'unknown';
     this.reportExecution(Execution.PLUGIN_API, {plugin, object, method});
   }

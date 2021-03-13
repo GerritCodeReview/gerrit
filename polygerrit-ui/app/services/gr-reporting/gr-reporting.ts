@@ -99,7 +99,11 @@ export interface ReportingService {
    * Every execution is only reported once per session.
    */
   reportExecution(id: Execution, details?: EventDetails): void;
-  trackApi(plugin: PluginApi, object: string, method: string): void;
+  trackApi(
+    plugin: Pick<PluginApi, 'getPluginName'>,
+    object: string,
+    method: string
+  ): void;
   reportInteraction(eventName: string, details?: EventDetails): void;
   /**
    * A draft interaction was started. Update the time-between-draft-actions

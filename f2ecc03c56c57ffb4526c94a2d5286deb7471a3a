@@ -52,6 +52,24 @@
       "parentUuid": "146bd234_733e4e92",
       "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "411c4f04_e0997dcd",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-15T19:05:39Z",
+      "side": 1,
+      "message": "\u003e \u003e Delaying the cleanup until a follow-up should be OK only when a strong justification for doing so is present.\n\u003e \n\u003e This has a risk of deterring contributors to the project. Basically, if someone contributes bug fix for us, we come back and say \"no, you first have to clean up the mess [that we ourselves made]\" ? That\u0027s a bad experience for contributors.\n\nThat would be bad. First and foremost there, I don\u0027t think we should be communicating to a one-off contributor \"you first have to clean up the mess\" in existing code for a bug fix. For a new feature, that may be appropriate.\n\nI think if that situation happened and the fix for the bug was in an area that badly needed cleanup (I don\u0027t know how often this is likely to occur), we\u0027d need to communicate to the contributor that we appreciate their fix, but we can\u0027t accept it until some cleanup has been done in this area. They would be welcome to help with that cleanup, or another Gerrit contributor would need to take it on. Does that strike the right balance for you?\n\nDo you think this carries the same risk for regular contributors?\n\nIn general, I\u0027m more concerned about boy-scout behavior for features than I am for bug fixes. It\u0027s only because sometimes bug fixes can become quite large on their own that I think we should be trying to apply it there too. However, I would generally expect this to not come up on bug fixes.\n\nPS: I\u0027m glad you\u0027re reviewing and we\u0027re discussing this!",
+      "parentUuid": "28662d2f_d1cdd7ed",
+      "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

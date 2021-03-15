@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8490ed6_83b9cf89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-15T21:08:14Z",
+      "side": 1,
+      "message": "I just changed Issue 12970 to Bug type. This is also backing why this change started from a stable branch instead of master. -As we usually don\u0027t add new features in stable branches.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 7
+      },
+      "revId": "19d1f3d45d6816d6540b6bcbde97bfb2f6b24b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

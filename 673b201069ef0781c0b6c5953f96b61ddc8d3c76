@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "154cf9cd_4ba25b7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-15T21:42:24Z",
+      "side": 1,
+      "message": "In the latest ESC it has been decided that major dependency bumps should be avoided IF they are not related to:\n- critical security issues\n- critical bugs\n\nI believe this is related to a bug that allows a workable solution purely based on config changes.",
+      "revId": "673b201069ef0781c0b6c5953f96b61ddc8d3c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

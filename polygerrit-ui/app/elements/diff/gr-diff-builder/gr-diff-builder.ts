@@ -62,7 +62,7 @@ enum ContextButtonType {
   ALL = 'all',
 }
 
-export interface ContextEvent extends Event {
+interface ContextEvent extends Omit<MouseEvent, 'detail'> {
   detail: {
     groups: GrDiffGroup[];
     section: HTMLElement;
@@ -492,7 +492,7 @@ export abstract class GrDiffBuilder {
     button.appendChild(textSpan);
 
     if (requiresLoad) {
-      button.addEventListener('tap', e => {
+      button.addEventListener('click', e => {
         e.stopPropagation();
         const firstRange = groups[0].lineRange;
         const lastRange = groups[groups.length - 1].lineRange;
@@ -517,8 +517,8 @@ export abstract class GrDiffBuilder {
         );
       });
     } else {
-      button.addEventListener('tap', e => {
-        const event = e as ContextEvent;
+      button.addEventListener('click', e => {
+        const event = (e as unknown) as ContextEvent;
         event.detail = {
           groups,
           section,

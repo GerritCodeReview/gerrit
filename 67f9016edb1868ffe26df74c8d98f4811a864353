@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1575a39_0e567020",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-15T08:15:06Z",
+      "side": 1,
+      "message": "Nit: LegacyElementMixin",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "67f9016edb1868ffe26df74c8d98f4811a864353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca51cade_304cebc5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-15T08:15:06Z",
+      "side": 1,
+      "message": "It\u0027s great that we could finally removed LegacyElementMixin! Thanks a lot",
+      "revId": "67f9016edb1868ffe26df74c8d98f4811a864353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2303357f_05daf1b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1871,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-15T08:15:06Z",
+      "side": 1,
+      "message": "Nit: repetitions",
+      "range": {
+        "startLine": 1871,
+        "startChar": 35,
+        "endLine": 1871,
+        "endChar": 46
+      },
+      "revId": "67f9016edb1868ffe26df74c8d98f4811a864353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b8784bb_481d0f94",
+        "filename": "polygerrit-ui/app/elements/edit/gr-default-editor/gr-default-editor.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-15T08:15:06Z",
+      "side": 1,
+      "message": "Nit: Can be removed",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 30
+      },
+      "revId": "67f9016edb1868ffe26df74c8d98f4811a864353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "680394f9_f4e71814",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-file-controls/gr-edit-file-controls.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-15T08:15:06Z",
+      "side": 1,
+      "message": "Nit: can be removed",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "67f9016edb1868ffe26df74c8d98f4811a864353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e8899a1_4300c715",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-15T08:15:06Z",
+      "side": 1,
+      "message": "Nit: Can be removed",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 3
+      },
+      "revId": "67f9016edb1868ffe26df74c8d98f4811a864353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

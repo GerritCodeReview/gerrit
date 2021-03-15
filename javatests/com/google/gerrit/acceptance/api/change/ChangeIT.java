@@ -702,6 +702,8 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void reviewWithReadyByNonOwnerReturnsError() throws Exception {
     PushOneCommit.Result r = createChange();
+    change(r).setWorkInProgress();
+
     ReviewInput in = ReviewInput.noScore().setReady(true);
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =

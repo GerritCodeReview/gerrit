@@ -495,6 +495,44 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void readyForReviewHasNoEffectOnReadyChanges() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r)
+        .current()
+        .review(ReviewInput.create().reviewer(user.email()).blockAutomaticAttentionSetRules());
+
+    change(r).current().review(ReviewInput.create().setWorkInProgress(false));
+    assertThat(r.getChange().attentionSet()).isEmpty();
+
+    change(r).current().review(ReviewInput.create().setReady(true));
+    assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
+  public void workInProgressHasNoEffectOnWorkInProgressChanges() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r)
+        .current()
+        .review(
+            ReviewInput.create()
+                .reviewer(user.email())
+                .setWorkInProgress(true)
+                .addUserToAttentionSet(user.email(), /* reason= */ "reason"));
+
+    change(r).current().review(ReviewInput.create().setWorkInProgress(true));
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
+
+    change(r).current().review(ReviewInput.create().setReady(false));
+    attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
+  }
+
+  @Test
   public void rebaseDoesNotAddToAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).setWorkInProgress();

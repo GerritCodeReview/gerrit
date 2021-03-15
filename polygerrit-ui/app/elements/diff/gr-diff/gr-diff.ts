@@ -75,6 +75,7 @@ import {
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {DiffContextExpandedEventDetail} from '../gr-diff-builder/gr-diff-builder';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -523,20 +524,15 @@ export class GrDiff extends PolymerElement {
     return classes.join(' ');
   }
 
+  _handleDiffContextExpanded(e: CustomEvent<DiffContextExpandedEventDetail>) {
+    // Don't stop propagation. The host may listen for reporting or resizing.
+    this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
+  }
+
   _handleTap(e: CustomEvent) {
     const el = (dom(e) as EventApi).localTarget as Element;
 
     if (el.classList.contains('showContext')) {
-      this.dispatchEvent(
-        new CustomEvent('diff-context-expanded', {
-          detail: {
-            numLines: e.detail.numLines,
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
-      this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
     } else if (
       el.getAttribute('data-value') !== 'LOST' &&
       (el.classList.contains('lineNum') ||

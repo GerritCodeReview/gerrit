@@ -62,7 +62,7 @@ export const htmlTemplate = html`
           checked="{{_showAllActivity}}"
           aria-labelledby="showAllEntriesLabel"
           role="switch"
-          on-tap="_onTapShowAllActivityToggle"
+          on-click="_onTapShowAllActivityToggle"
         ></paper-toggle-button>
         <div id="showAllEntriesLabel" aria-hidden="true">
           <span>Show all entries</span>

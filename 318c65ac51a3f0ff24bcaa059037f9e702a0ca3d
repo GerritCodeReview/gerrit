@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ea28fbc_03056822",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentPorter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-15T16:39:21Z",
+      "side": 1,
+      "message": "Is DiffOperations a singleton so that it\u0027s ok to store it as a member inside a singleton class?",
+      "revId": "318c65ac51a3f0ff24bcaa059037f9e702a0ca3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

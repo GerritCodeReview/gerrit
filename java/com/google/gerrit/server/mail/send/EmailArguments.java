@@ -34,7 +34,7 @@ import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
@@ -70,7 +70,7 @@ public class EmailArguments {
   final PermissionBackend permissionBackend;
   final GroupBackend groupBackend;
   final AccountCache accountCache;
-  final PatchListCache patchListCache;
+  final DiffOperations diffOperations;
   final PatchSetUtil patchSetUtil;
   final ApprovalsUtil approvalsUtil;
   final Provider<FromAddressGenerator> fromAddressGenerator;
@@ -103,7 +103,7 @@ public class EmailArguments {
       PermissionBackend permissionBackend,
       GroupBackend groupBackend,
       AccountCache accountCache,
-      PatchListCache patchListCache,
+      DiffOperations diffOperations,
       PatchSetUtil patchSetUtil,
       ApprovalsUtil approvalsUtil,
       Provider<FromAddressGenerator> fromAddressGenerator,
@@ -132,7 +132,7 @@ public class EmailArguments {
     this.permissionBackend = permissionBackend;
     this.groupBackend = groupBackend;
     this.accountCache = accountCache;
-    this.patchListCache = patchListCache;
+    this.diffOperations = diffOperations;
     this.patchSetUtil = patchSetUtil;
     this.approvalsUtil = approvalsUtil;
     this.fromAddressGenerator = fromAddressGenerator;

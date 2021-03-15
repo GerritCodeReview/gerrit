@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc988f65_e5286d2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-15T20:28:34Z",
+      "side": 1,
+      "message": "Was this resolved since? If so, can you check the Resolved box below, accordingly? -Thanks.",
+      "parentUuid": "95cbd3c3_98b0a186",
+      "revId": "1dd15cb9b5c33b758f71e2fc2600f550f0ab1450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9532c6b_8687675c",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4

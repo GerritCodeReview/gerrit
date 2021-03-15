@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "acd994ee_90261bb5",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-03-15T10:58:46Z",
+      "side": 1,
+      "message": "Git asks for --initial-branch on repository init and falls back to \u0027init.defaultBranch\u0027 only if it was not passed, or to \u0027master\u0027, if it was not set.\nhttps://git-scm.com/docs/git-init#Documentation/git-init.txt--bltbranch-namegt\n\nThis change does the similar thing, so I think it would make sense to reuse defaultBranch as a name in the config.\n\nIn that case, I would rename \u0027Default branch\u0027 to \u0027Initial branch\u0027 in the UI and CreateProject docs, to avoid the confusion.\n\nWe actually use the value from UI and first branch in the list to init git repository.",
+      "parentUuid": "dd2fe18d_a8294bed",
+      "range": {
+        "startLine": 201,
+        "startChar": 69,
+        "endLine": 201,
+        "endChar": 89
+      },
+      "revId": "a2071218d2d9a59493fc63c9ca61a19b4905f118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da963675_b237bb57",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 4

@@ -116,6 +116,29 @@
       },
       "revId": "3ba999bea970568b22c0014d4d65f5952f48c8e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8aeb696b_6911f131",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-15T12:58:29Z",
+      "side": 1,
+      "message": "So this firing of event is not needed?",
+      "range": {
+        "startLine": 530,
+        "startChar": 6,
+        "endLine": 537,
+        "endChar": 10
+      },
+      "revId": "3ba999bea970568b22c0014d4d65f5952f48c8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

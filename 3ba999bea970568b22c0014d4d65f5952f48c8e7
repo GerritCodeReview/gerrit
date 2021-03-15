@@ -139,6 +139,30 @@
       },
       "revId": "3ba999bea970568b22c0014d4d65f5952f48c8e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31b2fb45_0c7b830c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-15T13:00:01Z",
+      "side": 1,
+      "message": "No, because the event is fired from diff-builder directly now, so gr-diff does not have to convert it. It will just propagate. I have tested this by setting a breakpoint in gr-diff-host and verified that the reporting call indeed gets executed as intended.",
+      "parentUuid": "8aeb696b_6911f131",
+      "range": {
+        "startLine": 530,
+        "startChar": 6,
+        "endLine": 537,
+        "endChar": 10
+      },
+      "revId": "3ba999bea970568b22c0014d4d65f5952f48c8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

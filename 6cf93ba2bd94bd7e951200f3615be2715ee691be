@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddaf3efe_38f61d7a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-15T11:22:52Z",
+      "side": 1,
+      "message": "totally optional and subjective: I\u0027d find this easier to read as\n\nif (didWorkInProgressChange(...)) {\n  if (input.ready || input.workInProgress) {\n\n... because the change in WIP is the main thing being handled here.",
+      "revId": "6cf93ba2bd94bd7e951200f3615be2715ee691be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

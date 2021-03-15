@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd2fe18d_a8294bed",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-15T10:16:02Z",
+      "side": 1,
+      "message": "git uses config setting init.defaultBranch for this. Can you see if there is precedent for reusing config names?",
+      "range": {
+        "startLine": 201,
+        "startChar": 69,
+        "endLine": 201,
+        "endChar": 89
+      },
+      "revId": "a2071218d2d9a59493fc63c9ca61a19b4905f118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da963675_b237bb57",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-15T10:16:02Z",
+      "side": 1,
+      "message": "defaultBranch or defaultProjectBranch ?",
+      "range": {
+        "startLine": 310,
+        "startChar": 31,
+        "endLine": 310,
+        "endChar": 44
+      },
+      "revId": "a2071218d2d9a59493fc63c9ca61a19b4905f118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

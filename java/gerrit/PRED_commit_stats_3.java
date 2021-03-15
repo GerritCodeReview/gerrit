@@ -15,8 +15,7 @@
 package gerrit;
 
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -24,7 +23,8 @@ import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.Term;
-import java.util.List;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Exports basic commit statistics.
@@ -49,25 +49,30 @@ public class PRED_commit_stats_3 extends Predicate.P3 {
     Term a2 = arg2.dereference();
     Term a3 = arg3.dereference();
 
-    PatchList pl = StoredValues.PATCH_LIST.get(engine);
+    Map<String, FileDiffOutput> modifiedFiles = StoredValues.DIFF_LIST.get(engine);
     // Account for magic files
     if (!a1.unify(
-        new IntegerTerm(pl.getPatches().size() - countMagicFiles(pl.getPatches())), engine.trail)) {
+        new IntegerTerm(modifiedFiles.size() - countMagicFiles(modifiedFiles.values())),
+        engine.trail)) {
       return engine.fail();
     }
-    if (!a2.unify(new IntegerTerm(pl.getInsertions()), engine.trail)) {
+    Integer insertions =
+        modifiedFiles.values().stream().map(FileDiffOutput::insertions).reduce(0, Integer::sum);
+    Integer deletions =
+        modifiedFiles.values().stream().map(FileDiffOutput::deletions).reduce(0, Integer::sum);
+    if (!a2.unify(new IntegerTerm(insertions), engine.trail)) {
       return engine.fail();
     }
-    if (!a3.unify(new IntegerTerm(pl.getDeletions()), engine.trail)) {
+    if (!a3.unify(new IntegerTerm(deletions), engine.trail)) {
       return engine.fail();
     }
     return cont;
   }
 
-  private int countMagicFiles(List<PatchListEntry> entries) {
+  private int countMagicFiles(Collection<FileDiffOutput> entries) {
     int count = 0;
-    for (PatchListEntry e : entries) {
-      if (Patch.isMagic(e.getNewName())) {
+    for (FileDiffOutput e : entries) {
+      if (e.newPath().isPresent() && Patch.isMagic(e.newPath().get())) {
         count++;
       }
     }

@@ -22,7 +22,7 @@ import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
@@ -173,7 +173,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     private final PermissionBackend permissionBackend;
     private final GitRepositoryManager repositoryManager;
     private final PluginConfigFactory pluginConfigFactory;
-    private final PatchListCache patchListCache;
+    private final DiffOperations diffOperations;
     private final PatchSetInfoFactory patchSetInfoFactory;
     private final IdentifiedUser.GenericFactory userFactory;
     private final Provider<AnonymousUser> anonymousUser;
@@ -188,7 +188,7 @@ public class PrologEnvironment extends BufferingPrologControl {
         PermissionBackend permissionBackend,
         GitRepositoryManager repositoryManager,
         PluginConfigFactory pluginConfigFactory,
-        PatchListCache patchListCache,
+        DiffOperations diffOperations,
         PatchSetInfoFactory patchSetInfoFactory,
         IdentifiedUser.GenericFactory userFactory,
         Provider<AnonymousUser> anonymousUser,
@@ -199,7 +199,7 @@ public class PrologEnvironment extends BufferingPrologControl {
       this.permissionBackend = permissionBackend;
       this.repositoryManager = repositoryManager;
       this.pluginConfigFactory = pluginConfigFactory;
-      this.patchListCache = patchListCache;
+      this.diffOperations = diffOperations;
       this.patchSetInfoFactory = patchSetInfoFactory;
       this.userFactory = userFactory;
       this.anonymousUser = anonymousUser;
@@ -237,8 +237,8 @@ public class PrologEnvironment extends BufferingPrologControl {
       return pluginConfigFactory;
     }
 
-    public PatchListCache getPatchListCache() {
-      return patchListCache;
+    public DiffOperations getDiffOperations() {
+      return diffOperations;
     }
 
     public PatchSetInfoFactory getPatchSetInfoFactory() {

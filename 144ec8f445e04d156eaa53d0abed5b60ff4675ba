@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa1354fd_2fdc36f6",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-15T10:09:40Z",
+      "side": 1,
+      "message": "* storage layer failures (unlikely in single-master installation, more likely with multi-master)\n* race conditions: concurrent submit, concurrent update of the pending changes.",
+      "parentUuid": "6c3429fc_ecf1de60",
+      "range": {
+        "startLine": 41,
+        "startChar": 52,
+        "endLine": 42,
+        "endChar": 13
+      },
+      "revId": "144ec8f445e04d156eaa53d0abed5b60ff4675ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3c9bff1_cb20e9a4",
         "filename": "Documentation/cross-repository-changes.txt",
         "patchSetId": 5

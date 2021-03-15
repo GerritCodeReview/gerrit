@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66206d3c_cc0a5465",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2021-03-15T07:27:07Z",
+      "side": 1,
+      "message": "We could of course find it from subsequent events of the same session, but it would make the SQL queries a lot simpler if that wasn\u0027t necessary. If it is a headache to implement, we can totally go down that route, though.",
+      "parentUuid": "9b0e9f5c_9598ab58",
+      "revId": "0ef899b6f8c2e5449e05182dc851c02d3ce5ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bc7a4657_bf35971b",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 1

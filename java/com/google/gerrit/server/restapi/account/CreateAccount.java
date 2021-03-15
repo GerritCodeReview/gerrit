@@ -39,11 +39,13 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
@@ -82,6 +84,8 @@ public class CreateAccount
   private final PluginSetContext<AccountExternalIdCreator> externalIdCreators;
   private final Provider<GroupsUpdate> groupsUpdate;
   private final OutgoingEmailValidator validator;
+  private final AccountResolver accountResolver;
+  private final boolean areDuplicatesProhibited;
 
   @Inject
   CreateAccount(
@@ -93,7 +97,9 @@ public class CreateAccount
       AccountLoader.Factory infoLoader,
       PluginSetContext<AccountExternalIdCreator> externalIdCreators,
       @UserInitiated Provider<GroupsUpdate> groupsUpdate,
-      OutgoingEmailValidator validator) {
+      OutgoingEmailValidator validator,
+      AccountResolver accountResolver,
+      AuthConfig authConfig) {
     this.seq = seq;
     this.groupResolver = groupResolver;
     this.authorizedKeys = authorizedKeys;
@@ -103,6 +109,8 @@ public class CreateAccount
     this.externalIdCreators = externalIdCreators;
     this.groupsUpdate = groupsUpdate;
     this.validator = validator;
+    this.accountResolver = accountResolver;
+    this.areDuplicatesProhibited = authConfig.areDuplicatesProhibited();
   }
 
   @Override
@@ -122,6 +130,9 @@ public class CreateAccount
     }
     if (!ExternalId.isValidUsername(username)) {
       throw new BadRequestException("Invalid username '" + username + "'");
+    }
+    if (areDuplicatesProhibited && !accountResolver.resolve(username).asIdSet().isEmpty()) {
+      throw new BadRequestException("Username '" + username + "' already exists.");
     }
 
     Set<AccountGroup.UUID> groups = parseGroups(input.groups);

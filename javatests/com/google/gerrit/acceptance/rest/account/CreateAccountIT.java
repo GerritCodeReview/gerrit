@@ -31,4 +31,21 @@ public class CreateAccountIT extends AbstractDaemonTest {
     r.assertCreated();
     assertThat(accountCache.getByUsername(input.username)).isPresent();
   }
+
+  @Test
+  public void createAccountRestApiDuplicatesProhibited() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = "foo";
+    assertThat(accountCache.getByUsername(input.username)).isEmpty();
+    RestResponse r = adminRestSession.put("/accounts/" + input.username, input);
+    r.assertCreated();
+    assertThat(accountCache.getByUsername(input.username)).isPresent();
+
+    AccountInput inputDuplicate = new AccountInput();
+    inputDuplicate.username = "Foo";
+    RestResponse rDuplicate =
+        adminRestSession.put("/accounts/" + inputDuplicate.username, inputDuplicate);
+    rDuplicate.assertConflict();
+    assertThat(accountCache.getByUsername(inputDuplicate.username)).isEmpty();
+  }
 }

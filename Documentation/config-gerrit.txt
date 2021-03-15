@@ -692,6 +692,15 @@ and auto merge commits.
 +
 By default, true.
 
+[[auth.duplicatesProhibited]]auth.duplicatesProhibited::
++
+By default, it is possible to create accounts with usernames that are
+only different in their case (e.g. johndoe and JohnDoe). This would block
+enabling auth.userNameToLowerCase in the future. Setting this option
+to true, disallows this.
++
+By default, false.
+
 [[cache]]
 === Section cache
 

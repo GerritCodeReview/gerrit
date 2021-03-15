@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eba63412_6f0a0a45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-15T08:40:19Z",
+      "side": 1,
+      "message": "I understand the desire, but I don\u0027t see an easy way to add the change number here. :-/\n\nNote that we are also setting the usp for other Gerrit pages, so we may not always have a change number.\n\nWe could treat the usp similar to the change number and the repo name, and always send it with every event. That is something that I would leave to Milutin and you to optimize.",
+      "parentUuid": "66206d3c_cc0a5465",
+      "revId": "0ef899b6f8c2e5449e05182dc851c02d3ce5ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc7a4657_bf35971b",
@@ -91,6 +109,30 @@
       "side": 1,
       "message": "I also think it should be USER_REFERRED_FROM",
       "parentUuid": "bc7a4657_bf35971b",
+      "range": {
+        "startLine": 822,
+        "startChar": 51,
+        "endLine": 822,
+        "endChar": 69
+      },
+      "revId": "0ef899b6f8c2e5449e05182dc851c02d3ce5ab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d490bcc6_963d84d5",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-15T08:40:19Z",
+      "side": 1,
+      "message": "Oops, done.",
+      "parentUuid": "c3daf900_2c1161ac",
       "range": {
         "startLine": 822,
         "startChar": 51,

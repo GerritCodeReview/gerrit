@@ -46,6 +46,30 @@
       },
       "revId": "db19fb871217574d56e02fd72e9cbf9532835c0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5855954_1f539643",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-15T08:40:19Z",
+      "side": 1,
+      "message": "We don\u0027t have change information at this point. And as you say, just reporting the account ID may have privacy implications. So I will leave as is for now.",
+      "parentUuid": "b9aa5822_fbd98d3c",
+      "range": {
+        "startLine": 865,
+        "startChar": 25,
+        "endLine": 865,
+        "endChar": 40
+      },
+      "revId": "db19fb871217574d56e02fd72e9cbf9532835c0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

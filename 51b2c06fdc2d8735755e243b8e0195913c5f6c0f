@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adef57e4_ca7de258",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-15T15:43:41Z",
+      "side": 1,
+      "message": "This can be rewritten to:\n\n```\nthis._repos \u003d repos.filter(repo \u003d\u003e repo.name.includes(filter));\n```\n\nand rest can be same as before.",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 139,
+        "endChar": 14
+      },
+      "revId": "51b2c06fdc2d8735755e243b8e0195913c5f6c0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

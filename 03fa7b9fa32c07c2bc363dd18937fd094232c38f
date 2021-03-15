@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "301e0af5_9107f958",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-15T09:57:48Z",
+      "side": 1,
+      "message": "Please remove js.\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#:~:text\u003dRemove%20.js%20extensions%20from%20all%20imports",
+      "range": {
+        "startLine": 19,
+        "startChar": 46,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "03fa7b9fa32c07c2bc363dd18937fd094232c38f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1799dec5_8a876547",
         "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star_test.ts",
         "patchSetId": 1
@@ -38,6 +61,30 @@
       "side": 1,
       "message": "Any reason? Our docs say ! is preferrable for better error message, and there could be bugs where assert.equal(a?.b?.c, null) may pass for the wrong reasons (a or b is not defined).\n\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#migrating-tests-to-typescript\nCtrl+F \"Usually the fix with ! is preferable\"",
       "parentUuid": "1799dec5_8a876547",
+      "range": {
+        "startLine": 59,
+        "startChar": 25,
+        "endLine": 59,
+        "endChar": 31
+      },
+      "revId": "03fa7b9fa32c07c2bc363dd18937fd094232c38f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4211cde2_a90e5908",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-15T09:57:48Z",
+      "side": 1,
+      "message": "Ok, thanks I didn\u0027t know",
+      "parentUuid": "2e62a038_cec2500f",
       "range": {
         "startLine": 59,
         "startChar": 25,

@@ -462,7 +462,7 @@ suite('gr-diff tests', () => {
       const el = document.createElement('div');
       el.className = 'showContext';
       el.addEventListener('click', e => {
-        element._handleTap(e);
+        element._handleDiffContextExpanded(e);
         assert.isTrue(showContextStub.called);
         done();
       });

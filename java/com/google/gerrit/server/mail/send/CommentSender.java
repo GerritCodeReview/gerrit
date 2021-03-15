@@ -36,10 +36,9 @@ import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.Protocol;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.PatchFile;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -199,23 +198,23 @@ public class CommentSender extends ReplyToChangeSender {
         currentGroup.filename = c.key.filename;
         currentGroup.patchSetId = c.key.patchSetId;
         // Get the patch list:
-        PatchList patchList = null;
+        Map<String, FileDiffOutput> modifiedFiles = null;
         try {
-          patchList = getPatchList(c.key.patchSetId);
-        } catch (PatchListObjectTooLargeException e) {
-          logger.atWarning().log("Failed to get patch list: %s", e.getMessage());
-        } catch (PatchListNotAvailableException e) {
+          modifiedFiles = listModifiedFiles(c.key.patchSetId);
+        } catch (DiffNotAvailableException e) {
           logger.atSevere().withCause(e).log("Failed to get patch list");
         }
 
         groups.add(currentGroup);
-        if (patchList != null) {
+        if (modifiedFiles != null && !modifiedFiles.isEmpty()) {
           try {
-            currentGroup.fileData = new PatchFile(repo, patchList, c.key.filename);
+            currentGroup.fileData = new PatchFile(repo, modifiedFiles, c.key.filename);
           } catch (IOException e) {
             logger.atWarning().withCause(e).log(
                 "Cannot load %s from %s in %s",
-                c.key.filename, patchList.getNewId().name(), projectState.getName());
+                c.key.filename,
+                modifiedFiles.values().iterator().next().newCommitId().name(),
+                projectState.getName());
             currentGroup.fileData = null;
           }
         }

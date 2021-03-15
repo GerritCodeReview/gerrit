@@ -34,6 +34,24 @@
       "parentUuid": "65e26e4f_0609e24a",
       "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28662d2f_d1cdd7ed",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-15T16:09:07Z",
+      "side": 1,
+      "message": "\u003e Delaying the cleanup until a follow-up should be OK only when a strong justification for doing so is present.\n\nThis has a risk of deterring contributors to the project. Basically, if someone contributes bug fix for us, we come back and say \"no, you first have to clean up the mess [that we ourselves made]\" ? That\u0027s a bad experience for contributors.",
+      "parentUuid": "146bd234_733e4e92",
+      "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

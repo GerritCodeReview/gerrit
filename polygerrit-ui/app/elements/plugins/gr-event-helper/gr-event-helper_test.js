@@ -71,47 +71,5 @@ suite('gr-event-helper tests', () => {
     flush();
     assert.isFalse(tapStub.called);
   });
-
-  test('captureTap()', done => {
-    instance.captureTap(() => {
-      done();
-    });
-    MockInteractions.tap(element);
-  });
-
-  test('captureClick()', done => {
-    instance.captureClick(() => {
-      done();
-    });
-    MockInteractions.tap(element);
-  });
-
-  test('captureTap() cancels tap()', () => {
-    const tapStub = sinon.stub();
-    addListener(element.parentElement, 'tap', tapStub);
-    instance.captureTap(() => false);
-    MockInteractions.tap(element);
-    flush();
-    assert.isFalse(tapStub.called);
-  });
-
-  test('captureClick() cancels click()', () => {
-    const tapStub = sinon.stub();
-    element.addEventListener('click', tapStub);
-    instance.captureTap(() => false);
-    MockInteractions.tap(element);
-    flush();
-    assert.isFalse(tapStub.called);
-  });
-
-  test('on()', done => {
-    instance.on('foo', () => {
-      done();
-    });
-    element.dispatchEvent(
-        new CustomEvent('foo', {
-          composed: true, bubbles: true,
-        }));
-  });
 });
 

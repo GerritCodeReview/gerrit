@@ -56,7 +56,7 @@ export interface JsApiService {
     origMsg: string
   ): string;
   addElement(key: TargetElement, el: HTMLElement): void;
-  getDiffLayers(path: string, changeNum: number): DiffLayer[];
+  getDiffLayers(path: string): DiffLayer[];
   disposeDiffLayers(path: string): void;
   getCoverageAnnotationApis(): Promise<GrAnnotationActionsInterface[]>;
   getAdminMenuLinks(): MenuLink[];

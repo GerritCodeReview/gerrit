@@ -247,12 +247,12 @@ export class GrJsApiInterface implements JsApiService {
     return revertSubmissionMsg;
   }
 
-  getDiffLayers(path: string, changeNum: number) {
+  getDiffLayers(path: string) {
     const layers: DiffLayer[] = [];
     for (const cb of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
       const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
       try {
-        const layer = annotationApi.createLayer(path, changeNum);
+        const layer = annotationApi.createLayer(path);
         if (layer) layers.push(layer);
       } catch (err) {
         this.reporting.error(err);

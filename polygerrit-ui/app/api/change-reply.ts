@@ -29,8 +29,6 @@ export interface ChangeReplyPluginApi {
 
   setLabelValue(label: string, value: string): void;
 
-  send(includeComments?: boolean): void;
-
   addReplyTextChangedCallback(handler: ReplyChangedCallback): void;
 
   addLabelValuesChangedCallback(handler: LabelsChangedCallback): void;

@@ -21,7 +21,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -30,10 +29,9 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -87,24 +85,25 @@ public final class StoredValues {
         }
       };
 
-  public static final StoredValue<PatchList> PATCH_LIST =
-      new StoredValue<PatchList>() {
+  public static final StoredValue<Map<String, FileDiffOutput>> DIFF_LIST =
+      new StoredValue<Map<String, FileDiffOutput>>() {
         @Override
-        public PatchList createValue(Prolog engine) {
+        public Map<String, FileDiffOutput> createValue(Prolog engine) {
           PrologEnvironment env = (PrologEnvironment) engine.control;
           PatchSet ps = getPatchSet(engine);
-          PatchListCache plCache = env.getArgs().getPatchListCache();
+          DiffOperations diffOperations = env.getArgs().getDiffOperations();
           Change change = getChange(engine);
           Project.NameKey project = change.getProject();
-          Whitespace ws = Whitespace.IGNORE_NONE;
-          PatchListKey plKey = PatchListKey.againstDefaultBase(ps.commitId(), ws);
-          PatchList patchList;
+          Map<String, FileDiffOutput> diffList;
           try {
-            patchList = plCache.get(plKey, project);
-          } catch (PatchListNotAvailableException e) {
-            throw new SystemException(String.format("Cannot create %s: %s", plKey, e.getMessage()));
+            diffList = diffOperations.listModifiedFilesAgainstParent(project, ps.commitId(), null);
+          } catch (DiffNotAvailableException e) {
+            throw new SystemException(
+                String.format(
+                    "Cannot create modified files for project %s, commit Id %s: %s",
+                    project, ps.commitId(), e.getMessage()));
           }
-          return patchList;
+          return diffList;
         }
       };
 

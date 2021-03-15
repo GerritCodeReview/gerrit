@@ -65,6 +65,7 @@ public class AuthConfig {
   private final SignedToken emailReg;
   private final boolean allowRegisterNewEmail;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
+  private final boolean duplicatesProhibited;
 
   @Inject
   AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
@@ -95,6 +96,7 @@ public class AuthConfig {
     useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
     allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
+    duplicatesProhibited = cfg.getBoolean("auth", "duplicatesProhibited", false);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -235,6 +237,11 @@ public class AuthConfig {
   /** Whether user name should be converted to lower-case before validation */
   public boolean isUserNameToLowerCase() {
     return userNameToLowerCase;
+  }
+
+  /** Whether user name should be handled case insensitive */
+  public boolean areDuplicatesProhibited() {
+    return duplicatesProhibited;
   }
 
   public GitBasicAuthPolicy getGitBasicAuthPolicy() {

@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyExcept
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.auth.NoSuchUserException;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
@@ -78,6 +79,8 @@ public class AccountManager {
   private final GroupsUpdate.Factory groupsUpdateFactory;
   private final boolean autoUpdateAccountActiveStatus;
   private final SetInactiveFlag setInactiveFlag;
+  private final AccountResolver accountResolver;
+  private final boolean areDuplicatesProhibited;
 
   @VisibleForTesting
   @Inject
@@ -93,7 +96,9 @@ public class AccountManager {
       ProjectCache projectCache,
       ExternalIds externalIds,
       GroupsUpdate.Factory groupsUpdateFactory,
-      SetInactiveFlag setInactiveFlag) {
+      SetInactiveFlag setInactiveFlag,
+      AccountResolver accountResolver,
+      AuthConfig authConfig) {
     this.sequences = sequences;
     this.accounts = accounts;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -109,6 +114,8 @@ public class AccountManager {
     this.autoUpdateAccountActiveStatus =
         cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false);
     this.setInactiveFlag = setInactiveFlag;
+    this.accountResolver = accountResolver;
+    this.areDuplicatesProhibited = authConfig.areDuplicatesProhibited();
   }
 
   /** @return user identified by this external identity string */
@@ -139,6 +146,14 @@ public class AccountManager {
     try {
       Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
       if (!optionalExtId.isPresent()) {
+        if (areDuplicatesProhibited
+            && who.getUserName().isPresent()
+            && !accountResolver.resolve(who.getUserName().get()).asIdSet().isEmpty()) {
+          throw new AccountUserNameException(
+              "Username '"
+                  + who.getUserName().get()
+                  + "' already exists with different capitalization.");
+        }
         logger.atFine().log(
             "External ID for account %s not found. A new account will be automatically created.",
             who.getUserName());

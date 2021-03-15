@@ -31,7 +31,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AccountUserNameException;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
@@ -39,6 +41,7 @@ import com.google.gerrit.server.account.SetInactiveFlag;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.notedb.Sequences;
@@ -62,6 +65,8 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Inject private SshKeyCache sshKeyCache;
   @Inject private GroupsUpdate.Factory groupsUpdateFactory;
   @Inject private SetInactiveFlag setInactiveFlag;
+  @Inject private AccountResolver accountResolver;
+  @Inject private AuthConfig authConfig;
 
   @Test
   public void authenticateNewAccountWithEmail() throws Exception {
@@ -233,7 +238,9 @@ public class AccountManagerIT extends AbstractDaemonTest {
             projectCache,
             externalIds,
             groupsUpdateFactory,
-            setInactiveFlag));
+            setInactiveFlag,
+            accountResolver,
+            authConfig));
   }
 
   private void authenticateWithUsernameAndUpdateDisplayName(AccountManager am) throws Exception {
@@ -640,6 +647,41 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthResult result = accountManager.link(accountId, who);
     assertThat(result.isNew()).isFalse();
     assertThat(result.getAccountId().get()).isEqualTo(accountId.get());
+  }
+
+  @Test
+  @GerritConfig(name = "auth.duplicatesProhibited", value = "false")
+  public void duplicateAccountsWithDuplicatesProhibitedFalse() throws Exception {
+    String newAccountName = "johndoe";
+    assertThat(accountCache.getByUsername(newAccountName)).isEmpty();
+    AuthResult result = accountManager.authenticate(AuthRequest.forUser(newAccountName));
+    assertThat(result.isNew()).isTrue();
+    assertThat(result.getExternalId().get()).isEqualTo("gerrit:" + newAccountName);
+    assertThat(accountCache.getByUsername(newAccountName)).isPresent();
+
+    String newDuplicateAccountName = "JohnDoe";
+    assertThat(accountCache.getByUsername(newDuplicateAccountName)).isEmpty();
+    AuthResult resultDuplicate =
+        accountManager.authenticate(AuthRequest.forUser(newDuplicateAccountName));
+    assertThat(resultDuplicate.isNew()).isTrue();
+    assertThat(resultDuplicate.getExternalId().get())
+        .isEqualTo("gerrit:" + newDuplicateAccountName);
+    assertThat(accountCache.getByUsername(newDuplicateAccountName)).isPresent();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.duplicatesProhibited", value = "true")
+  public void noDuplicateAccountsWithDuplicatesProhibitedTrue() throws Exception {
+    String newAccountName = "johndoe";
+    assertThat(accountCache.getByUsername(newAccountName)).isEmpty();
+    AuthResult result = accountManager.authenticate(AuthRequest.forUser(newAccountName));
+    assertThat(result.isNew()).isTrue();
+    assertThat(result.getExternalId().get()).isEqualTo("gerrit:" + newAccountName);
+    assertThat(accountCache.getByUsername(newAccountName)).isPresent();
+
+    assertThrows(
+        AccountUserNameException.class,
+        () -> accountManager.authenticate(AuthRequest.forUser("JohnDoe")));
   }
 
   private void assertNoSuchExternalIds(ExternalId.Key... extIdKeys) throws Exception {

@@ -1,4 +1,4 @@
-// Copyright (C) 2020 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,29 +19,35 @@ import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.http
 
-import scala.concurrent.duration._
+import scala.collection.mutable
+import scala.concurrent.duration.DurationInt
 
-class SubmitChange extends GerritSimulation {
-  private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
+class AbandonChange extends GerritSimulation {
+  private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
   private val projectName = className
-  private var createChange = new CreateChange(projectName)
+  private var numbersCopy: mutable.Queue[Int] = mutable.Queue[Int]()
+  private var createChange: Option[CreateChange] = Some(new CreateChange(projectName))
 
   override def relativeRuntimeWeight = 10
 
   def this(createChange: CreateChange) {
     this()
-    this.createChange = createChange
+    this.createChange = Some(createChange)
   }
 
   val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(session => {
-        session.set(numberKey, createChange.number)
+        if (createChange.nonEmpty) {
+          if (numbersCopy.isEmpty) {
+            numbersCopy = createChange.get.numbers.clone()
+          }
+        }
+        session.set(numberKey, numbersCopy.dequeue())
       })
-      .exec(http(uniqueName).post("${url}${" + numberKey + "}/submit"))
+      .exec(http(uniqueName).post("${url}${" + numberKey + "}/abandon"))
 
   private val createProject = new CreateProject(projectName)
-  private val approveChange = new ApproveChange(createChange)
   private val deleteProject = new DeleteProject(projectName)
 
   setUp(
@@ -49,17 +55,13 @@ class SubmitChange extends GerritSimulation {
       nothingFor(stepWaitTime(createProject) seconds),
       atOnceUsers(single)
     ),
-    createChange.test.inject(
-      nothingFor(stepWaitTime(createChange) seconds),
-      atOnceUsers(single)
-    ),
-    approveChange.test.inject(
-      nothingFor(stepWaitTime(approveChange) seconds),
-      atOnceUsers(single)
+    createChange.get.test.inject(
+      nothingFor(stepWaitTime(createChange.get) seconds),
+      atOnceUsers(numberOfUsers)
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
-      atOnceUsers(single)
+      atOnceUsers(numberOfUsers)
     ),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) seconds),

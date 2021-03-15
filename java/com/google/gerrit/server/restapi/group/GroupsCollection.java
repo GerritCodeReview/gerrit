@@ -87,7 +87,7 @@ public class GroupsCollection
     final CurrentUser user = self.get();
     if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
-    } else if (!(user.isIdentifiedUser())) {
+    } else if (!(user.isIdentifiedUser() || user.isInternalUser())) {
       throw new ResourceNotFoundException(id);
     }
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2020 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,29 +19,30 @@ import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.http
 
-import scala.concurrent.duration._
+import scala.collection.mutable
+import scala.concurrent.duration.DurationInt
 
-class SubmitChange extends GerritSimulation {
-  private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
+class RestoreChange extends GerritSimulation {
+  private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
   private val projectName = className
-  private var createChange = new CreateChange(projectName)
+  private var numbersCopy: mutable.Queue[Int] = mutable.Queue[Int]()
 
   override def relativeRuntimeWeight = 10
 
-  def this(createChange: CreateChange) {
-    this()
-    this.createChange = createChange
-  }
-
-  val test: ScenarioBuilder = scenario(uniqueName)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(session => {
-        session.set(numberKey, createChange.number)
-      })
-      .exec(http(uniqueName).post("${url}${" + numberKey + "}/submit"))
+        if (numbersCopy.isEmpty) {
+          numbersCopy = createChange.numbers.clone()
+        }
+        session.set(numberKey, numbersCopy.dequeue())
+      }
+      ).exec(http(uniqueName).post("${url}${" + numberKey + "}/restore"))
 
   private val createProject = new CreateProject(projectName)
-  private val approveChange = new ApproveChange(createChange)
+  private val createChange = new CreateChange(projectName)
+  private val abandonChange = new AbandonChange(createChange)
+  private val deleteChange = new DeleteChange(createChange)
   private val deleteProject = new DeleteProject(projectName)
 
   setUp(
@@ -51,15 +52,19 @@ class SubmitChange extends GerritSimulation {
     ),
     createChange.test.inject(
       nothingFor(stepWaitTime(createChange) seconds),
-      atOnceUsers(single)
+      atOnceUsers(numberOfUsers)
     ),
-    approveChange.test.inject(
-      nothingFor(stepWaitTime(approveChange) seconds),
-      atOnceUsers(single)
+    abandonChange.test.inject(
+      nothingFor(stepWaitTime(abandonChange) seconds),
+      atOnceUsers(numberOfUsers)
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
-      atOnceUsers(single)
+      atOnceUsers(numberOfUsers)
+    ),
+    deleteChange.test.inject(
+      nothingFor(stepWaitTime(deleteChange) seconds),
+      atOnceUsers(numberOfUsers)
     ),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) seconds),

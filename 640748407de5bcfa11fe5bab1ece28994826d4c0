@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0bf032b_5f2b7d35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-15T21:30:51Z",
+      "side": 1,
+      "message": "Thanks, Albert. This privacy notice was very much needed. Just one last nit from my side.",
+      "revId": "640748407de5bcfa11fe5bab1ece28994826d4c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c563fadb_8593f30f",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-15T21:30:51Z",
+      "side": 1,
+      "message": "and its core plugins\u0027",
+      "range": {
+        "startLine": 11,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "640748407de5bcfa11fe5bab1ece28994826d4c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

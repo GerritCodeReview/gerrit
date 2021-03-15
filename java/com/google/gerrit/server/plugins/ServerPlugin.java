@@ -278,6 +278,10 @@ public class ServerPlugin extends Plugin {
     }
   }
 
+  public ClassLoader getClassLoader() {
+    return classLoader;
+  }
+
   @Override
   public Injector getSysInjector() {
     return sysInjector;

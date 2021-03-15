@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65e26e4f_0609e24a",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-15T09:00:48Z",
+      "side": 1,
+      "message": "I still think this advice is not actionable. Here is what I would write\n\nChanges should do one thing.  If a change requires cleanup/refactoring, it is best to do that cleanup in a preparatory, separate change. If during a review for a functional change, a related cleanup/refactoring is discovered, it is OK to do this in a follow-up change to avoid additional churn on the change under review, even though technically it is preferable to do the cleanup first.",
+      "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

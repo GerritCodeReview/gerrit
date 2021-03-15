@@ -15,9 +15,10 @@
 package gerrit;
 
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.Text;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.patch.filediff.TaggedEdit;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;
@@ -31,7 +32,9 @@ import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -69,17 +72,24 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     Pattern fileRegex = getRegexParameter(a1);
     Pattern editRegex = getRegexParameter(a2);
 
-    PatchList pl = StoredValues.PATCH_LIST.get(engine);
+    Map<String, FileDiffOutput> modifiedFiles = StoredValues.DIFF_LIST.get(engine);
     Repository repo = StoredValues.REPOSITORY.get(engine);
 
     try (ObjectReader reader = repo.newObjectReader();
         RevWalk rw = new RevWalk(reader)) {
       final RevTree aTree;
       final RevTree bTree;
-      final RevCommit bCommit = rw.parseCommit(pl.getNewId());
+      final RevCommit aCommit =
+          modifiedFiles.isEmpty()
+              ? null
+              : rw.parseCommit(modifiedFiles.values().iterator().next().oldCommitId());
+      final RevCommit bCommit =
+          modifiedFiles.isEmpty()
+              ? null
+              : rw.parseCommit(modifiedFiles.values().iterator().next().newCommitId());
 
-      if (pl.getOldId() != null) {
-        aTree = rw.parseTree(pl.getOldId());
+      if (aCommit != null) {
+        aTree = rw.parseTree(aCommit);
       } else {
         // Octopus merge with unknown automatic merge result, since the
         // web UI returns no files to match against, just fail.
@@ -87,9 +97,10 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
       }
       bTree = bCommit.getTree();
 
-      for (PatchListEntry entry : pl.getPatches()) {
-        String newName = entry.getNewName();
-        String oldName = entry.getOldName();
+      for (FileDiffOutput entry : modifiedFiles.values()) {
+        String newName =
+            FilePathAdapter.getNewPath(entry.oldPath(), entry.newPath(), entry.changeType());
+        String oldName = FilePathAdapter.getOldPath(entry.oldPath(), entry.changeType());
 
         if (Patch.isMagic(newName)) {
           continue;
@@ -97,7 +108,8 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
 
         if (fileRegex.matcher(newName).find()
             || (oldName != null && fileRegex.matcher(oldName).find())) {
-          List<Edit> edits = entry.getEdits();
+          List<Edit> edits =
+              entry.edits().stream().map(TaggedEdit::jgitEdit).collect(Collectors.toList());
           if (edits.isEmpty()) {
             continue;
           }

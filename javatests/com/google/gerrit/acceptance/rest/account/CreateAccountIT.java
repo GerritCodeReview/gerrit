@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.account;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import org.junit.Test;
@@ -30,5 +31,28 @@ public class CreateAccountIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.put("/accounts/" + input.username, input);
     r.assertCreated();
     assertThat(accountCache.getByUsername(input.username)).isPresent();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameToLowerCase", value = "false")
+  public void createAccountRestApiUserNameToLowerCaseFalse() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = "JohnDoe";
+    assertThat(accountCache.getByUsername(input.username)).isEmpty();
+    RestResponse r = adminRestSession.put("/accounts/" + input.username, input);
+    r.assertCreated();
+    assertThat(accountCache.getByUsername(input.username)).isPresent();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameToLowerCase", value = "true")
+  public void createAccountRestApiUserNameToLowerCaseTrue() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = "JaneDoe";
+    assertThat(accountCache.getByUsername("janedoe")).isEmpty();
+    RestResponse r = adminRestSession.put("/accounts/" + input.username, input);
+    r.assertCreated();
+    assertThat(accountCache.getByUsername("janedoe")).isPresent();
+    assertThat(accountCache.getByUsername(input.username)).isEmpty();
   }
 }

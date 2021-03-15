@@ -225,7 +225,7 @@ export const htmlTemplate = html`
         <iron-icon
           id="mobileSearch"
           icon="gr-icons:search"
-          on-tap="_onMobileSearchTap"
+          on-click="_onMobileSearchTap"
           role="button"
           aria-label="[[_computeShowHideAriaLabel(mobileSearchHidden)]]"
         ></iron-icon>

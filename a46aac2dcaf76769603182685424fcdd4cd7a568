@@ -16,6 +16,23 @@
       "message": "(first contribution to this project, apologies if this is wrong reviewer assignment process)",
       "revId": "a46aac2dcaf76769603182685424fcdd4cd7a568",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c91d59d8_b8dcc866",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-15T12:56:23Z",
+      "side": 1,
+      "message": "Thanks for the contribution!\n\nUpdating the frontend plugin dev docs is on my list for the next weeks, but I am grateful for any help here. :-)",
+      "revId": "a46aac2dcaf76769603182685424fcdd4cd7a568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

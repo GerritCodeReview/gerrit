@@ -26,7 +26,7 @@ public class RevisionNewDiffCacheForSingleFileIT extends RevisionDiffIT {
   @ConfigSuite.Default
   public static Config newDiffCacheConfig() {
     Config config = new Config();
-    config.setBoolean("cache", "diff_cache", "runNewDiffCacheAsync_getDiff", true);
+    config.setBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", true);
     return config;
   }
 }

@@ -76,7 +76,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   private static final String FILE_CONTENT2 = "1st line\n2nd line\n3rd line\n";
 
   private boolean intraline;
-  private boolean useNewDiffCache;
+  private boolean useNewDiffCacheListFiles;
   private boolean useNewDiffCacheGetDiff;
 
   private ObjectId commit1;
@@ -91,9 +91,10 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     baseConfig.setString("cache", "diff_intraline", "timeout", "1 minute");
 
     intraline = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "intraline", false);
-    useNewDiffCache = baseConfig.getBoolean("cache", "diff_cache", "useNewDiffCache", false);
+    useNewDiffCacheListFiles =
+        baseConfig.getBoolean("cache", "diff_cache", "runNewDiffCache_ListFiles", false);
     useNewDiffCacheGetDiff =
-        baseConfig.getBoolean("cache", "diff_cache", "useNewDiffCache_getDiff", false);
+        baseConfig.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
 
     ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
     commit1 =
@@ -1276,7 +1277,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   public void renamedUnrelatedFileIsIgnored_ForPatchSetDiffWithRebase_WhenEquallyModifiedInBoth()
       throws Exception {
     // TODO(ghareeb): fix this test for the new diff cache implementation
-    assume().that(useNewDiffCache).isFalse();
+    assume().that(useNewDiffCacheListFiles).isFalse();
 
     Function<String, String> contentModification =
         fileContent -> fileContent.replace("1st line\n", "First line\n");
@@ -1369,7 +1370,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   @Test
   public void filesTouchedByPatchSetsAndContainingOnlyRebaseHunksAreIgnored() throws Exception {
     // TODO(ghareeb): fix this test for the new diff cache implementation
-    assume().that(useNewDiffCache).isFalse();
+    assume().that(useNewDiffCacheListFiles).isFalse();
 
     addModifiedPatchSet(
         changeId, FILE_NAME, fileContent -> fileContent.replace("Line 50\n", "Line fifty\n"));
@@ -2751,7 +2752,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   @Test
   public void symlinkConvertedToRegularFileIsIdentifiedAsAdded() throws Exception {
     // TODO(ghareeb): fix this test for the new diff cache implementation
-    assume().that(useNewDiffCache).isFalse();
+    assume().that(useNewDiffCacheListFiles).isFalse();
     assume().that(useNewDiffCacheGetDiff).isFalse();
 
     String target = "file.txt";

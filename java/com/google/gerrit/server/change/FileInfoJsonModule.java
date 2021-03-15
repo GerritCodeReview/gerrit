@@ -19,13 +19,15 @@ import com.google.inject.AbstractModule;
 import org.eclipse.jgit.lib.Config;
 
 public class FileInfoJsonModule extends AbstractModule {
+  /** Use the new diff cache implementation {@link FileInfoJsonNewImpl}. */
   private final boolean useNewDiffCache;
 
   /** Used to dark launch the new diff cache with the list files endpoint. */
   private final boolean runNewDiffCacheAsync;
 
   public FileInfoJsonModule(@GerritServerConfig Config cfg) {
-    this.useNewDiffCache = cfg.getBoolean("cache", "diff_cache", "useNewDiffCache", false);
+    this.useNewDiffCache =
+        cfg.getBoolean("cache", "diff_cache", "runNewDiffCache_ListFiles", false);
     this.runNewDiffCacheAsync =
         cfg.getBoolean("cache", "diff_cache", "runNewDiffCacheAsync_listFiles", false);
   }

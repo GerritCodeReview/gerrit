@@ -41,11 +41,10 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListEntry;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -66,6 +65,7 @@ import java.util.stream.Collectors;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -269,17 +269,23 @@ public abstract class ChangeEmail extends NotificationEmail {
 
       if (patchSet != null) {
         detail.append("---\n");
-        PatchList patchList = getPatchList();
-        for (PatchListEntry p : patchList.getPatches()) {
-          if (Patch.isMagic(p.getNewName())) {
+        Map<String, FileDiffOutput> modifiedFiles = listModifiedFiles();
+        for (FileDiffOutput fileDiff : modifiedFiles.values()) {
+          if (fileDiff.newPath().isPresent() && Patch.isMagic(fileDiff.newPath().get())) {
             continue;
           }
           detail
-              .append(p.getChangeType().getCode())
+              .append(fileDiff.changeType().getCode())
               .append(" ")
-              .append(p.getNewName())
+              .append(
+                  FilePathAdapter.getNewPath(
+                      fileDiff.oldPath(), fileDiff.newPath(), fileDiff.changeType()))
               .append("\n");
         }
+        Integer insertions =
+            modifiedFiles.values().stream().map(FileDiffOutput::insertions).reduce(0, Integer::sum);
+        Integer deletions =
+            modifiedFiles.values().stream().map(FileDiffOutput::deletions).reduce(0, Integer::sum);
         detail.append(
             MessageFormat.format(
                 "" //
@@ -287,9 +293,9 @@ public abstract class ChangeEmail extends NotificationEmail {
                     + "{1,choice,0#0 insertions|1#1 insertion|1<{1} insertions}(+), " //
                     + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
                     + "\n",
-                patchList.getPatches().size() - 1, //
-                patchList.getInsertions(), //
-                patchList.getDeletions()));
+                modifiedFiles.size() - 1, //
+                insertions, //
+                deletions));
         detail.append("\n");
       }
       return detail.toString();
@@ -300,7 +306,8 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /** Get the patch list corresponding to patch set patchSetId of this change. */
-  protected PatchList getPatchList(int patchSetId) throws PatchListNotAvailableException {
+  protected Map<String, FileDiffOutput> listModifiedFiles(int patchSetId)
+      throws DiffNotAvailableException {
     PatchSet ps;
     if (patchSetId == patchSet.number()) {
       ps = patchSet;
@@ -308,18 +315,20 @@ public abstract class ChangeEmail extends NotificationEmail {
       try {
         ps = args.patchSetUtil.get(changeData.notes(), PatchSet.id(change.getId(), patchSetId));
       } catch (StorageException e) {
-        throw new PatchListNotAvailableException("Failed to get patchSet", e);
+        throw new DiffNotAvailableException("Failed to get patchSet", e);
       }
     }
-    return args.patchListCache.get(change, ps);
+    return args.diffOperations.listModifiedFilesAgainstParent(
+        change.getProject(), ps.commitId(), null);
   }
 
   /** Get the patch list corresponding to this patch set. */
-  protected PatchList getPatchList() throws PatchListNotAvailableException {
+  protected Map<String, FileDiffOutput> listModifiedFiles() throws DiffNotAvailableException {
     if (patchSet != null) {
-      return args.patchListCache.get(change, patchSet);
+      return args.diffOperations.listModifiedFilesAgainstParent(
+          change.getProject(), patchSet.commitId(), null);
     }
-    throw new PatchListNotAvailableException("no patchSet specified");
+    throw new DiffNotAvailableException("no patchSet specified");
   }
 
   /** Get the project entity the change is in; null if its been deleted. */
@@ -566,18 +575,15 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Show patch set as unified difference. */
   public String getUnifiedDiff() {
-    PatchList patchList;
+    Map<String, FileDiffOutput> modifiedFiles;
     try {
-      patchList = getPatchList();
-      if (patchList.getOldId() == null) {
+      modifiedFiles = listModifiedFiles();
+      if (modifiedFiles.isEmpty()) {
         // Octopus merges are not well supported for diff output by Gerrit.
         // Currently these always have a null oldId in the PatchList.
         return "[Octopus merge; cannot be formatted as a diff.]\n";
       }
-    } catch (PatchListObjectTooLargeException e) {
-      logger.atWarning().log("Cannot format patch %s", e.getMessage());
-      return "";
-    } catch (PatchListNotAvailableException e) {
+    } catch (DiffNotAvailableException e) {
       logger.atSevere().withCause(e).log("Cannot format patch");
       return "";
     }
@@ -587,9 +593,11 @@ public abstract class ChangeEmail extends NotificationEmail {
     try (DiffFormatter fmt = new DiffFormatter(buf)) {
       try (Repository git = args.server.openRepository(change.getProject())) {
         try {
+          ObjectId oldId = modifiedFiles.values().iterator().next().oldCommitId();
+          ObjectId newId = modifiedFiles.values().iterator().next().newCommitId();
           fmt.setRepository(git);
           fmt.setDetectRenames(true);
-          fmt.format(patchList.getOldId(), patchList.getNewId());
+          fmt.format(oldId, newId);
           return RawParseUtils.decode(buf.toByteArray());
         } catch (IOException e) {
           if (JGitText.get().inMemoryBufferLimitExceeded.equals(e.getMessage())) {

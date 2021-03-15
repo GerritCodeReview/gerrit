@@ -204,7 +204,6 @@ export const htmlTemplate = html`
           prefs="[[_prefs]]"
           render-prefs="[[_renderPrefs]]"
           highlight-range="[[getHighlightRange(comments)]]"
-          on-render="_handleDiffRender"
         >
         </gr-diff>
         <div class="view-diff-container">

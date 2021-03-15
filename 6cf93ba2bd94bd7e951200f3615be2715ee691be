@@ -16,6 +16,24 @@
       "message": "totally optional and subjective: I\u0027d find this easier to read as\n\nif (didWorkInProgressChange(...)) {\n  if (input.ready || input.workInProgress) {\n\n... because the change in WIP is the main thing being handled here.",
       "revId": "6cf93ba2bd94bd7e951200f3615be2715ee691be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17b1a480_c7a0f26b",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-15T11:35:36Z",
+      "side": 1,
+      "message": "I\u0027d rather keep it as is, since whether the user specified a new work in progress status is also also significant (and let\u0027s avoid an extra \u0027if\u0027 conditional).\n\nProbably not a big deal though, but since you don\u0027t mind I\u0027ll just submit.",
+      "parentUuid": "ddaf3efe_38f61d7a",
+      "revId": "6cf93ba2bd94bd7e951200f3615be2715ee691be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

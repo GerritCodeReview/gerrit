@@ -22,6 +22,29 @@
       },
       "revId": "3bfb088a9772da0f8d7854b1b552fe05459cac0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dbf8605_c0ab7970",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-15T17:06:30Z",
+      "side": 1,
+      "message": "doesn\u0027t this require tweaking one of the SSH commands too?",
+      "range": {
+        "startLine": 58,
+        "startChar": 32,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "revId": "3bfb088a9772da0f8d7854b1b552fe05459cac0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

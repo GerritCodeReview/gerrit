@@ -91,10 +91,6 @@ public class GetDiff implements RestReadView<FileResource> {
   @Option(name = "--intraline")
   boolean intraline;
 
-  // TODO(ghareeb): This is a temporary parameter for debugging. Please remove.
-  @Option(name = "--use-new-diff-cache")
-  boolean useNewDiffCache;
-
   @Inject
   GetDiff(
       ProjectCache projectCache,
@@ -143,15 +139,13 @@ public class GetDiff implements RestReadView<FileResource> {
       }
       psf =
           patchScriptFactoryFactory.create(
-              notes, fileName, basePatchSet.id(), pId, prefs, currentUser.get(), useNewDiffCache);
+              notes, fileName, basePatchSet.id(), pId, prefs, currentUser.get());
     } else if (parentNum > 0) {
       psf =
           patchScriptFactoryFactory.create(
-              notes, fileName, parentNum - 1, pId, prefs, currentUser.get(), useNewDiffCache);
+              notes, fileName, parentNum - 1, pId, prefs, currentUser.get());
     } else {
-      psf =
-          patchScriptFactoryFactory.create(
-              notes, fileName, null, pId, prefs, currentUser.get(), useNewDiffCache);
+      psf = patchScriptFactoryFactory.create(notes, fileName, null, pId, prefs, currentUser.get());
     }
 
     try {

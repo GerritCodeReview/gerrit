@@ -152,7 +152,7 @@ class GrRepoList extends mixinBehaviors( [
         .then(repos => {
           // Late response.
           if (filter !== this._filter || !repos) { return; }
-          this._repos = repos;
+          this._repos = repos.filter(repo => repo.name.includes(filter));
           this._loading = false;
         });
   }

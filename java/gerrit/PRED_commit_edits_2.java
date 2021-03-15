@@ -14,10 +14,13 @@
 
 package gerrit;
 
+import com.google.common.collect.Iterables;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.Text;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.patch.filediff.TaggedEdit;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.JavaException;
@@ -31,7 +34,9 @@ import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -40,7 +45,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -69,27 +73,26 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     Pattern fileRegex = getRegexParameter(a1);
     Pattern editRegex = getRegexParameter(a2);
 
-    PatchList pl = StoredValues.PATCH_LIST.get(engine);
+    Map<String, FileDiffOutput> modifiedFiles = StoredValues.DIFF_LIST.get(engine);
+    FileDiffOutput firstDiff = Iterables.getFirst(modifiedFiles.values(), /* defaultValue= */ null);
+    if (firstDiff == null) {
+      // No available diffs. We cannot identify old and new commit IDs.
+      engine.fail();
+    }
     Repository repo = StoredValues.REPOSITORY.get(engine);
 
     try (ObjectReader reader = repo.newObjectReader();
         RevWalk rw = new RevWalk(reader)) {
-      final RevTree aTree;
-      final RevTree bTree;
-      final RevCommit bCommit = rw.parseCommit(pl.getNewId());
+      final RevTree aTree =
+          firstDiff.oldCommitId().equals(ObjectId.zeroId())
+              ? null
+              : rw.parseTree(firstDiff.oldCommitId());
+      final RevTree bTree = rw.parseCommit(firstDiff.newCommitId()).getTree();
 
-      if (pl.getOldId() != null) {
-        aTree = rw.parseTree(pl.getOldId());
-      } else {
-        // Octopus merge with unknown automatic merge result, since the
-        // web UI returns no files to match against, just fail.
-        return engine.fail();
-      }
-      bTree = bCommit.getTree();
-
-      for (PatchListEntry entry : pl.getPatches()) {
-        String newName = entry.getNewName();
-        String oldName = entry.getOldName();
+      for (FileDiffOutput entry : modifiedFiles.values()) {
+        String newName =
+            FilePathAdapter.getNewPath(entry.oldPath(), entry.newPath(), entry.changeType());
+        String oldName = FilePathAdapter.getOldPath(entry.oldPath(), entry.changeType());
 
         if (Patch.isMagic(newName)) {
           continue;
@@ -97,7 +100,8 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
 
         if (fileRegex.matcher(newName).find()
             || (oldName != null && fileRegex.matcher(oldName).find())) {
-          List<Edit> edits = entry.getEdits();
+          List<Edit> edits =
+              entry.edits().stream().map(TaggedEdit::jgitEdit).collect(Collectors.toList());
           if (edits.isEmpty()) {
             continue;
           }
@@ -141,10 +145,10 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     return Pattern.compile(term.name(), Pattern.MULTILINE);
   }
 
-  private Text load(ObjectId tree, String path, ObjectReader reader)
+  private Text load(@Nullable ObjectId tree, String path, ObjectReader reader)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           IOException {
-    if (path == null) {
+    if (tree == null || path == null) {
       return Text.EMPTY;
     }
     final TreeWalk tw = TreeWalk.forPath(reader, path, tree);

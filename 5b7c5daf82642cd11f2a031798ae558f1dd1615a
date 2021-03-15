@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c36fced9_f6bbbfea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-15T17:33:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0753f82_c8d1e45e",
+      "range": {
+        "startLine": 13,
+        "startChar": 44,
+        "endLine": 13,
+        "endChar": 51
+      },
+      "revId": "5b7c5daf82642cd11f2a031798ae558f1dd1615a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7cee24e_e4391c7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-15T17:33:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "386b7771_23eda9da",
+      "range": {
+        "startLine": 13,
+        "startChar": 23,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "5b7c5daf82642cd11f2a031798ae558f1dd1615a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8158db9_8bee0fe6",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-03-12T21:36:05Z",
       "side": 1,
       "message": "Then can the out object leak its resource if not closed in a potentially legit case? I think this change needs some more clarity on that aspect.",
+      "revId": "5b7c5daf82642cd11f2a031798ae558f1dd1615a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cc79c88_03e94261",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-15T17:33:47Z",
+      "side": 1,
+      "message": "This comment and the following one are work-in-progress",
+      "parentUuid": "d8158db9_8bee0fe6",
       "revId": "5b7c5daf82642cd11f2a031798ae558f1dd1615a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

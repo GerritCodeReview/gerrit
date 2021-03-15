@@ -18,7 +18,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.exceptions.NoSuchEntityException;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -35,7 +39,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 /** State supporting processing of a single {@link Patch} instance. */
 public class PatchFile {
   private final Repository repo;
-  private final PatchListEntry entry;
+  private final FileDiffOutput diff;
   private final RevTree aTree;
   private final RevTree bTree;
 
@@ -51,21 +55,29 @@ public class PatchFile {
   private Text a;
   private Text b;
 
-  public PatchFile(Repository repo, PatchList patchList, String fileName)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+  public PatchFile(Repository repo, Map<String, FileDiffOutput> modifiedFiles, String fileName)
+      throws IOException {
     this.repo = repo;
-    this.entry = patchList.get(fileName);
+    List<FileDiffOutput> filtered =
+        modifiedFiles.values().stream()
+            .filter(f -> f.newPath().get().equals(fileName))
+            .collect(Collectors.toList());
+    if (filtered.isEmpty()) {
+      this.diff = FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId());
+    } else {
+      this.diff = filtered.iterator().next();
+    }
 
     try (ObjectReader reader = repo.newObjectReader();
         RevWalk rw = new RevWalk(reader)) {
-      final RevCommit bCommit = rw.parseCommit(patchList.getNewId());
+      final RevCommit bCommit = rw.parseCommit(diff.newCommitId());
 
       if (Patch.COMMIT_MSG.equals(fileName)) {
-        if (patchList.getComparisonType().isAgainstParentOrAutoMerge()) {
+        if (diff.comparisonType().isAgainstParentOrAutoMerge()) {
           a = Text.EMPTY;
         } else {
           // For the initial commit, we have an empty tree on Side A
-          RevObject object = rw.parseAny(patchList.getOldId());
+          RevObject object = rw.parseAny(diff.oldCommitId());
           a = object instanceof RevCommit ? Text.forCommit(reader, object) : Text.EMPTY;
         }
         b = Text.forCommit(reader, bCommit);
@@ -74,18 +86,18 @@ public class PatchFile {
         bTree = null;
       } else if (Patch.MERGE_LIST.equals(fileName)) {
         // For the initial commit, we have an empty tree on Side A
-        RevObject object = rw.parseAny(patchList.getOldId());
+        RevObject object = rw.parseAny(diff.oldCommitId());
         a =
             object instanceof RevCommit
-                ? Text.forMergeList(patchList.getComparisonType(), reader, object)
+                ? Text.forMergeList(diff.comparisonType(), reader, object)
                 : Text.EMPTY;
-        b = Text.forMergeList(patchList.getComparisonType(), reader, bCommit);
+        b = Text.forMergeList(diff.comparisonType(), reader, bCommit);
 
         aTree = null;
         bTree = null;
       } else {
-        if (patchList.getOldId() != null) {
-          aTree = rw.parseTree(patchList.getOldId());
+        if (diff.oldCommitId() != null) {
+          aTree = rw.parseTree(diff.oldCommitId());
         } else {
           final RevCommit p = bCommit.getParent(0);
           rw.parseHeaders(p);
@@ -97,11 +109,11 @@ public class PatchFile {
   }
 
   private String getOldName() {
-    String name = entry.getOldName();
+    String name = FilePathAdapter.getOldPath(diff.oldPath(), diff.changeType());
     if (name != null) {
       return name;
     }
-    return entry.getNewName();
+    return FilePathAdapter.getNewPath(diff.oldPath(), diff.newPath(), diff.changeType());
   }
 
   /**
@@ -123,7 +135,10 @@ public class PatchFile {
 
       case 1:
         if (b == null) {
-          b = load(bTree, entry.getNewName());
+          b =
+              load(
+                  bTree,
+                  FilePathAdapter.getNewPath(diff.oldPath(), diff.newPath(), diff.changeType()));
         }
         return b.getString(line - 1);
 

@@ -26,8 +26,3 @@
 // of the polymer.html file.
 
 import './js/bundled-polymer-bridges';
-
-import {importHref} from './import-href';
-
-window.Polymer = window.Polymer || {};
-window.Polymer.importHref = importHref;

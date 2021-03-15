@@ -78,8 +78,7 @@ export class GrOverlay extends IronOverlayMixin(
     // once the type contains the exported member,
     // should replace with:
     // import {IronFocusablesHelper} from '@polymer/iron-overlay-behavior/iron-focusables-helper';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (window.Polymer as any).IronFocusablesHelper.getTabbableNodes(this);
+    return window.Polymer.IronFocusablesHelper.getTabbableNodes(this);
   }
 
   constructor() {

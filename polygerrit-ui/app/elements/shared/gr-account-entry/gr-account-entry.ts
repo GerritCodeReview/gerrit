@@ -16,7 +16,6 @@
  */
 import '../../../styles/shared-styles';
 import '../gr-autocomplete/gr-autocomplete';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-account-entry_html';
 import {customElement, property} from '@polymer/decorators';
@@ -32,7 +31,7 @@ export interface GrAccountEntry {
  * and/or group with autocomplete support.
  */
 @customElement('gr-account-entry')
-export class GrAccountEntry extends LegacyElementMixin(PolymerElement) {
+export class GrAccountEntry extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

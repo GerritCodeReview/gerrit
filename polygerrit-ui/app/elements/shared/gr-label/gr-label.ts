@@ -21,7 +21,6 @@
  * used in gr-label-info.
  */
 
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement} from '@polymer/decorators';
 import {htmlTemplate} from './gr-label_html';
@@ -34,7 +33,7 @@ declare global {
 }
 
 @customElement('gr-label')
-export class GrLabel extends TooltipMixin(LegacyElementMixin(PolymerElement)) {
+export class GrLabel extends TooltipMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

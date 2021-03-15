@@ -16,7 +16,6 @@
  */
 import '../../../styles/shared-styles';
 import '../../shared/gr-download-commands/gr-download-commands';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-download-dialog_html';
 import {changeBaseURL, getRevisionKey} from '../../../utils/change-util';
@@ -37,7 +36,7 @@ export interface GrDownloadDialog {
 }
 
 @customElement('gr-download-dialog')
-export class GrDownloadDialog extends LegacyElementMixin(PolymerElement) {
+export class GrDownloadDialog extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

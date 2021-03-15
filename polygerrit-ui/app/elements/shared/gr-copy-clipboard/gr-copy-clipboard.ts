@@ -19,7 +19,6 @@ import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-copy-clipboard_html';
 import {GrButton} from '../gr-button/gr-button';
@@ -38,9 +37,8 @@ export interface GrCopyClipboard {
   $: {button: GrButton; icon: IronIconElement; input: HTMLInputElement};
 }
 
-/** @extends PolymerElement */
 @customElement('gr-copy-clipboard')
-export class GrCopyClipboard extends LegacyElementMixin(PolymerElement) {
+export class GrCopyClipboard extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

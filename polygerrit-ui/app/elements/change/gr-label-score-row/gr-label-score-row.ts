@@ -18,7 +18,6 @@ import '@polymer/iron-selector/iron-selector';
 import '../../shared/gr-button/gr-button';
 import '../../../styles/gr-voting-styles';
 import '../../../styles/shared-styles';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-label-score-row_html';
 import {customElement, property} from '@polymer/decorators';
@@ -55,7 +54,7 @@ declare global {
 }
 
 @customElement('gr-label-score-row')
-export class GrLabelScoreRow extends LegacyElementMixin(PolymerElement) {
+export class GrLabelScoreRow extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

@@ -78,6 +78,7 @@ import {
 } from '../../../utils/event-util';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {assertIsDefined} from '../../../utils/common-util';
+import {DiffContextExpandedEventDetail} from '../gr-diff-builder/gr-diff-builder';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -1065,9 +1066,9 @@ export class GrDiffHost extends PolymerElement {
     });
   }
 
-  _handleDiffContextExpanded(event: CustomEvent) {
+  _handleDiffContextExpanded(e: CustomEvent<DiffContextExpandedEventDetail>) {
     this.reporting.reportInteraction('diff-context-expanded', {
-      numLines: event.detail.numLines,
+      numLines: e.detail.numLines,
     });
   }
 
@@ -1153,7 +1154,7 @@ declare global {
     /* prettier-ignore */
     'render': CustomEvent;
     'normalize-range': CustomEvent;
-    'diff-context-expanded': CustomEvent;
+    'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent;
     'comment-discard': CustomEvent;
     'comment-update': CustomEvent;

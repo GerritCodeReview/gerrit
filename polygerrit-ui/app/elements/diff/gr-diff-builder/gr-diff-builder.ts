@@ -31,6 +31,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {pluralize} from '../../../utils/string-util';
+import {fire} from '../../../utils/event-util';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -62,12 +63,16 @@ enum ContextButtonType {
   ALL = 'all',
 }
 
-export interface ContextEvent extends Event {
-  detail: {
-    groups: GrDiffGroup[];
-    section: HTMLElement;
-    numLines: number;
-  };
+export interface DiffContextExpandedEventDetail {
+  groups: GrDiffGroup[];
+  section: HTMLElement;
+  numLines: number;
+}
+
+declare global {
+  interface HTMLElementEventMap {
+    'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
+  }
 }
 
 export abstract class GrDiffBuilder {
@@ -492,7 +497,7 @@ export abstract class GrDiffBuilder {
     button.appendChild(textSpan);
 
     if (requiresLoad) {
-      button.addEventListener('tap', e => {
+      button.addEventListener('click', e => {
         e.stopPropagation();
         const firstRange = groups[0].lineRange;
         const lastRange = groups[groups.length - 1].lineRange;
@@ -506,25 +511,18 @@ export abstract class GrDiffBuilder {
             end_line: lastRange.right.end_line,
           },
         };
-        button.dispatchEvent(
-          new CustomEvent<ContentLoadNeededEventDetail>('content-load-needed', {
-            detail: {
-              lineRange,
-            },
-            bubbles: true,
-            composed: true,
-          })
-        );
+        fire<ContentLoadNeededEventDetail>(button, 'content-load-needed', {
+          lineRange,
+        });
       });
     } else {
-      button.addEventListener('tap', e => {
-        const event = e as ContextEvent;
-        event.detail = {
+      button.addEventListener('click', e => {
+        e.stopPropagation();
+        fire<DiffContextExpandedEventDetail>(button, 'diff-context-expanded', {
           groups,
           section,
           numLines,
-        };
-        // Let it bubble up the DOM tree.
+        });
       });
     }
 

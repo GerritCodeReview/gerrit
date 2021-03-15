@@ -59,7 +59,7 @@ export const htmlTemplate = html`
       class="copyText"
       type="text"
       bind-value="[[text]]"
-      on-tap="_handleInputClick"
+      on-click="_handleInputClick"
       readonly=""
     >
       <input

@@ -25,16 +25,10 @@ import '../scripts/bundled-polymer';
 import '../elements/diff/gr-diff/gr-diff';
 import '../elements/diff/gr-diff-cursor/gr-diff-cursor';
 import {initDiffAppContext} from './gr-diff-app-context-init';
-import {
-  GrDiffLine,
-  GrDiffLineType,
-} from '../elements/diff/gr-diff/gr-diff-line';
 import {GrAnnotation} from '../elements/diff/gr-diff-highlight/gr-annotation';
 
 // Setup appContext for diff.
 // TODO (dmfilippov): find a better solution
 initDiffAppContext();
 // Setup global variables for existing usages of this component
-window.GrDiffLine = GrDiffLine;
-window.GrDiffLineType = GrDiffLineType;
 window.GrAnnotation = GrAnnotation;

@@ -32,12 +32,7 @@ declare global {
     // TODO(TS): define gerrit type
     Gerrit?: {
       Nav?: unknown;
-      getRootElement?: unknown;
       Auth?: unknown;
-      _pluginLoader?: unknown;
-      _endpoints?: unknown;
-      RevisionInfo?: unknown;
-      flushPreinstalls?: () => void;
     };
     // TODO(TS): define polymer type
     Polymer?: {importHref?: unknown};
@@ -65,17 +60,8 @@ declare global {
     // TODO(TS): as @brohlfs suggested, to avoid importing anything from elements/ to types/
     // use any for them for now
     GrAnnotation: unknown;
-    GrDiffLine: unknown;
-    GrDiffLineType: unknown;
-    GrDiffGroup: unknown;
-    GrDiffGroupType: unknown;
-    util: unknown;
-    Auth: unknown;
-    EventEmitter: unknown;
-    PluginLoader: unknown;
     // Heads up! There is a known plugin dependency on GrPluginActionContext.
     GrPluginActionContext: unknown;
-    _apiUtils: {};
   }
 
   interface Performance {

@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.CreateAccount;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -34,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -69,10 +71,13 @@ final class CreateAccountCommand extends SshCommand {
 
   @Inject private CreateAccount createAccount;
 
+  @Inject private AuthConfig authConfig;
+
   @Override
   protected void run()
       throws IOException, ConfigInvalidException, UnloggedFailure, PermissionBackendException {
     enableGracefulStop();
+    username = authConfig.isUserNameToLowerCase() ? username.toLowerCase(Locale.US) : username;
     AccountInput input = new AccountInput();
     input.username = username;
     input.email = email;

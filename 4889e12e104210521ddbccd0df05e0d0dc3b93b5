@@ -153,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50236c5d_a9a3dfe7",
+        "filename": "java/com/google/gerrit/server/restapi/change/MetaDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-15T21:43:09Z",
+      "side": 1,
+      "message": "Changed this method.",
+      "parentUuid": "2782be9b_e857ae8e",
+      "range": {
+        "startLine": 98,
+        "startChar": 17,
+        "endLine": 98,
+        "endChar": 37
+      },
+      "revId": "4889e12e104210521ddbccd0df05e0d0dc3b93b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00bb39b2_57551469",

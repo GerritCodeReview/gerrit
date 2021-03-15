@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.account;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import org.junit.Test;
@@ -30,5 +31,41 @@ public class CreateAccountIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.put("/accounts/" + input.username, input);
     r.assertCreated();
     assertThat(accountCache.getByUsername(input.username)).isPresent();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameToLowerCase", value = "false")
+  public void createAccountRestApiUserNameToLowerCaseFalse() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = "JohnDoe";
+    assertThat(accountCache.getByUsername(input.username)).isEmpty();
+    RestResponse r = adminRestSession.put("/accounts/" + input.username, input);
+    r.assertCreated();
+    assertThat(accountCache.getByUsername(input.username)).isPresent();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameToLowerCase", value = "true")
+  public void createAccountRestApiUserNameToLowerCaseTrue() throws Exception {
+    testUserNameToLowerCase("JaneD", "JaneD", "janed");
+    testUserNameToLowerCase("janeF", "JaneF", "janef");
+    testUserNameToLowerCase("John", "john", "john");
+    testUserNameToLowerCase("JohnD", "johnD", "johnd");
+  }
+
+  private void testUserNameToLowerCase(String usernameUrl, String usernameInput, String usernameDb)
+      throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = usernameInput;
+    assertThat(accountCache.getByUsername(usernameDb)).isEmpty();
+    RestResponse r = adminRestSession.put("/accounts/" + usernameUrl, input);
+    r.assertCreated();
+    assertThat(accountCache.getByUsername(usernameDb)).isPresent();
+    if (!usernameDb.equals(usernameInput)) {
+      assertThat(accountCache.getByUsername(usernameInput)).isEmpty();
+    }
+    if (!usernameDb.equals(usernameUrl)) {
+      assertThat(accountCache.getByUsername(usernameUrl)).isEmpty();
+    }
   }
 }

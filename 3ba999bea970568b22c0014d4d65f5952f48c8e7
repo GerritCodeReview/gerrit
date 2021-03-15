@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ed2084dd_a6fc3e25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-15T12:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e6ee810_942e5577",
+      "revId": "3ba999bea970568b22c0014d4d65f5952f48c8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1e14f2f0_c90441a7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -66,6 +84,30 @@
       "writtenOn": "2021-03-15T11:18:10Z",
       "side": 1,
       "message": "Is that supposed to be the long term solution or do you plan to clean this up at some point? If it is to be cleaned up, maybe add a TODO. In general, it would feel cleaner to create a new event here which is properly typed rather than adding some information - it looks like MouseEvent.detail is expected to be just a number?  http://google3/third_party/javascript/node_modules/typescript/stable/lib/lib.dom.d.ts?l\u003d16005\u0026rcl\u003d362793582\n\nOr maybe the field where we add the metadata should be renamed?",
+      "range": {
+        "startLine": 521,
+        "startChar": 21,
+        "endLine": 521,
+        "endChar": 53
+      },
+      "revId": "3ba999bea970568b22c0014d4d65f5952f48c8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "689af27d_11b60755",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-15T12:32:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56ac9ab8_36585e0b",
       "range": {
         "startLine": 521,
         "startChar": 21,

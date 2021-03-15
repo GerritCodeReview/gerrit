@@ -48,6 +48,7 @@ public class AuthConfig {
   private final boolean trustContainerAuth;
   private final boolean enableRunAs;
   private final boolean userNameToLowerCase;
+  private final boolean userNameCaseInsensitive;
   private final boolean useContributorAgreements;
   private final String loginUrl;
   private final String loginText;
@@ -94,6 +95,7 @@ public class AuthConfig {
     gitBasicAuthPolicy = getBasicAuthPolicy(cfg);
     useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
+    userNameCaseInsensitive = cfg.getBoolean("auth", "userNameCaseInsensitive", false);
     allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
@@ -235,6 +237,11 @@ public class AuthConfig {
   /** Whether user name should be converted to lower-case before validation */
   public boolean isUserNameToLowerCase() {
     return userNameToLowerCase;
+  }
+
+  /** Whether user name should be handled case insensitive */
+  public boolean isUserNameCaseInsensitive() {
+    return userNameCaseInsensitive;
   }
 
   public GitBasicAuthPolicy getGitBasicAuthPolicy() {

@@ -15,7 +15,8 @@
 package gerrit;
 
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.FilePathAdapter;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.ListTerm;
@@ -26,8 +27,8 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.FileMode;
@@ -54,17 +55,20 @@ public class PRED_files_1 extends Predicate.P1 {
 
     try (RevWalk revWalk = new RevWalk(StoredValues.REPOSITORY.get(engine))) {
       RevCommit commit = revWalk.parseCommit(StoredValues.getPatchSet(engine).commitId());
-      List<PatchListEntry> patches = StoredValues.PATCH_LIST.get(engine).getPatches();
+      Collection<FileDiffOutput> modifiedFiles = StoredValues.DIFF_LIST.get(engine).values();
       Set<String> submodules =
-          getAllSubmodulePaths(StoredValues.REPOSITORY.get(engine), commit, patches);
-      for (PatchListEntry entry : patches) {
-        if (Patch.isMagic(entry.getNewName())) {
+          getAllSubmodulePaths(StoredValues.REPOSITORY.get(engine), commit, modifiedFiles);
+      for (FileDiffOutput fileDiff : modifiedFiles) {
+        if (fileDiff.newPath().isPresent() && Patch.isMagic(fileDiff.newPath().get())) {
           continue;
         }
-        SymbolTerm fileNameTerm = SymbolTerm.create(entry.getNewName());
-        SymbolTerm changeType = SymbolTerm.create(entry.getChangeType().getCode());
+        String newPath =
+            FilePathAdapter.getNewPath(
+                fileDiff.oldPath(), fileDiff.newPath(), fileDiff.changeType());
+        SymbolTerm fileNameTerm = SymbolTerm.create(newPath);
+        SymbolTerm changeType = SymbolTerm.create(fileDiff.changeType().getCode());
         SymbolTerm fileType;
-        if (submodules.contains(entry.getNewName())) {
+        if (submodules.contains(newPath)) {
           fileType = SymbolTerm.create("SUBMODULE");
         } else {
           fileType = SymbolTerm.create("REGULAR");
@@ -83,14 +87,14 @@ public class PRED_files_1 extends Predicate.P1 {
 
   /** Returns the paths for all {@code GITLINK} files. */
   private static Set<String> getAllSubmodulePaths(
-      Repository repository, RevCommit commit, List<PatchListEntry> patches)
+      Repository repository, RevCommit commit, Collection<FileDiffOutput> modifiedFiles)
       throws PrologException, IOException {
     Set<String> submodules = new HashSet<>();
     try (TreeWalk treeWalk = new TreeWalk(repository)) {
       treeWalk.addTree(commit.getTree());
       Set<String> allPaths =
-          patches.stream()
-              .map(PatchListEntry::getNewName)
+          modifiedFiles.stream()
+              .map(f -> FilePathAdapter.getNewPath(f.oldPath(), f.newPath(), f.changeType()))
               .filter(f -> !Patch.isMagic(f))
               .collect(Collectors.toSet());
       treeWalk.setFilter(PathFilterGroup.createFromStrings(allPaths));

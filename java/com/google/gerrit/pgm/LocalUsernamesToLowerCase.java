@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -97,17 +98,17 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
 
   private void convertLocalUserToLowerCase(ExternalIdNotes extIdNotes, ExternalId extId)
       throws DuplicateKeyException, IOException {
-    if (extId.isScheme(SCHEME_GERRIT)) {
-      String localUser = extId.key().id();
-      String localUserLowerCase = localUser.toLowerCase(Locale.US);
-      if (!localUser.equals(localUserLowerCase)) {
+    String user = extId.key().id();
+    String userLowerCase = user.toLowerCase(Locale.US);
+    if (!user.equals(userLowerCase)) {
+      if (extId.isScheme(SCHEME_GERRIT)) {
         ExternalId extIdLowerCase =
             ExternalId.create(
-                SCHEME_GERRIT,
-                localUserLowerCase,
-                extId.accountId(),
-                extId.email(),
-                extId.password());
+                SCHEME_GERRIT, userLowerCase, extId.accountId(), extId.email(), extId.password());
+        extIdNotes.replace(extId, extIdLowerCase);
+      } else if (extId.isScheme(SCHEME_USERNAME)) {
+        ExternalId extIdLowerCase =
+            ExternalId.createUsername(userLowerCase, extId.accountId(), extId.password());
         extIdNotes.replace(extId, extIdLowerCase);
       }
     }

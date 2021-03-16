@@ -63,6 +63,30 @@
       },
       "revId": "aba46445c7be9675fd4d422f3f194c82332e8c5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0d8e2c9_a446895e",
+        "filename": "contrib/find-duplicate-usernames.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-16T23:41:11Z",
+      "side": 1,
+      "message": "added comments what each command in the pipeline does",
+      "parentUuid": "706d904f_724fc44a",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "aba46445c7be9675fd4d422f3f194c82332e8c5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

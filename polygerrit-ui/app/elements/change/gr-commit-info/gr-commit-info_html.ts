@@ -30,7 +30,12 @@ export const htmlTemplate = html`
       >
     </template>
     <template is="dom-if" if="[[!_showWebLink]]">
-      [[_computeShortHash(change, commitInfo, serverConfig)]]
+      <a
+        target="_blank"
+        rel="noopener"
+        href$="[[_getNavQuery(change, commitInfo, serverConfig)]]"
+        >[[_computeShortHash(change, commitInfo, serverConfig)]]</a
+      >
     </template>
     <gr-copy-clipboard
       has-tooltip=""

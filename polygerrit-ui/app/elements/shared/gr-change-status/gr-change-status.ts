@@ -19,6 +19,10 @@ import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-status_html';
 import {customElement, property} from '@polymer/decorators';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {getRevertCommitHash} from '../../../utils/message-util';
+import {ChangeInfo} from '../../../types/common';
+import {ParsedChangeInfo} from '../../../types/types';
 
 enum ChangeStates {
   MERGED = 'Merged',
@@ -26,6 +30,7 @@ enum ChangeStates {
   MERGE_CONFLICT = 'Merge Conflict',
   WIP = 'WIP',
   PRIVATE = 'Private',
+  REVERT_CREATED = 'Revert Created',
 }
 
 const WIP_TOOLTIP =
@@ -51,6 +56,9 @@ class GrChangeStatus extends PolymerElement {
   @property({type: Boolean, reflectToAttribute: true})
   flat = false;
 
+  @property({type: Object})
+  change?: ChangeInfo | ParsedChangeInfo;
+
   @property({type: String, observer: '_updateChipDetails'})
   status?: ChangeStates;
 
@@ -66,6 +74,12 @@ class GrChangeStatus extends PolymerElement {
 
   _toClassName(str?: ChangeStates) {
     return str ? str.toLowerCase().replace(/\s/g, '-') : '';
+  }
+
+  _handleStatusChipClick() {
+    if (!this.change) return;
+    if (this.status === ChangeStates.REVERT_CREATED)
+      GerritNav.navigateToSearchQuery(getRevertCommitHash(this.change).commit);
   }
 
   _updateChipDetails(status?: ChangeStates, previousStatus?: ChangeStates) {

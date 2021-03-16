@@ -33,7 +33,7 @@ import {
   TestKeyboardShortcutBinder,
 } from './test-utils';
 import {_testOnly_getShortcutManagerInstance} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import sinon, {SinonSpy} from 'sinon/pkg/sinon-esm';
+import sinon from 'sinon/pkg/sinon-esm';
 import {safeTypesBridge} from '../utils/safe-types-util';
 import {_testOnly_initGerritPluginApi} from '../elements/shared/gr-js-api-interface/gr-gerrit';
 import {initGlobalVariables} from '../elements/gr-app-global-var-init';
@@ -126,22 +126,18 @@ setup(() => {
 
 // For karma always set our implementation
 // (karma doesn't provide the stub method)
-function stubImpl<T extends keyof HTMLElementTagNameMap>(
-  tagName: T,
-  implementation: Partial<HTMLElementTagNameMap[T]>
-) {
+function stubImpl<
+  T extends keyof HTMLElementTagNameMap,
+  K extends keyof HTMLElementTagNameMap[T]
+>(tagName: T, method: K) {
   // This method is inspired by web-component-tester method
   const proto = document.createElement(tagName).constructor
     .prototype as HTMLElementTagNameMap[T];
-  const stubs: SinonSpy[] = [];
-  for (const [key, value] of Object.entries(implementation)) {
-    stubs.push(sinon.stub(proto, key).callsFake(value));
-  }
+  const stub = sinon.stub(proto, method);
   registerTestCleanup(() => {
-    stubs.forEach(stub => {
-      stub.restore();
-    });
+    stub.restore();
   });
+  return stub;
 }
 
 window.stub = stubImpl;

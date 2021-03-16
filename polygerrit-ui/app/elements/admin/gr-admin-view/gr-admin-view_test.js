@@ -430,9 +430,7 @@ suite('gr-admin-view tests', () => {
 
     suite('repos', () => {
       setup(() => {
-        stub('gr-repo-access', {
-          _repoChanged: () => {},
-        });
+        stub('gr-repo-access', '_repoChanged').callsFake(() => {});
       });
 
       test('repo list', () => {
@@ -499,12 +497,8 @@ suite('gr-admin-view tests', () => {
     suite('groups', () => {
       let getGroupConfigStub;
       setup(() => {
-        stub('gr-group', {
-          _loadGroup: () => Promise.resolve({}),
-        });
-        stub('gr-group-members', {
-          _loadGroupDetails: () => {},
-        });
+        stub('gr-group', '_loadGroup').callsFake(() => Promise.resolve({}));
+        stub('gr-group-members', '_loadGroupDetails').callsFake(() => {});
 
         getGroupConfigStub = stubRestApi('getGroupConfig');
         getGroupConfigStub.returns(Promise.resolve({

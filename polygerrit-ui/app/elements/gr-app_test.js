@@ -30,12 +30,8 @@ suite('gr-app tests', () => {
 
   setup(done => {
     sinon.stub(appContext.reportingService, 'appStarted');
-    stub('gr-account-dropdown', {
-      _getTopContent: sinon.stub(),
-    });
-    stub('gr-router', {
-      start: sinon.stub(),
-    });
+    stub('gr-account-dropdown', '_getTopContent');
+    stub('gr-router', 'start');
     stubRestApi('getAccount').returns(Promise.resolve({}));
     stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
     configStub = stubRestApi('getConfig').returns(Promise.resolve({

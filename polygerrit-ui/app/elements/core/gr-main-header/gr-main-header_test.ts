@@ -35,11 +35,7 @@ suite('gr-main-header tests', () => {
 
   setup(() => {
     stubRestApi('probePath').returns(Promise.resolve(false));
-    stub('gr-main-header', {
-      _loadAccount() {
-        return Promise.resolve();
-      },
-    });
+    stub('gr-main-header', '_loadAccount').callsFake(() => Promise.resolve());
     element = basicFixture.instantiate();
   });
 

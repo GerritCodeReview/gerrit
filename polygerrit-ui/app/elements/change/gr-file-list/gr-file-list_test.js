@@ -84,13 +84,11 @@ suite('gr-file-list tests', () => {
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
-      stub('gr-date-formatter', {
-        _loadTimeFormat() { return Promise.resolve(''); },
-      });
-      stub('gr-diff-host', {
-        reload() { return Promise.resolve(); },
-        prefetchDiff() {},
-      });
+      stub('gr-date-formatter', '_loadTimeFormat').callsFake(() =>
+        Promise.resolve('')
+      );
+      stub('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
+      stub('gr-diff-host', 'prefetchDiff').callsFake(() => {});
 
       // Element must be wrapped in an element with direct access to the
       // comment API.
@@ -1409,13 +1407,11 @@ suite('gr-file-list tests', () => {
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
-      stub('gr-date-formatter', {
-        _loadTimeFormat() { return Promise.resolve(''); },
-      });
-      stub('gr-diff-host', {
-        reload() { return Promise.resolve(); },
-        prefetchDiff() {},
-      });
+      stub('gr-date-formatter', '_loadTimeFormat').callsFake(() =>
+        Promise.resolve('')
+      );
+      stub('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
+      stub('gr-diff-host', 'prefetchDiff').callsFake(() => {});
 
       // Element must be wrapped in an element with direct access to the
       // comment API.

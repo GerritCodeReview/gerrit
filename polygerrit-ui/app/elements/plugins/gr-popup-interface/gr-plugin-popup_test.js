@@ -25,10 +25,8 @@ suite('gr-plugin-popup tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    stub('gr-overlay', {
-      open: sinon.stub().returns(Promise.resolve()),
-      close: sinon.stub(),
-    });
+    stub('gr-overlay', 'open').callsFake(() => Promise.resolve());
+    stub('gr-overlay', 'close');
   });
 
   test('exists', () => {

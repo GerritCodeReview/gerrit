@@ -266,10 +266,8 @@ suite('gr-diff-highlight', () => {
 
     setup(() => {
       contentStubs = [];
-      stub('gr-selection-action-box', {
-        placeAbove: sinon.stub(),
-        placeBelow: sinon.stub(),
-      });
+      stub('gr-selection-action-box', 'placeAbove');
+      stub('gr-selection-action-box', 'placeBelow');
       diff = element.querySelector('#diffTable');
       builder = {
         getContentTdByLine: sinon.stub(),

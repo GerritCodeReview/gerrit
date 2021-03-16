@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "076557f1_3f79a42e",
+        "filename": "java/com/google/gerrit/server/patch/FilePathAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-16T16:34:03Z",
+      "side": 1,
+      "message": "Why do we not do that today?",
+      "revId": "c9c0cbec5dbcbdf6cb22c855e12d53f4f80c5a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

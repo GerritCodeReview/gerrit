@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6da9d986_5bbad503",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T09:34:38Z",
+      "side": 1,
+      "message": "Missing reference to the associated bug.",
+      "revId": "fac3e0b9d8df9c1062e521cab12d404fd6a05e33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "130d9e2d_40e5cf52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T09:34:38Z",
+      "side": 1,
+      "message": "Hi Thomas, thanks for sharing this. Are you planning also to add at least one test case for it?",
+      "revId": "fac3e0b9d8df9c1062e521cab12d404fd6a05e33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

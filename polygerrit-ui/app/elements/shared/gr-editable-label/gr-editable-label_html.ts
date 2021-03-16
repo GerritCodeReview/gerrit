@@ -73,8 +73,8 @@ export const htmlTemplate = html`
       --iron-icon-height: 18px;
       --iron-icon-width: 18px;
     }
-    gr-button.new-change-summary-true {
-      --padding: 1px 4px;
+    gr-button.pencil {
+      --padding: 0px 0px;
     }
   </style>
   <template is="dom-if" if="[[!showAsEditPencil]]">
@@ -89,7 +89,7 @@ export const htmlTemplate = html`
   <template is="dom-if" if="[[showAsEditPencil]]">
     <gr-button
       link=""
-      class$="new-change-summary-true [[_computeLabelClass(readOnly, value, placeholder)]]"
+      class$="pencil [[_computeLabelClass(readOnly, value, placeholder)]]"
       on-click="_showDropdown"
       title="[[_computeLabel(value, placeholder)]]"
       ><iron-icon icon="gr-icons:edit"></iron-icon

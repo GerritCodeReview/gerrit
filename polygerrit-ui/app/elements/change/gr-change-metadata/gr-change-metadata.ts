@@ -85,6 +85,10 @@ import {
   AutocompleteQuery,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {
+  getRevertCommitHash,
+  isRevertCreated,
+} from '../../../utils/message-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -581,6 +585,16 @@ export class GrChangeMetadata extends PolymerElement {
       rev.commit.commit = current_revision;
     }
     return rev.commit;
+  }
+
+  _showRevertCreatedAs(change?: ParsedChangeInfo) {
+    if (!change) return false;
+    return isRevertCreated(change);
+  }
+
+  _computeRevertCommit(change?: ParsedChangeInfo) {
+    if (!change) return undefined;
+    return {commit: getRevertCommitHash(change)};
   }
 
   _computeShowAllLabelText(showAllSections: boolean) {

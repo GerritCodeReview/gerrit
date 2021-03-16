@@ -376,6 +376,9 @@ suite('gr-change-view tests', () => {
     stubRestApi('getDiffComments').returns(Promise.resolve({}));
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+    sinon.stub(GerritNav, 'getPatchSetWeblink').returns({
+      url: 'abcd',
+    });
     element = fixture.instantiate();
     element._changeNum = 1 as NumericChangeId;
     sinon.stub(element.$.actions, 'reload').returns(Promise.resolve());

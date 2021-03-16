@@ -74,7 +74,7 @@ import {
   hasEditPatchsetLoaded,
   PatchSet,
 } from '../../../utils/patch-set-util';
-import {changeStatuses} from '../../../utils/change-util';
+import {changeStatuses, REVERT_TAG} from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -1572,14 +1572,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return GerritNav.getUrlForChange(change);
   }
 
-  _computeShowCommitInfo(
-    changeStatuses: string[],
-    current_revision: RevisionInfo
-  ) {
+  _computeShowCommitInfo(status: string, current_revision: RevisionInfo) {
     return (
-      changeStatuses.length === 1 &&
-      changeStatuses[0] === 'Merged' &&
-      current_revision
+      (status === 'Merged' || status === 'Revert Created') && current_revision
     );
   }
 

@@ -31,6 +31,9 @@ suite('gr-file-list-header tests', () => {
   setup(() => {
     stubRestApi('getConfig').returns(Promise.resolve({test: 'config'}));
     stubRestApi('getAccount').returns(Promise.resolve(null));
+    sinon.stub(GerritNav, 'getPatchSetWeblink').returns({
+      url: 'abcd',
+    });
     element = basicFixture.instantiate();
   });
 

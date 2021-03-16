@@ -16,6 +16,24 @@
       "message": "Is DiffOperations a singleton so that it\u0027s ok to store it as a member inside a singleton class?",
       "revId": "318c65ac51a3f0ff24bcaa059037f9e702a0ca3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9572aa_9972077a",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentPorter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-16T17:37:53Z",
+      "side": 1,
+      "message": "Good point. Currently it isn\u0027t, but it should be a singleton. I\u0027ll add an annotation for DiffOperations in a prior change and rebase.\n\nQQ: Is it mandatory that all fields/subfields of a singleton be singletons (strict singletons with annotations)?",
+      "parentUuid": "3ea28fbc_03056822",
+      "revId": "318c65ac51a3f0ff24bcaa059037f9e702a0ca3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

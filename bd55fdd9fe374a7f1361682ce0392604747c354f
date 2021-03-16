@@ -69,6 +69,24 @@
       "parentUuid": "2be79e52_05e43105",
       "revId": "bd55fdd9fe374a7f1361682ce0392604747c354f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "829558b0_8979a901",
+        "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-16T08:49:28Z",
+      "side": 1,
+      "message": "Ok, I will try that.\nWe could also only allow the conversion for users that only have an external ID of the username scheme, but not one of the gerrit scheme. These would be users created by the SSH command and likely not be human users that would use user branches. Still, even in this case this should be an option.",
+      "parentUuid": "1ad8ddd5_1b2cdcd9",
+      "revId": "bd55fdd9fe374a7f1361682ce0392604747c354f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

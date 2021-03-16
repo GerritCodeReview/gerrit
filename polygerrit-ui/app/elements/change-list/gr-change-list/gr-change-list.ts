@@ -54,10 +54,10 @@ import {
 import {CustomKeyboardEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
 import {windowLocationReload} from '../../../utils/dom-util';
-import {ScrollMode} from '../../../constants/constants';
+import {ChangeStatus, ScrollMode} from '../../../constants/constants';
 
 const NUMBER_FIXED_COLUMNS = 3;
-const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
+const CLOSED_STATUS = [ChangeStatus.MERGED, ChangeStatus.ABANDONED];
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
 const MAX_SHORTCUT_CHARS = 5;
 

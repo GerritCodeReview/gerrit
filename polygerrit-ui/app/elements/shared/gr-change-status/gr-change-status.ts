@@ -20,7 +20,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-status_html';
 import {customElement, property} from '@polymer/decorators';
 
-enum ChangeStates {
+export enum ChangeStates {
   MERGED = 'Merged',
   ABANDONED = 'Abandoned',
   MERGE_CONFLICT = 'Merge Conflict',

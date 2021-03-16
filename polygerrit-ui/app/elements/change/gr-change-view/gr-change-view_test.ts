@@ -104,6 +104,7 @@ import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {appContext} from '../../../services/app-context';
+import { ChangeStates } from '../../shared/gr-change-status/gr-change-status';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -1256,7 +1257,7 @@ suite('gr-change-view tests', () => {
       },
     };
     element._mergeable = true;
-    const expectedStatuses = ['Merged', 'WIP'];
+    const expectedStatuses = [ChangeStates.MERGED, ChangeStates.WIP];
     assert.deepEqual(element._changeStatuses, expectedStatuses);
     flush();
     const statusChips = element.shadowRoot!.querySelectorAll(

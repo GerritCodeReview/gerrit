@@ -20,7 +20,6 @@ import {
   changeBaseURL,
   changePath,
   changeStatuses,
-  changeStatusString,
   isRemovableReviewer,
 } from './change-util.js';
 
@@ -59,9 +58,7 @@ suite('change-util tests', () => {
       mergeable: true,
     };
     let statuses = changeStatuses(change);
-    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, []);
-    assert.equal(statusString, '');
 
     change.submittable = false;
     statuses = changeStatuses(change,
@@ -109,9 +106,7 @@ suite('change-util tests', () => {
       mergeable: false,
     };
     const statuses = changeStatuses(change);
-    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['Merge Conflict']);
-    assert.equal(statusString, 'Merge Conflict');
   });
 
   test('mergeable prop undefined', () => {
@@ -125,9 +120,7 @@ suite('change-util tests', () => {
       labels: {},
     };
     const statuses = changeStatuses(change);
-    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, []);
-    assert.equal(statusString, '');
   });
 
   test('Merged status', () => {
@@ -141,9 +134,7 @@ suite('change-util tests', () => {
       labels: {},
     };
     const statuses = changeStatuses(change);
-    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['Merged']);
-    assert.equal(statusString, 'Merged');
   });
 
   test('Abandoned status', () => {
@@ -157,9 +148,7 @@ suite('change-util tests', () => {
       labels: {},
     };
     const statuses = changeStatuses(change);
-    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['Abandoned']);
-    assert.equal(statusString, 'Abandoned');
   });
 
   test('Open status with private and wip', () => {
@@ -176,9 +165,7 @@ suite('change-util tests', () => {
       mergeable: true,
     };
     const statuses = changeStatuses(change);
-    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['WIP', 'Private']);
-    assert.equal(statusString, 'WIP, Private');
   });
 
   test('Merge conflict with private and wip', () => {
@@ -195,9 +182,7 @@ suite('change-util tests', () => {
       mergeable: false,
     };
     const statuses = changeStatuses(change);
-    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['Merge Conflict', 'WIP', 'Private']);
-    assert.equal(statusString, 'Merge Conflict, WIP, Private');
   });
 
   test('isRemovableReviewer', () => {

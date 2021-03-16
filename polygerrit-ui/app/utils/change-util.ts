@@ -227,10 +227,6 @@ export function getRevisionKey(
   );
 }
 
-export function changeStatusString(change: ChangeInfo) {
-  return changeStatuses(change).join(', ');
-}
-
 export function isRemovableReviewer(
   change?: ChangeInfo,
   reviewer?: AccountInfo

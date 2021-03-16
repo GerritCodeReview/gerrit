@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca25427_e0c7df06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T23:01:32Z",
+      "side": 1,
+      "message": "It works, and actually I\u0027ve noticed other duplicates on GerritHub.io with this script :-(",
+      "revId": "aba46445c7be9675fd4d422f3f194c82332e8c5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff991b74_224c65b2",
@@ -14,6 +31,30 @@
       "writtenOn": "2021-03-16T23:00:09Z",
       "side": 1,
       "message": "A comment with an example input would help to follow and understand this code",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 31
+      },
+      "revId": "aba46445c7be9675fd4d422f3f194c82332e8c5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "706d904f_724fc44a",
+        "filename": "contrib/find-duplicate-usernames.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T23:01:32Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "ff991b74_224c65b2",
       "range": {
         "startLine": 32,
         "startChar": 0,

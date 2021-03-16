@@ -57,4 +57,13 @@ public interface GitRepositoryManager {
 
   /** @return set of all known projects, sorted by natural NameKey order. */
   SortedSet<Project.NameKey> list();
+
+  /**
+   * Check if garbage collection can be performed by the repository manager.
+   *
+   * @return true if repository can perform garbage collection.
+   */
+  default Boolean canPerformGC() {
+    return false;
+  }
 }

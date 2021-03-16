@@ -24,7 +24,6 @@ import scala.concurrent.duration._
 
 class CreateChange extends ProjectSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
-  private val numberKey = "_number"
   private val weightPerUser = 0.1
   private var createBranch: Option[CreateBranch] = None
   private var branchesCopy: mutable.Queue[String] = mutable.Queue[String]()
@@ -58,7 +57,7 @@ class CreateChange extends ProjectSimulation {
       })
       .exec(httpRequest
           .body(ElFileBody(body)).asJson
-          .check(regex("\"" + numberKey + "\":(\\d+),").saveAs(numberKey)))
+          .check(regex("\"_" + numberKey + "\":(\\d+),").saveAs(numberKey)))
       .exec(session => {
         number = session(numberKey).as[Int]
         numbers += number

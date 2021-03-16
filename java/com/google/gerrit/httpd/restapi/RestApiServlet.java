@@ -1581,9 +1581,11 @@ public class RestApiServlet extends HttpServlet {
 
     // Check if we want to delegate to a child collection. Child collections are bound with
     // GET.name so we have to check for this since we haven't found any other views.
-    core = views.get(PluginName.GERRIT, "GET." + p.get(0));
-    if (core != null) {
-      return new ViewData(PluginName.GERRIT, core);
+    if (method.equals("GET")) {
+      core = views.get(PluginName.GERRIT, "GET." + p.get(0));
+      if (core != null) {
+        return new ViewData(PluginName.GERRIT, core);
+      }
     }
 
     Map<String, RestView<RestResource>> r = new TreeMap<>();

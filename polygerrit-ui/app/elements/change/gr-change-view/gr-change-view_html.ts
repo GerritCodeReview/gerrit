@@ -133,6 +133,9 @@ export const htmlTemplate = html`
       align-items: center;
       display: flex;
     }
+    .statusText .text {
+      padding: 0 var(--spacing-s);
+    }
     .changeStatuses {
       flex-wrap: wrap;
     }
@@ -368,6 +371,7 @@ export const htmlTemplate = html`
           <div class="changeStatuses">
             <template is="dom-repeat" items="[[_changeStatuses]]" as="status">
               <gr-change-status
+                change="[[_change]]"
                 max-width="100"
                 status="[[status]]"
               ></gr-change-status>

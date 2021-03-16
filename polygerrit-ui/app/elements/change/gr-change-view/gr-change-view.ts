@@ -923,6 +923,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this._editingCommitMessage = false;
   }
 
+  _isRevertStatus(status: string) {
+    return status === 'Revert Created';
+  }
+
   _computeChangeStatusChips(
     change: ChangeInfo | undefined,
     mergeable: boolean | null,
@@ -1572,14 +1576,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return GerritNav.getUrlForChange(change);
   }
 
-  _computeShowCommitInfo(
-    changeStatuses: string[],
-    current_revision: RevisionInfo
-  ) {
+  _computeShowCommitInfo(status: string, current_revision: RevisionInfo) {
     return (
-      changeStatuses.length === 1 &&
-      changeStatuses[0] === 'Merged' &&
-      current_revision
+      (status === 'Merged' || status === 'Revert Created') && current_revision
     );
   }
 

@@ -151,6 +151,7 @@ function getStyleEl() {
       --status-wip: #bcaaa4;
       --status-private: var(--purple-200);
       --status-conflict: var(--red-300);
+      --status-revert-created: #FF8A65;
       --status-active: var(--blue-400);
       --status-ready: var(--pink-500);
       --status-custom: var(--purple-400);

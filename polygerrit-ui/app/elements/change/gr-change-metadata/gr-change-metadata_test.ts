@@ -75,6 +75,9 @@ suite('gr-change-metadata tests', () => {
 
   setup(() => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+    sinon.stub(GerritNav, 'getPatchSetWeblink').returns({
+      url: 'abcd',
+    });
     stubRestApi('getConfig').returns(
       Promise.resolve({
         ...createServerInfo(),

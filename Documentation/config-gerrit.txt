@@ -2204,11 +2204,21 @@ to have Gerrit display URLs from this server, rather than itself.
 By default unset, as the HTTP daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
-
++
+[[gerrit.installBatchModule]]gerrit.installBatchModule::
++
+Repeatable list of class name of additional Guice modules to load as
+override to the batchInjector's modules during the init phases.
+Classes are resolved using the primary Gerrit class loader, hence the
+class needs to be either declared in Gerrit or an additional JAR
+located under the `/lib` directory.
++
+By default unset.
++
 [[gerrit.installDbModule]]gerrit.installDbModule::
 +
 Repeatable list of class name of additional Guice modules to load at
-Gerrit startup as part of the dbInjector and during the init phases.
+Gerrit startup as part of the dbInjector.
 Classes are resolved using the primary Gerrit class loader, hence the
 class needs to be either declared in Gerrit or an additional JAR
 located under the `/lib` directory.
@@ -2218,7 +2228,7 @@ By default unset.
 [[gerrit.installModule]]gerrit.installModule::
 +
 Repeatable list of class name of additional Guice modules to load at
-Gerrit startup as part of the sysInjector and during the init phases.
+Gerrit startup as part of the sysInjector.
 Classes are resolved using the primary Gerrit class loader, hence the
 class needs to be either declared in Gerrit or an additional JAR
 located under the `/lib` directory.
@@ -2231,6 +2241,7 @@ Example:
   installModule = com.googlesource.gerrit.libmodule.MyModule
   installModule = com.example.abc.OurSpecialSauceModule
   installDbModule = com.example.def.OurCustomProvider
+  installBatchModule = com.example.ghi.CustomBatchInitModule
 ----
 
 [[gerrit.listProjectsFromIndex]]gerrit.listProjectsFromIndex::

@@ -27,6 +27,7 @@ let counter;
 const repoGenerator = () => {
   return {
     id: `test${++counter}`,
+    name: `test`,
     state: 'ACTIVE',
     web_links: [
       {

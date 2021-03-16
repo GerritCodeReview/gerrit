@@ -35,9 +35,9 @@ class SubmitChangeInBranch extends GerritSimulation {
         if (changesCopy.isEmpty) {
           changesCopy = createChange.numbers.clone()
         }
-        session.set("number", changesCopy.dequeue())
+        session.set(numberKey, changesCopy.dequeue())
       })
-      .exec(http(uniqueName).post("${url}${number}/submit"))
+      .exec(http(uniqueName).post("${url}${" + numberKey + "}/submit"))
 
   private val createProject = new CreateProject(projectName)
   private val createBranch = new CreateBranch(projectName)

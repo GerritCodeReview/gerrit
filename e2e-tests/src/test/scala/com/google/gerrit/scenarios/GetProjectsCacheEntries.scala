@@ -30,7 +30,7 @@ class GetProjectsCacheEntries extends CacheFlushSimulation {
   val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(http(uniqueName).get("${url}")
-          .check(regex("\"" + memKey + "\": (\\d+)").saveAs(entriesKey)))
+          .check(regex("\"" + memKey + "\":(\\d+)").saveAs(entriesKey)))
       .exec(session => {
         if (consumer.nonEmpty) {
           consumer.get.entriesBeforeFlush(session(entriesKey).as[Int])

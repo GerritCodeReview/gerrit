@@ -105,7 +105,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
           margin-left: 1.2em;
         }
         section {
-          margin-bottom: var(--spacing-m);
+          margin-bottom: var(--spacing-l);
         }
         gr-related-change {
           display: flex;

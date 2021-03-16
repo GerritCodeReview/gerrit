@@ -51,6 +51,24 @@
       "parentUuid": "a0f25f2f_3e655ee9",
       "revId": "bd55fdd9fe374a7f1361682ce0392604747c354f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ad8ddd5_1b2cdcd9",
+        "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-16T08:41:28Z",
+      "side": 1,
+      "message": "Well, this is an admin program, so if the option is well documented it should be fine having it.\n\nYou may want to double-check that access to user branches really gets lost. That\u0027s definitely the reason why we disallow changing the username. Not 100% sure what happens if you only change the case of the username.",
+      "parentUuid": "2be79e52_05e43105",
+      "revId": "bd55fdd9fe374a7f1361682ce0392604747c354f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

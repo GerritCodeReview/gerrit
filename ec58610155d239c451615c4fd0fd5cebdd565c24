@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f368dd8_fd02b5e4",
+        "filename": "contrib/find-duplicate-usernames.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T22:56:10Z",
+      "side": 1,
+      "message": "All-Users",
+      "range": {
+        "startLine": 6,
+        "startChar": 16,
+        "endLine": 6,
+        "endChar": 28
+      },
+      "revId": "ec58610155d239c451615c4fd0fd5cebdd565c24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,9 @@ public enum LibModuleType {
   /** Module for the sysInjector. */
   SYS_MODULE("Module"),
 
+  /** BatchModule for the sysInjector */
+  SYS_BATCH_MODULE("BatchModule"),
+
   /** Module for the dbInjector. */
   DB_MODULE("DbModule");
 

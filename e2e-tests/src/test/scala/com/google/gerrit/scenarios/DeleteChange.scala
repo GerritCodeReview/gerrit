@@ -34,12 +34,12 @@ class DeleteChange extends GerritSimulation {
       .feed(data)
       .exec(session => {
         if (createChange.nonEmpty) {
-          session.set("number", createChange.get.numbers.dequeue())
+          session.set(numberKey, createChange.get.numbers.dequeue())
         } else {
           session
         }
       })
-      .exec(http(uniqueName).delete("${url}${number}"))
+      .exec(http(uniqueName).delete("${url}${" + numberKey + "}"))
 
   setUp(
     test.inject(

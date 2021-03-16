@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0e45679_6d35aebf",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-03-16T23:49:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f788059_1e1d07bc",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "052318dee206155ed7986596bae20de09175e93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5676272_c8ba2e2a",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-12T19:18:44Z",
       "side": 1,
       "message": "I mostly used SinonStubbedMember\u003c\u003e with generics. Wouldn\u0027t that be better?",
+      "range": {
+        "startLine": 41,
+        "startChar": 18,
+        "endLine": 41,
+        "endChar": 33
+      },
+      "revId": "052318dee206155ed7986596bae20de09175e93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "458ac9cd_0fdb1544",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-03-16T23:49:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5676272_c8ba2e2a",
       "range": {
         "startLine": 41,
         "startChar": 18,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab4c3319_8c9d13a2",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-03-16T23:49:35Z",
+      "side": 1,
+      "message": "Changing strategy in https://gerrit-review.googlesource.com/c/gerrit/+/300342\n\navoids ! and can be generic typed in declaration above",
+      "parentUuid": "ce57dd1d_148ad25c",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "052318dee206155ed7986596bae20de09175e93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56892230_9426f2b4",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-03-12T19:18:44Z",
       "side": 1,
       "message": "I would check which stubRestApi you really need. They should be part of gr-rest-api_mock.ts, so they can be removed.",
+      "range": {
+        "startLine": 61,
+        "startChar": 47,
+        "endLine": 62,
+        "endChar": 61
+      },
+      "revId": "052318dee206155ed7986596bae20de09175e93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "562efcbc_b4bff469",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-03-16T23:49:35Z",
+      "side": 1,
+      "message": "Nice, done.",
+      "parentUuid": "56892230_9426f2b4",
       "range": {
         "startLine": 61,
         "startChar": 47,

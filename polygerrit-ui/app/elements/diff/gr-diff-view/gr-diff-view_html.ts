@@ -428,6 +428,7 @@ export const htmlTemplate = html`
   <gr-diff-cursor
     id="cursor"
     on-navigate-to-next-unreviewed-file="_navigateToNextUnreviewedFile"
+    on-navigate-to-previous-unreviewed-file="_navigateToPreviousUnreviewedFile"
     on-navigate-to-next-file-with-comments="_navigateToNextFileWithCommentThread"
   ></gr-diff-cursor>
   <gr-comment-api id="commentAPI"></gr-comment-api>

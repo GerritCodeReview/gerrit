@@ -2450,7 +2450,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       return false;
     }
     const MIN_LINES = this._isNewChangeSummaryUiEnabled
-      ? 15
+      ? 17
       : MIN_LINES_FOR_COMMIT_COLLAPSE;
     return commitMessage.split('\n').length >= MIN_LINES;
   }

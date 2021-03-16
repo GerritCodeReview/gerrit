@@ -175,6 +175,30 @@
       },
       "revId": "5a48fc58ff4c3abec94d813271afda5d1fa5ae95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7b4fd94_1087ce7e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T20:43:45Z",
+      "side": 1,
+      "message": "Thanks for the extra test-cases, LGTM",
+      "parentUuid": "edb5682d_f147aa5c",
+      "range": {
+        "startLine": 53,
+        "startChar": 57,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "5a48fc58ff4c3abec94d813271afda5d1fa5ae95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

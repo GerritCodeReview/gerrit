@@ -49,6 +49,54 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "380b9984_d6394018",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-16T20:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9f0aab1_c163c6ab",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 48
+      },
+      "revId": "c788345310ecb8865edc8f0956125feebd61ec44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8363ab5_b0a1e2eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-16T20:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "969a15f1_5f02ee5c",
+      "range": {
+        "startLine": 14,
+        "startChar": 27,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "c788345310ecb8865edc8f0956125feebd61ec44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d161e0a6_1a6ede35",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11
@@ -94,6 +142,30 @@
       "writtenOn": "2021-03-16T09:36:36Z",
       "side": 1,
       "message": "can you use getCurrentMetaRevId() here? \n\notherwise something like\n\n  /meta_diff?meta\u003dHEAD^^^\n\n\nwill diff new\u003dHEAD^^^ against old\u003dHEAD^",
+      "range": {
+        "startLine": 106,
+        "startChar": 28,
+        "endLine": 106,
+        "endChar": 74
+      },
+      "revId": "c788345310ecb8865edc8f0956125feebd61ec44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb94615_92b2c552",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetMetaDiff.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-16T20:21:16Z",
+      "side": 1,
+      "message": "Aha thanks! Got it.",
+      "parentUuid": "920fcb8c_18b97956",
       "range": {
         "startLine": 106,
         "startChar": 28,

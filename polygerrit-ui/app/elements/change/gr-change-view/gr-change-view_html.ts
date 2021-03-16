@@ -376,7 +376,7 @@ export const htmlTemplate = html`
           <div class="statusText">
             <template
               is="dom-if"
-              if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]"
+              if="[[_computeShowCommitInfo(_changeStatuses, _change.current_revision)]]"
             >
               <span class="text"> as </span>
               <gr-commit-info

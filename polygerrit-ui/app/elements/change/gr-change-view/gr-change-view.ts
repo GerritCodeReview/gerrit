@@ -61,7 +61,11 @@ import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-end
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {DiffViewMode} from '../../../api/diff';
-import {PrimaryTab, SecondaryTab} from '../../../constants/constants';
+import {
+  PrimaryTab,
+  REVERT_TAG,
+  SecondaryTab,
+} from '../../../constants/constants';
 
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages';
 import {appContext} from '../../../services/app-context';
@@ -175,6 +179,7 @@ import {Subject} from 'rxjs';
 import {GrRelatedChangesListExperimental} from '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {Timing} from '../../../constants/reporting';
+import { getRevertCommitHash } from '../../../utils/message-util';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -923,6 +928,15 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this._editingCommitMessage = false;
   }
 
+  _isRevertStatus(status: string) {
+    return status === 'Revert Created';
+  }
+
+  _computeRevertCommit(change?: ChangeInfo) {
+    if (!change) return undefined;
+    return getRevertCommitHash(change);
+  }
+
   _computeChangeStatusChips(
     change: ChangeInfo | undefined,
     mergeable: boolean | null,
@@ -1572,14 +1586,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return GerritNav.getUrlForChange(change);
   }
 
-  _computeShowCommitInfo(
-    changeStatuses: string[],
-    current_revision: RevisionInfo
-  ) {
+  _computeShowCommitInfo(status: string, current_revision: RevisionInfo) {
     return (
-      changeStatuses.length === 1 &&
-      changeStatuses[0] === 'Merged' &&
-      current_revision
+      (status === 'Merged' || status === 'Revert Created') && current_revision
     );
   }
 

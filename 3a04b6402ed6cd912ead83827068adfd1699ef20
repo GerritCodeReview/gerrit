@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "968d0aef_6c86e315",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-16T18:17:19Z",
+      "side": 1,
+      "message": "There was already a test class for it: RevisionNewDiffCacheIT.\n\nI updated the config name. Thanks for noticing.\n\nDone.",
+      "parentUuid": "430c961e_1d25bc35",
+      "revId": "3a04b6402ed6cd912ead83827068adfd1699ef20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ebfb6f1_a2845d54",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c387016b_9d9d30e3",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-16T18:17:19Z",
+      "side": 1,
+      "message": "I updated the commit message to clarify this.\n\nBy default, I meant GetDiff will return the diff using the new diff cache, and run the old diff async for sanity checking (prior to this change, it was done the opposite way). We still want to have this gated with a config - whose default is false - to rollout this gradually on selective hosts first.",
+      "parentUuid": "4ebfb6f1_a2845d54",
+      "range": {
+        "startLine": 180,
+        "startChar": 84,
+        "endLine": 180,
+        "endChar": 90
+      },
+      "revId": "3a04b6402ed6cd912ead83827068adfd1699ef20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4fd1380_e404e1c7",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-03-16T16:46:09Z",
       "side": 1,
       "message": "typo",
+      "revId": "3a04b6402ed6cd912ead83827068adfd1699ef20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9231c9a8_bf29e260",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-16T18:17:19Z",
+      "side": 1,
+      "message": "Thanks for noticing! Done.",
+      "parentUuid": "d4fd1380_e404e1c7",
       "revId": "3a04b6402ed6cd912ead83827068adfd1699ef20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

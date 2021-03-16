@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "430c961e_1d25bc35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-16T16:46:09Z",
+      "side": 1,
+      "message": "Add a test?",
+      "revId": "3a04b6402ed6cd912ead83827068adfd1699ef20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ebfb6f1_a2845d54",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-16T16:46:09Z",
+      "side": 1,
+      "message": "The change description says the default is being switched, so shouldn\u0027t this be true?",
+      "range": {
+        "startLine": 180,
+        "startChar": 84,
+        "endLine": 180,
+        "endChar": 90
+      },
+      "revId": "3a04b6402ed6cd912ead83827068adfd1699ef20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4fd1380_e404e1c7",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-03-16T16:46:09Z",
+      "side": 1,
+      "message": "typo",
+      "revId": "3a04b6402ed6cd912ead83827068adfd1699ef20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {getBaseUrl} from './url-util';
-import {ChangeStatus} from '../constants/constants';
+import {ChangeStatus, MessageTag} from '../constants/constants';
 import {
   NumericChangeId,
   PatchSetNum,
@@ -134,6 +134,7 @@ export function changeIsOpen(change?: ChangeInfo | ParsedChangeInfo) {
   return change?.status === ChangeStatus.NEW;
 }
 
+// TODO(TS): create Enum for changeStatuses
 export function changeStatuses(
   change: ChangeInfo,
   opt_options?: ChangeStatusesOptions
@@ -155,6 +156,9 @@ export function changeStatuses(
   }
   if (change.is_private) {
     states.push('Private');
+  }
+  if (change.messages?.some(m => m.tag === MessageTag.REVERT_TAG)) {
+    states.push('Revert Created');
   }
 
   // If there are any pre-defined statuses, only return those. Otherwise,

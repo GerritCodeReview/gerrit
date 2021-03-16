@@ -75,7 +75,7 @@ import {
   hasEditPatchsetLoaded,
   PatchSet,
 } from '../../../utils/patch-set-util';
-import {changeStatuses, changeStatusString} from '../../../utils/change-util';
+import {changeStatuses} from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -453,9 +453,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   _replyDisabled = true;
 
-  @property({type: String, computed: '_changeStatusString(_change)'})
-  _changeStatus?: string;
-
   @property({
     type: String,
     computed: '_computeChangeStatusChips(_change, _mergeable, _submitEnabled)',
@@ -725,10 +722,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   get threadList(): GrThreadList | null {
     return this.shadowRoot!.querySelector<GrThreadList>('gr-thread-list');
-  }
-
-  _changeStatusString(change: ChangeInfo) {
-    return changeStatusString(change);
   }
 
   _setDiffViewMode(opt_reset?: boolean) {
@@ -1570,8 +1563,15 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return GerritNav.getUrlForChange(change);
   }
 
-  _computeShowCommitInfo(changeStatus: string, current_revision: RevisionInfo) {
-    return changeStatus === 'Merged' && current_revision;
+  _computeShowCommitInfo(
+    changeStatuses: string[],
+    current_revision: RevisionInfo
+  ) {
+    return (
+      changeStatuses.length === 1 &&
+      changeStatuses[0] === 'Merged' &&
+      current_revision
+    );
   }
 
   _computeMergedCommitInfo(

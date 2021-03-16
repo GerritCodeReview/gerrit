@@ -1258,7 +1258,6 @@ suite('gr-change-view tests', () => {
     element._mergeable = true;
     const expectedStatuses = ['Merged', 'WIP'];
     assert.deepEqual(element._changeStatuses, expectedStatuses);
-    assert.equal(element._changeStatus, expectedStatuses.join(', '));
     flush();
     const statusChips = element.shadowRoot!.querySelectorAll(
       'gr-change-status'

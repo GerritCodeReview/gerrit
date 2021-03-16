@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d8bf860_8c88e1f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T09:37:44Z",
+      "side": 1,
+      "message": "Missing reference to the associated bug.",
+      "revId": "34454cfd47721e90d9ee99d0fff1aba21ef8a94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9e1c6691_1e789f2c",
@@ -14,6 +31,23 @@
       "writtenOn": "2021-03-16T08:28:44Z",
       "side": 1,
       "message": "A better option could be to throw an error instead of implicitly converting the username to lowercase. However, the same thing is done, when using an IDP like LDAP. ANd since the username will be converted to lowercase on login as well, the user wouldn\u0027t notice anyway.",
+      "revId": "34454cfd47721e90d9ee99d0fff1aba21ef8a94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2da94860_1998a647",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T09:37:44Z",
+      "side": 1,
+      "message": "Gerrit v3.1 is still supported: should this fix target stable-3.1 then?\n\nSee the bug-fix policy at:\nhttps://www.gerritcodereview.com/bug-fixing.html#2-find-the-earliest-supported-branch-that-has-the-bug",
       "revId": "34454cfd47721e90d9ee99d0fff1aba21ef8a94f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

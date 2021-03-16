@@ -16,6 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import './gr-rule-editor.js';
 
 const basicFixture = fixtureFromElement('gr-rule-editor');
@@ -25,6 +26,10 @@ suite('gr-rule-editor tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
+    sinon.stub(GerritNav, 'getPatchSetWeblink').returns({
+      name: 'abcd',
+      url: 'abcd',
+    });
   });
 
   suite('unit tests', () => {

@@ -24,6 +24,7 @@ import {
   RelatedChangeAndCommitInfo,
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
+import {isRevertCreated} from './message-util';
 
 // This can be wrong! See WARNING above
 interface ChangeStatusesOptions {
@@ -134,6 +135,7 @@ export function changeIsOpen(change?: ChangeInfo | ParsedChangeInfo) {
   return change?.status === ChangeStatus.NEW;
 }
 
+// TODO(TS): create Enum for changeStatuses
 export function changeStatuses(
   change: ChangeInfo,
   opt_options?: ChangeStatusesOptions
@@ -155,6 +157,9 @@ export function changeStatuses(
   }
   if (change.is_private) {
     states.push('Private');
+  }
+  if (isRevertCreated(change)) {
+    states.push('Revert Created');
   }
 
   // If there are any pre-defined statuses, only return those. Otherwise,

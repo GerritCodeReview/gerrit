@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6fc1d19_53345827",
+        "filename": "polygerrit-ui/app/services/storage/gr-storage.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-16T09:11:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a88cbf47_d9a1c897",
+      "revId": "50fb0cb3900ce7a4419387333967f00b8fb4d6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b89f515_06a801f1",

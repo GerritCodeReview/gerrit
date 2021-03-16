@@ -33,6 +33,24 @@
       "message": "If the case of the username is changed, users lose access to their user branches that contain the username as part of the refname. This is why Gerrit doesn\u0027t allow to change usernames. This means it is only safe to change usernames if no user branches are used, or if you have can rename user branches somehow.\n\nDue to this, I think it\u0027s not safe to let this program touch usernames unconditionally, but it must be possible to control this via a parameter when invoking the program. Also this should be properly documented.",
       "revId": "bd55fdd9fe374a7f1361682ce0392604747c354f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2be79e52_05e43105",
+        "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-16T08:37:09Z",
+      "side": 1,
+      "message": "Thanks for clarifying this. I thought there had to be a reason that was not already done, but just couldn\u0027t find it. This should definitely be taken care of. I am not sure if giving an option to the user would be a good idea, since if a user did not understand the side effects, this would be detrimental.",
+      "parentUuid": "a0f25f2f_3e655ee9",
+      "revId": "bd55fdd9fe374a7f1361682ce0392604747c354f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

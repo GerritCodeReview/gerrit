@@ -150,6 +150,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ec92a02c_3578b3f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-16T16:08:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "42fc21d4_42aa1f6f",
+      "revId": "5b7c5daf82642cd11f2a031798ae558f1dd1615a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "25972433_bc528da1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -250,6 +268,30 @@
       "side": 1,
       "message": "Per my other comment, I think this comment added now requires further refining. I share Przemek\u0027s doubts about why exactly we have to trust line 115 also for the out reference.",
       "parentUuid": "3b92b6eb_5adf65b1",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 114,
+        "endChar": 86
+      },
+      "revId": "5b7c5daf82642cd11f2a031798ae558f1dd1615a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1873c77_459d136f",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-16T16:08:07Z",
+      "side": 1,
+      "message": "Carried by the other, currently unresolved comment thread.",
+      "parentUuid": "672e939f_b0274519",
       "range": {
         "startLine": 113,
         "startChar": 6,

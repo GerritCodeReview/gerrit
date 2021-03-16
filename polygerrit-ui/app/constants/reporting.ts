@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http =//www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,4 +30,35 @@ export enum Execution {
   PLUGIN_API = 'plugin-api',
   REACHABLE_CODE = 'reachable code',
   METHOD_USED = 'method used',
+}
+
+export enum Timing {
+  APP_STARTED = 'App Started',
+  CHANGE_DISPLAYED = 'ChangeDisplayed',
+  CHANGE_LOAD_FULL = 'ChangeFullyLoaded',
+  DASHBOARD_DISPLAYED = 'DashboardDisplayed',
+  DIFF_VIEW_CONTENT_DISPLAYED = 'DiffViewOnlyContent',
+  DIFF_VIEW_DISPLAYED = 'DiffViewDisplayed',
+  DIFF_VIEW_LOAD_FULL = 'DiffViewFullyLoaded',
+  FILE_LIST_DISPLAYED = 'FileListDisplayed',
+  PLUGINS_LOADED = 'PluginsLoaded',
+  STARTUP_CHANGE_DISPLAYED = 'StartupChangeDisplayed',
+  STARTUP_CHANGE_LOAD_FULL = 'StartupChangeFullyLoaded',
+  STARTUP_DASHBOARD_DISPLAYED = 'StartupDashboardDisplayed',
+  STARTUP_DIFF_VIEW_CONTENT_DISPLAYED = 'StartupDiffViewOnlyContent',
+  STARTUP_DIFF_VIEW_DISPLAYED = 'StartupDiffViewDisplayed',
+  STARTUP_DIFF_VIEW_LOAD_FULL = 'StartupDiffViewFullyLoaded',
+  STARTUP_FILE_LIST_DISPLAYED = 'StartupFileListDisplayed',
+  WEB_COMPONENTS_READY = 'WebComponentsReady',
+  METRICS_PLUGIN_LOADED = 'MetricsPluginLoaded',
+  CHANGE_DATA = 'ChangeDataLoaded',
+  CHANGE_RELOAD = 'ChangeReloaded',
+  SEND_REPLY = 'SendReply',
+  DIFF_TOTAL = 'Diff Total Render',
+  DIFF_CONTENT = 'Diff Content Render',
+  DIFF_SYNTAX = 'Diff Syntax Render',
+  FILE_RENDER = 'FileListRenderTime',
+  FILE_RENDER_AVG = 'FileListRenderTimePerFile',
+  FILE_EXPAND_ALL = 'ExpandAllDiffs',
+  FILE_EXPAND_ALL_AVG = 'ExpandAllPerDiff',
 }

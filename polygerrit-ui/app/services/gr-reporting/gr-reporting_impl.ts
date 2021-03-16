@@ -21,7 +21,7 @@ import {hasOwnProperty} from '../../utils/common-util';
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
-import {Execution, LifeCycle} from '../../constants/reporting';
+import {Execution, LifeCycle, Timing} from '../../constants/reporting';
 
 // Latency reporting constants.
 
@@ -30,9 +30,6 @@ const TIMING = {
   CATEGORY: {
     UI_LATENCY: 'UI Latency',
     RPC: 'RPC Timing',
-  },
-  EVENT: {
-    APP_STARTED: 'App Started',
   },
 };
 
@@ -73,39 +70,19 @@ const ERROR = {
   },
 };
 
-const TIMER = {
-  CHANGE_DISPLAYED: 'ChangeDisplayed',
-  CHANGE_LOAD_FULL: 'ChangeFullyLoaded',
-  DASHBOARD_DISPLAYED: 'DashboardDisplayed',
-  DIFF_VIEW_CONTENT_DISPLAYED: 'DiffViewOnlyContent',
-  DIFF_VIEW_DISPLAYED: 'DiffViewDisplayed',
-  DIFF_VIEW_LOAD_FULL: 'DiffViewFullyLoaded',
-  FILE_LIST_DISPLAYED: 'FileListDisplayed',
-  PLUGINS_LOADED: 'PluginsLoaded',
-  STARTUP_CHANGE_DISPLAYED: 'StartupChangeDisplayed',
-  STARTUP_CHANGE_LOAD_FULL: 'StartupChangeFullyLoaded',
-  STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
-  STARTUP_DIFF_VIEW_CONTENT_DISPLAYED: 'StartupDiffViewOnlyContent',
-  STARTUP_DIFF_VIEW_DISPLAYED: 'StartupDiffViewDisplayed',
-  STARTUP_DIFF_VIEW_LOAD_FULL: 'StartupDiffViewFullyLoaded',
-  STARTUP_FILE_LIST_DISPLAYED: 'StartupFileListDisplayed',
-  WEB_COMPONENTS_READY: 'WebComponentsReady',
-  METRICS_PLUGIN_LOADED: 'MetricsPluginLoaded',
-};
-
-const STARTUP_TIMERS = {
-  [TIMER.PLUGINS_LOADED]: 0,
-  [TIMER.METRICS_PLUGIN_LOADED]: 0,
-  [TIMER.STARTUP_CHANGE_DISPLAYED]: 0,
-  [TIMER.STARTUP_CHANGE_LOAD_FULL]: 0,
-  [TIMER.STARTUP_DASHBOARD_DISPLAYED]: 0,
-  [TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED]: 0,
-  [TIMER.STARTUP_DIFF_VIEW_DISPLAYED]: 0,
-  [TIMER.STARTUP_DIFF_VIEW_LOAD_FULL]: 0,
-  [TIMER.STARTUP_FILE_LIST_DISPLAYED]: 0,
-  [TIMING.EVENT.APP_STARTED]: 0,
+const STARTUP_TIMERS: {[name: string]: number} = {
+  [Timing.PLUGINS_LOADED]: 0,
+  [Timing.METRICS_PLUGIN_LOADED]: 0,
+  [Timing.STARTUP_CHANGE_DISPLAYED]: 0,
+  [Timing.STARTUP_CHANGE_LOAD_FULL]: 0,
+  [Timing.STARTUP_DASHBOARD_DISPLAYED]: 0,
+  [Timing.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED]: 0,
+  [Timing.STARTUP_DIFF_VIEW_DISPLAYED]: 0,
+  [Timing.STARTUP_DIFF_VIEW_LOAD_FULL]: 0,
+  [Timing.STARTUP_FILE_LIST_DISPLAYED]: 0,
+  [Timing.APP_STARTED]: 0,
   // WebComponentsReady timer is triggered from gr-router.
-  [TIMER.WEB_COMPONENTS_READY]: 0,
+  [Timing.WEB_COMPONENTS_READY]: 0,
 };
 
 const DRAFT_ACTION_TIMER = 'TimeBetweenDraftActions';
@@ -328,7 +305,7 @@ export class GrReporting implements ReportingService {
 
   private _arePluginsLoaded() {
     return (
-      this._baselines && !hasOwnProperty(this._baselines, TIMER.PLUGINS_LOADED)
+      this._baselines && !hasOwnProperty(this._baselines, Timing.PLUGINS_LOADED)
     );
   }
 
@@ -336,7 +313,7 @@ export class GrReporting implements ReportingService {
     return (
       this._arePluginsLoaded() ||
       (this._baselines &&
-        !hasOwnProperty(this._baselines, TIMER.METRICS_PLUGIN_LOADED))
+        !hasOwnProperty(this._baselines, Timing.METRICS_PLUGIN_LOADED))
     );
   }
 
@@ -444,7 +421,7 @@ export class GrReporting implements ReportingService {
    * User-perceived app start time, should be reported when the app is ready.
    */
   appStarted() {
-    this.timeEnd(TIMING.EVENT.APP_STARTED);
+    this.timeEnd(Timing.APP_STARTED);
     this._reportNavResTimes();
   }
 
@@ -502,13 +479,13 @@ export class GrReporting implements ReportingService {
     for (const prop of Object.keys(this._baselines)) {
       delete this._baselines[prop];
     }
-    this.time(TIMER.CHANGE_DISPLAYED);
-    this.time(TIMER.CHANGE_LOAD_FULL);
-    this.time(TIMER.DASHBOARD_DISPLAYED);
-    this.time(TIMER.DIFF_VIEW_CONTENT_DISPLAYED);
-    this.time(TIMER.DIFF_VIEW_DISPLAYED);
-    this.time(TIMER.DIFF_VIEW_LOAD_FULL);
-    this.time(TIMER.FILE_LIST_DISPLAYED);
+    this.time(Timing.CHANGE_DISPLAYED);
+    this.time(Timing.CHANGE_LOAD_FULL);
+    this.time(Timing.DASHBOARD_DISPLAYED);
+    this.time(Timing.DIFF_VIEW_CONTENT_DISPLAYED);
+    this.time(Timing.DIFF_VIEW_DISPLAYED);
+    this.time(Timing.DIFF_VIEW_LOAD_FULL);
+    this.time(Timing.FILE_LIST_DISPLAYED);
     this.reportRepoName = undefined;
     this.reportChangeId = undefined;
     // reset slow rpc list since here start page loads which report these rpcs
@@ -526,60 +503,63 @@ export class GrReporting implements ReportingService {
   }
 
   dashboardDisplayed() {
-    if (hasOwnProperty(this._baselines, TIMER.STARTUP_DASHBOARD_DISPLAYED)) {
-      this.timeEnd(TIMER.STARTUP_DASHBOARD_DISPLAYED, this._pageLoadDetails());
+    if (hasOwnProperty(this._baselines, Timing.STARTUP_DASHBOARD_DISPLAYED)) {
+      this.timeEnd(Timing.STARTUP_DASHBOARD_DISPLAYED, this._pageLoadDetails());
     } else {
-      this.timeEnd(TIMER.DASHBOARD_DISPLAYED, this._pageLoadDetails());
+      this.timeEnd(Timing.DASHBOARD_DISPLAYED, this._pageLoadDetails());
     }
   }
 
   changeDisplayed() {
-    if (hasOwnProperty(this._baselines, TIMER.STARTUP_CHANGE_DISPLAYED)) {
-      this.timeEnd(TIMER.STARTUP_CHANGE_DISPLAYED, this._pageLoadDetails());
+    if (hasOwnProperty(this._baselines, Timing.STARTUP_CHANGE_DISPLAYED)) {
+      this.timeEnd(Timing.STARTUP_CHANGE_DISPLAYED, this._pageLoadDetails());
     } else {
-      this.timeEnd(TIMER.CHANGE_DISPLAYED, this._pageLoadDetails());
+      this.timeEnd(Timing.CHANGE_DISPLAYED, this._pageLoadDetails());
     }
   }
 
   changeFullyLoaded() {
-    if (hasOwnProperty(this._baselines, TIMER.STARTUP_CHANGE_LOAD_FULL)) {
-      this.timeEnd(TIMER.STARTUP_CHANGE_LOAD_FULL);
+    if (hasOwnProperty(this._baselines, Timing.STARTUP_CHANGE_LOAD_FULL)) {
+      this.timeEnd(Timing.STARTUP_CHANGE_LOAD_FULL);
     } else {
-      this.timeEnd(TIMER.CHANGE_LOAD_FULL);
+      this.timeEnd(Timing.CHANGE_LOAD_FULL);
     }
   }
 
   diffViewDisplayed() {
-    if (hasOwnProperty(this._baselines, TIMER.STARTUP_DIFF_VIEW_DISPLAYED)) {
-      this.timeEnd(TIMER.STARTUP_DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
+    if (hasOwnProperty(this._baselines, Timing.STARTUP_DIFF_VIEW_DISPLAYED)) {
+      this.timeEnd(Timing.STARTUP_DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
     } else {
-      this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
+      this.timeEnd(Timing.DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
     }
   }
 
   diffViewFullyLoaded() {
-    if (hasOwnProperty(this._baselines, TIMER.STARTUP_DIFF_VIEW_LOAD_FULL)) {
-      this.timeEnd(TIMER.STARTUP_DIFF_VIEW_LOAD_FULL);
+    if (hasOwnProperty(this._baselines, Timing.STARTUP_DIFF_VIEW_LOAD_FULL)) {
+      this.timeEnd(Timing.STARTUP_DIFF_VIEW_LOAD_FULL);
     } else {
-      this.timeEnd(TIMER.DIFF_VIEW_LOAD_FULL);
+      this.timeEnd(Timing.DIFF_VIEW_LOAD_FULL);
     }
   }
 
   diffViewContentDisplayed() {
     if (
-      hasOwnProperty(this._baselines, TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED)
+      hasOwnProperty(
+        this._baselines,
+        Timing.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED
+      )
     ) {
-      this.timeEnd(TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED);
+      this.timeEnd(Timing.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED);
     } else {
-      this.timeEnd(TIMER.DIFF_VIEW_CONTENT_DISPLAYED);
+      this.timeEnd(Timing.DIFF_VIEW_CONTENT_DISPLAYED);
     }
   }
 
   fileListDisplayed() {
-    if (hasOwnProperty(this._baselines, TIMER.STARTUP_FILE_LIST_DISPLAYED)) {
-      this.timeEnd(TIMER.STARTUP_FILE_LIST_DISPLAYED);
+    if (hasOwnProperty(this._baselines, Timing.STARTUP_FILE_LIST_DISPLAYED)) {
+      this.timeEnd(Timing.STARTUP_FILE_LIST_DISPLAYED);
     } else {
-      this.timeEnd(TIMER.FILE_LIST_DISPLAYED);
+      this.timeEnd(Timing.FILE_LIST_DISPLAYED);
     }
   }
 
@@ -625,12 +605,12 @@ export class GrReporting implements ReportingService {
 
   pluginLoaded(name: string) {
     if (name.startsWith('metrics-')) {
-      this.timeEnd(TIMER.METRICS_PLUGIN_LOADED);
+      this.timeEnd(Timing.METRICS_PLUGIN_LOADED);
     }
   }
 
   pluginsLoaded(pluginsList?: string[]) {
-    this.timeEnd(TIMER.PLUGINS_LOADED);
+    this.timeEnd(Timing.PLUGINS_LOADED);
     this.reporter(
       LIFECYCLE.TYPE,
       LIFECYCLE.CATEGORY.PLUGINS_INSTALLED,
@@ -642,9 +622,9 @@ export class GrReporting implements ReportingService {
   }
 
   /**
-   * Reset named timer.
+   * Reset named Timing.
    */
-  time(name: string) {
+  time(name: Timing) {
     this._baselines[name] = now();
     window.performance.mark(`${name}-start`);
   }
@@ -652,7 +632,7 @@ export class GrReporting implements ReportingService {
   /**
    * Finish named timer and report it to server.
    */
-  timeEnd(name: string, eventDetails?: EventDetails) {
+  timeEnd(name: Timing, eventDetails?: EventDetails) {
     if (!hasOwnProperty(this._baselines, name)) {
       return;
     }
@@ -680,7 +660,7 @@ export class GrReporting implements ReportingService {
    * @param denominator Number by which to divide the total to
    *     compute the average.
    */
-  timeEndWithAverage(name: string, averageName: string, denominator: number) {
+  timeEndWithAverage(name: Timing, averageName: Timing, denominator: number) {
     if (!hasOwnProperty(this._baselines, name)) {
       return;
     }
@@ -830,7 +810,7 @@ export class GrReporting implements ReportingService {
 
   /**
    * A draft interaction was started. Update the time-between-draft-actions
-   * timer.
+   * Timing.
    */
   recordDraftInteraction() {
     // If there is no timer defined, then this is the first interaction.

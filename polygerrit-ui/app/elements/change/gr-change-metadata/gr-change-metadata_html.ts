@@ -352,6 +352,18 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.REVERT_CREATED_AS)]]"
+    >
+      <span class="title">Revert Created As</span>
+      <span class="value">
+        <gr-commit-info
+          change="[[change]]"
+          commit-info="[[_computeRevertCommit(change)]]"
+          server-config="[[serverConfig]]"
+        ></gr-commit-info>
+      </span>
+    </section>
+    <section
       class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC)]]"
     >
       <span class="title">Topic</span>

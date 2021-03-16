@@ -81,6 +81,16 @@ export class GrCommitInfo extends PolymerElement {
     });
   }
 
+  _getNavQuery(
+    change?: ChangeInfo,
+    commitInfo?: CommitInfo,
+    serverConfig?: ServerInfo
+  ) {
+    const hash = this._computeShortHash(change, commitInfo, serverConfig);
+    if (hash === undefined) return '';
+    return GerritNav.getUrlForSearchQuery('/q/' + hash);
+  }
+
   _computeShortHash(
     change?: ChangeInfo,
     commitInfo?: CommitInfo,
@@ -91,6 +101,6 @@ export class GrCommitInfo extends PolymerElement {
     }
 
     const {name} = this._getWeblink(change, commitInfo, serverConfig) || {};
-    return name;
+    return name || '';
   }
 }

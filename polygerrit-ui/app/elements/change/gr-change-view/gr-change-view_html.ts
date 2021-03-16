@@ -133,6 +133,9 @@ export const htmlTemplate = html`
       align-items: center;
       display: flex;
     }
+    .statusText .text {
+      padding: 0 var(--spacing-s);
+    }
     .changeStatuses {
       flex-wrap: wrap;
     }

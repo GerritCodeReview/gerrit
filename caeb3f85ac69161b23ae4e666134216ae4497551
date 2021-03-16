@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21f2f90f_1dbdc3ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce54baa7_f67feb1b",
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4045f39_20554864",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "131c4b85_19529711",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4045f39_20554864",
+      "range": {
+        "startLine": 64,
+        "startChar": 25,
+        "endLine": 64,
+        "endChar": 28
+      },
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "018cd0b6_a61e6b65",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-03-16T18:34:46Z",
       "side": 1,
       "message": "Then, why not checking for stream state and only close it if truly not closed already? -Have you checked if the issue could be with the callers of the set*Stream methods above? Some calls could invoke those with the same object(s) as OutputStream, leading to already-closed phenomenons here.",
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb3925df_c228c461",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "The out stream is not closed at this point. I verified it with the debugger. Unlike the first assumption that the exception is thrown in this method, the exception is thrown when executing onExit() method line 116. During its call out.flush() is called. Unfortunately, out.flush() is called in a java file from org.apache,server.",
+      "parentUuid": "018cd0b6_a61e6b65",
       "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -94,6 +154,48 @@
         "endLine": 2,
         "endChar": 26
       },
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77692d0f_790f75d1",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d44b4a7c_3a4a1d04",
+      "range": {
+        "startLine": 2,
+        "startChar": 24,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9078ddb7_d10492ad",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16c11342_a34087f5",
       "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -144,6 +246,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8edfcde9_4f085239",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68a38a54_06e4ee86",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cc9f90f_afb704bc",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "421d13f9_cc5790fd",
+      "range": {
+        "startLine": 3,
+        "startChar": 6,
+        "endLine": 3,
+        "endChar": 7
+      },
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50d08d51_ad0e0444",
@@ -157,6 +307,24 @@
       "writtenOn": "2021-03-16T18:34:46Z",
       "side": 1,
       "message": "Tab use, here and down below. Related comment below.",
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "040963c3_4e3ec799",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d08d51_ad0e0444",
       "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -178,6 +346,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80365fea_05fcd3a4",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adceee14_5fc0b1cd",
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a635927_6f7cfb36",
@@ -191,6 +377,24 @@
       "writtenOn": "2021-03-16T18:34:46Z",
       "side": 1,
       "message": "Blank line above.",
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b8ad1a7_6cb3702b",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a635927_6f7cfb36",
       "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -264,6 +468,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9d50010_09ce19c9",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "371bed2e_b5bf3068",
+      "range": {
+        "startLine": 15,
+        "startChar": 43,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35eb62ea_43c09116",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "The whole if and else block is removed",
+      "parentUuid": "acaf62cd_3d103b55",
+      "range": {
+        "startLine": 15,
+        "startChar": 48,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d39673ef_a4e27546",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5f32502_3aef23e6",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebe89e36_1a59bc0a",
@@ -277,6 +553,24 @@
       "writtenOn": "2021-03-16T18:34:46Z",
       "side": 1,
       "message": "Missing shellcheck (maybe) and bash formatting (e.g.) [1].\n\n[1] https://www.jetbrains.com/help/idea/shell-scripts.html\n\nPotential IDEA warnings in this file should also be checked and fixed if any.\n\nBasically, this file should be edited in e.g. IntelliJ and have its style issues all addressed.",
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa3ef7e3_1eae8ad3",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T20:54:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebe89e36_1a59bc0a",
       "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

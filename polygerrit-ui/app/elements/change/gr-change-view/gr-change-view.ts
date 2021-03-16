@@ -174,6 +174,7 @@ import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
 import {GrRelatedChangesListExperimental} from '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {Timing} from '../../../constants/reporting';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -211,9 +212,6 @@ const ReloadToastMessage = {
   NEW_MESSAGE: 'There are new messages on this change',
 };
 
-const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
-const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
-const SEND_REPLY_TIMING_LABEL = 'SendReply';
 // Making the tab names more unique in case a plugin adds one with same name
 const ROBOT_COMMENTS_LIMIT = 10;
 
@@ -1215,7 +1213,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener(
       'change-details-loaded',
       () => {
-        this.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
+        this.reporting.timeEnd(Timing.SEND_REPLY);
       },
       {once: true}
     );
@@ -2189,8 +2187,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }
     this._loading = true;
     this._relatedChangesCollapsed = true;
-    this.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
-    this.reporting.time(CHANGE_DATA_TIMING_LABEL);
+    this.reporting.time(Timing.CHANGE_RELOAD);
+    this.reporting.time(Timing.CHANGE_DATA);
 
     // Array to house all promises related to data requests.
     const allDataPromises: Promise<unknown>[] = [];
@@ -2209,7 +2207,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         fireEvent(this, 'change-details-loaded');
       })
       .then(() => {
-        this.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
+        this.reporting.timeEnd(Timing.CHANGE_RELOAD);
         if (isLocationChange) {
           this.reporting.changeDisplayed();
         }
@@ -2315,7 +2313,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }
 
     Promise.all(allDataPromises).then(() => {
-      this.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
+      this.reporting.timeEnd(Timing.CHANGE_DATA);
       if (isLocationChange) {
         this.reporting.changeFullyLoaded();
       }

@@ -73,7 +73,7 @@ import {
   toPathname,
   toSearchParams,
 } from '../../../utils/url-util';
-import {Execution, LifeCycle} from '../../../constants/reporting';
+import {Execution, LifeCycle, Timing} from '../../../constants/reporting';
 
 const RoutePattern = {
   ROOT: '/',
@@ -267,7 +267,7 @@ if (!app) {
 // Setup listeners outside of the router component initialization.
 (function () {
   window.addEventListener('WebComponentsReady', () => {
-    appContext.reportingService.timeEnd('WebComponentsReady');
+    appContext.reportingService.timeEnd(Timing.WEB_COMPONENTS_READY);
   });
 })();
 

@@ -18,7 +18,7 @@
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
-import {Execution, LifeCycle} from '../../constants/reporting';
+import {Execution, LifeCycle, Timing} from '../../constants/reporting';
 
 export type EventValue = string | number | {error?: Error};
 
@@ -56,11 +56,11 @@ export interface ReportingService {
   /**
    * Reset named timer.
    */
-  time(name: string): void;
+  time(name: Timing): void;
   /**
    * Finish named timer and report it to server.
    */
-  timeEnd(name: string, eventDetails?: EventDetails): void;
+  timeEnd(name: Timing, eventDetails?: EventDetails): void;
   /**
    * Reports just line timeEnd, but additionally reports an average given a
    * denominator and a separate reporting name for the average.
@@ -71,8 +71,8 @@ export interface ReportingService {
    *     compute the average.
    */
   timeEndWithAverage(
-    name: string,
-    averageName: string,
+    name: Timing,
+    averageName: Timing,
     denominator: number
   ): void;
   /**

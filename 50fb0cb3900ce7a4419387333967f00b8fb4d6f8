@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "959e22eb_19ad49a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-16T07:42:44Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "50fb0cb3900ce7a4419387333967f00b8fb4d6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a88cbf47_d9a1c897",
+        "filename": "polygerrit-ui/app/services/storage/gr-storage.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-16T07:42:44Z",
+      "side": 1,
+      "message": "Only put methods into the public interface that are used outside of the GrStorage service.\n\nFor methods that are only used internall: Remove from interface, remove underscore, make private.",
+      "revId": "50fb0cb3900ce7a4419387333967f00b8fb4d6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b89f515_06a801f1",
+        "filename": "polygerrit-ui/app/services/storage/gr-storage_mock.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-16T07:42:44Z",
+      "side": 1,
+      "message": "Would it be easily possible to implement a mock based on a simple map?",
+      "revId": "50fb0cb3900ce7a4419387333967f00b8fb4d6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

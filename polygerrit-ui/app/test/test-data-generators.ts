@@ -64,6 +64,7 @@ import {
   BasePatchSetNum,
   RelatedChangeAndCommitInfo,
   SubmittedTogetherInfo,
+  RelatedChangesInfo,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -598,6 +599,12 @@ export function createRelatedChangeAndCommitInfo(): RelatedChangeAndCommitInfo {
   return {
     project: TEST_PROJECT_NAME,
     commit: createCommitInfoWithRequiredCommit(),
+  };
+}
+
+export function createRelatedChangesInfo(): RelatedChangesInfo {
+  return {
+    changes: [],
   };
 }
 

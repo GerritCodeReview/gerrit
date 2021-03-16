@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "63b0be26_6e56130a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-16T17:27:43Z",
+      "side": 1,
+      "message": "Done. It is a shell script so I am not sure where it should be placed correctly. I put it in tools directory.",
+      "parentUuid": "9b3fcc1e_a1950916",
+      "revId": "830a7440c3c7a6db6766c9d13c12f95641f14867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e2472373_47ee07c8",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

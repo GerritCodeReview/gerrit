@@ -180,16 +180,13 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
    * requests).
    *
    * @param enable whether performance logging should be enabled.
-   * @return whether performance logging was be enabled before invoking this method (old value).
    */
-  boolean performanceLogging(boolean enable) {
-    Boolean oldValue = performanceLogging.get();
+  void performanceLogging(boolean enable) {
     if (enable) {
       performanceLogging.set(true);
     } else {
       performanceLogging.remove();
     }
-    return oldValue != null ? oldValue : false;
   }
 
   /**
@@ -304,10 +301,6 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       return records.list();
     }
     return ImmutableList.of();
-  }
-
-  void clearAclLogEntries() {
-    aclLogRecords.remove();
   }
 
   /**

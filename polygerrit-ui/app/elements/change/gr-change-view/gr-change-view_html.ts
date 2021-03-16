@@ -371,19 +371,19 @@ export const htmlTemplate = html`
                 max-width="100"
                 status="[[status]]"
               ></gr-change-status>
-            </template>
-          </div>
-          <div class="statusText">
-            <template
-              is="dom-if"
-              if="[[_computeShowCommitInfo(_changeStatuses, _change.current_revision)]]"
-            >
-              <span class="text"> as </span>
-              <gr-commit-info
-                change="[[_change]]"
-                commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                server-config="[[_serverConfig]]"
-              ></gr-commit-info>
+              <div class="statusText">
+                <template
+                  is="dom-if"
+                  if="[[_computeShowCommitInfo(status, _change.current_revision)]]"
+                >
+                  <span class="text"> as </span>
+                  <gr-commit-info
+                    change="[[_change]]"
+                    commit-info="[[_computeCommitInfo(status, _change.current_revision, _change.revisions)]]"
+                    server-config="[[_serverConfig]]"
+                  ></gr-commit-info>
+                </template>
+              </div>
             </template>
           </div>
           <gr-change-star

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c563f4e0_c7b79489",
+        "filename": "polygerrit-ui/app/services/storage/gr-storage_mock.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-16T21:51:01Z",
+      "side": 1,
+      "message": "It might be a good idea to wipe the map in test/common-test-setup.ts teardown(). WDYT?",
+      "revId": "35112ff2ce6b4443380b1f9fa4e7ebb9cd3e0179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

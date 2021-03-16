@@ -52,6 +52,13 @@ export const htmlTemplate = html`
       background-color: var(--status-ready);
       color: var(--status-ready);
     }
+    :host(.revert-created) .chip {
+      background-color: var(--status-revert-created);
+      color: var(--status-revert-created);
+    }
+    .status-link {
+      text-decoration: none;
+    }
     :host(.custom) .chip {
       background-color: var(--status-custom);
       color: var(--status-custom);
@@ -70,8 +77,17 @@ export const htmlTemplate = html`
     title="[[tooltipText]]"
     max-width="40em"
   >
-    <div class="chip" aria-label$="Label: [[status]]">
-      [[_computeStatusString(status)]]
-    </div>
+    <template is="dom-if" if="[[hasStatusLink(status)]]">
+      <a class="status-link" href="[[getStatusLink(change)]]">
+        <div class="chip" aria-label$="Label: [[status]]">
+          [[_computeStatusString(status)]]
+        </div>
+      </a>
+    </template>
+    <template is="dom-if" if="[[!hasStatusLink(status)]]">
+      <div class="chip" aria-label$="Label: [[status]]">
+        [[_computeStatusString(status)]]
+      </div>
+    </template>
   </gr-tooltip-content>
 `;

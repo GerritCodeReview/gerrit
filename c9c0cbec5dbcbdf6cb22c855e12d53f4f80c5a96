@@ -16,6 +16,24 @@
       "message": "Why do we not do that today?",
       "revId": "c9c0cbec5dbcbdf6cb22c855e12d53f4f80c5a96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77602e1d_fa416fe1",
+        "filename": "java/com/google/gerrit/server/patch/FilePathAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-16T17:34:17Z",
+      "side": 1,
+      "message": "The chain \"Migrate * to use new diff cache\" contains a list of callers that might rely in a way or another on the current behaviour of old/new paths for diffs. For now, I\u0027m focusing on preserving the same behaviour. Later on, we can revisit this logic, hence keeping a todo for myself.\n\nWhy not now?\n1) To avoid another source of uncertainty for the correctness of results.\n2) To speed-up rolling out the new diff cache, especially that this is not directly related to the new cache rollout. I can tackle other related/peripheral work after doing the migration.",
+      "parentUuid": "076557f1_3f79a42e",
+      "revId": "c9c0cbec5dbcbdf6cb22c855e12d53f4f80c5a96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

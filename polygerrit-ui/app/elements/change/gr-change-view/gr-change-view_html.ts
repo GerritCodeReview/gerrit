@@ -151,7 +151,7 @@ export const htmlTemplate = html`
     .relatedChanges {
       flex: 0 1 auto;
       overflow: hidden;
-      padding: var(--spacing-l) 0;
+      padding: var(--spacing-xl) 0 var(--spacing-l);
     }
     .mobile {
       display: none;

@@ -24,14 +24,12 @@ export const htmlTemplate = html`
     }
   </style>
   <div class="container">
-    <template is="dom-if" if="[[_showWebLink]]">
-      <a target="_blank" rel="noopener" href$="[[_webLink]]"
-        >[[_computeShortHash(change, commitInfo, serverConfig)]]</a
-      >
-    </template>
-    <template is="dom-if" if="[[!_showWebLink]]">
-      [[_computeShortHash(change, commitInfo, serverConfig)]]
-    </template>
+    <a
+      target="_blank"
+      rel="noopener"
+      href$="[[computeCommitLink(_webLink, change, commitInfo, serverConfig)]]"
+      >[[_computeShortHash(change, commitInfo, serverConfig)]]</a
+    >
     <gr-copy-clipboard
       has-tooltip=""
       button-title="Copy full SHA to clipboard"

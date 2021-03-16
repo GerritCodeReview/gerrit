@@ -26,35 +26,33 @@ export const htmlTemplate = html`
     }
     :host(.merged) .chip {
       background-color: var(--status-merged);
-      color: var(--status-merged);
     }
     :host(.abandoned) .chip {
       background-color: var(--status-abandoned);
-      color: var(--status-abandoned);
     }
     :host(.wip) .chip {
       background-color: var(--status-wip);
-      color: var(--status-wip);
     }
     :host(.private) .chip {
       background-color: var(--status-private);
-      color: var(--status-private);
     }
     :host(.merge-conflict) .chip {
       background-color: var(--status-conflict);
-      color: var(--status-conflict);
     }
     :host(.active) .chip {
       background-color: var(--status-active);
-      color: var(--status-active);
     }
     :host(.ready-to-submit) .chip {
       background-color: var(--status-ready);
-      color: var(--status-ready);
+    }
+    :host(.revert-created) .chip {
+      background-color: var(--status-revert-created);
+    }
+    .revert-created-link {
+      text-decoration: none;
     }
     :host(.custom) .chip {
       background-color: var(--status-custom);
-      color: var(--status-custom);
     }
     :host([flat]) .chip {
       background-color: transparent;
@@ -70,8 +68,17 @@ export const htmlTemplate = html`
     title="[[tooltipText]]"
     max-width="40em"
   >
-    <div class="chip" aria-label$="Label: [[status]]">
-      [[_computeStatusString(status)]]
-    </div>
+    <template is="dom-if" if="[[hasStatusLink(status)]]">
+      <a class="revert-created-link" href="[[getStatusLink(change)]]">
+        <div class="chip" aria-label$="Label: [[status]]">
+          [[_computeStatusString(status)]]
+        </div>
+      </a>
+    </template>
+    <template is="dom-if" if="[[!hasStatusLink(status)]]">
+      <div class="chip" aria-label$="Label: [[status]]">
+        [[_computeStatusString(status)]]
+      </div>
+    </template>
   </gr-tooltip-content>
 `;

@@ -1572,17 +1572,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return GerritNav.getUrlForChange(change);
   }
 
-  _computeShowCommitInfo(
-    changeStatuses: string[],
-    current_revision: RevisionInfo
-  ) {
-    return (
-      changeStatuses.length === 1 &&
-      changeStatuses[0] === 'Merged' &&
-      current_revision
-    );
-  }
-
   _computeChangeIdClass(displayChangeId: string) {
     return displayChangeId === CHANGE_ID_ERROR.MISMATCH ? 'warning' : '';
   }

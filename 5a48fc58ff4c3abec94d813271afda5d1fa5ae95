@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdc017c9_fb2400fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T13:15:15Z",
+      "side": 1,
+      "message": "Bug: Issue 14246",
+      "revId": "5a48fc58ff4c3abec94d813271afda5d1fa5ae95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6039123_c026da36",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T13:15:15Z",
+      "side": 1,
+      "message": "lowercase",
+      "range": {
+        "startLine": 617,
+        "startChar": 20,
+        "endLine": 617,
+        "endChar": 30
+      },
+      "revId": "5a48fc58ff4c3abec94d813271afda5d1fa5ae95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9d34d48_9d900b28",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T13:15:15Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be moved before L117 and the \u0027username\u0027 variable checked and use after that?\nIf userNameToLowerCase is set to true, the URL with any mixed case would be equivalent to the input username.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 88
+      },
+      "revId": "5a48fc58ff4c3abec94d813271afda5d1fa5ae95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0517c2af_0a9ec0be",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-16T13:15:15Z",
+      "side": 1,
+      "message": "I believe we should also check for other mixed case in the URL.",
+      "range": {
+        "startLine": 53,
+        "startChar": 57,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "5a48fc58ff4c3abec94d813271afda5d1fa5ae95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

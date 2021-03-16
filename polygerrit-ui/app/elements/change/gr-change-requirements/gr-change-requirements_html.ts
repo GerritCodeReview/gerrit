@@ -84,6 +84,11 @@ export const htmlTemplate = html`
     .show-all-button {
       float: right;
     }
+    .show-all-button iron-icon {
+      color: inherit;
+      --iron-icon-height: 18px;
+      --iron-icon-width: 18px;
+    }
     .spacer {
       height: var(--spacing-m);
     }

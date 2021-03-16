@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Optional;
@@ -84,5 +85,36 @@ public class CreateProjectIT extends AbstractDaemonTest {
     Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isPresent();
     assertThat(projectState.get().getName()).isEqualTo(newProjectName);
+  }
+
+  @Test
+  public void withEmptyBranches() throws Exception {
+    String newProjectName = name("newProject");
+    adminSshSession.exec("gerrit create-project " + newProjectName);
+    adminSshSession.assertSuccess();
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
+    assertHead(newProjectName, "refs/heads/master");
+  }
+
+  @Test
+  public void withInitBranches() throws Exception {
+    String newProjectName = name("newProject");
+    adminSshSession.exec("gerrit create-project --branch init-branch " + newProjectName);
+    adminSshSession.assertSuccess();
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
+    assertHead(newProjectName, "refs/heads/init-branch");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultBranch", value = "refs/heads/main")
+  public void withEmptyBranches_WhenDefaultBranchIsSet() throws Exception {
+    String newProjectName = name("newProject");
+    adminSshSession.exec("gerrit create-project " + newProjectName);
+    adminSshSession.assertSuccess();
+    Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
+    assertThat(projectState).isPresent();
+    assertHead(newProjectName, "refs/heads/main");
   }
 }

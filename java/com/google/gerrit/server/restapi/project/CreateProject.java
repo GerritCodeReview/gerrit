@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -60,6 +61,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 
@@ -79,6 +81,8 @@ public class CreateProject
   private final PluginItemContext<ProjectNameLockManager> lockManager;
   private final ProjectCreator projectCreator;
 
+  private final Config gerritConfig;
+
   @Inject
   CreateProject(
       ProjectCreator projectCreator,
@@ -90,7 +94,8 @@ public class CreateProject
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
       AllUsersName allUsers,
-      PluginItemContext<ProjectNameLockManager> lockManager) {
+      PluginItemContext<ProjectNameLockManager> lockManager,
+      @GerritServerConfig Config gerritConfig) {
     this.projectsCollection = projectsCollection;
     this.projectCreator = projectCreator;
     this.groupResolver = groupResolver;
@@ -101,6 +106,7 @@ public class CreateProject
     this.allProjects = allProjects;
     this.allUsers = allUsers;
     this.lockManager = lockManager;
+    this.gerritConfig = gerritConfig;
   }
 
   @Override
@@ -190,23 +196,34 @@ public class CreateProject
 
   private List<String> normalizeBranchNames(List<String> branches) throws BadRequestException {
     if (branches == null || branches.isEmpty()) {
-      return Collections.singletonList(Constants.R_HEADS + Constants.MASTER);
+      // Use host-level default for HEAD or fall back to 'master' if nothing else was specified in
+      // the input.
+      String defaultBranch = gerritConfig.getString("gerrit", null, "defaultBranch");
+      defaultBranch =
+          defaultBranch != null
+              ? normalizeAndValidateBranch(defaultBranch)
+              : Constants.R_HEADS + Constants.MASTER;
+      return Collections.singletonList(defaultBranch);
     }
-
     List<String> normalizedBranches = new ArrayList<>();
     for (String branch : branches) {
-      while (branch.startsWith("/")) {
-        branch = branch.substring(1);
-      }
-      branch = RefNames.fullName(branch);
-      if (!Repository.isValidRefName(branch)) {
-        throw new BadRequestException(String.format("Branch \"%s\" is not a valid name.", branch));
-      }
+      branch = normalizeAndValidateBranch(branch);
       if (!normalizedBranches.contains(branch)) {
         normalizedBranches.add(branch);
       }
     }
     return normalizedBranches;
+  }
+
+  private String normalizeAndValidateBranch(String branch) throws BadRequestException {
+    while (branch.startsWith("/")) {
+      branch = branch.substring(1);
+    }
+    branch = RefNames.fullName(branch);
+    if (!Repository.isValidRefName(branch)) {
+      throw new BadRequestException(String.format("Branch \"%s\" is not a valid name.", branch));
+    }
+    return branch;
   }
 
   static class ValidBranchListener implements ProjectCreationValidationListener {

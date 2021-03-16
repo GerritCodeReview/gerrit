@@ -53,9 +53,10 @@ This command is intended to be used in scripts.
 -b::
 	Name of the initial branch(es) in the newly created project.
 	Several branches can be specified on the command line.
-	If several branches are specified then the first one becomes HEAD
-	of the project. If none branches are specified then default value
-	('master') is used.
+	If several branches are specified then the first one becomes
+	link:project-configuration.html#default-branch[HEAD] of the project.
+	If none branches are specified then link:config-gerrit.html#gerrit.defaultBranch[host-level default]
+	is used.
 
 --owner::
 -o::

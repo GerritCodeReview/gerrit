@@ -26,6 +26,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
@@ -40,6 +41,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -47,6 +49,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -304,13 +307,15 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createProjectWithEmptyCommit() throws Exception {
+  @GerritConfig(name = "gerrit.defaultBranch", value = "main")
+  public void createPermissionOnlyProject_WhenDefaultBranchIsSet() throws Exception {
     String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();
     in.name = newProjectName;
-    in.createEmptyCommit = true;
+    in.permissionsOnly = true;
     gApi.projects().create(in);
-    assertEmptyCommit(newProjectName, "refs/heads/master");
+    // For permissionOnly, don't use host-level default branch.
+    assertHead(newProjectName, RefNames.REFS_CONFIG);
   }
 
   @Test
@@ -341,6 +346,72 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("Cannot create a project with branch refs/changes/34/1234");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultBranch", value = "main")
+  public void createProject_WhenDefaultBranchIsSet() throws Exception {
+    String newProjectName = name("newProject");
+    gApi.projects().create(newProjectName).get();
+    ImmutableMap<String, BranchInfo> branches = getProjectBranches(newProjectName);
+    // HEAD symbolic ref is set to the default, but the actual ref is not created.
+    assertThat(branches.keySet()).containsExactly("HEAD", "refs/meta/config");
+    assertHead(newProjectName, "refs/heads/main");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultBranch", value = "main")
+  public void createProjectWithEmptyCommit_WhenDefaultBranchIsSet() throws Exception {
+    String newProjectName = name("newProject");
+    ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
+    in.createEmptyCommit = true;
+    gApi.projects().create(in);
+    ImmutableMap<String, BranchInfo> branches = getProjectBranches(newProjectName);
+    // HEAD symbolic ref is set to the default, and the actual ref is created.
+    assertThat(branches.keySet()).containsExactly("HEAD", "refs/meta/config", "refs/heads/main");
+    assertHead(newProjectName, "refs/heads/main");
+    assertEmptyCommit(newProjectName, "HEAD", "refs/heads/main");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultBranch", value = "refs/heads/main")
+  public void createProject_WhenDefaultBranchIsSet_WithBranches() throws Exception {
+    // Host-level default only applies if no branches were passed in the input
+    String newProjectName = name("newProject");
+    ProjectInput in = new ProjectInput();
+    in.name = newProjectName;
+    in.createEmptyCommit = true;
+    in.branches = ImmutableList.of("refs/heads/test", "release");
+    gApi.projects().create(in);
+    ImmutableMap<String, BranchInfo> branches = getProjectBranches(newProjectName);
+    assertThat(branches.keySet())
+        .containsExactly("HEAD", "refs/meta/config", "refs/heads/test", "refs/heads/release");
+    assertHead(newProjectName, "refs/heads/test");
+    assertEmptyCommit(newProjectName, "refs/heads/test", "refs/heads/release");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultBranch", value = "refs/users/self")
+  public void createProject_WhenDefaultBranchIsSet_ToGerritRef() throws Exception {
+    String newProjectName = name("newProject");
+    Throwable thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.projects().create(newProjectName));
+    assertThat(thrown).hasCauseThat().isInstanceOf(ValidationException.class);
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Cannot create a project with branch refs/users/self");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultBranch", value = "refs~main")
+  public void createProject_WhenDefaultBranchIsSet_ToInvalidBranch() throws Exception {
+    String newProjectName = name("newProject");
+    Throwable thrown =
+        assertThrows(BadRequestException.class, () -> gApi.projects().create(newProjectName));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Branch \"refs/heads/refs~main\" is not a valid name.");
   }
 
   @Test
@@ -492,12 +563,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertThat(cfg.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
     assertThat(cfg.defaultSubmitType.configuredValue).isEqualTo(SubmitType.CHERRY_PICK);
     assertThat(cfg.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_ALWAYS);
-  }
-
-  private void assertHead(String projectName, String expectedRef) throws Exception {
-    try (Repository repo = repoManager.openRepository(Project.nameKey(projectName))) {
-      assertThat(repo.exactRef(Constants.HEAD).getTarget().getName()).isEqualTo(expectedRef);
-    }
   }
 
   private void assertEmptyCommit(String projectName, String... refs) throws Exception {

@@ -2122,6 +2122,13 @@ relative to `gerrit.basePath`.
 +
 Defaults to `All-Projects` if not set.
 
+[[gerrit.defaultBranch]]gerrit.defaultBranch::
++
+Name of the link:project-configuration.html#default-branch[default branch]
+to use on the project creation, if no other branches were specified in the input.
++
+Defaults to `refs/heads/master` if not set.
+
 [[gerrit.allUsers]]gerrit.allUsers::
 +
 Name of the project in which meta data of all users is stored.

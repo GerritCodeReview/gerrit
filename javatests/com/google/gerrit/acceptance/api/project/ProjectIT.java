@@ -116,11 +116,28 @@ public class ProjectIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectIndexedCounter)) {
       String name = name("foo");
       assertThat(gApi.projects().create(name).get().name).isEqualTo(name);
-
+      assertHead(name, "refs/heads/master");
       RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
       eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
       eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
+      projectIndexedCounter.assertReindexOf(name);
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultBranch", value = "main")
+  public void createProject_WhenDefaultBranchIsSetInConfig() throws Exception {
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
+      String name = name("foo");
+      assertThat(gApi.projects().create(name).get().name).isEqualTo(name);
+      assertHead(name, "refs/heads/main");
+      RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+      eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+
+      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/main", new String[] {});
       projectIndexedCounter.assertReindexOf(name);
     }
   }
@@ -135,12 +152,13 @@ public class ProjectIT extends AbstractDaemonTest {
       ProjectInput input = new ProjectInput();
       input.name = name;
       input.createEmptyCommit = true;
-      input.branches = ImmutableList.of("master", "foo");
+      input.branches = ImmutableList.of("foo", "master");
       assertThat(gApi.projects().create(input).get().name).isEqualTo(name);
       assertThat(
               gApi.projects().name(name).branches().get().stream().map(b -> b.ref).collect(toSet()))
           .containsExactly("refs/heads/foo", "refs/heads/master", "HEAD", RefNames.REFS_CONFIG);
 
+      assertHead(name, "refs/heads/foo");
       RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
       eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 

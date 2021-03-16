@@ -79,18 +79,13 @@ import {
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {assertIsDefined} from '../../../utils/common-util';
 import {DiffContextExpandedEventDetail} from '../gr-diff-builder/gr-diff-builder';
+import { Timing } from '../../../constants/reporting';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
 const EVENT_AGAINST_PARENT = 'diff-against-parent';
 const EVENT_ZERO_REBASE = 'rebase-percent-zero';
 const EVENT_NONZERO_REBASE = 'rebase-percent-nonzero';
-
-const TimingLabel = {
-  TOTAL: 'Diff Total Render',
-  CONTENT: 'Diff Content Render',
-  SYNTAX: 'Diff Syntax Render',
-};
 
 // Disable syntax highlighting if the overall diff is too large.
 const SYNTAX_MAX_DIFF_LENGTH = 20000;
@@ -383,11 +378,11 @@ export class GrDiffHost extends PolymerElement {
       }
       const needsSyntaxHighlighting = !!event.detail?.contentRendered;
       if (needsSyntaxHighlighting) {
-        this.reporting.time(TimingLabel.SYNTAX);
+        this.reporting.time(Timing.DIFF_SYNTAX);
         try {
           await this.syntaxLayer.process();
         } finally {
-          this.reporting.timeEnd(TimingLabel.SYNTAX);
+          this.reporting.timeEnd(Timing.DIFF_SYNTAX);
         }
       }
     } catch (e) {
@@ -397,7 +392,7 @@ export class GrDiffHost extends PolymerElement {
         console.warn('Error encountered loading diff:', e);
       }
     } finally {
-      this.reporting.timeEnd(TimingLabel.TOTAL);
+      this.reporting.timeEnd(Timing.DIFF_TOTAL);
     }
   }
 
@@ -1051,12 +1046,12 @@ export class GrDiffHost extends PolymerElement {
   }
 
   _handleRenderStart() {
-    this.reporting.time(TimingLabel.TOTAL);
-    this.reporting.time(TimingLabel.CONTENT);
+    this.reporting.time(Timing.DIFF_TOTAL);
+    this.reporting.time(Timing.DIFF_CONTENT);
   }
 
   _handleRenderContent() {
-    this.reporting.timeEnd(TimingLabel.CONTENT);
+    this.reporting.timeEnd(Timing.DIFF_CONTENT);
   }
 
   _handleNormalizeRange(event: CustomEvent) {

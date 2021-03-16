@@ -75,6 +75,7 @@ import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
+import { Timing } from '../../../constants/reporting';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -84,11 +85,6 @@ const LOADING_DEBOUNCE_INTERVAL = 100;
 const SIZE_BAR_MAX_WIDTH = 61;
 const SIZE_BAR_GAP_WIDTH = 1;
 const SIZE_BAR_MIN_WIDTH = 1.5;
-
-const RENDER_TIMING_LABEL = 'FileListRenderTime';
-const RENDER_AVG_TIMING_LABEL = 'FileListRenderTimePerFile';
-const EXPAND_ALL_TIMING_LABEL = 'ExpandAllDiffs';
-const EXPAND_ALL_AVG_TIMING_LABEL = 'ExpandAllPerDiff';
 
 const FILE_ROW_CLASS = 'file-row';
 
@@ -557,7 +553,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       return;
     }
     // Re-render all expanded diffs sequentially.
-    this.reporting.time(EXPAND_ALL_TIMING_LABEL);
+    this.reporting.time(Timing.FILE_EXPAND_ALL);
     this._renderInOrder(
       this._expandedFiles,
       this.diffs,
@@ -1275,7 +1271,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     // Start the timer for the rendering work hwere because this is where the
     // _shownFiles property is being set, and _shownFiles is used in the
     // dom-repeat binding.
-    this.reporting.time(RENDER_TIMING_LABEL);
+    this.reporting.time(Timing.FILE_RENDER);
 
     // How many more files are being shown (if it's an increase).
     this._reportinShownFilesIncrement = Math.max(
@@ -1423,7 +1419,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     // Required so that the newly created diff view is included in this.diffs.
     flush();
 
-    this.reporting.time(EXPAND_ALL_TIMING_LABEL);
+    this.reporting.time(Timing.FILE_EXPAND_ALL);
 
     if (newFiles.length) {
       this._renderInOrder(newFiles, this.diffs, newFiles.length);
@@ -1502,8 +1498,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
         this._cancelForEachDiff = undefined;
         console.info('Finished expanding', initialCount, 'diff(s)');
         this.reporting.timeEndWithAverage(
-          EXPAND_ALL_TIMING_LABEL,
-          EXPAND_ALL_AVG_TIMING_LABEL,
+          Timing.FILE_EXPAND_ALL,
+          Timing.FILE_EXPAND_ALL_AVG,
           initialCount
         );
         /* Block diff cursor from auto scrolling after files are done rendering.
@@ -1783,8 +1779,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     if (index === this._shownFiles.length - 1) {
       setTimeout(() => {
         this.reporting.timeEndWithAverage(
-          RENDER_TIMING_LABEL,
-          RENDER_AVG_TIMING_LABEL,
+          Timing.FILE_RENDER,
+          Timing.FILE_RENDER_AVG,
           this._reportinShownFilesIncrement
         );
       }, 1);

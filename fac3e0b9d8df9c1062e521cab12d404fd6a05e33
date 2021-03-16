@@ -33,6 +33,24 @@
       "message": "Hi Thomas, thanks for sharing this. Are you planning also to add at least one test case for it?",
       "revId": "fac3e0b9d8df9c1062e521cab12d404fd6a05e33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9e942a5_613f7d78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-16T09:36:25Z",
+      "side": 1,
+      "message": "Yes, of course. This is more or less just a draft. As Edwin commented, this is not usable right now due to the user branches. I will try to make this work, if possible. Let me put this change to WIP for now.",
+      "parentUuid": "130d9e2d_40e5cf52",
+      "revId": "fac3e0b9d8df9c1062e521cab12d404fd6a05e33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

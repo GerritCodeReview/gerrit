@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d0f793f_8a4887d8",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-16T09:27:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2125b847_e912d28a",
+      "range": {
+        "startLine": 201,
+        "startChar": 69,
+        "endLine": 201,
+        "endChar": 89
+      },
+      "revId": "a2071218d2d9a59493fc63c9ca61a19b4905f118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da963675_b237bb57",

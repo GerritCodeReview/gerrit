@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27c57c4e_054424ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-03-16T07:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c71dcd5_e599fd71",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "3bfb088a9772da0f8d7854b1b552fe05459cac0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3dbf8605_c0ab7970",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-15T17:06:30Z",
       "side": 1,
       "message": "doesn\u0027t this require tweaking one of the SSH commands too?",
+      "range": {
+        "startLine": 58,
+        "startChar": 32,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "revId": "3bfb088a9772da0f8d7854b1b552fe05459cac0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a918127_676beb52",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-03-16T07:40:26Z",
+      "side": 1,
+      "message": "Turns out, it is the ssh is calling restapi.\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java#200\nI added some tests, let me know if you think this is redundant, because it is already covered by \njavatests/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+      "parentUuid": "3dbf8605_c0ab7970",
       "range": {
         "startLine": 58,
         "startChar": 32,

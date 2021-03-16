@@ -93,7 +93,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         persist(DIFF, FileDiffCacheKey.class, FileDiffOutput.class)
             .maximumWeight(10 << 20)
             .weigher(FileDiffWeigher.class)
-            .version(2)
+            .version(3)
             .keySerializer(FileDiffCacheKey.Serializer.INSTANCE)
             .valueSerializer(FileDiffOutput.Serializer.INSTANCE)
             .loader(FileDiffLoader.class);
@@ -203,9 +203,8 @@ public class FileDiffCacheImpl implements FileDiffCache {
       // COMMIT_MSG and MERGE_LIST evaluations outside of the diff cache. For more details, see
       // discussion in
       // https://gerrit-review.googlesource.com/c/gerrit/+/280519/6..18/java/com/google/gerrit/server/patch/FileDiffCache.java#b540
-      Text oldCommitMsgTxt = Text.forCommit(reader, oldCommit);
-      if (oldCommitMsgTxt.size() > 0
-          && oldCommitMsgTxt.getString(0).startsWith(AutoMerger.AUTO_MERGE_MSG_PREFIX)) {
+      String oldCommitMsgTxt = new String(Text.forCommit(reader, oldCommit).getContent(), UTF_8);
+      if (oldCommitMsgTxt.contains(AutoMerger.AUTO_MERGE_MSG_PREFIX)) {
         return ComparisonType.againstAutoMerge();
       }
       return ComparisonType.againstOtherPatchSet();

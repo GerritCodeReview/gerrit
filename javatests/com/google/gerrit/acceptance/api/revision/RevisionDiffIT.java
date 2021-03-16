@@ -519,6 +519,32 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void diffAgainstAutoMergeCanBeRetrievedForCommitMessageAndMergeList() throws Exception {
+    PushOneCommit.Result result = createMergeCommitChange("refs/for/master", "my_file.txt");
+    String changeId = result.getChangeId();
+    addModifiedPatchSet(changeId, "my_file.txt", content -> content.concat("Line I\nLine II\n"));
+
+    DiffInfo commitMessageDiffInfo =
+        getDiffRequest(changeId, CURRENT, COMMIT_MSG)
+            .get(); // diff latest PS against base (auto-merge)
+    DiffInfo mergeListDiffInfo =
+        getDiffRequest(changeId, CURRENT, MERGE_LIST)
+            .get(); // diff latest PS against base (auto-merge)
+
+    assertThat(commitMessageDiffInfo).changeType().isEqualTo(ChangeType.ADDED);
+    assertThat(commitMessageDiffInfo).content().hasSize(1);
+
+    assertThat(mergeListDiffInfo).changeType().isEqualTo(ChangeType.ADDED);
+    assertThat(mergeListDiffInfo).content().hasSize(1);
+    assertThat(mergeListDiffInfo)
+        .content()
+        .element(0)
+        .linesOfB()
+        .element(0)
+        .isEqualTo("Merge List:");
+  }
+
+  @Test
   public void diffOfUnmodifiedFileMarksAllLinesAsCommon() throws Exception {
     String filePath = "a_new_file.txt";
     String fileContent = "Line 1\nLine 2\nLine 3\n";

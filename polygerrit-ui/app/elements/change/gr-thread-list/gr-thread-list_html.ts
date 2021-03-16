@@ -71,6 +71,9 @@ export const htmlTemplate = html`
       padding-left: 8px;
       margin-right: 16px;
     }
+    .partypopper{
+      margin-right: var(--spacing-s);
+    }
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
@@ -139,7 +142,7 @@ export const htmlTemplate = html`
       <div>
         <span>
           <template is="dom-if" if="[[_showPartyPopper(threads)]]">
-            <span> \&#x1F389 </span>
+            <span class="partypopper">\&#x1F389</span>
           </template>
           [[_computeEmptyThreadsMessage(threads, _displayedThreads,
           unresolvedOnly)]]

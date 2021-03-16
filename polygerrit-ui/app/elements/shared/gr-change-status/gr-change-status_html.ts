@@ -52,6 +52,10 @@ export const htmlTemplate = html`
       background-color: var(--status-ready);
       color: var(--status-ready);
     }
+    :host(.revert-created) .chip {
+      background-color: var(--status-revert-created);
+      color: var(--status-revert-created);
+    }
     :host(.custom) .chip {
       background-color: var(--status-custom);
       color: var(--status-custom);

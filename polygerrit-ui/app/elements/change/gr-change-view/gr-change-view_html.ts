@@ -133,6 +133,9 @@ export const htmlTemplate = html`
       align-items: center;
       display: flex;
     }
+    .statusText .text {
+      padding: 0 var(--spacing-s);
+    }
     .changeStatuses {
       flex-wrap: wrap;
     }
@@ -371,6 +374,17 @@ export const htmlTemplate = html`
                 max-width="100"
                 status="[[status]]"
               ></gr-change-status>
+
+              <div class="statusText">
+                <template is="dom-if" if="[[_isRevertStatus(status)]]">
+                  <span class="text">as</span>
+                  <gr-commit-info
+                    change="[[_change]]"
+                    commit-info="[[_computeRevertCommit(_change)]]"
+                    server-config="[[_serverConfig]]"
+                  ></gr-commit-info>
+                </template>
+              </div>
             </template>
           </div>
           <gr-change-star

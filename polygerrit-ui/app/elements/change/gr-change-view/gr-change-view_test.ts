@@ -375,6 +375,9 @@ suite('gr-change-view tests', () => {
     stubRestApi('getDiffComments').returns(Promise.resolve({}));
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+    sinon.stub(GerritNav, 'getPatchSetWeblink').returns({
+      url: 'abcd',
+    });
     element = fixture.instantiate();
     element._changeNum = 1 as NumericChangeId;
     sinon.stub(element.$.actions, 'reload').returns(Promise.resolve());
@@ -1592,23 +1595,26 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  test('_computeMergedCommitInfo', () => {
+  test('_computeCommitInfo', () => {
     const dummyRevs: {[revisionId: string]: RevisionInfo} = {
       1: createRevision(1),
       2: createRevision(2),
     };
     assert.deepEqual(
-      element._computeMergedCommitInfo('0' as CommitId, dummyRevs),
+      element._computeCommitInfo('Merge', '0' as CommitId, dummyRevs),
       {}
     );
     assert.deepEqual(
-      element._computeMergedCommitInfo('1' as CommitId, dummyRevs),
+      element._computeCommitInfo('Merge', '1' as CommitId, dummyRevs),
       dummyRevs[1].commit
     );
 
     // Regression test for issue 5337.
-    const commit = element._computeMergedCommitInfo('2' as CommitId, dummyRevs);
-    assert.notDeepEqual(commit, dummyRevs[2]);
+    const commit = element._computeCommitInfo(
+      'Merge',
+      '2' as CommitId,
+      dummyRevs
+    );
     assert.deepEqual(commit, dummyRevs[2].commit);
   });
 

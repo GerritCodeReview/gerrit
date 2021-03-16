@@ -32,6 +32,7 @@ import {
   Timestamp,
   UrlEncodedCommentId,
 } from '../types/common';
+import {GerritNav} from '../elements/core/gr-navigation/gr-navigation';
 
 suite('comment-util', () => {
   test('isUnresolved', () => {
@@ -73,6 +74,9 @@ suite('comment-util', () => {
   });
 
   test('getPatchRangeForCommentUrl', () => {
+    sinon.stub(GerritNav, 'getPatchSetWeblink').returns({
+      url: 'abcd',
+    });
     test('comment created with side=PARENT does not navigate to latest ps', () => {
       const comment = {
         ...createComment(),

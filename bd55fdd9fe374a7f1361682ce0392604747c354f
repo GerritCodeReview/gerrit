@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cf502ef_fde3bbaf",
+        "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-16T08:26:30Z",
+      "side": 1,
+      "message": "Maybe the program should be renamed now?\n\"Local usernames\" \u003d external IDs in scheme Gerrit\nBut now the program also touches non-local usernames (external IDs in scheme Username).",
+      "revId": "bd55fdd9fe374a7f1361682ce0392604747c354f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0f25f2f_3e655ee9",
+        "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-16T08:26:30Z",
+      "side": 1,
+      "message": "If the case of the username is changed, users lose access to their user branches that contain the username as part of the refname. This is why Gerrit doesn\u0027t allow to change usernames. This means it is only safe to change usernames if no user branches are used, or if you have can rename user branches somehow.\n\nDue to this, I think it\u0027s not safe to let this program touch usernames unconditionally, but it must be possible to control this via a parameter when invoking the program. Also this should be properly documented.",
+      "revId": "bd55fdd9fe374a7f1361682ce0392604747c354f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

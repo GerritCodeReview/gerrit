@@ -51,7 +51,8 @@ export const htmlTemplate = html`
       float: right;
     }
     .title {
-      min-width: 10em;
+      /* 225 is length of gr-limited-text with limit 25 */
+      width: 225px;
       padding: var(--spacing-s) var(--spacing-m) 0
         var(--requirements-horizontal-padding);
     }

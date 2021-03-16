@@ -1495,6 +1495,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return GerritNav.getUrlForChange(change);
   }
 
+<<<<<<< HEAD   (61d14d Remove experiments for comment context and checks)
   _computeShowCommitInfo(
     changeStatuses: string[],
     current_revision: RevisionInfo
@@ -1504,6 +1505,53 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       changeStatuses[0] === 'Merged' &&
       current_revision
     );
+=======
+  _computeChangeIdClass(displayChangeId: string) {
+    return displayChangeId === CHANGE_ID_ERROR.MISMATCH ? 'warning' : '';
+  }
+
+  _computeTitleAttributeWarning(displayChangeId: string) {
+    if (displayChangeId === CHANGE_ID_ERROR.MISMATCH) {
+      return 'Change-Id mismatch';
+    } else if (displayChangeId === CHANGE_ID_ERROR.MISSING) {
+      return 'No Change-Id in commit message';
+    }
+    return undefined;
+  }
+
+  _computeChangeIdCommitMessageError(
+    commitMessage?: string,
+    change?: ChangeInfo
+  ) {
+    if (change === undefined) {
+      return undefined;
+    }
+
+    if (!commitMessage) {
+      return CHANGE_ID_ERROR.MISSING;
+    }
+
+    // Find the last match in the commit message:
+    let changeId;
+    let changeIdArr;
+
+    while ((changeIdArr = CHANGE_ID_REGEX_PATTERN.exec(commitMessage))) {
+      changeId = changeIdArr[2];
+    }
+
+    if (changeId) {
+      // A change-id is detected in the commit message.
+
+      if (changeId === change.change_id) {
+        // The change-id found matches the real change-id.
+        return null;
+      }
+      // The change-id found does not match the change-id.
+      return CHANGE_ID_ERROR.MISMATCH;
+    }
+    // There is no change-id in the commit message.
+    return CHANGE_ID_ERROR.MISSING;
+>>>>>>> CHANGE (36158c Show revert status chip if revert was created)
   }
 
   _computeReplyButtonLabel(

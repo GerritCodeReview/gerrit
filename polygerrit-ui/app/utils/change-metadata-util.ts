@@ -24,6 +24,7 @@ export enum Metadata {
   SUBMITTED = 'Submitted',
   PARENT = 'Parent',
   MERGED_AS = 'Merged as',
+  REVERT_CREATED_AS = 'Revert Created as',
   STRATEGY = 'Strategy',
   UPDATED = 'Updated',
   CC = 'CC',
@@ -56,6 +57,7 @@ export const DisplayRules = {
   ALWAYS_HIDE: [
     Metadata.PARENT,
     Metadata.MERGED_AS,
+    Metadata.REVERT_CREATED_AS,
     Metadata.STRATEGY,
     Metadata.UPDATED,
   ],

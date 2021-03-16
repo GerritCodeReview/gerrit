@@ -37,6 +37,7 @@ suite('gr-change-status tests', () => {
 
   test('WIP', () => {
     element.status = 'WIP';
+    flush();
     assert.equal(element.shadowRoot
         .querySelector('.chip').innerText, 'Work in Progress');
     assert.equal(element.tooltipText, WIP_TOOLTIP);
@@ -46,6 +47,7 @@ suite('gr-change-status tests', () => {
   test('WIP flat', () => {
     element.flat = true;
     element.status = 'WIP';
+    flush();
     assert.equal(element.shadowRoot
         .querySelector('.chip').innerText, 'WIP');
     assert.isDefined(element.tooltipText);
@@ -55,6 +57,7 @@ suite('gr-change-status tests', () => {
 
   test('merged', () => {
     element.status = 'Merged';
+    flush();
     assert.equal(element.shadowRoot
         .querySelector('.chip').innerText, element.status);
     assert.equal(element.tooltipText, '');
@@ -63,6 +66,7 @@ suite('gr-change-status tests', () => {
 
   test('abandoned', () => {
     element.status = 'Abandoned';
+    flush();
     assert.equal(element.shadowRoot
         .querySelector('.chip').innerText, element.status);
     assert.equal(element.tooltipText, '');
@@ -71,6 +75,7 @@ suite('gr-change-status tests', () => {
 
   test('merge conflict', () => {
     element.status = 'Merge Conflict';
+    flush();
     assert.equal(element.shadowRoot
         .querySelector('.chip').innerText, element.status);
     assert.equal(element.tooltipText, MERGE_CONFLICT_TOOLTIP);
@@ -79,6 +84,7 @@ suite('gr-change-status tests', () => {
 
   test('private', () => {
     element.status = 'Private';
+    flush();
     assert.equal(element.shadowRoot
         .querySelector('.chip').innerText, element.status);
     assert.equal(element.tooltipText, PRIVATE_TOOLTIP);
@@ -87,6 +93,7 @@ suite('gr-change-status tests', () => {
 
   test('active', () => {
     element.status = 'Active';
+    flush();
     assert.equal(element.shadowRoot
         .querySelector('.chip').innerText, element.status);
     assert.equal(element.tooltipText, '');
@@ -95,6 +102,7 @@ suite('gr-change-status tests', () => {
 
   test('ready to submit', () => {
     element.status = 'Ready to submit';
+    flush();
     assert.equal(element.shadowRoot
         .querySelector('.chip').innerText, element.status);
     assert.equal(element.tooltipText, '');
@@ -103,10 +111,12 @@ suite('gr-change-status tests', () => {
 
   test('updating status removes the previous class', () => {
     element.status = 'Private';
+    flush();
     assert.isTrue(element.classList.contains('private'));
     assert.isFalse(element.classList.contains('wip'));
 
     element.status = 'WIP';
+    flush();
     assert.isFalse(element.classList.contains('private'));
     assert.isTrue(element.classList.contains('wip'));
   });

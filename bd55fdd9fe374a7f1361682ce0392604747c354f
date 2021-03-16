@@ -87,6 +87,24 @@
       "parentUuid": "1ad8ddd5_1b2cdcd9",
       "revId": "bd55fdd9fe374a7f1361682ce0392604747c354f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a36a22fd_8660a188",
+        "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-16T09:59:24Z",
+      "side": 1,
+      "message": "there are some tests regarding resolution of ${username} in RefControlTest\n\nif refs are handled case sensitive depends on how they are stored, loose refs depend on case-sensitivity of the underlying filesystem, packed-refs and RefTable are, I think, case-sensitive.",
+      "parentUuid": "829558b0_8979a901",
+      "revId": "bd55fdd9fe374a7f1361682ce0392604747c354f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

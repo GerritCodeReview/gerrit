@@ -113,6 +113,7 @@ import {
 import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
+import {Timing} from '../../../constants/reporting';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -147,8 +148,6 @@ const ButtonTooltips = {
 };
 
 const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
-
-const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
 interface PendingRemovals {
   CC: (AccountInfoInput | GroupInfoInput)[];
@@ -643,7 +642,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     includeComments: boolean,
     startReview: boolean
   ): Promise<Map<AccountId | EmailAddress, boolean>> {
-    this.reporting.time(SEND_REPLY_TIMING_LABEL);
+    this.reporting.time(Timing.SEND_REPLY);
     const labels = this.$.labelScores.getLabelValues();
 
     const reviewInput: ReviewInput = {

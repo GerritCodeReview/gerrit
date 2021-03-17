@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
@@ -57,12 +56,12 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
@@ -273,10 +272,12 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       throws IOException, ConfigInvalidException, PermissionBackendException {
     Pattern pattern = getRegexPattern();
     Stream<GroupDescription.Internal> existingGroups =
-        getAllExistingGroups()
-            .filter(group -> isRelevant(pattern, group))
-            .map(this::loadGroup)
-            .flatMap(Streams::stream)
+        loadGroups(
+                getAllExistingGroups()
+                    .filter(group -> isRelevant(pattern, group))
+                    .map(g -> g.getUUID())
+                    .collect(Collectors.toSet()))
+            .stream()
             .filter(this::isVisible)
             .sorted(GROUP_COMPARATOR)
             .skip(start);
@@ -359,11 +360,13 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       throws IOException, ConfigInvalidException, PermissionBackendException {
     Pattern pattern = getRegexPattern();
     Stream<? extends GroupDescription.Internal> foundGroups =
-        groups
-            .getAllGroupReferences()
-            .filter(group -> isRelevant(pattern, group))
-            .map(this::loadGroup)
-            .flatMap(Streams::stream)
+        loadGroups(
+                groups
+                    .getAllGroupReferences()
+                    .filter(group -> isRelevant(pattern, group))
+                    .map(g -> g.getUUID())
+                    .collect(Collectors.toSet()))
+            .stream()
             .filter(this::isVisible)
             .filter(filter)
             .sorted(GROUP_COMPARATOR)
@@ -379,8 +382,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return groupInfos;
   }
 
-  private Optional<GroupDescription.Internal> loadGroup(GroupReference groupReference) {
-    return groupCache.get(groupReference.getUUID()).map(InternalGroupDescription::new);
+  private Set<GroupDescription.Internal> loadGroups(Collection<AccountGroup.UUID> groupUuids) {
+    return groupCache.get(groupUuids).values().stream()
+        .map(InternalGroupDescription::new)
+        .collect(Collectors.toSet());
   }
 
   private List<GroupInfo> getGroupsOwnedBy(String id)

@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
@@ -39,6 +43,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.bouncycastle.util.Strings;
@@ -155,6 +163,21 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
+  public Map<AccountGroup.UUID, InternalGroup> get(Collection<AccountGroup.UUID> groupUuids) {
+    try {
+      ImmutableMap.Builder<AccountGroup.UUID, InternalGroup> mapBuilder = ImmutableMap.builder();
+      byUUID.getAll(groupUuids.stream().map(u -> u.get()).collect(toImmutableSet())).entrySet()
+          .stream()
+          .filter(g -> g.getValue().isPresent())
+          .forEach(g -> mapBuilder.put(AccountGroup.uuid(g.getKey()), g.getValue().get()));
+      return mapBuilder.build();
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log("Cannot look up groups %s by uuids", groupUuids);
+      return ImmutableMap.of();
+    }
+  }
+
+  @Override
   public void evict(AccountGroup.Id groupId) {
     if (groupId != null) {
       logger.atFine().log("Evict group %s by ID", groupId.get());
@@ -175,6 +198,14 @@ public class GroupCacheImpl implements GroupCache {
     if (groupUuid != null) {
       logger.atFine().log("Evict group %s by UUID", groupUuid.get());
       byUUID.invalidate(groupUuid.get());
+    }
+  }
+
+  @Override
+  public void evict(Collection<AccountGroup.UUID> groupUuids) {
+    if (groupUuids != null && !groupUuids.isEmpty()) {
+      logger.atFine().log("Evict groups %s by UUID", groupUuids);
+      byUUID.invalidateAll(groupUuids);
     }
   }
 
@@ -215,6 +246,7 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   static class ByUUIDInMemoryLoader extends CacheLoader<String, Optional<InternalGroup>> {
+
     private final LoadingCache<Cache.GroupKeyProto, Optional<InternalGroup>> persistedCache;
     private final GitRepositoryManager repoManager;
     private final AllUsersName allUsersName;
@@ -232,23 +264,39 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(String uuid) throws Exception {
+      return loadAll(ImmutableSet.of(uuid)).get(uuid);
+    }
+
+    @Override
+    public Map<String, Optional<InternalGroup>> loadAll(Iterable<? extends String> uuids)
+        throws Exception {
+      Map<String, Optional<InternalGroup>> toReturn = new HashMap<>();
+      Iterator<? extends String> uuidIterator = uuids.iterator();
+      if (!uuidIterator.hasNext()) {
+        return toReturn;
+      }
       try (TraceTimer ignored =
               TraceContext.newTimer(
                   "Loading group from serialized cache",
-                  Metadata.builder().groupUuid(uuid).build());
+                  Metadata.builder().cacheName(BYUUID_NAME_PERSISTED).build());
           Repository allUsers = repoManager.openRepository(allUsersName)) {
-        String ref = RefNames.refsGroups(AccountGroup.uuid(uuid));
-        Ref sha1 = allUsers.exactRef(ref);
-        if (sha1 == null) {
-          return Optional.empty();
+        while (uuidIterator.hasNext()) {
+          String currentUuid = uuidIterator.next();
+          String ref = RefNames.refsGroups(AccountGroup.uuid(currentUuid));
+          Ref sha1 = allUsers.exactRef(ref);
+          if (sha1 == null) {
+            toReturn.put(currentUuid, Optional.empty());
+            continue;
+          }
+          Cache.GroupKeyProto key =
+              Cache.GroupKeyProto.newBuilder()
+                  .setUuid(currentUuid)
+                  .setGroupRefSha1(sha1.getObjectId().getName())
+                  .build();
+          toReturn.put(currentUuid, persistedCache.get(key));
         }
-        Cache.GroupKeyProto key =
-            Cache.GroupKeyProto.newBuilder()
-                .setUuid(uuid)
-                .setGroupRefSha1(sha1.getObjectId().getName())
-                .build();
-        return persistedCache.get(key);
       }
+      return toReturn;
     }
   }
 

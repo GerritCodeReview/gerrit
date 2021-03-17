@@ -16,6 +16,8 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 /** Tracks group objects in memory for efficient access. */
@@ -46,6 +48,20 @@ public interface GroupCache {
    *     group with this UUID exists on this server or an error occurred during lookup
    */
   Optional<InternalGroup> get(AccountGroup.UUID groupUuid);
+
+  /**
+   * Returns a {@code Map} of {@code AccountGroup.UUID} to {@code InternalGroup} for the given
+   * groups UUIDs. If not cached yet the groups are loaded. If a group can't be loaded (e.g. because
+   * it is missing), the entry will be missing from the result.
+   *
+   * <p>Loads groups in parallel if applicable.
+   *
+   * @param groupUuids UUIDs of the groups that should be retrieved
+   * @return {@code Map} of {@code AccountGroup.UUID} to {@code InternalGroup} instances for the
+   *     given group UUIDs, if a group can't be loaded (e.g. because it is missing), the entry will
+   *     be missing from the result.
+   */
+  Map<AccountGroup.UUID, InternalGroup> get(Collection<AccountGroup.UUID> groupUuids);
 
   /**
    * Removes the association of the given ID with a group.
@@ -88,4 +104,18 @@ public interface GroupCache {
    * @param groupUuid the UUID of a possibly associated group
    */
   void evict(AccountGroup.UUID groupUuid);
+
+  /**
+   * Removes the association of the given UUIDs with a group.
+   *
+   * <p>The next call to {@link #get(AccountGroup.UUID)} won't provide a cached value.
+   *
+   * <p>It's safe to call this method if no association exists.
+   *
+   * <p><strong>Note: </strong>This method doesn't touch any associations between names/IDs and
+   * groups!
+   *
+   * @param groupUuid the UUID of a possibly associated group
+   */
+  void evict(Collection<AccountGroup.UUID> groupUuid);
 }

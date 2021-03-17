@@ -28,6 +28,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey;
@@ -45,6 +47,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -61,6 +69,8 @@ public class DiffOperationsImpl implements DiffOperations {
   private final ModifiedFilesCache modifiedFilesCache;
   private final FileDiffCache fileDiffCache;
   private final BaseCommitUtil baseCommitUtil;
+  private final long timeoutMillis;
+  private final ExecutorService diffExecutor;
 
   public static Module module() {
     return new CacheModule() {
@@ -79,10 +89,21 @@ public class DiffOperationsImpl implements DiffOperations {
   public DiffOperationsImpl(
       ModifiedFilesCache modifiedFilesCache,
       FileDiffCache fileDiffCache,
-      BaseCommitUtil baseCommit) {
+      BaseCommitUtil baseCommit,
+      @DiffExecutor ExecutorService executor,
+      @GerritServerConfig Config cfg) {
     this.modifiedFilesCache = modifiedFilesCache;
     this.fileDiffCache = fileDiffCache;
     this.baseCommitUtil = baseCommit;
+    this.diffExecutor = executor;
+    this.timeoutMillis =
+        ConfigUtil.getTimeUnit(
+            cfg,
+            "cache",
+            "diff",
+            "timeout",
+            TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
+            TimeUnit.MILLISECONDS);
   }
 
   @Override
@@ -91,7 +112,7 @@ public class DiffOperationsImpl implements DiffOperations {
       throws DiffNotAvailableException {
     try {
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
-      return getModifiedFiles(project, newCommit, diffParams);
+      return listModifiedFilesWithTimeout(diffParams);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
@@ -109,7 +130,7 @@ public class DiffOperationsImpl implements DiffOperations {
             .baseCommit(oldCommit)
             .comparisonType(ComparisonType.againstOtherPatchSet())
             .build();
-    return getModifiedFiles(project, newCommit, params);
+    return listModifiedFilesWithTimeout(params);
   }
 
   @Override
@@ -124,10 +145,7 @@ public class DiffOperationsImpl implements DiffOperations {
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
       FileDiffCacheKey key =
           createFileDiffCacheKey(project, diffParams.baseCommit(), newCommit, fileName, whitespace);
-      Map<String, FileDiffOutput> result = getModifiedFilesForKeys(ImmutableList.of(key));
-      return result.containsKey(fileName)
-          ? result.get(fileName)
-          : FileDiffOutput.empty(fileName, key.oldCommit(), key.newCommit());
+      return getModifiedFileWithTimeout(key, diffParams);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
@@ -142,18 +160,67 @@ public class DiffOperationsImpl implements DiffOperations {
       String fileName,
       @Nullable DiffPreferencesInfo.Whitespace whitespace)
       throws DiffNotAvailableException {
+    DiffParameters params = // used for logging only
+        DiffParameters.builder()
+            .project(project)
+            .baseCommit(oldCommit)
+            .newCommit(newCommit)
+            .comparisonType(ComparisonType.againstOtherPatchSet())
+            .build();
     FileDiffCacheKey key =
         createFileDiffCacheKey(project, oldCommit, newCommit, fileName, whitespace);
-    Map<String, FileDiffOutput> result = getModifiedFilesForKeys(ImmutableList.of(key));
-    return result.containsKey(fileName)
-        ? result.get(fileName)
-        : FileDiffOutput.empty(fileName, oldCommit, newCommit);
+    return getModifiedFileWithTimeout(key, params);
   }
 
-  private Map<String, FileDiffOutput> getModifiedFiles(
-      Project.NameKey project, ObjectId newCommit, DiffParameters diffParams)
+  private Map<String, FileDiffOutput> listModifiedFilesWithTimeout(DiffParameters params)
+      throws DiffNotAvailableException {
+    Future<DiffResult> task =
+        diffExecutor.submit(
+            () -> {
+              ImmutableMap<String, FileDiffOutput> modifiedFiles = getModifiedFiles(params);
+              return DiffResult.create(null, modifiedFiles);
+            });
+    DiffResult diffResult = execDiffWithTimeout(task, params);
+    return diffResult.modifiedFiles();
+  }
+
+  private FileDiffOutput getModifiedFileWithTimeout(FileDiffCacheKey key, DiffParameters params)
+      throws DiffNotAvailableException {
+    Future<DiffResult> task =
+        diffExecutor.submit(
+            () -> {
+              Map<String, FileDiffOutput> diffList = getModifiedFilesForKeys(ImmutableList.of(key));
+              FileDiffOutput fileDiffOutput =
+                  diffList.containsKey(key.newFilePath())
+                      ? diffList.get(key.newFilePath())
+                      : FileDiffOutput.empty(key.newFilePath(), key.oldCommit(), key.newCommit());
+              return DiffResult.create(fileDiffOutput, null);
+            });
+    DiffResult result = execDiffWithTimeout(task, params);
+    return result.fileDiff();
+  }
+
+  /** Executes a diff task by employing a timeout. */
+  private DiffResult execDiffWithTimeout(Future<DiffResult> task, DiffParameters params)
       throws DiffNotAvailableException {
     try {
+      return task.get(timeoutMillis, TimeUnit.MILLISECONDS);
+    } catch (InterruptedException | TimeoutException e) {
+      throw new DiffNotAvailableException(
+          String.format(
+              "Timeout reached while computing diff for project %s, old commit %s, new commit %s",
+              params.project(), params.baseCommit().name(), params.newCommit().name()),
+          e);
+    } catch (ExecutionException e) {
+      throw new DiffNotAvailableException(e);
+    }
+  }
+
+  private ImmutableMap<String, FileDiffOutput> getModifiedFiles(DiffParameters diffParams)
+      throws DiffNotAvailableException {
+    try {
+      Project.NameKey project = diffParams.project();
+      ObjectId newCommit = diffParams.newCommit();
       ObjectId oldCommit = diffParams.baseCommit();
       ComparisonType cmp = diffParams.comparisonType();
 
@@ -191,7 +258,7 @@ public class DiffOperationsImpl implements DiffOperations {
     }
   }
 
-  private Map<String, FileDiffOutput> getModifiedFilesForKeys(List<FileDiffCacheKey> keys)
+  private ImmutableMap<String, FileDiffOutput> getModifiedFilesForKeys(List<FileDiffCacheKey> keys)
       throws DiffNotAvailableException {
     ImmutableMap.Builder<String, FileDiffOutput> files = ImmutableMap.builder();
     ImmutableMap<FileDiffCacheKey, FileDiffOutput> fileDiffs = fileDiffCache.getAll(keys);
@@ -246,6 +313,26 @@ public class DiffOperationsImpl implements DiffOperations {
         .diffAlgorithm(DEFAULT_DIFF_ALGORITHM)
         .whitespace(whitespace)
         .build();
+  }
+
+  /**
+   * All interface methods create their results using this class. This is used so that the timeout
+   * method {@link #execDiffWithTimeout(Future, DiffParameters)} could be reused by all interface
+   * methods.
+   */
+  @AutoValue
+  abstract static class DiffResult {
+    static DiffResult create(
+        @Nullable FileDiffOutput fileDiff,
+        @Nullable ImmutableMap<String, FileDiffOutput> modifiedFiles) {
+      return new AutoValue_DiffOperationsImpl_DiffResult(fileDiff, modifiedFiles);
+    }
+
+    @Nullable
+    abstract FileDiffOutput fileDiff();
+
+    @Nullable
+    abstract ImmutableMap<String, FileDiffOutput> modifiedFiles();
   }
 
   @AutoValue

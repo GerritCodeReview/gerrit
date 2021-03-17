@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bde28c02_26b3b6a8",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-17T21:18:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e865ee4c_7e335bfb",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "574b59d2a46f2804295eda4f20315ea1a29ca1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01eaea69_cf6b6bda",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-12T10:23:42Z",
       "side": 1,
       "message": "I\u0027d like to make an update on this color because `red-400` does pass WCAG AA for accessibility but it is not great to read the -1 at a glance. I propose we use `red-300` as it would work better.",
+      "range": {
+        "startLine": 187,
+        "startChar": 37,
+        "endLine": 187,
+        "endChar": 40
+      },
+      "revId": "574b59d2a46f2804295eda4f20315ea1a29ca1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "371e87b7_23ad5fa3",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-17T21:18:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01eaea69_cf6b6bda",
       "range": {
         "startLine": 187,
         "startChar": 37,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9453b1c4_be16cdd5",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-17T21:18:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ef8a62a_5048b334",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 43
+      },
+      "revId": "574b59d2a46f2804295eda4f20315ea1a29ca1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd1860f0_15fd294c",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-03-12T10:23:42Z",
       "side": 1,
       "message": "var(--gray-500)",
+      "range": {
+        "startLine": 62,
+        "startChar": 33,
+        "endLine": 62,
+        "endChar": 40
+      },
+      "revId": "574b59d2a46f2804295eda4f20315ea1a29ca1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc8eba77_0d177eee",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-17T21:18:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd1860f0_15fd294c",
       "range": {
         "startLine": 62,
         "startChar": 33,

@@ -343,6 +343,30 @@
       },
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "909a85fc_70d97c7d",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-17T13:29:31Z",
+      "side": 1,
+      "message": "I wrote a script [1] which finds the problematic duplicates which need to be cleaned up before we can switch an existing site to case-insensitive user names.\n\nConflicts induced by duplicate user names only differing in case could be cleaned up by\n- deleting all but one of the conflicting accounts\n- renaming user name(s) of the conflicting accounts\n\nOn one of our servers we have no duplicates for the gerrit scheme and a few dozens of duplicates in the username scheme. Most of the duplicates are technical user accounts conflicting with another technical account. A few are conflicts between an account of a human user and a technical user.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/300308",
+      "parentUuid": "2526d45a_87796180",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

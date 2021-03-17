@@ -34,6 +34,24 @@
       "parentUuid": "f02ef506_8276a684",
       "revId": "142a1a28100faf1d4ea6a20393ada47383dd736b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62098bdb_d841039a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-17T12:49:57Z",
+      "side": 1,
+      "message": "My comment is not directly connected with this change but concerns the general topic (ok this might not be the best place here). I think, it confuses more to have to set multiple options instead of just one, especially considering the overall number of configuration options. But let\u0027s discuss that in a more proper place.",
+      "parentUuid": "069c7707_5d5339c0",
+      "revId": "142a1a28100faf1d4ea6a20393ada47383dd736b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -35,7 +35,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -88,16 +88,17 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     AtomicInteger done = new AtomicInteger();
     AtomicInteger failed = new AtomicInteger();
     Stopwatch sw = Stopwatch.createStarted();
+    groupCache.evict(uuids);
+    Map<AccountGroup.UUID, InternalGroup> reindexedGroups = groupCache.get(uuids);
     for (AccountGroup.UUID uuid : uuids) {
       String desc = "group " + uuid;
       ListenableFuture<?> future =
           executor.submit(
               () -> {
                 try {
-                  groupCache.evict(uuid);
-                  Optional<InternalGroup> internalGroup = groupCache.get(uuid);
-                  if (internalGroup.isPresent()) {
-                    index.replace(internalGroup.get());
+                  InternalGroup internalGroup = reindexedGroups.get(uuid);
+                  if (internalGroup != null) {
+                    index.replace(internalGroup);
                   } else {
                     index.delete(uuid);
 

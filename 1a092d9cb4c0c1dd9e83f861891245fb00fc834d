@@ -650,6 +650,24 @@
       "parentUuid": "f08e217d_c155b9e3",
       "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81e30d58_fdd03247",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-17T16:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c06e576_d09b12b3",
+      "revId": "1a092d9cb4c0c1dd9e83f861891245fb00fc834d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -106,6 +106,24 @@
       "parentUuid": "ce597ed5_62454655",
       "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faedb52d_b7b46a1f",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-17T17:21:04Z",
+      "side": 1,
+      "message": "\u003e It sounds like you\u0027re saying you don\u0027t think there\u0027s a risk of deterring these contributors (since especially in this case it\u0027s their $DAY_JOB and they have to get the work done), \n\nI hope that\u0027s the case for my team, because I hope they prioritize clean code. But maybe Luca should chime in, as he has proposed the change.\n\n\u003e but there is a risk that it puts pressure on project schedules/etc?\n\nyes, a little.\n\n\u003eChanges should do one thing (\u003c\u003cchange-size,see change size section above\u003e\u003e). If a change requires cleanup/refactoring, it is best to do that cleanup in a preparatory, separate change. If during a review for a functional change, a related cleanup/refactoring is discovered, it is preferable to do the cleanup first in a separate change to improve the reviewability of the functional change.\n\nthis is OK with me.",
+      "parentUuid": "8c057d7e_27a36033",
+      "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

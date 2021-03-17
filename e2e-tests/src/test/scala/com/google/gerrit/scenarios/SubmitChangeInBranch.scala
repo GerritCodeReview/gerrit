@@ -44,6 +44,7 @@ class SubmitChangeInBranch extends GerritSimulation {
   private val createChange = new CreateChange(projectName, createBranch)
   private val approveChange = new ApproveChange(createChange)
   private val deleteProject = new DeleteProject(projectName)
+  private val tearDown = new DeleteProjectIfExists(projectName)
 
   setUp(
     createProject.test.inject(
@@ -68,6 +69,10 @@ class SubmitChangeInBranch extends GerritSimulation {
     ),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) seconds),
+      atOnceUsers(single)
+    ),
+    tearDown.test.inject(
+      nothingFor(stepWaitTime(tearDown) seconds),
       atOnceUsers(single)
     ),
   ).protocols(httpProtocol)

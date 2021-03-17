@@ -22,7 +22,12 @@ import io.gatling.http.Predef._
 class DeleteProjectIfExists extends ProjectSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys)
 
-  private val test: ScenarioBuilder = scenario(uniqueName)
+  def this(projectName: String) {
+    this()
+    this.projectName = projectName
+  }
+
+  val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(httpRequest
           .body(ElFileBody(body)).asJson

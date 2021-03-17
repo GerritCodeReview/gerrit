@@ -70,6 +70,24 @@
       "parentUuid": "28662d2f_d1cdd7ed",
       "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce597ed5_62454655",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-17T16:31:42Z",
+      "side": 1,
+      "message": "when you say \n\n\u003e concerned about boy-scout behavior for features \n\nare you concerned we\u0027re doing too much of it (mingling cleanups with features) or too little (making the mess worse by implementing features without cleaning up?)\n\n\u003e Does that strike the right balance for you?\n\nyeah, that is bteter.\n\n\u003e Do you think this carries the same risk for regular contributors?\n\nIt depends. My team is very invested in (\"owns\") large parts of the Gerrit code base, so we carry the burden of tech debt if we create it. This why (I think) we have been pretty good at cleaning up as we go; at the same time requiring those cleanups as a prerequisite can incur extra overhead (rebasing existing changes etc.) that seems avoidable.\n\nBut that nuance is probably hard to encode in rules.",
+      "parentUuid": "411c4f04_e0997dcd",
+      "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

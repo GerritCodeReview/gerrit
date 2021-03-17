@@ -41,6 +41,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fafc5244_3cc49b90",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-17T09:13:41Z",
+      "side": 1,
+      "message": "Done\n\nThis object shouldn\u0027t be handed between different threads. This class will return the map to its caller, which is request scoped. Am I missing something?\n\nI\u0027m thinking thread safety is only relevant, for example, for injected fields as they are shared between different threads.",
+      "parentUuid": "d5502a1d_c014e021",
+      "range": {
+        "startLine": 219,
+        "startChar": 10,
+        "endLine": 219,
+        "endChar": 13
+      },
+      "revId": "8047da32013c535628212f1fe9c5a475ff80c703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63b86759_d56c66a5",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-17T09:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5502a1d_c014e021",
+      "range": {
+        "startLine": 219,
+        "startChar": 10,
+        "endLine": 219,
+        "endChar": 13
+      },
+      "revId": "8047da32013c535628212f1fe9c5a475ff80c703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2423cd82_129c688b",
@@ -54,6 +102,30 @@
       "writtenOn": "2021-03-17T08:17:06Z",
       "side": 1,
       "message": "It\u0027s better to use an AutoValue here so that this becomes immutable.",
+      "range": {
+        "startLine": 323,
+        "startChar": 2,
+        "endLine": 323,
+        "endChar": 8
+      },
+      "revId": "8047da32013c535628212f1fe9c5a475ff80c703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "567c258d_8adea9e7",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-17T09:13:41Z",
+      "side": 1,
+      "message": "Done.\n\nNote: I\u0027m using both fields exclusively (only one of them could be set), that\u0027s why I didn\u0027t autovalue.",
+      "parentUuid": "2423cd82_129c688b",
       "range": {
         "startLine": 323,
         "startChar": 2,

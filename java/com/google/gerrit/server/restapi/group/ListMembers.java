@@ -144,23 +144,21 @@ public class ListMembers implements RestReadView<GroupResource> {
   private Set<Account.Id> getIndirectMemberIds(
       GroupDescription.Internal group, HashSet<AccountGroup.UUID> seenGroups) {
     Set<Account.Id> indirectMembers = new HashSet<>();
+    Set<AccountGroup.UUID> subgroupMembersToLoad = new HashSet<>();
     for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {
       if (!seenGroups.contains(subgroupUuid)) {
         seenGroups.add(subgroupUuid);
-
-        Set<Account.Id> subgroupMembers =
-            groupCache
-                .get(subgroupUuid)
-                .map(InternalGroupDescription::new)
-                .map(
-                    subgroup -> {
-                      GroupControl subgroupControl = groupControlFactory.controlFor(subgroup);
-                      return getTransitiveMemberIds(subgroup, subgroupControl, seenGroups);
-                    })
-                .orElseGet(ImmutableSet::of);
-        indirectMembers.addAll(subgroupMembers);
+        subgroupMembersToLoad.add(subgroupUuid);
       }
     }
+    groupCache.get(subgroupMembersToLoad).values().stream()
+        .map(InternalGroupDescription::new)
+        .forEach(
+            subgroup -> {
+              GroupControl subgroupControl = groupControlFactory.controlFor(subgroup);
+              indirectMembers.addAll(getTransitiveMemberIds(subgroup, subgroupControl, seenGroups));
+            });
+
     return indirectMembers;
   }
 

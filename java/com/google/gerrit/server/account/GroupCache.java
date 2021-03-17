@@ -16,6 +16,8 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 /** Tracks group objects in memory for efficient access. */
@@ -46,6 +48,18 @@ public interface GroupCache {
    *     group with this UUID exists on this server or an error occurred during lookup
    */
   Optional<InternalGroup> get(AccountGroup.UUID groupUuid);
+
+  /**
+   * Returns a {@code Map} of {@code AccountGroup.UUID} to {@code InternalGroup} for the given
+   * groups UUIDs. If not cached yet the groups are loaded. If a group can't be loaded (e.g. because
+   * it is missing), the entry will be missing from the result.
+   *
+   * @param groupUuids UUIDs of the groups that should be retrieved
+   * @return {@code Map} of {@code AccountGroup.UUID} to {@code InternalGroup} instances for the
+   *     given group UUIDs, if a group can't be loaded (e.g. because it is missing), the entry will
+   *     be missing from the result.
+   */
+  Map<AccountGroup.UUID, InternalGroup> get(Collection<AccountGroup.UUID> groupUuids);
 
   /**
    * Removes the association of the given ID with a group.
@@ -88,4 +102,7 @@ public interface GroupCache {
    * @param groupUuid the UUID of a possibly associated group
    */
   void evict(AccountGroup.UUID groupUuid);
+
+  /** @see #evict(AccountGroup.UUID); */
+  void evict(Collection<AccountGroup.UUID> groupUuid);
 }

@@ -120,7 +120,13 @@ const styleSheet = safeStyleSheet`
     --purple-tonal: #523272;
     --pink-800: #b80672;
     --pink-500: #f538a0;
-
+    --pink-50: #fde7f3;
+    --pink-tonal: #702f55;
+    --yellow-50: #fef7e0;
+    --yellow-tonal: #6a5619;
+    --brown-50: #efebe9;
+    --brown-tonal: #6d4c41;
+    
     --error-foreground: var(--red-700);
     --error-background: var(--red-50);
     --error-background-hover: var(--red-700-04);
@@ -233,6 +239,14 @@ const styleSheet = safeStyleSheet`
     /* misc colors */
     --border-color: var(--gray-300);
     --comment-separator-color: var(--gray-300);
+
+    /* checks tag colors */
+    --tag-gray: var(--gray-200);
+    --tag-yellow: var(--yellow-50);
+    --tag-pink: var(--pink-50);
+    --tag-purple: var(--purple-50);
+    --tag-cyan: var(--cyan-50);
+    --tag-brown: var(--brown-50);
 
     /* status colors */
     --status-merged: var(--green-700);

@@ -137,6 +137,14 @@ function getStyleEl() {
       --border-color: var(--gray-700);
       --comment-separator-color: var(--border-color);
 
+      /* checks tag colors */
+      --tag-gray: var(--gray-tonal);
+      --tag-yellow: var(--yellow-tonal);
+      --tag-pink: var(--pink-tonal);
+      --tag-purple: var(--purple-tonal);
+      --tag-cyan: var(--cyan-tonal);
+      --tag-brown: var(--brown-tonal);
+
       /* status colors */
       --status-merged: var(--green-400);
       --status-abandoned: var(--gray-300);

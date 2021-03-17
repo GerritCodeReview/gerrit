@@ -38,6 +38,7 @@ class CheckMasterBranchReplica1 extends ProjectSimulation {
   private val approveChange = new ApproveChange(createChange)
   private val submitChange = new SubmitChange(createChange)
   private val getBranch = new GetMasterBranchRevision
+  private val deleteAfter = new DeleteProjectIfExist(projectName)
 
   private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
@@ -69,5 +70,9 @@ class CheckMasterBranchReplica1 extends ProjectSimulation {
       nothingFor(stepWaitTime(this) seconds),
       atOnceUsers(single)
     ).protocols(httpForReplica),
+    deleteAfter.test.inject(
+      nothingFor(stepWaitTime(deleteAfter) seconds),
+      atOnceUsers(single)
+    ),
   ).protocols(httpProtocol)
 }

@@ -44,6 +44,7 @@ class RestoreChange extends GerritSimulation {
   private val abandonChange = new AbandonChange(createChange)
   private val deleteChange = new DeleteChange(createChange)
   private val deleteProject = new DeleteProject(projectName)
+  private val deleteAfter = new DeleteProjectIfExist(projectName)
 
   setUp(
     createProject.test.inject(
@@ -68,6 +69,10 @@ class RestoreChange extends GerritSimulation {
     ),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) seconds),
+      atOnceUsers(single)
+    ),
+    deleteAfter.test.inject(
+      nothingFor(stepWaitTime(deleteAfter) seconds),
       atOnceUsers(single)
     ),
   ).protocols(httpProtocol)

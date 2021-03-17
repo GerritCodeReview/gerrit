@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39638b96_b5ad5c82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-17T17:23:15Z",
+      "side": 1,
+      "message": "we already have \n\nis:merge\nTrue if the change is a merge commit.\n\nwhich checks if there are \u003e1 parents. By analogy, we should have \n\nis:first\n\n?",
+      "parentUuid": "97ee9c3c_d4123d51",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "da669c2375310d1230d40f3c2f691a3a4c93f578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53ad331d_93fbf568",
         "filename": "java/com/google/gerrit/server/query/change/HasGitParentPredicate.java",
         "patchSetId": 1

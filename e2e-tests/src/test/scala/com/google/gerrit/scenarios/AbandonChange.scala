@@ -49,6 +49,7 @@ class AbandonChange extends GerritSimulation {
 
   private val createProject = new CreateProject(projectName)
   private val deleteProject = new DeleteProject(projectName)
+  private val forceDeleteIfExist = new DeleteProjectIfExists(projectName)
 
   setUp(
     createProject.test.inject(
@@ -65,6 +66,10 @@ class AbandonChange extends GerritSimulation {
     ),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) seconds),
+      atOnceUsers(single)
+    ),
+    forceDeleteIfExist.test.inject(
+      nothingFor(stepWaitTime(forceDeleteIfExist) seconds),
       atOnceUsers(single)
     ),
   ).protocols(httpProtocol)

@@ -104,6 +104,9 @@ when combined, implement a feature.
 Assigning a topic to a change can be done in the change screen or through a `git
 push` command.
 
+For more information about using topics, see the user guide:
+link:cross-repository-changes.html[Submitting Changes Across Repositories by using Topics].
+
 [[submit-strategies]]
 == Submit strategies
 

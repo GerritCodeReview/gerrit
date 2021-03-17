@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b475ec4_134612de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-17T08:17:06Z",
+      "side": 1,
+      "message": "LGTM besides the mutability",
+      "revId": "8047da32013c535628212f1fe9c5a475ff80c703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5502a1d_c014e021",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-17T08:17:06Z",
+      "side": 1,
+      "message": "ImmutableMap\n\nIf you hand objects around between treads it is better to only use immutable data structures. It protects you against races.",
+      "range": {
+        "startLine": 219,
+        "startChar": 10,
+        "endLine": 219,
+        "endChar": 13
+      },
+      "revId": "8047da32013c535628212f1fe9c5a475ff80c703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2423cd82_129c688b",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-17T08:17:06Z",
+      "side": 1,
+      "message": "It\u0027s better to use an AutoValue here so that this becomes immutable.",
+      "range": {
+        "startLine": 323,
+        "startChar": 2,
+        "endLine": 323,
+        "endChar": 8
+      },
+      "revId": "8047da32013c535628212f1fe9c5a475ff80c703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

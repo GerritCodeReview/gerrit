@@ -88,6 +88,24 @@
       "parentUuid": "411c4f04_e0997dcd",
       "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c057d7e_27a36033",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-17T17:01:24Z",
+      "side": 1,
+      "message": "\u003e when you say \n\u003e \n\u003e \u003e concerned about boy-scout behavior for features \n\u003e \n\u003e are you concerned we\u0027re doing too much of it (mingling cleanups with features) or too little (making the mess worse by implementing features without cleaning up?)\n\nToo little.\n\n\u003e \n\u003e \u003e Does that strike the right balance for you?\n\u003e \n\u003e yeah, that is bteter.\n\u003e \n\u003e \u003e Do you think this carries the same risk for regular contributors?\n\u003e \n\u003e It depends. My team is very invested in (\"owns\") large parts of the Gerrit code base, so we carry the burden of tech debt if we create it. This why (I think) we have been pretty good at cleaning up as we go; at the same time requiring those cleanups as a prerequisite can incur extra overhead (rebasing existing changes etc.) that seems avoidable.\n\nIt sounds like you\u0027re saying you don\u0027t think there\u0027s a risk of deterring these contributors (since especially in this case it\u0027s their $DAY_JOB and they have to get the work done), but there is a risk that it puts pressure on project schedules/etc?\n\nI think that extra overhead is pretty minimal when the cleanup changes get speedy reviews and I think that usually happens for most of these small cleanups. That\u0027s a lot of \"I think\" and I could be wrong, so I\u0027m interested in your perspective.\n\n\u003e \n\u003e But that nuance is probably hard to encode in rules.\n\nHow about:\n\nChanges should do one thing (\u003c\u003cchange-size,see change size section above\u003e\u003e). If a change requires cleanup/refactoring, it is best to do that cleanup in a preparatory, separate change. If during a review for a functional change, a related cleanup/refactoring is discovered, it is preferable to do the cleanup first in a separate change to improve the reviewability of the functional change.\n\nThat wording glosses over in what situations it\u0027s OK to do the cleanup later, since I think that\u0027s the area with the difficult nuance, but does establish that doing the cleanup before the functional change makes it easier to review the functional change.\n\nI think it\u0027s also worth mentioning up above that trivial cleanups will be very quickly approved, so there should be no reason to include those in a functional commit. Non-trivial cleanups deserve their own review, so again, they shouldn\u0027t be included in a functional commit.",
+      "parentUuid": "ce597ed5_62454655",
+      "revId": "f2ecc03c56c57ffb4526c94a2d5286deb7471a3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

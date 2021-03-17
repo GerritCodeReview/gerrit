@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -29,12 +30,37 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
+import org.kohsuke.args4j.Option;
 
 @Singleton
 public class ListChangeDrafts implements RestReadView<ChangeResource> {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
+
+  private boolean includeContext;
+  private int contextPadding;
+
+  /**
+   * Optional parameter. If set, the contextLines field of the {@link ContextLineInfo} of the
+   * response will contain the lines of the source file where the comment was written.
+   *
+   * @param context If true, comment context will be attached to the response
+   */
+  @Option(name = "--enable-context")
+  public void setContext(boolean context) {
+    this.includeContext = context;
+  }
+
+  /**
+   * Optional parameter. Works only if {@link #includeContext} is set to true. If {@link
+   * #contextPadding} is set, the context lines in the response will be padded with {@link
+   * #contextPadding} extra lines before and after the comment range.
+   */
+  @Option(name = "--context-padding")
+  public void setContextPadding(int contextPadding) {
+    this.contextPadding = contextPadding;
+  }
 
   @Inject
   ListChangeDrafts(
@@ -57,7 +83,7 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return Response.ok(getCommentFormatter().format(listComments(rsrc)));
+    return Response.ok(getCommentFormatter(rsrc).format(listComments(rsrc)));
   }
 
   public List<CommentInfo> getComments(ChangeResource rsrc)
@@ -65,14 +91,18 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return getCommentFormatter().formatAsList(listComments(rsrc));
+    return getCommentFormatter(rsrc).formatAsList(listComments(rsrc));
   }
 
-  private HumanCommentFormatter getCommentFormatter() {
+  private HumanCommentFormatter getCommentFormatter(ChangeResource rsrc) {
     return commentJson
         .get()
         .setFillAccounts(false)
         .setFillPatchSet(true)
+        .setFillCommentContext(includeContext)
+        .setContextPadding(contextPadding)
+        .setProjectKey(rsrc.getProject())
+        .setChangeId(rsrc.getId())
         .newHumanCommentFormatter();
   }
 }

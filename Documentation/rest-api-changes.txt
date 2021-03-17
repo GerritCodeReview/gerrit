@@ -2180,6 +2180,10 @@ entries. The entries in the map are sorted by file path, and the
 comments for each path are sorted by patch set number. Each comment has
 the `patch_set` field set, and no `author`.
 
+The `enable-context` and `context-padding` request parameters can be used to
+request comment context. See link:#list-change-comments[List Change Comments]
+for more details.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/drafts HTTP/1.0

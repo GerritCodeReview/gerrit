@@ -160,7 +160,7 @@ class ChangeApiImpl implements ChangeApi {
   private final DeleteAssignee deleteAssignee;
   private final Provider<ListChangeComments> listCommentsProvider;
   private final ListChangeRobotComments listChangeRobotComments;
-  private final ListChangeDrafts listDrafts;
+  private final Provider<ListChangeDrafts> listDraftsProvider;
   private final ChangeEditApiImpl.Factory changeEditApi;
   private final Check check;
   private final Index index;
@@ -215,7 +215,7 @@ class ChangeApiImpl implements ChangeApi {
       DeleteAssignee deleteAssignee,
       Provider<ListChangeComments> listCommentsProvider,
       ListChangeRobotComments listChangeRobotComments,
-      ListChangeDrafts listDrafts,
+      Provider<ListChangeDrafts> listDraftsProvider,
       ChangeEditApiImpl.Factory changeEditApi,
       Check check,
       Index index,
@@ -268,7 +268,7 @@ class ChangeApiImpl implements ChangeApi {
     this.deleteAssignee = deleteAssignee;
     this.listCommentsProvider = listCommentsProvider;
     this.listChangeRobotComments = listChangeRobotComments;
-    this.listDrafts = listDrafts;
+    this.listDraftsProvider = listDraftsProvider;
     this.changeEditApi = changeEditApi;
     this.check = check;
     this.index = index;
@@ -605,7 +605,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public CommentsRequest commentsRequest() throws RestApiException {
+  public CommentsRequest commentsRequest() {
     return new CommentsRequest() {
       @Override
       public Map<String, List<CommentInfo>> get() throws RestApiException {
@@ -643,21 +643,32 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> drafts() throws RestApiException {
-    try {
-      return listDrafts.apply(change).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get drafts", e);
-    }
-  }
+  public DraftsRequest draftsRequest() {
+    return new DraftsRequest() {
+      @Override
+      public Map<String, List<CommentInfo>> get() throws RestApiException {
+        try {
+          ListChangeDrafts listDrafts = listDraftsProvider.get();
+          listDrafts.setContext(this.getContext());
+          listDrafts.setContextPadding(this.getContextPadding());
+          return listDrafts.apply(change).value();
+        } catch (Exception e) {
+          throw asRestApiException("Cannot get drafts", e);
+        }
+      }
 
-  @Override
-  public List<CommentInfo> draftsAsList() throws RestApiException {
-    try {
-      return listDrafts.getComments(change);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot get drafts", e);
-    }
+      @Override
+      public List<CommentInfo> getAsList() throws RestApiException {
+        try {
+          ListChangeDrafts listDrafts = listDraftsProvider.get();
+          listDrafts.setContext(this.getContext());
+          listDrafts.setContextPadding(this.getContextPadding());
+          return listDrafts.getComments(change);
+        } catch (Exception e) {
+          throw asRestApiException("Cannot get drafts", e);
+        }
+      }
+    };
   }
 
   @Override

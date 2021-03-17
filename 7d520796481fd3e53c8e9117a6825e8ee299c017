@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c0ecc1_42ba02ac",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-17T09:31:46Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "84d77a87_88229fc2",
+      "range": {
+        "startLine": 181,
+        "startChar": 21,
+        "endLine": 181,
+        "endChar": 31
+      },
+      "revId": "7d520796481fd3e53c8e9117a6825e8ee299c017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d766cba6_00d690d2",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-17T09:17:36Z",
       "side": 1,
       "message": "ImmutableMap",
+      "range": {
+        "startLine": 334,
+        "startChar": 13,
+        "endLine": 334,
+        "endChar": 16
+      },
+      "revId": "7d520796481fd3e53c8e9117a6825e8ee299c017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efb3c32a_aa6e166a",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-17T09:31:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d766cba6_00d690d2",
       "range": {
         "startLine": 334,
         "startChar": 13,

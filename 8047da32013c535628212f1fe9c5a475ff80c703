@@ -134,6 +134,30 @@
       },
       "revId": "8047da32013c535628212f1fe9c5a475ff80c703",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "180076bc_b9d282a0",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-17T09:17:36Z",
+      "side": 1,
+      "message": "Left a comment where it\u0027s handed over.",
+      "parentUuid": "567c258d_8adea9e7",
+      "range": {
+        "startLine": 323,
+        "startChar": 2,
+        "endLine": 323,
+        "endChar": 8
+      },
+      "revId": "8047da32013c535628212f1fe9c5a475ff80c703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

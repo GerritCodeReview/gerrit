@@ -391,6 +391,30 @@
       },
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8637c55e_fbc56141",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-17T14:44:02Z",
+      "side": 1,
+      "message": "ok understood, so we better delete only the username\n\nFound the following external IDs on our servers:\n\n $ git grep externalId refs/meta/external-ids | cut -d\\\" -f2 | cut -d: -f1 | sort | uniq\n\n gerrit   (LDAP, is the javadoc in ExternalId correct ?) \n username (authentication REST and git endpoints)\n external (external authentication e.g. oauth, saml)\n gpgkey   (gpg keys)\n mailto   (email addresses)\n\nIn addition ExternalId defines the scheme uuid, seems we don\u0027t use that.\n\nMaybe we need an option for case-sensitivity per externalId scheme ?\n\n[2] https://www.alphr.com/are-emails-case-sensitive/",
+      "parentUuid": "e530d5b9_0494a85d",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

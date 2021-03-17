@@ -18,8 +18,16 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.InternalGroup;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.cache.proto.Cache;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ProtobufSerializer;
+import com.google.gerrit.server.cache.serialize.entities.InternalGroupSerializer;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -33,6 +41,9 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import org.bouncycastle.util.Strings;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 /** Tracks group objects in memory for efficient access. */
 @Singleton
@@ -42,6 +53,7 @@ public class GroupCacheImpl implements GroupCache {
   private static final String BYID_NAME = "groups";
   private static final String BYNAME_NAME = "groups_byname";
   private static final String BYUUID_NAME = "groups_byuuid";
+  private static final String BYUUID_NAME_PERSISTED = "groups_byuuid_persisted";
 
   public static Module module() {
     return new CacheModule() {
@@ -55,9 +67,35 @@ public class GroupCacheImpl implements GroupCache {
             .maximumWeight(Long.MAX_VALUE)
             .loader(ByNameLoader.class);
 
+        // We split the group cache into two parts for performance reasons:
+        // 1) An in-memory part that has only the group ref uuid as key.
+        // 2) A persisted part that has the group ref uuid and sha1 of the ref as key.
+        //
+        // When loading dashboards or returning change query results we potentially
+        // need to access many groups.
+        // We want the persisted cache to be immutable and we want it to be impossible that a
+        // value for a given key is out of date. We therefore require the sha-1 in the key. That
+        // is in line with the rest of the caches in Gerrit.
+        //
+        // Splitting the cache into two chunks internally in this class allows us to retain
+        // the existing performance guarantees of not requiring reads for the repo for values
+        // cached in-memory but also to persist the cache which leads to a much improved
+        // cold-start behavior and in-memory miss latency.
+
         cache(BYUUID_NAME, String.class, new TypeLiteral<Optional<InternalGroup>>() {})
             .maximumWeight(Long.MAX_VALUE)
-            .loader(ByUUIDLoader.class);
+            .loader(ByUUIDInMemoryLoader.class);
+
+        persist(
+                BYUUID_NAME_PERSISTED,
+                Cache.GroupKeyProto.class,
+                new TypeLiteral<Optional<InternalGroup>>() {})
+            .loader(PersistedByUUIDLoader.class)
+            .keySerializer(new ProtobufSerializer<>(Cache.GroupKeyProto.parser()))
+            .valueSerializer(PersistedInternalGroupSerializer.INSTANCE)
+            .diskLimit(1 << 30) // 1 GiB
+            .version(1)
+            .maximumWeight(0);
 
         bind(GroupCacheImpl.class);
         bind(GroupCache.class).to(GroupCacheImpl.class);
@@ -150,7 +188,7 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(AccountGroup.Id key) throws Exception {
-      try (TraceTimer timer =
+      try (TraceTimer ignored =
           TraceContext.newTimer(
               "Loading group by ID", Metadata.builder().groupId(key.get()).build())) {
         return groupQueryProvider.get().byId(key);
@@ -168,7 +206,7 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(String name) throws Exception {
-      try (TraceTimer timer =
+      try (TraceTimer ignored =
           TraceContext.newTimer(
               "Loading group by name", Metadata.builder().groupName(name).build())) {
         return groupQueryProvider.get().byName(AccountGroup.nameKey(name));
@@ -176,21 +214,83 @@ public class GroupCacheImpl implements GroupCache {
     }
   }
 
-  static class ByUUIDLoader extends CacheLoader<String, Optional<InternalGroup>> {
-    private final Groups groups;
+  static class ByUUIDInMemoryLoader extends CacheLoader<String, Optional<InternalGroup>> {
+    private final LoadingCache<Cache.GroupKeyProto, Optional<InternalGroup>> persistedCache;
+    private final GitRepositoryManager repoManager;
+    private final AllUsersName allUsersName;
 
     @Inject
-    ByUUIDLoader(Groups groups) {
-      this.groups = groups;
+    ByUUIDInMemoryLoader(
+        @Named(BYUUID_NAME_PERSISTED)
+            LoadingCache<Cache.GroupKeyProto, Optional<InternalGroup>> persistedCache,
+        GitRepositoryManager repoManager,
+        AllUsersName allUsersName) {
+      this.persistedCache = persistedCache;
+      this.repoManager = repoManager;
+      this.allUsersName = allUsersName;
     }
 
     @Override
     public Optional<InternalGroup> load(String uuid) throws Exception {
-      try (TraceTimer timer =
-          TraceContext.newTimer(
-              "Loading group by UUID", Metadata.builder().groupUuid(uuid).build())) {
-        return groups.getGroup(AccountGroup.uuid(uuid));
+      try (TraceTimer ignored =
+              TraceContext.newTimer(
+                  "Loading group from serialized cache",
+                  Metadata.builder().groupUuid(uuid).build());
+          Repository allUsers = repoManager.openRepository(allUsersName)) {
+        String ref = RefNames.refsGroups(AccountGroup.uuid(uuid));
+        Ref sha1 = allUsers.exactRef(ref);
+        if (sha1 == null) {
+          return Optional.empty();
+        }
+        Cache.GroupKeyProto key =
+            Cache.GroupKeyProto.newBuilder()
+                .setUuid(uuid)
+                .setGroupRefSha1(sha1.getObjectId().getName())
+                .build();
+        return persistedCache.get(key);
       }
+    }
+  }
+
+  static class PersistedByUUIDLoader
+      extends CacheLoader<Cache.GroupKeyProto, Optional<InternalGroup>> {
+    private final Groups groups;
+
+    @Inject
+    PersistedByUUIDLoader(Groups groups) {
+      this.groups = groups;
+    }
+
+    @Override
+    public Optional<InternalGroup> load(Cache.GroupKeyProto key) throws Exception {
+      try (TraceTimer ignored =
+          TraceContext.newTimer(
+              "Loading group by UUID", Metadata.builder().groupUuid(key.getUuid()).build())) {
+        return groups.getGroup(AccountGroup.uuid(key.getUuid()));
+      }
+    }
+  }
+
+  private enum PersistedInternalGroupSerializer
+      implements CacheSerializer<Optional<InternalGroup>> {
+    INSTANCE;
+
+    @Override
+    public byte[] serialize(Optional<InternalGroup> value) {
+      if (!value.isPresent()) {
+        return Strings.toByteArray("");
+      }
+      return Protos.toByteArray(InternalGroupSerializer.serialize(value.get()));
+    }
+
+    @Override
+    public Optional<InternalGroup> deserialize(byte[] in) {
+      if (Strings.fromByteArray(in).isEmpty()) {
+        return Optional.empty();
+      }
+      return Optional.of(
+          InternalGroupSerializer.deserialize(
+              Protos.parseUnchecked(Cache.InternalGroupProto.parser(), in)));
     }
   }
 }

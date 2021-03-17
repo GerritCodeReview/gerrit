@@ -101,7 +101,7 @@ public abstract class InternalGroupUpdate {
    *
    * <p>If this {@code InternalGroupUpdate} is passed next to an {@link InternalGroupCreation}
    * during a group creation, this {@code Timestamp} is used for the NoteDb commits of the new
-   * group. Hence, the {@link com.google.gerrit.server.group.InternalGroup#getCreatedOn()
+   * group. Hence, the {@link com.google.gerrit.entities.InternalGroup#getCreatedOn()
    * InternalGroup#getCreatedOn()} field will match this {@code Timestamp}.
    *
    * <p><strong>Note: </strong>{@code Timestamp}s of NoteDb commits for groups are used for events

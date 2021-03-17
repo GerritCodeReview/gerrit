@@ -22,6 +22,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountExcep
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;

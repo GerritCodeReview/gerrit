@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group;
+package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AccountGroup;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import org.eclipse.jgit.lib.ObjectId;

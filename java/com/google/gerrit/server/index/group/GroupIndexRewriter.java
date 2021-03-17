@@ -16,11 +16,11 @@ package com.google.gerrit.server.index.group;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.index.IndexRewriter;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

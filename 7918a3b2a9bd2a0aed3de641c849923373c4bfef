@@ -22,6 +22,30 @@
       },
       "revId": "7918a3b2a9bd2a0aed3de641c849923373c4bfef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86271151_bc7f7f1f",
+        "filename": "Documentation/user-privacy.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1114200
+      },
+      "writtenOn": "2021-03-17T16:35:52Z",
+      "side": 1,
+      "message": "Woops sorry. Done.",
+      "parentUuid": "a1c36c03_c3813d18",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 99,
+        "endChar": 55
+      },
+      "revId": "7918a3b2a9bd2a0aed3de641c849923373c4bfef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -79,6 +79,7 @@
 . link:note-db.html[NoteDb]
 . link:config-accounts.html[Accounts on NoteDb]
 . link:config-groups.html[Groups on NoteDb]
+. link:user-privacy.html[User data and privacy]
 
 == Concepts
 . link:config-labels.html[Review Labels]

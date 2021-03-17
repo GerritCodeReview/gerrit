@@ -367,6 +367,30 @@
       },
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e530d5b9_0494a85d",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-17T13:57:16Z",
+      "side": 1,
+      "message": "\u003e Is the key\u0027s sha1 also stored in other places which would need to be migrated as well ?\n\nNot as far as I remember.\n\n\u003e deleting all but one of the conflicting accounts\n\nDeleting accounts may cause trouble, because account IDs are referenced from NoteDb, but just deleting the conflicting external ID from the account should be fine (and maybe marking the account as inactive).\n\n\u003e Looks like this way we could implement case-insensitive but case-preserving \n\u003e behaviour of user names. \n\nI only wonder if case-insensitivity is wanted for all kind of external IDs, e.g. what about mailto external IDs? IIRC emails are case-sensitive [1]. So you may want to be able to allow emails which only differ by capitalisation to be used by different users (but not sure if Gerrit needs to support this).\n\n[1] https://www.computerhope.com/issues/ch001081.htm#:~:text\u003dYes%2C%20according%20to%20RFC%202821,the%20server%2C%20and%20the%20administrator.",
+      "parentUuid": "909a85fc_70d97c7d",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

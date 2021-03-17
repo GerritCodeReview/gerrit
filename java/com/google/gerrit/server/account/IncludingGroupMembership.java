@@ -27,7 +27,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -83,6 +82,9 @@ public class IncludingGroupMembership implements GroupMembership {
     }
 
     if (tryExpanding) {
+      Set<AccountGroup.UUID> queryIdsSet = new HashSet<>();
+      queryIds.forEach(i -> queryIdsSet.add(i));
+      Map<AccountGroup.UUID, InternalGroup> groups = groupCache.get(queryIdsSet);
       for (AccountGroup.UUID id : queryIds) {
         if (memberOf.containsKey(id)) {
           // Membership was earlier proven to be false.
@@ -90,15 +92,15 @@ public class IncludingGroupMembership implements GroupMembership {
         }
 
         memberOf.put(id, false);
-        Optional<InternalGroup> group = groupCache.get(id);
-        if (!group.isPresent()) {
+        InternalGroup group = groups.get(id);
+        if (group == null) {
           continue;
         }
-        if (user.isIdentifiedUser() && group.get().getMembers().contains(user.getAccountId())) {
+        if (user.isIdentifiedUser() && group.getMembers().contains(user.getAccountId())) {
           memberOf.put(id, true);
           return true;
         }
-        if (search(group.get().getSubgroups())) {
+        if (search(group.getSubgroups())) {
           memberOf.put(id, true);
           return true;
         }

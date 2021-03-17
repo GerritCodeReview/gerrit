@@ -139,6 +139,24 @@ class GrResultRow extends GrLitElement {
           padding: 0 var(--spacing-m);
           margin-left: var(--spacing-s);
         }
+        .tag.gray {
+          background-color: var(--tag-gray);
+        }
+        .tag.yellow {
+          background-color: var(--tag-yellow);
+        }
+        .tag.pink {
+          background-color: var(--tag-pink);
+        }
+        .tag.purple {
+          background-color: var(--tag-purple);
+        }
+        .tag.cyan {
+          background-color: var(--tag-cyan);
+        }
+        .tag.brown {
+          background-color: var(--tag-brown);
+        }
       `,
     ];
   }
@@ -258,7 +276,7 @@ class GrResultRow extends GrLitElement {
   }
 
   renderTag(tag: Tag) {
-    return html`<div class="tag">${tag.name}</div>`;
+    return html`<div class="tag ${tag.color}">${tag.name}</div>`;
   }
 }
 

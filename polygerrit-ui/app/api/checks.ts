@@ -365,11 +365,14 @@ export interface Tag {
   color?: TagColor;
 }
 
-// TBD: Add more ...
 // TBD: Clarify standard colors for common tags.
 export enum TagColor {
-  GRAY,
-  GREEN,
+  GRAY = 'gray',
+  YELLOW = 'yellow',
+  PINK = 'pink',
+  PURPLE = 'purple',
+  CYAN = 'cyan',
+  BROWN = 'brown',
 }
 
 export interface Link {

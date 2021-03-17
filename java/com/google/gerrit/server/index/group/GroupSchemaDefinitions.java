@@ -16,9 +16,9 @@ package com.google.gerrit.server.index.group;
 
 import static com.google.gerrit.index.SchemaUtil.schema;
 
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
-import com.google.gerrit.server.group.InternalGroup;
 
 /** Definition of group index versions (schemata). See {@link SchemaDefinitions}. */
 public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {

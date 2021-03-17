@@ -16,8 +16,8 @@ package com.google.gerrit.server.index.group;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.index.IndexDefinition;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 
 /** Bundle of service classes that make up the group index. */

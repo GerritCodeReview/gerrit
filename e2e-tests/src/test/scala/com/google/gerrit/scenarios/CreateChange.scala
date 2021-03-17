@@ -67,6 +67,7 @@ class CreateChange extends ProjectSimulation {
   private val createProject = new CreateProject(projectName)
   private val deleteProject = new DeleteProject(projectName)
   private val deleteChange = new DeleteChange(this)
+  private val forceDeleteIfExist = new DeleteProjectIfExist(projectName)
 
   setUp(
     createProject.test.inject(
@@ -83,6 +84,10 @@ class CreateChange extends ProjectSimulation {
     ),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) seconds),
+      atOnceUsers(single)
+    ),
+    forceDeleteIfExist.test.inject(
+      nothingFor(stepWaitTime(forceDeleteIfExist) seconds),
       atOnceUsers(single)
     ),
   ).protocols(httpProtocol)

@@ -34,6 +34,24 @@
       "parentUuid": "3ea28fbc_03056822",
       "revId": "318c65ac51a3f0ff24bcaa059037f9e702a0ca3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63adadad_a764cb7c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentPorter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-17T08:23:03Z",
+      "side": 1,
+      "message": "\u003e Good point. Currently it isn\u0027t, but it should be a singleton. I\u0027ll add an annotation for DiffOperations in a prior change and rebase.\n\nThanks, sounds good.\n\n\u003e QQ: Is it mandatory that all fields/subfields of a singleton be singletons (strict singletons with annotations)?\n\nA singleton is instantiated only once, hence all its member fields that are populated on creation will be kept until the server is restarted, which effectively makes them singleton. If any of them is not a singleton and caches request state, this state leaks into other requests which is bad. These issues are usually very hard to debug.\n\nIt is not mandatory that all fields/subfields of a singleton as explicitly marked with a @Singleton annotation on their classes if they don\u0027t contain any request state, but it greatly improves readability and makes it less likely that someone adds any request state later without thinking about this problem.",
+      "parentUuid": "5d9572aa_9972077a",
+      "revId": "318c65ac51a3f0ff24bcaa059037f9e702a0ca3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

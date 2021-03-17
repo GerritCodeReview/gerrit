@@ -157,6 +157,30 @@
       },
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2546c547_4233dc60",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-17T10:29:18Z",
+      "side": 1,
+      "message": "\u003e One wild idea: the storage layer stores external IDs by their SHA1, this means external IDs that have the same SHA1 are duplicates, if usernames that only differ by case would have the same SHA1 they would be detected as duplicates too\n\nThat\u0027s a great idea: we just need to amend the way we calculate the SHA1 for it (lowercase first and then SHA1 on it)",
+      "parentUuid": "a8907c53_604b1f52",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

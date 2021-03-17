@@ -30,6 +30,14 @@ if [[ "$#" -ne "1" ]] || ! [[ "$1" =~ ^(gerrit|username)$ ]]; then
 fi
 
 # find lines with user name and subsequent line in external-ids notes branch
+#   example output (scheme username):
+#   refs/meta/external-ids:00/1d/abd037e437f71d42134e6ad532a06948a2ba:[externalId "username:johndoe"]
+#   refs/meta/external-ids:00/1d/abd037e437f71d42134e6ad532a06948a2ba-      accountId = 1000815
+#   --
+#   refs/meta/external-ids:00/1f/0270fc2a6fc3a2439c454c8ab0c75323fdb0:[externalId "username:JohnDoe"]
+#   refs/meta/external-ids:00/1f/0270fc2a6fc3a2439c454c8ab0c75323fdb0-      accountId = 1000816
+#   --
+#
 # remove group separators
 # remove line break between user name and accountId lines
 # unify separators to ":"

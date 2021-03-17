@@ -16,6 +16,24 @@
       "message": "I think in part this change creates or increases another mess. Accounts created with LDAP are stored in lowercase, if \u0027ldap.localUsernameToLowerCase\u0027 is set. The saml-plugin does that, if auth.userNameToLowerCase is set. With this change internal accounts are created with lowercase when auth.userNameToLowerCase is set. This is not consistent. We should either add saml.localUsernameToLowerCase or let ldap also respect auth.userNameToLowerCase. Or do both.",
       "revId": "142a1a28100faf1d4ea6a20393ada47383dd736b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "069c7707_5d5339c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-17T08:53:19Z",
+      "side": 1,
+      "message": "\u003e I think in part this change creates or increases another mess. Accounts created with LDAP are stored in lowercase, if \u0027ldap.localUsernameToLowerCase\u0027 is set. The saml-plugin does that, if auth.userNameToLowerCase is set. With this change internal accounts are created with lowercase when auth.userNameToLowerCase is set.\n\nCorrect and that\u0027s consistent, because the \u0027username\u0027 identity is the one associated with Gerrit API interactions.\n\n\u003e This is not consistent. We should either add saml.localUsernameToLowerCase or let ldap also respect auth.userNameToLowerCase. Or do both.\n\nHow SAML (a non-core plugin) and LDAP have to do with this change? I am missing something, can you explain with other words maybe?",
+      "parentUuid": "f02ef506_8276a684",
+      "revId": "142a1a28100faf1d4ea6a20393ada47383dd736b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

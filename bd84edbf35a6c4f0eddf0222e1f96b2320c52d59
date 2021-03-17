@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "271a5705_c31bd41c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-17T06:05:23Z",
+      "side": 1,
+      "message": "mention that this is a different option.",
+      "revId": "bd84edbf35a6c4f0eddf0222e1f96b2320c52d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05eac3cc_623489ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-17T06:05:23Z",
+      "side": 1,
+      "message": "This breaks the serviceuser plugin. I will fix that.\nAlso if the displayname is not set, the name will be displayed all lowercase, which might be confusing for the user. If the displayname is not set, it should be set to input.username.",
+      "revId": "bd84edbf35a6c4f0eddf0222e1f96b2320c52d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16900bc1_265334cb",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
         "patchSetId": 2

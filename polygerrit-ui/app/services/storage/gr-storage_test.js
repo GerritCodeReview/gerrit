@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import {GrStorage} from './gr-storage.js';
+import '../../test/common-test-setup-karma.js';
+import {GrStorageService} from './gr-storage_impl.js';
 
 suite('gr-storage tests', () => {
   let grStorage;
@@ -34,7 +34,7 @@ suite('gr-storage tests', () => {
   }
 
   setup(() => {
-    grStorage = new GrStorage();
+    grStorage = new GrStorageService();
     grStorage.storage = mockStorage();
   });
 
@@ -51,7 +51,7 @@ suite('gr-storage tests', () => {
     };
 
     // The key is in the expected format.
-    const key = grStorage._getDraftKey(location);
+    const key = grStorage.getDraftKey(location);
     assert.equal(key, ['draft', changeNum, patchNum, path, line].join(':'));
 
     // There should be no draft initially.
@@ -82,12 +82,12 @@ suite('gr-storage tests', () => {
       line,
     };
 
-    const key = grStorage._getDraftKey(location);
+    const key = grStorage.getDraftKey(location);
 
     // Make sure that the call to cleanup doesn't get throttled.
     grStorage.lastCleanup = 0;
 
-    const cleanupSpy = sinon.spy(grStorage, '_cleanupItems');
+    const cleanupSpy = sinon.spy(grStorage, 'cleanupItems');
 
     // Create a message with a timestamp that is a second behind the max age.
     grStorage.storage.setItem(key, JSON.stringify({
@@ -103,7 +103,7 @@ suite('gr-storage tests', () => {
     assert.isNotOk(grStorage.storage.getItem(key));
   });
 
-  test('_getDraftKey', () => {
+  test('getDraftKey', () => {
     const changeNum = 1234;
     const patchNum = 5;
     const path = 'my_source_file.js';
@@ -115,7 +115,7 @@ suite('gr-storage tests', () => {
       line,
     };
     let expectedResult = 'draft:1234:5:my_source_file.js:123';
-    assert.equal(grStorage._getDraftKey(location), expectedResult);
+    assert.equal(grStorage.getDraftKey(location), expectedResult);
     location.range = {
       start_character: 1,
       start_line: 1,
@@ -123,7 +123,7 @@ suite('gr-storage tests', () => {
       end_line: 2,
     };
     expectedResult = 'draft:1234:5:my_source_file.js:123:1-1-1-2';
-    assert.equal(grStorage._getDraftKey(location), expectedResult);
+    assert.equal(grStorage.getDraftKey(location), expectedResult);
   });
 
   test('exceeded quota disables storage', () => {
@@ -140,16 +140,16 @@ suite('gr-storage tests', () => {
       path,
       line,
     };
-    const key = grStorage._getDraftKey(location);
+    const key = grStorage.getDraftKey(location);
     grStorage.setDraftComment(location, 'my comment');
     assert.isTrue(grStorage.exceededQuota);
     assert.isNotOk(grStorage.storage.getItem(key));
   });
 
   test('editable content items', () => {
-    const cleanupStub = sinon.stub(grStorage, '_cleanupItems');
+    const cleanupStub = sinon.stub(grStorage, 'cleanupItems');
     const key = 'testKey';
-    const computedKey = grStorage._getEditableContentKey(key);
+    const computedKey = grStorage.getEditableContentKey(key);
     // Key correctly computed.
     assert.equal(computedKey, 'editablecontent:testKey');
 

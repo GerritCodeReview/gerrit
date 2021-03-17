@@ -43,6 +43,7 @@ import {
   installPolymerResin,
 } from '../scripts/polymer-resin-install';
 import {_testOnly_allTasks} from '../utils/async-util';
+import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 
 declare global {
   interface Window {
@@ -200,6 +201,7 @@ teardown(() => {
   checkGlobalSpace();
   removeIronOverlayBackdropStyleEl();
   cancelAllTasks();
+  cleanUpStorage();
   const testTeardownTimestampMs = new Date().getTime();
   const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;
   if (elapsedMs > 1000) {

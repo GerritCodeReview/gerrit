@@ -59,9 +59,7 @@ export class GrDiffCursor extends PolymerElement {
 
   private preventAutoScrollOnManualScroll = false;
 
-  private lastDisplayedNavigateToNextFileToast: number | null = null;
-
-  private lastDisplayedNavigateToPreviousFileToast: number | null = null;
+  private lastDisplayedNavigateToFileToast: Map<string, number> = new Map();
 
   @property({type: String})
   side = Side.RIGHT;
@@ -192,6 +190,29 @@ export class GrDiffCursor extends PolymerElement {
     }
   }
 
+  private showToastAndFireEvent(direction: string, shortcut: string) {
+    /*
+     * If user presses p/n on the first/last diff chunk, show a toast informing
+     * user that pressing it again will navigate them to previous/next
+     * unreviewedfile if click happens within the time limit
+     */
+    if (
+      this.lastDisplayedNavigateToFileToast.get(direction) &&
+      Date.now() - this.lastDisplayedNavigateToFileToast.get(direction)! <=
+        NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
+    ) {
+      // reset for next file
+      this.lastDisplayedNavigateToFileToast.delete(direction);
+      fireEvent(this, `navigate-to-${direction}-unreviewed-file`);
+    } else {
+      this.lastDisplayedNavigateToFileToast.set(direction, Date.now());
+      fireAlert(
+        this,
+        `Press ${shortcut} again to navigate to ${direction} unreviewed file`
+      );
+    }
+  }
+
   moveToNextChunk(
     clipToTop?: boolean,
     navigateToNextFile?: boolean
@@ -202,28 +223,12 @@ export class GrDiffCursor extends PolymerElement {
         (target?.parentNode as HTMLElement)?.scrollHeight || 0,
       clipToTop,
     });
-    /*
-     * If user presses n on the last diff chunk, show a toast informing user
-     * that pressing n again will navigate them to next unreviewed file.
-     * If click happens within the time limit, then navigate to next file
-     */
     if (
       navigateToNextFile &&
       result === CursorMoveResult.CLIPPED &&
       this.isAtEnd()
     ) {
-      if (
-        this.lastDisplayedNavigateToNextFileToast &&
-        Date.now() - this.lastDisplayedNavigateToNextFileToast <=
-          NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
-      ) {
-        // reset for next file
-        this.lastDisplayedNavigateToNextFileToast = null;
-        fireEvent(this, 'navigate-to-next-unreviewed-file');
-      } else {
-        this.lastDisplayedNavigateToNextFileToast = Date.now();
-        fireAlert(this, 'Press n again to navigate to next unreviewed file');
-      }
+      this.showToastAndFireEvent('next', 'n');
     }
 
     this._fixSide();
@@ -234,27 +239,8 @@ export class GrDiffCursor extends PolymerElement {
     const result = this.cursorManager.previous({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
     });
-    /*
-     * If user presses p on the first diff chunk, show a toast informing user
-     * that pressing p again will navigate them to previous unreviewed file.
-     * If click happens within the time limit, then navigate to prev file
-     */
     if (navigateToPreviousFile && this.isAtStart()) {
-      if (
-        this.lastDisplayedNavigateToPreviousFileToast &&
-        Date.now() - this.lastDisplayedNavigateToPreviousFileToast <=
-          NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
-      ) {
-        // reset for next file
-        this.lastDisplayedNavigateToPreviousFileToast = null;
-        fireEvent(this, 'navigate-to-previous-unreviewed-file');
-      } else {
-        this.lastDisplayedNavigateToPreviousFileToast = Date.now();
-        fireAlert(
-          this,
-          'Press n again to navigate to previous unreviewed file'
-        );
-      }
+      this.showToastAndFireEvent('previous', 'p');
     }
     this._fixSide();
     return result;

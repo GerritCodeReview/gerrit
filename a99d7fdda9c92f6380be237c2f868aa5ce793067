@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bf19e9b_f6f96b57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-17T12:39:02Z",
+      "side": 1,
+      "message": "How about `auth.caseInsensitiveAccountCreation`?",
+      "parentUuid": "ebae2649_0dba856a",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 27
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d3b2d90f_907ca677",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-03-17T09:45:50Z",
       "side": 1,
       "message": "I believe this is creating more trouble rather than cleaning up the \"messy situation\" we have with lowercase vs. mixed-case accounts.\n\nI am in favour of resolving the mess and introduce a case-insensitive authentication for accounts, how can we make this less problematic? Why not simply changing the matching logic when resolving the external-id for the \u0027username:\u0027 scheme?",
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f98271f5_15f80605",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-17T12:39:02Z",
+      "side": 1,
+      "message": "Our aim with this change was to make sure that no more duplicates will be created, until a solution exists to have case insensitive authentication and a clean and consistent representation of the username / external ID.\nOur idea was (and we will hopefully soon have the promised design doc) that as a first step, we could make authentication case-agnostic, i.e. the user can use any capitalization of the user he/she wants and it will be matched. However, to achieve this, it has to be impossible to create such \"duplicate\" accounts. This would solve the issue without having to change existing data besides of removal of \"duplicate\" accounts. In a next step the repair of the existing accounts can be tackled, i.e. converting all usernames to lowercase and dealing with the user branches.",
+      "parentUuid": "d3b2d90f_907ca677",
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -197,6 +239,30 @@
       "side": 1,
       "message": "Yeah, I think that would be in ExternalId.Key#sha1()",
       "parentUuid": "2546c547_4233dc60",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c7521e1_c07e48e5",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-17T12:39:02Z",
+      "side": 1,
+      "message": "But this would not work for already existing accounts, would it? Or can they be migrated?\nI agree that the accountResolver is not a good fit. Thanks for explaining the side effects.",
+      "parentUuid": "38466d17_00a8de1f",
       "range": {
         "startLine": 134,
         "startChar": 36,

@@ -319,6 +319,30 @@
       },
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2526d45a_87796180",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-17T13:10:57Z",
+      "side": 1,
+      "message": "This sounds like a nice way to implement this constraint.\n\nLooks like this way we could implement case-insensitive but case-preserving behaviour of user names. So a user name could be stored as \"JohnDoe\" but resolve to the same account if written in different case e.g. \"johndoe\". This is similar to how the serviceuser plugin handles user names for the additional metadata it stores in a git config file. The user name is stored as a sub-section name. Git config handles section and key names case-insensitive but case-preserving.\n\nThis approach would require to rewrite all existing keys which were created from user names which aren\u0027t all lower case. It seems ExternalIdNotes.replace() already provides a method which could be used to implement such migration.\n\nIs the key\u0027s sha1 also stored in other places which would need to be migrated as well ?",
+      "parentUuid": "4c7521e1_c07e48e5",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

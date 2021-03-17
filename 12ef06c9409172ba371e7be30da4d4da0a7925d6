@@ -70,6 +70,30 @@
       },
       "revId": "12ef06c9409172ba371e7be30da4d4da0a7925d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7fe0405_64025131",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-17T12:30:48Z",
+      "side": 1,
+      "message": "FYI, I have some changes to migrate existing PatchListCache#get usages to use new diff cache. https://gerrit-review.googlesource.com/c/gerrit/+/299797\n\nThe JGit fix is also submitted. If this is urgent, we can update JGit version. Last update was done 3 weeks ago https://gerrit.googlesource.com/gerrit/+log/refs/heads/master/modules",
+      "parentUuid": "927725e9_f939e090",
+      "range": {
+        "startLine": 405,
+        "startChar": 19,
+        "endLine": 405,
+        "endChar": 43
+      },
+      "revId": "12ef06c9409172ba371e7be30da4d4da0a7925d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

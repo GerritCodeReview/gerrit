@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "911b20c1_5cb87536",
+        "filename": "contrib/find-duplicate-usernames.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-03-17T08:41:41Z",
+      "side": 1,
+      "message": "OK you describe what this code does but it would still be easier to follow\nif we here see an example output produced by the first command (git grep).",
+      "revId": "f1c7bb4aa9b8feaeaa585292b8b9c1925ada2692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

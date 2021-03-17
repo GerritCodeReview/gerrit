@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03d7c336_daa518b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-17T06:46:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "271a5705_c31bd41c",
+      "revId": "bd84edbf35a6c4f0eddf0222e1f96b2320c52d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05eac3cc_623489ab",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c0ea1a_11766679",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-17T06:46:09Z",
+      "side": 1,
+      "message": "Fixed the display name",
+      "parentUuid": "05eac3cc_623489ab",
+      "revId": "bd84edbf35a6c4f0eddf0222e1f96b2320c52d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16900bc1_265334cb",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-03-16T20:43:45Z",
       "side": 1,
       "message": "Unneeded: if usernameDb \u003d\u003d usernameInput then the assertion at L65 is the same of the one at L63 and it will pass anyway.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "bd84edbf35a6c4f0eddf0222e1f96b2320c52d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa9dfec5_f8c1a4a6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-17T06:46:09Z",
+      "side": 1,
+      "message": "Here I test whether usernameDb !\u003d usernameInput. If that is the case, I expect that there is no entry in the account cache with the usernameInput as username, since it in the context of this test should have been converted to lowercase before storing it in notedb. However, the username given by the user can already be all lowercase and then the assertion in L65 would fail, thus this check here.",
+      "parentUuid": "16900bc1_265334cb",
       "range": {
         "startLine": 64,
         "startChar": 4,

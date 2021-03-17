@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f02ef506_8276a684",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-17T06:46:09Z",
+      "side": 1,
+      "message": "I think in part this change creates or increases another mess. Accounts created with LDAP are stored in lowercase, if \u0027ldap.localUsernameToLowerCase\u0027 is set. The saml-plugin does that, if auth.userNameToLowerCase is set. With this change internal accounts are created with lowercase when auth.userNameToLowerCase is set. This is not consistent. We should either add saml.localUsernameToLowerCase or let ldap also respect auth.userNameToLowerCase. Or do both.",
+      "revId": "142a1a28100faf1d4ea6a20393ada47383dd736b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

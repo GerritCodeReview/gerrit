@@ -370,7 +370,9 @@ public interface ChangeApi {
    *     their patch set.
    * @throws RestApiException
    */
-  Map<String, List<CommentInfo>> drafts() throws RestApiException;
+  default Map<String, List<CommentInfo>> drafts() throws RestApiException {
+    return draftsRequest().get();
+  }
 
   /**
    * Get all draft comments for the current user on a change as a list.
@@ -379,7 +381,17 @@ public interface ChangeApi {
    *     set.
    * @throws RestApiException
    */
-  List<CommentInfo> draftsAsList() throws RestApiException;
+  default List<CommentInfo> draftsAsList() throws RestApiException {
+    return draftsRequest().getAsList();
+  }
+
+  /**
+   * Get a {@link DraftsRequest} entity that can be used to retrieve draft comments.
+   *
+   * @return A {@link DraftsRequest} entity that can be used to retrieve the draft comments using
+   *     the {@link DraftsRequest#get()} or {@link DraftsRequest#getAsList()}.
+   */
+  DraftsRequest draftsRequest() throws RestApiException;
 
   ChangeInfo check() throws RestApiException;
 
@@ -455,6 +467,8 @@ public interface ChangeApi {
       return contextPadding;
     }
   }
+
+  abstract class DraftsRequest extends CommentsRequest {}
 
   abstract class SuggestedReviewersRequest {
     private String query;
@@ -692,6 +706,11 @@ public interface ChangeApi {
 
     @Override
     public List<CommentInfo> draftsAsList() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DraftsRequest draftsRequest() throws RestApiException {
       throw new NotImplementedException();
     }
 

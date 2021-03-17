@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.change.FileContentUtil;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.lib.ObjectId;
@@ -218,6 +220,42 @@ public class CommentContextIT extends AbstractDaemonTest {
                 .contextLines)
         .containsExactlyElementsIn(
             createContextLines("2", "line_2", "3", "line_3", "4", "line_4", "5", "line_5"));
+  }
+
+  @Test
+  public void listChangeDraftsWithContextEnabled() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                PushOneCommit.SUBJECT,
+                FILE_NAME,
+                "line_1\nline_2\nline_3",
+                r1.getChangeId())
+            .to("refs/for/master");
+
+    DraftInput in = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 2, "comment 1");
+    gApi.changes().id(r2.getChangeId()).revision(r2.getCommit().name()).createDraft(in);
+
+    // Test the getAsList interface
+    List<CommentInfo> comments =
+        gApi.changes().id(r2.getChangeId()).draftsRequest().withContext(true).getAsList();
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).message).isEqualTo("comment 1");
+    assertThat(comments.get(0).contextLines)
+        .containsExactlyElementsIn(createContextLines("2", "line_2"));
+
+    // Also test the get interface
+    Map<String, List<CommentInfo>> commentsMap =
+        gApi.changes().id(r2.getChangeId()).draftsRequest().withContext(true).get();
+    assertThat(commentsMap).hasSize(1);
+    assertThat(commentsMap.values().iterator().next()).hasSize(1);
+    CommentInfo onlyComment = commentsMap.values().iterator().next().get(0);
+    assertThat(onlyComment.message).isEqualTo("comment 1");
+    assertThat(onlyComment.contextLines)
+        .containsExactlyElementsIn(createContextLines("2", "line_2"));
   }
 
   @Test

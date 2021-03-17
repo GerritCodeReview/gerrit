@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8fdce382_22c007c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-17T10:16:03Z",
+      "side": 1,
+      "message": "We already have 2 different methods in general for previous/next such as moveToNextCommentThread, moveToPreviousCommentThread.\nWithout the added toast logic the functions are not doing much.\n\nThe showing of toasts part can be extracted to a common method and I tried it here\nhttps://gerrit-review.googlesource.com/c/gerrit/+/300315 but this also looks fragile to me.\nWDYT?",
+      "parentUuid": "6113cf19_e16829f5",
+      "revId": "fcff3996f3e836250bbd81db326a33655f006d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16e24c4c_f6226e62",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-17T07:44:42Z",
       "side": 1,
       "message": "press p",
+      "revId": "fcff3996f3e836250bbd81db326a33655f006d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17ec8bfe_e152ec76",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-17T10:16:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16e24c4c_f6226e62",
       "revId": "fcff3996f3e836250bbd81db326a33655f006d11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

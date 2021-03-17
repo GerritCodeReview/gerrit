@@ -48,6 +48,8 @@ export interface ChangeData {
   patchsetNumber: number;
   repo: string;
   commmitMessage?: string;
+  /* TODO(brohlfs): Add dep to Rest API types and replace type by ChangeInfo. */
+  changeInfo: unknown;
 }
 
 export interface ChecksProvider {

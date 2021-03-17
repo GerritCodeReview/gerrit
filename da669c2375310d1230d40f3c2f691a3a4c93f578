@@ -74,6 +74,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0cde512_20c6b6d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-17T17:28:20Z",
+      "side": 1,
+      "message": "Yes and no. There\u0027s more motivation to this that isn\u0027t captured in this message and we\u0027ll get it updated.",
+      "parentUuid": "39638b96_b5ad5c82",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "da669c2375310d1230d40f3c2f691a3a4c93f578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ccfe4a4_c8a9d30c",
+        "filename": "java/com/google/gerrit/server/query/change/HasGitParentPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-03-17T17:28:20Z",
+      "side": 1,
+      "message": "Needs license header",
+      "revId": "da669c2375310d1230d40f3c2f691a3a4c93f578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53ad331d_93fbf568",
         "filename": "java/com/google/gerrit/server/query/change/HasGitParentPredicate.java",
         "patchSetId": 1

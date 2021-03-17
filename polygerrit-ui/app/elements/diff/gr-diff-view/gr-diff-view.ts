@@ -636,7 +636,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
       this.$.cursor.moveToPreviousCommentThread();
     } else {
       if (this.modifierPressed(e)) return;
-      this.$.cursor.moveToPreviousChunk();
+      this.$.cursor.moveToPreviousChunk(!e.detail.keyboardEvent?.repeat);
     }
   }
 
@@ -1766,6 +1766,18 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
       file => file === this._path || !this._reviewedFiles.has(file)
     );
     this._navToFile(this._path, unreviewedFiles, 1);
+  }
+
+  _navigateToPreviousUnreviewedFile() {
+    if (!this._path) return;
+    if (!this._fileList) return;
+    if (!this._reviewedFiles) return;
+    // Ensure that the currently viewed file always appears in unreviewedFiles
+    // so we resolve the right "next" file.
+    const unreviewedFiles = this._fileList.filter(
+      file => file === this._path || !this._reviewedFiles.has(file)
+    );
+    this._navToFile(this._path, unreviewedFiles, -1);
   }
 
   _handleNextUnreviewedFile(e: CustomKeyboardEvent) {

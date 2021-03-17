@@ -46,6 +46,30 @@
       },
       "revId": "12ef06c9409172ba371e7be30da4d4da0a7925d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "927725e9_f939e090",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-17T09:48:12Z",
+      "side": 1,
+      "message": "good idea, we should try that once it\u0027s in.",
+      "parentUuid": "ca74fce5_0e556953",
+      "range": {
+        "startLine": 405,
+        "startChar": 19,
+        "endLine": 405,
+        "endChar": 43
+      },
+      "revId": "12ef06c9409172ba371e7be30da4d4da0a7925d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

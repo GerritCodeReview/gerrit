@@ -62,6 +62,29 @@
       },
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97b7516d_89ad2523",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-17T09:46:13Z",
+      "side": 1,
+      "message": "Using accountResolver is maybe not a good idea:\n- it is searching over a number of account fields, e.g. it would also find accounts that contain username as part of their fullname\n- it filters out inactive and non-visible accounts\n- it may use the account index,that may contain stale entries\n\nAlso with doing the check here it\u0027s possible that there is a race between requests that create the usernames with different capitalisation and so that both succeed (maybe unlikely to happen but possible).",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

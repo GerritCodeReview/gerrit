@@ -43,6 +43,7 @@ class SubmitChange extends GerritSimulation {
   private val createProject = new CreateProject(projectName)
   private val approveChange = new ApproveChange(createChange)
   private val deleteProject = new DeleteProject(projectName)
+  private val deleteAfter = new DeleteProjectIfExist(projectName)
 
   setUp(
     createProject.test.inject(
@@ -63,6 +64,10 @@ class SubmitChange extends GerritSimulation {
     ),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) seconds),
+      atOnceUsers(single)
+    ),
+    deleteAfter.test.inject(
+      nothingFor(stepWaitTime(deleteAfter) seconds),
       atOnceUsers(single)
     ),
   ).protocols(httpProtocol)

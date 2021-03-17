@@ -29,15 +29,24 @@ if [[ "$#" -ne "1" ]] || ! [[ "$1" =~ ^(gerrit|username)$ ]]; then
   usage
 fi
 
-# find lines with user name and subsequent line in external-ids notes branch
-# remove group separators
-# remove line break between user name and accountId lines
-# unify separators to ":"
-# cut on ":", select username and accountId fields
-# sort case-insensitive
-# flip columns
-# uniq case-insensitive, only show duplicates, avoid comparing first field
-# flip columns back
+# 1. find lines with user name and subsequent line in external-ids notes branch
+#   example output of 
+#   $ git grep -A1 "\[externalId \"username:" refs/meta/external-ids:
+#
+#   refs/meta/external-ids:00/1d/abd037e437f71d42134e6ad532a06948a2ba:[externalId "username:johndoe"]
+#   refs/meta/external-ids:00/1d/abd037e437f71d42134e6ad532a06948a2ba-      accountId = 1000815
+#   --
+#   refs/meta/external-ids:00/1f/0270fc2a6fc3a2439c454c8ab0c75323fdb0:[externalId "username:JohnDoe"]
+#   refs/meta/external-ids:00/1f/0270fc2a6fc3a2439c454c8ab0c75323fdb0-      accountId = 1000816
+#   --
+# 2. remove group separators
+# 3. remove line break between user name and accountId lines
+# 4. unify separators to ":"
+# 5. cut on ":", select username and accountId fields
+# 6. sort case-insensitive
+# 7. flip columns
+# 8. uniq case-insensitive, only show duplicates, avoid comparing first field
+# 9. flip columns back
 git grep -A1 "\[externalId \"$1:" refs/meta/external-ids \
   | sed -E "/$1/,/accountId/!d" \
   | paste -d ' ' - - \

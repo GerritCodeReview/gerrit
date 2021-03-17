@@ -62,6 +62,7 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
@@ -100,6 +101,7 @@ import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.receive.NoteDbPushOption;
+import com.google.gerrit.server.git.receive.PluginPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
@@ -2364,6 +2366,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     private final AtomicInteger count = new AtomicInteger();
     private final boolean validateAll;
 
+    @Nullable private CommitReceivedEvent receivedEvent;
+
     TestValidator(boolean validateAll) {
       this.validateAll = validateAll;
     }
@@ -2373,7 +2377,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     }
 
     @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent) {
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receivedEvent) {
+      this.receivedEvent = receivedEvent;
       count.incrementAndGet();
       return Collections.emptyList();
     }
@@ -2385,6 +2390,31 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     public int count() {
       return count.get();
+    }
+
+    @Nullable
+    public CommitReceivedEvent getReceivedEvent() {
+      return receivedEvent;
+    }
+  }
+
+  private static class TestPluginPushOption implements PluginPushOption {
+    private final String name;
+    private final String description;
+
+    TestPluginPushOption(String name, String description) {
+      this.name = name;
+      this.description = description;
+    }
+
+    @Override
+    public String getName() {
+      return name;
+    }
+
+    @Override
+    public String getDescription() {
+      return description;
     }
   }
 
@@ -2445,6 +2475,38 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         // Second listener was called.
         assertThat(validator2.count()).isEqualTo(1);
       }
+    }
+  }
+
+  @Test
+  public void pushOptionsArePassedToCommitValidationListener() throws Exception {
+    TestValidator validator = new TestValidator();
+    PluginPushOption fooOption = new TestPluginPushOption("foo", "some description");
+    PluginPushOption barOption = new TestPluginPushOption("bar", "other description");
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(validator).add(fooOption).add(barOption)) {
+      PushOneCommit push =
+          pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
+      push.setPushOptions(ImmutableList.of("trace=123", "gerrit~foo", "gerrit~bar=456"));
+      PushOneCommit.Result r = push.to("refs/for/master");
+      r.assertOkStatus();
+      assertThat(validator.getReceivedEvent().pushOptions)
+          .containsExactly("trace", "123", "gerrit~foo", "", "gerrit~bar", "456");
+    }
+  }
+
+  @Test
+  public void pluginPushOptionsHelp() throws Exception {
+    PluginPushOption fooOption = new TestPluginPushOption("foo", "some description");
+    PluginPushOption barOption = new TestPluginPushOption("bar", "other description");
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(fooOption).add(barOption)) {
+      PushOneCommit push =
+          pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
+      push.setPushOptions(ImmutableList.of("help"));
+      PushOneCommit.Result r = push.to("refs/for/master");
+      r.assertErrorStatus("see help");
+      r.assertMessage("-o gerrit~bar: other description\n-o gerrit~foo: some description\n");
     }
   }
 

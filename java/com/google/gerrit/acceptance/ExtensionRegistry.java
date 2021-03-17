@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.ChangeMessageModifier;
+import com.google.gerrit.server.git.receive.PluginPushOption;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
@@ -84,6 +85,7 @@ public class ExtensionRegistry {
   private final DynamicMap<CapabilityDefinition> capabilityDefinitions;
   private final DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+  private final DynamicSet<PluginPushOption> pluginPushOptions;
   private final DynamicSet<OnPostReview> onPostReviews;
 
   @Inject
@@ -116,6 +118,7 @@ public class ExtensionRegistry {
       DynamicMap<CapabilityDefinition> capabilityDefinitions,
       DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      DynamicSet<PluginPushOption> pluginPushOption,
       DynamicSet<OnPostReview> onPostReviews) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
@@ -145,6 +148,7 @@ public class ExtensionRegistry {
     this.capabilityDefinitions = capabilityDefinitions;
     this.pluginProjectPermissionDefinitions = pluginProjectPermissionDefinitions;
     this.pluginConfigEntries = pluginConfigEntries;
+    this.pluginPushOptions = pluginPushOption;
     this.onPostReviews = onPostReviews;
   }
 
@@ -272,6 +276,10 @@ public class ExtensionRegistry {
 
     public Registration add(ProjectConfigEntry pluginConfigEntry, String exportName) {
       return add(pluginConfigEntries, pluginConfigEntry, exportName);
+    }
+
+    public Registration add(PluginPushOption pluginPushOption) {
+      return add(pluginPushOptions, pluginPushOption);
     }
 
     public Registration add(OnPostReview onPostReview) {

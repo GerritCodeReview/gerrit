@@ -25,6 +25,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
@@ -546,6 +547,7 @@ public class ChangeInserter implements InsertChangeOp {
               cmd,
               projectState.getProject(),
               change.getDest().branch(),
+              ImmutableListMultimap.of(),
               ctx.getRepoView().getConfig(),
               ctx.getRevWalk().getObjectReader(),
               commitId,

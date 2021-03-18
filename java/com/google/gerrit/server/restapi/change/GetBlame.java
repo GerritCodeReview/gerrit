@@ -115,7 +115,7 @@ public class GetBlame implements RestReadView<FileResource> {
         result = blame(parents[0], path, repository, revWalk);
 
       } else if (parents.length == 2) {
-        ObjectId automerge = autoMerger.merge(repository, revWalk, ins, revCommit, mergeStrategy);
+        ObjectId automerge = autoMerger.merge(repository, revWalk, revCommit, mergeStrategy);
         result = blame(automerge, path, repository, revWalk);
 
       } else {

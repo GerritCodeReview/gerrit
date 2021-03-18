@@ -112,7 +112,7 @@ class BaseCommitUtil {
         }
         // Only support auto-merge for 2 parents, not octopus merges
         if (current.getParentCount() == 2) {
-          return autoMerger.merge(repo, rw, ins, current, mergeStrategy);
+          return autoMerger.merge(repo, rw, current, mergeStrategy);
         }
         return null;
     }

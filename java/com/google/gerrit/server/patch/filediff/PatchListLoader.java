@@ -657,7 +657,7 @@ public class PatchListLoader implements Callable<PatchList> {
         }
         // Only support auto-merge for 2 parents, not octopus merges
         if (b.getParentCount() == 2) {
-          return autoMerger.merge(repo, rw, ins, b, mergeStrategy);
+          return autoMerger.merge(repo, rw, b, mergeStrategy);
         }
         return null;
     }

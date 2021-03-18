@@ -2370,21 +2370,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().add("file1", "contents1").create());
     RevCommit commit2 = repo.parseBody(repo.commit().add("file1", "contents2").create());
+    RevCommit commit3 =
+        repo.parseBody(repo.commit().parent(commit2).add("file1", "contents3").create());
     Change change1 = insert(repo, newChangeForCommit(repo, commit1));
     Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
     RevCommit mergeCommit =
         repo.branch("master")
             .commit()
             .message("Merge commit")
             .parent(commit1)
-            .parent(commit2)
+            .parent(commit3)
             .insertChangeId()
             .create();
     Change mergeChange = insert(repo, newChangeForCommit(repo, mergeCommit));
 
     assertQuery("status:open is:merge", mergeChange);
-    assertQuery("status:open -is:merge", change2, change1);
-    assertQuery("status:open", mergeChange, change2, change1);
+    assertQuery("status:open -is:merge", change3, change2, change1);
+    assertQuery("status:open", mergeChange, change3, change2, change1);
   }
 
   @Test

@@ -70,6 +70,24 @@
       "parentUuid": "2bbb1a1b_25143d4f",
       "revId": "60e17bbcbceff3d54ca1f5b899438bce95116721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "846914b9_4a53b72b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-18T09:24:06Z",
+      "side": 1,
+      "message": "\u003e Which concern? \n\u003e Explaining why we use Project.NameKey? Because it\u0027s type safe :-)\n\nYes, the type itself. However, Guava cache isn\u0027t type safe because the cache eviction method accept an java.lang.Object and not a parametrised type.\nBottom line: we had the cache eviction broken in two plugins without even noticing it :-(\n\nI believe the high-availability and multi-site plugins should be more assertive on the overall behaviour of testing the caches, because that was actually a missing test-case.\n\n\u003e Are there reasons that these plugins can\u0027t work with Project.NameKey? I\u0027d really like to use defined types wherever possible.\n\nIt was an original sin of the high-availability plugin actually, which was carried over to multi-site because it was a derivation from its code-base.\n\nThe plugin has a unique cache eviction handler injected as DynamicMap\u003cCache\u003c?, ?\u003e\u003e and then evicts the cache entries with the method:\n  void invalidate(@CompatibleWith(\"K\") Object key);\n\nThe \"@CompatibleWith\" annotation should in theory do type checking, but the issue is the \u0027?\u0027 of the parameter types in the Cache class returned by the DynamicMap.\nAlso, the \"@CompatibleWith\" is an annotation with RetentionPolicy.CLASS, which means is not preserved at runtime and won\u0027t be albe to be used to enforce any data type in our case :-(\n\nThanks for coming back to me, I\u0027ll make sure that high-availability and multi-site plugins have a more robust contract testing on caches, as we know now that are very slippery slopes :-)",
+      "parentUuid": "50775c19_f903f786",
+      "revId": "60e17bbcbceff3d54ca1f5b899438bce95116721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

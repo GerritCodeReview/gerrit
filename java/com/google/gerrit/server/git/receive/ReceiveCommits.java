@@ -124,6 +124,7 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ChangeReportFormatter;
 import com.google.gerrit.server.git.GroupCollector;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -146,6 +147,7 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -352,6 +354,7 @@ class ReceiveCommits {
   private final SetPrivateOp.Factory setPrivateOpFactory;
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
   private final DynamicItem<UrlFormatter> urlFormatter;
+  private final AutoMerger autoMerger;
 
   // Assisted injected fields.
   private final ProjectState projectState;
@@ -435,6 +438,7 @@ class ReceiveCommits {
       SetPrivateOp.Factory setPrivateOpFactory,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
       DynamicItem<UrlFormatter> urlFormatter,
+      AutoMerger autoMerger,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -485,6 +489,7 @@ class ReceiveCommits {
     this.setPrivateOpFactory = setPrivateOpFactory;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
     this.urlFormatter = urlFormatter;
+    this.autoMerger = autoMerger;
 
     // Assisted injected fields.
     this.projectState = projectState;
@@ -988,6 +993,14 @@ class ReceiveCommits {
             reject(replace.inputCommand, rejectMessage);
           }
         }
+        // Add AutoMerge creation to ref transaction. Gerrit allows users to compare merge commits
+        // in the UI against
+        // plain merges in Git to see if the change author has made any manual modifications. To
+        // enable this feature,
+        // we need to compute the plain merge. We do this here synchronously and add the ref update
+        // to the transaction
+        // to ensure that
+        createAutoMergeCommitIfNecessary(bu, rw, ins);
 
       } catch (ResourceConflictException e) {
         addError(e.getMessage());
@@ -1179,6 +1192,34 @@ class ReceiveCommits {
         validateConfigPush(cmd);
       }
     }
+  }
+
+  /**
+   * Creates an auto merge commit for all newly pushed patch sets that have more than one parent.
+   *
+   * <p>If the tip is a merge commit we compute the auto merge result synchronously and add it to
+   * the ref transaction. This makes sure that later read calls to Gerrit don't find that the auto
+   * merge is missing. We want to avoid that case, because it would force Gerrit to compute the auto
+   * merge result and attempt a Git write operation while potentially processing a read-only call.
+   */
+  private void createAutoMergeCommitIfNecessary(BatchUpdate bu, RevWalk rw, ObjectInserter ins)
+      throws IOException {
+    if (magicBranch == null
+        || magicBranch.tip.getParentCount() <= 1
+        || !AutoMerger.cacheAutomerge(config)) {
+      logger.atFine().log("AutoMerge not required");
+      return;
+    }
+    RevCommit autoMerge =
+        autoMerger.mergeNoRefUpdate(
+            repo, rw, ins, magicBranch.tip, MergeUtil.getMergeStrategy(config));
+    bu.addRepoOnlyOp(
+        new UpdateOneRefOp(
+            new ReceiveCommand(
+                ObjectId.zeroId(),
+                autoMerge.getId(),
+                RefNames.refsCacheAutomerge(magicBranch.tip.name()))));
+    logger.atFine().log("Added %s AutoMerge ref update for commit", autoMerge.name());
   }
 
   /** Validates a push to refs/meta/config, and reject the command if it fails. */
@@ -1505,6 +1546,7 @@ class ReceiveCommits {
     List<RevCommit> baseCommit;
     CmdLineParser cmdLineParser;
     Set<String> hashtags = new HashSet<>();
+    RevCommit tip;
 
     @Option(name = "--trace", metaVar = "NAME", usage = "enable tracing")
     String trace;
@@ -1883,10 +1925,9 @@ class ReceiveCommits {
       }
 
       RevWalk walk = receivePack.getRevWalk();
-      RevCommit tip;
       try {
-        tip = walk.parseCommit(magicBranch.cmd.getNewId());
-        logger.atFine().log("Tip of push: %s", tip.name());
+        magicBranch.tip = walk.parseCommit(magicBranch.cmd.getNewId());
+        logger.atFine().log("Tip of push: %s", magicBranch.tip.name());
       } catch (IOException ex) {
         magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
         logger.atSevere().withCause(ex).log(
@@ -1907,7 +1948,7 @@ class ReceiveCommits {
             return;
           }
           RevCommit branchTip = receivePack.getRevWalk().parseCommit(refTip.getObjectId());
-          if (!walk.isMergedInto(tip, branchTip)) {
+          if (!walk.isMergedInto(magicBranch.tip, branchTip)) {
             reject(cmd, "not merged into branch");
             return;
           }
@@ -1915,10 +1956,10 @@ class ReceiveCommits {
 
         // If tip is a merge commit, or the root commit or
         // if %base or %merged was specified, ignore newChangeForAllNotInTarget.
-        if (tip.getParentCount() > 1
+        if (magicBranch.tip.getParentCount() > 1
             || magicBranch.base != null
             || magicBranch.merged
-            || tip.getParentCount() == 0) {
+            || magicBranch.tip.getParentCount() == 0) {
           logger.atFine().log("Forcing newChangeForAllNotInTarget = false");
           newChangeForAllNotInTarget = false;
         }
@@ -1965,7 +2006,7 @@ class ReceiveCommits {
             String.format("Error walking to %s in project %s", destBranch, project.getName()), e);
       }
 
-      if (validateConnected(magicBranch.cmd, magicBranch.dest, tip)) {
+      if (validateConnected(magicBranch.cmd, magicBranch.dest, magicBranch.tip)) {
         this.magicBranch = magicBranch;
         this.result.magicPush(true);
       }

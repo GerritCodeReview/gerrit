@@ -108,7 +108,7 @@ public class AutoMerger {
           .action(
               ActionType.GIT_UPDATE,
               "createAutoMerge",
-              () -> createAutoMergeCommit(repo, rw, ins, merge, mergeStrategy))
+              () -> createAutoMergeCommit(repo, rw, ins, merge, mergeStrategy, true))
           .defaultTimeoutMultiplier(2)
           .call();
     } catch (Exception e) {
@@ -121,6 +121,24 @@ public class AutoMerger {
   /**
    * Creates an auto-merge commit of the parents of the given merge commit.
    *
+   * <p>This method does not retry and does not attempt a ref update. It's intended to be used while
+   * accepting merge commits when processing git pushes.
+   *
+   * @return auto-merge commit.
+   */
+  public RevCommit mergeNoRefUpdate(
+      Repository repo,
+      RevWalk rw,
+      ObjectInserter ins,
+      RevCommit merge,
+      ThreeWayMergeStrategy mergeStrategy)
+      throws IOException {
+    return createAutoMergeCommit(repo, rw, ins, merge, mergeStrategy, false);
+  }
+
+  /**
+   * Creates an auto-merge commit of the parents of the given merge commit.
+   *
    * @return auto-merge commit. Headers of the returned RevCommit are parsed.
    */
   private RevCommit createAutoMergeCommit(
@@ -128,7 +146,8 @@ public class AutoMerger {
       RevWalk rw,
       ObjectInserter ins,
       RevCommit merge,
-      ThreeWayMergeStrategy mergeStrategy)
+      ThreeWayMergeStrategy mergeStrategy,
+      boolean updateRef)
       throws IOException {
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
 
@@ -153,7 +172,7 @@ public class AutoMerger {
       if (obj instanceof RevCommit) {
         return (RevCommit) obj;
       }
-      return commit(repo, rw, tmpIns, ins, refName, obj, merge);
+      return commit(repo, rw, tmpIns, ins, refName, obj, merge, updateRef);
     }
 
     ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);
@@ -179,7 +198,7 @@ public class AutoMerger {
               m.getMergeResults());
     }
 
-    return commit(repo, rw, tmpIns, ins, refName, treeId, merge);
+    return commit(repo, rw, tmpIns, ins, refName, treeId, merge, updateRef);
   }
 
   private RevCommit commit(
@@ -189,7 +208,8 @@ public class AutoMerger {
       ObjectInserter ins,
       String refName,
       ObjectId tree,
-      RevCommit merge)
+      RevCommit merge,
+      boolean updateRef)
       throws IOException {
     rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of
@@ -218,6 +238,9 @@ public class AutoMerger {
     checkArgument(!(ins instanceof InMemoryInserter));
     ObjectId commitId = ins.insert(cb);
     ins.flush();
+    if (!updateRef) {
+      return rw.parseCommit(commitId);
+    }
 
     RefUpdate ru = repo.updateRef(refName);
     ru.setNewObjectId(commitId);

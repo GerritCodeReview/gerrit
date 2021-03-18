@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "584d1b28_f6275489",
         "filename": "/COMMIT_MSG",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Maybe explain why?",
       "revId": "60e17bbcbceff3d54ca1f5b899438bce95116721",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "70520e16_5061376c",
         "filename": "/COMMIT_MSG",
@@ -32,8 +33,25 @@
       "message": "Will do",
       "parentUuid": "584d1b28_f6275489",
       "revId": "60e17bbcbceff3d54ca1f5b899438bce95116721",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bbb1a1b_25143d4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-18T00:56:37Z",
+      "side": 1,
+      "message": "Hi Patrick, I believe you forgot last year to address this concern :-(\n\nCan you explain why this was changed?\nSaša found out that this broke involuntarily the compatibility with the high-availability plugin (see Change-Id: Ie7145814) and, potentially, the multi-site plugin as well.",
+      "parentUuid": "70520e16_5061376c",
+      "revId": "60e17bbcbceff3d54ca1f5b899438bce95116721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

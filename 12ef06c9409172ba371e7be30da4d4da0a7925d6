@@ -94,6 +94,30 @@
       },
       "revId": "12ef06c9409172ba371e7be30da4d4da0a7925d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e3376fb_f0be7e1a",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-18T10:30:09Z",
+      "side": 1,
+      "message": "Any metrics for the new diff cache? If this is significantly faster, I\u0027d say this change is not required then.",
+      "parentUuid": "e7fe0405_64025131",
+      "range": {
+        "startLine": 405,
+        "startChar": 19,
+        "endLine": 405,
+        "endChar": 43
+      },
+      "revId": "12ef06c9409172ba371e7be30da4d4da0a7925d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

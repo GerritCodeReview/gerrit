@@ -917,11 +917,6 @@ public class ChangeField {
   public static void parseSubmitRecords(
       Collection<String> values, SubmitRuleOptions opts, ChangeData out) {
     List<SubmitRecord> records = parseSubmitRecords(values);
-    if (records.isEmpty()) {
-      // Assume no values means the field is not in the index;
-      // SubmitRuleEvaluator ensures the list is non-empty.
-      return;
-    }
     out.setSubmitRecords(opts, records);
   }
 

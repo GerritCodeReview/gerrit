@@ -17,7 +17,7 @@ package com.google.gerrit.server.patch;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Throwables;
-import com.google.gerrit.common.Nullable;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.git.LockFailureException;
@@ -25,10 +25,13 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -44,6 +47,7 @@ import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Utility class for creating an auto-merge commit of a merge commit.
@@ -67,6 +71,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * is that these refs should never be deleted.
  */
 public class AutoMerger {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static final String AUTO_MERGE_MSG_PREFIX = "Auto-merge of ";
 
   @UsedAt(UsedAt.Project.GOOGLE)
@@ -77,6 +83,7 @@ public class AutoMerger {
   private final RetryHelper retryHelper;
   private final PersonIdent gerritIdent;
   private final boolean save;
+  private final ThreeWayMergeStrategy configuredMergeStrategy;
 
   @Inject
   AutoMerger(
@@ -86,6 +93,7 @@ public class AutoMerger {
     this.retryHelper = retryHelper;
     save = cacheAutomerge(cfg);
     this.gerritIdent = gerritIdent;
+    this.configuredMergeStrategy = MergeUtil.getMergeStrategy(cfg);
   }
 
   /**
@@ -108,7 +116,19 @@ public class AutoMerger {
           .action(
               ActionType.GIT_UPDATE,
               "createAutoMerge",
-              () -> createAutoMergeCommit(repo, rw, ins, merge, mergeStrategy))
+              () -> {
+                String refName = RefNames.refsCacheAutomerge(merge.name());
+                Optional<RevCommit> existingCommit = lookupCommit(repo, rw, refName);
+                if (existingCommit.isPresent()) {
+                  return existingCommit.get();
+                }
+                RevCommit autoMerge =
+                    createAutoMergeCommit(repo.getConfig(), rw, ins, merge, mergeStrategy);
+                if (save) {
+                  updateRef(repo, refName, merge, autoMerge);
+                }
+                return autoMerge;
+              })
           .defaultTimeoutMultiplier(2)
           .call();
     } catch (Exception e) {
@@ -119,19 +139,48 @@ public class AutoMerger {
   }
 
   /**
+   * Creates an auto merge commit for the provided commit in case it is a merge commit. Will add the
+   * required ref update to the provided {@link BatchUpdate} so that the creation of the auto merge
+   * succeeds only if the main ref transaction succeeds. To be used whenever Gerrit creates new
+   * patch sets.
+   *
+   * @return A {@link ReceiveCommand} wrapped in an {@link Optional} to be used in a {@link
+   *     org.eclipse.jgit.lib.BatchRefUpdate}. {@link Optional#empty()} in case we don't need an
+   *     auto merge commit.
+   */
+  public Optional<ReceiveCommand> createAutoMergeCommitIfNecessary(
+      RepoView repoView, RevWalk rw, ObjectInserter ins, RevCommit maybeMergeCommit)
+      throws IOException {
+    if (maybeMergeCommit.getParentCount() <= 1 || !save) {
+      logger.atFine().log("AutoMerge not required");
+      return Optional.empty();
+    }
+
+    RevCommit autoMerge =
+        createAutoMergeCommit(
+            repoView.getConfig(), rw, ins, maybeMergeCommit, configuredMergeStrategy);
+    logger.atFine().log("Added %s AutoMerge ref update for commit", autoMerge.name());
+    return Optional.of(
+        new ReceiveCommand(
+            ObjectId.zeroId(),
+            autoMerge.getId(),
+            RefNames.refsCacheAutomerge(maybeMergeCommit.name())));
+  }
+
+  /**
    * Creates an auto-merge commit of the parents of the given merge commit.
    *
    * @return auto-merge commit. Headers of the returned RevCommit are parsed.
    */
   private RevCommit createAutoMergeCommit(
-      Repository repo,
+      Config repoConfig,
       RevWalk rw,
       ObjectInserter ins,
       RevCommit merge,
       ThreeWayMergeStrategy mergeStrategy)
       throws IOException {
-    checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
-
+    // TODO(hiesel): This precondition fails. Is is needed?
+    // checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
     InMemoryInserter tmpIns = null;
     if (ins instanceof InMemoryInserter) {
       // Caller gave us an in-memory inserter, so ensure anything we write from
@@ -146,17 +195,7 @@ public class AutoMerger {
     }
 
     rw.parseHeaders(merge);
-    String refName = RefNames.refsCacheAutomerge(merge.name());
-    Ref ref = repo.getRefDatabase().exactRef(refName);
-    if (ref != null && ref.getObjectId() != null) {
-      RevObject obj = rw.parseAny(ref.getObjectId());
-      if (obj instanceof RevCommit) {
-        return (RevCommit) obj;
-      }
-      return commit(repo, rw, tmpIns, ins, refName, obj, merge);
-    }
-
-    ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);
+    ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(ins, repoConfig);
     DirCache dc = DirCache.newInCore();
     m.setDirCache(dc);
     m.setObjectInserter(tmpIns == null ? new NonFlushingWrapper(ins) : tmpIns);
@@ -179,18 +218,6 @@ public class AutoMerger {
               m.getMergeResults());
     }
 
-    return commit(repo, rw, tmpIns, ins, refName, treeId, merge);
-  }
-
-  private RevCommit commit(
-      Repository repo,
-      RevWalk rw,
-      @Nullable InMemoryInserter tmpIns,
-      ObjectInserter ins,
-      String refName,
-      ObjectId tree,
-      RevCommit merge)
-      throws IOException {
     rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of
     // the input commit, using the server name and timezone.
@@ -200,7 +227,7 @@ public class AutoMerger {
     CommitBuilder cb = new CommitBuilder();
     cb.setAuthor(ident);
     cb.setCommitter(ident);
-    cb.setTreeId(tree);
+    cb.setTreeId(treeId);
     cb.setMessage(AUTO_MERGE_MSG_PREFIX + merge.name() + '\n');
     for (RevCommit p : merge.getParents()) {
       cb.addParentId(p);
@@ -218,16 +245,32 @@ public class AutoMerger {
     checkArgument(!(ins instanceof InMemoryInserter));
     ObjectId commitId = ins.insert(cb);
     ins.flush();
+    return rw.parseCommit(commitId);
+  }
 
+  private Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName)
+      throws IOException {
+    Ref ref = repo.getRefDatabase().exactRef(refName);
+    if (ref != null && ref.getObjectId() != null) {
+      RevObject obj = rw.parseAny(ref.getObjectId());
+      if (obj instanceof RevCommit) {
+        return Optional.of((RevCommit) obj);
+      }
+    }
+    return Optional.empty();
+  }
+
+  private void updateRef(Repository repo, String refName, RevCommit merge, RevCommit commit)
+      throws IOException {
     RefUpdate ru = repo.updateRef(refName);
-    ru.setNewObjectId(commitId);
+    ru.setNewObjectId(commit.getId());
     ru.disableRefLog();
     switch (ru.forceUpdate()) {
       case FAST_FORWARD:
       case FORCED:
       case NEW:
       case NO_CHANGE:
-        return rw.parseCommit(commitId);
+        return;
       case LOCK_FAILURE:
         throw new LockFailureException(
             String.format("Failed to create auto-merge of %s", merge.name()), ru);

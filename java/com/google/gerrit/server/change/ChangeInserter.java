@@ -63,6 +63,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -113,6 +114,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final ReviewerAdder reviewerAdder;
   private final MessageIdGenerator messageIdGenerator;
   private final DynamicItem<UrlFormatter> urlFormatter;
+  private final AutoMerger autoMerger;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -163,6 +165,7 @@ public class ChangeInserter implements InsertChangeOp {
       ReviewerAdder reviewerAdder,
       MessageIdGenerator messageIdGenerator,
       DynamicItem<UrlFormatter> urlFormatter,
+      AutoMerger autoMerger,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -180,6 +183,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.reviewerAdder = reviewerAdder;
     this.messageIdGenerator = messageIdGenerator;
     this.urlFormatter = urlFormatter;
+    this.autoMerger = autoMerger;
 
     this.changeId = changeId;
     this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
@@ -377,6 +381,15 @@ public class ChangeInserter implements InsertChangeOp {
       return;
     }
     ctx.addRefUpdate(cmd);
+    Optional<ReceiveCommand> autoMerge =
+        autoMerger.createAutoMergeCommitIfNecessary(
+            ctx.getRepoView(),
+            ctx.getRevWalk(),
+            ctx.getInserter(),
+            ctx.getRevWalk().parseCommit(commitId));
+    if (autoMerge.isPresent()) {
+      ctx.addRefUpdate(autoMerge.get());
+    }
   }
 
   @Override

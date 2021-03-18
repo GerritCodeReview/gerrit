@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -39,7 +40,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -86,7 +86,7 @@ public class GetBlame implements RestReadView<FileResource> {
       throws RestApiException, IOException, InvalidChangeOperationException {
     Project.NameKey project = resource.getRevision().getChange().getProject();
     try (Repository repository = repoManager.openRepository(project);
-        ObjectInserter ins = repository.newObjectInserter();
+        InMemoryInserter ins = new InMemoryInserter(repository);
         ObjectReader reader = ins.newReader();
         RevWalk revWalk = new RevWalk(reader)) {
       String refName =
@@ -115,7 +115,9 @@ public class GetBlame implements RestReadView<FileResource> {
         result = blame(parents[0], path, repository, revWalk);
 
       } else if (parents.length == 2) {
-        ObjectId automerge = autoMerger.merge(repository, revWalk, ins, revCommit, mergeStrategy);
+        ObjectId automerge =
+            autoMerger.lookupFromGitOrMergeInMemory(
+                repository, revWalk, ins, revCommit, mergeStrategy);
         result = blame(automerge, path, repository, revWalk);
 
       } else {

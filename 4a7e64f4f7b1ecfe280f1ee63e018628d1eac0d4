@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "375e2d60_cce14e3e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-03-18T13:50:22Z",
+      "side": 1,
+      "message": "wrong condition. should be \u003d\u003e parentCount \u003d\u003d 0",
+      "range": {
+        "startLine": 612,
+        "startChar": 21,
+        "endLine": 612,
+        "endChar": 37
+      },
+      "revId": "4a7e64f4f7b1ecfe280f1ee63e018628d1eac0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c6f9567_cff259f7",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 2

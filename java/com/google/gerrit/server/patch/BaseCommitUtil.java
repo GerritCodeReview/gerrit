@@ -54,7 +54,7 @@ class BaseCommitUtil {
   RevObject getBaseCommit(Project.NameKey project, ObjectId newCommit, @Nullable Integer parentNum)
       throws IOException {
     try (Repository repo = repoManager.openRepository(project);
-        ObjectInserter ins = newInserter(repo);
+        InMemoryInserter ins = new InMemoryInserter(repo);
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
       return getParentCommit(repo, ins, rw, parentNum, newCommit);
@@ -93,7 +93,7 @@ class BaseCommitUtil {
    */
   RevObject getParentCommit(
       Repository repo,
-      ObjectInserter ins,
+      InMemoryInserter ins,
       RevWalk rw,
       @Nullable Integer parentNum,
       ObjectId commitId)
@@ -116,10 +116,6 @@ class BaseCommitUtil {
         }
         return null;
     }
-  }
-
-  private ObjectInserter newInserter(Repository repo) {
-    return saveAutomerge ? repo.newObjectInserter() : new InMemoryInserter(repo);
   }
 
   private static ObjectId emptyTree(ObjectInserter ins) throws IOException {

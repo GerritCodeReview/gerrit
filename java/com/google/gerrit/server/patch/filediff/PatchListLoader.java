@@ -139,7 +139,7 @@ public class PatchListLoader implements Callable<PatchList> {
   @Override
   public PatchList call() throws IOException, PatchListNotAvailableException {
     try (Repository repo = repoManager.openRepository(project);
-        ObjectInserter ins = newInserter(repo);
+        InMemoryInserter ins = new InMemoryInserter(repo);
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
       return readPatchList(repo, rw, ins);
@@ -163,11 +163,7 @@ public class PatchListLoader implements Callable<PatchList> {
     }
   }
 
-  private ObjectInserter newInserter(Repository repo) {
-    return save ? repo.newObjectInserter() : new InMemoryInserter(repo);
-  }
-
-  private PatchList readPatchList(Repository repo, RevWalk rw, ObjectInserter ins)
+  private PatchList readPatchList(Repository repo, RevWalk rw, InMemoryInserter ins)
       throws IOException, PatchListNotAvailableException {
     ObjectReader reader = rw.getObjectReader();
     checkArgument(reader.getCreatedFromInserter() == ins);
@@ -634,7 +630,7 @@ public class PatchListLoader implements Callable<PatchList> {
   }
 
   private RevObject aFor(
-      PatchListKey key, Repository repo, RevWalk rw, ObjectInserter ins, RevCommit b)
+      PatchListKey key, Repository repo, RevWalk rw, InMemoryInserter ins, RevCommit b)
       throws IOException {
     if (key.getOldId() != null) {
       return rw.parseAny(key.getOldId());

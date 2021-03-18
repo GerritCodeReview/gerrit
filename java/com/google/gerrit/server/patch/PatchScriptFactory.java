@@ -82,8 +82,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         @Assisted("patchSetA") PatchSet.Id patchSetA,
         @Assisted("patchSetB") PatchSet.Id patchSetB,
         DiffPreferencesInfo diffPrefs,
-        CurrentUser currentUser,
-        boolean useNewDiffCache);
+        CurrentUser currentUser);
 
     PatchScriptFactory create(
         ChangeNotes notes,
@@ -91,8 +90,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         int parentNum,
         PatchSet.Id patchSetB,
         DiffPreferencesInfo diffPrefs,
-        CurrentUser currentUser,
-        boolean useNewDiffCache);
+        CurrentUser currentUser);
   }
 
   /** These metrics are temporary for launching the new redesigned diff cache. */
@@ -139,10 +137,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private ChangeNotes notes;
 
-  private final boolean runNewDiffCacheAsync;
-
-  // TODO(ghareeb): temporary field used for testing. Please remove.
-  private final boolean useNewDiffCache;
+  private final boolean runNewDiffCache;
 
   @AssistedInject
   PatchScriptFactory(
@@ -162,8 +157,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
       @Assisted("patchSetB") PatchSet.Id patchSetB,
       @Assisted DiffPreferencesInfo diffPrefs,
-      @Assisted CurrentUser currentUser,
-      @Assisted boolean useNewDiffCache) {
+      @Assisted CurrentUser currentUser) {
     this.repoManager = grm;
     this.psUtil = psUtil;
     this.builderFactory = builderFactory;
@@ -183,9 +177,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.diffPrefs = diffPrefs;
     this.currentUser = currentUser;
 
-    this.runNewDiffCacheAsync =
-        cfg.getBoolean("cache", "diff_cache", "runNewDiffCacheAsync_getDiff", false);
-    this.useNewDiffCache = useNewDiffCache;
+    this.runNewDiffCache = cfg.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
 
     changeId = patchSetB.changeId();
   }
@@ -208,8 +200,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       @Assisted int parentNum,
       @Assisted PatchSet.Id patchSetB,
       @Assisted DiffPreferencesInfo diffPrefs,
-      @Assisted CurrentUser currentUser,
-      @Assisted boolean useNewDiffCache) {
+      @Assisted CurrentUser currentUser) {
     this.repoManager = grm;
     this.psUtil = psUtil;
     this.builderFactory = builderFactory;
@@ -229,9 +220,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.diffPrefs = diffPrefs;
     this.currentUser = currentUser;
 
-    this.runNewDiffCacheAsync =
-        cfg.getBoolean("cache", "diff_cache", "runNewDiffCacheAsync_getDiff", false);
-    this.useNewDiffCache = useNewDiffCache;
+    this.runNewDiffCache = cfg.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
 
     changeId = patchSetB.changeId();
     checkArgument(parentNum >= 0, "parentNum must be >= 0");
@@ -270,28 +259,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           }
           bId = edit.get().getEditCommit();
         }
-
-        if (useNewDiffCache) {
-          FileDiffOutput fileDiffOutput =
-              aId == null
-                  ? diffOperations.getModifiedFileAgainstParent(
-                      notes.getProjectName(),
-                      bId,
-                      parentNum == -1 ? null : parentNum + 1,
-                      fileName,
-                      diffPrefs.ignoreWhitespace)
-                  : diffOperations.getModifiedFile(
-                      notes.getProjectName(), aId, bId, fileName, diffPrefs.ignoreWhitespace);
-          return newBuilder().toPatchScriptNew(git, fileDiffOutput);
+        if (runNewDiffCache) {
+          PatchScript patchScript = getPatchScriptWithNewDiffCache(git, aId, bId);
+          // TODO(ghareeb): remove the async run. This is temporarily used to keep sanity checking
+          // the results while rolling out the new diff cache.
+          runOldDiffCacheAsyncAndExportMetrics(git, aId, bId, patchScript);
+          return patchScript;
+        } else {
+          return getPatchScriptWithOldDiffCache(git, aId, bId);
         }
-        PatchScriptBuilder patchScriptBuilder = newBuilder();
-        PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));
-        PatchListEntry content = list.get(fileName);
-        PatchScript patchScript = patchScriptBuilder.toPatchScriptOld(git, list, content);
-        if (runNewDiffCacheAsync) {
-          runNewDiffCacheAsyncAndExportMetrics(git, aId, bId, patchScript);
-        }
-        return patchScript;
       } catch (PatchListNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
       } catch (DiffNotAvailableException e) {
@@ -311,24 +287,14 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private void runNewDiffCacheAsyncAndExportMetrics(
+  private void runOldDiffCacheAsyncAndExportMetrics(
       Repository git, ObjectId aId, ObjectId bId, PatchScript expected) {
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
         executor.submit(
             () -> {
               try {
-                FileDiffOutput fileDiffOutput =
-                    aId == null
-                        ? diffOperations.getModifiedFileAgainstParent(
-                            notes.getProjectName(),
-                            bId,
-                            parentNum == -1 ? null : parentNum + 1,
-                            fileName,
-                            diffPrefs.ignoreWhitespace)
-                        : diffOperations.getModifiedFile(
-                            notes.getProjectName(), aId, bId, fileName, diffPrefs.ignoreWhitespace);
-                PatchScript patchScript = newBuilder().toPatchScriptNew(git, fileDiffOutput);
+                PatchScript patchScript = getPatchScriptWithOldDiffCache(git, aId, bId);
                 if (areEqualPatchscripts(patchScript, expected)) {
                   metrics.diffs.increment(metrics.MATCH);
                 } else {
@@ -337,7 +303,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
                       "Mismatching diff for change %s, old commit ID: %s, new commit ID: %s, file name: %s.",
                       changeId.toString(), aId, bId, fileName);
                 }
-              } catch (DiffNotAvailableException | IOException e) {
+              } catch (PatchListNotAvailableException | IOException e) {
                 metrics.diffs.increment(metrics.ERROR);
                 logger.atSevere().atMostEvery(10, TimeUnit.SECONDS).log(
                     String.format(
@@ -346,6 +312,29 @@ public class PatchScriptFactory implements Callable<PatchScript> {
                         + ExceptionUtils.getStackTrace(e));
               }
             });
+  }
+
+  private PatchScript getPatchScriptWithOldDiffCache(Repository git, ObjectId aId, ObjectId bId)
+      throws IOException, PatchListNotAvailableException {
+    PatchScriptBuilder patchScriptBuilder = newBuilder();
+    PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));
+    PatchListEntry content = list.get(fileName);
+    return patchScriptBuilder.toPatchScriptOld(git, list, content);
+  }
+
+  private PatchScript getPatchScriptWithNewDiffCache(Repository git, ObjectId aId, ObjectId bId)
+      throws IOException, DiffNotAvailableException {
+    FileDiffOutput fileDiffOutput =
+        aId == null
+            ? diffOperations.getModifiedFileAgainstParent(
+                notes.getProjectName(),
+                bId,
+                parentNum == -1 ? null : parentNum + 1,
+                fileName,
+                diffPrefs.ignoreWhitespace)
+            : diffOperations.getModifiedFile(
+                notes.getProjectName(), aId, bId, fileName, diffPrefs.ignoreWhitespace);
+    return newBuilder().toPatchScriptNew(git, fileDiffOutput);
   }
 
   /**

@@ -18,14 +18,15 @@ import com.google.gerrit.testing.ConfigSuite;
 import org.eclipse.jgit.lib.Config;
 
 /**
- * Runs the {@link RevisionDiffIT} tests with the new diff cache. This is temporary until the new
- * diff cache is fully deployed. The new diff cache will become the default in the future.
+ * Runs the {@link RevisionDiffIT} with the list files endpoint using the new diff cache. This is
+ * temporary until the new diff cache is fully deployed. The new diff cache will become the default
+ * in the future.
  */
 public class RevisionNewDiffCacheIT extends RevisionDiffIT {
   @ConfigSuite.Default
   public static Config newDiffCacheConfig() {
     Config config = new Config();
-    config.setBoolean("cache", "diff_cache", "useNewDiffCache", true);
+    config.setBoolean("cache", "diff_cache", "runNewDiffCache_ListFiles", true);
     return config;
   }
 }

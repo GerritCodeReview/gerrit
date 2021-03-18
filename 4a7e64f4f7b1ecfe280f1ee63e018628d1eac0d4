@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "57bae4c6_ad5f5bfe",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-03-18T14:54:45Z",
+      "side": 1,
+      "message": "I believe you need a new version of schema added with the new field and deprecate the old version ..?",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 19
+      },
+      "revId": "4a7e64f4f7b1ecfe280f1ee63e018628d1eac0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "375e2d60_cce14e3e",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2

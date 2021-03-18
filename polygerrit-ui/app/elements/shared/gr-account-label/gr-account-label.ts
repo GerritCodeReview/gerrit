@@ -285,20 +285,24 @@ export class GrAccountLabel extends PolymerElement {
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo,
-    selfAccount: AccountInfo,
     force: boolean,
     selected: boolean
+    selfAccount?: AccountInfo,
   ) {
     const enabled = this._computeAttentionButtonEnabled(
       config,
       highlight,
       account,
       change,
-      selfAccount,
       selected
+      selfAccount,
     );
+    const removeFromASTooltip =
+      account._account_id === selfAccount._account_id
+        ? 'Click to remove yourself from the attention set'
+        : 'Click to remove the user from the attention set';
     return enabled
-      ? 'Click to remove the user from the attention set'
+      ? removeFromASTooltip
       : force
       ? 'Disabled. Use "Modify" to make changes.'
       : 'Disabled. Only involved users can change.';

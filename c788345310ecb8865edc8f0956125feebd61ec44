@@ -131,6 +131,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac46110d_263195cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-18T09:28:34Z",
+      "side": 1,
+      "message": "(not resolved)",
+      "parentUuid": "c94c28f7_d81b6fa7",
+      "revId": "c788345310ecb8865edc8f0956125feebd61ec44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "920fcb8c_18b97956",
         "filename": "java/com/google/gerrit/server/restapi/change/GetMetaDiff.java",
         "patchSetId": 11

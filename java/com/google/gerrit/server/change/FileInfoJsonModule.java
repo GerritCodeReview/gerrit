@@ -32,7 +32,7 @@ public class FileInfoJsonModule extends AbstractModule {
 
   @Override
   public void configure() {
-    if (runNewDiffCacheAsync) {
+    if (true) {
       bind(FileInfoJson.class).to(FileInfoJsonComparingImpl.class);
       return;
     }

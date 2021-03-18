@@ -52,6 +52,24 @@
       "parentUuid": "70520e16_5061376c",
       "revId": "60e17bbcbceff3d54ca1f5b899438bce95116721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50775c19_f903f786",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-18T07:55:57Z",
+      "side": 1,
+      "message": "Which concern? Explaining why we use Project.NameKey? Because it\u0027s type safe :-)\n\nAre there reasons that these plugins can\u0027t work with Project.NameKey? I\u0027d really like to use defined types wherever possible.",
+      "parentUuid": "2bbb1a1b_25143d4f",
+      "revId": "60e17bbcbceff3d54ca1f5b899438bce95116721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

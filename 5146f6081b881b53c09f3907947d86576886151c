@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7d0cf31_42cbdbd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-18T14:46:56Z",
+      "side": 1,
+      "message": "Thanks, really cool!",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40c73283_f07387eb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-18T14:46:56Z",
+      "side": 1,
+      "message": "Am I understanding this annotate API correctly in that it is called both for the initial render, and when ever you ask for a rerender, for example because of a mouse over?\nIf so, should we really always storeLinesForToken? I guess the Set makes sure duplicates are just overwritten?",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5321c38a_33f165e9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-18T14:46:56Z",
+      "side": 1,
+      "message": "Do we ever need to clean these up? Or are layers just around forever until no one references them anymore?",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e74b507_c663c2ec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-18T14:46:56Z",
+      "side": 1,
+      "message": "This is actually needed quite frequently, and we should just pass it in and add it to the API. See workarounds that we could remove if we did this:\nelements/diff/gr-syntax-layer/gr-syntax-layer.ts:206\nelements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.ts:107",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcafa95f_61ea9491",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-18T14:46:56Z",
+      "side": 1,
+      "message": "Why do we need this here - is that not handled by the mouse out above?",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d20280b9_bcc8a745",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-18T14:46:56Z",
+      "side": 1,
+      "message": "Supernit: Maybe just move this one line earlier - then the inferred type of lines is simpler.",
+      "range": {
+        "startLine": 113,
+        "startChar": 29,
+        "endLine": 113,
+        "endChar": 34
+      },
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b56010b8_a0c21d80",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-18T14:46:56Z",
+      "side": 1,
+      "message": "Might aswell do now? 😊",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

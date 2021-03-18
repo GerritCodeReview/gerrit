@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.inject.Inject;
@@ -92,7 +93,7 @@ public class FileInfoJsonNewImpl implements FileInfoJson {
           fileDiff.changeType() != Patch.ChangeType.MODIFIED
               ? fileDiff.changeType().getCode()
               : null;
-      fileInfo.oldPath = fileDiff.oldPath().orElse(null);
+      fileInfo.oldPath = FilePathAdapter.getOldPath(fileDiff.oldPath(), fileDiff.changeType());
       fileInfo.sizeDelta = fileDiff.sizeDelta();
       fileInfo.size = fileDiff.size();
       if (fileDiff.patchType().get() == Patch.PatchType.BINARY) {

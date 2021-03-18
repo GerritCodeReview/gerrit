@@ -213,10 +213,12 @@
         if (m.name in topMenuLinks) {
           items.forEach(link => { topMenuLinks[m.name].push(link); });
         } else {
-          links.push({
-            title: m.name,
-            links: topMenuLinks[m.name] = items,
-          });
+          if (items.length > 0) {
+            links.push({
+              title: m.name,
+              links: topMenuLinks[m.name] = items,
+            });
+          }
         }
       }
       return links;

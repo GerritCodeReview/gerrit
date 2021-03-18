@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74374f3b_2beee4e6",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2021-03-18T14:47:03Z",
+      "side": 1,
+      "message": "i think this comment needs to be updated now ?",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 54
+      },
+      "revId": "4a7e64f4f7b1ecfe280f1ee63e018628d1eac0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "375e2d60_cce14e3e",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2

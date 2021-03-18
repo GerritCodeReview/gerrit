@@ -16,6 +16,24 @@
       "message": "should this be cherry-picked to an older version? I see this operator is not even used in gerrit-review\u0027s change index.",
       "revId": "6057a2ef13a714e2e33c6ad9921d9b1b9539bb4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e3f8b1e_aaf1a189",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-18T10:38:12Z",
+      "side": 1,
+      "message": "no, I introduced this in a recent change. I\u0027ll add a ref to the message.",
+      "parentUuid": "7820739c_fdfc8d94",
+      "revId": "6057a2ef13a714e2e33c6ad9921d9b1b9539bb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

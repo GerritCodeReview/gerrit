@@ -607,7 +607,7 @@ public class ChangeData {
       author = c.getAuthorIdent();
       committer = c.getCommitterIdent();
       parentCount = c.getParentCount();
-      merge = parentCount > 0;
+      merge = parentCount > 1; // TODO(hanwen): test coverage: tests keep passing if using 0
     } catch (IOException e) {
       throw new StorageException(
           String.format(

@@ -16,6 +16,86 @@
       "message": "Needs a test",
       "revId": "3adb00060e7b7a1b704fb76eb343f3f39afb903a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17fc952f_13da5f07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-18T09:37:54Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "3adb00060e7b7a1b704fb76eb343f3f39afb903a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "015cef30_36aad083",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-18T09:37:54Z",
+      "side": 1,
+      "message": "nit: bad line breaks",
+      "range": {
+        "startLine": 997,
+        "startChar": 7,
+        "endLine": 1002,
+        "endChar": 25
+      },
+      "revId": "3adb00060e7b7a1b704fb76eb343f3f39afb903a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0896269f_b8603c62",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-18T09:37:54Z",
+      "side": 1,
+      "message": "If multiple commits are pushed at once, isn\u0027t this only looking at the last commit in the series, and hence skipping the auto-merge creation for merge commits in the series that are not the tip?",
+      "range": {
+        "startLine": 1208,
+        "startChar": 11,
+        "endLine": 1208,
+        "endChar": 48
+      },
+      "revId": "3adb00060e7b7a1b704fb76eb343f3f39afb903a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "303527a7_d187d361",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-03-18T09:37:54Z",
+      "side": 1,
+      "message": "Maybe mention that this method allows the caller to do the creation of the auto-merge ref as part of a batch update operation.",
+      "revId": "3adb00060e7b7a1b704fb76eb343f3f39afb903a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

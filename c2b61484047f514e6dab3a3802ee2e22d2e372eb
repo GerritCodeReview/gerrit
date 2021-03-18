@@ -22,6 +22,30 @@
       },
       "revId": "c2b61484047f514e6dab3a3802ee2e22d2e372eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd64c5f1_17af8958",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/AbandonChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-18T12:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9b56e61_0de09f26",
+      "range": {
+        "startLine": 52,
+        "startChar": 14,
+        "endLine": 52,
+        "endChar": 25
+      },
+      "revId": "c2b61484047f514e6dab3a3802ee2e22d2e372eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

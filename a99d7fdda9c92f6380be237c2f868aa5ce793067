@@ -83,6 +83,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "209a46d3_591a7770",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-18T00:01:02Z",
+      "side": 1,
+      "message": "Does it make sense to start a brand-new approach?",
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36ad96f9_d7c0000a",
@@ -407,6 +424,30 @@
       "side": 1,
       "message": "ok understood, so we better delete only the username\n\nFound the following external IDs on our servers:\n\n $ git grep externalId refs/meta/external-ids | cut -d\\\" -f2 | cut -d: -f1 | sort | uniq\n\n gerrit   (LDAP, is the javadoc in ExternalId correct ?) \n username (authentication REST and git endpoints)\n external (external authentication e.g. oauth, saml)\n gpgkey   (gpg keys)\n mailto   (email addresses)\n\nIn addition ExternalId defines the scheme uuid, seems we don\u0027t use that.\n\nMaybe we need an option for case-sensitivity per externalId scheme ?\n\n[2] https://www.alphr.com/are-emails-case-sensitive/",
       "parentUuid": "e530d5b9_0494a85d",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d8647ca_957bc7ea",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-18T00:01:02Z",
+      "side": 1,
+      "message": "\u003e ok understood, so we better delete only the username\n\nNever delete anything, just leave them unused.\nIf they are referenced by an unreachable SHA1, they can\u0027t cause problems.\n\nDo we need therefore a brand-new approach and possibly abandon this change?\nI believe there will be also an offline process for migrating the existing non-lowercase IDs into lowercase IDs.\n\nAs mentioned, the process would have to issue warnings when duplicates are found and therefore won\u0027t be converted, resulting in the associated users not being able to login after the conversion.\n\n\u003e Found the following external IDs on our servers:\n\u003e \n\u003e  $ git grep externalId refs/meta/external-ids | cut -d\\\" -f2 | cut -d: -f1 | sort | uniq\n\u003e \n\u003e  gerrit   (LDAP, is the javadoc in ExternalId correct ?) \n\u003e  username (authentication REST and git endpoints)\n\u003e  external (external authentication e.g. oauth, saml)\n\u003e  gpgkey   (gpg keys)\n\u003e  mailto   (email addresses)\n\u003e \n\u003e In addition ExternalId defines the scheme uuid, seems we don\u0027t use that.\n\u003e \n\u003e Maybe we need an option for case-sensitivity per externalId scheme ?\n\u003e \n\u003e [2] https://www.alphr.com/are-emails-case-sensitive/",
+      "parentUuid": "8637c55e_fbc56141",
       "range": {
         "startLine": 134,
         "startChar": 36,

@@ -16,6 +16,24 @@
       "message": "What aobut this case?\n\n1. section has entries\n2. section empty\n3. section has entries\n\nThen first is true for 1.\nThen first is false for 2.\nThen first is true for 3, because it was not true for 2 and it is not empty.",
       "revId": "fcf1031da2f7a96b535365301a14d834c6423d1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b85e8a0c_38143b54",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-18T22:59:20Z",
+      "side": 1,
+      "message": "Thanks a lot for catching this bug. I fixed it and created a few unit tests.",
+      "parentUuid": "3446b0b1_a94a0b42",
+      "revId": "fcf1031da2f7a96b535365301a14d834c6423d1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

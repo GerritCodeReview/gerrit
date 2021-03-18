@@ -566,6 +566,11 @@ export const htmlTemplate = html`
       border: 1px solid var(--diff-context-control-border-color);
       text-align: center;
     }
+
+    .token-highlight {
+      /* TODO(brohlfs): Define color in theme files. */
+      background-color: yellow;
+    }
   </style>
   <style include="gr-syntax-theme">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */

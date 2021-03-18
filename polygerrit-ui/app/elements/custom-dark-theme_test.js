@@ -54,10 +54,10 @@ suite('gr-app custom dark theme tests', () => {
     assert.equal(
         getComputedStyleValue('--header-background-color', element)
             .toLowerCase(),
-        '#3b3d3f');
+        '#3c4043');
     assert.equal(
         getComputedStyleValue('--footer-background-color', element)
             .toLowerCase(),
-        '#3b3d3f');
+        '#3c4043');
   });
 });

@@ -39,6 +39,30 @@
       },
       "revId": "7e68cf29e3c640e65761d5eefd7127f7f5b64d98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bbea7ce_821792e9",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-18T20:43:04Z",
+      "side": 1,
+      "message": "--primary-button-background-color is an existing variable that is already in use. Yes, that should be cleaned up at some point.",
+      "parentUuid": "90669994_21c9f306",
+      "range": {
+        "startLine": 143,
+        "startChar": 31,
+        "endLine": 143,
+        "endChar": 37
+      },
+      "revId": "7e68cf29e3c640e65761d5eefd7127f7f5b64d98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

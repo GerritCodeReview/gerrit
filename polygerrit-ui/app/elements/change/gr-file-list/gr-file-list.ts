@@ -43,11 +43,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {appContext} from '../../../services/app-context';
-import {
-  DiffViewMode,
-  ScrollMode,
-  SpecialFilePath,
-} from '../../../constants/constants';
+import {DiffViewMode, SpecialFilePath} from '../../../constants/constants';
 import {descendedFromClass} from '../../../utils/dom-util';
 import {
   addUnmodifiedFiles,
@@ -97,6 +93,7 @@ export interface GrFileList {
   $: {
     diffPreferencesDialog: GrDiffPreferencesDialog;
     diffCursor: GrDiffCursor;
+    fileCursor: GrCursorManager;
   };
 }
 
@@ -351,14 +348,6 @@ export class GrFileList extends KeyboardShortcutMixin(
     };
   }
 
-  private fileCursor = new GrCursorManager();
-
-  constructor() {
-    super();
-    this.fileCursor.scrollMode = ScrollMode.KEEP_VISIBLE;
-    this.fileCursor.cursorTargetClass = 'selected';
-  }
-
   /** @override */
   created() {
     super.created();
@@ -416,7 +405,7 @@ export class GrFileList extends KeyboardShortcutMixin(
 
   /** @override */
   disconnectedCallback() {
-    this.fileCursor.unsetCursor();
+    this.$.fileCursor.unsetCursor();
     this._cancelDiffs();
     this.cancelDebouncer(DEBOUNCER_LOADING_CHANGE);
     super.disconnectedCallback();
@@ -800,7 +789,7 @@ export class GrFileList extends KeyboardShortcutMixin(
       e.preventDefault();
       // Prevent _handleFileListClick handler call
       e.stopPropagation();
-      this.fileCursor.setCursor(fileRow.element);
+      this.$.fileCursor.setCursor(fileRow.element);
       fileAction(fileRow.file);
     }
   }
@@ -840,7 +829,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     }
 
     e.preventDefault();
-    this.fileCursor.setCursor(fileRow.element);
+    this.$.fileCursor.setCursor(fileRow.element);
     this._toggleFileExpanded(file);
   }
 
@@ -897,13 +886,13 @@ export class GrFileList extends KeyboardShortcutMixin(
     if (
       this.shouldSuppressKeyboardShortcut(e) ||
       this.modifierPressed(e) ||
-      this.fileCursor.index === -1
+      this.$.fileCursor.index === -1
     ) {
       return;
     }
 
     e.preventDefault();
-    this._toggleFileExpandedByIndex(this.fileCursor.index);
+    this._toggleFileExpandedByIndex(this.$.fileCursor.index);
   }
 
   _handleToggleAllInlineDiffs(e: CustomKeyboardEvent) {
@@ -939,8 +928,8 @@ export class GrFileList extends KeyboardShortcutMixin(
         return;
       }
       e.preventDefault();
-      this.fileCursor.next();
-      this.selectedIndex = this.fileCursor.index;
+      this.$.fileCursor.next();
+      this.selectedIndex = this.$.fileCursor.index;
     }
   }
 
@@ -959,8 +948,8 @@ export class GrFileList extends KeyboardShortcutMixin(
         return;
       }
       e.preventDefault();
-      this.fileCursor.previous();
-      this.selectedIndex = this.fileCursor.index;
+      this.$.fileCursor.previous();
+      this.selectedIndex = this.$.fileCursor.index;
     }
   }
 
@@ -1055,10 +1044,10 @@ export class GrFileList extends KeyboardShortcutMixin(
     }
 
     e.preventDefault();
-    if (!this._files[this.fileCursor.index]) {
+    if (!this._files[this.$.fileCursor.index]) {
       return;
     }
-    this._reviewFile(this._files[this.fileCursor.index].__path);
+    this._reviewFile(this._files[this.$.fileCursor.index].__path);
   }
 
   _handleToggleLeftPane(e: CustomKeyboardEvent) {
@@ -1095,9 +1084,9 @@ export class GrFileList extends KeyboardShortcutMixin(
 
   _openSelectedFile(index?: number) {
     if (index !== undefined) {
-      this.fileCursor.setCursorAtIndex(index);
+      this.$.fileCursor.setCursorAtIndex(index);
     }
-    if (!this._files[this.fileCursor.index]) {
+    if (!this._files[this.$.fileCursor.index]) {
       return;
     }
     if (!this.change || !this.patchRange) {
@@ -1105,7 +1094,7 @@ export class GrFileList extends KeyboardShortcutMixin(
     }
     GerritNav.navigateToDiff(
       this.change,
-      this._files[this.fileCursor.index].__path,
+      this._files[this.$.fileCursor.index].__path,
       this.patchRange.patchNum,
       this.patchRange.basePatchNum
     );
@@ -1307,10 +1296,10 @@ export class GrFileList extends KeyboardShortcutMixin(
   _filesChanged() {
     if (this._files && this._files.length > 0) {
       flush();
-      this.fileCursor.stops = Array.from(
+      this.$.fileCursor.stops = Array.from(
         this.root!.querySelectorAll(`.${FILE_ROW_CLASS}`)
       );
-      this.fileCursor.setCursorAtIndex(this.selectedIndex, true);
+      this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
     }
   }
 

@@ -482,7 +482,7 @@ suite('gr-file-list tests', () => {
           patchNum: 2,
         };
         element.change = {_number: 42};
-        element.fileCursor.setCursorAtIndex(0);
+        element.$.fileCursor.setCursorAtIndex(0);
       });
 
       test('toggle left diff via shortcut', () => {
@@ -500,38 +500,38 @@ suite('gr-file-list tests', () => {
         flush();
 
         const items = [...element.root.querySelectorAll('.file-row')];
-        element.fileCursor.stops = items;
-        element.fileCursor.setCursorAtIndex(0);
+        element.$.fileCursor.stops = items;
+        element.$.fileCursor.setCursorAtIndex(0);
         assert.equal(items.length, 3);
         assert.isTrue(items[0].classList.contains('selected'));
         assert.isFalse(items[1].classList.contains('selected'));
         assert.isFalse(items[2].classList.contains('selected'));
         // j with a modifier should not move the cursor.
         MockInteractions.pressAndReleaseKeyOn(element, 74, 'shift', 'j');
-        assert.equal(element.fileCursor.index, 0);
+        assert.equal(element.$.fileCursor.index, 0);
         // down should not move the cursor.
         MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'down');
-        assert.equal(element.fileCursor.index, 0);
+        assert.equal(element.$.fileCursor.index, 0);
 
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-        assert.equal(element.fileCursor.index, 1);
+        assert.equal(element.$.fileCursor.index, 1);
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
 
         const navStub = sinon.stub(GerritNav, 'navigateToDiff');
-        assert.equal(element.fileCursor.index, 2);
+        assert.equal(element.$.fileCursor.index, 2);
         assert.equal(element.selectedIndex, 2);
 
         // k with a modifier should not move the cursor.
         MockInteractions.pressAndReleaseKeyOn(element, 75, 'shift', 'k');
-        assert.equal(element.fileCursor.index, 2);
+        assert.equal(element.$.fileCursor.index, 2);
 
         // up should not move the cursor.
         MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'down');
-        assert.equal(element.fileCursor.index, 2);
+        assert.equal(element.$.fileCursor.index, 2);
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-        assert.equal(element.fileCursor.index, 1);
+        assert.equal(element.$.fileCursor.index, 1);
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 79, null, 'o');
 
@@ -542,7 +542,7 @@ suite('gr-file-list tests', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-        assert.equal(element.fileCursor.index, 0);
+        assert.equal(element.$.fileCursor.index, 0);
         assert.equal(element.selectedIndex, 0);
 
         const createCommentInPlaceStub = sinon.stub(element.$.diffCursor,
@@ -556,8 +556,8 @@ suite('gr-file-list tests', () => {
         sinon.stub(element, '_expandedFilesChanged');
         flush();
         const files = [...element.root.querySelectorAll('.file-row')];
-        element.fileCursor.stops = files;
-        element.fileCursor.setCursorAtIndex(0);
+        element.$.fileCursor.stops = files;
+        element.$.fileCursor.setCursorAtIndex(0);
         assert.equal(element.diffs.length, 0);
         assert.equal(element._expandedFiles.length, 0);
 
@@ -573,7 +573,7 @@ suite('gr-file-list tests', () => {
         assert.equal(element.diffs.length, 0);
         assert.equal(element._expandedFiles.length, 0);
 
-        element.fileCursor.setCursorAtIndex(1);
+        element.$.fileCursor.setCursorAtIndex(1);
         MockInteractions.keyUpOn(element, 73, null, 'i');
         flush();
         assert.equal(element.diffs.length, 1);
@@ -700,7 +700,7 @@ suite('gr-file-list tests', () => {
         basePatchNum: 'PARENT',
         patchNum: 2,
       };
-      element.fileCursor.setCursorAtIndex(0);
+      element.$.fileCursor.setCursorAtIndex(0);
       const reviewSpy = sinon.spy(element, '_reviewFile');
       const toggleExpandSpy = sinon.spy(element, '_toggleFileExpanded');
 
@@ -806,7 +806,7 @@ suite('gr-file-list tests', () => {
         basePatchNum: 'PARENT',
         patchNum: 2,
       };
-      element.fileCursor.setCursorAtIndex(0);
+      element.$.fileCursor.setCursorAtIndex(0);
       sinon.stub(element, '_expandedFilesChanged');
       flush();
       const fileRows =
@@ -834,7 +834,7 @@ suite('gr-file-list tests', () => {
         patchNum: 2,
       };
       sinon.spy(element, '_updateDiffPreferences');
-      element.fileCursor.setCursorAtIndex(0);
+      element.$.fileCursor.setCursorAtIndex(0);
       flush();
 
       // Tap on a file to generate the diff.
@@ -1487,7 +1487,7 @@ suite('gr-file-list tests', () => {
       assert.isFalse(diffStops[11].classList.contains('target-row'));
 
       // The file cursor is now at 1.
-      assert.equal(element.fileCursor.index, 1);
+      assert.equal(element.$.fileCursor.index, 1);
       MockInteractions.keyUpOn(element, 73, null, 'i');
       flush();
 
@@ -1529,7 +1529,7 @@ suite('gr-file-list tests', () => {
       assert.isTrue(diffStops[11].classList.contains('target-row'));
 
       // The file cursor is still at 0.
-      assert.equal(element.fileCursor.index, 0);
+      assert.equal(element.$.fileCursor.index, 0);
     });
 
     suite('n key presses', () => {

@@ -14,8 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {BehaviorSubject} from 'rxjs';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-cursor-manager_html';
 import {ScrollMode} from '../../../constants/constants';
+import {customElement, property, observe} from '@polymer/decorators';
+
+export interface GrCursorManager {
+  $: {};
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-cursor-manager': GrCursorManager;
+  }
+}
 
 /**
  * Return type for cursor moves, that indicate whether a move was possible.
@@ -47,33 +60,31 @@ export function isTargetable(stop: Stop): stop is HTMLElement {
   return !(stop instanceof AbortStop);
 }
 
-export class GrCursorManager {
-  get target(): HTMLElement | null {
-    return this.targetSubject.getValue();
+@customElement('gr-cursor-manager')
+export class GrCursorManager extends LegacyElementMixin(PolymerElement) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  set target(target: HTMLElement | null) {
-    this.targetSubject.next(target);
-    this._scrollToTarget();
-  }
-
-  private targetSubject = new BehaviorSubject<HTMLElement | null>(null);
-
-  target$ = this.targetSubject.asObservable();
+  @property({type: Object, notify: true})
+  target: HTMLElement | null = null;
 
   /**
    * The height of content intended to be included with the target.
    */
+  @property({type: Number})
   _targetHeight: number | null = null;
 
   /**
    * The index of the current target (if any). -1 otherwise.
    */
+  @property({type: Number})
   index = -1;
 
   /**
    * The class to apply to the current target. Use null for no class.
    */
+  @property({type: String})
   cursorTargetClass: string | null = null;
 
   /**
@@ -84,23 +95,17 @@ export class GrCursorManager {
    *
    * @type {string|undefined}
    */
+  @property({type: String})
   scrollMode: string = ScrollMode.NEVER;
 
   /**
    * When true, will call element.focus() during scrolling.
    */
+  @property({type: Boolean})
   focusOnMove = false;
 
-  set stops(stops: Stop[]) {
-    this.stopsInternal = stops;
-    this._updateIndex();
-  }
-
-  get stops(): Stop[] {
-    return this.stopsInternal;
-  }
-
-  private stopsInternal: Stop[] = [];
+  @property({type: Array})
+  stops: Stop[] = [];
 
   /** Only non-AbortStop stops. */
   get targetableStops(): HTMLElement[] {
@@ -372,6 +377,7 @@ export class GrCursorManager {
     }
   }
 
+  @observe('stops')
   _updateIndex() {
     if (!this.target) {
       this.index = -1;
@@ -418,6 +424,7 @@ export class GrCursorManager {
     return top + -dims.innerHeight / 3 + target.offsetHeight / 2;
   }
 
+  @observe('target')
   _scrollToTarget() {
     if (!this.target || this.scrollMode === ScrollMode.NEVER) {
       return;

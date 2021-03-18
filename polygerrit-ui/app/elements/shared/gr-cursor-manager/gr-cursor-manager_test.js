@@ -18,9 +18,10 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-cursor-manager.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {AbortStop, CursorMoveResult, GrCursorManager} from './gr-cursor-manager.js';
+import {AbortStop, CursorMoveResult} from './gr-cursor-manager.js';
 
 const basicTestFixutre = fixtureFromTemplate(html`
+    <gr-cursor-manager cursor-target-class="targeted"></gr-cursor-manager>
     <ul>
       <li>A</li>
       <li>B</li>
@@ -30,180 +31,180 @@ const basicTestFixutre = fixtureFromTemplate(html`
 `);
 
 suite('gr-cursor-manager tests', () => {
-  let cursor;
+  let element;
   let list;
 
   setup(() => {
-    list = basicTestFixutre.instantiate();
-    cursor = new GrCursorManager();
-    cursor.cursorTargetClass = 'targeted';
+    const fixtureElements = basicTestFixutre.instantiate();
+    element = fixtureElements[0];
+    list = fixtureElements[1];
   });
 
   test('core cursor functionality', () => {
     // The element is initialized into the proper state.
-    assert.isArray(cursor.stops);
-    assert.equal(cursor.stops.length, 0);
-    assert.equal(cursor.index, -1);
-    assert.isNotOk(cursor.target);
+    assert.isArray(element.stops);
+    assert.equal(element.stops.length, 0);
+    assert.equal(element.index, -1);
+    assert.isNotOk(element.target);
 
     // Initialize the cursor with its stops.
-    cursor.stops = [...list.querySelectorAll('li')];
+    element.stops = [...list.querySelectorAll('li')];
 
     // It should have the stops but it should not be targeting any of them.
-    assert.isNotNull(cursor.stops);
-    assert.equal(cursor.stops.length, 4);
-    assert.equal(cursor.index, -1);
-    assert.isNotOk(cursor.target);
+    assert.isNotNull(element.stops);
+    assert.equal(element.stops.length, 4);
+    assert.equal(element.index, -1);
+    assert.isNotOk(element.target);
 
     // Select the third stop.
-    cursor.setCursor(list.children[2]);
+    element.setCursor(list.children[2]);
 
     // It should update its internal state and update the element's class.
-    assert.equal(cursor.index, 2);
-    assert.equal(cursor.target, list.children[2]);
+    assert.equal(element.index, 2);
+    assert.equal(element.target, list.children[2]);
     assert.isTrue(list.children[2].classList.contains('targeted'));
-    assert.isFalse(cursor.isAtStart());
-    assert.isFalse(cursor.isAtEnd());
+    assert.isFalse(element.isAtStart());
+    assert.isFalse(element.isAtEnd());
 
     // Progress the cursor.
-    let result = cursor.next();
+    let result = element.next();
 
     // Confirm that the next stop is selected and that the previous stop is
     // unselected.
     assert.equal(result, CursorMoveResult.MOVED);
-    assert.equal(cursor.index, 3);
-    assert.equal(cursor.target, list.children[3]);
-    assert.isTrue(cursor.isAtEnd());
+    assert.equal(element.index, 3);
+    assert.equal(element.target, list.children[3]);
+    assert.isTrue(element.isAtEnd());
     assert.isFalse(list.children[2].classList.contains('targeted'));
     assert.isTrue(list.children[3].classList.contains('targeted'));
 
     // Progress the cursor.
-    result = cursor.next();
+    result = element.next();
 
     // We should still be at the end.
     assert.equal(result, CursorMoveResult.CLIPPED);
-    assert.equal(cursor.index, 3);
-    assert.equal(cursor.target, list.children[3]);
-    assert.isTrue(cursor.isAtEnd());
+    assert.equal(element.index, 3);
+    assert.equal(element.target, list.children[3]);
+    assert.isTrue(element.isAtEnd());
 
     // Wind the cursor all the way back to the first stop.
-    result = cursor.previous();
+    result = element.previous();
     assert.equal(result, CursorMoveResult.MOVED);
-    result = cursor.previous();
+    result = element.previous();
     assert.equal(result, CursorMoveResult.MOVED);
-    result = cursor.previous();
+    result = element.previous();
     assert.equal(result, CursorMoveResult.MOVED);
 
     // The element state should reflect the start of the list.
-    assert.equal(cursor.index, 0);
-    assert.equal(cursor.target, list.children[0]);
-    assert.isTrue(cursor.isAtStart());
+    assert.equal(element.index, 0);
+    assert.equal(element.target, list.children[0]);
+    assert.isTrue(element.isAtStart());
     assert.isTrue(list.children[0].classList.contains('targeted'));
 
     const newLi = document.createElement('li');
     newLi.textContent = 'Z';
     list.insertBefore(newLi, list.children[0]);
-    cursor.stops = [...list.querySelectorAll('li')];
+    element.stops = [...list.querySelectorAll('li')];
 
-    assert.equal(cursor.index, 1);
+    assert.equal(element.index, 1);
 
     // De-select all targets.
-    cursor.unsetCursor();
+    element.unsetCursor();
 
     // There should now be no cursor target.
     assert.isFalse(list.children[1].classList.contains('targeted'));
-    assert.isNotOk(cursor.target);
-    assert.equal(cursor.index, -1);
+    assert.isNotOk(element.target);
+    assert.equal(element.index, -1);
   });
 
   test('isAtStart() returns true when there are no stops', () => {
-    cursor.stops = [];
-    assert.isTrue(cursor.isAtStart());
+    element.stops = [];
+    assert.isTrue(element.isAtStart());
   });
 
   test('isAtEnd() returns true when there are no stops', () => {
-    cursor.stops = [];
-    assert.isTrue(cursor.isAtEnd());
+    element.stops = [];
+    assert.isTrue(element.isAtEnd());
   });
 
   test('next() goes to first element when no cursor is set', () => {
-    cursor.stops = [...list.querySelectorAll('li')];
-    const result = cursor.next();
+    element.stops = [...list.querySelectorAll('li')];
+    const result = element.next();
 
     assert.equal(result, CursorMoveResult.MOVED);
-    assert.equal(cursor.index, 0);
-    assert.equal(cursor.target, list.children[0]);
+    assert.equal(element.index, 0);
+    assert.equal(element.target, list.children[0]);
     assert.isTrue(list.children[0].classList.contains('targeted'));
-    assert.isTrue(cursor.isAtStart());
-    assert.isFalse(cursor.isAtEnd());
+    assert.isTrue(element.isAtStart());
+    assert.isFalse(element.isAtEnd());
   });
 
   test('next() resets the cursor when there are no stops', () => {
-    cursor.stops = [];
-    const result = cursor.next();
+    element.stops = [];
+    const result = element.next();
 
     assert.equal(result, CursorMoveResult.NO_STOPS);
-    assert.equal(cursor.index, -1);
-    assert.isNotOk(cursor.target);
+    assert.equal(element.index, -1);
+    assert.isNotOk(element.target);
     assert.isFalse(list.children[1].classList.contains('targeted'));
   });
 
   test('previous() goes to last element when no cursor is set', () => {
-    cursor.stops = [...list.querySelectorAll('li')];
-    const result = cursor.previous();
+    element.stops = [...list.querySelectorAll('li')];
+    const result = element.previous();
 
     assert.equal(result, CursorMoveResult.MOVED);
     const lastIndex = list.children.length - 1;
-    assert.equal(cursor.index, lastIndex);
-    assert.equal(cursor.target, list.children[lastIndex]);
+    assert.equal(element.index, lastIndex);
+    assert.equal(element.target, list.children[lastIndex]);
     assert.isTrue(list.children[lastIndex].classList.contains('targeted'));
-    assert.isFalse(cursor.isAtStart());
-    assert.isTrue(cursor.isAtEnd());
+    assert.isFalse(element.isAtStart());
+    assert.isTrue(element.isAtEnd());
   });
 
   test('previous() resets the cursor when there are no stops', () => {
-    cursor.stops = [];
-    const result = cursor.previous();
+    element.stops = [];
+    const result = element.previous();
 
     assert.equal(result, CursorMoveResult.NO_STOPS);
-    assert.equal(cursor.index, -1);
-    assert.isNotOk(cursor.target);
+    assert.equal(element.index, -1);
+    assert.isNotOk(element.target);
     assert.isFalse(list.children[1].classList.contains('targeted'));
   });
 
   test('_moveCursor', () => {
     // Initialize the cursor with its stops.
-    cursor.stops = [...list.querySelectorAll('li')];
+    element.stops = [...list.querySelectorAll('li')];
     // Select the first stop.
-    cursor.setCursor(list.children[0]);
+    element.setCursor(list.children[0]);
     const getTargetHeight = sinon.stub();
 
     // Move the cursor without an optional get target height function.
-    cursor._moveCursor(1);
+    element._moveCursor(1);
     assert.isFalse(getTargetHeight.called);
 
     // Move the cursor with an optional get target height function.
-    cursor._moveCursor(1, {getTargetHeight});
+    element._moveCursor(1, {getTargetHeight});
     assert.isTrue(getTargetHeight.called);
   });
 
   test('_moveCursor from for invalid index does not check height', () => {
-    cursor.stops = [];
+    element.stops = [];
     const getTargetHeight = sinon.stub();
-    cursor._moveCursor(1, () => false, {getTargetHeight});
+    element._moveCursor(1, () => false, {getTargetHeight});
     assert.isFalse(getTargetHeight.called);
   });
 
   test('setCursorAtIndex with noScroll', () => {
-    sinon.stub(cursor, '_targetIsVisible').callsFake(() => false);
+    sinon.stub(element, '_targetIsVisible').callsFake(() => false);
     const scrollStub = sinon.stub(window, 'scrollTo');
-    cursor.stops = [...list.querySelectorAll('li')];
-    cursor.scrollMode = 'keep-visible';
+    element.stops = [...list.querySelectorAll('li')];
+    element.scrollMode = 'keep-visible';
 
-    cursor.setCursorAtIndex(1, true);
+    element.setCursorAtIndex(1, true);
     assert.isFalse(scrollStub.called);
 
-    cursor.setCursorAtIndex(2);
+    element.setCursorAtIndex(2);
     assert.isTrue(scrollStub.called);
   });
 
@@ -211,30 +212,30 @@ suite('gr-cursor-manager tests', () => {
     const isLetterB = function(row) {
       return row.textContent === 'B';
     };
-    cursor.stops = [...list.querySelectorAll('li')];
+    element.stops = [...list.querySelectorAll('li')];
     // Start cursor at the first stop.
-    cursor.setCursor(list.children[0]);
+    element.setCursor(list.children[0]);
 
     // Move forward to meet the next condition.
-    cursor.next({filter: isLetterB});
-    assert.equal(cursor.index, 1);
+    element.next({filter: isLetterB});
+    assert.equal(element.index, 1);
 
     // Nothing else meets the condition, should be at last stop.
-    cursor.next({filter: isLetterB});
-    assert.equal(cursor.index, 3);
+    element.next({filter: isLetterB});
+    assert.equal(element.index, 3);
 
     // Should stay at last stop if try to proceed.
-    cursor.next({filter: isLetterB});
-    assert.equal(cursor.index, 3);
+    element.next({filter: isLetterB});
+    assert.equal(element.index, 3);
 
     // Go back to the previous condition met. Should be back at.
     // stop 1.
-    cursor.previous({filter: isLetterB});
-    assert.equal(cursor.index, 1);
+    element.previous({filter: isLetterB});
+    assert.equal(element.index, 1);
 
     // Go back. No more meet the condition. Should be at stop 0.
-    cursor.previous({filter: isLetterB});
-    assert.equal(cursor.index, 0);
+    element.previous({filter: isLetterB});
+    assert.equal(element.index, 0);
   });
 
   test('focusOnMove prop', () => {
@@ -242,129 +243,129 @@ suite('gr-cursor-manager tests', () => {
     for (let i = 0; i < listEls.length; i++) {
       sinon.spy(listEls[i], 'focus');
     }
-    cursor.stops = listEls;
-    cursor.setCursor(list.children[0]);
+    element.stops = listEls;
+    element.setCursor(list.children[0]);
 
-    cursor.focusOnMove = false;
-    cursor.next();
-    assert.isFalse(cursor.target.focus.called);
+    element.focusOnMove = false;
+    element.next();
+    assert.isFalse(element.target.focus.called);
 
-    cursor.focusOnMove = true;
-    cursor.next();
-    assert.isTrue(cursor.target.focus.called);
+    element.focusOnMove = true;
+    element.next();
+    assert.isTrue(element.target.focus.called);
   });
 
   suite('_scrollToTarget', () => {
     let scrollStub;
     setup(() => {
-      cursor.stops = [...list.querySelectorAll('li')];
-      cursor.scrollMode = 'keep-visible';
+      element.stops = [...list.querySelectorAll('li')];
+      element.scrollMode = 'keep-visible';
 
       // There is a target which has a targetNext
-      cursor.setCursor(list.children[0]);
-      cursor._moveCursor(1);
+      element.setCursor(list.children[0]);
+      element._moveCursor(1);
       scrollStub = sinon.stub(window, 'scrollTo');
       window.innerHeight = 60;
     });
 
     test('Called when top and bottom not visible', () => {
-      sinon.stub(cursor, '_targetIsVisible').returns(false);
-      cursor._scrollToTarget();
+      sinon.stub(element, '_targetIsVisible').returns(false);
+      element._scrollToTarget();
       assert.isTrue(scrollStub.called);
     });
 
     test('Not called when top and bottom visible', () => {
-      sinon.stub(cursor, '_targetIsVisible').returns(true);
-      cursor._scrollToTarget();
+      sinon.stub(element, '_targetIsVisible').returns(true);
+      element._scrollToTarget();
       assert.isFalse(scrollStub.called);
     });
 
     test('Called when top is visible, bottom is not, scroll is lower', () => {
-      const visibleStub = sinon.stub(cursor, '_targetIsVisible').callsFake(
+      const visibleStub = sinon.stub(element, '_targetIsVisible').callsFake(
           () => visibleStub.callCount === 2);
-      sinon.stub(cursor, '_getWindowDims').returns({
+      sinon.stub(element, '_getWindowDims').returns({
         scrollX: 123,
         scrollY: 15,
         innerHeight: 1000,
         pageYOffset: 0,
       });
-      sinon.stub(cursor, '_calculateScrollToValue').returns(20);
-      cursor._scrollToTarget();
+      sinon.stub(element, '_calculateScrollToValue').returns(20);
+      element._scrollToTarget();
       assert.isTrue(scrollStub.called);
       assert.isTrue(scrollStub.calledWithExactly(123, 20));
       assert.equal(visibleStub.callCount, 2);
     });
 
     test('Called when top is visible, bottom not, scroll is higher', () => {
-      const visibleStub = sinon.stub(cursor, '_targetIsVisible').callsFake(
+      const visibleStub = sinon.stub(element, '_targetIsVisible').callsFake(
           () => visibleStub.callCount === 2);
-      sinon.stub(cursor, '_getWindowDims').returns({
+      sinon.stub(element, '_getWindowDims').returns({
         scrollX: 123,
         scrollY: 25,
         innerHeight: 1000,
         pageYOffset: 0,
       });
-      sinon.stub(cursor, '_calculateScrollToValue').returns(20);
-      cursor._scrollToTarget();
+      sinon.stub(element, '_calculateScrollToValue').returns(20);
+      element._scrollToTarget();
       assert.isFalse(scrollStub.called);
       assert.equal(visibleStub.callCount, 2);
     });
 
     test('_calculateScrollToValue', () => {
-      sinon.stub(cursor, '_getWindowDims').returns({
+      sinon.stub(element, '_getWindowDims').returns({
         scrollX: 123,
         scrollY: 25,
         innerHeight: 300,
         pageYOffset: 0,
       });
-      assert.equal(cursor._calculateScrollToValue(1000, {offsetHeight: 10}),
+      assert.equal(element._calculateScrollToValue(1000, {offsetHeight: 10}),
           905);
     });
   });
 
   suite('AbortStops', () => {
     test('next() does not skip AbortStops', () => {
-      cursor.stops = [
+      element.stops = [
         document.createElement('li'),
         new AbortStop(),
         document.createElement('li'),
       ];
-      cursor.setCursorAtIndex(0);
+      element.setCursorAtIndex(0);
 
-      const result = cursor.next();
+      const result = element.next();
 
       assert.equal(result, CursorMoveResult.ABORTED);
-      assert.equal(cursor.index, 0);
+      assert.equal(element.index, 0);
     });
 
     test('setCursorAtIndex() does not target AbortStops', () => {
-      cursor.stops = [
+      element.stops = [
         document.createElement('li'),
         new AbortStop(),
         document.createElement('li'),
       ];
-      cursor.setCursorAtIndex(1);
-      assert.equal(cursor.index, -1);
+      element.setCursorAtIndex(1);
+      assert.equal(element.index, -1);
     });
 
     test('moveToStart() does not target AbortStop', () => {
-      cursor.stops = [
+      element.stops = [
         new AbortStop(),
         document.createElement('li'),
         document.createElement('li'),
       ];
-      cursor.moveToStart();
-      assert.equal(cursor.index, -1);
+      element.moveToStart();
+      assert.equal(element.index, -1);
     });
 
     test('moveToEnd() does not target AbortStop', () => {
-      cursor.stops = [
+      element.stops = [
         document.createElement('li'),
         document.createElement('li'),
         new AbortStop(),
       ];
-      cursor.moveToEnd();
-      assert.equal(cursor.index, -1);
+      element.moveToEnd();
+      assert.equal(element.index, -1);
     });
   });
 });

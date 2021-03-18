@@ -737,4 +737,10 @@ export const htmlTemplate = html`
   >
   </gr-diff-preferences-dialog>
   <gr-diff-cursor id="diffCursor"></gr-diff-cursor>
+  <gr-cursor-manager
+    id="fileCursor"
+    scroll-mode="keep-visible"
+    focus-on-move=""
+    cursor-target-class="selected"
+  ></gr-cursor-manager>
 `;

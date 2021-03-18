@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eddf777_696b8033",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-03-18T07:36:25Z",
+      "side": 1,
+      "message": "does this needs to be 1 ..? I don\u0027t see a reason in the commit message mentioning why we have updated from 1 to 0...",
+      "range": {
+        "startLine": 603,
+        "startChar": 28,
+        "endLine": 603,
+        "endChar": 29
+      },
+      "revId": "faf830b3b80e970f517865039fb403281aa411ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

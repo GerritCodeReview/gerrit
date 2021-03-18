@@ -16,19 +16,22 @@ package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.Throwables;
-import com.google.gerrit.common.Nullable;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.metrics.Counter1;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryableAction.ActionType;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -37,13 +40,13 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Utility class for creating an auto-merge commit of a merge commit.
@@ -67,6 +70,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * is that these refs should never be deleted.
  */
 public class AutoMerger {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static final String AUTO_MERGE_MSG_PREFIX = "Auto-merge of ";
 
   @UsedAt(UsedAt.Project.GOOGLE)
@@ -74,92 +79,108 @@ public class AutoMerger {
     return cfg.getBoolean("change", null, "cacheAutomerge", true);
   }
 
-  private final RetryHelper retryHelper;
+  private enum OperationType {
+    CACHE_LOAD,
+    IN_MEMORY_WRITE,
+    ON_DISK_WRITE
+  }
+
+  private final Counter1<OperationType> counter;
   private final PersonIdent gerritIdent;
   private final boolean save;
+  private final ThreeWayMergeStrategy configuredMergeStrategy;
 
   @Inject
   AutoMerger(
-      RetryHelper retryHelper,
+      MetricMaker metricMaker,
       @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent gerritIdent) {
-    this.retryHelper = retryHelper;
-    save = cacheAutomerge(cfg);
+    this.counter =
+        metricMaker.newCounter(
+            "git/auto-merge/num_operations",
+            new Description("AutoMerge computations").setRate().setUnit("auto merge computations"),
+            Field.ofEnum(OperationType.class, "type", Metadata.Builder::operationName).build());
+    this.save = cacheAutomerge(cfg);
     this.gerritIdent = gerritIdent;
+    this.configuredMergeStrategy = MergeUtil.getMergeStrategy(cfg);
   }
 
   /**
-   * Creates an auto-merge commit of the parents of the given merge commit.
+   * Reads or creates an auto-merge commit of the parents of the given merge commit.
    *
-   * <p>In case of an exception the creation of the auto-merge commit is retried a few times. E.g.
-   * this allows the operation to succeed if a Git update fails due to a temporary issue.
-   *
-   * @return auto-merge commit. Headers of the returned RevCommit are parsed.
-   */
-  public RevCommit merge(
-      Repository repo,
-      RevWalk rw,
-      ObjectInserter ins,
-      RevCommit merge,
-      ThreeWayMergeStrategy mergeStrategy)
-      throws IOException {
-    try {
-      return retryHelper
-          .action(
-              ActionType.GIT_UPDATE,
-              "createAutoMerge",
-              () -> createAutoMergeCommit(repo, rw, ins, merge, mergeStrategy))
-          .defaultTimeoutMultiplier(2)
-          .call();
-    } catch (Exception e) {
-      Throwables.throwIfUnchecked(e);
-      Throwables.throwIfInstanceOf(e, IOException.class);
-      throw new IllegalStateException(e);
-    }
-  }
-
-  /**
-   * Creates an auto-merge commit of the parents of the given merge commit.
+   * <p>The result is read from Git or computed in-memory and not written back to Git. This method
+   * exists for backwards compatibility only. All new changes have their auto-merge commits written
+   * transactionally when the change or patch set is created.
    *
    * @return auto-merge commit. Headers of the returned RevCommit are parsed.
    */
-  private RevCommit createAutoMergeCommit(
+  public RevCommit lookupFromGitOrMergeInMemory(
       Repository repo,
       RevWalk rw,
-      ObjectInserter ins,
+      InMemoryInserter ins,
       RevCommit merge,
       ThreeWayMergeStrategy mergeStrategy)
       throws IOException {
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
+    Optional<RevCommit> existingCommit =
+        lookupCommit(repo, rw, RefNames.refsCacheAutomerge(merge.name()));
+    if (existingCommit.isPresent()) {
+      counter.increment(OperationType.CACHE_LOAD);
+      return existingCommit.get();
+    }
+    counter.increment(OperationType.IN_MEMORY_WRITE);
+    logger.atWarning().log("Computing in-memory AutoMerge for " + merge.name());
+    return rw.parseCommit(createAutoMergeCommit(repo.getConfig(), rw, ins, merge, mergeStrategy));
+  }
 
-    InMemoryInserter tmpIns = null;
-    if (ins instanceof InMemoryInserter) {
-      // Caller gave us an in-memory inserter, so ensure anything we write from
-      // this method is visible to them.
-      tmpIns = (InMemoryInserter) ins;
-    } else if (!save) {
-      // If we don't plan on saving results, use a fully in-memory inserter.
-      // Using just a non-flushing wrapper is not sufficient, since in
-      // particular DfsInserter might try to write to storage after exceeding an
-      // internal buffer size.
-      tmpIns = new InMemoryInserter(rw.getObjectReader());
+  /**
+   * Creates an auto merge commit for the provided commit in case it is a merge commit. To be used
+   * whenever Gerrit creates new patch sets.
+   *
+   * <p>Callers need to include the returned {@link ReceiveCommand} in their ref transaction.
+   *
+   * @return A {@link ReceiveCommand} wrapped in an {@link Optional} to be used in a {@link
+   *     org.eclipse.jgit.lib.BatchRefUpdate}. {@link Optional#empty()} in case we don't need an
+   *     auto merge commit.
+   */
+  public Optional<ReceiveCommand> createAutoMergeCommitIfNecessary(
+      RepoView repoView, RevWalk rw, ObjectInserter ins, RevCommit maybeMergeCommit)
+      throws IOException {
+    if (maybeMergeCommit.getParentCount() != 2 || !save) {
+      logger.atFine().log("AutoMerge not required");
+      return Optional.empty();
     }
 
+    ObjectId autoMerge =
+        createAutoMergeCommit(
+            repoView.getConfig(), rw, ins, maybeMergeCommit, configuredMergeStrategy);
+    counter.increment(OperationType.ON_DISK_WRITE);
+    logger.atFine().log("Added %s AutoMerge ref update for commit", autoMerge.name());
+    return Optional.of(
+        new ReceiveCommand(
+            ObjectId.zeroId(), autoMerge, RefNames.refsCacheAutomerge(maybeMergeCommit.name())));
+  }
+
+  /**
+   * Creates an auto-merge commit of the parents of the given merge commit.
+   *
+   * @return auto-merge commit. Headers of the returned RevCommit are parsed.
+   */
+  private ObjectId createAutoMergeCommit(
+      Config repoConfig,
+      RevWalk rw,
+      ObjectInserter ins,
+      RevCommit merge,
+      ThreeWayMergeStrategy mergeStrategy)
+      throws IOException {
     rw.parseHeaders(merge);
-    String refName = RefNames.refsCacheAutomerge(merge.name());
-    Ref ref = repo.getRefDatabase().exactRef(refName);
-    if (ref != null && ref.getObjectId() != null) {
-      RevObject obj = rw.parseAny(ref.getObjectId());
-      if (obj instanceof RevCommit) {
-        return (RevCommit) obj;
-      }
-      return commit(repo, rw, tmpIns, ins, refName, obj, merge);
-    }
-
-    ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(repo, true);
+    ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(ins, repoConfig);
     DirCache dc = DirCache.newInCore();
     m.setDirCache(dc);
-    m.setObjectInserter(tmpIns == null ? new NonFlushingWrapper(ins) : tmpIns);
+    // If we don't plan on saving results, use a fully in-memory inserter.
+    // Using just a non-flushing wrapper is not sufficient, since in particular DfsInserter might
+    // try to write to storage after exceeding an internal buffer size.
+    m.setObjectInserter(ins instanceof InMemoryInserter ? new NonFlushingWrapper(ins) : ins);
 
     boolean couldMerge = m.merge(merge.getParents());
 
@@ -179,18 +200,6 @@ public class AutoMerger {
               m.getMergeResults());
     }
 
-    return commit(repo, rw, tmpIns, ins, refName, treeId, merge);
-  }
-
-  private RevCommit commit(
-      Repository repo,
-      RevWalk rw,
-      @Nullable InMemoryInserter tmpIns,
-      ObjectInserter ins,
-      String refName,
-      ObjectId tree,
-      RevCommit merge)
-      throws IOException {
     rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of
     // the input commit, using the server name and timezone.
@@ -200,50 +209,34 @@ public class AutoMerger {
     CommitBuilder cb = new CommitBuilder();
     cb.setAuthor(ident);
     cb.setCommitter(ident);
-    cb.setTreeId(tree);
+    cb.setTreeId(treeId);
     cb.setMessage(AUTO_MERGE_MSG_PREFIX + merge.name() + '\n');
     for (RevCommit p : merge.getParents()) {
       cb.addParentId(p);
     }
 
-    if (!save) {
-      checkArgument(tmpIns != null);
-      try (ObjectReader tmpReader = tmpIns.newReader();
+    if (ins instanceof InMemoryInserter) {
+      // When using an InMemoryInserter we need to read back the values from that inserter because
+      // they are not available.
+      try (ObjectReader tmpReader = ins.newReader();
           RevWalk tmpRw = new RevWalk(tmpReader)) {
-        return tmpRw.parseCommit(tmpIns.insert(cb));
+        return tmpRw.parseCommit(ins.insert(cb));
       }
     }
 
-    checkArgument(tmpIns == null);
-    checkArgument(!(ins instanceof InMemoryInserter));
-    ObjectId commitId = ins.insert(cb);
-    ins.flush();
+    return rw.parseCommit(ins.insert(cb));
+  }
 
-    RefUpdate ru = repo.updateRef(refName);
-    ru.setNewObjectId(commitId);
-    ru.disableRefLog();
-    switch (ru.forceUpdate()) {
-      case FAST_FORWARD:
-      case FORCED:
-      case NEW:
-      case NO_CHANGE:
-        return rw.parseCommit(commitId);
-      case LOCK_FAILURE:
-        throw new LockFailureException(
-            String.format("Failed to create auto-merge of %s", merge.name()), ru);
-      case IO_FAILURE:
-      case NOT_ATTEMPTED:
-      case REJECTED:
-      case REJECTED_CURRENT_BRANCH:
-      case REJECTED_MISSING_OBJECT:
-      case REJECTED_OTHER_REASON:
-      case RENAMED:
-      default:
-        throw new IOException(
-            String.format(
-                "Failed to create auto-merge of %s: Cannot write %s (%s)",
-                merge.name(), refName, ru.getResult()));
+  private Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName)
+      throws IOException {
+    Ref ref = repo.getRefDatabase().exactRef(refName);
+    if (ref != null && ref.getObjectId() != null) {
+      RevObject obj = rw.parseAny(ref.getObjectId());
+      if (obj instanceof RevCommit) {
+        return Optional.of((RevCommit) obj);
+      }
     }
+    return Optional.empty();
   }
 
   private static class NonFlushingWrapper extends ObjectInserter.Filter {

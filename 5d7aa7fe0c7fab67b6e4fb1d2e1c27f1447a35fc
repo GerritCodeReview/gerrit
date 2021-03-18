@@ -22,6 +22,30 @@
       },
       "revId": "5d7aa7fe0c7fab67b6e4fb1d2e1c27f1447a35fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61e1eb0d_7bf161c5",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-18T19:13:21Z",
+      "side": 1,
+      "message": "There are 5 usages (calls) of this method in total, and none of them seem to require it.",
+      "parentUuid": "b9977382_4b99a462",
+      "range": {
+        "startLine": 184,
+        "startChar": 2,
+        "endLine": 184,
+        "endChar": 6
+      },
+      "revId": "5d7aa7fe0c7fab67b6e4fb1d2e1c27f1447a35fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

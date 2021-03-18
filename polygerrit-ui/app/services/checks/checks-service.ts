@@ -132,6 +132,7 @@ export class ChecksService {
               patchsetNumber: patchNum,
               repo: change.project,
               commmitMessage: getCurrentRevision(change)?.commit?.message,
+              changeInfo: change,
             };
             updateStateSetLoading(pluginName);
             return from(this.providers[pluginName].fetch(data));

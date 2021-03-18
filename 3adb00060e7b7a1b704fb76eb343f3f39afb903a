@@ -75,6 +75,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a701479_16af4b8a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-18T13:21:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "015cef30_36aad083",
+      "range": {
+        "startLine": 997,
+        "startChar": 7,
+        "endLine": 1002,
+        "endChar": 25
+      },
+      "revId": "3adb00060e7b7a1b704fb76eb343f3f39afb903a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0896269f_b8603c62",
@@ -98,6 +122,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b71b218_83414313",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-18T13:21:39Z",
+      "side": 1,
+      "message": "Good catch. Done.",
+      "parentUuid": "0896269f_b8603c62",
+      "range": {
+        "startLine": 1208,
+        "startChar": 11,
+        "endLine": 1208,
+        "endChar": 48
+      },
+      "revId": "3adb00060e7b7a1b704fb76eb343f3f39afb903a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "303527a7_d187d361",
@@ -111,6 +159,24 @@
       "writtenOn": "2021-03-18T09:37:54Z",
       "side": 1,
       "message": "Maybe mention that this method allows the caller to do the creation of the auto-merge ref as part of a batch update operation.",
+      "revId": "3adb00060e7b7a1b704fb76eb343f3f39afb903a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef195c95_86961576",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-18T13:21:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "303527a7_d187d361",
       "revId": "3adb00060e7b7a1b704fb76eb343f3f39afb903a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7365ee5f_396f5a70",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-03-18T15:38:08Z",
+      "side": 1,
+      "message": "Would it be better to have a single field with the parent count which can answer both questions?",
+      "parentUuid": "57bae4c6_ad5f5bfe",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 19
+      },
+      "revId": "4a7e64f4f7b1ecfe280f1ee63e018628d1eac0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "375e2d60_cce14e3e",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2021-03-18T13:50:22Z",
       "side": 1,
       "message": "wrong condition. should be \u003d\u003e parentCount \u003d\u003d 0",
+      "range": {
+        "startLine": 612,
+        "startChar": 21,
+        "endLine": 612,
+        "endChar": 37
+      },
+      "revId": "4a7e64f4f7b1ecfe280f1ee63e018628d1eac0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db25616_8ea2fa49",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-03-18T15:38:08Z",
+      "side": 1,
+      "message": "And shouldn\u0027t the line above it be:\n\n merge \u003d parentCount \u003e 1;",
+      "parentUuid": "375e2d60_cce14e3e",
       "range": {
         "startLine": 612,
         "startChar": 21,

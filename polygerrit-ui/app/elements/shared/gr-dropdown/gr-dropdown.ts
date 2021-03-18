@@ -40,6 +40,7 @@ declare global {
 export interface GrDropdown {
   $: {
     dropdown: IronDropdownElement;
+    cursor: GrCursorManager;
   };
 }
 
@@ -109,6 +110,12 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Array})
   disabledIds: string[] = [];
 
+  /**
+   * The elements of the list.
+   */
+  @property({type: Array})
+  _listElements: Element[] = [];
+
   get keyBindings() {
     return {
       down: '_handleDown',
@@ -118,16 +125,9 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
     };
   }
 
-  private cursor = new GrCursorManager();
-
-  constructor() {
-    super();
-    this.cursor.cursorTargetClass = 'selected';
-  }
-
   /** @override */
   disconnectedCallback() {
-    this.cursor.unsetCursor();
+    this.$.cursor.unsetCursor();
     super.disconnectedCallback();
   }
 
@@ -138,7 +138,7 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
     if (this.$.dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
-      this.cursor.previous();
+      this.$.cursor.previous();
     } else {
       this._open();
     }
@@ -151,7 +151,7 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
     if (this.$.dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
-      this.cursor.next();
+      this.$.cursor.next();
     } else {
       this._open();
     }
@@ -178,8 +178,8 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
       // TODO(milutin): This solution is not particularly robust in general.
       // Since gr-tooltip-content click on shadow dom is not propagated down,
       // we have to target `a` inside it.
-      if (this.cursor.target !== null) {
-        const el = this.cursor.target.querySelector(':not([hidden]) a');
+      if (this.$.cursor.target !== null) {
+        const el = this.$.cursor.target.querySelector(':not([hidden]) a');
         if (el) {
           (el as HTMLElement).click();
         }
@@ -215,8 +215,8 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
   _open() {
     this.$.dropdown.open();
     this._resetCursorStops();
-    this.cursor.setCursorAtIndex(0);
-    if (this.cursor.target !== null) this.cursor.target.focus();
+    this.$.cursor.setCursorAtIndex(0);
+    if (this.$.cursor.target !== null) this.$.cursor.target.focus();
   }
 
   _close() {
@@ -331,7 +331,7 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
   _resetCursorStops() {
     if (this.items && this.items.length > 0 && this.$.dropdown.opened) {
       flush();
-      this.cursor.stops =
+      this._listElements =
         this.root !== null ? Array.from(this.root.querySelectorAll('li')) : [];
     }
   }

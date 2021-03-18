@@ -42,11 +42,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {appContext} from '../../../services/app-context';
-import {
-  DiffViewMode,
-  ScrollMode,
-  SpecialFilePath,
-} from '../../../constants/constants';
+import {DiffViewMode, SpecialFilePath} from '../../../constants/constants';
 import {descendedFromClass, toggleClass} from '../../../utils/dom-util';
 import {
   addUnmodifiedFiles,
@@ -92,6 +88,7 @@ export interface GrFileList {
   $: {
     diffPreferencesDialog: GrDiffPreferencesDialog;
     diffCursor: GrDiffCursor;
+    fileCursor: GrCursorManager;
   };
 }
 
@@ -344,18 +341,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     };
   }
 
-  private fileCursor = new GrCursorManager();
-
-  constructor() {
-    super();
-    this.fileCursor.scrollMode = ScrollMode.KEEP_VISIBLE;
-    this.fileCursor.cursorTargetClass = 'selected';
-    this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
-  }
-
   /** @override */
   connectedCallback() {
     super.connectedCallback();
+    this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -404,7 +393,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
-    this.fileCursor.unsetCursor();
+    this.$.fileCursor.unsetCursor();
     this._cancelDiffs();
     this.loadingTask?.cancel();
     super.disconnectedCallback();
@@ -788,7 +777,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       e.preventDefault();
       // Prevent _handleFileListClick handler call
       e.stopPropagation();
-      this.fileCursor.setCursor(fileRow.element);
+      this.$.fileCursor.setCursor(fileRow.element);
       fileAction(fileRow.file);
     }
   }
@@ -828,7 +817,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     }
 
     e.preventDefault();
-    this.fileCursor.setCursor(fileRow.element);
+    this.$.fileCursor.setCursor(fileRow.element);
     this._toggleFileExpanded(file);
   }
 
@@ -885,13 +874,13 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     if (
       this.shouldSuppressKeyboardShortcut(e) ||
       this.modifierPressed(e) ||
-      this.fileCursor.index === -1
+      this.$.fileCursor.index === -1
     ) {
       return;
     }
 
     e.preventDefault();
-    this._toggleFileExpandedByIndex(this.fileCursor.index);
+    this._toggleFileExpandedByIndex(this.$.fileCursor.index);
   }
 
   _handleToggleAllInlineDiffs(e: CustomKeyboardEvent) {
@@ -927,8 +916,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
         return;
       }
       e.preventDefault();
-      this.fileCursor.next();
-      this.selectedIndex = this.fileCursor.index;
+      this.$.fileCursor.next();
+      this.selectedIndex = this.$.fileCursor.index;
     }
   }
 
@@ -947,8 +936,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
         return;
       }
       e.preventDefault();
-      this.fileCursor.previous();
-      this.selectedIndex = this.fileCursor.index;
+      this.$.fileCursor.previous();
+      this.selectedIndex = this.$.fileCursor.index;
     }
   }
 
@@ -1043,10 +1032,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     }
 
     e.preventDefault();
-    if (!this._files[this.fileCursor.index]) {
+    if (!this._files[this.$.fileCursor.index]) {
       return;
     }
-    this._reviewFile(this._files[this.fileCursor.index].__path);
+    this._reviewFile(this._files[this.$.fileCursor.index].__path);
   }
 
   _handleToggleLeftPane(e: CustomKeyboardEvent) {
@@ -1083,9 +1072,9 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   _openSelectedFile(index?: number) {
     if (index !== undefined) {
-      this.fileCursor.setCursorAtIndex(index);
+      this.$.fileCursor.setCursorAtIndex(index);
     }
-    if (!this._files[this.fileCursor.index]) {
+    if (!this._files[this.$.fileCursor.index]) {
       return;
     }
     if (!this.change || !this.patchRange) {
@@ -1093,7 +1082,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     }
     GerritNav.navigateToDiff(
       this.change,
-      this._files[this.fileCursor.index].__path,
+      this._files[this.$.fileCursor.index].__path,
       this.patchRange.patchNum,
       this.patchRange.basePatchNum
     );
@@ -1295,10 +1284,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   _filesChanged() {
     if (this._files && this._files.length > 0) {
       flush();
-      this.fileCursor.stops = Array.from(
+      this.$.fileCursor.stops = Array.from(
         this.root!.querySelectorAll(`.${FILE_ROW_CLASS}`)
       );
-      this.fileCursor.setCursorAtIndex(this.selectedIndex, true);
+      this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
     }
   }
 

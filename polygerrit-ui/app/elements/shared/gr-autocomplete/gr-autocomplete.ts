@@ -25,6 +25,7 @@ import {htmlTemplate} from './gr-autocomplete_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {property, customElement, observe} from '@polymer/decorators';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {PaperInputElementExt} from '../../../types/types';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
@@ -37,6 +38,7 @@ export interface GrAutocomplete {
   $: {
     input: PaperInputElementExt;
     suggestions: GrAutocompleteDropdown;
+    cursor: GrCursorManager;
   };
 }
 

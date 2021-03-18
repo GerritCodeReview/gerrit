@@ -456,6 +456,30 @@
       },
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "085e459e_742be59e",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-18T01:08:15Z",
+      "side": 1,
+      "message": "\u003e \u003e ok understood, so we better delete only the username\n\u003e \n\u003e Never delete anything, just leave them unused.\n\u003e If they are referenced by an unreachable SHA1, they can\u0027t cause problems.\n\nI don\u0027t understand this, we can\u0027t delete accounts so how do we make the duplicate username entries unused without deleting them ?\n\n\u003e Do we need therefore a brand-new approach and possibly abandon this change?\n\u003e I believe there will be also an offline process for migrating the existing non-lowercase IDs into lowercase IDs.\n\nif we switch from case-sensitive to case-insensitive but case-preserving usernames\n username:JohnDoe d9611ba9f6c3f5d9f5c688b63edd35d37e2acd04\n\nbecomes\n\n username:JohnDoe dff75e3a490f949fa0bb50de4618d7aba7700b57\n\nwe only recompute the sha1, instead of\n\n sha1(\"username:JohnDoe\")\n\nwe now compute\n\n sha1(\"username:JohnDoe\".toLowerCase())\n\nto implement case-insensitive lookup but we still store the original username (not converted to lower case) to make it case-preserving\n\n\u003e As mentioned, the process would have to issue warnings when duplicates are found and therefore won\u0027t be converted, resulting in the associated users not being able to login after the conversion.\n\nno, we envision the following process to migrate an existing site to case-insensitive behaviour in 3 steps:\n1. prohibit creation of new duplicate externalIds only differing in case\n2. find and cleanup the duplicates in a one-time cleanup by either\ndeleting the duplicate externalIds (then they can\u0027t logon anymore and we would also mark these accounts inactive) or replacing their externalId by a new unique one (replace duplicate username by a new one)\n3. change server configuration to case-insensitive, case-preserving behaviour\n\nlet\u0027s continue this discussion in a design doc",
+      "parentUuid": "0d8647ca_957bc7ea",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

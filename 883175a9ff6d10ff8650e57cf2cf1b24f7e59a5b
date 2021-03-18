@@ -118,6 +118,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bcf40790_ca2185ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-18T08:30:32Z",
+      "side": 1,
+      "message": "you mentioned security in our discussions as well, but I don\u0027t understand the context, and it wasn\u0027t part of the use-cases definition either. What kind of security properties are you thinking of?\n\nAs I understand it Java\u0027s sandbox model shouldn\u0027t be trusted (https://www.exploit-db.com/papers/45517)",
+      "range": {
+        "startLine": 106,
+        "startChar": 22,
+        "endLine": 106,
+        "endChar": 28
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f447f8ba_1077c936",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8

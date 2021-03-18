@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -89,7 +90,8 @@ public class FileInfoJsonComparingImpl implements FileInfoJson {
   }
 
   @Override
-  public Map<String, FileInfo> getFileInfoMap(Change change, ObjectId objectId, PatchSet base)
+  public Map<String, FileInfo> getFileInfoMap(
+      Change change, ObjectId objectId, @Nullable PatchSet base)
       throws ResourceConflictException, PatchListNotAvailableException {
     Map<String, FileInfo> result = oldImpl.getFileInfoMap(change, objectId, base);
     @SuppressWarnings("unused")
@@ -103,7 +105,7 @@ public class FileInfoJsonComparingImpl implements FileInfoJson {
                     fileInfoNew,
                     String.format(
                         "Mismatch comparing old and new diff implementations for change: %s, objectId: %s and base: %s",
-                        change, objectId, base.id()));
+                        change, objectId, base == null ? "none" : base.id()));
               } catch (ResourceConflictException | PatchListNotAvailableException e) {
                 // If an exception happens while evaluating the new diff, increment the non-matching
                 // counter

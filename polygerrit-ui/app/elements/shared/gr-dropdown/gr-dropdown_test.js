@@ -153,7 +153,7 @@ suite('gr-dropdown tests', () => {
     });
 
     test('down', () => {
-      const stub = sinon.stub(element.cursor, 'next');
+      const stub = sinon.stub(element.$.cursor, 'next');
       assert.isFalse(element.$.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 40);
       assert.isTrue(element.$.dropdown.opened);
@@ -162,7 +162,7 @@ suite('gr-dropdown tests', () => {
     });
 
     test('up', () => {
-      const stub = sinon.stub(element.cursor, 'previous');
+      const stub = sinon.stub(element.$.cursor, 'previous');
       assert.isFalse(element.$.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 38);
       assert.isTrue(element.$.dropdown.opened);
@@ -177,7 +177,7 @@ suite('gr-dropdown tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
       assert.isTrue(element.$.dropdown.opened);
 
-      const el = element.cursor.target.querySelector(':not([hidden]) a');
+      const el = element.$.cursor.target.querySelector(':not([hidden]) a');
       const stub = sinon.stub(el, 'click');
       MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
       assert.isTrue(stub.called);

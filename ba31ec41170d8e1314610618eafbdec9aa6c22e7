@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bae8f880_a15659b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-19T16:48:39Z",
+      "side": 1,
+      "message": "Done. As discussed, moved back to Paper components for now.",
+      "parentUuid": "416ad6f4_ccd2306e",
+      "revId": "ba31ec41170d8e1314610618eafbdec9aa6c22e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "924301f4_fffa7801",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-02T20:01:24Z",
       "side": 1,
       "message": "Where are `paper-styles` used?",
+      "revId": "ba31ec41170d8e1314610618eafbdec9aa6c22e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52865b91_8dd030f0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-19T16:48:39Z",
+      "side": 1,
+      "message": "I originally hoped this would make the styling work, but now it appears to not be needed.",
+      "parentUuid": "924301f4_fffa7801",
       "revId": "ba31ec41170d8e1314610618eafbdec9aa6c22e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

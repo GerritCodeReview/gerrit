@@ -367,6 +367,10 @@ const styleSheet = safeStyleSheet`
     --elevation-level-4: 0px 2px 3px 0px rgba(60, 64, 67, .30), 0px 6px 10px 4px rgba(60, 64, 67, .15);
     --elevation-level-5: 0px 4px 4px 0px rgba(60, 64, 67, .30), 0px 8px 12px 6px rgba(60, 64, 67, .15);
 
+    /* overlays */
+    --hover-overlay: linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04));
+    --focus-overlay: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12));
+
     /* misc */
     --border-radius: 4px;
     --reply-overlay-z-index: 1000;

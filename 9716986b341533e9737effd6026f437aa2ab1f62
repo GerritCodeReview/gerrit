@@ -16,6 +16,24 @@
       "message": "Does anyone know why is this necessary? Why should there be any dependency between invalidating an entry in the projects cache and indexing that project?\n\nUnfortunately, the commit message is not informative.",
       "revId": "9716986b341533e9737effd6026f437aa2ab1f62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6be84a69_3b11a045",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-19T13:46:41Z",
+      "side": 1,
+      "message": "Let me try to upload a change where this line is commented out and we can see what breaks :-)\n\nChange-Id: I1c0720b5",
+      "parentUuid": "16232d6e_b209782c",
+      "revId": "9716986b341533e9737effd6026f437aa2ab1f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

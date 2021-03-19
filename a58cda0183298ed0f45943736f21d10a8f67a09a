@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44e25440_e12fe74c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T15:16:46Z",
+      "side": 1,
+      "message": "Hi Patrick, could you please review this change for me?\n\nQ: Should we add a \"version\" field in the cache key? What\u0027s the process of invalidating in-memory cache entries?\nI couldn\u0027t find a .version() in the cache definition (seems only relevant for persisted caches).",
+      "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

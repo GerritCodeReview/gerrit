@@ -36,6 +36,7 @@ import {PolymerDomWrapper} from '../../../types/types';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {Subscription} from 'rxjs';
 import {toggleClass} from '../../../utils/dom-util';
 
 type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
@@ -47,9 +48,7 @@ const RIGHT_SIDE_CLASS = 'target-side-right';
 const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
 export interface GrDiffCursor {
-  $: {
-    cursorManager: GrCursorManager;
-  };
+  $: {};
 }
 
 @customElement('gr-diff-cursor')
@@ -82,19 +81,17 @@ export class GrDiffCursor extends PolymerElement {
   @property({type: Number})
   initialLineNumber: number | null = null;
 
-  /**
-   * The scroll behavior for the cursor. Values are 'never' and
-   * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
-   * the viewport.
-   */
-  @property({type: String})
-  _scrollMode = ScrollMode.KEEP_VISIBLE;
-
-  @property({type: Boolean})
-  _focusOnMove = true;
-
   @property({type: Boolean})
   _listeningForScroll = false;
+
+  private cursorManager = new GrCursorManager();
+
+  constructor() {
+    super();
+    this.cursorManager.cursorTargetClass = 'target-row';
+    this.cursorManager.scrollMode = ScrollMode.KEEP_VISIBLE;
+    this.cursorManager.focusOnMove = true;
+  }
 
   /** @override */
   ready() {
@@ -119,28 +116,34 @@ export class GrDiffCursor extends PolymerElement {
     });
   }
 
+  private targetSubscription?: Subscription;
+
   /** @override */
   connectedCallback() {
     super.connectedCallback();
     // Catch when users are scrolling as the view loads.
     window.addEventListener('scroll', this._boundHandleWindowScroll);
+    this.targetSubscription = this.cursorManager.target$.subscribe(target => {
+      this.diffRow = target || undefined;
+    });
   }
 
   /** @override */
   disconnectedCallback() {
+    if (this.targetSubscription) this.targetSubscription.unsubscribe();
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
-    this.$.cursorManager.unsetCursor();
+    this.cursorManager.unsetCursor();
     super.disconnectedCallback();
   }
 
   // Don't remove - used by clients embedding gr-diff outside of Gerrit.
   isAtStart() {
-    return this.$.cursorManager.isAtStart();
+    return this.cursorManager.isAtStart();
   }
 
   // Don't remove - used by clients embedding gr-diff outside of Gerrit.
   isAtEnd() {
-    return this.$.cursorManager.isAtEnd();
+    return this.cursorManager.isAtEnd();
   }
 
   moveLeft() {
@@ -159,31 +162,31 @@ export class GrDiffCursor extends PolymerElement {
 
   moveDown() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      return this.$.cursorManager.next({
+      return this.cursorManager.next({
         filter: (row: Element) => this._rowHasSide(row),
       });
     } else {
-      return this.$.cursorManager.next();
+      return this.cursorManager.next();
     }
   }
 
   moveUp() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      return this.$.cursorManager.previous({
+      return this.cursorManager.previous({
         filter: (row: Element) => this._rowHasSide(row),
       });
     } else {
-      return this.$.cursorManager.previous();
+      return this.cursorManager.previous();
     }
   }
 
   moveToVisibleArea() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.moveToVisibleArea((row: Element) =>
+      this.cursorManager.moveToVisibleArea((row: Element) =>
         this._rowHasSide(row)
       );
     } else {
-      this.$.cursorManager.moveToVisibleArea();
+      this.cursorManager.moveToVisibleArea();
     }
   }
 
@@ -214,7 +217,7 @@ export class GrDiffCursor extends PolymerElement {
     clipToTop?: boolean,
     navigateToNextFile?: boolean
   ): CursorMoveResult {
-    const result = this.$.cursorManager.next({
+    const result = this.cursorManager.next({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
       getTargetHeight: target =>
         (target?.parentNode as HTMLElement)?.scrollHeight || 0,
@@ -233,7 +236,7 @@ export class GrDiffCursor extends PolymerElement {
   }
 
   moveToPreviousChunk(navigateToPreviousFile?: boolean): CursorMoveResult {
-    const result = this.$.cursorManager.previous({
+    const result = this.cursorManager.previous({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
     });
     if (navigateToPreviousFile && this.isAtStart()) {
@@ -248,7 +251,7 @@ export class GrDiffCursor extends PolymerElement {
       fireEvent(this, 'navigate-to-next-file-with-comments');
       return;
     }
-    const result = this.$.cursorManager.next({
+    const result = this.cursorManager.next({
       filter: (row: HTMLElement) => this._rowHasThread(row),
     });
     this._fixSide();
@@ -256,7 +259,7 @@ export class GrDiffCursor extends PolymerElement {
   }
 
   moveToPreviousCommentThread(): CursorMoveResult {
-    const result = this.$.cursorManager.previous({
+    const result = this.cursorManager.previous({
       filter: (row: HTMLElement) => this._rowHasThread(row),
     });
     this._fixSide();
@@ -267,7 +270,7 @@ export class GrDiffCursor extends PolymerElement {
     const row = this._findRowByNumberAndFile(number, side, path);
     if (row) {
       this.side = side;
-      this.$.cursorManager.setCursor(row);
+      this.cursorManager.setCursor(row);
     }
   }
 
@@ -299,7 +302,7 @@ export class GrDiffCursor extends PolymerElement {
   }
 
   moveToFirstChunk() {
-    this.$.cursorManager.moveToStart();
+    this.cursorManager.moveToStart();
     if (this.diffRow && !this._isFirstRowOfChunk(this.diffRow)) {
       this.moveToNextChunk(true);
     } else {
@@ -308,7 +311,7 @@ export class GrDiffCursor extends PolymerElement {
   }
 
   moveToLastChunk() {
-    this.$.cursorManager.moveToEnd();
+    this.cursorManager.moveToEnd();
     if (this.diffRow && !this._isFirstRowOfChunk(this.diffRow)) {
       this.moveToPreviousChunk();
     } else {
@@ -328,7 +331,7 @@ export class GrDiffCursor extends PolymerElement {
   reInitCursor() {
     if (!this.diffRow) {
       // does not scroll during init unless requested
-      this._scrollMode = this.initialLineNumber
+      this.cursorManager.scrollMode = this.initialLineNumber
         ? ScrollMode.KEEP_VISIBLE
         : ScrollMode.NEVER;
       if (this.initialLineNumber) {
@@ -342,13 +345,13 @@ export class GrDiffCursor extends PolymerElement {
   }
 
   reInit() {
-    this._scrollMode = ScrollMode.KEEP_VISIBLE;
+    this.cursorManager.scrollMode = ScrollMode.KEEP_VISIBLE;
   }
 
   private _boundHandleWindowScroll = () => {
     if (this.preventAutoScrollOnManualScroll) {
-      this._scrollMode = ScrollMode.NEVER;
-      this._focusOnMove = false;
+      this.cursorManager.scrollMode = ScrollMode.NEVER;
+      this.cursorManager.focusOnMove = false;
       this.preventAutoScrollOnManualScroll = false;
     }
   };
@@ -374,7 +377,7 @@ export class GrDiffCursor extends PolymerElement {
   private _boundHandleDiffRenderContent = () => {
     this._updateStops();
     // When done rendering, turn focus on move and automatic scrolling back on
-    this._focusOnMove = true;
+    this.cursorManager.focusOnMove = true;
     this.preventAutoScrollOnManualScroll = false;
   };
 
@@ -533,7 +536,7 @@ export class GrDiffCursor extends PolymerElement {
   }
 
   _updateStops() {
-    this.$.cursorManager.stops = this.diffs.reduce(
+    this.cursorManager.stops = this.diffs.reduce(
       (stops: Stop[], diff) => stops.concat(diff.getCursorStops()),
       []
     );
@@ -612,7 +615,7 @@ export class GrDiffCursor extends PolymerElement {
       const diff = this.diffs.filter(diff => diff.path === path)[0];
       stops = diff.getCursorStops();
     } else {
-      stops = this.$.cursorManager.stops;
+      stops = this.cursorManager.stops;
     }
     // Sadly needed for type narrowing to understand that the result is always
     // targetable.

@@ -18,7 +18,7 @@
 import {StorageLocation, StorageObject, StorageService} from './gr-storage';
 import {DURATION_DAY} from './gr-storage_impl';
 
-const storage = new Map();
+const storage = new Map<string, StorageObject>();
 
 const getDraftKey = (location: StorageLocation): string => {
   const range = location.range
@@ -48,7 +48,7 @@ export function cleanUpStorage() {
 
 export const grStorageMock: StorageService = {
   getDraftComment(location: StorageLocation): StorageObject | null {
-    return storage.get(getDraftKey(location));
+    return storage.get(getDraftKey(location)) ?? null;
   },
 
   setDraftComment(location: StorageLocation, message: string) {
@@ -62,21 +62,18 @@ export const grStorageMock: StorageService = {
   },
 
   getEditableContentItem(key: string): StorageObject | null {
-    return storage.get(getEditableContentKey(key));
+    return storage.get(getEditableContentKey(key)) ?? null;
   },
 
   setEditableContentItem(key: string, message: string): void {
-    storage.set(
-      getEditableContentKey(key),
-      JSON.stringify({
-        message,
-        updated: Date.now(),
-      })
-    );
+    storage.set(getEditableContentKey(key), {
+      message,
+      updated: Date.now(),
+    });
   },
 
   getRespectfulTipVisibility(): StorageObject | null {
-    return storage.get('respectfultip:visibility');
+    return storage.get('respectfultip:visibility') ?? null;
   },
 
   setRespectfulTipVisibility(delayDays = 0): void {

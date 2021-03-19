@@ -219,7 +219,7 @@ public class ProjectCacheImpl implements ProjectCache {
       logger.atFine().log("Evict project '%s'", p.get());
       inMemoryProjectCache.invalidate(p);
     }
-    indexer.get().index(p);
+    // indexer.get().index(p); WHY should we need to reindex a project just evicted from cache?
   }
 
   @Override

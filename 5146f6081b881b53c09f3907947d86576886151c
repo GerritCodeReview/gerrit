@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bc3be0b_1b0463d1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-19T07:35:38Z",
+      "side": 1,
+      "message": "Yeah, the set takes care of that. Added a comment to explain that.",
+      "parentUuid": "40c73283_f07387eb",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5321c38a_33f165e9",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-03-18T14:46:56Z",
       "side": 1,
       "message": "Do we ever need to clean these up? Or are layers just around forever until no one references them anymore?",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6632c25a_e5eeda11",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-19T07:35:38Z",
+      "side": 1,
+      "message": "The listener dies along with the element. So once the element is gone the listener will also be gone. Added a comment explaining that.",
+      "parentUuid": "5321c38a_33f165e9",
       "revId": "5146f6081b881b53c09f3907947d86576886151c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "595a39d2_bed5badd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-19T07:35:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e74b507_c663c2ec",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcafa95f_61ea9491",
@@ -82,6 +136,24 @@
       "writtenOn": "2021-03-18T14:46:56Z",
       "side": 1,
       "message": "Why do we need this here - is that not handled by the mouse out above?",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d6b3962_4237a3db",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-19T07:35:38Z",
+      "side": 1,
+      "message": "Yeah, it should be handled by mouseout, but it does not always do that. For some unknown reason. I have left a comment for the next generation of developers.",
+      "parentUuid": "fcafa95f_61ea9491",
       "revId": "5146f6081b881b53c09f3907947d86576886151c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -109,6 +181,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e53e8899_c74d8d82",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-19T07:35:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d20280b9_bcc8a745",
+      "range": {
+        "startLine": 113,
+        "startChar": 29,
+        "endLine": 113,
+        "endChar": 34
+      },
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b56010b8_a0c21d80",
@@ -122,6 +218,24 @@
       "writtenOn": "2021-03-18T14:46:56Z",
       "side": 1,
       "message": "Might aswell do now? 😊",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d15cb9b1_3e05aa9f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-19T07:35:38Z",
+      "side": 1,
+      "message": "Just waiting for input from Delphine.",
+      "parentUuid": "b56010b8_a0c21d80",
       "revId": "5146f6081b881b53c09f3907947d86576886151c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

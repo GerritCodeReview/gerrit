@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94b23532_cd775027",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T12:24:05Z",
+      "side": 1,
+      "message": "nit: Long line. Please fix.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 73
+      },
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4efcb26a_1d4f27d1",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3070,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T12:24:05Z",
+      "side": 1,
+      "message": "Please also update CreateRequest#addOps.\n\nUpdate: There is a test for creating a new change. Is ReplaceRequest invoked for new changes?",
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4df8583_1c095edb",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T12:24:05Z",
+      "side": 1,
+      "message": "Optional: I\u0027d prefer an enum with values (CACHED, IN_MEMORY, etc...) with one-line comment describing what each of these mean. This has better readability.",
+      "range": {
+        "startLine": 83,
+        "startChar": 16,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "397b928e_30dc7554",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T12:24:05Z",
+      "side": 1,
+      "message": "This is only merging in memory. I think it\u0027s better to rename to mergeInMemory for more clarity.",
+      "range": {
+        "startLine": 112,
+        "startChar": 19,
+        "endLine": 112,
+        "endChar": 24
+      },
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f84c7705_77c2f65a",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T12:24:05Z",
+      "side": 1,
+      "message": "This sentence feels like it\u0027s the method that does that, although it\u0027s callers who will add the ref update to their BatchRefUpdate. Should we drop and add this comment at the callers?",
+      "range": {
+        "startLine": 132,
+        "startChar": 88,
+        "endLine": 133,
+        "endChar": 60
+      },
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c1be50f_cee447ce",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T12:24:05Z",
+      "side": 1,
+      "message": "nit: fix format.",
+      "range": {
+        "startLine": 216,
+        "startChar": 9,
+        "endLine": 216,
+        "endChar": 18
+      },
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "171a6a31_dc7a35ee",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T12:24:05Z",
+      "side": 1,
+      "message": "nit: unused. Please remove.",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 37
+      },
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "292195e2_9770dfdc",
+        "filename": "java/com/google/gerrit/server/patch/filediff/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T12:24:05Z",
+      "side": 1,
+      "message": "nit: unused. Please remove.",
+      "range": {
+        "startLine": 110,
+        "startChar": 24,
+        "endLine": 110,
+        "endChar": 28
+      },
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b816c6a5_21171f8f",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T12:24:05Z",
+      "side": 1,
+      "message": "Nice for the thorough testing!",
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cfed140_999c083a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T12:24:05Z",
+      "side": 1,
+      "message": "This creates the auto-merge as a side effect. Since ps2 has the same parents as ps1, we are not really testing that auto-merge was created as a side effect of uploading the new patchset.\n\nShould we add `deleteAutoMergeBranch` after this line?\n\nAlso same for autoMergeCreatedWhenNewPatchSetCreatedOnApi.",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 55
+      },
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

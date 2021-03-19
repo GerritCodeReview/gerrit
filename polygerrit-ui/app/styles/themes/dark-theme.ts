@@ -38,20 +38,20 @@ function getStyleEl() {
 
       --error-foreground: var(--red-200);
       --error-background: var(--red-900);
-      --error-background-hover: var(--red-200-04);
-      --error-background-focus: var(--red-200-12);
+      --error-background-hover: linear-gradient(var(--red-200-04), var(--red-200-04)), var(--red-900);
+      --error-background-focus: linear-gradient(var(--red-200-12), var(--red-200-12)), var(--red-900);
       --error-ripple: var(--red-200-10);
 
       --warning-foreground: var(--orange-200);
       --warning-background: var(--orange-900);
-      --warning-background-hover: var(--orange-200-04);
-      --warning-background-focus: var(--orange-200-12);
+      --warning-background-hover: linear-gradient(var(--orange-200-04), var(--orange-200-04)), var(--orange-900);
+      --warning-background-focus: linear-gradient(var(--orange-200-12), var(--orange-200-12)), var(--orange-900);
       --warning-ripple: var(--orange-200-10);
 
       --info-foreground: var(--blue-200);
       --info-background: var(--blue-900);
-      --info-background-hover: var(--blue-200-04);
-      --info-background-focus: var(--blue-200-12);
+      --info-background-hover: linear-gradient(var(--blue-200-04), var(--blue-200-04)), var(--blue-900);
+      --info-background-focus: linear-gradient(var(--blue-200-12), var(--blue-200-12)), var(--blue-900);
       --info-ripple: var(--blue-200-10);
 
       --primary-button-text-color: black;
@@ -64,14 +64,14 @@ function getStyleEl() {
 
       --success-foreground: var(--green-200);
       --success-background: var(--green-900);
-      --success-background-hover: var(--green-200-04);
-      --success-background-focus: var(--green-200-12);
+      --success-background-hover: linear-gradient(var(--green-200-04), var(--green-200-04)), var(--green-900);
+      --success-background-focus: linear-gradient(var(--green-200-12), var(--green-200-12)), var(--green-900);
       --success-ripple: var(--green-200-10);
 
       --gray-foreground: var(--gray-100);
       --gray-background: var(--gray-900);
-      --gray-background-hover: var(--gray-200-04);
-      --gray-background-focus: var(--gray-200-12);
+      --gray-background-hover: linear-gradient(var(--gray-100-04), var(--gray-100-04)), var(--gray-900);
+      --gray-background-focus: linear-gradient(var(--gray-100-12), var(--gray-100-12)), var(--gray-900);
       --gray-ripple: var(--gray-200-10);
 
       --disabled-foreground: var(--gray-200-38);

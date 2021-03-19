@@ -50,6 +50,9 @@ const styleSheet = safeStyleSheet`
     --red-600: #d93025;
     --red-300: #f28b82;
     --red-200: #f6aea9;
+    --red-200-04: #f6aea90a;
+    --red-200-10: #f6aea91a;
+    --red-200-12: #f6aea91f;
     --red-50: #fce8e6;
     --red-tonal: #6c322f;
     --blue-900: #174ea6;
@@ -76,6 +79,9 @@ const styleSheet = safeStyleSheet`
     --orange-700-10: #d56e0c1a;
     --orange-700-12: #d56e0c1f;
     --orange-200: #fdc69c;
+    --orange-200-04: #fdc69c0a;
+    --orange-200-10: #fdc69c1a;
+    --orange-200-12: #fdc69c1f;
     --orange-50: #feefe3;
     --orange-tonal: #714625;
     --cyan-900: #007b83;
@@ -91,6 +97,9 @@ const styleSheet = safeStyleSheet`
     --green-700-12: #1880381f;
     --green-300: #81c995;
     --green-200: #a8dab5;
+    --green-200-04: #a8dab50a;
+    --green-200-10: #a8dab51a;
+    --green-200-12: #a8dab51f;
     --green-50: #e6f4ea;
     --green-tonal: #2c553a;
     --gray-900: #202124;
@@ -101,6 +110,9 @@ const styleSheet = safeStyleSheet`
     --gray-800-12: #3c40431f;
     --gray-800-38: #3c404361;
     --gray-700: #5f6368;
+    --gray-700-04: #5f63680a;
+    --gray-700-10: #5f63681a;
+    --gray-700-12: #5f63681f;
     --gray-500: #9aa0a6;
     --gray-300: #dadce0;
     --gray-200: #e8eaed;
@@ -109,6 +121,9 @@ const styleSheet = safeStyleSheet`
     --gray-200-12: #e8eaed1f;
     --gray-200-38: #e8eaed61;
     --gray-100: #f1f3f4;
+    --gray-100-04: #f1f3f40a;
+    --gray-100-10: #f1f3f41a;
+    --gray-100-12: #f1f3f41f;
     --gray-50: #f8f9fa;
     --gray-tonal: #505357;
     --purple-900: #681da8;
@@ -129,20 +144,20 @@ const styleSheet = safeStyleSheet`
     
     --error-foreground: var(--red-700);
     --error-background: var(--red-50);
-    --error-background-hover: var(--red-700-04);
-    --error-background-focus: var(--red-700-12);
+    --error-background-hover: linear-gradient(var(--red-700-04), var(--red-700-04)), var(--red-50);
+    --error-background-focus: linear-gradient(var(--red-700-12), var(--red-700-12)), var(--red-50);
     --error-ripple: var(--red-700-10);
 
     --warning-foreground: var(--orange-700);
     --warning-background: var(--orange-50);
-    --warning-background-hover: var(--orange-700-04);
-    --warning-background-focus: var(--orange-700-12);
+    --warning-background-hover: linear-gradient(var(--orange-700-04), var(--orange-700-04)), var(--orange-50);
+    --warning-background-focus: linear-gradient(var(--orange-700-12), var(--orange-700-12)), var(--orange-50);
     --warning-ripple: var(--orange-700-10);
 
     --info-foreground: var(--blue-700);
     --info-background: var(--blue-50);
-    --info-background-hover: var(--blue-700-04);
-    --info-background-focus: var(--blue-700-12);
+    --info-background-hover: linear-gradient(var(--blue-700-04), var(--blue-700-04)), var(--blue-50);
+    --info-background-focus: linear-gradient(var(--blue-700-12), var(--blue-700-12)), var(--blue-50);
     --info-ripple: var(--blue-700-10);
 
     --primary-button-text-color: white;
@@ -155,14 +170,14 @@ const styleSheet = safeStyleSheet`
 
     --success-foreground: var(--green-700);
     --success-background: var(--green-50);
-    --success-background-hover: var(--green-700-04);
-    --success-background-focus: var(--green-700-12);
+    --success-background-hover: linear-gradient(var(--green-700-04), var(--green-700-04)), var(--green-50);
+    --success-background-focus: linear-gradient(var(--green-700-12), var(--green-700-12)), var(--green-50);
     --success-ripple: var(--green-700-10);
 
     --gray-foreground: var(--gray-700);
     --gray-background: var(--gray-100);
-    --gray-background-hover: var(--gray-900-04);
-    --gray-background-focus: var(--gray-900-12);
+    --gray-background-hover: linear-gradient(var(--gray-700-04), var(--gray-700-04)), var(--gray-100);
+    --gray-background-focus: linear-gradient(var(--gray-700-12), var(--gray-700-12)), var(--gray-100);
     --gray-ripple: var(--gray-900-10);
 
     --disabled-foreground: var(--gray-800-38);
@@ -366,6 +381,10 @@ const styleSheet = safeStyleSheet`
     --elevation-level-3: 0px 1px 3px 0px rgba(60, 64, 67, .30), 0px 4px 8px 3px rgba(60, 64, 67, .15);
     --elevation-level-4: 0px 2px 3px 0px rgba(60, 64, 67, .30), 0px 6px 10px 4px rgba(60, 64, 67, .15);
     --elevation-level-5: 0px 4px 4px 0px rgba(60, 64, 67, .30), 0px 8px 12px 6px rgba(60, 64, 67, .15);
+
+    /* overlays */
+    --hover-overlay: linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04));
+    --focus-overlay: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12));
 
     /* misc */
     --border-radius: 4px;

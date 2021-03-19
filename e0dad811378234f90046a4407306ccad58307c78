@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56b57ab8_cbcabdc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-19T16:35:44Z",
+      "side": 1,
+      "message": "Wow, looks more reliable now. Thanks for all the improvements.",
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c6c8c93_33143199",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-19T16:35:44Z",
+      "side": 1,
+      "message": "Nit: You have a  number of tweaking params / limits here:\n\nmax chars per line: 500\nmax token length: 100\nmax token count: 10000\nmax occurrences per token: 1000\nmax line number delta highlighted: 100\n\nMight be worth extracting them into constants at top where you also have the delay - this highlights both the limitations to the reader up front, and makes it a bit easier to find the various tweaking nobs for later.",
+      "range": {
+        "startLine": 89,
+        "startChar": 22,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4ba4bea_4107b17c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-19T16:35:44Z",
+      "side": 1,
+      "message": "Optional: If you merge the two maps and then index by side like this:\nprivate tokenToLines \u003d {\n  [Side.LEFT]: new Map\u003cstring, Set\u003cnumber\u003e\u003e(),\n  [Side.RIGHT]: new Map\u003cstring, Set\u003cnumber\u003e\u003e()\n};\n\nyou can then make this method take a `side` parameter and avoid the repetition...",
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6558467_97314c1f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-19T16:35:44Z",
+      "side": 1,
+      "message": "I have to say, I liked the previous location better: Different from other utils here, this method is intimately related to the DOM structure in the diff, which is defined in gr-diff-builder, so it feels more encapsulated to have it there. Is the reason that it is annoying to get a hold of the GrDiffBuilder?",
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

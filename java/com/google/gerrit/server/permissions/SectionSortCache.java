@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.permissions;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
@@ -28,6 +30,8 @@ import com.google.inject.name.Named;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Caches the order AccessSections should be sorted for evaluation.
@@ -60,65 +64,60 @@ public class SectionSortCache {
     this.cache = cache;
   }
 
-  // Sorts the given sections, but does not disturb ordering between equally exact sections.
+  /**
+   * Sorts the given sections in-place, but does not disturb ordering between equally exact
+   * sections.
+   */
   void sort(String ref, List<AccessSection> sections) {
     final int cnt = sections.size();
     if (cnt <= 1) {
       return;
     }
-
     EntryKey key = EntryKey.create(ref, sections);
-    EntryVal val = cache.getIfPresent(key);
-    if (val != null) {
-      int[] srcIdx = val.order;
-      if (srcIdx != null) {
-        AccessSection[] srcList = copy(sections);
-        for (int i = 0; i < cnt; i++) {
-          sections.set(i, srcList[srcIdx[i]]);
-        }
-      } else {
-        // Identity transform. No sorting is required.
-      }
+    EntryVal val;
+    try {
+      val = cache.get(key, new Loader(key, sections));
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log("Error happened while sorting access sections.");
+      return;
+    }
+    ImmutableList<Integer> order = val.order();
+    List<AccessSection> sorted = new ArrayList<>();
+    for (int i = 0; i < cnt; i++) {
+      sorted.add(sections.get(order.get(i)));
+    }
+    for (int i = 0; i < cnt; i++) {
+      sections.set(i, sorted.get(i));
+    }
+  }
 
-    } else {
-      boolean poison = false;
+  private static class Loader implements Callable<EntryVal> {
+    private final List<AccessSection> sections;
+    EntryKey key;
+
+    Loader(EntryKey key, List<AccessSection> sections) {
+      this.key = key;
+      this.sections = sections;
+    }
+
+    @Override
+    public EntryVal call() throws Exception {
+      // We use IdentityHashMap (which uses reference equality for keys/values) to preserve distinct
+      // entries in the map for identical AccessSection keys
       IdentityHashMap<AccessSection, Integer> srcMap = new IdentityHashMap<>();
-      for (int i = 0; i < cnt; i++) {
-        poison |= srcMap.put(sections.get(i), i) != null;
+      for (int i = 0; i < sections.size(); i++) {
+        srcMap.put(sections.get(i), i);
       }
-
-      sections.sort(new MostSpecificComparator(ref));
-
-      int[] srcIdx;
-      if (isIdentityTransform(sections, srcMap)) {
-        srcIdx = null;
-      } else {
-        srcIdx = new int[cnt];
-        for (int i = 0; i < cnt; i++) {
-          srcIdx[i] = srcMap.get(sections.get(i));
-        }
+      ImmutableList<AccessSection> sorted =
+          sections.stream()
+              .sorted(new MostSpecificComparator(key.ref()))
+              .collect(toImmutableList());
+      ImmutableList.Builder<Integer> order = ImmutableList.builderWithExpectedSize(sections.size());
+      for (int i = 0; i < sorted.size(); i++) {
+        order.add(srcMap.get(sorted.get(i)));
       }
-
-      if (poison) {
-        logger.atSevere().log("Received duplicate AccessSection instances, not caching sort");
-      } else {
-        cache.put(key, new EntryVal(srcIdx));
-      }
+      return EntryVal.create(order.build());
     }
-  }
-
-  private static AccessSection[] copy(List<AccessSection> sections) {
-    return sections.toArray(new AccessSection[sections.size()]);
-  }
-
-  private static boolean isIdentityTransform(
-      List<AccessSection> sections, IdentityHashMap<AccessSection, Integer> srcMap) {
-    for (int i = 0; i < sections.size(); i++) {
-      if (i != srcMap.get(sections.get(i))) {
-        return false;
-      }
-    }
-    return true;
   }
 
   @AutoValue
@@ -146,17 +145,18 @@ public class SectionSortCache {
     }
   }
 
-  static final class EntryVal {
+  @AutoValue
+  abstract static class EntryVal {
     /**
      * Maps the input index to the output index.
      *
      * <p>For {@code x == order[y]} the expression means move the item at source position {@code x}
      * to the output position {@code y}.
      */
-    final int[] order;
+    abstract ImmutableList<Integer> order();
 
-    EntryVal(int[] order) {
-      this.order = order;
+    static EntryVal create(ImmutableList<Integer> order) {
+      return new AutoValue_SectionSortCache_EntryVal(order);
     }
   }
 }

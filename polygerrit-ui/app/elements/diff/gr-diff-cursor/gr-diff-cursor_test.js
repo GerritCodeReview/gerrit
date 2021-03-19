@@ -187,20 +187,20 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('cursor scroll behavior', () => {
-    assert.equal(cursorElement._scrollMode, 'keep-visible');
+    assert.equal(cursorElement.cursorManager.scrollMode, 'keep-visible');
 
     diffElement.dispatchEvent(new Event('render-start'));
-    assert.isTrue(cursorElement._focusOnMove);
+    assert.isTrue(cursorElement.cursorManager.focusOnMove);
 
     window.dispatchEvent(new Event('scroll'));
-    assert.equal(cursorElement._scrollMode, 'never');
-    assert.isFalse(cursorElement._focusOnMove);
+    assert.equal(cursorElement.cursorManager.scrollMode, 'never');
+    assert.isFalse(cursorElement.cursorManager.focusOnMove);
 
     diffElement.dispatchEvent(new Event('render-content'));
-    assert.isTrue(cursorElement._focusOnMove);
+    assert.isTrue(cursorElement.cursorManager.focusOnMove);
 
     cursorElement.reInitCursor();
-    assert.equal(cursorElement._scrollMode, 'keep-visible');
+    assert.equal(cursorElement.cursorManager.scrollMode, 'keep-visible');
   });
 
   test('moves to selected line', () => {
@@ -266,7 +266,7 @@ suite('gr-diff-cursor tests', () => {
     // to the right side.
     assert.equal(cursorElement.side, 'right');
     assert.equal(cursorElement.diffRow, firstDeltaRow);
-    const firstIndex = cursorElement.$.cursorManager.index;
+    const firstIndex = cursorElement.cursorManager.index;
 
     // Move the side to the left. Because this delta only has a right side, we
     // should be moved up to the previous line where there is content on the
@@ -275,7 +275,7 @@ suite('gr-diff-cursor tests', () => {
 
     assert.equal(cursorElement.side, 'left');
     assert.notEqual(cursorElement.diffRow, firstDeltaRow);
-    assert.equal(cursorElement.$.cursorManager.index, firstIndex - 1);
+    assert.equal(cursorElement.cursorManager.index, firstIndex - 1);
     assert.equal(cursorElement.diffRow.parentElement,
         firstDeltaSection.previousSibling);
 
@@ -285,7 +285,7 @@ suite('gr-diff-cursor tests', () => {
 
     assert.equal(cursorElement.side, 'left');
     assert.notEqual(cursorElement.diffRow, firstDeltaRow);
-    assert.isTrue(cursorElement.$.cursorManager.index > firstIndex);
+    assert.isTrue(cursorElement.cursorManager.index > firstIndex);
     assert.equal(cursorElement.diffRow.parentElement,
         firstDeltaSection.nextSibling);
   });
@@ -446,8 +446,7 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('navigate to next unreviewed file via moveToNextChunk', () => {
-    const cursorManager =
-        cursorElement.shadowRoot.querySelector('#cursorManager');
+    const cursorManager = cursorElement.cursorManager;
     cursorManager.index = cursorManager.stops.length - 1;
     const dispatchEventStub = sinon.stub(cursorElement, 'dispatchEvent');
     cursorElement.moveToNextChunk(/* opt_clipToTop = */false,
@@ -465,8 +464,9 @@ suite('gr-diff-cursor tests', () => {
     let scrollBehaviorDuringMove;
     const moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber');
     const moveToChunkStub = sinon.stub(cursorElement, 'moveToFirstChunk')
-        .callsFake(
-            () => { scrollBehaviorDuringMove = cursorElement._scrollMode; });
+        .callsFake(() => {
+          scrollBehaviorDuringMove = cursorElement.cursorManager.scrollMode;
+        });
 
     function renderHandler() {
       diffElement.removeEventListener('render', renderHandler);
@@ -474,7 +474,7 @@ suite('gr-diff-cursor tests', () => {
       assert.isFalse(moveToNumStub.called);
       assert.isTrue(moveToChunkStub.called);
       assert.equal(scrollBehaviorDuringMove, 'never');
-      assert.equal(cursorElement._scrollMode, 'keep-visible');
+      assert.equal(cursorElement.cursorManager.scrollMode, 'keep-visible');
       done();
     }
     diffElement.addEventListener('render', renderHandler);
@@ -484,8 +484,9 @@ suite('gr-diff-cursor tests', () => {
   test('initialLineNumber provided', done => {
     let scrollBehaviorDuringMove;
     const moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber')
-        .callsFake(
-            () => { scrollBehaviorDuringMove = cursorElement._scrollMode; });
+        .callsFake(() => {
+          scrollBehaviorDuringMove = cursorElement.cursorManager.scrollMode;
+        });
     const moveToChunkStub = sinon.stub(cursorElement, 'moveToFirstChunk');
     function renderHandler() {
       diffElement.removeEventListener('render', renderHandler);
@@ -495,7 +496,7 @@ suite('gr-diff-cursor tests', () => {
       assert.equal(moveToNumStub.lastCall.args[0], 10);
       assert.equal(moveToNumStub.lastCall.args[1], 'right');
       assert.equal(scrollBehaviorDuringMove, 'keep-visible');
-      assert.equal(cursorElement._scrollMode, 'keep-visible');
+      assert.equal(cursorElement.cursorManager.scrollMode, 'keep-visible');
       done();
     }
     diffElement.addEventListener('render', renderHandler);
@@ -600,7 +601,7 @@ suite('gr-diff-cursor tests', () => {
         {leftSide: true, number: 10});
 
     // Should be null if there is no selection.
-    cursorElement.$.cursorManager.unsetCursor();
+    cursorElement.cursorManager.unsetCursor();
     assert.isNotOk(cursorElement.getAddress());
   });
 

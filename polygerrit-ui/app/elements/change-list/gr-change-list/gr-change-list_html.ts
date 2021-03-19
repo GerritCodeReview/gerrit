@@ -161,9 +161,4 @@ export const htmlTemplate = html`
       </tbody>
     </template>
   </table>
-  <gr-cursor-manager
-    id="cursor"
-    scroll-mode="keep-visible"
-    focus-on-move=""
-  ></gr-cursor-manager>
 `;

@@ -55,7 +55,7 @@ suite('gr-autocomplete-dropdown', () => {
     element.addEventListener('item-selected', itemSelectedStub);
     MockInteractions.pressAndReleaseKeyOn(element, 9);
     assert.isTrue(handleTabSpy.called);
-    assert.equal(element.$.cursor.index, 0);
+    assert.equal(element.cursor.index, 0);
     assert.isTrue(itemSelectedStub.called);
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'tab',
@@ -69,7 +69,7 @@ suite('gr-autocomplete-dropdown', () => {
     element.addEventListener('item-selected', itemSelectedStub);
     MockInteractions.pressAndReleaseKeyOn(element, 13);
     assert.isTrue(handleEnterSpy.called);
-    assert.equal(element.$.cursor.index, 0);
+    assert.equal(element.cursor.index, 0);
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'enter',
       selected: element.getCursorTarget(),
@@ -78,28 +78,28 @@ suite('gr-autocomplete-dropdown', () => {
 
   test('down key', () => {
     element.isHidden = true;
-    const nextSpy = sinon.spy(element.$.cursor, 'next');
+    const nextSpy = sinon.spy(element.cursor, 'next');
     MockInteractions.pressAndReleaseKeyOn(element, 40);
     assert.isFalse(nextSpy.called);
-    assert.equal(element.$.cursor.index, 0);
+    assert.equal(element.cursor.index, 0);
     element.isHidden = false;
     MockInteractions.pressAndReleaseKeyOn(element, 40);
     assert.isTrue(nextSpy.called);
-    assert.equal(element.$.cursor.index, 1);
+    assert.equal(element.cursor.index, 1);
   });
 
   test('up key', () => {
     element.isHidden = true;
-    const prevSpy = sinon.spy(element.$.cursor, 'previous');
+    const prevSpy = sinon.spy(element.cursor, 'previous');
     MockInteractions.pressAndReleaseKeyOn(element, 38);
     assert.isFalse(prevSpy.called);
-    assert.equal(element.$.cursor.index, 0);
+    assert.equal(element.cursor.index, 0);
     element.isHidden = false;
-    element.$.cursor.setCursorAtIndex(1);
-    assert.equal(element.$.cursor.index, 1);
+    element.cursor.setCursorAtIndex(1);
+    assert.equal(element.cursor.index, 1);
     MockInteractions.pressAndReleaseKeyOn(element, 38);
     assert.isTrue(prevSpy.called);
-    assert.equal(element.$.cursor.index, 0);
+    assert.equal(element.cursor.index, 0);
   });
 
   test('tapping selects item', () => {

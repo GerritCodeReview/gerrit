@@ -29,7 +29,6 @@ import {fireEvent} from '../../../utils/event-util';
 
 export interface GrAutocompleteDropdown {
   $: {
-    cursor: GrCursorManager;
     suggestions: Element;
   };
 }
@@ -84,9 +83,6 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   @property({type: Array})
   suggestions: Item[] = [];
 
-  @property({type: Array})
-  _suggestionEls: Element[] = [];
-
   get keyBindings() {
     return {
       up: '_handleUp',
@@ -97,9 +93,16 @@ export class GrAutocompleteDropdown extends IronFitMixin(
     };
   }
 
+  private cursor = new GrCursorManager();
+
+  constructor() {
+    super();
+    this.cursor.cursorTargetClass = 'selected';
+  }
+
   /** @override */
   disconnectedCallback() {
-    this.$.cursor.unsetCursor();
+    this.cursor.unsetCursor();
     super.disconnectedCallback();
   }
 
@@ -136,13 +139,13 @@ export class GrAutocompleteDropdown extends IronFitMixin(
 
   cursorDown() {
     if (!this.isHidden) {
-      this.$.cursor.next();
+      this.cursor.next();
     }
   }
 
   cursorUp() {
     if (!this.isHidden) {
-      this.$.cursor.previous();
+      this.cursor.previous();
     }
   }
 
@@ -153,7 +156,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
       new CustomEvent('item-selected', {
         detail: {
           trigger: 'tab',
-          selected: this.$.cursor.target,
+          selected: this.cursor.target,
         },
         composed: true,
         bubbles: true,
@@ -168,7 +171,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
       new CustomEvent('item-selected', {
         detail: {
           trigger: 'enter',
-          selected: this.$.cursor.target,
+          selected: this.cursor.target,
         },
         composed: true,
         bubbles: true,
@@ -208,7 +211,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   }
 
   getCursorTarget() {
-    return this.$.cursor.target;
+    return this.cursor.target;
   }
 
   @observe('suggestions')
@@ -216,18 +219,23 @@ export class GrAutocompleteDropdown extends IronFitMixin(
     if (this.suggestions.length > 0) {
       if (!this.isHidden) {
         flush();
-        this._suggestionEls = Array.from(
+        this.cursor.stops = Array.from(
           this.$.suggestions.querySelectorAll('li')
         );
         this._resetCursorIndex();
       }
     } else {
-      this._suggestionEls = [];
+      this.cursor.stops = [];
     }
   }
 
+  @observe('index')
+  _setIndex() {
+    this.cursor.index = this.index || -1;
+  }
+
   _resetCursorIndex() {
-    this.$.cursor.setCursorAtIndex(0);
+    this.cursor.setCursorAtIndex(0);
   }
 
   _computeLabelClass(item: Item) {

@@ -238,6 +238,24 @@
       "parentUuid": "b56010b8_a0c21d80",
       "revId": "5146f6081b881b53c09f3907947d86576886151c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac37ac85_d2637486",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-19T11:00:23Z",
+      "side": 1,
+      "message": "SGTM to use yellow.\n\nIn light theme: this yellow color #FFFD54;\nIn dark theme: -yellow-tonal: #6a5619;",
+      "parentUuid": "d15cb9b1_3e05aa9f",
+      "revId": "5146f6081b881b53c09f3907947d86576886151c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

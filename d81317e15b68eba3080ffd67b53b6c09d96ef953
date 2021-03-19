@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8215b9b_0ebdd572",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2183,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T10:20:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62decc39_d0ef50da",
+      "revId": "d81317e15b68eba3080ffd67b53b6c09d96ef953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ec1c79b_cda3de82",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0361a4_ff7aa71f",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T10:20:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ec1c79b_cda3de82",
+      "range": {
+        "startLine": 392,
+        "startChar": 9,
+        "endLine": 392,
+        "endChar": 13
+      },
+      "revId": "d81317e15b68eba3080ffd67b53b6c09d96ef953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8705afe1_945c4b39",
@@ -71,6 +113,24 @@
       "writtenOn": "2021-03-19T09:00:11Z",
       "side": 1,
       "message": "Mention that this now includes drafts.",
+      "revId": "d81317e15b68eba3080ffd67b53b6c09d96ef953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe0611e7_e625f144",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T10:20:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8705afe1_945c4b39",
       "revId": "d81317e15b68eba3080ffd67b53b6c09d96ef953",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

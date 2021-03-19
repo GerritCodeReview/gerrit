@@ -141,12 +141,17 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       this.patchNum,
       this.relatedChanges
     );
+    let firstNonEmptySectionFound = false;
+    let isFirstNonEmpty =
+      !firstNonEmptySectionFound && !!this.relatedChanges.length;
+    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
     const relatedChangeSection = html` <section
-      class="relatedChanges"
+      id="relatedChanges"
       ?hidden=${!this.relatedChanges.length}
     >
       <gr-related-collapse
         title="Relation chain"
+        class="${classMap({first: isFirstNonEmpty})}"
         .length=${this.relatedChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
@@ -185,6 +190,11 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       ),
       sectionSize(Section.SUBMITTED_TOGETHER)
     );
+    isFirstNonEmpty =
+      !firstNonEmptySectionFound &&
+      (!!submittedTogetherChanges?.length ||
+        !!this.submittedTogether?.non_visible_changes);
+    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
     const submittedTogetherSection = html`<section
       id="submittedTogether"
       ?hidden=${!submittedTogetherChanges?.length &&
@@ -192,6 +202,7 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     >
       <gr-related-collapse
         title="Submitted together"
+        class="${classMap({first: isFirstNonEmpty})}"
         .length=${submittedTogetherChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.SUBMITTED_TOGETHER)}
       >
@@ -226,12 +237,16 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       -1,
       sectionSize(Section.SAME_TOPIC)
     );
+    isFirstNonEmpty =
+      !firstNonEmptySectionFound && !!this.sameTopicChanges?.length;
+    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
     const sameTopicSection = html`<section
       id="sameTopic"
       ?hidden=${!this.sameTopicChanges?.length}
     >
       <gr-related-collapse
         title="Same topic"
+        class="${classMap({first: isFirstNonEmpty})}"
         .length=${this.sameTopicChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.SAME_TOPIC)}
       >
@@ -261,12 +276,16 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       -1,
       sectionSize(Section.MERGE_CONFLICTS)
     );
+    isFirstNonEmpty =
+      !firstNonEmptySectionFound && !!this.conflictingChanges?.length;
+    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
     const mergeConflictsSection = html`<section
       id="mergeConflicts"
       ?hidden=${!this.conflictingChanges?.length}
     >
       <gr-related-collapse
         title="Merge conflicts"
+        class="${classMap({first: isFirstNonEmpty})}"
         .length=${this.conflictingChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.MERGE_CONFLICTS)}
       >
@@ -295,12 +314,16 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
       -1,
       sectionSize(Section.CHERRY_PICKS)
     );
+    isFirstNonEmpty =
+      !firstNonEmptySectionFound && !!this.cherryPickChanges?.length;
+    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
     const cherryPicksSection = html`<section
       id="cherryPicks"
       ?hidden=${!this.cherryPickChanges?.length}
     >
       <gr-related-collapse
         title="Cherry picks"
+        class="${classMap({first: isFirstNonEmpty})}"
         .length=${this.cherryPickChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.CHERRY_PICKS)}
       >
@@ -675,6 +698,9 @@ export class GrRelatedCollapse extends GrLitElement {
           justify-content: space-between;
           display: flex;
           margin-bottom: var(--spacing-s);
+        }
+        :host(.first) .container {
+          margin-bottom: var(--spacing-m);
         }
       `,
     ];

@@ -16,10 +16,24 @@
  */
 
 import '../../../test/common-test-setup-karma';
+import {
+  createChange,
+  createParsedChange,
+  createRelatedChangeAndCommitInfo,
+  createRelatedChangesInfo,
+  createSubmittedTogetherInfo,
+} from '../../../test/test-data-generators';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {
+  PatchSetNum,
+  RelatedChangesInfo,
+  SubmittedTogetherInfo,
+} from '../../../types/common';
 import './gr-related-changes-list-experimental';
 import {
   ChangeMarkersInList,
   GrRelatedChangesListExperimental,
+  GrRelatedCollapse,
   Section,
 } from './gr-related-changes-list-experimental';
 
@@ -153,6 +167,83 @@ suite('gr-related-changes-list-experimental', () => {
       const sectionSize2 = element.sectionSizeFactory(4, 1, 10, 1, 1);
       assert.equal(sectionSize2(Section.RELATED_CHANGES), 4);
       assert.equal(sectionSize2(Section.SAME_TOPIC), 4);
+    });
+  });
+
+  suite('test first non-empty list', () => {
+    const relatedChangeInfo: RelatedChangesInfo = {
+      ...createRelatedChangesInfo(),
+      changes: [createRelatedChangeAndCommitInfo()],
+    };
+    const submittedTogether: SubmittedTogetherInfo = {
+      ...createSubmittedTogetherInfo(),
+      changes: [createChange()],
+    };
+
+    setup(() => {
+      element.change = createParsedChange();
+      element.patchNum = 1 as PatchSetNum;
+    });
+
+    test('first list', async () => {
+      stubRestApi('getRelatedChanges').returns(
+        Promise.resolve(relatedChangeInfo)
+      );
+      await element.reload();
+      const section = queryAndAssert<HTMLElement>(element, '#relatedChanges');
+      const relatedChanges = queryAndAssert<GrRelatedCollapse>(
+        section,
+        'gr-related-collapse'
+      );
+      assert.isTrue(relatedChanges!.classList.contains('first'));
+    });
+
+    test('first empty second non-empty', async () => {
+      stubRestApi('getRelatedChanges').returns(
+        Promise.resolve(createRelatedChangesInfo())
+      );
+      stubRestApi('getChangesSubmittedTogether').returns(
+        Promise.resolve(submittedTogether)
+      );
+      await element.reload();
+      const relatedChanges = queryAndAssert<GrRelatedCollapse>(
+        queryAndAssert<HTMLElement>(element, '#relatedChanges'),
+        'gr-related-collapse'
+      );
+      assert.isFalse(relatedChanges!.classList.contains('first'));
+      const submittedTogetherSection = queryAndAssert<GrRelatedCollapse>(
+        queryAndAssert<HTMLElement>(element, '#submittedTogether'),
+        'gr-related-collapse'
+      );
+      assert.isTrue(submittedTogetherSection!.classList.contains('first'));
+    });
+
+    test('first non-empty second empty third non-empty', async () => {
+      stubRestApi('getRelatedChanges').returns(
+        Promise.resolve(relatedChangeInfo)
+      );
+      stubRestApi('getChangesSubmittedTogether').returns(
+        Promise.resolve(createSubmittedTogetherInfo())
+      );
+      stubRestApi('getChangeCherryPicks').returns(
+        Promise.resolve([createChange()])
+      );
+      await element.reload();
+      const relatedChanges = queryAndAssert<GrRelatedCollapse>(
+        queryAndAssert<HTMLElement>(element, '#relatedChanges'),
+        'gr-related-collapse'
+      );
+      assert.isTrue(relatedChanges!.classList.contains('first'));
+      const submittedTogetherSection = queryAndAssert<GrRelatedCollapse>(
+        queryAndAssert<HTMLElement>(element, '#submittedTogether'),
+        'gr-related-collapse'
+      );
+      assert.isFalse(submittedTogetherSection!.classList.contains('first'));
+      const cherryPicks = queryAndAssert<GrRelatedCollapse>(
+        queryAndAssert<HTMLElement>(element, '#cherryPicks'),
+        'gr-related-collapse'
+      );
+      assert.isFalse(cherryPicks!.classList.contains('first'));
     });
   });
 });

@@ -377,6 +377,8 @@ const styleSheet = safeStyleSheet`
     --iron-overlay-backdrop: {
       transition: none;
     };
+    --paper-tooltip-delay-in: 200ms;
+    --paper-tooltip-delay-out: 0;
     --paper-tooltip-duration-in: 0;
     --paper-tooltip-duration-out: 0;
     --paper-tooltip-background: var(--tooltip-background-color);

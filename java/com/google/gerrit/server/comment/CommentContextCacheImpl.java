@@ -68,7 +68,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
       @Override
       protected void configure() {
         persist(CACHE_NAME, CommentContextKey.class, CommentContext.class)
-            .version(4)
+            .version(5)
             .diskLimit(1 << 30) // limit the total cache size to 1 GB
             .maximumWeight(1 << 23) // Limit the size of the in-memory cache to 8 MB
             .weigher(CommentContextWeigher.class)
@@ -238,7 +238,8 @@ public class CommentContextCacheImpl implements CommentContextCache {
     }
 
     /**
-     * Load the comment context for comments of the same project and change ID.
+     * Load the comment context for comments (published and drafts) of the same project and change
+     * ID.
      *
      * @param keys a list of keys corresponding to some comments
      * @param project a gerrit project/repository
@@ -250,10 +251,13 @@ public class CommentContextCacheImpl implements CommentContextCache {
         throws IOException {
       ChangeNotes notes = notesFactory.createChecked(project, changeId);
       List<HumanComment> humanComments = commentsUtil.publishedHumanCommentsByChange(notes);
+      List<HumanComment> drafts = commentsUtil.draftByChange(notes);
+      List<HumanComment> allComments =
+          Streams.concat(humanComments.stream(), drafts.stream()).collect(Collectors.toList());
       CommentContextLoader loader = factory.create(project);
       Map<ContextInput, CommentContextKey> commentsToKeys = new HashMap<>();
       for (CommentContextKey key : keys) {
-        Comment comment = getCommentForKey(humanComments, key);
+        Comment comment = getCommentForKey(allComments, key);
         commentsToKeys.put(ContextInput.fromComment(comment, key.contextPadding()), key);
       }
       Map<ContextInput, CommentContext> allContext = loader.getContext(commentsToKeys.keySet());

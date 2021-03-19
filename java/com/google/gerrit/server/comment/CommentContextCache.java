@@ -24,7 +24,7 @@ import com.google.gerrit.entities.CommentContext;
 public interface CommentContextCache {
 
   /**
-   * Returns the context lines for a single comment.
+   * Returns the context lines for a single comment. Works for published and draft comments.
    *
    * @param key a key representing a subset of fields for a comment that serves as an identifier.
    * @return a {@link CommentContext} object containing all line numbers and text of the context.
@@ -32,7 +32,8 @@ public interface CommentContextCache {
   CommentContext get(CommentContextKey key);
 
   /**
-   * Returns the context lines for multiple comments - identified by their {@code keys}.
+   * Returns the context lines for multiple comments - identified by their {@code keys}. Works for
+   * published and draft comments.
    *
    * @param keys list of keys, where each key represents a single comment through its project,
    *     change ID, patchset, path and ID. The keys can belong to different projects and changes.

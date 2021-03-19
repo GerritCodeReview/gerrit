@@ -33,6 +33,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -117,6 +118,23 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * lazyLoad=false disables loading from NoteDb, so we don't accidentally enable a slow path.
  */
 public class ChangeData {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public enum StorageConstraint {
+    /**
+     * This instance was loaded from the change index. Backfilling missing data from NoteDb is not
+     * allowed.
+     */
+    INDEX_ONLY,
+    /**
+     * This instance was loaded from the change index. Backfilling missing data from NoteDb is
+     * allowed.
+     */
+    INDEX_PRIMARY_NOTEDB_SECONDARY,
+    /** This instance was loaded from NoteDb. */
+    NOTEDB_ONLY
+  }
+
   public static List<Change> asChanges(List<ChangeData> changeDatas) {
     List<Change> result = new ArrayList<>(changeDatas.size());
     for (ChangeData cd : changeDatas) {
@@ -282,7 +300,7 @@ public class ChangeData {
   private final Map<SubmitRuleOptions, List<SubmitRecord>> submitRecords =
       Maps.newLinkedHashMapWithExpectedSize(1);
 
-  private boolean lazyLoad = true;
+  private StorageConstraint storageConstraint = StorageConstraint.NOTEDB_ONLY;
   private Change change;
   private ChangeNotes notes;
   private String commitMessage;
@@ -375,9 +393,15 @@ public class ChangeData {
    * lazyLoad} is on, the {@code ChangeData} object will load from the database ("lazily") when a
    * field accessor is called.
    */
-  public ChangeData setLazyLoad(boolean load) {
-    lazyLoad = load;
+  public ChangeData setStorageConstraint(StorageConstraint storageConstraint) {
+    this.storageConstraint = storageConstraint;
     return this;
+  }
+
+  /** Returns {@code true} if we allow reading data from NoteDb. */
+  public boolean lazyload() {
+    return storageConstraint.ordinal()
+        >= StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY.ordinal();
   }
 
   public AllUsersName getAllUsersNameForIndexing() {
@@ -394,7 +418,7 @@ public class ChangeData {
 
   public List<String> currentFilePaths() {
     if (currentFiles == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Collections.emptyList();
       }
       Optional<DiffSummary> p = getDiffSummary();
@@ -405,7 +429,7 @@ public class ChangeData {
 
   private Optional<DiffSummary> getDiffSummary() {
     if (diffSummary == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Optional.empty();
       }
 
@@ -436,7 +460,7 @@ public class ChangeData {
 
   public Optional<ChangedLines> changedLines() {
     if (changedLines == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Optional.empty();
       }
       changedLines = computeChangedLines();
@@ -469,7 +493,7 @@ public class ChangeData {
   }
 
   public Change change() {
-    if (change == null && lazyLoad) {
+    if (change == null && lazyload()) {
       reloadChange();
     }
     return change;
@@ -500,7 +524,7 @@ public class ChangeData {
 
   public ChangeNotes notes() {
     if (notes == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         throw new StorageException("ChangeNotes not available, lazyLoad = false");
       }
       notes = notesFactory.create(project(), legacyId);
@@ -526,7 +550,7 @@ public class ChangeData {
 
   public List<PatchSetApproval> currentApprovals() {
     if (currentApprovals == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Collections.emptyList();
       }
       Change c = change();
@@ -621,7 +645,7 @@ public class ChangeData {
   /** Returns the most recent update (i.e. status) per user. */
   public ImmutableSet<AttentionSetUpdate> attentionSet() {
     if (attentionSet == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return ImmutableSet.of();
       }
       attentionSet = notes().getAttentionSet();
@@ -699,7 +723,7 @@ public class ChangeData {
    */
   public ListMultimap<PatchSet.Id, PatchSetApproval> approvals() {
     if (allApprovals == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return ImmutableListMultimap.of();
       }
       allApprovals = approvalsUtil.byChange(notes());
@@ -716,7 +740,7 @@ public class ChangeData {
 
   public ReviewerSet reviewers() {
     if (reviewers == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         // We are not allowed to load values from NoteDb. Reviewers were not populated with values
         // from the index. However, we need these values for permission checks.
         throw new IllegalStateException("reviewers not populated");
@@ -732,7 +756,7 @@ public class ChangeData {
 
   public ReviewerByEmailSet reviewersByEmail() {
     if (reviewersByEmail == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return ReviewerByEmailSet.empty();
       }
       reviewersByEmail = notes().getReviewersByEmail();
@@ -758,7 +782,7 @@ public class ChangeData {
 
   public ReviewerSet pendingReviewers() {
     if (pendingReviewers == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return ReviewerSet.empty();
       }
       pendingReviewers = notes().getPendingReviewers();
@@ -776,7 +800,7 @@ public class ChangeData {
 
   public ReviewerByEmailSet pendingReviewersByEmail() {
     if (pendingReviewersByEmail == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return ReviewerByEmailSet.empty();
       }
       pendingReviewersByEmail = notes().getPendingReviewersByEmail();
@@ -786,7 +810,7 @@ public class ChangeData {
 
   public List<ReviewerStatusUpdate> reviewerUpdates() {
     if (reviewerUpdates == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Collections.emptyList();
       }
       reviewerUpdates = approvalsUtil.getReviewerUpdates(notes());
@@ -804,7 +828,7 @@ public class ChangeData {
 
   public Collection<HumanComment> publishedComments() {
     if (publishedComments == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Collections.emptyList();
       }
       publishedComments = commentsUtil.publishedHumanCommentsByChange(notes());
@@ -814,7 +838,7 @@ public class ChangeData {
 
   public Collection<RobotComment> robotComments() {
     if (robotComments == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Collections.emptyList();
       }
       robotComments = commentsUtil.robotCommentsByChange(notes());
@@ -824,7 +848,7 @@ public class ChangeData {
 
   public Integer unresolvedCommentCount() {
     if (unresolvedCommentCount == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return null;
       }
 
@@ -846,7 +870,7 @@ public class ChangeData {
 
   public Integer totalCommentCount() {
     if (totalCommentCount == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return null;
       }
 
@@ -863,7 +887,7 @@ public class ChangeData {
 
   public List<ChangeMessage> messages() {
     if (messages == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Collections.emptyList();
       }
       messages = cmUtil.byChange(notes());
@@ -878,7 +902,12 @@ public class ChangeData {
     // evaluation.
     List<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
-      if (!lazyLoad) {
+      if (storageConstraint != StorageConstraint.NOTEDB_ONLY) {
+        // Submit requirements are expensive. We allow loading them only if this change did not
+        // originate from the change index and we can invest the extra time.
+        logger.atWarning().log(
+            "Tried to load SubmitRecords for change fetched from index %s: %d",
+            project(), getId().get());
         return Collections.emptyList();
       }
       records = submitRuleEvaluatorFactory.create(options).evaluate(this);
@@ -926,7 +955,7 @@ public class ChangeData {
       } else if (c.isWorkInProgress()) {
         return null;
       } else {
-        if (!lazyLoad) {
+        if (!lazyload()) {
           return null;
         }
         PatchSet ps = currentPatchSet();
@@ -972,7 +1001,7 @@ public class ChangeData {
 
   public Map<Account.Id, Ref> editRefs() {
     if (editsByUser == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Collections.emptyMap();
       }
       Change c = change();
@@ -1004,7 +1033,7 @@ public class ChangeData {
 
   public Map<Account.Id, Ref> draftRefs() {
     if (draftsByUser == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Collections.emptyMap();
       }
       Change c = change();
@@ -1049,7 +1078,7 @@ public class ChangeData {
 
   public Set<Account.Id> reviewedBy() {
     if (reviewedBy == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Collections.emptySet();
       }
       Change c = change();
@@ -1081,7 +1110,7 @@ public class ChangeData {
 
   public Set<String> hashtags() {
     if (hashtags == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return Collections.emptySet();
       }
       hashtags = notes().getHashtags();
@@ -1095,7 +1124,7 @@ public class ChangeData {
 
   public ImmutableListMultimap<Account.Id, String> stars() {
     if (stars == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return ImmutableListMultimap.of();
       }
       ImmutableListMultimap.Builder<Account.Id, String> b = ImmutableListMultimap.builder();
@@ -1113,7 +1142,7 @@ public class ChangeData {
 
   public ImmutableMap<Account.Id, StarRef> starRefs() {
     if (starRefs == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return ImmutableMap.of();
       }
       starRefs = requireNonNull(starredChangesUtil).byChange(legacyId);
@@ -1131,7 +1160,7 @@ public class ChangeData {
       if (stars != null) {
         starsOf = StarsOf.create(accountId, stars.get(accountId));
       } else {
-        if (!lazyLoad) {
+        if (!lazyload()) {
           return ImmutableSet.of();
         }
         starsOf = StarsOf.create(accountId, starredChangesUtil.getLabels(accountId, legacyId));
@@ -1179,7 +1208,7 @@ public class ChangeData {
 
   public SetMultimap<NameKey, RefState> getRefStates() {
     if (refStates == null) {
-      if (!lazyLoad) {
+      if (!lazyload()) {
         return ImmutableSetMultimap.of();
       }
 

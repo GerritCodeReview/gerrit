@@ -405,6 +405,10 @@ public class ChangeJson {
 
   private void ensureLoaded(Iterable<ChangeData> all) {
     if (lazyLoad) {
+      for (ChangeData cd : all) {
+        // Mark all ChangeDatas as coming from the index, but allow backfilling data from NoteDb
+        cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
+      }
       ChangeData.ensureChangeLoaded(all);
       if (has(ALL_REVISIONS)) {
         ChangeData.ensureAllPatchSetsLoaded(all);
@@ -417,7 +421,8 @@ public class ChangeJson {
       ChangeData.ensureCurrentApprovalsLoaded(all);
     } else {
       for (ChangeData cd : all) {
-        cd.setLazyLoad(false);
+        // Mark all ChangeDatas as coming from the index. Disallow using NoteDb
+        cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_ONLY);
       }
     }
   }

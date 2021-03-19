@@ -85,6 +85,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "25464219_47736163",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3070,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T13:34:34Z",
+      "side": 1,
+      "message": "I see. Thanks for the clarification.",
+      "parentUuid": "a5550031_62e49ea2",
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b4df8583_1c095edb",
         "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
         "patchSetId": 5
@@ -419,6 +437,30 @@
       "side": 1,
       "message": "The auto merge is created because the name of the ref is the SHA1 of the ps-commit and that is different from ps1 to ps2. Am I missing something?",
       "parentUuid": "1cfed140_999c083a",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 55
+      },
+      "revId": "fd08aea73e03668b42079bb225ede381ccb5a338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64440147_7fe45557",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AutoMergeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-19T13:34:34Z",
+      "side": 1,
+      "message": "Right. I missed that. Thanks.",
+      "parentUuid": "ce4a730e_0b5b652c",
       "range": {
         "startLine": 86,
         "startChar": 4,

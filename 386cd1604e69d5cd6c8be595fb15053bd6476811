@@ -1,0 +1,313 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3602249c_8469e32b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "exists, making",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "971f3fa9_cb9cbceb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "Why mentioning this? Would detail this idea in another paragraph a bit further.",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3f59493_63266936",
+        "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/DeleteProjectIfExist-body.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "Inconsistent indent.",
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f4e8456_09b145bf",
+        "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/DeleteProjectIfExist-body.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "Extra blank line.",
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa0a9afc_b0d70dc1",
+        "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/DeleteProjectIfExist.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "DeleteProjectIfExists",
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa87d1c7_eedbb147",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExist.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "Unused, as flagged by the IntelliJ warning (mandatory IDE for e2e-tests, as documented and previously mentioned).",
+      "range": {
+        "startLine": 19,
+        "startChar": 34,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "150f070c_f179f2df",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExist.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "Extra blank line, according to other existing files; inconsistent.",
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07d696af_13e2e74c",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExist.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "Unused; prematurely introduced.",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 31
+      },
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a5e4bea_d1ee17d2",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExist.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "private val (For now, this change.)",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c361636d_5af2c1d0",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExist.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "Other files don\u0027t just have this statement alone on its line. Would consider joining line 34 to it, here.",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 12
+      },
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5c381d3_f3ec9c7a",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExist.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 36,
+        "startChar": 12,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0c50751_7c98120d",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExist.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "Would rather save the status value, and expect 200 below within a so refactored line 39. Otherwise I find this string value to be rather arbitrary.",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 38,
+        "endChar": 32
+      },
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c358d922_1d7dff88",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExist.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "We already discussed the need to remove duplicated key names.",
+      "range": {
+        "startLine": 39,
+        "startChar": 42,
+        "endLine": 39,
+        "endChar": 49
+      },
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fe01fa8_ad5a8ed2",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExist.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "That\u0027s a long line which I think exceeds the max.\n\nBut just for readability, I\u0027d split it into a few more lines, as elsewhere with such chained method calls.",
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a382150_358aff1d",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExist.scala",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-19T20:46:15Z",
+      "side": 1,
+      "message": "Here too.",
+      "revId": "386cd1604e69d5cd6c8be595fb15053bd6476811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

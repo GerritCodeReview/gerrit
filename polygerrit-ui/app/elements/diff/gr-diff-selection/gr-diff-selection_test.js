@@ -143,8 +143,8 @@ suite('gr-diff-selection', () => {
 
   test('applies selected-left on left side click', () => {
     element.classList.add('selected-right');
-    element._cachedDiffBuilder.getSideByLineEl.returns('left');
-    MockInteractions.down(element);
+    const lineNumberEl = element.querySelector('.lineNum.left');
+    MockInteractions.down(lineNumberEl);
     assert.isTrue(
         element.classList.contains('selected-left'), 'adds selected-left');
     assert.isFalse(
@@ -154,8 +154,8 @@ suite('gr-diff-selection', () => {
 
   test('applies selected-right on right side click', () => {
     element.classList.add('selected-left');
-    element._cachedDiffBuilder.getSideByLineEl.returns('right');
-    MockInteractions.down(element);
+    const lineNumberEl = element.querySelector('.lineNum.right');
+    MockInteractions.down(lineNumberEl);
     assert.isTrue(
         element.classList.contains('selected-right'), 'adds selected-right');
     assert.isFalse(

@@ -1,6 +1,42 @@
 :linkattrs:
 = Glossary
 
+[[event]]
+== Event
+
+It refers to the `com.google.gerrit.server.events.Event` base abstract class
+representing any possible event that is generated or received in a Gerrit instance.
+
+[[event-broker]]
+== Event broker
+
+Default Gerrit event dispatcher.
+
+[[event-dispatcher]]
+== Event dispatcher
+
+Generic interface for posting events to the Gerrit event system. It can be implemented
+by plugins and allows to influence how events are managed.
+
+[[event-hierarchy]]
+== Event hierarchy
+
+Hierarchy of classes derived from Event
+
+[[event-listener]]
+== Event listener
+
+Interface for listening for Gerrit events from plugins, without having any visibility
+restriction applied.
+
+[[stream-events]]
+== Stream events
+
+Command that allows an external user or a plugin to receive all events that are
+generated in Gerrit. The consumption typically happens using an SSH connection.
+However, there are plugins to broadcast those events over a reliable messaging
+queueing system (RabbitMQ) or a pub-sub (Kafka).
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

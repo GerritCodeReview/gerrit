@@ -16,6 +16,24 @@
       "message": "Hi Patrick, could you please review this change for me?\n\nQ: Should we add a \"version\" field in the cache key? What\u0027s the process of invalidating in-memory cache entries?\nI couldn\u0027t find a .version() in the cache definition (seems only relevant for persisted caches).",
       "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8046307_d46e40c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-20T10:00:05Z",
+      "side": 1,
+      "message": "No need to invalidate in-memory caches. Cache will just be reloaded with new values when the task restarts.",
+      "parentUuid": "44e25440_e12fe74c",
+      "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

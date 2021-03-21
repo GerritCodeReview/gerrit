@@ -22,6 +22,30 @@
       },
       "revId": "fc4a6927cba8bd84ec542c10890a6efa20bc6e64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d645db09_26b672be",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-21T18:16:27Z",
+      "side": 1,
+      "message": "Done. Have also propagated that to the remaining merges.",
+      "parentUuid": "b8975fb9_2d6d24e3",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 92
+      },
+      "revId": "fc4a6927cba8bd84ec542c10890a6efa20bc6e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

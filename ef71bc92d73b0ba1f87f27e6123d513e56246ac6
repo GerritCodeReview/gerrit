@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cea6aea0_94418542",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T21:02:40Z",
+      "side": 1,
+      "message": "Let me also follow-up with the Gerrit instance term and its associated roles:\n- primary/replica\n- standalone",
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

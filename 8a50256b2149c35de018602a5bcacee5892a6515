@@ -16,6 +16,24 @@
       "message": "Luca, do we accept fixes for 2.16 still?\n\nThe change is fine.",
       "revId": "8a50256b2149c35de018602a5bcacee5892a6515",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "047e4b39_912f64b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T07:45:41Z",
+      "side": 1,
+      "message": "\u003e Luca, do we accept fixes for 2.16 still?\n\u003e \n\u003e The change is fine.\n\nOur (reviewed and agreed) policy is:\nhttps://www.gerritcodereview.com/bug-fixing.html#2-find-the-earliest-supported-branch-that-has-the-bug\n\nAnd the v2.16 exceptions are:\nhttps://www.gerritcodereview.com/releases-readme.html#216-eol---with-exceptions\n\n@Przemyslaw can you check the above?",
+      "parentUuid": "e8f75a69_896dc41f",
+      "revId": "8a50256b2149c35de018602a5bcacee5892a6515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

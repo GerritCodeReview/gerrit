@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b80490f4_17f5082a",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-22T15:05:18Z",
+      "side": 1,
+      "message": "This method cannot be left with no implementation, as this doesn\u0027t meet its contract. Callers are expecting it to set the output stream to \u0027out\u0027, rather than being a no-op as in here.",
+      "range": {
+        "startLine": 80,
+        "startChar": 50,
+        "endLine": 80,
+        "endChar": 52
+      },
+      "revId": "d5347c514fe4a6315886884f19c832550a5fe8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

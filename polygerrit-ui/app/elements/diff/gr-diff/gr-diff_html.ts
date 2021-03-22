@@ -432,7 +432,7 @@ export const htmlTemplate = html`
       background: var(--diff-selection-background-color);
     }
     td.lost div {
-      background-color: var(--blue-50);
+      background-color: var(--info-background);
       padding: var(--spacing-s) 0 0 0;
     }
     td.lost div:first-of-type {

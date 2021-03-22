@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c8d34cb_461c796e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d25f8fa5_ff51f8bf",
+      "revId": "d3cbc1d8db17ba71d8fe869a2d54bb6cd4eb5f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb30b5f2_367afe99",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fa393f3_88d35f7e",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb30b5f2_367afe99",
+      "range": {
+        "startLine": 281,
+        "startChar": 15,
+        "endLine": 281,
+        "endChar": 38
+      },
+      "revId": "d3cbc1d8db17ba71d8fe869a2d54bb6cd4eb5f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f39b785_6aa8b514",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-03-22T11:56:24Z",
       "side": 1,
       "message": "entity name missing",
+      "range": {
+        "startLine": 289,
+        "startChar": 69,
+        "endLine": 289,
+        "endChar": 70
+      },
+      "revId": "d3cbc1d8db17ba71d8fe869a2d54bb6cd4eb5f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfbdee31_25370748",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "There is no such entity, I made it up specifically for GroupCacheImpl and there is no matching java class. Is that a problem?\n\nThat\u0027s the same as in ProjectCacheImpl (ProjectCacheKeyProto).",
+      "parentUuid": "2f39b785_6aa8b514",
       "range": {
         "startLine": 289,
         "startChar": 69,

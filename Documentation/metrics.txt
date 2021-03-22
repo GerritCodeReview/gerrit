@@ -186,6 +186,7 @@ having most data in the cache. The number N of reported repositories is limited 
 * `git/upload-pack/phase_compressing`: Time spent in the 'Compressing...' phase.
 * `git/upload-pack/phase_writing`: Time spent transferring bytes to client.
 * `git/upload-pack/pack_bytes`: Distribution of sizes of packs sent to clients.
+* `git/auto-merge/num_operations`: Number of attempted auto merge operations and context.
 
 === BatchUpdate
 

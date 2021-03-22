@@ -148,6 +148,7 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -356,6 +357,7 @@ class ReceiveCommits {
   private final SetPrivateOp.Factory setPrivateOpFactory;
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
   private final DynamicItem<UrlFormatter> urlFormatter;
+  private final AutoMerger autoMerger;
 
   // Assisted injected fields.
   private final ProjectState projectState;
@@ -440,6 +442,7 @@ class ReceiveCommits {
       SetPrivateOp.Factory setPrivateOpFactory,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
       DynamicItem<UrlFormatter> urlFormatter,
+      AutoMerger autoMerger,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -491,6 +494,7 @@ class ReceiveCommits {
     this.setPrivateOpFactory = setPrivateOpFactory;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
     this.urlFormatter = urlFormatter;
+    this.autoMerger = autoMerger;
 
     // Assisted injected fields.
     this.projectState = projectState;
@@ -3063,6 +3067,25 @@ class ReceiveCommits {
         if (progress != null) {
           bu.addOp(notes.getChangeId(), new ChangeProgressOp(progress));
         }
+        bu.addRepoOnlyOp(
+            new RepoOnlyOp() {
+              @Override
+              public void updateRepo(RepoContext ctx) throws Exception {
+                // Create auto merge ref if the new patch set is a merge commit. This is only
+                // required for new patch sets on existing changes as these do not go through
+                // PatchSetInserter. New changes pushed via git go through ChangeInserter and have
+                // their auto merge commits created there.
+                Optional<ReceiveCommand> autoMerge =
+                    autoMerger.createAutoMergeCommitIfNecessary(
+                        ctx.getRepoView(),
+                        ctx.getRevWalk(),
+                        ctx.getInserter(),
+                        ctx.getRevWalk().parseCommit(newCommitId));
+                if (autoMerge.isPresent()) {
+                  ctx.addRefUpdate(autoMerge.get());
+                }
+              }
+            });
       }
     }
 

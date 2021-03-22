@@ -120,6 +120,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5bd677c_36a6656f",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-22T15:05:18Z",
+      "side": 1,
+      "message": "\u003e The out stream is not closed at this point. I verified it with the debugger. Unlike the first assumption that the exception is thrown in this method, the exception is thrown when executing onExit() method line 116. During its call out.flush() is called. Unfortunately, out.flush() is called in a java file from org.apache,server.\n\nYou can check what out.flush is complaining about more precisely. I suspect it is trying to flush an already closed stream, if you keep the preceding call to out.close. You may research this, as such a case should already be well known elsewhere.",
+      "parentUuid": "fb3925df_c228c461",
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16c11342_a34087f5",
         "filename": "tools/testNoShell.sh",
         "patchSetId": 4

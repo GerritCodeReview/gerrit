@@ -17,7 +17,7 @@ package com.google.gerrit.server.group.db;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.entities.InternalGroup;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;

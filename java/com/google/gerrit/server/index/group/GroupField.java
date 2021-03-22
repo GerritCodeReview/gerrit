@@ -25,10 +25,10 @@ import static com.google.gerrit.index.FieldDef.timestamp;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
-import com.google.gerrit.server.group.InternalGroup;
 import java.sql.Timestamp;
 import org.eclipse.jgit.lib.ObjectId;
 

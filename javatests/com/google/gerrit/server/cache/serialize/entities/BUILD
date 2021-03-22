@@ -8,6 +8,7 @@ junit_tests(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/serialize/entities",
+        "//java/com/google/gerrit/server/util/time",
         "//lib:guava",
         "//lib:jgit",
         "//lib:protobuf",

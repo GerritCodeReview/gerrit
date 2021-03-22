@@ -15,7 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.entities.InternalGroup;
 import java.util.Optional;
 
 /** Tracks group objects in memory for efficient access. */

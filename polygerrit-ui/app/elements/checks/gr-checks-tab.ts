@@ -25,26 +25,15 @@ import {
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Action, CheckResult, CheckRun} from '../../api/checks';
 import {
-  allActions$,
   allResults$,
   allRuns$,
   checksPatchsetNumber$,
-  someProvidersAreLoading$,
 } from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
-import {sharedStyles} from '../../styles/shared-styles';
-import {changeNum$, latestPatchNum$} from '../../services/change/change-model';
+import {changeNum$} from '../../services/change/change-model';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
-import {
-  ActionTriggeredEvent,
-  fireActionTriggered,
-} from '../../services/checks/checks-util';
-import {
-  assertIsDefined,
-  check,
-  checkRequiredProperty,
-} from '../../utils/common-util';
+import {ActionTriggeredEvent} from '../../services/checks/checks-util';
 import {RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {fireAlert} from '../../utils/event-util';
@@ -61,9 +50,8 @@ export class GrChecksTab extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
 
+  @property()
   results: CheckResult[] = [];
-
-  actions: Action[] = [];
 
   @property()
   tabState?: ChecksTabState;
@@ -72,13 +60,7 @@ export class GrChecksTab extends GrLitElement {
   checksPatchsetNumber: PatchSetNumber | undefined = undefined;
 
   @property()
-  latestPatchsetNumber: PatchSetNumber | undefined = undefined;
-
-  @property()
   changeNum: NumericChangeId | undefined = undefined;
-
-  @property()
-  someProvidersAreLoading = false;
 
   @internalProperty()
   selectedRuns: string[] = [];
@@ -88,12 +70,9 @@ export class GrChecksTab extends GrLitElement {
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
-    this.subscribe('actions', allActions$);
     this.subscribe('results', allResults$);
     this.subscribe('checksPatchsetNumber', checksPatchsetNumber$);
-    this.subscribe('latestPatchsetNumber', latestPatchNum$);
     this.subscribe('changeNum', changeNum$);
-    this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
 
     this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>
       this.handleActionTriggered(e.detail.action, e.detail.run)
@@ -101,35 +80,22 @@ export class GrChecksTab extends GrLitElement {
   }
 
   static get styles() {
-    return [
-      sharedStyles,
-      css`
-        :host {
-          display: block;
-        }
-        .header {
-          display: flex;
-          justify-content: space-between;
-          padding: var(--spacing-m) var(--spacing-l);
-          border-bottom: 1px solid var(--border-color);
-        }
-        .action {
-          margin-left: var(--spacing-m);
-        }
-        .container {
-          display: flex;
-        }
-        .runs {
-          min-width: 300px;
-          min-height: 400px;
-          border-right: 1px solid var(--border-color);
-        }
-        .results {
-          background-color: var(--background-color-secondary);
-          flex-grow: 1;
-        }
-      `,
-    ];
+    return css`
+      :host {
+        display: block;
+      }
+      .container {
+        display: flex;
+      }
+      .runs {
+        min-width: 300px;
+        min-height: 400px;
+        border-right: 1px solid var(--border-color);
+      }
+      .results {
+        flex-grow: 1;
+      }
+    `;
   }
 
   render() {
@@ -139,19 +105,6 @@ export class GrChecksTab extends GrLitElement {
         this.selectedRuns.includes(r.checkName)
     );
     return html`
-      <div class="header">
-        <div class="left">
-          <gr-dropdown-list
-            value="${this.checksPatchsetNumber}"
-            .items="${this.createPatchsetDropdownItems()}"
-            @value-change="${this.onPatchsetSelected}"
-          ></gr-dropdown-list>
-          <span ?hidden="${!this.someProvidersAreLoading}">Loading...</span>
-        </div>
-        <div class="right">
-          ${this.actions.map(this.renderAction)}
-        </div>
-      </div>
       <div class="container">
         <gr-checks-runs
           class="runs"
@@ -171,25 +124,6 @@ export class GrChecksTab extends GrLitElement {
     `;
   }
 
-  private onPatchsetSelected(e: CustomEvent<{value: string}>) {
-    const patchset = Number(e.detail.value);
-    check(!isNaN(patchset), 'selected patchset must be a number');
-    this.checksService.setPatchset(patchset as PatchSetNumber);
-  }
-
-  private createPatchsetDropdownItems() {
-    if (!this.latestPatchsetNumber) return [];
-    return Array.from(Array(this.latestPatchsetNumber), (_, i) => {
-      assertIsDefined(this.latestPatchsetNumber, 'latestPatchsetNumber');
-      const index = this.latestPatchsetNumber - i;
-      const postfix = index === this.latestPatchsetNumber ? ' (latest)' : '';
-      return {
-        value: `${index}`,
-        text: `Patchset ${index}${postfix}`,
-      };
-    });
-  }
-
   protected updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
     if (changedProperties.has('tabState')) {
@@ -197,12 +131,6 @@ export class GrChecksTab extends GrLitElement {
         this.selectedRuns = [];
       }
     }
-  }
-
-  renderAction(action: Action) {
-    return html`<gr-checks-top-level-action
-      .action="${action}"
-    ></gr-checks-top-level-action>`;
   }
 
   handleActionTriggered(action: Action, run?: CheckRun) {
@@ -256,32 +184,8 @@ export class GrChecksTab extends GrLitElement {
   }
 }
 
-@customElement('gr-checks-top-level-action')
-export class GrChecksTopLevelAction extends GrLitElement {
-  @property()
-  action!: Action;
-
-  connectedCallback() {
-    super.connectedCallback();
-    checkRequiredProperty(this.action, 'action');
-  }
-
-  render() {
-    return html`
-      <gr-button link class="action" @click="${this.handleClick}"
-        >${this.action.name}</gr-button
-      >
-    `;
-  }
-
-  handleClick() {
-    fireActionTriggered(this, this.action);
-  }
-}
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-checks-tab': GrChecksTab;
-    'gr-checks-top-level-action': GrChecksTopLevelAction;
   }
 }

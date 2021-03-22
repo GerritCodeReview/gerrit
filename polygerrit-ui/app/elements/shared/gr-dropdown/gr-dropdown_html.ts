@@ -30,6 +30,7 @@ export const htmlTemplate = html`
       box-shadow: var(--elevation-level-2);
     }
     gr-button {
+      vertical-align: top;
       @apply --gr-button;
     }
     gr-avatar {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ccf8855_b0369efd",
+        "filename": "java/com/google/gerrit/server/account/GroupCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "good catch",
+      "parentUuid": "be4e6a80_aaa75f3b",
+      "range": {
+        "startLine": 57,
+        "startChar": 5,
+        "endLine": 57,
+        "endChar": 47
+      },
+      "revId": "1cc4f21c802453caa12f80707c07134b2bdf60a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8921b86d_0ce3f00d",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-22T12:14:19Z",
       "side": 1,
       "message": "@see #evict(AccountGroup.UUID)",
+      "range": {
+        "startLine": 108,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 5
+      },
+      "revId": "1cc4f21c802453caa12f80707c07134b2bdf60a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "599361a8_ab577665",
+        "filename": "java/com/google/gerrit/server/account/GroupCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8921b86d_0ce3f00d",
       "range": {
         "startLine": 108,
         "startChar": 1,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "26e502e0_cad7e5bb",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "I think it is documented:\n\"If a group can\u0027t be loaded (e.g. because it is missing), the entry will be missing from the result.\"\n\nDid you mean something else?",
+      "parentUuid": "d2f77131_6b1e1256",
+      "range": {
+        "startLine": 166,
+        "startChar": 32,
+        "endLine": 166,
+        "endChar": 45
+      },
+      "revId": "1cc4f21c802453caa12f80707c07134b2bdf60a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3e5d75d2_b644988e",
         "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
         "patchSetId": 1
@@ -83,6 +155,30 @@
       "writtenOn": "2021-03-22T12:14:19Z",
       "side": 1,
       "message": "Please use the map collector instead.",
+      "range": {
+        "startLine": 169,
+        "startChar": 66,
+        "endLine": 169,
+        "endChar": 80
+      },
+      "revId": "1cc4f21c802453caa12f80707c07134b2bdf60a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5356d8d1_739e4f65",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "This should be an set collector since the input can\u0027t be a map.\nThe output could use a map collector though, done.",
+      "parentUuid": "3e5d75d2_b644988e",
       "range": {
         "startLine": 169,
         "startChar": 66,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1159d558_103fb14c",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ecd9c95_cfb02b57",
+      "range": {
+        "startLine": 274,
+        "startChar": 6,
+        "endLine": 275,
+        "endChar": 36
+      },
+      "revId": "1cc4f21c802453caa12f80707c07134b2bdf60a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1df8c133_7c07c67d",
@@ -129,6 +249,30 @@
       "writtenOn": "2021-03-22T12:14:19Z",
       "side": 1,
       "message": "This method needs to call getAll on the persisted cache so that the lower layer can also speed up the operation by making a single batch call.\n\nI\u0027d just build a set of keys in this method and then just do \n\nreturn persistedCache.getAll(keySet)",
+      "range": {
+        "startLine": 296,
+        "startChar": 51,
+        "endLine": 296,
+        "endChar": 54
+      },
+      "revId": "1cc4f21c802453caa12f80707c07134b2bdf60a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e7020a4_d7f2ea32",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "Done\n\nBtw, I\u0027m not using ImmutableMap collector since the map has to include the missing keys as well.",
+      "parentUuid": "1df8c133_7c07c67d",
       "range": {
         "startLine": 296,
         "startChar": 51,
@@ -164,6 +308,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "890fed0b_6b68ba2d",
+        "filename": "java/com/google/gerrit/server/account/IncludingGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "Iterable doesn\u0027t extend from Collection for some reason, so this doesn\u0027t work, keeping it as is.",
+      "parentUuid": "a08abc65_be2c7d7d",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 48
+      },
+      "revId": "1cc4f21c802453caa12f80707c07134b2bdf60a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3f4c118_7ab71404",
         "filename": "java/com/google/gerrit/server/restapi/group/ListGroups.java",
         "patchSetId": 1
@@ -175,6 +343,30 @@
       "writtenOn": "2021-03-22T12:14:19Z",
       "side": 1,
       "message": "toImmutableSet (imported statically) here and in other places in this file.",
+      "range": {
+        "startLine": 368,
+        "startChar": 29,
+        "endLine": 368,
+        "endChar": 39
+      },
+      "revId": "1cc4f21c802453caa12f80707c07134b2bdf60a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f943ca0b_381c7bf8",
+        "filename": "java/com/google/gerrit/server/restapi/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-22T17:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3f4c118_7ab71404",
       "range": {
         "startLine": 368,
         "startChar": 29,

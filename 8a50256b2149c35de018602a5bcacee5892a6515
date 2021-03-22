@@ -34,6 +34,24 @@
       "parentUuid": "e8f75a69_896dc41f",
       "revId": "8a50256b2149c35de018602a5bcacee5892a6515",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b519e696_6f6d1315",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T07:47:02Z",
+      "side": 1,
+      "message": "\u003e \u003e Luca, do we accept fixes for 2.16 still?\n\u003e \u003e \n\u003e \u003e The change is fine.\n\u003e \n\u003e Our (reviewed and agreed) policy is:\n\u003e https://www.gerritcodereview.com/bug-fixing.html#2-find-the-earliest-supported-branch-that-has-the-bug\n\u003e \n\u003e And the v2.16 exceptions are:\n\u003e https://www.gerritcodereview.com/releases-readme.html#216-eol---with-exceptions\n\nApologies, wrong link :-(\nThe right one is:\nhttps://www.gerritcodereview.com/2020-04-22-gerrit-3.2-release-plan.html#end-of-life-for-gerrit-216x",
+      "parentUuid": "047e4b39_912f64b5",
+      "revId": "8a50256b2149c35de018602a5bcacee5892a6515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -69,6 +69,24 @@
       "message": "I agree with Luca. @Przemek, you could\n\n1. still consider a fix but only in the Ericsson fork, for an internal review;\n2. clarify if this issue applies starting from 3.1, in the open.\n\nIf it applies one way or another (core and/or plugin), in 3.x, then we\u0027d have to decide if it is severe enough to start its fix more downstream than up.\n\nBen\u0027s +1 should help us quicken the review internally.",
       "revId": "8a50256b2149c35de018602a5bcacee5892a6515",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bfdb591_0be9a025",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1127770
+      },
+      "writtenOn": "2021-03-22T20:51:43Z",
+      "side": 1,
+      "message": "Reviewer plugin on 3.1 doesn\u0027t extend TopMenu so original issue doesn\u0027t exist. But route case still exist. I extend menu with empty list and also with entry contains ${project} and same error appears. I rebase fix to 3.1",
+      "parentUuid": "7957b0e2_fd06008b",
+      "revId": "8a50256b2149c35de018602a5bcacee5892a6515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

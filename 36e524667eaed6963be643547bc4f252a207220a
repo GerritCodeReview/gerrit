@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caa876c8_8cbfc6bd",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExists.scala",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-22T15:40:23Z",
+      "side": 1,
+      "message": "My reformatting of these lines locally is changing both indents.",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "36e524667eaed6963be643547bc4f252a207220a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cddf556_ac92c0b6",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExists.scala",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-22T15:40:23Z",
+      "side": 1,
+      "message": "This kind of data usually comes from a companion json file, as in DeleteProject.json and any other e2e test.",
+      "range": {
+        "startLine": 33,
+        "startChar": 25,
+        "endLine": 33,
+        "endChar": 47
+      },
+      "revId": "36e524667eaed6963be643547bc4f252a207220a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a259e30e_86b409d4",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExists.scala",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-22T15:40:23Z",
+      "side": 1,
+      "message": "Duplicate of line 29\u0027s content.",
+      "range": {
+        "startLine": 33,
+        "startChar": 19,
+        "endLine": 33,
+        "endChar": 25
+      },
+      "revId": "36e524667eaed6963be643547bc4f252a207220a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

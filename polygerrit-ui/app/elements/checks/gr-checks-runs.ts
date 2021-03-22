@@ -38,6 +38,7 @@ import {
 import {
   CheckRun,
   allRuns$,
+  fakeActions,
   fakeRun0,
   fakeRun1,
   fakeRun2,
@@ -258,7 +259,8 @@ export class GrChecksRuns extends GrLitElement {
       css`
         :host {
           display: block;
-          padding: var(--spacing-xl);
+          padding: var(--spacing-l) var(--spacing-xl) var(--spacing-xl)
+            var(--spacing-xl);
         }
         .expandIcon {
           width: var(--line-height-h3);
@@ -280,7 +282,7 @@ export class GrChecksRuns extends GrLitElement {
           padding-bottom: var(--spacing-m);
         }
         input#filterInput {
-          margin-top: var(--spacing-s);
+          margin-top: var(--spacing-m);
           padding: var(--spacing-s) var(--spacing-m);
           width: 100%;
         }
@@ -334,7 +336,9 @@ export class GrChecksRuns extends GrLitElement {
       <div class="testing">
         <div>Toggle fake runs by clicking buttons:</div>
         <gr-button link @click="${this.none}">none</gr-button>
-        <gr-button link @click="${() => this.toggle('f0', fakeRun0)}"
+        <gr-button
+          link
+          @click="${() => this.toggle('f0', fakeRun0, fakeActions)}"
           >0</gr-button
         >
         <gr-button link @click="${() => this.toggle('f1', fakeRun1)}"
@@ -360,7 +364,7 @@ export class GrChecksRuns extends GrLitElement {
   }
 
   none() {
-    updateStateSetResults('f0', []);
+    updateStateSetResults('f0', [], []);
     updateStateSetResults('f1', []);
     updateStateSetResults('f2', []);
     updateStateSetResults('f3', []);
@@ -368,16 +372,16 @@ export class GrChecksRuns extends GrLitElement {
   }
 
   all() {
-    updateStateSetResults('f0', [fakeRun0]);
+    updateStateSetResults('f0', [fakeRun0], fakeActions);
     updateStateSetResults('f1', [fakeRun1]);
     updateStateSetResults('f2', [fakeRun2]);
     updateStateSetResults('f3', [fakeRun3]);
     updateStateSetResults('f4', [fakeRun4]);
   }
 
-  toggle(plugin: string, run: CheckRun) {
+  toggle(plugin: string, run: CheckRun, actions: Action[] = []) {
     const newRuns = this.runs.includes(run) ? [] : [run];
-    updateStateSetResults(plugin, newRuns);
+    updateStateSetResults(plugin, newRuns, actions);
   }
 
   renderSection(status: RunStatus) {

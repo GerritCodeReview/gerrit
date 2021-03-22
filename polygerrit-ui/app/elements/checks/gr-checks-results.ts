@@ -26,21 +26,42 @@ import {
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import '@polymer/paper-tooltip/paper-tooltip';
-import {Category, Link, LinkIcon, RunStatus, Tag} from '../../api/checks';
+import {
+  Action,
+  Category,
+  Link,
+  LinkIcon,
+  RunStatus,
+  Tag,
+} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
-import {CheckRun, RunResult} from '../../services/checks/checks-model';
+import {
+  allActions$,
+  checksPatchsetNumber$,
+  CheckRun,
+  RunResult,
+  someProvidersAreLoading$,
+} from '../../services/checks/checks-model';
 import {
   allResults,
+  fireActionTriggered,
   hasCompletedWithoutResults,
   hasResultsOf,
   iconForCategory,
 } from '../../services/checks/checks-util';
-import {assertIsDefined} from '../../utils/common-util';
+import {
+  assertIsDefined,
+  check,
+  checkRequiredProperty,
+} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly, pluralize} from '../../utils/string-util';
 import {fireRunSelectionReset} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
+import {PatchSetNumber} from '../../types/common';
+import {latestPatchNum$} from '../../services/change/change-model';
+import {appContext} from '../../services/app-context';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -330,7 +351,19 @@ export class GrChecksResults extends GrLitElement {
   runs: CheckRun[] = [];
 
   @property()
+  actions: Action[] = [];
+
+  @property()
   tabState?: ChecksTabState;
+
+  @property()
+  someProvidersAreLoading = false;
+
+  @property()
+  checksPatchsetNumber: PatchSetNumber | undefined = undefined;
+
+  @property()
+  latestPatchsetNumber: PatchSetNumber | undefined = undefined;
 
   /**
    * How many runs are selected in the runs panel?
@@ -354,13 +387,59 @@ export class GrChecksResults extends GrLitElement {
    */
   private isSectionExpandedByUser = new Map<Category | 'SUCCESS', boolean>();
 
+  private readonly checksService = appContext.checksService;
+
+  constructor() {
+    super();
+    this.subscribe('actions', allActions$);
+    this.subscribe('checksPatchsetNumber', checksPatchsetNumber$);
+    this.subscribe('latestPatchsetNumber', latestPatchNum$);
+    this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
+  }
+
   static get styles() {
     return [
       sharedStyles,
       css`
         :host {
           display: block;
-          padding: var(--spacing-xl);
+          background-color: var(--background-color-secondary);
+        }
+        .header {
+          display: block;
+          background-color: var(--background-color-primary);
+          padding: var(--spacing-l) var(--spacing-xl) var(--spacing-m)
+            var(--spacing-xl);
+          border-bottom: 1px solid var(--border-color);
+        }
+        .headerTopRow,
+        .headerBottomRow {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+        }
+        .headerTopRow gr-dropdown-list {
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          padding: 0 var(--spacing-m);
+        }
+        .headerBottomRow {
+          margin-top: var(--spacing-s);
+        }
+        .headerBottomRow .right {
+          display: flex;
+          align-items: center;
+        }
+        #moreActions iron-icon {
+          color: var(--link-color);
+        }
+        #moreMessage {
+          display: none;
+        }
+        .body {
+          display: block;
+          padding: var(--spacing-s) var(--spacing-xl) var(--spacing-xl)
+            var(--spacing-xl);
         }
         .filterDiv {
           display: flex;
@@ -463,7 +542,7 @@ export class GrChecksResults extends GrLitElement {
     }
   }
 
-  scrollElIntoView(selector: string) {
+  private scrollElIntoView(selector: string) {
     this.updateComplete.then(() => {
       let el = this.shadowRoot?.querySelector(selector);
       // <gr-result-row> has display:contents and cannot be scrolled into view
@@ -475,11 +554,90 @@ export class GrChecksResults extends GrLitElement {
 
   render() {
     return html`
-      <div><h2 class="heading-2">Results</h2></div>
-      ${this.renderFilter()} ${this.renderSection(Category.ERROR)}
-      ${this.renderSection(Category.WARNING)}
-      ${this.renderSection(Category.INFO)} ${this.renderSection('SUCCESS')}
+      <div class="header">
+        <div class="headerTopRow">
+          <div class="left">
+            <h2 class="heading-2">Results</h2>
+          </div>
+          <div class="middle">
+            <span ?hidden="${!this.someProvidersAreLoading}">Loading...</span>
+          </div>
+          <div class="right">
+            <gr-dropdown-list
+              value="${this.checksPatchsetNumber}"
+              .items="${this.createPatchsetDropdownItems()}"
+              @value-change="${this.onPatchsetSelected}"
+            ></gr-dropdown-list>
+          </div>
+        </div>
+        <div class="headerBottomRow">
+          <div class="left">
+            ${this.renderFilter()}
+          </div>
+          <div class="right">
+            ${this.renderActions()}
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        ${this.renderSection(Category.ERROR)}
+        ${this.renderSection(Category.WARNING)}
+        ${this.renderSection(Category.INFO)} ${this.renderSection('SUCCESS')}
+      </div>
     `;
+  }
+
+  private renderActions() {
+    const overflowItems = this.actions.slice(2).map(action => {
+      return {...action, id: action.name};
+    });
+    return html`
+      ${this.renderAction(this.actions[0])}
+      ${this.renderAction(this.actions[1])}
+      <gr-dropdown
+        id="moreActions"
+        link=""
+        vertical-offset="32"
+        horizontal-align="right"
+        @tap-item="${this.handleAction}"
+        ?hidden="${overflowItems.length === 0}"
+        .items="${overflowItems}"
+      >
+        <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
+        </iron-icon>
+        <span id="moreMessage">More</span>
+      </gr-dropdown>
+    `;
+  }
+
+  private handleAction(e: CustomEvent<Action>) {
+    fireActionTriggered(this, e.detail);
+  }
+
+  private renderAction(action?: Action) {
+    if (!action) return;
+    return html`<gr-checks-top-level-action
+      .action="${action}"
+    ></gr-checks-top-level-action>`;
+  }
+
+  private onPatchsetSelected(e: CustomEvent<{value: string}>) {
+    const patchset = Number(e.detail.value);
+    check(!isNaN(patchset), 'selected patchset must be a number');
+    this.checksService.setPatchset(patchset as PatchSetNumber);
+  }
+
+  private createPatchsetDropdownItems() {
+    if (!this.latestPatchsetNumber) return [];
+    return Array.from(Array(this.latestPatchsetNumber), (_, i) => {
+      assertIsDefined(this.latestPatchsetNumber, 'latestPatchsetNumber');
+      const index = this.latestPatchsetNumber - i;
+      const postfix = index === this.latestPatchsetNumber ? ' (latest)' : '';
+      return {
+        value: `${index}`,
+        text: `Patchset ${index}${postfix}`,
+      };
+    });
   }
 
   renderFilter() {
@@ -667,10 +825,50 @@ export class GrChecksResults extends GrLitElement {
   }
 }
 
+@customElement('gr-checks-top-level-action')
+export class GrChecksTopLevelAction extends GrLitElement {
+  @property()
+  action!: Action;
+
+  connectedCallback() {
+    super.connectedCallback();
+    checkRequiredProperty(this.action, 'action');
+  }
+
+  static get styles() {
+    return [
+      css`
+        gr-button {
+          --padding: var(--spacing-s) var(--spacing-m);
+        }
+        gr-button paper-tooltip {
+          text-transform: none;
+        }
+      `,
+    ];
+  }
+
+  render() {
+    return html`
+      <gr-button link class="action" @click="${this.handleClick}">
+        ${this.action.name}
+        <paper-tooltip ?hidden="${!this.action.tooltip}" offset="5"
+          >${this.action.tooltip}</paper-tooltip
+        >
+      </gr-button>
+    `;
+  }
+
+  handleClick() {
+    fireActionTriggered(this, this.action);
+  }
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     'gr-result-row': GrResultRow;
     'gr-result-expanded': GrResultExpanded;
     'gr-checks-results': GrChecksResults;
+    'gr-checks-top-level-action': GrChecksTopLevelAction;
   }
 }

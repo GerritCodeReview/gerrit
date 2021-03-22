@@ -241,6 +241,36 @@ export const fakeRun4: CheckRun = {
   status: RunStatus.COMPLETED,
 };
 
+export const fakeActions: Action[] = [
+  {
+    name: 'Fake Action 1',
+    primary: false,
+    tooltip: 'Tooltip for Fake Action 1',
+    callback: () => {
+      console.warn('fake action 1 triggered');
+      return undefined;
+    },
+  },
+  {
+    name: 'Fake Action 2',
+    primary: false,
+    tooltip: 'Tooltip for Fake Action 2',
+    callback: () => {
+      console.warn('fake action 2 triggered');
+      return undefined;
+    },
+  },
+  {
+    name: 'Fake Action 3',
+    primary: false,
+    tooltip: 'Tooltip for Fake Action 3',
+    callback: () => {
+      console.warn('fake action 3 triggered');
+      return undefined;
+    },
+  },
+];
+
 export function updateStateSetLoading(pluginName: string) {
   const nextState = {...privateState$.getValue()};
   nextState.providerNameToState = {...nextState.providerNameToState};

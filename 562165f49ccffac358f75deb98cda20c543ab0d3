@@ -16,9 +16,9 @@
       "updated": "2021-03-11T19:25:41Z"
     },
     "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "SCHEDULED",
       "created": "2021-02-24T22:25:26Z",
-      "updated": "2021-03-22T18:43:11Z"
+      "updated": "2021-03-22T18:45:10Z"
     }
   }
 }

@@ -32,10 +32,24 @@ export const htmlTemplate = html`
     p {
       margin-bottom: var(--spacing-m);
     }
+    .warning {
+      color: var(--warning-foreground);
+    }
   </style>
   <gr-dialog confirm-label="Done" cancel-label="" on-confirm="_handleCloseTap">
-    <div class="header" slot="header">How to update this change:</div>
+    <div class="header" slot="header">
+      How to update this change:
+    </div>
     <div class="main" slot="main">
+      <iron-icon
+        icon="gr-icons:warning"
+        class="warningBeforeSubmit"
+      ></iron-icon>
+      <span class="warning"
+        >The Update Change button will be removed from Gerrit in 2 weeks. You
+        can find the checkout command in the Download Dialog(keyboard shortcut:
+        d). We recommend making an alias for the other commands.
+      </span>
       <ol>
         <li>
           <p>

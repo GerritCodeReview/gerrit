@@ -286,6 +286,29 @@ message AllExternalGroupsProto {
   repeated ExternalGroupProto external_group = 1;
 }
 
+// Serialized key for com.google.gerrit.server.account.GroupCacheImpl.
+// Next ID: 3
+message GroupKeyProto {
+  string uuid = 1;
+  bytes revision = 2;
+}
+
+
+// Serialized form of com.google.gerrit.entities.InternalGroup.
+// Next ID: 11
+message InternalGroupProto {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  string owner_group_uuid = 4;
+  bool is_visible_to_all = 5;
+  string group_uuid = 6;
+  int64 created_on = 7;
+  repeated int32 members_ids = 8;
+  repeated string subgroup_uuids = 9;
+  bytes ref_state = 10;
+}
+
 // Key for com.google.gerrit.server.git.PureRevertCache.
 // Next ID: 4
 message PureRevertKeyProto {

@@ -72,6 +72,9 @@ class GrResultRow extends GrLitElement {
         :host([isexpandable]) {
           cursor: pointer;
         }
+        gr-result-expanded {
+          cursor: default;
+        }
         tr {
           border-top: 1px solid var(--border-color);
         }
@@ -211,6 +214,7 @@ class GrResultRow extends GrLitElement {
           <gr-result-expanded
             .result="${this.result}"
             ?hidden="${!this.isExpanded}"
+            @click="${this.avoidToggleExpanded}"
           ></gr-result-expanded>
         </td>
         <td class="expanderCol">
@@ -239,6 +243,10 @@ class GrResultRow extends GrLitElement {
   private toggleExpanded() {
     if (!this.isExpandable) return;
     this.isExpanded = !this.isExpanded;
+  }
+
+  private avoidToggleExpanded(e: Event) {
+    e.stopPropagation();
   }
 
   renderSummary(text?: string) {

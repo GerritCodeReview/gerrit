@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d25f8fa5_ff51f8bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-22T11:56:24Z",
+      "side": 1,
+      "message": "Can you move the entity rename to it\u0027s own change and make this change a child of that other one?",
+      "revId": "d3cbc1d8db17ba71d8fe869a2d54bb6cd4eb5f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb30b5f2_367afe99",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-22T11:56:24Z",
+      "side": 1,
+      "message": "Should we use a zero-length array instead?\n\nnew byte[0]",
+      "range": {
+        "startLine": 281,
+        "startChar": 15,
+        "endLine": 281,
+        "endChar": 38
+      },
+      "revId": "d3cbc1d8db17ba71d8fe869a2d54bb6cd4eb5f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f39b785_6aa8b514",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-22T11:56:24Z",
+      "side": 1,
+      "message": "entity name missing",
+      "range": {
+        "startLine": 289,
+        "startChar": 69,
+        "endLine": 289,
+        "endChar": 70
+      },
+      "revId": "d3cbc1d8db17ba71d8fe869a2d54bb6cd4eb5f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

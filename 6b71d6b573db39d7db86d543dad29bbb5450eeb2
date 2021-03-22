@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0efcaba3_e78bccff",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T01:20:44Z",
+      "side": 1,
+      "message": "Link to its source code?",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37032263_57af0230",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T01:20:44Z",
+      "side": 1,
+      "message": "Default? Do we have others?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6376973e_65c4f537",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T01:20:44Z",
+      "side": 1,
+      "message": "An interface is already generic IMHO. The implementation is specific.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e32bb53f_917aa626",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T01:20:44Z",
+      "side": 1,
+      "message": "What is the default implementation does?",
+      "range": {
+        "startLine": 18,
+        "startChar": 75,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73bbef2a_3b149628",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T01:20:44Z",
+      "side": 1,
+      "message": "Missing \u0027.\u0027 at the end.",
+      "range": {
+        "startLine": 24,
+        "startChar": 38,
+        "endLine": 24,
+        "endChar": 39
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75b77aa7_a68a785d",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T01:20:44Z",
+      "side": 1,
+      "message": "visibility restrictions.",
+      "range": {
+        "startLine": 29,
+        "startChar": 64,
+        "endLine": 30,
+        "endChar": 19
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd084978_e867aeef",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T01:20:44Z",
+      "side": 1,
+      "message": "What do you mean by \u0027external user\u0027 here?",
+      "range": {
+        "startLine": 35,
+        "startChar": 23,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a39c12d_971db1fa",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T01:20:44Z",
+      "side": 1,
+      "message": "This isn\u0027t 100% correct: lots of Gerrit events aren\u0027t accessible through stream-events.",
+      "range": {
+        "startLine": 35,
+        "startChar": 60,
+        "endLine": 35,
+        "endChar": 70
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "922b1917_c6d69cc5",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T01:20:44Z",
+      "side": 1,
+      "message": "by default is",
+      "range": {
+        "startLine": 36,
+        "startChar": 37,
+        "endLine": 36,
+        "endChar": 54
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00d738e8_592ab902",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-22T01:20:44Z",
+      "side": 1,
+      "message": "plugins can provide an alternative implementation of the event brokering by sending them",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 52
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -52,6 +52,23 @@
       "parentUuid": "047e4b39_912f64b5",
       "revId": "8a50256b2149c35de018602a5bcacee5892a6515",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7957b0e2_fd06008b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-22T15:25:17Z",
+      "side": 1,
+      "message": "I agree with Luca. @Przemek, you could\n\n1. still consider a fix but only in the Ericsson fork, for an internal review;\n2. clarify if this issue applies starting from 3.1, in the open.\n\nIf it applies one way or another (core and/or plugin), in 3.x, then we\u0027d have to decide if it is severe enough to start its fix more downstream than up.\n\nBen\u0027s +1 should help us quicken the review internally.",
+      "revId": "8a50256b2149c35de018602a5bcacee5892a6515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

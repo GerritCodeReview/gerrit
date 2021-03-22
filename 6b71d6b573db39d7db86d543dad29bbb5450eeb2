@@ -353,6 +353,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05db06e2_9f288175",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-03-22T21:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a39c12d_971db1fa",
+      "range": {
+        "startLine": 35,
+        "startChar": 60,
+        "endLine": 35,
+        "endChar": 70
+      },
+      "revId": "6b71d6b573db39d7db86d543dad29bbb5450eeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "922b1917_c6d69cc5",

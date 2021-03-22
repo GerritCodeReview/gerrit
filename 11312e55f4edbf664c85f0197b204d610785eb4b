@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f02990_3b6af918",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-22T09:44:03Z",
+      "side": 1,
+      "message": "IIUC is the change implying that Hashtags are sometimes used to store machine-readable metadata and hence should be given fewer characters compared to other fields like repo, topic, branches?\n\nI can see why this works in some cases but in case the repo/topic field is set to 40 characters, then the hashtag field would not take the entire available width.\nhttps://imgur.com/a/LVidyLg\n\nIn general I would tend for consistency and let the limit remain as 40.\nWDYT?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "11312e55f4edbf664c85f0197b204d610785eb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

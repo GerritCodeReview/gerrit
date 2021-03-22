@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8f75a69_896dc41f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-22T07:41:19Z",
+      "side": 1,
+      "message": "Luca, do we accept fixes for 2.16 still?\n\nThe change is fine.",
+      "revId": "8a50256b2149c35de018602a5bcacee5892a6515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -23,8 +23,10 @@ import {
   PropertyValues,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
-import {Action, CheckResult, CheckRun} from '../../api/checks';
+import {Action} from '../../api/checks';
 import {
+  CheckResult,
+  CheckRun,
   allActions$,
   allResults$,
   allRuns$,

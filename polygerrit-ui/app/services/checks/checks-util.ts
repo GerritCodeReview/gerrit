@@ -17,11 +17,10 @@
 import {
   Action,
   Category,
-  CheckResult,
-  CheckRun,
   RunStatus,
 } from '../../api/checks';
 import {assertNever} from '../../utils/common-util';
+import {CheckResult, CheckRun} from './checks-model';
 
 export function worstCategory(run: CheckRun) {
   if (hasResultsOf(run, Category.ERROR)) return Category.ERROR;

@@ -35,6 +35,69 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "335e85e8_22ab637c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-22T10:14:48Z",
+      "side": 1,
+      "message": "I haven\u0027t encounter a big memory issues anymore.\n\nIt\u0027s very nice feature, but it needs more polish. I would propose to put it under feature flag. ",
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03e70c34_a7cb3f8d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-22T10:14:48Z",
+      "side": 1,
+      "message": "WDYT about adding -, _ to token matcher\n\nso when I highlight \u0027token\u0027, \u0027token-highlight\u0027 is not highlighted",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9033bcc4_854c0fe7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-22T10:14:48Z",
+      "side": 1,
+      "message": "Blocking issue: Selecting part of code to comment is almost impossible with token highlighter. I cannot select part of this line with token highlighter on.\n\nThe problematic is to select parts of two different tokens.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c6c8c93_33143199",
@@ -58,6 +121,69 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c797572_00fb5d4e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-22T10:14:48Z",
+      "side": 1,
+      "message": "Maybe we can fire alert that token highlighter was disabled because long line as we do when we disable highlighting. Users are sometimes wondering why feature is disabled.",
+      "range": {
+        "startLine": 89,
+        "startChar": 27,
+        "endLine": 89,
+        "endChar": 33
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a6f11e5_916ba5b1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-22T10:14:48Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be this:\n\n```\nif (token \u003d\u003d\u003d this.currentHighlight) {\n        GrAnnotation.annotateElement(el, index, token.length, TOKEN_HIGHLIGHT);\n} else {\nGrAnnotation.annotateElement(el, index, token.length, TOKEN);\n}\n```\n\nBtw. I never noticed, when testing this change, difference between currentHighlight and other tokens.",
+      "range": {
+        "startLine": 99,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e92a07d_81b0a021",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-22T10:14:48Z",
+      "side": 1,
+      "message": "This looks broken when you have a diff with common lines. \nif I have file\n```\nthis.\n+300 common lines\nthis.\n```\n\nHighlighting this doesn\u0027t highlight the other this.",
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e4ba4bea_4107b17c",
@@ -71,6 +197,29 @@
       "writtenOn": "2021-03-19T16:35:44Z",
       "side": 1,
       "message": "Optional: If you merge the two maps and then index by side like this:\nprivate tokenToLines \u003d {\n  [Side.LEFT]: new Map\u003cstring, Set\u003cnumber\u003e\u003e(),\n  [Side.RIGHT]: new Map\u003cstring, Set\u003cnumber\u003e\u003e()\n};\n\nyou can then make this method take a `side` parameter and avoid the repetition...",
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91717512_b37fa2d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-22T10:14:48Z",
+      "side": 1,
+      "message": "TOken Highlighting doesn\u0027t work on this element. It\u0027s probable because there is part of word changed.",
+      "range": {
+        "startLine": 441,
+        "startChar": 33,
+        "endLine": 441,
+        "endChar": 46
+      },
       "revId": "e0dad811378234f90046a4407306ccad58307c78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

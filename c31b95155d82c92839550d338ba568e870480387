@@ -16,6 +16,23 @@
       "message": "patrick might know what is going on here.",
       "revId": "c31b95155d82c92839550d338ba568e870480387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8561427_384254be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T08:51:26Z",
+      "side": 1,
+      "message": "We call this method pretty much whenever the project config changes.\n\nI guess the reason is that the project index was retro-fitted and it seemed easy to just reindex whenever the cache evicts because that was a guarantee that we index when needed and no cases are missed.\n\nDoes that behavior cause issues for you? If so, we can be more fine-grained on when to reindex.",
+      "revId": "c31b95155d82c92839550d338ba568e870480387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

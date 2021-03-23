@@ -428,6 +428,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ec43493_b2d1fcb5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T11:14:53Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "663006c8_cff4feae",
+      "range": {
+        "startLine": 441,
+        "startChar": 33,
+        "endLine": 441,
+        "endChar": 46
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6558467_97314c1f",

@@ -97,14 +97,22 @@ export class GrSummaryChip extends GrLitElement {
         }
         .summaryChip.warning {
           border-color: var(--warning-foreground);
-          background-color: var(--warning-background);
+          background: var(--warning-background);
+        }
+        .summaryChip.warning:hover {
+          background: var(--warning-background-hover);
+          box-shadow: var(--elevation-level-1);
         }
         .summaryChip.warning iron-icon {
           color: var(--warning-foreground);
         }
         .summaryChip.check {
           border-color: var(--gray-foreground);
-          background-color: var(--gray-background);
+          background: var(--gray-background);
+        }
+        .summaryChip.check:hover {
+          background: var(--gray-background-hover);
+          box-shadow: var(--elevation-level-1);
         }
         .summaryChip.check iron-icon {
           color: var(--gray-foreground);
@@ -180,28 +188,44 @@ export class GrChecksChip extends GrLitElement {
         .checksChip.error {
           color: var(--error-foreground);
           border-color: var(--error-foreground);
-          background-color: var(--error-background);
+          background: var(--error-background);
+        }
+        .checksChip.error:hover {
+          background: var(--error-background-hover);
+          box-shadow: var(--elevation-level-1);
         }
         .checksChip.error iron-icon {
           color: var(--error-foreground);
         }
         .checksChip.warning {
           border-color: var(--warning-foreground);
-          background-color: var(--warning-background);
+          background: var(--warning-background);
+        }
+        .checksChip.warning:hover {
+          background: var(--warning-background-hover);
+          box-shadow: var(--elevation-level-1);
         }
         .checksChip.warning iron-icon {
           color: var(--warning-foreground);
         }
         .checksChip.info-outline {
           border-color: var(--info-foreground);
-          background-color: var(--info-background);
+          background: var(--info-background);
+        }
+        .checksChip.info-outline:hover {
+          background: var(--info-background-hover);
+          box-shadow: var(--elevation-level-1);
         }
         .checksChip.info-outline iron-icon {
           color: var(--info-foreground);
         }
         .checksChip.check-circle-outline {
           border-color: var(--success-foreground);
-          background-color: var(--success-background);
+          background: var(--success-background);
+        }
+        .checksChip.check-circle-outline:hover {
+          background: var(--success-background-hover);
+          box-shadow: var(--elevation-level-1);
         }
         .checksChip.check-circle-outline iron-icon {
           color: var(--success-foreground);
@@ -210,7 +234,11 @@ export class GrChecksChip extends GrLitElement {
         }
         .checksChip.timelapse {
           border-color: var(--gray-foreground);
-          background-color: var(--gray-background);
+          background: var(--gray-background);
+        }
+        .checksChip.timelapse:hover {
+          background: var(--gray-background-hover);
+          box-shadow: var(--elevation-level-1);
         }
         .checksChip.timelapse iron-icon {
           color: var(--gray-foreground);

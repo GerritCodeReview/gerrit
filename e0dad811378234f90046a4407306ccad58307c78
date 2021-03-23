@@ -406,6 +406,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "663006c8_cff4feae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-23T09:56:38Z",
+      "side": 1,
+      "message": "Does it work for you if you are hovering on this `parentElement` in highlighted diff - base vs patchset 4?",
+      "parentUuid": "a97b81fa_419e819b",
+      "range": {
+        "startLine": 441,
+        "startChar": 33,
+        "endLine": 441,
+        "endChar": 46
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e6558467_97314c1f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
         "patchSetId": 4

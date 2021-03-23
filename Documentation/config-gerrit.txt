@@ -1413,7 +1413,21 @@ This config can have the following states:
   query operator. Gerrit does not serve `mergeable` in
   link:rest-api-changes.html#change-info[ChangeInfo].
 
+Also note, that Gerrit would only render conflict changes section on change
+screen if `API_REF_UPDATED_AND_CHANGE_REINDEX` value is set.
+
 Default is `NEVER`.
+
+[[change.conflictsPredicateEnabled]]change.conflictsPredicateEnabled::
+
++
+This setting determines when Gerrit renders conflict changes section on change
+screen and also supports `conflicts` predicate. This computation is expensive,
+computing ConflictsPredicate has a runtime complexity of O(nˆ2) with n number
+of open changes on a branch. See also implications on rendering of conflict
+changes section in configuration section:link:#change.mergeabilityComputationBehavior[change.mergeabilityComputationBehavior].
+
+Default is true.
 
 [[change.move]]change.move::
 +

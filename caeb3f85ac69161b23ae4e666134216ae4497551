@@ -138,6 +138,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a3d61bc_cc129ee9",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-23T18:18:19Z",
+      "side": 1,
+      "message": "out.flush() was called because the channel was not closed before the exit call.",
+      "parentUuid": "e5bd677c_36a6656f",
+      "revId": "caeb3f85ac69161b23ae4e666134216ae4497551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16c11342_a34087f5",
         "filename": "tools/testNoShell.sh",
         "patchSetId": 4

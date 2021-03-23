@@ -120,6 +120,21 @@ export const allRuns$ = checksProviderState$.pipe(
   })
 );
 
+/** Array of check names that have at least 2 entries in allRuns$. */
+export const checksWithMultipleAttempts$ = allRuns$.pipe(
+  map(runs => {
+    const attemptsPerCheck = new Map<string, number>();
+    for (const run of runs) {
+      const check = run.checkName;
+      const attempts = attemptsPerCheck.get(check) ?? 0;
+      attemptsPerCheck.set(check, attempts + 1);
+    }
+    return [...attemptsPerCheck.keys()].filter(
+      check => (attemptsPerCheck.get(check) ?? 0) > 1
+    );
+  })
+);
+
 export const checkToPluginMap$ = checksProviderState$.pipe(
   map(state => {
     const map = new Map<string, string>();

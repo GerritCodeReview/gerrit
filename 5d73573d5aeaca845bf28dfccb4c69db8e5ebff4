@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86bee17c_ca8fa2b6",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T09:25:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bb5bb84_9c0496e2",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 4
+      },
+      "revId": "5d73573d5aeaca845bf28dfccb4c69db8e5ebff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c1890b9_5ecc09e8",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-23T08:44:43Z",
       "side": 1,
       "message": "I also realized by looking at the specs that we should add an --elevation-level-1: on hover to the chips in both light and dark theme.",
+      "range": {
+        "startLine": 147,
+        "startChar": 98,
+        "endLine": 147,
+        "endChar": 99
+      },
+      "revId": "5d73573d5aeaca845bf28dfccb4c69db8e5ebff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26ff26cc_734ca959",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T09:25:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c1890b9_5ecc09e8",
       "range": {
         "startLine": 147,
         "startChar": 98,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55942802_41be7d28",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T09:25:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a0fd2f7_619d1454",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "5d73573d5aeaca845bf28dfccb4c69db8e5ebff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55e5ba5d_ef34ff24",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-03-23T08:44:43Z",
       "side": 1,
       "message": "In this case, we would use --red-tonal-04, which we will then need to add in the app theme.",
+      "range": {
+        "startLine": 41,
+        "startChar": 52,
+        "endLine": 41,
+        "endChar": 64
+      },
+      "revId": "5d73573d5aeaca845bf28dfccb4c69db8e5ebff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4824a21_8b3195e4",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T09:25:13Z",
+      "side": 1,
+      "message": "Discussed offline: the hover overlays use the stroke/foreground color, not the background color, so keep as is.",
+      "parentUuid": "55e5ba5d_ef34ff24",
       "range": {
         "startLine": 41,
         "startChar": 52,

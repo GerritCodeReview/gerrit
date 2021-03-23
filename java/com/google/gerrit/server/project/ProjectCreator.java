@@ -105,6 +105,11 @@ public class ProjectCreator {
   public ProjectState createProject(CreateProjectArgs args)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     final Project.NameKey nameKey = args.getProject();
+    String allowed = "^[a-zA-Z0-9_*-}]*";
+    if (!nameKey.get().matches(allowed)) {
+      throw new BadRequestException(
+          "Invalid project name: " + nameKey + ". Allowed project names should match " + allowed);
+    }
     try {
       final String head = args.permissionsOnly ? RefNames.REFS_CONFIG : args.branch.get(0);
       try (Repository repo = repoManager.openRepository(nameKey)) {

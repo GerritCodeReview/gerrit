@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ea7ff50_bb093d7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-03-23T15:40:17Z",
+      "side": 1,
+      "message": "Gal, could you take a look?\nI am not sure what would be the better alternative to move each file to a new namespace without breaking the plugins, let me know if you have other ideas?",
+      "revId": "ed3ece586cd0e213abba58f616390ccf3f0bdbb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

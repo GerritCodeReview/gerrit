@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4b28010_fcb2edad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:57:39Z",
+      "side": 1,
+      "message": "was",
+      "range": {
+        "startLine": 11,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7044b1a5_6950d97a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:57:39Z",
+      "side": 1,
+      "message": "closed, in",
+      "range": {
+        "startLine": 11,
+        "startChar": 16,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d385082_4d94f7a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:57:39Z",
+      "side": 1,
+      "message": "And does something else now, i.e., flushes the out. Explain as well?",
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40b4364a_6b1ee141",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:57:39Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 21,
+        "endChar": 47
+      },
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "663e5ebd_1d7d58cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:57:39Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 25,
+        "startChar": 44,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31bb1a9f_2d23b52c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:57:39Z",
+      "side": 1,
+      "message": "Thanks again @Mark for working so hard on this.",
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b062684_cbe0683b",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:57:39Z",
+      "side": 1,
+      "message": "Would separate this starting channel. block of lines from the .close() ones above, using a blank line.",
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "067a8f52_78dafca7",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:57:39Z",
+      "side": 1,
+      "message": "Right above, how did you come up with having to call these few channel methods in this order, and this specific way? I couldn\u0027t quickly find other occurrences of such calls. This could be missing some comment(s) and/or further commit message explanation.",
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e37b8fe_db40c286",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:57:39Z",
+      "side": 1,
+      "message": "Is there a way to unit-test NoShell instead, just enough and automatically (through regular junit)? I mean, this change could start introducing some test(s) for that class. Not sure how that start(..) method could be tested that way though, and to what extent if anything.\n\nI propose so because this script remains subjective and manual. I didn\u0027t review it again yet, given the above to consider first I think.",
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

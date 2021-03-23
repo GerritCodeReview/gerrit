@@ -16,6 +16,29 @@
       "message": "PTAL",
       "revId": "5d73573d5aeaca845bf28dfccb4c69db8e5ebff4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bb5bb84_9c0496e2",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-23T08:09:53Z",
+      "side": 1,
+      "message": "nit: whitespce",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 4
+      },
+      "revId": "5d73573d5aeaca845bf28dfccb4c69db8e5ebff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

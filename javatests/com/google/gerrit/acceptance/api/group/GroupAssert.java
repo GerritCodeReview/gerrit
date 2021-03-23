@@ -17,9 +17,9 @@ package com.google.gerrit.acceptance.api.group;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.server.group.InternalGroup;
 import java.util.Set;
 
 public class GroupAssert {

@@ -22,6 +22,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
+import com.google.gerrit.entities.InternalGroup;
 import java.sql.Timestamp;
 
 public class InternalGroupDescription implements GroupDescription.Internal {

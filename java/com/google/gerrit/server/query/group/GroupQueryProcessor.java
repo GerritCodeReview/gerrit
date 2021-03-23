@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.group;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.group.GroupQueryBuilder.FIELD_LIMIT;
 
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.IndexPredicate;
@@ -26,7 +27,6 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;

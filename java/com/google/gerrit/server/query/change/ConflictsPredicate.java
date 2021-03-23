@@ -28,7 +28,6 @@ import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -37,9 +36,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gerrit.server.submit.SubmitDryRun;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -54,51 +51,12 @@ public class ConflictsPredicate {
 
   private ConflictsPredicate() {}
 
-  public static Predicate<ChangeData> create(Arguments args, String value, Change c)
-      throws QueryParseException {
-    ChangeData cd;
-    List<String> files;
-    try {
-      cd = args.changeDataFactory.create(c);
-      files = cd.currentFilePaths();
-    } catch (StorageException e) {
-      warnWithOccasionalStackTrace(
-          e,
-          "Error constructing conflicts predicates for change %s in %s",
-          c.getId(),
-          c.getProject());
-      return ChangeIndexPredicate.none();
-    }
-
-    if (3 + files.size() > args.indexConfig.maxTerms()) {
-      // Short-circuit with a nice error message if we exceed the index
-      // backend's term limit. This assumes that "conflicts:foo" is the entire
-      // query; if there are more terms in the input, we might not
-      // short-circuit here, which will result in a more generic error message
-      // later on in the query parsing.
-      throw new QueryParseException(TOO_MANY_FILES);
-    }
-
-    List<Predicate<ChangeData>> filePredicates = new ArrayList<>(files.size());
-    for (String file : files) {
-      filePredicates.add(new EqualsPathPredicate(ChangeQueryBuilder.FIELD_PATH, file));
-    }
-
-    List<Predicate<ChangeData>> and = new ArrayList<>(5);
-    and.add(new ProjectPredicate(c.getProject().get()));
-    and.add(new RefPredicate(c.getDest().branch()));
-    and.add(
-        Predicate.not(
-            args.getSchema().useLegacyNumericFields()
-                ? new LegacyChangeIdPredicate(c.getId())
-                : new LegacyChangeIdStrPredicate(c.getId())));
-    and.add(Predicate.or(filePredicates));
-
-    ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectCache);
-    and.add(new CheckConflict(value, args, c, changeDataCache));
-    return Predicate.and(and);
+  @SuppressWarnings("unused")
+  public static Predicate<ChangeData> create(Arguments args, String value, Change c) {
+    return ChangeIndexPredicate.none();
   }
 
+  @SuppressWarnings("unused")
   private static final class CheckConflict extends PostFilterPredicate<ChangeData> {
     private final Arguments args;
     private final BranchNameKey dest;

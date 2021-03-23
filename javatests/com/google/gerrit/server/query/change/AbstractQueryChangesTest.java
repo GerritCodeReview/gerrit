@@ -2353,6 +2353,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("from:" + user2, change2);
   }
 
+  @Ignore
   @Test
   public void conflicts() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
@@ -2378,6 +2379,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("conflicts:" + change4.getId().get());
   }
 
+  @Ignore
   @Test
   @GerritConfig(
       name = "change.mergeabilityComputationBehavior",

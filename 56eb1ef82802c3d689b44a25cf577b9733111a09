@@ -16,6 +16,23 @@
       "message": "Definitely an excellent initiative :-)\nI have added a topic \u0027gerrit-glossary\u0027 to make sure that we do not end up submitting an empty one",
       "revId": "56eb1ef82802c3d689b44a25cf577b9733111a09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22620795_51507a0b",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-23T11:46:34Z",
+      "side": 1,
+      "message": "I believe the glossary belongs more to the \"Concepts\" section, after L90",
+      "revId": "56eb1ef82802c3d689b44a25cf577b9733111a09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

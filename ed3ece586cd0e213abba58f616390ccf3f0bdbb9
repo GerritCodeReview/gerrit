@@ -16,6 +16,47 @@
       "message": "Gal, could you take a look?\nI am not sure what would be the better alternative to move each file to a new namespace without breaking the plugins, let me know if you have other ideas?",
       "revId": "ed3ece586cd0e213abba58f616390ccf3f0bdbb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "768241a0_11d95fa6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-23T15:55:04Z",
+      "side": 1,
+      "message": "What\u0027s the advantage of moving them to a new namespace in the first place?\n\nIt\u0027s fine to break the plugins if you also un-break them :-)",
+      "parentUuid": "9ea7ff50_bb093d7f",
+      "revId": "ed3ece586cd0e213abba58f616390ccf3f0bdbb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13a59919_2702d335",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-23T15:55:04Z",
+      "side": 1,
+      "message": "fix comment",
+      "range": {
+        "startLine": 587,
+        "startChar": 51,
+        "endLine": 587,
+        "endChar": 57
+      },
+      "revId": "ed3ece586cd0e213abba58f616390ccf3f0bdbb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a173362c_63518c54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T08:44:25Z",
+      "side": 1,
+      "message": "Added a flag.",
+      "parentUuid": "335e85e8_22ab637c",
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03e70c34_a7cb3f8d",
@@ -88,6 +106,54 @@
       "writtenOn": "2021-03-22T10:14:48Z",
       "side": 1,
       "message": "Blocking issue: Selecting part of code to comment is almost impossible with token highlighter. I cannot select part of this line with token highlighter on.\n\nThe problematic is to select parts of two different tokens.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49c552e4_3067e65b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T08:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03e70c34_a7cb3f8d",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14c3a4ab_67bab00f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T08:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9033bcc4_854c0fe7",
       "range": {
         "startLine": 26,
         "startChar": 0,
@@ -144,6 +210,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2637b04b_618779a2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T08:44:25Z",
+      "side": 1,
+      "message": "I would prefer not to.",
+      "parentUuid": "9c797572_00fb5d4e",
+      "range": {
+        "startLine": 89,
+        "startChar": 27,
+        "endLine": 89,
+        "endChar": 33
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58e0a721_7deb8f25",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T08:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c6c8c93_33143199",
+      "range": {
+        "startLine": 89,
+        "startChar": 22,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a6f11e5_916ba5b1",
@@ -167,6 +281,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60b83bf5_31780c9f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T08:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a6f11e5_916ba5b1",
+      "range": {
+        "startLine": 99,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e92a07d_81b0a021",
@@ -180,6 +318,24 @@
       "writtenOn": "2021-03-22T10:14:48Z",
       "side": 1,
       "message": "This looks broken when you have a diff with common lines. \nif I have file\n```\nthis.\n+300 common lines\nthis.\n```\n\nHighlighting this doesn\u0027t highlight the other this.",
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "489b155f_a10f138b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T08:44:25Z",
+      "side": 1,
+      "message": "I have added a comment to `currentHighlightLineNumber`. I don\u0027t know know how to fix this. :-/",
+      "parentUuid": "6e92a07d_81b0a021",
       "revId": "e0dad811378234f90046a4407306ccad58307c78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -226,6 +382,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a97b81fa_419e819b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T08:44:25Z",
+      "side": 1,
+      "message": "What do you mean by \"this element\"?",
+      "parentUuid": "91717512_b37fa2d9",
+      "range": {
+        "startLine": 441,
+        "startChar": 33,
+        "endLine": 441,
+        "endChar": 46
+      },
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e6558467_97314c1f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
         "patchSetId": 4
@@ -237,6 +417,24 @@
       "writtenOn": "2021-03-19T16:35:44Z",
       "side": 1,
       "message": "I have to say, I liked the previous location better: Different from other utils here, this method is intimately related to the DOM structure in the diff, which is defined in gr-diff-builder, so it feels more encapsulated to have it there. Is the reason that it is annoying to get a hold of the GrDiffBuilder?",
+      "revId": "e0dad811378234f90046a4407306ccad58307c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f25d6647_18feb37f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T08:44:25Z",
+      "side": 1,
+      "message": "These utility functions are independent of the builder state, so they should definitely not be *inside* the builder object. We could move them back to the *file* gr-diff-builder-element, but for me depending on the diff builder does not feel right when all I want to do is looking up elements in gr-diff. I think these functions are elementary to all sort of gr-diff code, so gr-diff-utils seems like a good place. I would not have moved those utils out of elements/diff/...",
+      "parentUuid": "e6558467_97314c1f",
       "revId": "e0dad811378234f90046a4407306ccad58307c78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

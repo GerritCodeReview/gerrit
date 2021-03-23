@@ -82,17 +82,18 @@ export const htmlTemplate = html`
       justify-content: flex-end;
     }
     #collapseBtn,
-    .expanded #expandBtn,
+    .allExpanded #expandBtn,
     .fileViewActions {
       display: none;
     }
-    .expanded #expandBtn {
-      display: none;
+    .someExpanded #expandBtn {
+      margin-right: 8px;
     }
     gr-linked-chip {
       --linked-chip-text-color: var(--primary-text-color);
     }
-    .expanded #collapseBtn,
+    .someExpanded #collapseBtn,
+    .allExpanded #collapseBtn,
     .openFile .fileViewActions {
       align-items: center;
       display: flex;

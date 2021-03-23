@@ -161,7 +161,7 @@ suite('gr-file-list-header tests', () => {
     assert.isTrue(element._expandAllDiffs.called);
   });
 
-  test('collapseAllDiffs called when expand button clicked', () => {
+  test('collapseAllDiffs called when collapse button clicked', () => {
     element.shownFileCount = 1;
     flush();
     sinon.stub(element, '_collapseAllDiffs');
@@ -202,21 +202,31 @@ suite('gr-file-list-header tests', () => {
     assert.equal(getComputedStyle(actions).display, 'none');
   });
 
+  // HERE
   test('expand/collapse buttons are toggled correctly', () => {
+    // Only the expand button should be visible in the initial state when
+    // NO files are expanded.
     element.shownFileCount = 10;
     flush();
     const expandBtn = element.shadowRoot.querySelector('#expandBtn');
     const collapseBtn = element.shadowRoot.querySelector('#collapseBtn');
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
     assert.equal(getComputedStyle(collapseBtn).display, 'none');
+
+    // Both expand and collapse buttons should be visible when SOME files are
+    // expanded.
     element.filesExpanded = FilesExpandedState.SOME;
     flush();
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
-    assert.equal(getComputedStyle(collapseBtn).display, 'none');
+    assert.notEqual(getComputedStyle(collapseBtn).display, 'none');
+
+    // Only the collapse button should be visible when ALL files are expanded.
     element.filesExpanded = FilesExpandedState.ALL;
     flush();
     assert.equal(getComputedStyle(expandBtn).display, 'none');
     assert.notEqual(getComputedStyle(collapseBtn).display, 'none');
+
+    // Only the expand button should be visible when NO files are expanded.
     element.filesExpanded = FilesExpandedState.NONE;
     flush();
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');

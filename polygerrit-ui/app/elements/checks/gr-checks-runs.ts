@@ -43,7 +43,7 @@ import {
   fakeRun2,
   fakeRun3,
   fakeRun4,
-  updateStateSetResults,
+  updateStateSetResults, checksWithMultipleAttempts$,
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
@@ -76,6 +76,9 @@ export class GrChecksRun extends GrLitElement {
         }
         .name {
           font-weight: var(--font-weight-bold);
+        }
+        .attempt {
+          color: var(--deemphasized-text-color);
         }
         .chip.error {
           border-left: var(--thick-border) solid var(--error-foreground);
@@ -149,6 +152,9 @@ export class GrChecksRun extends GrLitElement {
   deselected = false;
 
   @property()
+  showAttempt = false;
+
+  @property()
   shouldRender = false;
 
   firstUpdated() {
@@ -179,6 +185,9 @@ export class GrChecksRun extends GrLitElement {
           <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
+          <span class="attempt" ?hidden="${!this.showAttempt}"
+            >[${this.run.attempt}]</span
+          >
         </div>
         <div class="right">
           ${action
@@ -242,6 +251,9 @@ export class GrChecksRuns extends GrLitElement {
   @property()
   selectedRuns: string[] = [];
 
+  @internalProperty()
+  checksWithMultipleAttempts: string[] = [];
+
   @property()
   tabState?: ChecksTabState;
 
@@ -250,6 +262,7 @@ export class GrChecksRuns extends GrLitElement {
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
+    this.subscribe('checksWithMultipleAttempts', checksWithMultipleAttempts$);
   }
 
   static get styles() {
@@ -418,6 +431,7 @@ export class GrChecksRuns extends GrLitElement {
       .run="${run}"
       .selected="${selected}"
       .deselected="${deselected}"
+      .showAttempt="${this.checksWithMultipleAttempts.includes(run.checkName)}"
     ></gr-checks-run>`;
   }
 

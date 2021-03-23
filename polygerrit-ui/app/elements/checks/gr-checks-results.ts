@@ -28,7 +28,11 @@ import {GrLitElement} from '../lit/gr-lit-element';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {Category, Link, LinkIcon, RunStatus, Tag} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
-import {CheckRun, RunResult} from '../../services/checks/checks-model';
+import {
+  CheckRun,
+  checksWithMultipleAttempts$,
+  RunResult,
+} from '../../services/checks/checks-model';
 import {
   allResults,
   hasCompletedWithoutResults,
@@ -52,6 +56,9 @@ class GrResultRow extends GrLitElement {
 
   @property({type: Boolean, reflect: true})
   isExpandable = false;
+
+  @property()
+  showAttempt = false;
 
   @property()
   shouldRender = false;
@@ -87,6 +94,9 @@ class GrResultRow extends GrLitElement {
           width: 165px;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+        .nameCol .attempt {
+          color: var(--deemphasized-text-color);
         }
         .summaryCol {
           /* Forces this column to get the remaining space that is left over by
@@ -191,7 +201,12 @@ class GrResultRow extends GrLitElement {
           <div>${this.renderIcon()}</div>
         </td>
         <td class="nameCol">
-          <div><span>${this.result.checkName}</span></div>
+          <div>
+            <span>${this.result.checkName}</span>
+            <span class="attempt" ?hidden="${!this.showAttempt}"
+              >[${this.result.attempt}]</span
+            >
+          </div>
         </td>
         <td class="summaryCol">
           <div class="summary-cell">
@@ -326,6 +341,9 @@ export class GrChecksResults extends GrLitElement {
   @internalProperty()
   filterRegExp = new RegExp('');
 
+  @internalProperty()
+  checksWithMultipleAttempts: string[] = [];
+
   @property()
   runs: CheckRun[] = [];
 
@@ -353,6 +371,11 @@ export class GrChecksResults extends GrLitElement {
    * is not applied anymore.
    */
   private isSectionExpandedByUser = new Map<Category | 'SUCCESS', boolean>();
+
+  constructor() {
+    super();
+    this.subscribe('checksWithMultipleAttempts', checksWithMultipleAttempts$);
+  }
 
   static get styles() {
     return [
@@ -601,6 +624,9 @@ export class GrChecksResults extends GrLitElement {
               <gr-result-row
                 class="${charsOnly(result.checkName)}"
                 .result="${result}"
+                .showAttempt="${this.checksWithMultipleAttempts.includes(
+                  result.checkName
+                )}"
               ></gr-result-row>
             `
           )}

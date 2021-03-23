@@ -39,6 +39,75 @@
       },
       "revId": "5d73573d5aeaca845bf28dfccb4c69db8e5ebff4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c1890b9_5ecc09e8",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-23T08:44:43Z",
+      "side": 1,
+      "message": "I also realized by looking at the specs that we should add an --elevation-level-1: on hover to the chips in both light and dark theme.",
+      "range": {
+        "startLine": 147,
+        "startChar": 98,
+        "endLine": 147,
+        "endChar": 99
+      },
+      "revId": "5d73573d5aeaca845bf28dfccb4c69db8e5ebff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a0fd2f7_619d1454",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-23T08:44:43Z",
+      "side": 1,
+      "message": "When looking at the chips in dark theme, it looks like we need to update the background colors to tonal colors. \n\nIn this case: --tonal-red and similarly adding tonal colors to other colored chips.",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "5d73573d5aeaca845bf28dfccb4c69db8e5ebff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55e5ba5d_ef34ff24",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-23T08:44:43Z",
+      "side": 1,
+      "message": "In this case, we would use --red-tonal-04, which we will then need to add in the app theme.",
+      "range": {
+        "startLine": 41,
+        "startChar": 52,
+        "endLine": 41,
+        "endChar": 64
+      },
+      "revId": "5d73573d5aeaca845bf28dfccb4c69db8e5ebff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

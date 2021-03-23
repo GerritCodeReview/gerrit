@@ -56,7 +56,7 @@ import org.eclipse.jgit.util.SystemReader;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
-  private static final String SOY_TEMPLATE_NAMESPACE = "com.google.gerrit.server.mail.template.";
+  private static final String SOY_TEMPLATE_NAMESPACE = "com.google.gerrit.server.mail.template";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected String messageClass;
@@ -583,9 +583,13 @@ public abstract class OutgoingEmail {
 
   /** Configures a soy renderer for the given template name and rendering data map. */
   private SoySauce.Renderer configureRenderer(String templateName) {
+    int baseNameIndex = templateName.indexOf("_");
+    // In case there are multiple templates in file (now,
+    String fileNamespace =
+        baseNameIndex == -1 ? templateName : templateName.substring(0, baseNameIndex);
     return args.soySauce
         .get()
-        .renderTemplate(SOY_TEMPLATE_NAMESPACE + templateName)
+        .renderTemplate(String.join(".", SOY_TEMPLATE_NAMESPACE, fileNamespace, templateName))
         .setData(soyContext);
   }
 

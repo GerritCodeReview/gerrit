@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83d074d1_64653f03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-23T16:15:04Z",
+      "side": 1,
+      "message": "LGTM, I\u0027ll provide the specs for the UI polish later.",
+      "revId": "7ea92ff473cdf2907a005270c6e5972c11e30960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

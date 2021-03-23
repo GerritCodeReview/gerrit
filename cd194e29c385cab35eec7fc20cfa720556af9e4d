@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c10cf86a_be27fa06",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T09:06:29Z",
+      "side": 1,
+      "message": "Thinking about this again, I think that we can\u0027t serialize Optional\u003cInternalGroup\u003e\n\nIt should be InternalGroup instead.\n\nThe in-memory cache caches negative lookups as Optional.empty to speed things up. But non-existing groups don\u0027t have a ref, so they don\u0027t have a sha1 as well. So we can\u0027t cache them persistently.\n\nThat\u0027s OK, because the in-mem cache loader can just return Optional.empty if the ref \u003d\u003d null. That will make the serialization a bit easier.",
+      "range": {
+        "startLine": 275,
+        "startChar": 33,
+        "endLine": 275,
+        "endChar": 41
+      },
+      "revId": "cd194e29c385cab35eec7fc20cfa720556af9e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec0e2f2_063db6f5",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T09:06:29Z",
+      "side": 1,
+      "message": "nit: call this \"revision\"",
+      "range": {
+        "startLine": 293,
+        "startChar": 9,
+        "endLine": 293,
+        "endChar": 23
+      },
+      "revId": "cd194e29c385cab35eec7fc20cfa720556af9e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "349455fb_e890f6c1",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T09:06:29Z",
+      "side": 1,
+      "message": "This should be bytes (see other shas in the proto file)",
+      "range": {
+        "startLine": 293,
+        "startChar": 2,
+        "endLine": 293,
+        "endChar": 8
+      },
+      "revId": "cd194e29c385cab35eec7fc20cfa720556af9e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f3fa99f_a3b86d24",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T09:06:29Z",
+      "side": 1,
+      "message": "nit: no need for a sub-message. using int32 directly is OK",
+      "range": {
+        "startLine": 308,
+        "startChar": 2,
+        "endLine": 308,
+        "endChar": 9
+      },
+      "revId": "cd194e29c385cab35eec7fc20cfa720556af9e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f85910f3_e2bae451",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T09:06:29Z",
+      "side": 1,
+      "message": "Same here: Just use string directly and call the field subgroup_uuids",
+      "range": {
+        "startLine": 314,
+        "startChar": 2,
+        "endLine": 314,
+        "endChar": 9
+      },
+      "revId": "cd194e29c385cab35eec7fc20cfa720556af9e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

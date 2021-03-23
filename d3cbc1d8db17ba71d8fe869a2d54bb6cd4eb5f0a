@@ -128,6 +128,30 @@
       },
       "revId": "d3cbc1d8db17ba71d8fe869a2d54bb6cd4eb5f0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0703dda_60468a35",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T09:06:29Z",
+      "side": 1,
+      "message": "Ah right, WFM thanks.",
+      "parentUuid": "bfbdee31_25370748",
+      "range": {
+        "startLine": 289,
+        "startChar": 69,
+        "endLine": 289,
+        "endChar": 70
+      },
+      "revId": "d3cbc1d8db17ba71d8fe869a2d54bb6cd4eb5f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

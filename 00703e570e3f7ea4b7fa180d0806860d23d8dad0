@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8885db30_e2a2af29",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExists.scala",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:22:34Z",
+      "side": 1,
+      "message": ".exec(httpRequest",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "00703e570e3f7ea4b7fa180d0806860d23d8dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0fa0a64_fb19fc8f",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExists.scala",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-23T19:22:34Z",
+      "side": 1,
+      "message": "Reformatted locally.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 36
+      },
+      "revId": "00703e570e3f7ea4b7fa180d0806860d23d8dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

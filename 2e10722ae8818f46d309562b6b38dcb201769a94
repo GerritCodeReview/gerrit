@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ccd9243_a8e7c285",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T12:14:14Z",
+      "side": 1,
+      "message": "nit: Optional.ofNullable (however, this gets obsolete if you follow my comment below).",
+      "revId": "2e10722ae8818f46d309562b6b38dcb201769a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41242b5f_d79ef4d5",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T12:14:14Z",
+      "side": 1,
+      "message": "This needs to provide the SHA1 as well to make sure groups loads the right version. Otherwise it\u0027s racy.\n\nOn the plus side, you can then throw an ISE in case the optional is absent because that object must exist in Git (it was just read from the ref db)\n\nSorry I missed this in the last review round.",
+      "range": {
+        "startLine": 270,
+        "startChar": 53,
+        "endLine": 270,
+        "endChar": 61
+      },
+      "revId": "2e10722ae8818f46d309562b6b38dcb201769a94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

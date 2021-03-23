@@ -16,6 +16,7 @@
  */
 import {html, nothing} from 'lit-html';
 import {classMap} from 'lit-html/directives/class-map';
+import './gr-hovercard-run';
 import {
   css,
   customElement,
@@ -182,6 +183,7 @@ export class GrChecksRun extends GrLitElement {
 
     return html`
       <div @click="${this.handleChipClick}" class="${classMap(classes)}">
+        <gr-hovercard-run .run="${this.run}"></gr-hovercard-run>
         <div class="left">
           ${this.renderFilterIcon()}
           <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>

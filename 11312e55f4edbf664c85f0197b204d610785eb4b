@@ -22,6 +22,30 @@
       },
       "revId": "11312e55f4edbf664c85f0197b204d610785eb4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2cd4328_a0b4d5db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1108045
+      },
+      "writtenOn": "2021-03-23T15:45:56Z",
+      "side": 1,
+      "message": "My thinking was to optimize for the (presumed) more common case - regularly-sized repo names with a long machine generated hashtag.\n\nEither way I have no strong feelings on this, it just makes instances using Copybara look a little nicer - shame the ellipsis are hard to auto-scale.",
+      "parentUuid": "25f02990_3b6af918",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "11312e55f4edbf664c85f0197b204d610785eb4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

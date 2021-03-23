@@ -82,17 +82,18 @@ export const htmlTemplate = html`
       justify-content: flex-end;
     }
     #collapseBtn,
-    .expanded #expandBtn,
+    .allExpanded #expandBtn,
     .fileViewActions {
       display: none;
     }
-    .expanded #expandBtn {
-      display: none;
+    .someExpanded #expandBtn {
+      margin-right: 16px;
     }
     gr-linked-chip {
       --linked-chip-text-color: var(--primary-text-color);
     }
-    .expanded #collapseBtn,
+    .someExpanded #collapseBtn,
+    .allExpanded #collapseBtn,
     .openFile .fileViewActions {
       align-items: center;
       display: flex;
@@ -238,7 +239,7 @@ export const htmlTemplate = html`
           on-click="_collapseAllDiffs"
           title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
           ShortcutSection.FILE_LIST)]]"
-          >Collapse All</gr-button
+          >Collapse Alll</gr-button
         >
       </template>
       <template

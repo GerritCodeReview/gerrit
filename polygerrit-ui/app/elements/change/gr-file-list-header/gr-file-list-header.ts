@@ -186,6 +186,8 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
   }
 
   setDiffViewMode(mode: DiffViewMode) {
+    console.log('IN SET DIFF VIEW MODE');
+    console.log(mode);
     this.$.modeSelect.setMode(mode);
   }
 
@@ -197,17 +199,32 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
     fireEvent(this, 'collapse-diffs');
   }
 
+  // rmistry
+  // HERE HERE
   _computeExpandedClass(filesExpanded: FilesExpandedState) {
     const classes = [];
+    /*
+    classes.push('expanded');
+    classes.push('openFile');
+    console.log("HERE HERE");
+    console.log(filesExpanded);
+    */
     if (filesExpanded === FilesExpandedState.ALL) {
-      classes.push('expanded');
+      classes.push('openFile');
+      classes.push('allExpanded');
+    } else if (filesExpanded === FilesExpandedState.SOME) {
+      classes.push('openFile');
+      classes.push('someExpanded');
     }
+    /*
     if (
       filesExpanded === FilesExpandedState.SOME ||
       filesExpanded === FilesExpandedState.ALL
     ) {
       classes.push('openFile');
+      classes.push('someExpanded');
     }
+   */
     return classes.join(' ');
   }
 

@@ -16,6 +16,144 @@
       "message": "Let me also follow-up with the Gerrit instance term and its associated roles:\n- primary/replica\n- standalone",
       "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1a0c293_53c90a76",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-23T23:58:04Z",
+      "side": 1,
+      "message": "It doesn\u0027t help to say that an event is associated with an event :-(\nCan you find another synonym?\n\nAssociated with what?\n- repositories?\n- indexes?\n- caches?\n- replication?",
+      "range": {
+        "startLine": 8,
+        "startChar": 46,
+        "endLine": 8,
+        "endChar": 51
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3e4f936_6aa5a674",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-23T23:58:04Z",
+      "side": 1,
+      "message": "Can you explain it with a complete sentence?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 24
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abac9815_4d8de0eb",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-23T23:58:04Z",
+      "side": 1,
+      "message": "The reader may not know what is a class.\nWhat about \"topology of events representing anything that can happen in Gerrit?\"",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6924af53_720b1d1c",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-23T23:58:04Z",
+      "side": 1,
+      "message": "This is a Java terminology, and the reader may not be familiar with it.\nWhat about API?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 9
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a30afd7_a5639caf",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-23T23:58:04Z",
+      "side": 1,
+      "message": "+ in a sequential way",
+      "range": {
+        "startLine": 37,
+        "startChar": 51,
+        "endLine": 37,
+        "endChar": 58
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d22d9a28_2e965062",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-23T23:58:04Z",
+      "side": 1,
+      "message": "+ of the stream",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

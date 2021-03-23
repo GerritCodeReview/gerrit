@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed91da7f_680d835a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T11:14:53Z",
+      "side": 1,
+      "message": "No, it works without \\.",
+      "parentUuid": "21813f15_3ea6520a",
+      "range": {
+        "startLine": 28,
+        "startChar": 44,
+        "endLine": 28,
+        "endChar": 45
+      },
+      "revId": "b03386f10ffaeb2490935ddc696163ab6de3df29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e139b62c_c620abd8",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-23T09:56:38Z",
       "side": 1,
       "message": "NIT: against twice :)",
+      "range": {
+        "startLine": 121,
+        "startChar": 53,
+        "endLine": 121,
+        "endChar": 60
+      },
+      "revId": "b03386f10ffaeb2490935ddc696163ab6de3df29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c57fb3_c3728bb6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-23T11:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e139b62c_c620abd8",
       "range": {
         "startLine": 121,
         "startChar": 53,

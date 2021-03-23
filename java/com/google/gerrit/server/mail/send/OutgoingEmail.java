@@ -56,7 +56,7 @@ import org.eclipse.jgit.util.SystemReader;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
-  private static final String SOY_TEMPLATE_NAMESPACE = "com.google.gerrit.server.mail.template.";
+  private static final String SOY_TEMPLATE_NAMESPACE = "com.google.gerrit.server.mail.template";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected String messageClass;
@@ -583,10 +583,22 @@ public abstract class OutgoingEmail {
 
   /** Configures a soy renderer for the given template name and rendering data map. */
   private SoySauce.Renderer configureRenderer(String templateName) {
-    return args.soySauce
-        .get()
-        .renderTemplate(SOY_TEMPLATE_NAMESPACE + templateName)
-        .setData(soyContext);
+    int baseNameIndex = templateName.indexOf("_");
+    // In case there are multiple templates in file (now only InboundEmailRejection and
+    // InboundEmailRejectionHtml).
+    String fileNamespace =
+        baseNameIndex == -1 ? templateName : templateName.substring(0, baseNameIndex);
+    String templateInFileNamespace =
+        String.join(".", SOY_TEMPLATE_NAMESPACE, fileNamespace, templateName);
+    String templateInCommonNamespace = String.join(".", SOY_TEMPLATE_NAMESPACE, templateName);
+    SoySauce soySauce = args.soySauce.get();
+    // For backwards compatibility with existing customizations and plugin templates with the
+    // old non-unique namespace.
+    String fullTemplateName =
+        soySauce.hasTemplate(templateInFileNamespace)
+            ? templateInFileNamespace
+            : templateInCommonNamespace;
+    return soySauce.renderTemplate(fullTemplateName).setData(soyContext);
   }
 
   protected void removeUser(Account user) {

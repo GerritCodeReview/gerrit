@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "003276c8_1feeb67a",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T12:19:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "26e502e0_cad7e5bb",
+      "range": {
+        "startLine": 166,
+        "startChar": 32,
+        "endLine": 166,
+        "endChar": 45
+      },
+      "revId": "1cc4f21c802453caa12f80707c07134b2bdf60a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e5d75d2_b644988e",
@@ -320,6 +344,30 @@
       "side": 1,
       "message": "Iterable doesn\u0027t extend from Collection for some reason, so this doesn\u0027t work, keeping it as is.",
       "parentUuid": "a08abc65_be2c7d7d",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 48
+      },
+      "revId": "1cc4f21c802453caa12f80707c07134b2bdf60a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "345208eb_5e482b77",
+        "filename": "java/com/google/gerrit/server/account/IncludingGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-23T12:19:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "890fed0b_6b68ba2d",
       "range": {
         "startLine": 85,
         "startChar": 6,

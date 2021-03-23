@@ -21,17 +21,13 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
+  CheckResult,
+  CheckRun,
   allRuns$,
   aPluginHasRegistered$,
   someProvidersAreLoading$,
 } from '../../../services/checks/checks-model';
-import {
-  Category,
-  CheckResult,
-  CheckRun,
-  Link,
-  RunStatus,
-} from '../../../api/checks';
+import {Category, Link, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
 import {

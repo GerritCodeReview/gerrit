@@ -19,14 +19,31 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {
   Action,
   Category,
-  CheckResult,
-  CheckRun,
+  CheckResult as CheckResultApi,
+  CheckRun as CheckRunApi,
   ChecksApiConfig,
   LinkIcon,
   RunStatus,
 } from '../../api/checks';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {PatchSetNumber} from '../../types/common';
+
+export interface CheckResult extends CheckResultApi {
+  /**
+   * Internally we want to uniquely identify a run with an id, for example when
+   * efficiently re-rendering lists of runs in the UI.
+   */
+  internalId: string;
+}
+
+export interface CheckRun extends CheckRunApi {
+  /**
+   * Internally we want to uniquely identify a result with an id, for example
+   * when efficiently re-rendering lists of results in the UI.
+   */
+  internalId: string;
+  results?: CheckResult[];
+}
 
 // This is a convenience type for working with results, because when working
 // with a bunch of results you will typically also want to know about the run
@@ -156,9 +173,11 @@ export function updateStateSetProvider(
 // runs and results.
 
 export const fakeRun0: CheckRun = {
+  internalId: 'f0',
   checkName: 'FAKE Error Finder',
   results: [
     {
+      internalId: 'f0r0',
       category: Category.ERROR,
       summary: 'I would like to point out this error: 1 is not equal to 2!',
       links: [
@@ -167,6 +186,7 @@ export const fakeRun0: CheckRun = {
       tags: [{name: 'OBSOLETE'}, {name: 'E2E'}],
     },
     {
+      internalId: 'f0r1',
       category: Category.ERROR,
       summary: 'Running the mighty test has failed by crashing.',
       links: [
@@ -178,10 +198,12 @@ export const fakeRun0: CheckRun = {
 };
 
 export const fakeRun1: CheckRun = {
+  internalId: 'f1',
   checkName: 'FAKE Super Check',
   labelName: 'Verified',
   results: [
     {
+      internalId: 'f1r0',
       category: Category.WARNING,
       summary: 'We think that you could improve this.',
       message: `There is a lot to be said. A lot. I say, a lot.\n
@@ -193,9 +215,11 @@ export const fakeRun1: CheckRun = {
 };
 
 export const fakeRun2: CheckRun = {
+  internalId: 'f2',
   checkName: 'FAKE Mega Analysis',
   results: [
     {
+      internalId: 'f2r0',
       category: Category.INFO,
       summary: 'This is looking a bit too large.',
       message: 'We are still looking into how large exactly. Stay tuned.',
@@ -206,11 +230,13 @@ export const fakeRun2: CheckRun = {
 };
 
 export const fakeRun3: CheckRun = {
+  internalId: 'f3',
   checkName: 'FAKE Critical Observations',
   status: RunStatus.RUNNABLE,
 };
 
 export const fakeRun4: CheckRun = {
+  internalId: 'f4',
   checkName: 'FAKE TODO Elimination',
   status: RunStatus.COMPLETED,
 };
@@ -227,7 +253,7 @@ export function updateStateSetLoading(pluginName: string) {
 
 export function updateStateSetResults(
   pluginName: string,
-  runs: CheckRun[],
+  runs: CheckRunApi[],
   actions: Action[] = []
 ) {
   const nextState = {...privateState$.getValue()};
@@ -235,7 +261,19 @@ export function updateStateSetResults(
   nextState.providerNameToState[pluginName] = {
     ...nextState.providerNameToState[pluginName],
     loading: false,
-    runs: [...runs],
+    runs: runs.map(run => {
+      const runId = `${run.checkName}-${run.change}-${run.patchset}-${run.attempt}`;
+      return {
+        ...run,
+        internalId: runId,
+        results: (run.results ?? []).map((result, i) => {
+          return {
+            ...result,
+            internalId: `${runId}-${i}`,
+          };
+        }),
+      };
+    }),
     actions: [...actions],
   };
   privateState$.next(nextState);

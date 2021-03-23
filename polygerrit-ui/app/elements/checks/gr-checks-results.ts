@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
+import {repeat} from 'lit-html/directives/repeat';
 import {
   css,
   customElement,
@@ -25,16 +26,9 @@ import {
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import '@polymer/paper-tooltip/paper-tooltip';
-import {
-  Category,
-  CheckRun,
-  Link,
-  LinkIcon,
-  RunStatus,
-  Tag,
-} from '../../api/checks';
+import {Category, Link, LinkIcon, RunStatus, Tag} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
-import {RunResult} from '../../services/checks/checks-model';
+import {CheckRun, RunResult} from '../../services/checks/checks-model';
 import {
   allResults,
   hasCompletedWithoutResults,
@@ -600,7 +594,9 @@ export class GrChecksResults extends GrLitElement {
           </tr>
         </thead>
         <tbody>
-          ${filtered.map(
+          ${repeat(
+            filtered,
+            result => result.externalId,
             result => html`
               <gr-result-row
                 class="${charsOnly(result.checkName)}"

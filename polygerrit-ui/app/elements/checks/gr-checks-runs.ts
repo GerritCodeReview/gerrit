@@ -25,7 +25,7 @@ import {
   query,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
-import {Action, CheckRun, RunStatus} from '../../api/checks';
+import {Action, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {
   compareByWorstCategory,
@@ -36,6 +36,7 @@ import {
   worstCategory,
 } from '../../services/checks/checks-util';
 import {
+  CheckRun,
   allRuns$,
   fakeRun0,
   fakeRun1,

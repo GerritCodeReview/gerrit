@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c725a263_f5c93fb7",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-23T09:58:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c10cf86a_be27fa06",
+      "range": {
+        "startLine": 275,
+        "startChar": 33,
+        "endLine": 275,
+        "endChar": 41
+      },
+      "revId": "cd194e29c385cab35eec7fc20cfa720556af9e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aec0e2f2_063db6f5",
@@ -70,6 +94,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e02057b8_31b18a6f",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-23T09:58:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "349455fb_e890f6c1",
+      "range": {
+        "startLine": 293,
+        "startChar": 2,
+        "endLine": 293,
+        "endChar": 8
+      },
+      "revId": "cd194e29c385cab35eec7fc20cfa720556af9e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "943921f0_357c0515",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-23T09:58:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aec0e2f2_063db6f5",
+      "range": {
+        "startLine": 293,
+        "startChar": 9,
+        "endLine": 293,
+        "endChar": 23
+      },
+      "revId": "cd194e29c385cab35eec7fc20cfa720556af9e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f3fa99f_a3b86d24",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6891de2e_978ed998",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-23T09:58:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f3fa99f_a3b86d24",
+      "range": {
+        "startLine": 308,
+        "startChar": 2,
+        "endLine": 308,
+        "endChar": 9
+      },
+      "revId": "cd194e29c385cab35eec7fc20cfa720556af9e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f85910f3_e2bae451",
@@ -106,6 +202,30 @@
       "writtenOn": "2021-03-23T09:06:29Z",
       "side": 1,
       "message": "Same here: Just use string directly and call the field subgroup_uuids",
+      "range": {
+        "startLine": 314,
+        "startChar": 2,
+        "endLine": 314,
+        "endChar": 9
+      },
+      "revId": "cd194e29c385cab35eec7fc20cfa720556af9e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af188fce_f9c660b1",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-23T09:58:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f85910f3_e2bae451",
       "range": {
         "startLine": 314,
         "startChar": 2,

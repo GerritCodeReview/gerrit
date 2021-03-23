@@ -472,10 +472,12 @@ suite('gr-diff tests', () => {
     test('_handleTap content', done => {
       const content = document.createElement('div');
       const lineEl = document.createElement('div');
+      lineEl.className = 'lineNum';
+      const row = document.createElement('div');
+      row.appendChild(lineEl);
+      row.appendChild(content);
 
       const selectStub = sinon.stub(element, '_selectLine');
-      sinon.stub(element.$.diffBuilder, 'getLineElByChild')
-          .callsFake(() => lineEl);
 
       content.className = 'content';
       content.addEventListener('click', e => {

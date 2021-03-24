@@ -49,6 +49,8 @@ import {
 } from 'rxjs';
 import {PatchSetNumber} from '../../types/common';
 import {getCurrentRevision} from '../../utils/change-util';
+import {getShaByPatchNum} from '../../utils/patch-set-util';
+import {assertIsDefined} from '../../utils/common-util';
 
 export class ChecksService {
   private readonly providers: {[name: string]: ChecksProvider} = {};
@@ -127,9 +129,13 @@ export class ChecksService {
                 runs: [],
               });
             }
+            assertIsDefined(change.revisions, 'change.revisions');
+            const patchsetSha = getShaByPatchNum(change.revisions, patchNum);
+            assertIsDefined(patchsetSha, 'patchsetSha');
             const data: ChangeData = {
               changeNumber: changeNum,
               patchsetNumber: patchNum,
+              patchsetSha,
               repo: change.project,
               commmitMessage: getCurrentRevision(change)?.commit?.message,
               changeInfo: change,

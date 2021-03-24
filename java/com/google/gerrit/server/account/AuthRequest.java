@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
@@ -32,32 +30,6 @@ import java.util.Optional;
  * not all OpenID providers return them, and not all non-OpenID systems can use them.
  */
 public class AuthRequest {
-  /** Create a request for a local username, such as from LDAP. */
-  public static AuthRequest forUser(String username) {
-    AuthRequest r = new AuthRequest(ExternalId.Key.create(SCHEME_GERRIT, username));
-    r.setUserName(username);
-    return r;
-  }
-
-  /** Create a request for an external username. */
-  public static AuthRequest forExternalUser(String username) {
-    AuthRequest r = new AuthRequest(ExternalId.Key.create(SCHEME_EXTERNAL, username));
-    r.setUserName(username);
-    return r;
-  }
-
-  /**
-   * Create a request for an email address registration.
-   *
-   * <p>This type of request should be used only to attach a new email address to an existing user
-   * account.
-   */
-  public static AuthRequest forEmail(String email) {
-    AuthRequest r = new AuthRequest(ExternalId.Key.create(SCHEME_MAILTO, email));
-    r.setEmailAddress(email);
-    return r;
-  }
-
   private ExternalId.Key externalId;
   private String password;
   private String displayName;
@@ -86,7 +58,7 @@ public class AuthRequest {
 
   public void setLocalUser(String localUser) {
     if (externalId.isScheme(SCHEME_GERRIT)) {
-      externalId = ExternalId.Key.create(SCHEME_GERRIT, localUser);
+      externalId = ExternalId.Key.create(SCHEME_GERRIT, localUser, externalId.isCaseInsensitive());
     }
   }
 

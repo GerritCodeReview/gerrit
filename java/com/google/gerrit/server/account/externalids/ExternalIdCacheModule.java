@@ -20,7 +20,7 @@ import com.google.inject.TypeLiteral;
 import java.time.Duration;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class ExternalIdModule extends CacheModule {
+public class ExternalIdCacheModule extends CacheModule {
   @Override
   protected void configure() {
     persist(ExternalIdCacheImpl.CACHE_NAME, ObjectId.class, new TypeLiteral<AllExternalIds>() {})

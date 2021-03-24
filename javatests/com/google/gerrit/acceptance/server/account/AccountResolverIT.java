@@ -23,6 +23,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -157,6 +158,24 @@ public class AccountResolverIT extends AbstractDaemonTest {
 
     assertThat(resolveByNameOrEmail(existingUsername))
         .containsExactly(idWithExistingUsernameAsFullname);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
+  public void byUsernameCaseInsensitive() throws Exception {
+    String existingUsername = "myusername";
+    Account.Id idWithUsername = accountOperations.newAccount().username(existingUsername).create();
+    accountOperations.newAccount().fullname(existingUsername).create();
+
+    String existingMixedCaseUsername = "MyMixedCaseUsername";
+    Account.Id idWithMixedCaseUsername =
+        accountOperations.newAccount().username(existingMixedCaseUsername).create();
+    accountOperations.newAccount().fullname(existingMixedCaseUsername).create();
+
+    assertThat(resolve(existingUsername)).containsExactly(idWithUsername);
+    assertThat(resolve(existingMixedCaseUsername)).containsExactly(idWithMixedCaseUsername);
+    assertThat(resolve(existingMixedCaseUsername.toLowerCase()))
+        .containsExactly(idWithMixedCaseUsername);
   }
 
   @Test

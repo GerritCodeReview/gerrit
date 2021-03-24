@@ -35,7 +35,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
@@ -64,6 +64,7 @@ public class CommitsCollectionTest {
   @Inject protected AllProjectsName allProjects;
   @Inject private CommitsCollection commits;
   @Inject private ProjectOperations projectOperations;
+  @Inject private AuthRequestFactory authRequestFactory;
 
   private TestRepository<InMemoryRepository> repo;
   private Project.NameKey project;
@@ -72,7 +73,8 @@ public class CommitsCollectionTest {
   public void setUp() throws Exception {
     setUpPermissions();
 
-    Account.Id user = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    Account.Id user =
+        accountManager.authenticate(authRequestFactory.createForUser("user")).getAccountId();
     testEnvironment.setApiUser(user);
     project = projectOperations.newProject().create();
     repo = new TestRepository<>(repoManager.openRepository(project));

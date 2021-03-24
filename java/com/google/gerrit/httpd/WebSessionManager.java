@@ -32,6 +32,7 @@ import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -52,6 +53,7 @@ public class WebSessionManager {
   private final long sessionMaxAgeMillis;
   private final SecureRandom prng;
   private final Cache<String, Val> self;
+  private final boolean userNameCaseInsensitive;
 
   @Inject
   WebSessionManager(@GerritServerConfig Config cfg, @Assisted Cache<String, Val> cache) {
@@ -72,6 +74,7 @@ public class WebSessionManager {
           "cache.%s.maxAge is set to %d milliseconds; it should be at least 5 minutes.",
           CACHE_NAME, sessionMaxAgeMillis);
     }
+    this.userNameCaseInsensitive = cfg.getBoolean("auth", "userNameCaseInsensitive", false);
   }
 
   Key createKey(Account.Id who) {
@@ -128,7 +131,16 @@ public class WebSessionManager {
       auth = newUniqueToken(who);
     }
 
-    Val val = new Val(who, refreshCookieAt, remember, lastLogin, expiresAt, sid, auth);
+    Val val =
+        new Val(
+            who,
+            refreshCookieAt,
+            remember,
+            lastLogin,
+            expiresAt,
+            sid,
+            auth,
+            userNameCaseInsensitive);
     self.put(key.token, val);
     return val;
   }
@@ -193,6 +205,7 @@ public class WebSessionManager {
     private transient long expiresAt;
     private transient String sessionId;
     private transient String auth;
+    private transient boolean userNameCaseInsensitive;
 
     Val(
         Account.Id accountId,
@@ -201,7 +214,8 @@ public class WebSessionManager {
         ExternalId.Key externalId,
         long expiresAt,
         String sessionId,
-        String auth) {
+        String auth,
+        boolean userNameCaseInsensitive) {
       this.accountId = accountId;
       this.refreshCookieAt = refreshCookieAt;
       this.persistentCookie = persistentCookie;
@@ -209,6 +223,7 @@ public class WebSessionManager {
       this.expiresAt = expiresAt;
       this.sessionId = sessionId;
       this.auth = auth;
+      this.userNameCaseInsensitive = userNameCaseInsensitive;
     }
 
     public long getExpiresAt() {
@@ -295,7 +310,7 @@ public class WebSessionManager {
             persistentCookie = readVarInt32(in) != 0;
             continue;
           case 4:
-            externalId = ExternalId.Key.parse(readString(in));
+            externalId = new ExternalIdKeyFactory(userNameCaseInsensitive).parse(readString(in));
             continue;
           case 5:
             sessionId = readString(in);

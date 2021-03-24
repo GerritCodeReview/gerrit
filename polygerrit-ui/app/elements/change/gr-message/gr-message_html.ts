@@ -170,12 +170,16 @@ export const htmlTemplate = html`
     }
     .score.negative {
       background-color: var(--vote-color-disliked);
+      border-radius: 12px;
+      border: 1px solid var(--vote-outline-disliked);
     }
     .score.negative.min {
       background-color: var(--vote-color-rejected);
     }
     .score.positive {
       background-color: var(--vote-color-recommended);
+      border-radius: 12px;
+      border: 1px solid var(--vote-outline-recommended);
     }
     .score.positive.max {
       background-color: var(--vote-color-approved);

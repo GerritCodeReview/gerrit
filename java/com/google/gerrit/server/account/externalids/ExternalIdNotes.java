@@ -53,6 +53,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -836,7 +837,11 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
   public static ObjectId computeNoteId(ExternalId.Key key) {
-    return ObjectId.fromRaw(Hashing.sha1().hashString(key.get(), UTF_8).asBytes());
+    String keyString = key.get();
+    if (key.isCaseInsensitive()) {
+      keyString = keyString.toLowerCase(Locale.US);
+    }
+    return ObjectId.fromRaw(Hashing.sha1().hashString(keyString, UTF_8).asBytes());
   }
 
   /**

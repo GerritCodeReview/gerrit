@@ -56,25 +56,33 @@ public class AccountFieldTest {
             .build();
     ExternalId extId1 =
         ExternalId.create(
-            ExternalId.Key.create(ExternalId.SCHEME_MAILTO, "foo.bar@example.com"),
+            ExternalId.Key.create(ExternalId.SCHEME_MAILTO, "foo.bar@example.com", false),
             id,
             "foo.bar@example.com",
             null,
             ObjectId.fromString("1b9a0cf038ea38a0ab08617c39aa8e28413a27ca"));
     ExternalId extId2 =
         ExternalId.create(
-            ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "foo"),
+            ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "foo", false),
             id,
             null,
             "secret",
             ObjectId.fromString("5b3a73dc9a668a5b89b5f049225261e3e3291d1a"));
+    ExternalId extId3 =
+        ExternalId.create(
+            ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "Bar", true),
+            id,
+            null,
+            "secret",
+            ObjectId.fromString("483ea804e84282e15ddcdd1d15a797eb4796a760"));
     List<String> values =
         toStrings(
             AccountField.EXTERNAL_ID_STATE.get(
-                AccountState.forAccount(account, ImmutableSet.of(extId1, extId2))));
+                AccountState.forAccount(account, ImmutableSet.of(extId1, extId2, extId3))));
     String expectedValue1 = extId1.key().sha1().name() + ":" + extId1.blobId().name();
     String expectedValue2 = extId2.key().sha1().name() + ":" + extId2.blobId().name();
-    assertThat(values).containsExactly(expectedValue1, expectedValue2);
+    String expectedValue3 = extId3.key().sha1().name() + ":" + extId3.blobId().name();
+    assertThat(values).containsExactly(expectedValue1, expectedValue2, expectedValue3);
   }
 
   private List<String> toStrings(Iterable<byte[]> values) {

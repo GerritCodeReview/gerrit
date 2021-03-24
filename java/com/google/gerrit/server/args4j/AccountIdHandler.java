@@ -25,6 +25,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
@@ -44,12 +45,14 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
   private final AuthType authType;
+  private final AuthRequestFactory authRequestFactory;
 
   @Inject
   public AccountIdHandler(
       AccountResolver accountResolver,
       AccountManager accountManager,
       AuthConfig authConfig,
+      AuthRequestFactory authRequestFactory,
       @Assisted CmdLineParser parser,
       @Assisted OptionDef option,
       @Assisted Setter<Account.Id> setter) {
@@ -57,6 +60,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     this.accountResolver = accountResolver;
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
+    this.authRequestFactory = authRequestFactory;
   }
 
   @Override
@@ -105,7 +109,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     }
 
     try {
-      AuthRequest req = AuthRequest.forUser(user);
+      AuthRequest req = authRequestFactory.createForUser(user);
       req.setSkipAuthentication(true);
       return accountManager.authenticate(req).getAccountId();
     } catch (AccountException e) {

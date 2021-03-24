@@ -75,17 +75,23 @@ class ProjectBasicAuthFilter implements Filter {
   private final AccountCache accountCache;
   private final AccountManager accountManager;
   private final AuthConfig authConfig;
+  private final AuthRequest.Factory authRequestFactory;
+  private final PasswordVerifier passwordVerifier;
 
   @Inject
   ProjectBasicAuthFilter(
       DynamicItem<WebSession> session,
       AccountCache accountCache,
       AccountManager accountManager,
-      AuthConfig authConfig) {
+      AuthConfig authConfig,
+      AuthRequest.Factory authRequestFactory,
+      PasswordVerifier passwordVerifier) {
     this.session = session;
     this.accountCache = accountCache;
     this.accountManager = accountManager;
     this.authConfig = authConfig;
+    this.authRequestFactory = authRequestFactory;
+    this.passwordVerifier = passwordVerifier;
   }
 
   @Override
@@ -144,7 +150,7 @@ class ProjectBasicAuthFilter implements Filter {
     GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
         || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
-      if (PasswordVerifier.checkPassword(who.externalIds(), username, password)) {
+      if (passwordVerifier.checkPassword(who.externalIds(), username, password)) {
         return succeedAuthentication(who, null);
       }
     }
@@ -153,7 +159,7 @@ class ProjectBasicAuthFilter implements Filter {
       return failAuthentication(rsp, username, req);
     }
 
-    AuthRequest whoAuth = AuthRequest.forUser(username);
+    AuthRequest whoAuth = authRequestFactory.createForUser(username);
     whoAuth.setPassword(password);
 
     try {
@@ -161,7 +167,7 @@ class ProjectBasicAuthFilter implements Filter {
       setUserIdentified(whoAuthResult.getAccountId(), whoAuthResult);
       return true;
     } catch (NoSuchUserException e) {
-      if (PasswordVerifier.checkPassword(who.externalIds(), username, password)) {
+      if (passwordVerifier.checkPassword(who.externalIds(), username, password)) {
         return succeedAuthentication(who, null);
       }
       logger.atWarning().withCause(e).log(authenticationFailedMsg(username, req));

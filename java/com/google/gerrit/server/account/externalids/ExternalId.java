@@ -144,10 +144,22 @@ public abstract class ExternalId implements Serializable {
      *
      * @param scheme the scheme name, must not contain colons (':'), can be {@code null}
      * @param id the external ID, must not contain colons (':')
+     * @param isCaseInsensitive whether the external ID key is matched case insensitively
+     * @return the created external ID key
+     */
+    public static Key create(@Nullable String scheme, String id, boolean isCaseInsensitive) {
+      return new AutoValue_ExternalId_Key(Strings.emptyToNull(scheme), id, isCaseInsensitive);
+    }
+
+    /**
+     * Creates an external ID key.
+     *
+     * @param scheme the scheme name, must not contain colons (':'), can be {@code null}
+     * @param id the external ID, must not contain colons (':')
      * @return the created external ID key
      */
     public static Key create(@Nullable String scheme, String id) {
-      return new AutoValue_ExternalId_Key(Strings.emptyToNull(scheme), id);
+      return create(scheme, id, false);
     }
 
     /**
@@ -166,6 +178,8 @@ public abstract class ExternalId implements Serializable {
     public abstract @Nullable String scheme();
 
     public abstract String id();
+
+    public abstract boolean isCaseInsensitive();
 
     public boolean isScheme(String scheme) {
       return scheme.equals(scheme());

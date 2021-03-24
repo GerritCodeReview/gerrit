@@ -28,7 +28,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
@@ -61,6 +61,8 @@ class HttpLoginServlet extends HttpServlet {
   private final AccountManager accountManager;
   private final HttpAuthFilter authFilter;
   private final AuthConfig authConfig;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
+  private final AuthRequest.Factory authRequestFactory;
 
   @Inject
   HttpLoginServlet(
@@ -68,12 +70,16 @@ class HttpLoginServlet extends HttpServlet {
       final CanonicalWebUrl urlProvider,
       final AccountManager accountManager,
       final HttpAuthFilter authFilter,
-      final AuthConfig authConfig) {
+      final AuthConfig authConfig,
+      final ExternalIdKeyFactory externalIdKeyFactory,
+      final AuthRequest.Factory authRequestFactory) {
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.accountManager = accountManager;
     this.authFilter = authFilter;
     this.authConfig = authConfig;
+    this.externalIdKeyFactory = externalIdKeyFactory;
+    this.authRequestFactory = authRequestFactory;
   }
 
   @Override
@@ -109,7 +115,7 @@ class HttpLoginServlet extends HttpServlet {
       return;
     }
 
-    final AuthRequest areq = AuthRequest.forUser(user);
+    final AuthRequest areq = authRequestFactory.createForUser(user);
     areq.setDisplayName(authFilter.getRemoteDisplayname(req));
     areq.setEmailAddress(authFilter.getRemoteEmail(req));
     final AuthResult arsp;
@@ -154,7 +160,7 @@ class HttpLoginServlet extends HttpServlet {
       throws AccountException, IOException, ConfigInvalidException {
     accountManager.updateLink(
         arsp.getAccountId(),
-        new AuthRequest(ExternalId.Key.create(SCHEME_EXTERNAL, remoteAuthToken)));
+        authRequestFactory.create(externalIdKeyFactory.create(SCHEME_EXTERNAL, remoteAuthToken)));
   }
 
   private void replace(Document doc, String name, String value) {

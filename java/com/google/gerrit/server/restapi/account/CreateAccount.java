@@ -44,6 +44,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.db.GroupDelta;
@@ -85,6 +86,7 @@ public class CreateAccount
   private final Provider<GroupsUpdate> groupsUpdate;
   private final OutgoingEmailValidator validator;
   private final AuthConfig authConfig;
+  private final ExternalIdFactory externalIdFactory;
 
   @Inject
   CreateAccount(
@@ -97,7 +99,8 @@ public class CreateAccount
       PluginSetContext<AccountExternalIdCreator> externalIdCreators,
       @UserInitiated Provider<GroupsUpdate> groupsUpdate,
       OutgoingEmailValidator validator,
-      AuthConfig authConfig) {
+      AuthConfig authConfig,
+      ExternalIdFactory externalIdFactory) {
     this.seq = seq;
     this.groupResolver = groupResolver;
     this.authorizedKeys = authorizedKeys;
@@ -108,6 +111,7 @@ public class CreateAccount
     this.groupsUpdate = groupsUpdate;
     this.validator = validator;
     this.authConfig = authConfig;
+    this.externalIdFactory = externalIdFactory;
   }
 
   @Override
@@ -142,10 +146,10 @@ public class CreateAccount
       if (!validator.isValid(input.email)) {
         throw new BadRequestException("invalid email address");
       }
-      extIds.add(ExternalId.createEmail(accountId, input.email));
+      extIds.add(externalIdFactory.createEmail(accountId, input.email));
     }
 
-    extIds.add(ExternalId.createUsername(username, accountId, input.httpPassword));
+    extIds.add(externalIdFactory.createUsername(username, accountId, input.httpPassword));
     externalIdCreators.runEach(c -> extIds.addAll(c.create(accountId, username, input.email)));
 
     try {

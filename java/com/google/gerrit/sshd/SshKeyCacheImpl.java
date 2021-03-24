@@ -22,6 +22,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.logging.Metadata;
@@ -97,11 +98,16 @@ public class SshKeyCacheImpl implements SshKeyCache {
   static class Loader extends CacheLoader<String, Iterable<SshKeyCacheEntry>> {
     private final ExternalIds externalIds;
     private final VersionedAuthorizedKeys.Accessor authorizedKeys;
+    private final ExternalIdKeyFactory externalIdKeyFactory;
 
     @Inject
-    Loader(ExternalIds externalIds, VersionedAuthorizedKeys.Accessor authorizedKeys) {
+    Loader(
+        ExternalIds externalIds,
+        VersionedAuthorizedKeys.Accessor authorizedKeys,
+        ExternalIdKeyFactory externalIdKeyFactory) {
       this.externalIds = externalIds;
       this.authorizedKeys = authorizedKeys;
+      this.externalIdKeyFactory = externalIdKeyFactory;
     }
 
     @Override
@@ -111,7 +117,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
               "Loading SSH keys for account with username",
               Metadata.builder().username(username).build())) {
         Optional<ExternalId> user =
-            externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
+            externalIds.get(externalIdKeyFactory.create(SCHEME_USERNAME, username));
         if (!user.isPresent()) {
           return NO_SUCH_USER;
         }

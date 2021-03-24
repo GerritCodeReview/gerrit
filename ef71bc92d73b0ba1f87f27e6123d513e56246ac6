@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25903d64_285e1137",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-03-24T09:40:54Z",
+      "side": 1,
+      "message": "Do we have an exhaustive list of events in the documentation? I was thinking of referring to it, but I couldn\u0027t find any n the documentation.",
+      "parentUuid": "b1a0c293_53c90a76",
+      "range": {
+        "startLine": 8,
+        "startChar": 46,
+        "endLine": 8,
+        "endChar": 51
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3e4f936_6aa5a674",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 3
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-23T23:58:04Z",
       "side": 1,
       "message": "Can you explain it with a complete sentence?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 24
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a28e692_317289ab",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-03-24T09:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3e4f936_6aa5a674",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8248aaec_b983bbb2",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-03-24T09:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abac9815_4d8de0eb",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6924af53_720b1d1c",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-03-23T23:58:04Z",
       "side": 1,
       "message": "This is a Java terminology, and the reader may not be familiar with it.\nWhat about API?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 9
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a033c213_36d227e1",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-03-24T09:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6924af53_720b1d1c",
       "range": {
         "startLine": 31,
         "startChar": 0,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a30b15e_7cf6b129",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-03-24T09:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a30afd7_a5639caf",
+      "range": {
+        "startLine": 37,
+        "startChar": 51,
+        "endLine": 37,
+        "endChar": 58
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d22d9a28_2e965062",
@@ -146,6 +266,30 @@
       "writtenOn": "2021-03-23T23:58:04Z",
       "side": 1,
       "message": "+ of the stream",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15bea729_3c14a715",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-03-24T09:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22d9a28_2e965062",
       "range": {
         "startLine": 38,
         "startChar": 25,

@@ -84,6 +84,9 @@ Log format:
 * `wait`: command wait time, time in milliseconds the command waited for an execution thread.
 * `exec`: command execution time, time in milliseconds to execute the command.
 * `status`: status code. 0 means success, any other value is an error.
+* `total_cpu`: total CPU time, CPU time in milliseconds to execute command.
+* `user_cpu`: user mode CPU time, CPU time in user mode in milliseconds to execute command.
+  CPU time in kernel mode is `total_cpu - user_cpu`.
 
 The `git-upload-pack` command provides the following additional fields after the `exec`
 and before the `status` field. All times are in milliseconds. Fields are -1 if not available

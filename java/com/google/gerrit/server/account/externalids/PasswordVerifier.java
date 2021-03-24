@@ -34,7 +34,10 @@ public class PasswordVerifier {
     }
     for (ExternalId id : externalIds) {
       // Only process the "username:$USER" entry, which is unique.
-      if (!id.isScheme(SCHEME_USERNAME) || !username.equals(id.key().id())) {
+      if (!id.isScheme(SCHEME_USERNAME)
+          || !ExternalId.Key.create(SCHEME_USERNAME, username, id.isCaseInsensitive())
+              .sha1()
+              .equals(id.key().sha1())) {
         continue;
       }
 

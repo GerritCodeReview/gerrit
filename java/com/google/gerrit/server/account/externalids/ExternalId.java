@@ -17,35 +17,28 @@ package com.google.gerrit.server.account.externalids;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.git.ObjectIds;
-import com.google.gerrit.server.account.HashedPassword;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
 public abstract class ExternalId implements Serializable {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   // If these regular expressions are modified the same modifications should be done to the
   // corresponding regular expressions in the
   // com.google.gerrit.client.account.UsernameField class.
@@ -106,10 +99,10 @@ public abstract class ExternalId implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private static final String EXTERNAL_ID_SECTION = "externalId";
-  private static final String ACCOUNT_ID_KEY = "accountId";
-  private static final String EMAIL_KEY = "email";
-  private static final String PASSWORD_KEY = "password";
+  static final String EXTERNAL_ID_SECTION = "externalId";
+  static final String ACCOUNT_ID_KEY = "accountId";
+  static final String EMAIL_KEY = "email";
+  static final String PASSWORD_KEY = "password";
 
   /**
    * Scheme used for {@link AuthType#LDAP}, {@link AuthType#CLIENT_SSL_CERT_LDAP}, {@link
@@ -145,10 +138,11 @@ public abstract class ExternalId implements Serializable {
      *
      * @param scheme the scheme name, must not contain colons (':'), can be {@code null}
      * @param id the external ID, must not contain colons (':')
+     * @param isCaseInsensitive whether the external ID key is matched case insensitively
      * @return the created external ID key
      */
-    public static Key create(@Nullable String scheme, String id) {
-      return new AutoValue_ExternalId_Key(Strings.emptyToNull(scheme), id);
+    public static Key create(@Nullable String scheme, String id, boolean isCaseInsensitive) {
+      return new AutoValue_ExternalId_Key(Strings.emptyToNull(scheme), id, isCaseInsensitive);
     }
 
     /**
@@ -156,17 +150,19 @@ public abstract class ExternalId implements Serializable {
      *
      * @return the parsed external ID key
      */
-    public static Key parse(String externalId) {
+    public static Key parse(String externalId, boolean isCaseInsensitive) {
       int c = externalId.indexOf(':');
       if (c < 1 || c >= externalId.length() - 1) {
-        return create(null, externalId);
+        return create(null, externalId, isCaseInsensitive);
       }
-      return create(externalId.substring(0, c), externalId.substring(c + 1));
+      return create(externalId.substring(0, c), externalId.substring(c + 1), isCaseInsensitive);
     }
 
     public abstract @Nullable String scheme();
 
     public abstract String id();
+
+    public abstract boolean isCaseInsensitive();
 
     public boolean isScheme(String scheme) {
       return scheme.equals(scheme());
@@ -178,7 +174,8 @@ public abstract class ExternalId implements Serializable {
      */
     @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
     public ObjectId sha1() {
-      return ObjectId.fromRaw(Hashing.sha1().hashString(get(), UTF_8).asBytes());
+      String keyString = isCaseInsensitive() ? get().toLowerCase(Locale.US) : get();
+      return ObjectId.fromRaw(Hashing.sha1().hashString(keyString, UTF_8).asBytes());
     }
 
     /**
@@ -205,93 +202,14 @@ public abstract class ExternalId implements Serializable {
     }
   }
 
-  /**
-   * Creates an external ID.
-   *
-   * @param scheme the scheme name, must not contain colons (':')
-   * @param id the external ID, must not contain colons (':')
-   * @param accountId the ID of the account to which the external ID belongs
-   * @return the created external ID
-   */
-  public static ExternalId create(String scheme, String id, Account.Id accountId) {
-    return create(Key.create(scheme, id), accountId, null, null);
-  }
-
-  /**
-   * Creates an external ID.
-   *
-   * @param scheme the scheme name, must not contain colons (':')
-   * @param id the external ID, must not contain colons (':')
-   * @param accountId the ID of the account to which the external ID belongs
-   * @param email the email of the external ID, may be {@code null}
-   * @param hashedPassword the hashed password of the external ID, may be {@code null}
-   * @return the created external ID
-   */
-  public static ExternalId create(
-      String scheme,
-      String id,
-      Account.Id accountId,
-      @Nullable String email,
-      @Nullable String hashedPassword) {
-    return create(Key.create(scheme, id), accountId, email, hashedPassword);
-  }
-
-  public static ExternalId create(Key key, Account.Id accountId) {
-    return create(key, accountId, null, null);
-  }
-
-  public static ExternalId create(
-      Key key, Account.Id accountId, @Nullable String email, @Nullable String hashedPassword) {
-    return create(
-        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), null);
-  }
-
-  public static ExternalId createWithPassword(
-      Key key, Account.Id accountId, @Nullable String email, @Nullable String plainPassword) {
-    plainPassword = Strings.emptyToNull(plainPassword);
-    String hashedPassword =
-        plainPassword != null ? HashedPassword.fromPassword(plainPassword).encode() : null;
-    return create(key, accountId, email, hashedPassword);
-  }
-
-  /**
-   * Create a external ID for a username (scheme "username").
-   *
-   * @param id the external ID, must not contain colons (':')
-   * @param accountId the ID of the account to which the external ID belongs
-   * @param plainPassword the plain HTTP password, may be {@code null}
-   * @return the created external ID
-   */
-  public static ExternalId createUsername(
-      String id, Account.Id accountId, @Nullable String plainPassword) {
-    return createWithPassword(Key.create(SCHEME_USERNAME, id), accountId, null, plainPassword);
-  }
-
-  /**
-   * Creates an external ID with an email.
-   *
-   * @param scheme the scheme name, must not contain colons (':')
-   * @param id the external ID, must not contain colons (':')
-   * @param accountId the ID of the account to which the external ID belongs
-   * @param email the email of the external ID, may be {@code null}
-   * @return the created external ID
-   */
-  public static ExternalId createWithEmail(
-      String scheme, String id, Account.Id accountId, @Nullable String email) {
-    return createWithEmail(Key.create(scheme, id), accountId, email);
-  }
-
-  public static ExternalId createWithEmail(Key key, Account.Id accountId, @Nullable String email) {
-    return create(key, accountId, Strings.emptyToNull(email), null);
-  }
-
-  public static ExternalId createEmail(Account.Id accountId, String email) {
-    return createWithEmail(SCHEME_MAILTO, email, accountId, requireNonNull(email));
-  }
-
   static ExternalId create(ExternalId extId, @Nullable ObjectId blobId) {
     return new AutoValue_ExternalId(
-        extId.key(), extId.accountId(), extId.email(), extId.password(), blobId);
+        extId.key(),
+        extId.accountId(),
+        extId.isCaseInsensitive(),
+        extId.email(),
+        extId.password(),
+        blobId);
   }
 
   @VisibleForTesting
@@ -302,115 +220,19 @@ public abstract class ExternalId implements Serializable {
       @Nullable String hashedPassword,
       @Nullable ObjectId blobId) {
     return new AutoValue_ExternalId(
-        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), blobId);
-  }
-
-  /**
-   * Parses an external ID from a byte array that contain the external ID as an Git config file
-   * text.
-   *
-   * <p>The Git config must have exactly one externalId subsection with an accountId and optionally
-   * email and password:
-   *
-   * <pre>
-   * [externalId "username:jdoe"]
-   *   accountId = 1003407
-   *   email = jdoe@example.com
-   *   password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
-   * </pre>
-   */
-  public static ExternalId parse(String noteId, byte[] raw, ObjectId blobId)
-      throws ConfigInvalidException {
-    Config externalIdConfig = new Config();
-    try {
-      externalIdConfig.fromText(new String(raw, UTF_8));
-    } catch (ConfigInvalidException e) {
-      throw invalidConfig(noteId, e.getMessage());
-    }
-
-    return parse(noteId, externalIdConfig, blobId);
-  }
-
-  public static ExternalId parse(String noteId, Config externalIdConfig, ObjectId blobId)
-      throws ConfigInvalidException {
-    requireNonNull(blobId);
-
-    Set<String> externalIdKeys = externalIdConfig.getSubsections(EXTERNAL_ID_SECTION);
-    if (externalIdKeys.size() != 1) {
-      throw invalidConfig(
-          noteId,
-          String.format(
-              "Expected exactly 1 '%s' section, found %d",
-              EXTERNAL_ID_SECTION, externalIdKeys.size()));
-    }
-
-    String externalIdKeyStr = Iterables.getOnlyElement(externalIdKeys);
-    Key externalIdKey = Key.parse(externalIdKeyStr);
-    if (externalIdKey == null) {
-      throw invalidConfig(noteId, String.format("External ID %s is invalid", externalIdKeyStr));
-    }
-
-    if (!externalIdKey.sha1().getName().equals(noteId)) {
-      throw invalidConfig(
-          noteId,
-          String.format(
-              "SHA1 of external ID '%s' does not match note ID '%s'", externalIdKeyStr, noteId));
-    }
-
-    String email = externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, EMAIL_KEY);
-    String password =
-        externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, PASSWORD_KEY);
-    int accountId = readAccountId(noteId, externalIdConfig, externalIdKeyStr);
-
-    return create(
-        externalIdKey,
-        Account.id(accountId),
+        key,
+        accountId,
+        key.isCaseInsensitive(),
         Strings.emptyToNull(email),
-        Strings.emptyToNull(password),
+        Strings.emptyToNull(hashedPassword),
         blobId);
-  }
-
-  private static int readAccountId(String noteId, Config externalIdConfig, String externalIdKeyStr)
-      throws ConfigInvalidException {
-    String accountIdStr =
-        externalIdConfig.getString(EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY);
-    if (accountIdStr == null) {
-      throw invalidConfig(
-          noteId,
-          String.format(
-              "Value for '%s.%s.%s' is missing, expected account ID",
-              EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
-    }
-
-    try {
-      int accountId =
-          externalIdConfig.getInt(EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY, -1);
-      if (accountId < 0) {
-        throw invalidConfig(
-            noteId,
-            String.format(
-                "Value %s for '%s.%s.%s' is invalid, expected account ID",
-                accountIdStr, EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY));
-      }
-      return accountId;
-    } catch (IllegalArgumentException e) {
-      String msg =
-          String.format(
-              "Value %s for '%s.%s.%s' is invalid, expected account ID",
-              accountIdStr, EXTERNAL_ID_SECTION, externalIdKeyStr, ACCOUNT_ID_KEY);
-      logger.atSevere().withCause(e).log(msg);
-      throw invalidConfig(noteId, msg);
-    }
-  }
-
-  private static ConfigInvalidException invalidConfig(String noteId, String message) {
-    return new ConfigInvalidException(
-        String.format("Invalid external ID config for note '%s': %s", noteId, message));
   }
 
   public abstract Key key();
 
   public abstract Account.Id accountId();
+
+  public abstract boolean isCaseInsensitive();
 
   public abstract @Nullable String email();
 

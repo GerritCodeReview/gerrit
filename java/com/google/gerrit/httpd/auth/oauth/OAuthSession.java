@@ -35,7 +35,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
@@ -65,6 +65,7 @@ class OAuthSession {
   private Account.Id accountId;
   private String redirectToken;
   private boolean linkMode;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
   OAuthSession(
@@ -72,13 +73,15 @@ class OAuthSession {
       Provider<IdentifiedUser> identifiedUser,
       AccountManager accountManager,
       CanonicalWebUrl urlProvider,
-      OAuthTokenCache tokenCache) {
+      OAuthTokenCache tokenCache,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.state = generateRandomState();
     this.identifiedUser = identifiedUser;
     this.webSession = webSession;
     this.accountManager = accountManager;
     this.urlProvider = urlProvider;
     this.tokenCache = tokenCache;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   boolean isLoggedIn() {
@@ -126,7 +129,7 @@ class OAuthSession {
 
   private void authenticateAndRedirect(
       HttpServletRequest req, HttpServletResponse rsp, OAuthToken token) throws IOException {
-    AuthRequest areq = new AuthRequest(ExternalId.Key.parse(user.getExternalId()));
+    AuthRequest areq = new AuthRequest(externalIdKeyFactory.parse(user.getExternalId()));
     AuthResult arsp;
     try {
       String claimedIdentifier = user.getClaimedIdentity();

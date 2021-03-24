@@ -34,7 +34,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -83,6 +83,7 @@ public class CreateEmail
   private final OutgoingEmailValidator validator;
   private final MessageIdGenerator messageIdGenerator;
   private final boolean isDevMode;
+  private final AuthRequestFactory authRequestFactory;
 
   @Inject
   CreateEmail(
@@ -94,7 +95,8 @@ public class CreateEmail
       RegisterNewEmailSender.Factory registerNewEmailFactory,
       PutPreferred putPreferred,
       OutgoingEmailValidator validator,
-      MessageIdGenerator messageIdGenerator) {
+      MessageIdGenerator messageIdGenerator,
+      AuthRequestFactory authRequestFactory) {
     this.self = self;
     this.realm = realm;
     this.permissionBackend = permissionBackend;
@@ -104,6 +106,7 @@ public class CreateEmail
     this.validator = validator;
     this.isDevMode = authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT;
     this.messageIdGenerator = messageIdGenerator;
+    this.authRequestFactory = authRequestFactory;
   }
 
   @Override
@@ -151,7 +154,7 @@ public class CreateEmail
         logger.atWarning().log("skipping email validation in developer mode");
       }
       try {
-        accountManager.link(user.getAccountId(), AuthRequest.forEmail(email));
+        accountManager.link(user.getAccountId(), authRequestFactory.createForEmail(email));
       } catch (AccountException e) {
         throw new ResourceConflictException(e.getMessage());
       }

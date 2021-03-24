@@ -643,6 +643,23 @@ This parameter only affects git over http and git over SSH traffic.
 +
 By default this is set to false.
 
+[[auth.userNameCaseInsensitive]]auth.userNameCaseInsensitive::
++
+If set the username will be handled case insensitively but case preserving,
+i.e. a user can login with `johndoe` or `JohnDoe` for the same account
+created for `JohnDoe`.
++
+Note, that this does not work for all existing accounts, if they were
+not originally created with all lowercase, since the note keys of the
+external IDs will not match the new scheme. For more details refer to
+the link:config-accounts.html#external-ids[External ID documentation].
++
+Naturally, if there were two accounts only different in capitalization,
+e.g. `johndoe` and `JohnDoe`, the account `JohnDoe` will not be able
+to authenticate anymore after setting this option.
++
+Default is false.
+
 [[auth.enableRunAs]]auth.enableRunAs::
 +
 If true HTTP REST APIs will accept the `X-Gerrit-RunAs` HTTP request

@@ -54,6 +54,7 @@ public abstract class CacheBasedWebSession implements WebSession {
   private final IdentifiedUser.RequestFactory identified;
   private final EnumSet<AccessPath> okPaths = EnumSet.of(AccessPath.UNKNOWN);
   private final AccountCache byIdCache;
+  private final boolean userNameCaseInsensitive;
   private Cookie outCookie;
 
   private Key key;
@@ -75,6 +76,7 @@ public abstract class CacheBasedWebSession implements WebSession {
     this.anonymousProvider = anonymousProvider;
     this.identified = identified;
     this.byIdCache = byIdCache;
+    this.userNameCaseInsensitive = authConfig.isUserNameCaseInsensitive();
 
     if (request.getRequestURI() == null || !GitSmartHttpTools.isGitClient(request)) {
       String cookie = readCookie(request);

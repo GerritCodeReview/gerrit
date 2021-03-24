@@ -31,6 +31,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.inject.Inject;
@@ -46,12 +47,16 @@ import java.util.Set;
 public class InternalAccountQuery extends InternalQuery<AccountState, InternalAccountQuery> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final ExternalIdKeyFactory externalIdKeyFactory;
+
   @Inject
   InternalAccountQuery(
       AccountQueryProcessor queryProcessor,
       AccountIndexCollection indexes,
-      IndexConfig indexConfig) {
+      IndexConfig indexConfig,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     super(queryProcessor, indexes, indexConfig);
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   public List<AccountState> byDefault(String query) {
@@ -59,7 +64,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
   }
 
   public List<AccountState> byExternalId(String scheme, String id) {
-    return byExternalId(ExternalId.Key.create(scheme, id));
+    return byExternalId(externalIdKeyFactory.create(scheme, id));
   }
 
   public List<AccountState> byExternalId(ExternalId.Key externalId) {

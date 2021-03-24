@@ -51,6 +51,24 @@
       "parentUuid": "f8561427_384254be",
       "revId": "c31b95155d82c92839550d338ba568e870480387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "435e7f3e_7edf92aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-24T07:59:17Z",
+      "side": 1,
+      "message": "\u003e P.S. Evicting a project entry is a pretty cheap operation, but reindexing a project is very expensive. It would still make sense IMHO to reindex when it is really needed.\n\nSure, SGTM.",
+      "parentUuid": "9b1a8ab7_21bceca8",
+      "revId": "c31b95155d82c92839550d338ba568e870480387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

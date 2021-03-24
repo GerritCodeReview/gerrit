@@ -56,11 +56,14 @@ public final class SshLogLayout extends Layout {
     buf.append(' ');
     buf.append(event.getMessage());
 
-    opt(P_WAIT, buf, event);
-    opt(P_EXEC, buf, event);
-    opt(P_MESSAGE, buf, event);
-    opt(P_STATUS, buf, event);
-    opt(P_AGENT, buf, event);
+    String msg = (String) event.getMessage();
+    if (!(msg.startsWith("LOGIN") || msg.equals("LOGOUT"))) {
+      req(P_WAIT, buf, event);
+      req(P_EXEC, buf, event);
+      req(P_MESSAGE, buf, event);
+      req(P_STATUS, buf, event);
+      req(P_AGENT, buf, event);
+    }
 
     buf.append('\n');
     return buf.toString();
@@ -78,14 +81,6 @@ public final class SshLogLayout extends Layout {
       }
     } else {
       buf.append('-');
-    }
-  }
-
-  private void opt(String key, StringBuffer buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
-    if (val != null) {
-      buf.append(' ');
-      buf.append(val);
     }
   }
 

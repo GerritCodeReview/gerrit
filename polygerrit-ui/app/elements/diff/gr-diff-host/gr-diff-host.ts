@@ -1004,16 +1004,16 @@ export class GrDiffHost extends PolymerElement {
     if (this._anyLineTooLong(diff)) {
       fireAlert(
         this,
-        `A line is longer than ${SYNTAX_MAX_LINE_LENGTH}.` +
-          ' Syntax Highlighting was turned off.'
+        `Files with line longer than ${SYNTAX_MAX_LINE_LENGTH} characters` +
+          '  will not be syntax highlighted.'
       );
       return false;
     }
     if (this.$.diff.getDiffLength(diff) > SYNTAX_MAX_DIFF_LENGTH) {
       fireAlert(
         this,
-        `A diff is longer than ${SYNTAX_MAX_DIFF_LENGTH}.` +
-          ' Syntax Highlighting was turned off.'
+        `Files with more than ${SYNTAX_MAX_DIFF_LENGTH} lines` +
+          '  will not be syntax highlighted.'
       );
       return false;
     }

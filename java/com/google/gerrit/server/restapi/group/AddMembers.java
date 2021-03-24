@@ -94,6 +94,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   private final AccountCache accountCache;
   private final AccountLoader.Factory infoFactory;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
+  private final AuthRequest.Factory authRequestFactory;
 
   @Inject
   AddMembers(
@@ -102,13 +103,15 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       AccountResolver accountResolver,
       AccountCache accountCache,
       AccountLoader.Factory infoFactory,
-      @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
+      @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
+      AuthRequest.Factory authRequestFactory) {
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
     this.accountResolver = accountResolver;
     this.accountCache = accountCache;
     this.infoFactory = infoFactory;
     this.groupsUpdateProvider = groupsUpdateProvider;
+    this.authRequestFactory = authRequestFactory;
   }
 
   @Override
@@ -190,7 +193,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     try {
-      AuthRequest req = AuthRequest.forUser(user);
+      AuthRequest req = authRequestFactory.createForUser(user);
       req.setSkipAuthentication(true);
       return accountCache
           .get(accountManager.authenticate(req).getAccountId())

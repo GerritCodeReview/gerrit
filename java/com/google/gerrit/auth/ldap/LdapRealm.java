@@ -32,6 +32,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.auth.NoSuchUserException;
@@ -346,10 +347,12 @@ class LdapRealm extends AbstractRealm {
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {
     private final ExternalIds externalIds;
+    private final ExternalIdKeyFactory externalIdKeyFactory;
 
     @Inject
-    UserLoader(ExternalIds externalIds) {
+    UserLoader(ExternalIds externalIds, ExternalIdKeyFactory externalIdKeyFactory) {
       this.externalIds = externalIds;
+      this.externalIdKeyFactory = externalIdKeyFactory;
     }
 
     @Override
@@ -358,7 +361,7 @@ class LdapRealm extends AbstractRealm {
           TraceContext.newTimer(
               "Loading account for username", Metadata.builder().username(username).build())) {
         return externalIds
-            .get(ExternalId.Key.create(SCHEME_GERRIT, username))
+            .get(externalIdKeyFactory.create(SCHEME_GERRIT, username))
             .map(ExternalId::accountId);
       }
     }

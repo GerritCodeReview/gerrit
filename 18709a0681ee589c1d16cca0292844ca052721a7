@@ -16,6 +16,46 @@
       "message": "SGTM, @Saša?",
       "revId": "18709a0681ee589c1d16cca0292844ca052721a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25ac43da_0f979d5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-24T10:46:08Z",
+      "side": 1,
+      "message": "Not sure if I understand the comment correctly but IMHO it produces different output ;)\nI have called it locally against the instance that has two usernames that are case-insensitive equal ;)",
+      "revId": "18709a0681ee589c1d16cca0292844ca052721a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7618d665_aad5d8bf",
+        "filename": "contrib/find-duplicate-usernames.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-24T10:46:08Z",
+      "side": 1,
+      "message": "example output (in ubuntu 20.04) is following:\n\n./find-duplicate-usernames.sh username\njohndoe 1000001\nJohnDoe 1000002\n\nBut calling \u0027git grep -A1 \"\\[externalId \\\"username:\" refs/meta/external-ids\u0027 results in the following input (being later returned as the output mentioned above):\n\nrefs/meta/external-ids:90194fbd033d9a544d9e7df2ccbfdfa2d2e78061:[externalId \"username:JohnDoe\"]\nrefs/meta/external-ids:90194fbd033d9a544d9e7df2ccbfdfa2d2e78061-        accountId \u003d 1000002\n--\nrefs/meta/external-ids:ee8942eac80eb867f16d4d7b25c8b6999e221d71:[externalId \"username:johndoe\"]\nrefs/meta/external-ids:ee8942eac80eb867f16d4d7b25c8b6999e221d71-        accountId \u003d 1000001",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 6
+      },
+      "revId": "18709a0681ee589c1d16cca0292844ca052721a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

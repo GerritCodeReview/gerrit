@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e31c7933_f75e2c88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-24T14:33:22Z",
+      "side": 1,
+      "message": "there are some internal overrides for email templates. Last time we did something here, we broke email for go-review.gs.com; we should probably doublecheck that this doesn\u0027t happen again.",
+      "revId": "6c6965175104d31fb737d0bcec9256adfae7fa07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f7613ee_02ea552a",

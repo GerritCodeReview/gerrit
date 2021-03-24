@@ -44,12 +44,14 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
   private final AuthType authType;
+  private final AuthRequest.Factory authRequestFactory;
 
   @Inject
   public AccountIdHandler(
       AccountResolver accountResolver,
       AccountManager accountManager,
       AuthConfig authConfig,
+      AuthRequest.Factory authRequestFactory,
       @Assisted CmdLineParser parser,
       @Assisted OptionDef option,
       @Assisted Setter<Account.Id> setter) {
@@ -57,6 +59,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     this.accountResolver = accountResolver;
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
+    this.authRequestFactory = authRequestFactory;
   }
 
   @Override
@@ -105,7 +108,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     }
 
     try {
-      AuthRequest req = AuthRequest.forUser(user);
+      AuthRequest req = authRequestFactory.createForUser(user);
       req.setSkipAuthentication(true);
       return accountManager.authenticate(req).getAccountId();
     } catch (AccountException e) {

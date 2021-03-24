@@ -477,6 +477,10 @@ to create new branches. This is done by using the special
 `+refs/heads/sandbox/${username}/*+`. If you do, it's also recommended
 you grant the users the push force permission to be able to clean up
 stale branches.
+If link:config-gerrit.html#auth.userNameCaseInsensitive[auth.userNameCaseInsensitive]
+is enabled, the `${username}` is still case sensitive and will use
+the capitalization used during account creation. This is done, since
+git branches are case sensitive.
 
 [[category_delete]]
 === Delete Reference

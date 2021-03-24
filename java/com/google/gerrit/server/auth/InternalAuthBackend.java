@@ -26,11 +26,14 @@ import java.util.Locale;
 public class InternalAuthBackend implements AuthBackend {
   private final AccountCache accountCache;
   private final AuthConfig authConfig;
+  private final PasswordVerifier passwordVerifier;
 
   @Inject
-  InternalAuthBackend(AccountCache accountCache, AuthConfig authConfig) {
+  InternalAuthBackend(
+      AccountCache accountCache, AuthConfig authConfig, PasswordVerifier passwordVerifier) {
     this.accountCache = accountCache;
     this.authConfig = authConfig;
+    this.passwordVerifier = passwordVerifier;
   }
 
   @Override
@@ -63,7 +66,7 @@ public class InternalAuthBackend implements AuthBackend {
               + ": account inactive or not provisioned in Gerrit");
     }
 
-    if (!PasswordVerifier.checkPassword(who.externalIds(), username, req.getPassword().get())) {
+    if (!passwordVerifier.checkPassword(who.externalIds(), username, req.getPassword().get())) {
       throw new InvalidCredentialsException();
     }
     return new AuthUser(AuthUser.UUID.create(username), username);

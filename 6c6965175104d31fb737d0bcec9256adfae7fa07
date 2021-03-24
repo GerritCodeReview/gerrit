@@ -46,6 +46,30 @@
       },
       "revId": "6c6965175104d31fb737d0bcec9256adfae7fa07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b201bfaa_771068a4",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-03-24T12:32:02Z",
+      "side": 1,
+      "message": "ah, so they are still in the same file but they each have different template now.\nI guess that\u0027s okay then.",
+      "parentUuid": "8b91264e_104ae63e",
+      "range": {
+        "startLine": 587,
+        "startChar": 53,
+        "endLine": 588,
+        "endChar": 32
+      },
+      "revId": "6c6965175104d31fb737d0bcec9256adfae7fa07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

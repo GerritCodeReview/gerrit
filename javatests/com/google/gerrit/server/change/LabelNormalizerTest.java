@@ -35,7 +35,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.change.LabelNormalizer.Result;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -71,6 +71,7 @@ public class LabelNormalizerTest {
   @Inject private ProjectConfig.Factory projectConfigFactory;
   @Inject private GerritApi gApi;
   @Inject private ProjectOperations projectOperations;
+  @Inject private AuthRequestFactory authRequestFactory;
 
   private LifecycleManager lifecycle;
   private Account.Id userId;
@@ -87,7 +88,7 @@ public class LabelNormalizerTest {
     lifecycle.start();
 
     schemaCreator.create();
-    userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    userId = accountManager.authenticate(authRequestFactory.createForUser("user")).getAccountId();
     user = userFactory.create(userId);
 
     requestContext.setContext(() -> user);

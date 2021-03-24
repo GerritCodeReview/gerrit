@@ -29,6 +29,7 @@ import com.google.gerrit.pgm.init.api.SequencesOnInit;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndex;
@@ -52,6 +53,7 @@ public class InitAdminUser implements InitStep {
   private final ExternalIdsOnInit externalIds;
   private final SequencesOnInit sequencesOnInit;
   private final GroupsOnInit groupsOnInit;
+  private final ExternalIdFactory externalIdFactory;
   private AccountIndexCollection accountIndexCollection;
   private GroupIndexCollection groupIndexCollection;
 
@@ -63,7 +65,8 @@ public class InitAdminUser implements InitStep {
       VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory,
       ExternalIdsOnInit externalIds,
       SequencesOnInit sequencesOnInit,
-      GroupsOnInit groupsOnInit) {
+      GroupsOnInit groupsOnInit,
+      ExternalIdFactory externalIdFactory) {
     this.flags = flags;
     this.ui = ui;
     this.accounts = accounts;
@@ -71,6 +74,7 @@ public class InitAdminUser implements InitStep {
     this.externalIds = externalIds;
     this.sequencesOnInit = sequencesOnInit;
     this.groupsOnInit = groupsOnInit;
+    this.externalIdFactory = externalIdFactory;
   }
 
   @Override
@@ -104,10 +108,10 @@ public class InitAdminUser implements InitStep {
         String email = readEmail(sshKey);
 
         List<ExternalId> extIds = new ArrayList<>(2);
-        extIds.add(ExternalId.createUsername(username, id, httpPassword));
+        extIds.add(externalIdFactory.createUsername(username, id, httpPassword));
 
         if (email != null) {
-          extIds.add(ExternalId.createEmail(id, email));
+          extIds.add(externalIdFactory.createEmail(id, email));
         }
         externalIds.insert("Add external IDs for initial admin user", extIds);
 

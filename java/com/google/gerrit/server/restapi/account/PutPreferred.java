@@ -30,6 +30,7 @@ import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -62,17 +63,20 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   private final PermissionBackend permissionBackend;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final ExternalIds externalIds;
+  private final ExternalIdFactory externalIdFactory;
 
   @Inject
   PutPreferred(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
-      ExternalIds externalIds) {
+      ExternalIds externalIds,
+      ExternalIdFactory externalIdFactory) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.externalIds = externalIds;
+    this.externalIdFactory = externalIdFactory;
   }
 
   @Override
@@ -137,7 +141,8 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
                     }
 
                     // claim the email now
-                    u.addExternalId(ExternalId.createEmail(a.account().id(), preferredEmail));
+                    u.addExternalId(
+                        externalIdFactory.createEmail(a.account().id(), preferredEmail));
                     matchingEmail = preferredEmail;
                   } else {
                     // Realm says that the email doesn't belong to the user. This can only happen as

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.metrics.proc.ThreadMXBeanFactory;
+import com.google.gerrit.metrics.proc.ThreadMXBeanInterface;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
@@ -26,15 +28,13 @@ import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadMXBean;
 import java.util.HashMap;
 import java.util.Map;
 
 /** Guice scopes for state during an SSH connection. */
 public class SshScope {
   private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
-  private static final ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
+  private static final ThreadMXBeanInterface threadMxBean = ThreadMXBeanFactory.create();
 
   class Context implements RequestContext {
 
@@ -50,6 +50,8 @@ public class SshScope {
     private volatile long finishedTotalCpu;
     private volatile long startedUserCpu;
     private volatile long finishedUserCpu;
+    private volatile long startedMemory;
+    private volatile long finishedMemory;
 
     private Context(SshSession s, String c, long at) {
       session = s;
@@ -57,6 +59,7 @@ public class SshScope {
       created = started = finished = at;
       startedTotalCpu = threadMxBean.getCurrentThreadCpuTime();
       startedUserCpu = threadMxBean.getCurrentThreadUserTime();
+      startedMemory = threadMxBean.getCurrentThreadAllocatedBytes();
       map.put(RC_KEY, cleanup);
     }
 
@@ -68,18 +71,22 @@ public class SshScope {
       finishedTotalCpu = p.finishedTotalCpu;
       startedUserCpu = p.startedUserCpu;
       finishedUserCpu = p.finishedUserCpu;
+      startedMemory = p.startedMemory;
+      finishedMemory = p.finishedMemory;
     }
 
     void start() {
       started = TimeUtil.nowMs();
       startedTotalCpu = threadMxBean.getCurrentThreadCpuTime();
       startedUserCpu = threadMxBean.getCurrentThreadUserTime();
+      startedMemory = threadMxBean.getCurrentThreadAllocatedBytes();
     }
 
     void finish() {
       finished = TimeUtil.nowMs();
       finishedTotalCpu = threadMxBean.getCurrentThreadCpuTime();
       finishedUserCpu = threadMxBean.getCurrentThreadUserTime();
+      finishedMemory = threadMxBean.getCurrentThreadAllocatedBytes();
     }
 
     public long getCreated() {
@@ -100,6 +107,10 @@ public class SshScope {
 
     public long getUserCpu() {
       return (finishedUserCpu - startedUserCpu) / 1_000_000;
+    }
+
+    public long getAllocatedMemory() {
+      return finishedMemory - startedMemory;
     }
 
     String getCommandLine() {

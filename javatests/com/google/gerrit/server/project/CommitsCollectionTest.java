@@ -64,6 +64,7 @@ public class CommitsCollectionTest {
   @Inject protected AllProjectsName allProjects;
   @Inject private CommitsCollection commits;
   @Inject private ProjectOperations projectOperations;
+  @Inject private AuthRequest.Factory authRequestFactory;
 
   private TestRepository<InMemoryRepository> repo;
   private Project.NameKey project;
@@ -72,7 +73,8 @@ public class CommitsCollectionTest {
   public void setUp() throws Exception {
     setUpPermissions();
 
-    Account.Id user = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    Account.Id user =
+        accountManager.authenticate(authRequestFactory.createForUser("user")).getAccountId();
     testEnvironment.setApiUser(user);
     project = projectOperations.newProject().create();
     repo = new TestRepository<>(repoManager.openRepository(project));

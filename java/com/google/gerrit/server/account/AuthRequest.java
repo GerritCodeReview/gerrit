@@ -21,6 +21,9 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAI
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.util.Optional;
 
 /**
@@ -32,31 +35,52 @@ import java.util.Optional;
  * not all OpenID providers return them, and not all non-OpenID systems can use them.
  */
 public class AuthRequest {
-  /** Create a request for a local username, such as from LDAP. */
-  public static AuthRequest forUser(String username) {
-    AuthRequest r = new AuthRequest(ExternalId.Key.create(SCHEME_GERRIT, username));
-    r.setUserName(username);
-    return r;
+  @Singleton
+  public static class Factory {
+    private final ExternalIdKeyFactory externalIdKeyFactory;
+
+    @Inject
+    public Factory(ExternalIdKeyFactory externalIdKeyFactory) {
+      this.externalIdKeyFactory = externalIdKeyFactory;
+    }
+
+    public AuthRequest create(ExternalId.Key externalIdKey) {
+      return new AuthRequest(externalIdKey, externalIdKeyFactory);
+    }
+
+    /** Create a request for a local username, such as from LDAP. */
+    public AuthRequest createForUser(String username) {
+      AuthRequest r =
+          new AuthRequest(
+              externalIdKeyFactory.create(SCHEME_GERRIT, username), externalIdKeyFactory);
+      r.setUserName(username);
+      return r;
+    }
+
+    /** Create a request for an external username. */
+    public AuthRequest createForExternalUser(String username) {
+      AuthRequest r =
+          new AuthRequest(
+              externalIdKeyFactory.create(SCHEME_EXTERNAL, username), externalIdKeyFactory);
+      r.setUserName(username);
+      return r;
+    }
+
+    /**
+     * Create a request for an email address registration.
+     *
+     * <p>This type of request should be used only to attach a new email address to an existing user
+     * account.
+     */
+    public AuthRequest createForEmail(String email) {
+      AuthRequest r =
+          new AuthRequest(externalIdKeyFactory.create(SCHEME_MAILTO, email), externalIdKeyFactory);
+      r.setEmailAddress(email);
+      return r;
+    }
   }
 
-  /** Create a request for an external username. */
-  public static AuthRequest forExternalUser(String username) {
-    AuthRequest r = new AuthRequest(ExternalId.Key.create(SCHEME_EXTERNAL, username));
-    r.setUserName(username);
-    return r;
-  }
-
-  /**
-   * Create a request for an email address registration.
-   *
-   * <p>This type of request should be used only to attach a new email address to an existing user
-   * account.
-   */
-  public static AuthRequest forEmail(String email) {
-    AuthRequest r = new AuthRequest(ExternalId.Key.create(SCHEME_MAILTO, email));
-    r.setEmailAddress(email);
-    return r;
-  }
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   private ExternalId.Key externalId;
   private String password;
@@ -69,8 +93,9 @@ public class AuthRequest {
   private boolean authProvidesAccountActiveStatus;
   private boolean active;
 
-  public AuthRequest(ExternalId.Key externalId) {
+  private AuthRequest(ExternalId.Key externalId, ExternalIdKeyFactory externalIdKeyFactory) {
     this.externalId = externalId;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   public ExternalId.Key getExternalIdKey() {
@@ -86,7 +111,7 @@ public class AuthRequest {
 
   public void setLocalUser(String localUser) {
     if (externalId.isScheme(SCHEME_GERRIT)) {
-      externalId = ExternalId.Key.create(SCHEME_GERRIT, localUser);
+      externalId = externalIdKeyFactory.create(SCHEME_GERRIT, localUser);
     }
   }
 

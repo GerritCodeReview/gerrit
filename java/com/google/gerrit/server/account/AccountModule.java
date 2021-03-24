@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account;
 
 import com.google.inject.AbstractModule;
 
-public class ExternalIdModule extends AbstractModule {
+public class AccountModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(ExternalIdFactory.class);
-    bind(ExternalIdKeyFactory.class);
-    bind(PasswordVerifier.class);
+    bind(AuthRequest.Factory.class);
   }
 }

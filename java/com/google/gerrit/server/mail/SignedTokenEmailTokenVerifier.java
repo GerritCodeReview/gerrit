@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.inject.AbstractModule;
@@ -31,6 +32,7 @@ import java.util.regex.Pattern;
 @Singleton
 public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
   private final SignedToken emailRegistrationToken;
+  private final AuthRequest.Factory authRequestFactory;
 
   public static class Module extends AbstractModule {
     @Override
@@ -40,8 +42,9 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
   }
 
   @Inject
-  SignedTokenEmailTokenVerifier(AuthConfig config) {
+  SignedTokenEmailTokenVerifier(AuthConfig config, AuthRequest.Factory authRequestFactory) {
     emailRegistrationToken = config.getEmailRegistrationToken();
+    this.authRequestFactory = authRequestFactory;
   }
 
   @Override
@@ -77,7 +80,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
     }
     Account.Id id = Account.Id.tryParse(matcher.group(1)).orElseThrow(InvalidTokenException::new);
     String newEmail = matcher.group(2);
-    return new ParsedToken(id, newEmail);
+    return new ParsedToken(id, newEmail, authRequestFactory);
   }
 
   private void checkEmailRegistrationToken() {

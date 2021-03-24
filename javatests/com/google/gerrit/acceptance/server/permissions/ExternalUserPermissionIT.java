@@ -44,7 +44,7 @@ import com.google.gerrit.server.ExternalUser;
 import com.google.gerrit.server.PropertyMap;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -70,6 +70,7 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
   @Inject private ChangeNotes.Factory changeNotesFactory;
   @Inject private ExternalUser.Factory externalUserFactory;
   @Inject private GroupOperations groupOperations;
+  @Inject private ExternalIdKeyFactory externalIdKeyFactory;
 
   @Before
   public void setUp() {
@@ -295,7 +296,7 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
   ExternalUser createUserInGroup(String userId, String groupId) {
     return externalUserFactory.create(
         ImmutableSet.of(),
-        ImmutableSet.of(ExternalId.Key.parse("company-auth:" + groupId + "-" + userId)),
+        ImmutableSet.of(externalIdKeyFactory.parse("company-auth:" + groupId + "-" + userId)),
         PropertyMap.EMPTY);
   }
 }

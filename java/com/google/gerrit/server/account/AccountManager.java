@@ -36,6 +36,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -77,6 +79,8 @@ public class AccountManager {
   private final GroupsUpdate.Factory groupsUpdateFactory;
   private final boolean autoUpdateAccountActiveStatus;
   private final SetInactiveFlag setInactiveFlag;
+  private final ExternalIdFactory externalIdFactory;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @VisibleForTesting
   @Inject
@@ -92,7 +96,9 @@ public class AccountManager {
       ProjectCache projectCache,
       ExternalIds externalIds,
       GroupsUpdate.Factory groupsUpdateFactory,
-      SetInactiveFlag setInactiveFlag) {
+      SetInactiveFlag setInactiveFlag,
+      ExternalIdFactory externalIdFactory,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.sequences = sequences;
     this.accounts = accounts;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -108,12 +114,14 @@ public class AccountManager {
     this.autoUpdateAccountActiveStatus =
         cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false);
     this.setInactiveFlag = setInactiveFlag;
+    this.externalIdFactory = externalIdFactory;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   /** @return user identified by this external identity string */
   public Optional<Account.Id> lookup(String externalId) throws AccountException {
     try {
-      return externalIds.get(ExternalId.Key.parse(externalId)).map(ExternalId::accountId);
+      return externalIds.get(externalIdKeyFactory.parse(externalId)).map(ExternalId::accountId);
     } catch (IOException | ConfigInvalidException e) {
       throw new AccountException("Cannot lookup account " + externalId, e);
     }
@@ -229,7 +237,7 @@ public class AccountManager {
     String oldEmail = extId.email();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       ExternalId extIdWithNewEmail =
-          ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password());
+          externalIdFactory.create(extId.key(), extId.accountId(), newEmail, extId.password());
       checkEmailNotUsed(extId.accountId(), extIdWithNewEmail);
       accountUpdates.add(u -> u.replaceExternalId(extId, extIdWithNewEmail));
 
@@ -273,7 +281,7 @@ public class AccountManager {
     logger.atFine().log("Assigning new Id %s to account", newId);
 
     ExternalId extId =
-        ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
+        externalIdFactory.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
     logger.atFine().log("Created external Id: %s", extId);
     checkEmailNotUsed(newId, extId);
     ExternalId userNameExtId =
@@ -348,7 +356,7 @@ public class AccountManager {
               "Cannot assign user name \"%s\" to account %s; name does not conform.",
               username, accountId));
     }
-    return ExternalId.create(SCHEME_USERNAME, username, accountId);
+    return externalIdFactory.create(SCHEME_USERNAME, username, accountId);
   }
 
   private void checkEmailNotUsed(Account.Id accountId, ExternalId extIdToBeCreated)
@@ -414,7 +422,7 @@ public class AccountManager {
       update(who, extId);
     } else {
       ExternalId newExtId =
-          ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress());
+          externalIdFactory.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress());
       checkEmailNotUsed(to, newExtId);
       accountsUpdateProvider
           .get()

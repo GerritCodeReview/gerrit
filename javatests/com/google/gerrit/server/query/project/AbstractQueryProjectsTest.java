@@ -104,6 +104,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
   @Inject protected AllUsersName allUsers;
 
+  @Inject protected AuthRequest.Factory authRequestFactory;
+
   protected LifecycleManager lifecycle;
   protected Injector injector;
   protected AccountInfo currentUserInfo;
@@ -306,9 +308,10 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   private Account.Id createAccount(String username, String fullName, String email, boolean active)
       throws Exception {
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      Account.Id id = accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
+      Account.Id id =
+          accountManager.authenticate(authRequestFactory.createForUser(username)).getAccountId();
       if (email != null) {
-        accountManager.link(id, AuthRequest.forEmail(email));
+        accountManager.link(id, authRequestFactory.createForEmail(email));
       }
       accountsUpdate
           .get()

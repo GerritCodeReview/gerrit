@@ -29,7 +29,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.junit.Test;
@@ -43,6 +43,7 @@ import org.junit.Test;
 public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExternalIdFactory externalIdFactory;
 
   /**
    * Account REST endpoints to be tested, each URL contains a placeholder for the account
@@ -169,7 +170,7 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
             admin.id(),
             u ->
                 u.addExternalId(
-                    ExternalId.createWithEmail(name("test"), email, admin.id(), email)));
+                    externalIdFactory.createWithEmail(name("test"), email, admin.id(), email)));
 
     requestScopeOperations.setApiUser(admin.id());
     gApi.accounts()

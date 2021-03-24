@@ -43,29 +43,32 @@ public class ExternalIdsConsistencyChecker {
   private final AllUsersName allUsers;
   private final AccountCache accountCache;
   private final OutgoingEmailValidator validator;
+  private final ExternalIdFactory externalIdFactory;
 
   @Inject
   ExternalIdsConsistencyChecker(
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
       AccountCache accountCache,
-      OutgoingEmailValidator validator) {
+      OutgoingEmailValidator validator,
+      ExternalIdFactory externalIdFactory) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.accountCache = accountCache;
     this.validator = validator;
+    this.externalIdFactory = externalIdFactory;
   }
 
   public List<ConsistencyProblemInfo> check() throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return check(ExternalIdNotes.loadReadOnly(allUsers, repo));
+      return check(ExternalIdNotes.loadReadOnly(allUsers, repo, externalIdFactory));
     }
   }
 
   public List<ConsistencyProblemInfo> check(ObjectId rev)
       throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return check(ExternalIdNotes.loadReadOnly(allUsers, repo, rev));
+      return check(ExternalIdNotes.loadReadOnly(allUsers, repo, rev, externalIdFactory));
     }
   }
 
@@ -79,7 +82,7 @@ public class ExternalIdsConsistencyChecker {
       for (Note note : noteMap) {
         byte[] raw = ExternalIdNotes.readNoteData(rw, note.getData());
         try {
-          ExternalId extId = ExternalId.parse(note.getName(), raw, note.getData());
+          ExternalId extId = externalIdFactory.parse(note.getName(), raw, note.getData());
           problems.addAll(validateExternalId(extId));
 
           if (extId.email() != null) {

@@ -28,6 +28,7 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.account.externalids.testing.ExternalIdTestUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -56,12 +57,18 @@ public class ExternalIDCacheLoaderTest {
   private GitRepositoryManager repoManager = new InMemoryRepositoryManager();
   private ExternalIdReader externalIdReader;
   private ExternalIdReader externalIdReaderSpy;
+  private AuthConfig authConfig;
+  private ExternalIdFactory externalIdFactory;
 
   @Before
   public void setUp() throws Exception {
+    authConfig = Mockito.mock(AuthConfig.class);
+    Mockito.when(authConfig.isUserNameCaseInsensitive()).thenReturn(false);
+    externalIdFactory = new ExternalIdFactory(new ExternalIdKeyFactory(authConfig));
     externalIdCache = CacheBuilder.newBuilder().build();
     repoManager.createRepository(ALL_USERS).close();
-    externalIdReader = new ExternalIdReader(repoManager, ALL_USERS, new DisabledMetricMaker());
+    externalIdReader =
+        new ExternalIdReader(repoManager, ALL_USERS, new DisabledMetricMaker(), externalIdFactory);
     externalIdReaderSpy = Mockito.spy(externalIdReader);
     loader = createLoader(true);
   }
@@ -151,7 +158,8 @@ public class ExternalIDCacheLoaderTest {
     ObjectId head =
         modifyExternalId(
             externalId(1, 1),
-            ExternalId.create("fooschema", "bar1", Account.id(1), "foo@bar.com", "password"));
+            externalIdFactory.create(
+                "fooschema", "bar1", Account.id(1), "foo@bar.com", "password"));
     assertThat(allFromGit(head).byAccount().size()).isEqualTo(1);
     externalIdCache.put(firstState, allFromGit(firstState));
 
@@ -212,7 +220,8 @@ public class ExternalIDCacheLoaderTest {
         externalIdReaderSpy,
         Providers.of(externalIdCache),
         new DisabledMetricMaker(),
-        cfg);
+        cfg,
+        externalIdFactory);
   }
 
   private AllExternalIds allFromGit(ObjectId revision) throws Exception {
@@ -256,13 +265,14 @@ public class ExternalIDCacheLoaderTest {
   }
 
   private ExternalId externalId(int key, int accountId) {
-    return ExternalId.create("fooschema", "bar" + key, Account.id(accountId));
+    return externalIdFactory.create("fooschema", "bar" + key, Account.id(accountId));
   }
 
   private ObjectId performExternalIdUpdate(Consumer<ExternalIdNotes> update) throws Exception {
     try (Repository repo = repoManager.openRepository(ALL_USERS)) {
       PersonIdent updater = new PersonIdent("Foo bar", "foo@bar.com");
-      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(ALL_USERS, repo);
+      ExternalIdNotes extIdNotes =
+          ExternalIdNotes.loadNoCacheUpdate(ALL_USERS, repo, externalIdFactory);
       update.accept(extIdNotes);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {

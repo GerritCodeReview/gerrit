@@ -42,12 +42,16 @@ class HttpsClientSslCertAuthFilter implements Filter {
 
   private final DynamicItem<WebSession> webSession;
   private final AccountManager accountManager;
+  private final AuthRequest.Factory authRequestFactory;
 
   @Inject
   HttpsClientSslCertAuthFilter(
-      final DynamicItem<WebSession> webSession, AccountManager accountManager) {
+      final DynamicItem<WebSession> webSession,
+      AccountManager accountManager,
+      final AuthRequest.Factory authRequestFactory) {
     this.webSession = webSession;
     this.accountManager = accountManager;
+    this.authRequestFactory = authRequestFactory;
   }
 
   @Override
@@ -70,7 +74,7 @@ class HttpsClientSslCertAuthFilter implements Filter {
     } else {
       throw new ServletException("Couldn't extract username from your certificate");
     }
-    final AuthRequest areq = AuthRequest.forUser(userName);
+    final AuthRequest areq = authRequestFactory.createForUser(userName);
     final AuthResult arsp;
     try {
       arsp = accountManager.authenticate(areq);

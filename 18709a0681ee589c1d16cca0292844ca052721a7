@@ -80,6 +80,30 @@
       },
       "revId": "18709a0681ee589c1d16cca0292844ca052721a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9309f131_c5fb45e4",
+        "filename": "contrib/find-duplicate-usernames.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-24T22:17:59Z",
+      "side": 1,
+      "message": "the example output is the content of the externalId notes and not the output of the script",
+      "parentUuid": "d05ff734_6bf0792d",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 6
+      },
+      "revId": "18709a0681ee589c1d16cca0292844ca052721a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,6 +20,7 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -42,12 +43,16 @@ class HttpsClientSslCertAuthFilter implements Filter {
 
   private final DynamicItem<WebSession> webSession;
   private final AccountManager accountManager;
+  private final AuthRequestFactory authRequestFactory;
 
   @Inject
   HttpsClientSslCertAuthFilter(
-      final DynamicItem<WebSession> webSession, AccountManager accountManager) {
+      final DynamicItem<WebSession> webSession,
+      AccountManager accountManager,
+      final AuthRequestFactory authRequestFactory) {
     this.webSession = webSession;
     this.accountManager = accountManager;
+    this.authRequestFactory = authRequestFactory;
   }
 
   @Override
@@ -70,7 +75,7 @@ class HttpsClientSslCertAuthFilter implements Filter {
     } else {
       throw new ServletException("Couldn't extract username from your certificate");
     }
-    final AuthRequest areq = AuthRequest.forUser(userName);
+    final AuthRequest areq = authRequestFactory.createForUser(userName);
     final AuthResult arsp;
     try {
       arsp = accountManager.authenticate(areq);

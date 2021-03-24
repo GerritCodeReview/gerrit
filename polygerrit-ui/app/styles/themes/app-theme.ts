@@ -86,6 +86,7 @@ const styleSheet = safeStyleSheet`
     --green-700-04: #1880380a;
     --green-700-10: #1880381a;
     --green-700-12: #1880381f;
+    --green-400: #5bb974;
     --green-300: #81c995;
     --green-200: #a8dab5;
     --green-50: #e6f4ea;

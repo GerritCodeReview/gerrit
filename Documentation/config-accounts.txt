@@ -298,6 +298,13 @@ for the external ID `username:jdoe` is `e0b751ae90ef039f320e097d7d212f490e933706
 This ensures that an external ID is used only once (e.g. an external ID can
 never be assigned to multiple accounts at a point in time).
 
+By default, the SHA-1 sum is computed preserving the case of the external ID. If
+auth.userNameCaseInsensitive` is set to `true`, the SHA-1 sum of external IDs
+in the `gerrit:` and `username:` schemes are computed from the all lowercase
+external ID. This enables case insensitive username handling. The case of the
+external ID is however preserved by using the original capitalization in the
+note content.
+
 The following commands show how to find the SHA-1 of an external ID:
 
 ----

@@ -106,6 +106,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Inject protected GroupIndexCollection indexes;
 
+  @Inject protected AuthRequest.Factory authRequestFactory;
+
   @Inject private GroupIndexCollection groupIndexes;
 
   protected LifecycleManager lifecycle;
@@ -395,9 +397,10 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   private Account.Id createAccountOutsideRequestContext(
       String username, String fullName, String email, boolean active) throws Exception {
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      Account.Id id = accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
+      Account.Id id =
+          accountManager.authenticate(authRequestFactory.createForUser(username)).getAccountId();
       if (email != null) {
-        accountManager.link(id, AuthRequest.forEmail(email));
+        accountManager.link(id, authRequestFactory.createForEmail(email));
       }
       accountsUpdate
           .get()

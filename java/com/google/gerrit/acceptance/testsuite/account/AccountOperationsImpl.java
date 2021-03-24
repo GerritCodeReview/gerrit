@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -42,13 +43,18 @@ public class AccountOperationsImpl implements AccountOperations {
   private final Accounts accounts;
   private final AccountsUpdate accountsUpdate;
   private final Sequences seq;
+  private final ExternalIdFactory externalIdFactory;
 
   @Inject
   public AccountOperationsImpl(
-      Accounts accounts, @ServerInitiated AccountsUpdate accountsUpdate, Sequences seq) {
+      Accounts accounts,
+      @ServerInitiated AccountsUpdate accountsUpdate,
+      Sequences seq,
+      ExternalIdFactory externalIdFactory) {
     this.accounts = accounts;
     this.accountsUpdate = accountsUpdate;
     this.seq = seq;
+    this.externalIdFactory = externalIdFactory;
   }
 
   @Override
@@ -75,7 +81,7 @@ public class AccountOperationsImpl implements AccountOperations {
     return accountsUpdate.insert("Create Test Account", accountId, accountUpdater);
   }
 
-  private static void fillBuilder(
+  private void fillBuilder(
       InternalAccountUpdate.Builder builder,
       TestAccountCreation accountCreation,
       Account.Id accountId) {
@@ -89,22 +95,23 @@ public class AccountOperationsImpl implements AccountOperations {
         .secondaryEmails()
         .forEach(
             secondaryEmail ->
-                builder.addExternalId(ExternalId.createEmail(accountId, secondaryEmail)));
+                builder.addExternalId(externalIdFactory.createEmail(accountId, secondaryEmail)));
   }
 
-  private static InternalAccountUpdate.Builder setPreferredEmail(
+  private InternalAccountUpdate.Builder setPreferredEmail(
       InternalAccountUpdate.Builder builder, Account.Id accountId, String preferredEmail) {
     return builder
         .setPreferredEmail(preferredEmail)
-        .addExternalId(ExternalId.createEmail(accountId, preferredEmail));
+        .addExternalId(externalIdFactory.createEmail(accountId, preferredEmail));
   }
 
-  private static InternalAccountUpdate.Builder setUsername(
+  private InternalAccountUpdate.Builder setUsername(
       InternalAccountUpdate.Builder builder,
       Account.Id accountId,
       String username,
       String httpPassword) {
-    return builder.addExternalId(ExternalId.createUsername(username, accountId, httpPassword));
+    return builder.addExternalId(
+        externalIdFactory.createUsername(username, accountId, httpPassword));
   }
 
   private class PerAccountOperationsImpl implements PerAccountOperations {
@@ -212,14 +219,14 @@ public class AccountOperationsImpl implements AccountOperations {
               .collect(toImmutableSet()));
       builder.addExternalIds(
           newSecondaryEmails.stream()
-              .map(secondaryEmail -> ExternalId.createEmail(accountId, secondaryEmail))
+              .map(secondaryEmail -> externalIdFactory.createEmail(accountId, secondaryEmail))
               .collect(toImmutableSet()));
       if (accountUpdate.preferredEmail().isPresent()) {
         builder.addExternalId(
-            ExternalId.createEmail(accountId, accountUpdate.preferredEmail().get()));
+            externalIdFactory.createEmail(accountId, accountUpdate.preferredEmail().get()));
       } else if (accountState.account().preferredEmail() != null) {
         builder.addExternalId(
-            ExternalId.createEmail(accountId, accountState.account().preferredEmail()));
+            externalIdFactory.createEmail(accountId, accountState.account().preferredEmail()));
       }
     }
 

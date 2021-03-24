@@ -32,8 +32,9 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
@@ -63,18 +64,24 @@ class OAuthSessionOverOpenID {
   private OAuthUserInfo user;
   private String redirectToken;
   private boolean linkMode;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
+  private final AuthRequest.Factory authRequestFactory;
 
   @Inject
   OAuthSessionOverOpenID(
       DynamicItem<WebSession> webSession,
       Provider<IdentifiedUser> identifiedUser,
       AccountManager accountManager,
-      CanonicalWebUrl urlProvider) {
+      CanonicalWebUrl urlProvider,
+      ExternalIdKeyFactory externalIdKeyFactory,
+      AuthRequest.Factory authRequestFactory) {
     this.state = generateRandomState();
     this.webSession = webSession;
     this.identifiedUser = identifiedUser;
     this.accountManager = accountManager;
     this.urlProvider = urlProvider;
+    this.externalIdKeyFactory = externalIdKeyFactory;
+    this.authRequestFactory = authRequestFactory;
   }
 
   boolean isLoggedIn() {
@@ -117,8 +124,7 @@ class OAuthSessionOverOpenID {
   private void authenticateAndRedirect(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     com.google.gerrit.server.account.AuthRequest areq =
-        new com.google.gerrit.server.account.AuthRequest(
-            ExternalId.Key.parse(user.getExternalId()));
+        authRequestFactory.create(externalIdKeyFactory.parse(user.getExternalId()));
     AuthResult arsp;
     try {
       String claimedIdentifier = user.getClaimedIdentity();

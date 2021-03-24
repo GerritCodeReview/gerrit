@@ -87,6 +87,8 @@ Log format:
 * `total_cpu`: total CPU time, CPU time in milliseconds to execute command.
 * `user_cpu`: user mode CPU time, CPU time in user mode in milliseconds to execute command.
   CPU time in kernel mode is `total_cpu - user_cpu`.
+* `memory`: memory allocated in bytes to execute command. -1 if the JVM does
+  not support this metric.
 
 The `git-upload-pack` command provides the following additional fields after the `exec`
 and before the `status` field. All times are in milliseconds. Fields are -1 if not available

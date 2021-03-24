@@ -65,6 +65,7 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -138,6 +139,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Inject protected AccountIndexCollection indexes;
 
   @Inject protected ExternalIds externalIds;
+
+  @Inject private ExternalIdKeyFactory externalIdKeyFactory;
+
+  @Inject protected AuthRequest.Factory authRequestFactory;
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
@@ -656,7 +661,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     List<AccountExternalIdInfo> externalIdInfos = gApi.accounts().self().getExternalIds();
     List<ByteArrayWrapper> blobs = new ArrayList<>();
     for (AccountExternalIdInfo info : externalIdInfos) {
-      Optional<ExternalId> extId = externalIds.get(ExternalId.Key.parse(info.identity));
+      Optional<ExternalId> extId = externalIds.get(externalIdKeyFactory.parse(info.identity));
       assertThat(extId).isPresent();
       blobs.add(new ByteArrayWrapper(extId.get().toByteArray()));
     }
@@ -769,9 +774,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   private Account.Id createAccount(String username, String fullName, String email, boolean active)
       throws Exception {
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      Account.Id id = accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
+      Account.Id id =
+          accountManager.authenticate(authRequestFactory.createForUser(username)).getAccountId();
       if (email != null) {
-        accountManager.link(id, AuthRequest.forEmail(email));
+        accountManager.link(id, authRequestFactory.createForEmail(email));
       }
       accountsUpdate
           .get()
@@ -788,7 +794,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   private void addEmails(AccountInfo account, String... emails) throws Exception {
     Account.Id id = Account.id(account._accountId);
     for (String email : emails) {
-      accountManager.link(id, AuthRequest.forEmail(email));
+      accountManager.link(id, authRequestFactory.createForEmail(email));
     }
     accountIndexer.index(id);
   }

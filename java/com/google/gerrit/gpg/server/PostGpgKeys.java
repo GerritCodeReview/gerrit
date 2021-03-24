@@ -53,6 +53,8 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
@@ -93,6 +95,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
   private final ExternalIds externalIds;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final RetryHelper retryHelper;
+  private final ExternalIdFactory externalIdFactory;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
   PostGpgKeys(
@@ -105,7 +109,9 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIds externalIds,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      ExternalIdFactory externalIdFactory,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.serverIdent = serverIdent;
     this.self = self;
     this.storeProvider = storeProvider;
@@ -116,6 +122,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     this.externalIds = externalIds;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.retryHelper = retryHelper;
+    this.externalIdFactory = externalIdFactory;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   @Override
@@ -140,7 +148,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
             throw new ResourceConflictException("GPG key already associated with another account");
           }
         } else {
-          newExtIds.add(ExternalId.create(extIdKey, rsrc.getUser().getAccountId()));
+          newExtIds.add(externalIdFactory.create(extIdKey, rsrc.getUser().getAccountId()));
         }
       }
 
@@ -287,7 +295,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
   }
 
   private ExternalId.Key toExtIdKey(byte[] fp) {
-    return ExternalId.Key.create(SCHEME_GPGKEY, BaseEncoding.base16().encode(fp));
+    return externalIdKeyFactory.create(SCHEME_GPGKEY, BaseEncoding.base16().encode(fp));
   }
 
   private Account getAccountByExternalId(ExternalId.Key extIdKey) {

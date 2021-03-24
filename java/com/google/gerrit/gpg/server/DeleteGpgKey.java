@@ -32,6 +32,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.inject.Inject;
@@ -53,6 +54,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final ExternalIds externalIds;
   private final DeleteKeySender.Factory deleteKeySenderFactory;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
   DeleteGpgKey(
@@ -60,12 +62,14 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       Provider<PublicKeyStore> storeProvider,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       ExternalIds externalIds,
-      DeleteKeySender.Factory deleteKeySenderFactory) {
+      DeleteKeySender.Factory deleteKeySenderFactory,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.serverIdent = serverIdent;
     this.storeProvider = storeProvider;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.externalIds = externalIds;
     this.deleteKeySenderFactory = deleteKeySenderFactory;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   @Override
@@ -73,7 +77,8 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       throws RestApiException, PGPException, IOException, ConfigInvalidException {
     PGPPublicKey key = rsrc.getKeyRing().getPublicKey();
     String fingerprint = BaseEncoding.base16().encode(key.getFingerprint());
-    Optional<ExternalId> extId = externalIds.get(ExternalId.Key.create(SCHEME_GPGKEY, fingerprint));
+    Optional<ExternalId> extId =
+        externalIds.get(externalIdKeyFactory.create(SCHEME_GPGKEY, fingerprint));
     if (!extId.isPresent()) {
       throw new ResourceNotFoundException(fingerprint);
     }

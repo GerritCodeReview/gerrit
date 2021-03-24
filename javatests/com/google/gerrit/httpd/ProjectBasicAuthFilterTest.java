@@ -32,8 +32,12 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.server.account.externalids.PasswordVerifier;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
@@ -60,12 +64,6 @@ public class ProjectBasicAuthFilterTest {
   private static final String AUTH_PASSWORD = "jd123";
   private static final String GERRIT_COOKIE_KEY = "GerritAccount";
   private static final String AUTH_COOKIE_VALUE = "gerritcookie";
-  private static final ExternalId AUTH_USER_PASSWORD_EXTERNAL_ID =
-      ExternalId.createWithPassword(
-          ExternalId.Key.create(ExternalId.SCHEME_USERNAME, AUTH_USER),
-          AUTH_ACCOUNT_ID,
-          null,
-          AUTH_PASSWORD);
 
   @Mock private DynamicItem<WebSession> webSessionItem;
 
@@ -91,18 +89,34 @@ public class ProjectBasicAuthFilterTest {
   private FakeHttpServletRequest req;
   private HttpServletResponse res;
   private AuthResult authSuccessful;
+  private ExternalIdFactory extIdFactory;
+  private ExternalIdKeyFactory extIdKeyFactory;
+  private PasswordVerifier pwdVerifier;
+  private AuthRequest.Factory authRequestFactory;
 
   @Before
   public void setUp() throws Exception {
     req = new FakeHttpServletRequest();
     res = new FakeHttpServletResponse();
 
+    extIdKeyFactory = new ExternalIdKeyFactory(authConfig);
+    extIdFactory = new ExternalIdFactory(extIdKeyFactory);
+    authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
+    pwdVerifier = new PasswordVerifier(extIdKeyFactory);
+
     authSuccessful =
-        new AuthResult(AUTH_ACCOUNT_ID, ExternalId.Key.create("username", AUTH_USER), false);
+        new AuthResult(AUTH_ACCOUNT_ID, extIdKeyFactory.create("username", AUTH_USER), false);
     doReturn(Optional.of(accountState)).when(accountCache).getByUsername(AUTH_USER);
     doReturn(Optional.of(accountState)).when(accountCache).get(AUTH_ACCOUNT_ID);
     doReturn(account).when(accountState).account();
-    doReturn(ImmutableSet.builder().add(AUTH_USER_PASSWORD_EXTERNAL_ID).build())
+
+    ExternalId authUserPasswordExternalId =
+        extIdFactory.createWithPassword(
+            extIdKeyFactory.create(ExternalId.SCHEME_USERNAME, AUTH_USER),
+            AUTH_ACCOUNT_ID,
+            null,
+            AUTH_PASSWORD);
+    doReturn(ImmutableSet.builder().add(authUserPasswordExternalId).build())
         .when(accountState)
         .externalIds();
 
@@ -137,7 +151,13 @@ public class ProjectBasicAuthFilterTest {
     res.setStatus(HttpServletResponse.SC_OK);
 
     ProjectBasicAuthFilter basicAuthFilter =
-        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            pwdVerifier);
 
     basicAuthFilter.doFilter(req, res, chain);
 
@@ -152,7 +172,13 @@ public class ProjectBasicAuthFilterTest {
     res.setStatus(HttpServletResponse.SC_OK);
 
     ProjectBasicAuthFilter basicAuthFilter =
-        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            pwdVerifier);
 
     basicAuthFilter.doFilter(req, res, chain);
 
@@ -172,7 +198,13 @@ public class ProjectBasicAuthFilterTest {
     doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
 
     ProjectBasicAuthFilter basicAuthFilter =
-        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            pwdVerifier);
 
     basicAuthFilter.doFilter(req, res, chain);
 
@@ -193,7 +225,13 @@ public class ProjectBasicAuthFilterTest {
     doReturn(GitBasicAuthPolicy.HTTP).when(authConfig).getGitBasicAuthPolicy();
 
     ProjectBasicAuthFilter basicAuthFilter =
-        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            pwdVerifier);
 
     basicAuthFilter.doFilter(req, res, chain);
 
@@ -212,7 +250,13 @@ public class ProjectBasicAuthFilterTest {
     res.setStatus(HttpServletResponse.SC_OK);
 
     ProjectBasicAuthFilter basicAuthFilter =
-        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            pwdVerifier);
 
     basicAuthFilter.doFilter(req, res, chain);
 
@@ -227,7 +271,13 @@ public class ProjectBasicAuthFilterTest {
     res.setStatus(HttpServletResponse.SC_OK);
 
     ProjectBasicAuthFilter basicAuthFilter =
-        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            pwdVerifier);
 
     basicAuthFilter.doFilter(req, res, chain);
 
@@ -246,7 +296,13 @@ public class ProjectBasicAuthFilterTest {
     doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
 
     ProjectBasicAuthFilter basicAuthFilter =
-        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            pwdVerifier);
 
     basicAuthFilter.doFilter(req, res, chain);
 

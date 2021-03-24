@@ -40,6 +40,8 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
@@ -63,6 +65,8 @@ public class EmailIT extends AbstractDaemonTest {
   @Inject private ExternalIds externalIds;
   @Inject private Provider<Emails> emails;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExternalIdFactory externalIdFactory;
+  @Inject private ExternalIdKeyFactory externalIdKeyFactory;
 
   @Test
   public void addEmail() throws Exception {
@@ -138,7 +142,7 @@ public class EmailIT extends AbstractDaemonTest {
             admin.id(),
             u ->
                 u.addExternalId(
-                    ExternalId.createWithEmail(
+                    externalIdFactory.createWithEmail(
                         ExternalId.SCHEME_EXTERNAL, "foo", admin.id(), email)));
     assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
 
@@ -182,7 +186,7 @@ public class EmailIT extends AbstractDaemonTest {
   public void setPreferredEmailToEmailFromCustomRealmThatDoesntExistAsExternalId()
       throws Exception {
     String email = "foo@example.com";
-    ExternalId.Key mailtoExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_MAILTO, email);
+    ExternalId.Key mailtoExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_MAILTO, email);
     assertThat(externalIds.get(mailtoExtIdKey)).isEmpty();
     assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
 
@@ -200,7 +204,7 @@ public class EmailIT extends AbstractDaemonTest {
 
   @Test
   public void setPreferredEmailToEmailFromCustomRealmThatBelongsToOtherAccount() throws Exception {
-    ExternalId mailToExtId = ExternalId.createEmail(user.id(), user.email());
+    ExternalId mailToExtId = externalIdFactory.createEmail(user.id(), user.email());
     assertThat(externalIds.get(mailToExtId.key())).isPresent();
 
     Context oldCtx =

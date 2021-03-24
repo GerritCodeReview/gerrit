@@ -57,6 +57,8 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   protected static final String P_STATUS = "status";
   protected static final String P_AGENT = "agent";
   protected static final String P_MESSAGE = "message";
+  protected static final String P_TOTAL_CPU = "totalCpu";
+  protected static final String P_USER_CPU = "userCpu";
 
   private final Provider<SshSession> session;
   private final Provider<Context> context;
@@ -178,6 +180,8 @@ class SshLog implements LifecycleListener, GerritConfigListener {
     final LoggingEvent event = log(cmd);
     event.setProperty(P_WAIT, ctx.getWait() + "ms");
     event.setProperty(P_EXEC, ctx.getExec() + "ms");
+    event.setProperty(P_TOTAL_CPU, ctx.getTotalCpu() + "ms");
+    event.setProperty(P_USER_CPU, ctx.getUserCpu() + "ms");
 
     final String status;
     switch (exitValue) {

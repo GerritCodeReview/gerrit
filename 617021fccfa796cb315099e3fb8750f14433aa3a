@@ -396,6 +396,24 @@
       "parentUuid": "f6a29274_ed035094",
       "revId": "617021fccfa796cb315099e3fb8750f14433aa3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f128dfc5_6e0fe4f7",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-24T13:18:08Z",
+      "side": 1,
+      "message": "They have been removed from master (by me), and it looks like you are adding them back.",
+      "parentUuid": "bf5f7079_06205ab2",
+      "revId": "617021fccfa796cb315099e3fb8750f14433aa3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -86,6 +86,11 @@ public final class SshLogLayout extends Layout {
     if (val != null) {
       buf.append(' ');
       buf.append(val);
+    } else {
+      String msg = (String) event.getMessage();
+      if (!(msg.startsWith("LOGIN") || msg.equals("LOGOUT"))) {
+        buf.append(" -");
+      }
     }
   }
 

@@ -414,6 +414,24 @@
       "parentUuid": "bf5f7079_06205ab2",
       "revId": "617021fccfa796cb315099e3fb8750f14433aa3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1789ce94_02f87d23",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-24T13:19:00Z",
+      "side": 1,
+      "message": "Sigh, looks like I should git checkout origin/master and not git checkout master when trying to revert a file ... sorry for not knowing how to hold this tool.",
+      "parentUuid": "bf5f7079_06205ab2",
+      "revId": "617021fccfa796cb315099e3fb8750f14433aa3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -33,6 +33,24 @@
       "message": "We call this method pretty much whenever the project config changes.\n\nI guess the reason is that the project index was retro-fitted and it seemed easy to just reindex whenever the cache evicts because that was a guarantee that we index when needed and no cases are missed.\n\nDoes that behavior cause issues for you? If so, we can be more fine-grained on when to reindex.",
       "revId": "c31b95155d82c92839550d338ba568e870480387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b1a8ab7_21bceca8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-24T00:04:08Z",
+      "side": 1,
+      "message": "\u003e We call this method pretty much whenever the project config changes.\n\u003e \n\u003e I guess the reason is that the project index was retro-fitted and it seemed easy to just reindex whenever the cache evicts because that was a guarantee that we index when needed and no cases are missed.\n\u003e \n\u003e Does that behavior cause issues for you? If so, we can be more fine-grained on when to reindex.\n\nNot necessarily, it was mainly a question because of a change in the high-availability plugin that was calling the ProjectCacheImpl.evict rather than evicting directly from the cache.\n\nThe only difference between the two was the call to reindex, which the high-availability plugin does anyway but in a separate phase.\n\nP.S. Evicting a project entry is a pretty cheap operation, but reindexing a project is very expensive. It would still make sense IMHO to reindex when it is really needed.",
+      "parentUuid": "f8561427_384254be",
+      "revId": "c31b95155d82c92839550d338ba568e870480387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

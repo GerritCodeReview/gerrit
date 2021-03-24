@@ -46,7 +46,9 @@ public class ExternalIdTestUtil {
         rw,
         ident,
         (ins, noteMap) -> {
-          ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), accountId);
+          ExternalId extId =
+              ExternalId.create(
+                  ExternalId.Key.parse(externalId, false), accountId, null, null, null);
           ObjectId noteId = ExternalIdNotes.computeNoteId(extId.key());
           Config c = new Config();
           extId.writeToConfig(c);
@@ -66,8 +68,11 @@ public class ExternalIdTestUtil {
         rw,
         ident,
         (ins, noteMap) -> {
-          ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), accountId);
-          ObjectId noteId = ExternalIdNotes.computeNoteId(ExternalId.Key.parse(externalId + "x"));
+          ExternalId extId =
+              ExternalId.create(
+                  ExternalId.Key.parse(externalId, false), accountId, null, null, null);
+          ObjectId noteId =
+              ExternalIdNotes.computeNoteId(ExternalId.Key.parse(externalId + "x", false));
           Config c = new Config();
           extId.writeToConfig(c);
           byte[] raw = c.toText().getBytes(UTF_8);
@@ -84,7 +89,7 @@ public class ExternalIdTestUtil {
         rw,
         ident,
         (ins, noteMap) -> {
-          ObjectId noteId = ExternalIdNotes.computeNoteId(ExternalId.Key.parse(externalId));
+          ObjectId noteId = ExternalIdNotes.computeNoteId(ExternalId.Key.parse(externalId, false));
           byte[] raw = "bad-config".getBytes(UTF_8);
           ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
           noteMap.set(noteId, dataBlob);
@@ -99,7 +104,7 @@ public class ExternalIdTestUtil {
         rw,
         ident,
         (ins, noteMap) -> {
-          ObjectId noteId = ExternalIdNotes.computeNoteId(ExternalId.Key.parse(externalId));
+          ObjectId noteId = ExternalIdNotes.computeNoteId(ExternalId.Key.parse(externalId, false));
           byte[] raw = "".getBytes(UTF_8);
           ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
           noteMap.set(noteId, dataBlob);

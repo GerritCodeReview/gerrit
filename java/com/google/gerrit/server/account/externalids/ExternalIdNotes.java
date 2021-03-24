@@ -53,6 +53,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -124,6 +125,7 @@ public class ExternalIdNotes extends VersionedMetaData {
     private final Provider<AccountIndexer> accountIndexer;
     private final MetricMaker metricMaker;
     private final AllUsersName allUsersName;
+    private final ExternalIdFactory externalIdFactory;
 
     @Inject
     Factory(
@@ -131,12 +133,14 @@ public class ExternalIdNotes extends VersionedMetaData {
         AccountCache accountCache,
         Provider<AccountIndexer> accountIndexer,
         MetricMaker metricMaker,
-        AllUsersName allUsersName) {
+        AllUsersName allUsersName,
+        ExternalIdFactory externalIdFactory) {
       this.externalIdCache = externalIdCache;
       this.accountCache = accountCache;
       this.accountIndexer = accountIndexer;
       this.metricMaker = metricMaker;
       this.allUsersName = allUsersName;
+      this.externalIdFactory = externalIdFactory;
     }
 
     @Override
@@ -148,7 +152,8 @@ public class ExternalIdNotes extends VersionedMetaData {
               accountIndexer,
               metricMaker,
               allUsersName,
-              allUsersRepo)
+              allUsersRepo,
+              externalIdFactory)
           .load();
     }
 
@@ -161,7 +166,8 @@ public class ExternalIdNotes extends VersionedMetaData {
               accountIndexer,
               metricMaker,
               allUsersName,
-              allUsersRepo)
+              allUsersRepo,
+              externalIdFactory)
           .load(rev);
     }
   }
@@ -171,20 +177,31 @@ public class ExternalIdNotes extends VersionedMetaData {
     private final ExternalIdCache externalIdCache;
     private final MetricMaker metricMaker;
     private final AllUsersName allUsersName;
+    private final ExternalIdFactory externalIdFactory;
 
     @Inject
     FactoryNoReindex(
-        ExternalIdCache externalIdCache, MetricMaker metricMaker, AllUsersName allUsersName) {
+        ExternalIdCache externalIdCache,
+        MetricMaker metricMaker,
+        AllUsersName allUsersName,
+        ExternalIdFactory externalIdFactory) {
       this.externalIdCache = externalIdCache;
       this.metricMaker = metricMaker;
       this.allUsersName = allUsersName;
+      this.externalIdFactory = externalIdFactory;
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(
-              externalIdCache, null, null, metricMaker, allUsersName, allUsersRepo)
+              externalIdCache,
+              null,
+              null,
+              metricMaker,
+              allUsersName,
+              allUsersRepo,
+              externalIdFactory)
           .load();
     }
 
@@ -192,7 +209,13 @@ public class ExternalIdNotes extends VersionedMetaData {
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
       return new ExternalIdNotes(
-              externalIdCache, null, null, metricMaker, allUsersName, allUsersRepo)
+              externalIdCache,
+              null,
+              null,
+              metricMaker,
+              allUsersName,
+              allUsersRepo,
+              externalIdFactory)
           .load(rev);
     }
   }
@@ -203,7 +226,8 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * @return read-only {@link ExternalIdNotes} instance
    */
-  public static ExternalIdNotes loadReadOnly(AllUsersName allUsersName, Repository allUsersRepo)
+  public static ExternalIdNotes loadReadOnly(
+      AllUsersName allUsersName, Repository allUsersRepo, ExternalIdFactory externalIdFactory)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(
             new DisabledExternalIdCache(),
@@ -211,7 +235,8 @@ public class ExternalIdNotes extends VersionedMetaData {
             null,
             new DisabledMetricMaker(),
             allUsersName,
-            allUsersRepo)
+            allUsersRepo,
+            externalIdFactory)
         .setReadOnly()
         .load();
   }
@@ -227,7 +252,10 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @return read-only {@link ExternalIdNotes} instance
    */
   public static ExternalIdNotes loadReadOnly(
-      AllUsersName allUsersName, Repository allUsersRepo, @Nullable ObjectId rev)
+      AllUsersName allUsersName,
+      Repository allUsersRepo,
+      @Nullable ObjectId rev,
+      ExternalIdFactory externalIdFactory)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(
             new DisabledExternalIdCache(),
@@ -235,7 +263,8 @@ public class ExternalIdNotes extends VersionedMetaData {
             null,
             new DisabledMetricMaker(),
             allUsersName,
-            allUsersRepo)
+            allUsersRepo,
+            externalIdFactory)
         .setReadOnly()
         .load(rev);
   }
@@ -251,7 +280,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @return {@link ExternalIdNotes} instance that doesn't updates caches on save
    */
   public static ExternalIdNotes loadNoCacheUpdate(
-      AllUsersName allUsersName, Repository allUsersRepo)
+      AllUsersName allUsersName, Repository allUsersRepo, ExternalIdFactory externalIdFactory)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(
             new DisabledExternalIdCache(),
@@ -259,7 +288,8 @@ public class ExternalIdNotes extends VersionedMetaData {
             null,
             new DisabledMetricMaker(),
             allUsersName,
-            allUsersRepo)
+            allUsersRepo,
+            externalIdFactory)
         .load();
   }
 
@@ -270,6 +300,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   private final Counter0 updateCount;
   private final Repository repo;
   private final CallerFinder callerFinder;
+  private final ExternalIdFactory externalIdFactory;
 
   private NoteMap noteMap;
   private ObjectId oldRev;
@@ -289,7 +320,8 @@ public class ExternalIdNotes extends VersionedMetaData {
       @Nullable Provider<AccountIndexer> accountIndexer,
       MetricMaker metricMaker,
       AllUsersName allUsersName,
-      Repository allUsersRepo) {
+      Repository allUsersRepo,
+      ExternalIdFactory externalIdFactory) {
     this.externalIdCache = requireNonNull(externalIdCache, "externalIdCache");
     this.accountCache = accountCache;
     this.accountIndexer = accountIndexer;
@@ -312,6 +344,7 @@ public class ExternalIdNotes extends VersionedMetaData {
             // 3. direct callers
             .addTarget(ExternalIdNotes.class)
             .build();
+    this.externalIdFactory = externalIdFactory;
   }
 
   public ExternalIdNotes setAfterReadRevision(Runnable afterReadRevision) {
@@ -381,7 +414,7 @@ public class ExternalIdNotes extends VersionedMetaData {
     try (RevWalk rw = new RevWalk(repo)) {
       ObjectId noteDataId = noteMap.get(noteId);
       byte[] raw = readNoteData(rw, noteDataId);
-      return Optional.of(ExternalId.parse(noteId.name(), raw, noteDataId));
+      return Optional.of(externalIdFactory.parse(noteId.name(), raw, noteDataId));
     }
   }
 
@@ -415,7 +448,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       for (Note note : noteMap) {
         byte[] raw = readNoteData(rw, note.getData());
         try {
-          b.add(ExternalId.parse(note.getName(), raw, note.getData()));
+          b.add(externalIdFactory.parse(note.getName(), raw, note.getData()));
         } catch (ConfigInvalidException | RuntimeException e) {
           logger.atSevere().withCause(e).log(
               "Ignoring invalid external ID note %s", note.getName());
@@ -702,7 +735,8 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * <p>Must only be called after committing changes.
    *
-   * <p>No-op if this instance was created by {@link #loadNoCacheUpdate(AllUsersName, Repository)}.
+   * <p>No-op if this instance was created by {@link #loadNoCacheUpdate(AllUsersName, Repository,
+   * ExternalIdFactory)}.
    *
    * <p>No eviction from account cache and no reindex if this instance was created by {@link
    * FactoryNoReindex}.
@@ -717,7 +751,8 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * <p>Must only be called after committing changes.
    *
-   * <p>No-op if this instance was created by {@link #loadNoCacheUpdate(AllUsersName, Repository)}.
+   * <p>No-op if this instance was created by {@link #loadNoCacheUpdate(AllUsersName, Repository,
+   * ExternalIdFactory)}.
    *
    * <p>No eviction from account cache if this instance was created by {@link FactoryNoReindex}.
    *
@@ -836,7 +871,11 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
   public static ObjectId computeNoteId(ExternalId.Key key) {
-    return ObjectId.fromRaw(Hashing.sha1().hashString(key.get(), UTF_8).asBytes());
+    String keyString = key.get();
+    if (key.isCaseInsensitive()) {
+      keyString = keyString.toLowerCase(Locale.US);
+    }
+    return ObjectId.fromRaw(Hashing.sha1().hashString(keyString, UTF_8).asBytes());
   }
 
   /**
@@ -844,7 +883,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * <p>If the external ID already exists it is overwritten.
    */
-  private static ExternalId upsert(
+  private ExternalId upsert(
       RevWalk rw, ObjectInserter ins, NoteMap noteMap, Set<String> footers, ExternalId extId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = computeNoteId(extId.key());
@@ -854,7 +893,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       byte[] raw = readNoteData(rw, noteDataId);
       try {
         c = new BlobBasedConfig(null, raw);
-        ExternalId oldExtId = ExternalId.parse(noteId.name(), c, noteDataId);
+        ExternalId oldExtId = externalIdFactory.parse(noteId.name(), c, noteDataId);
         addFooters(footers, oldExtId);
       } catch (ConfigInvalidException e) {
         throw new ConfigInvalidException(
@@ -876,8 +915,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @throws IllegalStateException is thrown if there is an existing external ID that has the same
    *     key, but otherwise doesn't match the specified external ID.
    */
-  private static ExternalId remove(
-      RevWalk rw, NoteMap noteMap, Set<String> footers, ExternalId extId)
+  private ExternalId remove(RevWalk rw, NoteMap noteMap, Set<String> footers, ExternalId extId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = computeNoteId(extId.key());
     if (!noteMap.contains(noteId)) {
@@ -886,7 +924,7 @@ public class ExternalIdNotes extends VersionedMetaData {
 
     ObjectId noteDataId = noteMap.get(noteId);
     byte[] raw = readNoteData(rw, noteDataId);
-    ExternalId actualExtId = ExternalId.parse(noteId.name(), raw, noteDataId);
+    ExternalId actualExtId = externalIdFactory.parse(noteId.name(), raw, noteDataId);
     checkState(
         extId.equals(actualExtId),
         "external id %s should be removed, but it doesn't match the actual external id %s",
@@ -905,7 +943,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @return the external ID that was removed, {@code null} if no external ID with the specified key
    *     exists
    */
-  private static ExternalId remove(
+  private ExternalId remove(
       RevWalk rw,
       NoteMap noteMap,
       Set<String> footers,
@@ -919,7 +957,7 @@ public class ExternalIdNotes extends VersionedMetaData {
 
     ObjectId noteDataId = noteMap.get(noteId);
     byte[] raw = readNoteData(rw, noteDataId);
-    ExternalId extId = ExternalId.parse(noteId.name(), raw, noteDataId);
+    ExternalId extId = externalIdFactory.parse(noteId.name(), raw, noteDataId);
     if (expectedAccountId != null) {
       checkState(
           expectedAccountId.equals(extId.accountId()),

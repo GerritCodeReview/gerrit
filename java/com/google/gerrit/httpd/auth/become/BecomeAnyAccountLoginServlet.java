@@ -31,7 +31,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
@@ -62,6 +62,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final AccountManager accountManager;
   private final SiteHeaderFooter headers;
   private final Provider<InternalAccountQuery> queryProvider;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
+  private final AuthRequest.Factory authRequestFactory;
 
   @Inject
   BecomeAnyAccountLoginServlet(
@@ -70,13 +72,17 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       AccountCache ac,
       AccountManager am,
       SiteHeaderFooter shf,
-      Provider<InternalAccountQuery> qp) {
+      Provider<InternalAccountQuery> qp,
+      ExternalIdKeyFactory eikf,
+      AuthRequest.Factory arf) {
     webSession = ws;
     accounts = a;
     accountCache = ac;
     accountManager = am;
     headers = shf;
     queryProvider = qp;
+    externalIdKeyFactory = eikf;
+    authRequestFactory = arf;
   }
 
   @Override
@@ -220,7 +226,8 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private AuthResult create() throws IOException {
     try {
       return accountManager.authenticate(
-          new AuthRequest(ExternalId.Key.create(SCHEME_UUID, UUID.randomUUID().toString())));
+          authRequestFactory.create(
+              externalIdKeyFactory.create(SCHEME_UUID, UUID.randomUUID().toString())));
     } catch (AccountException e) {
       getServletContext().log("cannot create new account", e);
       return null;

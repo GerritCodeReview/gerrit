@@ -29,7 +29,11 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.account.externalids.ExternalId;
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
 import com.google.gerrit.server.group.db.GroupDelta;
+=======
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
@@ -52,18 +56,21 @@ public class AccountCreator {
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final GroupCache groupCache;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
+  private final ExternalIdFactory externalIdFactory;
 
   @Inject
   AccountCreator(
       Sequences sequences,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       GroupCache groupCache,
-      @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
+      @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
+      ExternalIdFactory externalIdFactory) {
     accounts = new HashMap<>();
     this.sequences = sequences;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.groupCache = groupCache;
     this.groupsUpdateProvider = groupsUpdateProvider;
+    this.externalIdFactory = externalIdFactory;
   }
 
   public synchronized TestAccount create(
@@ -84,11 +91,11 @@ public class AccountCreator {
     String httpPass = null;
     if (username != null) {
       httpPass = "http-pass";
-      extIds.add(ExternalId.createUsername(username, id, httpPass));
+      extIds.add(externalIdFactory.createUsername(username, id, httpPass));
     }
 
     if (email != null) {
-      extIds.add(ExternalId.createEmail(id, email));
+      extIds.add(externalIdFactory.createEmail(id, email));
     }
 
     accountsUpdateProvider

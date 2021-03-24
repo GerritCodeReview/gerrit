@@ -185,60 +185,168 @@ public class ExternalIdNotes extends VersionedMetaData {
   public static class Factory extends ExternalIdNotesLoader {
 
     private final Provider<AccountIndexer> accountIndexer;
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
+=======
+    private final MetricMaker metricMaker;
+    private final AllUsersName allUsersName;
+    private final ExternalIdFactory externalIdFactory;
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
 
     @Inject
     Factory(
         ExternalIdCache externalIdCache,
         Provider<AccountIndexer> accountIndexer,
         MetricMaker metricMaker,
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
         AllUsersName allUsersName) {
       super(externalIdCache, metricMaker, allUsersName);
+=======
+        AllUsersName allUsersName,
+        ExternalIdFactory externalIdFactory) {
+      this.externalIdCache = externalIdCache;
+      this.accountCache = accountCache;
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
       this.accountIndexer = accountIndexer;
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
+=======
+      this.metricMaker = metricMaker;
+      this.allUsersName = allUsersName;
+      this.externalIdFactory = externalIdFactory;
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
       return new ExternalIdNotes(metricMaker, allUsersName, allUsersRepo).load();
+=======
+      return new ExternalIdNotes(
+              externalIdCache,
+              accountCache,
+              accountIndexer,
+              metricMaker,
+              allUsersName,
+              allUsersRepo,
+              externalIdFactory)
+          .load();
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
       return new ExternalIdNotes(metricMaker, allUsersName, allUsersRepo).load(rev);
     }
 
     @Override
     protected void reindexAccount(Account.Id id) {
       accountIndexer.get().index(id);
+=======
+      return new ExternalIdNotes(
+              externalIdCache,
+              accountCache,
+              accountIndexer,
+              metricMaker,
+              allUsersName,
+              allUsersRepo,
+              externalIdFactory)
+          .load(rev);
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
     }
   }
 
   @Singleton
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
   public static class FactoryNoReindex extends ExternalIdNotesLoader {
+=======
+  public static class FactoryNoReindex implements ExternalIdNotesLoader {
+    private final ExternalIdCache externalIdCache;
+    private final MetricMaker metricMaker;
+    private final AllUsersName allUsersName;
+    private final ExternalIdFactory externalIdFactory;
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
 
     @Inject
     FactoryNoReindex(
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
         ExternalIdCache externalIdCache, MetricMaker metricMaker, AllUsersName allUsersName) {
       super(externalIdCache, metricMaker, allUsersName);
+=======
+        ExternalIdCache externalIdCache,
+        MetricMaker metricMaker,
+        AllUsersName allUsersName,
+        ExternalIdFactory externalIdFactory) {
+      this.externalIdCache = externalIdCache;
+      this.metricMaker = metricMaker;
+      this.allUsersName = allUsersName;
+      this.externalIdFactory = externalIdFactory;
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
       return new ExternalIdNotes(metricMaker, allUsersName, allUsersRepo).setNoReindex().load();
+=======
+      return new ExternalIdNotes(
+              externalIdCache,
+              null,
+              null,
+              metricMaker,
+              allUsersName,
+              allUsersRepo,
+              externalIdFactory)
+          .load();
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
       return new ExternalIdNotes(metricMaker, allUsersName, allUsersRepo).setNoReindex().load(rev);
+=======
+      return new ExternalIdNotes(
+              externalIdCache,
+              null,
+              null,
+              metricMaker,
+              allUsersName,
+              allUsersRepo,
+              externalIdFactory)
+          .load(rev);
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
     }
 
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
     @Override
     protected void reindexAccount(Account.Id id) {
       // Do not reindex.
     }
+=======
+  /**
+   * Loads the external ID notes for reading only. The external ID notes are loaded from the current
+   * tip of the {@code refs/meta/external-ids} branch.
+   *
+   * @return read-only {@link ExternalIdNotes} instance
+   */
+  public static ExternalIdNotes loadReadOnly(
+      AllUsersName allUsersName, Repository allUsersRepo, ExternalIdFactory externalIdFactory)
+      throws IOException, ConfigInvalidException {
+    return new ExternalIdNotes(
+            new DisabledExternalIdCache(),
+            null,
+            null,
+            new DisabledMetricMaker(),
+            allUsersName,
+            allUsersRepo,
+            externalIdFactory)
+        .setReadOnly()
+        .load();
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
   }
 
   /**
@@ -252,9 +360,23 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @return read-only {@link ExternalIdNotes} instance
    */
   public static ExternalIdNotes loadReadOnly(
-      AllUsersName allUsersName, Repository allUsersRepo, @Nullable ObjectId rev)
+      AllUsersName allUsersName,
+      Repository allUsersRepo,
+      @Nullable ObjectId rev,
+      ExternalIdFactory externalIdFactory)
       throws IOException, ConfigInvalidException {
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
     return new ExternalIdNotes(new DisabledMetricMaker(), allUsersName, allUsersRepo)
+=======
+    return new ExternalIdNotes(
+            new DisabledExternalIdCache(),
+            null,
+            null,
+            new DisabledMetricMaker(),
+            allUsersName,
+            allUsersRepo,
+            externalIdFactory)
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
         .setReadOnly()
         .setNoCacheUpdate()
         .setNoReindex()
@@ -272,11 +394,22 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @return {@link ExternalIdNotes} instance that doesn't updates caches on save
    */
   public static ExternalIdNotes loadNoCacheUpdate(
-      AllUsersName allUsersName, Repository allUsersRepo)
+      AllUsersName allUsersName, Repository allUsersRepo, ExternalIdFactory externalIdFactory)
       throws IOException, ConfigInvalidException {
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
     return new ExternalIdNotes(new DisabledMetricMaker(), allUsersName, allUsersRepo)
         .setNoCacheUpdate()
         .setNoReindex()
+=======
+    return new ExternalIdNotes(
+            new DisabledExternalIdCache(),
+            null,
+            null,
+            new DisabledMetricMaker(),
+            allUsersName,
+            allUsersRepo,
+            externalIdFactory)
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
         .load();
   }
 
@@ -284,6 +417,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   private final Counter0 updateCount;
   private final Repository repo;
   private final CallerFinder callerFinder;
+  private final ExternalIdFactory externalIdFactory;
 
   private NoteMap noteMap;
   private ObjectId oldRev;
@@ -300,7 +434,20 @@ public class ExternalIdNotes extends VersionedMetaData {
   private boolean noReindex = false;
 
   private ExternalIdNotes(
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
       MetricMaker metricMaker, AllUsersName allUsersName, Repository allUsersRepo) {
+=======
+      ExternalIdCache externalIdCache,
+      @Nullable AccountCache accountCache,
+      @Nullable Provider<AccountIndexer> accountIndexer,
+      MetricMaker metricMaker,
+      AllUsersName allUsersName,
+      Repository allUsersRepo,
+      ExternalIdFactory externalIdFactory) {
+    this.externalIdCache = requireNonNull(externalIdCache, "externalIdCache");
+    this.accountCache = accountCache;
+    this.accountIndexer = accountIndexer;
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
     this.updateCount =
         metricMaker.newCounter(
             "notedb/external_id_update_count",
@@ -320,6 +467,7 @@ public class ExternalIdNotes extends VersionedMetaData {
             // 3. direct callers
             .addTarget(ExternalIdNotes.class)
             .build();
+    this.externalIdFactory = externalIdFactory;
   }
 
   public ExternalIdNotes setAfterReadRevision(Runnable afterReadRevision) {
@@ -399,7 +547,7 @@ public class ExternalIdNotes extends VersionedMetaData {
     try (RevWalk rw = new RevWalk(repo)) {
       ObjectId noteDataId = noteMap.get(noteId);
       byte[] raw = readNoteData(rw, noteDataId);
-      return Optional.of(ExternalId.parse(noteId.name(), raw, noteDataId));
+      return Optional.of(externalIdFactory.parse(noteId.name(), raw, noteDataId));
     }
   }
 
@@ -433,7 +581,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       for (Note note : noteMap) {
         byte[] raw = readNoteData(rw, note.getData());
         try {
-          b.add(ExternalId.parse(note.getName(), raw, note.getData()));
+          b.add(externalIdFactory.parse(note.getName(), raw, note.getData()));
         } catch (ConfigInvalidException | RuntimeException e) {
           logger.atSevere().withCause(e).log(
               "Ignoring invalid external ID note %s", note.getName());
@@ -714,6 +862,71 @@ public class ExternalIdNotes extends VersionedMetaData {
     return commit;
   }
 
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
+=======
+  /**
+   * Updates the caches (external ID cache, account cache) and reindexes the accounts for which
+   * external IDs were modified.
+   *
+   * <p>Must only be called after committing changes.
+   *
+   * <p>No-op if this instance was created by {@link #loadNoCacheUpdate(AllUsersName, Repository,
+   * ExternalIdFactory)}.
+   *
+   * <p>No eviction from account cache and no reindex if this instance was created by {@link
+   * FactoryNoReindex}.
+   */
+  public void updateCaches() throws IOException {
+    updateCaches(ImmutableSet.of());
+  }
+
+  /**
+   * Updates the caches (external ID cache, account cache) and reindexes the accounts for which
+   * external IDs were modified.
+   *
+   * <p>Must only be called after committing changes.
+   *
+   * <p>No-op if this instance was created by {@link #loadNoCacheUpdate(AllUsersName, Repository,
+   * ExternalIdFactory)}.
+   *
+   * <p>No eviction from account cache if this instance was created by {@link FactoryNoReindex}.
+   *
+   * @param accountsToSkip set of accounts that should not be evicted from the account cache, in
+   *     this case the caller must take care to evict them otherwise
+   */
+  public void updateCaches(Collection<Account.Id> accountsToSkip) throws IOException {
+    checkState(oldRev != null, "no changes committed yet");
+
+    ExternalIdCacheUpdates externalIdCacheUpdates = new ExternalIdCacheUpdates();
+    for (CacheUpdate cacheUpdate : cacheUpdates) {
+      cacheUpdate.execute(externalIdCacheUpdates);
+    }
+
+    externalIdCache.onReplace(
+        oldRev,
+        getRevision(),
+        externalIdCacheUpdates.getRemoved(),
+        externalIdCacheUpdates.getAdded());
+
+    if (accountCache != null || accountIndexer != null) {
+      for (Account.Id id :
+          Streams.concat(
+                  externalIdCacheUpdates.getAdded().stream(),
+                  externalIdCacheUpdates.getRemoved().stream())
+              .map(ExternalId::accountId)
+              .filter(i -> !accountsToSkip.contains(i))
+              .collect(toSet())) {
+        if (accountIndexer != null) {
+          accountIndexer.get().index(id);
+        }
+      }
+    }
+
+    cacheUpdates.clear();
+    oldRev = null;
+  }
+
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkState(!readOnly, "Updating external IDs is disabled");
@@ -793,7 +1006,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * <p>If the external ID already exists it is overwritten.
    */
-  private static ExternalId upsert(
+  private ExternalId upsert(
       RevWalk rw, ObjectInserter ins, NoteMap noteMap, Set<String> footers, ExternalId extId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extId.key().sha1();
@@ -803,7 +1016,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       byte[] raw = readNoteData(rw, noteDataId);
       try {
         c = new BlobBasedConfig(null, raw);
-        ExternalId oldExtId = ExternalId.parse(noteId.name(), c, noteDataId);
+        ExternalId oldExtId = externalIdFactory.parse(noteId.name(), c, noteDataId);
         addFooters(footers, oldExtId);
       } catch (ConfigInvalidException e) {
         throw new ConfigInvalidException(
@@ -825,7 +1038,11 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @throws IllegalStateException is thrown if there is an existing external ID that has the same
    *     key, but otherwise doesn't match the specified external ID.
    */
+<<<<<<< HEAD   (7593a2 Merge "Remove duplicate entries for renamed files")
   private static void remove(RevWalk rw, NoteMap noteMap, Set<String> footers, ExternalId extId)
+=======
+  private ExternalId remove(RevWalk rw, NoteMap noteMap, Set<String> footers, ExternalId extId)
+>>>>>>> CHANGE (746ac5 Add auth.userNameCaseInsensitive option)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extId.key().sha1();
     if (!noteMap.contains(noteId)) {
@@ -834,7 +1051,7 @@ public class ExternalIdNotes extends VersionedMetaData {
 
     ObjectId noteDataId = noteMap.get(noteId);
     byte[] raw = readNoteData(rw, noteDataId);
-    ExternalId actualExtId = ExternalId.parse(noteId.name(), raw, noteDataId);
+    ExternalId actualExtId = externalIdFactory.parse(noteId.name(), raw, noteDataId);
     checkState(
         extId.equals(actualExtId),
         "external id %s should be removed, but it doesn't match the actual external id %s",
@@ -852,7 +1069,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @return the external ID that was removed, {@code null} if no external ID with the specified key
    *     exists
    */
-  private static ExternalId remove(
+  private ExternalId remove(
       RevWalk rw,
       NoteMap noteMap,
       Set<String> footers,
@@ -866,7 +1083,7 @@ public class ExternalIdNotes extends VersionedMetaData {
 
     ObjectId noteDataId = noteMap.get(noteId);
     byte[] raw = readNoteData(rw, noteDataId);
-    ExternalId extId = ExternalId.parse(noteId.name(), raw, noteDataId);
+    ExternalId extId = externalIdFactory.parse(noteId.name(), raw, noteDataId);
     if (expectedAccountId != null) {
       checkState(
           expectedAccountId.equals(extId.accountId()),

@@ -75,6 +75,10 @@ public class WebModule extends LifecycleModule {
     listener().toInstance(registerInParentInjectors());
 
     install(UniversalWebLoginFilter.module());
+
+    // Static injection was unfortunately the best solution in this place. However, it is to be
+    // avoided if possible.
+    requestStaticInjection(WebSessionManager.Val.class);
   }
 
   private void installAuthModule() {

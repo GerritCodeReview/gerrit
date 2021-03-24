@@ -22,6 +22,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
@@ -49,6 +50,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
   @Inject private AllUsersName allUsersName;
   @Inject private Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory;
   @Inject private ExternalIdNotes.FactoryNoReindex externalIdNotesFactory;
+  @Inject private ExternalIdFactory externalIdFactory;
   @Inject private ExternalIds externalIds;
 
   @Override
@@ -102,7 +104,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
       String localUserLowerCase = localUser.toLowerCase(Locale.US);
       if (!localUser.equals(localUserLowerCase)) {
         ExternalId extIdLowerCase =
-            ExternalId.create(
+            externalIdFactory.create(
                 SCHEME_GERRIT,
                 localUserLowerCase,
                 extId.accountId(),

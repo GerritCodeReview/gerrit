@@ -28,7 +28,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -92,6 +92,8 @@ class OpenIdServiceImpl {
   private final ConsumerManager manager;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
   private final List<String> openIdDomains;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
+  private final com.google.gerrit.server.account.AuthRequest.Factory authRequestFactory;
 
   /** Maximum age, in seconds, before forcing re-authentication of account. */
   private final int papeMaxAuthAge;
@@ -104,7 +106,9 @@ class OpenIdServiceImpl {
       @GerritServerConfig Config config,
       AuthConfig ac,
       AccountManager am,
-      ProxyProperties proxyProperties) {
+      ProxyProperties proxyProperties,
+      ExternalIdKeyFactory externalIdKeyFactory,
+      com.google.gerrit.server.account.AuthRequest.Factory authRequestFactory) {
 
     if (proxyProperties.getProxyUrl() != null) {
       final org.openid4java.util.ProxyProperties proxy = new org.openid4java.util.ProxyProperties();
@@ -132,6 +136,8 @@ class OpenIdServiceImpl {
                 "maxOpenIdSessionAge",
                 -1,
                 TimeUnit.SECONDS);
+    this.externalIdKeyFactory = externalIdKeyFactory;
+    this.authRequestFactory = authRequestFactory;
   }
 
   @SuppressWarnings("unchecked")
@@ -310,7 +316,7 @@ class OpenIdServiceImpl {
     }
 
     final com.google.gerrit.server.account.AuthRequest areq =
-        new com.google.gerrit.server.account.AuthRequest(ExternalId.Key.parse(openidIdentifier));
+        authRequestFactory.create(externalIdKeyFactory.parse(openidIdentifier));
 
     if (sregRsp != null) {
       areq.setDisplayName(sregRsp.getAttributeValue("fullname"));
@@ -388,8 +394,7 @@ class OpenIdServiceImpl {
         // was missing due to a bug in Gerrit. Link the claimed.
         //
         final com.google.gerrit.server.account.AuthRequest linkReq =
-            new com.google.gerrit.server.account.AuthRequest(
-                ExternalId.Key.parse(claimedIdentifier));
+            authRequestFactory.create(externalIdKeyFactory.parse(claimedIdentifier));
         linkReq.setDisplayName(areq.getDisplayName());
         linkReq.setEmailAddress(areq.getEmailAddress());
         accountManager.link(actualId.get(), linkReq);
@@ -425,8 +430,7 @@ class OpenIdServiceImpl {
           webSession.get().login(arsp, remember);
           if (arsp.isNew() && claimedIdentifier != null) {
             final com.google.gerrit.server.account.AuthRequest linkReq =
-                new com.google.gerrit.server.account.AuthRequest(
-                    ExternalId.Key.parse(claimedIdentifier));
+                authRequestFactory.create(externalIdKeyFactory.parse(claimedIdentifier));
             linkReq.setDisplayName(areq.getDisplayName());
             linkReq.setEmailAddress(areq.getEmailAddress());
             accountManager.link(arsp.getAccountId(), linkReq);

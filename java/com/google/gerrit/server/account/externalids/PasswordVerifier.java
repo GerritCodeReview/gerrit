@@ -20,21 +20,30 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.account.HashedPassword;
+import com.google.inject.Inject;
 import java.util.Collection;
 
 /** Checks if a given username and password match a user's external IDs. */
 public class PasswordVerifier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final ExternalIdKeyFactory externalIdKeyFactory;
+
+  @Inject
+  public PasswordVerifier(ExternalIdKeyFactory externalIdKeyFactory) {
+    this.externalIdKeyFactory = externalIdKeyFactory;
+  }
+
   /** Returns {@code true} if there is an external ID matching both the username and password. */
-  public static boolean checkPassword(
+  public boolean checkPassword(
       Collection<ExternalId> externalIds, String username, @Nullable String password) {
     if (password == null) {
       return false;
     }
     for (ExternalId id : externalIds) {
       // Only process the "username:$USER" entry, which is unique.
-      if (!id.isScheme(SCHEME_USERNAME) || !username.equals(id.key().id())) {
+      if (!id.isScheme(SCHEME_USERNAME)
+          || !id.key().equals(externalIdKeyFactory.create(SCHEME_USERNAME, username))) {
         continue;
       }
 

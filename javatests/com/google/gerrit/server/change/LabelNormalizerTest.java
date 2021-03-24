@@ -71,6 +71,7 @@ public class LabelNormalizerTest {
   @Inject private ProjectConfig.Factory projectConfigFactory;
   @Inject private GerritApi gApi;
   @Inject private ProjectOperations projectOperations;
+  @Inject private AuthRequest.Factory authRequestFactory;
 
   private LifecycleManager lifecycle;
   private Account.Id userId;
@@ -87,7 +88,7 @@ public class LabelNormalizerTest {
     lifecycle.start();
 
     schemaCreator.create();
-    userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    userId = accountManager.authenticate(authRequestFactory.createForUser("user")).getAccountId();
     user = userFactory.create(userId);
 
     requestContext.setContext(() -> user);

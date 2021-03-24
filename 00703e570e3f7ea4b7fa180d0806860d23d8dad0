@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1065595a_2f100236",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExists.scala",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-24T20:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8885db30_e2a2af29",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "00703e570e3f7ea4b7fa180d0806860d23d8dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0fa0a64_fb19fc8f",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-23T19:22:34Z",
       "side": 1,
       "message": "Reformatted locally.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 36
+      },
+      "revId": "00703e570e3f7ea4b7fa180d0806860d23d8dad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e4ef2b_8f52812a",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProjectIfExists.scala",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-24T20:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0fa0a64_fb19fc8f",
       "range": {
         "startLine": 26,
         "startChar": 4,

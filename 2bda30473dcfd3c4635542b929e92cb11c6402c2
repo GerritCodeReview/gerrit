@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b642a701_0d310241",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083836
+      },
+      "writtenOn": "2021-03-24T19:20:21Z",
+      "side": 1,
+      "message": "We would love to cleanup our TYPO3 Gerrit at https://review.typo3.org by completely removing the unused ~250 groups. Looking at https://www.gerritcodereview.com/design-docs/delete-groups-conclusion.html we are in group \"1)\" as well. What is the state of the plugin, is it possible to test it or is this still only in \"blueprint\" state? Can\u0027t find anything related at https://gerrit-ci.gerritforge.com/",
+      "revId": "2bda30473dcfd3c4635542b929e92cb11c6402c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d65ab2d5_c5425761",
         "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
@@ -14,10 +32,10 @@
       "side": 1,
       "message": "@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)",
       "revId": "2bda30473dcfd3c4635542b929e92cb11c6402c2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "37bf7be1_cc263f85",
         "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
@@ -37,10 +55,10 @@
         "endChar": 50
       },
       "revId": "2bda30473dcfd3c4635542b929e92cb11c6402c2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6e4ca737_955f6c03",
         "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
@@ -60,8 +78,7 @@
         "endChar": 93
       },
       "revId": "2bda30473dcfd3c4635542b929e92cb11c6402c2",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

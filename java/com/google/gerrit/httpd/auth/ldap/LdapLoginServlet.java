@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountUserNameException;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
@@ -56,17 +57,20 @@ class LdapLoginServlet extends HttpServlet {
   private final DynamicItem<WebSession> webSession;
   private final CanonicalWebUrl urlProvider;
   private final SiteHeaderFooter headers;
+  private final AuthRequestFactory authRequestFactory;
 
   @Inject
   LdapLoginServlet(
       AccountManager accountManager,
       DynamicItem<WebSession> webSession,
       CanonicalWebUrl urlProvider,
-      SiteHeaderFooter headers) {
+      SiteHeaderFooter headers,
+      AuthRequestFactory authRequestFactory) {
     this.accountManager = accountManager;
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.headers = headers;
+    this.authRequestFactory = authRequestFactory;
   }
 
   private void sendForm(
@@ -115,7 +119,7 @@ class LdapLoginServlet extends HttpServlet {
       return;
     }
 
-    AuthRequest areq = AuthRequest.forUser(username);
+    AuthRequest areq = authRequestFactory.createForUser(username);
     areq.setPassword(password);
 
     AuthResult ares;

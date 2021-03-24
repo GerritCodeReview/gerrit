@@ -34,6 +34,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -76,6 +77,7 @@ class ProjectOAuthFilter implements Filter {
   private final AccountManager accountManager;
   private final String gitOAuthProvider;
   private final boolean userNameToLowerCase;
+  private final AuthRequestFactory authRequestFactory;
 
   private String defaultAuthPlugin;
   private String defaultAuthProvider;
@@ -86,13 +88,15 @@ class ProjectOAuthFilter implements Filter {
       DynamicMap<OAuthLoginProvider> pluginsProvider,
       AccountCache accountCache,
       AccountManager accountManager,
-      @GerritServerConfig Config gerritConfig) {
+      @GerritServerConfig Config gerritConfig,
+      AuthRequestFactory authRequestFactory) {
     this.session = session;
     this.loginProviders = pluginsProvider;
     this.accountCache = accountCache;
     this.accountManager = accountManager;
     this.gitOAuthProvider = gerritConfig.getString("auth", null, "gitOAuthProvider");
     this.userNameToLowerCase = gerritConfig.getBoolean("auth", null, "userNameToLowerCase", false);
+    this.authRequestFactory = authRequestFactory;
   }
 
   @Override
@@ -162,7 +166,7 @@ class ProjectOAuthFilter implements Filter {
     }
 
     Account account = who.get().account();
-    AuthRequest authRequest = AuthRequest.forExternalUser(authInfo.username);
+    AuthRequest authRequest = authRequestFactory.createForExternalUser(authInfo.username);
     authRequest.setEmailAddress(account.preferredEmail());
     authRequest.setDisplayName(account.fullName());
     authRequest.setPassword(authInfo.tokenOrSecret);

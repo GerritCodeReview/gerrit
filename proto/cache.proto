@@ -270,9 +270,10 @@ message AllExternalIdsProto {
   message ExternalIdProto {
     string key = 1;
     int32 accountId = 2;
-    string email = 3;
-    string password = 4;
-    bytes blobId = 5;
+    bool isCaseInsensitive = 3;
+    string email = 4;
+    string password = 5;
+    bytes blobId = 6;
   }
   repeated ExternalIdProto external_id = 1;
 }

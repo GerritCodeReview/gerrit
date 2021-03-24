@@ -31,6 +31,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.account.externalids.PasswordVerifier;
@@ -74,17 +75,20 @@ class ProjectBasicAuthFilter implements Filter {
   private final AccountCache accountCache;
   private final AccountManager accountManager;
   private final AuthConfig authConfig;
+  private final AuthRequestFactory authRequestFactory;
 
   @Inject
   ProjectBasicAuthFilter(
       DynamicItem<WebSession> session,
       AccountCache accountCache,
       AccountManager accountManager,
-      AuthConfig authConfig) {
+      AuthConfig authConfig,
+      AuthRequestFactory authRequestFactory) {
     this.session = session;
     this.accountCache = accountCache;
     this.accountManager = accountManager;
     this.authConfig = authConfig;
+    this.authRequestFactory = authRequestFactory;
   }
 
   @Override
@@ -152,7 +156,7 @@ class ProjectBasicAuthFilter implements Filter {
       return failAuthentication(rsp, username, req);
     }
 
-    AuthRequest whoAuth = AuthRequest.forUser(username);
+    AuthRequest whoAuth = authRequestFactory.createForUser(username);
     whoAuth.setPassword(password);
 
     try {

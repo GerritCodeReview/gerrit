@@ -62,12 +62,16 @@ export const htmlTemplate = html`
     }
     gr-button.iron-selected[vote='positive'] {
       --button-background-color: var(--vote-color-recommended);
+      border-radius: 12px;
+      border: 1px solid var(--vote-outline-recommended);
     }
     gr-button.iron-selected[vote='min'] {
       --button-background-color: var(--vote-color-rejected);
     }
     gr-button.iron-selected[vote='negative'] {
       --button-background-color: var(--vote-color-disliked);
+      border-radius: 12px;
+      border: 1px solid var(--vote-outline-disliked);
     }
     gr-button.iron-selected[vote='neutral'] {
       --button-background-color: var(--vote-color-neutral);

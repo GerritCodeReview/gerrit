@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import static com.google.gerrit.sshd.SshLog.P_ACCOUNT_ID;
 import static com.google.gerrit.sshd.SshLog.P_AGENT;
 import static com.google.gerrit.sshd.SshLog.P_EXEC;
+import static com.google.gerrit.sshd.SshLog.P_MEMORY;
 import static com.google.gerrit.sshd.SshLog.P_MESSAGE;
 import static com.google.gerrit.sshd.SshLog.P_SESSION;
 import static com.google.gerrit.sshd.SshLog.P_STATUS;
@@ -67,6 +68,7 @@ public final class SshLogLayout extends Layout {
       req(P_AGENT, buf, event);
       req(P_TOTAL_CPU, buf, event);
       req(P_USER_CPU, buf, event);
+      req(P_MEMORY, buf, event);
     }
 
     buf.append('\n');

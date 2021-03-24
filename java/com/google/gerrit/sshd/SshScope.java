@@ -26,27 +26,37 @@ import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.HashMap;
 import java.util.Map;
 
 /** Guice scopes for state during an SSH connection. */
 public class SshScope {
   private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
+  private static final ThreadMXBean threadMxBean = ManagementFactory.getThreadMXBean();
 
   class Context implements RequestContext {
+
     private final RequestCleanup cleanup = new RequestCleanup();
     private final Map<Key<?>, Object> map = new HashMap<>();
     private final SshSession session;
     private final String commandLine;
 
-    final long created;
-    volatile long started;
-    volatile long finished;
+    private final long created;
+    private volatile long started;
+    private volatile long finished;
+    private volatile long startedTotalCpu;
+    private volatile long finishedTotalCpu;
+    private volatile long startedUserCpu;
+    private volatile long finishedUserCpu;
 
     private Context(SshSession s, String c, long at) {
       session = s;
       commandLine = c;
       created = started = finished = at;
+      startedTotalCpu = threadMxBean.getCurrentThreadCpuTime();
+      startedUserCpu = threadMxBean.getCurrentThreadUserTime();
       map.put(RC_KEY, cleanup);
     }
 
@@ -54,6 +64,42 @@ public class SshScope {
       this(s, c, p.created);
       started = p.started;
       finished = p.finished;
+      startedTotalCpu = p.startedTotalCpu;
+      finishedTotalCpu = p.finishedTotalCpu;
+      startedUserCpu = p.startedUserCpu;
+      finishedUserCpu = p.finishedUserCpu;
+    }
+
+    void start() {
+      started = TimeUtil.nowMs();
+      startedTotalCpu = threadMxBean.getCurrentThreadCpuTime();
+      startedUserCpu = threadMxBean.getCurrentThreadUserTime();
+    }
+
+    void finish() {
+      finished = TimeUtil.nowMs();
+      finishedTotalCpu = threadMxBean.getCurrentThreadCpuTime();
+      finishedUserCpu = threadMxBean.getCurrentThreadUserTime();
+    }
+
+    public long getCreated() {
+      return created;
+    }
+
+    public long getWait() {
+      return started - created;
+    }
+
+    public long getExec() {
+      return finished - started;
+    }
+
+    public long getTotalCpu() {
+      return (finishedTotalCpu - startedTotalCpu) / 1_000_000;
+    }
+
+    public long getUserCpu() {
+      return (finishedUserCpu - startedUserCpu) / 1_000_000;
     }
 
     String getCommandLine() {

@@ -56,10 +56,13 @@ public interface EmailTokenVerifier {
   class ParsedToken {
     private final Account.Id accountId;
     private final String emailAddress;
+    private final AuthRequest.Factory authRequestFactory;
 
-    public ParsedToken(Account.Id accountId, String emailAddress) {
+    public ParsedToken(
+        Account.Id accountId, String emailAddress, AuthRequest.Factory authRequestFactory) {
       this.accountId = accountId;
       this.emailAddress = emailAddress;
+      this.authRequestFactory = authRequestFactory;
     }
 
     public Account.Id getAccountId() {
@@ -71,7 +74,7 @@ public interface EmailTokenVerifier {
     }
 
     public AuthRequest toAuthRequest() {
-      return AuthRequest.forEmail(getEmailAddress());
+      return authRequestFactory.createForEmail(getEmailAddress());
     }
 
     @Override

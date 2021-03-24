@@ -5,7 +5,7 @@ import {
   EditPatchSetNum,
   ParentPatchSetNum,
   PatchSetNumber,
-  BasePatchSetNum,
+  BasePatchSetNum, RevisionPatchSetNum,
 } from '../types/common';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
@@ -105,6 +105,16 @@ export function getRevisionByPatchNum(
   }
   console.warn('no revision found');
   return;
+}
+
+export function getShaByPatchNum(
+  revisions: {[revisionId: string]: RevisionInfo | EditRevisionInfo},
+  patchNum: RevisionPatchSetNum
+) {
+  for (const [sha, rev] of Object.entries(revisions)) {
+    if (rev._number === patchNum) return sha;
+  }
+  return undefined;
 }
 
 /**

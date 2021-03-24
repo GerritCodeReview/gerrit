@@ -46,6 +46,7 @@ export interface ChecksApiConfig {
 export interface ChangeData {
   changeNumber: number;
   patchsetNumber: number;
+  patchsetSha: string;
   repo: string;
   commmitMessage?: string;
   /* TODO(brohlfs): Add dep to Rest API types and replace type by ChangeInfo. */

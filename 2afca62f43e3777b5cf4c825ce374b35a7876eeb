@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5558465e_696b390b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-24T12:45:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4b28010_fcb2edad",
+      "range": {
+        "startLine": 11,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e221619e_978e30cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-24T12:45:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7044b1a5_6950d97a",
+      "range": {
+        "startLine": 11,
+        "startChar": 16,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d385082_4d94f7a3",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-03-23T19:57:39Z",
       "side": 1,
       "message": "And does something else now, i.e., flushes the out. Explain as well?",
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db375455_59621c19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-24T12:45:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d385082_4d94f7a3",
       "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da43a2f8_ac80a671",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-24T12:45:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40b4364a_6b1ee141",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 21,
+        "endChar": 47
+      },
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "663e5ebd_1d7d58cd",
@@ -100,6 +190,30 @@
       "writtenOn": "2021-03-23T19:57:39Z",
       "side": 1,
       "message": "are",
+      "range": {
+        "startLine": 25,
+        "startChar": 44,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3e4f04a_a5cdfb65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-24T12:45:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "663e5ebd_1d7d58cd",
       "range": {
         "startLine": 25,
         "startChar": 44,
@@ -144,6 +258,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dc8ad6a_93d295f7",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-24T12:45:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b062684_cbe0683b",
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "067a8f52_78dafca7",
@@ -157,6 +289,24 @@
       "writtenOn": "2021-03-23T19:57:39Z",
       "side": 1,
       "message": "Right above, how did you come up with having to call these few channel methods in this order, and this specific way? I couldn\u0027t quickly find other occurrences of such calls. This could be missing some comment(s) and/or further commit message explanation.",
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f60a1f7a_2915e900",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-24T12:45:58Z",
+      "side": 1,
+      "message": "Done, I did the explanation in the commit message",
+      "parentUuid": "067a8f52_78dafca7",
       "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

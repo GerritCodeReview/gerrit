@@ -29,6 +29,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -56,17 +57,20 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
   private final AccountManager accountManager;
   private final ExternalIds externalIds;
   private final Provider<CurrentUser> self;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
   DeleteExternalIds(
       PermissionBackend permissionBackend,
       AccountManager accountManager,
       ExternalIds externalIds,
-      Provider<CurrentUser> self) {
+      Provider<CurrentUser> self,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.permissionBackend = permissionBackend;
     this.accountManager = accountManager;
     this.externalIds = externalIds;
     this.self = self;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   @Override
@@ -87,7 +91,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
     List<ExternalId> toDelete = new ArrayList<>();
     Optional<ExternalId.Key> last = resource.getUser().getLastLoginExternalIdKey();
     for (String externalIdStr : extIds) {
-      ExternalId id = externalIdMap.get(ExternalId.Key.parse(externalIdStr));
+      ExternalId id = externalIdMap.get(externalIdKeyFactory.parse(externalIdStr));
 
       if (id == null) {
         throw new UnprocessableEntityException(

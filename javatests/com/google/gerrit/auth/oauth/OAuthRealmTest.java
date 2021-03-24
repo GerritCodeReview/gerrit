@@ -24,6 +24,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_XRI
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -34,6 +35,7 @@ import org.junit.Test;
 
 public final class OAuthRealmTest {
   @Inject private OAuthRealm oauthRealm = null;
+  @Inject private ExternalIdFactory externalIdFactory;
 
   @Before
   public void setUpInjector() throws Exception {
@@ -42,7 +44,7 @@ public final class OAuthRealmTest {
   }
 
   private ExternalId id(String scheme, String id) {
-    return ExternalId.create(scheme, id, Account.id(1000));
+    return externalIdFactory.create(scheme, id, Account.id(1000));
   }
 
   private boolean accountBelongsToRealm(ExternalId... ids) {

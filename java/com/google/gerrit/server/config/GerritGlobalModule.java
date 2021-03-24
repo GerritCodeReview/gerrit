@@ -91,6 +91,7 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AccountModule;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.EmailExpander;
@@ -99,6 +100,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.ServiceUserClassifierImpl;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.account.externalids.ExternalIdCacheModule;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
@@ -255,8 +257,10 @@ public class GerritGlobalModule extends FactoryModule {
     install(CommentContextCacheImpl.module());
 
     install(new AccessControlModule());
+    install(new AccountModule());
     install(new CmdLineParserModule());
     install(new EmailModule());
+    install(new ExternalIdCacheModule());
     install(new ExternalIdModule());
     install(new GitModule());
     install(new GroupDbModule());

@@ -70,7 +70,8 @@ public abstract class AllExternalIds {
       ExternalIdProto.Builder b =
           ExternalIdProto.newBuilder()
               .setKey(externalId.key().get())
-              .setAccountId(externalId.accountId().get());
+              .setAccountId(externalId.accountId().get())
+              .setIsCaseInsensitive(externalId.isCaseInsensitive());
       if (externalId.email() != null) {
         b.setEmail(externalId.email());
       }
@@ -93,7 +94,7 @@ public abstract class AllExternalIds {
 
     private static ExternalId toExternalId(ObjectIdConverter idConverter, ExternalIdProto proto) {
       return ExternalId.create(
-          ExternalId.Key.parse(proto.getKey()),
+          ExternalId.Key.parse(proto.getKey(), proto.getIsCaseInsensitive()),
           Account.id(proto.getAccountId()),
           // ExternalId treats null and empty strings the same, so no need to distinguish here.
           proto.getEmail(),

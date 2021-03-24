@@ -37,6 +37,8 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.SetInactiveFlag;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -62,14 +64,17 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Inject private SshKeyCache sshKeyCache;
   @Inject private GroupsUpdate.Factory groupsUpdateFactory;
   @Inject private SetInactiveFlag setInactiveFlag;
+  @Inject private AuthRequest.Factory authRequestFactory;
+  @Inject private ExternalIdFactory externalIdFactory;
+  @Inject private ExternalIdKeyFactory externalIdKeyFactory;
 
   @Test
   public void authenticateNewAccountWithEmail() throws Exception {
     String email = "foo@example.com";
-    ExternalId.Key mailtoExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_MAILTO, email);
+    ExternalId.Key mailtoExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_MAILTO, email);
     assertNoSuchExternalIds(mailtoExtIdKey);
 
-    AuthRequest who = AuthRequest.forEmail(email);
+    AuthRequest who = authRequestFactory.createForEmail(email);
     AuthResult authResult = accountManager.authenticate(who);
     assertAuthResultForNewAccount(authResult, mailtoExtIdKey);
     assertExternalId(mailtoExtIdKey, email);
@@ -78,11 +83,12 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Test
   public void authenticateNewAccountWithUsername() throws Exception {
     String username = "foo";
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
-    ExternalId.Key usernameExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_USERNAME, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key usernameExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_USERNAME, username);
     assertNoSuchExternalIds(gerritExtIdKey, usernameExtIdKey);
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     AuthResult authResult = accountManager.authenticate(who);
     assertAuthResultForNewAccount(authResult, gerritExtIdKey);
     assertExternalIdsWithoutEmail(gerritExtIdKey, usernameExtIdKey);
@@ -91,11 +97,12 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Test
   public void authenticateNewAccountWithUsernameAndEmail() throws Exception {
     String username = "foo";
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
-    ExternalId.Key usernameExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_USERNAME, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key usernameExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_USERNAME, username);
     assertNoSuchExternalIds(gerritExtIdKey, usernameExtIdKey);
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     String email = "foo@example.com";
     who.setEmailAddress(email);
     AuthResult authResult = accountManager.authenticate(who);
@@ -107,12 +114,14 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Test
   public void authenticateNewAccountWithExternalUser() throws Exception {
     String username = "foo";
-    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
-    ExternalId.Key usernameExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_USERNAME, username);
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
+    ExternalId.Key usernameExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_USERNAME, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     assertNoSuchExternalIds(externalExtIdKey, usernameExtIdKey, gerritExtIdKey);
 
-    AuthRequest who = AuthRequest.forExternalUser(username);
+    AuthRequest who = authRequestFactory.createForExternalUser(username);
     AuthResult authResult = accountManager.authenticate(who);
     assertAuthResultForNewAccount(authResult, externalExtIdKey);
     assertExternalIdsWithoutEmail(externalExtIdKey, usernameExtIdKey);
@@ -122,12 +131,14 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Test
   public void authenticateNewAccountWithExternalUserAndEmail() throws Exception {
     String username = "foo";
-    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
-    ExternalId.Key usernameExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_USERNAME, username);
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
+    ExternalId.Key usernameExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_USERNAME, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     assertNoSuchExternalIds(externalExtIdKey, usernameExtIdKey, gerritExtIdKey);
 
-    AuthRequest who = AuthRequest.forExternalUser(username);
+    AuthRequest who = authRequestFactory.createForExternalUser(username);
     String email = "foo@example.com";
     who.setEmailAddress(email);
     AuthResult authResult = accountManager.authenticate(who);
@@ -141,13 +152,13 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void authenticateWithEmail() throws Exception {
     String email = "foo@example.com";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key mailtoExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_MAILTO, email);
+    ExternalId.Key mailtoExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_MAILTO, email);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.create(mailtoExtIdKey, accountId)));
+        u -> u.addExternalId(externalIdFactory.create(mailtoExtIdKey, accountId)));
 
-    AuthRequest who = AuthRequest.forEmail(email);
+    AuthRequest who = authRequestFactory.createForEmail(email);
     AuthResult authResult = accountManager.authenticate(who);
     assertAuthResultForExistingAccount(authResult, accountId, mailtoExtIdKey);
   }
@@ -156,13 +167,13 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void authenticateWithUsername() throws Exception {
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
+        u -> u.addExternalId(externalIdFactory.create(gerritExtIdKey, accountId)));
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     AuthResult authResult = accountManager.authenticate(who);
     assertAuthResultForExistingAccount(authResult, accountId, gerritExtIdKey);
   }
@@ -171,13 +182,14 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void authenticateWithExternalUser() throws Exception {
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.create(externalExtIdKey, accountId)));
+        u -> u.addExternalId(externalIdFactory.create(externalExtIdKey, accountId)));
 
-    AuthRequest who = AuthRequest.forExternalUser(username);
+    AuthRequest who = authRequestFactory.createForExternalUser(username);
     AuthResult authResult = accountManager.authenticate(who);
     assertAuthResultForExistingAccount(authResult, accountId, externalExtIdKey);
   }
@@ -187,15 +199,16 @@ public class AccountManagerIT extends AbstractDaemonTest {
     String username = "foo";
     String email = "foo@example.com";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
         u ->
             u.setPreferredEmail(email)
-                .addExternalId(ExternalId.createWithEmail(gerritExtIdKey, accountId, email)));
+                .addExternalId(
+                    externalIdFactory.createWithEmail(gerritExtIdKey, accountId, email)));
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     String newEmail = "bar@example.com";
     who.setEmailAddress(newEmail);
     AuthResult authResult = accountManager.authenticate(who);
@@ -233,23 +246,26 @@ public class AccountManagerIT extends AbstractDaemonTest {
             projectCache,
             externalIds,
             groupsUpdateFactory,
-            setInactiveFlag));
+            setInactiveFlag,
+            externalIdFactory,
+            externalIdKeyFactory));
   }
 
   private void authenticateWithUsernameAndUpdateDisplayName(AccountManager am) throws Exception {
     String username = "foo";
     String email = "foo@example.com";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
         u ->
             u.setFullName("Initial Name")
                 .setPreferredEmail(email)
-                .addExternalId(ExternalId.createWithEmail(gerritExtIdKey, accountId, email)));
+                .addExternalId(
+                    externalIdFactory.createWithEmail(gerritExtIdKey, accountId, email)));
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     String newName = "Updated Name";
     who.setDisplayName(newName);
     AuthResult authResult = am.authenticate(who);
@@ -263,12 +279,12 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Test
   public void cannotAuthenticateWithOrphanedExtId() throws Exception {
     String username = "foo";
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     assertNoSuchExternalIds(gerritExtIdKey);
 
     // Create orphaned SCHEME_GERRIT external ID.
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId gerritExtId = ExternalId.create(gerritExtIdKey, accountId);
+    ExternalId gerritExtId = externalIdFactory.create(gerritExtIdKey, accountId);
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
       ExternalIdNotes extIdNotes = extIdNotesFactory.load(allUsersRepo);
@@ -276,7 +292,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
       extIdNotes.commit(md);
     }
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.authenticate(who));
     assertThat(thrown).hasMessageThat().contains("Authentication error, account not found");
@@ -286,13 +302,13 @@ public class AccountManagerIT extends AbstractDaemonTest {
   public void cannotAuthenticateWithInactiveAccount() throws Exception {
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.setActive(false).addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
+        u -> u.setActive(false).addExternalId(externalIdFactory.create(gerritExtIdKey, accountId)));
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.authenticate(who));
     assertThat(thrown).hasMessageThat().contains("Authentication error, account inactive");
@@ -303,13 +319,13 @@ public class AccountManagerIT extends AbstractDaemonTest {
       throws Exception {
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.setActive(false).addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
+        u -> u.setActive(false).addExternalId(externalIdFactory.create(gerritExtIdKey, accountId)));
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     who.setActive(true);
     who.setAuthProvidesAccountActiveStatus(true);
     AccountException thrown =
@@ -323,13 +339,13 @@ public class AccountManagerIT extends AbstractDaemonTest {
       throws Exception {
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.setActive(false).addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
+        u -> u.setActive(false).addExternalId(externalIdFactory.create(gerritExtIdKey, accountId)));
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     who.setActive(true);
     who.setAuthProvidesAccountActiveStatus(true);
     AuthResult authResult = accountManager.authenticate(who);
@@ -344,13 +360,13 @@ public class AccountManagerIT extends AbstractDaemonTest {
       throws Exception {
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
+        u -> u.addExternalId(externalIdFactory.create(gerritExtIdKey, accountId)));
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     who.setActive(false);
     who.setAuthProvidesAccountActiveStatus(true);
     AuthResult authResult = accountManager.authenticate(who);
@@ -366,13 +382,13 @@ public class AccountManagerIT extends AbstractDaemonTest {
       throws Exception {
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
+        u -> u.addExternalId(externalIdFactory.create(gerritExtIdKey, accountId)));
 
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     who.setActive(false);
     who.setAuthProvidesAccountActiveStatus(true);
     AccountException thrown =
@@ -391,15 +407,17 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId, email)));
+        u ->
+            u.addExternalId(externalIdFactory.createWithEmail(externalExtIdKey, accountId, email)));
 
     // Try to authenticate with this email to create a new account with a SCHEME_MAILTO external ID.
     // Expect that this fails because the email is already assigned to the other account.
-    AuthRequest who = AuthRequest.forEmail(email);
+    AuthRequest who = authRequestFactory.createForEmail(email);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.authenticate(who));
     assertThat(thrown)
@@ -414,15 +432,17 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId, email)));
+        u ->
+            u.addExternalId(externalIdFactory.createWithEmail(externalExtIdKey, accountId, email)));
 
     // Try to authenticate with a new username and claim the same email.
     // Expect that this fails because the email is already assigned to the other account.
-    AuthRequest who = AuthRequest.forUser("bar");
+    AuthRequest who = authRequestFactory.createForUser("bar");
     who.setEmailAddress(email);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.authenticate(who));
@@ -439,25 +459,29 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Create an account with a SCHEME_GERRIT external ID and an email.
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
         u ->
             u.setPreferredEmail(email)
-                .addExternalId(ExternalId.createWithEmail(gerritExtIdKey, accountId, email)));
+                .addExternalId(
+                    externalIdFactory.createWithEmail(gerritExtIdKey, accountId, email)));
 
     // Create another account with an SCHEME_EXTERNAL external ID that occupies the new email.
     Account.Id accountId2 = Account.id(seq.nextAccountId());
-    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, "bar");
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, "bar");
     accountsUpdate.insert(
         "Create Test Account",
         accountId2,
-        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId2, newEmail)));
+        u ->
+            u.addExternalId(
+                externalIdFactory.createWithEmail(externalExtIdKey, accountId2, newEmail)));
 
     // Try to authenticate and update the email for the first account.
     // Expect that this fails because the new email is already assigned to the other account.
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     who.setEmailAddress(newEmail);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.authenticate(who));
@@ -482,21 +506,21 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     // Create an account with a SCHEME_GERRIT external ID
     String username = "foo";
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     Account.Id accountId = Account.id(seq.nextAccountId());
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
+        u -> u.addExternalId(externalIdFactory.create(gerritExtIdKey, accountId)));
 
     // Add the additional mail external ID with SCHEME_EMAIL
-    accountManager.link(accountId, AuthRequest.forEmail(email));
+    accountManager.link(accountId, authRequestFactory.createForEmail(email));
 
     // Try to authenticate and update the email for the account.
     // Expect that this to succeed because even if the email already exist
     // it is associated to the same account-id and thus is not really
     // a duplicate but simply a promotion of external id to preferred email.
-    AuthRequest who = AuthRequest.forUser(username);
+    AuthRequest who = authRequestFactory.createForUser(username);
     who.setEmailAddress(email);
     AuthResult authResult = accountManager.authenticate(who);
 
@@ -519,20 +543,20 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Create an account with a SCHEME_GERRIT external ID and no email
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
+        u -> u.addExternalId(externalIdFactory.create(gerritExtIdKey, accountId)));
 
     // Check that email is not used yet.
     String email = "foo@example.com";
-    ExternalId.Key mailtoExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_MAILTO, email);
+    ExternalId.Key mailtoExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_MAILTO, email);
     assertNoSuchExternalIds(mailtoExtIdKey);
 
     // Link the email to the account.
     // Expect that a MAILTO external ID is created.
-    AuthRequest who = AuthRequest.forEmail(email);
+    AuthRequest who = authRequestFactory.createForEmail(email);
     AuthResult authResult = accountManager.link(accountId, who);
     assertAuthResultForExistingAccount(authResult, accountId, mailtoExtIdKey);
     assertExternalId(mailtoExtIdKey, accountId, email);
@@ -543,17 +567,18 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Create an account with a SCHEME_GERRIT external ID and no email
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
         u ->
             u.addExternalId(
-                ExternalId.createWithEmail(externalExtIdKey, accountId, "old@example.com")));
+                externalIdFactory.createWithEmail(externalExtIdKey, accountId, "old@example.com")));
 
     // Link the email to the existing SCHEME_EXTERNAL external ID, but with a new email.
     // Expect that the email of the existing external ID is updated.
-    AuthRequest who = AuthRequest.forExternalUser(username);
+    AuthRequest who = authRequestFactory.createForExternalUser(username);
     String newEmail = "new@example.com";
     who.setEmailAddress(newEmail);
     AuthResult authResult = accountManager.link(accountId, who);
@@ -566,24 +591,26 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Create an account with a SCHEME_EXTERNAL external ID
     String username1 = "foo";
     Account.Id accountId1 = Account.id(seq.nextAccountId());
-    ExternalId.Key externalExtIdKey1 = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username1);
+    ExternalId.Key externalExtIdKey1 =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username1);
     accountsUpdate.insert(
         "Create Test Account",
         accountId1,
-        u -> u.addExternalId(ExternalId.create(externalExtIdKey1, accountId1)));
+        u -> u.addExternalId(externalIdFactory.create(externalExtIdKey1, accountId1)));
 
     // Create another account with a SCHEME_EXTERNAL external ID
     String username2 = "bar";
     Account.Id accountId2 = Account.id(seq.nextAccountId());
-    ExternalId.Key externalExtIdKey2 = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username2);
+    ExternalId.Key externalExtIdKey2 =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username2);
     accountsUpdate.insert(
         "Create Test Account",
         accountId2,
-        u -> u.addExternalId(ExternalId.create(externalExtIdKey2, accountId2)));
+        u -> u.addExternalId(externalIdFactory.create(externalExtIdKey2, accountId2)));
 
     // Try to link external ID of the first account to the second account.
     // Expect that this fails because the external ID is already assigned to the first account.
-    AuthRequest who = AuthRequest.forExternalUser(username1);
+    AuthRequest who = authRequestFactory.createForExternalUser(username1);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.link(accountId2, who));
     assertThat(thrown)
@@ -598,24 +625,27 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId, email)));
+        u ->
+            u.addExternalId(externalIdFactory.createWithEmail(externalExtIdKey, accountId, email)));
 
     // Create another account with a SCHEME_GERRIT external ID and no email
     String username2 = "foo";
     Account.Id accountId2 = Account.id(seq.nextAccountId());
-    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username2);
+    ExternalId.Key gerritExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username2);
     accountsUpdate.insert(
         "Create Test Account",
         accountId2,
-        u -> u.addExternalId(ExternalId.create(gerritExtIdKey, accountId2)));
+        u -> u.addExternalId(externalIdFactory.create(gerritExtIdKey, accountId2)));
 
     // Try to link the email to the second account (via a new MAILTO external ID) and expect that
     // this fails because the email is already assigned to the first account.
-    AuthRequest who = AuthRequest.forEmail(email);
+    AuthRequest who = authRequestFactory.createForEmail(email);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.link(accountId2, who));
     assertThat(thrown)
@@ -630,13 +660,15 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    ExternalId.Key externalExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_EXTERNAL, username);
     accountsUpdate.insert(
         "Create Test Account",
         accountId,
-        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId, email)));
+        u ->
+            u.addExternalId(externalIdFactory.createWithEmail(externalExtIdKey, accountId, email)));
 
-    AuthRequest who = AuthRequest.forEmail(email);
+    AuthRequest who = authRequestFactory.createForEmail(email);
     AuthResult result = accountManager.link(accountId, who);
     assertThat(result.isNew()).isFalse();
     assertThat(result.getAccountId().get()).isEqualTo(accountId.get());

@@ -27,6 +27,7 @@ import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -50,6 +51,7 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
   @Inject private Sequences sequences;
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
+  @Inject private ExternalIdFactory extIdFactory;
   @Inject private Accounts accounts;
 
   public static class Module extends AbstractModule {
@@ -72,7 +74,7 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
   @Test
   public void insertAccount() throws Exception {
     Account.Id id = Account.id(sequences.nextAccountId());
-    ExternalId extId = ExternalId.create("foo", "bar", id);
+    ExternalId extId = extIdFactory.create("foo", "bar", id);
     accountsUpdateProvider.get().insert("test", id, u -> u.addExternalId(extId));
     assertThat(testPreprocessor.upserted).containsExactly(extId);
   }
@@ -80,8 +82,8 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
   @Test
   public void replaceByKeys() throws Exception {
     Account.Id id = Account.id(sequences.nextAccountId());
-    ExternalId extId1 = ExternalId.create("foo", "bar1", id);
-    ExternalId extId2 = ExternalId.create("foo", "bar2", id);
+    ExternalId extId1 = extIdFactory.create("foo", "bar1", id);
+    ExternalId extId2 = extIdFactory.create("foo", "bar2", id);
     accountsUpdateProvider.get().insert("test", id, u -> u.addExternalId(extId1));
 
     testPreprocessor.reset();
@@ -97,7 +99,7 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
   @Test
   public void insert() throws Exception {
     Account.Id id = Account.id(sequences.nextAccountId());
-    ExternalId extId = ExternalId.create("foo", "bar", id);
+    ExternalId extId = extIdFactory.create("foo", "bar", id);
 
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
@@ -111,7 +113,7 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
   @Test
   public void upsert() throws Exception {
     Account.Id id = Account.id(sequences.nextAccountId());
-    ExternalId extId = ExternalId.create("foo", "bar", id);
+    ExternalId extId = extIdFactory.create("foo", "bar", id);
 
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
@@ -125,8 +127,8 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
   @Test
   public void replace() throws Exception {
     Account.Id id = Account.id(sequences.nextAccountId());
-    ExternalId extId1 = ExternalId.create("foo", "bar1", id);
-    ExternalId extId2 = ExternalId.create("foo", "bar2", id);
+    ExternalId extId1 = extIdFactory.create("foo", "bar1", id);
+    ExternalId extId2 = extIdFactory.create("foo", "bar2", id);
     accountsUpdateProvider.get().insert("test", id, u -> u.addExternalId(extId1));
 
     testPreprocessor.reset();
@@ -142,8 +144,8 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
   @Test
   public void replace_viaAccountsUpdate() throws Exception {
     Account.Id id = Account.id(sequences.nextAccountId());
-    ExternalId extId1 = ExternalId.create("foo", "bar", id, "email1@foo", "hash");
-    ExternalId extId2 = ExternalId.create("foo", "bar", id, "email2@foo", "hash");
+    ExternalId extId1 = extIdFactory.create("foo", "bar", id, "email1@foo", "hash");
+    ExternalId extId2 = extIdFactory.create("foo", "bar", id, "email2@foo", "hash");
     accountsUpdateProvider.get().insert("test", id, u -> u.addExternalId(extId1));
 
     testPreprocessor.reset();
@@ -154,7 +156,7 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
   @Test
   public void blockUpsert() throws Exception {
     Account.Id id = Account.id(sequences.nextAccountId());
-    ExternalId extId = ExternalId.create("foo", "bar", id);
+    ExternalId extId = extIdFactory.create("foo", "bar", id);
     testPreprocessor.throwException = true;
     StorageException e =
         assertThrows(
@@ -167,8 +169,8 @@ public class ExternalIdNotesUpsertPreprocessorIT extends LightweightPluginDaemon
   @Test
   public void blockUpsert_replace() throws Exception {
     Account.Id id = Account.id(sequences.nextAccountId());
-    ExternalId extId1 = ExternalId.create("foo", "bar", id, "email1@foo", "hash");
-    ExternalId extId2 = ExternalId.create("foo", "bar", id, "email2@foo", "hash");
+    ExternalId extId1 = extIdFactory.create("foo", "bar", id, "email1@foo", "hash");
+    ExternalId extId2 = extIdFactory.create("foo", "bar", id, "email2@foo", "hash");
     accountsUpdateProvider.get().insert("test", id, u -> u.addExternalId(extId1));
 
     assertThat(accounts.get(id).get().externalIds()).containsExactly(extId1);

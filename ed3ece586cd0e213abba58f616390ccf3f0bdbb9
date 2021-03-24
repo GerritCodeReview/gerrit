@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e572f3f_25b207c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-03-24T07:57:24Z",
+      "side": 1,
+      "message": "I added the warning message to the email description. Also added a fallback path to the old namespace, so if there is customisation file with the old namespace, the template could still be found. I think it is safer this way, (also in case I made a typo renaming something).",
+      "parentUuid": "d641d238_dd96bace",
+      "revId": "ed3ece586cd0e213abba58f616390ccf3f0bdbb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13a59919_2702d335",
@@ -67,6 +85,30 @@
       "writtenOn": "2021-03-23T15:55:04Z",
       "side": 1,
       "message": "fix comment",
+      "range": {
+        "startLine": 587,
+        "startChar": 51,
+        "endLine": 587,
+        "endChar": 57
+      },
+      "revId": "ed3ece586cd0e213abba58f616390ccf3f0bdbb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38b45e28_c1a526dc",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-03-24T07:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13a59919_2702d335",
       "range": {
         "startLine": 587,
         "startChar": 51,

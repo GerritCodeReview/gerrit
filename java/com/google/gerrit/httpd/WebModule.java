@@ -75,6 +75,8 @@ public class WebModule extends LifecycleModule {
     listener().toInstance(registerInParentInjectors());
 
     install(UniversalWebLoginFilter.module());
+
+    requestStaticInjection(WebSessionManager.Val.class);
   }
 
   private void installAuthModule() {

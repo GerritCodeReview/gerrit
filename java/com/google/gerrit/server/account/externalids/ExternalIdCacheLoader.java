@@ -72,6 +72,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
   private final Timer0 reloadDifferential;
   private final boolean enablePartialReloads;
   private final boolean isPersistentCache;
+  private final ExternalIdFactory externalIdFactory;
 
   @Inject
   ExternalIdCacheLoader(
@@ -81,7 +82,8 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
       @Named(ExternalIdCacheImpl.CACHE_NAME)
           Provider<Cache<ObjectId, AllExternalIds>> externalIdCache,
       MetricMaker metricMaker,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config,
+      ExternalIdFactory externalIdFactory) {
     this.externalIdReader = externalIdReader;
     this.externalIdCache = externalIdCache;
     this.gitRepositoryManager = gitRepositoryManager;
@@ -104,6 +106,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
         config.getBoolean("cache", ExternalIdCacheImpl.CACHE_NAME, "enablePartialReloads", true);
     this.isPersistentCache =
         config.getInt("cache", ExternalIdCacheImpl.CACHE_NAME, "diskLimit", 0) > 0;
+    this.externalIdFactory = externalIdFactory;
   }
 
   @Override
@@ -215,7 +218,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
    * @param additions map of name to blob ID for each external ID that should be added
    * @param removals set of name {@link ObjectId}s that should be removed
    */
-  private static AllExternalIds buildAllExternalIds(
+  private AllExternalIds buildAllExternalIds(
       Repository repo,
       AllExternalIds oldExternalIds,
       Map<ObjectId, ObjectId> additions,
@@ -242,7 +245,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
         ExternalId parsedExternalId;
         try {
           parsedExternalId =
-              ExternalId.parse(
+              externalIdFactory.parse(
                   nameToBlob.getKey().name(),
                   reader.open(nameToBlob.getValue()).getCachedBytes(),
                   nameToBlob.getValue());

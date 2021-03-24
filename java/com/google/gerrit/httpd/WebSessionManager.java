@@ -32,6 +32,7 @@ import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -52,6 +53,7 @@ public class WebSessionManager {
   private final long sessionMaxAgeMillis;
   private final SecureRandom prng;
   private final Cache<String, Val> self;
+  private final boolean userNameCaseInsensitive;
 
   @Inject
   WebSessionManager(@GerritServerConfig Config cfg, @Assisted Cache<String, Val> cache) {
@@ -72,6 +74,7 @@ public class WebSessionManager {
           "cache.%s.maxAge is set to %d milliseconds; it should be at least 5 minutes.",
           CACHE_NAME, sessionMaxAgeMillis);
     }
+    this.userNameCaseInsensitive = cfg.getBoolean("auth", "userNameCaseInsensitive", false);
   }
 
   Key createKey(Account.Id who) {
@@ -186,6 +189,8 @@ public class WebSessionManager {
   public static final class Val implements Serializable {
     static final long serialVersionUID = 2L;
 
+    @Inject private static transient ExternalIdKeyFactory externalIdKeyFactory;
+
     private transient Account.Id accountId;
     private transient long refreshCookieAt;
     private transient boolean persistentCookie;
@@ -295,7 +300,7 @@ public class WebSessionManager {
             persistentCookie = readVarInt32(in) != 0;
             continue;
           case 4:
-            externalId = ExternalId.Key.parse(readString(in));
+            externalId = externalIdKeyFactory.parse(readString(in));
             continue;
           case 5:
             sessionId = readString(in);

@@ -17,15 +17,15 @@ usage() {
   cat <<EOF
 Usage:
     cd /path/to/All-Users.git
-    "$f [username|gerrit]"
+    "$f [username|gerrit|external]"
 
 This script finds duplicate usernames only differing in case in the given
-account schema ("username" or "gerrit") and their respective accountIds.
+account schema ("username", "gerrit" or "external") and their respective accountIds.
 EOF
   exit 1
 }
 
-if [[ "$#" -ne "1" ]] || ! [[ "$1" =~ ^(gerrit|username)$ ]]; then
+if [[ "$#" -ne "1" ]] || ! [[ "$1" =~ ^(gerrit|username|external)$ ]]; then
   usage
 fi
 

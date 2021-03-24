@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea371af2_e8220077",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-03-24T13:18:29Z",
+      "side": 1,
+      "message": "otherwise +2, I am leaving for vacation",
+      "revId": "6677afcf0e8498e00b0b5ce0e60c12c1a116a193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

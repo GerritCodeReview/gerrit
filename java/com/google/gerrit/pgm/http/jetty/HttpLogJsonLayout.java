@@ -19,6 +19,7 @@ import static com.google.gerrit.pgm.http.jetty.HttpLog.P_CPU_TOTAL;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_CPU_USER;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_HOST;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_LATENCY;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_MEMORY;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_METHOD;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_PROTOCOL;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_REFERER;
@@ -52,6 +53,7 @@ public class HttpLogJsonLayout extends JsonLayout {
     public String latency;
     public String cpuTotal;
     public String cpuUser;
+    public String memory;
     public String referer;
     public String userAgent;
 
@@ -68,6 +70,7 @@ public class HttpLogJsonLayout extends JsonLayout {
       this.latency = getMdcString(event, P_LATENCY);
       this.cpuTotal = getMdcString(event, P_CPU_TOTAL);
       this.cpuUser = getMdcString(event, P_CPU_USER);
+      this.memory = getMdcString(event, P_MEMORY);
       this.referer = getMdcString(event, P_REFERER);
       this.userAgent = getMdcString(event, P_USER_AGENT);
     }

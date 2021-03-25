@@ -45,11 +45,13 @@ export const htmlTemplate = html`
       background-color: var(--vote-color-recommended);
       border-radius: 12px;
       border: 1px solid var(--vote-outline-recommended);
+      color: var(--chip-color);
     }
     .negative {
       background-color: var(--vote-color-disliked);
       border-radius: 12px;
       border: 1px solid var(--vote-outline-disliked);
+      color: var(--chip-color);
     }
     .hidden {
       display: none;

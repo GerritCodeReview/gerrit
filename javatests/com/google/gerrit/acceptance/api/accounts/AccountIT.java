@@ -131,6 +131,8 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -229,6 +231,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
+  @Inject private ExternalIdKeyFactory externalIdKeyFactory;
+  @Inject private ExternalIdFactory externalIdFactory;
 
   @Inject protected Emails emails;
 
@@ -1406,10 +1410,10 @@ public class AccountIT extends AbstractDaemonTest {
               u ->
                   u.addExternalId(
                           ExternalId.createWithEmail(
-                              ExternalId.Key.parse(extId1), admin.id(), email))
+                              externalIdKeyFactory.parse(extId1), admin.id(), email))
                       .addExternalId(
                           ExternalId.createWithEmail(
-                              ExternalId.Key.parse(extId2), admin.id(), email)));
+                              externalIdKeyFactory.parse(extId2), admin.id(), email)));
       accountIndexedCounter.assertReindexOf(admin);
       assertThat(
               gApi.accounts().self().getExternalIds().stream()
@@ -1446,7 +1450,7 @@ public class AccountIT extends AbstractDaemonTest {
             u ->
                 u.addExternalId(
                     ExternalId.createWithEmail(
-                        ExternalId.Key.parse(ldapExternalId), admin.id(), ldapEmail)));
+                        externalIdKeyFactory.parse(ldapExternalId), admin.id(), ldapEmail)));
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
         .contains(ldapExternalId);
@@ -1481,10 +1485,10 @@ public class AccountIT extends AbstractDaemonTest {
             u ->
                 u.addExternalId(
                         ExternalId.createWithEmail(
-                            ExternalId.Key.parse(nonLdapExternalId), admin.id(), nonLdapEMail))
+                            externalIdKeyFactory.parse(nonLdapExternalId), admin.id(), nonLdapEMail))
                     .addExternalId(
                         ExternalId.createWithEmail(
-                            ExternalId.Key.parse(ldapExternalId), admin.id(), ldapEmail)));
+                            externalIdKeyFactory.parse(ldapExternalId), admin.id(), ldapEmail)));
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
         .containsAtLeast(ldapExternalId, nonLdapExternalId);
@@ -1548,7 +1552,7 @@ public class AccountIT extends AbstractDaemonTest {
             u ->
                 u.addExternalId(
                     ExternalId.createWithEmail(
-                        ExternalId.Key.parse("foo:bar"), admin.id(), email)));
+                        externalIdKeyFactory.parse("foo:bar"), admin.id(), email)));
     assertEmail(emails.getAccountFor(email), admin);
 
     // wrong case doesn't match
@@ -2615,9 +2619,9 @@ public class AccountIT extends AbstractDaemonTest {
     // Manually inserting/updating/deleting an external ID of the user makes the index document
     // stale.
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsers, repo);
+      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsers, repo, externalIdFactory);
 
-      ExternalId.Key key = ExternalId.Key.create("foo", "foo");
+      ExternalId.Key key = externalIdKeyFactory.create("foo", "foo");
       extIdNotes.insert(ExternalId.create(key, accountId));
       try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
         extIdNotes.commit(update);

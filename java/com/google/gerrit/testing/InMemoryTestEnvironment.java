@@ -19,6 +19,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Guice;
@@ -46,6 +47,7 @@ public final class InMemoryTestEnvironment implements MethodRule {
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private SchemaCreator schemaCreator;
   @Inject private ThreadLocalRequestContext requestContext;
+  @Inject private AuthRequestFactory authRequestFactory;
 
   private LifecycleManager lifecycle;
 
@@ -99,7 +101,7 @@ public final class InMemoryTestEnvironment implements MethodRule {
     schemaCreator.create();
 
     // The first user is added to the "Administrators" group. See AccountManager#create().
-    setApiUser(accountManager.authenticate(AuthRequest.forUser("admin")).getAccountId());
+    setApiUser(accountManager.authenticate(authRequestFactory.createForUser("admin")).getAccountId());
 
     // Inject target members after setting API user, so it can @Inject request-scoped objects if it
     // wants.

@@ -105,10 +105,10 @@ public abstract class ExternalId implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private static final String EXTERNAL_ID_SECTION = "externalId";
-  private static final String ACCOUNT_ID_KEY = "accountId";
-  private static final String EMAIL_KEY = "email";
-  private static final String PASSWORD_KEY = "password";
+  public static final String EXTERNAL_ID_SECTION = "externalId";
+  public static final String ACCOUNT_ID_KEY = "accountId";
+  public static final String EMAIL_KEY = "email";
+  public static final String PASSWORD_KEY = "password";
 
   /**
    * Scheme used for {@link AuthType#LDAP}, {@link AuthType#CLIENT_SSL_CERT_LDAP}, {@link
@@ -167,12 +167,12 @@ public abstract class ExternalId implements Serializable {
      *
      * @return the parsed external ID key
      */
-    public static Key parse(String externalId) {
+    public static Key parse(String externalId, boolean isCaseInsensitive) {
       int c = externalId.indexOf(':');
       if (c < 1 || c >= externalId.length() - 1) {
-        return create(null, externalId);
+        return create(null, externalId, isCaseInsensitive);
       }
-      return create(externalId.substring(0, c), externalId.substring(c + 1));
+      return create(externalId.substring(0, c), externalId.substring(c + 1), isCaseInsensitive);
     }
 
     public abstract @Nullable String scheme();
@@ -247,7 +247,7 @@ public abstract class ExternalId implements Serializable {
   public static ExternalId create(
       Key key, Account.Id accountId, @Nullable String email, @Nullable String hashedPassword) {
     return create(
-        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), null);
+        key, accountId, false, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), null);
   }
 
   public static ExternalId createWithPassword(
@@ -295,18 +295,19 @@ public abstract class ExternalId implements Serializable {
 
   static ExternalId create(ExternalId extId, @Nullable ObjectId blobId) {
     return new AutoValue_ExternalId(
-        extId.key(), extId.accountId(), extId.email(), extId.password(), blobId);
+        extId.key(), extId.accountId(), extId.isCaseInsensitive(), extId.email(), extId.password(), blobId);
   }
 
   @VisibleForTesting
   public static ExternalId create(
       Key key,
       Account.Id accountId,
+      boolean isCaseInsensitive,
       @Nullable String email,
       @Nullable String hashedPassword,
       @Nullable ObjectId blobId) {
     return new AutoValue_ExternalId(
-        key, accountId, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), blobId);
+        key, accountId, isCaseInsensitive, Strings.emptyToNull(email), Strings.emptyToNull(hashedPassword), blobId);
   }
 
   /**
@@ -323,7 +324,7 @@ public abstract class ExternalId implements Serializable {
    *   password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
    * </pre>
    */
-  public static ExternalId parse(String noteId, byte[] raw, ObjectId blobId)
+  public static ExternalId parse(String noteId, byte[] raw, ObjectId blobId, boolean isCaseInsensitive)
       throws ConfigInvalidException {
     Config externalIdConfig = new Config();
     try {
@@ -332,10 +333,10 @@ public abstract class ExternalId implements Serializable {
       throw invalidConfig(noteId, e.getMessage());
     }
 
-    return parse(noteId, externalIdConfig, blobId);
+    return parse(noteId, externalIdConfig, blobId, isCaseInsensitive);
   }
 
-  public static ExternalId parse(String noteId, Config externalIdConfig, ObjectId blobId)
+  public static ExternalId parse(String noteId, Config externalIdConfig, ObjectId blobId, boolean isCaseInsensitive)
       throws ConfigInvalidException {
     requireNonNull(blobId);
 
@@ -349,7 +350,7 @@ public abstract class ExternalId implements Serializable {
     }
 
     String externalIdKeyStr = Iterables.getOnlyElement(externalIdKeys);
-    Key externalIdKey = Key.parse(externalIdKeyStr);
+    Key externalIdKey = Key.parse(externalIdKeyStr, isCaseInsensitive);
     if (externalIdKey == null) {
       throw invalidConfig(noteId, String.format("External ID %s is invalid", externalIdKeyStr));
     }
@@ -369,6 +370,7 @@ public abstract class ExternalId implements Serializable {
     return create(
         externalIdKey,
         Account.id(accountId),
+        false,
         Strings.emptyToNull(email),
         Strings.emptyToNull(password),
         blobId);
@@ -415,6 +417,8 @@ public abstract class ExternalId implements Serializable {
   public abstract Key key();
 
   public abstract Account.Id accountId();
+
+  public abstract boolean isCaseInsensitive();
 
   public abstract @Nullable String email();
 

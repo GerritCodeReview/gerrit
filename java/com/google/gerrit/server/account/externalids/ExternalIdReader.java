@@ -69,10 +69,11 @@ public class ExternalIdReader {
   private boolean failOnLoad = false;
   private final Timer0 readAllLatency;
   private final Timer0 readSingleLatency;
+  private final ExternalIdFactory externalIdFactory;
 
   @Inject
   ExternalIdReader(
-      GitRepositoryManager repoManager, AllUsersName allUsersName, MetricMaker metricMaker) {
+      GitRepositoryManager repoManager, AllUsersName allUsersName, MetricMaker metricMaker, ExternalIdFactory externalIdFactory) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.readAllLatency =
@@ -87,6 +88,7 @@ public class ExternalIdReader {
             new Description("Latency for reading a single external ID from NoteDb.")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS));
+    this.externalIdFactory = externalIdFactory;
   }
 
   @VisibleForTesting
@@ -106,7 +108,7 @@ public class ExternalIdReader {
 
     try (Timer0.Context ctx = readAllLatency.start();
         Repository repo = repoManager.openRepository(allUsersName)) {
-      return ExternalIdNotes.loadReadOnly(allUsersName, repo).all();
+      return ExternalIdNotes.loadReadOnly(allUsersName, repo, externalIdFactory).all();
     }
   }
 
@@ -125,7 +127,7 @@ public class ExternalIdReader {
 
     try (Timer0.Context ctx = readAllLatency.start();
         Repository repo = repoManager.openRepository(allUsersName)) {
-      return ExternalIdNotes.loadReadOnly(allUsersName, repo, rev).all();
+      return ExternalIdNotes.loadReadOnly(allUsersName, repo, rev, externalIdFactory).all();
     }
   }
 
@@ -135,7 +137,7 @@ public class ExternalIdReader {
 
     try (Timer0.Context ctx = readSingleLatency.start();
         Repository repo = repoManager.openRepository(allUsersName)) {
-      return ExternalIdNotes.loadReadOnly(allUsersName, repo).get(key);
+      return ExternalIdNotes.loadReadOnly(allUsersName, repo, externalIdFactory).get(key);
     }
   }
 
@@ -146,7 +148,7 @@ public class ExternalIdReader {
 
     try (Timer0.Context ctx = readSingleLatency.start();
         Repository repo = repoManager.openRepository(allUsersName)) {
-      return ExternalIdNotes.loadReadOnly(allUsersName, repo, rev).get(key);
+      return ExternalIdNotes.loadReadOnly(allUsersName, repo, rev, externalIdFactory).get(key);
     }
   }
 

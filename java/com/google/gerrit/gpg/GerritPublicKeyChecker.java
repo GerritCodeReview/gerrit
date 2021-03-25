@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -62,17 +63,20 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     private final IdentifiedUser.GenericFactory userFactory;
     private final int maxTrustDepth;
     private final ImmutableMap<Long, Fingerprint> trusted;
+    private final ExternalIdKeyFactory externalIdKeyFactory;
 
     @Inject
     Factory(
         @GerritServerConfig Config cfg,
         Provider<InternalAccountQuery> accountQueryProvider,
         IdentifiedUser.GenericFactory userFactory,
-        DynamicItem<UrlFormatter> urlFormatter) {
+        DynamicItem<UrlFormatter> urlFormatter,
+        ExternalIdKeyFactory externalIdKeyFactory) {
       this.accountQueryProvider = accountQueryProvider;
       this.urlFormatter = urlFormatter;
       this.userFactory = userFactory;
       this.maxTrustDepth = cfg.getInt("receive", null, "maxTrustDepth", 0);
+      this.externalIdKeyFactory = externalIdKeyFactory;
 
       String[] strs = cfg.getStringList("receive", null, "trustedKey");
       if (strs.length != 0) {
@@ -103,6 +107,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   private IdentifiedUser expectedUser;
 
@@ -113,6 +118,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     if (factory.trusted != null) {
       enableTrust(factory.maxTrustDepth, factory.trusted);
     }
+    this.externalIdKeyFactory = factory.externalIdKeyFactory;
   }
 
   /**
@@ -247,7 +253,8 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     return sb.toString();
   }
 
-  static ExternalId.Key toExtIdKey(PGPPublicKey key) {
-    return ExternalId.Key.create(SCHEME_GPGKEY, BaseEncoding.base16().encode(key.getFingerprint()));
+  ExternalId.Key toExtIdKey(PGPPublicKey key) {
+    return externalIdKeyFactory.create(
+        SCHEME_GPGKEY, BaseEncoding.base16().encode(key.getFingerprint()));
   }
 }

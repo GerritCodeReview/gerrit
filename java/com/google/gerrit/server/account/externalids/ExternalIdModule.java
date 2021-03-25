@@ -43,5 +43,9 @@ public class ExternalIdModule extends CacheModule {
 
     bind(ExternalIdCacheImpl.class);
     bind(ExternalIdCache.class).to(ExternalIdCacheImpl.class);
+    bind(ExternalIdKeyFactory.class);
+
+    bind(ExternalIdFactory.class);
+    bind(ExternalIdKeyFactory.class);
   }
 }

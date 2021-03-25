@@ -16,7 +16,9 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
+import com.google.inject.Inject;
 
 /** Verifies the token sent by {@link RegisterNewEmailSender}. */
 public interface EmailTokenVerifier {
@@ -56,10 +58,12 @@ public interface EmailTokenVerifier {
   class ParsedToken {
     private final Account.Id accountId;
     private final String emailAddress;
+    private final AuthRequestFactory authRequestFactory;
 
-    public ParsedToken(Account.Id accountId, String emailAddress) {
+    public ParsedToken(Account.Id accountId, String emailAddress, AuthRequestFactory authRequestFactory) {
       this.accountId = accountId;
       this.emailAddress = emailAddress;
+      this.authRequestFactory = authRequestFactory;
     }
 
     public Account.Id getAccountId() {
@@ -71,7 +75,7 @@ public interface EmailTokenVerifier {
     }
 
     public AuthRequest toAuthRequest() {
-      return AuthRequest.forEmail(getEmailAddress());
+      return authRequestFactory.createForEmail(getEmailAddress());
     }
 
     @Override

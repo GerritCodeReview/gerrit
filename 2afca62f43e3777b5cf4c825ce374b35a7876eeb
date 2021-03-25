@@ -326,6 +326,24 @@
       "message": "Is there a way to unit-test NoShell instead, just enough and automatically (through regular junit)? I mean, this change could start introducing some test(s) for that class. Not sure how that start(..) method could be tested that way though, and to what extent if anything.\n\nI propose so because this script remains subjective and manual. I didn\u0027t review it again yet, given the above to consider first I think.",
       "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1010a5ce_2d1e302e",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-25T17:28:04Z",
+      "side": 1,
+      "message": "I tried to make a test for this command, but failed to access the command like other ssh tests. I think the case that is to test can be if the command terminates successfully. I added a condition to check if it terminates successfully in this script.",
+      "parentUuid": "1e37b8fe_db40c286",
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

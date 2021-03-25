@@ -70,6 +70,7 @@ EXPORTS = [
     "//lib/httpcomponents:httpclient",
     "//lib/httpcomponents:httpcore",
     "//lib/jackson:jackson-core",
+    "//lib:jaxb-api",
     "//lib:jgit-servlet",
     "//lib:jgit",
     "//lib:jgit-ssh-jsch",

@@ -152,6 +152,11 @@ maven_jar(
 )
 
 maven_jar(
+    name = "jaxb-api",
+    artifact = "javax.xml.bind:jaxb-api:2.3.1"
+)
+
+maven_jar(
     name = "servlet-api",
     artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
     sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",

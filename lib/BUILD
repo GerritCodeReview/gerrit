@@ -542,6 +542,13 @@ java_library(
     exports = ["@javax-annotation//jar"],
 )
 
+java_library(
+    name = "jaxb-api",
+    data = ["//lib:LICENSE-jaxb-api"],
+    visibility = ["//visibility:public"],
+    exports = ["@jaxb-api//jar"],
+)
+
 sh_test(
     name = "nongoogle_test",
     srcs = ["nongoogle_test.sh"],

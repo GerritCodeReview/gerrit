@@ -54,6 +54,8 @@ if a log field is not present, a "-" is substituted:
 * `total_cpu`: total CPU time, CPU time in milliseconds to execute command.
 * `user_cpu`: user mode CPU time, CPU time in user mode in milliseconds to execute command.
   CPU time in kernel mode is `total_cpu - user_cpu`.
+* `memory`: memory allocated in bytes to execute command. -1 if the JVM does
+  not support this metric.
 
 Example:
 ```

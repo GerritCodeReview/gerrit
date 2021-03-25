@@ -54,6 +54,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   protected static final String P_USER_AGENT = "User-Agent";
   protected static final String P_CPU_TOTAL = "Cpu-Total";
   protected static final String P_CPU_USER = "Cpu-User";
+  protected static final String P_MEMORY = "Memory";
 
   private final AsyncAppender async;
 
@@ -121,6 +122,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
         (RequestMetricsFilter.Context) req.getAttribute(RequestMetricsFilter.METRICS_CONTEXT);
     set(event, P_CPU_TOTAL, ctx.getTotalCpuTime());
     set(event, P_CPU_USER, ctx.getUserCpuTime());
+    set(event, P_MEMORY, ctx.getMemory());
 
     async.append(event);
   }

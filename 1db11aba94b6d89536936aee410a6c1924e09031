@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e539b551_56b6402b",
+        "filename": "java/com/google/gerrit/acceptance/KeyPairResourceWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-25T20:48:44Z",
+      "side": 1,
+      "message": "Not applicable any more.",
+      "parentUuid": "f4cd0610_a09474d4",
+      "revId": "1db11aba94b6d89536936aee410a6c1924e09031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80bcf961_fe0dec6d",

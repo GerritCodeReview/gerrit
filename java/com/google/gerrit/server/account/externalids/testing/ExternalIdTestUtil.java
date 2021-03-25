@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import java.io.IOException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -46,7 +47,7 @@ public class ExternalIdTestUtil {
         ident,
         (ins, noteMap) -> {
           ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), accountId);
-          ObjectId noteId = extId.key().sha1();
+          ObjectId noteId = ExternalIdNotes.computeNoteId(extId.key());
           Config c = new Config();
           extId.writeToConfig(c);
           c.unset("externalId", extId.key().get(), "accountId");
@@ -66,7 +67,7 @@ public class ExternalIdTestUtil {
         ident,
         (ins, noteMap) -> {
           ExternalId extId = ExternalId.create(ExternalId.Key.parse(externalId), accountId);
-          ObjectId noteId = ExternalId.Key.parse(externalId + "x").sha1();
+          ObjectId noteId = ExternalIdNotes.computeNoteId(ExternalId.Key.parse(externalId + "x"));
           Config c = new Config();
           extId.writeToConfig(c);
           byte[] raw = c.toText().getBytes(UTF_8);
@@ -83,7 +84,7 @@ public class ExternalIdTestUtil {
         rw,
         ident,
         (ins, noteMap) -> {
-          ObjectId noteId = ExternalId.Key.parse(externalId).sha1();
+          ObjectId noteId = ExternalIdNotes.computeNoteId(ExternalId.Key.parse(externalId));
           byte[] raw = "bad-config".getBytes(UTF_8);
           ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
           noteMap.set(noteId, dataBlob);
@@ -98,7 +99,7 @@ public class ExternalIdTestUtil {
         rw,
         ident,
         (ins, noteMap) -> {
-          ObjectId noteId = ExternalId.Key.parse(externalId).sha1();
+          ObjectId noteId = ExternalIdNotes.computeNoteId(ExternalId.Key.parse(externalId));
           byte[] raw = "".getBytes(UTF_8);
           ObjectId dataBlob = ins.insert(OBJ_BLOB, raw);
           noteMap.set(noteId, dataBlob);

@@ -25,7 +25,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.AuthType;
@@ -170,15 +169,6 @@ public abstract class ExternalId implements Serializable {
 
     public boolean isScheme(String scheme) {
       return scheme.equals(scheme());
-    }
-
-    /**
-     * Returns the SHA1 of the external ID that is used as note ID in the refs/meta/external-ids
-     * notes branch.
-     */
-    @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
-    public ObjectId sha1() {
-      return ObjectId.fromRaw(Hashing.sha1().hashString(get(), UTF_8).asBytes());
     }
 
     /**
@@ -350,7 +340,7 @@ public abstract class ExternalId implements Serializable {
       throw invalidConfig(noteId, String.format("External ID %s is invalid", externalIdKeyStr));
     }
 
-    if (!externalIdKey.sha1().getName().equals(noteId)) {
+    if (!ExternalIdNotes.computeNoteId(externalIdKey).getName().equals(noteId)) {
       throw invalidConfig(
           noteId,
           String.format(
@@ -433,7 +423,7 @@ public abstract class ExternalId implements Serializable {
   public byte[] toByteArray() {
     checkState(blobId() != null, "Missing blobId in external ID %s", key().get());
     byte[] b = new byte[2 * ObjectIds.STR_LEN + 1];
-    key().sha1().copyTo(b, 0);
+    ExternalIdNotes.computeNoteId(key()).copyTo(b, 0);
     b[ObjectIds.STR_LEN] = ':';
     blobId().copyTo(b, ObjectIds.STR_LEN + 1);
     return b;

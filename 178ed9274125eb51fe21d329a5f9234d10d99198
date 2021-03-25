@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26a94f57_6ff5b1bc",
+        "filename": "java/com/google/gerrit/sshd/SshScope.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-03-25T09:34:48Z",
+      "side": 1,
+      "message": "This looks like refactoring unrelated to this change and should be done in own change.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 32
+      },
+      "revId": "178ed9274125eb51fe21d329a5f9234d10d99198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aba96e9e_428afa7a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-25T13:06:02Z",
+      "side": 1,
+      "message": "The Google TS style guide advises against return type only generics and prefers explicit cast, as the generics will give a false sense of security; they specifically mention something like document.querySelector\u003cSomeType\u003e() as an anti-pattern in existing APIs. createElement() won\u0027t be able to guarantee anything more than HTMLElement, so I think the cast should remain.",
+      "parentUuid": "f82df2dd_fc8097cf",
+      "range": {
+        "startLine": 95,
+        "startChar": 24,
+        "endLine": 95,
+        "endChar": 62
+      },
+      "revId": "1b409dd177e34510a6f6effa0e6e09377e360e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "913dc38a_942a4c91",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-25T11:41:18Z",
       "side": 1,
       "message": "Since baseURl can be undefined, maybe _getImageSrc can return undefined if !image\n\nand you don\u0027t need these ifs\n\n```\nimageViewer.baseUrl \u003d this._getImageSrc(this._baseImage);\nimageViewer.revisionUrl \u003d this._getImageSrc(this._revisionImage);",
+      "range": {
+        "startLine": 100,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 5
+      },
+      "revId": "1b409dd177e34510a6f6effa0e6e09377e360e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e63b84a_489a8332",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-25T13:06:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "913dc38a_942a4c91",
       "range": {
         "startLine": 100,
         "startChar": 1,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11a6a00e_68347fd6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-25T13:06:02Z",
+      "side": 1,
+      "message": "I do think the ternary style is clearer and more concise here. If it\u0027s not a strong opinion, I would keep it.",
+      "parentUuid": "05f96961_2103b98f",
+      "range": {
+        "startLine": 113,
+        "startChar": 3,
+        "endLine": 115,
+        "endChar": 11
+      },
+      "revId": "1b409dd177e34510a6f6effa0e6e09377e360e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf07b58d_34fa02d4",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-03-25T11:41:18Z",
       "side": 1,
       "message": "NIT: Maybe this can use _getImageSrc",
+      "range": {
+        "startLine": 145,
+        "startChar": 35,
+        "endLine": 145,
+        "endChar": 75
+      },
+      "revId": "1b409dd177e34510a6f6effa0e6e09377e360e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd13fbfd_10772bb3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-25T13:06:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf07b58d_34fa02d4",
       "range": {
         "startLine": 145,
         "startChar": 35,

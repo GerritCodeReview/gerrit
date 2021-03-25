@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d99f2b4_a9fbb492",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-25T13:06:02Z",
+      "side": 1,
+      "message": "Note: I moved this since I believe a malformed image might otherwise be missed. In my testing of the image viewer, if setting src did come before defining onload, a locally cached image for the given URL would load synchronously and onload would never be called.",
+      "revId": "a322ff50294dc6d42fb4d537e1c4f1de2c24868e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

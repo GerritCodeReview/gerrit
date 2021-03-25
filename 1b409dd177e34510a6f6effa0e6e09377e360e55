@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "648e486f_996f0472",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-25T14:05:35Z",
+      "side": 1,
+      "message": "I had missed that I currently expect it to be defined (but it can be the empty string). In the interest of getting this in for iteration I would keep it as is, but I might adjust GrImageViewer to accept undefined in a follow-up, depending on how it potentially changes the flows there.",
+      "parentUuid": "6e63b84a_489a8332",
+      "range": {
+        "startLine": 100,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 5
+      },
+      "revId": "1b409dd177e34510a6f6effa0e6e09377e360e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05f96961_2103b98f",

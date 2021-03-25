@@ -53,6 +53,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
@@ -93,6 +94,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
   private final ExternalIds externalIds;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final RetryHelper retryHelper;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
   PostGpgKeys(
@@ -105,7 +107,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIds externalIds,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.serverIdent = serverIdent;
     this.self = self;
     this.storeProvider = storeProvider;
@@ -116,6 +119,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     this.externalIds = externalIds;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.retryHelper = retryHelper;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   @Override
@@ -287,7 +291,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
   }
 
   private ExternalId.Key toExtIdKey(byte[] fp) {
-    return ExternalId.Key.create(SCHEME_GPGKEY, BaseEncoding.base16().encode(fp));
+    return externalIdKeyFactory.create(SCHEME_GPGKEY, BaseEncoding.base16().encode(fp));
   }
 
   private Account getAccountByExternalId(ExternalId.Key extIdKey) {

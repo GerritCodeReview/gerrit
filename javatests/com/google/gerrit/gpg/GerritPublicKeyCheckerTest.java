@@ -15,7 +15,6 @@
 package com.google.gerrit.gpg;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.gpg.GerritPublicKeyChecker.toExtIdKey;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testing.TestTrustKeys.keyA;
@@ -38,6 +37,7 @@ import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthRequestFactory;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -76,6 +76,8 @@ public class GerritPublicKeyCheckerTest {
 
   @Inject private ThreadLocalRequestContext requestContext;
 
+  @Inject private AuthRequestFactory authRequestFactory;
+
   private LifecycleManager lifecycle;
   private Account.Id userId;
   private IdentifiedUser user;
@@ -101,7 +103,7 @@ public class GerritPublicKeyCheckerTest {
     lifecycle.start();
 
     schemaCreator.create();
-    userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    userId = accountManager.authenticate(authRequestFactory.createForUser("user")).getAccountId();
     // Note: does not match any key in TestKeys.
     accountsUpdateProvider
         .get()
@@ -121,7 +123,7 @@ public class GerritPublicKeyCheckerTest {
   }
 
   private IdentifiedUser addUser(String name) throws Exception {
-    AuthRequest req = AuthRequest.forUser(name);
+    AuthRequest req = authRequestFactory.createForUser(name);
     Account.Id id = accountManager.authenticate(req).getAccountId();
     return userFactory.create(id);
   }
@@ -202,16 +204,17 @@ public class GerritPublicKeyCheckerTest {
     reloadUser();
 
     TestKey key = validKeyWithSecondUserId();
-    PublicKeyChecker checker = checkerFactory.create(user, store).disableTrust();
+    GerritPublicKeyChecker checker =
+        (GerritPublicKeyChecker) checkerFactory.create(user, store).disableTrust();
     assertProblems(
         checker.check(key.getPublicKey()),
         Status.BAD,
         "No identities found for user; check http://test/settings#Identities");
 
-    checker = checkerFactory.create().setStore(store).disableTrust();
+    checker = (GerritPublicKeyChecker) checkerFactory.create().setStore(store).disableTrust();
     assertProblems(
         checker.check(key.getPublicKey()), Status.BAD, "Key is not associated with any users");
-    insertExtId(ExternalId.create(toExtIdKey(key.getPublicKey()), user.getAccountId()));
+    insertExtId(ExternalId.create(checker.toExtIdKey(key.getPublicKey()), user.getAccountId()));
     assertProblems(checker.check(key.getPublicKey()), Status.BAD, "No identities found for user");
   }
 
@@ -362,7 +365,9 @@ public class GerritPublicKeyCheckerTest {
   private void add(PGPPublicKeyRing kr, IdentifiedUser user) throws Exception {
     Account.Id id = user.getAccountId();
     List<ExternalId> newExtIds = new ArrayList<>(2);
-    newExtIds.add(ExternalId.create(toExtIdKey(kr.getPublicKey()), id));
+    GerritPublicKeyChecker checker =
+        (GerritPublicKeyChecker) checkerFactory.create(user, store).disableTrust();
+    newExtIds.add(ExternalId.create(checker.toExtIdKey(kr.getPublicKey()), id));
 
     String userId = Iterators.getOnlyElement(kr.getPublicKey().getUserIDs(), null);
     if (userId != null) {

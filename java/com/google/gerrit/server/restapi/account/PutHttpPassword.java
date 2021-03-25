@@ -34,6 +34,7 @@ import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -77,6 +78,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   private final ExternalIds externalIds;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final HttpPasswordUpdateSender.Factory httpPasswordUpdateSenderFactory;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
   PutHttpPassword(
@@ -84,12 +86,14 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
       PermissionBackend permissionBackend,
       ExternalIds externalIds,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
-      HttpPasswordUpdateSender.Factory httpPasswordUpdateSenderFactory) {
+      HttpPasswordUpdateSender.Factory httpPasswordUpdateSenderFactory,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.httpPasswordUpdateSenderFactory = httpPasswordUpdateSenderFactory;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   @Override
@@ -125,7 +129,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
     String userName =
         user.getUserName().orElseThrow(() -> new ResourceConflictException("username must be set"));
     Optional<ExternalId> optionalExtId =
-        externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, userName));
+        externalIds.get(externalIdKeyFactory.create(SCHEME_USERNAME, userName));
     ExternalId extId = optionalExtId.orElseThrow(ResourceNotFoundException::new);
     accountsUpdateProvider
         .get()

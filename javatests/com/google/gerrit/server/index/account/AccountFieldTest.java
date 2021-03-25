@@ -73,8 +73,10 @@ public class AccountFieldTest {
         toStrings(
             AccountField.EXTERNAL_ID_STATE.get(
                 AccountState.forAccount(account, ImmutableSet.of(extId1, extId2))));
-    String expectedValue1 = ExternalIdNotes.computeNoteId(extId1.key()).name() + ":" + extId1.blobId().name();
-    String expectedValue2 = ExternalIdNotes.computeNoteId(extId2.key()).name() + ":" + extId2.blobId().name();
+    String expectedValue1 =
+        ExternalIdNotes.computeNoteId(extId1.key()).name() + ":" + extId1.blobId().name();
+    String expectedValue2 =
+        ExternalIdNotes.computeNoteId(extId2.key()).name() + ":" + extId2.blobId().name();
     assertThat(values).containsExactly(expectedValue1, expectedValue2);
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "820bed93_269a739f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-25T09:07:28Z",
+      "side": 1,
+      "message": "I\u0027ve seen this problem, and wondered how it might have happened.\n\nWhat I don\u0027t know: would it be better for plugins to load JAXB on their own? \nI think we have no innate use for XML in Gerrit proper.\n",
+      "revId": "504535b0edb4bf3eb8a7ad5fc2982a291e1043e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

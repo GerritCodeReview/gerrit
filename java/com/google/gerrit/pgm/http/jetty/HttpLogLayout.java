@@ -71,6 +71,12 @@ public final class HttpLogLayout extends Layout {
     buf.append(' ');
     dq_opt(buf, event, HttpLog.P_USER_AGENT);
 
+    buf.append(' ');
+    opt(buf, event, HttpLog.P_CPU_TOTAL);
+
+    buf.append(' ');
+    opt(buf, event, HttpLog.P_CPU_USER);
+
     buf.append('\n');
     return buf.toString();
   }

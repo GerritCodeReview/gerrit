@@ -92,7 +92,7 @@ function getStyleEl() {
       --error-text-color: var(--red-200);
       /* Used on text color for change list doesn't need user's attention. */
       --reviewed-text-color: var(--gray-300);
-      --vote-text-color: black;
+      --vote-text-color: white;
       --status-text-color: black;
       --tooltip-text-color: var(--gray-200);
       --negative-red-text-color: var(--red-200);

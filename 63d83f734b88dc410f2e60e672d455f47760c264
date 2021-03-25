@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c76d52e4_3c14f401",
+        "filename": "java/com/google/gerrit/sshd/SshLogLayout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-03-25T09:31:02Z",
+      "side": 1,
+      "message": "With this policy, the opt method now does the same thing as the req method: append \"-\" if the value for that field is missing. Basically \"opt\" fields become \"req\" fields. The only difference is that the \"opt\" method has special handling for the LOGIN and LOGOUT requests. However, this can be done at the calling place instead of here.\n\nMy proposal is to:\n* use req method for all fields: we automatically get \"-\" appended if the field is missing\n* delete the opt method\n* handle the LOGIN and LOGOUT exception at the calling place (line 59-63).",
+      "revId": "63d83f734b88dc410f2e60e672d455f47760c264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.metrics.proc.ThreadMXBeanFactory;
+import com.google.gerrit.metrics.proc.ThreadMXBeanInterface;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -30,6 +32,8 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 @Singleton
 public class RequestMetricsFilter implements Filter {
+  public static final String METRICS_CONTEXT = "metrics-context";
+
   public static Module module() {
     return new ServletModule() {
       @Override
@@ -37,6 +41,27 @@ public class RequestMetricsFilter implements Filter {
         filter("/*").through(RequestMetricsFilter.class);
       }
     };
+  }
+
+  public static class Context {
+    private static final ThreadMXBeanInterface threadMxBean = ThreadMXBeanFactory.create();
+    private final long startedTotalCpu;
+    private final long startedUserCpu;
+
+    Context() {
+      startedTotalCpu = threadMxBean.getCurrentThreadCpuTime();
+      startedUserCpu = threadMxBean.getCurrentThreadUserTime();
+    }
+
+    /** @return total CPU time in milliseconds for executing request */
+    public long getTotalCpuTime() {
+      return (threadMxBean.getCurrentThreadCpuTime() - startedTotalCpu) / 1_000_000;
+    }
+
+    /** @return CPU time in user mode in milliseconds for executing request */
+    public long getUserCpuTime() {
+      return (threadMxBean.getCurrentThreadUserTime() - startedUserCpu) / 1_000_000;
+    }
   }
 
   private final RequestMetrics metrics;
@@ -52,6 +77,7 @@ public class RequestMetricsFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
+    request.setAttribute(METRICS_CONTEXT, new Context());
     Response rsp = new Response((HttpServletResponse) response, metrics);
 
     chain.doFilter(request, rsp);

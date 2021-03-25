@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2555c381_6891183b",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-25T02:53:33Z",
+      "side": 1,
+      "message": "I believe they are implicitly defined with the code hierarchy. Not sure we have an official documentation for it though.",
+      "parentUuid": "25903d64_285e1137",
+      "range": {
+        "startLine": 8,
+        "startChar": 46,
+        "endLine": 8,
+        "endChar": 51
+      },
+      "revId": "ef71bc92d73b0ba1f87f27e6123d513e56246ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3e4f936_6aa5a674",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 3

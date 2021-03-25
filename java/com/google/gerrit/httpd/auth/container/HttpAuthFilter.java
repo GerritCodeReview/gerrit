@@ -26,6 +26,7 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gerrit.util.http.RequestUtil;
@@ -64,10 +65,16 @@ class HttpAuthFilter implements Filter {
   private final String emailHeader;
   private final String externalIdHeader;
   private final boolean userNameToLowerCase;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
-  HttpAuthFilter(DynamicItem<WebSession> webSession, AuthConfig authConfig) throws IOException {
+  HttpAuthFilter(
+      DynamicItem<WebSession> webSession,
+      AuthConfig authConfig,
+      ExternalIdKeyFactory externalIdKeyFactory)
+      throws IOException {
     this.sessionProvider = webSession;
+    this.externalIdKeyFactory = externalIdKeyFactory;
 
     final String pageName = "LoginRedirect.html";
     final String doc = HtmlDomUtil.readFile(getClass(), pageName);
@@ -124,9 +131,9 @@ class HttpAuthFilter implements Filter {
     return false;
   }
 
-  private static boolean correctUser(String user, WebSession session) {
+  private boolean correctUser(String user, WebSession session) {
     Optional<ExternalId.Key> id = session.getUser().getLastLoginExternalIdKey();
-    return id.map(i -> i.equals(ExternalId.Key.create(SCHEME_GERRIT, user))).orElse(false);
+    return id.map(i -> i.equals(externalIdKeyFactory.create(SCHEME_GERRIT, user))).orElse(false);
   }
 
   String getRemoteUser(HttpServletRequest req) {

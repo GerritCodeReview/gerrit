@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.externalids.AllExternalIds.Serializer;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto.ExternalIdProto;
 import com.google.inject.TypeLiteral;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -119,12 +120,14 @@ public class AllExternalIdsTest {
   public void externalIdMethods() {
     assertThatSerializedClass(ExternalId.class)
         .hasAutoValueMethods(
-            ImmutableMap.of(
-                "key", ExternalId.Key.class,
-                "accountId", Account.Id.class,
-                "email", String.class,
-                "password", String.class,
-                "blobId", ObjectId.class));
+            ImmutableMap.<String, Type>builder()
+                .put("key", ExternalId.Key.class)
+                .put("accountId", Account.Id.class)
+                .put("isCaseInsensitive", boolean.class)
+                .put("email", String.class)
+                .put("password", String.class)
+                .put("blobId", ObjectId.class)
+                .build());
   }
 
   private static AllExternalIds allExternalIds(ExternalId... externalIds) {

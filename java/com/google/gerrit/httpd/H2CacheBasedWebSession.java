@@ -21,6 +21,7 @@ import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser.RequestFactory;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
@@ -61,7 +62,8 @@ public class H2CacheBasedWebSession extends CacheBasedWebSession {
       AuthConfig authConfig,
       Provider<AnonymousUser> anonymousProvider,
       RequestFactory identified,
-      AccountCache byIdCache) {
+      AccountCache byIdCache,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     super(
         request,
         response,
@@ -69,6 +71,7 @@ public class H2CacheBasedWebSession extends CacheBasedWebSession {
         authConfig,
         anonymousProvider,
         identified,
-        byIdCache);
+        byIdCache,
+        externalIdKeyFactory);
   }
 }

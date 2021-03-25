@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
@@ -63,6 +64,7 @@ public class EmailIT extends AbstractDaemonTest {
   @Inject private ExternalIds externalIds;
   @Inject private Provider<Emails> emails;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExternalIdKeyFactory externalIdKeyFactory;
 
   @Test
   public void addEmail() throws Exception {
@@ -182,7 +184,7 @@ public class EmailIT extends AbstractDaemonTest {
   public void setPreferredEmailToEmailFromCustomRealmThatDoesntExistAsExternalId()
       throws Exception {
     String email = "foo@example.com";
-    ExternalId.Key mailtoExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_MAILTO, email);
+    ExternalId.Key mailtoExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_MAILTO, email);
     assertThat(externalIds.get(mailtoExtIdKey)).isEmpty();
     assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
 

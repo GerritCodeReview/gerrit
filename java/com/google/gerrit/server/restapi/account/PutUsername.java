@@ -34,6 +34,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -65,6 +66,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final SshKeyCache sshKeyCache;
   private final Realm realm;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
   PutUsername(
@@ -73,13 +75,15 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
       ExternalIds externalIds,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       SshKeyCache sshKeyCache,
-      Realm realm) {
+      Realm realm,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.sshKeyCache = sshKeyCache;
     this.realm = realm;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   @Override
@@ -107,7 +111,7 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
       throw new UnprocessableEntityException("invalid username");
     }
 
-    ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, input.username);
+    ExternalId.Key key = externalIdKeyFactory.create(SCHEME_USERNAME, input.username);
     try {
       accountsUpdateProvider
           .get()

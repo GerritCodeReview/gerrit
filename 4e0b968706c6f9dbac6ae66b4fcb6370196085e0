@@ -22,6 +22,30 @@
       },
       "revId": "4e0b968706c6f9dbac6ae66b4fcb6370196085e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24dd9041_e1a48758",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-25T14:35:52Z",
+      "side": 1,
+      "message": "We don\u0027t want the image diff plugin (if configured) to render when the new built-in image diff is used, so as far as I understand, the endpoints should not be there.",
+      "parentUuid": "eaf816e9_baf50c17",
+      "range": {
+        "startLine": 55,
+        "startChar": 38,
+        "endLine": 55,
+        "endChar": 53
+      },
+      "revId": "4e0b968706c6f9dbac6ae66b4fcb6370196085e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

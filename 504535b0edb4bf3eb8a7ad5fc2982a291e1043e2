@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "671e1b00_167f5920",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-25T09:38:12Z",
+      "side": 1,
+      "message": "supermanifest ist just one non-core plugin. We never add any plugins specific dependencies in gerrit core for non core plugins.\n\nMoreover you are only adding this new dependency to plugin-api. That way you would be able to build supermanifest plugin against this change, but your plugin wouldn\u0027t work, because gerrit core wouldn\u0027t include this library. So that you would need to to add this library as dependency to supermanifest manually.\n\nSee for example delete-project plugin:\n\n  gerrit_plugin(\n    name \u003d \"delete-project\",\n    srcs \u003d glob([\"src/main/java/**/*.java\"]),\n    manifest_entries \u003d [\n        \"Gerrit-PluginName: delete-project\",\n        \"Gerrit-Module: com.googlesource.gerrit.plugins.deleteproject.Module\",\n        \"Gerrit-HttpModule: com.googlesource.gerrit.plugins.deleteproject.HttpModule\",\n        \"Gerrit-SshModule: com.googlesource.gerrit.plugins.deleteproject.SshModule\",\n    ],\n    resource_jars \u003d [\":gr-delete-repo-static\"],\n    resources \u003d glob([\"src/main/resources/Documentation/*.md\"]),\n    deps \u003d [\"@commons-io//jar\"],\n  )\n\nBecause delete-project plugin is part of gerrit core, this dependency is included in gerrit even though it\u0027s not used by gerrit itself.\n\nThe regular workflow for exposing the libraries in plugin api is: the library should be a part of gerrit and shipped withing gerrit.war. Then we expose it, so that the plugins wouldn\u0027t need to pull this dependency on their own, but can be built against the API. This doesn\u0027t apply to jaxb-api and I would object to add any new dependency into gerrit core, unless gerrit core is actually using it.\n\nBottom line: unless supermanifest plugin is promoted to core plugin, we cannot accept this change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "504535b0edb4bf3eb8a7ad5fc2982a291e1043e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "820bed93_269a739f",

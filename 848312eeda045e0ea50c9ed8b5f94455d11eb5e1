@@ -34,6 +34,24 @@
       "parentUuid": "75de86ca_1de5f6fe",
       "revId": "848312eeda045e0ea50c9ed8b5f94455d11eb5e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76e75a72_57a5445c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-25T11:44:53Z",
+      "side": 1,
+      "message": "1. Yes we add the border too for voting chips +1 and -1 in the change log. But now the chips have fully rounded corner, radius 100% for the voting labels like Code Review +1 or Verified +1 in the change log. Before, the radius was not fully rounded, the chips looked like rectangle with 4px radius in the change log only. I propose we keep them as is without fully rounded corners for now, only for the voting labels in the change log. \n\n2. Ok then let\u0027s keep as is because these will need more changes to the chips definition and it goes beyond colors.\n\n3. Sounds good, can review today if you have it ready.",
+      "parentUuid": "85b32beb_521c4efa",
+      "revId": "848312eeda045e0ea50c9ed8b5f94455d11eb5e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

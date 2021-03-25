@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7c8821e_917d2426",
+        "filename": "java/com/google/gerrit/metrics/proc/ThreadMXBeanJava.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-03-25T09:38:38Z",
+      "side": 1,
+      "message": "How is this related to the intention of this change to log the allocated memory?\n\nLooks like this should have been part of the parent change.",
+      "revId": "77e235fcdf2b1ad2921530a0cf6d402e4197ac83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -43,9 +43,13 @@ export const htmlTemplate = html`
     }
     .positive {
       background-color: var(--vote-color-recommended);
+      border-radius: 12px;
+      border: 1px solid var(--vote-outline-recommended);
     }
     .negative {
       background-color: var(--vote-color-disliked);
+      border-radius: 12px;
+      border: 1px solid var(--vote-outline-disliked);
     }
     .hidden {
       display: none;

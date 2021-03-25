@@ -23,6 +23,7 @@ import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.InMemoryInserter;
@@ -86,6 +87,7 @@ public class AutoMerger {
   }
 
   private final Counter1<OperationType> counter;
+  private final Timer1<OperationType> latency;
   private final PersonIdent gerritIdent;
   private final boolean save;
   private final ThreeWayMergeStrategy configuredMergeStrategy;
@@ -99,6 +101,11 @@ public class AutoMerger {
         metricMaker.newCounter(
             "git/auto-merge/num_operations",
             new Description("AutoMerge computations").setRate().setUnit("auto merge computations"),
+            Field.ofEnum(OperationType.class, "type", Metadata.Builder::operationName).build());
+    this.latency =
+        metricMaker.newTimer(
+            "git/auto-merge/latency",
+            new Description("AutoMerge computation latency").setUnit("milliseconds"),
             Field.ofEnum(OperationType.class, "type", Metadata.Builder::operationName).build());
     this.save = cacheAutomerge(cfg);
     this.gerritIdent = gerritIdent;
@@ -129,8 +136,10 @@ public class AutoMerger {
       return existingCommit.get();
     }
     counter.increment(OperationType.IN_MEMORY_WRITE);
-    logger.atWarning().log("Computing in-memory AutoMerge for " + merge.name());
-    return rw.parseCommit(createAutoMergeCommit(repo.getConfig(), rw, ins, merge, mergeStrategy));
+    logger.atInfo().log("Computing in-memory AutoMerge for " + merge.name());
+    try (Timer1.Context ignored = latency.start(OperationType.IN_MEMORY_WRITE)) {
+      return rw.parseCommit(createAutoMergeCommit(repo.getConfig(), rw, ins, merge, mergeStrategy));
+    }
   }
 
   /**
@@ -156,9 +165,11 @@ public class AutoMerger {
             repoView.getConfig(), rw, ins, maybeMergeCommit, configuredMergeStrategy);
     counter.increment(OperationType.ON_DISK_WRITE);
     logger.atFine().log("Added %s AutoMerge ref update for commit", autoMerge.name());
-    return Optional.of(
-        new ReceiveCommand(
-            ObjectId.zeroId(), autoMerge, RefNames.refsCacheAutomerge(maybeMergeCommit.name())));
+    try (Timer1.Context ignored = latency.start(OperationType.ON_DISK_WRITE)) {
+      return Optional.of(
+          new ReceiveCommand(
+              ObjectId.zeroId(), autoMerge, RefNames.refsCacheAutomerge(maybeMergeCommit.name())));
+    }
   }
 
   /**

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75de86ca_1de5f6fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-25T10:51:13Z",
+      "side": 1,
+      "message": "I commented on the bug.\nWe can keep the current radius of voting labels in the change log.\nFor code-review the specs colors are applied but not for other labels, like Verified. Each label with +1 has light green background + border and each label with +2 has green background. \n\nWe also need to address the dark theme issue of changing to white font + I propose we add borders to the +1 /-1 voting chips for improving contrast in dark theme.",
+      "revId": "848312eeda045e0ea50c9ed8b5f94455d11eb5e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

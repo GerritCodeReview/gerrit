@@ -16,6 +16,24 @@
       "message": "How is this related to the intention of this change to log the allocated memory?\n\nLooks like this should have been part of the parent change.",
       "revId": "77e235fcdf2b1ad2921530a0cf6d402e4197ac83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a45b6c7d_ce8b62c1",
+        "filename": "java/com/google/gerrit/metrics/proc/ThreadMXBeanJava.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-25T15:38:07Z",
+      "side": 1,
+      "message": "This is done here and not in the previous change since the cpu metrics are available in java.lang.management.ThreadMXBean which is present in all JVM implementations.\n\nThe method getting the current thread\u0027s allocated memory is only available in com.sun.managment.ThreadMXBean which is not available e.g. in IBM JVM. Hence\nan interface and a factory to get to an implementation was added here which includes also the new fields introduced in the previous change",
+      "parentUuid": "f7c8821e_917d2426",
+      "revId": "77e235fcdf2b1ad2921530a0cf6d402e4197ac83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

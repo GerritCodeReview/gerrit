@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c0c1846_702c31d9",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-03-25T09:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a001df8_1769f4be",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "e01d6544b2c11712b1fc6d900849d85eb5caf967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b952468b_e99e1859",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-25T02:53:33Z",
       "side": 1,
       "message": "is available via",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 11
+      },
+      "revId": "e01d6544b2c11712b1fc6d900849d85eb5caf967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e7235a0_13750173",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-03-25T09:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b952468b_e99e1859",
       "range": {
         "startLine": 40,
         "startChar": 0,

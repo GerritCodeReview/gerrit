@@ -172,7 +172,7 @@ import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.RetryHelper;
@@ -3143,7 +3143,7 @@ class ReceiveCommits {
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public void postUpdate(PostUpdateContext ctx) {
       String refName = cmd.getRefName();
       if (cmd.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
         logger.atFine().log("Updating tag cache on fast-forward of %s", cmd.getRefName());

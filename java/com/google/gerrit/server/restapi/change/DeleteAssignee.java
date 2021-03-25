@@ -34,7 +34,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -113,7 +113,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public void postUpdate(PostUpdateContext ctx) {
       assigneeChanged.fire(change, ctx.getAccount(), deletedAssignee, ctx.getWhen());
     }
   }

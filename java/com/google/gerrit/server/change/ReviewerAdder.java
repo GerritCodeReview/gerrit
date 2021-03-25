@@ -69,7 +69,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -586,7 +586,7 @@ public class ReviewerAdder {
       }
     }
 
-    public void postUpdate(Context ctx) throws Exception {
+    public void postUpdate(PostUpdateContext ctx) throws Exception {
       for (ReviewerAddition addition : additions()) {
         if (addition.op != null) {
           addition.op.postUpdate(ctx);

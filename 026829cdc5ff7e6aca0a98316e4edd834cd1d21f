@@ -16,6 +16,24 @@
       "message": "There are some more occurrences on stable-3.3 branch:\n\n  polygerrit-ui/app/utils/access-util.ts:  PUBLISH_DRAFTS \u003d \u0027publishDrafts\u0027,\n  polygerrit-ui/app/utils/access-util.ts:  [AccessPermissionId.PUBLISH_DRAFTS]: {\n  polygerrit-ui/app/utils/access-util.ts:    id: AccessPermissionId.PUBLISH_DRAFTS,",
       "revId": "026829cdc5ff7e6aca0a98316e4edd834cd1d21f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a620aa56_2b58d63a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-03-25T13:54:33Z",
+      "side": 1,
+      "message": "Yep, quite a few changes between stable-3.1 and stable-3.3.\nWill handle this in the merge.",
+      "parentUuid": "bc718d5b_2338999a",
+      "revId": "026829cdc5ff7e6aca0a98316e4edd834cd1d21f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

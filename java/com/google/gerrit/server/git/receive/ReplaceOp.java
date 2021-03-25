@@ -507,7 +507,8 @@ public class ReplaceOp implements BatchUpdateOp {
       }
     }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
-    revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
+    revisionCreated.fire(
+        ctx.getChangeData(notes), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
     try {
       fireApprovalsEvent(ctx);
     } catch (Exception e) {
@@ -561,7 +562,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
-  private void fireApprovalsEvent(Context ctx) {
+  private void fireApprovalsEvent(PostUpdateContext ctx) {
     if (approvals.isEmpty()) {
       return;
     }
@@ -589,7 +590,7 @@ public class ReplaceOp implements BatchUpdateOp {
       }
     }
     commentAdded.fire(
-        notes.getChange(),
+        ctx.getChangeData(notes),
         newPatchSet,
         ctx.getAccount(),
         null,

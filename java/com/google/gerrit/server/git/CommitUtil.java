@@ -311,7 +311,8 @@ public class CommitUtil {
 
     @Override
     public void postUpdate(PostUpdateContext ctx) throws Exception {
-      changeReverted.fire(change, ins.getChange(), ctx.getWhen());
+      changeReverted.fire(
+          ctx.getChangeData(change), ctx.getChangeData(ins.getChange()), ctx.getWhen());
       try {
         RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());

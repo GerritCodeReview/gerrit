@@ -195,7 +195,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", currChange.getId());
     }
     reviewerDeleted.fire(
-        currChange,
+        ctx.getChangeData(currChange),
         currPs,
         reviewer,
         ctx.getAccount(),

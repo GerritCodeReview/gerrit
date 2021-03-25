@@ -321,11 +321,12 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
+      revisionCreated.fire(
+          ctx.getChangeData(change), patchSet, ctx.getAccount(), ctx.getWhen(), notify);
     }
 
     if (workInProgress != null && oldWorkInProgressState != workInProgress) {
-      wipStateChanged.fire(change, patchSet, ctx.getAccount(), ctx.getWhen());
+      wipStateChanged.fire(ctx.getChangeData(change), patchSet, ctx.getAccount(), ctx.getWhen());
     }
   }
 

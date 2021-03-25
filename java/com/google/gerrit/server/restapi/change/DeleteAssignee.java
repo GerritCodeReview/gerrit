@@ -114,7 +114,8 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
 
     @Override
     public void postUpdate(PostUpdateContext ctx) {
-      assigneeChanged.fire(change, ctx.getAccount(), deletedAssignee, ctx.getWhen());
+      assigneeChanged.fire(
+          ctx.getChangeData(change), ctx.getAccount(), deletedAssignee, ctx.getWhen());
     }
   }
 }

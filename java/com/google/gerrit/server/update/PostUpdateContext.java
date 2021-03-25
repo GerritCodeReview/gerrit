@@ -15,7 +15,7 @@
 package com.google.gerrit.server.update;
 
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 
 /** Context for performing the {@link BatchUpdateOp#postUpdate} phase. */
@@ -27,8 +27,11 @@ public interface PostUpdateContext extends Context {
    * an update or because this method has been invoked before, the cached change data instance is
    * returned.
    *
-   * @param projectName the name of the project that contains the change
-   * @param changeId the ID of the change for which the change data should be returned
+   * @param change the change for which the change data should be returned
    */
-  ChangeData getChangeData(Project.NameKey projectName, Change.Id changeId);
+  ChangeData getChangeData(Change change);
+
+  default ChangeData getChangeData(ChangeNotes changeNotes) {
+    return getChangeData(changeNotes.getChange());
+  }
 }

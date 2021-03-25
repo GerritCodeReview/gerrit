@@ -379,7 +379,7 @@ public class MailProcessor {
       // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
       // are always the same here.
       commentAdded.fire(
-          notes.getChange(),
+          ctx.getChangeData(notes),
           patchSet,
           ctx.getAccount(),
           changeMessage.getMessage(),

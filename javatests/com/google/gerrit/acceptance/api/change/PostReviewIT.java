@@ -40,6 +40,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -60,8 +61,10 @@ import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
@@ -677,6 +680,19 @@ public class PostReviewIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void submitRulesAreInvokedOnlyOnce() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    TestSubmitRule testSubmitRule = new TestSubmitRule();
+    try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
+      ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
+      gApi.changes().id(r.getChangeId()).current().review(input);
+    }
+
+    assertThat(testSubmitRule.count).isEqualTo(1);
+  }
+
   private static class TestListener implements CommentAddedListener {
     public CommentAddedListener.Event lastCommentAddedEvent;
 
@@ -751,6 +767,16 @@ public class PostReviewIT extends AbstractDaemonTest {
           .containsExactly(
               labelName, expectedOldValue != null ? expectedOldValue.shortValue() : null);
       assertThat(approvals).containsExactly(labelName, (short) expectedNewValue);
+    }
+  }
+
+  private static class TestSubmitRule implements SubmitRule {
+    int count;
+
+    @Override
+    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
+      count++;
+      return Optional.empty();
     }
   }
 }

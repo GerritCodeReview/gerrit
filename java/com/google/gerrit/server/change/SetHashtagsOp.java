@@ -147,7 +147,12 @@ public class SetHashtagsOp implements BatchUpdateOp {
   public void postUpdate(PostUpdateContext ctx) {
     if (updated() && fireEvent) {
       hashtagsEdited.fire(
-          change, ctx.getAccount(), updatedHashtags, toAdd, toRemove, ctx.getWhen());
+          ctx.getChangeData(change),
+          ctx.getAccount(),
+          updatedHashtags,
+          toAdd,
+          toRemove,
+          ctx.getWhen());
     }
   }
 

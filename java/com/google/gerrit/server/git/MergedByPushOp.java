@@ -214,7 +214,8 @@ public class MergedByPushOp implements BatchUpdateOp {
                   }
                 }));
 
-    changeMerged.fire(change, patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());
+    changeMerged.fire(
+        ctx.getChangeData(change), patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {

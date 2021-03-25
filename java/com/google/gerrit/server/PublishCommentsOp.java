@@ -128,7 +128,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
           .sendAsync();
     }
     commentAdded.fire(
-        changeNotes.getChange(),
+        ctx.getChangeData(changeNotes),
         ps,
         ctx.getAccount(),
         message.getMessage(),

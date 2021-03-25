@@ -529,7 +529,8 @@ public class ChangeInserter implements InsertChangeOp {
      * show a transition from an oldValue of 0 to the new value.
      */
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
+      revisionCreated.fire(
+          ctx.getChangeData(change), patchSet, ctx.getAccount(), ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
         List<LabelType> labels = projectState.getLabelTypes(change.getDest()).getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
@@ -545,7 +546,13 @@ public class ChangeInserter implements InsertChangeOp {
           }
         }
         commentAdded.fire(
-            change, patchSet, ctx.getAccount(), null, allApprovals, oldApprovals, ctx.getWhen());
+            ctx.getChangeData(change),
+            patchSet,
+            ctx.getAccount(),
+            null,
+            allApprovals,
+            oldApprovals,
+            ctx.getWhen());
       }
     }
   }

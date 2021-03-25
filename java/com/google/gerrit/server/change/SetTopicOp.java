@@ -83,7 +83,7 @@ public class SetTopicOp implements BatchUpdateOp {
   @Override
   public void postUpdate(PostUpdateContext ctx) {
     if (change != null) {
-      topicEdited.fire(change, ctx.getAccount(), oldTopicName, ctx.getWhen());
+      topicEdited.fire(ctx.getChangeData(change), ctx.getAccount(), oldTopicName, ctx.getWhen());
     }
   }
 }

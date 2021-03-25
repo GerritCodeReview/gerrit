@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -84,8 +83,8 @@ public class EventUtil {
     this.changeOptions = parseChangeListOptions(gerritConfig);
   }
 
-  public ChangeInfo changeInfo(Change change) {
-    return changeJsonFactory.create(changeOptions).format(change);
+  public ChangeInfo changeInfo(ChangeData changeData) {
+    return changeJsonFactory.create(changeOptions).format(changeData);
   }
 
   public RevisionInfo revisionInfo(Project project, PatchSet ps)

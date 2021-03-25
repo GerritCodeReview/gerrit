@@ -243,7 +243,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       }
 
       voteDeleted.fire(
-          change,
+          ctx.getChangeData(change),
           ps,
           accountState,
           newApprovals,

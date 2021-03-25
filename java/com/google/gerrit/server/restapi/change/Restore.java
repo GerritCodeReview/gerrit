@@ -161,7 +161,11 @@ public class Restore
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
       changeRestored.fire(
-          change, patchSet, ctx.getAccount(), Strings.emptyToNull(input.message), ctx.getWhen());
+          ctx.getChangeData(change),
+          patchSet,
+          ctx.getAccount(),
+          Strings.emptyToNull(input.message),
+          ctx.getWhen());
     }
   }
 

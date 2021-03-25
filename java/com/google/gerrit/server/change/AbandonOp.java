@@ -127,6 +127,12 @@ public class AbandonOp implements BatchUpdateOp {
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }
-    changeAbandoned.fire(change, patchSet, accountState, msgTxt, ctx.getWhen(), notify.handling());
+    changeAbandoned.fire(
+        ctx.getChangeData(change),
+        patchSet,
+        accountState,
+        msgTxt,
+        ctx.getWhen(),
+        notify.handling());
   }
 }

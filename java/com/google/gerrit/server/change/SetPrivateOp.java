@@ -90,7 +90,7 @@ public class SetPrivateOp implements BatchUpdateOp {
   @Override
   public void postUpdate(PostUpdateContext ctx) {
     if (!isNoOp) {
-      privateStateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
+      privateStateChanged.fire(ctx.getChangeData(change), ps, ctx.getAccount(), ctx.getWhen());
     }
   }
 

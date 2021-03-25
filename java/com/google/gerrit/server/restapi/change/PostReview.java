@@ -968,7 +968,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
       commentAdded.fire(
-          notes.getChange(), ps, user.state(), comment, approvals, oldApprovals, ctx.getWhen());
+          ctx.getChangeData(notes),
+          ps,
+          user.state(),
+          comment,
+          approvals,
+          oldApprovals,
+          ctx.getWhen());
     }
 
     private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)

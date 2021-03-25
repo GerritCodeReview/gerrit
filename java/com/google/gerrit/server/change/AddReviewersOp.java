@@ -262,7 +262,8 @@ public class AddReviewersOp implements BatchUpdateOp {
               .map(r -> accountCache.get(r.accountId()))
               .flatMap(Streams::stream)
               .collect(toList());
-      reviewerAdded.fire(change, patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
+      reviewerAdded.fire(
+          ctx.getChangeData(change), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
     }
   }
 

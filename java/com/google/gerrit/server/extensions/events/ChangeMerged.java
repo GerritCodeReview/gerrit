@@ -15,7 +15,6 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -29,6 +28,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -49,15 +49,19 @@ public class ChangeMerged {
   }
 
   public void fire(
-      Change change, PatchSet ps, AccountState merger, String newRevisionId, Timestamp when) {
+      ChangeData changeData,
+      PatchSet ps,
+      AccountState merger,
+      String newRevisionId,
+      Timestamp when) {
     if (listeners.isEmpty()) {
       return;
     }
     try {
       Event event =
           new Event(
-              util.changeInfo(change),
-              util.revisionInfo(change.getProject(), ps),
+              util.changeInfo(changeData),
+              util.revisionInfo(changeData.project(), ps),
               util.accountInfo(merger),
               newRevisionId,
               when);

@@ -518,7 +518,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
     if (mergeResultRev != null && !args.dryrun) {
       args.changeMerged.fire(
-          updatedChange,
+          ctx.getChangeData(updatedChange),
           mergedPatchSet,
           args.accountCache.get(submitter.accountId()).orElse(null),
           args.mergeTip.getCurrentTip().name(),

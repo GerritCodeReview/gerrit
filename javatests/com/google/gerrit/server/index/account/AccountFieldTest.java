@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -58,6 +59,7 @@ public class AccountFieldTest {
         ExternalId.create(
             ExternalId.Key.create(ExternalId.SCHEME_MAILTO, "foo.bar@example.com"),
             id,
+            false,
             "foo.bar@example.com",
             null,
             ObjectId.fromString("1b9a0cf038ea38a0ab08617c39aa8e28413a27ca"));
@@ -65,6 +67,7 @@ public class AccountFieldTest {
         ExternalId.create(
             ExternalId.Key.create(ExternalId.SCHEME_USERNAME, "foo"),
             id,
+            false,
             null,
             "secret",
             ObjectId.fromString("5b3a73dc9a668a5b89b5f049225261e3e3291d1a"));
@@ -72,8 +75,10 @@ public class AccountFieldTest {
         toStrings(
             AccountField.EXTERNAL_ID_STATE.get(
                 AccountState.forAccount(account, ImmutableSet.of(extId1, extId2))));
-    String expectedValue1 = extId1.key().sha1(false).name() + ":" + extId1.blobId().name();
-    String expectedValue2 = extId2.key().sha1(false).name() + ":" + extId2.blobId().name();
+    String expectedValue1 =
+        ExternalIdNotes.computeNoteId(extId1.key()).name() + ":" + extId1.blobId().name();
+    String expectedValue2 =
+        ExternalIdNotes.computeNoteId(extId2.key()).name() + ":" + extId2.blobId().name();
     assertThat(values).containsExactly(expectedValue1, expectedValue2);
   }
 

@@ -38,6 +38,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -55,6 +56,8 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -95,6 +98,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ExternalIdNotes.Factory externalIdNotesFactory;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExternalIdKeyFactory externalIdKeyFactory;
+  @Inject private ExternalIdFactory externalIdFactory;
 
   @ConfigSuite.Default
   public static Config partialCacheReloadingEnabled() {
@@ -252,7 +257,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     gApi.accounts()
         .self()
         .deleteExternalIds(
-            ImmutableList.of(ExternalId.Key.create(SCHEME_MAILTO, preferredEmail).get()));
+            ImmutableList.of(externalIdKeyFactory.create(SCHEME_MAILTO, preferredEmail).get()));
     assertThat(gApi.accounts().self().get().email).isNull();
   }
 
@@ -529,7 +534,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     // create valid external IDs
     insertExtId(
         ExternalId.createWithPassword(
-            ExternalId.Key.parse(nextId(scheme, i)),
+            externalIdKeyFactory.parse(nextId(scheme, i)),
             admin.id(),
             "admin.other@example.com",
             "secret-password"));
@@ -634,28 +639,29 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   private ExternalId createExternalIdWithOtherCaseEmail(String externalId) {
     return ExternalId.createWithPassword(
-        ExternalId.Key.parse(externalId),
+        externalIdKeyFactory.parse(externalId),
         admin.id(),
         admin.email().toUpperCase(Locale.US),
         "password");
   }
 
   private ExternalId createExternalIdForNonExistingAccount(String externalId) {
-    return ExternalId.create(ExternalId.Key.parse(externalId), Account.id(1));
+    return ExternalId.create(externalIdKeyFactory.parse(externalId), Account.id(1));
   }
 
   private ExternalId createExternalIdWithInvalidEmail(String externalId) {
     return ExternalId.createWithEmail(
-        ExternalId.Key.parse(externalId), admin.id(), "invalid-email");
+        externalIdKeyFactory.parse(externalId), admin.id(), "invalid-email");
   }
 
   private ExternalId createExternalIdWithDuplicateEmail(String externalId) {
-    return ExternalId.createWithEmail(ExternalId.Key.parse(externalId), user.id(), admin.email());
+    return ExternalId.createWithEmail(
+        externalIdKeyFactory.parse(externalId), user.id(), admin.email());
   }
 
   private ExternalId createExternalIdWithBadPassword(String username) {
     return ExternalId.create(
-        ExternalId.Key.create(SCHEME_USERNAME, username),
+        externalIdKeyFactory.create(SCHEME_USERNAME, username),
         admin.id(),
         null,
         "non-hashed-password-is-not-allowed");
@@ -667,7 +673,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void readExternalIdWithAccountIdThatCanBeExpressedInKiB() throws Exception {
-    ExternalId.Key extIdKey = ExternalId.Key.parse("foo:bar");
+    ExternalId.Key extIdKey = externalIdKeyFactory.parse("foo:bar");
     Account.Id accountId = Account.id(1024 * 100);
     accountsUpdateProvider
         .get()
@@ -760,7 +766,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Test
   public void unsetHttpPassword() throws Exception {
     ExternalId extId =
-        ExternalId.createWithPassword(ExternalId.Key.create("y", "1"), user.id(), null, "secret");
+        ExternalId.createWithPassword(
+            externalIdKeyFactory.create("y", "1"), user.id(), null, "secret");
     insertExtId(extId);
 
     ExternalId extIdWithoutPassword = ExternalId.create("y", "1", user.id());
@@ -865,6 +872,27 @@ public class ExternalIdIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
+  public void createCaseInsensitiveExternalId() throws Exception {
+    ExternalId extId = ExternalId.create(SCHEME_USERNAME, "JohnDoe", Account.id(0));
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+      extIdNotes.insert(extId);
+      RevCommit c = extIdNotes.commit(md);
+      assertThat(extIdNotes.get(externalIdKeyFactory.create(SCHEME_USERNAME, "johndoe")))
+          .isPresent();
+      assertThat(
+              extIdNotes
+                  .get(externalIdKeyFactory.create(SCHEME_USERNAME, "johndoe"))
+                  .get()
+                  .accountId()
+                  .get())
+          .isEqualTo(1);
+    }
+  }
+
   private boolean isPartialCacheReloadingEnabled() {
     return cfg.getBoolean("cache", "external_ids_map", "enablePartialReloads", true);
   }
@@ -889,7 +917,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
   private void insertExtIdBehindGerritsBack(ExternalId extId) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       // Inserting an external ID "behind Gerrit's back" means that the caches are not updated.
-      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsers, repo);
+      ExternalIdNotes extIdNotes =
+          ExternalIdNotes.loadNoCacheUpdate(allUsers, repo, externalIdFactory);
       extIdNotes.insert(extId);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {

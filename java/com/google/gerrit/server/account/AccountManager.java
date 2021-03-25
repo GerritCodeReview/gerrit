@@ -37,6 +37,7 @@ import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -78,6 +79,7 @@ public class AccountManager {
   private final GroupsUpdate.Factory groupsUpdateFactory;
   private final boolean autoUpdateAccountActiveStatus;
   private final SetInactiveFlag setInactiveFlag;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @VisibleForTesting
   @Inject
@@ -93,7 +95,8 @@ public class AccountManager {
       ProjectCache projectCache,
       ExternalIds externalIds,
       GroupsUpdate.Factory groupsUpdateFactory,
-      SetInactiveFlag setInactiveFlag) {
+      SetInactiveFlag setInactiveFlag,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.sequences = sequences;
     this.accounts = accounts;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -109,12 +112,13 @@ public class AccountManager {
     this.autoUpdateAccountActiveStatus =
         cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false);
     this.setInactiveFlag = setInactiveFlag;
+    this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   /** @return user identified by this external identity string */
   public Optional<Account.Id> lookup(String externalId) throws AccountException {
     try {
-      return externalIds.get(ExternalId.Key.parse(externalId)).map(ExternalId::accountId);
+      return externalIds.get(externalIdKeyFactory.parse(externalId)).map(ExternalId::accountId);
     } catch (IOException | ConfigInvalidException e) {
       throw new AccountException("Cannot lookup account " + externalId, e);
     }

@@ -56,14 +56,17 @@ public class ExternalIDCacheLoaderTest {
   private GitRepositoryManager repoManager = new InMemoryRepositoryManager();
   private ExternalIdReader externalIdReader;
   private ExternalIdReader externalIdReaderSpy;
+  private ExternalIdFactory externalIdFactory;
 
   @Before
   public void setUp() throws Exception {
     externalIdCache = CacheBuilder.newBuilder().build();
     repoManager.createRepository(ALL_USERS).close();
-    externalIdReader = new ExternalIdReader(repoManager, ALL_USERS, new DisabledMetricMaker());
+    externalIdReader =
+        new ExternalIdReader(repoManager, ALL_USERS, new DisabledMetricMaker(), externalIdFactory);
     externalIdReaderSpy = Mockito.spy(externalIdReader);
     loader = createLoader(true);
+    externalIdFactory = Mockito.mock(ExternalIdFactory.class);
   }
 
   @Test
@@ -212,7 +215,8 @@ public class ExternalIDCacheLoaderTest {
         externalIdReaderSpy,
         Providers.of(externalIdCache),
         new DisabledMetricMaker(),
-        cfg);
+        cfg,
+        externalIdFactory);
   }
 
   private AllExternalIds allFromGit(ObjectId revision) throws Exception {
@@ -262,7 +266,8 @@ public class ExternalIDCacheLoaderTest {
   private ObjectId performExternalIdUpdate(Consumer<ExternalIdNotes> update) throws Exception {
     try (Repository repo = repoManager.openRepository(ALL_USERS)) {
       PersonIdent updater = new PersonIdent("Foo bar", "foo@bar.com");
-      ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(ALL_USERS, repo);
+      ExternalIdNotes extIdNotes =
+          ExternalIdNotes.loadNoCacheUpdate(ALL_USERS, repo, externalIdFactory);
       update.accept(extIdNotes);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f82df2dd_fc8097cf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-25T11:41:18Z",
+      "side": 1,
+      "message": "Nit: This would be nicer, if we could do \n`this._createElement\u003cGrImageViewer\u003e(\u0027gr-image-viewer\u0027)`",
+      "range": {
+        "startLine": 95,
+        "startChar": 24,
+        "endLine": 95,
+        "endChar": 62
+      },
+      "revId": "1b409dd177e34510a6f6effa0e6e09377e360e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "913dc38a_942a4c91",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-25T11:41:18Z",
+      "side": 1,
+      "message": "Since baseURl can be undefined, maybe _getImageSrc can return undefined if !image\n\nand you don\u0027t need these ifs\n\n```\nimageViewer.baseUrl \u003d this._getImageSrc(this._baseImage);\nimageViewer.revisionUrl \u003d this._getImageSrc(this._revisionImage);",
+      "range": {
+        "startLine": 100,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 5
+      },
+      "revId": "1b409dd177e34510a6f6effa0e6e09377e360e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05f96961_2103b98f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-25T11:41:18Z",
+      "side": 1,
+      "message": "I think this would be looking better:\n\n```\nprivate _getImageSrc(image: ImageInfo | null) {\n  if(image \u0026\u0026 IMAGE_MIME_PATTERN.test(image.type)\n    return `data:${image.type};base64, ${image.body}`\n  return \u0027\u0027;\n}\n```",
+      "range": {
+        "startLine": 113,
+        "startChar": 3,
+        "endLine": 115,
+        "endChar": 11
+      },
+      "revId": "1b409dd177e34510a6f6effa0e6e09377e360e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf07b58d_34fa02d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-25T11:41:18Z",
+      "side": 1,
+      "message": "NIT: Maybe this can use _getImageSrc",
+      "range": {
+        "startLine": 145,
+        "startChar": 35,
+        "endLine": 145,
+        "endChar": 75
+      },
+      "revId": "1b409dd177e34510a6f6effa0e6e09377e360e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

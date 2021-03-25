@@ -34,6 +34,24 @@
       "parentUuid": "270f524b_3fa8e4d0",
       "revId": "5550f1b8bc57f8fea226ab0829e98e730c8d4cd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "025e4ba3_f292fffd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-25T11:21:23Z",
+      "side": 1,
+      "message": "1. Enter is not working, yet. I added this information to commit message. I will fix it later\n2. Shift+Tab twice - The tabbing twice is because between chip and radio, there are tabs headers, there is open issue that they are not highlighted when focused. This will be improved someday.\n3. This is expected. The tab navigation is from left to right, top to bottom. So between chips and comments tabs there are relation chains. Since you pressed space, you jumped to radio buttons, and that\u0027s why you skipped relation chains. I think this is how it should be.",
+      "parentUuid": "58acd334_207d8be1",
+      "revId": "5550f1b8bc57f8fea226ab0829e98e730c8d4cd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

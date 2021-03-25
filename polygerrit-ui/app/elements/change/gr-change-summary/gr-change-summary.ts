@@ -124,14 +124,14 @@ export class GrSummaryChip extends GrLitElement {
   render() {
     const chipClass = `summaryChip font-small ${this.styleType}`;
     const grIcon = this.icon ? `gr-icons:${this.icon}` : '';
-    return html`<div
+    return html`<button
       class="${chipClass}"
       role="button"
       @click="${this.handleClick}"
     >
       ${this.icon && html`<iron-icon icon="${grIcon}"></iron-icon>`}
       <slot></slot>
-    </div>`;
+    </button>`;
   }
 
   private handleClick(e: MouseEvent) {

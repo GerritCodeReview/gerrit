@@ -39,9 +39,9 @@ public class SshScope {
     private final SshSession session;
     private final String commandLine;
 
-    final long created;
-    volatile long started;
-    volatile long finished;
+    private final long created;
+    private volatile long started;
+    private volatile long finished;
 
     private Context(SshSession s, String c, long at) {
       session = s;
@@ -54,6 +54,26 @@ public class SshScope {
       this(s, c, p.created);
       started = p.started;
       finished = p.finished;
+    }
+
+    void start() {
+      started = TimeUtil.nowMs();
+    }
+
+    void finish() {
+      finished = TimeUtil.nowMs();
+    }
+
+    public long getCreated() {
+      return created;
+    }
+
+    public long getWait() {
+      return started - created;
+    }
+
+    public long getExec() {
+      return finished - started;
     }
 
     String getCommandLine() {

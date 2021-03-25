@@ -171,13 +171,13 @@ class SshLog implements LifecycleListener, GerritConfigListener {
 
   void onExecute(DispatchCommand dcmd, int exitValue, SshSession sshSession, String message) {
     final Context ctx = context.get();
-    ctx.finished = TimeUtil.nowMs();
+    ctx.finish();
 
     String cmd = extractWhat(dcmd);
 
     final LoggingEvent event = log(cmd);
-    event.setProperty(P_WAIT, (ctx.started - ctx.created) + "ms");
-    event.setProperty(P_EXEC, (ctx.finished - ctx.started) + "ms");
+    event.setProperty(P_WAIT, ctx.getWait() + "ms");
+    event.setProperty(P_EXEC, ctx.getExec() + "ms");
 
     final String status;
     switch (exitValue) {
@@ -328,7 +328,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
       SshSession session = ctx.getSession();
       sessionId = HexFormat.fromInt(session.getSessionId());
       currentUser = session.getUser();
-      created = ctx.created;
+      created = ctx.getCreated();
     }
     auditService.dispatch(new SshAuditEvent(sessionId, currentUser, cmd, created, params, result));
   }

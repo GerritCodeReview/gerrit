@@ -51,6 +51,9 @@ if a log field is not present, a "-" is substituted:
 * `referer`: the `Referer` HTTP request header. This gives the site that
   the client reports having been referred from.
 * `client agent`: the client agent which sent the request.
+* `total_cpu`: total CPU time, CPU time in milliseconds to execute command.
+* `user_cpu`: user mode CPU time, CPU time in user mode in milliseconds to execute command.
+  CPU time in kernel mode is `total_cpu - user_cpu`.
 
 Example:
 ```

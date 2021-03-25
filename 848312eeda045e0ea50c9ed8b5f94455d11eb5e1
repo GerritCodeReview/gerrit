@@ -16,6 +16,24 @@
       "message": "I commented on the bug.\nWe can keep the current radius of voting labels in the change log.\nFor code-review the specs colors are applied but not for other labels, like Verified. Each label with +1 has light green background + border and each label with +2 has green background. \n\nWe also need to address the dark theme issue of changing to white font + I propose we add borders to the +1 /-1 voting chips for improving contrast in dark theme.",
       "revId": "848312eeda045e0ea50c9ed8b5f94455d11eb5e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85b32beb_521c4efa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-25T11:25:50Z",
+      "side": 1,
+      "message": "\u003e We can keep the current radius of voting labels in the change log.\n1. Could you please clarify this? So I shouldn\u0027t add border to this [Code-Review +1] in change log?\n\n\u003eFor code-review the specs colors are applied but not for other labels, like Verified.\n2. This is because Verified max value is +1, so it behaves like +2 in Code Review + 2\n\n\u003eWe also need to address the dark theme issue of changing to white font + I propose we add borders to the +1 /-1 voting chips for improving contrast in dark theme.\n3. Let\u0027s address dark theme in separate change, if you are ok with it. I will prepare it after we finish this one.",
+      "parentUuid": "75de86ca_1de5f6fe",
+      "revId": "848312eeda045e0ea50c9ed8b5f94455d11eb5e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "270f524b_3fa8e4d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-03-25T10:19:27Z",
+      "side": 1,
+      "message": "I tried out the keyboard navigation and found the following issues:\n\n- if press Enter on comments chips, I go to Commit message file page\n- I need to Shift + Tab twice to go backward to the chip when I should only have to Shift + Tab once\n- If there are related changes and I Shift + Tab, I go to the related changes instead of the chip",
+      "revId": "5550f1b8bc57f8fea226ab0829e98e730c8d4cd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

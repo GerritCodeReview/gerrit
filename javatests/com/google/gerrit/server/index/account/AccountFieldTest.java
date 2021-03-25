@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -72,8 +73,8 @@ public class AccountFieldTest {
         toStrings(
             AccountField.EXTERNAL_ID_STATE.get(
                 AccountState.forAccount(account, ImmutableSet.of(extId1, extId2))));
-    String expectedValue1 = extId1.key().sha1().name() + ":" + extId1.blobId().name();
-    String expectedValue2 = extId2.key().sha1().name() + ":" + extId2.blobId().name();
+    String expectedValue1 = ExternalIdNotes.computeNoteId(extId1.key()).name() + ":" + extId1.blobId().name();
+    String expectedValue2 = ExternalIdNotes.computeNoteId(extId2.key()).name() + ":" + extId2.blobId().name();
     assertThat(values).containsExactly(expectedValue1, expectedValue2);
   }
 

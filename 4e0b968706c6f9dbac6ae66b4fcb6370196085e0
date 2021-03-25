@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaf816e9_baf50c17",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-25T14:14:35Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be there gr-endpoint-decorator with new image diff ui.\n\nI think this code should look like\n```\nif (this._useNewImageDiffUi) {\nthis._emitImageViewer(section);\n} else { \nthis._emitImagePair(section);\nthis._emitImageLabels(section);\n}\n\nthis._outputEl.appendChild(section);\nthis._outputEl.appendChild(this._createEndpoint());\n```",
+      "range": {
+        "startLine": 55,
+        "startChar": 38,
+        "endLine": 55,
+        "endChar": 53
+      },
+      "revId": "4e0b968706c6f9dbac6ae66b4fcb6370196085e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -100,6 +100,12 @@ export const htmlTemplate = html`
     .lineNumButton:focus {
       outline: none;
     }
+    gr-image-viewer {
+      width: 100%;
+      height: 100%;
+      max-width: 95vw;
+      max-height: 90vh;
+    }
     .image-diff .gr-diff {
       text-align: center;
     }
@@ -606,6 +612,7 @@ export const htmlTemplate = html`
           base-image="[[baseImage]]"
           layers="[[layers]]"
           revision-image="[[revisionImage]]"
+          use-new-image-diff-ui="[[useNewImageDiffUi]]"
         >
           <table
             id="diffTable"

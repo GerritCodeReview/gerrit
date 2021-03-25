@@ -30,6 +30,7 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
@@ -145,13 +146,14 @@ public class StalenessChecker {
           extIdStates.size(), extIds.size());
     }
     for (ExternalId extId : extIds) {
-      if (!extIdStates.containsKey(extId.key().sha1())) {
-        return StalenessCheckResult.stale("External ID missing: %s", extId.key().sha1());
+      if (!extIdStates.containsKey(ExternalIdNotes.computeNoteId(extId.key()))) {
+        return StalenessCheckResult.stale(
+            "External ID missing: %s", ExternalIdNotes.computeNoteId(extId.key()));
       }
-      if (!extIdStates.containsEntry(extId.key().sha1(), extId.blobId())) {
+      if (!extIdStates.containsEntry(ExternalIdNotes.computeNoteId(extId.key()), extId.blobId())) {
         return StalenessCheckResult.stale(
             "External ID has unexpected value. (%s != %s)",
-            extIdStates.get(extId.key().sha1()), extId.blobId());
+            extIdStates.get(ExternalIdNotes.computeNoteId(extId.key())), extId.blobId());
       }
     }
 

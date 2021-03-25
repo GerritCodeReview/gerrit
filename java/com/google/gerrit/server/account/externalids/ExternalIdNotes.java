@@ -27,6 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
@@ -372,7 +373,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   public Optional<ExternalId> get(ExternalId.Key key) throws IOException, ConfigInvalidException {
     checkLoaded();
-    ObjectId noteId = key.sha1();
+    ObjectId noteId = computeNoteId(key);
     if (!noteMap.contains(noteId)) {
       return Optional.empty();
     }
@@ -830,6 +831,15 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   /**
+   * Returns the SHA1 of the external ID that is used as note ID in the refs/meta/external-ids notes
+   * branch.
+   */
+  @SuppressWarnings("deprecation") // Use Hashing.sha1 for compatibility.
+  public static ObjectId computeNoteId(ExternalId.Key key) {
+    return ObjectId.fromRaw(Hashing.sha1().hashString(key.get(), UTF_8).asBytes());
+  }
+
+  /**
    * Insert or updates an new external ID and sets it in the note map.
    *
    * <p>If the external ID already exists it is overwritten.
@@ -837,9 +847,9 @@ public class ExternalIdNotes extends VersionedMetaData {
   private static ExternalId upsert(
       RevWalk rw, ObjectInserter ins, NoteMap noteMap, Set<String> footers, ExternalId extId)
       throws IOException, ConfigInvalidException {
-    ObjectId noteId = extId.key().sha1();
+    ObjectId noteId = computeNoteId(extId.key());
     Config c = new Config();
-    if (noteMap.contains(extId.key().sha1())) {
+    if (noteMap.contains(computeNoteId(extId.key()))) {
       ObjectId noteDataId = noteMap.get(noteId);
       byte[] raw = readNoteData(rw, noteDataId);
       try {
@@ -869,7 +879,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   private static ExternalId remove(
       RevWalk rw, NoteMap noteMap, Set<String> footers, ExternalId extId)
       throws IOException, ConfigInvalidException {
-    ObjectId noteId = extId.key().sha1();
+    ObjectId noteId = computeNoteId(extId.key());
     if (!noteMap.contains(noteId)) {
       return null;
     }
@@ -902,7 +912,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       ExternalId.Key extIdKey,
       Account.Id expectedAccountId)
       throws IOException, ConfigInvalidException {
-    ObjectId noteId = extIdKey.sha1();
+    ObjectId noteId = computeNoteId(extIdKey);
     if (!noteMap.contains(noteId)) {
       return null;
     }
@@ -947,7 +957,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   private void checkExternalIdKeysDontExist(Collection<ExternalId.Key> extIdKeys)
       throws IOException, DuplicateExternalIdKeyException {
     for (ExternalId.Key extIdKey : extIdKeys) {
-      if (noteMap.contains(extIdKey.sha1())) {
+      if (noteMap.contains(computeNoteId(extIdKey))) {
         throw new DuplicateExternalIdKeyException(extIdKey);
       }
     }

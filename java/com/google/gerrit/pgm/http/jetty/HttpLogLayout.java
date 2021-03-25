@@ -77,6 +77,9 @@ public final class HttpLogLayout extends Layout {
     buf.append(' ');
     opt(buf, event, HttpLog.P_CPU_USER);
 
+    buf.append(' ');
+    opt(buf, event, HttpLog.P_MEMORY);
+
     buf.append('\n');
     return buf.toString();
   }

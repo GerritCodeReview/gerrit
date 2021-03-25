@@ -32,6 +32,7 @@ import com.google.gerrit.server.PropertyMap;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
@@ -54,6 +55,7 @@ public abstract class CacheBasedWebSession implements WebSession {
   private final IdentifiedUser.RequestFactory identified;
   private final EnumSet<AccessPath> okPaths = EnumSet.of(AccessPath.UNKNOWN);
   private final AccountCache byIdCache;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
   private Cookie outCookie;
 
   private Key key;
@@ -67,7 +69,8 @@ public abstract class CacheBasedWebSession implements WebSession {
       AuthConfig authConfig,
       Provider<AnonymousUser> anonymousProvider,
       IdentifiedUser.RequestFactory identified,
-      AccountCache byIdCache) {
+      AccountCache byIdCache,
+      ExternalIdKeyFactory externalIdKeyFactory) {
     this.request = request;
     this.response = response;
     this.manager = manager;
@@ -75,6 +78,7 @@ public abstract class CacheBasedWebSession implements WebSession {
     this.anonymousProvider = anonymousProvider;
     this.identified = identified;
     this.byIdCache = byIdCache;
+    this.externalIdKeyFactory = externalIdKeyFactory;
 
     if (request.getRequestURI() == null || !GitSmartHttpTools.isGitClient(request)) {
       String cookie = readCookie(request);
@@ -207,7 +211,7 @@ public abstract class CacheBasedWebSession implements WebSession {
   @Override
   public void setUserAccountId(Account.Id id) {
     key = new Key("id:" + id);
-    val = new Val(id, 0, false, null, 0, null, null);
+    val = new Val(id, 0, false, null, 0, null, null, externalIdKeyFactory);
     user = identified.runAs(id, user, PropertyMap.EMPTY);
   }
 

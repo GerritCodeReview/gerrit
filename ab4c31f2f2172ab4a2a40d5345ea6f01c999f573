@@ -16,6 +16,24 @@
       "message": "No longer builds locally; commit message also needs corresponding amends.",
       "revId": "ab4c31f2f2172ab4a2a40d5345ea6f01c999f573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fe6eba7_8de25dae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-25T15:10:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "68aabfa3_9f651e28",
+      "revId": "ab4c31f2f2172ab4a2a40d5345ea6f01c999f573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

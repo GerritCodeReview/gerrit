@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "215e5a44_c28ad916",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2021-03-25T18:15:53Z",
+      "side": 1,
+      "message": "Thanks a lot for the explanation! It definitely makes sense and jaxb doesn\u0027t belong to the core dependencies.\n\nI missed the \"external deps in plugins\" section and thought this was the only way to add them. Now I know better: https://gerrit.googlesource.com/plugins/supermanifest/+/130d6795dae6a2b73a0d4b08b9987e8924a023ab\n\nI abandon this change.",
+      "parentUuid": "671e1b00_167f5920",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "504535b0edb4bf3eb8a7ad5fc2982a291e1043e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "820bed93_269a739f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

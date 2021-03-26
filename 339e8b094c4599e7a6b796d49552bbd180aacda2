@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59522160_5300bae6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-26T19:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2dcf4d3_cf5ce7dc",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "339e8b094c4599e7a6b796d49552bbd180aacda2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b972f65_cf0f6874",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-26T19:41:46Z",
       "side": 1,
       "message": "can throw",
+      "range": {
+        "startLine": 12,
+        "startChar": 34,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "339e8b094c4599e7a6b796d49552bbd180aacda2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1447019_9e54d5c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-26T19:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b972f65_cf0f6874",
       "range": {
         "startLine": 12,
         "startChar": 34,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00fc6550_094ad52b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-26T19:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba5d271f_8e092a72",
+      "range": {
+        "startLine": 13,
+        "startChar": 44,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "339e8b094c4599e7a6b796d49552bbd180aacda2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b68c2227_97d22a6f",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-03-26T19:41:46Z",
       "side": 1,
       "message": "Invalid maybe",
+      "range": {
+        "startLine": 111,
+        "startChar": 11,
+        "endLine": 111,
+        "endChar": 12
+      },
+      "revId": "339e8b094c4599e7a6b796d49552bbd180aacda2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4d97f2f_3be858f2",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-26T19:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b68c2227_97d22a6f",
       "range": {
         "startLine": 111,
         "startChar": 11,

@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -252,8 +253,9 @@ public class UploadArchive extends AbstractGitCommand {
       return false;
     }
 
+    CurrentUser currentUser = session.getUser();
     try {
-      permissionBackend.user(user).project(projectName).check(ProjectPermission.READ);
+      permissionBackend.user(currentUser).project(projectName).check(ProjectPermission.READ);
       return true;
     } catch (AuthException e) {
       // Check reachability of the specific revision.

@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
@@ -59,8 +60,9 @@ final class Upload extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
+    CurrentUser currentUser = session.getUser();
     PermissionBackend.ForProject perm =
-        permissionBackend.user(user).project(projectState.getNameKey());
+        permissionBackend.user(currentUser).project(projectState.getNameKey());
     try {
       perm.check(ProjectPermission.RUN_UPLOAD_PACK);
     } catch (AuthException e) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94bc216e_00c60c06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-26T19:29:34Z",
+      "side": 1,
+      "message": "Let\u0027s wait for the using (follow-up) change to progress before approving.",
+      "revId": "6633a680c2998a0dd235692ae24f4341a5725224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -253,7 +253,7 @@ public class ServerPlugin extends Plugin {
     serverManager.start();
   }
 
-  private Injector newRootInjector(PluginGuiceEnvironment env) {
+  protected Injector newRootInjector(PluginGuiceEnvironment env) {
     List<Module> modules = Lists.newArrayListWithCapacity(2);
     if (getApiType() == ApiType.PLUGIN) {
       modules.add(env.getSysModule());

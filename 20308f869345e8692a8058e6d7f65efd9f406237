@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ecf6497_01b6fe62",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/AbandonChange.scala",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-26T19:25:04Z",
+      "side": 1,
+      "message": "It feels strange to have this step looking like redundant, compared to deleteProject above. One may wonder, why can\u0027t deleteProject \"force\" instead when (if) it needs to? This comment would apply to similar amends in this change.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 22
+      },
+      "revId": "20308f869345e8692a8058e6d7f65efd9f406237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb2ba312_1cfd39c6",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-26T19:25:04Z",
+      "side": 1,
+      "message": "The presence of this step here may break scenarios that integrate CheckMasterBranchReplica1. Those likely don\u0027t expect any project deletion out of the latter -per se (or alone). This scenario here doesn\u0027t create project(s), so deleting any may sound inconsistent.",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 22
+      },
+      "revId": "20308f869345e8692a8058e6d7f65efd9f406237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

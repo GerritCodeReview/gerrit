@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dacfb519_d374dbf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T11:51:33Z",
+      "side": 1,
+      "message": "Point taken, the dependency isn\u0027t needed: going to remove it.",
+      "parentUuid": "e31bbc0b_f0d8cc9c",
+      "revId": "5b8e53f3d49527dd053deb870e32869c4c72ae98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3482b6d_142ed288",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-03-26T10:56:38Z",
       "side": 1,
       "message": "Scripting plugins don\u0027t override this method, but just using dynamic binding:\n\n  //  rc/main/java/com/googlesource/gerrit/plugins/scripting/groovyprovider/Module.java\n  DynamicSet.bind(binder(), ServerPluginProvider.class).to(GroovyPluginProvider.class);",
+      "revId": "5b8e53f3d49527dd053deb870e32869c4c72ae98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51642b37_1e6577e3",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T11:51:33Z",
+      "side": 1,
+      "message": "Yes, but this is a generalisation of that concept trialled in the scripting plugins.",
+      "parentUuid": "d3482b6d_142ed288",
       "revId": "5b8e53f3d49527dd053deb870e32869c4c72ae98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

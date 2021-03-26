@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3808ac02_2a054c7c",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/AbandonChange.scala",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-26T20:34:01Z",
+      "side": 1,
+      "message": "This is here because if we want to test the whole flow. Then clean-up once done. This further needed if we rampup number of users to do stress tests. Some steps would fail making last delete to also fail.\n\nI think this needs to be renamed or make deleteProject support force deletion.",
+      "parentUuid": "9ecf6497_01b6fe62",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 22
+      },
+      "revId": "20308f869345e8692a8058e6d7f65efd9f406237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb2ba312_1cfd39c6",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 7
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-26T19:25:04Z",
       "side": 1,
       "message": "The presence of this step here may break scenarios that integrate CheckMasterBranchReplica1. Those likely don\u0027t expect any project deletion out of the latter -per se (or alone). This scenario here doesn\u0027t create project(s), so deleting any may sound inconsistent.",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 22
+      },
+      "revId": "20308f869345e8692a8058e6d7f65efd9f406237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9002386d_c07991c5",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-26T20:34:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb2ba312_1cfd39c6",
       "range": {
         "startLine": 73,
         "startChar": 4,

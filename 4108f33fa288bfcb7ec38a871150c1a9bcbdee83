@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c08540a3_9474f925",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-26T13:51:59Z",
+      "side": 1,
+      "message": "Hi,\n\nI started to try to implements Edwin\u0027s suggestion of how the username could be matched case insensitive. While I first thought this wouldn\u0027t be to hard, this got quite messy, due to the use of AutoValue and a lot of static methods. This change is far from ready but already shows the extend. Any hints about how this could be done in a better, less intrusive way are more than welcome!\n\nThanks!",
+      "revId": "4108f33fa288bfcb7ec38a871150c1a9bcbdee83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

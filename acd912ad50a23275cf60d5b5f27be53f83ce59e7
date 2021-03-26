@@ -1,6 +1,144 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "12e05aa5_009b2f77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "Have you also thought about sharing it in other ways?\nFor instance, what if you want to share a running instance of it through a DynamicItem? Would the approach be still valid?",
+      "range": {
+        "startLine": 29,
+        "startChar": 45,
+        "endLine": 29,
+        "endChar": 55
+      },
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d2ab259_f93875c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "This interface PluginProvidedApi isn\u0027t really exposing an API at all but is used as hijack for putting general instances in a DynamicMap.\n\nCode should be type-safe as much as possible and it should be using the most appropriate type for representing the contract between the service producer and its consumer.",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "235f2cf5_e9dc0d7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "The problem highlighted at L32 is then becoming a runtime risk here, where because of the lack of support for a plugin to expose a new type-safe interface to another plugin the consumer has no options than just asserting with a cast the expected interface.\n\nA x-plugin communication support means that Plugin PD should be able to use the DependsOnApi with static typing check at the injection point, and not casting it with a leap of faith.",
+      "range": {
+        "startLine": 38,
+        "startChar": 21,
+        "endLine": 38,
+        "endChar": 35
+      },
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7b0939d_77b0504d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "The problem of this approach is that again we are forced to use a non-type safe instantiation.\n\nYou should in theory supposed to do something like:\n  \n  instantiate\u003cT\u003e(Class\u003cT\u003e)\n\nHowever, that isn\u0027t a possibility because this design is based on the ad-hoc composition of two plugins (pd and depends-on in this case), therefore passing Class\u003cT\u003e would refer to the target plugin (pd) class already loaded which is different than the class dynamically loaded as a result of the just-in-time class-loading mixup.\n\nThe approach works, but is prone to errors (imagine you have a typo in the class name? You won\u0027t realise it until you run it inside Gerrit *and* you actually invoke the API, which is later than you would expect from a type-safe solution.\n\nIn a type-safe design, things should break as early as possible, at compile time or, even sooner, inside the IDE.",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 47
+      },
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3693f73f_2eebc931",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "This would result in duplications of the same classes though: once in their original class loaders and also in the shared plugin env created class loader.\n\nWhat is worse is that every single invocation would create a new class, causing the potential collapse of the meta-space.\nYou could, of course, insert a caching mechanism where you store in the key the \u0027parent-child\u0027 plugin as a key and the resulting mixed class loader as value.\n\nHowever, also a caching mechanism would have the same issue in case of reloads, because you should then start managing evictions.\n\nBottom line: if the design has already a solution which involves caching that wasn\u0027t needed before, then it is possibly already problematic at start. Cache evictions is one of the most difficult things to get right in IT, so avoiding it is the best way to resolve it :-)",
+      "range": {
+        "startLine": 53,
+        "startChar": 3,
+        "endLine": 54,
+        "endChar": 54
+      },
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b4bca69_e17be08e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "Not necessarily, if you looked my proposal of a \"Plugin-Api\" module with Change-Id: I63c9b7f2. Basically, a plugin could expose a Guice module of what he wants to expose as API to other plugins, so that they could use it and cast it in their implementations.\n\nThe solution is similar to this one, with the difference that it would be resolved a plugin loading time rather than request time, avoiding to create one new class per method invocation.\n\nIf you look at your example adapted to use my PoC design (see Change-Id: I63c9b7f2) you would notice that you can achieve exactly the same result with the same functionality but a lot less boilerplate and with type-safety.",
+      "range": {
+        "startLine": 56,
+        "startChar": 49,
+        "endLine": 57,
+        "endChar": 22
+      },
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "29a14d50_6acc5963",
@@ -50,6 +188,121 @@
       "side": 1,
       "message": "Thanks, Prudhvi, much appreciated 👍",
       "parentUuid": "28825cf9_8a69a6f1",
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b81f4605_2e238043",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "Public? Possibly package would be best.",
+      "range": {
+        "startLine": 281,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 8
+      },
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f980daea_d85c7276",
+        "filename": "java/com/google/gerrit/server/plugins/SharedPluginEnv.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "It looks like the shared plugin env is a sort of \"runtime\" plugin loader: have you thought just extending the PluginLoader instead?",
+      "range": {
+        "startLine": 102,
+        "startChar": 9,
+        "endLine": 102,
+        "endChar": 51
+      },
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e19ec38d_48e37d58",
+        "filename": "java/com/google/gerrit/server/plugins/SharedPluginEnv.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "This isn\u0027t type-safe and is prone to errors if the classNameToInstantiate has typos.\n\nYou would ideally do:\n\n   public T instantiate\u003cT\u003e(Class\u003cT\u003e clazz)\n\nHowever, as you mentioned in the commit message, that isn\u0027t going to work because of the lack of type-safety of the solution. Casting to the type of the class to instantiate would never work, because the instantiated class would actually belong to a different class loader.",
+      "range": {
+        "startLine": 107,
+        "startChar": 9,
+        "endLine": 107,
+        "endChar": 58
+      },
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b0ccc4c_9cc5c790",
+        "filename": "java/com/google/gerrit/server/plugins/SharedPluginEnv.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "Have you thought about also supporting HttpInjector and SshInjector?",
+      "range": {
+        "startLine": 128,
+        "startChar": 11,
+        "endLine": 128,
+        "endChar": 76
+      },
+      "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47ecb9bf_43cfcbb7",
+        "filename": "java/com/google/gerrit/server/plugins/SharedPluginEnv.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-26T14:45:36Z",
+      "side": 1,
+      "message": "Is there really any value here to use a WeakReference? The meta-space is a lot more limited than the heap. You would collapse the meta-space well before running out of memory on the heap.",
+      "range": {
+        "startLine": 188,
+        "startChar": 21,
+        "endLine": 188,
+        "endChar": 34
+      },
       "revId": "acd912ad50a23275cf60d5b5f27be53f83ce59e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

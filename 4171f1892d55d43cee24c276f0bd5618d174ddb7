@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cef2bc0_5210be52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-03-27T19:09:23Z",
+      "side": 1,
+      "message": "I believe this mechanism is a \"same time load\" only mechanism. In other words if the API is available at the time other plugins are loaded, such as on startup, it will be loaded before them. I believe this mechanism has the following downsides:\n\n1) I believe this mechanism requires the APIs to be loaded before the other plugins when loading plugins dynamically well after server startup?\n\n1a) i.e. admins need to be aware of and manage plugin load ordering except on server startup when all plugins are already available to be loaded.\n\n1b) Consumer plugins can be designed to run without a producer plugin, however I believe this will still require the producer\u0027s API plugin to be installed before loading the consumer plugin? So on a server where the producer plugin will never be installed, the producer plugin\u0027s API will still need to be installed if the consumer plugin is desired? I am imagining a consumer plugin that is designed to work with many other types of producer plugins, say bugtracker connectors, and it is likely that consumers will only ever be running with a single bugtracker connector (the one their organization uses), the consumer plugin users will be required to install all the other unused bugtracker connector APIs. This would create a scalability problem for the consumer plugin discouraging it from supporting more bugtrackers.\n\nIn our use case, we specifically want to be able run both our depends-on and our PD plugins on servers without the other plugin installed. I believe this proposal would require us to always have the depends-on-api plugin installed anytime we install the PD plugin, even on servers where the depends-on plugin will never be installed.",
+      "revId": "4171f1892d55d43cee24c276f0bd5618d174ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

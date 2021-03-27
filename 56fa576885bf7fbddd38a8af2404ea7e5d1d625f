@@ -16,6 +16,29 @@
       "message": "Only true changes are in test. Other changes are from rebase.",
       "revId": "56fa576885bf7fbddd38a8af2404ea7e5d1d625f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95b0f623_d074c522",
+        "filename": "polygerrit-ui/app/elements/gr-app.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-27T20:16:48Z",
+      "side": 1,
+      "message": "This broke PolyGerrit UI for me on both Chrome (89.0.4389.69) and FF (85.0.2). I wrote this issue 14300.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 6
+      },
+      "revId": "56fa576885bf7fbddd38a8af2404ea7e5d1d625f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

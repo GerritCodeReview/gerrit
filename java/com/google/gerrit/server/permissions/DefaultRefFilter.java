@@ -148,11 +148,11 @@ class DefaultRefFilter {
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
     // we have to investigate separately (deferred tags) then perform a reachability check starting
     // from all visible branches (refs/heads/*).
-    Result initialRefFilter = filterRefs(new ArrayList<>(refs), repo, opts);
+    Result initialRefFilter = filterRefs(new ArrayList<>(refs), opts);
     List<Ref> visibleRefs = initialRefFilter.visibleRefs();
     if (!initialRefFilter.deferredTags().isEmpty()) {
       try (TraceTimer traceTimer = TraceContext.newTimer("Check visibility of deferred tags")) {
-        Result allVisibleBranches = filterRefs(getTaggableRefs(repo), repo, opts);
+        Result allVisibleBranches = filterRefs(getTaggableRefs(repo), opts);
         checkState(
             allVisibleBranches.deferredTags().isEmpty(),
             "unexpected tags found when filtering refs/heads/* "
@@ -186,7 +186,7 @@ class DefaultRefFilter {
    * separately for later rev-walk-based visibility computation. Tags where visibility is trivial to
    * compute will be returned as part of {@link Result#visibleRefs()}.
    */
-  Result filterRefs(List<Ref> refs, Repository repo, RefFilterOptions opts)
+  Result filterRefs(List<Ref> refs, RefFilterOptions opts)
       throws PermissionBackendException {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
 

@@ -104,7 +104,7 @@ public class ChangeMetaIT extends AbstractDaemonTest {
   protected static class PluginDefinedSimpleAttributeModule extends AbstractModule {
     static class MyMetaHash extends PluginDefinedInfo {
       String myMetaRef;
-    };
+    }
 
     static PluginDefinedInfo newMyMetaHash(ChangeData cd) {
       MyMetaHash mmh = new MyMetaHash();
@@ -125,6 +125,7 @@ public class ChangeMetaIT extends AbstractDaemonTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   public void pluginDefinedAttribute() throws Exception {
     try (AutoCloseable ignored =
         installPlugin("my-plugin", PluginDefinedSimpleAttributeModule.class)) {
@@ -133,7 +134,6 @@ public class ChangeMetaIT extends AbstractDaemonTest {
       gApi.changes().id(changeId).setMessage("before\n\n" + "Change-Id: " + result.getChangeId());
       ChangeInfo before = gApi.changes().id(changeId).get();
       gApi.changes().id(changeId).setMessage("after\n\n" + "Change-Id: " + result.getChangeId());
-      ChangeInfo after = gApi.changes().id(changeId).get();
 
       RestResponse resp =
           adminRestSession.get("/changes/" + changeId + "/?meta=" + before.metaRevId);

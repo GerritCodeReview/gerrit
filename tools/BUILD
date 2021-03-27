@@ -1,5 +1,8 @@
 load(
     "@bazel_tools//tools/jdk:default_java_toolchain.bzl",
+    "BASE_JDK9_JVM_OPTS",
+    "DEFAULT_JAVACOPTS",
+    "DEFAULT_TOOLCHAIN_CONFIGURATION",
     "JDK9_JVM_OPTS",
     "default_java_toolchain",
 )
@@ -34,6 +37,17 @@ JDK11_JVM_OPTS = select({
         "--add-opens=java.base/java.lang=ALL-UNNAMED",
     ],
 })
+
+default_java_toolchain(
+    name = "toolchain_jdk_16",
+    configuration = DEFAULT_TOOLCHAIN_CONFIGURATION,
+    java_runtime = "@openjdk_16_linux//:jdk",
+    jvm_opts = BASE_JDK9_JVM_OPTS,
+    misc = DEFAULT_JAVACOPTS,
+    source_version = "16",
+    target_version = "16",
+    visibility = ["//visibility:public"],
+)
 
 default_java_toolchain(
     name = "error_prone_warnings_toolchain_java11",

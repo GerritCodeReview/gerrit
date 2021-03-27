@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee6afb6f_d0e752c4",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-27T18:09:39Z",
+      "side": 0,
+      "message": "The repo parameter is unused now.",
+      "range": {
+        "startLine": 295,
+        "startChar": 28,
+        "endLine": 295,
+        "endChar": 32
+      },
+      "revId": "a0037092b5b1844b9ac48bf74e7f9ecef3f27be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0a03c09_362bce31",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-27T18:09:39Z",
+      "side": 0,
+      "message": "This was the last usage.",
+      "range": {
+        "startLine": 297,
+        "startChar": 64,
+        "endLine": 297,
+        "endChar": 68
+      },
+      "revId": "a0037092b5b1844b9ac48bf74e7f9ecef3f27be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

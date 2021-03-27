@@ -2,7 +2,35 @@ build --workspace_status_command="python ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
-build --java_toolchain=//tools:error_prone_warnings_toolchain_java11
+
+build --incompatible_use_toolchain_resolution_for_java_rules
+# Builds using remote_jdk11, executes using remote_jdk11 or local_jdk
+build --java_language_version=11
+build --java_runtime_version=11
+build --tool_java_language_version=11
+build --tool_java_runtime_version=11
+# Builds using remote_jdk11, executes using local_jdk (there is no remote for 8)
+build:java8 --java_language_version=8
+build:java8 --java_runtime_version=8
+build:java8 --tool_java_language_version=8
+build:java8 --tool_java_runtime_version=8
+# Builds using remote_jdk15, executes using remote_jdk15 or local_jdk
+build:java15 --java_language_version=15
+build:java15 --java_runtime_version=15
+build:java15 --tool_java_language_version=15
+build:java15 --tool_java_runtime_version=15
+# Builds using remote_jdk16, executes using remote_jdk15 or local_jdk
+build:java16 --java_language_version=16
+build:java16 --java_runtime_version=16
+build:java16 --tool_java_language_version=16
+build:java16 --tool_java_runtime_version=16
+# bazel-toolchains needs update before following will work
+# Builds ane executes using rbe_jdk (JDK from docker image)
+build:remote --java_language_version=11
+build:remote --tool_java_language_version=11
+build:remote --java_runtime_version=rbe_jdk
+build:remote --tool_java_runtime_version=rbe_jdk
+build:remote --extra_toolchains=@rbe_jdk11//java:all
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.

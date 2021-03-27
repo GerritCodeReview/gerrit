@@ -19,6 +19,11 @@ build:java15 --java_language_version=15
 build:java15 --java_runtime_version=15
 build:java15 --tool_java_language_version=15
 build:java15 --tool_java_runtime_version=15
+# Builds using remote_jdk16, executes using remote_jdk15 or local_jdk
+build:java16 --java_language_version=16
+build:java16 --java_runtime_version=16
+build:java16 --tool_java_language_version=16
+build:java16 --tool_java_runtime_version=16
 # bazel-toolchains needs update before following will work
 # Builds ane executes using rbe_jdk (JDK from docker image)
 build:remote --java_language_version=11

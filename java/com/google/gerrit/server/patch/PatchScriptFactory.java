@@ -296,15 +296,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
               try {
                 PatchScript patchScript = getPatchScriptWithOldDiffCache(git, aId, bId);
                 if (areEqualPatchscripts(patchScript, expected)) {
-                  metrics.diffs.increment(metrics.MATCH);
+                  metrics.diffs.increment(Metrics.MATCH);
                 } else {
-                  metrics.diffs.increment(metrics.MISMATCH);
+                  metrics.diffs.increment(Metrics.MISMATCH);
                   logger.atWarning().atMostEvery(10, TimeUnit.SECONDS).log(
                       "Mismatching diff for change %s, old commit ID: %s, new commit ID: %s, file name: %s.",
                       changeId.toString(), aId, bId, fileName);
                 }
               } catch (PatchListNotAvailableException | IOException e) {
-                metrics.diffs.increment(metrics.ERROR);
+                metrics.diffs.increment(Metrics.ERROR);
                 logger.atSevere().atMostEvery(10, TimeUnit.SECONDS).log(
                     String.format(
                             "Error computing new diff for change %s, old commit ID: %s, new commit ID: %s.\n",

@@ -31,6 +31,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file"
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 load("//tools:nongoogle.bzl", "TESTCONTAINERS_VERSION", "declare_nongoogle_deps")
+load("@bazel_tools//tools/jdk:remote_java_repository.bzl", "remote_java_repository")
 
 http_archive(
     name = "bazel_toolchains",
@@ -49,6 +50,18 @@ rbe_autoconfig(
     name = "rbe_jdk11",
     java_home = "/usr/lib/jvm/11.29.3-ca-jdk11.0.2/reduced",
     use_checked_in_confs = "Force",
+)
+
+remote_java_repository(
+  name = "openjdk_16_linux",
+  prefix = "openjdk_16_linux", # Can be used with --java_runtime_version=openjdk_canary_11
+  version = "16",
+  exec_compatible_with = [
+    "@platforms//os:linux",
+  ],
+  urls = ["https://cdn.azul.com/zulu/bin/zulu16.28.11-ca-jdk16.0.0-linux_x64.tar.gz"],
+  sha256 = "236b5ea97aff3cb312e743848d7efa77faf305170e41371a732ca93c1b797665",
+  strip_prefix = "zulu16.28.11-ca-jdk16.0.0-linux_x64",
 )
 
 http_archive(
@@ -107,6 +120,7 @@ go_repository(
 )
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
+register_toolchains("//tools:toolchain_jdk_16_definition")
 
 # JGit external repository consumed from git submodule
 local_repository(

@@ -53,7 +53,10 @@ export const htmlTemplate = html`
       font: inherit;
       text-transform: uppercase;
       outline-width: 0;
-      border-radius: var(--border-radius);
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+      border-bottom-left-radius: var(--border-radius);
       -moz-user-select: none;
       -ms-user-select: none;
       -webkit-user-select: none;

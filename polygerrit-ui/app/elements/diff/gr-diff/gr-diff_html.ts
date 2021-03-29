@@ -348,9 +348,16 @@ export const htmlTemplate = html`
       transform: translateY(-50%);
       --gr-button: {
         color: var(--diff-context-control-color);
-        border: solid var(--border-color);
-        border-width: 1px;
-        border-radius: var(--border-radius);
+        border-style: solid;
+        border-color: var(--border-color);
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
         padding: var(--spacing-s) var(--spacing-l);
       }
     }
@@ -368,9 +375,16 @@ export const htmlTemplate = html`
       transform: translateY(-100%);
       --gr-button: {
         color: var(--diff-context-control-color);
-        border: solid var(--border-color);
-        border-width: 1px 1px 0 1px;
-        border-radius: var(--border-radius) var(--border-radius) 0 0;
+        border-style: solid;
+        border-color: var(--border-color);
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 0;
+        border-left-width: 1px;
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
         padding: var(--spacing-xxs) var(--spacing-l);
       }
     }
@@ -379,9 +393,16 @@ export const htmlTemplate = html`
       top: calc(100% + var(--divider-border));
       --gr-button: {
         color: var(--diff-context-control-color);
-        border: solid var(--border-color);
-        border-width: 0 1px 1px 1px;
-        border-radius: 0 0 var(--border-radius) var(--border-radius);
+        border-style: solid;
+        border-color: var(--border-color);
+        border-top-width: 0;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
         padding: var(--spacing-xxs) var(--spacing-l);
       }
     }

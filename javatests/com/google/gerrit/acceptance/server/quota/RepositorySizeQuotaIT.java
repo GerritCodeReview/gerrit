@@ -34,7 +34,7 @@ import com.google.gerrit.server.quota.QuotaBackend;
 import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.inject.Module;
 import java.util.Collections;
-import org.eclipse.jgit.api.errors.TooLargeObjectInPackException;
+import org.eclipse.jgit.api.errors.TooLargePackException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,7 +77,7 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
   @Test
   public void pushWithAvailableTokens() throws Exception {
     when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
-        .thenReturn(singletonAggregation(ok(276L)));
+        .thenReturn(singletonAggregation(ok(277L)));
     when(quotaBackendWithResource.requestTokens(eq(REPOSITORY_SIZE_GROUP), anyLong()))
         .thenReturn(singletonAggregation(ok()));
     when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);
@@ -91,12 +91,10 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
     when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
         .thenReturn(singletonAggregation(ok(availableTokens)));
     when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);
-    TooLargeObjectInPackException thrown =
-        assertThrows(TooLargeObjectInPackException.class, () -> pushCommit());
-    assertThat(thrown).hasMessageThat().contains("Object too large");
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains(String.format("Max object size limit is %d bytes.", availableTokens));
+    assertThat(assertThrows(TooLargePackException.class, () -> pushCommit()).getMessage())
+        .contains(
+            String.format(
+                "Pack exceeds the limit of %d bytes, rejecting the pack", availableTokens));
   }
 
   @Test

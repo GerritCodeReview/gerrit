@@ -32,7 +32,6 @@ export enum AccessPermissionId {
   FORGE_COMMITTER = 'forgeCommitter',
   FORGE_SERVER_AS_COMMITTER = 'forgeServerAsCommitter',
   OWNER = 'owner',
-  PUBLISH_DRAFTS = 'publishDrafts',
   PUSH = 'push',
   PUSH_MERGE = 'pushMerge',
   READ = 'read',
@@ -107,10 +106,6 @@ export const AccessPermissions: {[id: string]: AccessPermission} = {
   [AccessPermissionId.OWNER]: {
     id: AccessPermissionId.OWNER,
     name: 'Owner',
-  },
-  [AccessPermissionId.PUBLISH_DRAFTS]: {
-    id: AccessPermissionId.PUBLISH_DRAFTS,
-    name: 'Publish Drafts',
   },
   [AccessPermissionId.PUSH]: {
     id: AccessPermissionId.PUSH,

@@ -243,7 +243,7 @@ export class GrMainHeader extends GestureEventListeners(
         items.forEach(link => {
           topMenuLinks[m.name].push(link);
         });
-      } else {
+      } else if (items.length > 0) {
         links.push({
           title: m.name,
           links: topMenuLinks[m.name] = items,

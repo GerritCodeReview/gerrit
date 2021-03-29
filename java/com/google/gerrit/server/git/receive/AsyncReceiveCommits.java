@@ -296,7 +296,7 @@ public class AsyncReceiveCommits {
           REPOSITORY_SIZE_GROUP, projectName);
       throw new RuntimeException(e);
     }
-    availableTokens.availableTokens().ifPresent(v -> receivePack.setMaxObjectSizeLimit(v));
+    availableTokens.availableTokens().ifPresent(receivePack::setMaxPackSizeLimit);
   }
 
   /** Determine if the user can upload commits. */

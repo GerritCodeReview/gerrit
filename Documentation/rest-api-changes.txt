@@ -3513,6 +3513,9 @@ The entries in the map are sorted by label name.
 Deletes a single vote from a change. Note, that even when the last vote of
 a reviewer is removed the reviewer itself is still listed on the change.
 
+If another user removed a user's vote, the user with the deleted vote will be
+added to the attention set.
+
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/votes/Code-Review HTTP/1.0
@@ -5877,6 +5880,9 @@ deleting the vote (with same label) from a newer patch set by mistake.
 Note, that even when the last vote of a reviewer is removed the reviewer itself
 is still listed on the change.
 
+If another user removed a user's vote, the user with the deleted vote will be
+added to the attention set.
+
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/reviewers/John%20Doe/votes/Code-Review HTTP/1.0
@@ -6055,6 +6061,7 @@ Users are added to the attention set if one the following apply:
 * The change is marked ready for review.
 * As an owner/uploader, when someone replies on your change.
 * As a reviewer, when the owner/uploader replies.
+* When the user's vote is deleted by another user.
 
 Users are removed from the attention set if one the following apply:
 

@@ -36,9 +36,11 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
@@ -58,6 +60,7 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.HashMap;
@@ -79,6 +82,8 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
   private final MessageIdGenerator messageIdGenerator;
+  private final AddToAttentionSetOp.Factory attentionSetOpfactory;
+  private final Provider<CurrentUser> currentUserProvider;
 
   @Inject
   DeleteVote(
@@ -92,7 +97,9 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       NotifyResolver notifyResolver,
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache,
-      MessageIdGenerator messageIdGenerator) {
+      MessageIdGenerator messageIdGenerator,
+      AddToAttentionSetOp.Factory attentionSetOpFactory,
+      Provider<CurrentUser> currentUserProvider) {
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -104,6 +111,8 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
     this.messageIdGenerator = messageIdGenerator;
+    this.attentionSetOpfactory = attentionSetOpFactory;
+    this.currentUserProvider = currentUserProvider;
   }
 
   @Override
@@ -140,6 +149,14 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
               r.getReviewerUser().state(),
               rsrc.getLabel(),
               input));
+      if (!r.getReviewerUser().getAccountId().equals(currentUserProvider.get().getAccountId())) {
+        bu.addOp(
+            change.getId(),
+            attentionSetOpfactory.create(
+                r.getReviewerUser().getAccountId(),
+                /* reason= */ "Their vote was deleted",
+                /* notify= */ false));
+      }
       bu.execute();
     }
 

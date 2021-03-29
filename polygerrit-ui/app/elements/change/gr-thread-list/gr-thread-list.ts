@@ -508,19 +508,29 @@ export class GrThreadList extends PolymerElement {
     oldValue?: CommentTabState
   ) {
     if (!newValue || newValue === oldValue) return;
+    let focusTo: string | undefined;
     switch (newValue) {
       case CommentTabState.UNRESOLVED:
         this._handleOnlyUnresolved();
+        // input is null because it's not rendered yet.
+        focusTo = '#unresolvedRadio';
         break;
       case CommentTabState.DRAFTS:
         this._handleOnlyDrafts();
+        focusTo = '#draftsRadio';
         break;
       case CommentTabState.SHOW_ALL:
         this._handleAllComments();
+        focusTo = '#allRadio';
         break;
       default:
         assertNever(newValue, 'Unsupported preferred state');
     }
+    const selector = focusTo;
+    window.setTimeout(() => {
+      const input = this.shadowRoot?.querySelector<HTMLInputElement>(selector);
+      input?.focus();
+    }, 0);
   }
 }
 

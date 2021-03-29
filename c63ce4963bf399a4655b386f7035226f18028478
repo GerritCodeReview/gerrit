@@ -34,6 +34,24 @@
       "parentUuid": "df9b0153_91549e3b",
       "revId": "c63ce4963bf399a4655b386f7035226f18028478",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5c0a3e9_dbb266de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-29T15:30:19Z",
+      "side": 1,
+      "message": "Yeah, everyone can do it. It was actually done recently, and I\u0027ve just upgraded this series: [1], that also includes your change.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/300648",
+      "parentUuid": "9d5c5e94_ec9ad933",
+      "revId": "c63ce4963bf399a4655b386f7035226f18028478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

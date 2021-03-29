@@ -52,6 +52,24 @@
       "parentUuid": "cfc7cca5_f7319dc8",
       "revId": "4171f1892d55d43cee24c276f0bd5618d174ddb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b6f7c0c_45cb89b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-29T09:19:24Z",
+      "side": 1,
+      "message": "Addressed with Change-Id: I862e73c63 where there isn\u0027t a example-depends-on-api plugin anymore and both example-depends-on and example-pd are 100% independent with zero references between each other.",
+      "parentUuid": "d41d4fcb_0e1e9984",
+      "revId": "4171f1892d55d43cee24c276f0bd5618d174ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

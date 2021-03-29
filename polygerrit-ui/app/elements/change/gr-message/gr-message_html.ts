@@ -171,18 +171,22 @@ export const htmlTemplate = html`
     .score.negative {
       background-color: var(--vote-color-disliked);
       border: 1px solid var(--vote-outline-disliked);
+      color: var(--chip-color);
     }
     .score.negative.min {
       background-color: var(--vote-color-rejected);
       border: none;
+      color: var(--vote-text-color);
     }
     .score.positive {
       background-color: var(--vote-color-recommended);
       border: 1px solid var(--vote-outline-recommended);
+      color: var(--chip-color);
     }
     .score.positive.max {
       background-color: var(--vote-color-approved);
       border: none;
+      color: var(--vote-text-color);
     }
     gr-account-label {
       --gr-account-label-text-style: {

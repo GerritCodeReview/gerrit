@@ -128,7 +128,7 @@ function getStyleEl() {
       --vote-outline-disliked: var(--red-200);
       --vote-color-neutral: var(--gray-700);
       --vote-color-recommended: var(--green-tonal);
-      --vote-outline-recommended: var(--green-700);
+      --vote-outline-recommended: var(--green-200);
       --vote-color-rejected: var(--red-200);
 
       --outline-color-focus: var(--gray-100);

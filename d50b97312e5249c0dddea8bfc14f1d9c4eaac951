@@ -22,6 +22,30 @@
       },
       "revId": "d50b97312e5249c0dddea8bfc14f1d9c4eaac951",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0649aee8_b4d6622f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-29T16:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "846a7ff7_aee4f289",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 92
+      },
+      "revId": "d50b97312e5249c0dddea8bfc14f1d9c4eaac951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

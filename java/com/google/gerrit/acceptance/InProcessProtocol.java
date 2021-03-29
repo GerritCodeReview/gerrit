@@ -343,7 +343,7 @@ class InProcessProtocol extends TestProtocol<Context> {
                 .project(req.project)
                 .availableTokens(REPOSITORY_SIZE_GROUP);
         availableTokens.throwOnError();
-        availableTokens.availableTokens().ifPresent(v -> rp.setMaxObjectSizeLimit(v));
+        availableTokens.availableTokens().ifPresent(rp::setMaxPackSizeLimit);
 
         ImmutableList<PostReceiveHook> hooks =
             ImmutableList.<PostReceiveHook>builder()

@@ -34,6 +34,24 @@
       "parentUuid": "6cef2bc0_5210be52",
       "revId": "4171f1892d55d43cee24c276f0bd5618d174ddb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d41d4fcb_0e1e9984",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-29T07:42:36Z",
+      "side": 1,
+      "message": "@Martin I performed the split \u0027depends-on\u0027 into \u0027depends-on\u0027 + \u0027depends-on-api\u0027. Going to address your concern of \u0027depends-pd\u0027 working without access to the interface in a separate change (follow-up of this) so that is clear the difference between the two.\n\nAt the end of the day, it is all about trace-offs:\n\n1. More type-safety and compile-time resolution \u003d\u003e requirements of full class resolution.\n2. Less type-safety and run-time resolution \u003d\u003e full class resolution not needed\n\nI prefer 1. but you may prefer 2. and that\u0027s OK, both approaches need to be possible in a plugin-freedom-world :-)",
+      "parentUuid": "cfc7cca5_f7319dc8",
+      "revId": "4171f1892d55d43cee24c276f0bd5618d174ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

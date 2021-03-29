@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "52651768_868fc3a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-29T20:53:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "117842d8_65e97379",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "16526391a9b3d62afe70961d73f94af67f5e10f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9405f18d_d1072d2f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 12
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "631c822b_457546c6",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-29T20:53:32Z",
+      "side": 1,
+      "message": "Got it - done for all methods",
+      "parentUuid": "0e038f55_ea960aec",
+      "range": {
+        "startLine": 266,
+        "startChar": 20,
+        "endLine": 266,
+        "endChar": 23
+      },
+      "revId": "16526391a9b3d62afe70961d73f94af67f5e10f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0467cd4_71275fda",
@@ -77,6 +125,24 @@
       "writtenOn": "2021-03-17T08:28:11Z",
       "side": 1,
       "message": "nit: javadoc missing\n\nwould be great if that explains what representation you expect for the metaRevIds",
+      "revId": "16526391a9b3d62afe70961d73f94af67f5e10f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab996481_aea8eba7",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-29T20:53:32Z",
+      "side": 1,
+      "message": "Added",
+      "parentUuid": "d0467cd4_71275fda",
       "revId": "16526391a9b3d62afe70961d73f94af67f5e10f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6716ac4_4ac11163",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-29T20:53:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e368471_c003291e",
+      "range": {
+        "startLine": 65,
+        "startChar": 26,
+        "endLine": 65,
+        "endChar": 28
+      },
+      "revId": "16526391a9b3d62afe70961d73f94af67f5e10f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a7594ff_39e2a76a",
@@ -117,6 +207,24 @@
       "writtenOn": "2021-03-17T08:28:11Z",
       "side": 1,
       "message": "nit: public classes need a java doc",
+      "revId": "16526391a9b3d62afe70961d73f94af67f5e10f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be517089_f4bf77ae",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetMetaDiff.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-29T20:53:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a7594ff_39e2a76a",
       "revId": "16526391a9b3d62afe70961d73f94af67f5e10f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -144,6 +252,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff6b2572_99177804",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetMetaDiff.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-29T20:53:32Z",
+      "side": 1,
+      "message": "Thanks! That\u0027s very helpful.\n\nRemoved GetChange as a delegate and now inject a provider. It means duplicating some of the code in GetChange in GetMetaDiff now, but it\u0027s still pretty clean. Let me know if any of the new \"Bean\" code can be removed.",
+      "parentUuid": "fa7539ef_a084ba39",
+      "range": {
+        "startLine": 96,
+        "startChar": 22,
+        "endLine": 96,
+        "endChar": 30
+      },
+      "revId": "16526391a9b3d62afe70961d73f94af67f5e10f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef871d12_861b3c80",
@@ -157,6 +289,24 @@
       "writtenOn": "2021-03-17T08:28:11Z",
       "side": 1,
       "message": "We need tests for invalid rev IDs and rev IDs that are valid but not contained in the repo at all. The way the logic is written that might lead to NPEs and the tests will help mitigate that concern.",
+      "revId": "16526391a9b3d62afe70961d73f94af67f5e10f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c09aef6a_ad4b85e2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetMetaDiffIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-29T20:53:32Z",
+      "side": 1,
+      "message": "Added tests:\n\n- invalid new rev id returns 412\n- valid rev id not in repo returns 412\n- invalid old rev id uses default of new ChangeInfo()\n- valid rev id not in repo uses default of new ChangeInfo()\n\nWorking on getting all tests to pass.",
+      "parentUuid": "ef871d12_861b3c80",
       "revId": "16526391a9b3d62afe70961d73f94af67f5e10f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

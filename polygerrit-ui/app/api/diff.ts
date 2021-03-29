@@ -285,6 +285,6 @@ export declare interface DiffLayer {
     textElement: HTMLElement,
     lineNumberElement: HTMLElement,
     line: GrDiffLine,
-    side: Side
+    side: Side | undefined
   ): void;
 }

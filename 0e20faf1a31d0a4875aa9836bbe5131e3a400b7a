@@ -22,6 +22,30 @@
       },
       "revId": "0e20faf1a31d0a4875aa9836bbe5131e3a400b7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9370a839_90a5a3a2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-29T22:17:15Z",
+      "side": 1,
+      "message": "The issue here is that in unified diff, side can be sometimes undefined. But we still want to annotate these lines. Therefore we want to run annotate with side undefined.\n\nThis is why this._createTabIndicatorLayer(), is not annotating tabs in unified diffs, because in change https://gerrit-review.googlesource.com/c/gerrit/+/300646 the check if side is defined was introduced before we call annotate.\n\nThis change is actually partial revert of changes in diff-builder.",
+      "parentUuid": "b8d14106_06e92a4d",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 22
+      },
+      "revId": "0e20faf1a31d0a4875aa9836bbe5131e3a400b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

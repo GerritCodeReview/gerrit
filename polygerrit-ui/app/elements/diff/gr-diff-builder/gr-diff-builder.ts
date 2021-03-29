@@ -611,14 +611,14 @@ export abstract class GrDiffBuilder {
         contentText.setAttribute('data-side', side);
       }
 
-      if (lineNumberEl && side) {
+      if (lineNumberEl) {
         for (const layer of this.layers) {
           if (typeof layer.annotate === 'function') {
-            layer.annotate(contentText, lineNumberEl, line, side);
+            layer.annotate(contentText, lineNumberEl, line, side ?? undefined);
           }
         }
       } else {
-        console.error('lineNumberEl or side not set, skipping layer.annotate');
+        console.error('The lineNumberEl is null, skipping layer annotations.');
       }
 
       td.appendChild(contentText);

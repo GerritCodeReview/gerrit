@@ -104,11 +104,12 @@ export class TokenHighlightLayer implements DiffLayer {
     el: HTMLElement,
     _: HTMLElement,
     line: GrDiffLine,
-    side: Side
+    side: Side | undefined
   ): void {
     if (!this.enabled) return;
     const text = el.textContent;
     if (!text) return;
+    if (!side) return;
     // Binary files encoded as text for example can have super long lines
     // with super long tokens. Let's guard against against this scenario.
     if (text.length > LINE_LENGTH_LIMIT) return;

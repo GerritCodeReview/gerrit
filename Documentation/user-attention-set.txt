@@ -47,6 +47,8 @@ changing the attention set:
   attention set.
 * For merged and abandoned changes the owner is added only when a human creates
   an unresolved comment.
+* If another user removed a user's vote, the user with the deleted vote will be
+  added to the attention set.
 * Only owner, uploader, reviewers and ccs can be in the attention set.
 * The rules for service accounts are different, see link:#bots[Bots].
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8d14106_06e92a4d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-03-29T21:07:59Z",
+      "side": 1,
+      "message": "As I can see, there is only one place where side is undefined:\n  layer.annotate(contentText, lineNumberEl, line, side ?? undefined);\n\nMay be move this if here:\n  if (typeof layer.annotate \u003d\u003d\u003d \u0027function\u0027 \u0026\u0026 side) {\n    layer.annotate(contentText, lineNumberEl, line, side);\n\nThen annotate method remains unchanged.\n\nWDYT?",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 22
+      },
+      "revId": "0e20faf1a31d0a4875aa9836bbe5131e3a400b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

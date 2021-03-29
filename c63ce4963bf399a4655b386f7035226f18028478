@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df9b0153_91549e3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-29T08:26:49Z",
+      "side": 1,
+      "message": "It was merged on stable-3.1 so that we just need to merge stable-3.1 up to main branch.",
+      "revId": "c63ce4963bf399a4655b386f7035226f18028478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

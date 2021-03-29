@@ -49,6 +49,54 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "382ca226_437c1f8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-29T13:59:39Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "c728b32a_9b0c5b32",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0bf661a_c4c9e4de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-29T13:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31d5849c_339c77a7",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "44e25440_e12fe74c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -140,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "166009e8_161d2459",
+        "filename": "java/com/google/gerrit/server/permissions/SectionSortCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-29T13:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3c92dba_f5e7302f",
+      "range": {
+        "startLine": 85,
+        "startChar": 13,
+        "endLine": 85,
+        "endChar": 31
+      },
+      "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "051fae9f_31820354",
@@ -153,6 +225,24 @@
       "writtenOn": "2021-03-22T08:24:45Z",
       "side": 1,
       "message": "nit: private final (here and below)",
+      "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c60aa8b7_f43a8b0b",
+        "filename": "java/com/google/gerrit/server/permissions/SectionSortCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-29T13:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "051fae9f_31820354",
       "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -174,6 +264,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0a551a1_77bf9f6f",
+        "filename": "java/com/google/gerrit/server/permissions/SectionSortCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-29T13:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c273ac4a_3a09c6ac",
+      "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "092de5ef_ec2bc024",
@@ -187,6 +295,30 @@
       "writtenOn": "2021-03-22T08:24:45Z",
       "side": 1,
       "message": "nit: import statically",
+      "range": {
+        "startLine": 108,
+        "startChar": 23,
+        "endLine": 108,
+        "endChar": 36
+      },
+      "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "258fdee8_74aec9a1",
+        "filename": "java/com/google/gerrit/server/permissions/SectionSortCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-29T13:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "092de5ef_ec2bc024",
       "range": {
         "startLine": 108,
         "startChar": 23,
@@ -220,6 +352,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "562b3019_2a8ee39e",
+        "filename": "javatests/com/google/gerrit/server/permissions/SectionSortCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-29T13:59:39Z",
+      "side": 1,
+      "message": "by Identity I meant the input is already ordered. I renamed the method to make this more clear.",
+      "parentUuid": "93db6cfd_349a021f",
+      "range": {
+        "startLine": 62,
+        "startChar": 31,
+        "endLine": 62,
+        "endChar": 39
+      },
+      "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa5d7db7_7a552e2c",
@@ -233,6 +389,30 @@
       "writtenOn": "2021-03-22T08:24:45Z",
       "side": 1,
       "message": "Would be good to have different objects here to check that the sort preserves relative order of equally exact items and reference equality.",
+      "range": {
+        "startLine": 75,
+        "startChar": 14,
+        "endLine": 75,
+        "endChar": 22
+      },
+      "revId": "a58cda0183298ed0f45943736f21d10a8f67a09a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "112ab2f1_279505d6",
+        "filename": "javatests/com/google/gerrit/server/permissions/SectionSortCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-29T13:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa5d7db7_7a552e2c",
       "range": {
         "startLine": 75,
         "startChar": 14,

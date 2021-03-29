@@ -16,6 +16,52 @@
       "message": "Thanks Milutin for working on this change.",
       "revId": "f35dd408990e9e31b3c9771174deade851a3ae4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b2a881a_b600b46a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-03-29T08:52:19Z",
+      "side": 1,
+      "message": "Does typescript require this check? I think typescript can infer that focusTo can\u0027t be undefined here. (and probably it is enough to define focusTo as \u0027string\u0027 only )",
+      "range": {
+        "startLine": 529,
+        "startChar": 4,
+        "endLine": 529,
+        "endChar": 32
+      },
+      "revId": "f35dd408990e9e31b3c9771174deade851a3ae4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3123f9b_03918dfe",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-03-29T08:52:19Z",
+      "side": 1,
+      "message": "nit: Usually we use 0 here. If 0 doesn\u0027t work, could you please write a comment about it.",
+      "range": {
+        "startLine": 536,
+        "startChar": 9,
+        "endLine": 536,
+        "endChar": 10
+      },
+      "revId": "f35dd408990e9e31b3c9771174deade851a3ae4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

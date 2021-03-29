@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1a99fd8_c8a8be7b",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-29T21:42:26Z",
+      "side": 1,
+      "message": "Why replacing / with }, and only the right-closing one? Not sure this is addressing Ossi\u0027s comment as such.",
+      "range": {
+        "startLine": 108,
+        "startChar": 36,
+        "endLine": 108,
+        "endChar": 37
+      },
+      "revId": "b57ae7ee848e413d96f372928f4ec822c1ed8300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

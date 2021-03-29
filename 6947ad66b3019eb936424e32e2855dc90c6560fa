@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1428e833_dda0a05f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-29T17:29:04Z",
+      "side": 1,
+      "message": "Last JGit update was done on Feb. 24th.\n\nQ: I think my change message is a bit lengthy. Is it important to mention all commits (I already removed some of the Merge branch, etc...), or should I get rid of more?",
+      "revId": "6947ad66b3019eb936424e32e2855dc90c6560fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

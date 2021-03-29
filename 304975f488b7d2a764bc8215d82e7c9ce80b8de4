@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f4ff4db_93187656",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-03-29T17:37:43Z",
+      "side": 1,
+      "message": "LGTM in terms of quota and duplicate unsernames",
+      "revId": "304975f488b7d2a764bc8215d82e7c9ce80b8de4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

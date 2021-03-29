@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fef83fa1_5b63b779",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/AbandonChange.scala",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-29T21:50:51Z",
+      "side": 1,
+      "message": "\u003e This is here because if we want to test the whole flow. Then clean-up once done. This further needed if we rampup number of users to do stress tests. Some steps would fail making last delete to also fail.\n\nDeleteProject should be able to achieve that overall, as an e2e test scenario already. I don\u0027t understand why it cannot be scaled, or why it doesn\u0027t scale as much as its sibling test steps already.\n\n\u003e I think this needs to be renamed or make deleteProject support force deletion.\n\nThe renaming doesn\u0027t seem to address my original concern, IMHO. Tearing down should readily be achieved by the deleteProject step, I think(?)",
+      "parentUuid": "3808ac02_2a054c7c",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 22
+      },
+      "revId": "20308f869345e8692a8058e6d7f65efd9f406237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb2ba312_1cfd39c6",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 7

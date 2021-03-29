@@ -17,6 +17,7 @@ package com.google.gerrit.server.group.db;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroupByIdAudit;
 import com.google.gerrit.entities.AccountGroupMemberAudit;
@@ -80,6 +81,23 @@ public class Groups {
   }
 
   /**
+   * Returns the {@code InternalGroup} for the specified UUID and groupRefObjectId
+   *
+   * @param groupUuid the UUID of the group
+   * @param groupRefObjectId the ref revision of this group
+   * @return the found {@code InternalGroup} if it exists, or else an empty {@code Optional}
+   * @throws IOException if the group couldn't be retrieved from NoteDb
+   * @throws ConfigInvalidException if the group couldn't be retrieved from NoteDb
+   */
+  public Optional<InternalGroup> getGroup(
+      AccountGroup.UUID groupUuid, @Nullable ObjectId groupRefObjectId)
+      throws IOException, ConfigInvalidException {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+      return getGroupFromNoteDb(allUsersName, allUsersRepo, groupUuid, groupRefObjectId);
+    }
+  }
+
+  /**
    * Loads an internal group from NoteDb using the group UUID. This method returns the latest state
    * of the internal group.
    */
@@ -97,7 +115,7 @@ public class Groups {
       AllUsersName allUsersName,
       Repository allUsersRepository,
       AccountGroup.UUID uuid,
-      ObjectId groupRefObjectId)
+      @Nullable ObjectId groupRefObjectId)
       throws IOException, ConfigInvalidException {
     GroupConfig groupConfig =
         GroupConfig.loadForGroup(allUsersName, allUsersRepository, uuid, groupRefObjectId);

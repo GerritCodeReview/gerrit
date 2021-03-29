@@ -24,6 +24,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
@@ -156,7 +157,7 @@ public class GroupConfig extends VersionedMetaData {
       Project.NameKey projectName,
       Repository repository,
       AccountGroup.UUID groupUuid,
-      ObjectId groupRefObjectId)
+      @Nullable ObjectId groupRefObjectId)
       throws IOException, ConfigInvalidException {
     GroupConfig groupConfig = new GroupConfig(groupUuid);
     if (groupRefObjectId == null) {

@@ -82,10 +82,6 @@ export const AccessBehavior = {
           id: 'owner',
           name: 'Owner',
         },
-        publishDrafts: {
-          id: 'publishDrafts',
-          name: 'Publish Drafts',
-        },
         push: {
           id: 'push',
           name: 'Push',

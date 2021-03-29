@@ -16,6 +16,24 @@
       "message": "Last JGit update was done on Feb. 24th.\n\nQ: I think my change message is a bit lengthy. Is it important to mention all commits (I already removed some of the Merge branch, etc...), or should I get rid of more?",
       "revId": "6947ad66b3019eb936424e32e2855dc90c6560fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c44a9101_811677f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-29T18:05:11Z",
+      "side": 1,
+      "message": "We usually use this command to report commits:\n\n  $ git log --oneline --no-merges 9bfb0f3a4ec856dcbebb477a1ee8803a3c47c194...HEAD\n\nAnd then use the commit unchanged (with abbreviated SHA1) in the commit message. I have amended the commit correspondingly.",
+      "parentUuid": "1428e833_dda0a05f",
+      "revId": "6947ad66b3019eb936424e32e2855dc90c6560fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

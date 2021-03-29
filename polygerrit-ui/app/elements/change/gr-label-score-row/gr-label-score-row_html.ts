@@ -64,8 +64,8 @@ export const htmlTemplate = html`
       --button-background-color: var(--vote-color-recommended);
       --gr-button: {
         padding: 0 var(--spacing-m);
-        @apply --vote-chip-styles;
-        border-color: var(--vote-outline-recommended);
+        border-radius: 1em;
+        border: 1px solid var(--vote-outline-recommended);
         color: var(--chip-color);
       }
     }
@@ -76,8 +76,8 @@ export const htmlTemplate = html`
       --button-background-color: var(--vote-color-disliked);
       --gr-button: {
         padding: 0 var(--spacing-m);
-        @apply --vote-chip-styles;
-        border-color: var(--vote-outline-disliked);
+        border-radius: 1em;
+        border: 1px solid var(--vote-outline-disliked);
         color: var(--chip-color);
       }
     }

@@ -16,6 +16,24 @@
       "message": "that\u0027s too restrictive. the qt project has repos with {} in the path (mostly because it sorts last).",
       "revId": "d592feb77732d7bbc6c478de784a76b5bf283104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6729684c_a71d2fde",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-29T12:15:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17e3f21f_28228a65",
+      "revId": "d592feb77732d7bbc6c478de784a76b5bf283104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

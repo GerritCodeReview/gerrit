@@ -82,7 +82,8 @@ image::images/cross-repository-changes-submitted-together.png[width=600]
 
 To better underestand this behavior, consider this following example.
 
-==== Example Submission[[example_submission]]
+[[example_submission]]
+=== Example Submission
 
 image::images/cross-repository-changes-example.png[width=600]
 
@@ -167,7 +168,8 @@ at the top of the _Change screen_. Clicking it will submit all the changes in
 
 image::images/cross-repository-changes-submit-topic.png[width=600]
 
-== Reverting a Submission[[reverting]]
+[[reverting]]
+== Reverting a Submission
 
 After a topic is submitted, you can revert all or one of the changes by clicking
 the *REVERT* button on any change.

@@ -155,6 +155,11 @@ function getStyleEl() {
       --status-ready: var(--pink-500);
       --status-custom: var(--purple-400);
 
+      /* file status colors */
+      --file-status-added: var(--green-tonal);
+      --file-status-changed: var(--red-tonal);
+      --file-status-unchanged: var(--grey-700);
+
       /* fonts */
       --font-weight-bold: 700; /* 700 is the same as 'bold' */
 

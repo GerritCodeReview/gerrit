@@ -64,8 +64,16 @@ export const htmlTemplate = html`
       --button-background-color: var(--vote-color-recommended);
       --gr-button: {
         padding: 0 var(--spacing-m);
-        border-radius: 1em;
-        border: 1px solid var(--vote-outline-recommended);
+        border-style: solid;
+        border-color: var(--vote-outline-recommended);
+        border-top-left-radius: 1em;
+        border-top-right-radius: 1em;
+        border-bottom-right-radius: 1em;
+        border-bottom-left-radius: 1em;
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
         color: var(--chip-color);
       }
     }
@@ -76,8 +84,16 @@ export const htmlTemplate = html`
       --button-background-color: var(--vote-color-disliked);
       --gr-button: {
         padding: 0 var(--spacing-m);
-        border-radius: 1em;
-        border: 1px solid var(--vote-outline-disliked);
+        border-style: solid;
+        border-color: var(--vote-outline-disliked);
+        border-top-left-radius: 1em;
+        border-top-right-radius: 1em;
+        border-bottom-right-radius: 1em;
+        border-bottom-left-radius: 1em;
+        border-top-width: 1px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
         color: var(--chip-color);
       }
     }

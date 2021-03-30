@@ -27,8 +27,16 @@ $_documentContainer.innerHTML = `<dom-module id="gr-voting-styles">
     <style>
       :host {
         --vote-chip-styles: {
-          border: 1px solid var(--border-color);
-          border-radius: 1em;
+          border-style: solid;
+          border-color: var(--border-color);
+          border-top-left-radius: 1em;
+          border-top-right-radius: 1em;
+          border-bottom-right-radius: 1em;
+          border-bottom-left-radius: 1em;
+          border-top-width: 1px;
+          border-right-width: 1px;
+          border-bottom-width: 1px;
+          border-left-width: 1px;
           box-shadow: none;
           box-sizing: border-box;
           min-width: 3em;

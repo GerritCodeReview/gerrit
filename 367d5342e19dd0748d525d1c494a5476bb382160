@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4d58064_9acc7a95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-30T16:40:31Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20299521_8915afd2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-30T16:40:31Z",
+      "side": 1,
+      "message": "nit: trailing spaces here and below",
+      "range": {
+        "startLine": 580,
+        "startChar": 66,
+        "endLine": 580,
+        "endChar": 67
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f287d930_cff4f247",
@@ -106,6 +146,30 @@
       "writtenOn": "2021-03-30T09:44:53Z",
       "side": 1,
       "message": "where does this come from? I guess it\u0027s random?",
+      "range": {
+        "startLine": 32,
+        "startChar": 48,
+        "endLine": 32,
+        "endChar": 88
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "186d3c5f_5d021cd2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetMetaDiffIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-30T16:40:31Z",
+      "side": 1,
+      "message": "I\u0027d use a non-random one to make clear that this is just for testing\n\nFun variant: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\nSerious variant: 0000000000000000000000000000000000000001",
+      "parentUuid": "b409f95d_b4db1086",
       "range": {
         "startLine": 32,
         "startChar": 48,

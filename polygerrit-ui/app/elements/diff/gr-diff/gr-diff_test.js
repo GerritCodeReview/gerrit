@@ -208,7 +208,7 @@ suite('gr-diff tests', () => {
           leftImage.addEventListener('load', () => {
             assert.isOk(leftImage);
             assert.equal(leftImage.getAttribute('src'),
-                'data:image/bmp;base64, ' + mockFile1.body);
+                'data:image/bmp;base64,' + mockFile1.body);
             assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
             leftLoaded = true;
             if (rightLoaded) {
@@ -220,7 +220,7 @@ suite('gr-diff tests', () => {
           rightImage.addEventListener('load', () => {
             assert.isOk(rightImage);
             assert.equal(rightImage.getAttribute('src'),
-                'data:image/bmp;base64, ' + mockFile2.body);
+                'data:image/bmp;base64,' + mockFile2.body);
             assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
 
             rightLoaded = true;
@@ -302,7 +302,7 @@ suite('gr-diff tests', () => {
           leftImage.addEventListener('load', () => {
             assert.isOk(leftImage);
             assert.equal(leftImage.getAttribute('src'),
-                'data:image/bmp;base64, ' + mockFile1.body);
+                'data:image/bmp;base64,' + mockFile1.body);
             assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
             leftLoaded = true;
             if (rightLoaded) {
@@ -314,7 +314,7 @@ suite('gr-diff tests', () => {
           rightImage.addEventListener('load', () => {
             assert.isOk(rightImage);
             assert.equal(rightImage.getAttribute('src'),
-                'data:image/bmp;base64, ' + mockFile2.body);
+                'data:image/bmp;base64,' + mockFile2.body);
             assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
 
             rightLoaded = true;

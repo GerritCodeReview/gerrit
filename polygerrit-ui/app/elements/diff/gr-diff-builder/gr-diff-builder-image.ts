@@ -104,7 +104,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
 
   private _getImageSrc(image: ImageInfo | null): string {
     return image && IMAGE_MIME_PATTERN.test(image.type)
-      ? `data:${image.type};base64, ${image.body}`
+      ? `data:${image.type};base64,${image.body}`
       : '';
   }
 

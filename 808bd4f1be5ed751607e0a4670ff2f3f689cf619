@@ -22,6 +22,30 @@
       },
       "revId": "808bd4f1be5ed751607e0a4670ff2f3f689cf619",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4985f5b9_3441ec99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-30T16:33:25Z",
+      "side": 1,
+      "message": "Cool, thanks @Martin for clarifying it. Looking forward to see the new example that highlights the requirements not yet met by this PoC.",
+      "parentUuid": "e84c32aa_2a56be7a",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 43
+      },
+      "revId": "808bd4f1be5ed751607e0a4670ff2f3f689cf619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

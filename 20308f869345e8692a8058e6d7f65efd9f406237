@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98f0aa13_507ea2b6",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/AbandonChange.scala",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-03-30T18:48:25Z",
+      "side": 1,
+      "message": "Some network flakiness can make a step to fail to be completed in time. For example SubmitChange, if ApproveChange doesn\u0027t complete before submit then submission will not happen and project wont be able to be deleted, due to still having open changes. And next test run will also be affected. This change will be abandoned due to introduction of force option to deleteProject instead in the base change.",
+      "parentUuid": "fef83fa1_5b63b779",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 22
+      },
+      "revId": "20308f869345e8692a8058e6d7f65efd9f406237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb2ba312_1cfd39c6",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 7

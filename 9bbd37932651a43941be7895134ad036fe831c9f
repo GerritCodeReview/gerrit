@@ -143,6 +143,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28746905_a868defc",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-30T22:17:38Z",
+      "side": 1,
+      "message": "Can this be made more specific somehow?\n\nWhat about making the PluginProvidedApi a generic type? (e.g. PluginProvidedApi\u003cRequest,Response\u003e)",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54ef5ee7_bcb6e004",
         "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
         "patchSetId": 4
@@ -207,6 +230,53 @@
         "startChar": 22,
         "endLine": 32,
         "endChar": 23
+      },
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6c8b31f_b5ae75d7",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-30T22:17:38Z",
+      "side": 1,
+      "message": "I believe here the comment from Patrick is very relevant: because there isn\u0027t a strong typing check here, the risk is quite significant that the wrong types could be sent at runtime.\n\nThe use of protobufs would compensate that lack of strong typing, bringing the ability to:\n- perform type checking\n- being tolerant to different but compatible types\n- fail-fast if an incompatible type is passed as parameter",
+      "parentUuid": "a619abd1_aa3914f6",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fd97c4e_a1fd58ee",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-30T22:17:38Z",
+      "side": 1,
+      "message": "Looking at the PoC provided by Qualcomm with the request-based class reloading with mixed parent class-loaders, this ClassCastException could happen also if the types are actually correct but belong to different class loader.\n\n@Patrick comment on protobufs would actually resolve this issue, because even if the classes are effectively different, they will still be possible to be casted as long as the data inside their types is compatible.\n\nThere is, of course, a performance penalty to pay here, because of the serialisation/deserialisation involved.",
+      "range": {
+        "startLine": 43,
+        "startChar": 15,
+        "endLine": 43,
+        "endChar": 36
       },
       "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

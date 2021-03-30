@@ -423,6 +423,10 @@ export const htmlTemplate = html`
       content: '\\00BB';
       position: absolute;
     }
+    .special-char-indicator:before {
+      content: '•';
+      position: absolute;
+    }
     /* Is defined after other background-colors, such that this
          rule wins in case of same specificity. */
     .trailing-whitespace,

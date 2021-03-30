@@ -1,0 +1,383 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec0f60cf_fa1dffa7",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "This can be tested with \u003ccode\u003eresources/com/google/gerrit/sshd/NoShell_script.sh\u003c/code\u003e.",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 103,
+        "endChar": 41
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2fa50fd_a6fd91f1",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "Generates warnings in IntelliJ, about the missing descriptions for each tag.",
+      "range": {
+        "startLine": 105,
+        "startChar": 14,
+        "endLine": 107,
+        "endChar": 26
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e2590a8_0cb0a391",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "Could remove these headers to simplify the help output.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 8
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c5c9972_4ccdfd71",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "process_id ssh_port user_name host_name number_of_times\n\n-Would be more posix-standard I think.",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 43
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ada8928_f57f4969",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "Compares the number of file descriptors before and after running the NoShell command towards the specified Gerrit process, for the given number of times:\n\n-Or similar. You\u0027d then move this before line 5 above, output-wise.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 28
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c81e3dc_56a5c977",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "Applying the above comments would make these lines redundant, thus to remove.",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cc4fc39_45e05555",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "(May go.)",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 7
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ee378e4_c0381e50",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "12345 could be more obviously arbitrary, right?",
+      "range": {
+        "startLine": 15,
+        "startChar": 20,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8ed14c7_1a5e12d2",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "localhost, rather.",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23b7f793_41841bad",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "IntelliJ issue: \"Can only exit with status 0-255. Other data should be written to stdout/stderr.\"",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50c00643_3c32dd10",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "File descriptors count before loop:",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 79
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42342d89_1a27ae17",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "File descriptors count after loop:",
+      "range": {
+        "startLine": 36,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 79
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a60531db_bc9d3aec",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "Let\u0027s inline these two instead.",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb31ccad_4ba9fed3",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "# shellcheck disable\u003dSC2181\n\n-Otherwise getting this light warning in IntelliJ, about line 40, below:\n\"Check exit code directly with e.g. \u0027if mycmd;\u0027, not indirectly with $?.\"",
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b29ce4f_d09e167a",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "Should this script automate and show the comparison between fdCountBeforeLoop and fdCountAfterLoop, as its main way to conclude about NoShell success (or failure)?",
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2c16296_6801eaa0",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "Redundant.",
+      "range": {
+        "startLine": 43,
+        "startChar": 54,
+        "endLine": 43,
+        "endChar": 85
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10f14bd9_8509797c",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-30T21:49:33Z",
+      "side": 1,
+      "message": "Would then show the value of $?, maybe also mentioning that it came from the last executed ssh command further above, or something like this (a more explicit message, potentially actionable).",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

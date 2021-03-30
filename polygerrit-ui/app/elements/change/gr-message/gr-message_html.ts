@@ -171,21 +171,27 @@ export const htmlTemplate = html`
     .score.negative {
       background-color: var(--vote-color-disliked);
       border: 1px solid var(--vote-outline-disliked);
+      line-height: calc(var(--line-height-normal) - 2px);
       color: var(--chip-color);
     }
     .score.negative.min {
       background-color: var(--vote-color-rejected);
       border: none;
+      padding-top: 1px;
+      padding-bottom: 1px;
       color: var(--vote-text-color);
     }
     .score.positive {
       background-color: var(--vote-color-recommended);
       border: 1px solid var(--vote-outline-recommended);
+      line-height: calc(var(--line-height-normal) - 2px);
       color: var(--chip-color);
     }
     .score.positive.max {
       background-color: var(--vote-color-approved);
       border: none;
+      padding-top: 1px;
+      padding-bottom: 1px;
       color: var(--vote-text-color);
     }
     gr-account-label {

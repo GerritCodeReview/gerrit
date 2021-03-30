@@ -245,6 +245,7 @@ export class GrDiffBuilderElement extends PolymerElement {
       this._createTrailingWhitespaceLayer(),
       this._createIntralineLayer(),
       this._createTabIndicatorLayer(),
+      this._createSpecialCharacterIndicatorLayer(),
       this.$.rangeLayer,
       this.$.coverageLayerLeft,
       this.$.coverageLayerRight,
@@ -482,6 +483,31 @@ export class GrDiffBuilderElement extends PolymerElement {
           );
 
           // Skip forward by one tab character.
+          pos++;
+        }
+      },
+    };
+  }
+
+  _createSpecialCharacterIndicatorLayer(): DiffLayer {
+    return {
+      annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
+        // Find and annotate the locations of soft hyphen.
+        const split = line.text.split('­'); // soft hyphen inside ''
+        if (!split) {
+          return;
+        }
+        for (let i = 0, pos = 0; i < split.length - 1; i++) {
+          // Skip forward by the length of the content
+          pos += split[i].length;
+
+          GrAnnotation.annotateElement(
+            contentEl,
+            pos,
+            1,
+            'style-scope gr-diff special-char-indicator'
+          );
+
           pos++;
         }
       },

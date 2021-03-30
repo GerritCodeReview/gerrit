@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "675fc3b0_ad394b67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-30T08:08:20Z",
+      "side": 1,
+      "message": "Thanks for fix. I need to research if there can be any disadvantages by making this as module. One thing is that modules are executed later than normal scripts. https://jakearchibald.com/2017/es-modules-in-browsers/\n\nThe reason to add module is only to have a nice typescript test. \n\nI will be soon back with review.",
+      "revId": "908e84a8a7f7b86f2237e32ee47e04e2f12673fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ccf9ce26_a0b523d3",
         "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
         "patchSetId": 1

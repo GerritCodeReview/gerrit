@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1cd898a_e342f4eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-30T11:46:29Z",
+      "side": 1,
+      "message": "Issue footer should rather be:\n\nBug: Issue 14301\n\nThat\u0027s why it\u0027s not linkified.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "0f7e71914f484137e585534c6f1fb0fceea5ba71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b233029_ec4158ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-30T11:46:29Z",
+      "side": 1,
+      "message": "Nit: No blank line between commit message footers.",
+      "revId": "0f7e71914f484137e585534c6f1fb0fceea5ba71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -362,6 +362,24 @@
       "parentUuid": "1010a5ce_2d1e302e",
       "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fb03ff7_f7e9b15d",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92d2f739_90bae1e0",
+      "revId": "2afca62f43e3777b5cf4c825ce374b35a7876eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f0aaa39_5bcf0d0d",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb5f5415_e18fa02e",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 21
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ced72683_e084840e",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-29T21:00:24Z",
       "side": 1,
       "message": "CloseFuture doesn\u0027t recommend calling this directly, as it should be called internally by sshd. Is this call here absolutely necessary, and if so, why?",
+      "range": {
+        "startLine": 119,
+        "startChar": 26,
+        "endLine": 119,
+        "endChar": 38
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8afd69ac_d38c1d57",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ced72683_e084840e",
       "range": {
         "startLine": 119,
         "startChar": 26,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3ba216f_a1481042",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dc0e191_533de8de",
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3953d56_febd84e9",
@@ -98,6 +164,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dcf9295_e498f970",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3953d56_febd84e9",
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a91be404_aed67e16",
@@ -111,6 +195,30 @@
       "writtenOn": "2021-03-29T21:00:24Z",
       "side": 1,
       "message": "Would inline this here instead (of using a local variable only once).",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a72ef1b7_825a7460",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a91be404_aed67e16",
       "range": {
         "startLine": 13,
         "startChar": 6,
@@ -144,6 +252,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae796d4a_f60f91b8",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7311282e_a5b4d282",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3942523_8ae6d980",
@@ -157,6 +289,30 @@
       "writtenOn": "2021-03-29T21:00:24Z",
       "side": 1,
       "message": "port, as a port is always a number.",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 12
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32617aa2_26dfc3ce",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3942523_8ae6d980",
       "range": {
         "startLine": 16,
         "startChar": 2,
@@ -190,6 +346,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "795d2d45_e97128c4",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5546b0cb_22c1f4ca",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da6d9093_cb8bcfb5",
@@ -213,6 +393,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "970aa275_40352686",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da6d9093_cb8bcfb5",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 13
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09583b45_a3442a3c",
@@ -226,6 +430,30 @@
       "writtenOn": "2021-03-29T21:00:24Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 14
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b797d02_b3573af1",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09583b45_a3442a3c",
       "range": {
         "startLine": 26,
         "startChar": 2,
@@ -282,6 +510,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2169f9dc_591e9512",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92bb971d_2c9a28f6",
+      "range": {
+        "startLine": 28,
+        "startChar": 22,
+        "endLine": 29,
+        "endChar": 80
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "527382f0_1a585992",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca10325_c0197859",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d9d04ad_3f849eb6",
@@ -295,6 +571,30 @@
       "writtenOn": "2021-03-29T21:00:24Z",
       "side": 1,
       "message": "If we can make the above messages brief enough, these could be inlined directly here.",
+      "range": {
+        "startLine": 30,
+        "startChar": 8,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e765061_7f931e0f",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d9d04ad_3f849eb6",
       "range": {
         "startLine": 30,
         "startChar": 8,
@@ -322,6 +622,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1514dc9_ae1b29af",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6812e467_1dc74a79",
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7060175_a19c2d83",
@@ -335,6 +653,30 @@
       "writtenOn": "2021-03-29T21:00:24Z",
       "side": 1,
       "message": "Would inline this as well here. The message below already explains the purpose of this check, quite common in shell scripts already.",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b04386c_4c24561a",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7060175_a19c2d83",
       "range": {
         "startLine": 33,
         "startChar": 8,
@@ -391,6 +733,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "270464f8_4c60675f",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54469684_38789e63",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 17
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "168c4179_d54e1e94",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5c340f8_6dd7fd14",
+      "range": {
+        "startLine": 35,
+        "startChar": 29,
+        "endLine": 35,
+        "endChar": 41
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78c55668_5a7920a8",
@@ -414,6 +804,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9437fc29_53be961e",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78c55668_5a7920a8",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 4
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ef0e4e8_3aead67a",
@@ -427,6 +841,30 @@
       "writtenOn": "2021-03-29T21:00:24Z",
       "side": 1,
       "message": "Script could start with this negative case, allowing to not have to indent the whole logic above. So, checking the args first and exiting straight away if missing any mandatory one(s). -Followed by the unindented script logic for the normal case.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "741ec17733540cd5fda2dfdc4354ae7788202396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5380e1da_e162b8b2",
+        "filename": "tools/testNoShell.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ef0e4e8_3aead67a",
       "range": {
         "startLine": 37,
         "startChar": 0,

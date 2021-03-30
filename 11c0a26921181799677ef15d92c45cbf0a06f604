@@ -16,6 +16,24 @@
       "message": "This measures only the creation of the ReceiveCommand, but not its execution, isn\u0027t it?",
       "revId": "11c0a26921181799677ef15d92c45cbf0a06f604",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dee7ca8_a8322727",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-30T11:42:18Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "7adcc058_a082edb5",
+      "revId": "11c0a26921181799677ef15d92c45cbf0a06f604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

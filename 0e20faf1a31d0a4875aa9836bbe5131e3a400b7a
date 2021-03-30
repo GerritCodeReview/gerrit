@@ -3,6 +3,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96fcde7d_cca3a170",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-30T07:15:11Z",
+      "side": 1,
+      "message": "What is a bit wonky about this API is that for unified diff it is only called once for unchanged lines (because there is only one textElement), but it still needs to provide this lineNumberElement - and then provides the right line number only. \n\nFrom what I can tell, most layers annotate either the text or the line number, so maybe medium term a cleaner API would be to split \"annotate\" into \"annotateLineNumber\" and \"annotateText\", and make these methods all optional in this interface. Maybe something to make a TODO or a bug about?",
+      "revId": "0e20faf1a31d0a4875aa9836bbe5131e3a400b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9f25c27_43d6ad99",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-30T07:15:11Z",
+      "side": 1,
+      "message": "This is now an API change - do we have a way to indicate that to ensure we appropriately bump versions for OSS releases?",
+      "revId": "0e20faf1a31d0a4875aa9836bbe5131e3a400b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a08e97e2_ab7adfa6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-30T07:15:11Z",
+      "side": 1,
+      "message": "The idea of passing this in was to avoid code like this in every layer:\nelements/diff/gr-syntax-layer/gr-syntax-layer.ts:206\nelements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.ts:107\n\nIndeed that code seems to allow for side to be undefined right now. However, I have not fully figured out when this happens. From reading the code, it seems this would happen for all lines in unified diff view:\nelements/diff/gr-diff-builder/gr-diff-builder-unified.ts:125\n\nHowever, when I try it in prod, and I turn on unified diff view, some lines actually do get annotated, and they do have data-side\u003d\"right\" set, even when they are of type \"both\". Do you understand why? On this file for example,I see everything \u003c 604 not syntax highlighted, but lines 604-613, which are unchanged, do get syntax highlighting and a side passed. Did you understand how that happens?\n\nGiven that \nelements/diff/gr-diff-builder/gr-diff-builder-unified.ts:125\nalways passes in the right element as the line number, would it make sense to pass in \"right\" always, too, instead of undefined, to avoid breaking the API interface, make all the layers work again, and buy us time for a proper API revision?",
+      "range": {
+        "startLine": 617,
+        "startChar": 60,
+        "endLine": 617,
+        "endChar": 77
+      },
+      "revId": "0e20faf1a31d0a4875aa9836bbe5131e3a400b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b8d14106_06e92a4d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
         "patchSetId": 2

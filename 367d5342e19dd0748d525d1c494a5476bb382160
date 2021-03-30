@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f287d930_cff4f247",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-30T09:44:53Z",
+      "side": 1,
+      "message": "run-on sentence",
+      "range": {
+        "startLine": 589,
+        "startChar": 57,
+        "endLine": 589,
+        "endChar": 61
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "786dbf7e_eefb4c6f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-30T09:44:53Z",
+      "side": 1,
+      "message": "we don\u0027t have a database anymore.\n\nmaybe something like \"additional fields can be obtained by adding `o` parameters, analogous to GetChange (link), and the same concerns for GetChange hold for this endpoint too.\" (I\u0027m assuming we have documented something about cost for GetChange)",
+      "range": {
+        "startLine": 590,
+        "startChar": 0,
+        "endLine": 590,
+        "endChar": 38
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8687bb7_6e1cf778",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-30T09:44:53Z",
+      "side": 1,
+      "message": "remove trailing space, throughout.",
+      "range": {
+        "startLine": 633,
+        "startChar": 60,
+        "endLine": 633,
+        "endChar": 61
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f63cbf5_2e713f1c",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetMetaDiff.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-30T09:44:53Z",
+      "side": 1,
+      "message": "(note to self: I should fix occurrences of SHA1. Wikipedia says it\u0027s SHA-1.)",
+      "range": {
+        "startLine": 45,
+        "startChar": 50,
+        "endLine": 45,
+        "endChar": 55
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b409f95d_b4db1086",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetMetaDiffIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-30T09:44:53Z",
+      "side": 1,
+      "message": "where does this come from? I guess it\u0027s random?",
+      "range": {
+        "startLine": 32,
+        "startChar": 48,
+        "endLine": 32,
+        "endChar": 88
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "978ba0e9_c408c76e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetMetaDiffIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-03-30T09:44:53Z",
+      "side": 1,
+      "message": "this should be a parse error (bad request).\n\n412 is only for a full 40-digit hex string that we can\u0027t resolve.",
+      "range": {
+        "startLine": 85,
+        "startChar": 80,
+        "endLine": 85,
+        "endChar": 87
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

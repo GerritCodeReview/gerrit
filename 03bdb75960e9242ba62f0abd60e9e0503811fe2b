@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73739cf1_4c84d862",
+        "filename": "polygerrit-ui/app/services/checks/checks-service.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-03-30T14:34:37Z",
+      "side": 1,
+      "message": "I.e. if there are enough items in change.revision, the patchsetSha can point to a non-current patchNum. As a result, some other actions can be first executed with a wrong patchsetSha and then with a correct patchsetSha.\nI am ok with this fix for now, but I think it would be good if Ben tries to find a better fix.",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 48
+      },
+      "revId": "03bdb75960e9242ba62f0abd60e9e0503811fe2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

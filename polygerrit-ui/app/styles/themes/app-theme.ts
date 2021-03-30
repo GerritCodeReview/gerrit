@@ -331,7 +331,6 @@ const styleSheet = safeStyleSheet`
     --coverage-covered: #e0f2f1;
     --coverage-not-covered: #ffd1a4;
     --ranged-comment-hint-text-color: var(--orange-900);
-    --token-highlighting-color: #fffd54;
 
     /* syntax colors */
     --syntax-attr-color: #219;

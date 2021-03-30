@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "63447853_93965c3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-03-30T11:47:25Z",
+      "side": 1,
+      "message": "Oh, your version is actually linkified.",
+      "parentUuid": "c1cd898a_e342f4eb",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "0f7e71914f484137e585534c6f1fb0fceea5ba71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b233029_ec4158ae",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

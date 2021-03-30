@@ -22,6 +22,30 @@
       },
       "revId": "b57ae7ee848e413d96f372928f4ec822c1ed8300",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "100c0e5c_4ea90ab1",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-30T15:42:10Z",
+      "side": 1,
+      "message": "According to [1], the range is defined by the numeric order of characters.\nAnd according to [2], the range *-} includes the forward slash / and the left closing braces {\n[1] https://en.wikipedia.org/wiki/Regular_expression\n[2] https://www.ascii-code.com/",
+      "parentUuid": "b1a99fd8_c8a8be7b",
+      "range": {
+        "startLine": 108,
+        "startChar": 36,
+        "endLine": 108,
+        "endChar": 37
+      },
+      "revId": "b57ae7ee848e413d96f372928f4ec822c1ed8300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e84c32aa_2a56be7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-03-30T15:18:06Z",
+      "side": 1,
+      "message": "To clarify, our proposed implementations used \"request time class loading\" because it solved our problem, not because we are bound to that implementation. I also think the referenced \"sub-plugins\" based approach above would solve this problem.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 43
+      },
+      "revId": "808bd4f1be5ed751607e0a4670ff2f3f689cf619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

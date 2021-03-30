@@ -131,7 +131,14 @@ export class ChecksService {
             }
             assertIsDefined(change.revisions, 'change.revisions');
             const patchsetSha = getShaByPatchNum(change.revisions, patchNum);
-            assertIsDefined(patchsetSha, 'patchsetSha');
+            // Sometimes patchNum is updated earlier than change, so change
+            // revisions don't have patchNum yet
+            if (!patchsetSha) {
+              return of({
+                responseCode: ResponseCode.OK,
+                runs: [],
+              });
+            }
             const data: ChangeData = {
               changeNumber: changeNum,
               patchsetNumber: patchNum,

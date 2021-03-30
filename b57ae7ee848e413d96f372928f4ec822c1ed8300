@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18a0ff4c_4b6a8a6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1127770
+      },
+      "writtenOn": "2021-03-30T18:00:17Z",
+      "side": 1,
+      "message": "I don\u0027t understand why we must upgrade gerrit core to limit set of characters used in project creation.\nGerrit already have a mechanism to archive this.\nClass ProjectCreator is invoke by CreateProject witch before invoking previous one invokes:\nprojectCreationValidationListeners.runEach(\n            l -\u003e l.validateNewProject(args), ValidationException.class); )\nThis validator is already used for example in project-group-structure plugin to validate name.\nSame mechanism may be used to limit set of characters.\n\nIf it must be done in gerrit core maybe better to implement in CreateProject or JS. Also maybe good idea would be to read regex from config file and have default in case of lack config entry.\n\n",
+      "revId": "b57ae7ee848e413d96f372928f4ec822c1ed8300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1a99fd8_c8a8be7b",

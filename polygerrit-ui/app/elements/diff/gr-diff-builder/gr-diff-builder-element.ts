@@ -46,9 +46,8 @@ import {Side} from '../../../constants/constants';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
-import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
+import {getLineNumber} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
-import {TokenHighlightLayer} from './token-highlight-layer';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -249,13 +248,32 @@ export class GrDiffBuilderElement extends PolymerElement {
       this.$.rangeLayer,
       this.$.coverageLayerLeft,
       this.$.coverageLayerRight,
-      new TokenHighlightLayer(),
     ];
 
     if (this.layers) {
       layers.push(...this.layers);
     }
     this._layers = layers;
+  }
+
+  getLineElByChild(node?: Node): HTMLElement | null {
+    while (node) {
+      if (node instanceof Element) {
+        if (node.classList.contains('lineNum')) {
+          return node as HTMLElement;
+        }
+        if (node.classList.contains('section')) {
+          return null;
+        }
+      }
+      node = node.previousSibling ?? node.parentElement ?? undefined;
+    }
+    return null;
+  }
+
+  getLineNumberByChild(node: Node) {
+    const lineEl = this.getLineElByChild(node);
+    return getLineNumber(lineEl);
   }
 
   getContentTdByLine(lineNumber: LineNumber, side?: Side, root?: Element) {
@@ -274,7 +292,7 @@ export class GrDiffBuilderElement extends PolymerElement {
     if (!lineEl) return null;
     const line = getLineNumber(lineEl);
     if (!line) return null;
-    const side = getSideByLineEl(lineEl);
+    const side = this.getSideByLineEl(lineEl);
     // Performance optimization because we already have an element in the
     // correct row
     const row = this._getDiffRowByChild(lineEl);
@@ -286,6 +304,10 @@ export class GrDiffBuilderElement extends PolymerElement {
     return this.diffElement.querySelector(
       `.lineNum[data-value="${lineNumber}"]${sideSelector}`
     );
+  }
+
+  getSideByLineEl(lineEl: Element) {
+    return lineEl.classList.contains(Side.RIGHT) ? Side.RIGHT : Side.LEFT;
   }
 
   emitGroup(group: GrDiffGroup, sectionEl: HTMLElement) {

@@ -28,13 +28,7 @@ import {CommentRange} from '../../../types/common';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
 import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
 import {FILE} from '../gr-diff/gr-diff-line';
-import {
-  getLineElByChild,
-  getLineNumberByChild,
-  getRange,
-  getSide,
-  getSideByLineEl,
-} from '../gr-diff/gr-diff-utils';
+import {getRange, getSide} from '../gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 
 interface SidedRange {
@@ -362,11 +356,11 @@ export class GrDiffHighlight extends PolymerElement {
   ): NormalizedPosition | null {
     let column;
     if (!node || !this.contains(node)) return null;
-    const lineEl = getLineElByChild(node);
+    const lineEl = this.diffBuilder.getLineElByChild(node);
     if (!lineEl) return null;
-    const side = getSideByLineEl(lineEl);
+    const side = this.diffBuilder.getSideByLineEl(lineEl);
     if (!side) return null;
-    const line = getLineNumberByChild(lineEl);
+    const line = this.diffBuilder.getLineNumberByChild(lineEl);
     if (!line || line === FILE || line === 'LOST') return null;
     const contentTd = this.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentTd) return null;

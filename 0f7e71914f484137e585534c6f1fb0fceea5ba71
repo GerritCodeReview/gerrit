@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98f90f0e_88dbf39b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-30T12:09:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63447853_93965c3b",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "0f7e71914f484137e585534c6f1fb0fceea5ba71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b233029_ec4158ae",
@@ -61,6 +85,24 @@
       "writtenOn": "2021-03-30T11:46:29Z",
       "side": 1,
       "message": "Nit: No blank line between commit message footers.",
+      "revId": "0f7e71914f484137e585534c6f1fb0fceea5ba71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d8e03b5_71bdd38f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-30T12:09:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b233029_ec4158ae",
       "revId": "0f7e71914f484137e585534c6f1fb0fceea5ba71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

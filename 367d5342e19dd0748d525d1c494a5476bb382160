@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56c2a351_746980bf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-30T20:26:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20299521_8915afd2",
+      "range": {
+        "startLine": 580,
+        "startChar": 66,
+        "endLine": 580,
+        "endChar": 67
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f287d930_cff4f247",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-30T09:44:53Z",
       "side": 1,
       "message": "run-on sentence",
+      "range": {
+        "startLine": 589,
+        "startChar": 57,
+        "endLine": 589,
+        "endChar": 61
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b83db68_e6d89204",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-30T20:26:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f287d930_cff4f247",
       "range": {
         "startLine": 589,
         "startChar": 57,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67df3b74_df6fcc52",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-30T20:26:05Z",
+      "side": 1,
+      "message": "Got it!",
+      "parentUuid": "786dbf7e_eefb4c6f",
+      "range": {
+        "startLine": 590,
+        "startChar": 0,
+        "endLine": 590,
+        "endChar": 38
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8687bb7_6e1cf778",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-03-30T09:44:53Z",
       "side": 1,
       "message": "remove trailing space, throughout.",
+      "range": {
+        "startLine": 633,
+        "startChar": 60,
+        "endLine": 633,
+        "endChar": 61
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6a3e283_ccb9b1a1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-30T20:26:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8687bb7_6e1cf778",
       "range": {
         "startLine": 633,
         "startChar": 60,
@@ -180,6 +276,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2df3185e_32f25f40",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetMetaDiffIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-30T20:26:05Z",
+      "side": 1,
+      "message": "It was random - I went with the serious variant",
+      "parentUuid": "186d3c5f_5d021cd2",
+      "range": {
+        "startLine": 32,
+        "startChar": 48,
+        "endLine": 32,
+        "endChar": 88
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "978ba0e9_c408c76e",
@@ -193,6 +313,30 @@
       "writtenOn": "2021-03-30T09:44:53Z",
       "side": 1,
       "message": "this should be a parse error (bad request).\n\n412 is only for a full 40-digit hex string that we can\u0027t resolve.",
+      "range": {
+        "startLine": 85,
+        "startChar": 80,
+        "endLine": 85,
+        "endChar": 87
+      },
+      "revId": "367d5342e19dd0748d525d1c494a5476bb382160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dd14508_e22e2dd1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetMetaDiffIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1077840
+      },
+      "writtenOn": "2021-03-30T20:26:05Z",
+      "side": 1,
+      "message": "Got it!",
+      "parentUuid": "978ba0e9_c408c76e",
       "range": {
         "startLine": 85,
         "startChar": 80,

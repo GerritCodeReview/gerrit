@@ -34,6 +34,24 @@
       "parentUuid": "64b0c973_8d065ca8",
       "revId": "ceb5ec17466b4301bcab0116c195e025258f3e2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb82d57_67a54023",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-31T10:26:46Z",
+      "side": 1,
+      "message": "\u003e I agree!\n\u003e Thanks David O (and reviewers), awesome job!\n\nThanks DavidO and everyone for this achievement, this is one of the *MAJOR* reasons for people to upgrade to the next forthcoming Gerrit v3.4 !!!!\n(just search for how many people have replication threads stuck on Git/SSH ;-) )",
+      "parentUuid": "933b608c_6195ad2b",
+      "revId": "ceb5ec17466b4301bcab0116c195e025258f3e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

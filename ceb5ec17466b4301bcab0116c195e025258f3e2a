@@ -16,6 +16,24 @@
       "message": "For posterity: I did not review this change series, but trusted the +2 that other maintainer\u0027s left. I test-imported this into Google\u0027s code base to make sure it works (it does) and then rebased and submitted it.\n\nThanks for all your work!",
       "revId": "ceb5ec17466b4301bcab0116c195e025258f3e2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "933b608c_6195ad2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-03-31T10:23:04Z",
+      "side": 1,
+      "message": "I agree!\nThanks David O (and reviewers), awesome job!",
+      "parentUuid": "64b0c973_8d065ca8",
+      "revId": "ceb5ec17466b4301bcab0116c195e025258f3e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

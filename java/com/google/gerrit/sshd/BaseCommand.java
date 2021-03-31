@@ -41,7 +41,6 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.EndOfOptionsHandler;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -102,7 +101,7 @@ public abstract class BaseCommand implements Command {
   @PluginName
   private String pluginName;
 
-  @Inject protected Injector injector;
+  @Inject protected DynamicOptions.Factory dynamicOptionsFactory;
 
   @Inject protected DynamicMap<DynamicOptions.DynamicBean> dynamicBeans = null;
 
@@ -485,7 +484,7 @@ public abstract class BaseCommand implements Command {
 
           try {
             if (thunk instanceof ProjectCommandRunnable) {
-              try (DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
+              try (DynamicOptions pluginOptions = dynamicOptionsFactory.create(dynamicBeans)) {
                 ((ProjectCommandRunnable) thunk).executeParseCommand(pluginOptions);
                 projectName = ((ProjectCommandRunnable) thunk).getProjectName();
                 thunk.run();

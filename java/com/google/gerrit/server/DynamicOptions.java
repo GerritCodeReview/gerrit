@@ -18,9 +18,11 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.plugins.DelegatingClassLoader;
 import com.google.gerrit.util.cli.CmdLineParser;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +33,15 @@ import java.util.WeakHashMap;
 
 /** Helper class to define and parse options from plugins on ssh and RestAPI commands. */
 public class DynamicOptions implements AutoCloseable {
+
+  /**
+   * Using a factory in {@link DynamicOptions} makes it so that we don't have to inject the {@link
+   * Injector} when this class gets used.
+   */
+  public interface Factory {
+    DynamicOptions create(DynamicMap<DynamicBean> dynamicBeans);
+  }
+
   /**
    * To provide additional options, bind a DynamicBean. For example:
    *
@@ -213,7 +224,8 @@ public class DynamicOptions implements AutoCloseable {
    *    pluginOptions.onBeanParseEnd();
    * </pre>
    */
-  public DynamicOptions(Injector injector, DynamicMap<DynamicBean> dynamicBeans) {
+  @Inject
+  public DynamicOptions(Injector injector, @Assisted DynamicMap<DynamicBean> dynamicBeans) {
     this.injector = injector;
     this.dynamicBeans = dynamicBeans;
     lifecycleManager = new LifecycleManager();

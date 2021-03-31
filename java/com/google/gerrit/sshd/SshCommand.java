@@ -50,7 +50,7 @@ public abstract class SshCommand extends BaseCommand {
   public void start(ChannelSession channel, Environment env) throws IOException {
     startThread(
         () -> {
-          try (DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
+          try (DynamicOptions pluginOptions = dynamicOptionsFactory.create(dynamicBeans)) {
             parseCommandLine(pluginOptions);
             stdout = toPrintWriter(out);
             stderr = toPrintWriter(err);

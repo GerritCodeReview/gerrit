@@ -111,7 +111,6 @@ import com.google.gerrit.server.restapi.change.SuggestChangeReviewers;
 import com.google.gerrit.server.restapi.change.Unignore;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
@@ -177,8 +176,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Provider<GetPureRevert> getPureRevertProvider;
   private final StarredChangesUtil stars;
   private final DynamicOptionParser dynamicOptionParser;
-  private final Injector injector;
   private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
+  private final DynamicOptions.Factory dynamicOptionsFactory;
 
   @Inject
   ChangeApiImpl(
@@ -232,9 +231,9 @@ class ChangeApiImpl implements ChangeApi {
       Provider<GetPureRevert> getPureRevertProvider,
       StarredChangesUtil stars,
       DynamicOptionParser dynamicOptionParser,
-      @Assisted ChangeResource change,
-      Injector injector,
-      DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
+      DynamicMap<DynamicOptions.DynamicBean> dynamicBeans,
+      DynamicOptions.Factory dynamicOptionsFactory,
+      @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
     this.revertSubmission = revertSubmission;
@@ -285,9 +284,9 @@ class ChangeApiImpl implements ChangeApi {
     this.getPureRevertProvider = getPureRevertProvider;
     this.stars = stars;
     this.dynamicOptionParser = dynamicOptionParser;
-    this.change = change;
-    this.injector = injector;
     this.dynamicBeans = dynamicBeans;
+    this.dynamicOptionsFactory = dynamicOptionsFactory;
+    this.change = change;
   }
 
   @Override
@@ -506,7 +505,7 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeInfo get(
       EnumSet<ListChangesOption> options, ImmutableListMultimap<String, String> pluginOptions)
       throws RestApiException {
-    try (DynamicOptions dynamicOptions = new DynamicOptions(injector, dynamicBeans)) {
+    try (DynamicOptions dynamicOptions = dynamicOptionsFactory.create(dynamicBeans)) {
       GetChange getChange = getChangeProvider.get();
       options.forEach(getChange::addOption);
       dynamicOptionParser.parseDynamicOptions(getChange, pluginOptions, dynamicOptions);

@@ -108,7 +108,7 @@ public final class StreamEvents extends BaseCommand {
 
   @Override
   public void start(ChannelSession channel, Environment env) throws IOException {
-    try (DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
+    try (DynamicOptions pluginOptions = dynamicOptionsFactory.create(dynamicBeans)) {
       try {
         parseCommandLine(pluginOptions);
       } catch (UnloggedFailure e) {

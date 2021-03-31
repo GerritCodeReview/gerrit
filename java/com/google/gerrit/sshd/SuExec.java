@@ -93,7 +93,7 @@ public final class SuExec extends BaseCommand {
 
   @Override
   public void start(ChannelSession channel, Environment env) throws IOException {
-    try (DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
+    try (DynamicOptions pluginOptions = dynamicOptionsFactory.create(dynamicBeans)) {
       checkCanRunAs();
       parseCommandLine(pluginOptions);
 

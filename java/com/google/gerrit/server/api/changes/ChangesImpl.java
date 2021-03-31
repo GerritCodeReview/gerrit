@@ -37,7 +37,6 @@ import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.CreateChange;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.List;
@@ -49,7 +48,7 @@ class ChangesImpl implements Changes {
   private final CreateChange createChange;
   private final DynamicOptionParser dynamicOptionParser;
   private final Provider<QueryChanges> queryProvider;
-  private final Injector injector;
+  private final DynamicOptions.Factory dynamicOptionsFactory;
   private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
 
   @Inject
@@ -59,14 +58,14 @@ class ChangesImpl implements Changes {
       CreateChange createChange,
       DynamicOptionParser dynamicOptionParser,
       Provider<QueryChanges> queryProvider,
-      Injector injector,
+      DynamicOptions.Factory dynamicOptionsFactory,
       DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
     this.changes = changes;
     this.api = api;
     this.createChange = createChange;
     this.dynamicOptionParser = dynamicOptionParser;
     this.queryProvider = queryProvider;
-    this.injector = injector;
+    this.dynamicOptionsFactory = dynamicOptionsFactory;
     this.dynamicBeans = dynamicBeans;
   }
 
@@ -132,7 +131,7 @@ class ChangesImpl implements Changes {
   }
 
   private List<ChangeInfo> get(QueryRequest q) throws RestApiException {
-    try (DynamicOptions dynamicOptions = new DynamicOptions(injector, dynamicBeans)) {
+    try (DynamicOptions dynamicOptions = dynamicOptionsFactory.create(dynamicBeans)) {
       QueryChanges qc = queryProvider.get();
       if (q.getQuery() != null) {
         qc.addQuery(q.getQuery());

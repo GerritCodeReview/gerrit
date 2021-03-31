@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1453ec40_69aba658",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T17:33:50Z",
+      "side": 1,
+      "message": "Mark, you keep not copy-pasting my proposals, leading to repeating typos. Please check this again. This is tedious for me as a reviewer.",
+      "parentUuid": "153f0560_caf5dd27",
+      "range": {
+        "startLine": 102,
+        "startChar": 31,
+        "endLine": 102,
+        "endChar": 49
+      },
+      "revId": "f0c0fc0d3d444e5e8565428e6538523b12046fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7ca7da1_f8656b5b",
         "filename": "java/com/google/gerrit/sshd/NoShell.java",
         "patchSetId": 13

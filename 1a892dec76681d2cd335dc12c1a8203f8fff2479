@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b848d949_7370d69b",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T17:33:50Z",
+      "side": 1,
+      "message": "Blank line above?",
+      "revId": "1a892dec76681d2cd335dc12c1a8203f8fff2479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "529e1009_decd8902",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T17:33:50Z",
+      "side": 1,
+      "message": "This trace overall isn\u0027t clear enough.",
+      "range": {
+        "startLine": 34,
+        "startChar": 68,
+        "endLine": 35,
+        "endChar": 70
+      },
+      "revId": "1a892dec76681d2cd335dc12c1a8203f8fff2479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d47b5428_d12d10b1",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T17:33:50Z",
+      "side": 1,
+      "message": "This file now lends warnings in IntelliJ. I\u0027m letting you properly finish this work before reviewing it again. Please don\u0027t rush and take the time you need. Remember our Definition-of-Done. You also scored VR+1 but the warnings point to actual verification issues...",
+      "revId": "1a892dec76681d2cd335dc12c1a8203f8fff2479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

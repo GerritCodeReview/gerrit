@@ -111,7 +111,7 @@ public class ChangeInfo {
   public List<ProblemInfo> problems;
   public List<PluginDefinedInfo> plugins;
   public Collection<TrackingIdInfo> trackingIds;
-  public Collection<SubmitRequirementInfo> requirements;
+  public Collection<LegacySubmitRequirementInfo> requirements;
 
   public ChangeInfo() {}
 

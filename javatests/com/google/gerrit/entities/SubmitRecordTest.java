@@ -75,7 +75,8 @@ public class SubmitRecordTest {
     record.status = SubmitRecord.Status.CLOSED;
     record.errorMessage = "ouch";
     record.requirements =
-        ImmutableList.of(SubmitRequirement.builder().setFallbackText("foo").setType("baz").build());
+        ImmutableList.of(
+            LegacySubmitRequirement.builder().setFallbackText("foo").setType("baz").build());
     SubmitRecord.Label label = new SubmitRecord.Label();
     label.label = "Code-Review";
     record.labels = ImmutableList.of(label);

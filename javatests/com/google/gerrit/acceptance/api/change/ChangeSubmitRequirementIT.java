@@ -19,13 +19,13 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.SubmitRequirementInfo;
+import com.google.gerrit.extensions.common.LegacySubmitRequirementInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
@@ -38,10 +38,13 @@ import java.util.Optional;
 import org.junit.Test;
 
 public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
-  private static final SubmitRequirement req =
-      SubmitRequirement.builder().setType("custom_rule").setFallbackText("Fallback text").build();
-  private static final SubmitRequirementInfo reqInfo =
-      new SubmitRequirementInfo("NOT_READY", "Fallback text", "custom_rule");
+  private static final LegacySubmitRequirement req =
+      LegacySubmitRequirement.builder()
+          .setType("custom_rule")
+          .setFallbackText("Fallback text")
+          .build();
+  private static final LegacySubmitRequirementInfo reqInfo =
+      new LegacySubmitRequirementInfo("NOT_READY", "Fallback text", "custom_rule");
 
   @Override
   public Module createModule() {

@@ -52,13 +52,13 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Status;
-import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
@@ -70,11 +70,11 @@ import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.common.LegacySubmitRequirementInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
-import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.RefState;
@@ -349,21 +349,22 @@ public class ChangeJson {
     return format(cd, Optional.empty(), true, getPluginInfos(cd));
   }
 
-  private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
-    Collection<SubmitRequirementInfo> reqInfos = new ArrayList<>();
+  private static Collection<LegacySubmitRequirementInfo> requirementsFor(ChangeData cd) {
+    Collection<LegacySubmitRequirementInfo> reqInfos = new ArrayList<>();
     for (SubmitRecord submitRecord : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
       if (submitRecord.requirements == null) {
         continue;
       }
-      for (SubmitRequirement requirement : submitRecord.requirements) {
+      for (LegacySubmitRequirement requirement : submitRecord.requirements) {
         reqInfos.add(requirementToInfo(requirement, submitRecord.status));
       }
     }
     return reqInfos;
   }
 
-  private static SubmitRequirementInfo requirementToInfo(SubmitRequirement req, Status status) {
-    return new SubmitRequirementInfo(status.name(), req.fallbackText(), req.type());
+  private static LegacySubmitRequirementInfo requirementToInfo(
+      LegacySubmitRequirement req, Status status) {
+    return new LegacySubmitRequirementInfo(status.name(), req.fallbackText(), req.type());
   }
 
   private static void finish(ChangeInfo info) {

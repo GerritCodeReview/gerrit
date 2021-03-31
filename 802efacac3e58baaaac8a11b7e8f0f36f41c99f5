@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c58af23c_9d3242ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-31T12:45:26Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "802efacac3e58baaaac8a11b7e8f0f36f41c99f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba09e7b3_6f9838fd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-31T12:45:26Z",
+      "side": 1,
+      "message": "Not sure what these two are for - gr-diff sounds so generic that maybe this should be done as part of annotateElement?",
+      "range": {
+        "startLine": 508,
+        "startChar": 13,
+        "endLine": 508,
+        "endChar": 33
+      },
+      "revId": "802efacac3e58baaaac8a11b7e8f0f36f41c99f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

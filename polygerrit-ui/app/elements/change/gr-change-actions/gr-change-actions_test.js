@@ -1629,23 +1629,52 @@ suite('gr-change-actions tests', () => {
         assert.deepEqual(payload.labels, {foo: 1});
       });
 
-      test('not added when multiple labels are required', () => {
+      test('not added when multiple labels are required without code review',
+          () => {
+            element.change = {
+              current_revision: 'abc1234',
+              labels: {
+                foo: {values: {}},
+                bar: {values: {}},
+              },
+              permitted_labels: {
+                foo: [' 0', '+1'],
+                bar: [' 0', '+1', '+2'],
+              },
+            };
+            flush();
+            const approveButton =
+            element.shadowRoot
+                .querySelector('gr-button[data-action-key=\'review\']');
+            assert.isNull(approveButton);
+          });
+
+      test('code review shown with multiple missing approval', () => {
         element.change = {
           current_revision: 'abc1234',
           labels: {
-            foo: {values: {}},
-            bar: {values: {}},
+            'foo': {values: {}},
+            'bar': {values: {}},
+            'Code-Review': {
+              approved: {},
+              values: {
+                ' 0': '',
+                '+1': '',
+                '+2': '',
+              },
+            },
           },
           permitted_labels: {
-            foo: [' 0', '+1'],
-            bar: [' 0', '+1', '+2'],
+            'foo': [' 0', '+1'],
+            'bar': [' 0', '+1', '+2'],
+            'Code-Review': [' 0', '+1', '+2'],
           },
         };
         flush();
         const approveButton =
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']');
-        assert.isNull(approveButton);
+        assert.isOk(approveButton);
       });
 
       test('button label for missing approval', () => {

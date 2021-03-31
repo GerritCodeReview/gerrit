@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31e4bbf5_9d6baa96",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T19:09:48Z",
+      "side": 1,
+      "message": "1. If I run this script locally without gerrit running, I end up getting this trace -about a successful test. This negative yet likely case should be handled differently by the script logic or flow.\n\n2. If I then run it again using a running gerrit pid, I get this same successful feedback, even if I get ssh host key verification failures locally. To handle differently as well.\n\n3. Once I run [1] then this script again, I then get many [2]\u0027s, ending with this successful message. This script should mute those [2]\u0027s by default, and support a posix-standard verbose option to show them all if wanted.\n\n4. I\u0027m also getting [3] (down below) -which sounds confusing. If I force the negative case in the \u0027else\u0027 at lines 35-36, I get 0 as FD counts, which likely relates to [3]. I\u0027m running this test on macOS, which likely differs in FD root path or so. This script should maybe detect the proper, local path, without hardcoding or assuming it too much.\n\n[1] ssh-keyscan -t rsa -p 29418 localhost \u003e ~/.ssh/known_hosts\n-which this script could briefly document about.\n\n[2] Connection to localhost closed.\n\n  ****    Welcome to Gerrit Code Review    ****\n\n  Hi Administrator, you have successfully connected over SSH.\n\n  Unfortunately, interactive shells are disabled.\n  To clone a hosted Git repository, use:\n\n  git clone ssh://admin@localhost:29418/REPOSITORY_NAME.git\n\n[3] find: /proc/87420/fd: No such file or directory",
+      "revId": "c97ee803045f18983c5d5f4af004b060da1c3605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

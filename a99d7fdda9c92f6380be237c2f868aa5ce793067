@@ -521,6 +521,30 @@
       },
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca220b67_ff0b14cd",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-31T12:43:26Z",
+      "side": 1,
+      "message": "I implemented the first steps of Edwins suggestion here: https://gerrit-review.googlesource.com/c/gerrit/+/301324\n\nWhat is missing are the `external:` external IDs, since those are harder to handle. Please have a look, whether my implementation is ok. It required quite a lot of changed lines.",
+      "parentUuid": "669facde_2a230f01",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

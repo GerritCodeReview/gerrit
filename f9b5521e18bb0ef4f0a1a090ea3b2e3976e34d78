@@ -22,6 +22,30 @@
       },
       "revId": "f9b5521e18bb0ef4f0a1a090ea3b2e3976e34d78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da133065_75a6caa7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-31T12:01:12Z",
+      "side": 1,
+      "message": "Inside \u0027\u0027 is soft hyphen. It\u0027s just not seen. This diff will look like https://imgur.com/a/GlZ2Z0y when this will merged.\n\nSince there isn\u0027t soft hyphen in many texts, this will not slow down, it\u0027s just search for soft hyphen in text. If not found, split is length 1 and no classes are added",
+      "parentUuid": "4f8ff739_76e047c9",
+      "range": {
+        "startLine": 496,
+        "startChar": 22,
+        "endLine": 496,
+        "endChar": 42
+      },
+      "revId": "f9b5521e18bb0ef4f0a1a090ea3b2e3976e34d78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

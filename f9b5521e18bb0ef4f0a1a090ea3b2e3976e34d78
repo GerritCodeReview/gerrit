@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f8ff739_76e047c9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-03-31T11:30:47Z",
+      "side": 1,
+      "message": "I am confused - does this not split into individual letters? \n\nWhere do you want to add the soft hyphen? How does this perform? It seems a pretty niche feature to potentially slow down diff rendering further with a ton of extra elements and classes?",
+      "range": {
+        "startLine": 496,
+        "startChar": 22,
+        "endLine": 496,
+        "endChar": 42
+      },
+      "revId": "f9b5521e18bb0ef4f0a1a090ea3b2e3976e34d78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

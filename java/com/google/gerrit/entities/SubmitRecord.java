@@ -70,7 +70,7 @@ public class SubmitRecord {
 
   public Status status;
   public List<Label> labels;
-  public List<SubmitRequirement> requirements;
+  public List<LegacySubmitRequirement> requirements;
   public String errorMessage;
 
   public static class Label {
@@ -187,7 +187,7 @@ public class SubmitRecord {
     sb.append("],[");
     if (requirements != null) {
       String delimiter = "";
-      for (SubmitRequirement requirement : requirements) {
+      for (LegacySubmitRequirement requirement : requirements) {
         sb.append(delimiter).append(requirement);
         delimiter = ", ";
       }

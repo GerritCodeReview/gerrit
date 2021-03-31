@@ -37,11 +37,11 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.InternalServerWithUserMessageException;
 import com.google.gerrit.exceptions.StorageException;
@@ -391,8 +391,9 @@ public class MergeOp implements AutoCloseable {
     return Joiner.on("; ").join(labelResults);
   }
 
-  private static String describeSubmitRequirement(SubmitRequirement submitRequirement) {
-    return String.format("Submit requirement not fulfilled: %s", submitRequirement.fallbackText());
+  private static String describeSubmitRequirement(LegacySubmitRequirement legacySubmitRequirement) {
+    return String.format(
+        "Submit requirement not fulfilled: %s", legacySubmitRequirement.fallbackText());
   }
 
   private void checkSubmitRulesAndState(ChangeSet cs, boolean allowMerged)

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68d7e60b_2f6ac48a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-31T10:48:27Z",
+      "side": 1,
+      "message": "I put it in because I figured otherwise the non-outlined button would lack these borders and have a different height, possibly visibly shifting its contents, but I guess in practice it didn\u0027t matter since the flex container (flex-direction: row) around them makes them stretch to be equal height and the content is centered. I kept all the border widths–I have to have the one left / right, as otherwise the content might shift horizontally between states–to make it explicit.",
+      "parentUuid": "076ebe19_47b47ba5",
+      "range": {
+        "startLine": 328,
+        "startChar": 16,
+        "endLine": 328,
+        "endChar": 33
+      },
+      "revId": "a6cea0504c2be1cce122c66346ea0bf691a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1023f1d_8e6d6c86",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-31T10:24:29Z",
       "side": 1,
       "message": "NIT: I would write it with\nborder-top-width: 1px;\nborder-bottom-width: 1px;",
+      "range": {
+        "startLine": 354,
+        "startChar": 16,
+        "endLine": 354,
+        "endChar": 33
+      },
+      "revId": "a6cea0504c2be1cce122c66346ea0bf691a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bda7d63e_9c533595",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-03-31T10:48:27Z",
+      "side": 1,
+      "message": "As discussed offline, using border-width shorthand property but being explicit about all four sides.",
+      "parentUuid": "a1023f1d_8e6d6c86",
       "range": {
         "startLine": 354,
         "startChar": 16,

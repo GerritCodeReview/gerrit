@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05635423_ab78ef12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-31T07:23:04Z",
+      "side": 1,
+      "message": "CI Failure looks related:\n\n1) metaDiffInvalidNewSha1(com.google.gerrit.acceptance.rest.change.GetMetaDiffIT)\nExpected status code 400\nvalue of: getStatusCode()\nexpected: 400\nbut was : 500\n\tat com.google.gerrit.acceptance.RestResponse.assertStatus(RestResponse.java:56)\n\tat com.google.gerrit.acceptance.RestResponse.assertBadRequest(RestResponse.java:80)\n\tat com.google.gerrit.acceptance.rest.change.GetMetaDiffIT.metaDiffInvalidNewSha1(GetMetaDiffIT.java:87)\n2) metaDiffWithNewSha1NotInRepo(com.google.gerrit.acceptance.rest.change.GetMetaDiffIT)\nExpected status code 412\nvalue of: getStatusCode()\nexpected: 412\nbut was : 500\n\tat com.google.gerrit.acceptance.RestResponse.assertStatus(RestResponse.java:56)\n\tat com.google.gerrit.acceptance.rest.change.GetMetaDiffIT.metaDiffWithNewSha1NotInRepo(GetMetaDiffIT.java:107)\n\nFAILURES!!!\nTests run: 406,  Failures: 2",
+      "revId": "1b5915835faf9eca50bcdbc59e682cddd0f0cef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

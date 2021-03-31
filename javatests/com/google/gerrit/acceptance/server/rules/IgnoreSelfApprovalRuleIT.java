@@ -22,8 +22,8 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
 import com.google.inject.Inject;
 import java.util.Map;
@@ -51,7 +51,7 @@ public class IgnoreSelfApprovalRuleIT extends AbstractDaemonTest {
     assertThat(result.labels).isNotEmpty();
     assertThat(result.requirements)
         .containsExactly(
-            SubmitRequirement.builder()
+            LegacySubmitRequirement.builder()
                 .setFallbackText("Approval from non-uploader required")
                 .setType("non_uploader_approval")
                 .build());

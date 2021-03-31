@@ -24,8 +24,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -100,8 +100,8 @@ public class ChangeFieldTest {
             label(SubmitRecord.Label.Status.MAY, "Label-1", null),
             label(SubmitRecord.Label.Status.OK, "Label-2", 1));
 
-    SubmitRequirement sr =
-        SubmitRequirement.builder()
+    LegacySubmitRequirement sr =
+        LegacySubmitRequirement.builder()
             .setType("short_type")
             .setFallbackText("Fallback text may contain special symbols like < > \\ / ; :")
             .build();
@@ -119,8 +119,11 @@ public class ChangeFieldTest {
             label(SubmitRecord.Label.Status.OK, "Label-2", 1));
 
     // Doesn't have any custom data value
-    SubmitRequirement sr =
-        SubmitRequirement.builder().setFallbackText("short_type").setType("ci_status").build();
+    LegacySubmitRequirement sr =
+        LegacySubmitRequirement.builder()
+            .setFallbackText("short_type")
+            .setType("ci_status")
+            .build();
     r.requirements = Collections.singletonList(sr);
 
     assertStoredRecordRoundTrip(r);

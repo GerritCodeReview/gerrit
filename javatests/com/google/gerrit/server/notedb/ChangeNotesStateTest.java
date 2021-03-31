@@ -32,10 +32,10 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.converter.ChangeMessageProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
@@ -967,7 +967,7 @@ public class ChangeNotesStateTest {
                 "labels",
                 new TypeLiteral<List<SubmitRecord.Label>>() {}.getType(),
                 "requirements",
-                new TypeLiteral<List<SubmitRequirement>>() {}.getType(),
+                new TypeLiteral<List<LegacySubmitRequirement>>() {}.getType(),
                 "errorMessage",
                 String.class));
     assertThatSerializedClass(SubmitRecord.Label.class)
@@ -976,7 +976,7 @@ public class ChangeNotesStateTest {
                 "label", String.class,
                 "status", SubmitRecord.Label.Status.class,
                 "appliedBy", Account.Id.class));
-    assertThatSerializedClass(SubmitRequirement.class)
+    assertThatSerializedClass(LegacySubmitRequirement.class)
         .hasAutoValueMethods(
             ImmutableMap.of(
                 "fallbackText", String.class,

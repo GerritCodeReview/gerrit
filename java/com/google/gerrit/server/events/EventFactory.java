@@ -27,10 +27,10 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
+import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.UserIdentity;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -222,7 +222,7 @@ public class EventFactory {
   private void addSubmitRecordRequirements(SubmitRecord submitRecord, SubmitRecordAttribute sa) {
     if (submitRecord.requirements != null && !submitRecord.requirements.isEmpty()) {
       sa.requirements = new ArrayList<>();
-      for (SubmitRequirement req : submitRecord.requirements) {
+      for (LegacySubmitRequirement req : submitRecord.requirements) {
         SubmitRequirementAttribute re = new SubmitRequirementAttribute();
         re.fallbackText = req.fallbackText();
         re.type = req.type();

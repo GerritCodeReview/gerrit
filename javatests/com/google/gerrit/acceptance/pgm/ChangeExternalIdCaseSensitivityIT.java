@@ -170,6 +170,25 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
                 "sensitive"));
   }
 
+  @Test
+  public void dryrunDoesNotPersistChanges() throws Exception {
+    prepareExternalIdNotes(false);
+    ctx.close();
+    runGerrit(
+        "ChangeExternalIdCaseSensitivity",
+        "-d",
+        sitePaths.site_path.toString(),
+        "--to",
+        "insensitive",
+        "--dryrun");
+
+    config.load();
+    assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isFalse();
+
+    ctx = startServer();
+    assertExternalIdNotes(false);
+  }
+
   private void prepareExternalIdNotes(boolean userNameCaseInsensitive) throws Exception {
     configureUserNameCaseInsensitive(userNameCaseInsensitive);
     initSite();

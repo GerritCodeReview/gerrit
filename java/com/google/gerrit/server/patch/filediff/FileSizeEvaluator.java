@@ -90,6 +90,8 @@ class FileSizeEvaluator {
   }
 
   private static boolean isBlob(Patch.FileMode mode) {
-    return mode.equals(FileMode.REGULAR_FILE) || mode.equals(FileMode.SYMLINK);
+    return mode.equals(FileMode.REGULAR_FILE)
+        || mode.equals(FileMode.EXECUTABLE_FILE)
+        || mode.equals(FileMode.SYMLINK);
   }
 }

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "935dc7b9_f9c0302c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-03-31T13:32:33Z",
+      "side": 1,
+      "message": "I don\u0027t have any other comments. I will remove this change from my attention set. Please, add me back after you resolve comments.",
+      "revId": "0e20faf1a31d0a4875aa9836bbe5131e3a400b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96fcde7d_cca3a170",

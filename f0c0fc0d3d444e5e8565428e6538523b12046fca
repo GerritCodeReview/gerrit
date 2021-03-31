@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "620f24fc_84aea6b3",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T18:19:22Z",
+      "side": 1,
+      "message": "Done, my apologies I didn\u0027t notice the typo that was in resources",
+      "parentUuid": "1453ec40_69aba658",
+      "range": {
+        "startLine": 102,
+        "startChar": 31,
+        "endLine": 102,
+        "endChar": 49
+      },
+      "revId": "f0c0fc0d3d444e5e8565428e6538523b12046fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7ca7da1_f8656b5b",

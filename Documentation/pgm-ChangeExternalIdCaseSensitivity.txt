@@ -9,6 +9,7 @@ external IDs to be handled case insensitively
 --
 _java_ -jar gerrit.war _ChangeExternalIdCaseSensitivity_
   -d <SITE_PATH>
+  [--dryrun]
 --
 
 == DESCRIPTION
@@ -28,6 +29,9 @@ external IDs case insensitive and if set to `true` to case sensitive.
 -d::
 --site-path::
 	Path of the Gerrit site
+
+--dryrun::
+    Whether to perform the conversion without persisting it.
 
 == CONTEXT
 This command can only be run offline with direct access to the server's

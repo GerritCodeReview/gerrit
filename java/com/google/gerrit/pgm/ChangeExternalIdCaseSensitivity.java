@@ -48,6 +48,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import org.kohsuke.args4j.Option;
 
 /**
  * Changes the case sensitivity of `username:` and `gerrit:` external IDs by recomputing the SHA-1
@@ -55,6 +56,9 @@ import org.eclipse.jgit.util.FS;
  */
 public class ChangeExternalIdCaseSensitivity extends SiteProgram {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  @Option(name = "--dryrun", usage = "Do a dryrun of the migration.")
+  private boolean dryrun;
 
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor monitor = new TextProgressMonitor();
@@ -116,19 +120,26 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
         convertExternalIdNoteIdToLowerCase(extIdNotes, extId);
         monitor.update(1);
       }
-      try (MetaDataUpdate metaDataUpdate = metaDataUpdateServerFactory.get().create(allUsersName)) {
-        metaDataUpdate.setMessage(
-            String.format(
-                "Migration to case %ssensitive usernames", isUserNameCaseInsensitive ? "" : "in"));
-        extIdNotes.commit(metaDataUpdate);
+      if (!dryrun) {
+        try (MetaDataUpdate metaDataUpdate =
+            metaDataUpdateServerFactory.get().create(allUsersName)) {
+          metaDataUpdate.setMessage(
+              String.format(
+                  "Migration to case %ssensitive usernames",
+                  isUserNameCaseInsensitive ? "" : "in"));
+          extIdNotes.commit(metaDataUpdate);
+        }
       }
     }
 
     monitor.endTask();
 
-    updateGerritConfig();
+    int exitCode = 0;
+    if (!dryrun) {
+      updateGerritConfig();
 
-    int exitCode = reindexAccounts();
+      exitCode = reindexAccounts();
+    }
     manager.stop();
     return exitCode;
   }

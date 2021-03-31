@@ -48,10 +48,14 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import org.kohsuke.args4j.Option;
 
 /** Converts the local username for all accounts to lower case */
 public class ChangeExternalIdCaseSensitivity extends SiteProgram {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  @Option(name = "--revert", usage = "Whether to revert to the case sensitive behavior.")
+  private boolean revert;
 
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor monitor = new TextProgressMonitor();
@@ -93,8 +97,10 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
 
     this.isUserNameCaseInsensitive =
         globalConfig.getBoolean("auth", "userNameCaseInsensitive", false);
-    if (isUserNameCaseInsensitive) {
+    if (!revert && isUserNameCaseInsensitive) {
       throw new ConfigInvalidException("auth.userNameCaseInsensitive has to be false.");
+    } else if (revert && !isUserNameCaseInsensitive) {
+      throw new ConfigInvalidException("auth.userNameCaseInsensitive has to be true.");
     }
 
     Collection<ExternalId> todo = externalIds.all();
@@ -107,7 +113,8 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
         monitor.update(1);
       }
       try (MetaDataUpdate metaDataUpdate = metaDataUpdateServerFactory.get().create(allUsersName)) {
-        metaDataUpdate.setMessage("Migration to case insensitive usernames");
+        metaDataUpdate.setMessage(
+            String.format("Migration to case %ssensitive usernames", revert ? "" : "in"));
         extIdNotes.commit(metaDataUpdate);
       }
     }
@@ -125,13 +132,13 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
       throws DuplicateKeyException, IOException {
     if (extId.isScheme(SCHEME_GERRIT) || extId.isScheme(SCHEME_USERNAME)) {
       ExternalId.Key updatedKey =
-          ExternalId.Key.create(extId.key().scheme(), extId.key().id(), true);
+          ExternalId.Key.create(extId.key().scheme(), extId.key().id(), !revert);
       if (!extId.key().sha1().getName().equals(updatedKey.sha1().getName())) {
         logger.atInfo().log("Converting note name of external ID: %s", extId.key());
-        ExternalId extIdLowerCase =
+        ExternalId updatedExtId =
             externalIdFactory.create(
                 updatedKey, extId.accountId(), extId.email(), extId.password(), extId.blobId());
-        extIdNotes.replace(extId, extIdLowerCase);
+        extIdNotes.replace(extId, updatedExtId);
       }
     }
   }
@@ -144,7 +151,7 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
             Path.of(getSitePath().toString(), "etc/gerrit.config").toFile(),
             FS.DETECTED);
     config.load();
-    config.setBoolean("auth", null, "userNameCaseInsensitive", true);
+    config.setBoolean("auth", null, "userNameCaseInsensitive", !revert);
     config.save();
   }
 

@@ -653,9 +653,16 @@ Note, that this does not work for all existing accounts, if they were
 not originally created with all lowercase, since the note names of the
 external IDs will not match the new scheme.
 +
+Gerrit provides the
+link:pgm-ChangeExternalIdCaseSensitivity.html[ChangeExternalIdCaseSensitivity tool]
+to migrate existing accounts to match the new scheme.
++
 Naturally, if there were two accounts only different in capitalization,
 e.g. `johndoe` and `JohnDoe`, before setting this option the account
-`JohnDoe` will not be able to authenticate anymore.
+`JohnDoe` will not be able to authenticate anymore. If such duplicate
+accounts exist the migration tool will fail, since the newly computed
+note name would be identical and thus conflict. These duplicates thus
+have to be deleted manually by deleting the respective external ID.
 +
 Default is false.
 

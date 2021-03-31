@@ -102,17 +102,12 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
 
     this.isUserNameCaseInsensitive =
         globalConfig.getBoolean("auth", "userNameCaseInsensitive", false);
-    if (isUserNameCaseInsensitive) {
-      ui.message(
-          "Gerrit is already configured as case-insensitive, nothing to do. "
-              + "If the migration is still required, unset auth.userNameCaseInsensitive.");
-      return 0;
-    }
 
     String message =
-        "auth.userNameCaseInsensitive is set to false. "
-            + "External IDs will be migrated to be case insensitive. Continue?";
-    if (!ui.yesno(true, message)) {
+        "auth.userNameCaseInsensitive is set to %b. "
+            + "External IDs will be migrated to be case %ssensitive. Continue?";
+    if (!ui.yesno(
+        true, message, isUserNameCaseInsensitive, isUserNameCaseInsensitive ? "" : "in")) {
       return 0;
     }
 
@@ -126,7 +121,9 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
         monitor.update(1);
       }
       try (MetaDataUpdate metaDataUpdate = metaDataUpdateServerFactory.get().create(allUsersName)) {
-        metaDataUpdate.setMessage("Migration to case insensitive usernames");
+        metaDataUpdate.setMessage(
+            String.format(
+                "Migration to case %ssensitive usernames", isUserNameCaseInsensitive ? "" : "in"));
         extIdNotes.commit(metaDataUpdate);
       }
     }
@@ -144,13 +141,13 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
       throws DuplicateKeyException, IOException {
     if (extId.isScheme(SCHEME_GERRIT) || extId.isScheme(SCHEME_USERNAME)) {
       ExternalId.Key updatedKey =
-          ExternalId.Key.create(extId.key().scheme(), extId.key().id(), true);
+          ExternalId.Key.create(extId.key().scheme(), extId.key().id(), !isUserNameCaseInsensitive);
       if (!extId.key().sha1().getName().equals(updatedKey.sha1().getName())) {
         logger.atInfo().log("Converting note name of external ID: %s", extId.key());
-        ExternalId extIdLowerCase =
+        ExternalId updatedExtId =
             externalIdFactory.create(
                 updatedKey, extId.accountId(), extId.email(), extId.password(), extId.blobId());
-        extIdNotes.replace(extId, extIdLowerCase);
+        extIdNotes.replace(extId, updatedExtId);
       }
     }
   }
@@ -161,7 +158,7 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
         new FileBasedConfig(
             globalConfig, getSitePath().resolve("etc/gerrit.config").toFile(), FS.DETECTED);
     config.load();
-    config.setBoolean("auth", null, "userNameCaseInsensitive", true);
+    config.setBoolean("auth", null, "userNameCaseInsensitive", !isUserNameCaseInsensitive);
     config.save();
   }
 

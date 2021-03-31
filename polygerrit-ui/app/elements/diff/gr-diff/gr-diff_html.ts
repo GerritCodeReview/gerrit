@@ -423,6 +423,15 @@ export const htmlTemplate = html`
       content: '\\00BB';
       position: absolute;
     }
+    .special-char-indicator {
+      /* spacing so elements don't collide */
+      padding-right: var(--spacing-m);
+    }
+    .special-char-indicator:before {
+      color: var(--diff-tab-indicator-color);
+      content: '•';
+      position: absolute;
+    }
     /* Is defined after other background-colors, such that this
          rule wins in case of same specificity. */
     .trailing-whitespace,

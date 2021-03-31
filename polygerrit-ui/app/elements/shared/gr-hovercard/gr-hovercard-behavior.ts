@@ -37,6 +37,26 @@ const HOVER_CLASS = 'hovered';
 const HIDE_CLASS = 'hide';
 
 /**
+ * ID for the container element.
+ */
+const containerId = 'gr-hovercard-container';
+
+export function getHovercardContainer(
+  createIfNotExists = false
+): HTMLElement | null {
+  let container = getRootElement().querySelector<HTMLElement>(
+    `#${containerId}`
+  );
+  if (!container && createIfNotExists) {
+    // If it does not exist, create and initialize the hovercard container.
+    container = document.createElement('div');
+    container.setAttribute('id', containerId);
+    getRootElement().appendChild(container);
+  }
+  return container;
+}
+
+/**
  * How long should we wait before showing the hovercard when the user hovers
  * over the element?
  */
@@ -104,12 +124,6 @@ export const hovercardBehaviorMixin = dedupingMixin(
       @property({type: Object})
       container: HTMLElement | null = null;
 
-      /**
-       * ID for the container element.
-       */
-      @property({type: String})
-      containerId = 'gr-hovercard-container';
-
       private hideDebouncer: Debouncer | null = null;
 
       private showDebouncer: Debouncer | null = null;
@@ -152,16 +166,7 @@ export const hovercardBehaviorMixin = dedupingMixin(
       ready() {
         super.ready();
         // First, check to see if the container has already been created.
-        this.container = getRootElement().querySelector('#' + this.containerId);
-
-        if (this.container) {
-          return;
-        }
-
-        // If it does not exist, create and initialize the hovercard container.
-        this.container = document.createElement('div');
-        this.container.setAttribute('id', this.containerId);
-        getRootElement().appendChild(this.container);
+        this.container = getHovercardContainer(true);
       }
 
       removeListeners() {

@@ -75,6 +75,23 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
   }
 
   @Test
+  public void externalIdNoteNameIsMigratedToCaseSensitive() throws Exception {
+    prepareExternalIdNotes(true);
+
+    ctx.close();
+    runGerrit(
+        "ChangeExternalIdCaseSensitivity",
+        "-d",
+        sitePaths.site_path.toString(),
+        "--to",
+        "sensitive");
+    ctx = startServer();
+    extIdNotes = getExternalIdNotes(ctx);
+
+    assertExternalIdNotes(false);
+  }
+
+  @Test
   public void migrationFailsWithDuplicates() throws Exception {
     prepareExternalIdNotes(false);
     extIdNotes.insert(extIdFactory.create(SCHEME_USERNAME, "JohnDoe", Account.id(1)));
@@ -115,6 +132,14 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
         "insensitive");
     config.load();
     assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isTrue();
+    runGerrit(
+        "ChangeExternalIdCaseSensitivity",
+        "-d",
+        sitePaths.site_path.toString(),
+        "--to",
+        "sensitive");
+    config.load();
+    assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isFalse();
   }
 
   @Test
@@ -130,6 +155,19 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
                 sitePaths.site_path.toString(),
                 "--to",
                 "insensitive"));
+    config.load();
+    config.setBoolean("auth", null, "userNameCaseInsensitive", false);
+    config.save();
+    assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isFalse();
+    assertThrows(
+        ConfigInvalidException.class,
+        () ->
+            runGerrit(
+                "ChangeExternalIdCaseSensitivity",
+                "-d",
+                sitePaths.site_path.toString(),
+                "--to",
+                "sensitive"));
   }
 
   private void prepareExternalIdNotes(boolean userNameCaseInsensitive) throws Exception {

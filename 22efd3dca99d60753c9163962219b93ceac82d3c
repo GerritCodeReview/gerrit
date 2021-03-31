@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3cb8f13_21528d37",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-31T14:26:37Z",
+      "side": 1,
+      "message": "I would use {createIfNotExists: true} as parameter, so it\u0027s easier to understand what true means.",
+      "range": {
+        "startLine": 164,
+        "startChar": 47,
+        "endLine": 164,
+        "endChar": 51
+      },
+      "revId": "22efd3dca99d60753c9163962219b93ceac82d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

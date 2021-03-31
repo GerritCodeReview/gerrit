@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "279812ad_4ee73694",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec0f60cf_fa1dffa7",
+      "range": {
+        "startLine": 102,
+        "startChar": 7,
+        "endLine": 103,
+        "endChar": 41
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2fa50fd_a6fd91f1",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-30T21:49:33Z",
       "side": 1,
       "message": "Generates warnings in IntelliJ, about the missing descriptions for each tag.",
+      "range": {
+        "startLine": 105,
+        "startChar": 14,
+        "endLine": 107,
+        "endChar": 26
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "699e123d_6c432bd8",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2fa50fd_a6fd91f1",
       "range": {
         "startLine": 105,
         "startChar": 14,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f3c72fd_794a100e",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e2590a8_0cb0a391",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 8
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c5c9972_4ccdfd71",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-03-30T21:49:33Z",
       "side": 1,
       "message": "process_id ssh_port user_name host_name number_of_times\n\n-Would be more posix-standard I think.",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 43
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3962dc37_131ab371",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c5c9972_4ccdfd71",
       "range": {
         "startLine": 5,
         "startChar": 20,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11470ac4_13ec5c77",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ada8928_f57f4969",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 28
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c81e3dc_56a5c977",
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd8b1ff2_e4ddad48",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c81e3dc_56a5c977",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cc4fc39_45e05555",
@@ -152,6 +296,30 @@
       "writtenOn": "2021-03-30T21:49:33Z",
       "side": 1,
       "message": "(May go.)",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 7
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38886fcf_abdb438a",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cc4fc39_45e05555",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -208,6 +376,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eb74604_2e65af95",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8ed14c7_1a5e12d2",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb184312_0b4df12d",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ee378e4_c0381e50",
+      "range": {
+        "startLine": 15,
+        "startChar": 20,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23b7f793_41841bad",
@@ -221,6 +437,30 @@
       "writtenOn": "2021-03-30T21:49:33Z",
       "side": 1,
       "message": "IntelliJ issue: \"Can only exit with status 0-255. Other data should be written to stdout/stderr.\"",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e22af08a_50065827",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23b7f793_41841bad",
       "range": {
         "startLine": 20,
         "startChar": 7,
@@ -254,6 +494,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cc0a180_52ef1c0b",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c00643_3c32dd10",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 79
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42342d89_1a27ae17",
@@ -267,6 +531,30 @@
       "writtenOn": "2021-03-30T21:49:33Z",
       "side": 1,
       "message": "File descriptors count after loop:",
+      "range": {
+        "startLine": 36,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 79
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "556914d8_465fd985",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42342d89_1a27ae17",
       "range": {
         "startLine": 36,
         "startChar": 22,
@@ -300,6 +588,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eeb025e_ad515dbf",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a60531db_bc9d3aec",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb31ccad_4ba9fed3",
@@ -317,6 +629,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50ed1d53_f8038dcb",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb31ccad_4ba9fed3",
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b29ce4f_d09e167a",
@@ -330,6 +660,24 @@
       "writtenOn": "2021-03-30T21:49:33Z",
       "side": 1,
       "message": "Should this script automate and show the comparison between fdCountBeforeLoop and fdCountAfterLoop, as its main way to conclude about NoShell success (or failure)?",
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a97eac3_bef7b3b7",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done, I added an if statement before showing the message of the two results to conclude the test. I left the termination status if statement just to make sure that the script ends with exit 0.",
+      "parentUuid": "1b29ce4f_d09e167a",
       "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -370,6 +718,54 @@
       "writtenOn": "2021-03-30T21:49:33Z",
       "side": 1,
       "message": "Would then show the value of $?, maybe also mentioning that it came from the last executed ssh command further above, or something like this (a more explicit message, potentially actionable).",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0673a5f3_41fbfddd",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2c16296_6801eaa0",
+      "range": {
+        "startLine": 43,
+        "startChar": 54,
+        "endLine": 43,
+        "endChar": 85
+      },
+      "revId": "6a37558a044df11f439f7fa3e6312d4bd08ba263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc0a56fa_8a6d421c",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-03-31T12:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10f14bd9_8509797c",
       "range": {
         "startLine": 43,
         "startChar": 8,

@@ -317,18 +317,6 @@ export class GrImageViewer extends LitElement {
       ></div>
     `;
 
-    const shapeLeft = `
-      border-radius: 4px 0 0 4px;
-      border-left-width: 1px;
-      border-right-width: 0;
-      `;
-    const shapeRight = `
-      border-radius: 0 4px 4px 0;
-      border-left-width: 0;
-      border-right-width: 1px;
-      `;
-    const outlinedBorder =
-      'border: 1px solid var(--primary-button-background-color);';
     // To pass CSS mixins for @apply to Polymer components, they need to be
     // wrapped in a <custom-style>.
     const customStyle = html`
@@ -336,24 +324,38 @@ export class GrImageViewer extends LitElement {
         <style>
             paper-button.left {
               --paper-button: {
-                ${shapeLeft}
+                border-radius: 4px 0 0 4px;
+                border-width: 1px;
+                border-left-width: 1px;
+                border-right-width: 0;
               }
             }
             paper-button.left[outlined] {
               --paper-button: {
-                ${outlinedBorder}
-                ${shapeLeft}
+                border-radius: 4px 0 0 4px;
+                border-width: 1px;
+                border-left-width: 1px;
+                border-right-width: 0;
+                border-style: solid;
+                border-color: var(--primary-button-background-color);
               }
             }
             paper-button.right {
               --paper-button: {
-                ${shapeRight}
+                border-radius: 0 4px 4px 0;
+                border-width: 1px;
+                border-left-width: 0;
+                border-right-width: 1px;
               }
             }
             paper-button.right[outlined] {
               --paper-button: {
-                ${outlinedBorder}
-                ${shapeRight}
+                border-radius: 0 4px 4px 0;
+                border-width: 1px;
+                border-left-width: 0;
+                border-right-width: 1px;
+                border-style: solid;
+                border-color: var(--primary-button-background-color);
               }
             }
             paper-item {

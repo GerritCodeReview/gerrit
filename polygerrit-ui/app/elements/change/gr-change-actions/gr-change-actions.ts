@@ -171,7 +171,7 @@ const QUICK_APPROVE_ACTION: QuickApproveUIActionInfo = {
   method: HttpMethod.POST,
 };
 
-function isQuckApproveAction(
+function isQuickApproveAction(
   action: UIActionInfo
 ): action is QuickApproveUIActionInfo {
   return (action as QuickApproveUIActionInfo).key === QUICK_APPROVE_ACTION.key;
@@ -943,9 +943,10 @@ export class GrChangeActions extends PolymerElement
       const status = this._getLabelStatus(labelInfo);
       if (status === LabelStatus.NEED) {
         if (result) {
-          // More than one label is missing, so it's unclear which to quick
-          // approve, return null;
-          return null;
+          // More than one label is missing, so check if Code Review can be
+          // given
+          result = null;
+          break;
         }
         result = label;
       } else if (
@@ -999,7 +1000,7 @@ export class GrChangeActions extends PolymerElement
       throw new Error('_topLevelSecondaryActions must be set');
     }
     this._topLevelSecondaryActions = this._topLevelSecondaryActions.filter(
-      sa => !isQuckApproveAction(sa)
+      sa => !isQuickApproveAction(sa)
     );
     this._hideQuickApproveAction = true;
   }
@@ -1271,7 +1272,7 @@ export class GrChangeActions extends PolymerElement
         this._showActionDialog(this.$.confirmAbandonDialog);
         break;
       case QUICK_APPROVE_ACTION.key: {
-        const action = this._allActionValues.find(isQuckApproveAction);
+        const action = this._allActionValues.find(isQuickApproveAction);
         if (!action) {
           return;
         }

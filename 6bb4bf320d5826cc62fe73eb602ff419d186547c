@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65062f0a_3f39d639",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-03-31T14:57:46Z",
+      "side": 1,
+      "message": "Not approving b/c you mentioned that you want to wait until the branch was cut.",
+      "revId": "6bb4bf320d5826cc62fe73eb602ff419d186547c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

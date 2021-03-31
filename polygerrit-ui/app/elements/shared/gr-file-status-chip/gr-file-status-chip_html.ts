@@ -25,7 +25,7 @@ export const htmlTemplate = html`
       padding: 0 var(--spacing-m);
       color: var(--primary-text-color);
       font-size: var(--font-size-small);
-      background-color: var(--dark-add-highlight-color);
+      background-color: var(--file-status-added);
     }
     .status.invisible,
     .status.M {
@@ -34,10 +34,10 @@ export const htmlTemplate = html`
     .status.D,
     .status.R,
     .status.W {
-      background-color: var(--dark-remove-highlight-color);
+      background-color: var(--file-status-changed);
     }
     .status.U {
-      background-color: var(--comment-background-color);
+      background-color: var(--file-status-unchanged);
     }
   </style>
   <span

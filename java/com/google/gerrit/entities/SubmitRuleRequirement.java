@@ -19,10 +19,10 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
 
-/** Describes a requirement to submit a change. */
+/** Describes a submit record requirement. Contains the requirement name and a description. */
 @AutoValue
 @AutoValue.CopyAnnotations
-public abstract class SubmitRequirement {
+public abstract class SubmitRuleRequirement {
   private static final CharMatcher TYPE_MATCHER =
       CharMatcher.inRange('a', 'z')
           .or(CharMatcher.inRange('A', 'Z'))
@@ -35,23 +35,25 @@ public abstract class SubmitRequirement {
 
     public abstract Builder setFallbackText(String value);
 
-    public SubmitRequirement build() {
-      SubmitRequirement requirement = autoBuild();
+    public SubmitRuleRequirement build() {
+      SubmitRuleRequirement requirement = autoBuild();
       checkState(
           validateType(requirement.type()),
-          "SubmitRequirement's type contains non alphanumerical symbols.");
+          "SubmitRuleRequirement's type contains non alphanumerical symbols.");
       return requirement;
     }
 
-    abstract SubmitRequirement autoBuild();
+    abstract SubmitRuleRequirement autoBuild();
   }
 
+  /** Requirement description and explanation of what it does */
   public abstract String fallbackText();
 
+  /** Requirement name */
   public abstract String type();
 
   public static Builder builder() {
-    return new AutoValue_SubmitRequirement.Builder();
+    return new AutoValue_SubmitRuleRequirement.Builder();
   }
 
   private static boolean validateType(String type) {

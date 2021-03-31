@@ -73,6 +73,18 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
   }
 
   @Test
+  public void externalIdNoteNameIsMigratedToCaseSensitive() throws Exception {
+    prepareExternalIdNotes(CASE_INSENSITIVE);
+
+    ctx.close();
+    runChangeExternalIdCaseSensitivity();
+    ctx = startServer();
+    extIdNotes = getExternalIdNotes(ctx);
+
+    assertExternalIdNotes(CASE_SENSITIVE);
+  }
+
+  @Test
   public void migrationFailsWithDuplicates() throws Exception {
     prepareExternalIdNotes(CASE_SENSITIVE);
     extIdNotes.insert(extIdFactory.create(SCHEME_USERNAME, "JohnDoe", Account.id(1)));
@@ -102,6 +114,9 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
     runChangeExternalIdCaseSensitivity();
     config.load();
     assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isTrue();
+    runChangeExternalIdCaseSensitivity();
+    config.load();
+    assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isFalse();
   }
 
   private void prepareExternalIdNotes(boolean userNameCaseInsensitive) throws Exception {

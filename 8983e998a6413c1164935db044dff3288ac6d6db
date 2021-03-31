@@ -16,6 +16,46 @@
       "message": "Since Ben is OOO for another week, can somebody else review this?",
       "revId": "8983e998a6413c1164935db044dff3288ac6d6db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "495a16df_ea06d7a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-31T11:59:21Z",
+      "side": 1,
+      "message": "Thanks for this change. 😊",
+      "revId": "8983e998a6413c1164935db044dff3288ac6d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c1ea03_35376e6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-03-31T11:59:21Z",
+      "side": 1,
+      "message": "Nice! Thanks for this!",
+      "range": {
+        "startLine": 164,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 45
+      },
+      "revId": "8983e998a6413c1164935db044dff3288ac6d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca2a8b97_af8da8f3",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T16:14:52Z",
+      "side": 1,
+      "message": "\u003ccode\u003eresources",
+      "range": {
+        "startLine": 102,
+        "startChar": 31,
+        "endLine": 102,
+        "endChar": 49
+      },
+      "revId": "f0c0fc0d3d444e5e8565428e6538523b12046fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7ca7da1_f8656b5b",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T16:14:52Z",
+      "side": 1,
+      "message": "execution environment",
+      "range": {
+        "startLine": 105,
+        "startChar": 32,
+        "endLine": 105,
+        "endChar": 43
+      },
+      "revId": "f0c0fc0d3d444e5e8565428e6538523b12046fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cec36653_02a3eb9f",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T16:14:52Z",
+      "side": 1,
+      "message": "times. Example:",
+      "range": {
+        "startLine": 7,
+        "startChar": 61,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "f0c0fc0d3d444e5e8565428e6538523b12046fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2b74b4b_5042c5d2",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T16:14:52Z",
+      "side": 1,
+      "message": "before",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 5
+      },
+      "revId": "f0c0fc0d3d444e5e8565428e6538523b12046fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5c13fca_e7a6669c",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T16:14:52Z",
+      "side": 1,
+      "message": "after",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 6
+      },
+      "revId": "f0c0fc0d3d444e5e8565428e6538523b12046fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c92d240_1eb48c25",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T16:14:52Z",
+      "side": 1,
+      "message": "Is this useful at this stage? I think the counts should only be shown to the user in case they didn\u0027t match.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 6
+      },
+      "revId": "f0c0fc0d3d444e5e8565428e6538523b12046fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ee50f7d_cfd4bd65",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T16:14:52Z",
+      "side": 1,
+      "message": "Redundant; already known to the user (line 31 above). Only an abnormal termination status is worth mentioning, done below.",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 41
+      },
+      "revId": "f0c0fc0d3d444e5e8565428e6538523b12046fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2c21f92_d3ec770b",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-03-31T16:14:52Z",
+      "side": 1,
+      "message": "The last executed ssh command exited with non-zero status ${terminationStatus}.",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 112
+      },
+      "revId": "f0c0fc0d3d444e5e8565428e6538523b12046fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

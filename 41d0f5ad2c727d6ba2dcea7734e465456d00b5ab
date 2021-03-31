@@ -16,6 +16,24 @@
       "message": "Add documentation",
       "revId": "41d0f5ad2c727d6ba2dcea7734e465456d00b5ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b430e1_e18955b9",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-31T08:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bedb976c_7ca5fdc6",
+      "revId": "41d0f5ad2c727d6ba2dcea7734e465456d00b5ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

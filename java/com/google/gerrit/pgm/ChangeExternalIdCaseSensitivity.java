@@ -67,6 +67,9 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
       required = true)
   private ConversionDirection conversionDirection;
 
+  @Option(name = "--dryrun", usage = "Do a dryrun of the migration.")
+  private boolean dryrun;
+
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor monitor = new TextProgressMonitor();
 
@@ -123,20 +126,26 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
         convertExternalIdNoteIdToLowerCase(extIdNotes, extId);
         monitor.update(1);
       }
-      try (MetaDataUpdate metaDataUpdate = metaDataUpdateServerFactory.get().create(allUsersName)) {
-        metaDataUpdate.setMessage(
-            String.format(
-                "Migration to case %ssensitive usernames",
-                conversionDirection.equals(ConversionDirection.SENSITIVE) ? "" : "in"));
-        extIdNotes.commit(metaDataUpdate);
+      if (!dryrun) {
+        try (MetaDataUpdate metaDataUpdate =
+            metaDataUpdateServerFactory.get().create(allUsersName)) {
+          metaDataUpdate.setMessage(
+              String.format(
+                  "Migration to case %ssensitive usernames",
+                  conversionDirection.equals(ConversionDirection.SENSITIVE) ? "" : "in"));
+          extIdNotes.commit(metaDataUpdate);
+        }
       }
     }
 
     monitor.endTask();
 
-    updateGerritConfig();
+    int exitCode = 0;
+    if (!dryrun) {
+      updateGerritConfig();
 
-    int exitCode = reindexAccounts();
+      exitCode = reindexAccounts();
+    }
     manager.stop();
     return exitCode;
   }

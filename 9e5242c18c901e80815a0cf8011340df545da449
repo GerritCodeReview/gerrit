@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59b59d12_62c09dfe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-03-31T11:59:42Z",
+      "side": 1,
+      "message": "Also considered SubmitRecordRequirement. I couldn\u0027t come up with a better name.\n\nRenaming to avoid confusion with the new notation for submit requirement.\n\nThe documentation contained a wrong name \"Requirement\" for the \"SubmitRequirementInfo\" https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#requirement, LMK if you want me to update the docs as well.",
+      "revId": "9e5242c18c901e80815a0cf8011340df545da449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

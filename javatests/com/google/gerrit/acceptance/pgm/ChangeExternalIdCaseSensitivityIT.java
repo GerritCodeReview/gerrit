@@ -277,6 +277,42 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
                 "sensitive"));
   }
 
+  @Test
+  public void dryrunDoesNotPersistChanges() throws Exception {
+    initSite();
+    try (ServerContext ctx = startServer()) {
+      ExternalIdFactory extIdFactory = ctx.getInjector().getInstance(ExternalIdFactory.class);
+      Project.NameKey allUsers = ctx.getInjector().getInstance(AllUsersName.class);
+      ExternalIdNotes extIdNotes = getExternalIdNotes(ctx, allUsers);
+      MetaDataUpdate md = getMetaDataUpdate(ctx, allUsers);
+      extIdNotes.insert(extIdFactory.create(SCHEME_USERNAME, "JohnDoe", Account.id(1)));
+      extIdNotes.commit(md);
+      assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", false)).isPresent())
+          .isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", true)).isPresent())
+          .isFalse();
+    }
+    runGerrit(
+        "ChangeExternalIdCaseSensitivity",
+        "-d",
+        sitePaths.site_path.toString(),
+        "--to",
+        "insensitive",
+        "--dryrun");
+    FileBasedConfig config =
+        new FileBasedConfig(baseConfig, sitePaths.gerrit_config.toFile(), FS.DETECTED);
+    config.load();
+    assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isFalse();
+    try (ServerContext ctx = startServer()) {
+      Project.NameKey allUsers = ctx.getInjector().getInstance(AllUsersName.class);
+      ExternalIdNotes extIdNotes = getExternalIdNotes(ctx, allUsers);
+      assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", false)).isPresent())
+          .isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", true)).isPresent())
+          .isFalse();
+    }
+  }
+
   private void initSite() throws Exception {
     runGerrit("init", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
   }

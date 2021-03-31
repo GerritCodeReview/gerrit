@@ -23,8 +23,8 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.UseSsh;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -84,7 +84,7 @@ public class QueryIT extends AbstractDaemonTest {
   @Test
   public void allReviewersOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 

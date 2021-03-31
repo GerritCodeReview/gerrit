@@ -18,8 +18,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerResource;
@@ -136,7 +136,7 @@ public class SetReviewersCommand extends SshCommand {
     // Add reviewers
     //
     for (String reviewer : toAdd) {
-      AddReviewerInput input = new AddReviewerInput();
+      ReviewerInput input = new ReviewerInput();
       input.reviewer = reviewer;
       input.confirmed = true;
       String error;

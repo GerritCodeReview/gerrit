@@ -39,10 +39,10 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -104,7 +104,7 @@ public class ReviewerAdder {
   // TODO(dborowitz): Subclassing is not the right way to do this. We should instead use an internal
   // type in the public interfaces of ReviewerAdder, rather than passing around the REST API type
   // internally.
-  public static class InternalAddReviewerInput extends AddReviewerInput {
+  public static class InternalReviewerInput extends ReviewerInput {
     /**
      * Behavior when identifying reviewers fails for any reason <em>besides</em> the input not
      * resolving to an account/group/email.
@@ -112,22 +112,22 @@ public class ReviewerAdder {
     public FailureBehavior otherFailureBehavior = FailureBehavior.FAIL;
   }
 
-  public static InternalAddReviewerInput newAddReviewerInput(
+  public static InternalReviewerInput newAddReviewerInput(
       Account.Id reviewer, ReviewerState state, NotifyHandling notify) {
     // AccountResolver always resolves by ID if the input string is numeric.
     return newAddReviewerInput(reviewer.toString(), state, notify);
   }
 
-  public static InternalAddReviewerInput newAddReviewerInput(
+  public static InternalReviewerInput newAddReviewerInput(
       String reviewer, ReviewerState state, NotifyHandling notify) {
-    InternalAddReviewerInput in = new InternalAddReviewerInput();
+    InternalReviewerInput in = new InternalReviewerInput();
     in.reviewer = reviewer;
     in.state = state;
     in.notify = notify;
     return in;
   }
 
-  public static Optional<InternalAddReviewerInput> newAddReviewerInputFromCommitIdentity(
+  public static Optional<InternalReviewerInput> newAddReviewerInputFromCommitIdentity(
       Change change,
       ObjectId commitId,
       @Nullable Account.Id accountId,
@@ -142,7 +142,7 @@ public class ReviewerAdder {
         "Adding account %d from author/committer identity of commit %s as cc to change %d",
         accountId.get(), commitId.name(), change.getChangeId());
 
-    InternalAddReviewerInput in = new InternalAddReviewerInput();
+    InternalReviewerInput in = new InternalReviewerInput();
     in.reviewer = accountId.toString();
     in.state = CC;
     in.notify = notify;
@@ -189,7 +189,7 @@ public class ReviewerAdder {
   }
 
   /**
-   * Prepare application of a single {@link AddReviewerInput}.
+   * Prepare application of a single {@link ReviewerInput}.
    *
    * @param notes change notes.
    * @param user user performing the reviewer addition.
@@ -203,7 +203,7 @@ public class ReviewerAdder {
    * @throws ConfigInvalidException
    */
   public ReviewerAddition prepare(
-      ChangeNotes notes, CurrentUser user, AddReviewerInput input, boolean allowGroup)
+      ChangeNotes notes, CurrentUser user, ReviewerInput input, boolean allowGroup)
       throws IOException, PermissionBackendException, ConfigInvalidException {
     try (TraceContext.TraceTimer ignored =
         TraceContext.newTimer(getClass().getSimpleName() + "#prepare", Metadata.empty())) {
@@ -257,8 +257,7 @@ public class ReviewerAdder {
   }
 
   @Nullable
-  private ReviewerAddition addByAccountId(
-      AddReviewerInput input, ChangeNotes notes, CurrentUser user)
+  private ReviewerAddition addByAccountId(ReviewerInput input, ChangeNotes notes, CurrentUser user)
       throws PermissionBackendException, IOException, ConfigInvalidException {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
@@ -292,7 +291,7 @@ public class ReviewerAdder {
 
   @Nullable
   private ReviewerAddition addWholeGroup(
-      AddReviewerInput input,
+      ReviewerInput input,
       ChangeNotes notes,
       CurrentUser user,
       boolean confirmed,
@@ -370,7 +369,7 @@ public class ReviewerAdder {
   }
 
   @Nullable
-  private ReviewerAddition addByEmail(AddReviewerInput input, ChangeNotes notes, CurrentUser user)
+  private ReviewerAddition addByEmail(ReviewerInput input, ChangeNotes notes, CurrentUser user)
       throws PermissionBackendException {
     try {
       permissionBackend.user(anonymousProvider.get()).change(notes).check(ChangePermission.READ);
@@ -404,12 +403,12 @@ public class ReviewerAdder {
     }
   }
 
-  private ReviewerAddition fail(AddReviewerInput input, FailureType failureType, String error) {
+  private ReviewerAddition fail(ReviewerInput input, FailureType failureType, String error) {
     return fail(input, failureType, false, error);
   }
 
   private ReviewerAddition fail(
-      AddReviewerInput input, FailureType failureType, boolean confirm, String error) {
+      ReviewerInput input, FailureType failureType, boolean confirm, String error) {
     ReviewerAddition addition = new ReviewerAddition(input, failureType);
     addition.result.confirm = confirm ? true : null;
     addition.result.error = error;
@@ -423,10 +422,10 @@ public class ReviewerAdder {
     public final ImmutableSet<Address> reviewersByEmail;
     @Nullable final IdentifiedUser caller;
     final boolean exactMatchFound;
-    private final AddReviewerInput input;
+    private final ReviewerInput input;
     @Nullable private final FailureType failureType;
 
-    private ReviewerAddition(AddReviewerInput input, FailureType failureType) {
+    private ReviewerAddition(ReviewerInput input, FailureType failureType) {
       this.input = input;
       this.failureType = requireNonNull(failureType);
       result = new AddReviewerResult(input.reviewer);
@@ -438,7 +437,7 @@ public class ReviewerAdder {
     }
 
     private ReviewerAddition(
-        AddReviewerInput input,
+        ReviewerInput input,
         ChangeNotes notes,
         CurrentUser caller,
         @Nullable Iterable<Account.Id> reviewers,
@@ -515,8 +514,8 @@ public class ReviewerAdder {
     public boolean isIgnorableFailure() {
       checkState(failureType != null);
       FailureBehavior behavior =
-          (input instanceof InternalAddReviewerInput)
-              ? ((InternalAddReviewerInput) input).otherFailureBehavior
+          (input instanceof InternalReviewerInput)
+              ? ((InternalReviewerInput) input).otherFailureBehavior
               : FailureBehavior.FAIL;
       return failureType == FailureType.OTHER && behavior == FailureBehavior.IGNORE;
     }
@@ -529,7 +528,7 @@ public class ReviewerAdder {
   public ReviewerAdditionList prepare(
       ChangeNotes notes,
       CurrentUser user,
-      Iterable<? extends AddReviewerInput> inputs,
+      Iterable<? extends ReviewerInput> inputs,
       boolean allowGroup)
       throws IOException, PermissionBackendException, ConfigInvalidException {
     // Process CC ops before reviewer ops, so a user that appears in both lists ends up as a
@@ -539,15 +538,15 @@ public class ReviewerAdder {
     // TODO(dborowitz): Consider changing interface to allow excluding reviewers that were
     // previously processed, to proactively prevent overlap so we don't have to rely on this subtle
     // behavior.
-    ImmutableList<AddReviewerInput> sorted =
+    ImmutableList<ReviewerInput> sorted =
         Streams.stream(inputs)
             .sorted(
                 comparing(
-                    AddReviewerInput::state,
+                    ReviewerInput::state,
                     Ordering.explicit(ReviewerState.CC, ReviewerState.REVIEWER)))
             .collect(toImmutableList());
     List<ReviewerAddition> additions = new ArrayList<>();
-    for (AddReviewerInput input : sorted) {
+    for (ReviewerInput input : sorted) {
       ReviewerAddition addition = prepare(notes, user, input, allowGroup);
       if (addition.op != null) {
         // Assume any callers preparing a list of batch insertions are handling their own email.

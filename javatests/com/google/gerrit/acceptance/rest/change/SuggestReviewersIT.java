@@ -38,7 +38,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
@@ -502,7 +502,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertReviewers(
         suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
 
-    AddReviewerInput reviewerInput = new AddReviewerInput();
+    ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = foo2.id().toString();
     reviewerInput.state = ReviewerState.CC;
     gApi.changes().id(changeId).addReviewer(reviewerInput);
@@ -525,7 +525,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     assertReviewers(suggestCcs(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
 
-    AddReviewerInput reviewerInput = new AddReviewerInput();
+    ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = foo2.id().toString();
     reviewerInput.state = ReviewerState.REVIEWER;
     gApi.changes().id(changeId).addReviewer(reviewerInput);

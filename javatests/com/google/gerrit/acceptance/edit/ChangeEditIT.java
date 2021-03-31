@@ -46,11 +46,11 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.FileContentInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ChangeEditDetailOption;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -154,7 +154,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void publishEdit() throws Exception {
     createArbitraryEditFor(changeId);
 
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 
@@ -209,7 +209,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void publishEditNotifyRest() throws Exception {
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 
@@ -224,7 +224,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void publishEditWithDefaultNotify() throws Exception {
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
     gApi.changes().id(changeId).addReviewer(in);
 

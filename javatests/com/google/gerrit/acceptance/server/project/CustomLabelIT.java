@@ -43,8 +43,8 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.events.CommentAddedListener;
@@ -169,7 +169,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     try (Registration registration = extensionRegistry.newRegistration().add(testListener)) {
       saveLabelConfig(P.toBuilder().setFunction(ANY_WITH_BLOCK));
       PushOneCommit.Result r = createChange();
-      AddReviewerInput in = new AddReviewerInput();
+      ReviewerInput in = new ReviewerInput();
       in.reviewer = user.email();
       gApi.changes().id(r.getChangeId()).addReviewer(in);
 

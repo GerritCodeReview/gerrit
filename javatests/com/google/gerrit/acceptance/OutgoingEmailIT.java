@@ -22,8 +22,8 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.EmailHeader;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.testing.FakeEmailSender;
 import java.net.URL;
@@ -36,9 +36,9 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
   public void messageIdHeaderFromChangeUpdate() throws Exception {
     Repository repository = repoManager.openRepository(project);
     PushOneCommit.Result result = createChange();
-    AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.reviewer = user.email();
-    gApi.changes().id(result.getChangeId()).addReviewer(addReviewerInput);
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = user.email();
+    gApi.changes().id(result.getChangeId()).addReviewer(reviewerInput);
     sender.clear();
 
     gApi.changes().id(result.getChangeId()).abandon();
@@ -107,9 +107,9 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
     GeneralPreferencesInfo generalPreferencesInfo = new GeneralPreferencesInfo();
     generalPreferencesInfo.emailFormat = GeneralPreferencesInfo.EmailFormat.PLAINTEXT;
     gApi.accounts().id(user.id().get()).setPreferences(generalPreferencesInfo);
-    AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.reviewer = user.email();
-    gApi.changes().id(result.getChangeId()).addReviewer(addReviewerInput);
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = user.email();
+    gApi.changes().id(result.getChangeId()).addReviewer(reviewerInput);
     sender.clear();
 
     gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());

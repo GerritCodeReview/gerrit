@@ -15,9 +15,9 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -39,7 +39,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PostReviewers
-    implements RestCollectionModifyView<ChangeResource, ReviewerResource, AddReviewerInput> {
+    implements RestCollectionModifyView<ChangeResource, ReviewerResource, ReviewerInput> {
   private final BatchUpdate.Factory updateFactory;
   private final ChangeData.Factory changeDataFactory;
   private final NotifyResolver notifyResolver;
@@ -58,7 +58,7 @@ public class PostReviewers
   }
 
   @Override
-  public Response<AddReviewerResult> apply(ChangeResource rsrc, AddReviewerInput input)
+  public Response<AddReviewerResult> apply(ChangeResource rsrc, ReviewerInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           ConfigInvalidException {
     if (input.reviewer == null) {
@@ -82,7 +82,7 @@ public class PostReviewers
     return Response.ok(addition.result);
   }
 
-  private NotifyResolver.Result resolveNotify(ChangeResource rsrc, AddReviewerInput input)
+  private NotifyResolver.Result resolveNotify(ChangeResource rsrc, ReviewerInput input)
       throws BadRequestException, ConfigInvalidException, IOException {
     NotifyHandling notifyHandling = input.notify;
     if (notifyHandling == null) {

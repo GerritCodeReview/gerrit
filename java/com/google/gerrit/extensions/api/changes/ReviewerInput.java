@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import java.util.Map;
 
-public class AddReviewerInput {
+public class ReviewerInput {
   @DefaultInput public String reviewer;
   public Boolean confirmed;
   public ReviewerState state;

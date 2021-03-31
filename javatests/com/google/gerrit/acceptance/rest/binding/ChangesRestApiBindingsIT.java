@@ -25,11 +25,11 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -289,15 +289,15 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
   public void reviewerEndpoints() throws Exception {
     String changeId = createChange().getChangeId();
 
-    AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.reviewer = user.email();
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = user.email();
 
     RestApiCallHelper.execute(
         adminRestSession,
         REVIEWER_ENDPOINTS,
-        () -> gApi.changes().id(changeId).addReviewer(addReviewerInput),
+        () -> gApi.changes().id(changeId).addReviewer(reviewerInput),
         changeId,
-        addReviewerInput.reviewer);
+        reviewerInput.reviewer);
   }
 
   @Test
@@ -323,16 +323,16 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
   public void revisionReviewerEndpoints() throws Exception {
     String changeId = createChange().getChangeId();
 
-    AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.reviewer = user.email();
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = user.email();
 
     RestApiCallHelper.execute(
         adminRestSession,
         REVISION_REVIEWER_ENDPOINTS,
-        () -> gApi.changes().id(changeId).addReviewer(addReviewerInput),
+        () -> gApi.changes().id(changeId).addReviewer(reviewerInput),
         changeId,
         "current",
-        addReviewerInput.reviewer);
+        reviewerInput.reviewer);
   }
 
   @Test

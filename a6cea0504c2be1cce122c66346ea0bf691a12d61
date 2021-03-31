@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "076ebe19_47b47ba5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-31T10:24:29Z",
+      "side": 1,
+      "message": "FYI: This wasn\u0027t in shapeLeft, I guess you changed css as well",
+      "range": {
+        "startLine": 328,
+        "startChar": 16,
+        "endLine": 328,
+        "endChar": 33
+      },
+      "revId": "a6cea0504c2be1cce122c66346ea0bf691a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1023f1d_8e6d6c86",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-31T10:24:29Z",
+      "side": 1,
+      "message": "NIT: I would write it with\nborder-top-width: 1px;\nborder-bottom-width: 1px;",
+      "range": {
+        "startLine": 354,
+        "startChar": 16,
+        "endLine": 354,
+        "endChar": 33
+      },
+      "revId": "a6cea0504c2be1cce122c66346ea0bf691a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

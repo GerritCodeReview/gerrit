@@ -26,6 +26,10 @@ public class ExternalIdKeyFactory {
     this.isUserNameCaseInsensitive = authConfig.isUserNameCaseInsensitive();
   }
 
+  public ExternalIdKeyFactory(boolean isUserNameCaseInsensitive) {
+    this.isUserNameCaseInsensitive = isUserNameCaseInsensitive;
+  }
+
   public ExternalId.Key create(@Nullable String scheme, String id) {
     if (scheme != null
         && (scheme.equals(ExternalId.SCHEME_USERNAME) || scheme.equals(ExternalId.SCHEME_GERRIT))) {

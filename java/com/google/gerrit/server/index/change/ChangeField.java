@@ -51,7 +51,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRuleRequirement;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
@@ -859,12 +859,12 @@ public class ChangeField {
       }
       if (rec.requirements != null) {
         this.requirements = new ArrayList<>(rec.requirements.size());
-        for (SubmitRequirement requirement : rec.requirements) {
+        for (SubmitRuleRequirement requirement : rec.requirements) {
           StoredRequirement sr = new StoredRequirement();
           sr.type = requirement.type();
           sr.fallbackText = requirement.fallbackText();
           // For backwards compatibility, write an empty map to the index.
-          // This is required, because the SubmitRequirement AutoValue can't
+          // This is required, because the SubmitRuleRequirement AutoValue can't
           // handle null in the old code.
           // TODO(hiesel): Remove once we have rolled out the new code
           //  and waited long enough to not need to roll back.
@@ -891,8 +891,8 @@ public class ChangeField {
       if (requirements != null) {
         rec.requirements = new ArrayList<>(requirements.size());
         for (StoredRequirement req : requirements) {
-          SubmitRequirement sr =
-              SubmitRequirement.builder()
+          SubmitRuleRequirement sr =
+              SubmitRuleRequirement.builder()
                   .setType(req.type)
                   .setFallbackText(req.fallbackText)
                   .build();

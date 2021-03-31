@@ -58,7 +58,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Status;
-import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRuleRequirement;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
@@ -74,7 +74,7 @@ import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
-import com.google.gerrit.extensions.common.SubmitRequirementInfo;
+import com.google.gerrit.extensions.common.SubmitRuleRequirementInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.RefState;
@@ -349,21 +349,22 @@ public class ChangeJson {
     return format(cd, Optional.empty(), true, getPluginInfos(cd));
   }
 
-  private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
-    Collection<SubmitRequirementInfo> reqInfos = new ArrayList<>();
+  private static Collection<SubmitRuleRequirementInfo> requirementsFor(ChangeData cd) {
+    Collection<SubmitRuleRequirementInfo> reqInfos = new ArrayList<>();
     for (SubmitRecord submitRecord : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
       if (submitRecord.requirements == null) {
         continue;
       }
-      for (SubmitRequirement requirement : submitRecord.requirements) {
+      for (SubmitRuleRequirement requirement : submitRecord.requirements) {
         reqInfos.add(requirementToInfo(requirement, submitRecord.status));
       }
     }
     return reqInfos;
   }
 
-  private static SubmitRequirementInfo requirementToInfo(SubmitRequirement req, Status status) {
-    return new SubmitRequirementInfo(status.name(), req.fallbackText(), req.type());
+  private static SubmitRuleRequirementInfo requirementToInfo(
+      SubmitRuleRequirement req, Status status) {
+    return new SubmitRuleRequirementInfo(status.name(), req.fallbackText(), req.type());
   }
 
   private static void finish(ChangeInfo info) {

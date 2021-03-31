@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.data;
 
-import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRuleRequirement;
 
 /**
- * Represents a {@link SubmitRequirement} that does not depend on Gerrit internal classes, to be
+ * Represents a {@link SubmitRuleRequirement} that does not depend on Gerrit internal classes, to be
  * serialized
  */
 public class SubmitRequirementAttribute {

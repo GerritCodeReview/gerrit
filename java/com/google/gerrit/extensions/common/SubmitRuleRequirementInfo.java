@@ -17,12 +17,12 @@ package com.google.gerrit.extensions.common;
 import com.google.common.base.MoreObjects;
 import java.util.Objects;
 
-public class SubmitRequirementInfo {
+public class SubmitRuleRequirementInfo {
   public String status;
   public String fallbackText;
   public String type;
 
-  public SubmitRequirementInfo(String status, String fallbackText, String type) {
+  public SubmitRuleRequirementInfo(String status, String fallbackText, String type) {
     this.status = status;
     this.fallbackText = fallbackText;
     this.type = type;
@@ -33,10 +33,10 @@ public class SubmitRequirementInfo {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof SubmitRequirementInfo)) {
+    if (!(o instanceof SubmitRuleRequirementInfo)) {
       return false;
     }
-    SubmitRequirementInfo that = (SubmitRequirementInfo) o;
+    SubmitRuleRequirementInfo that = (SubmitRuleRequirementInfo) o;
     return Objects.equals(status, that.status)
         && Objects.equals(fallbackText, that.fallbackText)
         && Objects.equals(type, that.type);
@@ -56,5 +56,5 @@ public class SubmitRequirementInfo {
         .toString();
   }
 
-  protected SubmitRequirementInfo() {}
+  protected SubmitRuleRequirementInfo() {}
 }

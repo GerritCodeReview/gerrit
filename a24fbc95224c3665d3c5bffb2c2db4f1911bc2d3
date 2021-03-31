@@ -22,6 +22,52 @@
       },
       "revId": "a24fbc95224c3665d3c5bffb2c2db4f1911bc2d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea804a04_7e881f1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-03-31T15:38:37Z",
+      "side": 1,
+      "message": "It would be good if these statements were tested to be true so that they can justify this change, or if false removed so as to not muddy the water.\n\nThat being said, I think that your summary line justifies the change enough.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 60
+      },
+      "revId": "a24fbc95224c3665d3c5bffb2c2db4f1911bc2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "284e69a3_04dfa553",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-03-31T15:38:37Z",
+      "side": 1,
+      "message": "Have you tested whether binding this here results in injecting the right injector? i.e. do SSH contexts still get the SSH injector injected and not the SYS one?\n\nI would suggest testing the example plugins which use DynamicOptions to see if they still work with this change.",
+      "range": {
+        "startLine": 283,
+        "startChar": 12,
+        "endLine": 283,
+        "endChar": 26
+      },
+      "revId": "a24fbc95224c3665d3c5bffb2c2db4f1911bc2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

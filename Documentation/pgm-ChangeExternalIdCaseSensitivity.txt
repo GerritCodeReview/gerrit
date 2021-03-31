@@ -1,0 +1,51 @@
+= ChangeExternalIdCaseSensitivity
+
+== NAME
+ChangeExternalIdCaseSensitivity - Convert `username` and `gerrit`
+external IDs to be handled case insensitively
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war _ChangeExternalIdCaseSensitivity_
+  -d <SITE_PATH>
+--
+
+== DESCRIPTION
+Convert `username` and `gerrit` external IDs to be handled case
+insensitively. This is done by recomputing the name of the note
+from the sha1 sum of the all lowercase external ID key, instead of
+preserving the key capitalization.
+
+The tool uses the `auth.userNameCaseInsensitive` option to determine,
+whether the migration to case insensitive usernames needs to be performed,
+i.e. if the option is set to `false`, migration will be performed.
+
+== OPTIONS
+
+-d::
+--site-path::
+	Path of the Gerrit site
+
+== CONTEXT
+This command can only be run offline with direct access to the server's
+site.
+
+== EXAMPLES
+To convert the external IDs to be case insensitive:
+
+----
+    $ git config -f $SITE/etc/gerrit.config auth.userNameCaseInsensitive false
+    $ java -jar gerrit.war ChangeExternalIdCaseSensitivity -d site_path
+----
+
+== SEE ALSO
+
+* Configuration parameter link:config-gerrit.html#auth.userNameCaseInsensitive[auth.userNameCaseInsensitive]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

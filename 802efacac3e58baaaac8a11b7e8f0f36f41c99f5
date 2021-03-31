@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aedc561b_422c1cc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-03-31T13:32:11Z",
+      "side": 1,
+      "message": "I don\u0027t have any other comments. I will remove this change from my attention set. Please, add me back after you resolve comments.",
+      "revId": "802efacac3e58baaaac8a11b7e8f0f36f41c99f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba09e7b3_6f9838fd",

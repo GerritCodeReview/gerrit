@@ -37,6 +37,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0244bcd1_04a5f63a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-03-31T14:22:50Z",
+      "side": 1,
+      "message": "Thanks, for improving this area. One of valid comments in bug was that clicking expanding all jumps button (because we show diff preferences). Maybe we can also come with good idea how to improve that as well. Adding Delphine for UX.",
+      "revId": "8983e998a6413c1164935db044dff3288ac6d6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "97c1ea03_35376e6a",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_test.js",
         "patchSetId": 4

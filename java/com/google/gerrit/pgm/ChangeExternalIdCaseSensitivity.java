@@ -62,6 +62,9 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
   @Option(name = "--batch", usage = "Don't ask for confirmation before migrating.")
   private boolean batch;
 
+  @Option(name = "--dryrun", usage = "Do a dryrun of the migration.")
+  private boolean dryrun;
+
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor monitor = new TextProgressMonitor();
 
@@ -124,13 +127,15 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
           recomputeExternalIdNoteId(extIdNotes, extId);
           monitor.update(1);
         }
-        try (MetaDataUpdate metaDataUpdate =
-            metaDataUpdateServerFactory.get().create(allUsersName)) {
-          metaDataUpdate.setMessage(
-              String.format(
-                  "Migration to case %ssensitive usernames",
-                  isUserNameCaseInsensitive ? "" : "in"));
-          extIdNotes.commit(metaDataUpdate);
+        if (!dryrun) {
+          try (MetaDataUpdate metaDataUpdate =
+              metaDataUpdateServerFactory.get().create(allUsersName)) {
+            metaDataUpdate.setMessage(
+                String.format(
+                    "Migration to case %ssensitive usernames",
+                    isUserNameCaseInsensitive ? "" : "in"));
+            extIdNotes.commit(metaDataUpdate);
+          }
         }
       }
     } finally {
@@ -138,8 +143,15 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
       monitor.endTask();
     }
 
-    updateGerritConfig();
-    return reindexAccounts();
+    int exitCode;
+    if (!dryrun) {
+      updateGerritConfig();
+
+      exitCode = reindexAccounts();
+    } else {
+      exitCode = 0;
+    }
+    return exitCode;
   }
 
   private void recomputeExternalIdNoteId(ExternalIdNotes extIdNotes, ExternalId extId)

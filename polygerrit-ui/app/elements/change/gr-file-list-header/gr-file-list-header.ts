@@ -197,13 +197,11 @@ export class GrFileListHeader extends KeyboardShortcutMixin(PolymerElement) {
   _computeExpandedClass(filesExpanded: FilesExpandedState) {
     const classes = [];
     if (filesExpanded === FilesExpandedState.ALL) {
-      classes.push('expanded');
-    }
-    if (
-      filesExpanded === FilesExpandedState.SOME ||
-      filesExpanded === FilesExpandedState.ALL
-    ) {
       classes.push('openFile');
+      classes.push('allExpanded');
+    } else if (filesExpanded === FilesExpandedState.SOME) {
+      classes.push('openFile');
+      classes.push('someExpanded');
     }
     return classes.join(' ');
   }

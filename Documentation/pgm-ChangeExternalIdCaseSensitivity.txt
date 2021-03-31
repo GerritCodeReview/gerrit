@@ -9,17 +9,20 @@ external IDs to be handled case insensitively
 --
 _java_ -jar gerrit.war _ChangeExternalIdCaseSensitivity_
   -d <SITE_PATH>
-  --to sensitive
+  --to <sensitive|insensitive>
 --
 
 == DESCRIPTION
 Convert `username` and `gerrit` external IDs to be handled case
-insensitively. This is done by recomputing the name of the note
-from the sha1 sum of the all lowercase external ID key, instead of
-preserving the key capitalization.
+insensitively or case sensitively. This is done by recomputing
+the name of the note from the sha1 sum of the all lowercase
+external ID key or of the key with its original capitalization
+respectively.
 
 The `auth.userNameCaseInsensitive` option has to be set to `false`
-when using the tool and will be set to `true` by the tool.
+when using the tool to convert to case insensitive behavior and will
+be set to `true` by the tool. If `--to sensitive` is set,
+`auth.userNameCaseInsensitive` option has to be set to `true`.
 
 == OPTIONS
 
@@ -28,7 +31,7 @@ when using the tool and will be set to `true` by the tool.
 	Path of the Gerrit site
 
 --to::
-    Direction of conversion. Has to be `insensitive`.
+    Direction of conversion. Has to be `sensitive` or `insensitive`.
 
 == CONTEXT
 This command can only be run on a server which has direct
@@ -40,6 +43,13 @@ To convert the external IDs to be case insensitive:
 ----
 	$ java -jar gerrit.war ChangeExternalIdCaseSensitivity -d site_path --to insensitive
 ----
+
+To convert the external IDs to be case sensitive again:
+
+----
+    $ java -jar gerrit.war ChangeExternalIdCaseSensitivity -d site_path --to sensitive
+----
+
 
 == SEE ALSO
 

@@ -112,6 +112,82 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
   }
 
   @Test
+  public void externalIdNoteNameIsMigratedToCaseSensitive() throws Exception {
+    FileBasedConfig config =
+        new FileBasedConfig(baseConfig, sitePaths.gerrit_config.toFile(), FS.DETECTED);
+    config.load();
+    config.setBoolean("auth", null, "userNameCaseInsensitive", true);
+    config.save();
+    initSite();
+    try (ServerContext ctx = startServer()) {
+
+      ExternalIdFactory extIdFactory = ctx.getInjector().getInstance(ExternalIdFactory.class);
+      Project.NameKey allUsers = ctx.getInjector().getInstance(AllUsersName.class);
+      ExternalIdNotes extIdNotes = getExternalIdNotes(ctx, allUsers);
+      MetaDataUpdate md = getMetaDataUpdate(ctx, allUsers);
+
+      extIdNotes.insert(extIdFactory.create(SCHEME_USERNAME, "johndoe", Account.id(0)));
+      extIdNotes.insert(extIdFactory.create(SCHEME_GERRIT, "johndoe", Account.id(0)));
+
+      extIdNotes.insert(extIdFactory.create(SCHEME_USERNAME, "JaneDoe", Account.id(1)));
+      extIdNotes.insert(extIdFactory.create(SCHEME_GERRIT, "JaneDoe", Account.id(1)));
+
+      extIdNotes.insert(extIdFactory.create(SCHEME_MAILTO, "Jane@Doe.com", Account.id(1)));
+      extIdNotes.insert(extIdFactory.create(SCHEME_UUID, "Abc123", Account.id(1)));
+      extIdNotes.insert(extIdFactory.create(SCHEME_GPGKEY, "Abc123", Account.id(1)));
+      extIdNotes.insert(extIdFactory.create(SCHEME_EXTERNAL, "saml/JaneDoe", Account.id(1)));
+      extIdNotes.commit(md);
+
+      assertThat(extIdNotes.get(ExternalId.Key.parse("username:johndoe", true)).isPresent())
+          .isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("username:JaneDoe", true)).isPresent())
+          .isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("username:JaneDoe", false)).isPresent())
+          .isFalse();
+
+      assertThat(extIdNotes.get(ExternalId.Key.parse("gerrit:johndoe", true)).isPresent()).isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("gerrit:JaneDoe", true)).isPresent()).isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("gerrit:JaneDoe", false)).isPresent())
+          .isFalse();
+
+      assertThat(extIdNotes.get(ExternalId.Key.parse("mailto:Jane@Doe.com", false)).isPresent())
+          .isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("uuid:Abc123", false)).isPresent()).isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("gpgkey:Abc123", false)).isPresent()).isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("external:saml/JaneDoe", false)).isPresent())
+          .isTrue();
+    }
+    runGerrit(
+        "ChangeExternalIdCaseSensitivity",
+        "-d",
+        sitePaths.site_path.toString(),
+        "--to",
+        "sensitive");
+    try (ServerContext ctx = startServer()) {
+      ExternalIdNotes extIdNotes = getExternalIdNotes(ctx);
+      assertThat(extIdNotes.get(ExternalId.Key.parse("username:johndoe", true)).isPresent())
+          .isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("username:JaneDoe", true)).isPresent())
+          .isFalse();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("username:JaneDoe", false)).isPresent())
+          .isTrue();
+
+      assertThat(extIdNotes.get(ExternalId.Key.parse("gerrit:johndoe", true)).isPresent()).isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("gerrit:JaneDoe", true)).isPresent())
+          .isFalse();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("gerrit:JaneDoe", false)).isPresent())
+          .isTrue();
+
+      assertThat(extIdNotes.get(ExternalId.Key.parse("mailto:Jane@Doe.com", false)).isPresent())
+          .isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("uuid:Abc123", false)).isPresent()).isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("gpgkey:Abc123", false)).isPresent()).isTrue();
+      assertThat(extIdNotes.get(ExternalId.Key.parse("external:saml/JaneDoe", false)).isPresent())
+          .isTrue();
+    }
+  }
+
+  @Test
   public void migrationFailsWithDuplicates() throws Exception {
     initSite();
     try (ServerContext ctx = startServer()) {
@@ -159,6 +235,14 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
         "insensitive");
     config.load();
     assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isTrue();
+    runGerrit(
+        "ChangeExternalIdCaseSensitivity",
+        "-d",
+        sitePaths.site_path.toString(),
+        "--to",
+        "sensitive");
+    config.load();
+    assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isFalse();
   }
 
   @Test
@@ -178,6 +262,19 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
                 sitePaths.site_path.toString(),
                 "--to",
                 "insensitive"));
+    config.load();
+    config.setBoolean("auth", null, "userNameCaseInsensitive", false);
+    config.save();
+    assertThat(config.getBoolean("auth", "userNameCaseInsensitive", false)).isFalse();
+    assertThrows(
+        ConfigInvalidException.class,
+        () ->
+            runGerrit(
+                "ChangeExternalIdCaseSensitivity",
+                "-d",
+                sitePaths.site_path.toString(),
+                "--to",
+                "sensitive"));
   }
 
   private void initSite() throws Exception {

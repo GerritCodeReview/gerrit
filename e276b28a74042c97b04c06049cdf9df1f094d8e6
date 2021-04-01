@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5cc7fd8_dc637906",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-overview-image.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-01T10:08:02Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be it event.buttons !\u003d\u003d 0?\n\n0: Main button pressed, usually the left button or the un-initialized state\n1: Auxiliary button pressed, usually the wheel button or the middle button (if present)\n2: Secondary button pressed, usually the right button\n3: Fourth button, typically the Browser Back button\n4: Fifth button, typically the Browser Forward button\n\nhttps://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button",
+      "range": {
+        "startLine": 187,
+        "startChar": 8,
+        "endLine": 187,
+        "endChar": 27
+      },
+      "revId": "e276b28a74042c97b04c06049cdf9df1f094d8e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

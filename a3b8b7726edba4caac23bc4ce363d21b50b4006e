@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4b5ef2c_febb45c7",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteProject.scala",
+        "patchSetId": 19
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-01T13:10:54Z",
+      "side": 1,
+      "message": "forceKey",
+      "range": {
+        "startLine": 23,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "a3b8b7726edba4caac23bc4ce363d21b50b4006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

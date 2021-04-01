@@ -72,6 +72,7 @@ export interface DiffContextExpandedEventDetail {
 declare global {
   interface HTMLElementEventMap {
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
+    'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }
 }
 
@@ -511,14 +512,14 @@ export abstract class GrDiffBuilder {
             end_line: lastRange.right.end_line,
           },
         };
-        fire<ContentLoadNeededEventDetail>(button, 'content-load-needed', {
+        fire(button, 'content-load-needed', {
           lineRange,
         });
       });
     } else {
       button.addEventListener('click', e => {
         e.stopPropagation();
-        fire<DiffContextExpandedEventDetail>(button, 'diff-context-expanded', {
+        fire(button, 'diff-context-expanded', {
           groups,
           section,
           numLines,

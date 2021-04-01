@@ -57,6 +57,7 @@ import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.StoredCommentLinkInfo;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubscribeSection;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -122,6 +123,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_VALUE = "value";
   public static final String KEY_CAN_OVERRIDE = "canOverride";
   public static final String KEY_BRANCH = "branch";
+
+  public static final String SUBMIT_REQUIREMENT = "submitRequirement";
+  public static final String KEY_SR_NAME = "name";
+  public static final String KEY_SR_DESCRIPTION = "description";
+  public static final String KEY_SR_APPLICABILITY_EXPRESSION = "applicabilityExpression";
+  public static final String KEY_SR_BLOCKING_EXPRESSION = "blockingExpression";
+  public static final String KEY_SR_OVERRIDE_EXPRESSION = "overrideExpression";
+  public static final String KEY_SR_CAN_OVERRIDE = "canOverride";
 
   public static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
@@ -248,6 +257,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Map<String, ContributorAgreement> contributorAgreements;
   private Map<String, NotifyConfig> notifySections;
   private Map<String, LabelType> labelSections;
+  private Map<String, SubmitRequirement> submitRequirementSections;
   private ConfiguredMimeTypes mimeTypes;
   private Map<Project.NameKey, SubscribeSection> subscribeSections;
   private Map<String, StoredCommentLinkInfo> commentLinkSections;
@@ -281,6 +291,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     subscribeSections.values().forEach(s -> builder.addSubscribeSection(s));
     commentLinkSections.values().forEach(c -> builder.addCommentLinkSection(c));
     labelSections.values().forEach(l -> builder.addLabelSection(l));
+    submitRequirementSections.values().forEach(sr -> builder.addSubmitRequirementSection(sr));
     pluginConfigs
         .entrySet()
         .forEach(c -> builder.addPluginConfig(c.getKey(), c.getValue().toText()));
@@ -512,6 +523,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return labelSections;
   }
 
+  public Map<String, SubmitRequirement> getSubmitRequirementSections() {
+    return submitRequirementSections;
+  }
+
   /** Adds or replaces the given {@link LabelType} in this config. */
   public void upsertLabelType(LabelType labelType) {
     labelSections.put(labelType.getName(), labelType);
@@ -661,6 +676,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadBranchOrderSection(rc);
     loadNotifySections(rc);
     loadLabelSections(rc);
+    loadSubmitRequirementSections(rc);
     loadCommentLinkSections(rc);
     loadSubscribeSections(rc);
     mimeTypes = ConfiguredMimeTypes.create(projectName.get(), rc);
@@ -948,6 +964,43 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
     String valueText = parts.size() > 1 ? parts.get(1) : "";
     return LabelValue.create(Shorts.checkedCast(PermissionRule.parseInt(parts.get(0))), valueText);
+  }
+
+  private void loadSubmitRequirementSections(Config rc) {
+    Map<String, String> lowerNames = new HashMap<>();
+    submitRequirementSections = new LinkedHashMap<>();
+    for (String name : rc.getSubsections(SUBMIT_REQUIREMENT)) {
+      String lower = name.toLowerCase();
+      if (lowerNames.containsKey(lower)) {
+        error(
+            ValidationError.create(
+                PROJECT_CONFIG,
+                String.format(
+                    "Submit requirement \"%s\" conflicts with \"%s\"",
+                    name, lowerNames.get(lower))));
+      }
+      lowerNames.put(lower, name);
+      String description = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_DESCRIPTION);
+      String appExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_APPLICABILITY_EXPRESSION);
+      String blockExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_BLOCKING_EXPRESSION);
+      String overrideExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_EXPRESSION);
+      boolean canOverride = rc.getBoolean(SUBMIT_REQUIREMENT, name, KEY_SR_CAN_OVERRIDE, false);
+
+      // TODO(SR): add expressions validation. Expressions are stored as strings so we need to
+      // validate their syntax.
+
+      SubmitRequirement submitRequirement =
+          SubmitRequirement.builder()
+              .setName(name)
+              .setDescription(Strings.nullToEmpty(description))
+              .setApplicabilityExpression(Strings.nullToEmpty(appExpr))
+              .setBlockingExpression(Strings.nullToEmpty(blockExpr))
+              .setOverrideExpression(Strings.nullToEmpty(overrideExpr))
+              .setCanOverride(canOverride)
+              .build();
+
+      submitRequirementSections.put(name, submitRequirement);
+    }
   }
 
   private void loadLabelSections(Config rc) {

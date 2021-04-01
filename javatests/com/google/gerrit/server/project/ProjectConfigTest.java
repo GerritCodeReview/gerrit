@@ -32,6 +32,7 @@ import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.StoredCommentLinkInfo;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
@@ -197,6 +198,49 @@ public class ProjectConfigTest {
     Map<String, LabelType> labels = cfg.getLabelSections();
     Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
     assertThat((int) dv).isEqualTo(0);
+  }
+
+  @Test
+  public void readSubmitRequirements() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[submitRequirement \"code-review\"]\n"
+                    + "  description =  At least one Code Review +2\n"
+                    + "  applicabilityExpression = branch(refs/heads/master)\n"
+                    + "  blockingExpression = label(code-review, +2)\n"
+                    + "[submitRequirement \"api-review\"]\n"
+                    + "  description =  Additional review required for API modifications\n"
+                    + "  applicabilityExpression = commit_filepath_contains(\\\"/api/.*\\\")\n"
+                    + "  blockingExpression = label(api-review, +2)\n"
+                    + "  overrideExpression = label(build-cop-override, +1)\n"
+                    + "  canOverride = true\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    Map<String, SubmitRequirement> submitRequirements = cfg.getSubmitRequirementSections();
+    assertThat(submitRequirements)
+        .containsExactly(
+            "code-review",
+            SubmitRequirement.builder()
+                .setName("code-review")
+                .setDescription("At least one Code Review +2")
+                .setApplicabilityExpression("branch(refs/heads/master)")
+                .setBlockingExpression("label(code-review, +2)")
+                .setOverrideExpression("")
+                .setCanOverride(false)
+                .build(),
+            "api-review",
+            SubmitRequirement.builder()
+                .setName("api-review")
+                .setDescription("Additional review required for API modifications")
+                .setApplicabilityExpression("commit_filepath_contains(\"/api/.*\")")
+                .setBlockingExpression("label(api-review, +2)")
+                .setOverrideExpression("label(build-cop-override, +1)")
+                .setCanOverride(true)
+                .build());
   }
 
   @Test

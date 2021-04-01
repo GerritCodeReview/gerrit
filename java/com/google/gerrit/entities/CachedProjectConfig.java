@@ -95,6 +95,9 @@ public abstract class CachedProjectConfig {
   /** Returns the {@link LabelType}s keyed by their name. */
   public abstract ImmutableMap<String, LabelType> getLabelSections();
 
+  /** Returns the {@link SubmitRequirement}s keyed by their name. */
+  public abstract ImmutableMap<String, SubmitRequirement> getSubmitRequirementSections();
+
   /** Returns configured {@link ConfiguredMimeTypes}s. */
   public abstract ConfiguredMimeTypes getMimeTypes();
 
@@ -169,6 +172,11 @@ public abstract class CachedProjectConfig {
       return this;
     }
 
+    public Builder addSubmitRequirementSection(SubmitRequirement submitRequirement) {
+      submitRequirementSectionsBuilder().put(submitRequirement.name(), submitRequirement);
+      return this;
+    }
+
     public abstract Builder setMimeTypes(ConfiguredMimeTypes value);
 
     public Builder addSubscribeSection(SubscribeSection subscribeSection) {
@@ -235,6 +243,9 @@ public abstract class CachedProjectConfig {
     protected abstract ImmutableMap.Builder<String, NotifyConfig> notifySectionsBuilder();
 
     protected abstract ImmutableMap.Builder<String, LabelType> labelSectionsBuilder();
+
+    protected abstract ImmutableMap.Builder<String, SubmitRequirement>
+        submitRequirementSectionsBuilder();
 
     protected abstract ImmutableMap.Builder<Project.NameKey, SubscribeSection>
         subscribeSectionsBuilder();

@@ -91,7 +91,7 @@ public class ChangeInfo {
    */
   public Boolean containsGitConflicts;
 
-  public int _number;
+  public Integer _number;
 
   public AccountInfo owner;
 

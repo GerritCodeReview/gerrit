@@ -37,6 +37,7 @@ public final class ChangeInfoDifferTest {
     ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(new ChangeInfo(), new ChangeInfo());
 
     // Spot check a few fields, including collections and maps.
+    assertThat(diff.added()._number).isNull();
     assertThat(diff.added().branch).isNull();
     assertThat(diff.added().project).isNull();
     assertThat(diff.added().currentRevision).isNull();
@@ -44,6 +45,7 @@ public final class ChangeInfoDifferTest {
     assertThat(diff.added().messages).isNull();
     assertThat(diff.added().reviewers).isNull();
     assertThat(diff.added().hashtags).isNull();
+    assertThat(diff.removed()._number).isNull();
     assertThat(diff.removed().branch).isNull();
     assertThat(diff.removed().project).isNull();
     assertThat(diff.removed().currentRevision).isNull();

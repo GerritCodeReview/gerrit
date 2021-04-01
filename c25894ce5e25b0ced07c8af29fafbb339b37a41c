@@ -16,6 +16,24 @@
       "message": "If this represents the \u0027old\u0027 world, we could name it LegacySubmitRequirement.\n\nBut I am thinking that we could just iterate over the existing classes instead of completely replacing them. WDYT?\n\nWe current have:\nSubmitRequirement (data structure that holds the result of an evaluation)\nSubmitRule (extension point for plugins)\n\nIn the new world, I would say we need:\nSubmitRequirementConfig (the config from project.config)\nSubmitRequirement (the result of an evaluation - we can further bikeshed the name o/c)\nSubmitRequirementAtom (extension point for plugins, returns SubmitRequirementAtom.Result with a boolean status and a list of actions along with a textual result description)\n\nHappy to discuss this more :-)",
       "revId": "c25894ce5e25b0ced07c8af29fafbb339b37a41c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c82a4785_8ee79dee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-01T11:38:38Z",
+      "side": 1,
+      "message": "Thanks for discussing :) \n\nIn the old world, we also have SubmitRecord:\n  * SubmitRecord is the result of evaluating a submit rule (contains a List of SubmitRequirement - in old notation).\n\nIn the new world\n  1. I prefer using SubmitRequirement for the name + description + 3 conditions. We can use SubmitRequirementResult to store the result of the evaluation (boolean values of the evaluated expressions + a detailed evaluation of different atoms of the expressions, etc...).\n  2. Do we need SubmitRequirementConfig? Parsing the project config can return a Map of \u003cSR_name, SubmitRequirement\u003e (Using my notation of SubmitRequirement from [1]). Does this need a separate class?",
+      "parentUuid": "503f7b18_503eeaea",
+      "revId": "c25894ce5e25b0ced07c8af29fafbb339b37a41c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

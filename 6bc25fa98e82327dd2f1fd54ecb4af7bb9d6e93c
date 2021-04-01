@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "077a449d_e70aace4",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-01T16:46:25Z",
+      "side": 1,
+      "message": "I very much like the idea, but I think we\u0027d sign us up for threading issues :-(\n\nThis would mean we share mutable objects between threads which means there might be access issues lurking in Java [1]\n\nInternally, we have more docs on how that can turn into a problem and Gal chatted with someone from the Java team on a similar situation.\n\nThe usual way to go is to make the objects immutable which removes all access/threading concerns altogether. But for ChangeData, that won\u0027t easily fly. I checked the current members but there\u0027s a good number of mutable members, so creating an immutable ChangeDataSnapshot would mean a lot of work in making members deeply immutable.\n\nIs there anything besides SubmitRules and maybe change notes we need in both places (indexing and events sending) and that is expensive to compute?\n\nIf not, we could think about caching the result of SRs in a separate, short-lived cache or per-request. All not ideal :-/\n\nIf we can\u0027t create a ChangeDataSnapshot all at once because it\u0027s too much work, we could create a:\n\n@AutoValue\nPostUpdateChangeView {\n  Change c\n  ImmutableList\u003cSubmitRecord\u003e srs;\n}\n\nThat can be made immutable easily and shared between threads and would solve the problem as well I guess.\n\n[1] https://stackoverflow.com/questions/42508635/best-practices-or-principles-for-sharing-objects-between-threads-in-java/42509007",
+      "range": {
+        "startLine": 143,
+        "startChar": 26,
+        "endLine": 143,
+        "endChar": 36
+      },
+      "revId": "6bc25fa98e82327dd2f1fd54ecb4af7bb9d6e93c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

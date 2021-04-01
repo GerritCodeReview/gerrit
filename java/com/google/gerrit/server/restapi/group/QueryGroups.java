@@ -80,8 +80,8 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
   }
 
   @Option(name = "-O", usage = "Output option flags, in hex")
-  public void setOptionFlagsHex(String hex) {
-    options.addAll(ListOption.fromBits(ListGroupsOption.class, Integer.parseInt(hex, 16)));
+  public void setOptionFlagsHex(String hex) throws BadRequestException {
+    options.addAll(ListOption.fromHexString(ListGroupsOption.class, hex));
   }
 
   @Inject

@@ -35,7 +35,7 @@ public class GetDetail implements RestReadView<ChangeResource>, DynamicOptions.B
   }
 
   @Option(name = "-O", usage = "Output option flags, in hex")
-  void setOptionFlagsHex(String hex) {
+  void setOptionFlagsHex(String hex) throws BadRequestException {
     delegate.setOptionFlagsHex(hex);
   }
 

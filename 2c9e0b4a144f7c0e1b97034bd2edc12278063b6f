@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33db6489_37579d07",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdModule.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-01T07:38:18Z",
+      "side": 1,
+      "message": "Injection fails in the H2CacheBasedWebSession",
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

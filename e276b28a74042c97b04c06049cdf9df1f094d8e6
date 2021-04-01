@@ -22,6 +22,30 @@
       },
       "revId": "e276b28a74042c97b04c06049cdf9df1f094d8e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f96c1ee2_01d09c2d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-overview-image.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-01T14:40:05Z",
+      "side": 1,
+      "message": "https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons (which I use) is subtly different from https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button (which you linked to). button is not reliably present for events like mousemove, so I settled on buttons, which should always be present and makes for consistency with other handlers in this space, see https://gerrit-review.googlesource.com/c/gerrit/+/301850/3/polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts.",
+      "parentUuid": "a5cc7fd8_dc637906",
+      "range": {
+        "startLine": 187,
+        "startChar": 8,
+        "endLine": 187,
+        "endChar": 27
+      },
+      "revId": "e276b28a74042c97b04c06049cdf9df1f094d8e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

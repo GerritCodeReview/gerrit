@@ -52,7 +52,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.ServiceUserClassifier;
-import com.google.gerrit.server.change.ReviewerAdder;
+import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexRewriter;
@@ -415,7 +415,7 @@ public class ReviewersUtil {
     int maxAllowedWithoutConfirmation = suggestReviewers.getMaxAllowedWithoutConfirmation();
     logger.atFine().log("maxAllowedWithoutConfirmation: " + maxAllowedWithoutConfirmation);
 
-    if (!ReviewerAdder.isLegalReviewerGroup(group.getUUID())) {
+    if (!ReviewerModifier.isLegalReviewerGroup(group.getUUID())) {
       logger.atFine().log("Ignore group %s that is not legal as reviewer", group.getUUID());
       return result;
     }

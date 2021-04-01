@@ -18,7 +18,7 @@ import static com.google.gerrit.server.config.GerritConfigListenerHelper.acceptI
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.AccountVisibility;
-import com.google.gerrit.server.change.ReviewerAdder;
+import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.server.config.ConfigKey;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -99,12 +99,13 @@ public class SuggestReviewers {
       this.suggestAccounts = (av != AccountVisibility.NONE);
     }
 
-    this.maxAllowed = cfg.getInt("addreviewer", "maxAllowed", ReviewerAdder.DEFAULT_MAX_REVIEWERS);
+    this.maxAllowed =
+        cfg.getInt("addreviewer", "maxAllowed", ReviewerModifier.DEFAULT_MAX_REVIEWERS);
     this.maxAllowedWithoutConfirmation =
         cfg.getInt(
             "addreviewer",
             "maxWithoutConfirmation",
-            ReviewerAdder.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
+            ReviewerModifier.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
 
     logger.atFine().log("AccountVisibility: %s", av.name());
 

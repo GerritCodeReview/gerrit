@@ -752,7 +752,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     GroupInput gin = new GroupInput();
     gin.name = group;
     gin.members = ImmutableList.of(user.username(), user2.username());
-    gin.visibleToAll = true; // TODO(dborowitz): Shouldn't be necessary; see ReviewerAdder.
+    gin.visibleToAll = true; // TODO(dborowitz): Shouldn't be necessary; see ReviewerAdd.
     gApi.groups().create(gin);
 
     PushOneCommit.Result r = pushTo("refs/for/master%r=" + group);

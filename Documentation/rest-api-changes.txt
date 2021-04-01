@@ -3300,7 +3300,7 @@ Also, moving a reviewer to CC removes that user from the attention set.
   }
 ----
 
-As response an link:#add-reviewer-result[AddReviewerResult] entity is
+As response an link:#reviewer-result[ReviewerResult] entity is
 returned that describes the newly added reviewers.
 
 .Response
@@ -4103,7 +4103,7 @@ to a change simultaneously with a review:
 Each element of the `reviewers` list is an instance of
 link:#reviewer-input[ReviewerInput]. The corresponding result of
 adding each reviewer will be returned in a map of inputs to
-link:#add-reviewer-result[AddReviewerResult]s.
+link:#reviewer-result[ReviewerResult]s.
 
 .Response
 ----
@@ -6198,9 +6198,9 @@ likely allowed to execute it. This may change if state is updated
 at the server or permissions are modified. Not present if false.
 |====================================
 
-[[add-reviewer-result]]
-=== AddReviewerResult
-The `AddReviewerResult` entity describes the result of adding a
+[[reviewer-result]]
+=== ReviewerResult
+The `ReviewerResult` entity describes the result of adding or removing a
 reviewer to a change.
 
 [options="header",cols="1,^1,5"]
@@ -6213,10 +6213,15 @@ set while adding the reviewer.
 The newly added reviewers as a list of link:#reviewer-info[
 ReviewerInfo] entities.
 |`ccs`         |optional|
-The newly CCed accounts as a list of link:#reviewer-info[
-ReviewerInfo] entities. This field will only appear if the requested
-`state` for the reviewer was `CC` *and* NoteDb is enabled on the
-server.
+The newly CCed accounts as a list of
+link:rest-api-accounts.html#account-info[AccountInfo] entities. This field will
+only appear if the requested `state` for the reviewer was `CC` *and* NoteDb is
+enabled on the server.
+|`removed`      |optional|
+The newly removed accounts as a list of
+link:rest-api-accounts.html#account-info[AccountInfo] entities.
+This field will only appear if the requested
+`state` for the reviewer was `REMOVED` *and* NoteDb is enabled on the server.
 |`error`       |optional|
 Error message explaining why the reviewer could not be added. +
 If a group was specified in the input and an error is returned, it
@@ -7713,7 +7718,7 @@ should be posted on behalf of. To use this option the caller must
 have been granted `labelAs-NAME` permission for all keys of labels.
 |`reviewers`                           |optional|
 A list of link:rest-api-changes.html#reviewer-input[ReviewerInput]
-representing reviewers that should be added to the change.
+representing reviewers that should be added to the change or removed from it.
 |`ready`                               |optional|
 If true, and if the change is work in progress, then start review.
 It is an error for both `ready` and `work_in_progress` to be true.
@@ -7746,8 +7751,8 @@ Map of labels to values after the review was posted. Null if any reviewer
 additions were rejected.
 |`reviewers`              |optional|
 Map of account or group identifier to
-link:rest-api-changes.html#add-reviewer-result[AddReviewerResult]
-representing the outcome of adding as a reviewer.
+link:rest-api-changes.html#reviewer-result[ReviewerResult]
+representing the outcome of adding/removing as a reviewer.
 Absent if no reviewer additions were requested.
 |`ready`                  |optional|
 If true, the change was moved from WIP to ready for review as a result of this
@@ -7779,7 +7784,7 @@ link:rest-api-changes.html#add-reviewer[add-reviewer] for details.
 [[reviewer-input]]
 === ReviewerInput
 The `ReviewerInput` entity contains information for adding a reviewer
-to a change.
+to a change, or removing a reviewer from the change.
 
 [options="header",cols="1,^1,5"]
 |=============================
@@ -7795,7 +7800,7 @@ link:#set-review[set-review] or
 link:rest-api-changes.html#add-reviewer[add-reviewer] call.
 |`state`         |optional|
 Add reviewer in this state. Possible reviewer states are `REVIEWER`
-and `CC`. If not given, defaults to `REVIEWER`.
+and `CC` and `REMOVED`. If not given, defaults to `REVIEWER`.
 |`confirmed`     |optional|
 Whether adding the reviewer is confirmed. +
 The Gerrit server may be configured to

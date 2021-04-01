@@ -104,7 +104,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -119,6 +118,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
@@ -1793,7 +1793,7 @@ public class ChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
     ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
-    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(user.email());
     assertThat(r.error).contains("does not have permission to see this change");
@@ -1809,7 +1809,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = username;
-    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(in.reviewer);
     assertThat(r.error)
@@ -1836,7 +1836,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = Integer.toString(id.get());
-    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(in.reviewer);
     assertThat(r.error).isNull();
@@ -1860,7 +1860,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ReviewerInput in = new ReviewerInput();
     in.reviewer = username;
     in.state = ReviewerState.CC;
-    AddReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
+    ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(username);
     assertThat(r.error).isNull();

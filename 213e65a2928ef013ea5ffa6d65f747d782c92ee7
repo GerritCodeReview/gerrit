@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1664a48_5475123d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-01T14:36:31Z",
+      "side": 1,
+      "message": "It could, but precision not that important here. It\u0027s really just to prevent natural jitter in the mouse position when clicking from being interpreted as drags too eagerly, so I would prefer the simpler arithmetic.\n\nNote also that if the user drags away for a fair bit and comes back to the point where they started, this will not notice the fact that this should now not be interpreted as a click anymore, but this is so unlikely to happen in practice, that I left out the additional complexity of a tracking approach.",
+      "parentUuid": "2fd654ed_5221a6c6",
+      "range": {
+        "startLine": 486,
+        "startChar": 31,
+        "endLine": 486,
+        "endChar": 67
+      },
+      "revId": "213e65a2928ef013ea5ffa6d65f747d782c92ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8667da42_d6727feb",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-01T10:24:32Z",
       "side": 1,
       "message": "Have you consider using debouncer for performance?",
+      "range": {
+        "startLine": 515,
+        "startChar": 9,
+        "endLine": 515,
+        "endChar": 21
+      },
+      "revId": "213e65a2928ef013ea5ffa6d65f747d782c92ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5920f08_fdc72fd6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-01T14:36:31Z",
+      "side": 1,
+      "message": "These changes only modify transforms, which are already annotated with CSS will-change and have their own layer in the compositor. In my local testing this is all 60 FPS right now.",
+      "parentUuid": "8667da42_d6727feb",
       "range": {
         "startLine": 515,
         "startChar": 9,

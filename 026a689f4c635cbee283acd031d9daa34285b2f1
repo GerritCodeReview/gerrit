@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "475662f3_eab90f3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-01T07:22:01Z",
+      "side": 1,
+      "message": "I was not aware of RenderPreferences when I first added this. Eventually it should move there, but this seemed like a less invasive change for now.\n\nLong term, the choice of side-by-side vs overlay diff mode will probably live in DiffPreferences, yet while we iterate on this I think it\u0027s best kept separate / not persisted.",
+      "revId": "026a689f4c635cbee283acd031d9daa34285b2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

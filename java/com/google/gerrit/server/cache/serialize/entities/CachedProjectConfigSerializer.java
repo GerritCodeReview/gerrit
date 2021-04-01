@@ -82,6 +82,9 @@ public class CachedProjectConfigSerializer {
     proto.getLabelSectionsList().stream()
         .map(LabelTypeSerializer::deserialize)
         .forEach(builder::addLabelSection);
+    proto.getSubmitRequirementSectionsList().stream()
+        .map(SubmitRequirementSerializer::deserialize)
+        .forEach(builder::addSubmitRequirementSection);
     proto.getSubscribeSectionsList().stream()
         .map(SubscribeSectionSerializer::deserialize)
         .forEach(builder::addSubscribeSection);
@@ -152,6 +155,9 @@ public class CachedProjectConfigSerializer {
     autoValue.getLabelSections().values().stream()
         .map(LabelTypeSerializer::serialize)
         .forEach(builder::addLabelSections);
+    autoValue.getSubmitRequirementSections().values().stream()
+        .map(SubmitRequirementSerializer::serialize)
+        .forEach(builder::addSubmitRequirementSections);
     autoValue.getSubscribeSections().values().stream()
         .map(SubscribeSectionSerializer::serialize)
         .forEach(builder::addSubscribeSections);

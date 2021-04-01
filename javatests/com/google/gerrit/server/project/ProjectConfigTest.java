@@ -32,6 +32,8 @@ import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.StoredCommentLinkInfo;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
@@ -46,6 +48,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -197,6 +200,131 @@ public class ProjectConfigTest {
     Map<String, LabelType> labels = cfg.getLabelSections();
     Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
     assertThat((int) dv).isEqualTo(0);
+  }
+
+  @Test
+  public void readSubmitRequirements() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[submitRequirement \"Code-review\"]\n"
+                    + "  description =  At least one Code Review +2\n"
+                    + "  applicabilityExpression = branch(refs/heads/master)\n"
+                    + "  blockingExpression = label(code-review, +2)\n"
+                    + "[submitRequirement \"api-review\"]\n"
+                    + "  description =  Additional review required for API modifications\n"
+                    + "  applicabilityExpression = commit_filepath_contains(\\\"/api/.*\\\")\n"
+                    + "  blockingExpression = label(api-review, +2)\n"
+                    + "  overrideExpression = label(build-cop-override, +1)\n"
+                    + "  canInherit = true\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    Map<String, SubmitRequirement> submitRequirements = cfg.getSubmitRequirementSections();
+    assertThat(submitRequirements)
+        .containsExactly(
+            "Code-review", // Capitalization preserved
+            SubmitRequirement.builder()
+                .setName("Code-review") // Capitalization preserved
+                .setDescription(Optional.of("At least one Code Review +2"))
+                .setApplicabilityExpression(
+                    SubmitRequirementExpression.of("branch(refs/heads/master)"))
+                .setBlockingExpression(SubmitRequirementExpression.create("label(code-review, +2)"))
+                .setOverrideExpression(Optional.empty())
+                .setAllowOverrideInChildProjects(false)
+                .build(),
+            "api-review",
+            SubmitRequirement.builder()
+                .setName("api-review")
+                .setDescription(Optional.of("Additional review required for API modifications"))
+                .setApplicabilityExpression(
+                    SubmitRequirementExpression.of("commit_filepath_contains(\"/api/.*\")"))
+                .setBlockingExpression(SubmitRequirementExpression.create("label(api-review, +2)"))
+                .setOverrideExpression(
+                    SubmitRequirementExpression.of("label(build-cop-override, +1)"))
+                .setAllowOverrideInChildProjects(true)
+                .build());
+  }
+
+  @Test
+  public void readSubmitRequirementEmpty() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[submitRequirement \"code-review\"]\n"
+                    + "  blockingExpression = label(code-review, +2)\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    Map<String, SubmitRequirement> submitRequirements = cfg.getSubmitRequirementSections();
+    assertThat(submitRequirements)
+        .containsExactly(
+            "code-review",
+            SubmitRequirement.builder()
+                .setName("code-review")
+                .setBlockingExpression(SubmitRequirementExpression.create("label(code-review, +2)"))
+                .setAllowOverrideInChildProjects(false)
+                .build());
+  }
+
+  @Test
+  public void readSubmitRequirementsIdentical_WithCapitalizationDifference() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[submitRequirement \"code-review\"]\n"
+                    + "  description = At least one Code Review +2\n"
+                    + "  blockingExpression = label(code-review, +2)\n"
+                    + "[submitRequirement \"Code-Review\"]\n"
+                    + "  description = Another code review label\n"
+                    + "  blockingExpression = label(code-review, +2)\n"
+                    + "  canInherit = true\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    Map<String, SubmitRequirement> submitRequirements = cfg.getSubmitRequirementSections();
+    assertThat(submitRequirements)
+        .containsExactly(
+            "code-review",
+            SubmitRequirement.builder()
+                .setName("code-review")
+                .setDescription(Optional.of("At least one Code Review +2"))
+                .setBlockingExpression(SubmitRequirementExpression.create("label(code-review, +2)"))
+                .setAllowOverrideInChildProjects(false)
+                .build());
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+        .isEqualTo(
+            "project.config: "
+                + "Submit requirement \"Code-Review\" conflicts with \"code-review\". "
+                + "Skipping the former.");
+  }
+
+  @Test
+  public void readSubmitRequirementNoBlockingExpression() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[submitRequirement \"code-review\"]\n"
+                    + "  applicabilityExpression = label(code-review, +2)\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    Map<String, SubmitRequirement> submitRequirements = cfg.getSubmitRequirementSections();
+    assertThat(submitRequirements).isEmpty();
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+        .isEqualTo(
+            "project.config: Submit requirement \"code-review\" does not define a blocking expression."
+                + " Skipping this requirement.");
   }
 
   @Test
@@ -800,6 +928,28 @@ public class ProjectConfigTest {
 
     ProjectConfig cfg = read(rev);
     cfg.getCommentLinkSections().clear();
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[notify \"name\"]\n\temail = example@example.com\n");
+  }
+
+  @Test
+  public void submitRequirementSectionIsUnsetIfNoSubmitRequirementsAreSet() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[submitRequirement \"code-review\"]\n"
+                    + "  description =  At least one Code Review +2\n"
+                    + "  applicabilityExpression = branch(refs/heads/master)\n"
+                    + "  blockingExpression = label(code-review, +2)\n"
+                    + "[notify \"name\"]\n"
+                    + "  email = example@example.com\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.getSubmitRequirementSections().clear();
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo("[notify \"name\"]\n\temail = example@example.com\n");

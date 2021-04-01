@@ -22,6 +22,30 @@
       },
       "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db4a4cda_dc7fe590",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2594,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-01T15:31:55Z",
+      "side": 0,
+      "message": "Please, correct me if I am wrong, but I do not see it as a step back from the usability POV.\nWhen deleting the vote, NoteDB still has user account in change footer, so it does not affect debuggability.\n\nWe only set ChangeMessage on a few NoteDB operations today, and from eyeballing, I doubt frontend is using them. \n\nI would just drop commitMessage from NoteDB altogether, but as I am not certain, I prefer to fix these few cases first and see if there is any regression.\n\nAs for the regressions for new features, I was thinking about it, but wanted to sync with Joerg first:\n* It looks to me like we would need to rewrite NotedDB history to backfill such cases, looks like it is possible:\nhttp://google3/third_party/java_src/gerritcodereview/gerrit/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java?l\u003d90\n* It should be easy enough to write such a test for backend regression, however, it is unclear what we do about data in comments/gerrit change messages (subject in NoteDb) and other input to the backend, that is currently unsanitised (e.g. the case of attention set, you found).",
+      "parentUuid": "6293fb78_6e92e3f1",
+      "range": {
+        "startLine": 2594,
+        "startChar": 64,
+        "endLine": 2594,
+        "endChar": 91
+      },
+      "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

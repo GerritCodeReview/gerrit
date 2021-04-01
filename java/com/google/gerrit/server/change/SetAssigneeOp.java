@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -96,27 +95,11 @@ public class SetAssigneeOp implements BatchUpdateOp {
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     // notedb
     update.setAssignee(newAssignee.getAccountId());
+    update.setTag(ChangeMessagesUtil.TAG_SET_ASSIGNEE);
+
     // reviewdb
     change.setAssignee(newAssignee.getAccountId());
-    addMessage(ctx, update);
     return true;
-  }
-
-  private void addMessage(ChangeContext ctx, ChangeUpdate update) {
-    StringBuilder msg = new StringBuilder();
-    msg.append("Assignee ");
-    if (oldAssignee == null) {
-      msg.append("added: ");
-      msg.append(newAssignee.getNameEmail());
-    } else {
-      msg.append("changed from: ");
-      msg.append(oldAssignee.getNameEmail());
-      msg.append(" to: ");
-      msg.append(newAssignee.getNameEmail());
-    }
-    ChangeMessage cmsg =
-        ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_ASSIGNEE);
-    cmUtil.addChangeMessage(update, cmsg);
   }
 
   @Override

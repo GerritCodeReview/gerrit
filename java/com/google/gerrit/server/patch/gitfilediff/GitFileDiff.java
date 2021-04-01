@@ -209,9 +209,6 @@ public abstract class GitFileDiff {
     private static final FieldDescriptor NEW_MODE_DESCRIPTOR =
         GitFileDiffProto.getDescriptor().findFieldByNumber(8);
 
-    private static final FieldDescriptor CHANGE_TYPE_DESCRIPTOR =
-        GitFileDiffProto.getDescriptor().findFieldByNumber(9);
-
     private static final FieldDescriptor PATCH_TYPE_DESCRIPTOR =
         GitFileDiffProto.getDescriptor().findFieldByNumber(10);
 

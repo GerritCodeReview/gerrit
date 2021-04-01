@@ -293,12 +293,12 @@ identity, to an account in Gerrit.
 External IDs are stored as Git Notes in the `All-Users` repository. The
 name of the notes branch is `refs/meta/external-ids`.
 
-As note key the SHA1 of the external ID key is used, for example the key
+As note key the SHA-1 of the external ID key is used, for example the key
 for the external ID `username:jdoe` is `e0b751ae90ef039f320e097d7d212f490e933706`.
 This ensures that an external ID is used only once (e.g. an external ID can
 never be assigned to multiple accounts at a point in time).
 
-The following commands show how to find the SHA1 of an external ID:
+The following commands show how to find the SHA-1 of an external ID:
 
 ----
 $ echo -n 'gerrit:jdoe' | shasum
@@ -310,7 +310,7 @@ e0b751ae90ef039f320e097d7d212f490e933706  -
 
 [IMPORTANT]
 If the external ID key is changed manually you must adapt the note key
-to the new SHA1, otherwise the external ID becomes inconsistent and is
+to the new SHA-1, otherwise the external ID becomes inconsistent and is
 ignored by Gerrit.
 
 The note content is a Git config file:
@@ -322,7 +322,7 @@ The note content is a Git config file:
   password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
 ----
 
-Once SHA1 of an external ID is known the following command can be used to
+Once SHA-1 of an external ID is known the following command can be used to
 show the content of the note:
 
 ----

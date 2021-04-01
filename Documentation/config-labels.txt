@@ -353,7 +353,7 @@ Defaults to false.
 If true, all scores for the label are copied forward when a new patch
 set is uploaded that has the same parent tree, code delta, and commit
 message as the previous patch set. This means that only the patch
-set SHA1 is different. This can be used to enable sticky
+set SHA-1 is different. This can be used to enable sticky
 approvals, reducing turn-around for this special case.
 It is recommended to leave this enabled for both Verified and
 Code-Review labels.

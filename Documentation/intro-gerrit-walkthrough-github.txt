@@ -206,8 +206,8 @@ you currently have checked out.
 When you `git commit --amend` to iterate on your change, you might be worried that
 you are changing your previous commit and may thus lose that state of your work.
 However, here the Change-Id appended to your commit message comes into play.
-While the SHA1 hash of your change (the commit ID used by Git) might change, the
-Change-Id stays the same (in fact it is the SHA1 hash of the very first version
+While the SHA-1 hash of your change (the commit ID used by Git) might change, the
+Change-Id stays the same (in fact it is the SHA-1 hash of the very first version
 of that commit). When this amended commit is uploaded to the Gerrit server,
 Gerrit knows that this commit is really an iteration of that previous commit
 (and the associated review) and will preserve both, the old and the new state.

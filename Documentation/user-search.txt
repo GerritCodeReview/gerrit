@@ -35,7 +35,7 @@ text and let Gerrit figure out the meaning:
 |=============================================================
 
 For change searches (i.e. those using a numerical id, Change-Id, or commit
-SHA1), if the search results in a single change that change will be
+SHA-1), if the search results in a single change that change will be
 presented instead of a list.
 
 For more predictable results, use explicit search operators as described
@@ -173,9 +173,9 @@ reviewerin:'GROUP'::
 Changes that have been, or need to be, reviewed by a user in 'GROUP'.
 
 [[commit]]
-commit:'SHA1'::
+commit:'SHA-1'::
 +
-Changes where 'SHA1' is one of the patch sets of the change.
+Changes where 'SHA-1' is one of the patch sets of the change.
 
 [[project]]
 project:'PROJECT', p:'PROJECT'::

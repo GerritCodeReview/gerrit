@@ -2451,7 +2451,7 @@ Optional pattern to use for constructing the gitweb URL when pointing
 at a specific commit when `gitweb.type` is set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit
-and `${commit}` for the SHA1 hash for the commit.
+and `${commit}` for the SHA-1 hash for the commit.
 
 [[gitweb.project]]gitweb.project::
 +
@@ -2483,7 +2483,7 @@ at the contents of the root tree in a specific commit when `gitweb.type`
 is set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit
-and `${commit}` for the SHA1 hash for the commit.
+and `${commit}` for the SHA-1 hash for the commit.
 
 [[gitweb.file]]gitweb.file::
 +
@@ -2492,7 +2492,7 @@ at the contents of a file in a specific commit when `gitweb.type` is
 set to `custom`.
 +
 Valid replacements are `${project}` for the project name in Gerrit,
-`${file}` for the file name and `${commit}` for the SHA1 hash for
+`${file}` for the file name and `${commit}` for the SHA-1 hash for
 the commit.
 
 [[gitweb.filehistory]]gitweb.filehistory::
@@ -4196,7 +4196,7 @@ Carrying out this check on gits with many refs and commits can be a
 very CPU-heavy operation. For non public Gerrit-servers this check may
 be overkill.
 +
-Only disable this check if you trust the clients not to forge SHA1
+Only disable this check if you trust the clients not to forge SHA-1
 references to access commits intended to be hidden from the user.
 +
 Default is true.

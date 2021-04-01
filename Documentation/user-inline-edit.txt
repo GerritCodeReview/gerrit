@@ -38,11 +38,11 @@ image::images/inline-edit-create-change.png[width=350]
    *  Select branch for new change: Specify the destination branch of the
       change.
 
-   *  Provide base commit SHA1 for change: Leave this field blank.
+   *  Provide base commit SHA-1 for change: Leave this field blank.
 
 +
-IMPORTANT: Git uses a unique SHA1 value to identify each and every commit (in
-other words, each Git commit generates a new SHA1 hash). This value differs
+IMPORTANT: Git uses a unique SHA-1 value to identify each and every commit (in
+other words, each Git commit generates a new SHA-1 hash). This value differs
 from a Gerrit Change-Id, which is used by Gerrit to uniquely identify a
 change. The Gerrit Change-Id remains static throughout the life of a Gerrit
 change.

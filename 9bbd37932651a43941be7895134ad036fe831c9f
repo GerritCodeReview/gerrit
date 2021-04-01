@@ -166,6 +166,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2031484_d7eb1fd8",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-01T08:42:44Z",
+      "side": 1,
+      "message": "AFAIK, in Java at runtime, the types of generic types disappear (\"type erasure\"), so I don\u0027t think that would work.",
+      "parentUuid": "28746905_a868defc",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54ef5ee7_bcb6e004",
         "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
         "patchSetId": 4
@@ -272,6 +296,30 @@
       "writtenOn": "2021-03-30T22:17:38Z",
       "side": 1,
       "message": "Looking at the PoC provided by Qualcomm with the request-based class reloading with mixed parent class-loaders, this ClassCastException could happen also if the types are actually correct but belong to different class loader.\n\n@Patrick comment on protobufs would actually resolve this issue, because even if the classes are effectively different, they will still be possible to be casted as long as the data inside their types is compatible.\n\nThere is, of course, a performance penalty to pay here, because of the serialisation/deserialisation involved.",
+      "range": {
+        "startLine": 43,
+        "startChar": 15,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5f8da81_347213b4",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-01T08:42:44Z",
+      "side": 1,
+      "message": "the intention was to use this only with core-provided types, and use Map\u003cString, Object\u003e if you need to make up types on the fly. This is clearly not a building block for plugins that create complex dependencies, but rather for loosely coupled plugins for which failure is an acceptable behavior.\n\nIf you use protobuf, you can still have \u0027type\u0027 mismatches: you can get incoming requests that lack fields you are expecting.",
+      "parentUuid": "8fd97c4e_a1fd58ee",
       "range": {
         "startLine": 43,
         "startChar": 15,

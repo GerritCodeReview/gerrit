@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47988fcb_2a35487b",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-01T11:44:28Z",
+      "side": 1,
+      "message": "With the use of separate fields, it is making use of Boolean predicate. If it will use single field then it needs to create a new predicate for both merge and initial. So either create fields or create Predicate.\n\nFrom ChangeData.java, isMerge method can be replace with parentCount which can be used in ChangeField.java.",
+      "parentUuid": "b74acfe7_26f17a2e",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 19
+      },
+      "revId": "4a7e64f4f7b1ecfe280f1ee63e018628d1eac0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "375e2d60_cce14e3e",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2

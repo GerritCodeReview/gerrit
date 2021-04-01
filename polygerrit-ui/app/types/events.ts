@@ -32,6 +32,7 @@ export enum EventType {
   MOVED_LINK_CLICKED = 'moved-link-clicked',
   NETWORK_ERROR = 'network-error',
   OPEN_FIX_PREVIEW = 'open-fix-preview',
+  CLOSE_FIX_PREVIEW = 'close-fix-preview',
   PAGE_ERROR = 'page-error',
   RELOAD = 'reload',
   REPLY = 'reply',
@@ -54,6 +55,7 @@ declare global {
     'iron-announce': IronAnnounceEvent;
     'moved-link-clicked': MovedLinkClickedEvent;
     'open-fix-preview': OpenFixPreviewEvent;
+    'close-fix-preview': CloseFixPreviewEvent;
     /* prettier-ignore */
     'reload': ReloadEvent;
     /* prettier-ignore */
@@ -132,6 +134,11 @@ export interface OpenFixPreviewEventDetail {
   comment?: UIComment;
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
+
+export interface CloseFixPreviewEventDetail {
+  fixApplied: boolean;
+}
+export type CloseFixPreviewEvent = CustomEvent<CloseFixPreviewEventDetail>;
 
 export interface PageErrorEventDetail {
   response?: Response;

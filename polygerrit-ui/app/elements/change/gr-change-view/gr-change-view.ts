@@ -155,6 +155,7 @@ import {
   ThreadListModifiedEvent,
   TabState,
   EventType,
+  CloseFixPreviewEvent,
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
@@ -676,7 +677,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       this._handleCommitMessageCancel()
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
-    this.addEventListener('close-fix-preview', () => this._onCloseFixPreview());
+    this.addEventListener('close-fix-preview', e => this._onCloseFixPreview(e));
     window.addEventListener('scroll', this.handleScroll);
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
 
@@ -742,8 +743,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this.$.applyFixDialog.open(e);
   }
 
-  _onCloseFixPreview() {
-    this._reload();
+  _onCloseFixPreview(e: CloseFixPreviewEvent) {
+    if (e.detail.fixApplied) this._reload();
   }
 
   _handleToggleDiffMode(e: CustomKeyboardEvent) {

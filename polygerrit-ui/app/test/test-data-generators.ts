@@ -65,6 +65,8 @@ import {
   RelatedChangeAndCommitInfo,
   SubmittedTogetherInfo,
   RelatedChangesInfo,
+  FixSuggestionInfo,
+  FixId,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -612,5 +614,13 @@ export function createSubmittedTogetherInfo(): SubmittedTogetherInfo {
   return {
     changes: [],
     non_visible_changes: 0,
+  };
+}
+
+export function createFixSuggestionInfo(fixId = 'fix_1'): FixSuggestionInfo {
+  return {
+    fix_id: fixId as FixId,
+    description: `Fix ${fixId}`,
+    replacements: [],
   };
 }

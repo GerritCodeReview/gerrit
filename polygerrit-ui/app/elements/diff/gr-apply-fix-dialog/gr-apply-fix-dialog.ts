@@ -37,12 +37,14 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {isRobot} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {appContext} from '../../../services/app-context';
-import {fireEvent} from '../../../utils/event-util';
+import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
 import {ParsedChangeInfo} from '../../../types/types';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 export interface GrApplyFixDialog {
   $: {
     applyFixOverlay: GrOverlay;
+    nextFix: GrButton;
   };
 }
 
@@ -168,7 +170,7 @@ export class GrApplyFixDialog extends PolymerElement {
         }
       })
       .catch(err => {
-        this._close();
+        this._close(false);
         throw err;
       });
   }
@@ -186,7 +188,7 @@ export class GrApplyFixDialog extends PolymerElement {
     if (e) {
       e.stopPropagation();
     }
-    this._close();
+    this._close(false);
   }
 
   addOneTo(_selectedFixIdx: number) {
@@ -225,12 +227,12 @@ export class GrApplyFixDialog extends PolymerElement {
     return _selectedFixIdx === fixSuggestions.length - 1;
   }
 
-  _close() {
+  _close(fixApplied: boolean) {
     this._currentFix = undefined;
     this._currentPreviews = [];
     this._isApplyFixLoading = false;
 
-    fireEvent(this, 'close-fix-preview');
+    fireCloseFixPreview(this, fixApplied);
     this.$.applyFixOverlay.close();
   }
 
@@ -282,7 +284,7 @@ export class GrApplyFixDialog extends PolymerElement {
             EditPatchSetNum,
             patchNum as BasePatchSetNum
           );
-          this._close();
+          this._close(true);
         }
         this._isApplyFixLoading = false;
       });

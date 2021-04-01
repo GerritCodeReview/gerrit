@@ -20,15 +20,8 @@ import {FetchRequest} from '../types/types';
 import {
   DialogChangeEventDetail,
   EventType,
-  IronAnnounceEventDetail,
-  NetworkErrorEventDetail,
-  PageErrorEventDetail,
-  ServerErrorEventDetail,
-  ShowAlertEventDetail,
   SwitchTabEventDetail,
   TabState,
-  ThreadListModifiedDetail,
-  TitleChangeEventDetail,
 } from '../types/events';
 
 export function fireEvent(target: EventTarget, type: string) {
@@ -39,6 +32,34 @@ export function fireEvent(target: EventTarget, type: string) {
     })
   );
 }
+
+type HTMLElementEventDetailType<
+  K extends keyof HTMLElementEventMap
+> = HTMLElementEventMap[K] extends CustomEvent<infer DT>
+  ? unknown extends DT
+    ? never
+    : DT
+  : never;
+
+type DocumentEventDetailType<
+  K extends keyof DocumentEventMap
+> = DocumentEventMap[K] extends CustomEvent<infer DT>
+  ? unknown extends DT
+    ? never
+    : DT
+  : never;
+
+export function fire<K extends keyof DocumentEventMap>(
+  target: Document,
+  type: K,
+  detail: DocumentEventDetailType<K>
+): void;
+
+export function fire<K extends keyof HTMLElementEventMap>(
+  target: EventTarget,
+  type: K,
+  detail: HTMLElementEventDetailType<K>
+): void;
 
 export function fire<T>(target: EventTarget, type: string, detail: T) {
   target.dispatchEvent(
@@ -51,27 +72,27 @@ export function fire<T>(target: EventTarget, type: string, detail: T) {
 }
 
 export function fireAlert(target: EventTarget, message: string) {
-  fire<ShowAlertEventDetail>(target, EventType.SHOW_ALERT, {message});
+  fire(target, EventType.SHOW_ALERT, {message});
 }
 
 export function firePageError(response?: Response | null) {
   if (response === null) response = undefined;
-  fire<PageErrorEventDetail>(document, EventType.PAGE_ERROR, {response});
+  fire(document, EventType.PAGE_ERROR, {response});
 }
 
 export function fireServerError(response: Response, request?: FetchRequest) {
-  fire<ServerErrorEventDetail>(document, EventType.SERVER_ERROR, {
+  fire(document, EventType.SERVER_ERROR, {
     response,
     request,
   });
 }
 
 export function fireNetworkError(error: Error) {
-  fire<NetworkErrorEventDetail>(document, EventType.NETWORK_ERROR, {error});
+  fire(document, EventType.NETWORK_ERROR, {error});
 }
 
 export function fireTitleChange(target: EventTarget, title: string) {
-  fire<TitleChangeEventDetail>(target, EventType.TITLE_CHANGE, {title});
+  fire(target, EventType.TITLE_CHANGE, {title});
 }
 
 // TODO(milutin) - remove once new gr-dialog will do it out of the box
@@ -80,11 +101,11 @@ export function fireDialogChange(
   target: EventTarget,
   detail: DialogChangeEventDetail
 ) {
-  fire<DialogChangeEventDetail>(target, EventType.DIALOG_CHANGE, detail);
+  fire(target, EventType.DIALOG_CHANGE, detail);
 }
 
 export function fireIronAnnounce(target: EventTarget, text: string) {
-  fire<IronAnnounceEventDetail>(target, EventType.IRON_ANNOUNCE, {text});
+  fire(target, EventType.IRON_ANNOUNCE, {text});
 }
 
 export function fireThreadListModifiedEvent(
@@ -92,7 +113,7 @@ export function fireThreadListModifiedEvent(
   rootId: UrlEncodedCommentId,
   path: string
 ) {
-  fire<ThreadListModifiedDetail>(target, EventType.THREAD_LIST_MODIFIED, {
+  fire(target, EventType.THREAD_LIST_MODIFIED, {
     rootId,
     path,
   });
@@ -105,7 +126,11 @@ export function fireShowPrimaryTab(
   tabState?: TabState
 ) {
   const detail: SwitchTabEventDetail = {tab, scrollIntoView, tabState};
-  fire<SwitchTabEventDetail>(target, EventType.SHOW_PRIMARY_TAB, detail);
+  fire(target, EventType.SHOW_PRIMARY_TAB, detail);
+}
+
+export function fireCloseFixPreview(target: EventTarget, fixApplied: boolean) {
+  fire(target, EventType.CLOSE_FIX_PREVIEW, {fixApplied});
 }
 
 export function waitForEventOnce<K extends keyof HTMLElementEventMap>(

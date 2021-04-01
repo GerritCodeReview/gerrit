@@ -1876,7 +1876,7 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     ChangeMessageInfo message = Iterables.getLast(c.messages);
     assertThat(message.author._accountId).isEqualTo(admin.id().get());
-    assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
+    assertThat(message.message).isEqualTo("Removed Code-Review+1");
     assertThat(getReviewers(c.reviewers.get(ReviewerState.REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.id(), user.id()));
   }

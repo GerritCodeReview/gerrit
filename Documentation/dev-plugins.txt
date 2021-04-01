@@ -2230,7 +2230,7 @@ Gerrit has extension points that enables development of a
 light-weight plugin that links commits to external
 tools (GitBlit, CGit, company specific resources etc).
 
-PatchSetWebLinks will appear to the right of the commit-SHA1 in the UI.
+PatchSetWebLinks will appear to the right of the commit-SHA-1 in the UI.
 
 [source, java]
 ----
@@ -2256,7 +2256,7 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
 }
 ----
 
-ParentWebLinks will appear to the right of the SHA1 of the parent
+ParentWebLinks will appear to the right of the SHA-1 of the parent
 revisions in the UI. The implementation should in most use cases direct
 to the same external service as PatchSetWebLink; it is provided as a
 separate interface because not all users want to have links for the

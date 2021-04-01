@@ -64,7 +64,7 @@ branch with a flat list of files.
 
 The format of this map is as follows:
 
-* keys are the normal SHA1 of the group name
+* keys are the normal SHA-1 of the group name
 * values are blobs that look like
 +
 ----

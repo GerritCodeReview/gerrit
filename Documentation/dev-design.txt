@@ -182,7 +182,7 @@ has read permission. This means that
   advertisement if the user lacks read permissions
 
 * Uploads through the git wire protocol must refuse commits that are
-  based on SHA1s for data that the user can't see.
+  based on SHA-1s for data that the user can't see.
 
 * Tags are only visible if their commits are visible to user through a
   non-tag reference.
@@ -195,7 +195,7 @@ metadata or allow changes to them.
 === Indexing
 
 Almost all data is stored as Git, but Git only supports fast lookup by
-SHA1 or by ref (branch) name. Therefore Gerrit also has an indexing
+SHA-1 or by ref (branch) name. Therefore Gerrit also has an indexing
 system (powered by Lucene by default) for other types of queries.
 There are 4 indices:
 
@@ -204,8 +204,8 @@ There are 4 indices:
 * Group index - find groups by name, owner, description etc.
 * Change index - find changes by file, status, modification date etc.
 
-The base entities are characterized by SHA1s. Storing the
-characterizing SHA1s allows detection of stale index entries.
+The base entities are characterized by SHA-1s. Storing the
+characterizing SHA-1s allows detection of stale index entries.
 
 == Plug-in architecture
 
@@ -397,7 +397,7 @@ these for latency, using the following techniques:
 * Caching: metadata is stored in Git, which is relatively expensive to
   access. This is sped up by multiple caches. Metadata entities are
   stored in Git, and can therefore be seen as immutable values keyed
-  by SHA1, which is very amenable to caching. All SHA1 keyed caches
+  by SHA-1, which is very amenable to caching. All SHA-1 keyed caches
   can be persisted on local disk.
 
   The size (memory, disk) of these caches should be adapted to the

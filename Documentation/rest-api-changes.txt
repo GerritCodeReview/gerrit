@@ -565,8 +565,8 @@ describes the change.
 ----
 
 Historical state of the change can be retrieved by specifying the
-`meta=SHA1` parameter. This will use a historical NoteDb snapshot to
-populate ChangeInfo. If the SHA1 is not reachable as a NoteDb state,
+`meta=SHA-1` parameter. This will use a historical NoteDb snapshot to
+populate ChangeInfo. If the SHA-1 is not reachable as a NoteDb state,
 status code 412 is returned.
 
 ----
@@ -574,14 +574,14 @@ status code 412 is returned.
 [[get-meta-diff]]
 === Get Meta Diff
 --
-'GET /changes/link:#change-id[\{change-id\}]/meta_diff/?old=SHA1&meta=SHA1'
+'GET /changes/link:#change-id[\{change-id\}]/meta_diff/?old=SHA-1&meta=SHA-1'
 --
 
 Retrieves the difference between two historical states of a change
-by specifying the `old=SHA1` and the `meta=SHA1` parameters.
+by specifying the `old=SHA-1` and the `meta=SHA-1` parameters.
 
 If the `old` parameter is not provided, the parent of the `meta`
-SHA1 is used. If the `meta` parameter is not provided, the current
+SHA-1 is used. If the `meta` parameter is not provided, the current
 state of the change is used. If neither are provided, the
 difference between the current state of the change and its previous
 state is returned.
@@ -627,8 +627,8 @@ Only fields that differ between the change's two states are returned.
   }
 ----
 
-If the provided SHA1 for `meta` is not reachable as a NoteDb
-state, the status code 412 is returned. If the SHA1 for `old`
+If the provided SHA-1 for `meta` is not reachable as a NoteDb
+state, the status code 412 is returned. If the SHA-1 for `old`
 is not reachable, the difference between the change at state
 `meta` and an empty change is returned.
 ----
@@ -1203,7 +1203,7 @@ If the change had no assignee the response is "`204 No Content`".
 --
 
 Check if the given change is a pure revert of the change it references in `revertOf`.
-Optionally, the query parameter `o` can be passed in to specify a commit (SHA1 in
+Optionally, the query parameter `o` can be passed in to specify a commit (SHA-1 in
 40 digit hex representation) to check against. It takes precedence over `revertOf`.
 If the change has no reference in `revertOf`, the parameter is mandatory.
 
@@ -6541,7 +6541,7 @@ Only set if link:#current-revision[the current revision] is requested
 (in which case it will only contain a key for the current revision) or
 if link:#all-revisions[all revisions] are requested.
 |`meta_rev_id`           |optional|
-The SHA1 of the NoteDb meta ref.
+The SHA-1 of the NoteDb meta ref.
 |`tracking_ids`       |optional|
 A list of link:#tracking-id-info[TrackingIdInfo] entities describing
 references to external tracking systems. Only set if
@@ -6779,7 +6779,7 @@ Available with the link:#list-change-comments[list change comments] endpoint.
 Contains the link:rest-api-changes.html#change-message-info[id] of the change
 message that this comment is linked to.
 |`commit_id` |optional|
-Hex commit SHA1 (40 characters string) of the commit of the patchset to which
+Hex commit SHA-1 (40 characters string) of the commit of the patchset to which
 this comment applies.
 |`context_lines` |optional|
 A list of link:#context-line[ContextLine] containing the lines of the source
@@ -7571,7 +7571,7 @@ The `RebaseInput` entity contains information for changing parent when rebasing.
 |===========================
 |Field Name    ||Description
 |`base`        |optional|
-The new parent revision. This can be a ref or a SHA1 to a concrete patchset. +
+The new parent revision. This can be a ref or a SHA-1 to a concrete patchset. +
 Alternatively, a change number can be specified, in which case the current
 patch set is inferred. +
 Empty string is used for rebasing directly on top of the target branch,

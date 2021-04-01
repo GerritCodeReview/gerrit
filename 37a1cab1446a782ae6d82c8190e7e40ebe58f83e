@@ -46,6 +46,30 @@
       },
       "revId": "37a1cab1446a782ae6d82c8190e7e40ebe58f83e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83526940_ab986d91",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-01T14:19:17Z",
+      "side": 1,
+      "message": "looks strange in this diff.\nBuilt in Gerrit and it looks fine.",
+      "parentUuid": "beb678fc_34f26f5b",
+      "range": {
+        "startLine": 209,
+        "startChar": 80,
+        "endLine": 209,
+        "endChar": 81
+      },
+      "revId": "37a1cab1446a782ae6d82c8190e7e40ebe58f83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

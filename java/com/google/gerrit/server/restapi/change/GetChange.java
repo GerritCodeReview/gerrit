@@ -67,8 +67,9 @@ public class GetChange
   }
 
   @Option(name = "-O", usage = "Output option flags, in hex")
-  void setOptionFlagsHex(String hex) {
-    options.addAll(ListOption.fromBits(ListChangesOption.class, Integer.parseInt(hex, 16)));
+  void setOptionFlagsHex(String hex) throws BadRequestException {
+    EnumSet<ListChangesOption> optionSet = ListOption.fromHexString(ListChangesOption.class, hex);
+    options.addAll(optionSet);
   }
 
   @Inject

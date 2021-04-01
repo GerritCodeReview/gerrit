@@ -19,8 +19,10 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.extensions.client.ListOptionTest.MyOption.BAR;
 import static com.google.gerrit.extensions.client.ListOptionTest.MyOption.BAZ;
 import static com.google.gerrit.extensions.client.ListOptionTest.MyOption.FOO;
+import static org.junit.Assert.fail;
 
 import com.google.common.math.IntMath;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import java.util.EnumSet;
 import org.junit.Test;
 
@@ -39,6 +41,17 @@ public class ListOptionTest {
     @Override
     public int getValue() {
       return value;
+    }
+  }
+
+  @Test
+  public void fromHexString() {
+    try {
+      // TODO(hanwen): move GerritJUnit.assertThrows to a place that doesn't depend on everything.
+      ListOption.fromHexString(MyOption.class, "xyz");
+      fail("must throw");
+    } catch (BadRequestException e) {
+      assertThat(e.getMessage()).contains("32-bit integer");
     }
   }
 

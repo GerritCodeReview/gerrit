@@ -107,8 +107,8 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   }
 
   @Option(name = "-O", usage = "Output option flags, in hex")
-  void setOptionFlagsHex(String hex) {
-    options.addAll(ListOption.fromBits(ListAccountsOption.class, Integer.parseInt(hex, 16)));
+  void setOptionFlagsHex(String hex) throws BadRequestException {
+    options.addAll(ListOption.fromHexString(ListAccountsOption.class, hex));
   }
 
   @Option(

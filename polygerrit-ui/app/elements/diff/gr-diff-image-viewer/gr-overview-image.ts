@@ -184,6 +184,7 @@ export class GrOverviewImage extends LitElement {
   }
 
   clickOverview(event: MouseEvent) {
+    if (event.buttons !== 1) return;
     event.preventDefault();
 
     this.updateOverlaySize();
@@ -197,6 +198,7 @@ export class GrOverviewImage extends LitElement {
   }
 
   grabFrame(event: MouseEvent) {
+    if (event.buttons !== 1) return;
     event.preventDefault();
     // Do not bubble up into clickOverview().
     event.stopPropagation();

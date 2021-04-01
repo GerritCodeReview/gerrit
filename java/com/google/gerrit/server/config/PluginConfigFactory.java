@@ -289,7 +289,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithInheritance(
       Project.NameKey projectName, String pluginName) throws NoSuchProjectException {
-    return getPluginConfig(projectName, pluginName).getWithInheritance(false);
+    return getPluginConfig(projectName, pluginName).getWithInheritance(/* merge= */ false);
   }
 
   /**
@@ -311,7 +311,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithInheritance(
       ProjectState projectState, String pluginName) {
-    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(false);
+    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(/* merge= */ false);
   }
 
   /**
@@ -336,7 +336,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithMergedInheritance(
       Project.NameKey projectName, String pluginName) throws NoSuchProjectException {
-    return getPluginConfig(projectName, pluginName).getWithInheritance(true);
+    return getPluginConfig(projectName, pluginName).getWithInheritance(/* merge= */ true);
   }
 
   /**
@@ -359,7 +359,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public Config getProjectPluginConfigWithMergedInheritance(
       ProjectState projectState, String pluginName) {
-    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(true);
+    return projectState.getConfig(pluginName + EXTENSION).getWithInheritance(/* merge= */ true);
   }
 
   private ProjectLevelConfig getPluginConfig(Project.NameKey projectName, String pluginName)

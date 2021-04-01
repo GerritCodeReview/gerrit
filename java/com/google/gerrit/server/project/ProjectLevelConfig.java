@@ -88,7 +88,7 @@ public class ProjectLevelConfig {
   }
 
   public Config getWithInheritance() {
-    return getWithInheritance(false);
+    return getWithInheritance(/* merge= */ false);
   }
 
   /**

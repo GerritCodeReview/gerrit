@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fd654ed_5221a6c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-01T10:24:32Z",
+      "side": 1,
+      "message": "Maybe this could be calculated as euclidean distance like  d(p,q)\u003d{\\sqrt {(q_{1}-p_{1})^{2}+(q_{2}-p_{2})^{2}}}",
+      "range": {
+        "startLine": 486,
+        "startChar": 31,
+        "endLine": 486,
+        "endChar": 67
+      },
+      "revId": "213e65a2928ef013ea5ffa6d65f747d782c92ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8667da42_d6727feb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-01T10:24:32Z",
+      "side": 1,
+      "message": "Have you consider using debouncer for performance?",
+      "range": {
+        "startLine": 515,
+        "startChar": 9,
+        "endLine": 515,
+        "endChar": 21
+      },
+      "revId": "213e65a2928ef013ea5ffa6d65f747d782c92ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

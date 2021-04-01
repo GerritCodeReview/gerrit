@@ -253,7 +253,7 @@ export class GrDiff extends PolymerElement {
   @property({type: Boolean})
   showNewlineWarningRight = false;
 
-  @property({type: String})
+  @property({type: String, observer: '_useNewImageDiffUiObserver'})
   useNewImageDiffUi = false;
 
   @property({
@@ -705,6 +705,10 @@ export class GrDiff extends PolymerElement {
   }
 
   _lineWrappingObserver() {
+    this._prefsChanged(this.prefs);
+  }
+
+  _useNewImageDiffObserver() {
     this._prefsChanged(this.prefs);
   }
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.client;
 
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumSet;
 import java.util.Set;
@@ -21,6 +22,22 @@ import java.util.Set;
 /** Enum that can be expressed as a bitset in query parameters. */
 public interface ListOption {
   int getValue();
+
+  static <T extends Enum<T> & ListOption> EnumSet<T> fromHexString(Class<T> clazz, String hex)
+      throws BadRequestException {
+    int parsed;
+    try {
+      parsed = Integer.parseInt(hex, 16);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException("not a hex-encoded 32-bit integer: " + hex, e);
+    }
+
+    try {
+      return fromBits(clazz, parsed);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException(e.getMessage());
+    }
+  }
 
   static <T extends Enum<T> & ListOption> EnumSet<T> fromBits(Class<T> clazz, int v) {
     EnumSet<T> r = EnumSet.noneOf(clazz);
@@ -43,7 +60,7 @@ public interface ListOption {
     }
     if (v != 0) {
       throw new IllegalArgumentException(
-          "unknown " + clazz.getName() + ": " + Integer.toHexString(v));
+          "unknown " + clazz.getSimpleName() + ": " + Integer.toHexString(v));
     }
     return r;
   }

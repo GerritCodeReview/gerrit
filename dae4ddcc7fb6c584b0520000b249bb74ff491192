@@ -46,6 +46,30 @@
       },
       "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbde78f7_5ad99b0e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2594,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-01T15:41:56Z",
+      "side": 0,
+      "message": "\u003e We only set ChangeMessage on a few NoteDB operations today, and from eyeballing, I doubt frontend is using them. \n\nthe FE serves them verbatim in the log of actions. See this change, where I removed the code-style +1. In many cases, the original voter is useful information. For example some CI setups have a different account per target platform.\n\n\u003e It should be easy enough to write such a test for backend regression, however, it is unclear what we do about data in comments/gerrit change messages (subject in NoteDb) and other input to the backend, that is currently unsanitised (e.g. the case of attention set, you found).\n\nYou\u0027d have to set the name and email of accounts to something easily recognizable, eg. \"Do Not Persist \u003cdonotpersist@domain\u003e\" to get the NoteDb commits and diffs as raw text, and then look for donotpersist and \"Do Not Persist\".",
+      "parentUuid": "db4a4cda_dc7fe590",
+      "range": {
+        "startLine": 2594,
+        "startChar": 64,
+        "endLine": 2594,
+        "endChar": 91
+      },
+      "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

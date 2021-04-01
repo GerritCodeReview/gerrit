@@ -24,8 +24,8 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -51,7 +51,6 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
-@NoHttpd
 public class QueryChangesIT extends AbstractDaemonTest {
   @Inject private AccountOperations accountOperations;
   @Inject private ProjectOperations projectOperations;
@@ -331,6 +330,13 @@ public class QueryChangesIT extends AbstractDaemonTest {
     List<List<ChangeInfo>> result3 =
         (List<List<ChangeInfo>>) queryChanges.apply(TopLevelResource.INSTANCE).value();
     assertThat(result3).hasSize(1);
+  }
+
+  @Test
+  public void testInvalidListChangeOption() throws Exception {
+    PushOneCommit.Result r = createChange();
+    RestResponse rep = adminRestSession.get("/changes/" + r.getChange().getId() + "/?O=fffffffff");
+    rep.assertBadRequest();
   }
 
   @Test

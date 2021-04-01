@@ -19,9 +19,10 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -41,7 +42,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
 
   private final Address reviewer;
 
-  private ChangeMessage changeMessage;
+  private String detailedMessage;
   private Change change;
 
   @Inject
@@ -58,17 +59,13 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx) {
     change = ctx.getChange();
     PatchSet.Id psId = ctx.getChange().currentPatchSetId();
-    String msg = "Removed reviewer " + reviewer;
-    changeMessage =
-        new ChangeMessage(
-            ChangeMessage.key(change.getId(), ChangeUtil.messageUuid()),
-            ctx.getAccountId(),
-            ctx.getWhen(),
-            psId);
-    changeMessage.setMessage(msg);
-
-    ctx.getUpdate(psId).setChangeMessage(msg);
-    ctx.getUpdate(psId).removeReviewerByEmail(reviewer);
+    ChangeUpdate update = ctx.getUpdate(psId);
+    update.removeReviewerByEmail(reviewer);
+    detailedMessage = "Removed reviewer " + reviewer;
+    ChangeMessage updateMessage =
+        ChangeMessagesUtil.newMessage(
+            ctx, "Removed reviewer", ChangeMessagesUtil.TAG_DELETE_REVIEWER);
+    ChangeMessagesUtil.addChangeMessage(update, updateMessage);
     return true;
   }
 
@@ -83,7 +80,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
           deleteReviewerSenderFactory.create(ctx.getProject(), change.getId());
       emailSender.setFrom(ctx.getAccountId());
       emailSender.addReviewersByEmail(Collections.singleton(reviewer));
-      emailSender.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
+      emailSender.setChangeMessage(detailedMessage, ctx.getWhen());
       emailSender.setNotify(notify);
       emailSender.setMessageId(
           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));

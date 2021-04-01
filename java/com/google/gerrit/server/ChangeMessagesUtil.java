@@ -89,11 +89,11 @@ public class ChangeMessagesUtil {
     return workInProgress ? TAG_UPLOADED_WIP_PATCH_SET : TAG_UPLOADED_PATCH_SET;
   }
 
-  public List<ChangeMessage> byChange(ChangeNotes notes) {
+  public static List<ChangeMessage> byChange(ChangeNotes notes) {
     return notes.load().getChangeMessages();
   }
 
-  public void addChangeMessage(ChangeUpdate update, ChangeMessage changeMessage) {
+  public static void addChangeMessage(ChangeUpdate update, ChangeMessage changeMessage) {
     checkState(
         Objects.equals(changeMessage.getAuthor(), update.getNullableAccountId()),
         "cannot store change message by %s in update by %s",
@@ -114,7 +114,8 @@ public class ChangeMessagesUtil {
    * @param targetMessageId the id of the target change message.
    * @param newMessage the new message which is going to replace the old.
    */
-  public void replaceChangeMessage(ChangeUpdate update, String targetMessageId, String newMessage) {
+  public static void replaceChangeMessage(
+      ChangeUpdate update, String targetMessageId, String newMessage) {
     update.deleteChangeMessageByRewritingHistory(targetMessageId, newMessage);
   }
 

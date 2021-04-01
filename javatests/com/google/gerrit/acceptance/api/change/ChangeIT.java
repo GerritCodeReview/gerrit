@@ -2396,7 +2396,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Make sure the change message for removing a reviewer is correct.
     assertThat(Iterables.getLast(gApi.changes().id(changeId).messages()).message)
-        .contains("Removed reviewer " + user.fullName());
+        .isEqualTo("Removed reviewer");
 
     // Make sure the reviewer can still be added again.
     gApi.changes().id(changeId).addReviewer(user.id().toString());
@@ -2434,7 +2434,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Make sure the change message for removing a reviewer is correct.
     assertThat(Iterables.getLast(gApi.changes().id(changeId).messages()).message)
-        .contains("Removed cc " + user.fullName());
+        .isEqualTo("Removed cc");
   }
 
   @Test

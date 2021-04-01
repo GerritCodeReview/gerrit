@@ -52,6 +52,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +66,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
 
   private final ApprovalsUtil approvalsUtil;
   private final PatchSetUtil psUtil;
-  private final ChangeMessagesUtil cmUtil;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ReviewerDeleted reviewerDeleted;
   private final Provider<IdentifiedUser> user;
@@ -77,7 +77,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private final AccountState reviewer;
   private final DeleteReviewerInput input;
 
-  ChangeMessage changeMessage;
+  String detailedMessage;
   Change currChange;
   PatchSet currPs;
   Map<String, Short> newApprovals = new HashMap<>();
@@ -87,7 +87,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   DeleteReviewerOp(
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
-      ChangeMessagesUtil cmUtil,
       IdentifiedUser.GenericFactory userFactory,
       ReviewerDeleted reviewerDeleted,
       Provider<IdentifiedUser> user,
@@ -99,7 +98,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       @Assisted DeleteReviewerInput input) {
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
-    this.cmUtil = cmUtil;
     this.userFactory = userFactory;
     this.reviewerDeleted = reviewerDeleted;
     this.user = user;
@@ -166,12 +164,14 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     } else {
       msg.append(".");
     }
+    detailedMessage = msg.toString();
     ChangeUpdate update = ctx.getUpdate(currPs.id());
     update.removeReviewer(reviewerId);
 
-    changeMessage =
-        ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_REVIEWER);
-    cmUtil.addChangeMessage(update, changeMessage);
+    ChangeMessage updateMessage =
+        ChangeMessagesUtil.newMessage(
+            ctx, "Removed " + ccOrReviewer, ChangeMessagesUtil.TAG_DELETE_REVIEWER);
+    ChangeMessagesUtil.addChangeMessage(update, updateMessage);
 
     return true;
   }
@@ -189,7 +189,13 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     }
     try {
       if (notify.shouldNotify()) {
-        emailReviewers(ctx.getProject(), currChange, changeMessage, notify, ctx.getRepoView());
+        emailReviewers(
+            ctx.getProject(),
+            currChange,
+            detailedMessage,
+            notify,
+            ctx.getRepoView(),
+            ctx.getWhen());
       }
     } catch (Exception err) {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", currChange.getId());
@@ -199,7 +205,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
         currPs,
         reviewer,
         ctx.getAccount(),
-        changeMessage.getMessage(),
+        detailedMessage,
         newApprovals,
         oldApprovals,
         notify.handling(),
@@ -222,9 +228,10 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private void emailReviewers(
       Project.NameKey projectName,
       Change change,
-      ChangeMessage changeMessage,
+      String changeMessage,
       NotifyResolver.Result notify,
-      RepoView repoView)
+      RepoView repoView,
+      Timestamp when)
       throws EmailException {
     Account.Id userId = user.get().getAccountId();
     if (userId.equals(reviewer.account().id())) {
@@ -235,7 +242,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
         deleteReviewerSenderFactory.create(projectName, change.getId());
     emailSender.setFrom(userId);
     emailSender.addReviewers(Collections.singleton(reviewer.account().id()));
-    emailSender.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
+    emailSender.setChangeMessage(changeMessage, when);
     emailSender.setNotify(notify);
     emailSender.setMessageId(
         messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));

@@ -175,7 +175,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     expectedCfg.setString("s3", null, "k5", "childValue3");
     expectedCfg.setString("s3", "ss", "k6", "childValue4");
 
-    assertThat(state.getConfig(configName).getWithInheritance(true).toText())
+    assertThat(state.getConfig(configName).getWithInheritance(/* merge= */ true).toText())
         .isEqualTo(expectedCfg.toText());
 
     assertThat(state.getConfig(configName).get().toText()).isEqualTo(cfg.toText());

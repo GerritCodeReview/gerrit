@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6293fb78_6e92e3f1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2594,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-01T09:31:24Z",
+      "side": 0,
+      "message": "I understand why you want to do this, but it\u0027s not obvious to the reader of the commit message.\n\nFrom the POV of usability, this change is a step backwards. Have you considered doing some kind of templating, eg.\n\n  Removed Code-Review+1 by ${Account 1234}\n\nand have either the backend or the frontend insert the name/email back in at runtime?\n\n(if this happens in the FE, there might be some XSS issues that we need to worry about.)\n\nan unrelated problem is that this can easily regress when we add new features. It would be great to have a test that scours the meta log for a change for usernames and emails. For now, it could just print the violations, but once we\u0027re clean, we could have it fail if something is added again.",
+      "range": {
+        "startLine": 2594,
+        "startChar": 64,
+        "endLine": 2594,
+        "endChar": 91
+      },
+      "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

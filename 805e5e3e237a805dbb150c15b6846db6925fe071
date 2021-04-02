@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a979a2a_e676f073",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-04-02T22:18:48Z",
+      "side": 1,
+      "message": "1) Because this change shares CLs between the plugins, it allows accidental or hostile sharing of a plugin\u0027s internal with other plugins without the dependent plugin specifically declaring that it wants to share its internals with them. One nice thing about Luca\u0027s API design, is that this is avoided.\n\n2) I also think that it would be nice to be able to define dependencies which do not result in classloader or Guice sharing. This would be valuable when a plugin depends on the RestApi service of another plugin and no class type or Guice sharing is needed.\n\nGiven # 1 and 2, maybe it makes sense to strip the class sharing piece of this change since the load ordering dependency part is valuable without it? If we do that, then we get class/Guice sharing via explicit APIs and Luca can remove the load ordering part of his change since an explicit dependency mechanism is better than simply loading all APIs first. This would then additionally load dependencies between APIs in the right order.",
+      "revId": "805e5e3e237a805dbb150c15b6846db6925fe071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5facdd79_bc5f9ea6",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 25

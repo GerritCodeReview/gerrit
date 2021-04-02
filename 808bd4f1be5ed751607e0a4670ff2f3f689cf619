@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b132647e_f3cf3ffd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-04-02T15:51:46Z",
+      "side": 1,
+      "message": "I would be great if we could make this change handle more than one API per plugin (and gives them names to differentiate them). Maybe we could use an annotation, say @PublicModule(\"ApiName\") to do that, and then allow more than one Gerrit-Module entry in the jar MANIFEST to be listed? Something like this:\n\n manifest_entries \u003d [\n   \"Gerrit-Module: com...MainSysModule\",\n   \"Gerrit-Module: com...MyFooApiModule\",\n   \"Gerrit-Module: com...MyBarModule\"\n ]\n\n @PublicModule(\"Foo\") \n public class MyFooApiModule implements Module {...}\n\n @PublicModule(\"Bar\") \n public class MyBarApiModule implements Module {...}\n\n\nThis approach might also allow us to support HTTP and SSH specific versions in the future if needed:\n\n manifest_entries \u003d [\n   \"Gerrit-Module: com...MainSysModule\",\n   \"Gerrit-HttpModule: com...MyFooApiModule\",\n   \"Gerrit-SshModule: com...MyBarModule\"\n ]\n\n @PublicModule(\"Foo\") \n public class MyFooApiModule implements HttpModule {...}\n \n @PublicModule(\"Bar\")\n public class MyBarApiModule implements SshModule {...}",
+      "range": {
+        "startLine": 21,
+        "startChar": 56,
+        "endLine": 21,
+        "endChar": 65
+      },
+      "revId": "808bd4f1be5ed751607e0a4670ff2f3f689cf619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e84c32aa_2a56be7a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16

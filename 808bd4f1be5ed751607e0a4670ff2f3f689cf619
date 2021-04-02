@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66d9bfa2_c7a922b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-04-02T18:11:28Z",
+      "side": 1,
+      "message": "Why would I want this?\n\n1) I think the ability to package an API with the plugin implementing the API is a neat feature (aggregation), as it prevents plugin jar file proliferation and makes it easier for an admin to manage the plugins, as they will not need to install multiple jars to do related things, and load ordering becomes less of a problem. So it would be great if we could improve this feature to handle multiple APIs in the same plugin.\n\n2) I would like to support multiple APIs in the same plugin in order to:\n\n2a) and to support independent loading. Imagine pluginA with API1 that needs to be chained to pluginB-API, and pluginA\u0027s API2 that does not. Still being able to load pluginsA\u0027s API2 even when pluginB-API is not install is important.\n\n2b) support APIs with conflicting types in them. For example:\n\n Plugin-APIV1  public Foo getFooV1();\n Plugin-APIV2  public Foo getFooV2();\n\nWhere both APIs use a Class named \"Foo\", but perhaps they are classes from two different versions of a library. If they are in separate APIs, then there definitions can be different yet they can still be loaded since they would presumably have different classloaders. This situation is likely to happen with \"chained\" apis, where pluginA exposes two different APIs that uses a APIs from two plugins, pluginsB and pluginC. PluginB and PluginC both use a common library such as an XML parser, but they use different versions.\n\n PluginA-APIchainspluginB  public String filter(String xml) {\n                Xml \u003d pluginBApi.parseXml1(xml);\n                ...\n              }\n\n PluginA-APIchainspluginC  public String addProperty(String xml, String property) {\n                Xml \u003d pluginCApi.parseXml2(xml);\n                ...\n              }\n\n PluginB-API  public Xml parseXml1(String xml);\n PluginC-API  public Xml parseXml2(String xml);",
+      "parentUuid": "b132647e_f3cf3ffd",
+      "range": {
+        "startLine": 21,
+        "startChar": 56,
+        "endLine": 21,
+        "endChar": 65
+      },
+      "revId": "808bd4f1be5ed751607e0a4670ff2f3f689cf619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e84c32aa_2a56be7a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcdf979c_ef2a48b0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1117824
+      },
+      "writtenOn": "2021-04-02T12:57:37Z",
+      "side": 1,
+      "message": "is this unused ?",
+      "range": {
+        "startLine": 344,
+        "startChar": 18,
+        "endLine": 344,
+        "endChar": 31
+      },
+      "revId": "b17ccc7be54ccea37328ad5b27fbf661bf5d1dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

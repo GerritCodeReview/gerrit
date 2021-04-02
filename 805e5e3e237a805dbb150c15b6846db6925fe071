@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5facdd79_bc5f9ea6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-04-02T18:59:31Z",
+      "side": 1,
+      "message": "Luca proposed a very neat API mechanism here: https://gerrit-review.googlesource.com/c/gerrit/+/299472 It would be great if we could define separate dependencies for both the implementation and the API when they are bundled in the same jar file. Perhaps this could be done by via a @RequiresPlugin(\"dependenPluginName\") annotation on the plugin Modules?\n\nFor example, imagine PluginA-API depends on PluginB-API, but PluginA\u0027s implementation depends on PluginC. In PluginA we could then have:\n\n manifest_entries \u003d [\n   \u0027Gerrit-Module: com...MySysModule\u0027,\n   \u0027Gerrit-ApiModule: com...MyApiModule\u0027\n ]\n\n @RequiresPlugin(\"PluginC\")\n public class MySysModule extends Module { ... }\n\n @RequiresPlugin(\"PluginB-API\")\n public class MyApiModule extends Module { ... }",
+      "revId": "805e5e3e237a805dbb150c15b6846db6925fe071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

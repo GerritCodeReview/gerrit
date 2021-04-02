@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c833dec0_b066018f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-04-02T21:48:58Z",
+      "side": 1,
+      "message": "\u003e 2b) support APIs with conflicting types in them. For example:\n\nThe example didn\u0027t come out so nice, here is hopefully a better way to describe it:\n\nThis situation is likely to happen with \"chained\" apis, where plugin Foo exposes two different APIs (Foo-ManifestApi, and Foo-PomApi) that use APIs from two different plugins, the Manifest and Pom plugins. The Manifest and Pom plugins both use a common library such as an XML parser, but they use different versions that cause conflicts:\n\n* The Manifest-Api plugin exports this method which depends on Version-1.0 of an XML library:\n\n  public Xml parseXml(String xml);\n\n* The Pom-Api plugin exports this method which depends on Version-2.0 of an XML library:\n\n  public Xml parseXml(Url url);\n\n* The Xml class from version-1.0 is not compatible with the Xml class from version-2.0. If the APIs above were loaded in the same Classloader, likely only the first one would get loaded, and if it isn\u0027t the same as the second one, it would likely result in \"NoSuchMethod\" runtime errors as the other one tries to access a method which is different. \n\n* Plugin Foo needs to export the following APIs:\n\n  public Xml getManifestXml(Branch.NameKey branch, Sting manifestFile); // Using Xml from version-1.0\n  public Xml addPropertyToPom(Url url, String property) // Using Xml from version-2.0\n\nSo to deal with this, plugin Foo isolates those methods by offering two APIs:\n\n* Plugin Foo-ManifestApi\u0027s implementation uses the Manifest-Api plugin:\n\n  public Xml getManifestXml(Branch.NameKey branch, Sting manifestFile) {\n    ...\n    return manifestApi.parseXml(xml);\n  }\n\n* Plugin Foo-PomApi\u0027s implementation uses the Pom-Api plugin:\n\n  public Xml addPropertyToPom(Url url, String property) {\n    Xml xml \u003d pomApi.parseXml(url);\n    ...\n    return xml;\n  }\n\nWhile this is still a made up example, I hope that helps clarify why this might be needed to provide isolation when chaining APIs.",
+      "parentUuid": "66d9bfa2_c7a922b9",
+      "range": {
+        "startLine": 21,
+        "startChar": 56,
+        "endLine": 21,
+        "endChar": 65
+      },
+      "revId": "808bd4f1be5ed751607e0a4670ff2f3f689cf619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e84c32aa_2a56be7a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16

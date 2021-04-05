@@ -324,7 +324,7 @@ Push the new Release Tag:
 Push the new Release Tag on the plugins:
 
 ----
-  git submodule foreach git push gerrit-review tag v$version
+  git submodule foreach '[ "$path" == "modules/jgit" ] || git push gerrit-review tag "v$version"'
 ----
 
 [[upload-documentation]]

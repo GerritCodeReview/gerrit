@@ -256,11 +256,7 @@ change through the native Git protocol.
 
 Gerrit integrates with any OpenID provider for user authentication,
 making it easier for users to join a Gerrit site and manage their
-authentication credentials to it.  To make use of Google Accounts
-as an OpenID provider easier, Gerrit has a shorthand "Sign in with
-a Google Account" link on its sign-in screen.  Gerrit also supports
-a shorthand sign in link for Yahoo!.  Other providers may also be
-supported more directly in the future.
+authentication credentials to it.
 
 Site administrators may limit the range of OpenID providers to
 a subset of "reliable providers".  Users may continue to use

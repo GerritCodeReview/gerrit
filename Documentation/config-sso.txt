@@ -44,9 +44,9 @@ will match any OpenID provider on the Internet:
 * `http://` -- trust all OpenID providers using the HTTP protocol
 * `https://` -- trust all OpenID providers using the HTTPS protocol
 
-To trust only Yahoo!:
+To trust only Launchpad:
 ----
-  git config --file $site_path/etc/gerrit.config auth.trustedOpenID https://me.yahoo.com
+  git config --file $site_path/etc/gerrit.config auth.trustedOpenID https://login.launchpad.net/+openid
 ----
 
 === Database Schema

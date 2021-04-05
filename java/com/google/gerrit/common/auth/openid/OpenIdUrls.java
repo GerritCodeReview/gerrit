@@ -18,5 +18,4 @@ public class OpenIdUrls {
   public static final String LASTID_COOKIE = "gerrit.last_openid";
 
   public static final String URL_LAUNCHPAD = "https://login.launchpad.net/+openid";
-  public static final String URL_YAHOO = "https://me.yahoo.com";
 }

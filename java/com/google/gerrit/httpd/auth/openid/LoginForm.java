@@ -59,9 +59,7 @@ class LoginForm extends HttpServlet {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final ImmutableMap<String, String> ALL_PROVIDERS =
-      ImmutableMap.of(
-          "launchpad", OpenIdUrls.URL_LAUNCHPAD,
-          "yahoo", OpenIdUrls.URL_YAHOO);
+      ImmutableMap.of("launchpad", OpenIdUrls.URL_LAUNCHPAD);
 
   private final ImmutableSet<String> suggestProviders;
   private final Provider<String> urlProvider;

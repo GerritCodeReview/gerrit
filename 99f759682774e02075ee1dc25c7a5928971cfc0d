@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87b8abb4_383f7737",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-05T10:21:29Z",
+      "side": 1,
+      "message": "The failure seems to be related to Jetty 10.0.2. I filed this issue: [1] upstream.\n\n[1] https://github.com/eclipse/jetty.project/issues/6132",
+      "revId": "99f759682774e02075ee1dc25c7a5928971cfc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

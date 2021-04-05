@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f169f761_e7999273",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-05T22:30:19Z",
+      "side": 1,
+      "message": "Use $name or $sm_path?\n\nFrom git-submodules man page:\n\n $path variable is now a deprecated synonym of $sm_path variable",
+      "range": {
+        "startLine": 327,
+        "startChar": 28,
+        "endLine": 327,
+        "endChar": 33
+      },
+      "revId": "d73606a864fe9a64d5f1b98fa667ddcbe2f6da48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

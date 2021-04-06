@@ -22,6 +22,30 @@
       },
       "revId": "6bc25fa98e82327dd2f1fd54ecb4af7bb9d6e93c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c1d5f6b_dbc4d80a",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-06T09:09:52Z",
+      "side": 1,
+      "message": "\u003e This would mean we share mutable objects between threads\n\u003e which means there might be access issues lurking in Java [1]\n\nI\u0027m not sure that this applies here. This is about sharing mutable objects between threads (both threads mutating/reading the objects in parallel). What we do here is create a mutable object in one thread and return it to the other thread, I think this is different, as joining 2 threads is a synchronization action [1] and thus the thread that gets the result from the other threads sees all writes that have been done in the other thread, see [2]. Future.get() should be joining the threads [3]. Am I missing anything?\n\n[1] https://docs.google.com/presentation/d/1Vdsm2DuOhNeAtKSDh2CuESHSLH1uTHGOsNJhdF4y8Eo/edit#slide\u003did.g3ccd1c7848_0_137\n\n[2] https://docs.google.com/presentation/d/1Vdsm2DuOhNeAtKSDh2CuESHSLH1uTHGOsNJhdF4y8Eo/edit#slide\u003did.g128843804d50261_229\n\n[3] https://stackoverflow.com/questions/617591/is-future-get-a-replacement-for-thread-join",
+      "parentUuid": "077a449d_e70aace4",
+      "range": {
+        "startLine": 143,
+        "startChar": 26,
+        "endLine": 143,
+        "endChar": 36
+      },
+      "revId": "6bc25fa98e82327dd2f1fd54ecb4af7bb9d6e93c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

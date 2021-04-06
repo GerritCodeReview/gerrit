@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+// This needs refactoring
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.flogger.FluentLogger;

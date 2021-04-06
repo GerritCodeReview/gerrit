@@ -65,5 +65,12 @@ suite('gr-confirm-move-dialog tests', () => {
       done();
     });
   });
+
+  test('_getProjectBranchesSuggestions input empty string', done => {
+    element._getProjectBranchesSuggestions('').then(branches => {
+      assert.equal(branches.length, 0);
+      done();
+    });
+  });
 });
 

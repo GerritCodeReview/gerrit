@@ -65,7 +65,7 @@ export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
   project?: RepoName;
 
   @property({type: Object})
-  _query?: (_text?: string) => Promise<AutocompleteSuggestion[]>;
+  _query: (input: string) => Promise<AutocompleteSuggestion[]>;
 
   get keyBindings() {
     return {
@@ -75,7 +75,7 @@ export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
 
   constructor() {
     super();
-    this._query = () => this._getProjectBranchesSuggestions();
+    this._query = (text: string) => this._getProjectBranchesSuggestions(text);
   }
 
   _handleConfirmTap(e: Event) {
@@ -101,10 +101,9 @@ export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
   }
 
   _getProjectBranchesSuggestions(
-    input?: string
+    input: string
   ): Promise<AutocompleteSuggestion[]> {
     if (!this.project) return Promise.reject(new Error('Missing project'));
-    if (!input) return Promise.reject(new Error('Missing input'));
     if (input.startsWith('refs/heads/')) {
       input = input.substring('refs/heads/'.length);
     }

@@ -22,6 +22,30 @@
       },
       "revId": "296ae7837f561cd2972746a55f4646f11f7debc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5a94b6b_5c8561d8",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-06T18:37:54Z",
+      "side": 0,
+      "message": "Can be done later if needed.",
+      "parentUuid": "2f64b1fa_97f257ba",
+      "range": {
+        "startLine": 458,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 19
+      },
+      "revId": "296ae7837f561cd2972746a55f4646f11f7debc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

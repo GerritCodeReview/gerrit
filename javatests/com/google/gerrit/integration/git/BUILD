@@ -11,3 +11,9 @@ acceptance_tests(
     group = "upload-archive",
     labels = ["git-upload-archive"],
 )
+
+acceptance_tests(
+    srcs = ["NoShellIT.java"],
+    group = "no-shell",
+    labels = ["ssh-no-shell"],
+)

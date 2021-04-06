@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf124972_1114dda4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-06T17:15:18Z",
+      "side": 1,
+      "message": "Use Issue: footer?",
+      "revId": "edab7fe7f3093a814b52b4bb2952948fdeedeaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf0ce12b_a8a8cf77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-06T17:15:18Z",
+      "side": 1,
+      "message": "Thanks for taking the time to improve this!",
+      "revId": "edab7fe7f3093a814b52b4bb2952948fdeedeaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0c2f58d_4b79ab43",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-06T17:15:18Z",
+      "side": 1,
+      "message": "unrelated?",
+      "revId": "edab7fe7f3093a814b52b4bb2952948fdeedeaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9fc979c_f3e7a8c6",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-06T17:15:18Z",
+      "side": 1,
+      "message": "maybe use \u0027modifications\u0027 so that you\u0027re not overusing \u0027change\u0027 :)",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 7
+      },
+      "revId": "edab7fe7f3093a814b52b4bb2952948fdeedeaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbc2d4fd_3cb4ef8b",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-06T17:15:18Z",
+      "side": 1,
+      "message": "Is this referring to a JGit NoteMap (https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/7ac182f4e427e0d5a986b8ca67a56fc22828b1a0/org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java)?",
+      "range": {
+        "startLine": 57,
+        "startChar": 18,
+        "endLine": 57,
+        "endChar": 25
+      },
+      "revId": "edab7fe7f3093a814b52b4bb2952948fdeedeaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07610104_8c1a13ba",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-06T17:15:18Z",
+      "side": 1,
+      "message": "I think these are usually referred to as \u0027inline comments\u0027?",
+      "range": {
+        "startLine": 56,
+        "startChar": 67,
+        "endLine": 57,
+        "endChar": 8
+      },
+      "revId": "edab7fe7f3093a814b52b4bb2952948fdeedeaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acaf55a0_d8f29623",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-06T17:15:18Z",
+      "side": 1,
+      "message": "SHA-1 ? Also, when you say SHA-1 of the patchset, I don\u0027t think you literally mean something like \u0027sha1sum ${PATCHSET_NUMBER}\u0027. If that\u0027s correct, can you clarify it somehow?",
+      "range": {
+        "startLine": 57,
+        "startChar": 48,
+        "endLine": 57,
+        "endChar": 52
+      },
+      "revId": "edab7fe7f3093a814b52b4bb2952948fdeedeaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "271e29f3_1531c4da",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-06T17:15:18Z",
+      "side": 1,
+      "message": "Maybe pick a more descriptive word? \"implementation\", \"details\"?",
+      "range": {
+        "startLine": 61,
+        "startChar": 9,
+        "endLine": 61,
+        "endChar": 13
+      },
+      "revId": "edab7fe7f3093a814b52b4bb2952948fdeedeaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54e87d5d_86923117",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-06T17:15:18Z",
+      "side": 1,
+      "message": "instead of what? This paragraph seems to be continuing a thought, but I\u0027m not sure what.",
+      "range": {
+        "startLine": 93,
+        "startChar": 44,
+        "endLine": 93,
+        "endChar": 51
+      },
+      "revId": "edab7fe7f3093a814b52b4bb2952948fdeedeaac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       },
       "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b36fd194_bb429639",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2594,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-06T07:08:31Z",
+      "side": 0,
+      "message": "I will rework this, but could you, please, point me to the endpoint for \u0027log of actions\u0027 that is used by the fronted? The original voter is still available in NoteDb, and should be constructed from there, if needed. It looked to me like the commit message is redundant in NoteDB for all the operations I am modifying in this chain.",
+      "parentUuid": "cbde78f7_5ad99b0e",
+      "range": {
+        "startLine": 2594,
+        "startChar": 64,
+        "endLine": 2594,
+        "endChar": 91
+      },
+      "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

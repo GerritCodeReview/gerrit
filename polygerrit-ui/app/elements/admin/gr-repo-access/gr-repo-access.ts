@@ -297,9 +297,14 @@ export class GrRepoAccess extends PolymerElement {
     }
     // Restore inheritFrom.
     if (this._inheritsFrom) {
-      this._inheritsFrom = {...this.originalInheritsFrom};
-      this._inheritFromFilter =
-        'name' in this._inheritsFrom ? this._inheritsFrom.name : undefined;
+      // Can't assign this._inheritsFrom = {...this.originalInheritsFrom}
+      // directly, because this._inheritsFrom is declared as
+      // '...|null|undefined` and typescript reports error when trying
+      // to access .name property (because 'name' in null and 'name' in undefined
+      // lead to runtime error)
+      const copy: ProjectInfo | {} = {...this.originalInheritsFrom};
+      this._inheritsFrom = copy;
+      this._inheritFromFilter = 'name' in copy ? copy.name : undefined;
     }
     if (!this._local) {
       return;

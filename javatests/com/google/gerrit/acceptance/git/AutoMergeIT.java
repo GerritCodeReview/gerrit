@@ -26,10 +26,21 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
+import com.google.gerrit.server.git.InMemoryInserter;
+import com.google.gerrit.server.patch.AutoMerger;
+import com.google.inject.Inject;
+import java.io.File;
+import java.io.IOException;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,6 +48,8 @@ import org.junit.Test;
 public class AutoMergeIT extends AbstractDaemonTest {
   private RevCommit parent1;
   private RevCommit parent2;
+
+  @Inject AutoMerger autoMerger;
 
   @Before
   public void setup() throws Exception {
@@ -64,6 +77,29 @@ public class AutoMergeIT extends AbstractDaemonTest {
                 ImmutableMap.of("foo", "foo-2.2", "bar", "bar-2.2"))
             .to("refs/for/master");
     parent2 = p2.getCommit();
+  }
+
+  @Test
+  public void MergeExTEst() throws IOException {
+
+    FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
+    repositoryBuilder.setMustExist(true);
+    repositoryBuilder.setGitDir(new File("/usr/local/google/home/mariasavtchouk/tests/patchwork/.git"));
+    Repository repo = repositoryBuilder.build();
+    InMemoryInserter ins = new InMemoryInserter(repo);
+
+    ResolveMerger m = (ResolveMerger) MergeStrategy.RECURSIVE.newMerger(ins, repo.getConfig());
+    DirCache dc = DirCache.newInCore();
+    m.setDirCache(dc);
+    // If we don't plan on saving results, use a fully in-memory inserter.
+    // Using just a non-flushing wrapper is not sufficient, since in particular DfsInserter might
+    // try to write to storage after exceeding an internal buffer size.
+    m.setObjectInserter(ins);
+
+    ObjectId parent1 = new RevWalk(repo).parseCommit(ObjectId.fromString("55f6ca3ac7e0ca50e15d0a68dec5ebee9069ae11"));
+    ObjectId parent2 = new RevWalk(repo).parseCommit(ObjectId.fromString("e30b7834e676e6d6d0f6dd42240a851117d001b0"));
+    boolean couldMerge = m.merge(parent1, parent2);
+    assertThat(couldMerge).isTrue();
   }
 
   @Test

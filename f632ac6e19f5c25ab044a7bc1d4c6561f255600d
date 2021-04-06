@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e17a7e5c_bf0a5d62",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-06T07:42:48Z",
+      "side": 1,
+      "message": "This change is breaking implementors of this interface (e.g. [1] which is a client that is supposed to work with Gerrit servers regardless of the server version).\nCan we avoid breaking them? If not, we should at least mention in the commit message that this is a breaking change.\n\n[1] https://github.com/uwolfer/gerrit-rest-java-client/blob/master/src/main/java/com/urswolfer/gerrit/client/rest/http/changes/ChangeApiRestClient.java",
+      "revId": "f632ac6e19f5c25ab044a7bc1d4c6561f255600d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d1aaf9f1_7a6d3258",
         "filename": "modules/jgit",
         "patchSetId": 1

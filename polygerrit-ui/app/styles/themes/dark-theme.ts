@@ -228,6 +228,8 @@ function getStyleEl() {
       --syntax-variable-color: #f77669;
 
       /* misc */
+      /* Base 64 encoded 1x1px of #d7aefb; */
+      --line-length-indicator: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2O4vu73fwAIYAOAtqAXCQAAAABJRU5ErkJggg==');
 
       /* paper and iron component overrides */
       --iron-overlay-backdrop-background-color: white;

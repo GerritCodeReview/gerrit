@@ -34,6 +34,24 @@
       "parentUuid": "47d2f9e9_c1497a15",
       "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07dee85f_d805efdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-06T17:19:00Z",
+      "side": 1,
+      "message": "I\u0027m also OK to add them with this change anyway. We would probably need to re-iterate over them later to add/refine the examples.\n\nPlease LMK your opinion.",
+      "parentUuid": "8f20b943_7f7e004c",
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

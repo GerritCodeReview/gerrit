@@ -174,7 +174,7 @@ function getStyleEl() {
       --header-text-color: var(--primary-text-color);
 
       /* diff colors */
-      --dark-add-highlight-color: #133820;
+      --dark-add-highlight-color: var(--green-tonal); 
       --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
       --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
       --dark-remove-highlight-color: #62110f;
@@ -187,7 +187,7 @@ function getStyleEl() {
       --diff-selection-background-color: #3a71d8;
       --diff-tab-indicator-color: var(--deemphasized-text-color);
       --diff-trailing-whitespace-indicator: #ff9ad2;
-      --light-add-highlight-color: #0f401f;
+      --light-add-highlight-color: #182b1f;
       --light-rebased-add-highlight-color: #487165;
       --diff-moved-in-background: #1d4042;
       --diff-moved-out-background: #230e34;

@@ -142,6 +142,30 @@
       },
       "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2375635b_4711fa8f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2594,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-06T07:52:58Z",
+      "side": 0,
+      "message": "I removed the Code-Style label earlier in this change so you can see what this looks like.",
+      "parentUuid": "ab4ca15c_a02d123e",
+      "range": {
+        "startLine": 2594,
+        "startChar": 64,
+        "endLine": 2594,
+        "endChar": 91
+      },
+      "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -90,15 +90,6 @@ export function isWithinHalfYear(now: Date, date: Date) {
   const diff = now.valueOf() - date.valueOf();
   return diff < 180 * Duration.DAY;
 }
-interface Options {
-  month?: string;
-  year?: string;
-  day?: string;
-  hour?: string;
-  hour12?: boolean;
-  minute?: string;
-  second?: string;
-}
 
 // TODO(dmfilippov): TS-Fix review this type. All fields here must be optional,
 // but this require some changes in the code. During JS->TS migration
@@ -118,7 +109,7 @@ interface DateTimeFormatParts {
 }
 
 export function formatDate(date: Date, format: string) {
-  const options: Options = {};
+  const options: Intl.DateTimeFormatOptions = {};
   if (format.includes('MM')) {
     if (format.includes('MMM')) {
       options.month = 'short';

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f64b1fa_97f257ba",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-06T17:54:01Z",
+      "side": 0,
+      "message": "Should we fail the build earlier instead and issue a meaningful message. May be:\n\n  srcs \u003d srcs if app in srcs else srcs + [app]\n\n  if app.endswith(\".html\"):\n      fail(\"Support for html plugin is discontinued, see https://crbug.com/gerrit/14335 for details\")",
+      "range": {
+        "startLine": 458,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 19
+      },
+      "revId": "296ae7837f561cd2972746a55f4646f11f7debc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

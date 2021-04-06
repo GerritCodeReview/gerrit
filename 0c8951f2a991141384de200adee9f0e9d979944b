@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52c077f8_794cbf5e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-06T13:04:31Z",
+      "side": 1,
+      "message": "optional: We have this util \"queryAndAssert\" which should make this a bit nicer.",
+      "range": {
+        "startLine": 166,
+        "startChar": 21,
+        "endLine": 167,
+        "endChar": 34
+      },
+      "revId": "0c8951f2a991141384de200adee9f0e9d979944b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ae09cc5_2d9384f8",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-06T13:04:31Z",
+      "side": 1,
+      "message": "can you please explain what this part of the code is doing? \n\nIIUC DT is the type of the Event Detail.\n\"unknown extends DT\" is a bit unclear to me also. What\u0027s the purpose of this and how is it supposed to resolve?",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 0
+      },
+      "revId": "0c8951f2a991141384de200adee9f0e9d979944b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,69 @@
       "message": "Thanks, that\u0027s very nice change!",
       "revId": "5da41d42d32ff76e15e768f02528400d5fbbb0c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88cbb00b_28895042",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-04-06T18:06:29Z",
+      "side": 1,
+      "message": "I like the direction here a lot. I would just make sure we have a plan for gr-diff clients that rely on a DOM element before submitting this.",
+      "revId": "5da41d42d32ff76e15e768f02528400d5fbbb0c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6ec045d_d6b375da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-04-06T18:06:29Z",
+      "side": 1,
+      "message": "that is pretty invasive right? Maybe we should in the future inject an abstraction for it (like a onScroll behavior) instead of allowing it access to the whole window.\n\nNot related to this change though...",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 69
+      },
+      "revId": "5da41d42d32ff76e15e768f02528400d5fbbb0c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3ad68bb_3a7d130d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-04-06T18:06:29Z",
+      "side": 1,
+      "message": "same here..",
+      "range": {
+        "startLine": 194,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 16
+      },
+      "revId": "5da41d42d32ff76e15e768f02528400d5fbbb0c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

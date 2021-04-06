@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22762886_c177cead",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-04-06T13:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52c077f8_794cbf5e",
+      "range": {
+        "startLine": 166,
+        "startChar": 21,
+        "endLine": 167,
+        "endChar": 34
+      },
+      "revId": "0c8951f2a991141384de200adee9f0e9d979944b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ae09cc5_2d9384f8",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-06T13:04:31Z",
       "side": 1,
       "message": "can you please explain what this part of the code is doing? \n\nIIUC DT is the type of the Event Detail.\n\"unknown extends DT\" is a bit unclear to me also. What\u0027s the purpose of this and how is it supposed to resolve?",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 0
+      },
+      "revId": "0c8951f2a991141384de200adee9f0e9d979944b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "364b60db_5c096a0c",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-04-06T13:57:45Z",
+      "side": 1,
+      "message": "I will try. If the explanation is unclear - let me know, I will try to write it in a different way.\n\nIt is better to reformat the code (unfortunately, prettier removes brackets and reformat the code):\n  type DocumentEventDetailType\u003c\n    K extends keyof DocumentEventMap\n  \u003e \u003d DocumentEventMap[K] extends CustomEvent\u003cinfer DT\u003e\n    ? (unknown extends DT ? never: DT)\n  : never;\n\nDocumentEventMap contains different events and not all events in DocumentEventMap is a CustomEvent. For example:\ninterface DocumentEventMap {\n   \u0027event\u0027: Event,\n   \u0027custom-event\u0027: CustomEvent,\n   \u0027custom-with-detail-event: CustomEvent\u003cEvtDetail\u003e\n}\n\nThe top-level condition checks if the event with name K is a CustomEvent:\n  DocumentEventMap[K] extends CustomEvent\u003cinfer DT\u003e\n    ? (1)\n    : never;\nIf it isn\u0027t, the DocumentEventDetailType\u003cK\u003e returns type never.\nI.e. DocumentEventType\u003c\u0027event\u0027\u003e returns type \u0027never\u0027.\n\nOtherwise (if DocumentEventMap[K] is a CustomEvent), the compiler infers type for details and stores the type in DT. In the example above: \n- for \u0027custom-event\u0027, the DT is unknown (no type specified)\n- for \u0027custom-with-detail-event\u0027, the DT is EvtDetail.\n\nWhat we want: if DT is unknown - we want to return type never, otherwise return the event\u0027s detail type. In other words, we want something like:\n  DT \u003d\u003d\u003d unknown ? never : DT\n\nBut typescript doesn\u0027t allow to compare types like this, instead we should use conditional types (https://www.typescriptlang.org/docs/handbook/2/conditional-types.html). Then the condition\n  DT \u003d\u003d\u003d unknown\nmust be written as:\n  unknown extends DT.\n\nNote: all types extend the type `unknown` and the condition\n  DT extends unknown\nis always true.\n\nSummary - in the example above:\n  DocumentEventDetailType\u003c\u0027event\u0027\u003e \u003d never\n    why: DocumentEventMap[K] extends CustomEvent\u003cinfer DT\u003e is false\n  DocumentEventDetailType\u003c\u0027custom-event\u0027\u003e \u003d never\n    why: \n      DocumentEventMap[K] extends CustomEvent\u003cinfer DT\u003e is true, DT \u003d unknown.\n      unknown extends unknown : true \u003d\u003e return never\n\n  DocumentEventDetailType\u003c\u0027custom-with-detail-event\u0027\u003e \u003d EvtDetail\n    why:\n      DocumentEventMap[K] extends CustomEvent\u003cinfer DT\u003e is true, DT \u003d EvtDetail.\n      unknown extends EvtDetail - false \u003d\u003e return EvtDetail",
+      "parentUuid": "0ae09cc5_2d9384f8",
       "range": {
         "startLine": 47,
         "startChar": 2,

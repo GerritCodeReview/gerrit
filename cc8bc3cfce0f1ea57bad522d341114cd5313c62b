@@ -16,6 +16,24 @@
       "message": "What about fixing core plugins codemirror-editor and delete-project plugin? How can we remove a core support for any feature that core plugins depend on? ",
       "revId": "cc8bc3cfce0f1ea57bad522d341114cd5313c62b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb9f34c_796e41a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-06T17:24:16Z",
+      "side": 1,
+      "message": "I\u0027ve fixed codemirror-editor with https://gerrit-review.googlesource.com/c/plugins/codemirror-editor/+/302262 and delete-project with https://gerrit-review.googlesource.com/c/plugins/delete-project/+/302263",
+      "parentUuid": "3f0416f0_c09e4154",
+      "revId": "cc8bc3cfce0f1ea57bad522d341114cd5313c62b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

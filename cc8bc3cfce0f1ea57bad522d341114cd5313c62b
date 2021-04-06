@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f0416f0_c09e4154",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-06T16:53:54Z",
+      "side": 1,
+      "message": "What about fixing core plugins codemirror-editor and delete-project plugin? How can we remove a core support for any feature that core plugins depend on? ",
+      "revId": "cc8bc3cfce0f1ea57bad522d341114cd5313c62b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -68,6 +68,24 @@
       "parentUuid": "d2d67006_56535fea",
       "revId": "116e4ea7717211ae8f253c9daacc227af7c5ad40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16752d37_1d78b902",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-06T13:28:38Z",
+      "side": 1,
+      "message": "Haha great, my eyes could not detect the change nor the \u0027i\u0027 being highlighted differently since it was just a single character.",
+      "parentUuid": "d695b4ce_487cc2a0",
+      "revId": "116e4ea7717211ae8f253c9daacc227af7c5ad40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

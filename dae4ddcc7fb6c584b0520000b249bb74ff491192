@@ -118,6 +118,30 @@
       },
       "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab4ca15c_a02d123e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2594,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-06T07:51:53Z",
+      "side": 0,
+      "message": "\"Removed Code-Review-1 by REAL_NAME_OF_REVIEWER \u003cREAL_EMAIL_OF_REVIEWER\u003e\" is displayed verbatim in the UI. This means that if the message gets removed, it\u0027s harder for normal humans to see what was changed. So, the FE has to surface this information in another way somehow.\n\nMy suggestion is, rather than remove the message altogether, use some sort of magic template (using the numeric account ID in the message) that the FE can parse back and replace with a user chip.  I think this already happens for the View Diff button on the change log. You can ask Gal or Dhruv how this is implemented, and sync with them on a suitable format for the magic template.",
+      "parentUuid": "7c7321b7_83fbbe4d",
+      "range": {
+        "startLine": 2594,
+        "startChar": 64,
+        "endLine": 2594,
+        "endChar": 91
+      },
+      "revId": "dae4ddcc7fb6c584b0520000b249bb74ff491192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

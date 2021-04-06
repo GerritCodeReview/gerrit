@@ -470,7 +470,6 @@ export class GrChangeSummary extends GrLitElement {
                     html`<gr-avatar
                       .account="${account}"
                       image-size="32"
-                      aria-label="Account avatar"
                     ></gr-avatar>`
                 )}
                 ${countUnresolvedComments} unresolved</gr-summary-chip

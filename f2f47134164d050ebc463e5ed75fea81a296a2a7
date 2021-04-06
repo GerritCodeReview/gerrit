@@ -16,6 +16,24 @@
       "message": "Can you please document the new config parameter in config-project-config.txt?",
       "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f20b943_7f7e004c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-06T17:17:39Z",
+      "side": 1,
+      "message": "I prefer to add it later when the syntax of the language that we will use is well defined, because the docs should include examples of such blocking/applicability/override conditions.\n\nAlso with this change, the submit requirements are unused; they\u0027ll just be stored in NoteDb but they don\u0027t have an effect on submittability of changes, so mentioning them with the project config might be confusing.",
+      "parentUuid": "47d2f9e9_c1497a15",
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -718,16 +718,15 @@ export class GrRelatedCollapse extends GrLitElement {
 
     let button: TemplateResult | typeof nothing = nothing;
     if (collapsible) {
-      if (this.showAll) {
-        button = html`<gr-button link="" @click="${this.toggle}"
-          >Show less<iron-icon icon="gr-icons:expand-less"></iron-icon
-        ></gr-button>`;
-      } else {
-        button = html`<gr-button link="" @click="${this.toggle}"
-          >Show all (${this.length})
-          <iron-icon icon="gr-icons:expand-more"></iron-icon
-        ></gr-button>`;
+      let buttonText = 'Show less';
+      let buttonIcon = 'expand-less';
+      if (!this.showAll) {
+        buttonText = `Show all (${this.length})`;
+        buttonIcon = 'expand-more';
       }
+      button = html`<gr-button link="" @click="${this.toggle}"
+        >${buttonText}<iron-icon icon="gr-icons:${buttonIcon}"></iron-icon
+      ></gr-button>`;
     }
 
     return html`<div class="container">${title}${button}</div>

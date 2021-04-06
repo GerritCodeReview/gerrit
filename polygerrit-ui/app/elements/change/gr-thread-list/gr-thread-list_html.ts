@@ -128,7 +128,7 @@ export const htmlTemplate = html`
             on-click="_handleAllComments"
             checked="[[_showAllComments(_draftsOnly, unresolvedOnly)]]"
           />
-          <label for="all">
+          <label for="allRadio">
             All ([[_countAllThreads(threads)]])
           </label>
       </template>

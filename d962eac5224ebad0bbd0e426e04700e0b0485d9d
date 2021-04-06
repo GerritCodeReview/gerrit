@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a204b8_e63bc062",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-06T14:04:46Z",
+      "side": 1,
+      "message": "Maybe add a comment that this is about the line-length indicator.",
+      "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1529b4c_ed7ab6c9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-06T14:04:46Z",
+      "side": 1,
+      "message": "The comment takes more space than fits on this line, so maybe move the comment up (also consistent with line_wrapping comment).",
+      "range": {
+        "startLine": 240,
+        "startChar": 32,
+        "endLine": 240,
+        "endChar": 73
+      },
+      "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3aee1a6_b3438eed",
+        "filename": "polygerrit-ui/app/types/diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-06T14:04:46Z",
+      "side": 1,
+      "message": "So this is a new (client-only) preference? Do we really need that?\n\nI am afraid that the prefs with `line_wrapping` and `full-width` are already too complicated. And now it would be getting worse. The short comment is not really enough to address this concern.",
+      "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

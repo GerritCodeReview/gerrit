@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8839c4aa_be8730cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-06T14:07:22Z",
+      "side": 1,
+      "message": "Can you add Delphine as reviewer? And maybe add a screenshot?",
+      "revId": "97cc1e034a49b8a5d1c26ac9d338185dc1b45703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b6320a2_dc663154",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-06T14:07:22Z",
+      "side": 1,
+      "message": "All colors should be defined in theme files. Not this change, but the indicator will not otherwise not work well with dark theme.",
+      "revId": "97cc1e034a49b8a5d1c26ac9d338185dc1b45703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

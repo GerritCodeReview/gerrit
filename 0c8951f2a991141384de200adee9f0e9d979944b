@@ -93,6 +93,30 @@
       },
       "revId": "0c8951f2a991141384de200adee9f0e9d979944b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "423d524e_37f28611",
+        "filename": "polygerrit-ui/app/utils/event-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-06T15:19:59Z",
+      "side": 1,
+      "message": "Thanks a lot for the explanation.\nYeah, it\u0027s clear.\n\nSomething like typeof DT \u003d\u003d\u003d unknown is something I would hope would work but now the usage of `extends unknown` is clear.",
+      "parentUuid": "364b60db_5c096a0c",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 0
+      },
+      "revId": "0c8951f2a991141384de200adee9f0e9d979944b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

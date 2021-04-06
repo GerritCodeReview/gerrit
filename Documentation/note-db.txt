@@ -36,6 +36,67 @@ change data migration tools are only included in Gerrit 2.16; they are
 not available in 3.0, so any upgrade from Gerrit 2.x to 3.x must go through
 2.16 to effect the NoteDb upgrade.
 
+== Format
+
+Each review ("change") in Gerrit is numbered. The different revisions
+("patchsets") of a change 12345 are stored under
+----
+  refs/changes/45/12345/${PATCHSET_NUMBER}
+----
+
+The revisions are stored as commits to the main project, ie. if you
+fetch this ref, you can check out the proposed change.
+
+A change 12345 has its review metadata under
+----
+  refs/changes/45/12345/meta
+----
+The metadata is a notes branch. The commit messages on the branch hold
+modifications to global data of the change (votes, global comments). The inline
+comments are in a
+link:https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/\+/master/org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java[NoteMap],
+where the key is the commit SHA-1 of the patchset
+that the comment refers to, and the value is JSON data. The format of the
+JSON is in the
+link:https://gerrit.googlesource.com/gerrit/\+/master/java/com/google/gerrit/server/notedb/RevisionNoteData.java[RevisionNoteData]
+which contains 
+link:https://gerrit.googlesource.com/gerrit/\+/master/java/com/google/gerrit/entities/Comment.java[Comment] entities.
+
+For example:
+----
+   {
+      "key": {
+        "uuid": "c7be1334_47885e36",
+        "filename":
+"java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-06T09:00:50Z",
+      "side": 1,
+      "message": "nit: factor this out in a variable, use
+toImmutableList as collector",
+      "range": {
+        "startLine": 156,
+        "startChar": 32,
+        "endLine": 158,
+        "endChar": 66
+      },
+      "revId": "071c601d6ee1a2a9f520415fd9efef8e00f9cf60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+----
+
+Automated systems may post "robot comments" instead of normal
+comments, which are an extension of the previous comment, defined in
+the
+link:https://gerrit.googlesource.com/gerrit/\+/master/java/com/google/gerrit/entities/RobotComment.java[RobotComment]
+class.
+
 [[migration]]
 == Migration
 

@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -702,6 +703,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("project:repo");
     assertQuery("project:repo1", change1);
     assertQuery("project:repo2", change2);
+  }
+
+  @Test
+  public void byProjectWithHidden() throws Exception {
+    TestRepository<Repo> hiddenProject = createProject("hiddenProject");
+    insert(hiddenProject, newChange(hiddenProject));
+    projectOperations
+        .project(Project.nameKey("hiddenProject"))
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    TestRepository<Repo> visibleProject = createProject("visibleProject");
+    Change visibleChange = insert(visibleProject, newChange(visibleProject));
+    assertQuery("project:visibleProject", visibleChange);
+    assertQuery("project:hiddenProject");
+    assertQuery("project:visibleProject OR project:hiddenProject", visibleChange);
   }
 
   @Test

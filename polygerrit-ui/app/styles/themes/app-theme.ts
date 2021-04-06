@@ -375,6 +375,8 @@ const styleSheet = safeStyleSheet`
     /* misc */
     --border-radius: 4px;
     --reply-overlay-z-index: 1000;
+    /* Base 64 encoded 1x1px of #681da8 */
+    --line-length-indicator: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2PIlF2xAgAD+AHXfBDdKAAAAABJRU5ErkJggg==');
 
     /* paper and iron component overrides */
     --iron-overlay-backdrop-background-color: black;

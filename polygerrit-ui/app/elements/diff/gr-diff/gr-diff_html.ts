@@ -510,11 +510,11 @@ export const htmlTemplate = html`
       width: 200px;
     }
     /** Support the line length indicator **/
-    .full-width td.content .contentText {
-      /* Base 64 encoded 1x1px of #ddd */
-      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8+x8AAr8B3gzOjaQAAAAASUVORK5CYII=');
-      background-position: var(--line-limit) 0;
-      background-repeat: repeat-y;
+    .line-indicator {
+      border-left: 6px solid green;
+      position: relative;
+      left: var(--line-limit);
+      height: 1ch;
     }
     .newlineWarning {
       color: var(--deemphasized-text-color);

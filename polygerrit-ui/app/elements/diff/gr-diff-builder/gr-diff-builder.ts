@@ -622,6 +622,9 @@ export abstract class GrDiffBuilder {
       }
 
       td.appendChild(contentText);
+      const lineIndicatorDiv = document.createElement('div');
+      lineIndicatorDiv.classList.add('line-indicator');
+      td.append(lineIndicatorDiv);
     } else if (line.beforeNumber === 'FILE') td.classList.add('file');
     else if (line.beforeNumber === 'LOST') td.classList.add('lost');
 

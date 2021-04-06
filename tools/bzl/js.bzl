@@ -455,22 +455,8 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_nam
     if not plugin_name:
         plugin_name = name
 
-    html_plugin = app.endswith(".html")
     srcs = srcs if app in srcs else srcs + [app]
-
-    if html_plugin:
-        # Combines all .js and .html files into foo_combined.js and foo_combined.html
-        _bundle_rule(
-            name = name + "_combined",
-            app = app,
-            srcs = srcs,
-            deps = deps,
-            pkg = native.package_name(),
-            **kwargs
-        )
-        js_srcs = [name + "_combined.js"]
-    else:
-        js_srcs = srcs
+    js_srcs = srcs
 
     native.filegroup(
         name = name + "-src-fg",
@@ -483,25 +469,6 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_nam
         src = name + "-src-fg",
     )
 
-    if html_plugin:
-        native.genrule(
-            name = name + "_rename_html",
-            srcs = [name + "_combined.html"],
-            outs = [plugin_name + ".html"],
-            cmd = "sed 's/<script src=\"" + name + "_combined.js\"/<script src=\"" + plugin_name + ".js\"/g' $(SRCS) > $(OUTS)",
-            output_to_bindir = True,
-        )
-    else:
-        # For polymer 3 migration, we will only have js plugins, in case server side
-        # is still asking for *.html, we still want to create a html placeholder just to load the js
-        # TODO(taoalpha): this should be cleaned up once polymer 3 plugins are the only ones gerrit supports
-        native.genrule(
-            name = name + "_rename_html",
-            outs = [plugin_name + ".html"],
-            cmd = "echo \"<script src='" + plugin_name + ".js'></script>\" > $(OUTS)",
-            output_to_bindir = True,
-        )
-
     native.genrule(
         name = name + "_rename_js",
         srcs = [name + ".min"],
@@ -510,7 +477,7 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_nam
         output_to_bindir = True,
     )
 
-    static_files = [plugin_name + ".js", plugin_name + ".html"]
+    static_files = [plugin_name + ".js"]
 
     if assets:
         nested, direct = [], []

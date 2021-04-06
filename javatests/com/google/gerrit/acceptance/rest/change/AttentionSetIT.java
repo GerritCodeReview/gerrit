@@ -37,6 +37,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
@@ -1756,6 +1757,40 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).attention(admin.id().toString()).remove(new AttentionSetInput("removed"));
     assertThat(Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin)).operation())
         .isEqualTo(Operation.REMOVE);
+  }
+
+  @Test
+  public void deleteSelfVotesDoesNotAddToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    approve(r.getChangeId());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .reviewer(admin.id().toString())
+        .deleteVote(LabelId.CODE_REVIEW);
+
+    assertThat(getAttentionSetUpdates(r.getChange().getId())).isEmpty();
+  }
+
+  @Test
+  public void deleteVotesOfOthersAddThemToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(user.id());
+    recommend(r.getChangeId());
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .reviewer(user.id().toString())
+        .deleteVote(LabelId.CODE_REVIEW);
+
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Their vote was deleted");
   }
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(

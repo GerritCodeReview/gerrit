@@ -16,6 +16,40 @@
       "message": "Frank is expert, I would wait for Frank review.",
       "revId": "116e4ea7717211ae8f253c9daacc227af7c5ad40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e7b0113_5fba94d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-06T13:22:54Z",
+      "side": 1,
+      "message": "Does this test need to be clarified or another one added for this case (multiple missing but user can approve Code-Review)?\nhttps://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.js#L1632",
+      "revId": "116e4ea7717211ae8f253c9daacc227af7c5ad40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2d67006_56535fea",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-06T13:22:54Z",
+      "side": 1,
+      "message": "a few of the lines in this change are shown as different even though they seem the same. I can\u0027t see any whitespace difference either. Do you know what is going on?",
+      "revId": "116e4ea7717211ae8f253c9daacc227af7c5ad40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

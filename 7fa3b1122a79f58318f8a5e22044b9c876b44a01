@@ -114,6 +114,24 @@
       "parentUuid": "5039f6d2_0c7dae87",
       "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f366b46_c67e4ec4",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T08:00:56Z",
+      "side": 1,
+      "message": "also see\nhttps://gerrit-review.googlesource.com/c/gerrit/+/265651\nhttps://gerrit-review.googlesource.com/c/gerrit/+/265773",
+      "parentUuid": "4ece041b_6b2c14f8",
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

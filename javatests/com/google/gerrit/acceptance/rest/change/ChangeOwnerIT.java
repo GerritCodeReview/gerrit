@@ -51,20 +51,20 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void testChangeOwner_OwnerACLNotGranted() throws Exception {
     assertApproveFails(user, createMyChange(testRepo));
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void testChangeOwner_OwnerACLGranted() throws Exception {
     grantApproveToChangeOwner(project);
     approve(user, createMyChange(testRepo));
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void testChangeOwner_NotOwnerACLGranted() throws Exception {
     grantApproveToChangeOwner(project);
     assertApproveFails(user2, createMyChange(testRepo));

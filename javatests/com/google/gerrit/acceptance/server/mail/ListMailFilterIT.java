@@ -48,7 +48,7 @@ public class ListMailFilterIT extends AbstractMailIT {
   @GerritConfig(name = "receiveemail.filter.mode", value = "ALLOW")
   @GerritConfig(
       name = "receiveemail.filter.patterns",
-      values = {".+ser@example\\.com", "a@b\\.com"})
+      values = {".+ser1@example\\.com", "a@b\\.com"})
   public void listFilterAllowDoesNotFilterListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have been persisted

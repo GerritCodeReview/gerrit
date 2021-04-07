@@ -201,10 +201,10 @@ public class GroupsIT extends AbstractDaemonTest {
   public void addRemoveMember() throws Exception {
     AccountGroup.UUID group = groupOperations.newGroup().create();
 
-    gApi.groups().id(group.get()).addMembers("user");
+    gApi.groups().id(group.get()).addMembers("user1");
     assertMembers(group.get(), user);
 
-    gApi.groups().id(group.get()).removeMembers("user");
+    gApi.groups().id(group.get()).removeMembers("user1");
     ImmutableSet<Account.Id> members = groupOperations.group(group).get().members();
     assertThat(members).isEmpty();
   }

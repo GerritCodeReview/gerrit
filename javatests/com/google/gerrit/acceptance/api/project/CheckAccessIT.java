@@ -236,10 +236,10 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 Permission.VIEW_PRIVATE_CHANGES,
                 403,
                 ImmutableList.of(
-                    "'user' can perform 'read' with force=false on project '"
+                    "'user1' can perform 'read' with force=false on project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/*'",
-                    "'user' cannot perform 'viewPrivateChanges' with force=false on project '"
+                    "'user1' cannot perform 'viewPrivateChanges' with force=false on project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/master'")),
             // Test 2
@@ -248,7 +248,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 normalProject.get(),
                 200,
                 ImmutableList.of(
-                    "'user' can perform 'read' with force=false on project '"
+                    "'user1' can perform 'read' with force=false on project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/*'")),
             // Test 3
@@ -257,10 +257,10 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 secretProject.get(),
                 403,
                 ImmutableList.of(
-                    "'user' cannot perform 'read' with force=false on project '"
+                    "'user1' cannot perform 'read' with force=false on project '"
                         + secretProject.get()
                         + "' for ref 'refs/heads/*' because this permission is blocked",
-                    "'user' cannot perform 'read' with force=false on project '"
+                    "'user1' cannot perform 'read' with force=false on project '"
                         + secretProject.get()
                         + "' for ref 'refs/meta/version' because this permission is blocked")),
             // Test 4
@@ -270,10 +270,10 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 "refs/heads/secret/master",
                 403,
                 ImmutableList.of(
-                    "'user' can perform 'read' with force=false on project '"
+                    "'user1' can perform 'read' with force=false on project '"
                         + secretRefProject.get()
                         + "' for ref 'refs/heads/*'",
-                    "'user' cannot perform 'read' with force=false on project '"
+                    "'user1' cannot perform 'read' with force=false on project '"
                         + secretRefProject.get()
                         + "' for ref 'refs/heads/secret/master' because this permission is blocked")),
             // Test 5

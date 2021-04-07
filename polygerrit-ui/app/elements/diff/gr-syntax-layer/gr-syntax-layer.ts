@@ -439,10 +439,12 @@ export class GrSyntaxLayer implements DiffLayer {
     ) {
       baseLine = this._workaround(this.baseLanguage, baseLine);
       result = this.hljs.highlight(
-        this.baseLanguage,
         baseLine,
-        true,
-        state.baseContext
+        {
+          language: this.baseLanguage,
+          ignoreIllegals: true,
+          continuation: state.baseContext
+        }
       );
       this.baseRanges.push(this._rangesFromString(result.value, rangesCache));
       state.baseContext = result.top;

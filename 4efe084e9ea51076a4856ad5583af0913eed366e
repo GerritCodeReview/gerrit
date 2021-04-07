@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d999d78a_b1d2ed4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "better: \"it\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a464f8b0_9a464d84",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -14,6 +37,402 @@
       "writtenOn": "2021-04-01T16:43:50Z",
       "side": 1,
       "message": "I kind of don\u0027t like this change myself, let me know if this is reviewable.\nIf not, I can split the renames to separate commits at least.",
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc717037_09008de6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "Any chance to split this into smaller steps?\nWith this large change it\u0027s hard to verify that everything works together.",
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a757fd3_233ad5d3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "to/from",
+      "range": {
+        "startLine": 6204,
+        "startChar": 9,
+        "endLine": 6204,
+        "endChar": 11
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2241e9a6_02b3eb3f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "This looks like an unrelated fix that could be a separate change.",
+      "range": {
+        "startLine": 6217,
+        "startChar": 0,
+        "endLine": 6217,
+        "endChar": 52
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a356f506_a2805c99",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "Unrelated, but we should make another change to drop this part, now that NoteDb is the only choice.",
+      "range": {
+        "startLine": 6218,
+        "startChar": 63,
+        "endLine": 6219,
+        "endChar": 22
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80cc8ec7_cdd8925b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 6224,
+        "startChar": 38,
+        "endLine": 6224,
+        "endChar": 76
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b72ae13c_4a5148a4",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "That\u0027s an incompatible API change. We should at least mention it in the commit message.",
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0feb0b53_baaabce8",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ReviewerResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "Is removing reviewers via a group possible? Do we need a test for this?",
+      "range": {
+        "startLine": 48,
+        "startChar": 51,
+        "endLine": 49,
+        "endChar": 36
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67dec62a_f738da8d",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerByEmailOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "[optional] Could the builder() method initialise all fields with ImmutableList.of() so that callers like this only need to set the one field they are interested in?",
+      "range": {
+        "startLine": 78,
+        "startChar": 7,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3490e23_b74bc301",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "nit: remove this",
+      "range": {
+        "startLine": 122,
+        "startChar": 55,
+        "endLine": 122,
+        "endChar": 60
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9d1b48a_a3e2d087",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "I think this may drop the accounts username from the event.\nAccountState.forAccount(...) creates an AccountState without external IDs (e.g. without username), but EventUtil.accountInfo(...) would include the username into the event JSON if it is present. And I believe with the old code it was present, wasn\u0027t it?",
+      "range": {
+        "startLine": 213,
+        "startChar": 8,
+        "endLine": 213,
+        "endChar": 41
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2bbfa33_38347c6b",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "Why only the first?",
+      "range": {
+        "startLine": 474,
+        "startChar": 46,
+        "endLine": 474,
+        "endChar": 76
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca3131e8_26a3fb9d",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "What if this.reviewers and this.reviewersByEmail are both set?",
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dab2354_515e4009",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "Why only the first?",
+      "range": {
+        "startLine": 476,
+        "startChar": 53,
+        "endLine": 476,
+        "endChar": 90
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b33809_816bfafc",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "better to use IllegalStateException?",
+      "range": {
+        "startLine": 549,
+        "startChar": 20,
+        "endLine": 549,
+        "endChar": 44
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa3e9602_fceb72dd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "nit: add comments for the boolean flags",
+      "range": {
+        "startLine": 706,
+        "startChar": 67,
+        "endLine": 707,
+        "endChar": 73
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b77ff3c3_3dd99289",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "nit: drop this",
+      "range": {
+        "startLine": 838,
+        "startChar": 57,
+        "endLine": 838,
+        "endChar": 62
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "972d612a_99bff60d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "ReviewerModifier?",
+      "range": {
+        "startLine": 755,
+        "startChar": 77,
+        "endLine": 755,
+        "endChar": 88
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2072c78_731bb26b",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1834,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T09:38:44Z",
+      "side": 1,
+      "message": "\"while taking removals into account\"?",
+      "range": {
+        "startLine": 1833,
+        "startChar": 48,
+        "endLine": 1834,
+        "endChar": 9
+      },
       "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

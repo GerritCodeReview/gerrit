@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
@@ -103,6 +104,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.change.BatchAbandon;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
@@ -127,6 +129,8 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeNotesCommit;
+import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.gerrit.server.project.ProjectCache;
@@ -168,6 +172,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -297,6 +302,8 @@ public abstract class AbstractDaemonTest {
   protected TestRepository<InMemoryRepository> testRepo;
   protected String resourcePrefix;
   protected Description description;
+  protected GerritServer.Description testMethodDescription;
+
   protected boolean testRequiresSsh;
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
 
@@ -339,6 +346,13 @@ public abstract class AbstractDaemonTest {
       // the test suite. JUnit will skip tests annotated with @UseSsh if we
       // disable them using the command line flag.
       assume().that(SshMode.useSsh()).isTrue();
+    }
+  }
+
+  @After
+  public void verifyNoPiiInChangeNotes() throws RestApiException, IOException {
+    if (testMethodDescription.verifyNoPiiInChangeNotes()) {
+      verifyNoAccountDetailsInChangeNotes();
     }
   }
 
@@ -430,6 +444,7 @@ public abstract class AbstractDaemonTest {
         GerritServer.Description.forTestClass(description, configName);
     GerritServer.Description methodDesc =
         GerritServer.Description.forTestMethod(description, configName);
+    testMethodDescription = methodDesc;
 
     testRequiresSsh = classDesc.useSshAnnotation() || methodDesc.useSshAnnotation();
     if (!testRequiresSsh) {
@@ -463,7 +478,7 @@ public abstract class AbstractDaemonTest {
     toClose = Collections.synchronizedList(new ArrayList<>());
 
     admin = accountCreator.admin();
-    user = accountCreator.user();
+    user = accountCreator.user1();
 
     // Evict and reindex accounts in case tests modify them.
     reindexAccount(admin.id());
@@ -696,6 +711,58 @@ public abstract class AbstractDaemonTest {
     if (userSshSession != null) {
       userSshSession.close();
       userSshSession = null;
+    }
+  }
+
+  /**
+   * Verify that NoteDB commits do not persist user-sensitive information, by running checks for all
+   * commits in {@link RefNames#changeMetaRef} for all changes, created during the test.
+   *
+   * <p>These tests prevent regression, assuming appropriate test coverage for new features. The
+   * verification is disabled by default and can be enabled using {@link VerifyNoPiiInChangeNotes}
+   * annotation either on test class or method.
+   */
+  protected void verifyNoAccountDetailsInChangeNotes() throws RestApiException, IOException {
+    List<ChangeInfo> allChanges = gApi.changes().query().get();
+
+    List<AccountState> allAccounts = accounts.all();
+    for (ChangeInfo change : allChanges) {
+      try (Repository repo = repoManager.openRepository(Project.nameKey(change.project))) {
+        String metaRefName =
+            RefNames.changeMetaRef(Change.Id.tryParse(change._number.toString()).get());
+        ObjectId metaTip = repo.getRefDatabase().exactRef(metaRefName).getObjectId();
+        ChangeNotesRevWalk revWalk = ChangeNotesCommit.newRevWalk(repo);
+        revWalk.reset();
+        revWalk.markStart(revWalk.parseCommit(metaTip));
+        ChangeNotesCommit commit;
+        while ((commit = revWalk.next()) != null) {
+          String fullMessage = commit.getFullMessage();
+          for (AccountState accountState : allAccounts) {
+            Account account = accountState.account();
+            assertThat(fullMessage).doesNotContain(account.getName());
+            if (account.fullName() != null) {
+              assertThat(fullMessage).doesNotContain(account.fullName());
+            }
+            if (account.displayName() != null) {
+              assertThat(fullMessage).doesNotContain(account.displayName());
+            }
+            if (account.preferredEmail() != null) {
+              assertThat(fullMessage).doesNotContain(account.preferredEmail());
+            }
+            if (accountState.userName().isPresent()) {
+              assertThat(fullMessage).doesNotContain(accountState.userName().get());
+            }
+            List<String> allEmails =
+                accountState.externalIds().stream()
+                    .map(ExternalId::email)
+                    .filter(Objects::nonNull)
+                    .collect(toImmutableList());
+            for (String email : allEmails) {
+              assertThat(fullMessage).doesNotContain(email);
+            }
+          }
+        }
+      }
     }
   }
 

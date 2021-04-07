@@ -265,7 +265,7 @@ public class ReviewerModifier {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
     try {
-      reviewerUser = accountResolver.resolve(input.reviewer).asUniqueUser();
+      reviewerUser = accountResolver.resolveIncludeInactive(input.reviewer).asUniqueUser();
       if (input.reviewer.equalsIgnoreCase(reviewerUser.getName())
           || input.reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {
         exactMatchFound = true;

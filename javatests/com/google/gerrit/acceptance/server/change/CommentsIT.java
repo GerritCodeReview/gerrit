@@ -1453,7 +1453,7 @@ public class CommentsIT extends AbstractDaemonTest {
             .to("refs/for/master");
 
     // Add drafts with user scope
-    requestScopeOperations.setApiUser(accountCreator.user().id());
+    requestScopeOperations.setApiUser(accountCreator.user1().id());
     CommentInfo draft =
         addDraft(
             r1.getChangeId(),
@@ -1477,7 +1477,7 @@ public class CommentsIT extends AbstractDaemonTest {
         .isEqualTo(String.format("Non-existing draft IDs: [%s]", draft.id));
 
     // Request will succeed if done by user
-    requestScopeOperations.setApiUser(accountCreator.user().id());
+    requestScopeOperations.setApiUser(accountCreator.user1().id());
     gApi.changes().id(r1.getChangeId()).current().review(reviewInput);
     assertThat(
             gApi.changes().id(r1.getChangeId()).commentsRequest().getAsList().stream()

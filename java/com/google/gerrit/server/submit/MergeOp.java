@@ -36,7 +36,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmissionId;
@@ -58,6 +57,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -950,6 +950,7 @@ public class MergeOp implements AutoCloseable {
       for (ChangeData cd : queryProvider.get().byProjectOpen(destProject)) {
         try (BatchUpdate bu =
             batchUpdateFactory.create(destProject, internalUserFactory.create(), ts)) {
+          CurrentUser currentUser = internalUserFactory.create();
           bu.addOp(
               cd.getId(),
               new BatchUpdateOp() {
@@ -962,14 +963,8 @@ public class MergeOp implements AutoCloseable {
 
                   change.setStatus(Change.Status.ABANDONED);
 
-                  ChangeMessage msg =
-                      ChangeMessagesUtil.newMessage(
-                          change.currentPatchSetId(),
-                          internalUserFactory.create(),
-                          change.getLastUpdatedOn(),
-                          "Project was deleted.",
-                          ChangeMessagesUtil.TAG_MERGED);
-                  cmUtil.addChangeMessage(ctx.getUpdate(change.currentPatchSetId()), msg);
+                  cmUtil.setChangeMessage(
+                      ctx, "Project was deleted.", ChangeMessagesUtil.TAG_MERGED);
 
                   return true;
                 }

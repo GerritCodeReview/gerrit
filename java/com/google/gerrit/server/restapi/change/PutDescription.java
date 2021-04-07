@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.restapi.Response;
@@ -102,10 +101,7 @@ public class PutDescription
             String.format(
                 "Description of patch set %d changed to \"%s\"", psId.get(), newDescription);
       }
-      ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(
-              psId, ctx.getUser(), ctx.getWhen(), summary, ChangeMessagesUtil.TAG_SET_DESCRIPTION);
-      cmUtil.addChangeMessage(update, cmsg);
+      cmUtil.setChangeMessage(update, summary, ChangeMessagesUtil.TAG_SET_DESCRIPTION);
       return true;
     }
   }

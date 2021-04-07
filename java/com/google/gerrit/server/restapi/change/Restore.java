@@ -20,7 +20,6 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -112,7 +111,7 @@ public class Restore
 
     private Change change;
     private PatchSet patchSet;
-    private ChangeMessage message;
+    private String mailMessage;
 
     private Op(RestoreInput input) {
       this.input = input;
@@ -131,19 +130,18 @@ public class Restore
       change.setLastUpdatedOn(ctx.getWhen());
       update.setStatus(change.getStatus());
 
-      message = newMessage(ctx);
-      cmUtil.addChangeMessage(update, message);
+      mailMessage = cmUtil.setChangeMessage(ctx, commentMessage(), ChangeMessagesUtil.TAG_RESTORE);
       return true;
     }
 
-    private ChangeMessage newMessage(ChangeContext ctx) {
+    private String commentMessage() {
       StringBuilder msg = new StringBuilder();
       msg.append("Restored");
       if (!Strings.nullToEmpty(input.message).trim().isEmpty()) {
         msg.append("\n\n");
         msg.append(input.message.trim());
       }
-      return ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_RESTORE);
+      return msg.toString();
     }
 
     @Override
@@ -152,7 +150,7 @@ public class Restore
         ReplyToChangeSender emailSender =
             restoredSenderFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());
-        emailSender.setChangeMessage(message.getMessage(), ctx.getWhen());
+        emailSender.setChangeMessage(mailMessage, ctx.getWhen());
         emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
         emailSender.send();

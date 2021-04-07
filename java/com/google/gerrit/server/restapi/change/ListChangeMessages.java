@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
-
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.Response;
@@ -48,7 +46,9 @@ public class ListChangeMessages implements RestReadView<ChangeResource> {
     List<ChangeMessage> messages = changeMessagesUtil.byChange(resource.getNotes());
     List<ChangeMessageInfo> messageInfos =
         messages.stream()
-            .map(m -> createChangeMessageInfo(m, accountLoader))
+            .map(
+                m ->
+                    changeMessagesUtil.createChangeMessageInfoWithReplacedMessage(m, accountLoader))
             .collect(Collectors.toList());
     accountLoader.fill();
     return Response.ok(messageInfos);

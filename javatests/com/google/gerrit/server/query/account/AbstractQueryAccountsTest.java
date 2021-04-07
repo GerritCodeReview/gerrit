@@ -24,6 +24,8 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -71,6 +73,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
@@ -235,7 +238,20 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
-  public void bySecondaryEmail() throws Exception {
+  public void bySecondaryEmailWithViewSecondaryEmails() throws Exception {
+    testBySecondaryEmail(GlobalCapability.VIEW_SECONDARY_EMAILS);
+  }
+
+  @Test
+  public void bySecondaryEmailWithModifyAccount() throws Exception {
+    testBySecondaryEmail(GlobalCapability.MODIFY_ACCOUNT);
+  }
+
+  private void testBySecondaryEmail(String globalCapability) throws Exception {
+    grantGlobalCapabilityToRegisteredUsers(globalCapability);
+    Account.Id userId = Account.id(newAccount("user", "User", "user@example.com", true)._accountId);
+    requestContext.setContext(newRequestContext(userId));
+
     String prefix = name("secondary");
     String domain = name("test.com");
     String secondaryEmail = prefix + "@" + domain;
@@ -542,10 +558,23 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
-  public void withSecondaryEmails() throws Exception {
+  public void withSecondaryEmailsWithViewSecondaryEmails() throws Exception {
+    testWithSecondaryEmails(GlobalCapability.VIEW_SECONDARY_EMAILS);
+  }
+
+  @Test
+  public void withSecondaryEmailsWithModifyAccount() throws Exception {
+    testWithSecondaryEmails(GlobalCapability.MODIFY_ACCOUNT);
+  }
+
+  private void testWithSecondaryEmails(String globalCapability) throws Exception {
     AccountInfo user1 = newAccount("myuser", "My User", "my.user@example.com", true);
     String[] secondaryEmails = new String[] {"bar@example.com", "foo@example.com"};
     addEmails(user1, secondaryEmails);
+
+    grantGlobalCapabilityToRegisteredUsers(globalCapability);
+    Account.Id userId = Account.id(newAccount("user", "User", "user@example.com", true)._accountId);
+    requestContext.setContext(newRequestContext(userId));
 
     List<AccountInfo> result = assertQuery(user1.username, user1);
     assertThat(result.get(0).secondaryEmails).isNull();
@@ -574,7 +603,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
-  public void withSecondaryEmailsWithoutModifyAccountCapability() throws Exception {
+  public void withSecondaryEmailsWithoutViewSecondaryEmailsCapability() throws Exception {
     AccountInfo user = newAccount("myuser", "My User", "other@example.com", true);
 
     AccountInfo otherUser = newAccount("otheruser", "Other User", "abc@example.com", true);
@@ -888,6 +917,19 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   protected Schema<AccountState> getSchema() {
     return indexes.getSearchIndex().getSchema();
+  }
+
+  protected void grantGlobalCapabilityToRegisteredUsers(String globalCapability) throws Exception {
+    ProjectAccessInput projectAccessInput = new ProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = new AccessSectionInfo();
+    PermissionInfo permissionInfo = new PermissionInfo(/* label= */ null, /* exclusive= */ null);
+    PermissionRuleInfo permissionRuleInfo =
+        new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, /* force= */ false);
+    permissionInfo.rules =
+        ImmutableMap.of(SystemGroupBackend.REGISTERED_USERS.get(), permissionRuleInfo);
+    accessSectionInfo.permissions = ImmutableMap.of(globalCapability, permissionInfo);
+    projectAccessInput.add = ImmutableMap.of(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
+    gApi.projects().name(allProjects.get()).access(projectAccessInput);
   }
 
   /** Boiler plate code to check two byte arrays for equality */

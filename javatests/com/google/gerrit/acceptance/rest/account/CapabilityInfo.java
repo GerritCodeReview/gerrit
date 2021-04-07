@@ -38,6 +38,7 @@ class CapabilityInfo {
   public boolean viewConnections;
   public boolean viewPlugins;
   public boolean viewQueue;
+  public boolean viewSecondaryEmails;
 
   static class QueryLimit {
     short min;

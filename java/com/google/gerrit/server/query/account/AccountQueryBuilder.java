@@ -222,7 +222,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
 
   private boolean canSeeSecondaryEmails() throws PermissionBackendException, QueryParseException {
     try {
-      args.permissionBackend.user(args.getUser()).check(GlobalPermission.MODIFY_ACCOUNT);
+      args.permissionBackend.user(args.getUser()).check(GlobalPermission.VIEW_SECONDARY_EMAILS);
       return true;
     } catch (AuthException e) {
       return false;

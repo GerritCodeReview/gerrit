@@ -52,7 +52,7 @@ public class GetEmails implements RestReadView<AccountResource> {
   public Response<List<EmailInfo>> apply(AccountResource rsrc)
       throws AuthException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
-      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
+      permissionBackend.currentUser().check(GlobalPermission.VIEW_SECONDARY_EMAILS);
     }
     return Response.ok(
         rsrc.getUser().getEmailAddresses().stream()

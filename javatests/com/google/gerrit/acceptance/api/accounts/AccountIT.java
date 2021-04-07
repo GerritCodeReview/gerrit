@@ -1108,7 +1108,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void detailOfOtherAccountDoesntIncludeSecondaryEmailsWithoutModifyAccount()
+  public void detailOfOtherAccountDoesntIncludeSecondaryEmailsWithoutViewSecondaryEmails()
       throws Exception {
     String email = "preferred@example.com";
     TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
@@ -1122,13 +1122,28 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void detailOfOtherAccountIncludeSecondaryEmailsWithViewSecondaryEmails() throws Exception {
+    testDetailOfOtherAccountIncludeSecondaryEmails(GlobalCapability.VIEW_SECONDARY_EMAILS);
+  }
+
+  @Test
   public void detailOfOtherAccountIncludeSecondaryEmailsWithModifyAccount() throws Exception {
+    testDetailOfOtherAccountIncludeSecondaryEmails(GlobalCapability.MODIFY_ACCOUNT);
+  }
+
+  private void testDetailOfOtherAccountIncludeSecondaryEmails(String globalCapability)
+      throws Exception {
     String email = "preferred@example.com";
     TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
     String secondaryEmail = "secondary@example.com";
     EmailInput input = newEmailInput(secondaryEmail);
     gApi.accounts().id(foo.id().get()).addEmail(input);
 
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(globalCapability).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
     AccountDetailInfo detail = gApi.accounts().id(foo.id().get()).detail();
     assertThat(detail.secondaryEmails).containsExactly(secondaryEmail);
   }
@@ -1151,24 +1166,38 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotGetEmailsOfOtherAccountWithoutModifyAccount() throws Exception {
+  public void cannotGetEmailsOfOtherAccountWithoutViewSecondaryEmails() throws Exception {
     String email = "preferred2@example.com";
     TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
 
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
         assertThrows(AuthException.class, () -> gApi.accounts().id(foo.id().get()).getEmails());
-    assertThat(thrown).hasMessageThat().contains("modify account not permitted");
+    assertThat(thrown).hasMessageThat().contains("view secondary emails not permitted");
   }
 
   @Test
-  public void getEmailsOfOtherAccount() throws Exception {
+  public void getEmailsOfOtherAccountWithViewSecondaryEmails() throws Exception {
+    testGetEmailsOfOtherAccount(GlobalCapability.VIEW_SECONDARY_EMAILS);
+  }
+
+  @Test
+  public void getEmailsOfOtherAccountWithModifyAccount() throws Exception {
+    testGetEmailsOfOtherAccount(GlobalCapability.MODIFY_ACCOUNT);
+  }
+
+  private void testGetEmailsOfOtherAccount(String globalCapability) throws Exception {
     String email = "preferred3@example.com";
     String secondaryEmail = "secondary3@example.com";
     TestAccount foo = accountCreator.create(name("foo"), email, "Foo", null);
     EmailInput input = newEmailInput(secondaryEmail);
     gApi.accounts().id(foo.id().get()).addEmail(input);
 
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(globalCapability).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
     assertThat(
             gApi.accounts().id(foo.id().get()).getEmails().stream()
                 .map(e -> e.email)

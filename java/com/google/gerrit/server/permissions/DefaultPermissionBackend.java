@@ -200,6 +200,11 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case VIEW_ACCESS:
           return has(globalPermissionName(perm)) || isAdmin();
 
+        case VIEW_SECONDARY_EMAILS:
+          return has(globalPermissionName(perm))
+              || has(globalPermissionName(GlobalPermission.MODIFY_ACCOUNT))
+              || isAdmin();
+
         case ACCESS_DATABASE:
         case RUN_AS:
           return has(globalPermissionName(perm));

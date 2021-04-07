@@ -127,6 +127,9 @@ public class GlobalCapability {
   /** Can view all pending tasks in the queue (not just the filtered set). */
   public static final String VIEW_QUEUE = "viewQueue";
 
+  /** Whether secondary emails of all accounts are visible. */
+  public static final String VIEW_SECONDARY_EMAILS = "viewSecondaryEmails";
+
   private static final List<String> NAMES_ALL;
   private static final List<String> NAMES_LC;
   private static final String[] RANGE_NAMES = {
@@ -158,6 +161,7 @@ public class GlobalCapability {
     NAMES_ALL.add(VIEW_CONNECTIONS);
     NAMES_ALL.add(VIEW_PLUGINS);
     NAMES_ALL.add(VIEW_QUEUE);
+    NAMES_ALL.add(VIEW_SECONDARY_EMAILS);
 
     NAMES_LC = new ArrayList<>(NAMES_ALL.size());
     for (String name : NAMES_ALL) {

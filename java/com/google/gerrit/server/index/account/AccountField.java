@@ -53,7 +53,8 @@ public class AccountField {
    * External IDs.
    *
    * <p>This field includes secondary emails. Use this field only if the current user is allowed to
-   * see secondary emails (requires the {@link GlobalCapability#MODIFY_ACCOUNT} capability).
+   * see secondary emails (requires the {@link GlobalCapability#MODIFY_ACCOUNT} or the {@link
+   * GlobalCapability#VIEW_SECONDARY_EMAILS} capability).
    */
   public static final FieldDef<AccountState, Iterable<String>> EXTERNAL_ID =
       exact("external_id")
@@ -63,8 +64,8 @@ public class AccountField {
    * Fuzzy prefix match on name and email parts.
    *
    * <p>This field includes parts from the secondary emails. Use this field only if the current user
-   * is allowed to see secondary emails (requires the {@link GlobalCapability#MODIFY_ACCOUNT}
-   * capability).
+   * is allowed to see secondary emails (requires the {@link GlobalCapability#MODIFY_ACCOUNT} or the
+   * {@link GlobalCapability#VIEW_SECONDARY_EMAILS} capability).
    *
    * <p>Use the {@link AccountField#NAME_PART_NO_SECONDARY_EMAIL} if the current user can't see
    * secondary emails.
@@ -90,7 +91,8 @@ public class AccountField {
 
   /**
    * All emails (preferred email + secondary emails). Use this field only if the current user is
-   * allowed to see secondary emails (requires the 'Modify Account' capability).
+   * allowed to see secondary emails (requires the 'Modify Account' or the 'View Secondary Emails'
+   * capability).
    *
    * <p>Use the {@link AccountField#PREFERRED_EMAIL} if the current user can't see secondary emails.
    */

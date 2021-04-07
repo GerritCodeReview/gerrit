@@ -61,6 +61,7 @@ public class DefaultPermissionMappings {
           .put(GlobalPermission.VIEW_CONNECTIONS, GlobalCapability.VIEW_CONNECTIONS)
           .put(GlobalPermission.VIEW_PLUGINS, GlobalCapability.VIEW_PLUGINS)
           .put(GlobalPermission.VIEW_QUEUE, GlobalCapability.VIEW_QUEUE)
+          .put(GlobalPermission.VIEW_SECONDARY_EMAILS, GlobalCapability.VIEW_SECONDARY_EMAILS)
           .build();
 
   static {

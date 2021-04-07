@@ -66,8 +66,10 @@ name, avatars, status, state and tags for each account.
 [[all-emails]]
 --
 * `ALL_EMAILS`: Includes all registered emails. Requires the caller
-to have the link:access-control.html#capability_modifyAccount[Modify
-Account] global capability.
+to have the link:access-control.html#capability_viewSecondaryEmails[View
+Secondary Emails] global capability or the
+link:access-control.html#capability_modifyAccount[Modify Account] global
+capability.
 --
 
 [[suggest-account]]
@@ -84,6 +86,8 @@ link:#all-emails[all emails] are always returned.
 ----
 
 Secondary emails are only included if the calling user has the
+link:access-control.html#capability_viewSecondaryEmails[View
+Secondary Emails] capability or the
 link:access-control.html#capability_modifyAccount[Modify Account]
 capability.
 
@@ -596,6 +600,8 @@ token of another user are rejected with "`403 Forbidden`".
 
 Returns the email addresses that are configured for the specified user.
 
+The link:access-control.html#capability_viewSecondaryEmails[View
+Secondary Emails] capability or the
 link:access-control.html#capability_modifyAccount[ModifyAccount]
 capability is required to view emails of other users.
 

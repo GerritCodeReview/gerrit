@@ -270,9 +270,7 @@ export const htmlTemplate = html`
             [[_pendingConfirmationDetails.group.name]]
           </span>
           has
-          <span class="groupSize">
-            [[_pendingConfirmationDetails.count]]
-          </span>
+          <span class="groupSize"> [[_pendingConfirmationDetails.count]] </span>
           members.
           <br />
           Are you sure you want to add them all?

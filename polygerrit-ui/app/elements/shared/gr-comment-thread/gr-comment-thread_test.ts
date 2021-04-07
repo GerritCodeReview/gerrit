@@ -156,9 +156,7 @@ suite('gr-comment-thread tests', () => {
       ];
       const commentElStub = sinon
         .stub(element, '_commentElWithDraftID')
-        .callsFake(() => {
-          return new GrComment();
-        });
+        .callsFake(() => new GrComment());
       const addDraftStub = sinon.stub(element, 'addDraft');
 
       element.addOrEditDraft(123);
@@ -171,9 +169,7 @@ suite('gr-comment-thread tests', () => {
       element.comments = [];
       const commentElStub = sinon
         .stub(element, '_commentElWithDraftID')
-        .callsFake(() => {
-          return new GrComment();
-        });
+        .callsFake(() => new GrComment());
       const addDraftStub = sinon.stub(element, 'addDraft');
 
       element.addOrEditDraft(123);

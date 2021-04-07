@@ -485,9 +485,7 @@ export const htmlTemplate = html`
         on-confirm="_handleConfirmDiscard"
         on-cancel="_closeConfirmDiscardOverlay"
       >
-        <div class="header" slot="header">
-          Discard comment
-        </div>
+        <div class="header" slot="header">Discard comment</div>
         <div class="main" slot="main">
           Are you sure you want to discard this draft comment?
         </div>

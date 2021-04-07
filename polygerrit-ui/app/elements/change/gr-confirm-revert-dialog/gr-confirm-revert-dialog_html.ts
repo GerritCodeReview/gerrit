@@ -53,9 +53,7 @@ export const htmlTemplate = html`
     on-confirm="_handleConfirmTap"
     on-cancel="_handleCancelTap"
   >
-    <div class="header" slot="header">
-      Revert Merged Change
-    </div>
+    <div class="header" slot="header">Revert Merged Change</div>
     <div class="main" slot="main">
       <div class="error" hidden$="[[!_showErrorMessage]]">
         <span> A reason is required </span>
@@ -87,9 +85,7 @@ export const htmlTemplate = html`
         </div></template
       >
       <gr-endpoint-decorator name="confirm-revert-change">
-        <label for="messageInput">
-          Revert Commit Message
-        </label>
+        <label for="messageInput"> Revert Commit Message </label>
         <iron-autogrow-textarea
           id="messageInput"
           class="message"

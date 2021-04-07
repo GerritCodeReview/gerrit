@@ -135,9 +135,7 @@ export class GrHovercardAccount extends hovercardBehaviorMixin(PolymerElement) {
   _getReviewerState(account: AccountInfo, change: ChangeInfo) {
     if (
       change.reviewers[ReviewerState.REVIEWER]?.some(
-        (reviewer: AccountInfo) => {
-          return reviewer._account_id === account._account_id;
-        }
+        (reviewer: AccountInfo) => reviewer._account_id === account._account_id
       )
     ) {
       return ReviewerState.REVIEWER;

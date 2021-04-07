@@ -275,7 +275,8 @@ declare global {
 }
 
 @customElement('gr-rest-api-interface')
-export class GrRestApiInterface extends PolymerElement
+export class GrRestApiInterface
+  extends PolymerElement
   implements RestApiService {
   readonly _cache = siteBasedCache; // Shared across instances.
 
@@ -611,9 +612,9 @@ export class GrRestApiInterface extends PolymerElement
     };
     return this._restApiHelper.send(req).then(response => {
       if (response?.ok) {
-        return (this.getResponseObject(response) as unknown) as Promise<
-          GroupInfo
-        >;
+        return (this.getResponseObject(
+          response
+        ) as unknown) as Promise<GroupInfo>;
       }
       return undefined;
     });
@@ -2830,9 +2831,9 @@ export class GrRestApiInterface extends PolymerElement
         if (!response || (response.status < 200 && response.status >= 300)) {
           return Promise.reject(new Error('error'));
         }
-        return (this.getResponseObject(response) as unknown) as Promise<
-          SshKeyInfo
-        >;
+        return (this.getResponseObject(
+          response
+        ) as unknown) as Promise<SshKeyInfo>;
       })
       .then(obj => {
         if (!obj || !obj.valid) {

@@ -339,7 +339,8 @@ export interface GrChangeActions {
 }
 
 @customElement('gr-change-actions')
-export class GrChangeActions extends PolymerElement
+export class GrChangeActions
+  extends PolymerElement
   implements GrChangeActionsElement {
   static get template() {
     return htmlTemplate;

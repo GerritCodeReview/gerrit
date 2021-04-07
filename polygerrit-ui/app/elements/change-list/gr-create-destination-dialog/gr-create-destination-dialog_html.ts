@@ -25,17 +25,13 @@ export const htmlTemplate = html`
       on-cancel="_handleClose"
       disabled="[[!_repoAndBranchSelected]]"
     >
-      <div class="header" slot="header">
-        Create change
-      </div>
+      <div class="header" slot="header">Create change</div>
       <div class="main" slot="main">
         <gr-repo-branch-picker
           repo="{{_repo}}"
           branch="{{_branch}}"
         ></gr-repo-branch-picker>
-        <p>
-          If you haven't done so, you will need to clone the repository.
-        </p>
+        <p>If you haven't done so, you will need to clone the repository.</p>
       </div>
     </gr-dialog>
   </gr-overlay>

@@ -170,9 +170,9 @@ export class GrEditControls extends PolymerElement {
   }
 
   _hideAllDialogs() {
-    const dialogs = this.root!.querySelectorAll('.dialog') as NodeListOf<
-      GrDialog
-    >;
+    const dialogs = this.root!.querySelectorAll(
+      '.dialog'
+    ) as NodeListOf<GrDialog>;
     for (const dialog of dialogs) {
       this._closeDialog(dialog);
     }

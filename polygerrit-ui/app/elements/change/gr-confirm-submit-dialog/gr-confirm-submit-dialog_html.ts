@@ -44,9 +44,7 @@ export const htmlTemplate = html`
     on-confirm="_handleConfirmTap"
   >
     <template is="dom-if" if="[[_initialised]]">
-      <div class="header" slot="header">
-        [[action.label]]
-      </div>
+      <div class="header" slot="header">[[action.label]]</div>
       <div class="main" slot="main">
         <gr-endpoint-decorator name="confirm-submit-change">
           <p>Ready to submit “<strong>[[change.subject]]</strong>”?</p>

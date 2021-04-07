@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a3254d3_1b8f7fa8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b87ce18_0d6e605b",
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb560cd0_a476b576",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c64aaed_7cb75e63",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "I will add additional information here with the next change, when a migration tool exists. For now this is correct, without migration only the all lowercase user will be able to authenticate.",
+      "parentUuid": "eb560cd0_a476b576",
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "400f4e4f_2e64cdfd",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-04-06T23:06:41Z",
       "side": 1,
       "message": "explain that changing this option requires a migration and when switching from false to true might require a cleanup if existing accounts contain duplicates only differing in case\n\nWe should try to find a way we can raise an error when this option is changed in gerrit.config and there are already accounts but migration wasn\u0027t run. Maybe we could persist the value of this option when the first account is created in All-Users and raise an error on startup if this does no longer match the configured value in gerrit.config. The migration tool could update the value stored in All-Users.",
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "185972b7_95f896cd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "I will add additional information here with the next change, when a migration tool exists. The tool will fail when duplicates exist, so I think that change is the better place to add that.\n\nI agree that such an error on startup would be good. The migration tool itself works like this, that it expects the option to be false and will set it to true after the migration. So that a Gerrit admin does not have to reconfigure it manually (at least if the config is not versioned).",
+      "parentUuid": "400f4e4f_2e64cdfd",
       "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "983c9564_f12a29c7",
+        "filename": "java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "I was looking at the other names used here, which use a similar (bad) naming scheme.\nBut let\u0027s be better here.",
+      "parentUuid": "acf4552d_ec9ed3fd",
+      "range": {
+        "startLine": 109,
+        "startChar": 27,
+        "endLine": 109,
+        "endChar": 31
+      },
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "671906d8_790f6b9b",
@@ -88,6 +166,24 @@
       "writtenOn": "2021-04-06T23:06:41Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "907aa002_291e6271",
+        "filename": "java/com/google/gerrit/server/account/AccountModule.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "671906d8_790f6b9b",
       "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +211,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfacef86_647619f2",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "I made it package private.\nI think your second suggestion wouldn\u0027t work or be at least not a good idea, since it would mean to have a nested class that uses Guice in an AutoValue class, which should be immutable after AutoValue did its thing.",
+      "parentUuid": "3d0039b0_c784f4bd",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 55
+      },
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2c9aa3c_47430a65",
@@ -128,6 +248,24 @@
       "writtenOn": "2021-04-06T23:06:41Z",
       "side": 1,
       "message": "add javadoc for all public create methods ?",
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eda7646_e67ff6a7",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2c9aa3c_47430a65",
       "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -178,6 +316,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3568c000_47ad9194",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a77ea048_47da4750",
+      "range": {
+        "startLine": 153,
+        "startChar": 77,
+        "endLine": 153,
+        "endChar": 79
+      },
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a2285c7_2159ec05",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "614ae60e_d44c8eea",
+      "range": {
+        "startLine": 153,
+        "startChar": 50,
+        "endLine": 153,
+        "endChar": 57
+      },
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a0e0f0f_02600b88",
@@ -197,6 +383,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb4cad6f_eb6dc09c",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "I don\u0027t think that matters here. Since each file has a single section, there can\u0027t be any conflicts on this level and the lookup is done by the note name. The section name is read as a value and treated case preserving.",
+      "parentUuid": "8a0e0f0f_02600b88",
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33db6489_37579d07",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdModule.java",
         "patchSetId": 12
@@ -208,6 +412,24 @@
       "writtenOn": "2021-04-01T07:38:18Z",
       "side": 1,
       "message": "Injection fails in the H2CacheBasedWebSession",
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c07ef73_4fef21de",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdModule.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T07:14:11Z",
+      "side": 1,
+      "message": "This was actually not an injection issue. The WebSessionManager.Val class could not correctly store the ExternalIdKeyFactory. Thus, after loading the object from the websessions_cache, it was null. Using a boolean storing whether the username is handled case insensitive and creating a new ExternalIdKeyFactory, seems to work.",
+      "parentUuid": "33db6489_37579d07",
       "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

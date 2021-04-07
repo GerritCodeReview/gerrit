@@ -42,7 +42,6 @@ import '../gr-related-changes-list-experimental/gr-related-changes-list-experime
 import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
-import '../gr-upload-help-dialog/gr-upload-help-dialog';
 import '../../checks/gr-checks-tab';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
@@ -227,7 +226,6 @@ export interface GrChangeView {
     includedInDialog: GrIncludedInDialog;
     downloadOverlay: GrOverlay;
     downloadDialog: GrDownloadDialog;
-    uploadHelpOverlay: GrOverlay;
     replyOverlay: GrOverlay;
     replyDialog: GrReplyDialog;
     mainContent: HTMLDivElement;
@@ -1181,14 +1179,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   _handleDownloadDialogClose() {
     this.$.downloadOverlay.close();
-  }
-
-  _handleOpenUploadHelpDialog() {
-    this.$.uploadHelpOverlay.open();
-  }
-
-  _handleCloseUploadHelpDialog() {
-    this.$.uploadHelpOverlay.close();
   }
 
   _handleMessageReply(e: CustomEvent<{message: {message: string}}>) {

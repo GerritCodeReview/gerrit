@@ -648,7 +648,6 @@ export const htmlTemplate = html`
           diff-prefs-disabled="[[_diffPrefsDisabled]]"
           on-open-diff-prefs="_handleOpenDiffPrefs"
           on-open-download-dialog="_handleOpenDownloadDialog"
-          on-open-upload-help-dialog="_handleOpenUploadHelpDialog"
           on-open-included-in-dialog="_handleOpenIncludedInDialog"
           on-expand-diffs="_expandAllDiffs"
           on-collapse-diffs="_collapseAllDiffs"
@@ -793,13 +792,6 @@ export const htmlTemplate = html`
       config="[[_serverConfig.download]]"
       on-close="_handleDownloadDialogClose"
     ></gr-download-dialog>
-  </gr-overlay>
-  <gr-overlay id="uploadHelpOverlay" with-backdrop="">
-    <gr-upload-help-dialog
-      revision="[[_currentRevision]]"
-      target-branch="[[_change.branch]]"
-      on-close="_handleCloseUploadHelpDialog"
-    ></gr-upload-help-dialog>
   </gr-overlay>
   <gr-overlay id="includedInOverlay" with-backdrop="">
     <gr-included-in-dialog

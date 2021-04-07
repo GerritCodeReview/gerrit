@@ -48,6 +48,8 @@ public enum ChangeMessageProtoConverter
     if (writtenOn != null) {
       builder.setWrittenOn(writtenOn.getTime());
     }
+    // Build proto with template representation of the message. Templates are parsed when message is
+    // extracted from cache.
     String message = changeMessage.getMessage();
     if (message != null) {
       builder.setMessage(message);
@@ -79,16 +81,15 @@ public enum ChangeMessageProtoConverter
     Timestamp writtenOn = proto.hasWrittenOn() ? new Timestamp(proto.getWrittenOn()) : null;
     PatchSet.Id patchSetId =
         proto.hasPatchset() ? patchSetIdConverter.fromProto(proto.getPatchset()) : null;
-    ChangeMessage changeMessage = new ChangeMessage(key, author, writtenOn, patchSetId);
-    if (proto.hasMessage()) {
-      changeMessage.setMessage(proto.getMessage());
-    }
-    if (proto.hasTag()) {
-      changeMessage.setTag(proto.getTag());
-    }
-    if (proto.hasRealAuthor()) {
-      changeMessage.setRealAuthor(accountIdConverter.fromProto(proto.getRealAuthor()));
-    }
+    // Only template representation of the message is stored in entity. Templates should be replaced
+    // before being served to the users.
+    String messageTemplate = proto.hasMessage() ? proto.getMessage() : null;
+    String tag = proto.hasTag() ? proto.getTag() : null;
+    Account.Id realAuthor =
+        proto.hasRealAuthor() ? accountIdConverter.fromProto(proto.getRealAuthor()) : null;
+    ChangeMessage changeMessage =
+        ChangeMessage.create(key, author, writtenOn, patchSetId, messageTemplate, realAuthor, tag);
+
     return changeMessage;
   }
 

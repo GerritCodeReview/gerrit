@@ -36,6 +36,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -91,6 +92,7 @@ public class EventFactory {
   private final ChangeKindCache changeKindCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final IndexConfig indexConfig;
+  private final ChangeMessagesUtil changeMessagesUtil;
 
   @Inject
   EventFactory(
@@ -103,7 +105,8 @@ public class EventFactory {
       ApprovalsUtil approvalsUtil,
       ChangeKindCache changeKindCache,
       Provider<InternalChangeQuery> queryProvider,
-      IndexConfig indexConfig) {
+      IndexConfig indexConfig,
+      ChangeMessagesUtil changeMessagesUtil) {
     this.accountCache = accountCache;
     this.urlFormatter = urlFormatter;
     this.emails = emails;
@@ -114,6 +117,7 @@ public class EventFactory {
     this.changeKindCache = changeKindCache;
     this.queryProvider = queryProvider;
     this.indexConfig = indexConfig;
+    this.changeMessagesUtil = changeMessagesUtil;
   }
 
   public ChangeAttribute asChangeAttribute(Change change) {
@@ -543,7 +547,7 @@ public class EventFactory {
         message.getAuthor() != null
             ? asAccountAttribute(message.getAuthor())
             : asAccountAttribute(myIdent.get());
-    a.message = message.getMessage();
+    a.message = changeMessagesUtil.replaceTemplates(message.getMessage());
     return a;
   }
 

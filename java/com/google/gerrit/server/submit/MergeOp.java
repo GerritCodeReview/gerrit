@@ -36,7 +36,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmissionId;
@@ -962,14 +961,8 @@ public class MergeOp implements AutoCloseable {
 
                   change.setStatus(Change.Status.ABANDONED);
 
-                  ChangeMessage msg =
-                      ChangeMessagesUtil.newMessage(
-                          change.currentPatchSetId(),
-                          internalUserFactory.create(),
-                          change.getLastUpdatedOn(),
-                          "Project was deleted.",
-                          ChangeMessagesUtil.TAG_MERGED);
-                  cmUtil.addChangeMessage(ctx.getUpdate(change.currentPatchSetId()), msg);
+                  cmUtil.setChangeMessage(
+                      ctx, "Project was deleted.", ChangeMessagesUtil.TAG_MERGED);
 
                   return true;
                 }

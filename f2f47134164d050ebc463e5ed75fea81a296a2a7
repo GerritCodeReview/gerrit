@@ -52,6 +52,24 @@
       "parentUuid": "8f20b943_7f7e004c",
       "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "309e4250_6d64800f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T07:36:26Z",
+      "side": 1,
+      "message": "\u003e I prefer to add it later when the syntax of the language that we will\n\u003e use is well defined, because the docs should include examples of such \n\u003e blocking/applicability/override conditions.\n\nI was exactly looking for the examples because it makes the review easier :)\nBy looking at the examples I would be able to judge quickly if this format looks good and then I could make sure that the code matches the documented intention.\nBut I\u0027m fine if you want to add docs only later.\n\n\u003e Also with this change, the submit requirements are unused; they\u0027ll just\n\u003e be stored in NoteDb but they don\u0027t have an effect on submittability of\n\u003e changes, so mentioning them with the project config might be confusing.\n\nMakes sense, maybe you could include this reasoning into the commit message, telling there why the new config settings are not documented yet and that the documentation will be added later?\n\n\u003e I\u0027m also OK to add them with this change anyway. We would probably need\n\u003e to re-iterate over them later to add/refine the examples.\n\nIf that\u0027s the case, I would rather argue that we should have the documentation first to be sure we are implementing the right thing (for the iterations changing documentation should be less work than changing the implementation).",
+      "parentUuid": "07dee85f_d805efdf",
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

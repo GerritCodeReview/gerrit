@@ -38,9 +38,7 @@ const getDraftKey = (location: StorageLocation): string => {
   return key;
 };
 
-const getEditableContentKey = (key: string): string => {
-  return `editablecontent:${key}`;
-};
+const getEditableContentKey = (key: string): string => `editablecontent:${key}`;
 
 export function cleanUpStorage() {
   storage.clear();

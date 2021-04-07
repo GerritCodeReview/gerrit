@@ -708,9 +708,13 @@ export class GrChecksResults extends GrLitElement {
     } else {
       runs = runs.filter(r => hasResultsOf(r, category));
     }
-    const all = runs.reduce((allResults: RunResult[], run) => {
-      return [...allResults, ...this.computeRunResults(category, run)];
-    }, []);
+    const all = runs.reduce(
+      (allResults: RunResult[], run) => [
+        ...allResults,
+        ...this.computeRunResults(category, run),
+      ],
+      []
+    );
     const filtered = all.filter(
       result =>
         this.filterRegExp.test(result.checkName) ||

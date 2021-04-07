@@ -373,19 +373,6 @@ export const htmlTemplate = html`
               ></gr-change-status>
             </template>
           </div>
-          <div class="statusText">
-            <template
-              is="dom-if"
-              if="[[_computeShowCommitInfo(_changeStatuses, _change.current_revision)]]"
-            >
-              <span class="text"> as </span>
-              <gr-commit-info
-                change="[[_change]]"
-                commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                server-config="[[_serverConfig]]"
-              ></gr-commit-info>
-            </template>
-          </div>
           <gr-change-star
             id="changeStar"
             change="{{_change}}"

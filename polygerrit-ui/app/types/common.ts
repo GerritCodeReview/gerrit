@@ -1141,6 +1141,7 @@ export interface PreferencesInfo {
   change_table: string[];
   email_strategy: EmailStrategy;
   default_base_for_merges: DefaultBase;
+  enable_emoji_picker: boolean;
   publish_comments_on_push?: boolean;
   disable_keyboard_shortcuts?: boolean;
   work_in_progress_by_default?: boolean;

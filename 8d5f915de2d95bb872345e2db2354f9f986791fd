@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e4a31c9_9cc47b36",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-07T23:40:25Z",
+      "side": 0,
+      "message": "Shouldn\u0027t this be kept and, instead, changed to the expectation that external ids can be removed, also in the username scheme?",
+      "range": {
+        "startLine": 268,
+        "startChar": 14,
+        "endLine": 268,
+        "endChar": 40
+      },
+      "revId": "8d5f915de2d95bb872345e2db2354f9f986791fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

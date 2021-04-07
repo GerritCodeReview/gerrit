@@ -239,6 +239,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a6030e4_ef0b0121",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-07T08:34:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecc8fcfb_cafd1126",
+      "range": {
+        "startLine": 422,
+        "startChar": 7,
+        "endLine": 422,
+        "endChar": 15
+      },
+      "revId": "11690c697cc995695e269948ac2c4e2c4bf19e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e58834e4_647dfe94",

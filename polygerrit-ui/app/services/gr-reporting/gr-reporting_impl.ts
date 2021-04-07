@@ -141,9 +141,7 @@ export function initErrorReporter(appContext: AppContext) {
       lineno?: number,
       colno?: number,
       error?: Error
-    ) => {
-      return onError(oldOnError, event, source, lineno, colno, error);
-    };
+    ) => onError(oldOnError, event, source, lineno, colno, error);
     context.addEventListener(
       'unhandledrejection',
       (e: PromiseRejectionEvent) => {

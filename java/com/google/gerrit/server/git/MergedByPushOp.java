@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
@@ -169,10 +168,7 @@ public class MergedByPushOp implements BatchUpdateOp {
       }
     }
     msgBuf.append(".");
-    ChangeMessage msg =
-        ChangeMessagesUtil.newMessage(
-            psId, ctx.getUser(), ctx.getWhen(), msgBuf.toString(), ChangeMessagesUtil.TAG_MERGED);
-    cmUtil.addChangeMessage(update, msg);
+    cmUtil.addChangeMessage(update, msgBuf.toString(), ChangeMessagesUtil.TAG_MERGED);
     update.putApproval(LabelId.legacySubmit().get(), (short) 1);
     return true;
   }

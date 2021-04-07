@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -106,7 +105,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
         updated.addAll(toAdd);
         updated.removeAll(toRemove);
         update.setHashtags(updated);
-        addMessage(ctx, update);
+        addMessage(ctx);
       }
 
       updatedHashtags = ImmutableSortedSet.copyOf(updated);
@@ -116,13 +115,11 @@ public class SetHashtagsOp implements BatchUpdateOp {
     }
   }
 
-  private void addMessage(ChangeContext ctx, ChangeUpdate update) {
+  private void addMessage(ChangeContext ctx) {
     StringBuilder msg = new StringBuilder();
     appendHashtagMessage(msg, "added", toAdd);
     appendHashtagMessage(msg, "removed", toRemove);
-    ChangeMessage cmsg =
-        ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_HASHTAGS);
-    cmUtil.addChangeMessage(update, cmsg);
+    cmUtil.addChangeMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_HASHTAGS);
   }
 
   private void appendHashtagMessage(StringBuilder b, String action, Set<String> hashtags) {

@@ -721,7 +721,7 @@ public class ChangeNotesStateTest {
   @Test
   public void serializeChangeMessages() throws Exception {
     ChangeMessage m1 =
-        new ChangeMessage(
+        ChangeMessage.create(
             ChangeMessage.key(ID, "uuid1"),
             Account.id(1000),
             new Timestamp(1212L),
@@ -731,7 +731,7 @@ public class ChangeNotesStateTest {
     assertThat(m1Bytes.size()).isEqualTo(35);
 
     ChangeMessage m2 =
-        new ChangeMessage(
+        ChangeMessage.create(
             ChangeMessage.key(ID, "uuid2"),
             Account.id(2000),
             new Timestamp(3434L),
@@ -1007,6 +1007,8 @@ public class ChangeNotesStateTest {
                 .put("author", Account.Id.class)
                 .put("writtenOn", Timestamp.class)
                 .put("message", String.class)
+                .put(
+                    "accountsForTemplate", new TypeLiteral<ImmutableSet<Account.Id>>() {}.getType())
                 .put("patchset", PatchSet.Id.class)
                 .put("tag", String.class)
                 .put("realAuthor", Account.Id.class)

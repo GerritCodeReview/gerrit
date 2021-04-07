@@ -43,7 +43,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
@@ -890,7 +889,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private IdentifiedUser user;
     private ChangeNotes notes;
     private PatchSet ps;
-    private ChangeMessage message;
+    private String mailMessage;
     private List<Comment> comments = new ArrayList<>();
     private List<LabelVote> labelDelta = new ArrayList<>();
     private Map<String, Short> approvals = new HashMap<>();
@@ -929,7 +928,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     @Override
     public void postUpdate(PostUpdateContext ctx) {
-      if (message == null) {
+      if (mailMessage == null) {
         return;
       }
       NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
@@ -941,7 +940,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                   notes,
                   ps,
                   user,
-                  message,
+                  mailMessage,
+                  ctx.getWhen(),
                   comments,
                   in.message,
                   labelDelta,
@@ -952,7 +952,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               String.format("Repository %s not found", ctx.getProject().get()), ex);
         }
       }
-      String comment = message.getMessage();
+      String comment = mailMessage;
       if (publishPatchSetLevelComment) {
         // TODO(davido): Remove this workaround when patch set level comments are exposed in comment
         // added event. For backwards compatibility, patchset level comment has a higher priority
@@ -1474,10 +1474,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return false;
       }
 
-      message =
-          ChangeMessagesUtil.newMessage(
-              psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, in.tag);
-      cmUtil.addChangeMessage(ctx.getUpdate(psId), message);
+      mailMessage =
+          cmUtil.addChangeMessage(
+              ctx.getUpdate(psId), "Patch Set " + psId.get() + ":" + buf, in.tag);
       return true;
     }
 

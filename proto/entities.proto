@@ -79,6 +79,7 @@ message ChangeMessage {
   optional PatchSet_Id patchset = 5;
   optional string tag = 6;
   optional Account_Id real_author = 7;
+  repeated Account_Id accounts_for_template = 8;
 }
 
 // Serialized form of com.google.gerrit.entities.PatchSet.Id.

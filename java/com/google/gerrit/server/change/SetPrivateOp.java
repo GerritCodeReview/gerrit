@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -83,7 +82,7 @@ public class SetPrivateOp implements BatchUpdateOp {
     change.setPrivate(isPrivate);
     change.setLastUpdatedOn(ctx.getWhen());
     update.setPrivate(isPrivate);
-    addMessage(ctx, update);
+    addMessage(ctx);
     return true;
   }
 
@@ -94,7 +93,7 @@ public class SetPrivateOp implements BatchUpdateOp {
     }
   }
 
-  private void addMessage(ChangeContext ctx, ChangeUpdate update) {
+  private void addMessage(ChangeContext ctx) {
     Change c = ctx.getChange();
     StringBuilder buf = new StringBuilder(c.isPrivate() ? "Set private" : "Unset private");
 
@@ -104,13 +103,9 @@ public class SetPrivateOp implements BatchUpdateOp {
       buf.append(m);
     }
 
-    ChangeMessage cmsg =
-        ChangeMessagesUtil.newMessage(
-            ctx,
-            buf.toString(),
-            c.isPrivate()
-                ? ChangeMessagesUtil.TAG_SET_PRIVATE
-                : ChangeMessagesUtil.TAG_UNSET_PRIVATE);
-    cmUtil.addChangeMessage(update, cmsg);
+    cmUtil.addChangeMessage(
+        ctx,
+        buf.toString(),
+        c.isPrivate() ? ChangeMessagesUtil.TAG_SET_PRIVATE : ChangeMessagesUtil.TAG_UNSET_PRIVATE);
   }
 }

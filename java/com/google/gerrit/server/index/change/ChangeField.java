@@ -60,6 +60,7 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
@@ -674,7 +675,10 @@ public class ChangeField {
               cd ->
                   Stream.concat(
                           cd.publishedComments().stream().map(c -> c.message),
-                          cd.messages().stream().map(ChangeMessage::getMessage))
+                          // Some endpoint allow passing user message in input, and we still want to
+                          // search by that. Cut templates from auto-generated comments so we don't
+                          // persist user data in index.
+                          cd.messages().stream().map(cm -> ChangeMessagesUtil.cutTemplates(cm)))
                       .collect(toSet()));
 
   /** Number of unresolved comment threads of the change, including robot comments. */

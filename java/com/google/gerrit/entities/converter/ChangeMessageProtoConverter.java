@@ -14,6 +14,7 @@
 
 package com.google.gerrit.entities.converter;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.ChangeMessage;
@@ -48,10 +49,15 @@ public enum ChangeMessageProtoConverter
     if (writtenOn != null) {
       builder.setWrittenOn(writtenOn.getTime());
     }
+    // Build proto with template representation of the message. Templates will be replaced at
+    // runtime, when served to the users.
     String message = changeMessage.getMessage();
     if (message != null) {
       builder.setMessage(message);
     }
+    changeMessage
+        .getAccountsForTemplate()
+        .forEach(account -> builder.addAccountsForTemplate(accountIdConverter.toProto(account)));
     PatchSet.Id patchSetId = changeMessage.getPatchSetId();
     if (patchSetId != null) {
       builder.setPatchset(patchSetIdConverter.toProto(patchSetId));
@@ -79,16 +85,27 @@ public enum ChangeMessageProtoConverter
     Timestamp writtenOn = proto.hasWrittenOn() ? new Timestamp(proto.getWrittenOn()) : null;
     PatchSet.Id patchSetId =
         proto.hasPatchset() ? patchSetIdConverter.fromProto(proto.getPatchset()) : null;
-    ChangeMessage changeMessage = new ChangeMessage(key, author, writtenOn, patchSetId);
-    if (proto.hasMessage()) {
-      changeMessage.setMessage(proto.getMessage());
-    }
-    if (proto.hasTag()) {
-      changeMessage.setTag(proto.getTag());
-    }
-    if (proto.hasRealAuthor()) {
-      changeMessage.setRealAuthor(accountIdConverter.fromProto(proto.getRealAuthor()));
-    }
+    // Only template representation of the message is stored in entity. Templates should be replaced
+    // before being served to the users.
+    String messageTemplate = proto.hasMessage() ? proto.getMessage() : null;
+    ImmutableSet<Account.Id> accountsForTemplate =
+        proto.getAccountsForTemplateList().stream()
+            .map(account -> accountIdConverter.fromProto(account))
+            .collect(ImmutableSet.toImmutableSet());
+    String tag = proto.hasTag() ? proto.getTag() : null;
+    Account.Id realAuthor =
+        proto.hasRealAuthor() ? accountIdConverter.fromProto(proto.getRealAuthor()) : null;
+    ChangeMessage changeMessage =
+        ChangeMessage.create(
+            key,
+            author,
+            writtenOn,
+            patchSetId,
+            messageTemplate,
+            accountsForTemplate,
+            realAuthor,
+            tag);
+
     return changeMessage;
   }
 

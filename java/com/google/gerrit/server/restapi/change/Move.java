@@ -25,7 +25,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -252,9 +251,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
         msgBuf.append("\n\n");
         msgBuf.append(input.message);
       }
-      ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(ctx, msgBuf.toString(), ChangeMessagesUtil.TAG_MOVE);
-      cmUtil.addChangeMessage(update, cmsg);
+      cmUtil.addChangeMessage(ctx, msgBuf.toString(), ChangeMessagesUtil.TAG_MOVE);
 
       return true;
     }

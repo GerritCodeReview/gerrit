@@ -32,7 +32,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
@@ -144,7 +143,7 @@ public class ChangeInserter implements InsertChangeOp {
   // Fields set during the insertion process.
   private ReceiveCommand cmd;
   private Change change;
-  private ChangeMessage changeMessage;
+  private String changeMessage;
   private PatchSetInfo patchSetInfo;
   private PatchSet patchSet;
   private String pushCert;
@@ -362,7 +361,7 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
-  public ChangeMessage getChangeMessage() {
+  public String getChangeMessage() {
     if (message == null) {
       return null;
     }
@@ -464,13 +463,8 @@ public class ChangeInserter implements InsertChangeOp {
     }
     if (message != null) {
       changeMessage =
-          ChangeMessagesUtil.newMessage(
-              patchSet.id(),
-              ctx.getUser(),
-              patchSet.createdOn(),
-              message,
-              ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
-      cmUtil.addChangeMessage(update, changeMessage);
+          cmUtil.addChangeMessage(
+              update, message, ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
     }
     return true;
   }

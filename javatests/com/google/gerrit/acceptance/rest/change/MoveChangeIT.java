@@ -24,6 +24,7 @@ import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -91,7 +92,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
     expectedMessage.append("Change destination moved from master to moveTest");
     expectedMessage.append("\n\n");
     expectedMessage.append(moveMessage);
-    assertThat(r.getChange().messages().get(1).getMessage()).isEqualTo(expectedMessage.toString());
+    assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages).message)
+        .isEqualTo(expectedMessage.toString());
   }
 
   @Test

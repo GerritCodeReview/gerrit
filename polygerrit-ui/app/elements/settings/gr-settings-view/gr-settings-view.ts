@@ -77,6 +77,7 @@ const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'work_in_progress_by_default',
   'default_base_for_merges',
   'signed_off_by',
+  'enable_emoji_picker',
   'email_format',
   'size_bar_in_change_table',
   'relative_date_in_change_table',
@@ -112,6 +113,7 @@ export interface GrSettingsView {
     workInProgressByDefault: HTMLInputElement;
     showSizeBarsInFileList: HTMLInputElement;
     publishCommentsOnPush: HTMLInputElement;
+    enableEmojiPicker: HTMLInputElement;
     relativeDateInChangeTable: HTMLInputElement;
   };
 }
@@ -377,6 +379,13 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     this.set(
       '_localPrefs.publish_comments_on_push',
       this.$.publishCommentsOnPush.checked
+    );
+  }
+
+  _handleEnableEmojiPickerChanged() {
+    this.set(
+      '_localPrefs.enable_emoji_picker',
+      this.$.enableEmojiPicker.checked
     );
   }
 

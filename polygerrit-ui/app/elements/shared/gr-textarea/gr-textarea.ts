@@ -115,6 +115,9 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   code = false;
 
+  @property({type: Boolean})
+  enableEmojiPicker = false;
+
   @property({type: Number})
   _colonIndex: number | null = null;
 
@@ -151,6 +154,11 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
   constructor() {
     super();
     this.reporting = appContext.reportingService;
+    appContext.restApiService.getPreferences().then(prefs => {
+      if (prefs?.enable_emoji_picker) {
+        this.enableEmojiPicker = prefs.enable_emoji_picker;
+      }
+    });
   }
 
   /** @override */
@@ -353,6 +361,7 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _openEmojiDropdown() {
+    if (!this.enableEmojiPicker) return;
     this.$.emojiSuggestions.open();
     this.reporting.reportInteraction('open-emoji-dropdown');
   }

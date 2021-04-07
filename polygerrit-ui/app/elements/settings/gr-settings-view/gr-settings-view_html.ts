@@ -290,6 +290,19 @@ export const htmlTemplate = html`
             />
           </span>
         </section>
+        <section>
+          <label for="enableEmojiPicker" class="title">
+            Show emoji picker on ':' trigger in comments
+          </label>
+          <span class="value">
+            <input
+              id="enableEmojiPicker"
+              type="checkbox"
+              checked$="[[_localPrefs.enable_emoji_picker]]"
+              on-change="_handleEnableEmojiPickerChanged"
+            />
+          </span>
+        </section>
         <gr-button
           id="savePrefs"
           on-click="_handleSavePreferences"

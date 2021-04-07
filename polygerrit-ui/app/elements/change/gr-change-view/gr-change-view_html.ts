@@ -794,13 +794,6 @@ export const htmlTemplate = html`
       on-close="_handleDownloadDialogClose"
     ></gr-download-dialog>
   </gr-overlay>
-  <gr-overlay id="uploadHelpOverlay" with-backdrop="">
-    <gr-upload-help-dialog
-      revision="[[_currentRevision]]"
-      target-branch="[[_change.branch]]"
-      on-close="_handleCloseUploadHelpDialog"
-    ></gr-upload-help-dialog>
-  </gr-overlay>
   <gr-overlay id="includedInOverlay" with-backdrop="">
     <gr-included-in-dialog
       id="includedInDialog"

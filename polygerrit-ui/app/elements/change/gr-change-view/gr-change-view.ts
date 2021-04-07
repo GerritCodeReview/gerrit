@@ -226,7 +226,6 @@ export interface GrChangeView {
     includedInDialog: GrIncludedInDialog;
     downloadOverlay: GrOverlay;
     downloadDialog: GrDownloadDialog;
-    uploadHelpOverlay: GrOverlay;
     replyOverlay: GrOverlay;
     replyDialog: GrReplyDialog;
     mainContent: HTMLDivElement;
@@ -1180,14 +1179,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   _handleDownloadDialogClose() {
     this.$.downloadOverlay.close();
-  }
-
-  _handleOpenUploadHelpDialog() {
-    this.$.uploadHelpOverlay.open();
-  }
-
-  _handleCloseUploadHelpDialog() {
-    this.$.uploadHelpOverlay.close();
   }
 
   _handleMessageReply(e: CustomEvent<{message: {message: string}}>) {

@@ -261,13 +261,12 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     if (message != null) {
       changeMessage =
-          ChangeMessagesUtil.newMessage(
+          cmUtil.newMessage(
               patchSet.id(),
               ctx.getUser(),
               ctx.getWhen(),
               message,
               ChangeMessagesUtil.uploadedPatchSetTag(change.isWorkInProgress()));
-      changeMessage.setMessage(message);
     }
 
     oldWorkInProgressState = change.isWorkInProgress();
@@ -307,7 +306,7 @@ public class PatchSetInserter implements BatchUpdateOp {
             replacePatchSetFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());
         emailSender.setPatchSet(patchSet, patchSetInfo);
-        emailSender.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
+        emailSender.setChangeMessage(changeMessage.getDetailedMessage(), ctx.getWhen());
         emailSender.addReviewers(oldReviewers.byState(REVIEWER));
         emailSender.addExtraCC(oldReviewers.byState(CC));
         emailSender.setNotify(notify);

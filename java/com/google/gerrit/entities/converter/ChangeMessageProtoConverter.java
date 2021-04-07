@@ -48,6 +48,8 @@ public enum ChangeMessageProtoConverter
     if (writtenOn != null) {
       builder.setWrittenOn(writtenOn.getTime());
     }
+    // Build proto with template representation of the message. Templates will be replaced at
+    // runtime, when served to the users.
     String message = changeMessage.getMessage();
     if (message != null) {
       builder.setMessage(message);
@@ -80,6 +82,8 @@ public enum ChangeMessageProtoConverter
     PatchSet.Id patchSetId =
         proto.hasPatchset() ? patchSetIdConverter.fromProto(proto.getPatchset()) : null;
     ChangeMessage changeMessage = new ChangeMessage(key, author, writtenOn, patchSetId);
+    // Only template representation of the message is stored in entity. Templates will be replaced
+    // at runtime, when served to the users.
     if (proto.hasMessage()) {
       changeMessage.setMessage(proto.getMessage());
     }

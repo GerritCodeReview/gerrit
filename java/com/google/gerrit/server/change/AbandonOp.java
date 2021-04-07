@@ -107,7 +107,7 @@ public class AbandonOp implements BatchUpdateOp {
       msg.append(msgTxt.trim());
     }
 
-    return ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_ABANDON);
+    return cmUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_ABANDON);
   }
 
   @Override
@@ -119,7 +119,7 @@ public class AbandonOp implements BatchUpdateOp {
       if (accountState != null) {
         emailSender.setFrom(accountState.account().id());
       }
-      emailSender.setChangeMessage(message.getMessage(), ctx.getWhen());
+      emailSender.setChangeMessage(message.getDetailedMessage(), ctx.getWhen());
       emailSender.setNotify(notify);
       emailSender.setMessageId(
           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));

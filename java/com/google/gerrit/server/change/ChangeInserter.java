@@ -463,7 +463,7 @@ public class ChangeInserter implements InsertChangeOp {
     }
     if (message != null) {
       changeMessage =
-          ChangeMessagesUtil.newMessage(
+          cmUtil.newMessage(
               patchSet.id(),
               ctx.getUser(),
               patchSet.createdOn(),

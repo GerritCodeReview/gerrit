@@ -105,9 +105,10 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
     private void addMessage(
         ChangeContext ctx, ChangeUpdate update, IdentifiedUser deletedAssignee) {
       ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(
+          cmUtil.newMessage(
               ctx,
-              "Assignee deleted: " + deletedAssignee.getNameEmail(),
+              "Assignee deleted: "
+                  + ChangeMessagesUtil.getAccountTemplate(deletedAssignee.getAccountId()),
               ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
       cmUtil.addChangeMessage(update, cmsg);
     }

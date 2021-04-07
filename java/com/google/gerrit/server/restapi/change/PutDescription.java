@@ -103,7 +103,7 @@ public class PutDescription
                 "Description of patch set %d changed to \"%s\"", psId.get(), newDescription);
       }
       ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(
+          cmUtil.newMessage(
               psId, ctx.getUser(), ctx.getWhen(), summary, ChangeMessagesUtil.TAG_SET_DESCRIPTION);
       cmUtil.addChangeMessage(update, cmsg);
       return true;

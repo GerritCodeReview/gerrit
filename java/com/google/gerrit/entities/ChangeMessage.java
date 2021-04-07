@@ -21,6 +21,7 @@ import java.util.Objects;
 
 /** A message attached to a {@link Change}. */
 public final class ChangeMessage {
+
   public static Key key(Change.Id changeId, String uuid) {
     return new AutoValue_ChangeMessage_Key(changeId, uuid);
   }
@@ -40,8 +41,15 @@ public final class ChangeMessage {
   /** When this comment was drafted. */
   protected Timestamp writtenOn;
 
-  /** The text left by the user. */
+  /**
+   * The text left by the user or Gerrit system in template form, that can be persisted in storage.
+   */
   @Nullable protected String message;
+
+  /**
+   * The text left by the user or Gerrit system in human-readable form (with replaced templates).
+   */
+  @Nullable protected String detailedMessage;
 
   /** Which patchset (if any) was this message generated from? */
   @Nullable protected PatchSet.Id patchset;
@@ -94,12 +102,24 @@ public final class ChangeMessage {
     writtenOn = ts;
   }
 
+  /** Message that should be persisted in data storage (in template form). */
   public String getMessage() {
     return message;
   }
 
+  /** Sets the message from the data storage (in template form). */
   public void setMessage(String s) {
     message = s;
+  }
+
+  /** The message that should be served to the user (with replaced templates). */
+  public String getDetailedMessage() {
+    return detailedMessage == null ? message : detailedMessage;
+  }
+
+  /** Sets the message that should be served to the user (with replaced templates). */
+  public void setDetailedMessage(String m) {
+    detailedMessage = m;
   }
 
   public String getTag() {

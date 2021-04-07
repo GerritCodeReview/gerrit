@@ -441,7 +441,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       throws AuthException, IOException, PermissionBackendException,
           InvalidChangeOperationException {
     stickyApprovalDiff = args.submitWithStickyApprovalDiff.apply(ctx.getNotes(), ctx.getUser());
-    return ChangeMessagesUtil.newMessage(
+    return args.cmUtil.newMessage(
         psId,
         ctx.getUser(),
         ctx.getWhen(),

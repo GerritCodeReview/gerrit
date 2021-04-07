@@ -133,7 +133,9 @@ public class ListChangeCommentsTest {
 
   /** Return the change message from the list of messages that has specific message text */
   private static ChangeMessage getChangeMessage(List<ChangeMessage> messages, String messageText) {
-    return messages.stream().filter(m -> m.getMessage().equals(messageText)).collect(onlyElement());
+    return messages.stream()
+        .filter(m -> m.getDetailedMessage().equals(messageText))
+        .collect(onlyElement());
   }
 
   /** Return the comment from the list of comments that has specific message text */

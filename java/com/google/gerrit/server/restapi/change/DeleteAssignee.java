@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
@@ -94,7 +93,7 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       IdentifiedUser deletedAssigneeUser = userFactory.create(currentAssigneeId);
       deletedAssignee = deletedAssigneeUser.state();
       update.removeAssignee();
-      addMessage(ctx, update, deletedAssigneeUser);
+      addMessage(ctx, deletedAssigneeUser);
       return true;
     }
 
@@ -102,14 +101,12 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       return deletedAssignee != null ? deletedAssignee.account().id() : null;
     }
 
-    private void addMessage(
-        ChangeContext ctx, ChangeUpdate update, IdentifiedUser deletedAssignee) {
-      ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(
-              ctx,
-              "Assignee deleted: " + deletedAssignee.getNameEmail(),
-              ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
-      cmUtil.addChangeMessage(update, cmsg);
+    private void addMessage(ChangeContext ctx, IdentifiedUser deletedAssignee) {
+      cmUtil.setChangeMessage(
+          ctx,
+          "Assignee deleted: "
+              + ChangeMessagesUtil.getAccountTemplate(deletedAssignee.getAccountId()),
+          ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
     }
 
     @Override

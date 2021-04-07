@@ -106,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4716305d_8e33a813",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T13:21:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "185972b7_95f896cd",
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acf4552d_ec9ed3fd",
@@ -395,6 +413,24 @@
       "side": 1,
       "message": "I don\u0027t think that matters here. Since each file has a single section, there can\u0027t be any conflicts on this level and the lookup is done by the note name. The section name is read as a value and treated case preserving.",
       "parentUuid": "8a0e0f0f_02600b88",
+      "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "722f6702_b1b2a5fc",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T13:21:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bb4cad6f_eb6dc09c",
       "revId": "2c9e0b4a144f7c0e1b97034bd2edc12278063b6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c34f561_b6646b6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-07T07:40:13Z",
+      "side": 1,
+      "message": "Thank. Nice fix!\n\nDon\u0027t forget to pick into at least 3.4, maybe even 3.2.",
+      "revId": "7db9fdcdd7e78140fee2ee3b662d94bddcbbe6a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

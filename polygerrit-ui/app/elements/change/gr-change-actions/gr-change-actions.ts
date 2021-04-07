@@ -111,6 +111,7 @@ import {
   RevisionActions,
 } from '../../../api/change-actions';
 import {ErrorCallback} from '../../../api/rest';
+import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -274,7 +275,7 @@ const SKIP_ACTION_KEYS_ATTENTION_SET = [
   ChangeActions.UNREVIEWED,
 ];
 
-function assertUIActionInfo(action?: ActionInfo): UIActionInfo {
+export function assertUIActionInfo(action?: ActionInfo): UIActionInfo {
   // TODO(TS): Remove this function. The gr-change-actions adds properties
   // to existing ActionInfo objects instead of creating a new objects. This
   // function checks, that 'action' has all property required by UIActionInfo.
@@ -332,6 +333,7 @@ export interface GrChangeActions {
     createFollowUpChange: GrCreateChangeDialog;
     confirmDeleteDialog: GrDialog;
     confirmDeleteEditDialog: GrDialog;
+    moreActions: GrDropdown;
   };
 }
 

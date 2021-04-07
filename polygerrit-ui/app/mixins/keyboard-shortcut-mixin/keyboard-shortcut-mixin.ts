@@ -837,8 +837,9 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
           // mark-reviewed and then press ] to go to the next file'.
           (tagName === 'INPUT' && type !== 'checkbox') ||
           tagName === 'TEXTAREA' ||
-          // Suppress shortcuts if the key is 'enter' and target is an anchor.
-          (e.keyCode === 13 && tagName === 'A')
+          // Suppress shortcuts if the key is 'enter'
+          // and target is an anchor or button.
+          (e.keyCode === 13 && (tagName === 'A' || tagName === 'BUTTON'))
         ) {
           return true;
         }

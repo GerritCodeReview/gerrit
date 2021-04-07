@@ -310,6 +310,80 @@ class GrResultRow extends GrLitElement {
     return html`<div class="label">${label}</div>`;
   }
 
+<<<<<<< HEAD   (c4c6e6 Remove new-change-summary feature flag from gr-change-metada)
+=======
+  renderLinks() {
+    const links = (this.result?.links ?? []).slice(1);
+    if (links.length === 0) return;
+    return html`<div class="links">${links.map(this.renderLink)}</div>`;
+  }
+
+  renderLink(link: Link) {
+    const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
+    return html`<a href="${link.url}" target="_blank"
+      ><iron-icon
+        aria-label="external link to details"
+        class="link"
+        icon="gr-icons:${iconForLink(link.icon)}"
+      ></iron-icon
+      ><paper-tooltip offset="5">${tooltipText}</paper-tooltip></a
+    >`;
+  }
+
+  private renderActions() {
+    const actions = this.result?.actions ?? [];
+    if (actions.length === 0) return;
+    const overflowItems = actions.slice(2).map(action => {
+      return {...action, id: action.name};
+    });
+    return html`<div class="actions">
+      ${this.renderAction(actions[0])} ${this.renderAction(actions[1])}
+      <gr-dropdown
+        id="moreActions"
+        link=""
+        vertical-offset="32"
+        horizontal-align="right"
+        @tap-item="${this.handleAction}"
+        @opened-changed="${(e: CustomEvent) =>
+          toggleClass(this, 'dropdown-open', e.detail.value)}"
+        ?hidden="${overflowItems.length === 0}"
+        .items="${overflowItems}"
+      >
+        <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
+        </iron-icon>
+        <span id="moreMessage">More</span>
+      </gr-dropdown>
+    </div>`;
+  }
+
+  private handleAction(e: CustomEvent<Action>) {
+    fireActionTriggered(this, e.detail);
+  }
+
+  private renderAction(action?: Action) {
+    if (!action) return;
+    return html`<gr-checks-action .action="${action}"></gr-checks-action>`;
+  }
+
+  renderPrimaryActions() {
+    const primaryActions = (this.result?.actions ?? []).slice(0, 2);
+    if (primaryActions.length === 0) return;
+    return html`
+      <div class="primaryActions">${primaryActions.map(this.renderAction)}</div>
+    `;
+  }
+
+  renderSecondaryActions() {
+    const secondaryActions = (this.result?.actions ?? []).slice(2);
+    if (secondaryActions.length === 0) return;
+    return html`
+      <div class="secondaryActions">
+        ${secondaryActions.map(this.renderAction)}
+      </div>
+    `;
+  }
+
+>>>>>>> CHANGE (6988bd Upgrade package.json dependencies)
   renderTag(tag: Tag) {
     return html`<div class="tag ${tag.color}">${tag.name}</div>`;
   }
@@ -344,9 +418,7 @@ class GrResultExpanded extends GrLitElement {
           name="result"
           .value="${this.result}"
         ></gr-endpoint-param>
-        <div class="message">
-          ${this.result.message}
-        </div>
+        <div class="message">${this.result.message}</div>
       </gr-endpoint-decorator>
     `;
   }
@@ -588,12 +660,8 @@ export class GrChecksResults extends GrLitElement {
           </div>
         </div>
         <div class="headerBottomRow">
-          <div class="left">
-            ${this.renderFilter()}
-          </div>
-          <div class="right">
-            ${this.renderActions()}
-          </div>
+          <div class="left">${this.renderFilter()}</div>
+          <div class="right">${this.renderActions()}</div>
         </div>
       </div>
       <div class="body">
@@ -672,9 +740,7 @@ export class GrChecksResults extends GrLitElement {
           placeholder="Filter results by regular expression"
           @input="${this.onInput}"
         />
-        <div class="selection">
-          ${this.renderSelectionFilter()}
-        </div>
+        <div class="selection">${this.renderSelectionFilter()}</div>
       </div>
     `;
   }
@@ -709,9 +775,13 @@ export class GrChecksResults extends GrLitElement {
     } else {
       runs = runs.filter(r => hasResultsOf(r, category));
     }
-    const all = runs.reduce((allResults: RunResult[], run) => {
-      return [...allResults, ...this.computeRunResults(category, run)];
-    }, []);
+    const all = runs.reduce(
+      (allResults: RunResult[], run) => [
+        ...allResults,
+        ...this.computeRunResults(category, run),
+      ],
+      []
+    );
     const filtered = all.filter(
       result =>
         this.filterRegExp.test(result.checkName) ||

@@ -56,9 +56,7 @@ export const htmlTemplate = html`
       <p class="warning">
         Warning: moving a change will not change its parents.
       </p>
-      <label for="branchInput">
-        Move change to branch
-      </label>
+      <label for="branchInput"> Move change to branch </label>
       <gr-autocomplete
         id="branchInput"
         text="{{branch}}"
@@ -66,9 +64,7 @@ export const htmlTemplate = html`
         placeholder="Destination branch"
       >
       </gr-autocomplete>
-      <label for="messageInput">
-        Move Change Message
-      </label>
+      <label for="messageInput"> Move Change Message </label>
       <iron-autogrow-textarea
         id="messageInput"
         class="message"

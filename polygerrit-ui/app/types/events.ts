@@ -84,9 +84,7 @@ declare global {
 export interface ChangeMessageDeletedEventDetail {
   message: ChangeMessage;
 }
-export type ChangeMessageDeletedEvent = CustomEvent<
-  ChangeMessageDeletedEventDetail
->;
+export type ChangeMessageDeletedEvent = CustomEvent<ChangeMessageDeletedEventDetail>;
 
 // TODO(milutin) - remove once new gr-dialog will do it out of the box
 // This informs gr-app-element to remove footer, header from a11y tree
@@ -99,9 +97,7 @@ export type DialogChangeEvent = CustomEvent<DialogChangeEventDetail>;
 export interface EditableContentSaveEventDetail {
   content: string;
 }
-export type EditableContentSaveEvent = CustomEvent<
-  EditableContentSaveEventDetail
->;
+export type EditableContentSaveEvent = CustomEvent<EditableContentSaveEventDetail>;
 
 export interface RpcLogEventDetail {
   status: number | null;

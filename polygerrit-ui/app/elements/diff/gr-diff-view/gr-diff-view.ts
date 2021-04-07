@@ -1791,12 +1791,9 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     if (!this._fileList) return;
     if (!this._patchRange) return;
     if (!this._change) return;
-    const hasComment = (path: string) => {
-      return (
-        this._changeComments?.getCommentsForPath(path, this._patchRange!)
-          ?.length ?? 0 > 0
-      );
-    };
+    const hasComment = (path: string) =>
+      this._changeComments?.getCommentsForPath(path, this._patchRange!)
+        ?.length ?? 0 > 0;
     const filesWithComments = this._fileList.filter(
       file => file === this._path || hasComment(file)
     );

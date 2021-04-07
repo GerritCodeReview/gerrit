@@ -515,9 +515,7 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   _createTrailingWhitespaceLayer(): DiffLayer {
-    const show = () => {
-      return this._showTrailingWhitespace;
-    };
+    const show = () => this._showTrailingWhitespace;
 
     return {
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {

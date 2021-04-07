@@ -41,9 +41,7 @@ export const htmlTemplate = html`
     <section class$="[[_hideAvatarChangeUrl(_avatarChangeUrl)]]">
       <span class="title"></span>
       <span class="value">
-        <a href$="[[_avatarChangeUrl]]">
-          Change avatar
-        </a>
+        <a href$="[[_avatarChangeUrl]]"> Change avatar </a>
       </span>
     </section>
     <section>

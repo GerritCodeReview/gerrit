@@ -33,9 +33,7 @@ export const htmlTemplate = html`
     aria-label="Account avatar"
   ></gr-avatar>
   <div class="info">
-    <h1 class="heading-1">
-      [[_computeHeading(_accountDetails)]]
-    </h1>
+    <h1 class="heading-1">[[_computeHeading(_accountDetails)]]</h1>
     <hr />
     <div class$="status [[_computeStatusClass(_status)]]">
       <span>Status:</span> [[_status]]

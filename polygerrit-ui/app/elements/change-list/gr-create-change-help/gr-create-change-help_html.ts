@@ -64,9 +64,7 @@ export const htmlTemplate = html`
     <div id="circle">
       <iron-icon id="icon" icon="gr-icons:zeroState"></iron-icon>
     </div>
-    <p>
-      No outgoing changes yet
-    </p>
+    <p>No outgoing changes yet</p>
   </div>
   <div id="help">
     <h2 class="heading-3">Push your first change for code review</h2>

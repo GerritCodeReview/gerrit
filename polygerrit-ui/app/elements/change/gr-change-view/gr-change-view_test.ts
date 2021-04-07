@@ -111,7 +111,9 @@ const fixture = fixtureFromElement('gr-change-view');
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
 
-  let navigateToChangeStub: SinonStubbedMember<typeof GerritNav.navigateToChange>;
+  let navigateToChangeStub: SinonStubbedMember<
+    typeof GerritNav.navigateToChange
+  >;
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
@@ -902,7 +904,9 @@ suite('gr-change-view tests', () => {
   });
 
   suite('reloading drafts', () => {
-    let reloadStub: SinonStubbedMember<typeof element.$.commentAPI.reloadDrafts>;
+    let reloadStub: SinonStubbedMember<
+      typeof element.$.commentAPI.reloadDrafts
+    >;
     const drafts: {[path: string]: UIDraft[]} = {
       'testfile.txt': [
         {
@@ -1677,9 +1681,8 @@ suite('gr-change-view tests', () => {
       Promise.resolve(new Response(null, {status: 500}))
     );
 
-    const mockEvent = (content: string) => {
-      return new CustomEvent('', {detail: {content}});
-    };
+    const mockEvent = (content: string) =>
+      new CustomEvent('', {detail: {content}});
 
     element._handleCommitMessageSave(mockEvent('test \n  test '));
     assert.equal(putStub.lastCall.args[1], 'test\n  test');
@@ -2194,7 +2197,9 @@ suite('gr-change-view tests', () => {
   });
 
   suite('related changes expand/collapse', () => {
-    let updateHeightSpy: SinonSpyMember<typeof element._updateRelatedChangeMaxHeight>;
+    let updateHeightSpy: SinonSpyMember<
+      typeof element._updateRelatedChangeMaxHeight
+    >;
     setup(() => {
       updateHeightSpy = sinon.spy(element, '_updateRelatedChangeMaxHeight');
     });
@@ -2207,9 +2212,9 @@ suite('gr-change-view tests', () => {
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getScrollHeight').callsFake(() => 60);
       sinon.stub(element, '_getLineHeight').callsFake(() => 5);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: true} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: true} as MediaQueryList));
       const relatedChanges = element.shadowRoot!.querySelector(
         '#relatedChanges'
       ) as GrRelatedChangesList;
@@ -2226,9 +2231,9 @@ suite('gr-change-view tests', () => {
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getScrollHeight').callsFake(() => 40);
       sinon.stub(element, '_getLineHeight').callsFake(() => 5);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: true} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: true} as MediaQueryList));
       const relatedChanges = element.shadowRoot!.querySelector(
         '#relatedChanges'
       ) as GrRelatedChangesList;
@@ -2239,9 +2244,9 @@ suite('gr-change-view tests', () => {
 
     test('relatedChangesToggle functions', () => {
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: false} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: false} as MediaQueryList));
       assert.isTrue(element._relatedChangesCollapsed);
       const relatedChangesToggleButton = element.shadowRoot!.querySelector(
         '#relatedChangesToggleButton'
@@ -2258,9 +2263,9 @@ suite('gr-change-view tests', () => {
     test('_updateRelatedChangeMaxHeight without commit toggle', () => {
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getLineHeight').callsFake(() => 12);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: false} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: false} as MediaQueryList));
 
       // 50 (existing height) - 30 (extra height) = 20 (adjusted height).
       // 20 (max existing height)  % 12 (line height) = 6 (remainder).
@@ -2275,9 +2280,9 @@ suite('gr-change-view tests', () => {
       element._latestCommitMessage = _.times(31, String).join('\n');
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getLineHeight').callsFake(() => 12);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: false} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: false} as MediaQueryList));
 
       // 50 (existing height) % 12 (line height) = 2 (remainder).
       // 50 (existing height)  - 2 (remainder) = 48 (max height to set).
@@ -2294,9 +2299,9 @@ suite('gr-change-view tests', () => {
       element._latestCommitMessage = _.times(31, String).join('\n');
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getLineHeight').callsFake(() => 12);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: true} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: true} as MediaQueryList));
 
       element._updateRelatedChangeMaxHeight();
 
@@ -2326,7 +2331,9 @@ suite('gr-change-view tests', () => {
 
     suite('update checks', () => {
       let clock: SinonFakeTimers;
-      let startUpdateCheckTimerSpy: SinonSpyMember<typeof element._startUpdateCheckTimer>;
+      let startUpdateCheckTimerSpy: SinonSpyMember<
+        typeof element._startUpdateCheckTimer
+      >;
       setup(() => {
         clock = sinon.useFakeTimers();
         startUpdateCheckTimerSpy = sinon.spy(element, '_startUpdateCheckTimer');

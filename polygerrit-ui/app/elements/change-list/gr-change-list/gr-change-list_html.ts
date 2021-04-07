@@ -121,9 +121,7 @@ export const htmlTemplate = html`
               items="[[_computeColumns(changeSection, visibleChangeTableColumns)]]"
               as="item"
             >
-              <td class$="[[_lowerCase(item)]]">
-                [[item]]
-              </td>
+              <td class$="[[_lowerCase(item)]]">[[item]]</td>
             </template>
             <template is="dom-repeat" items="[[labelNames]]" as="labelName">
               <td class="label" title$="[[labelName]]">

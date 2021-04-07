@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dff8069_5d711ce4",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e52814a_f7dfc420",
+      "range": {
+        "startLine": 16,
+        "startChar": 63,
+        "endLine": 16,
+        "endChar": 64
+      },
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76808e7d_7c6f6878",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-04-07T07:24:35Z",
       "side": 1,
       "message": "gerrit.config resides in $gerrit_site_path/etc",
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8444ea02_722e062f",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76808e7d_7c6f6878",
       "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a108fd2_a3af7f1e",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T08:24:09Z",
+      "side": 1,
+      "message": "Added the --to option already here that should clearly show the direction.",
+      "parentUuid": "721eff63_a3e93eca",
+      "range": {
+        "startLine": 38,
+        "startChar": 24,
+        "endLine": 38,
+        "endChar": 55
+      },
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f8818d6_c5478eb9",
@@ -77,6 +143,24 @@
       "writtenOn": "2021-04-07T07:24:35Z",
       "side": 1,
       "message": "no, I think it converts the externalId\u0027s sha1 to be computed from the lowercase(externalId\u0027s key)",
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "604776d5_5591d1d3",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T08:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f8818d6_c5478eb9",
       "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -130,6 +214,24 @@
       "side": 1,
       "message": "also see\nhttps://gerrit-review.googlesource.com/c/gerrit/+/265651\nhttps://gerrit-review.googlesource.com/c/gerrit/+/265773",
       "parentUuid": "4ece041b_6b2c14f8",
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d7d6a23_6d0b5d89",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T08:24:09Z",
+      "side": 1,
+      "message": "I would suggest to do such an optimization in a separate change.\n\nThere is a progress report already. The monitor does that.",
+      "parentUuid": "5039f6d2_0c7dae87",
       "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

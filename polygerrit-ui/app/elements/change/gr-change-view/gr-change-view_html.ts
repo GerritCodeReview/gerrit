@@ -586,8 +586,13 @@ export const htmlTemplate = html`
 
     <h2 class="assistive-tech-only">Files and Comments tabs</h2>
     <paper-tabs id="primaryTabs" on-selected-changed="_setActivePrimaryTab">
-      <paper-tab data-name$="[[_constants.PrimaryTab.FILES]]">Files</paper-tab>
       <paper-tab
+        on-click="_onPaperTabClick"
+        data-name$="[[_constants.PrimaryTab.FILES]]"
+        >Files</paper-tab
+      >
+      <paper-tab
+        on-click="_onPaperTabClick"
         data-name$="[[_constants.PrimaryTab.COMMENT_THREADS]]"
         class="commentThreads"
       >
@@ -599,7 +604,9 @@ export const htmlTemplate = html`
         >
       </paper-tab>
       <template is="dom-if" if="[[_showChecksTab]]">
-        <paper-tab data-name$="[[_constants.PrimaryTab.CHECKS]]"
+        <paper-tab
+          data-name$="[[_constants.PrimaryTab.CHECKS]]"
+          on-click="_onPaperTabClick"
           >Checks</paper-tab
         >
       </template>
@@ -617,7 +624,10 @@ export const htmlTemplate = html`
           </gr-endpoint-decorator>
         </paper-tab>
       </template>
-      <paper-tab data-name$="[[_constants.PrimaryTab.FINDINGS]]">
+      <paper-tab
+        data-name$="[[_constants.PrimaryTab.FINDINGS]]"
+        on-click="_onPaperTabClick"
+      >
         Findings
       </paper-tab>
     </paper-tabs>

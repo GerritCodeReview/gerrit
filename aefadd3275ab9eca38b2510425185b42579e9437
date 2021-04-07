@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cea19e4a_214c5a73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-07T15:52:37Z",
+      "side": 1,
+      "message": "We are still uncertain whether we really want to add this new capability. Hence marking this change as WIP for now.",
+      "revId": "aefadd3275ab9eca38b2510425185b42579e9437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1659,9 +1659,8 @@ suite('gr-change-view tests', () => {
       Promise.resolve(new Response(null, {status: 500}))
     );
 
-    const mockEvent = (content: string) => {
-      return new CustomEvent('', {detail: {content}});
-    };
+    const mockEvent = (content: string) =>
+      new CustomEvent('', {detail: {content}});
 
     element._handleCommitMessageSave(mockEvent('test \n  test '));
     assert.equal(putStub.lastCall.args[1], 'test\n  test');
@@ -2189,9 +2188,9 @@ suite('gr-change-view tests', () => {
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getScrollHeight').callsFake(() => 60);
       sinon.stub(element, '_getLineHeight').callsFake(() => 5);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: true} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: true} as MediaQueryList));
       const relatedChanges = element.shadowRoot!.querySelector(
         '#relatedChanges'
       ) as GrRelatedChangesList;
@@ -2208,9 +2207,9 @@ suite('gr-change-view tests', () => {
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getScrollHeight').callsFake(() => 40);
       sinon.stub(element, '_getLineHeight').callsFake(() => 5);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: true} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: true} as MediaQueryList));
       const relatedChanges = element.shadowRoot!.querySelector(
         '#relatedChanges'
       ) as GrRelatedChangesList;
@@ -2221,9 +2220,9 @@ suite('gr-change-view tests', () => {
 
     test('relatedChangesToggle functions', () => {
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: false} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: false} as MediaQueryList));
       assert.isTrue(element._relatedChangesCollapsed);
       const relatedChangesToggleButton = element.shadowRoot!.querySelector(
         '#relatedChangesToggleButton'
@@ -2240,9 +2239,9 @@ suite('gr-change-view tests', () => {
     test('_updateRelatedChangeMaxHeight without commit toggle', () => {
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getLineHeight').callsFake(() => 12);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: false} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: false} as MediaQueryList));
 
       // 50 (existing height) - 30 (extra height) = 20 (adjusted height).
       // 20 (max existing height)  % 12 (line height) = 6 (remainder).
@@ -2257,9 +2256,9 @@ suite('gr-change-view tests', () => {
       element._latestCommitMessage = _.times(31, String).join('\n');
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getLineHeight').callsFake(() => 12);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: false} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: false} as MediaQueryList));
 
       // 50 (existing height) % 12 (line height) = 2 (remainder).
       // 50 (existing height)  - 2 (remainder) = 48 (max height to set).
@@ -2276,9 +2275,9 @@ suite('gr-change-view tests', () => {
       element._latestCommitMessage = _.times(31, String).join('\n');
       sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
       sinon.stub(element, '_getLineHeight').callsFake(() => 12);
-      sinon.stub(window, 'matchMedia').callsFake(() => {
-        return {matches: true} as MediaQueryList;
-      });
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: true} as MediaQueryList));
 
       element._updateRelatedChangeMaxHeight();
 

@@ -84,9 +84,7 @@ export const htmlTemplate = html`
       >
         Agreement already submitted.
       </div>
-      <div class="agreementsUrl">
-        [[item.description]]
-      </div>
+      <div class="agreementsUrl">[[item.description]]</div>
     </template>
     <div
       id="claNewAgreement"

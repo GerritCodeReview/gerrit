@@ -50,9 +50,7 @@ export const htmlTemplate = html`
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
     <div class="info">
-      <h1 id="Title" class="heading-1">
-        [[repo]]
-      </h1>
+      <h1 id="Title" class="heading-1">[[repo]]</h1>
       <hr />
       <div>
         <a href$="[[_computeBrowseUrl(weblinks)]]"

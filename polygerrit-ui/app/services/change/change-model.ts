@@ -109,8 +109,8 @@ export const currentPatchNum$: Observable<
   PatchSetNum | undefined
 > = changeAndRouterConsistent$.pipe(
   withLatestFrom(routerPatchNum$, latestPatchNum$),
-  map(([_, routerPatchNum, latestPatchNum]) => {
-    return routerPatchNum || latestPatchNum;
-  }),
+  map(
+    ([_, routerPatchNum, latestPatchNum]) => routerPatchNum || latestPatchNum
+  ),
   distinctUntilChanged()
 );

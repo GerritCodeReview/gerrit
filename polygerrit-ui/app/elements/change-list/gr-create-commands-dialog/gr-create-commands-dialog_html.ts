@@ -37,26 +37,18 @@ export const htmlTemplate = html`
       confirm-on-enter=""
       on-confirm="_handleClose"
     >
-      <div class="header" slot="header">
-        Create change commands
-      </div>
+      <div class="header" slot="header">Create change commands</div>
       <div class="main" slot="main">
         <ol>
           <li>
-            <p>
-              Make the changes to the files on your machine
-            </p>
+            <p>Make the changes to the files on your machine</p>
           </li>
           <li>
-            <p>
-              If you are making a new commit use
-            </p>
+            <p>If you are making a new commit use</p>
             <gr-shell-command
               command="[[_createNewCommitCommand]]"
             ></gr-shell-command>
-            <p>
-              Or to amend an existing commit use
-            </p>
+            <p>Or to amend an existing commit use</p>
             <gr-shell-command
               command="[[_amendExistingCommitCommand]]"
             ></gr-shell-command>
@@ -66,9 +58,7 @@ export const htmlTemplate = html`
             </p>
           </li>
           <li>
-            <p>
-              Push the change for code review
-            </p>
+            <p>Push the change for code review</p>
             <gr-shell-command command="[[_pushCommand]]"></gr-shell-command>
           </li>
           <li>

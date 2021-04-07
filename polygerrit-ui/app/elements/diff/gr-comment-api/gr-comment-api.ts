@@ -147,12 +147,8 @@ export class ChangeComments {
     const commentMap: CommentMap = {};
     for (const response of responses) {
       for (const [path, comments] of Object.entries(response)) {
-        if (
-          comments.some(c => {
-            // If don't care about patch range, we know that the path exists.
-            return !patchRange || isInPatchRange(c, patchRange);
-          })
-        ) {
+        // If don't care about patch range, we know that the path exists.
+        if (comments.some(c => !patchRange || isInPatchRange(c, patchRange))) {
           commentMap[path] = true;
         }
       }

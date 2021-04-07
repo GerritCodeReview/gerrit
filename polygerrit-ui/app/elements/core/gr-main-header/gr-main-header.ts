@@ -239,7 +239,7 @@ export class GrMainHeader extends PolymerElement {
       } else if (items.length > 0) {
         links.push({
           title: m.name,
-          links: topMenuLinks[m.name] = items,
+          links: (topMenuLinks[m.name] = items),
         });
       }
     }

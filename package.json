@@ -8,20 +8,20 @@
     "@bazel/typescript": "^3.2.3"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.11.0",
-    "eslint": "^7.16.0",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "eslint": "^7.24.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-plugin-html": "^6.1.1",
+    "eslint-plugin-html": "^6.1.2",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsdoc": "^30.7.9",
+    "eslint-plugin-jsdoc": "^32.3.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.0",
-    "gts": "^3.0.3",
+    "eslint-plugin-prettier": "^3.4.0",
+    "gts": "^3.1.0",
     "polymer-cli": "^1.9.11",
-    "prettier": "2.0.5",
-    "rollup": "^2.3.4",
-    "terser": "^4.8.0",
-    "typescript": "4.0.5"
+    "prettier": "2.2.1",
+    "rollup": "^2.45.2",
+    "terser": "^5.6.1",
+    "typescript": "4.1.4"
   },
   "scripts": {
     "clean": "git clean -fdx && bazel clean --expunge",

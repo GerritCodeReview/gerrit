@@ -226,9 +226,7 @@ export const htmlTemplate = html`
       on-confirm="_handleCreateFollowUpChange"
       on-cancel="_handleCloseCreateFollowUpChange"
     >
-      <div class="header" slot="header">
-        Create Follow-Up Change
-      </div>
+      <div class="header" slot="header">Create Follow-Up Change</div>
       <div class="main" slot="main">
         <gr-create-change-dialog
           id="createFollowUpChange"
@@ -247,9 +245,7 @@ export const htmlTemplate = html`
       on-cancel="_handleConfirmDialogCancel"
       on-confirm="_handleDeleteConfirm"
     >
-      <div class="header" slot="header">
-        Delete Change
-      </div>
+      <div class="header" slot="header">Delete Change</div>
       <div class="main" slot="main">
         Do you really want to delete the change?
       </div>
@@ -262,12 +258,8 @@ export const htmlTemplate = html`
       on-cancel="_handleConfirmDialogCancel"
       on-confirm="_handleDeleteEditConfirm"
     >
-      <div class="header" slot="header">
-        Delete Change Edit
-      </div>
-      <div class="main" slot="main">
-        Do you really want to delete the edit?
-      </div>
+      <div class="header" slot="header">Delete Change Edit</div>
+      <div class="main" slot="main">Do you really want to delete the edit?</div>
     </gr-dialog>
   </gr-overlay>
 `;

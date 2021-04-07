@@ -75,14 +75,10 @@ export const htmlTemplate = html`
           <li><a href="#HTTPCredentials">HTTP Credentials</a></li>
         </template>
         <li hidden$="[[!_serverConfig.sshd]]">
-          <a href="#SSHKeys">
-            SSH Keys
-          </a>
+          <a href="#SSHKeys"> SSH Keys </a>
         </li>
         <li hidden$="[[!_serverConfig.receive.enable_signed_push]]">
-          <a href="#GPGKeys">
-            GPG Keys
-          </a>
+          <a href="#GPGKeys"> GPG Keys </a>
         </li>
         <li><a href="#Groups">Groups</a></li>
         <li><a href="#Identities">Identities</a></li>
@@ -184,9 +180,9 @@ export const htmlTemplate = html`
               <select id="emailNotificationsSelect">
                 <option value="CC_ON_OWN_COMMENTS">Every comment</option>
                 <option value="ENABLED">Only comments left by others</option>
-                <option value="ATTENTION_SET_ONLY"
-                  >Only when I am in the attention set</option
-                >
+                <option value="ATTENTION_SET_ONLY">
+                  Only when I am in the attention set
+                </option>
                 <option value="DISABLED">None</option>
               </select>
             </gr-select>

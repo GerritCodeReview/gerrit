@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93aadc0c_7a5bf205",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-07T19:49:41Z",
+      "side": 1,
+      "message": "Click usage is fairly low so I would just keep it as is, open to user feedback ofc.\nThanks for the review,",
+      "parentUuid": "24267dbc_7bbafc39",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "da2765931288520e358bcc5e98e5781ce575524e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68808845_7eb53351",

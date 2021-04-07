@@ -55,12 +55,12 @@ public class DefaultPermissionMappings {
           .put(GlobalPermission.RUN_AS, GlobalCapability.RUN_AS)
           .put(GlobalPermission.RUN_GC, GlobalCapability.RUN_GC)
           .put(GlobalPermission.STREAM_EVENTS, GlobalCapability.STREAM_EVENTS)
+          .put(GlobalPermission.VIEW_ACCESS, GlobalCapability.VIEW_ACCESS)
           .put(GlobalPermission.VIEW_ALL_ACCOUNTS, GlobalCapability.VIEW_ALL_ACCOUNTS)
           .put(GlobalPermission.VIEW_CACHES, GlobalCapability.VIEW_CACHES)
           .put(GlobalPermission.VIEW_CONNECTIONS, GlobalCapability.VIEW_CONNECTIONS)
           .put(GlobalPermission.VIEW_PLUGINS, GlobalCapability.VIEW_PLUGINS)
           .put(GlobalPermission.VIEW_QUEUE, GlobalCapability.VIEW_QUEUE)
-          .put(GlobalPermission.VIEW_ACCESS, GlobalCapability.VIEW_ACCESS)
           .build();
 
   static {

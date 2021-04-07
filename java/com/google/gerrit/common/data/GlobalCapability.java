@@ -109,6 +109,9 @@ public class GlobalCapability {
   /** Can perform streaming of Gerrit events. */
   public static final String STREAM_EVENTS = "streamEvents";
 
+  /** Can query permissions for any (project, user) pair */
+  public static final String VIEW_ACCESS = "viewAccess";
+
   /** Can view all accounts, regardless of {@code accounts.visibility}. */
   public static final String VIEW_ALL_ACCOUNTS = "viewAllAccounts";
 
@@ -123,9 +126,6 @@ public class GlobalCapability {
 
   /** Can view all pending tasks in the queue (not just the filtered set). */
   public static final String VIEW_QUEUE = "viewQueue";
-
-  /** Can query permissions for any (project, user) pair */
-  public static final String VIEW_ACCESS = "viewAccess";
 
   private static final List<String> NAMES_ALL;
   private static final List<String> NAMES_LC;
@@ -152,12 +152,12 @@ public class GlobalCapability {
     NAMES_ALL.add(RUN_AS);
     NAMES_ALL.add(RUN_GC);
     NAMES_ALL.add(STREAM_EVENTS);
+    NAMES_ALL.add(VIEW_ACCESS);
     NAMES_ALL.add(VIEW_ALL_ACCOUNTS);
     NAMES_ALL.add(VIEW_CACHES);
     NAMES_ALL.add(VIEW_CONNECTIONS);
     NAMES_ALL.add(VIEW_PLUGINS);
     NAMES_ALL.add(VIEW_QUEUE);
-    NAMES_ALL.add(VIEW_ACCESS);
 
     NAMES_LC = new ArrayList<>(NAMES_ALL.size());
     for (String name : NAMES_ALL) {

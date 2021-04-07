@@ -1659,8 +1659,7 @@ suite('gr-change-view tests', () => {
       Promise.resolve(new Response(null, {status: 500}))
     );
 
-    const mockEvent = (content: string) => {
-      return new CustomEvent('', {detail: {content}});
+    const mockEvent = (content: string) => (new CustomEvent('', {detail: {content}));
     };
 
     element._handleCommitMessageSave(mockEvent('test \n  test '));

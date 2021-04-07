@@ -16,6 +16,24 @@
       "message": "Cool, have you tested it with/without new change summary feature flag? ",
       "revId": "da2765931288520e358bcc5e98e5781ce575524e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1cae3b5_8cbe6c8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-07T15:19:42Z",
+      "side": 1,
+      "message": "Screenshots are of the new change summary.\nWithout new change summary, the screenshot is https://imgur.com/a/fOGlBML.",
+      "parentUuid": "68808845_7eb53351",
+      "revId": "da2765931288520e358bcc5e98e5781ce575524e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

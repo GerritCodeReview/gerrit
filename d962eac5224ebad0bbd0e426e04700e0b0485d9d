@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40c1e99e_894973d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-07T15:46:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16a204b8_e63bc062",
+      "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1529b4c_ed7ab6c9",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "676b557c_8a69dc7a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-07T15:46:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1529b4c_ed7ab6c9",
+      "range": {
+        "startLine": 240,
+        "startChar": 32,
+        "endLine": 240,
+        "endChar": 73
+      },
+      "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3aee1a6_b3438eed",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-04-06T14:04:46Z",
       "side": 1,
       "message": "So this is a new (client-only) preference? Do we really need that?\n\nI am afraid that the prefs with `line_wrapping` and `full-width` are already too complicated. And now it would be getting worse. The short comment is not really enough to address this concern.",
+      "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "208d1966_b3d5e165",
+        "filename": "polygerrit-ui/app/types/diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-07T15:46:58Z",
+      "side": 1,
+      "message": "We could instead add a boolean property to gr-diff saying it\u0027s supposed to show comment-context.\nThen we wouldn\u0027t need this extra diff preference and could check if `this.showCommentContext` is true.\n\nAnother option would be moving this to RenderPreferences but that would be trickier to implement and still ends up creating this property, just used in a different place.\nWDYT?",
+      "parentUuid": "c3aee1a6_b3438eed",
       "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

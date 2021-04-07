@@ -96,6 +96,24 @@
       "message": "Since this potentially creates a lot of git notes it may make sense to repack All-Users regularly e.g. every 10k migrated externalIds in order to ensure good performance. See the migration of account data implemented in 2.15. We faced performance issues when Eclipse ran this migration (they have \u003e200k accounts).",
       "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ece041b_6b2c14f8",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T07:42:04Z",
+      "side": 1,
+      "message": "provide some progress feedback to the user\n\n migrating externalIds ...\n 100/4530\n 200/4530\n\nsee e.g. https://gerrit-review.googlesource.com/c/gerrit/+/224648/4/gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+      "parentUuid": "5039f6d2_0c7dae87",
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -963,7 +963,7 @@ public class MergeOp implements AutoCloseable {
                   change.setStatus(Change.Status.ABANDONED);
 
                   ChangeMessage msg =
-                      ChangeMessagesUtil.newMessage(
+                      cmUtil.newMessage(
                           change.currentPatchSetId(),
                           internalUserFactory.create(),
                           change.getLastUpdatedOn(),

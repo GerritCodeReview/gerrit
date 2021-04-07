@@ -107,15 +107,15 @@ public class SetAssigneeOp implements BatchUpdateOp {
     msg.append("Assignee ");
     if (oldAssignee == null) {
       msg.append("added: ");
-      msg.append(newAssignee.getNameEmail());
+      msg.append(ChangeMessagesUtil.getAccountTemplate(newAssignee.getAccountId()));
     } else {
       msg.append("changed from: ");
-      msg.append(oldAssignee.getNameEmail());
+      msg.append(ChangeMessagesUtil.getAccountTemplate(oldAssignee.getAccountId()));
       msg.append(" to: ");
-      msg.append(newAssignee.getNameEmail());
+      msg.append(ChangeMessagesUtil.getAccountTemplate(newAssignee.getAccountId()));
     }
     ChangeMessage cmsg =
-        ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_ASSIGNEE);
+        cmUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_ASSIGNEE);
     cmUtil.addChangeMessage(update, cmsg);
   }
 

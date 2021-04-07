@@ -105,7 +105,7 @@ public class SetPrivateOp implements BatchUpdateOp {
     }
 
     ChangeMessage cmsg =
-        ChangeMessagesUtil.newMessage(
+        cmUtil.newMessage(
             ctx,
             buf.toString(),
             c.isPrivate()

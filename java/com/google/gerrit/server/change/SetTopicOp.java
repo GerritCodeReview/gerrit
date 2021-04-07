@@ -74,8 +74,7 @@ public class SetTopicOp implements BatchUpdateOp {
     } catch (ValidationException ex) {
       throw new BadRequestException(ex.getMessage());
     }
-    ChangeMessage cmsg =
-        ChangeMessagesUtil.newMessage(ctx, summary, ChangeMessagesUtil.TAG_SET_TOPIC);
+    ChangeMessage cmsg = cmUtil.newMessage(ctx, summary, ChangeMessagesUtil.TAG_SET_TOPIC);
     cmUtil.addChangeMessage(update, cmsg);
     return true;
   }

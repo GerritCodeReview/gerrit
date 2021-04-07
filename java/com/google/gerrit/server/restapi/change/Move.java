@@ -252,8 +252,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
         msgBuf.append("\n\n");
         msgBuf.append(input.message);
       }
-      ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(ctx, msgBuf.toString(), ChangeMessagesUtil.TAG_MOVE);
+      ChangeMessage cmsg = cmUtil.newMessage(ctx, msgBuf.toString(), ChangeMessagesUtil.TAG_MOVE);
       cmUtil.addChangeMessage(update, cmsg);
 
       return true;

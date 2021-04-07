@@ -382,7 +382,7 @@ public class MailProcessor {
           notes.getChange(),
           patchSet,
           ctx.getAccount(),
-          changeMessage.getMessage(),
+          changeMessage.getDetailedMessage(),
           approvals,
           approvals,
           ctx.getWhen());
@@ -399,7 +399,7 @@ public class MailProcessor {
       } else {
         changeMsg += "\n\n" + numComments(parsedComments.size());
       }
-      return ChangeMessagesUtil.newMessage(ctx, changeMsg, tag);
+      return changeMessagesUtil.newMessage(ctx, changeMsg, tag);
     }
 
     private PatchSet targetPatchSetForComment(

@@ -115,7 +115,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
     }
 
     cmsg =
-        ChangeMessagesUtil.newMessage(
+        cmUtil.newMessage(
             ctx,
             buf.toString(),
             c.isWorkInProgress()
@@ -149,7 +149,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
             ctx.getIdentifiedUser(),
             cmsg,
             ImmutableList.of(),
-            cmsg.getMessage(),
+            cmsg.getDetailedMessage(),
             ImmutableList.of(),
             repoView)
         .sendAsync();

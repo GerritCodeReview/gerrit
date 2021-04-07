@@ -421,7 +421,7 @@ public class ReplaceOp implements BatchUpdateOp {
     if (magicBranch != null && magicBranch.workInProgress) {
       workInProgress = true;
     }
-    return ChangeMessagesUtil.newMessage(
+    return cmUtil.newMessage(
         patchSetId,
         ctx.getUser(),
         ctx.getWhen(),
@@ -531,7 +531,7 @@ public class ReplaceOp implements BatchUpdateOp {
             replacePatchSetFactory.create(projectState.getNameKey(), notes.getChangeId());
         emailSender.setFrom(ctx.getAccount().account().id());
         emailSender.setPatchSet(newPatchSet, info);
-        emailSender.setChangeMessage(msg.getMessage(), ctx.getWhen());
+        emailSender.setChangeMessage(msg.getDetailedMessage(), ctx.getWhen());
         emailSender.setNotify(ctx.getNotify(notes.getChangeId()));
         emailSender.addReviewers(
             Streams.concat(

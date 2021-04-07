@@ -57,6 +57,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private final Project.NameKey projectNameKey;
   private final PatchSet.Id psId;
   private final PublishCommentUtil publishCommentUtil;
+  private final ChangeMessagesUtil changeMessagesUtil;
 
   private List<HumanComment> comments = new ArrayList<>();
   private ChangeMessage message;
@@ -75,6 +76,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
       EmailReviewComments.Factory email,
       PatchSetUtil psUtil,
       PublishCommentUtil publishCommentUtil,
+      ChangeMessagesUtil changeMessagesUtil,
       @Assisted PatchSet.Id psId,
       @Assisted Project.NameKey projectNameKey) {
     this.cmUtil = cmUtil;
@@ -86,6 +88,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
     this.publishCommentUtil = publishCommentUtil;
     this.psUtil = psUtil;
     this.projectNameKey = projectNameKey;
+    this.changeMessagesUtil = changeMessagesUtil;
   }
 
   @Override
@@ -131,7 +134,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
         changeNotes.getChange(),
         ps,
         ctx.getAccount(),
-        message.getMessage(),
+        message.getDetailedMessage(),
         ImmutableMap.of(),
         ImmutableMap.of(),
         ctx.getWhen());
@@ -148,7 +151,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
       return false;
     }
     message =
-        ChangeMessagesUtil.newMessage(
+        changeMessagesUtil.newMessage(
             psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, null);
     cmUtil.addChangeMessage(changeUpdate, message);
     return true;

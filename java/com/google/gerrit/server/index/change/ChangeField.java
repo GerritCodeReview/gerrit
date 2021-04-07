@@ -674,7 +674,7 @@ public class ChangeField {
               cd ->
                   Stream.concat(
                           cd.publishedComments().stream().map(c -> c.message),
-                          cd.messages().stream().map(ChangeMessage::getMessage))
+                          cd.messages().stream().map(ChangeMessage::getDetailedMessage))
                       .collect(toSet()));
 
   /** Number of unresolved comment threads of the change, including robot comments. */

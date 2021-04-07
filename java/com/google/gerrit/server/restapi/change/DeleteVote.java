@@ -75,7 +75,6 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
   private final ApprovalsUtil approvalsUtil;
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final VoteDeleted voteDeleted;
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
   private final NotifyResolver notifyResolver;
@@ -104,7 +103,6 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;
-    this.userFactory = userFactory;
     this.voteDeleted = voteDeleted;
     this.deleteVoteSenderFactory = deleteVoteSenderFactory;
     this.notifyResolver = notifyResolver;
@@ -228,9 +226,8 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");
       LabelVote.appendTo(msg, label, requireNonNull(oldApprovals.get(label)));
-      msg.append(" by ").append(userFactory.create(accountId).getNameEmail()).append("\n");
-      changeMessage =
-          ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);
+      msg.append(" by ").append(ChangeMessagesUtil.getAccountTemplate(accountId)).append("\n");
+      changeMessage = cmUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);
       cmUtil.addChangeMessage(ctx.getUpdate(psId), changeMessage);
 
       return true;
@@ -249,7 +246,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
           ReplyToChangeSender emailSender =
               deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
           emailSender.setFrom(user.getAccountId());
-          emailSender.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
+          emailSender.setChangeMessage(changeMessage.getDetailedMessage(), ctx.getWhen());
           emailSender.setNotify(notify);
           emailSender.setMessageId(
               messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
@@ -266,7 +263,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
           newApprovals,
           oldApprovals,
           input.notify,
-          changeMessage.getMessage(),
+          changeMessage.getDetailedMessage(),
           user.state(),
           ctx.getWhen());
     }

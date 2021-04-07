@@ -543,7 +543,7 @@ public class EventFactory {
         message.getAuthor() != null
             ? asAccountAttribute(message.getAuthor())
             : asAccountAttribute(myIdent.get());
-    a.message = message.getMessage();
+    a.message = message.getDetailedMessage();
     return a;
   }
 

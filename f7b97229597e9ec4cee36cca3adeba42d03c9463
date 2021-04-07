@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db78bfc3_5fd34c74",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T13:37:59Z",
+      "side": 1,
+      "message": "AFAIR square brackets are used for optional arguments, see e.g.\nhttps://gerrit-review.googlesource.com/Documentation/cmd-set-project.html\n\nhence:\n\n --to \u003csensitive|insensitive\u003e",
+      "revId": "f7b97229597e9ec4cee36cca3adeba42d03c9463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee4c61cf_0fdf7ad5",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T13:37:59Z",
+      "side": 1,
+      "message": "this is the old option you replaced by --to\":\n  \n s/--revert/--to sensitive/",
+      "range": {
+        "startLine": 24,
+        "startChar": 34,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "f7b97229597e9ec4cee36cca3adeba42d03c9463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

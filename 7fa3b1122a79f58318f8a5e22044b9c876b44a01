@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e52814a_f7dfc420",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T07:24:35Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "range": {
+        "startLine": 16,
+        "startChar": 63,
+        "endLine": 16,
+        "endChar": 64
+      },
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76808e7d_7c6f6878",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T07:24:35Z",
+      "side": 1,
+      "message": "gerrit.config resides in $gerrit_site_path/etc",
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "721eff63_a3e93eca",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T07:24:35Z",
+      "side": 1,
+      "message": "this doesn\u0027t tell in which direction the command would change case sensitivity",
+      "range": {
+        "startLine": 38,
+        "startChar": 24,
+        "endLine": 38,
+        "endChar": 55
+      },
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f8818d6_c5478eb9",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T07:24:35Z",
+      "side": 1,
+      "message": "no, I think it converts the externalId\u0027s sha1 to be computed from the lowercase(externalId\u0027s key)",
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5039f6d2_0c7dae87",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-07T07:24:35Z",
+      "side": 1,
+      "message": "Since this potentially creates a lot of git notes it may make sense to repack All-Users regularly e.g. every 10k migrated externalIds in order to ensure good performance. See the migration of account data implemented in 2.15. We faced performance issues when Eclipse ran this migration (they have \u003e200k accounts).",
+      "revId": "7fa3b1122a79f58318f8a5e22044b9c876b44a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

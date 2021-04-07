@@ -183,6 +183,8 @@ public class ChangeMessageProtoConverterTest {
                 .put("author", Account.Id.class)
                 .put("writtenOn", Timestamp.class)
                 .put("message", String.class)
+                // detailedMessage is not serialized
+                .put("detailedMessage", String.class)
                 .put("patchset", PatchSet.Id.class)
                 .put("tag", String.class)
                 .put("realAuthor", Account.Id.class)

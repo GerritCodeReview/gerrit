@@ -2391,12 +2391,12 @@ public class ChangeIT extends AbstractDaemonTest {
 
     assertThat(sender.getMessages()).hasSize(1);
     Message message = sender.getMessages().get(0);
-    assertThat(message.body()).contains("Removed reviewer " + user.fullName() + ".");
+    assertThat(message.body()).contains("Removed reviewer " + user.getNameEmail() + ".");
     assertThat(message.body()).doesNotContain("with the following votes");
 
     // Make sure the change message for removing a reviewer is correct.
     assertThat(Iterables.getLast(gApi.changes().id(changeId).messages()).message)
-        .contains("Removed reviewer " + user.fullName());
+        .isEqualTo("Removed reviewer " + user.getNameEmail() + ".");
 
     // Make sure the reviewer can still be added again.
     gApi.changes().id(changeId).addReviewer(user.id().toString());
@@ -2430,11 +2430,11 @@ public class ChangeIT extends AbstractDaemonTest {
     // Make sure the email for removing a cc is correct.
     assertThat(sender.getMessages()).hasSize(1);
     Message message = sender.getMessages().get(0);
-    assertThat(message.body()).contains("Removed cc " + user.fullName() + ".");
+    assertThat(message.body()).contains("Removed cc " + user.getNameEmail() + ".");
 
     // Make sure the change message for removing a reviewer is correct.
     assertThat(Iterables.getLast(gApi.changes().id(changeId).messages()).message)
-        .contains("Removed cc " + user.fullName());
+        .isEqualTo("Removed cc " + user.getNameEmail() + ".");
   }
 
   @Test
@@ -2474,8 +2474,13 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(sender.getMessages()).hasSize(1);
       Message message = sender.getMessages().get(0);
       assertThat(message.body())
-          .contains("Removed reviewer " + user.fullName() + " with the following votes");
-      assertThat(message.body()).contains("* Code-Review+1 by " + user.fullName());
+          .contains("Removed reviewer " + user.getNameEmail() + " with the following votes");
+      assertThat(message.body()).contains("* Code-Review+1 by " + user.getNameEmail());
+      ChangeMessageInfo changeMessageInfo =
+          Iterables.getLast(gApi.changes().id(changeId).get().messages);
+      assertThat(changeMessageInfo.message)
+          .contains("Removed reviewer " + user.getNameEmail() + " with the following votes");
+      assertThat(changeMessageInfo.message).contains("* Code-Review+1 by " + user.getNameEmail());
     } else {
       assertThat(sender.getMessages()).isEmpty();
     }

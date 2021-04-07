@@ -144,7 +144,7 @@ public class Restore
         msg.append("\n\n");
         msg.append(input.message.trim());
       }
-      return ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_RESTORE);
+      return cmUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_RESTORE);
     }
 
     @Override
@@ -153,7 +153,7 @@ public class Restore
         ReplyToChangeSender emailSender =
             restoredSenderFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());
-        emailSender.setChangeMessage(message.getMessage(), ctx.getWhen());
+        emailSender.setChangeMessage(message.getDetailedMessage(), ctx.getWhen());
         emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
         emailSender.send();

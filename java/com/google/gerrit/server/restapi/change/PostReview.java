@@ -952,7 +952,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               String.format("Repository %s not found", ctx.getProject().get()), ex);
         }
       }
-      String comment = message.getMessage();
+      String comment = message.getDetailedMessage();
       if (publishPatchSetLevelComment) {
         // TODO(davido): Remove this workaround when patch set level comments are exposed in comment
         // added event. For backwards compatibility, patchset level comment has a higher priority
@@ -1469,7 +1469,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       message =
-          ChangeMessagesUtil.newMessage(
+          cmUtil.newMessage(
               psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, in.tag);
       cmUtil.addChangeMessage(ctx.getUpdate(psId), message);
       return true;

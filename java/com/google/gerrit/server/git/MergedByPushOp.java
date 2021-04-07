@@ -170,7 +170,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     }
     msgBuf.append(".");
     ChangeMessage msg =
-        ChangeMessagesUtil.newMessage(
+        cmUtil.newMessage(
             psId, ctx.getUser(), ctx.getWhen(), msgBuf.toString(), ChangeMessagesUtil.TAG_MERGED);
     cmUtil.addChangeMessage(update, msg);
     update.putApproval(LabelId.legacySubmit().get(), (short) 1);

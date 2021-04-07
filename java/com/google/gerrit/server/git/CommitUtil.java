@@ -338,7 +338,7 @@ public class CommitUtil {
       Change change = ctx.getChange();
       PatchSet.Id patchSetId = change.currentPatchSetId();
       ChangeMessage changeMessage =
-          ChangeMessagesUtil.newMessage(
+          cmUtil.newMessage(
               ctx,
               "Created a revert of this change as I" + computedChangeId.name(),
               ChangeMessagesUtil.TAG_REVERT);

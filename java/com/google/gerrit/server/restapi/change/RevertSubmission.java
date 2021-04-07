@@ -650,7 +650,7 @@ public class RevertSubmission
       Change change = ctx.getChange();
       PatchSet.Id patchSetId = change.currentPatchSetId();
       ChangeMessage changeMessage =
-          ChangeMessagesUtil.newMessage(
+          cmUtil.newMessage(
               ctx,
               "Created a revert of this change as I" + computedChangeId.getName(),
               ChangeMessagesUtil.TAG_REVERT);

@@ -23,6 +23,7 @@ export enum Metadata {
   REPO_BRANCH = 'Repo | Branch',
   SUBMITTED = 'Submitted',
   PARENT = 'Parent',
+  MERGED_AS = 'Merged as',
   STRATEGY = 'Strategy',
   UPDATED = 'Updated',
   CC = 'CC',
@@ -52,7 +53,12 @@ export const DisplayRules = {
     Metadata.ASSIGNEE,
     Metadata.CHERRY_PICK_OF,
   ],
-  ALWAYS_HIDE: [Metadata.PARENT, Metadata.STRATEGY, Metadata.UPDATED],
+  ALWAYS_HIDE: [
+    Metadata.PARENT,
+    Metadata.MERGED_AS,
+    Metadata.STRATEGY,
+    Metadata.UPDATED,
+  ],
 };
 
 export function isSectionSet(section: Metadata, change?: ParsedChangeInfo) {

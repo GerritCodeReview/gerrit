@@ -567,6 +567,22 @@ export class GrChangeMetadata extends PolymerElement {
     return 'hideDisplay';
   }
 
+  _computeMergedCommitInfo(
+    current_revision: CommitId,
+    revisions: {[revisionId: string]: RevisionInfo}
+  ) {
+    const rev = revisions[current_revision];
+    if (!rev || !rev.commit) {
+      return {};
+    }
+    // CommitInfo.commit is optional. Set commit in all cases to avoid error
+    // in <gr-commit-info>. @see Issue 5337
+    if (!rev.commit.commit) {
+      rev.commit.commit = current_revision;
+    }
+    return rev.commit;
+  }
+
   _computeShowAllLabelText(showAllSections: boolean) {
     if (showAllSections) {
       return 'Show less';

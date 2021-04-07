@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e2617e0_b182b779",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135057
+      },
+      "writtenOn": "2021-04-07T01:33:23Z",
+      "side": 1,
+      "message": "/* set app max width and related attributes */\n  --app-max-width: auto;\n  --app-max-width-box-shadow: false;\n  --app-max-width-border: none;\n  --app-max-width-background-color: none;",
+      "revId": "217eef01b2a3c192fc889511e52853dff2003958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

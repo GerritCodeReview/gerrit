@@ -114,7 +114,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       setUpUserAuthentication(admin.username());
 
       // Create non-admin user
-      TestAccount user = accountCreator.user();
+      TestAccount user = accountCreator.user1();
       setUpUserAuthentication(user.username());
 
       // Prepare data for new change on master branch

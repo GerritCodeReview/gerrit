@@ -396,7 +396,7 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
         .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/master").group(adminGroupUuid()))
         .update();
 
-    TestAccount user = accountCreator.user();
+    TestAccount user = accountCreator.user1();
     String pushSpec = "refs/for/master%reviewer=" + user.email();
     sender.clear();
 
@@ -433,7 +433,7 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
         .add(allow(Permission.SUBMIT).ref("refs/for/refs/heads/master").group(adminGroupUuid()))
         .update();
 
-    TestAccount user = accountCreator.user();
+    TestAccount user = accountCreator.user1();
     String pushSpec = "refs/for/master%reviewer=" + user.email() + ",cc=" + user.email();
 
     TestAccount user2 = accountCreator.user2();

@@ -531,6 +531,19 @@ public class AccountResolver {
     return searchImpl(input, searchers, visibilitySupplierCanSee(), accountActivityPredicate);
   }
 
+  /**
+   * As opposed to {@link #resolve}, the returned result includes all inactive accounts for the
+   * input search.
+   *
+   * <p>This can be used to resolve Gerrit Account from email to it's {@link Account.Id}, to make
+   * sure that if {@link Account} with such email exists in Gerrit (even inactive), user data (email
+   * address) won't be recorded as it is, but instead will be stored as a link to the corresponding
+   * Gerrit Account.
+   */
+  public Result resolveIncludeInactive(String input) throws ConfigInvalidException, IOException {
+    return searchImpl(input, searchers, visibilitySupplierCanSee(), all());
+  }
+
   public Result resolveIgnoreVisibility(String input) throws ConfigInvalidException, IOException {
     return searchImpl(input, searchers, visibilitySupplierAll(), accountActivityPredicate());
   }

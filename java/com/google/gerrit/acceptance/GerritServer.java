@@ -111,6 +111,8 @@ public class GerritServer implements AutoCloseable {
   public abstract static class Description {
     public static Description forTestClass(
         org.junit.runner.Description testDesc, String configName) {
+      VerifyChangeNotesCommits verifyChangeNotesCommits =
+          get(VerifyChangeNotesCommits.class, testDesc.getTestClass());
       return new AutoValue_GerritServer_Description(
           testDesc,
           configName,
@@ -119,6 +121,7 @@ public class GerritServer implements AutoCloseable {
           has(Sandboxed.class, testDesc.getTestClass()),
           has(SkipProjectClone.class, testDesc.getTestClass()),
           has(UseSsh.class, testDesc.getTestClass()),
+          verifyChangeNotesCommits != null && verifyChangeNotesCommits.value(),
           false, // @UseSystemTime is only valid on methods.
           get(UseClockStep.class, testDesc.getTestClass()),
           get(UseTimezone.class, testDesc.getTestClass()),
@@ -138,6 +141,11 @@ public class GerritServer implements AutoCloseable {
         // on class level.
         useClockStep = get(UseClockStep.class, testDesc.getTestClass());
       }
+      VerifyChangeNotesCommits verifyChangeNotesCommits =
+          testDesc.getAnnotation(VerifyChangeNotesCommits.class);
+      if (verifyChangeNotesCommits == null) {
+        verifyChangeNotesCommits = get(VerifyChangeNotesCommits.class, testDesc.getTestClass());
+      }
 
       return new AutoValue_GerritServer_Description(
           testDesc,
@@ -153,6 +161,7 @@ public class GerritServer implements AutoCloseable {
               || has(SkipProjectClone.class, testDesc.getTestClass()),
           testDesc.getAnnotation(UseSsh.class) != null
               || has(UseSsh.class, testDesc.getTestClass()),
+          verifyChangeNotesCommits != null && verifyChangeNotesCommits.value(),
           testDesc.getAnnotation(UseSystemTime.class) != null,
           useClockStep,
           testDesc.getAnnotation(UseTimezone.class) != null
@@ -197,6 +206,8 @@ public class GerritServer implements AutoCloseable {
     abstract boolean skipProjectClone();
 
     abstract boolean useSshAnnotation();
+
+    abstract boolean verifyChangeNotesCommits();
 
     boolean useSsh() {
       return useSshAnnotation() && SshMode.useSsh();

@@ -732,10 +732,14 @@ class ChangeNotesParser {
     }
 
     ChangeMessage changeMessage =
-        new ChangeMessage(ChangeMessage.key(psId.changeId(), commit.name()), accountId, ts, psId);
-    changeMessage.setMessage(changeMsgString.get());
-    changeMessage.setTag(tag);
-    changeMessage.setRealAuthor(realAccountId);
+        ChangeMessage.create(
+            ChangeMessage.key(psId.changeId(), commit.name()),
+            accountId,
+            ts,
+            psId,
+            changeMsgString.get(),
+            realAccountId,
+            tag);
     allChangeMessages.add(changeMessage);
   }
 

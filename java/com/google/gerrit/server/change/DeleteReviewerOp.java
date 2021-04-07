@@ -20,7 +20,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
@@ -52,6 +51,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,7 +66,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private final ApprovalsUtil approvalsUtil;
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final ReviewerDeleted reviewerDeleted;
   private final Provider<IdentifiedUser> user;
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
@@ -77,7 +76,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private final AccountState reviewer;
   private final DeleteReviewerInput input;
 
-  ChangeMessage changeMessage;
+  String mailMessage;
   Change currChange;
   PatchSet currPs;
   Map<String, Short> newApprovals = new HashMap<>();
@@ -88,7 +87,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
-      IdentifiedUser.GenericFactory userFactory,
       ReviewerDeleted reviewerDeleted,
       Provider<IdentifiedUser> user,
       DeleteReviewerSender.Factory deleteReviewerSenderFactory,
@@ -100,7 +98,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;
-    this.userFactory = userFactory;
     this.reviewerDeleted = reviewerDeleted;
     this.user = user;
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
@@ -141,7 +138,10 @@ public class DeleteReviewerOp implements BatchUpdateOp {
             ? "cc"
             : "reviewer";
     StringBuilder msg = new StringBuilder();
-    msg.append(String.format("Removed %s %s", ccOrReviewer, reviewer.account().fullName()));
+    msg.append(
+        String.format(
+            "Removed %s %s",
+            ccOrReviewer, ChangeMessagesUtil.getAccountTemplate(reviewer.account().id())));
     StringBuilder removedVotesMsg = new StringBuilder();
     removedVotesMsg.append(" with the following votes:\n\n");
     boolean votesRemoved = false;
@@ -155,7 +155,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
             .append(a.label())
             .append(formatLabelValue(a.value()))
             .append(" by ")
-            .append(userFactory.create(a.accountId()).getNameEmail())
+            .append(ChangeMessagesUtil.getAccountTemplate(a.accountId()))
             .append("\n");
         votesRemoved = true;
       }
@@ -169,10 +169,8 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     ChangeUpdate update = ctx.getUpdate(currPs.id());
     update.removeReviewer(reviewerId);
 
-    changeMessage =
-        ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_REVIEWER);
-    cmUtil.addChangeMessage(update, changeMessage);
-
+    mailMessage =
+        cmUtil.setChangeMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_REVIEWER);
     return true;
   }
 
@@ -189,7 +187,8 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     }
     try {
       if (notify.shouldNotify()) {
-        emailReviewers(ctx.getProject(), currChange, changeMessage, notify, ctx.getRepoView());
+        emailReviewers(
+            ctx.getProject(), currChange, mailMessage, ctx.getWhen(), notify, ctx.getRepoView());
       }
     } catch (Exception err) {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", currChange.getId());
@@ -199,7 +198,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
         currPs,
         reviewer,
         ctx.getAccount(),
-        changeMessage.getMessage(),
+        mailMessage,
         newApprovals,
         oldApprovals,
         notify.handling(),
@@ -222,7 +221,8 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private void emailReviewers(
       Project.NameKey projectName,
       Change change,
-      ChangeMessage changeMessage,
+      String mailMessage,
+      Timestamp timestamp,
       NotifyResolver.Result notify,
       RepoView repoView)
       throws EmailException {
@@ -235,7 +235,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
         deleteReviewerSenderFactory.create(projectName, change.getId());
     emailSender.setFrom(userId);
     emailSender.addReviewers(Collections.singleton(reviewer.account().id()));
-    emailSender.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
+    emailSender.setChangeMessage(mailMessage, timestamp);
     emailSender.setNotify(notify);
     emailSender.setMessageId(
         messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));

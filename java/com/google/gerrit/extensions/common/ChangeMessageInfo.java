@@ -15,8 +15,10 @@
 package com.google.gerrit.extensions.common;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Objects;
 
+/** Represent {@link com.google.gerrit.entities.ChangeMessage} in the REST API. */
 public class ChangeMessageInfo {
   public String id;
   public String tag;
@@ -24,6 +26,7 @@ public class ChangeMessageInfo {
   public AccountInfo realAuthor;
   public Timestamp date;
   public String message;
+  public Collection<AccountInfo> accountsInTemplate;
   public Integer _revisionNumber;
 
   public ChangeMessageInfo() {}
@@ -42,6 +45,7 @@ public class ChangeMessageInfo {
           && Objects.equals(realAuthor, cmi.realAuthor)
           && Objects.equals(date, cmi.date)
           && Objects.equals(message, cmi.message)
+          && Objects.equals(accountsInTemplate, cmi.accountsInTemplate)
           && Objects.equals(_revisionNumber, cmi._revisionNumber);
     }
     return false;
@@ -49,7 +53,8 @@ public class ChangeMessageInfo {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, tag, author, realAuthor, date, message, _revisionNumber);
+    return Objects.hash(
+        id, tag, author, realAuthor, date, message, accountsInTemplate, _revisionNumber);
   }
 
   @Override
@@ -69,6 +74,8 @@ public class ChangeMessageInfo {
         + _revisionNumber
         + ", message=["
         + message
-        + "]}";
+        + "], accountsForTemplate="
+        + accountsInTemplate
+        + "}";
   }
 }

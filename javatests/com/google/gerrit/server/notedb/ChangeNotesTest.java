@@ -52,6 +52,7 @@ import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.AssigneeStatusUpdate;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
@@ -1602,6 +1603,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     ChangeMessage cm1 = Iterables.getOnlyElement(notes.getChangeMessages());
     assertThat(cm1.getMessage()).isEqualTo("Testing trailing double newline\n\n");
+
     assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().id());
   }
 
@@ -1621,7 +1623,29 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                 + "Testing paragraph 2\n"
                 + "\n"
                 + "Testing paragraph 3");
+
     assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().id());
+  }
+
+  @Test
+  public void changeMessageWithTemplate() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
+    String messageTemplate =
+        String.format(
+            "Change update by %s, also includes %s",
+            ChangeMessagesUtil.getAccountTemplate(changeOwner.getAccountId()),
+            ChangeMessagesUtil.getAccountTemplate(otherUser.getAccountId()));
+    update.setChangeMessage(messageTemplate);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    ChangeMessage cm = Iterables.getOnlyElement(notes.getChangeMessages());
+    assertThat(cm.getMessage()).isEqualTo(messageTemplate);
+
+    assertThat(cm.getAccountsForTemplate())
+        .containsExactly(changeOwner.getAccountId(), otherUser.getAccountId());
   }
 
   @Test
@@ -1646,11 +1670,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeMessage cm1 = notes.getChangeMessages().get(0);
     assertThat(cm1.getPatchSetId()).isEqualTo(ps1);
     assertThat(cm1.getMessage()).isEqualTo("This is the change message for the first PS.");
+
     assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().id());
 
     ChangeMessage cm2 = notes.getChangeMessages().get(1);
     assertThat(cm2.getPatchSetId()).isEqualTo(ps2);
     assertThat(cm2.getMessage()).isEqualTo("This is the change message for the second PS.");
+
     assertThat(cm2.getAuthor()).isEqualTo(changeOwner.getAccount().id());
     assertThat(cm2.getPatchSetId()).isEqualTo(ps2);
   }

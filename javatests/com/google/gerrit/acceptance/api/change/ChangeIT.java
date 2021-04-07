@@ -2391,12 +2391,14 @@ public class ChangeIT extends AbstractDaemonTest {
 
     assertThat(sender.getMessages()).hasSize(1);
     Message message = sender.getMessages().get(0);
-    assertThat(message.body()).contains("Removed reviewer " + user.fullName() + ".");
+    assertThat(message.body()).contains("Removed reviewer " + user.getNameEmail() + ".");
     assertThat(message.body()).doesNotContain("with the following votes");
 
     // Make sure the change message for removing a reviewer is correct.
     assertThat(Iterables.getLast(gApi.changes().id(changeId).messages()).message)
-        .contains("Removed reviewer " + user.fullName());
+        .isEqualTo("Removed reviewer " + user.getNameEmail() + ".");
+    assertThat(Iterables.getLast(gApi.changes().id(changeId).get().messages).message)
+        .isEqualTo("Removed reviewer " + ChangeMessagesUtil.getAccountTemplate(user.id()) + ".");
 
     // Make sure the reviewer can still be added again.
     gApi.changes().id(changeId).addReviewer(user.id().toString());
@@ -2430,11 +2432,14 @@ public class ChangeIT extends AbstractDaemonTest {
     // Make sure the email for removing a cc is correct.
     assertThat(sender.getMessages()).hasSize(1);
     Message message = sender.getMessages().get(0);
-    assertThat(message.body()).contains("Removed cc " + user.fullName() + ".");
+    assertThat(message.body()).contains("Removed cc " + user.getNameEmail() + ".");
 
     // Make sure the change message for removing a reviewer is correct.
     assertThat(Iterables.getLast(gApi.changes().id(changeId).messages()).message)
-        .contains("Removed cc " + user.fullName());
+        .isEqualTo("Removed cc " + user.getNameEmail() + ".");
+
+    assertThat(Iterables.getLast(gApi.changes().id(changeId).get().messages).message)
+        .isEqualTo("Removed cc " + ChangeMessagesUtil.getAccountTemplate(user.id()) + ".");
   }
 
   @Test
@@ -2474,8 +2479,21 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(sender.getMessages()).hasSize(1);
       Message message = sender.getMessages().get(0);
       assertThat(message.body())
-          .contains("Removed reviewer " + user.fullName() + " with the following votes");
-      assertThat(message.body()).contains("* Code-Review+1 by " + user.fullName());
+          .contains("Removed reviewer " + user.getNameEmail() + " with the following votes");
+      assertThat(message.body()).contains("* Code-Review+1 by " + user.getNameEmail());
+      ChangeMessageInfo changeMessageInfo =
+          Iterables.getLast(gApi.changes().id(changeId).messages());
+      assertThat(changeMessageInfo.message)
+          .contains("Removed reviewer " + user.getNameEmail() + " with the following votes");
+      assertThat(changeMessageInfo.message).contains("* Code-Review+1 by " + user.getNameEmail());
+      changeMessageInfo = Iterables.getLast(gApi.changes().id(changeId).get().messages);
+      assertThat(changeMessageInfo.message)
+          .contains(
+              "Removed reviewer "
+                  + ChangeMessagesUtil.getAccountTemplate(user.id())
+                  + " with the following votes");
+      assertThat(changeMessageInfo.message)
+          .contains("* Code-Review+1 by " + ChangeMessagesUtil.getAccountTemplate(user.id()));
     } else {
       assertThat(sender.getMessages()).isEmpty();
     }
@@ -2591,7 +2609,11 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeMessageInfo message = Iterables.getLast(c.messages);
     assertThat(message.author._accountId).isEqualTo(admin.id().get());
-    assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
+    assertThat(message.message)
+        .isEqualTo(
+            "Removed Code-Review+1 by " + ChangeMessagesUtil.getAccountTemplate(user.id()) + "\n");
+    assertThat(gApi.changes().id(r.getChangeId()).message(message.id).get().message)
+        .isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.id(), user.id()));
   }

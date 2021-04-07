@@ -53,12 +53,12 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
   RUN_AS,
   RUN_GC,
   STREAM_EVENTS,
+  VIEW_ACCESS,
   VIEW_ALL_ACCOUNTS,
   VIEW_CACHES,
   VIEW_CONNECTIONS,
   VIEW_PLUGINS,
-  VIEW_QUEUE,
-  VIEW_ACCESS;
+  VIEW_QUEUE;
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

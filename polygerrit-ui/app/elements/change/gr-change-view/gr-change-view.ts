@@ -777,7 +777,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       activeTabName?: string;
       activeTabIndex?: number;
       scrollIntoView?: boolean;
-    }
+    },
+    src?: string
   ) {
     if (!paperTabs) return;
     const {activeTabName, activeTabIndex, scrollIntoView} = activeDetails;
@@ -807,7 +808,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     if (paperTabs.selected !== activeIndex) {
       // paperTabs.selected is undefined during rendering
       if (paperTabs.selected !== undefined) {
-        this.reporting.reportInteraction('show-tab', {tabName});
+        this.reporting.reportInteraction('show-tab', {tabName, src});
       }
       paperTabs.selected = activeIndex;
     }
@@ -821,11 +822,15 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     const primaryTabs = this.shadowRoot!.querySelector<PaperTabsElement>(
       '#primaryTabs'
     );
-    const activeTabName = this._setActiveTab(primaryTabs, {
-      activeTabName: e.detail.tab,
-      activeTabIndex: e.detail.value,
-      scrollIntoView: e.detail.scrollIntoView,
-    });
+    const activeTabName = this._setActiveTab(
+      primaryTabs,
+      {
+        activeTabName: e.detail.tab,
+        activeTabIndex: e.detail.value,
+        scrollIntoView: e.detail.scrollIntoView,
+      },
+      (e.composedPath()?.[0] as Element | undefined)?.tagName
+    );
     if (activeTabName) {
       this._activeTabs = [activeTabName, this._activeTabs[1]];
 
@@ -863,6 +868,19 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     if (activeTabName) {
       this._activeTabs = [this._activeTabs[0], activeTabName];
     }
+  }
+
+  _onPaperTabClick(e: MouseEvent) {
+    let target = e.target as HTMLElement | null;
+    const src = target?.tagName;
+    let tabName: string | undefined;
+    // target can be slot child of papertab, so we search for tabName in parents
+    do {
+      tabName = target?.dataset?.['name'];
+      if (tabName) break;
+      target = target?.parentElement as HTMLElement | null;
+    } while (target);
+    this.reporting.reportInteraction('show-tab', {tabName, src});
   }
 
   _handleEditCommitMessage() {

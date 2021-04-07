@@ -38,6 +38,7 @@ suite('gr-textarea tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
+    element.enableEmojiPicker = true;
     sinon.stub(element.reporting, 'reportInteraction');
   });
 
@@ -61,6 +62,15 @@ suite('gr-textarea tests', () => {
     element.$.textarea.selectionStart = 9;
     element.$.textarea.selectionEnd = 9;
     element.text = 'some text';
+    assert.isFalse(!element.$.emojiSuggestions.isHidden);
+  });
+
+  test('emoji selector is not open when emoji disabled', () => {
+    element.enableEmojiPicker = false;
+    MockInteractions.focus(element.$.textarea);
+    element.$.textarea.selectionStart = 9;
+    element.$.textarea.selectionEnd = 9;
+    element.text = ':';
     assert.isFalse(!element.$.emojiSuggestions.isHidden);
   });
 

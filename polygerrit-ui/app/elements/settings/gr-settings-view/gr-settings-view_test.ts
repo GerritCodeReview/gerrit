@@ -251,6 +251,15 @@ suite('gr-settings-view tests', () => {
       ).checked,
       false
     );
+    assert.equal(
+      (
+        valueOf(
+          'Show emoji picker on \':\' trigger in comments',
+          'preferences'
+        )!.firstElementChild as HTMLInputElement
+      ).checked,
+      false
+    );
 
     assert.isFalse(element._prefsChanged);
     assert.isFalse(element._menuChanged);

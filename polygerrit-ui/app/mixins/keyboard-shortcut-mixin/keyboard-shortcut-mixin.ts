@@ -1065,14 +1065,13 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
 // This is a workaround
 export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
   superClass: T
-): T & Constructor<KeyboardShortcutMixinInterface> => {
-  return InternalKeyboardShortcutMixin(
+): T & Constructor<KeyboardShortcutMixinInterface> =>
+  InternalKeyboardShortcutMixin(
     // TODO(TS): mixinBehaviors in some lib is returning: `new () => T` instead
     // which will fail the type check due to missing IronA11yKeysBehavior interface
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mixinBehaviors([IronA11yKeysBehavior], superClass) as any
   );
-};
 
 /** The interface corresponding to KeyboardShortcutMixin */
 export interface KeyboardShortcutMixinInterface {

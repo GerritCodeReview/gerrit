@@ -121,7 +121,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
     appendHashtagMessage(msg, "added", toAdd);
     appendHashtagMessage(msg, "removed", toRemove);
     ChangeMessage cmsg =
-        ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_HASHTAGS);
+        cmUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_SET_HASHTAGS);
     cmUtil.addChangeMessage(update, cmsg);
   }
 

@@ -1577,6 +1577,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     ChangeMessage cm = Iterables.getOnlyElement(notes.getChangeMessages());
     assertThat(cm.getMessage()).isEqualTo("Just a little code change.\n");
+    assertThat(cm.getMessage()).isEqualTo(cm.getDetailedMessage());
     assertThat(cm.getAuthor()).isEqualTo(changeOwner.getAccount().id());
     assertThat(cm.getPatchSetId()).isEqualTo(c.currentPatchSetId());
   }
@@ -1602,6 +1603,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     ChangeMessage cm1 = Iterables.getOnlyElement(notes.getChangeMessages());
     assertThat(cm1.getMessage()).isEqualTo("Testing trailing double newline\n\n");
+    assertThat(cm1.getMessage()).isEqualTo(cm1.getDetailedMessage());
     assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().id());
   }
 
@@ -1621,6 +1623,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                 + "Testing paragraph 2\n"
                 + "\n"
                 + "Testing paragraph 3");
+    assertThat(cm1.getMessage()).isEqualTo(cm1.getDetailedMessage());
     assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().id());
   }
 
@@ -1646,11 +1649,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeMessage cm1 = notes.getChangeMessages().get(0);
     assertThat(cm1.getPatchSetId()).isEqualTo(ps1);
     assertThat(cm1.getMessage()).isEqualTo("This is the change message for the first PS.");
+    assertThat(cm1.getMessage()).isEqualTo(cm1.getDetailedMessage());
     assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().id());
 
     ChangeMessage cm2 = notes.getChangeMessages().get(1);
     assertThat(cm2.getPatchSetId()).isEqualTo(ps2);
     assertThat(cm2.getMessage()).isEqualTo("This is the change message for the second PS.");
+    assertThat(cm2.getMessage()).isEqualTo(cm2.getDetailedMessage());
     assertThat(cm2.getAuthor()).isEqualTo(changeOwner.getAccount().id());
     assertThat(cm2.getPatchSetId()).isEqualTo(ps2);
   }

@@ -309,17 +309,6 @@ suite('gr-file-list-header tests', () => {
       assert.isFalse(isVisible(element.shadowRoot
           .querySelector('#editControls').parentElement));
     });
-
-    test('_computeUploadHelpContainerClass', () => {
-      // Only show the upload helper button when an unmerged change is viewed
-      // by its owner.
-      const accountA = {_account_id: 1};
-      const accountB = {_account_id: 2};
-      assert.notInclude(element._computeUploadHelpContainerClass(
-          {owner: accountA}, accountA), 'hide');
-      assert.include(element._computeUploadHelpContainerClass(
-          {owner: accountA}, accountB), 'hide');
-    });
   });
 });
 

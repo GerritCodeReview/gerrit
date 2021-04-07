@@ -98,10 +98,6 @@ export class GrFileListHeader extends KeyboardShortcutMixin(PolymerElement) {
    * @event open-download-dialog
    */
 
-  /**
-   * @event open-upload-help-dialog
-   */
-
   @property({type: Object})
   account: AccountInfo | undefined;
 
@@ -355,22 +351,5 @@ export class GrFileListHeader extends KeyboardShortcutMixin(PolymerElement) {
 
   _hideIncludedIn(change?: ChangeInfo) {
     return change?.status === MERGED_STATUS ? '' : 'hide';
-  }
-
-  _handleUploadTap(e: Event) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('open-upload-help-dialog', {bubbles: false})
-    );
-  }
-
-  _computeUploadHelpContainerClass(change: ChangeInfo, account: AccountInfo) {
-    const changeIsMerged = change?.status === MERGED_STATUS;
-    const ownerId = change?.owner?._account_id || null;
-    const userId = account && account._account_id;
-    const userIsOwner = ownerId && userId && ownerId === userId;
-    const hideContainer = !userIsOwner || changeIsMerged;
-    return 'uploadContainer desktop' + (hideContainer ? ' hide' : '');
   }
 }

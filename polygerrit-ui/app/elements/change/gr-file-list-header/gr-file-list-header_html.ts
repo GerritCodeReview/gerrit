@@ -201,11 +201,6 @@ export const htmlTemplate = html`
           <span class="separator"></span>
         </span>
       </template>
-      <span class$="[[_computeUploadHelpContainerClass(change, account)]]">
-        <gr-button link="" class="upload" on-click="_handleUploadTap"
-          >Update Change</gr-button
-        >
-      </span>
       <span class="downloadContainer desktop">
         <gr-button
           link=""

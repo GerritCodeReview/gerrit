@@ -575,7 +575,7 @@ public class AccountIT extends AbstractDaemonTest {
               "Account 'user' only matches inactive accounts. To use an inactive account, retry"
                   + " with one of the following exact account IDs:\n"
                   + id
-                  + ": User <user@example.com>");
+                  + ": User1 <user1@example.com>");
       assertThat(gApi.accounts().id(id).getActive()).isFalse();
 
       gApi.accounts().id(id).setActive(true);

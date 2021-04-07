@@ -67,7 +67,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
     TestAccount user2 = accountCreator.user2();
     AccountGroup.UUID groupId = groupOperations.newGroup().name("test").create();
     String group = groupOperations.group(groupId).get().name();
-    gApi.groups().id(group).addMembers("admin", "user", user2.username());
+    gApi.groups().id(group).addMembers("admin", user.username(), user2.username());
 
     // Create a project and restrict its visibility to the group
     Project.NameKey p = projectOperations.newProject().create();
@@ -103,7 +103,7 @@ public class IndexChangeIT extends AbstractDaemonTest {
 
     // Remove the user from the group so they can no longer see the project
     requestScopeOperations.setApiUser(admin.id());
-    gApi.groups().id(group).removeMembers("user");
+    gApi.groups().id(group).removeMembers(user.username());
 
     // User can no longer see the change
     requestScopeOperations.setApiUser(user.id());

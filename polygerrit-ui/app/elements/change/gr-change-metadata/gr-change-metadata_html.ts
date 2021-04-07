@@ -340,6 +340,18 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section
+      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.MERGED_AS)]]"
+    >
+      <span class="title">Merged As</span>
+      <span class="value">
+        <gr-commit-info
+          change="[[change]]"
+          commit-info="[[_computeMergedCommitInfo(change.current_revision, change.revisions)]]"
+          server-config="[[serverConfig]]"
+        ></gr-commit-info>
+      </span>
+    </section>
+    <section
       class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC)]]"
     >
       <span class="title">Topic</span>

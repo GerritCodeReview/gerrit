@@ -166,9 +166,13 @@ export function hasResults(run: CheckRun): boolean {
 }
 
 export function allResults(runs: CheckRun[]): CheckResult[] {
-  return runs.reduce((results: CheckResult[], run: CheckRun) => {
-    return [...results, ...(run.results ?? [])];
-  }, []);
+  return runs.reduce(
+    (results: CheckResult[], run: CheckRun) => [
+      ...results,
+      ...(run.results ?? []),
+    ],
+    []
+  );
 }
 
 export function hasResultsOf(run: CheckRun, category: Category) {

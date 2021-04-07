@@ -33,10 +33,10 @@
     "@types/resize-observer-browser": "^0.1.5",
     "@webcomponents/shadycss": "^1.9.2",
     "@webcomponents/webcomponentsjs": "^1.3.3",
-    "ba-linkify": "file:../../lib/ba-linkify/src/",
+    "ba-linkify": "file:../../lib/ba-linkify/src",
     "lit-element": "^2.4.0",
     "page": "^1.11.5",
-    "polymer-bridges": "file:../../polymer-bridges/",
+    "polymer-bridges": "file:../../polymer-bridges",
     "polymer-resin": "^2.0.1",
     "rxjs": "^6.6.2",
     "shadow-selection-polyfill": "^1.1.0"

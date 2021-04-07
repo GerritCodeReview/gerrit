@@ -779,9 +779,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   ) {
     if (!paperTabs) return;
     const {activeTabName, activeTabIndex, scrollIntoView} = activeDetails;
-    const tabs = paperTabs.querySelectorAll('paper-tab') as NodeListOf<
-      HTMLElement
-    >;
+    const tabs = paperTabs.querySelectorAll(
+      'paper-tab'
+    ) as NodeListOf<HTMLElement>;
     let activeIndex = -1;
     if (activeTabIndex !== undefined) {
       activeIndex = activeTabIndex;
@@ -2677,9 +2677,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   _handleFileActionTap(e: CustomEvent<{path: string; action: string}>) {
     e.preventDefault();
-    const controls = this.$.fileListHeader.shadowRoot!.querySelector<
-      GrEditControls
-    >('#editControls');
+    const controls = this.$.fileListHeader.shadowRoot!.querySelector<GrEditControls>(
+      '#editControls'
+    );
     if (!controls) throw new Error('Missing edit controls');
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)

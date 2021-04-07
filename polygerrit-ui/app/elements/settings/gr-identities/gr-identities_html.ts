@@ -64,9 +64,7 @@ export const htmlTemplate = html`
             filter="filterIdentities"
           >
             <tr>
-              <td class="statusColumn">
-                [[_computeIsTrusted(item.trusted)]]
-              </td>
+              <td class="statusColumn">[[_computeIsTrusted(item.trusted)]]</td>
               <td class="emailAddressColumn">[[item.email_address]]</td>
               <td class="identityColumn">
                 [[_computeIdentity(item.identity)]]

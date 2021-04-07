@@ -3,24 +3,24 @@
   "description": "Gerrit Code Review - Polygerrit dev dependencies",
   "browser": true,
   "dependencies": {
-    "@types/chai": "^4.2.14",
-    "@types/lodash": "^4.14.162",
-    "@types/mocha": "^8.0.3",
-    "@types/sinon": "^9.0.8"
+    "@types/chai": "^4.2.16",
+    "@types/lodash": "^4.14.168",
+    "@types/mocha": "^8.2.2",
+    "@types/sinon": "^10.0.0"
   },
   "devDependencies": {
     "@open-wc/karma-esm": "^2.16.16",
     "@polymer/iron-test-helpers": "^3.0.1",
     "@polymer/test-fixture": "^4.0.2",
     "accessibility-developer-tools": "^2.12.0",
-    "chai": "^4.2.0",
+    "chai": "^4.3.4",
     "karma": "^4.4.1",
     "karma-chrome-launcher": "^3.1.0",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "lodash": "^4.17.15",
-    "mocha": "7.2.0",
-    "sinon": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mocha": "8.3.2",
+    "sinon": "^10.0.0",
     "source-map-support": "^0.5.19"
   },
   "license": "Apache-2.0",

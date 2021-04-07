@@ -344,9 +344,7 @@ class GrResultExpanded extends GrLitElement {
           name="result"
           .value="${this.result}"
         ></gr-endpoint-param>
-        <div class="message">
-          ${this.result.message}
-        </div>
+        <div class="message">${this.result.message}</div>
       </gr-endpoint-decorator>
     `;
   }
@@ -588,12 +586,8 @@ export class GrChecksResults extends GrLitElement {
           </div>
         </div>
         <div class="headerBottomRow">
-          <div class="left">
-            ${this.renderFilter()}
-          </div>
-          <div class="right">
-            ${this.renderActions()}
-          </div>
+          <div class="left">${this.renderFilter()}</div>
+          <div class="right">${this.renderActions()}</div>
         </div>
       </div>
       <div class="body">
@@ -672,9 +666,7 @@ export class GrChecksResults extends GrLitElement {
           placeholder="Filter results by regular expression"
           @input="${this.onInput}"
         />
-        <div class="selection">
-          ${this.renderSelectionFilter()}
-        </div>
+        <div class="selection">${this.renderSelectionFilter()}</div>
       </div>
     `;
   }
@@ -709,9 +701,13 @@ export class GrChecksResults extends GrLitElement {
     } else {
       runs = runs.filter(r => hasResultsOf(r, category));
     }
-    const all = runs.reduce((allResults: RunResult[], run) => {
-      return [...allResults, ...this.computeRunResults(category, run)];
-    }, []);
+    const all = runs.reduce(
+      (allResults: RunResult[], run) => [
+        ...allResults,
+        ...this.computeRunResults(category, run),
+      ],
+      []
+    );
     const filtered = all.filter(
       result =>
         this.filterRegExp.test(result.checkName) ||

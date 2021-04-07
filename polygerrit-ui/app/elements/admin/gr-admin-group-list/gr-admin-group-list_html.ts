@@ -67,9 +67,7 @@ export const htmlTemplate = html`
       on-confirm="_handleCreateGroup"
       on-cancel="_handleCloseCreate"
     >
-      <div class="header" slot="header">
-        Create Group
-      </div>
+      <div class="header" slot="header">Create Group</div>
       <div class="main" slot="main">
         <gr-create-group-dialog
           has-new-group-name="{{_hasNewGroupName}}"

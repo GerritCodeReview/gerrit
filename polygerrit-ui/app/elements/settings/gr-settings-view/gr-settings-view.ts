@@ -338,9 +338,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
 
   _cloneMenu(prefs: TopMenuItemInfo[]) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return prefs.map(({id, ...item}) => {
-      return item;
-    });
+    return prefs.map(({id, ...item}) => item);
   }
 
   @observe('_localChangeTableColumns', '_showNumber')

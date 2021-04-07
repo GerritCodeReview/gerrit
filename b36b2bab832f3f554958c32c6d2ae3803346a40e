@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a3db966_b53101b8",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-07T13:13:10Z",
+      "side": 1,
+      "message": "Maybe this could be lazy loaded, so switching isExpanded will not destroy/create element again.\n\nSomething like\n```\nif (!this.isExpanded \u0026\u0026 !this.resultExpanded) return;\nthis.resultExpanded \u003d html`\n\u003cgr-result-expanded\n            .result\u003d\"${this.result}\"\n            ?hidden\u003d\"${!this.isExpanded}\"\n            @click\u003d\"${this.avoidToggleExpanded}\"\n          \u003e\u003c/gr-result-expanded\u003e\n`;\nreturn this.resultExpanded;\n```\n\nI had issue with it in https://gerrit-review.googlesource.com/c/gerrit/+/302250/1/polygerrit-ui/app/elements/change/gr-related-changes-list-experimental/gr-related-changes-list-experimental.ts",
+      "range": {
+        "startLine": 268,
+        "startChar": 11,
+        "endLine": 271,
+        "endChar": 26
+      },
+      "revId": "b36b2bab832f3f554958c32c6d2ae3803346a40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

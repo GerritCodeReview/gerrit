@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ec63b62_5cea1d05",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T08:27:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49d4564c_d4e8c223",
+      "range": {
+        "startLine": 19,
+        "startChar": 16,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "430771e6b5bb07e8a8f43637cebfefd2e34e51f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95d55ed8_0c0de9d6",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-04-07T07:32:50Z",
       "side": 1,
       "message": "the command name doesn\u0027t reveal which direction it converts, hence --revert is also cryptic\n\nhow about requiring an explicit parameter or option defining the direction explicitly:\n\n --to case-sensitive|case-insensitive",
+      "revId": "430771e6b5bb07e8a8f43637cebfefd2e34e51f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cb4ea0c_3d477461",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-07T08:27:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95d55ed8_0c0de9d6",
       "revId": "430771e6b5bb07e8a8f43637cebfefd2e34e51f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

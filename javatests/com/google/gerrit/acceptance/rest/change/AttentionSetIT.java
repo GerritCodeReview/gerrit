@@ -703,7 +703,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     assertThat(exception.getMessage())
         .isEqualTo(
-            "user can not be added/removed twice, and can not be added and removed at the same"
+            "user1 can not be added/removed twice, and can not be added and removed at the same"
                 + " time");
   }
 
@@ -720,7 +720,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     assertThat(exception.getMessage())
         .isEqualTo(
-            "user can not be added/removed twice, and can not be added and removed at the same"
+            "user1 can not be added/removed twice, and can not be added and removed at the same"
                 + " time");
   }
 
@@ -757,7 +757,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     assertThat(exception.getMessage())
         .isEqualTo(
-            "user can not be added/removed twice, and can not be added and removed at the same"
+            "user1 can not be added/removed twice, and can not be added and removed at the same"
                 + " time");
   }
 

@@ -531,6 +531,10 @@ public class AccountResolver {
     return searchImpl(input, searchers, visibilitySupplierCanSee(), accountActivityPredicate);
   }
 
+  public Result resolveIncludeInactive(String input) throws ConfigInvalidException, IOException {
+    return searchImpl(input, searchers, visibilitySupplierCanSee(), all());
+  }
+
   public Result resolveIgnoreVisibility(String input) throws ConfigInvalidException, IOException {
     return searchImpl(input, searchers, visibilitySupplierAll(), accountActivityPredicate());
   }

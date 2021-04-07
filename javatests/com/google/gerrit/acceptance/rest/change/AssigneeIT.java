@@ -147,7 +147,7 @@ public class AssigneeIT extends AbstractDaemonTest {
                 + "' only matches inactive accounts. To use an inactive account, retry with one"
                 + " of the following exact account IDs:\n"
                 + user.id()
-                + ": User <user@example.com>");
+                + ": User1 <user1@example.com>");
   }
 
   @Test

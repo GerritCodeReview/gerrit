@@ -439,25 +439,25 @@ public class ChangeIT extends AbstractDaemonTest {
         .newAccount()
         .username(name("user1"))
         .preferredEmail(email1)
-        .fullname("User 1")
+        .fullname("User1")
         .create();
     accountOperations
         .newAccount()
         .username(name("user2"))
         .preferredEmail(email2)
-        .fullname("User 2")
+        .fullname("User2")
         .create();
     accountOperations
         .newAccount()
         .username(name("user3"))
         .preferredEmail(email3)
-        .fullname("User 3")
+        .fullname("User3")
         .create();
     accountOperations
         .newAccount()
         .username(name("user4"))
         .preferredEmail(email4)
-        .fullname("User 4")
+        .fullname("User4")
         .create();
     ReviewInput in =
         ReviewInput.noScore()
@@ -644,7 +644,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void reviewWithWorkInProgressChangeOwner() throws Exception {
     PushOneCommit push = pushFactory.create(user.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
@@ -659,7 +659,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void reviewWithWithWorkInProgressAdmin() throws Exception {
     PushOneCommit push = pushFactory.create(user.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
@@ -997,7 +997,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void deleteNewChangeAsNormalUser() throws Exception {
     PushOneCommit.Result changeResult =
         pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
@@ -1022,7 +1022,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void deleteNewChangeAsUserWithDeleteChangesPermissionForProjectOwners() throws Exception {
     GroupApi groupApi = gApi.groups().create(name("delete-change"));
-    groupApi.addMembers("user");
+    groupApi.addMembers("user1");
 
     Project.NameKey nameKey = Project.nameKey(name("delete-change"));
     ProjectInput in = new ProjectInput();
@@ -1151,7 +1151,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void deleteAbandonedChangeAsNormalUser() throws Exception {
     PushOneCommit.Result changeResult =
         pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
@@ -1166,7 +1166,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void deleteAbandonedChangeOfAnotherUserAsAdmin() throws Exception {
     PushOneCommit.Result changeResult =
         pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
@@ -1192,7 +1192,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void deleteMergedChangeWithDeleteOwnChangesPermission() throws Exception {
     projectOperations
         .project(project)
@@ -1804,7 +1804,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addReviewerThatIsInactive() throws Exception {
+  public void addReviewerThatIsInactiveByUsername() throws Exception {
     PushOneCommit.Result result = createChange();
 
     String username = name("new-user");
@@ -1815,19 +1815,11 @@ public class ChangeIT extends AbstractDaemonTest {
     ReviewerResult r = gApi.changes().id(result.getChangeId()).addReviewer(in);
 
     assertThat(r.input).isEqualTo(in.reviewer);
-    assertThat(r.error)
-        .isEqualTo(
-            "Account '"
-                + username
-                + "' only matches inactive accounts. To use an inactive account, retry with one of"
-                + " the following exact account IDs:\n"
-                + id
-                + ": Name of user not set ("
-                + id
-                + ")\n"
-                + username
-                + " does not identify a registered user or group");
-    assertThat(r.reviewers).isNull();
+    assertThat(r.error).isNull();
+    assertThat(r.reviewers).hasSize(1);
+    ReviewerInfo reviewer = r.reviewers.get(0);
+    assertThat(reviewer._accountId).isEqualTo(id.get());
+    assertThat(reviewer.username).isEqualTo(username);
   }
 
   @Test
@@ -1850,15 +1842,10 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addReviewerThatIsInactiveEmailFallback() throws Exception {
-    ConfigInput conf = new ConfigInput();
-    conf.enableReviewerByEmail = InheritableBoolean.TRUE;
-    gApi.projects().name(project.get()).config(conf);
-
+  public void addReviewerThatIsInactiveByEmail() throws Exception {
     PushOneCommit.Result result = createChange();
-
     String username = "user@domain.com";
-    accountOperations.newAccount().username(username).inactive().create();
+    Account.Id id = accountOperations.newAccount().username(username).inactive().create();
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = username;
@@ -1867,9 +1854,10 @@ public class ChangeIT extends AbstractDaemonTest {
 
     assertThat(r.input).isEqualTo(username);
     assertThat(r.error).isNull();
-    // When adding by email, the reviewers field is also empty because we can't
-    // render a ReviewerInfo object for a non-account.
-    assertThat(r.reviewers).isNull();
+    assertThat(r.ccs).hasSize(1);
+    AccountInfo reviewer = r.ccs.get(0);
+    assertThat(reviewer._accountId).isEqualTo(id.get());
+    assertThat(reviewer.username).isEqualTo(username);
   }
 
   @Test
@@ -1962,7 +1950,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .newAccount()
         .username(username1)
         .preferredEmail(email1)
-        .fullname("User 1")
+        .fullname("User1")
         .create();
     in.reviewer = email1;
     in.state = ReviewerState.CC;
@@ -2656,7 +2644,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .isEqualTo(
             "Removed Code-Review+1 by " + ChangeMessagesUtil.getAccountTemplate(user.id()) + "\n");
     assertThat(gApi.changes().id(r.getChangeId()).message(message.id).get().message)
-        .isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
+        .isEqualTo("Removed Code-Review+1 by User1 <user1@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.id(), user.id()));
   }
@@ -3886,7 +3874,7 @@ public class ChangeIT extends AbstractDaemonTest {
     for (com.google.gerrit.acceptance.TestAccount acc : ImmutableList.of(admin, user)) {
       requestScopeOperations.setApiUser(acc.id());
       String newMessage =
-          "modified commit by " + acc.username() + "\n\nChange-Id: " + r.getChangeId() + "\n";
+          "modified commit by " + acc.id() + "\n\nChange-Id: " + r.getChangeId() + "\n";
       gApi.changes().id(r.getChangeId()).setMessage(newMessage);
       RevisionApi rApi = gApi.changes().id(r.getChangeId()).current();
       assertThat(rApi.files().keySet()).containsExactly("/COMMIT_MSG", "a.txt");

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24267dbc_7bbafc39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-07T17:56:10Z",
+      "side": 1,
+      "message": "Have you consider different position? I would probably put it on first line, so submitted with date is after it. I think Submitted and merged as are connected and should be close by. \n\nBut I am fine with your propose position.",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 39
+      },
+      "revId": "da2765931288520e358bcc5e98e5781ce575524e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "68808845_7eb53351",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -32,6 +55,24 @@
       "side": 1,
       "message": "Screenshots are of the new change summary.\nWithout new change summary, the screenshot is https://imgur.com/a/fOGlBML.",
       "parentUuid": "68808845_7eb53351",
+      "revId": "da2765931288520e358bcc5e98e5781ce575524e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54309656_e95d96ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-07T17:56:10Z",
+      "side": 1,
+      "message": "Thanks for check.",
+      "parentUuid": "d1cae3b5_8cbe6c8d",
       "revId": "da2765931288520e358bcc5e98e5781ce575524e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

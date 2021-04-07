@@ -70,6 +70,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.AssigneeStatusUpdate;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -734,6 +735,7 @@ class ChangeNotesParser {
     ChangeMessage changeMessage =
         new ChangeMessage(ChangeMessage.key(psId.changeId(), commit.name()), accountId, ts, psId);
     changeMessage.setMessage(changeMsgString.get());
+    changeMessage.setAccountsForTemplate(ChangeMessagesUtil.parseTemplates(changeMsgString.get()));
     changeMessage.setTag(tag);
     changeMessage.setRealAuthor(realAccountId);
     allChangeMessages.add(changeMessage);

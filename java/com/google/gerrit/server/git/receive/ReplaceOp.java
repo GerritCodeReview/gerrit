@@ -30,7 +30,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -155,7 +154,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private ChangeNotes notes;
   private PatchSet newPatchSet;
   private ChangeKind changeKind;
-  private ChangeMessage msg;
+  private String mailMessage;
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
   private RequestScopePropagator requestScopePropagator;
@@ -342,8 +341,7 @@ public class ReplaceOp implements BatchUpdateOp {
       update.putReviewer(ctx.getAccountId(), REVIEWER);
     }
 
-    msg = createChangeMessage(ctx, reviewMessage);
-    cmUtil.addChangeMessage(update, msg);
+    mailMessage = insertChangeMessage(update, ctx, reviewMessage);
 
     if (mergedByPushOp == null) {
       resetChange(ctx);
@@ -403,7 +401,7 @@ public class ReplaceOp implements BatchUpdateOp {
     return input;
   }
 
-  private ChangeMessage createChangeMessage(ChangeContext ctx, String reviewMessage)
+  private String insertChangeMessage(ChangeUpdate update, ChangeContext ctx, String reviewMessage)
       throws IOException {
     String approvalMessage =
         ApprovalsUtil.renderMessageWithApprovals(
@@ -422,7 +420,8 @@ public class ReplaceOp implements BatchUpdateOp {
     if (magicBranch != null && magicBranch.workInProgress) {
       workInProgress = true;
     }
-    return ChangeMessagesUtil.newMessage(
+    return cmUtil.addChangeMessage(
+        update,
         patchSetId,
         ctx.getUser(),
         ctx.getWhen(),
@@ -533,7 +532,7 @@ public class ReplaceOp implements BatchUpdateOp {
             replacePatchSetFactory.create(projectState.getNameKey(), notes.getChangeId());
         emailSender.setFrom(ctx.getAccount().account().id());
         emailSender.setPatchSet(newPatchSet, info);
-        emailSender.setChangeMessage(msg.getMessage(), ctx.getWhen());
+        emailSender.setChangeMessage(mailMessage, ctx.getWhen());
         emailSender.setNotify(ctx.getNotify(notes.getChangeId()));
         emailSender.addReviewers(
             Streams.concat(

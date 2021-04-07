@@ -28,7 +28,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -649,12 +648,11 @@ public class RevertSubmission
     public boolean updateChange(ChangeContext ctx) throws Exception {
       Change change = ctx.getChange();
       PatchSet.Id patchSetId = change.currentPatchSetId();
-      ChangeMessage changeMessage =
-          ChangeMessagesUtil.newMessage(
-              ctx,
-              "Created a revert of this change as I" + computedChangeId.getName(),
-              ChangeMessagesUtil.TAG_REVERT);
-      cmUtil.addChangeMessage(ctx.getUpdate(patchSetId), changeMessage);
+      cmUtil.addChangeMessage(
+          ctx.getUpdate(patchSetId),
+          ctx,
+          "Created a revert of this change as I" + computedChangeId.getName(),
+          ChangeMessagesUtil.TAG_REVERT);
       return true;
     }
   }

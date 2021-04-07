@@ -15,12 +15,19 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/** A message attached to a {@link Change}. */
+/**
+ * A message attached to a {@link Change}. This message typically describes modifications of the
+ * {@link com.google.gerrit.server.notedb.ChangeNotesState} and persisted in data storage. Hence, in
+ * has template form to avoid Gerrit User Identifiable Information and requires processing to
+ * convert it to user-facing from (with templates replaced).
+ */
 public final class ChangeMessage {
+
   public static Key key(Change.Id changeId, String uuid) {
     return new AutoValue_ChangeMessage_Key(changeId, uuid);
   }
@@ -40,7 +47,9 @@ public final class ChangeMessage {
   /** When this comment was drafted. */
   protected Timestamp writtenOn;
 
-  /** The text left by the user. */
+  /**
+   * The text left by the user or Gerrit system in template form, that can be persisted in storage.
+   */
   @Nullable protected String message;
 
   /** Which patchset (if any) was this message generated from? */
@@ -51,6 +60,9 @@ public final class ChangeMessage {
 
   /** Real user that added this message on behalf of the user recorded in {@link #author}. */
   @Nullable protected Account.Id realAuthor;
+
+  /** Account ids that are used in {@link #message} template. */
+  @Nullable protected ImmutableSet<Account.Id> accountsForTemplate;
 
   protected ChangeMessage() {}
 
@@ -94,12 +106,27 @@ public final class ChangeMessage {
     writtenOn = ts;
   }
 
+  /** Message that should be persisted in data storage (in template form). */
   public String getMessage() {
     return message;
   }
 
+  /** Sets the message from the data storage (in template form). */
   public void setMessage(String s) {
     message = s;
+  }
+
+  /** Account ids, that are used in {@link #message} template. */
+  public ImmutableSet<Account.Id> getAccountsForTemplate() {
+    return accountsForTemplate == null ? ImmutableSet.of() : accountsForTemplate;
+  }
+
+  /**
+   * Sets account ids, that are used in {@link #message} template. This is parsed directly from
+   * {@link #message} and set here to avoid re-parsing.
+   */
+  public void setAccountsForTemplate(ImmutableSet<Account.Id> accountsForTemplate) {
+    this.accountsForTemplate = accountsForTemplate;
   }
 
   public String getTag() {
@@ -128,6 +155,7 @@ public final class ChangeMessage {
         && Objects.equals(author, m.author)
         && Objects.equals(writtenOn, m.writtenOn)
         && Objects.equals(message, m.message)
+        && Objects.equals(accountsForTemplate, m.accountsForTemplate)
         && Objects.equals(patchset, m.patchset)
         && Objects.equals(tag, m.tag)
         && Objects.equals(realAuthor, m.realAuthor);
@@ -155,6 +183,8 @@ public final class ChangeMessage {
         + tag
         + ", message=["
         + message
-        + "]}";
+        + "], accountsForTemplate="
+        + accountsForTemplate
+        + "}";
   }
 }

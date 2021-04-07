@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -49,7 +49,6 @@ import java.util.List;
 public class PublishCommentsOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
-  private final ChangeMessagesUtil cmUtil;
   private final CommentAdded commentAdded;
   private final CommentsUtil commentsUtil;
   private final EmailReviewComments.Factory email;
@@ -57,9 +56,10 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private final Project.NameKey projectNameKey;
   private final PatchSet.Id psId;
   private final PublishCommentUtil publishCommentUtil;
+  private final ChangeMessagesUtil changeMessagesUtil;
 
   private List<HumanComment> comments = new ArrayList<>();
-  private ChangeMessage message;
+  private String mailMessage;
   private IdentifiedUser user;
 
   public interface Factory {
@@ -69,15 +69,14 @@ public class PublishCommentsOp implements BatchUpdateOp {
   @Inject
   public PublishCommentsOp(
       ChangeNotes.Factory changeNotesFactory,
-      ChangeMessagesUtil cmUtil,
       CommentAdded commentAdded,
       CommentsUtil commentsUtil,
       EmailReviewComments.Factory email,
       PatchSetUtil psUtil,
       PublishCommentUtil publishCommentUtil,
+      ChangeMessagesUtil changeMessagesUtil,
       @Assisted PatchSet.Id psId,
       @Assisted Project.NameKey projectNameKey) {
-    this.cmUtil = cmUtil;
     this.changeNotesFactory = changeNotesFactory;
     this.commentAdded = commentAdded;
     this.commentsUtil = commentsUtil;
@@ -86,6 +85,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
     this.publishCommentUtil = publishCommentUtil;
     this.psUtil = psUtil;
     this.projectNameKey = projectNameKey;
+    this.changeMessagesUtil = changeMessagesUtil;
   }
 
   @Override
@@ -109,7 +109,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(PostUpdateContext ctx) {
-    if (message == null || comments.isEmpty()) {
+    if (Strings.isNullOrEmpty(mailMessage) || comments.isEmpty()) {
       return;
     }
     ChangeNotes changeNotes = changeNotesFactory.createChecked(projectNameKey, psId.changeId());
@@ -124,14 +124,24 @@ public class PublishCommentsOp implements BatchUpdateOp {
             String.format("Repository %s not found", ctx.getProject().get()), ex);
       }
       email
-          .create(notify, changeNotes, ps, user, message, comments, null, labelDelta, repoView)
+          .create(
+              notify,
+              changeNotes,
+              ps,
+              user,
+              mailMessage,
+              ctx.getWhen(),
+              comments,
+              null,
+              labelDelta,
+              repoView)
           .sendAsync();
     }
     commentAdded.fire(
         ctx.getChangeData(changeNotes),
         ps,
         ctx.getAccount(),
-        message.getMessage(),
+        mailMessage,
         ImmutableMap.of(),
         ImmutableMap.of(),
         ctx.getWhen());
@@ -147,10 +157,9 @@ public class PublishCommentsOp implements BatchUpdateOp {
     if (buf.length() == 0) {
       return false;
     }
-    message =
-        ChangeMessagesUtil.newMessage(
-            psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, null);
-    cmUtil.addChangeMessage(changeUpdate, message);
+    mailMessage =
+        changeMessagesUtil.addChangeMessage(
+            changeUpdate, psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, null);
     return true;
   }
 }

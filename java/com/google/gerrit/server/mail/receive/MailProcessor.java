@@ -23,7 +23,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -313,7 +312,7 @@ public class MailProcessor {
     private final PatchSet.Id psId;
     private final List<MailComment> parsedComments;
     private final String tag;
-    private ChangeMessage changeMessage;
+    private String mailMessage;
     private List<HumanComment> comments;
     private PatchSet patchSet;
     private ChangeNotes notes;
@@ -332,9 +331,9 @@ public class MailProcessor {
         throw new StorageException("patch set not found: " + psId);
       }
 
-      changeMessage = generateChangeMessage(ctx);
-      changeMessagesUtil.addChangeMessage(ctx.getUpdate(psId), changeMessage);
-
+      mailMessage =
+          changeMessagesUtil.addChangeMessage(
+              ctx.getUpdate(psId), ctx, generateCommentMessage(), tag);
       comments = new ArrayList<>();
       for (MailComment c : parsedComments) {
         if (c.getType() == MailComment.CommentType.CHANGE_MESSAGE) {
@@ -364,7 +363,8 @@ public class MailProcessor {
               notes,
               patchSet,
               ctx.getUser().asIdentifiedUser(),
-              changeMessage,
+              mailMessage,
+              ctx.getWhen(),
               comments,
               patchSetComment,
               ImmutableList.of(),
@@ -382,13 +382,13 @@ public class MailProcessor {
           ctx.getChangeData(notes),
           patchSet,
           ctx.getAccount(),
-          changeMessage.getMessage(),
+          mailMessage,
           approvals,
           approvals,
           ctx.getWhen());
     }
 
-    private ChangeMessage generateChangeMessage(ChangeContext ctx) {
+    private String generateCommentMessage() {
       String changeMsg = "Patch Set " + psId.get() + ":";
       if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
         // Add a blank line after Patch Set to follow the default format
@@ -399,7 +399,7 @@ public class MailProcessor {
       } else {
         changeMsg += "\n\n" + numComments(parsedComments.size());
       }
-      return ChangeMessagesUtil.newMessage(ctx, changeMsg, tag);
+      return changeMsg;
     }
 
     private PatchSet targetPatchSetForComment(

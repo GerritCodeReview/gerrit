@@ -19,12 +19,14 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
+import com.google.inject.TypeLiteral;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import org.junit.Test;
@@ -44,6 +46,7 @@ public class ChangeMessageProtoConverterTest {
     changeMessage.setMessage("This is a change message.");
     changeMessage.setTag("An arbitrary tag.");
     changeMessage.setRealAuthor(Account.id(10003));
+    changeMessage.setAccountsForTemplate(ImmutableSet.of(Account.id(10001), Account.id(10002)));
 
     Entities.ChangeMessage proto = changeMessageProtoConverter.toProto(changeMessage);
 
@@ -62,6 +65,8 @@ public class ChangeMessageProtoConverterTest {
                     .setId(13))
             .setTag("An arbitrary tag.")
             .setRealAuthor(Entities.Account_Id.newBuilder().setId(10003))
+            .addAccountsForTemplate(Entities.Account_Id.newBuilder().setId(10001))
+            .addAccountsForTemplate(Entities.Account_Id.newBuilder().setId(10002))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -143,6 +148,7 @@ public class ChangeMessageProtoConverterTest {
     changeMessage.setMessage("This is a change message.");
     changeMessage.setTag("An arbitrary tag.");
     changeMessage.setRealAuthor(Account.id(10003));
+    changeMessage.setAccountsForTemplate(ImmutableSet.of(Account.id(10001), Account.id(10002)));
 
     ChangeMessage convertedChangeMessage =
         changeMessageProtoConverter.fromProto(changeMessageProtoConverter.toProto(changeMessage));
@@ -183,6 +189,8 @@ public class ChangeMessageProtoConverterTest {
                 .put("author", Account.Id.class)
                 .put("writtenOn", Timestamp.class)
                 .put("message", String.class)
+                .put(
+                    "accountsForTemplate", new TypeLiteral<ImmutableSet<Account.Id>>() {}.getType())
                 .put("patchset", PatchSet.Id.class)
                 .put("tag", String.class)
                 .put("realAuthor", Account.Id.class)

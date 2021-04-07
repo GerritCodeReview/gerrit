@@ -22,7 +22,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Account.Id;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
@@ -338,12 +337,11 @@ public class CommitUtil {
     public boolean updateChange(ChangeContext ctx) {
       Change change = ctx.getChange();
       PatchSet.Id patchSetId = change.currentPatchSetId();
-      ChangeMessage changeMessage =
-          ChangeMessagesUtil.newMessage(
-              ctx,
-              "Created a revert of this change as I" + computedChangeId.name(),
-              ChangeMessagesUtil.TAG_REVERT);
-      cmUtil.addChangeMessage(ctx.getUpdate(patchSetId), changeMessage);
+      cmUtil.addChangeMessage(
+          ctx.getUpdate(patchSetId),
+          ctx,
+          "Created a revert of this change as I" + computedChangeId.name(),
+          ChangeMessagesUtil.TAG_REVERT);
       return true;
     }
   }

@@ -18,7 +18,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -65,7 +64,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   private Change change;
   private ChangeNotes notes;
   private PatchSet ps;
-  private ChangeMessage cmsg;
+  private String mailMessage;
 
   @Inject
   WorkInProgressOp(
@@ -114,15 +113,14 @@ public class WorkInProgressOp implements BatchUpdateOp {
       buf.append(m);
     }
 
-    cmsg =
-        ChangeMessagesUtil.newMessage(
+    mailMessage =
+        cmUtil.addChangeMessage(
+            update,
             ctx,
             buf.toString(),
             c.isWorkInProgress()
                 ? ChangeMessagesUtil.TAG_SET_WIP
                 : ChangeMessagesUtil.TAG_SET_READY);
-
-    cmUtil.addChangeMessage(update, cmsg);
   }
 
   @Override
@@ -147,9 +145,10 @@ public class WorkInProgressOp implements BatchUpdateOp {
             notes,
             ps,
             ctx.getIdentifiedUser(),
-            cmsg,
+            mailMessage,
+            ctx.getWhen(),
             ImmutableList.of(),
-            cmsg.getMessage(),
+            mailMessage,
             ImmutableList.of(),
             repoView)
         .sendAsync();

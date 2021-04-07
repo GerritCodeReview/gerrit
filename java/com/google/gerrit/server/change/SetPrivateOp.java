@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -104,13 +103,10 @@ public class SetPrivateOp implements BatchUpdateOp {
       buf.append(m);
     }
 
-    ChangeMessage cmsg =
-        ChangeMessagesUtil.newMessage(
-            ctx,
-            buf.toString(),
-            c.isPrivate()
-                ? ChangeMessagesUtil.TAG_SET_PRIVATE
-                : ChangeMessagesUtil.TAG_UNSET_PRIVATE);
-    cmUtil.addChangeMessage(update, cmsg);
+    cmUtil.addChangeMessage(
+        update,
+        ctx,
+        buf.toString(),
+        c.isPrivate() ? ChangeMessagesUtil.TAG_SET_PRIVATE : ChangeMessagesUtil.TAG_UNSET_PRIVATE);
   }
 }

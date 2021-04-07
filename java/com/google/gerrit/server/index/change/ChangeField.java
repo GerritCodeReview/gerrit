@@ -671,11 +671,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
       fullText(ChangeQueryBuilder.FIELD_COMMENT)
           .buildRepeatable(
-              cd ->
-                  Stream.concat(
-                          cd.publishedComments().stream().map(c -> c.message),
-                          cd.messages().stream().map(ChangeMessage::getMessage))
-                      .collect(toSet()));
+              cd -> cd.publishedComments().stream().map(c -> c.message).collect(toSet()));
 
   /** Number of unresolved comment threads of the change, including robot comments. */
   public static final FieldDef<ChangeData, Integer> UNRESOLVED_COMMENT_COUNT =

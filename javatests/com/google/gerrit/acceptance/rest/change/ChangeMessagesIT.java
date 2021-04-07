@@ -21,12 +21,12 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
-import static com.google.gerrit.server.restapi.change.DeleteChangeMessage.createNewChangeMessage;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.util.RawParseUtils.decode;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -45,10 +45,12 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.inject.Inject;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -142,6 +144,29 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
       String id = messageInfo.id;
       assertThat(gApi.changes().id(changeNum).message(id).get()).isEqualTo(messageInfo);
     }
+  }
+
+  @Test
+  public void getChangeMessagesWithTemplate() throws Exception {
+    String changeId = createChange().getChangeId();
+    String messageTemplate = "Review by " + ChangeMessagesUtil.getAccountTemplate(admin.id());
+    postMessage(changeId, messageTemplate);
+    assertMessage(
+        messageTemplate,
+        Iterables.getLast(gApi.changes().id(changeId).get(MESSAGES).messages).message);
+
+    Collection<ChangeMessageInfo> listMessages = gApi.changes().id(changeId).messages();
+    assertThat(listMessages).hasSize(2);
+    ChangeMessageInfo changeMessageApi = Iterables.getLast(gApi.changes().id(changeId).messages());
+    assertMessage("Review by " + admin.getNameEmail(), changeMessageApi.message);
+    assertMessage(
+        "Review by " + admin.getNameEmail(),
+        gApi.changes().id(changeId).message(changeMessageApi.id).get().message);
+    DeleteChangeMessageInput input = new DeleteChangeMessageInput("message deleted");
+    assertThat(gApi.changes().id(changeId).message(changeMessageApi.id).delete(input).message)
+        .isEqualTo(
+            String.format(
+                "Change message removed by: %s\nReason: message deleted", admin.getNameEmail()));
   }
 
   @Test
@@ -278,15 +303,19 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     ChangeMessageInfo info = gApi.changes().id(changeNum).message(id).delete(input);
 
     // Verify the return change message info is as expect.
-    assertThat(info.message).isEqualTo(createNewChangeMessage(deletedBy.fullName(), reason));
+    String expectedMessage = "Change message removed by: " + deletedBy.getNameEmail();
+    if (!Strings.isNullOrEmpty(reason)) {
+      expectedMessage = expectedMessage + "\nReason: " + reason;
+    }
+    assertThat(info.message).isEqualTo(expectedMessage);
     List<ChangeMessageInfo> messagesAfterDeletion = gApi.changes().id(changeNum).messages();
     assertMessagesAfterDeletion(
-        messagesBeforeDeletion, messagesAfterDeletion, deletedMessageIndex, deletedBy, reason);
+        messagesBeforeDeletion,
+        messagesAfterDeletion,
+        deletedMessageIndex,
+        deletedBy,
+        expectedMessage);
     assertCommentsAfterDeletion(changeNum, commentsBefore);
-
-    // Verify change index is updated after deletion.
-    List<ChangeInfo> changes = gApi.changes().query("message removed").get();
-    assertThat(changes.stream().map(c -> c._number).collect(toSet())).contains(changeNum);
 
     // Verifies states of commits.
     assertMetaCommitsAfterDeletion(commitsBefore, changeNum, id, deletedBy, reason);
@@ -297,7 +326,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
       List<ChangeMessageInfo> messagesAfterDeletion,
       int deletedMessageIndex,
       TestAccount deletedBy,
-      String deleteReason) {
+      String expectedDeleteMessage) {
     assertWithMessage("after: %s; before: %s", messagesAfterDeletion, messagesBeforeDeletion)
         .that(messagesAfterDeletion)
         .hasSize(messagesBeforeDeletion.size());
@@ -317,8 +346,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
       assertThat(after._revisionNumber).isEqualTo(before._revisionNumber);
 
       if (i == deletedMessageIndex) {
-        assertThat(after.message)
-            .isEqualTo(createNewChangeMessage(deletedBy.fullName(), deleteReason));
+        assertThat(after.message).isEqualTo(expectedDeleteMessage);
       } else {
         assertThat(after.message).isEqualTo(before.message);
       }
@@ -381,7 +409,12 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
                 rawAfter,
                 rangeAfter.get().changeMessageStart(),
                 rangeAfter.get().changeMessageEnd() + 1);
-        assertThat(message).isEqualTo(createNewChangeMessage(deletedBy.fullName(), deleteReason));
+        String expectedMessageTemplate =
+            "Change message removed by: " + ChangeMessagesUtil.getAccountTemplate(deletedBy.id());
+        if (!Strings.isNullOrEmpty(deleteReason)) {
+          expectedMessageTemplate = expectedMessageTemplate + "\nReason: " + deleteReason;
+        }
+        assertThat(message).isEqualTo(expectedMessageTemplate);
       } else {
         assertThat(commitAfter.getFullMessage()).isEqualTo(commitBefore.getFullMessage());
       }

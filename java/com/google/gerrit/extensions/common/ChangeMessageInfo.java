@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Objects;
 
 public class ChangeMessageInfo {
@@ -24,6 +25,7 @@ public class ChangeMessageInfo {
   public AccountInfo realAuthor;
   public Timestamp date;
   public String message;
+  public Collection<AccountInfo> accountsForTemplate;
   public Integer _revisionNumber;
 
   public ChangeMessageInfo() {}
@@ -42,6 +44,7 @@ public class ChangeMessageInfo {
           && Objects.equals(realAuthor, cmi.realAuthor)
           && Objects.equals(date, cmi.date)
           && Objects.equals(message, cmi.message)
+          && Objects.equals(accountsForTemplate, cmi.accountsForTemplate)
           && Objects.equals(_revisionNumber, cmi._revisionNumber);
     }
     return false;
@@ -49,7 +52,8 @@ public class ChangeMessageInfo {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, tag, author, realAuthor, date, message, _revisionNumber);
+    return Objects.hash(
+        id, tag, author, realAuthor, date, message, accountsForTemplate, _revisionNumber);
   }
 
   @Override
@@ -69,6 +73,8 @@ public class ChangeMessageInfo {
         + _revisionNumber
         + ", message=["
         + message
-        + "]}";
+        + "], accountsForTemplate="
+        + accountsForTemplate
+        + "}";
   }
 }

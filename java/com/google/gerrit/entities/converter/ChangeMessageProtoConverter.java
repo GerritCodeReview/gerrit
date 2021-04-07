@@ -14,6 +14,7 @@
 
 package com.google.gerrit.entities.converter;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.ChangeMessage;
@@ -48,10 +49,15 @@ public enum ChangeMessageProtoConverter
     if (writtenOn != null) {
       builder.setWrittenOn(writtenOn.getTime());
     }
+    // Build proto with template representation of the message. Templates will be replaced at
+    // runtime, when served to the users.
     String message = changeMessage.getMessage();
     if (message != null) {
       builder.setMessage(message);
     }
+    changeMessage
+        .getAccountsForTemplate()
+        .forEach(account -> builder.addAccountsForTemplate(accountIdConverter.toProto(account)));
     PatchSet.Id patchSetId = changeMessage.getPatchSetId();
     if (patchSetId != null) {
       builder.setPatchset(patchSetIdConverter.toProto(patchSetId));
@@ -80,9 +86,15 @@ public enum ChangeMessageProtoConverter
     PatchSet.Id patchSetId =
         proto.hasPatchset() ? patchSetIdConverter.fromProto(proto.getPatchset()) : null;
     ChangeMessage changeMessage = new ChangeMessage(key, author, writtenOn, patchSetId);
+    // Only template representation of the message is stored in entity. Templates will be replaced
+    // at runtime, when served to the users.
     if (proto.hasMessage()) {
       changeMessage.setMessage(proto.getMessage());
     }
+    changeMessage.setAccountsForTemplate(
+        proto.getAccountsForTemplateList().stream()
+            .map(account -> accountIdConverter.fromProto(account))
+            .collect(ImmutableSet.toImmutableSet()));
     if (proto.hasTag()) {
       changeMessage.setTag(proto.getTag());
     }

@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
@@ -104,12 +103,12 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
 
     private void addMessage(
         ChangeContext ctx, ChangeUpdate update, IdentifiedUser deletedAssignee) {
-      ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(
-              ctx,
-              "Assignee deleted: " + deletedAssignee.getNameEmail(),
-              ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
-      cmUtil.addChangeMessage(update, cmsg);
+      cmUtil.addChangeMessage(
+          update,
+          ctx,
+          "Assignee deleted: "
+              + ChangeMessagesUtil.getAccountTemplate(deletedAssignee.getAccountId()),
+          ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
     }
 
     @Override

@@ -148,6 +148,7 @@ public class GeneralPreferencesInfo {
   public DefaultBase defaultBaseForMerges;
   public Boolean publishCommentsOnPush;
   public Boolean disableKeyboardShortcuts;
+  public Boolean enableEmojiPicker;
   public Boolean workInProgressByDefault;
   public List<MenuItem> my;
   public List<String> changeTable;
@@ -208,6 +209,7 @@ public class GeneralPreferencesInfo {
     p.publishCommentsOnPush = false;
     p.disableKeyboardShortcuts = false;
     p.workInProgressByDefault = false;
+    p.enableEmojiPicker = false;
     return p;
   }
 }

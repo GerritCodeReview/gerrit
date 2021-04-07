@@ -2818,6 +2818,8 @@ list when the change screen is opened for a merge commit.
 Allowed values are `AUTO_MERGE` and `FIRST_PARENT`.
 |`disable_keyboard_shortcuts`     |not set if `false`|
 Whether to disable all keyboard shortcuts.
+|`enable_emoji_picker`     |not set if `false`|
+Whether to show emoji picker on ':' trigger in reply dialog and comments.
 |`publish_comments_on_push`     |not set if `false`|
 Whether to link:user-upload.html#publish-comments[publish draft comments] on
 push by default.

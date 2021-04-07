@@ -125,9 +125,8 @@ public class ListChangeCommentsTest {
   private static ChangeMessage newChangeMessage(String id, String message, String ts, String tag) {
     ChangeMessage.Key key = ChangeMessage.key(Change.id(1), id);
     ChangeMessage cm =
-        new ChangeMessage(key, null, Timestamp.valueOf("2000-01-01 00:00:" + ts), null);
-    cm.setMessage(message);
-    cm.setTag(tag);
+        ChangeMessage.create(
+            key, null, Timestamp.valueOf("2000-01-01 00:00:" + ts), null, message, null, tag);
     return cm;
   }
 

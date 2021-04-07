@@ -23,7 +23,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -110,7 +109,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private Change change;
   private PatchSet patchSet;
   private PatchSetInfo patchSetInfo;
-  private ChangeMessage changeMessage;
+  private String mailMessage;
   private ReviewerSet oldReviewers;
   private boolean oldWorkInProgressState;
 
@@ -260,14 +259,9 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     if (message != null) {
-      changeMessage =
-          ChangeMessagesUtil.newMessage(
-              patchSet.id(),
-              ctx.getUser(),
-              ctx.getWhen(),
-              message,
-              ChangeMessagesUtil.uploadedPatchSetTag(change.isWorkInProgress()));
-      changeMessage.setMessage(message);
+      mailMessage =
+          cmUtil.setChangeMessage(
+              update, message, ChangeMessagesUtil.uploadedPatchSetTag(change.isWorkInProgress()));
     }
 
     oldWorkInProgressState = change.isWorkInProgress();
@@ -283,9 +277,6 @@ public class PatchSetInserter implements BatchUpdateOp {
       change.setStatus(Change.Status.NEW);
     }
     change.setCurrentPatchSet(patchSetInfo);
-    if (changeMessage != null) {
-      cmUtil.addChangeMessage(update, changeMessage);
-    }
     if (topic != null) {
       change.setTopic(topic);
       try {
@@ -301,13 +292,13 @@ public class PatchSetInserter implements BatchUpdateOp {
   public void postUpdate(PostUpdateContext ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (notify.shouldNotify() && sendEmail) {
-      requireNonNull(changeMessage);
+      requireNonNull(mailMessage);
       try {
         ReplacePatchSetSender emailSender =
             replacePatchSetFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());
         emailSender.setPatchSet(patchSet, patchSetInfo);
-        emailSender.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
+        emailSender.setChangeMessage(mailMessage, ctx.getWhen());
         emailSender.addReviewers(oldReviewers.byState(REVIEWER));
         emailSender.addExtraCC(oldReviewers.byState(CC));
         emailSender.setNotify(notify);

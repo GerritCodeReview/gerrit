@@ -679,6 +679,10 @@ public class ChangeField {
               cd ->
                   Stream.concat(
                           cd.publishedComments().stream().map(c -> c.message),
+                          // Some endpoint allow passing user message in input, and we still want to
+                          // search by that. Index on message template with placeholders for user
+                          // data, so we don't
+                          // persist user identifiable information data in index.
                           cd.messages().stream().map(ChangeMessage::getMessage))
                       .collect(toSet()));
 

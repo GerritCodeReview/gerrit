@@ -14,12 +14,11 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
@@ -85,7 +84,7 @@ public class DeleteChangeMessage
     permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
 
     String newChangeMessage =
-        createNewChangeMessage(user.asIdentifiedUser().getName(), input.reason);
+        createNewChangeMessage(user.asIdentifiedUser().getAccountId(), input.reason);
     DeleteChangeMessageOp deleteChangeMessageOp =
         new DeleteChangeMessageOp(resource.getChangeMessageId(), newChangeMessage);
     try (BatchUpdate batchUpdate =
@@ -107,26 +106,29 @@ public class DeleteChangeMessage
         changeMessagesUtil.byChange(notesFactory.createChecked(project, cId));
     ChangeMessage updatedChangeMessage = messages.get(targetIdx);
     AccountLoader accountLoader = accountLoaderFactory.create(true);
-    ChangeMessageInfo info = createChangeMessageInfo(updatedChangeMessage, accountLoader);
+    ChangeMessageInfo info =
+        changeMessagesUtil.createChangeMessageInfoWithReplacedTemplates(
+            updatedChangeMessage, accountLoader);
     accountLoader.fill();
     return info;
   }
 
-  @VisibleForTesting
-  public static String createNewChangeMessage(String deletedBy, @Nullable String deletedReason) {
-    requireNonNull(deletedBy, "user name must not be null");
+  public static String createNewChangeMessage(
+      Account.Id deletedBy, @Nullable String deletedReason) {
+    requireNonNull(deletedBy, "user must not be null");
 
     if (Strings.isNullOrEmpty(deletedReason)) {
       return createNewChangeMessage(deletedBy);
     }
-    return String.format("Change message removed by: %s\nReason: %s", deletedBy, deletedReason);
+    return String.format(
+        "Change message removed by: %s\nReason: %s",
+        ChangeMessagesUtil.getAccountTemplate(deletedBy), deletedReason);
   }
 
-  @VisibleForTesting
-  public static String createNewChangeMessage(String deletedBy) {
-    requireNonNull(deletedBy, "user name must not be null");
+  public static String createNewChangeMessage(Account.Id deletedBy) {
+    requireNonNull(deletedBy, "user must not be null");
 
-    return "Change message removed by: " + deletedBy;
+    return "Change message removed by: " + ChangeMessagesUtil.getAccountTemplate(deletedBy);
   }
 
   private class DeleteChangeMessageOp implements BatchUpdateOp {

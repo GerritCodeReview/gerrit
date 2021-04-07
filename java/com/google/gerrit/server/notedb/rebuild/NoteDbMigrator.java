@@ -126,6 +126,11 @@ public class NoteDbMigrator implements AutoCloseable {
   private static final int PROJECT_SLICE_MAX_REFS = 1000;
   private static final int GC_INTERVAL = 10000;
 
+  private static final String SECTION_DATABASE = "database";
+  private static final String POSTGRESQL = "postgresql";
+  private static final String URL = "url";
+  private static final String TYPE = "type";
+
   public static boolean getAutoMigrate(Config cfg) {
     return cfg.getBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), AUTO_MIGRATE, false);
   }
@@ -140,6 +145,18 @@ public class NoteDbMigrator implements AutoCloseable {
 
   public static void setTrialMode(Config cfg, boolean trial) {
     cfg.setBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), TRIAL, trial);
+  }
+
+  public static boolean isDatabasePostgreSQL(Config cfg) {
+    String type = cfg.getString(SECTION_DATABASE, null, TYPE);
+    if (POSTGRESQL.equals(type)) {
+      return true;
+    }
+    String url = cfg.getString(SECTION_DATABASE, null, URL);
+    if (url != null && url.contains(POSTGRESQL)) {
+      return true;
+    }
+    return false;
   }
 
   private static class NoteDbMigrationLoggerOut extends OutputStream {
@@ -859,12 +876,34 @@ public class NoteDbMigrator implements AutoCloseable {
     return slices;
   }
 
+  public void warmReviewDb() throws OrmException {
+    if (isDatabasePostgreSQL(gerritConfig)) {
+      logger.atInfo().log("Warming PostgreSQL DB");
+      Stopwatch sw = Stopwatch.createStarted();
+      try (ReviewDb db = schemaFactory.open()) {
+        // PostgreSQL driver by default fetches all the data, even if we don't iterate over
+        // it, which is exactly the reason why these queries warm the DB and it is also the
+        // reason we restrict the warm to PostgreSQL only as drivers for other DB types will
+        // likely behave differently. We close the result sets after each query to free up
+        // memory as the entire data is fetched.
+        db.patchSetApprovals().all().close();
+        db.changeMessages().all().close();
+        db.patchSets().all().close();
+        db.patchComments().all().close();
+      }
+      logger.atInfo().log(
+          "PostgreSQL DB warm took %.01fs", sw.elapsed(TimeUnit.MILLISECONDS) / 1000d);
+    }
+  }
+
   public void rebuild() throws MigrationException, OrmException {
     if (!globalNotesMigration.commitChangeWrites()) {
       throw new MigrationException("Cannot rebuild without noteDb.changes.write=true");
     }
     Stopwatch sw = Stopwatch.createStarted();
     logger.atInfo().log("Rebuilding changes in NoteDb");
+
+    warmReviewDb();
 
     List<ProjectSlice> slices = slice();
     List<ListenableFuture<Boolean>> futures = new ArrayList<>();

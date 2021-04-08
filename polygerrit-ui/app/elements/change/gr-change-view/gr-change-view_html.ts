@@ -220,6 +220,9 @@ export const htmlTemplate = html`
       box-sizing: border-box;
       max-width: 12em;
       --paper-tab-ink: var(--link-color);
+      --paper-tab-content-focused: {
+        outline: auto;
+      }
     }
     gr-thread-list,
     gr-messages-list {

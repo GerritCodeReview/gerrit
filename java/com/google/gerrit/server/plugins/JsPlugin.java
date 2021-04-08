@@ -40,8 +40,7 @@ class JsPlugin extends Plugin {
     String fileName = getSrcFile().getFileName().toString();
     int firstDash = fileName.indexOf("-");
     if (firstDash > 0) {
-      int extension =
-          fileName.endsWith(".js") ? fileName.lastIndexOf(".js") : fileName.lastIndexOf(".html");
+      int extension = fileName.lastIndexOf(".js");
       if (extension > 0) {
         return fileName.substring(firstDash + 1, extension);
       }

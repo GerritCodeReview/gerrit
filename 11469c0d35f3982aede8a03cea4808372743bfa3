@@ -16,6 +16,24 @@
       "message": "Maybe just\n\n  const src \u003d \u0027paper-tab-click\u0027;",
       "revId": "11469c0d35f3982aede8a03cea4808372743bfa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4ca327f_5d916a8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-08T10:28:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1217efa9_ec0b03cc",
+      "revId": "11469c0d35f3982aede8a03cea4808372743bfa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

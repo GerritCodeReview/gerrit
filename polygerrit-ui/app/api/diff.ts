@@ -20,6 +20,7 @@
  * limitations under the License.
  */
 
+import { GrAnnotation } from '../elements/diff/gr-diff-highlight/gr-annotation';
 import {CommentRange} from './core';
 
 /**
@@ -285,5 +286,45 @@ export declare interface DiffLayer {
     textElement: HTMLElement,
     lineNumberElement: HTMLElement,
     line: GrDiffLine
+  ): void;
+}
+
+/** Data used by GrAnnotation to generate elements. */
+export declare interface ElementSpec {
+  tagName: string;
+  attributes?: {[key: string]: unknown};
+}
+
+/** Used to annotate segments of an HTMLElement with a class string. */
+export declare interface GrAnnotation {
+  /**
+   * Annotates the [offset, offset+length) text segment in the parent with the
+   * element definition provided as arguments.
+   *
+   * @param parent the node whose contents will be annotated.
+   * If parent is Text then parent.parentNode must not be null
+   * @param offset the 0-based offset from which the annotation will
+   * start.
+   * @param length of the annotated text.
+   * @param elementSpec the spec to create the
+   * annotating element.
+   */
+  annotateWithElement(
+    el: HTMLElement,
+    start: number,
+    length: number,
+    elementSpec: ElementSpec
+  ): void;
+
+  /**
+   * Surrounds the element's text at specified range in an ANNOTATION_TAG
+   * element. If the element has child elements, the range is split and
+   * applied as deeply as possible.
+   */
+  annotateElement(
+    el: HTMLElement,
+    start: number,
+    length: number,
+    className: string
   ): void;
 }

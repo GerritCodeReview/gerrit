@@ -31,4 +31,9 @@ import {GrAnnotation} from '../elements/diff/gr-diff-highlight/gr-annotation';
 // TODO (dmfilippov): find a better solution
 initDiffAppContext();
 // Setup global variables for existing usages of this component
+window.grdiff = {
+  GrAnnotation,
+};
+
+// TODO(oler): Remove when clients have been adjusted to namespaced globals above
 window.GrAnnotation = GrAnnotation;

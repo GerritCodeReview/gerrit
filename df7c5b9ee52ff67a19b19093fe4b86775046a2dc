@@ -16,6 +16,23 @@
       "message": "@Ben looks like we\u0027ve never added selector-tag. What colour should i do for that one? And is the one i picked for \"property\" fine?",
       "revId": "df7c5b9ee52ff67a19b19093fe4b86775046a2dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e060c8e_84677e86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-08T04:42:31Z",
+      "side": 1,
+      "message": "Have you noticed changed build instruction? Also, last time I updated hiligjtgs I uploaded the change to stable-3.1 and merge up to master.",
+      "revId": "df7c5b9ee52ff67a19b19093fe4b86775046a2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

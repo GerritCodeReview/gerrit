@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06f6bc23_0c6a2cb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-08T07:29:55Z",
+      "side": 1,
+      "message": "I had a quick look, but did not finish review.\n\nYou\u0027re choosing to fix this in the backend, but have you considered a front-end solution? \n\nif we let the front-end do the substitution, it could use a richer UI, eg. show an account chip with avatar.  ",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8470baeb_e168613c",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-08T07:29:55Z",
+      "side": 1,
+      "message": "does this need updatign?",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 52
+      },
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a00a9da8_38a58d72",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-08T07:29:55Z",
+      "side": 1,
+      "message": "detailedMessage\u003d ?",
+      "range": {
+        "startLine": 175,
+        "startChar": 13,
+        "endLine": 178,
+        "endChar": 15
+      },
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

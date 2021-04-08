@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87dcb9b7_ceef4eb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-08T10:10:22Z",
+      "side": 1,
+      "message": "\u003e We need to replace templates in the backend for indexing changes on comments anyway\n\nAt first that sounded like a decisive reason, but it actually means that we are also persisting PII in the index, and if an account gets removed we won\u0027t have a way to cleanup the index.",
+      "parentUuid": "33fff0ea_96a6a648",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8470baeb_e168613c",

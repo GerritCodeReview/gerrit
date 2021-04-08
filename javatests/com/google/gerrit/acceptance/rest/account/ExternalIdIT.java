@@ -265,14 +265,15 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteExternalIds_Conflict() throws Exception {
+  public void deleteExternalIdOfUsername() throws Exception {
     List<String> toDelete = new ArrayList<>();
     String externalIdStr = "username:" + user.username();
     toDelete.add(externalIdStr);
     RestResponse response = userRestSession.post("/accounts/self/external.ids:delete", toDelete);
-    response.assertConflict();
-    assertThat(response.getEntityContent())
-        .isEqualTo(String.format("External id %s cannot be deleted", externalIdStr));
+    response.assertNoContent();
+    List<AccountExternalIdInfo> results = gApi.accounts().id(user.id().get()).getExternalIds();
+    assertThat(results).hasSize(1);
+    assertThat(results.get(0).identity).isEqualTo("mailto:user@example.com");
   }
 
   @Test

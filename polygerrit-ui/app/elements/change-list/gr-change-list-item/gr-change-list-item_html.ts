@@ -41,6 +41,7 @@ export const htmlTemplate = html`
       text-overflow: ellipsis;
       white-space: nowrap;
       width: 100%;
+      bottom: calc(-1 * var(--spacing-xs));
     }
     .content a {
       display: block;
@@ -48,6 +49,10 @@ export const htmlTemplate = html`
       text-overflow: ellipsis;
       white-space: nowrap;
       width: 100%;
+      margin: var(--spacing-xs) 0;
+    }
+    .cell.subject {
+      padding: var(--spacing-xs) 0;
     }
     .comments,
     .reviewers {

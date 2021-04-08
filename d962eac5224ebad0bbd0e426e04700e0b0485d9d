@@ -116,6 +116,24 @@
       "parentUuid": "c3aee1a6_b3438eed",
       "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "069609ef_8923636e",
+        "filename": "polygerrit-ui/app/types/diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-08T12:21:18Z",
+      "side": 1,
+      "message": "I have uploaded a patchset with a suggestion of how to get rid of the `expand_diff_line` property.",
+      "parentUuid": "208d1966_b3d5e165",
+      "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

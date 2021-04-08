@@ -89,6 +89,9 @@ public class MigrateToNoteDb extends SiteProgram {
       usage = "Force state change of the migration if projects are skipped")
   private boolean forceStateChangeWithSkip;
 
+  @Option(name = "--gc", usage = "GC repositories regularly during the migration")
+  private boolean gc;
+
   @Option(name = "--trial", usage = TRIAL_USAGE)
   private boolean trial;
 
@@ -151,6 +154,7 @@ public class MigrateToNoteDb extends SiteProgram {
               .setTrialMode(trial)
               .setForceRebuild(force)
               .setForceStateChangeWithSkip(forceStateChangeWithSkip)
+              .setGC(gc)
               .setSequenceGap(sequenceGap)
               .setVerbose(verbose)
               .build()) {

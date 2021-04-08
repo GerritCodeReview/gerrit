@@ -184,6 +184,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private boolean trial;
     private boolean forceRebuild;
     private boolean forceStateChangeWithSkip;
+    private boolean gc;
     private int sequenceGap = -1;
     private boolean autoMigrate;
     private boolean verbose;
@@ -366,6 +367,22 @@ public class NoteDbMigrator implements AutoCloseable {
     }
 
     /**
+     * GC repositories regularly during noteDb migration.
+     *
+     * <p>This might help improve performance in some instances. If enabled, auto GC will be run for
+     * every new 10000 refs which are created during the migration of a project. Auto GC will do
+     * garbage collection by default, if it finds more than 6700 loose objects or more than 50 pack
+     * files. These defaults can be changed by updating gc.auto and gc.autoPackLimit.
+     *
+     * @param gc whether GC must be done on repositories during migration
+     * @return this.
+     */
+    public Builder setGC(boolean gc) {
+      this.gc = gc;
+      return this;
+    }
+
+    /**
      * Gap between ReviewDb change sequence numbers and NoteDb.
      *
      * <p>If NoteDb sequences are enabled in a running server, there is a race between the migration
@@ -444,6 +461,7 @@ public class NoteDbMigrator implements AutoCloseable {
           trial,
           forceRebuild,
           forceStateChangeWithSkip,
+          gc,
           sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg),
           autoMigrate,
           verbose);
@@ -507,6 +525,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final boolean trial;
   private final boolean forceRebuild;
   private final boolean forceStateChangeWithSkip;
+  private final boolean gc;
   private final int sequenceGap;
   private final boolean autoMigrate;
   private final boolean verbose;
@@ -539,6 +558,7 @@ public class NoteDbMigrator implements AutoCloseable {
       boolean trial,
       boolean forceRebuild,
       boolean forceStateChangeWithSkip,
+      boolean gc,
       int sequenceGap,
       boolean autoMigrate,
       boolean verbose)
@@ -575,6 +595,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.trial = trial;
     this.forceRebuild = forceRebuild;
     this.forceStateChangeWithSkip = forceStateChangeWithSkip;
+    this.gc = gc;
     this.sequenceGap = sequenceGap;
     this.autoMigrate = autoMigrate;
     this.verbose = verbose;
@@ -1026,7 +1047,7 @@ public class NoteDbMigrator implements AutoCloseable {
                 c, totalChangeCount, (100.0 * c) / totalChangeCount);
           }
           pc = ctx.changesMigratedCount.incrementAndGet();
-          if (pc % GC_INTERVAL == 0) {
+          if (gc && pc % GC_INTERVAL == 0) {
             gc(project, changeRepo, ctx.gcLock);
           }
           pm.update(1);

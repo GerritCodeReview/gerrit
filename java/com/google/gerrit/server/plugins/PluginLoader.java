@@ -733,7 +733,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private boolean isUiPlugin(String name) {
-    return isPlugin(name, "js") || isPlugin(name, "html");
+    return isPlugin(name, "js");
   }
 
   private boolean isPlugin(String fileName, String ext) {

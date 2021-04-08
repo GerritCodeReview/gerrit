@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33fff0ea_96a6a648",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-08T10:01:01Z",
+      "side": 1,
+      "message": "I did consider that, but I think it is better to do in the backend:\n* We need to replace templates in the backend for indexing changes on comments anyway\n* In the same commit message, we might have templates for multiple accounts, which means frontend would have to call backend to get account information for each of the accounts in the message.\n* If we do it in the frontend for existing instances, each time we add a new feature we would have to add frontend support to it (especially if we add more templates at some point).\n\nShowing an avatar sounds like a UI feature request rather than fixing NoteDB :)",
+      "parentUuid": "06f6bc23_0c6a2cb1",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8470baeb_e168613c",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4cc22a9_8bedc58f",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-08T10:01:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8470baeb_e168613c",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 52
+      },
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a00a9da8_38a58d72",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-04-08T07:29:55Z",
       "side": 1,
       "message": "detailedMessage\u003d ?",
+      "range": {
+        "startLine": 175,
+        "startChar": 13,
+        "endLine": 178,
+        "endChar": 15
+      },
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44d752e8_511845fe",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-08T10:01:01Z",
+      "side": 1,
+      "message": "I though it could be redundant, but added.",
+      "parentUuid": "a00a9da8_38a58d72",
       "range": {
         "startLine": 175,
         "startChar": 13,

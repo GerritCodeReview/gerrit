@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3336cea_d65be58a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-08T10:01:34Z",
+      "side": 1,
+      "message": "The implemented solution feels a bit hacky and would at least need some additional comments in the code about why you are introducing maring, padding and bottom.\n\nI think the actual problem is that outline never really goes well with overflow:hidden, so the element with the outline should be a parent of the element that has overflow:hidden.\n\nWe need overflow:hidden for the content, so I think we should leave that in place. The outline is applied to the \u003ca\u003e element, so what about trying to move the \u003ca\u003e element up such that it is the first and only child of \u003ctd\u003e? Let me upload a patchset for that.",
+      "revId": "3a4f12cd97d37ac5c28b900af5d4e66f917915ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1777,7 +1777,13 @@ be provided as a list in the request body.
 
 Only external ids belonging to the caller may be deleted. Users that have
 link:access-control.html#capability_modifyAccount[Modify Account] can delete
-external ids that belong to other accounts.
+external ids that belong to other accounts. External ids in the 'username:'
+scheme can only be deleted by users that have
+link:access-control.html#capability_administrateServer[Administrate Server]
+since the user may not be able to login anymore, after the removal of the
+external id with scheme 'username:'. Users cannot delete their own external id
+with scheme 'username:' in order to prevent they can lock themselves out
+since they may not be able to login anymore.
 
 .Request
 ----

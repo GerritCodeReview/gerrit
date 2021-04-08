@@ -103,6 +103,9 @@ public abstract class Metadata {
   public abstract Optional<Integer> indexVersion();
 
   /** The name of the implementation method. */
+  public abstract Optional<String> memoryPoolName();
+
+  /** The name of the implementation method. */
   public abstract Optional<String> methodName();
 
   /** One or more resources */
@@ -308,6 +311,8 @@ public abstract class Metadata {
     public abstract Builder indexName(@Nullable String indexName);
 
     public abstract Builder indexVersion(int indexVersion);
+
+    public abstract Builder memoryPoolName(@Nullable String memoryPoolName);
 
     public abstract Builder methodName(@Nullable String methodName);
 

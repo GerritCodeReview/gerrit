@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e73f562_81c50ee2",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonComparingImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T15:55:30Z",
+      "side": 1,
+      "message": "Will this really print the map contents? I think you may need to use Iterables.toString().",
+      "revId": "0258924d16df6ea20bd2d0acbaa28493908d3a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e2643fa_eb0a3815",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-08T14:42:30Z",
+      "side": 1,
+      "message": "\u003e Have the Wipeout Flume update the index on account deletion. \n\na wise man once said to me that it\u0027s better to avoid post-facto fixup jobs 😊\n\nInside Google, The wipeout flume may work for account deletions, but won\u0027t cut it for name changes, which is another area we want to improve. You could use the reindex flume by adding all the user refs as input to the staleness check.\n\nHowever\n\n* upstream Gerrit doesn\u0027t have flumes.\n\n* if we\u0027re trying to not persist PII, to me it seems most logical to avoid persisting it all places, including the index.\n\n\u003e In the same commit message, we might have templates for multiple accounts, which means frontend would have to call backend to get account information for each of the accounts in the message.\n\ncorrect. But we get the account IDs involved from NoteDb footers, right? So we can ship them in the ChangeInfo, without much extra overhead. \n\n\u003e each time we add a new feature we would have to add frontend support to it\n\nThe avatar/chip idea is probably nicer than necessary, but if you do textual substitution, it seems like an equal amount of work, whether you do it in the frontend or the backend, no?",
+      "parentUuid": "848ac390_b3588b09",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

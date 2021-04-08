@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8651c7e_5818e91e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "Nice, this is less invasive than I would have expected.",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "157fb31d_820f8bba",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "The comment should explain that \"can be persisted\" is because it is (and should always be) free of PII (or, to be more precise, PII should only be resolvable from this for non-deleted accounts).",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0442e94a_c34dbb84",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "\"detailed\" sounds like it contains information not available in \"message\". Maybe \"resolvedMessage\" (is resolving what you do with a template, or \"expanding\"?)? Or should this rather be the \"normal message field\", and the one above should be named \"messageTemplate\" or something like that?",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae937e8f_ecfaac53",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "Should this clear the detailedMessage?",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a337fa78_9d6dc3d7",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "The comment should mention that \"message\" will be returned if detailedMessage is not set.",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d6345fd_ed29657c",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "I think messageTemplate is more accurate.",
+      "range": {
+        "startLine": 95,
+        "startChar": 60,
+        "endLine": 95,
+        "endChar": 75
+      },
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8085338a_3cfc6e01",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "nit: storage systems",
+      "range": {
+        "startLine": 134,
+        "startChar": 94,
+        "endLine": 135,
+        "endChar": 13
+      },
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d16b0d34_08599714",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "Extract to static final field.",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d0c256b_f8ba00cc",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "Given the RE, can this ever fail? (I guess if the number is too large?)",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4c0ccd1_d277b329",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "@link",
+      "range": {
+        "startLine": 160,
+        "startChar": 14,
+        "endLine": 160,
+        "endChar": 19
+      },
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "008f3175_762d36ad",
+        "filename": "javatests/com/google/gerrit/entities/converter/ChangeMessageProtoConverterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "... is not actually serialized",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

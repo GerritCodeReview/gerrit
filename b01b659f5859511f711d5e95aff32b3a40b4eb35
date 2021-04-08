@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "848ac390_b3588b09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-08T13:19:00Z",
+      "side": 1,
+      "message": "There seem to be two solutions to this:\na) Introduce the same indirection into the index, i.e. when searching the index for e.g. email address, we convert that to the account ID. Maybe this isn\u0027t even that hard. It might also enable template expansion on the FE, though I think the 3rd con Marija listed above is still valid.\nb) Have the Wipeout Flume update the index on account deletion. Or do that in the reindex_stale_* jobs; at first glance that seems to be feasible: http://google3/third_party/java_src/gerritcodereview/gerrit/java/com/google/gerrit/server/index/change/StalenessChecker.java?l\u003d104\u0026rcl\u003d366916968",
+      "parentUuid": "87dcb9b7_ceef4eb4",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

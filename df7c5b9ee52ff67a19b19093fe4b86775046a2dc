@@ -73,6 +73,24 @@
       "message": "Thanks a lot for updating. Google is currently using highlightjs 10.6 with gerrit. \n\nThere are 2 blocking issues:\n- highlightjs is deprecating highlightBlock that we are using in Gerrit. Deprecation is quite aggressive, every call to highlightBlock makes console.log about deprecation. I see that you have related change of changing this API. We need to make sure that highlightLine works with highlightjs 10.6 or we should support both highlightBlock and highlightLine.\n\n- there is a regression in highlighting https://github.com/highlightjs/highlight.js/issues/3093\nI am planning to reopen and discuss with them that bug. I would give some time for bug reporting/user feedback to highlightjs. ",
       "revId": "df7c5b9ee52ff67a19b19093fe4b86775046a2dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2cb3f6c_369bdf7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-08T10:01:00Z",
+      "side": 1,
+      "message": "I checked again the bug I filled and I checked how visual studio code highlight same code and actually they are now highlighting in 10.7 code same as visual studio code.\n\nSo only blocker I see is this highlightBlock. Let\u0027s first prepare that other change",
+      "parentUuid": "fd8be497_368d748e",
+      "revId": "df7c5b9ee52ff67a19b19093fe4b86775046a2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Will this really print the map contents? I think you may need to use Iterables.toString().",
       "revId": "0258924d16df6ea20bd2d0acbaa28493908d3a1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "493311ba_dd6b6643",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonComparingImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T15:58:52Z",
+      "side": 1,
+      "message": "It does. I tried it locally.\n\nResult using old impl: {/COMMIT_MSG\u003dFileInfo{status\u003dA, binary\u003dnull, oldPath\u003dnull, linesInserted\u003d14, linesDeleted\u003dnull, sizeDelta\u003d555, size\u003d555}, polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts\u003dFileInfo{status\u003dnull, binary\u003dnull, oldPath\u003dnull, linesInserted\u003d7, linesDeleted\u003d6, sizeDelta\u003d6, size\u003d59320}}",
+      "parentUuid": "2e73f562_81c50ee2",
+      "revId": "0258924d16df6ea20bd2d0acbaa28493908d3a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

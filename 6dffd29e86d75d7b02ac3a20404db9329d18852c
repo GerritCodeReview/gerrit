@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37c70405_5b16efad",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-08T13:30:56Z",
+      "side": 1,
+      "message": "the cache could be dropped by the migration program in order to ensure we don\u0027t miss this",
+      "parentUuid": "7350050f_d7c400d7",
+      "revId": "6dffd29e86d75d7b02ac3a20404db9329d18852c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a17101ad_bc9cfe28",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
         "patchSetId": 15

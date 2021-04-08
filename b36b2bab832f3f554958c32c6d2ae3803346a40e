@@ -22,6 +22,30 @@
       },
       "revId": "b36b2bab832f3f554958c32c6d2ae3803346a40e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36002b92_f1a16dfd",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-08T12:45:45Z",
+      "side": 1,
+      "message": "I think that is not worth it, because rows can only be expanded manually one by one.",
+      "parentUuid": "8a3db966_b53101b8",
+      "range": {
+        "startLine": 268,
+        "startChar": 11,
+        "endLine": 271,
+        "endChar": 26
+      },
+      "revId": "b36b2bab832f3f554958c32c6d2ae3803346a40e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

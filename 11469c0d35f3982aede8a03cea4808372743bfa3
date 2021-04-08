@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1217efa9_ec0b03cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-08T10:26:15Z",
+      "side": 1,
+      "message": "Maybe just\n\n  const src \u003d \u0027paper-tab-click\u0027;",
+      "revId": "11469c0d35f3982aede8a03cea4808372743bfa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

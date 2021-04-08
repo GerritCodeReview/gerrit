@@ -16,6 +16,24 @@
       "message": "Maybe add this to shared-styles instead where we already have:\n\n    --paper-tab-content-focused: {\n      /* paper-tabs uses 700 here, which can look awkward */\n      font-weight: var(--font-weight-h3);\n    }\n\nIf you keep it here, then other tabs in the UI do not have an outline. And I am not sure where @apply messes up the competing outline\u003c-\u003efont-weight rules.",
       "revId": "88b3fd1f62601616d65eacd228158c634517ff8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daca416b_87a618cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-08T10:26:42Z",
+      "side": 1,
+      "message": "Thanks for idea.",
+      "parentUuid": "a9b1d4f8_9b099469",
+      "revId": "88b3fd1f62601616d65eacd228158c634517ff8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "what happens if this is a dryrun and e.g. line 126 throws an exception ?\n\nI guess the above outer resource-with-try should rethrow exceptions then the base class AbstractProgram would handle these exceptions and set exitCode accordingly",
       "revId": "8d5f915de2d95bb872345e2db2354f9f986791fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34fedc83_aa22a3b0",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-08T05:36:08Z",
+      "side": 1,
+      "message": "Yes. If an exception is thrown and not caught execution of the program is stopped and the stacktrace is logged. For a dryrun, it might be valid to continue to see all exceptions. WDYT?",
+      "parentUuid": "a354f633_86dc81cf",
+      "revId": "8d5f915de2d95bb872345e2db2354f9f986791fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

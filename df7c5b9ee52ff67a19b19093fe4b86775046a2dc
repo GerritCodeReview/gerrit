@@ -91,6 +91,24 @@
       "parentUuid": "fd8be497_368d748e",
       "revId": "df7c5b9ee52ff67a19b19093fe4b86775046a2dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db7b7815_05028ca2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-08T13:54:07Z",
+      "side": 1,
+      "message": "I don\u0027t see highlightBlock being used? Unless you meant highlightjs?\n\nWell that function supports both the new object type and the old deprecated type so upgrading shouldn\u0027t be an issue.\n\nThe only thing is the new type doesn\u0027t support continuation so we need to add support for that. See https://github.com/highlightjs/highlight.js/pull/3053#issuecomment-815364078",
+      "parentUuid": "f2cb3f6c_369bdf7a",
+      "revId": "df7c5b9ee52ff67a19b19093fe4b86775046a2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

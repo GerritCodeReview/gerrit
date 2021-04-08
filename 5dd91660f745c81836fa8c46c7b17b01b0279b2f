@@ -22,6 +22,30 @@
       },
       "revId": "5dd91660f745c81836fa8c46c7b17b01b0279b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c055d9c_77fd8b1f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-08T19:51:02Z",
+      "side": 1,
+      "message": "this asserts that there is a single externalId which is in the mailto scheme, this proves that there is no externalId in the username scheme",
+      "parentUuid": "22760e71_456991f0",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 77
+      },
+      "revId": "5dd91660f745c81836fa8c46c7b17b01b0279b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

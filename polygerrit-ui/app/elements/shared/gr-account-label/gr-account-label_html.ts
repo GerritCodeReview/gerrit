@@ -17,7 +17,7 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
-  <style include="shared-styles">
+  <style>
     :host {
       display: inline-block;
       vertical-align: top;

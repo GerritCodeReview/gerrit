@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -98,8 +99,13 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
             String.format("External id %s does not exist", externalIdStr));
       }
 
-      if ((!id.isScheme(SCHEME_USERNAME))
-          && (!last.isPresent() || (!last.get().equals(id.key())))) {
+      if (!last.isPresent() || !last.get().equals(id.key())) {
+        if (id.isScheme(SCHEME_USERNAME)) {
+          if (self.get().hasSameAccountId(resource.getUser())) {
+            throw new AuthException("User cannot delete its own externalId in 'username:' scheme");
+          }
+          permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
+        }
         toDelete.add(id);
       } else {
         throw new ResourceConflictException(

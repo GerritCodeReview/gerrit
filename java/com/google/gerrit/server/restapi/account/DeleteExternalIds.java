@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
@@ -94,8 +93,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
             String.format("External id %s does not exist", externalIdStr));
       }
 
-      if ((!id.isScheme(SCHEME_USERNAME))
-          && (!last.isPresent() || (!last.get().equals(id.key())))) {
+      if (!last.isPresent() || !last.get().equals(id.key())) {
         toDelete.add(id);
       } else {
         throw new ResourceConflictException(

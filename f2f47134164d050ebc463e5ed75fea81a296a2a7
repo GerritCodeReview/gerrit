@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4441e3c7_a33116b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "Done. I updated the commit message.",
+      "parentUuid": "309e4250_6d64800f",
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7e87339_3a381abf",
@@ -95,6 +113,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaf495d0_5687d0c3",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7e87339_3a381abf",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "906f7fcb_4083af20",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7e87339_3a381abf",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12543b89_f2f80ab5",
@@ -108,6 +174,30 @@
       "writtenOn": "2021-04-07T08:05:27Z",
       "side": 1,
       "message": "Here and for the other expressions below, would it be better to return the parsed predicate tree (or a dedicated class representing a SR condition), instead of a string? Otherwise all callers would need to do the parsing on their own.",
+      "range": {
+        "startLine": 36,
+        "startChar": 18,
+        "endLine": 36,
+        "endChar": 24
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12405031_9be0ccef",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "mmm, thanks for bringing this point into discussion. That\u0027s a better idea. Parsing the predicate tree would also allow us to perform syntax validation. Though that would require settling down on the language construct, defining its grammar similarly to QueryParser, etc... so we can postpone until then.\n\nSuggestion: \nWe could extract the expression Strings into a separate class, i.e. \"SubmitRequirementExpression\" representing the parsed expression as a tree. For now this class will only contain the query String. Later on, we can enrich this class by also storing its internal representation of the predicate tree. The future enrichment should not affect the de/serialization of this class.\n\nFollow-up:\nMy proposed \"SubmitRequirementExpression\" would be very similar to the existing \"Predicate\" class. Actually we want to reuse many existing predicates for submit requirements so both should be unified somehow. I could also use composition to solve this: Create a new SubmitRequirementExpression and store a Predicate internally.",
+      "parentUuid": "12543b89_f2f80ab5",
       "range": {
         "startLine": 36,
         "startChar": 18,
@@ -164,6 +254,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9004a2d_c1b920fa",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "I converted the other two expressions to optional. Thinking of blocking expressions again, I think it should be non-empty (non-null) because if blocking conditions are not available, then the requirement is meaningless and should be defined then.\n\nDone.",
+      "parentUuid": "39b09b12_adf3f2bc",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 33
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "356d655d_7a9acf43",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "I modified blockingExpression not to allow empties/nulls. Explanation in the other comment same line.",
+      "parentUuid": "f4401129_26d7b5c4",
+      "range": {
+        "startLine": 43,
+        "startChar": 75,
+        "endLine": 43,
+        "endChar": 86
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39948c90_a1e8e647",
@@ -177,6 +315,30 @@
       "writtenOn": "2021-04-07T08:05:27Z",
       "side": 1,
       "message": "Unclear what this means. Doesn\u0027t it rather override the blocking condition?",
+      "range": {
+        "startLine": 48,
+        "startChar": 38,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f452803_2b45a827",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "I rephrased the javadoc here and made the explanation more clear.\n\nDone.",
+      "parentUuid": "39948c90_a1e8e647",
       "range": {
         "startLine": 48,
         "startChar": 38,
@@ -210,6 +372,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e112c1c7_383c5ee6",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "cc2a9900_89662035",
+      "range": {
+        "startLine": 52,
+        "startChar": 62,
+        "endLine": 52,
+        "endChar": 72
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "921b4acf_23c2daa6",
@@ -223,6 +409,30 @@
       "writtenOn": "2021-04-07T08:05:27Z",
       "side": 1,
       "message": "Same as for the blockingExpression, should we rather return an Optional here?",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 24
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aba09ee_5fac5415",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "921b4acf_23c2daa6",
       "range": {
         "startLine": 54,
         "startChar": 18,
@@ -256,6 +466,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3acc3d3_0bc469b1",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5ce5545_e884682a",
+      "range": {
+        "startLine": 57,
+        "startChar": 37,
+        "endLine": 57,
+        "endChar": 62
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b8008e5_b40cce79",
@@ -269,6 +503,30 @@
       "writtenOn": "2021-04-07T08:05:27Z",
       "side": 1,
       "message": "I wonder if we can find a name that can be clearly distinguished from \"overrideExpression\" to avoid confusion?",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 37
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bf81dde_9666b82b",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "Agree. \"canInherit\".\n\nDone.",
+      "parentUuid": "4b8008e5_b40cce79",
       "range": {
         "startLine": 59,
         "startChar": 26,
@@ -296,6 +554,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f6b4f6_e437a1c2",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a02262c_8c5a63f5",
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f06baf3_e0e98caf",
@@ -309,6 +585,24 @@
       "writtenOn": "2021-04-07T08:05:27Z",
       "side": 1,
       "message": "Maybe also test that:\n- the case of submit requirement names is preserved (that the name not converted to lower-case)\n- the behaviour when 2 submit requirements have names that only differ by capitalisation\n- an empty submit requirement (no fields set) is handled correctly",
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47ccfd78_3d3b915a",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-08T17:41:31Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8f06baf3_e0e98caf",
       "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

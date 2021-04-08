@@ -103,8 +103,8 @@ export const htmlTemplate = html`
     gr-image-viewer {
       width: 100%;
       height: 100%;
-      max-width: 95vw;
-      max-height: 90vh;
+      max-width: var(--image-viewer-max-width, 95vw);
+      max-height: var(--image-viewer-max-height, 90vh);
     }
     .image-diff .gr-diff {
       text-align: center;

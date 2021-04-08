@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d54d86f0_bf802ee6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-08T16:20:22Z",
+      "side": 1,
+      "message": "This is strange, this is not documented at all here:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-config.html#plugin-config-info\n\nAre you sure nobody is using this? I guess sounds good to remove this if so (especially since it\u0027s not documented).\n\nnit for a follow-up: can we document \"jsResourcePaths\" in the above documentation? (I\u0027d do it myself but I\u0027m not sure what it is)",
+      "revId": "d1c1a3ad57514df94cd0e4ddde509a13f1ededd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

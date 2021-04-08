@@ -70,6 +70,23 @@
       "parentUuid": "8a56bcc7_e0f3e151",
       "revId": "775b7de52f02cab11fb50067d65ab882f2596244",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "709c09ef_82f1954f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-08T13:29:31Z",
+      "side": 1,
+      "message": "May as well update to version 2.0",
+      "revId": "775b7de52f02cab11fb50067d65ab882f2596244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

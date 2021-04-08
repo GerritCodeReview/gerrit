@@ -130,21 +130,21 @@ export const htmlTemplate = html`
     class="cell subject"
     hidden$="[[isColumnHidden('Subject', visibleChangeTableColumns)]]"
   >
-    <div class="container">
-      <div class="content">
-        <a
-          title$="[[change.subject]]"
-          href$="[[changeURL]]"
-          on-click="_handleChangeClick"
-        >
+    <a
+      title$="[[change.subject]]"
+      href$="[[changeURL]]"
+      on-click="_handleChangeClick"
+    >
+      <div class="container">
+        <div class="content">
           [[change.subject]]
-        </a>
+        </div>
+        <div class="spacer">
+          [[change.subject]]
+        </div>
+        <span>&nbsp;</span>
       </div>
-      <div class="spacer">
-        [[change.subject]]
-      </div>
-      <span>&nbsp;</span>
-    </div>
+    </a>
   </td>
   <td
     class="cell status"

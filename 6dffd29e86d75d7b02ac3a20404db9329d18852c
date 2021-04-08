@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6ca6174_6c8fec31",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-04-08T11:59:15Z",
+      "side": 1,
+      "message": "Inject AuthConfig and use AuthConfig.isUserNameToLowerCase?",
+      "revId": "6dffd29e86d75d7b02ac3a20404db9329d18852c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a159024d_023a0c6d",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-04-08T11:59:15Z",
+      "side": 1,
+      "message": "If the (de)serialization changes then the serialVersionUID also needs to change. This ensures that we don\u0027t try to deserialize old entries (without the new field) into the new format (with the new field).",
+      "revId": "6dffd29e86d75d7b02ac3a20404db9329d18852c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7350050f_d7c400d7",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-04-08T11:59:15Z",
+      "side": 1,
+      "message": "Why do we need this field here? Looks like this class is trying to support both cases, case sensitive and case insensitive usernames, at the same time? However, this is a global setting and it cannot change until the next restart. Maybe a simpler solution is to simply drop this (persistent) cache whenever accounts are migrated?",
+      "revId": "6dffd29e86d75d7b02ac3a20404db9329d18852c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a17101ad_bc9cfe28",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-04-08T11:59:15Z",
+      "side": 1,
+      "message": "Looks like this is only used from the tests plus from the WebSessionManager.\nBut the WebSessionManager takes this parameter from the gerrit.config, so why\nnot inject ExternalIdKeyFactory into the WebSessionManager and thus remove\nexplicit instance creation there? Once this is done, annotate this constructor with @VisibleForTesting.",
+      "revId": "6dffd29e86d75d7b02ac3a20404db9329d18852c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

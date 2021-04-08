@@ -238,11 +238,7 @@ class GrResultRow extends GrLitElement {
             </div>
             ${this.renderLabel()}
           </div>
-          <gr-result-expanded
-            .result="${this.result}"
-            ?hidden="${!this.isExpanded}"
-            @click="${this.avoidToggleExpanded}"
-          ></gr-result-expanded>
+          ${this.renderExpanded()}
         </td>
         <td class="expanderCol">
           <div
@@ -265,6 +261,14 @@ class GrResultRow extends GrLitElement {
         </td>
       </tr>
     `;
+  }
+
+  private renderExpanded() {
+    if (!this.isExpanded) return;
+    return html`<gr-result-expanded
+      .result="${this.result}"
+      @click="${this.avoidToggleExpanded}"
+    ></gr-result-expanded>`;
   }
 
   private toggleExpanded() {

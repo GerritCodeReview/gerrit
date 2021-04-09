@@ -16,6 +16,52 @@
       "message": "Sorry I am OOO today. ",
       "revId": "b8d029019e5f997e3207547a045b87ed12cf7dcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d316761_47f6cb54",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-overview-image.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-09T10:18:24Z",
+      "side": 1,
+      "message": "Could this be moved into a css rule set and then just set a class on the div?\n\nIs the reason that the css rules above don\u0027t apply to the document? Then add a comment about that.",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 42
+      },
+      "revId": "b8d029019e5f997e3207547a045b87ed12cf7dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f86d8eb_c7acff27",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-overview-image.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-09T10:18:24Z",
+      "side": 1,
+      "message": "We prefer arrow functions over bind().",
+      "range": {
+        "startLine": 175,
+        "startChar": 5,
+        "endLine": 181,
+        "endChar": 0
+      },
+      "revId": "b8d029019e5f997e3207547a045b87ed12cf7dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

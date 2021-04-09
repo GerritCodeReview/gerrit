@@ -147,7 +147,7 @@ export class GrSettingsView extends LitElement {
 
   @query('#diffViewSelect') diffViewSelect!: HTMLInputElement;
 
-  @query('#themePreferenceSelect') themePreferenceSelect!: HTMLInputElement;
+  @query('#themeSelect') themeSelect!: HTMLInputElement;
 
   @state() prefs: PreferencesInput = {};
 
@@ -155,7 +155,8 @@ export class GrSettingsView extends LitElement {
 
   @state() private accountInfoChanged = false;
 
-  @state() private localPrefs: PreferencesInput = {};
+  // private but used in test
+  @state() localPrefs: PreferencesInput = {};
 
   // private but used in test
   @state() localChangeTableColumns: string[] = [];
@@ -312,11 +313,7 @@ export class GrSettingsView extends LitElement {
       #email {
         margin-bottom: var(--spacing-l);
       }
-      .main section.darkToggle {
-        display: block;
-      }
-      .filters p,
-      .darkToggle p {
+      .filters p {
         margin-bottom: var(--spacing-l);
       }
       .queryExample em {
@@ -371,22 +368,6 @@ export class GrSettingsView extends LitElement {
         </gr-page-nav>
         <div class="main gr-form-styles">
           <h1 class="heading-1">User Settings</h1>
-          <h2 id="Theme">Theme</h2>
-          <section class="darkToggle">
-            <span class="title">Appearance</span>
-            <span class="value">
-              <gr-select
-                .bindValue=${this.themePreference}
-                @change=${this.handleThemePreferenceChanged}
-              >
-                <select id="themePreferenceSelect">
-                  <option value="AUTO">Auto</option>
-                  <option value="LIGHT">Light</option>
-                  <option value="DARK">Dark</option>
-                </select>
-              </gr-select>
-            </span>
-          </section>
           <h2
             id="Profile"
             class=${this.computeHeaderClass(this.accountInfoChanged)}
@@ -416,9 +397,9 @@ export class GrSettingsView extends LitElement {
             Preferences
           </h2>
           <fieldset id="preferences">
-            ${this.renderChangesPerPages()} ${this.renderDateTimeFormat()}
-            ${this.renderEmailNotification()} ${this.renderEmailFormat()}
-            ${this.renderDefaultBaseForMerges()}
+            ${this.renderTheme()} ${this.renderChangesPerPages()}
+            ${this.renderDateTimeFormat()} ${this.renderEmailNotification()}
+            ${this.renderEmailFormat()} ${this.renderDefaultBaseForMerges()}
             ${this.renderRelativeDateInChangeTable()} ${this.renderDiffView()}
             ${this.renderShowSizeBarsInFileList()}
             ${this.renderPublishCommentsOnPush()}
@@ -733,6 +714,26 @@ export class GrSettingsView extends LitElement {
   override disconnectedCallback() {
     window.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();
+  }
+
+  private renderTheme() {
+    return html`
+      <section>
+        <label class="title" for="themeSelect">Theme</label>
+        <span class="value">
+          <gr-select
+            .bindValue=${this.localPrefs.theme ?? AppTheme.AUTO}
+            @change=${this.handleThemePreferenceChanged}
+          >
+            <select id="themeSelect">
+              <option value="AUTO">Auto</option>
+              <option value="LIGHT">Light</option>
+              <option value="DARK">Dark</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
   }
 
   private renderChangesPerPages() {
@@ -1086,9 +1087,12 @@ export class GrSettingsView extends LitElement {
 
   // private but used in test
   handleSavePreferences() {
-    this.copyPrefs(CopyPrefsDirection.LocalPrefsToPrefs);
-
-    return this.restApiService.savePreferences(this.prefs).then(() => {
+    const themeChange = this.prefs.theme !== this.localPrefs.theme;
+    return this.restApiService.savePreferences(this.localPrefs).then(() => {
+      this.copyPrefs(CopyPrefsDirection.LocalPrefsToPrefs);
+      if (themeChange) {
+        this.reloadPage();
+      }
       this.prefsChanged = false;
     });
   }
@@ -1158,18 +1162,8 @@ export class GrSettingsView extends LitElement {
 
   // private but used in test
   handleThemePreferenceChanged() {
-    const themeSelected = this.themePreferenceSelect.value as AppTheme;
-    if (themeSelected === AppTheme.DARK) {
-      window.localStorage.removeItem('light-theme');
-      window.localStorage.setItem('dark-theme', 'true');
-    } else if (themeSelected === AppTheme.LIGHT) {
-      window.localStorage.removeItem('dark-theme');
-      window.localStorage.setItem('light-theme', 'true');
-    } else if (themeSelected === AppTheme.AUTO) {
-      window.localStorage.removeItem('light-theme');
-      window.localStorage.removeItem('dark-theme');
-    }
-    this.reloadPage();
+    this.localPrefs.theme = this.themeSelect.value as AppTheme;
+    this.prefsChanged = true;
   }
 
   // private but used in test

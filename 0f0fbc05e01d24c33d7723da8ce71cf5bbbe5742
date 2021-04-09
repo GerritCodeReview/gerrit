@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a341d59_0f259f04",
+        "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-04-09T11:40:43Z",
+      "side": 1,
+      "message": "this seems wrong",
+      "range": {
+        "startLine": 174,
+        "startChar": 36,
+        "endLine": 174,
+        "endChar": 74
+      },
+      "revId": "0f0fbc05e01d24c33d7723da8ce71cf5bbbe5742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

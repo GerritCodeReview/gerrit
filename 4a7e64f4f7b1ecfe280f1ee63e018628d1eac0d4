@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46699953_f6a7c1cb",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-09T03:49:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "74374f3b_2beee4e6",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 54
+      },
+      "revId": "4a7e64f4f7b1ecfe280f1ee63e018628d1eac0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57bae4c6_ad5f5bfe",
@@ -213,6 +237,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d198cbe_6bab8615",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2687,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-09T03:49:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4c6f9567_cff259f7",
+      "range": {
+        "startLine": 2687,
+        "startChar": 4,
+        "endLine": 2687,
+        "endChar": 36
+      },
+      "revId": "4a7e64f4f7b1ecfe280f1ee63e018628d1eac0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fba860ac_0cac0ef7",
@@ -226,6 +274,30 @@
       "writtenOn": "2021-03-18T13:46:24Z",
       "side": 1,
       "message": "assertion seems wrong, since commit2 has commit1 as parent and thus not an initialcommit.",
+      "range": {
+        "startLine": 2691,
+        "startChar": 4,
+        "endLine": 2691,
+        "endChar": 45
+      },
+      "revId": "4a7e64f4f7b1ecfe280f1ee63e018628d1eac0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20a377e2_9920ad2a",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2691,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-09T03:49:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fba860ac_0cac0ef7",
       "range": {
         "startLine": 2691,
         "startChar": 4,

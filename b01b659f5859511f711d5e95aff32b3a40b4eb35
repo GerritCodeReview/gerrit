@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a12ac9e3_c94beebe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-09T10:56:25Z",
+      "side": 1,
+      "message": "Added Ben, for opinion, we will have to make a change to the frontend first so we don\u0027t break existing comments.\n\nBen, what do you think, would it make sense to replace message templates in the backend, or let the frontend replace templates in comments (possibly with account chip and avatar, instead of simple user name, similarly to reviewer updates?) Could someone from the frontend team help with that?",
+      "parentUuid": "ec49d93c_ce7b6ac5",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

@@ -154,8 +154,6 @@ interface SyntaxLayerRange {
 interface SyntaxLayerState {
   sectionIndex: number;
   lineIndex: number;
-  baseContext: unknown;
-  revisionContext: unknown;
   lineNums: {left: number; right: number};
   lastNotify: {left: number; right: number};
 }
@@ -294,8 +292,6 @@ export class GrSyntaxLayer
     const state: SyntaxLayerState = {
       sectionIndex: 0,
       lineIndex: 0,
-      baseContext: undefined,
-      revisionContext: undefined,
       lineNums: {left: 1, right: 1},
       lastNotify: {left: 1, right: 1},
     };
@@ -457,17 +453,11 @@ export class GrSyntaxLayer
       this._hljs.getLanguage(this._baseLanguage)
     ) {
       baseLine = this._workaround(this._baseLanguage, baseLine);
-      result = this._hljs.highlight(
-        this._baseLanguage,
-        baseLine,
-        true,
-        state.baseContext
-      );
+      result = this._getHighlightLine(true, this._baseLanguage, baseLine);
       this.push(
         '_baseRanges',
         this._rangesFromString(result.value, rangesCache)
       );
-      state.baseContext = result.top;
     }
 
     if (
@@ -476,18 +466,52 @@ export class GrSyntaxLayer
       this._hljs.getLanguage(this._revisionLanguage)
     ) {
       revisionLine = this._workaround(this._revisionLanguage, revisionLine);
-      result = this._hljs.highlight(
-        this._revisionLanguage,
-        revisionLine,
+      result = this._getHighlightLine(
         true,
-        state.revisionContext
+        this._revisionLanguage,
+        revisionLine
       );
       this.push(
         '_revisionRanges',
         this._rangesFromString(result.value, rangesCache)
       );
-      state.revisionContext = result.top;
     }
+  }
+
+  _getHighlightLine(
+    ignoreIllegals: boolean,
+    language?: string,
+    baseLine?: string
+  ) {
+    const tokenStack: any[] = [];
+
+    const result = this.hljs.highlight(baseLine, {
+      language,
+      ignoreIllegals,
+    });
+
+    if (!result || !result.value) return result;
+
+    result.value = result.value
+      .split('\n')
+      .map(line => {
+        const prepend = tokenStack
+          .map(token => `<span class="${token}">`)
+          .join('');
+        const matches = line.matchAll(/(<span class="(.*?)">|<\/span>)/g);
+        for (const match of matches) {
+          if (match[0] === '</span>') {
+            tokenStack.shift();
+          } else {
+            tokenStack.unshift(match[2]);
+          }
+        }
+        const append = '</span>'.repeat(tokenStack.length);
+        return `${prepend}${line}${append}`;
+      })
+      .join('\n');
+
+    return result;
   }
 
   /**

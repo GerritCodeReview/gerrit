@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5475203_3ef82482",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-overview-image.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-09T10:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d316761_47f6cb54",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 42
+      },
+      "revId": "b8d029019e5f997e3207547a045b87ed12cf7dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f86d8eb_c7acff27",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-04-09T10:18:24Z",
       "side": 1,
       "message": "We prefer arrow functions over bind().",
+      "range": {
+        "startLine": 175,
+        "startChar": 5,
+        "endLine": 181,
+        "endChar": 0
+      },
+      "revId": "b8d029019e5f997e3207547a045b87ed12cf7dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f979c96_ea306586",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-overview-image.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-09T10:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f86d8eb_c7acff27",
       "range": {
         "startLine": 175,
         "startChar": 5,

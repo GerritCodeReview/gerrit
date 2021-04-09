@@ -102,6 +102,7 @@ suite('gr-settings-view tests', () => {
     preferences = {
       ...createPreferences(),
       changes_per_page: 25,
+      theme: AppTheme.LIGHT,
       date_format: DateFormat.UK,
       time_format: TimeFormat.HHMM_12,
       diff_view: DiffViewMode.UNIFIED,
@@ -164,27 +165,6 @@ suite('gr-settings-view tests', () => {
         </gr-page-nav>
         <div class="gr-form-styles main">
           <h1 class="heading-1">User Settings</h1>
-          <h2 id="Theme">Theme</h2>
-          <section class="darkToggle">
-          <span class="title">
-                  Appearance
-                </span>
-                <span class="value">
-                  <gr-select>
-                    <select id="themePreferenceSelect">
-                      <option value="AUTO">
-                        Auto
-                      </option>
-                      <option value="LIGHT">
-                        Light
-                      </option>
-                      <option value="DARK">
-                        Dark
-                      </option>
-                    </select>
-                  </gr-select>
-                </span>
-          </section>
           <h2 id="Profile">Profile</h2>
           <fieldset id="profile">
             <gr-account-info id="accountInfo"> </gr-account-info>
@@ -199,6 +179,20 @@ suite('gr-settings-view tests', () => {
           </fieldset>
           <h2 id="Preferences">Preferences</h2>
           <fieldset id="preferences">
+            <section>
+              <label class="title" for="themeSelect">
+                Theme
+              </label>
+              <span class="value">
+                <gr-select>
+                  <select id="themeSelect">
+                    <option value="AUTO">Auto</option>
+                    <option value="LIGHT">Light</option>
+                    <option value="DARK">Dark</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
             <section>
               <label class="title" for="changesPerPageSelect">
                 Changes per page
@@ -543,20 +537,15 @@ suite('gr-settings-view tests', () => {
   });
 
   test('theme changing', async () => {
-    const reloadStub = sinon.stub(element, 'reloadPage');
-
-    window.localStorage.removeItem('dark-theme');
-    assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
-    element.themePreferenceSelect.value = AppTheme.DARK;
+    assert.isFalse(element.localPrefs.theme === AppTheme.DARK);
+    element.themeSelect.value = AppTheme.DARK;
     element.handleThemePreferenceChanged();
     await element.updateComplete;
-    assert.isTrue(window.localStorage.getItem('dark-theme') === 'true');
-    assert.isTrue(reloadStub.calledOnce);
+    assert.isTrue(element.localPrefs.theme === AppTheme.DARK);
 
-    element.themePreferenceSelect.value = AppTheme.LIGHT;
+    element.themeSelect.value = AppTheme.LIGHT;
     element.handleThemePreferenceChanged();
-    assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
-    assert.isTrue(reloadStub.calledTwice);
+    assert.isFalse(element.localPrefs.theme === AppTheme.DARK);
   });
 
   test('calls the title-change event', () => {
@@ -585,6 +574,10 @@ suite('gr-settings-view tests', () => {
         ).bindValue
       ),
       preferences.changes_per_page
+    );
+    assert.equal(
+      (valueOf('Theme', 'preferences').firstElementChild as GrSelect).bindValue,
+      preferences.theme
     );
     assert.equal(
       (
@@ -671,6 +664,17 @@ suite('gr-settings-view tests', () => {
 
     assert.isFalse(element.prefsChanged);
 
+    const themeSelect = valueOf('Theme', 'preferences')
+      .firstElementChild as GrSelect;
+    themeSelect.bindValue = 'DARK';
+
+    themeSelect.dispatchEvent(
+      new CustomEvent('change', {
+        composed: true,
+        bubbles: true,
+      })
+    );
+
     const publishOnPush = valueOf('Publish comments on push', 'preferences')!
       .firstElementChild!;
 
@@ -681,12 +685,15 @@ suite('gr-settings-view tests', () => {
     stubRestApi('savePreferences').callsFake(prefs => {
       assertMenusEqual(prefs.my, preferences.my);
       assert.equal(prefs.publish_comments_on_push, true);
+      assert.equal(prefs.theme, AppTheme.DARK);
       return Promise.resolve(createDefaultPreferences());
     });
 
+    const reloadPageStub = sinon.stub(element, 'reloadPage');
     // Save the change.
     await element.handleSavePreferences();
     assert.isFalse(element.prefsChanged);
+    assert.isTrue(reloadPageStub.called);
   });
 
   test('publish comments on push', async () => {

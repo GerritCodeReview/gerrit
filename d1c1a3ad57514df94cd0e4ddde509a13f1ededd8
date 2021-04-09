@@ -33,6 +33,42 @@
       "message": "Looks like just PluginIT#pluginManagement needs to be adapted",
       "revId": "d1c1a3ad57514df94cd0e4ddde509a13f1ededd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "285e5568_b61faa24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-09T09:22:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d54d86f0_bf802ee6",
+      "revId": "d1c1a3ad57514df94cd0e4ddde509a13f1ededd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d127922_45d5a284",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-09T09:22:48Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "ae831b7e_a1abfca4",
+      "revId": "d1c1a3ad57514df94cd0e4ddde509a13f1ededd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -156,8 +156,8 @@ export class GrCursorManager {
       : this.targetableStops;
     const windowCenter = Math.round(window.innerHeight / 2);
 
-    let closestToTheCenter: HTMLElement | null = null;
-    let minDistanceToCenter: number | null = null;
+    let closestToTheCenter: HTMLElement | undefined = undefined;
+    let minDistanceToCenter: number | undefined = undefined;
     let unobservedCount = filteredStops.length;
 
     const observer = new IntersectionObserver(entries => {
@@ -179,7 +179,7 @@ export class GrCursorManager {
           Math.round(entry.boundingClientRect.height / 2);
         const distanceToWindowCenter = Math.abs(center - windowCenter);
         if (
-          minDistanceToCenter === null ||
+          minDistanceToCenter === undefined ||
           distanceToWindowCenter < minDistanceToCenter
         ) {
           // entry.target comes from the filteredStops array,

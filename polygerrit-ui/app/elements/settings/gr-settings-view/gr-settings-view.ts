@@ -48,6 +48,7 @@ import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 import {
+  AppTheme,
   ColumnNames,
   DateFormat,
   DefaultBase,
@@ -129,6 +130,8 @@ export class GrSettingsView extends LitElement {
   @query('#relativeDateInChangeTable')
   relativeDateInChangeTable!: HTMLInputElement;
 
+  @query('#themeSelect') themeSelect!: HTMLInputElement;
+
   @query('#changesPerPageSelect') changesPerPageSelect!: HTMLInputElement;
 
   @query('#dateTimeFormatSelect') dateTimeFormatSelect!: HTMLInputElement;
@@ -192,9 +195,6 @@ export class GrSettingsView extends LitElement {
   @state() showNumber?: boolean;
 
   // private but used in test
-  @state() isDark = false;
-
-  // private but used in test
   public _testOnly_loadingPromise?: Promise<void>;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -208,8 +208,6 @@ export class GrSettingsView extends LitElement {
   }
 
   override firstUpdated() {
-    this.isDark = !!window.localStorage.getItem('dark-theme');
-
     const promises: Array<Promise<unknown>> = [
       this.accountInfo.loadData(),
       this.watchedProjectsEditor.loadData(),
@@ -308,11 +306,7 @@ export class GrSettingsView extends LitElement {
       #email {
         margin-bottom: var(--spacing-l);
       }
-      .main section.darkToggle {
-        display: block;
-      }
-      .filters p,
-      .darkToggle p {
+      .filters p {
         margin-bottom: var(--spacing-l);
       }
       .queryExample em {
@@ -367,18 +361,6 @@ export class GrSettingsView extends LitElement {
         </gr-page-nav>
         <div class="main gr-form-styles">
           <h1 class="heading-1">User Settings</h1>
-          <h2 id="Theme">Theme</h2>
-          <section class="darkToggle">
-            <div class="toggle">
-              <paper-toggle-button
-                aria-labelledby="darkThemeToggleLabel"
-                ?checked=${this.isDark}
-                @change=${this.handleToggleDark}
-                @click=${this.onTapDarkToggle}
-              ></paper-toggle-button>
-              <div id="darkThemeToggleLabel">Dark theme</div>
-            </div>
-          </section>
           <h2
             id="Profile"
             class=${this.computeHeaderClass(this.accountInfoChanged)}
@@ -408,9 +390,9 @@ export class GrSettingsView extends LitElement {
             Preferences
           </h2>
           <fieldset id="preferences">
-            ${this.renderChangesPerPages()} ${this.renderDateTimeFormat()}
-            ${this.renderEmailNotification()} ${this.renderEmailFormat()}
-            ${this.renderDefaultBaseForMerges()}
+            ${this.renderTheme()} ${this.renderChangesPerPages()}
+            ${this.renderDateTimeFormat()} ${this.renderEmailNotification()}
+            ${this.renderEmailFormat()} ${this.renderDefaultBaseForMerges()}
             ${this.renderRelativeDateInChangeTable()} ${this.renderDiffView()}
             ${this.renderShowSizeBarsInFileList()}
             ${this.renderPublishCommentsOnPush()}
@@ -725,6 +707,28 @@ export class GrSettingsView extends LitElement {
   override disconnectedCallback() {
     window.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();
+  }
+
+  private renderTheme() {
+    return html`
+      <section>
+        <label class="title" for="themeSelect">Theme</label>
+        <span class="value">
+          <gr-select
+            .bindValue=${this.localPrefs.theme}
+            @change=${() => {
+              this.localPrefs.theme = this.themeSelect.value as AppTheme;
+              this.prefsChanged = true;
+            }}
+          >
+            <select id="themeSelect">
+              <option value="DARK">Dark</option>
+              <option value="LIGHT">Light</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
   }
 
   private renderChangesPerPages() {
@@ -1078,9 +1082,11 @@ export class GrSettingsView extends LitElement {
 
   // private but used in test
   handleSavePreferences() {
-    this.copyPrefs(CopyPrefsDirection.LocalPrefsToPrefs);
-
-    return this.restApiService.savePreferences(this.prefs).then(() => {
+    // This has to be there so we can compare the old value to new.
+    const themeChange = this.prefs.theme !== this.localPrefs.theme;
+    return this.restApiService.savePreferences(this.localPrefs).then(() => {
+      this.copyPrefs(CopyPrefsDirection.LocalPrefsToPrefs);
+      this.applyTheme(themeChange);
       this.prefsChanged = false;
     });
   }
@@ -1148,15 +1154,6 @@ export class GrSettingsView extends LitElement {
     return base + GERRIT_DOCS_FILTER_PATH;
   }
 
-  private handleToggleDark() {
-    if (this.isDark) {
-      window.localStorage.removeItem('dark-theme');
-    } else {
-      window.localStorage.setItem('dark-theme', 'true');
-    }
-    this.reloadPage();
-  }
-
   // private but used in test
   reloadPage() {
     fireAlert(this, 'Reloading...');
@@ -1172,13 +1169,6 @@ export class GrSettingsView extends LitElement {
     }
 
     return false;
-  }
-
-  /**
-   * Work around a issue on iOS when clicking turns into double tap
-   */
-  private onTapDarkToggle(e: Event) {
-    e.preventDefault();
   }
 
   /**
@@ -1198,6 +1188,12 @@ export class GrSettingsView extends LitElement {
       | number
   ) {
     return key !== undefined ? String(key) : '';
+  }
+
+  private applyTheme(themeChange: boolean) {
+    if (themeChange) {
+      this.reloadPage();
+    }
   }
 }
 

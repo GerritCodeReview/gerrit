@@ -80,6 +80,7 @@ import {ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
+import {AppTheme} from '../constants/constants';
 
 interface ErrorInfo {
   text: string;
@@ -250,10 +251,16 @@ export class GrAppElement extends LitElement {
       this.logWelcome();
     });
 
-    const isDarkTheme = !!window.localStorage.getItem('dark-theme');
-    document.documentElement.classList.toggle('darkTheme', isDarkTheme);
-    document.documentElement.classList.toggle('lightTheme', !isDarkTheme);
-    if (isDarkTheme) applyDarkTheme();
+    this.restApiService.getPreferences().then(pref => {
+      if (pref?.theme === AppTheme.DARK) {
+        document.documentElement.classList.toggle('darkTheme', true);
+        document.documentElement.classList.toggle('lightTheme', false);
+        applyDarkTheme();
+      } else {
+        document.documentElement.classList.toggle('darkTheme', false);
+        document.documentElement.classList.toggle('lightTheme', true);
+      }
+    });
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837

@@ -20,7 +20,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
@@ -64,7 +63,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
       bind(InMemoryRepositoryManager.class).in(SINGLETON);
     }
 
-    bind(MetricMaker.class).to(DisabledMetricMaker.class);
+    bind(MetricMaker.class).to(TestMetricMaker.class);
 
     listener().to(CreateSchema.class);
 

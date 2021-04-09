@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55fa6ca0_c30b2038",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-09T05:41:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "47988fcb_2a35487b",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 19
+      },
+      "revId": "4a7e64f4f7b1ecfe280f1ee63e018628d1eac0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "375e2d60_cce14e3e",

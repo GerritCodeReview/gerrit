@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e78348c_b1524fc5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-09T15:41:24Z",
+      "side": 1,
+      "message": "this alternative implementation which doesn\u0027t use reflection to call methods compiles and works in Eclipse on Java 11 but the bazel build on Java 8 and 11 fails with this error:\n\nERROR: /Users/d0xxxxx/src/git/gerrit/java/com/google/gerrit/metrics/BUILD:3:13: Building java/com/google/gerrit/metrics/libmetrics.jar (31 source files) and running annotation processors (AutoAnnotationProcessor, AutoValueProcessor, AutoOneOfProcessor) failed: (Exit 1): java failed: error executing command external/remotejdk11_macos/bin/java \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.api\u003dALL-UNNAMED\u0027 \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.code\u003dALL-UNNAMED\u0027 ... (remaining 14 argument(s) skipped)\njava/com/google/gerrit/metrics/proc/ThreadMXBeanSun.java:38: error: cannot find symbol\n    return sys.getCurrentThreadAllocatedBytes();\n              ^\n  symbol:   method getCurrentThreadAllocatedBytes()\n  location: variable sys of type ThreadMXBean\nTarget //:release failed to build\n\nany idea what\u0027s wrong with the bazel build ?",
+      "revId": "02fdbca1c54a7f73ac17ac393a5fe3f5902f8fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

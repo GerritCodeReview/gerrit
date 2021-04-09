@@ -155,6 +155,13 @@ public class FileInfoJsonComparingImpl implements FileInfoJson {
       return;
     }
     metrics.diffs.increment(Metrics.Status.MISMATCH);
-    logger.atWarning().log(warningMessage);
+    logger.atWarning().log(
+        warningMessage
+            + "\n"
+            + "Result using old impl: "
+            + fileInfoMapOld
+            + "\n"
+            + "Result using new impl: "
+            + fileInfoMapNew);
   }
 }

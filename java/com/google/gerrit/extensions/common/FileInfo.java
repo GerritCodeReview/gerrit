@@ -44,4 +44,24 @@ public class FileInfo {
   public int hashCode() {
     return Objects.hash(status, binary, oldPath, linesInserted, linesDeleted, sizeDelta, size);
   }
+
+  @Override
+  public String toString() {
+    return "FileInfo{"
+        + "status="
+        + status
+        + ", binary="
+        + binary
+        + ", oldPath="
+        + oldPath
+        + ", linesInserted="
+        + linesInserted
+        + ", linesDeleted="
+        + linesDeleted
+        + ", sizeDelta="
+        + sizeDelta
+        + ", size="
+        + size
+        + "}";
+  }
 }

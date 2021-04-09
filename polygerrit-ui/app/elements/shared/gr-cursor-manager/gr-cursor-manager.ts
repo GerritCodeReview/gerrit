@@ -154,8 +154,7 @@ export class GrCursorManager {
     const filteredStops = filter
       ? this.targetableStops.filter(filter)
       : this.targetableStops;
-    const dims = this._getWindowDims();
-    const windowCenter = Math.round(dims.innerHeight / 2);
+    const windowCenter = Math.round(window.innerHeight / 2);
 
     let closestToTheCenter: HTMLElement | null = null;
     let minDistanceToCenter: number | null = null;
@@ -405,17 +404,15 @@ export class GrCursorManager {
   }
 
   _targetIsVisible(top: number) {
-    const dims = this._getWindowDims();
     return (
       this.scrollMode === ScrollMode.KEEP_VISIBLE &&
-      top > dims.pageYOffset &&
-      top < dims.pageYOffset + dims.innerHeight
+      top > window.pageYOffset &&
+      top < window.pageYOffset + window.innerHeight
     );
   }
 
   _calculateScrollToValue(top: number, target: HTMLElement) {
-    const dims = this._getWindowDims();
-    return top + -dims.innerHeight / 3 + target.offsetHeight / 2;
+    return top + -window.innerHeight / 3 + target.offsetHeight / 2;
   }
 
   _scrollToTarget() {
@@ -423,7 +420,6 @@ export class GrCursorManager {
       return;
     }
 
-    const dims = this._getWindowDims();
     const top = this._getTop(this.target);
     const bottomIsVisible = this._targetHeight
       ? this._targetIsVisible(top + this._targetHeight)
@@ -435,7 +431,7 @@ export class GrCursorManager {
       // would get scrolled to is higher up than the current position. This
       // would cause less of the target content to be displayed than is
       // already.
-      if (bottomIsVisible || scrollToValue < dims.scrollY) {
+      if (bottomIsVisible || scrollToValue < window.scrollY) {
         return;
       }
     }
@@ -444,15 +440,6 @@ export class GrCursorManager {
     // instead of half the inner height feels a bit better otherwise the
     // element appears to be below the center of the window even when it
     // isn't.
-    window.scrollTo(dims.scrollX, scrollToValue);
-  }
-
-  _getWindowDims() {
-    return {
-      scrollX: window.scrollX,
-      scrollY: window.scrollY,
-      innerHeight: window.innerHeight,
-      pageYOffset: window.pageYOffset,
-    };
+    window.scrollTo(window.scrollX, scrollToValue);
   }
 }

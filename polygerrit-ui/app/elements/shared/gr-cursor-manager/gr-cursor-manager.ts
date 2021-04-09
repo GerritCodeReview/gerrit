@@ -144,15 +144,15 @@ export class GrCursorManager {
    * The method uses IntersectionObservers API. If browser
    * doesn't support this API the method does nothing
    *
-   * @param condition Optional condition. If a condition
+   * @param filter Optional condition. If a condition
    * is passed only stops which meet conditions are taken into account.
    */
-  moveToVisibleArea(condition?: (el: Element) => boolean) {
+  moveToVisibleArea(filter?: (el: Element) => boolean) {
     if (!this.stops || !this._isIntersectionObserverSupported()) {
       return;
     }
-    const filteredStops = condition
-      ? this.targetableStops.filter(condition)
+    const filteredStops = filter
+      ? this.targetableStops.filter(filter)
       : this.targetableStops;
     const dims = this._getWindowDims();
     const windowCenter = Math.round(dims.innerHeight / 2);

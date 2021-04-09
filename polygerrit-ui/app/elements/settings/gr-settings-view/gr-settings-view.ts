@@ -46,7 +46,6 @@ import {
   AppTheme,
   TimeFormat,
 } from '../../../constants/constants';
-import {windowLocationReload} from '../../../utils/dom-util';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {LitElement, css, html, nothing} from 'lit';
 import {
@@ -63,7 +62,6 @@ import {when} from 'lit/directives/when.js';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
-import {getThemePreference} from '../../../utils/theme-util';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -142,7 +140,7 @@ export class GrSettingsView extends LitElement {
 
   @query('#diffViewSelect') diffViewSelect!: HTMLInputElement;
 
-  @query('#themePreferenceSelect') themePreferenceSelect!: HTMLInputElement;
+  @query('#themeSelect') themeSelect!: HTMLInputElement;
 
   @state() prefs: PreferencesInput = {};
 
@@ -150,7 +148,8 @@ export class GrSettingsView extends LitElement {
 
   @state() private accountInfoChanged = false;
 
-  @state() private localPrefs: PreferencesInput = {};
+  // private but used in test
+  @state() localPrefs: PreferencesInput = {};
 
   // private but used in test
   @state() localChangeTableColumns: string[] = [];
@@ -198,6 +197,8 @@ export class GrSettingsView extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly userModel = getAppContext().userModel;
+
   override connectedCallback() {
     super.connectedCallback();
     // Polymer 2: anchor tag won't work on shadow DOM
@@ -207,8 +208,6 @@ export class GrSettingsView extends LitElement {
   }
 
   override firstUpdated() {
-    this.themePreference = getThemePreference();
-
     const promises: Array<Promise<unknown>> = [
       this.accountInfo.loadData(),
       this.watchedProjectsEditor.loadData(),
@@ -311,11 +310,7 @@ export class GrSettingsView extends LitElement {
       #email {
         margin-bottom: var(--spacing-l);
       }
-      .main section.darkToggle {
-        display: block;
-      }
-      .filters p,
-      .darkToggle p {
+      .filters p {
         margin-bottom: var(--spacing-l);
       }
       .queryExample em {
@@ -370,22 +365,6 @@ export class GrSettingsView extends LitElement {
         </gr-page-nav>
         <div class="main gr-form-styles">
           <h1 class="heading-1">User Settings</h1>
-          <h2 id="Theme">Theme</h2>
-          <section class="darkToggle">
-            <span class="title">Appearance</span>
-            <span class="value">
-              <gr-select
-                .bindValue=${this.themePreference}
-                @change=${this.handleThemePreferenceChanged}
-              >
-                <select id="themePreferenceSelect">
-                  <option value="AUTO">Auto</option>
-                  <option value="LIGHT">Light</option>
-                  <option value="DARK">Dark</option>
-                </select>
-              </gr-select>
-            </span>
-          </section>
           <h2
             id="Profile"
             class=${this.computeHeaderClass(this.accountInfoChanged)}
@@ -415,9 +394,9 @@ export class GrSettingsView extends LitElement {
             Preferences
           </h2>
           <fieldset id="preferences">
-            ${this.renderChangesPerPages()} ${this.renderDateTimeFormat()}
-            ${this.renderEmailNotification()} ${this.renderEmailFormat()}
-            ${this.renderDefaultBaseForMerges()}
+            ${this.renderTheme()} ${this.renderChangesPerPages()}
+            ${this.renderDateTimeFormat()} ${this.renderEmailNotification()}
+            ${this.renderEmailFormat()} ${this.renderDefaultBaseForMerges()}
             ${this.renderRelativeDateInChangeTable()} ${this.renderDiffView()}
             ${this.renderShowSizeBarsInFileList()}
             ${this.renderPublishCommentsOnPush()}
@@ -731,6 +710,29 @@ export class GrSettingsView extends LitElement {
   override disconnectedCallback() {
     document.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();
+  }
+
+  private renderTheme() {
+    return html`
+      <section>
+        <label class="title" for="themeSelect">Theme</label>
+        <span class="value">
+          <gr-select
+            .bindValue=${this.localPrefs.theme ?? AppTheme.AUTO}
+            @change=${() => {
+              this.localPrefs.theme = this.themeSelect.value as AppTheme;
+              this.prefsChanged = true;
+            }}
+          >
+            <select id="themeSelect">
+              <option value="AUTO">Auto (based on OS prefs)</option>
+              <option value="LIGHT">Light</option>
+              <option value="DARK">Dark</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
   }
 
   private renderChangesPerPages() {
@@ -1087,9 +1089,9 @@ export class GrSettingsView extends LitElement {
 
   // private but used in test
   handleSavePreferences() {
-    this.copyPrefs(CopyPrefsDirection.LocalPrefsToPrefs);
-
-    return this.restApiService.savePreferences(this.prefs).then(() => {
+    return this.restApiService.savePreferences(this.localPrefs).then(() => {
+      this.userModel.updatePreferences(this.localPrefs);
+      this.copyPrefs(CopyPrefsDirection.LocalPrefsToPrefs);
       this.prefsChanged = false;
     });
   }
@@ -1155,28 +1157,6 @@ export class GrSettingsView extends LitElement {
     base = base.replace(TRAILING_SLASH_PATTERN, '');
 
     return base + GERRIT_DOCS_FILTER_PATH;
-  }
-
-  // private but used in test
-  handleThemePreferenceChanged() {
-    const themeSelected = this.themePreferenceSelect.value as AppTheme;
-    if (themeSelected === AppTheme.DARK) {
-      window.localStorage.removeItem('light-theme');
-      window.localStorage.setItem('dark-theme', 'true');
-    } else if (themeSelected === AppTheme.LIGHT) {
-      window.localStorage.removeItem('dark-theme');
-      window.localStorage.setItem('light-theme', 'true');
-    } else if (themeSelected === AppTheme.AUTO) {
-      window.localStorage.removeItem('light-theme');
-      window.localStorage.removeItem('dark-theme');
-    }
-    this.reloadPage();
-  }
-
-  // private but used in test
-  reloadPage() {
-    fireAlert(this, 'Reloading...');
-    windowLocationReload();
   }
 
   // private but used in test

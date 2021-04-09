@@ -6,25 +6,18 @@
 
 import {AppTheme} from '../constants/constants';
 
-export function getThemePreference(): AppTheme {
-  if (window.localStorage.getItem('dark-theme')) {
-    return AppTheme.DARK;
-  }
-  if (window.localStorage.getItem('light-theme')) {
-    return AppTheme.LIGHT;
-  }
-  return AppTheme.AUTO;
-}
-
 // https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/#aa-javascript
 function isDarkThemeInOs() {
-  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+  const prefersDarkScheme = prefersDarkColorScheme();
   return prefersDarkScheme.matches;
 }
 
-export function isDarkTheme() {
-  const preference = getThemePreference();
-  if (preference === AppTheme.AUTO) return isDarkThemeInOs();
+export function prefersDarkColorScheme() {
+  return window.matchMedia('(prefers-color-scheme: dark)');
+}
 
-  return preference === AppTheme.DARK;
+export function isDarkTheme(theme: AppTheme) {
+  if (theme === AppTheme.AUTO) return isDarkThemeInOs();
+
+  return theme === AppTheme.DARK;
 }

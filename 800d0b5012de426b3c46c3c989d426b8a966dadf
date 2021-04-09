@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a32b6376_d56e8a7c",
+        "filename": "java/com/google/gerrit/metrics/proc/ThreadMXBeanInterface.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-04-09T12:42:23Z",
+      "side": 1,
+      "message": "Why do we need this interface? Why not use java.lang.management.ThreadMxBean directly?",
+      "range": {
+        "startLine": 16,
+        "startChar": 17,
+        "endLine": 16,
+        "endChar": 38
+      },
+      "revId": "800d0b5012de426b3c46c3c989d426b8a966dadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3317d0be_122c66e5",
+        "filename": "java/com/google/gerrit/metrics/proc/ThreadMXBeanSunReflective.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-04-09T12:42:23Z",
+      "side": 1,
+      "message": "Why do we need to use reflection here?",
+      "revId": "800d0b5012de426b3c46c3c989d426b8a966dadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -133,6 +133,24 @@
       "parentUuid": "f2cb3f6c_369bdf7a",
       "revId": "df7c5b9ee52ff67a19b19093fe4b86775046a2dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "425edf0b_9230813a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-09T10:06:29Z",
+      "side": 1,
+      "message": "You are right, probably highlight js internally use it, because when I was running gerrit with highlightjs 10.7.1 I got many console logs with deprecation warnings.\n\nThey throttle it in 10.7.2 so I recommend to integrate that version - https://github.com/highlightjs/highlight.js/releases/tag/10.7.2\n\nI would be happy to LGTM 10.7.2 update.",
+      "parentUuid": "db7b7815_05028ca2",
+      "revId": "df7c5b9ee52ff67a19b19093fe4b86775046a2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

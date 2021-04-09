@@ -210,6 +210,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2adf4178_b2d14f8b",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-09T07:40:01Z",
+      "side": 1,
+      "message": "Thanks, your suggestion sounds good to me :)\n\n\u003e  I could also use composition to solve this: Create a new \n\u003e SubmitRequirementExpression and store a Predicate internally.\n\nYeah, I think this should be good for now.",
+      "parentUuid": "12405031_9be0ccef",
+      "range": {
+        "startLine": 36,
+        "startChar": 18,
+        "endLine": 36,
+        "endChar": 24
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39b09b12_adf3f2bc",
         "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
         "patchSetId": 1
@@ -302,6 +326,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdea7e62_5ec74bb5",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-09T07:40:01Z",
+      "side": 1,
+      "message": "Makes sense to me.",
+      "parentUuid": "e9004a2d_c1b920fa",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 33
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39948c90_a1e8e647",
@@ -339,6 +387,30 @@
       "side": 1,
       "message": "I rephrased the javadoc here and made the explanation more clear.\n\nDone.",
       "parentUuid": "39948c90_a1e8e647",
+      "range": {
+        "startLine": 48,
+        "startChar": 38,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "217de47c_13e308ee",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-09T07:40:01Z",
+      "side": 1,
+      "message": "Thanks, much clearer now.",
+      "parentUuid": "4f452803_2b45a827",
       "range": {
         "startLine": 48,
         "startChar": 38,
@@ -527,6 +599,30 @@
       "side": 1,
       "message": "Agree. \"canInherit\".\n\nDone.",
       "parentUuid": "4b8008e5_b40cce79",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 37
+      },
+      "revId": "f2f47134164d050ebc463e5ed75fea81a296a2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bb62e70_25cba2c0",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-09T07:40:01Z",
+      "side": 1,
+      "message": "Nice name. Much better :)",
+      "parentUuid": "4bf81dde_9666b82b",
       "range": {
         "startLine": 59,
         "startChar": 26,

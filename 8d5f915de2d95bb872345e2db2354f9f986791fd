@@ -34,6 +34,24 @@
       "parentUuid": "a354f633_86dc81cf",
       "revId": "8d5f915de2d95bb872345e2db2354f9f986791fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "036030e1_9109586a",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-09T20:02:01Z",
+      "side": 1,
+      "message": "I think this implemented behavior is sufficient",
+      "parentUuid": "34fedc83_aa22a3b0",
+      "revId": "8d5f915de2d95bb872345e2db2354f9f986791fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

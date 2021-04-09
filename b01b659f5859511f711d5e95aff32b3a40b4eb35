@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec49d93c_ce7b6ac5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-09T10:47:08Z",
+      "side": 1,
+      "message": "I looked what we do with reviewer updates in the frontend with avatar and chip support\n* we have parser that is explicitly filtering out messages, provided by the backend and generate massages in frontend:\nhttp://google3/third_party/javascript/polygerrit/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts?l\u003d100\nhttp://google3/third_party/javascript/polygerrit/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts?l\u003d191\nhttp://google3/third_party/javascript/polygerrit/elements/change/gr-message/gr-message_html.ts?l\u003d295\n* It would require some more work in the frontend to have similar support for all other messages (i.e. similar parser).\n* Other messages we just show as it is from the backend,if we give all accounts, needed by the message in ChangeMessageInfo, we could do text replacement in a similar way, without extra work for new features and plugins.\nhttp://google3/third_party/javascript/polygerrit/types/common.ts?l\u003d523\u0026rcl\u003d367129249\n\n\nAs for the index:\n\nWe use index for fuzzy-match search on comment text:\nhttp://google3/third_party/java_src/gerritcodereview/gerrit/java/com/google/gerrit/server/index/change/ChangeField.java?l\u003d671\u0026rcl\u003d367129249\n\nWe could just cut emails/names from comments, then searches like:\ncomment:gerritforge@gmail.com comment:GerritForge CI would not work. I am not actually sure how useful it is, e.g. it is not an issue with most of operations today (e.g. when we add reviewer, the comment would not have a match in the backend).\n\nWDYT?",
+      "parentUuid": "7e2643fa_eb0a3815",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

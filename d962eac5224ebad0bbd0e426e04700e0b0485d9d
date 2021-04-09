@@ -134,6 +134,24 @@
       "parentUuid": "208d1966_b3d5e165",
       "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74b1d63e_f2551230",
+        "filename": "polygerrit-ui/app/types/diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-09T13:09:20Z",
+      "side": 1,
+      "message": "Nice.\nI\u0027m not sure how this is working though? Main change seems to be using _createElement instead of document.createElement?",
+      "parentUuid": "069609ef_8923636e",
+      "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

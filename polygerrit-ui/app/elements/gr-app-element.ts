@@ -45,7 +45,7 @@ import {Shortcut} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixi
 import {GerritNav} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
 import {GrRouter} from './core/gr-router/gr-router';
-import {AccountDetailInfo, ServerInfo} from '../types/common';
+import {AccountDetailInfo, PreferencesInfo, ServerInfo} from '../types/common';
 import {
   constructServerErrorMsg,
   GrErrorManager,
@@ -84,6 +84,7 @@ import {cache} from 'lit/directives/cache';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
 import {isDarkTheme} from '../utils/theme-util';
+import {AppTheme} from '../constants/constants';
 
 interface ErrorInfo {
   text: string;
@@ -178,6 +179,8 @@ export class GrAppElement extends LitElement {
   // Triggers dom-if unsetting/setting restamp behaviour in lit
   @state() private invalidateDiffViewCache = false;
 
+  @state() private theme?: AppTheme;
+
   readonly router = new GrRouter();
 
   private reporting = getAppContext().reportingService;
@@ -254,7 +257,25 @@ export class GrAppElement extends LitElement {
       this.logWelcome();
     });
 
-    this.applyTheme();
+    // TODO(milutin): Remove saving preferences after while. This code is
+    // for migration.
+    if (window.localStorage.getItem('dark-theme')) {
+      this.restApiService
+        .savePreferences({theme: AppTheme.DARK})
+        .then(prefs => this.applyTheme(prefs));
+      window.localStorage.removeItem('dark-theme');
+    } else if (window.localStorage.getItem('light-theme')) {
+      this.restApiService
+        .savePreferences({theme: AppTheme.LIGHT})
+        .then(prefs => this.applyTheme(prefs));
+      window.localStorage.removeItem('light-theme');
+    } else {
+      // These lines should stay after migration is done
+      this.restApiService.getPreferences().then(prefs => {
+        this.theme = prefs?.theme;
+        this.applyTheme(prefs);
+      });
+    }
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
@@ -361,7 +382,9 @@ export class GrAppElement extends LitElement {
   }
 
   override render() {
-    this.applyTheme();
+    if (this.theme === AppTheme.AUTO) {
+      this.applyTheme();
+    }
     return html`
       <gr-css-mixins></gr-css-mixins>
       <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
@@ -652,8 +675,8 @@ export class GrAppElement extends LitElement {
     fireIronAnnounce(this, ' ');
   }
 
-  private applyTheme() {
-    const showDarkTheme = isDarkTheme();
+  private applyTheme(prefs?: PreferencesInfo) {
+    const showDarkTheme = isDarkTheme(prefs);
     document.documentElement.classList.toggle('darkTheme', showDarkTheme);
     document.documentElement.classList.toggle('lightTheme', !showDarkTheme);
     if (showDarkTheme) {

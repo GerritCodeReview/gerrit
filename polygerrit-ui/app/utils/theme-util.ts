@@ -22,8 +22,8 @@ function isDarkThemeInOs() {
   return prefersDarkScheme.matches;
 }
 
-export function isDarkTheme() {
-  const preference = getThemePreference();
+export function isDarkTheme(prefs?: PreferencesInfo) {
+  const preference = prefs?.theme ?? getThemePreference();
   if (preference === AppTheme.AUTO) return isDarkThemeInOs();
 
   return preference === AppTheme.DARK;

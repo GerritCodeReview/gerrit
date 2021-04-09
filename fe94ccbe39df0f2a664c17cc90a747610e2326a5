@@ -141,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "305ac467_c56a0a71",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-04-09T12:03:35Z",
+      "side": 1,
+      "message": "Addressed in a parent commit.",
+      "parentUuid": "10f95d11_e7aeb160",
+      "range": {
+        "startLine": 195,
+        "startChar": 36,
+        "endLine": 195,
+        "endChar": 69
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "220f2a95_d722e77d",
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "I also prefer undefined - this is copied from what it was, and I did not remember Gerrit conventions about this. Will change it to undefined.",
       "parentUuid": "220f2a95_d722e77d",
+      "range": {
+        "startLine": 197,
+        "startChar": 45,
+        "endLine": 197,
+        "endChar": 49
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cf12a85_9c0c88df",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-04-09T12:03:35Z",
+      "side": 1,
+      "message": "Fixed in a parent commit.",
+      "parentUuid": "75bb1362_70ef7f79",
       "range": {
         "startLine": 197,
         "startChar": 45,
@@ -249,6 +297,30 @@
       "side": 1,
       "message": "Not knowing the intrinsics of the IntersectionObserverAPI I am just a bit lost here. It would make it easier to understand for me personally, if we leave the \"entry\" things behind as quickly as possible and only deal with HTML elements. Those are better known to everyone reading the code.\n\nWhat I am saying is, feel free to keep using the \"entries\", but then you have to add more comments about why you are using them. I would have been fine with\n\n  We are just using the entries here, because entry.boundingClientRect is\n  already computed, but entry.target.getBoundingClientRect() should actually\n  yield the same result.",
       "parentUuid": "0e7795ff_c89f5a2a",
+      "range": {
+        "startLine": 202,
+        "startChar": 8,
+        "endLine": 202,
+        "endChar": 33
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cbd2c53_ba302b4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-04-09T12:03:35Z",
+      "side": 1,
+      "message": "Addressed in a parent commit.",
+      "parentUuid": "6419cd48_bc1f64f2",
       "range": {
         "startLine": 202,
         "startChar": 8,
@@ -343,6 +415,48 @@
         "endLine": 215,
         "endChar": 38
       },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a89bbe87_f7e2ef7f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-04-09T12:03:35Z",
+      "side": 1,
+      "message": "Addressed in parent commit.\n\nI opted for getVisibleEntries() - from the outside, it does not matter that we use the Observer API, and it is not unexpected that a getter would get the current state.",
+      "parentUuid": "d47bce81_db5befc9",
+      "range": {
+        "startLine": 215,
+        "startChar": 16,
+        "endLine": 215,
+        "endChar": 38
+      },
+      "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29f1db94_b4aa4434",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-04-09T12:03:35Z",
+      "side": 1,
+      "message": "Opted for getVisibleEntries(). Stops is a bit confusing because at least for now it return entries.",
+      "parentUuid": "8d2d9295_a65b623e",
       "revId": "fe94ccbe39df0f2a664c17cc90a747610e2326a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

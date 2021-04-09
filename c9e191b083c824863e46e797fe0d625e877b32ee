@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bea1bee9_77ed6838",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-04-09T12:03:35Z",
+      "side": 1,
+      "message": "Extracted some stuff that is non-controversial into parent commits. Still holding this change until we know which methods will make it into the API.",
+      "revId": "c9e191b083c824863e46e797fe0d625e877b32ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

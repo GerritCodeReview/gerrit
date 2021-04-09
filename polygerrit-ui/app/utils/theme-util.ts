@@ -18,12 +18,16 @@ export function getThemePreference(): AppTheme {
 
 // https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/#aa-javascript
 function isDarkThemeInOs() {
-  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+  const prefersDarkScheme = matchPrefersColorScheme();
   return prefersDarkScheme.matches;
 }
 
-export function isDarkTheme() {
-  const preference = getThemePreference();
+export function matchPrefersColorScheme() {
+  return window.matchMedia('(prefers-color-scheme: dark)');
+}
+
+export function isDarkTheme(theme?: AppTheme) {
+  const preference = theme ?? getThemePreference();
   if (preference === AppTheme.AUTO) return isDarkThemeInOs();
 
   return preference === AppTheme.DARK;

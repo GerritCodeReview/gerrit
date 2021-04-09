@@ -16,6 +16,24 @@
       "message": "I find it weird to hide the line length indicator when the context control buttons are hidden. Why not create its own rendering preference?",
       "revId": "9cf5d3d8c1b930b66a343381737a9fc9defd9abb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45159cd7_b95a140d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-09T13:09:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7671c50_19ba0e35",
+      "revId": "9cf5d3d8c1b930b66a343381737a9fc9defd9abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

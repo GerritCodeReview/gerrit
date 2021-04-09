@@ -66,9 +66,10 @@ import {CustomKeyboardEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
-
+import {AppTheme} from '../../../constants/constants';
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',
+  'theme',
   'date_format',
   'time_format',
   'email_strategy',
@@ -200,9 +201,6 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
   @property({type: Boolean})
   _showNumber?: boolean;
 
-  @property({type: Boolean})
-  _isDark = false;
-
   public _testOnly_loadingPromise?: Promise<void>;
 
   private readonly restApiService = appContext.restApiService;
@@ -214,8 +212,6 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     // we need to manually calling scrollIntoView when hash changed
     window.addEventListener('location-change', this.handleLocationChange);
     fireTitleChange(this, 'Settings');
-
-    this._isDark = !!window.localStorage.getItem('dark-theme');
 
     const promises: Array<Promise<unknown>> = [
       this.$.accountInfo.loadData(),
@@ -231,6 +227,9 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
         if (!prefs) {
           throw new Error('getPreferences returned undefined');
         }
+
+        this._applyTheme(prefs);
+
         this.prefs = prefs;
         this._showNumber = !!prefs.legacycid_in_change_table;
         this._copyPrefs(CopyPrefsDirection.PrefsToLocalPrefs);
@@ -407,6 +406,8 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     this._copyPrefs(CopyPrefsDirection.LocalPrefsToPrefs);
 
     return this.restApiService.savePreferences(this.prefs).then(() => {
+      this._applyTheme(this.prefs);
+
       this._prefsChanged = false;
     });
   }
@@ -499,18 +500,6 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     return base + GERRIT_DOCS_FILTER_PATH;
   }
 
-  _handleToggleDark() {
-    if (this._isDark) {
-      window.localStorage.removeItem('dark-theme');
-      removeDarkTheme();
-    } else {
-      window.localStorage.setItem('dark-theme', 'true');
-      applyDarkTheme();
-    }
-    this._isDark = !!window.localStorage.getItem('dark-theme');
-    fireAlert(this, `Theme changed to ${this._isDark ? 'dark' : 'light'}.`);
-  }
-
   _showHttpAuth(config?: ServerInfo) {
     if (config && config.auth && config.auth.git_basic_auth_policy) {
       return HTTP_AUTH.includes(
@@ -519,6 +508,16 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     }
 
     return false;
+  }
+
+  _applyTheme(prefs: PreferencesInput) {
+    if (!prefs) return;
+
+    if (prefs.theme === AppTheme.DARK) {
+      applyDarkTheme();
+    } else {
+      removeDarkTheme();
+    }
   }
 
   /**

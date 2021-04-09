@@ -16,6 +16,24 @@
       "message": "I created this issue upstream: https://github.com/bazelbuild/bazel/issues/13323",
       "revId": "532416f954418d375311f58a423ef58342dd74b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a029776_4b52fe93",
+        "filename": "java/com/google/gerrit/metrics/proc/ThreadMXBeanSun.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-09T19:57:12Z",
+      "side": 1,
+      "message": "thanks",
+      "parentUuid": "a8c18301_60943357",
+      "revId": "532416f954418d375311f58a423ef58342dd74b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

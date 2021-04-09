@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03e0eee1_28a0a460",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-09T22:39:08Z",
+      "side": 1,
+      "message": "Kaushik didn\u0027t put all the details in the commit message, but we\u0027ve done a lot of testing and I don\u0027t think we have data to show GC ever improving our migration times.",
+      "revId": "68b2662ea1daebbb57e40c22a0c546274af46291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

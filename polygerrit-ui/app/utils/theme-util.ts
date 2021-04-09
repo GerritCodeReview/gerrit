@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {AppTheme} from "../constants/constants";
-
+import {AppTheme} from '../constants/constants';
+import {PreferencesInfo} from '../types/common';
 
 export function getThemePreference(): AppTheme {
   if (window.localStorage.getItem('dark-theme')) {
@@ -23,8 +23,8 @@ function isDarkThemeInOs() {
   return prefersDarkScheme.matches;
 }
 
-export function isDarkTheme() {
-  const preference = getThemePreference();
+export function isDarkTheme(prefs?: PreferencesInfo) {
+  const preference = prefs?.theme ?? getThemePreference();
   if (preference === AppTheme.AUTO) return isDarkThemeInOs();
 
   return preference === AppTheme.DARK;

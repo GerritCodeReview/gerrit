@@ -137,6 +137,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fcc53b4_556599d3",
+        "filename": "java/com/google/gerrit/server/query/change/HasGitParentPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-09T05:40:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ccfe4a4_c8a9d30c",
+      "revId": "da669c2375310d1230d40f3c2f691a3a4c93f578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53ad331d_93fbf568",
@@ -160,6 +178,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b88f48f9_0dfc685d",
+        "filename": "java/com/google/gerrit/server/query/change/HasGitParentPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-09T05:40:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53ad331d_93fbf568",
+      "range": {
+        "startLine": 18,
+        "startChar": 30,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "da669c2375310d1230d40f3c2f691a3a4c93f578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "548e5c5f_99e1d123",
@@ -173,6 +215,30 @@
       "writtenOn": "2021-03-11T15:54:02Z",
       "side": 1,
       "message": "Since this is doing a git lookup on every call to match(), this cost should be higher. That being said, the parent data is likely already in the index somewhere and should be used from there instead? If not, it probably should get added to the index.",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 12
+      },
+      "revId": "da669c2375310d1230d40f3c2f691a3a4c93f578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7665880_9b169930",
+        "filename": "java/com/google/gerrit/server/query/change/HasGitParentPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-09T05:40:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "548e5c5f_99e1d123",
       "range": {
         "startLine": 23,
         "startChar": 4,

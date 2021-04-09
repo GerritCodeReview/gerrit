@@ -42,7 +42,7 @@ import {Shortcut} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixi
 import {GerritNav} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
 import {GrRouter} from './core/gr-router/gr-router';
-import {AccountDetailInfo, ServerInfo} from '../types/common';
+import {AccountDetailInfo, PreferencesInfo, ServerInfo} from '../types/common';
 import {
   constructServerErrorMsg,
   GrErrorManager,
@@ -80,6 +80,7 @@ import {ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
+import {AppTheme} from '../constants/constants';
 
 interface ErrorInfo {
   text: string;
@@ -250,10 +251,15 @@ export class GrAppElement extends LitElement {
       this.logWelcome();
     });
 
-    const isDarkTheme = !!window.localStorage.getItem('dark-theme');
-    document.documentElement.classList.toggle('darkTheme', isDarkTheme);
-    document.documentElement.classList.toggle('lightTheme', !isDarkTheme);
-    if (isDarkTheme) applyDarkTheme();
+    // TODO: Remove after next release.
+    if (window.localStorage.getItem('dark-theme')) {
+      this.restApiService
+        .savePreferences({theme: AppTheme.DARK})
+        .then(prefs => this.applyTheme(prefs));
+      window.localStorage.removeItem('dark-theme');
+    }
+
+    this.restApiService.getPreferences().then(prefs => this.applyTheme(prefs));
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
@@ -864,6 +870,17 @@ export class GrAppElement extends LitElement {
       ...this.viewState.changeView,
       ...e.detail.value,
     };
+  }
+
+  private applyTheme(prefs?: PreferencesInfo) {
+    if (prefs?.theme === AppTheme.DARK) {
+      document.documentElement.classList.toggle('darkTheme', true);
+      document.documentElement.classList.toggle('lightTheme', false);
+      applyDarkTheme();
+    } else {
+      document.documentElement.classList.toggle('darkTheme', false);
+      document.documentElement.classList.toggle('lightTheme', true);
+    }
   }
 }
 

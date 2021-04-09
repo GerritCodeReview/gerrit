@@ -16,6 +16,24 @@
       "message": "I assume that there are no HTML plugins :) ",
       "revId": "cdb563cbe4552a135b279796783ef54b565c259f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da7ab3b3_adc6a613",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-09T14:00:31Z",
+      "side": 1,
+      "message": "Unfortunately this assumption is not correct. The task plugin is currently blocked on migrating to non-HTML (and Polymer 3) because of a lack of standalone build support: https://gerrit-review.googlesource.com/c/plugins/task/+/302442/comment/9b23c789_fc15847c/\n\nWe might need to revert this on 3.4 if we can\u0027t get that resolved.",
+      "parentUuid": "f9e6a51e_58808e70",
+      "revId": "cdb563cbe4552a135b279796783ef54b565c259f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

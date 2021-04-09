@@ -16,6 +16,23 @@
       "message": "package.json files are not updated?",
       "revId": "48f07a1dbc851cad994440acff2959dfa0a48060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfcf4a64_2c44519d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-04-09T09:26:48Z",
+      "side": 1,
+      "message": "It seems the \u0027yarn upgrade\u0027 was executed for upgrading dependencies. This command has some issues with transitive dependencies (https://github.com/yarnpkg/yarn/issues/4986) and sometimes the command doesn\u0027t work as expected.\nI prefer to use another approach:\n  yarn remove ... (list of packages that you want to upgrade)\n  yarn add ... (the same list of packages)\nand/or\n  yarn add ... --save-dev \n\nIt makes it more clear which packages are updated.\n",
+      "revId": "48f07a1dbc851cad994440acff2959dfa0a48060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

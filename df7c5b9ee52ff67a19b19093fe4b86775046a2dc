@@ -151,6 +151,24 @@
       "parentUuid": "db7b7815_05028ca2",
       "revId": "df7c5b9ee52ff67a19b19093fe4b86775046a2dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2781eb67_3ead22e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-09T10:54:20Z",
+      "side": 1,
+      "message": "\u003e I would be happy to LGTM 10.7.2 update.\n\nDone. I also move this change to stable-3.3 branch.",
+      "parentUuid": "425edf0b_9230813a",
+      "revId": "df7c5b9ee52ff67a19b19093fe4b86775046a2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

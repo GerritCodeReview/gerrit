@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e380f647_5c9dbc3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-09T12:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa0cabb6_bd915c0c",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "9cf6efcf5eaaae3910b6f99f1f283b49b9a6cb00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fefa477_27098851",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "563e53d5_4e21b7ca",
+        "filename": "java/com/google/gerrit/httpd/RequestMetricsFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-09T12:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fefa477_27098851",
+      "range": {
+        "startLine": 69,
+        "startChar": 16,
+        "endLine": 69,
+        "endChar": 25
+      },
+      "revId": "9cf6efcf5eaaae3910b6f99f1f283b49b9a6cb00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10caa320_c874bc0a",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-04-09T11:46:16Z",
       "side": 1,
       "message": "Contrary to the statement in the commit message this will actually return zero when memory allocation measurement is disabled:\n\n  -1 - (-1) \u003d 0",
+      "revId": "9cf6efcf5eaaae3910b6f99f1f283b49b9a6cb00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b258f78_21cd76dd",
+        "filename": "java/com/google/gerrit/httpd/RequestMetricsFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-09T12:01:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10caa320_c874bc0a",
       "revId": "9cf6efcf5eaaae3910b6f99f1f283b49b9a6cb00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

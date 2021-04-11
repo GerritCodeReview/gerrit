@@ -133,6 +133,7 @@ public class GeneralPreferencesInfo {
   public String downloadScheme;
 
   public Theme theme;
+  public Boolean disableKeyboardShortcuts;
   public DateFormat dateFormat;
   public TimeFormat timeFormat;
   public Boolean expandInlineDiffs;
@@ -192,6 +193,7 @@ public class GeneralPreferencesInfo {
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.downloadScheme = null;
     p.theme = Theme.LIGHT;
+    p.disableKeyboardShortcuts = false;
     p.dateFormat = DateFormat.STD;
     p.timeFormat = TimeFormat.HHMM_12;
     p.expandInlineDiffs = false;

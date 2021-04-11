@@ -29,5 +29,13 @@ export const htmlTemplate = html`
     </h1>
     <hr />
     <div><span>Detail:</span> <a href$="[[_repoUrl]]">Repo settings</a></div>
+    <div>
+      <span>Browse:</span>
+      <span is="dom-if" if="[[webLinks]]" class="weblinks">
+        <template is="dom-repeat" items="[[webLinks]]" as="weblink">
+          <a target="_blank" href$="[[weblink.url]]">[[weblink.name]]</a>
+        </template>
+      </span>
+    </div>
   </div>
 `;

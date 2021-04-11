@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "0a2c6cb1_73196e31",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Thanks for the contribution. I think it is good idea to support such a preference, but it would have to be proper user preference, not stored in localStorage.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-info\n\nBtw, I think the dark-theme preference should also be moved into the proper pref object. Tao, WDYT?",
       "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "cf9932a8_05aee925",
         "filename": "/PATCHSET_LEVEL",
@@ -32,10 +33,10 @@
       "message": "my general rule for whether it should be in localStorage or in pref is basic ask if you want to persist that config across browsers and devices. If so, then it should be in pref, if not, then localStorage it is\n\nSo, I am fine with moving dark-theme to pref if we think that\u0027s what we want. Since my recent change allowed us to toggle dark and light theme without changing preference, I am actually thinking of adding one more option to allow that follow system preference, similar to chrome devtools. I have a local extension do that for me already",
       "parentUuid": "0a2c6cb1_73196e31",
       "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6e1447a5_d1b8a95c",
         "filename": "/PATCHSET_LEVEL",
@@ -50,10 +51,10 @@
       "message": "I support moving both to a general preference and removing \"alpha\" from the dark theme too.",
       "parentUuid": "cf9932a8_05aee925",
       "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5852fd82_fd746f6e",
         "filename": "/PATCHSET_LEVEL",
@@ -68,10 +69,10 @@
       "message": "Ok, I will plan both for this quarter.",
       "parentUuid": "6e1447a5_d1b8a95c",
       "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9fde17a5_f2b37013",
         "filename": "/PATCHSET_LEVEL",
@@ -86,8 +87,25 @@
       "message": "I\u0027ve done https://gerrit-review.googlesource.com/c/gerrit/+/274352",
       "parentUuid": "5852fd82_fd746f6e",
       "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7f02f7e_7fc1df51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-11T17:04:32Z",
+      "side": 1,
+      "message": "I\u0027ve moved to use the proper user preference. Sorry for doing this late!",
+      "parentUuid": "9fde17a5_f2b37013",
+      "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

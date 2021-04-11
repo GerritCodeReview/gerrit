@@ -1285,6 +1285,7 @@ any account.
   {
     "changes_per_page": 25,
     "theme": "LIGHT",
+    "disable_keyboard_shortcuts": false,
     "date_format": "STD",
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
@@ -1338,6 +1339,7 @@ link:#preferences-input[PreferencesInput] entity.
   {
     "changes_per_page": 50,
     "theme": "DARK",
+    "disable_keyboard_shortcuts": true,
     "expand_inline_diffs": true,
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -1386,6 +1388,7 @@ link:#preferences-info[PreferencesInfo] entity.
   {
     "changes_per_page": 50,
     "theme" "DARK",
+    "disable_keyboard_shortcuts": true,
     "expand_inline_diffs": true,
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -2771,6 +2774,9 @@ Allowed values are `10`, `25`, `50`, `100`.
 |`theme`                        ||
 Which theme to use.
 Allowed values are `DARK` or `LIGHT`.
+|`disable_keyboard_shortcuts`    |not set if `false`|
+Whether to disable hotkeys.
+Allowed values are `true` or `false`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).
@@ -2840,6 +2846,9 @@ Allowed values are `10`, `25`, `50`, `100`.
 |`theme`                        |optional|
 Which theme to use.
 Allowed values are `DARK` or `LIGHT`.
+|`disable_keyboard_shortcuts`    |not set if `false`|
+Whether to disable hotkeys.
+Allowed values are `true` or `false`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).

@@ -23,6 +23,8 @@ import {htmlTemplate} from './gr-repo-header_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {RepoName} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
+import {WebLinkInfo} from '../../../types/diff';
 
 @customElement('gr-repo-header')
 class GrRepoHeader extends PolymerElement {
@@ -33,15 +35,26 @@ class GrRepoHeader extends PolymerElement {
   @property({type: String, observer: '_repoChanged'})
   repo?: string;
 
+  @property({type: Array})
+  webLinks: WebLinkInfo[] = [];
+
   @property({type: String})
   _repoUrl: string | null = null;
+
+  private readonly restApiService = appContext.restApiService;
 
   _repoChanged(repoName: RepoName) {
     if (!repoName) {
       this._repoUrl = null;
       return;
     }
+
     this._repoUrl = GerritNav.getUrlForRepo(repoName);
+
+    this.restApiService.getRepo(repoName).then(repo => {
+      if (!repo?.web_links) return;
+      this.webLinks = repo.web_links;
+    });
   }
 }
 

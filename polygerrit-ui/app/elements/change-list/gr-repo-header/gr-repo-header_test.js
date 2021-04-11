@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo-header.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-repo-header');
 
@@ -35,6 +36,23 @@ suite('gr-repo-header tests', () => {
     assert.equal(element._repoUrl, undefined);
     element.repo = 'test';
     assert.equal(element._repoUrl, 'http://test.com/test');
+  });
+
+  test('webLinks set', () => {
+    const repoRes = {
+      web_links: [
+        {
+          name: 'gitiles',
+          url: 'https://gerrit.test/g',
+        },
+      ],
+    };
+
+    stubRestApi('getRepo').callsFake((repoName, errFn) => repoRes);
+
+    assert.equal(element.webLinks, []);
+    element.repo = 'test';
+    assert.equal(element.webLinks, repoRes);
   });
 });
 

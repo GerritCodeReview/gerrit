@@ -75,6 +75,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.emailStrategy = EmailStrategy.DISABLED;
     i.emailFormat = EmailFormat.PLAINTEXT;
     i.defaultBaseForMerges = DefaultBase.AUTO_MERGE;
+    i.disableKeyboardShortcuts = true;
     i.expandInlineDiffs ^= true;
     i.highlightAssigneeInChangeTable ^= true;
     i.relativeDateInChangeTable ^= true;
@@ -93,6 +94,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.my).containsExactlyElementsIn(i.my);
     assertThat(o.changeTable).containsExactlyElementsIn(i.changeTable);
     assertThat(o.theme).isEqualTo(i.theme);
+    assertThat(o.disableKeyboardShortcuts).isEqualTo(i.disableKeyboardShortcuts);
   }
 
   @Test

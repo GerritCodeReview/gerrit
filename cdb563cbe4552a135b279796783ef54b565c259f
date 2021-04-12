@@ -34,6 +34,24 @@
       "parentUuid": "f9e6a51e_58808e70",
       "revId": "cdb563cbe4552a135b279796783ef54b565c259f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5928174e_7a8dc212",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-12T06:47:33Z",
+      "side": 1,
+      "message": "Milutin was referring to Gerrit installations that run master.\n\nIf you want to add support for HTML plugins back to 3.4, then you will have to escalate this quickly to the ESC, because it will be a substantial amount of work and it was announced on Mar 9 that HTML plugins would not be supported in 3.4. We did not get any push back at the time.",
+      "parentUuid": "da7ab3b3_adc6a613",
+      "revId": "cdb563cbe4552a135b279796783ef54b565c259f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

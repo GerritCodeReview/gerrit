@@ -104,6 +104,7 @@ export const htmlTemplate = html`
     allow-outside-scroll="true"
     horizontal-align="[[horizontalAlign]]"
     on-click="_handleDropdownClick"
+    on-opened-changed="handleOpenedChanged"
   >
     <div class="dropdown-content" slot="dropdown-content">
       <ul>

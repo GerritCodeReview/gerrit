@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c0e18c7_c6da0b55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-12T12:53:21Z",
+      "side": 1,
+      "message": "Looks nice! Just two nits.",
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "368fc55f_710b7e2a",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-12T12:53:21Z",
+      "side": 1,
+      "message": "Following the meaning and JavaDoc, should we call this \"canOverride\".\n\ncanInherit\u003dfalse would suggest to me that this requirement is applicable only to the current project and will not inherit further down. But that\u0027s not the functionality we need. Admins/owners want to make it so that this requirement is enforced in all child projects and child project owners can\u0027t turn it off.",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "309e80e7_93c0b5ca",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpression.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-12T12:53:21Z",
+      "side": 1,
+      "message": "I think before we do that we\u0027d need to run benchmarks to proof that it\u0027s actually necessary (i.e. the parsing of the string using our grammar is slower than X milliseconds).\n\nCaching a string is elegant because it\u0027s immutable and takes almost no space. So a I think we need a justification for a more complex alternative.",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

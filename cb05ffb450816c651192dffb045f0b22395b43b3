@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "725b1fc7_15c45fd7",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-04-12T04:52:14Z",
+      "side": 1,
+      "message": "alpha order, place below \u0027is:ignored\u0027",
+      "range": {
+        "startLine": 92,
+        "startChar": 3,
+        "endLine": 92,
+        "endChar": 13
+      },
+      "revId": "cb05ffb450816c651192dffb045f0b22395b43b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,6 +36,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e60cf01_711fc176",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-12T12:59:46Z",
+      "side": 1,
+      "message": "This could be done in a plugin, but in any case Gerrit core should not allow the creation of a project with names that breaks the core UI, which is what the commit message suggests that we are doing currently.\n\nI\u0027d be OK moving forward with this change, but would like a community maintainer to also take a closer look. Adding Luca because he shepherds many repos.",
+      "revId": "b57ae7ee848e413d96f372928f4ec822c1ed8300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1a99fd8_c8a8be7b",
@@ -102,6 +119,29 @@
         "startChar": 36,
         "endLine": 108,
         "endChar": 37
+      },
+      "revId": "b57ae7ee848e413d96f372928f4ec822c1ed8300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41d753ba_7908e511",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-12T12:59:46Z",
+      "side": 1,
+      "message": "Please pre-compile this pattern in a private static final member (compiling regexes is not for free performance-wise).",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 18
       },
       "revId": "b57ae7ee848e413d96f372928f4ec822c1ed8300",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

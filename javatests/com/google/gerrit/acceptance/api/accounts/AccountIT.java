@@ -131,6 +131,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -2625,12 +2626,14 @@ public class AccountIT extends AbstractDaemonTest {
       }
       assertStaleAccountAndReindex(accountId);
 
+      extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsers, repo);
       extIdNotes.upsert(ExternalId.createWithEmail(key, accountId, "foo@example.com"));
       try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
         extIdNotes.commit(update);
       }
       assertStaleAccountAndReindex(accountId);
 
+      extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsers, repo);
       extIdNotes.delete(accountId, key);
       try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
         extIdNotes.commit(update);
@@ -2884,6 +2887,79 @@ public class AccountIT extends AbstractDaemonTest {
             ResourceConflictException.class,
             () -> gApi.accounts().id(userId).generateHttpPassword());
     assertThat(thrown).hasMessageThat().contains("username");
+  }
+
+  @Test
+  public void externalIdBatchUpdates() throws Exception {
+    String extId1String = "foo:bar";
+    String extId2String = "foo:baz";
+    ExternalId extId1 =
+        ExternalId.createWithEmail(ExternalId.Key.parse(extId1String), admin.id(), "1@foo.com");
+    ExternalId extId2 =
+        ExternalId.createWithEmail(ExternalId.Key.parse(extId2String), user.id(), "2@foo.com");
+
+    AccountsUpdate.UpdateArguments ua1 =
+        new AccountsUpdate.UpdateArguments(
+            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extId1));
+    AccountsUpdate.UpdateArguments ua2 =
+        new AccountsUpdate.UpdateArguments(
+            "Add External ID", user.id(), (a, u) -> u.addExternalId(extId2));
+    ImmutableList<Optional<AccountState>> accountStates =
+        accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+    assertThat(accountStates).hasSize(2);
+    assertThat(accountStates.get(0).get().externalIds()).contains(extId1);
+    assertThat(accountStates.get(1).get().externalIds()).contains(extId2);
+    assertThat(
+            gApi.accounts().id(admin.id().get()).getExternalIds().stream()
+                .map(e -> e.identity)
+                .collect(toSet()))
+        .contains(extId1String);
+    assertThat(
+            gApi.accounts().id(user.id().get()).getExternalIds().stream()
+                .map(e -> e.identity)
+                .collect(toSet()))
+        .contains(extId2String);
+  }
+
+  @Test
+  public void externalIdBatchUpdates_fail_sameAccount() {
+    ExternalId extId1 =
+        ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id(), "1@foo.com");
+    ExternalId extId2 =
+        ExternalId.createWithEmail(ExternalId.Key.parse("foo:baz"), user.id(), "2@foo.com");
+
+    AccountsUpdate.UpdateArguments ua1 =
+        new AccountsUpdate.UpdateArguments(
+            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extId1));
+    // Another update for the same account is not allowed.
+    AccountsUpdate.UpdateArguments ua2 =
+        new AccountsUpdate.UpdateArguments(
+            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extId2));
+    IllegalArgumentException e =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2)));
+    assertThat(e).hasMessageThat().contains("updates must all be for different accounts");
+  }
+
+  @Test
+  public void externalIdBatchUpdates_fail_duplicateKey() {
+    ExternalId extIdAdmin =
+        ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id(), "1@foo.com");
+    ExternalId extIdUser =
+        ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), user.id(), "2@foo.com");
+
+    AccountsUpdate.UpdateArguments ua1 =
+        new AccountsUpdate.UpdateArguments(
+            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extIdAdmin));
+    AccountsUpdate.UpdateArguments ua2 =
+        new AccountsUpdate.UpdateArguments(
+            "Add External ID", user.id(), (a, u) -> u.addExternalId(extIdUser));
+    DuplicateExternalIdKeyException e =
+        assertThrows(
+            DuplicateExternalIdKeyException.class,
+            () -> accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2)));
+    assertThat(e).hasMessageThat().contains("foo:bar");
   }
 
   private void createDraft(PushOneCommit.Result r, String path, String message) throws Exception {

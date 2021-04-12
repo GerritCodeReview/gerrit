@@ -99,7 +99,7 @@ export class ChecksService {
     this.providers[pluginName] = provider;
     this.reloadSubjects[pluginName] = new BehaviorSubject<void>(undefined);
     updateStateSetProvider(pluginName, config);
-    const pollIntervalMs = (config?.fetchPollingIntervalSeconds ?? 60) * 1000;
+    const pollIntervalMs = (config?.fetchPollingIntervalSeconds ?? 20) * 1000;
     // Various events should trigger fetching checks from the provider:
     // 1. Change number and patchset number changes.
     // 2. Specific reload requests.

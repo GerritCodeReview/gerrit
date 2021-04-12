@@ -391,8 +391,12 @@ export interface Link {
   icon: LinkIcon;
 }
 
-// TBD: Add more ...
 export enum LinkIcon {
   EXTERNAL,
+  IMAGE,
+  HISTORY,
   DOWNLOAD,
+  DOWNLOAD_MOBILE,
+  HELP_PAGE,
+  REPORT_BUG,
 }

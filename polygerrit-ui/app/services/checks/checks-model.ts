@@ -33,7 +33,7 @@ export interface CheckResult extends CheckResultApi {
    * Internally we want to uniquely identify a run with an id, for example when
    * efficiently re-rendering lists of runs in the UI.
    */
-  internalId: string;
+  internalResultId: string;
 }
 
 export interface CheckRun extends CheckRunApi {
@@ -41,7 +41,7 @@ export interface CheckRun extends CheckRunApi {
    * Internally we want to uniquely identify a result with an id, for example
    * when efficiently re-rendering lists of results in the UI.
    */
-  internalId: string;
+  internalRunId: string;
   results?: CheckResult[];
 }
 
@@ -183,16 +183,17 @@ export function updateStateSetProvider(
   privateState$.next(nextState);
 }
 
-// TODO(brohlfs): Remove all fake runs by end of January. They are just making
+// TODO(brohlfs): Remove all fake runs by end of April. They are just making
 // it easier to develop the UI and always see all the different types/states of
 // runs and results.
 
 export const fakeRun0: CheckRun = {
-  internalId: 'f0',
+  internalRunId: 'f0',
   checkName: 'FAKE Error Finder',
+  labelName: 'Presubmit',
   results: [
     {
-      internalId: 'f0r0',
+      internalResultId: 'f0r0',
       category: Category.ERROR,
       summary: 'I would like to point out this error: 1 is not equal to 2!',
       links: [
@@ -201,11 +202,42 @@ export const fakeRun0: CheckRun = {
       tags: [{name: 'OBSOLETE'}, {name: 'E2E'}],
     },
     {
-      internalId: 'f0r1',
+      internalResultId: 'f0r1',
       category: Category.ERROR,
       summary: 'Running the mighty test has failed by crashing.',
+      actions: [
+        {
+          name: 'Ignore',
+          tooltip: 'Ignore this result',
+          primary: true,
+          callback: () => {
+            return undefined;
+          },
+        },
+        {
+          name: 'Flag',
+          tooltip: 'Flag this result as not useful',
+          primary: true,
+          callback: () => {
+            return undefined;
+          },
+        },
+        {
+          name: 'Upload',
+          tooltip: 'Upload the result to the super cloud.',
+          primary: false,
+          callback: () => {
+            return undefined;
+          },
+        },
+      ],
+      tags: [{name: 'INTERRUPTED'}, {name: 'WINDOWS'}],
       links: [
-        {primary: true, url: 'https://www.google.com', icon: LinkIcon.EXTERNAL},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.EXTERNAL},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.DOWNLOAD},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.REPORT_BUG},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.HELP_PAGE},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.HISTORY},
       ],
     },
   ],
@@ -213,28 +245,34 @@ export const fakeRun0: CheckRun = {
 };
 
 export const fakeRun1: CheckRun = {
-  internalId: 'f1',
+  internalRunId: 'f1',
   checkName: 'FAKE Super Check',
   labelName: 'Verified',
   results: [
     {
-      internalId: 'f1r0',
+      internalResultId: 'f1r0',
       category: Category.WARNING,
       summary: 'We think that you could improve this.',
       message: `There is a lot to be said. A lot. I say, a lot.\n
                 So please keep reading.`,
       tags: [{name: 'INTERRUPTED'}, {name: 'WINDOWS'}],
+      links: [
+        {primary: true, url: 'https://google.com', icon: LinkIcon.EXTERNAL},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.DOWNLOAD},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.DOWNLOAD_MOBILE},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.IMAGE},
+      ],
     },
   ],
   status: RunStatus.RUNNING,
 };
 
 export const fakeRun2: CheckRun = {
-  internalId: 'f2',
+  internalRunId: 'f2',
   checkName: 'FAKE Mega Analysis',
   results: [
     {
-      internalId: 'f2r0',
+      internalResultId: 'f2r0',
       category: Category.INFO,
       summary: 'This is looking a bit too large.',
       message: 'We are still looking into how large exactly. Stay tuned.',
@@ -245,13 +283,13 @@ export const fakeRun2: CheckRun = {
 };
 
 export const fakeRun3: CheckRun = {
-  internalId: 'f3',
+  internalRunId: 'f3',
   checkName: 'FAKE Critical Observations',
   status: RunStatus.RUNNABLE,
 };
 
 export const fakeRun4: CheckRun = {
-  internalId: 'f4',
+  internalRunId: 'f4',
   checkName: 'FAKE TODO Elimination',
   status: RunStatus.COMPLETED,
 };
@@ -310,11 +348,11 @@ export function updateStateSetResults(
       const runId = `${run.checkName}-${run.change}-${run.patchset}-${run.attempt}`;
       return {
         ...run,
-        internalId: runId,
+        internalRunId: runId,
         results: (run.results ?? []).map((result, i) => {
           return {
             ...result,
-            internalId: `${runId}-${i}`,
+            internalResultId: `${runId}-${i}`,
           };
         }),
       };

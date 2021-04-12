@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {html} from 'lit-html';
+import {classMap} from 'lit-html/directives/class-map';
 import {repeat} from 'lit-html/directives/repeat';
 import {
   css,
@@ -48,14 +49,14 @@ import {
   fireActionTriggered,
   hasCompletedWithoutResults,
   hasResultsOf,
-  iconForCategory,
+  iconForCategory, iconForLink, tooltipForLink,
 } from '../../services/checks/checks-util';
 import {
   assertIsDefined,
   check,
   checkRequiredProperty,
 } from '../../utils/common-util';
-import {whenVisible} from '../../utils/dom-util';
+import {toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly, pluralize} from '../../utils/string-util';
 import {fireRunSelectionReset} from './gr-checks-util';
@@ -97,7 +98,7 @@ class GrResultRow extends GrLitElement {
         tr {
           border-top: 1px solid var(--border-color);
         }
-        iron-icon.launch {
+        iron-icon.link {
           color: var(--link-color);
           margin-right: var(--spacing-s);
         }
@@ -130,7 +131,7 @@ class GrResultRow extends GrLitElement {
         }
         td .summary-cell {
           display: flex;
-          max-width: calc(100vw - 700px);
+          max-width: calc(100vw - 630px);
         }
         td .summary-cell .summary {
           font-weight: var(--font-weight-bold);
@@ -147,6 +148,26 @@ class GrResultRow extends GrLitElement {
           flex-shrink: 1000000;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+        tr:hover {
+          background: var(--selected-background);
+        }
+        tr td .summary-cell .links,
+        tr td .summary-cell .actions,
+        tr.collapsed:hover td .summary-cell .links,
+        tr.collapsed:hover td .summary-cell .actions,
+        :host(.dropdown-open) tr td .summary-cell .links,
+        :host(.dropdown-open) tr td .summary-cell .actions {
+          display: inline-block;
+          margin-left: var(--spacing-s);
+        }
+        tr.collapsed td .summary-cell .links,
+        tr.collapsed td .summary-cell .actions {
+          display: none;
+        }
+        tr.collapsed:hover .summary-cell .tags,
+        tr.collapsed:hover .summary-cell .label {
+          display: none;
         }
         td .summary-cell .tags .tag {
           color: var(--deemphasized-text-color);
@@ -182,6 +203,18 @@ class GrResultRow extends GrLitElement {
         .tag.brown {
           background-color: var(--tag-brown);
         }
+        .actions gr-checks-action,
+        .actions gr-dropdown {
+          /* Fitting a 28px button into 20px line-height. */
+          margin: -4px 0;
+          vertical-align: top;
+        }
+        #moreActions iron-icon {
+          color: var(--link-color);
+        }
+        #moreMessage {
+          display: none;
+        }
       `,
     ];
   }
@@ -214,7 +247,10 @@ class GrResultRow extends GrLitElement {
       `;
     }
     return html`
-      <tr class="container" @click="${this.toggleExpanded}">
+      <tr
+        class="${classMap({container: true, collapsed: !this.isExpanded})}"
+        @click="${this.toggleExpanded}"
+      >
         <td class="iconCol">
           <div>${this.renderIcon()}</div>
         </td>
@@ -228,7 +264,7 @@ class GrResultRow extends GrLitElement {
         </td>
         <td class="summaryCol">
           <div class="summary-cell">
-            ${(this.result.links?.slice(0, 5) ?? []).map(this.renderLink)}
+            ${(this.result.links?.slice(0, 1) ?? []).map(this.renderLink)}
             ${this.renderSummary(this.result.summary)}
             <div class="message">
               ${this.isExpanded ? '' : this.result.message}
@@ -236,7 +272,7 @@ class GrResultRow extends GrLitElement {
             <div class="tags">
               ${(this.result.tags ?? []).map(t => this.renderTag(t))}
             </div>
-            ${this.renderLabel()}
+            ${this.renderLabel()} ${this.renderLinks()} ${this.renderActions()}
           </div>
           ${this.renderExpanded()}
         </td>
@@ -289,20 +325,6 @@ class GrResultRow extends GrLitElement {
     `;
   }
 
-  renderLink(link: Link) {
-    const tooltipText = link.tooltip ?? 'Link to details';
-    return html`
-      <a href="${link.url}" target="_blank">
-        <iron-icon
-          aria-label="external link to details"
-          class="launch"
-          icon="gr-icons:launch"
-        ></iron-icon>
-        <paper-tooltip offset="5">${tooltipText}</paper-tooltip>
-      </a>
-    `;
-  }
-
   renderIcon() {
     if (this.result?.status !== RunStatus.RUNNING) return;
     return html`<iron-icon icon="gr-icons:timelapse"></iron-icon>`;
@@ -312,6 +334,78 @@ class GrResultRow extends GrLitElement {
     const label = this.result?.labelName;
     if (!label) return;
     return html`<div class="label">${label}</div>`;
+  }
+
+  renderLinks() {
+    const links = (this.result?.links ?? []).slice(1);
+    if (links.length === 0) return;
+    return html`<div class="links">${links.map(this.renderLink)}</div>`;
+  }
+
+  renderLink(link: Link) {
+    const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
+    return html`<a href="${link.url}" target="_blank"
+      ><iron-icon
+        aria-label="external link to details"
+        class="link"
+        icon="gr-icons:${iconForLink(link.icon)}"
+      ></iron-icon
+      ><paper-tooltip offset="5">${tooltipText}</paper-tooltip
+    ></a>`;
+  }
+
+  private renderActions() {
+    const actions = this.result?.actions ?? [];
+    if (actions.length === 0) return;
+    const overflowItems = actions.slice(2).map(action => {
+      return {...action, id: action.name};
+    });
+    return html`<div class="actions">
+      ${this.renderAction(actions[0])} ${this.renderAction(actions[1])}
+      <gr-dropdown
+        id="moreActions"
+        link=""
+        vertical-offset="32"
+        horizontal-align="right"
+        @tap-item="${this.handleAction}"
+        @opened-changed="${(e: CustomEvent) => toggleClass(this, 'dropdown-open', e.detail.value)}"
+        ?hidden="${overflowItems.length === 0}"
+        .items="${overflowItems}"
+      >
+        <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
+        </iron-icon>
+        <span id="moreMessage">More</span>
+      </gr-dropdown>
+    </div>`;
+  }
+
+  private handleAction(e: CustomEvent<Action>) {
+    fireActionTriggered(this, e.detail);
+  }
+
+  private renderAction(action?: Action) {
+    if (!action) return;
+    return html`<gr-checks-action .action="${action}"></gr-checks-action>`;
+  }
+
+  renderPrimaryActions() {
+    const primaryActions = (this.result?.actions ?? []).slice(0, 2);
+    if (primaryActions.length === 0) return;
+    return html`
+      <div class="primaryActions">
+        ${primaryActions.map(this.renderAction)}
+      </div>
+    `;
+  }
+
+  renderSecondaryActions() {
+    const secondaryActions = (this.result?.actions ?? []).slice(2);
+    if (secondaryActions.length === 0) return;
+    return html`
+      <div class="secondaryActions">
+        ${secondaryActions.map(this.renderAction)}
+      </div>
+    `;
   }
 
   renderTag(tag: Tag) {
@@ -637,9 +731,7 @@ export class GrChecksResults extends GrLitElement {
 
   private renderAction(action?: Action) {
     if (!action) return;
-    return html`<gr-checks-top-level-action
-      .action="${action}"
-    ></gr-checks-top-level-action>`;
+    return html`<gr-checks-action .action="${action}"></gr-checks-action>`;
   }
 
   private onPatchsetSelected(e: CustomEvent<{value: string}>) {
@@ -775,7 +867,7 @@ export class GrChecksResults extends GrLitElement {
         <tbody>
           ${repeat(
             filtered,
-            result => result.externalId,
+            result => result.internalResultId,
             result => html`
               <gr-result-row
                 class="${charsOnly(result.checkName)}"
@@ -823,6 +915,7 @@ export class GrChecksResults extends GrLitElement {
 
   computeSuccessfulRunResult(run: CheckRun): RunResult {
     const adaptedRun: RunResult = {
+      internalResultId: run.internalRunId + '-0',
       category: Category.INFO, // will not be used, but is required
       summary: run.statusDescription ?? '',
       ...run,
@@ -849,8 +942,8 @@ export class GrChecksResults extends GrLitElement {
   }
 }
 
-@customElement('gr-checks-top-level-action')
-export class GrChecksTopLevelAction extends GrLitElement {
+@customElement('gr-checks-action')
+export class GrChecksAction extends GrLitElement {
   @property()
   action!: Action;
 
@@ -862,6 +955,9 @@ export class GrChecksTopLevelAction extends GrLitElement {
   static get styles() {
     return [
       css`
+        :host {
+          display: inline-block;
+        }
         gr-button {
           --padding: var(--spacing-s) var(--spacing-m);
         }
@@ -893,6 +989,6 @@ declare global {
     'gr-result-row': GrResultRow;
     'gr-result-expanded': GrResultExpanded;
     'gr-checks-results': GrChecksResults;
-    'gr-checks-top-level-action': GrChecksTopLevelAction;
+    'gr-checks-action': GrChecksAction;
   }
 }

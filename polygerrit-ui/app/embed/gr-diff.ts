@@ -22,6 +22,7 @@
 // the app must assign/import it and do not rely on the Polymer variable
 // exposed by shared gr-diff component.
 import '../scripts/bundled-polymer';
+import '../api/embed';
 import '../elements/diff/gr-diff/gr-diff';
 import '../elements/diff/gr-diff-cursor/gr-diff-cursor';
 import {initDiffAppContext} from './gr-diff-app-context-init';

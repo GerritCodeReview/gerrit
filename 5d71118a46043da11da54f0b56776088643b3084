@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800bfd3d_5bb3defa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-12T10:50:08Z",
+      "side": 1,
+      "message": "gr-diff is unaware of what a \"comment context\" is. I think you can just remove this comment. The rule speaks for itself now.",
+      "range": {
+        "startLine": 33,
+        "startChar": 41,
+        "endLine": 33,
+        "endChar": 56
+      },
+      "revId": "5d71118a46043da11da54f0b56776088643b3084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

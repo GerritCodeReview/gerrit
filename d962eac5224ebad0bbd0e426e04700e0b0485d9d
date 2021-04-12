@@ -152,6 +152,24 @@
       "parentUuid": "069609ef_8923636e",
       "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c24a2e74_3e9fad97",
+        "filename": "polygerrit-ui/app/types/diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-12T10:50:08Z",
+      "side": 1,
+      "message": "No, the main change is that by adding the \u0027left\u0027 classes this will also hide the colgroup! :-)",
+      "parentUuid": "74b1d63e_f2551230",
+      "revId": "d962eac5224ebad0bbd0e426e04700e0b0485d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

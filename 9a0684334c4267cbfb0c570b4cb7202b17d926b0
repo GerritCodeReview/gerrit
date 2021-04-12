@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a2c12fb_4c72ab13",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpression.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-12T09:44:25Z",
+      "side": 1,
+      "message": "Done.\n\nOptional.ofNullable(Strings.emptyToNull(expression))\n        .map(SubmitRequirementExpression::create);\n\n// because we also want to return empty() for empty expression strings.",
+      "parentUuid": "2ba1419a_b9efaf22",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 43,
+        "endChar": 98
+      },
+      "revId": "9a0684334c4267cbfb0c570b4cb7202b17d926b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68bd273e_33ef6605",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd1b611_21c88048",
+        "filename": "java/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-12T09:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68bd273e_33ef6605",
+      "range": {
+        "startLine": 42,
+        "startChar": 55,
+        "endLine": 44,
+        "endChar": 20
+      },
+      "revId": "9a0684334c4267cbfb0c570b4cb7202b17d926b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e65218f0_a7df6059",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-04-12T07:11:52Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 47,
+        "startChar": 51,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "9a0684334c4267cbfb0c570b4cb7202b17d926b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6af927e_f36049d4",
+        "filename": "java/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-12T09:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e65218f0_a7df6059",
       "range": {
         "startLine": 47,
         "startChar": 51,

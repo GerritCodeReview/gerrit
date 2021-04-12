@@ -175,6 +175,7 @@ public class ExternalIdNotes extends VersionedMetaData {
 
       // Reset instance state.
       externalIdNotes.cacheUpdates.clear();
+      externalIdNotes.keysToAdd.clear();
       externalIdNotes.oldRev = null;
     }
 
@@ -293,6 +294,17 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   /** Staged cache updates that should be executed after external ID changes have been committed. */
   private final List<CacheUpdate> cacheUpdates = new ArrayList<>();
+
+  /**
+   * When performing batch updates (cf. {@link AccountsUpdate#updateBatch(List)} we need to ensure
+   * the batch does not introduce duplicates. In addition to checking against the status quo in
+   * {@link #noteMap} (cf. {@link #checkExternalIdKeysDontExist(Collection)}), which is sufficient
+   * for single updates, we also need to check for duplicates among the batch updates. As the actual
+   * updates are computed lazily just before applying them, we unfortunately need to track keys
+   * explicitly here even though they are already implicit in the lambdas that constitute the
+   * updates.
+   */
+  private final Set<ExternalId.Key> keysToAdd = new HashSet<>();
 
   private Runnable afterReadRevision;
   private boolean readOnly = false;
@@ -482,6 +494,7 @@ public class ExternalIdNotes extends VersionedMetaData {
           }
         });
     cacheUpdates.add(cu -> cu.add(newExtIds));
+    incrementalDuplicateDetection(extIds);
   }
 
   /**
@@ -510,6 +523,7 @@ public class ExternalIdNotes extends VersionedMetaData {
           }
         });
     cacheUpdates.add(cu -> cu.remove(removedExtIds).add(updatedExtIds));
+    incrementalDuplicateDetection(extIds);
   }
 
   /**
@@ -624,6 +638,7 @@ public class ExternalIdNotes extends VersionedMetaData {
           }
         });
     cacheUpdates.add(cu -> cu.add(updatedExtIds).remove(removedExtIds));
+    incrementalDuplicateDetection(toAdd);
   }
 
   /**
@@ -656,6 +671,7 @@ public class ExternalIdNotes extends VersionedMetaData {
           }
         });
     cacheUpdates.add(cu -> cu.add(updatedExtIds).remove(removedExtIds));
+    incrementalDuplicateDetection(toAdd);
   }
 
   /**
@@ -786,6 +802,17 @@ public class ExternalIdNotes extends VersionedMetaData {
           accountId.get());
     }
     return accountId;
+  }
+
+  private void incrementalDuplicateDetection(Collection<ExternalId> externalIds) {
+    externalIds.stream()
+        .map(ExternalId::key)
+        .forEach(
+            key -> {
+              if (!keysToAdd.add(key)) {
+                throw new DuplicateExternalIdKeyException(key);
+              }
+            });
   }
 
   /**
@@ -926,15 +953,15 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   private static class ExternalIdCacheUpdates {
-    private final Set<ExternalId> added = new HashSet<>();
-    private final Set<ExternalId> removed = new HashSet<>();
+    final Set<ExternalId> added = new HashSet<>();
+    final Set<ExternalId> removed = new HashSet<>();
 
     ExternalIdCacheUpdates add(Collection<ExternalId> extIds) {
       this.added.addAll(extIds);
       return this;
     }
 
-    public Set<ExternalId> getAdded() {
+    Set<ExternalId> getAdded() {
       return ImmutableSet.copyOf(added);
     }
 
@@ -943,7 +970,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       return this;
     }
 
-    public Set<ExternalId> getRemoved() {
+    Set<ExternalId> getRemoved() {
       return ImmutableSet.copyOf(removed);
     }
   }

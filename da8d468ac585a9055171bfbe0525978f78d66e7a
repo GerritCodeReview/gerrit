@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "590945e0_fdafcd3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-12T13:25:50Z",
+      "side": 1,
+      "message": "Realised that disable_keyboard_shortcuts isn\u0027t set if is false. So removed that one line. The rest should be ok.",
+      "revId": "da8d468ac585a9055171bfbe0525978f78d66e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

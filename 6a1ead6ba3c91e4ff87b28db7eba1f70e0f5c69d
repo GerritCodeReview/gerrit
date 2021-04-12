@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73c819b1_93a06a7f",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-12T07:06:28Z",
+      "side": 1,
+      "message": "Unused and build breaking, because it adds a dep from api/ to elements/.\n\nFixing in https://gerrit-review.googlesource.com/c/gerrit/+/302995.",
+      "revId": "6a1ead6ba3c91e4ff87b28db7eba1f70e0f5c69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff51b3f6_6e672e07",
+        "filename": "polygerrit-ui/app/embed/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-12T07:06:28Z",
+      "side": 1,
+      "message": "What is special about GrAnnotation that it has to be made available as a global variable? All the other interfaces in api/diff.ts are not global variables.",
+      "revId": "6a1ead6ba3c91e4ff87b28db7eba1f70e0f5c69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

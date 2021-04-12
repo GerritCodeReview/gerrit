@@ -25,7 +25,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.InternalAccountUpdate;
+import com.google.gerrit.server.account.AccountDelta;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -135,12 +135,12 @@ public class AccountIndexerIT {
     accountCache.get(accountId);
   }
 
-  private static InternalAccountUpdate.Builder newAccountUpdate() {
-    return InternalAccountUpdate.builder();
+  private static AccountDelta.Builder newAccountUpdate() {
+    return AccountDelta.builder();
   }
 
   private void updateAccountWithoutCacheOrIndex(
-      Account.Id accountId, InternalAccountUpdate accountUpdate)
+      Account.Id accountId, AccountDelta accountUpdate)
       throws IOException, ConfigInvalidException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName);
         MetaDataUpdate md =

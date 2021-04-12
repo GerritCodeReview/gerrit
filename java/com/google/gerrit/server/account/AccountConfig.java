@@ -84,7 +84,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private Optional<ObjectId> externalIdsRev;
   private ProjectWatches projectWatches;
   private StoredPreferences preferences;
-  private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
+  private Optional<AccountDelta> accountUpdate = Optional.empty();
   private List<ValidationError> validationErrors;
 
   public AccountConfig(Account.Id accountId, AllUsersName allUsersName, Repository allUsersRepo) {
@@ -160,7 +160,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
             new AccountProperties(account.id(), account.registeredOn(), new Config(), null));
     this.accountUpdate =
         Optional.of(
-            InternalAccountUpdate.builder()
+            AccountDelta.builder()
                 .setActive(account.isActive())
                 .setFullName(account.fullName())
                 .setDisplayName(account.displayName())
@@ -196,7 +196,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     return loadedAccountProperties.map(AccountProperties::getAccount).get();
   }
 
-  public AccountConfig setAccountUpdate(InternalAccountUpdate accountUpdate) {
+  public AccountConfig setAccountUpdate(AccountDelta accountUpdate) {
     this.accountUpdate = Optional.of(accountUpdate);
     return this;
   }

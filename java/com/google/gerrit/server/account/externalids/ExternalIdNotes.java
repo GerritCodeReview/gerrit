@@ -273,11 +273,11 @@ public class ExternalIdNotes extends VersionedMetaData {
   private NoteMap noteMap;
   private ObjectId oldRev;
 
-  // Staged note map updates that should be executed on save.
-  private List<NoteMapUpdate> noteMapUpdates = new ArrayList<>();
+  /** Staged note map updates that should be executed on save. */
+  private final List<NoteMapUpdate> noteMapUpdates = new ArrayList<>();
 
-  // Staged cache updates that should be executed after external ID changes have been committed.
-  private List<CacheUpdate> cacheUpdates = new ArrayList<>();
+  /** Staged cache updates that should be executed after external ID changes have been committed. */
+  private final List<CacheUpdate> cacheUpdates = new ArrayList<>();
 
   private Runnable afterReadRevision;
   private boolean readOnly = false;

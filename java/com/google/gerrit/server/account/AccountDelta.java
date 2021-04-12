@@ -33,23 +33,23 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Class to prepare updates to an account.
+ * Data holder for updates to an account's properties.
  *
- * <p>Account updates are done through {@link AccountsUpdate}. This class should be used to tell
- * {@link AccountsUpdate} how an account should be modified.
+ * <p>Instances of this type are passed to {@link AccountsUpdate}, which modifies the account
+ * accordingly.
  *
- * <p>This class allows to prepare updates of account properties, external IDs, preferences
+ * <p>Updates can be applied to account properties (name, email etc.), external IDs, preferences
  * (general, diff and edit preferences) and project watches. The account ID and the registration
  * date cannot be updated.
  *
- * <p>For the account properties there are getters in this class and the setters in the {@link
- * Builder} that correspond to the fields in {@link Account}.
+ * <p>For the account properties there are getters in this class and setters in the {@link Builder}
+ * that correspond to the fields in {@link Account}.
  */
 @AutoValue
-public abstract class InternalAccountUpdate {
+public abstract class AccountDelta {
   public static Builder builder() {
     return new Builder.WrapperThatConvertsNullStringArgsToEmptyStrings(
-        new AutoValue_InternalAccountUpdate.Builder());
+        new AutoValue_AccountDelta.Builder());
   }
 
   /**
@@ -168,7 +168,7 @@ public abstract class InternalAccountUpdate {
    * invoked the corresponding data stays unchanged. To unset string values the setter can be
    * invoked with either {@code null} or an empty string ({@code null} is converted to an empty
    * string by using the {@link WrapperThatConvertsNullStringArgsToEmptyStrings} wrapper, see {@link
-   * InternalAccountUpdate#builder()}).
+   * AccountDelta#builder()}).
    */
   @AutoValue.Builder
   public abstract static class Builder {
@@ -452,7 +452,7 @@ public abstract class InternalAccountUpdate {
      *
      * @return the account update
      */
-    public abstract InternalAccountUpdate build();
+    public abstract AccountDelta build();
 
     /**
      * Wrapper for {@link Builder} that converts {@code null} string arguments to empty strings for
@@ -525,7 +525,7 @@ public abstract class InternalAccountUpdate {
       }
 
       @Override
-      public InternalAccountUpdate build() {
+      public AccountDelta build() {
         return delegate.build();
       }
 

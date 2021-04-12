@@ -103,12 +103,12 @@ public class AccountProperties {
     account = accountBuilder.build();
   }
 
-  Config save(InternalAccountUpdate accountUpdate) {
+  Config save(AccountDelta accountUpdate) {
     writeToAccountConfig(accountUpdate, accountConfig);
     return accountConfig;
   }
 
-  public static void writeToAccountConfig(InternalAccountUpdate accountUpdate, Config cfg) {
+  public static void writeToAccountConfig(AccountDelta accountUpdate, Config cfg) {
     accountUpdate.getActive().ifPresent(active -> setActive(cfg, active));
     accountUpdate.getFullName().ifPresent(fullName -> set(cfg, KEY_FULL_NAME, fullName));
     accountUpdate

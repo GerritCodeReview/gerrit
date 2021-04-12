@@ -72,10 +72,13 @@ export const htmlTemplate = html`
       vertical-align: top;
     }
     iron-icon.attention {
+      color: var(--deemphasized-text-color);
       width: 12px;
       height: 12px;
+      vertical-align: top;
     }
     iron-icon.status {
+      color: var(--deemphasized-text-color);
       width: 14px;
       height: 14px;
       vertical-align: top;

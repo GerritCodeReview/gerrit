@@ -16,6 +16,24 @@
       "message": "Can you maybe add a constructor to this Mixin and make the\n\n  this.restApiService.getPreferences()\n\ncall in that constructor? Then you don\u0027t have to modify all the callers of shouldSuppressKeyboardShortcut() to make this API call and pass a new parameter.",
       "revId": "e55bbaee67e799390a7dedde15343c4e1df35f0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c404e95d_840987fb",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-12T13:43:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f9b26be1_a89eac4a",
+      "revId": "e55bbaee67e799390a7dedde15343c4e1df35f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

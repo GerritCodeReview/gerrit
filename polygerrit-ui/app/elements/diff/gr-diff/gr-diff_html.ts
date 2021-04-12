@@ -512,7 +512,7 @@ export const htmlTemplate = html`
     /** Support the line length indicator **/
     .full-width td.content .contentText {
       /* Base 64 encoded 1x1px of --purple-900 */
-      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2PIlF2xAgAD+AHXfBDdKAAAAABJRU5ErkJggg==');
+      background-image: var(--line-length-indicator);
       background-position: var(--line-limit) 0;
       background-repeat: repeat-y;
     }

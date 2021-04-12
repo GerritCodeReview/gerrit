@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcf56439_c6b520b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-12T07:50:50Z",
+      "side": 1,
+      "message": "https://imgur.com/a/m9Zrip4\n\nDelphine commented on the Issue: Bug 13648 with proposed screenshots. Adding her as well as a reviewer.",
+      "parentUuid": "8839c4aa_be8730cb",
+      "revId": "97cc1e034a49b8a5d1c26ac9d338185dc1b45703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b6320a2_dc663154",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-06T14:07:22Z",
       "side": 1,
       "message": "All colors should be defined in theme files. Not this change, but the indicator will not otherwise not work well with dark theme.",
+      "revId": "97cc1e034a49b8a5d1c26ac9d338185dc1b45703",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfa2f6e5_67fa574b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-12T07:50:50Z",
+      "side": 1,
+      "message": "https://css-tricks.com/did-you-know-that-css-custom-properties-can-handle-images-too/\n\nTIL that I can define the image url as a css var.",
+      "parentUuid": "5b6320a2_dc663154",
       "revId": "97cc1e034a49b8a5d1c26ac9d338185dc1b45703",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

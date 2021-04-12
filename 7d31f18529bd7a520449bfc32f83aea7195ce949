@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82c30995_5aed4211",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-12T08:01:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5592072d_b84187b2",
+      "revId": "7d31f18529bd7a520449bfc32f83aea7195ce949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03889960_692122bb",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-12T07:55:06Z",
       "side": 1,
       "message": "Is purple-900 also what we want in dark theme?",
+      "revId": "7d31f18529bd7a520449bfc32f83aea7195ce949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "421fe128_2e40f87f",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-12T08:01:57Z",
+      "side": 1,
+      "message": "Yeah, just checked the colors and it\u0027s purple-200 for dark theme(\"#d7aefb; in dark theme\" from the bug).\nI used https://shoonia.github.io/1x1/#d7aefbff for generation and the generated urls are different.",
+      "parentUuid": "03889960_692122bb",
       "revId": "7d31f18529bd7a520449bfc32f83aea7195ce949",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

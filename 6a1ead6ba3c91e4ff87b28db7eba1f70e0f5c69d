@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0b06393_6d9a66ad",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-04-12T07:18:53Z",
+      "side": 1,
+      "message": "I send a fix for the same issue and a second issue last Friday hat is still waiting for a review: https://gerrit-review.googlesource.com/c/gerrit/+/302842",
+      "parentUuid": "73c819b1_93a06a7f",
+      "revId": "6a1ead6ba3c91e4ff87b28db7eba1f70e0f5c69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff51b3f6_6e672e07",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-12T07:06:28Z",
       "side": 1,
       "message": "What is special about GrAnnotation that it has to be made available as a global variable? All the other interfaces in api/diff.ts are not global variables.",
+      "revId": "6a1ead6ba3c91e4ff87b28db7eba1f70e0f5c69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f70e70a_c54f0c94",
+        "filename": "polygerrit-ui/app/embed/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-04-12T07:18:53Z",
+      "side": 1,
+      "message": "Well, I think GrAnnotation is not idiomatic TypeScript: It uses a class as a namespace for functions, like one might in Java. I think ideally we would instead expose these functions as globals (within the grdiff namespace I introduce in this CL). Is that a cleanup you would like to see?",
+      "parentUuid": "ff51b3f6_6e672e07",
       "revId": "6a1ead6ba3c91e4ff87b28db7eba1f70e0f5c69d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

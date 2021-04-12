@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0512ed3c_10e26b02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-04-12T17:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ced4dfa_011fc9c4",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "47dcc41f1f6cc023593511f2c2886d0767a509dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0e3c8b4_0abd69ad",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-09T22:52:29Z",
       "side": 1,
       "message": "nit: Should this move up a few lines to go with the other config section strings (AUTO_MIGRATE and TRIAL)?",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 43
+      },
+      "revId": "47dcc41f1f6cc023593511f2c2886d0767a509dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3be8ef7_a23f778b",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2021-04-12T17:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0e3c8b4_0abd69ad",
       "range": {
         "startLine": 129,
         "startChar": 0,

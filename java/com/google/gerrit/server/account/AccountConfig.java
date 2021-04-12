@@ -84,7 +84,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private Optional<ObjectId> externalIdsRev;
   private ProjectWatches projectWatches;
   private StoredPreferences preferences;
-  private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
+  private Optional<AccountDelta> accountDelta = Optional.empty();
   private List<ValidationError> validationErrors;
 
   public AccountConfig(Account.Id accountId, AllUsersName allUsersName, Repository allUsersRepo) {
@@ -158,9 +158,9 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     this.loadedAccountProperties =
         Optional.of(
             new AccountProperties(account.id(), account.registeredOn(), new Config(), null));
-    this.accountUpdate =
+    this.accountDelta =
         Optional.of(
-            InternalAccountUpdate.builder()
+            AccountDelta.builder()
                 .setActive(account.isActive())
                 .setFullName(account.fullName())
                 .setDisplayName(account.displayName())
@@ -196,8 +196,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     return loadedAccountProperties.map(AccountProperties::getAccount).get();
   }
 
-  public AccountConfig setAccountUpdate(InternalAccountUpdate accountUpdate) {
-    this.accountUpdate = Optional.of(accountUpdate);
+  public AccountConfig setAccountDelta(AccountDelta accountDelta) {
+    this.accountDelta = Optional.of(accountDelta);
     return this;
   }
 
@@ -283,45 +283,44 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     saveProjectWatches();
     savePreferences();
 
-    accountUpdate = Optional.empty();
+    accountDelta = Optional.empty();
 
     return true;
   }
 
   private void saveAccount() throws IOException {
-    if (accountUpdate.isPresent()) {
+    if (accountDelta.isPresent()) {
       saveConfig(
-          AccountProperties.ACCOUNT_CONFIG,
-          loadedAccountProperties.get().save(accountUpdate.get()));
+          AccountProperties.ACCOUNT_CONFIG, loadedAccountProperties.get().save(accountDelta.get()));
     }
   }
 
   private void saveProjectWatches() throws IOException {
-    if (accountUpdate.isPresent()
-        && (!accountUpdate.get().getDeletedProjectWatches().isEmpty()
-            || !accountUpdate.get().getUpdatedProjectWatches().isEmpty())) {
+    if (accountDelta.isPresent()
+        && (!accountDelta.get().getDeletedProjectWatches().isEmpty()
+            || !accountDelta.get().getUpdatedProjectWatches().isEmpty())) {
       Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches =
           new HashMap<>(projectWatches.getProjectWatches());
-      accountUpdate.get().getDeletedProjectWatches().forEach(newProjectWatches::remove);
-      accountUpdate.get().getUpdatedProjectWatches().forEach(newProjectWatches::put);
+      accountDelta.get().getDeletedProjectWatches().forEach(newProjectWatches::remove);
+      accountDelta.get().getUpdatedProjectWatches().forEach(newProjectWatches::put);
       saveConfig(ProjectWatches.WATCH_CONFIG, projectWatches.save(newProjectWatches));
     }
   }
 
   private void savePreferences() throws IOException, ConfigInvalidException {
-    if (!accountUpdate.isPresent()
-        || (!accountUpdate.get().getGeneralPreferences().isPresent()
-            && !accountUpdate.get().getDiffPreferences().isPresent()
-            && !accountUpdate.get().getEditPreferences().isPresent())) {
+    if (!accountDelta.isPresent()
+        || (!accountDelta.get().getGeneralPreferences().isPresent()
+            && !accountDelta.get().getDiffPreferences().isPresent()
+            && !accountDelta.get().getEditPreferences().isPresent())) {
       return;
     }
 
     saveConfig(
         StoredPreferences.PREFERENCES_CONFIG,
         preferences.saveGeneralPreferences(
-            accountUpdate.get().getGeneralPreferences(),
-            accountUpdate.get().getDiffPreferences(),
-            accountUpdate.get().getEditPreferences()));
+            accountDelta.get().getGeneralPreferences(),
+            accountDelta.get().getDiffPreferences(),
+            accountDelta.get().getEditPreferences()));
   }
 
   private void checkLoaded() {

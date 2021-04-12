@@ -91,11 +91,11 @@ import com.google.gerrit.server.account.GroupsSnapshotReader;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsConsistencyChecker;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
@@ -1486,14 +1486,14 @@ public class GroupsIT extends AbstractDaemonTest {
               .setNameKey(AccountGroup.nameKey(groupName))
               .setId(AccountGroup.id(seq.nextGroupId()))
               .build(),
-          InternalGroupUpdate.builder().build());
+          GroupDelta.builder().build());
       slaveGroupIndexer.run();
       groupIndexedCounter.assertReindexOf(groupUuid);
 
       // Update a group without updating the cache or index,
       // then run the reindexer -> only the updated group is reindexed.
       groupsUpdate.updateGroupInNoteDb(
-          groupUuid, InternalGroupUpdate.builder().setDescription("bar").build());
+          groupUuid, GroupDelta.builder().setDescription("bar").build());
       slaveGroupIndexer.run();
       groupIndexedCounter.assertReindexOf(groupUuid);
 

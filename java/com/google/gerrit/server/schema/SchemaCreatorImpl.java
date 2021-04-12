@@ -32,9 +32,9 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupConfig;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.notedb.Sequences;
@@ -132,10 +132,10 @@ public class SchemaCreatorImpl implements SchemaCreator {
       Sequences seqs, Repository allUsersRepo, GroupReference groupReference)
       throws IOException, ConfigInvalidException {
     InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setDescription("Gerrit Site Administrators").build();
+    GroupDelta groupDelta =
+        GroupDelta.builder().setDescription("Gerrit Site Administrators").build();
 
-    createGroup(allUsersRepo, groupCreation, groupUpdate);
+    createGroup(allUsersRepo, groupCreation, groupDelta);
   }
 
   private void createBatchUsersGroup(
@@ -145,24 +145,24 @@ public class SchemaCreatorImpl implements SchemaCreator {
       AccountGroup.UUID adminsGroupUuid)
       throws IOException, ConfigInvalidException {
     InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder()
+    GroupDelta groupDelta =
+        GroupDelta.builder()
             .setDescription("Users who perform batch actions on Gerrit")
             .setOwnerGroupUUID(adminsGroupUuid)
             .build();
 
-    createGroup(allUsersRepo, groupCreation, groupUpdate);
+    createGroup(allUsersRepo, groupCreation, groupDelta);
   }
 
   private void createGroup(
-      Repository allUsersRepo, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      Repository allUsersRepo, InternalGroupCreation groupCreation, GroupDelta groupDelta)
       throws ConfigInvalidException, IOException {
-    InternalGroup createdGroup = createGroupInNoteDb(allUsersRepo, groupCreation, groupUpdate);
+    InternalGroup createdGroup = createGroupInNoteDb(allUsersRepo, groupCreation, groupDelta);
     index(createdGroup);
   }
 
   private InternalGroup createGroupInNoteDb(
-      Repository allUsersRepo, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      Repository allUsersRepo, InternalGroupCreation groupCreation, GroupDelta groupDelta)
       throws ConfigInvalidException, IOException, DuplicateKeyException {
     // This method is only executed on a new server which doesn't have any accounts or groups.
     AuditLogFormatter auditLogFormatter =
@@ -170,9 +170,9 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
     GroupConfig groupConfig =
         GroupConfig.createForNewGroup(allUsersName, allUsersRepo, groupCreation);
-    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
+    groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
-    AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
+    AccountGroup.NameKey groupName = groupDelta.getName().orElseGet(groupCreation::getNameKey);
     GroupNameNotes groupNameNotes =
         GroupNameNotes.forNewGroup(
             allUsersName, allUsersRepo, groupCreation.getGroupUUID(), groupName);

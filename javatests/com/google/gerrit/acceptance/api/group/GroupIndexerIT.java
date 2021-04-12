@@ -28,8 +28,8 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.group.testing.InternalGroupSubject;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
@@ -151,12 +151,11 @@ public class GroupIndexerIT {
     groupCache.get(groupUuid);
   }
 
-  private static InternalGroupUpdate.Builder newGroupUpdate() {
-    return InternalGroupUpdate.builder();
+  private static GroupDelta.Builder newGroupUpdate() {
+    return GroupDelta.builder();
   }
 
-  private void updateGroupWithoutCacheOrIndex(
-      AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+  private void updateGroupWithoutCacheOrIndex(AccountGroup.UUID groupUuid, GroupDelta groupUpdate)
       throws NoSuchGroupException, IOException, ConfigInvalidException {
     groupsUpdate.updateGroupInNoteDb(groupUuid, groupUpdate);
   }

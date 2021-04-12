@@ -67,19 +67,19 @@ import org.eclipse.jgit.lib.Repository;
  * <p>All calls which write group related details to the database are gathered here. Other classes
  * should always use this class instead of accessing the database directly. There are a few
  * exceptions though: schema classes, wrapper classes, and classes executed during init. The latter
- * ones should use {@code GroupsOnInit} instead.
+ * ones should use {@link com.google.gerrit.pgm.init.GroupsOnInit} instead.
  *
  * <p>If not explicitly stated, all methods of this class refer to <em>internal</em> groups.
  */
 public class GroupsUpdate {
   public interface Factory {
     /**
-     * Creates a {@code GroupsUpdate} which uses the identity of the specified user to mark database
+     * Creates a {@link GroupsUpdate} which uses the identity of the specified user to mark database
      * modifications executed by it. For NoteDb, this identity is used as author and committer for
      * all related commits.
      *
      * <p><strong>Note</strong>: Please use this method with care and consider using the {@link
-     * com.google.gerrit.server.UserInitiated} annotation on the provider of a {@code GroupsUpdate}
+     * com.google.gerrit.server.UserInitiated} annotation on the provider of a {@link GroupsUpdate}
      * instead.
      *
      * @param currentUser the user to which modifications should be attributed
@@ -87,12 +87,12 @@ public class GroupsUpdate {
     GroupsUpdate create(IdentifiedUser currentUser);
 
     /**
-     * Creates a {@code GroupsUpdate} which uses the server identity to mark database modifications
+     * Creates a {@link GroupsUpdate} which uses the server identity to mark database modifications
      * executed by it. For NoteDb, this identity is used as author and committer for all related
      * commits.
      *
      * <p><strong>Note</strong>: Please use this method with care and consider using the {@link
-     * com.google.gerrit.server.ServerInitiated} annotation on the provider of a {@code
+     * com.google.gerrit.server.ServerInitiated} annotation on the provider of a {@link
      * GroupsUpdate} instead.
      */
     GroupsUpdate createWithServerIdent();
@@ -115,6 +115,7 @@ public class GroupsUpdate {
   private final RetryHelper retryHelper;
 
   @AssistedInject
+  @SuppressWarnings("BindingAnnotationWithoutInject")
   GroupsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
@@ -149,6 +150,7 @@ public class GroupsUpdate {
   }
 
   @AssistedInject
+  @SuppressWarnings("BindingAnnotationWithoutInject")
   GroupsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
@@ -183,6 +185,7 @@ public class GroupsUpdate {
         Optional.of(currentUser));
   }
 
+  @SuppressWarnings("BindingAnnotationWithoutInject")
   private GroupsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
@@ -251,25 +254,24 @@ public class GroupsUpdate {
   /**
    * Creates the specified group for the specified members (accounts).
    *
-   * @param groupCreation an {@code InternalGroupCreation} which specifies all mandatory properties
+   * @param groupCreation an {@link InternalGroupCreation} which specifies all mandatory properties
    *     of the group
-   * @param groupUpdate an {@code InternalGroupUpdate} which specifies optional properties of the
-   *     group. If this {@code InternalGroupUpdate} updates a property which was already specified
-   *     by the {@code InternalGroupCreation}, the value of this {@code InternalGroupUpdate} wins.
+   * @param groupDelta a {@link GroupDelta} which specifies optional properties of the group. If
+   *     this {@link GroupDelta} updates a property which was already specified by the {@link
+   *     InternalGroupCreation}, the value of this {@link GroupDelta} wins.
    * @throws DuplicateKeyException if a group with the chosen name already exists
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
-   * @return the created {@code InternalGroup}
+   * @return the created {@link InternalGroup}
    */
-  public InternalGroup createGroup(
-      InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+  public InternalGroup createGroup(InternalGroupCreation groupCreation, GroupDelta groupDelta)
       throws DuplicateKeyException, IOException, ConfigInvalidException {
-    try (TraceTimer timer =
+    try (TraceTimer ignored =
         TraceContext.newTimer(
             "Creating group",
             Metadata.builder()
-                .groupName(groupUpdate.getName().orElseGet(groupCreation::getNameKey).get())
+                .groupName(groupDelta.getName().orElseGet(groupCreation::getNameKey).get())
                 .build())) {
-      InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
+      InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupDelta);
       evictCachesOnGroupCreation(createdGroup);
       dispatchAuditEventsOnGroupCreation(createdGroup);
       return createdGroup;
@@ -280,24 +282,23 @@ public class GroupsUpdate {
    * Updates the specified group.
    *
    * @param groupUuid the UUID of the group to update
-   * @param groupUpdate an {@code InternalGroupUpdate} which indicates the desired updates on the
-   *     group
+   * @param groupDelta a {@link GroupDelta} which indicates the desired updates on the group
    * @throws DuplicateKeyException if the new name of the group is used by another group
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
    * @throws NoSuchGroupException if the specified group doesn't exist
    */
-  public void updateGroup(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+  public void updateGroup(AccountGroup.UUID groupUuid, GroupDelta groupDelta)
       throws DuplicateKeyException, IOException, NoSuchGroupException, ConfigInvalidException {
-    try (TraceTimer timer =
+    try (TraceTimer ignored =
         TraceContext.newTimer(
             "Updating group", Metadata.builder().groupUuid(groupUuid.get()).build())) {
-      Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
+      Optional<Timestamp> updatedOn = groupDelta.getUpdatedOn();
       if (!updatedOn.isPresent()) {
         updatedOn = Optional.of(TimeUtil.nowTs());
-        groupUpdate = groupUpdate.toBuilder().setUpdatedOn(updatedOn.get()).build();
+        groupDelta = groupDelta.toBuilder().setUpdatedOn(updatedOn.get()).build();
       }
 
-      UpdateResult result = updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
+      UpdateResult result = updateGroupInNoteDbWithRetry(groupUuid, groupDelta);
       updateNameInProjectConfigsIfNecessary(result);
       evictCachesOnGroupUpdate(result);
       dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
@@ -305,7 +306,7 @@ public class GroupsUpdate {
   }
 
   private InternalGroup createGroupInNoteDbWithRetry(
-      InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      InternalGroupCreation groupCreation, GroupDelta groupUpdate)
       throws IOException, ConfigInvalidException, DuplicateKeyException {
     try {
       return retryHelper
@@ -322,7 +323,7 @@ public class GroupsUpdate {
 
   @VisibleForTesting
   public InternalGroup createGroupInNoteDb(
-      InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      InternalGroupCreation groupCreation, GroupDelta groupUpdate)
       throws IOException, ConfigInvalidException, DuplicateKeyException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       AccountGroup.NameKey groupName = groupUpdate.getName().orElseGet(groupCreation::getNameKey);
@@ -332,7 +333,7 @@ public class GroupsUpdate {
 
       GroupConfig groupConfig =
           GroupConfig.createForNewGroup(allUsersName, allUsersRepo, groupCreation);
-      groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
+      groupConfig.setGroupDelta(groupUpdate, auditLogFormatter);
 
       commit(allUsersRepo, groupConfig, groupNameNotes);
 
@@ -344,7 +345,7 @@ public class GroupsUpdate {
   }
 
   private UpdateResult updateGroupInNoteDbWithRetry(
-      AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+      AccountGroup.UUID groupUuid, GroupDelta groupUpdate)
       throws IOException, ConfigInvalidException, DuplicateKeyException, NoSuchGroupException {
     try {
       return retryHelper
@@ -361,12 +362,11 @@ public class GroupsUpdate {
   }
 
   @VisibleForTesting
-  public UpdateResult updateGroupInNoteDb(
-      AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+  public UpdateResult updateGroupInNoteDb(AccountGroup.UUID groupUuid, GroupDelta groupUpdate)
       throws IOException, ConfigInvalidException, DuplicateKeyException, NoSuchGroupException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, groupUuid);
-      groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
+      groupConfig.setGroupDelta(groupUpdate, auditLogFormatter);
       if (!groupConfig.getLoadedGroup().isPresent()) {
         throw new NoSuchGroupException(groupUuid);
       }

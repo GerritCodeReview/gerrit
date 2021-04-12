@@ -22,9 +22,9 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.account.AccountDelta;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import java.io.File;
@@ -69,7 +69,7 @@ public class AccountsOnInit {
 
       Config accountConfig = new Config();
       AccountProperties.writeToAccountConfig(
-          InternalAccountUpdate.builder()
+          AccountDelta.builder()
               .setActive(!account.inactive())
               .setFullName(account.fullName())
               .setPreferredEmail(account.preferredEmail())

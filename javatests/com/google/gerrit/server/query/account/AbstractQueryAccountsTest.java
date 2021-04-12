@@ -58,12 +58,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountDelta;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -615,7 +615,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       md.getCommitBuilder().setCommitter(ident);
       new AccountConfig(accountId, allUsers, repo)
           .load()
-          .setAccountUpdate(InternalAccountUpdate.builder().setFullName(newName).build())
+          .setAccountDelta(AccountDelta.builder().setFullName(newName).build())
           .commit(md);
     }
 

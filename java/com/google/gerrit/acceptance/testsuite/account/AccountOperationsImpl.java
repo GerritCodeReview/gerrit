@@ -21,15 +21,17 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountDelta;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.InternalAccountUpdate;
+import com.google.gerrit.server.account.AccountsUpdate.ConfigureDeltaFromState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
@@ -61,24 +63,17 @@ public class AccountOperationsImpl implements AccountOperations {
     return TestAccountCreation.builder(this::createAccount);
   }
 
-  private Account.Id createAccount(TestAccountCreation accountCreation) throws Exception {
-    AccountsUpdate.AccountUpdater accountUpdater =
-        (accountState, updateBuilder) ->
-            fillBuilder(updateBuilder, accountCreation, accountState.account().id());
-    AccountState createdAccount = createAccount(accountUpdater);
+  private Account.Id createAccount(TestAccountCreation testAccountCreation) throws Exception {
+    Account.Id accountId = Account.id(seq.nextAccountId());
+    Consumer<AccountDelta.Builder> accountCreation =
+        deltaBuilder -> initAccountDelta(deltaBuilder, testAccountCreation, accountId);
+    AccountState createdAccount =
+        accountsUpdate.insert("Create Test Account", accountId, accountCreation);
     return createdAccount.account().id();
   }
 
-  private AccountState createAccount(AccountsUpdate.AccountUpdater accountUpdater)
-      throws IOException, ConfigInvalidException {
-    Account.Id accountId = Account.id(seq.nextAccountId());
-    return accountsUpdate.insert("Create Test Account", accountId, accountUpdater);
-  }
-
-  private static void fillBuilder(
-      InternalAccountUpdate.Builder builder,
-      TestAccountCreation accountCreation,
-      Account.Id accountId) {
+  private static void initAccountDelta(
+      AccountDelta.Builder builder, TestAccountCreation accountCreation, Account.Id accountId) {
     accountCreation.fullname().ifPresent(builder::setFullName);
     accountCreation.preferredEmail().ifPresent(e -> setPreferredEmail(builder, accountId, e));
     String httpPassword = accountCreation.httpPassword().orElse(null);
@@ -92,19 +87,16 @@ public class AccountOperationsImpl implements AccountOperations {
                 builder.addExternalId(ExternalId.createEmail(accountId, secondaryEmail)));
   }
 
-  private static InternalAccountUpdate.Builder setPreferredEmail(
-      InternalAccountUpdate.Builder builder, Account.Id accountId, String preferredEmail) {
-    return builder
+  private static void setPreferredEmail(
+      AccountDelta.Builder builder, Account.Id accountId, String preferredEmail) {
+    builder
         .setPreferredEmail(preferredEmail)
         .addExternalId(ExternalId.createEmail(accountId, preferredEmail));
   }
 
-  private static InternalAccountUpdate.Builder setUsername(
-      InternalAccountUpdate.Builder builder,
-      Account.Id accountId,
-      String username,
-      String httpPassword) {
-    return builder.addExternalId(ExternalId.createUsername(username, accountId, httpPassword));
+  private static void setUsername(
+      AccountDelta.Builder builder, Account.Id accountId, String username, String httpPassword) {
+    builder.addExternalId(ExternalId.createUsername(username, accountId, httpPassword));
   }
 
   private class PerAccountOperationsImpl implements PerAccountOperations {
@@ -155,21 +147,19 @@ public class AccountOperationsImpl implements AccountOperations {
 
     private void updateAccount(TestAccountUpdate accountUpdate)
         throws IOException, ConfigInvalidException {
-      AccountsUpdate.AccountUpdater accountUpdater =
+      ConfigureDeltaFromState configureDeltaFromState =
           (accountState, updateBuilder) -> fillBuilder(updateBuilder, accountUpdate, accountState);
-      Optional<AccountState> updatedAccount = updateAccount(accountUpdater);
+      Optional<AccountState> updatedAccount = updateAccount(configureDeltaFromState);
       checkState(updatedAccount.isPresent(), "Tried to update non-existing test account");
     }
 
-    private Optional<AccountState> updateAccount(AccountsUpdate.AccountUpdater accountUpdater)
+    private Optional<AccountState> updateAccount(ConfigureDeltaFromState configureDeltaFromState)
         throws IOException, ConfigInvalidException {
-      return accountsUpdate.update("Update Test Account", accountId, accountUpdater);
+      return accountsUpdate.update("Update Test Account", accountId, configureDeltaFromState);
     }
 
     private void fillBuilder(
-        InternalAccountUpdate.Builder builder,
-        TestAccountUpdate accountUpdate,
-        AccountState accountState) {
+        AccountDelta.Builder builder, TestAccountUpdate accountUpdate, AccountState accountState) {
       accountUpdate.fullname().ifPresent(builder::setFullName);
       accountUpdate.preferredEmail().ifPresent(e -> setPreferredEmail(builder, accountId, e));
       String httpPassword = accountUpdate.httpPassword().orElse(null);
@@ -200,7 +190,7 @@ public class AccountOperationsImpl implements AccountOperations {
     }
 
     private void setSecondaryEmails(
-        InternalAccountUpdate.Builder builder,
+        AccountDelta.Builder builder,
         TestAccountUpdate accountUpdate,
         AccountState accountState,
         ImmutableSet<String> newSecondaryEmails) {

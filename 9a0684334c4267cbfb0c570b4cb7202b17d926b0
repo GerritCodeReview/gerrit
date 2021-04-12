@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ba1419a_b9efaf22",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpression.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-12T07:11:52Z",
+      "side": 1,
+      "message": "[optional] Could this be simplified to\n\n  Optional.ofNullable(expression).map(SubmitRequirementExpression::create)\n\n?",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 43,
+        "endChar": 98
+      },
+      "revId": "9a0684334c4267cbfb0c570b4cb7202b17d926b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68bd273e_33ef6605",
+        "filename": "java/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-12T07:11:52Z",
+      "side": 1,
+      "message": "This can be: .orElse(\"\")",
+      "range": {
+        "startLine": 42,
+        "startChar": 55,
+        "endLine": 44,
+        "endChar": 20
+      },
+      "revId": "9a0684334c4267cbfb0c570b4cb7202b17d926b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e65218f0_a7df6059",
+        "filename": "java/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-12T07:11:52Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 47,
+        "startChar": 51,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "9a0684334c4267cbfb0c570b4cb7202b17d926b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

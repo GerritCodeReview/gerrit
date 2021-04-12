@@ -246,6 +246,7 @@ export const htmlTemplate = html`
           change="{{change}}"
           mutable="[[_mutable]]"
           reviewers-only=""
+          account="[[account]]"
           server-config="[[serverConfig]]"
         ></gr-reviewer-list>
       </span>
@@ -259,6 +260,7 @@ export const htmlTemplate = html`
           change="{{change}}"
           mutable="[[_mutable]]"
           ccs-only=""
+          account="[[account]]"
           server-config="[[serverConfig]]"
         ></gr-reviewer-list>
       </span>

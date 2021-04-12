@@ -52,6 +52,24 @@
       "parentUuid": "da7ab3b3_adc6a613",
       "revId": "cdb563cbe4552a135b279796783ef54b565c259f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c4c887f_3366b26a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-12T18:04:24Z",
+      "side": 1,
+      "message": "Is there a migration guide (or notes) for porting HTML plugins to be JS plugins?",
+      "parentUuid": "5928174e_7a8dc212",
+      "revId": "cdb563cbe4552a135b279796783ef54b565c259f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

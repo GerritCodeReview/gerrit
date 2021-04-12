@@ -175,7 +175,10 @@ export const htmlTemplate = html`
               on-remove="_handleDescriptionRemoved"
             ></gr-linked-chip>
           </template>
-          <template is="dom-if" if="[[!_patchsetDescription]]">
+          <template
+            is="dom-if"
+            if="[[_showAddPatchsetDescription(_patchsetDescription, change)]]"
+          >
             <gr-editable-label
               id="descriptionLabel"
               uppercase=""

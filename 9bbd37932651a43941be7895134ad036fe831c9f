@@ -214,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60589bf3_8800fc16",
+        "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-12T12:28:22Z",
+      "side": 1,
+      "message": "there is a thread on this change about using type literals. We didn\u0027t investigate further, because it seemed nobody liked our proposal.",
+      "parentUuid": "c34e83e1_174706cd",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "9bbd37932651a43941be7895134ad036fe831c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54ef5ee7_bcb6e004",
         "filename": "java/com/google/gerrit/extensions/registration/PluginProvidedApi.java",
         "patchSetId": 4

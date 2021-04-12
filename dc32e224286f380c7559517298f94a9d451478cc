@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b16bc89_de9b5845",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-12T11:44:28Z",
+      "side": 1,
+      "message": "Nice, thanks!",
+      "revId": "dc32e224286f380c7559517298f94a9d451478cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cbc5286_eada2355",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header_test.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-12T11:44:28Z",
+      "side": 1,
+      "message": "Maybe you need a flush() here to satisfy the test.",
+      "revId": "dc32e224286f380c7559517298f94a9d451478cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -110,8 +110,7 @@ export class GrCursorManager {
   /**
    * Move the cursor forward. Clipped to the ends of the stop list.
    *
-   * @param options.filter Will keep going and skip any stops for which this
-   *    condition is not met.
+   * @param options.filter Skips any stops for which filter returns false.
    * @param options.getTargetHeight Optional function to calculate the
    *    height of the target's 'section'. The height of the target itself is
    *    sometimes different, used by the diff cursor.
@@ -144,63 +143,85 @@ export class GrCursorManager {
    * The method uses IntersectionObservers API. If browser
    * doesn't support this API the method does nothing
    *
-   * @param condition Optional condition. If a condition
-   * is passed only stops which meet conditions are taken into account.
+   * @param filter Skips any stops for which filter returns false.
    */
-  moveToVisibleArea(condition?: (el: Element) => boolean) {
-    if (!this.stops || !this._isIntersectionObserverSupported()) {
-      return;
+  async moveToVisibleArea(filter?: (el: Element) => boolean) {
+    const centerMostStop = await this.getCenterMostStop(filter);
+    // In most cases the target is visible, so scroll is not
+    // needed. But in rare cases the target can become invisible
+    // at this point (due to some scrolling in window).
+    // To avoid jumps set noScroll options.
+    if (centerMostStop) {
+      this.setCursor(centerMostStop, true);
     }
-    const filteredStops = condition
-      ? this.targetableStops.filter(condition)
+  }
+
+  private async getCenterMostStop(
+    filter?: (el: Element) => boolean
+  ): Promise<HTMLElement | undefined> {
+    const visibleEntries = await this.getVisibleEntries(filter);
+    const windowCenter = Math.round(window.innerHeight / 2);
+
+    let centerMostStop: HTMLElement | undefined = undefined;
+    let minDistanceToCenter = Number.MAX_VALUE;
+
+    for (const entry of visibleEntries) {
+      // We are just using the entries here, because entry.boundingClientRect
+      // is already computed, but entry.target.getBoundingClientRect() should
+      // actually yield the same result.
+      const center =
+        entry.boundingClientRect.top +
+        Math.round(entry.boundingClientRect.height / 2);
+      const distanceToWindowCenter = Math.abs(center - windowCenter);
+      if (distanceToWindowCenter < minDistanceToCenter) {
+        // entry.target comes from the filteredStops array,
+        // hence it is an HTMLElement
+        centerMostStop = entry.target as HTMLElement;
+        minDistanceToCenter = distanceToWindowCenter;
+      }
+    }
+    return centerMostStop;
+  }
+
+  private async getVisibleEntries(
+    filter?: (el: Element) => boolean
+  ): Promise<IntersectionObserverEntry[]> {
+    if (!this._isIntersectionObserverSupported()) {
+      throw new Error('Intersection observing not supported');
+    }
+    if (!this.stops) {
+      return [];
+    }
+    const filteredStops = filter
+      ? this.targetableStops.filter(filter)
       : this.targetableStops;
-    const dims = this._getWindowDims();
-    const windowCenter = Math.round(dims.innerHeight / 2);
+    return new Promise(resolve => {
+      let unobservedCount = filteredStops.length;
+      const visibleEntries: IntersectionObserverEntry[] = [];
+      const observer = new IntersectionObserver(entries => {
+        visibleEntries.push(
+          ...entries
+            // In Edge it is recommended to use intersectionRatio instead of
+            // isIntersecting.
+            .filter(
+              entry => entry.isIntersecting || entry.intersectionRatio > 0
+            )
+        );
 
-    let closestToTheCenter: HTMLElement | null = null;
-    let minDistanceToCenter: number | null = null;
-    let unobservedCount = filteredStops.length;
-
-    const observer = new IntersectionObserver(entries => {
-      // This callback is called for the first time immediately.
-      // Typically it gets all observed stops at once, but
-      // sometimes can get them in several chunks.
-      entries.forEach(entry => {
-        observer.unobserve(entry.target);
-
-        // In Edge it is recommended to use intersectionRatio instead of
-        // isIntersecting.
-        const isInsideViewport =
-          entry.isIntersecting || entry.intersectionRatio > 0;
-        if (!isInsideViewport) {
-          return;
+        // This callback is called for the first time immediately.
+        // Typically it gets all observed stops at once, but
+        // sometimes can get them in several chunks.
+        for (const entry of entries) {
+          observer.unobserve(entry.target);
         }
-        const center =
-          entry.boundingClientRect.top +
-          Math.round(entry.boundingClientRect.height / 2);
-        const distanceToWindowCenter = Math.abs(center - windowCenter);
-        if (
-          minDistanceToCenter === null ||
-          distanceToWindowCenter < minDistanceToCenter
-        ) {
-          // entry.target comes from the filteredStops array,
-          // hence it is an HTMLElement
-          closestToTheCenter = entry.target as HTMLElement;
-          minDistanceToCenter = distanceToWindowCenter;
+        unobservedCount -= entries.length;
+        if (unobservedCount === 0) {
+          resolve(visibleEntries);
         }
       });
-      unobservedCount -= entries.length;
-      if (unobservedCount === 0 && closestToTheCenter) {
-        // set cursor when all stops were observed.
-        // In most cases the target is visible, so scroll is not
-        // needed. But in rare cases the target can become invisible
-        // at this point (due to some scrolling in window).
-        // To avoid jumps set noScroll options.
-        this.setCursor(closestToTheCenter, true);
+      for (const stop of filteredStops) {
+        observer.observe(stop);
       }
-    });
-    filteredStops.forEach(stop => {
-      observer.observe(stop);
     });
   }
 
@@ -405,17 +426,15 @@ export class GrCursorManager {
   }
 
   _targetIsVisible(top: number) {
-    const dims = this._getWindowDims();
     return (
       this.scrollMode === ScrollMode.KEEP_VISIBLE &&
-      top > dims.pageYOffset &&
-      top < dims.pageYOffset + dims.innerHeight
+      top > window.pageYOffset &&
+      top < window.pageYOffset + window.innerHeight
     );
   }
 
   _calculateScrollToValue(top: number, target: HTMLElement) {
-    const dims = this._getWindowDims();
-    return top + -dims.innerHeight / 3 + target.offsetHeight / 2;
+    return top + -window.innerHeight / 3 + target.offsetHeight / 2;
   }
 
   _scrollToTarget() {
@@ -423,7 +442,6 @@ export class GrCursorManager {
       return;
     }
 
-    const dims = this._getWindowDims();
     const top = this._getTop(this.target);
     const bottomIsVisible = this._targetHeight
       ? this._targetIsVisible(top + this._targetHeight)
@@ -435,7 +453,7 @@ export class GrCursorManager {
       // would get scrolled to is higher up than the current position. This
       // would cause less of the target content to be displayed than is
       // already.
-      if (bottomIsVisible || scrollToValue < dims.scrollY) {
+      if (bottomIsVisible || scrollToValue < window.scrollY) {
         return;
       }
     }
@@ -444,15 +462,6 @@ export class GrCursorManager {
     // instead of half the inner height feels a bit better otherwise the
     // element appears to be below the center of the window even when it
     // isn't.
-    window.scrollTo(dims.scrollX, scrollToValue);
-  }
-
-  _getWindowDims() {
-    return {
-      scrollX: window.scrollX,
-      scrollY: window.scrollY,
-      innerHeight: window.innerHeight,
-      pageYOffset: window.pageYOffset,
-    };
+    window.scrollTo(window.scrollX, scrollToValue);
   }
 }

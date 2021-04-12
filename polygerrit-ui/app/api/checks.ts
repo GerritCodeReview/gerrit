@@ -223,6 +223,8 @@ export interface Action {
   name: string;
   tooltip?: string;
   /**
+   * TODO: Maybe drop this property? Do we really need it?
+   *
    * Primary actions will get a more prominent treatment in the UI. For example
    * primary actions might be rendered as buttons versus just menu entries in
    * an overflow menu.
@@ -383,6 +385,8 @@ export interface Link {
   url: string;
   tooltip?: string;
   /**
+   * TODO: Maybe drop this property? Do we really need it?
+   *
    * Primary links will get a more prominent treatment in the UI, e.g. being
    * always visible in the results table or also showing up in the change page
    * summary of checks.
@@ -391,8 +395,12 @@ export interface Link {
   icon: LinkIcon;
 }
 
-// TBD: Add more ...
 export enum LinkIcon {
   EXTERNAL,
+  IMAGE,
+  HISTORY,
   DOWNLOAD,
+  DOWNLOAD_MOBILE,
+  HELP_PAGE,
+  REPORT_BUG,
 }

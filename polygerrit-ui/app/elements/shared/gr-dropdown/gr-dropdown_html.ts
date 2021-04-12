@@ -28,6 +28,8 @@ export const htmlTemplate = html`
     .dropdown-content {
       background-color: var(--dropdown-background-color);
       box-shadow: var(--elevation-level-2);
+      min-width: 112px;
+      max-width: 280px;
     }
     gr-button {
       vertical-align: top;
@@ -104,6 +106,7 @@ export const htmlTemplate = html`
     allow-outside-scroll="true"
     horizontal-align="[[horizontalAlign]]"
     on-click="_handleDropdownClick"
+    on-opened-changed="handleOpenedChanged"
   >
     <div class="dropdown-content" slot="dropdown-content">
       <ul>

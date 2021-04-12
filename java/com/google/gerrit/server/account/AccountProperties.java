@@ -103,21 +103,21 @@ public class AccountProperties {
     account = accountBuilder.build();
   }
 
-  Config save(InternalAccountUpdate accountUpdate) {
+  Config save(AccountDelta accountUpdate) {
     writeToAccountConfig(accountUpdate, accountConfig);
     return accountConfig;
   }
 
-  public static void writeToAccountConfig(InternalAccountUpdate accountUpdate, Config cfg) {
-    accountUpdate.getActive().ifPresent(active -> setActive(cfg, active));
-    accountUpdate.getFullName().ifPresent(fullName -> set(cfg, KEY_FULL_NAME, fullName));
-    accountUpdate
+  public static void writeToAccountConfig(AccountDelta accountDelta, Config cfg) {
+    accountDelta.getActive().ifPresent(active -> setActive(cfg, active));
+    accountDelta.getFullName().ifPresent(fullName -> set(cfg, KEY_FULL_NAME, fullName));
+    accountDelta
         .getDisplayName()
         .ifPresent(displayName -> set(cfg, KEY_DISPLAY_NAME, displayName));
-    accountUpdate
+    accountDelta
         .getPreferredEmail()
         .ifPresent(preferredEmail -> set(cfg, KEY_PREFERRED_EMAIL, preferredEmail));
-    accountUpdate.getStatus().ifPresent(status -> set(cfg, KEY_STATUS, status));
+    accountDelta.getStatus().ifPresent(status -> set(cfg, KEY_STATUS, status));
   }
 
   /**

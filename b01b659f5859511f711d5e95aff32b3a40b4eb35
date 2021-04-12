@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "725af570_78f354e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-12T12:04:08Z",
+      "side": 1,
+      "message": "\u003e Con: More coupling between FE/BE (FE needs to adapt first)\n\nthis is not a huge issue, is it? We would survive a few days with \"AccountId 1234\" appearing in comment texts, no?",
+      "parentUuid": "65a99851_8ec96412",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

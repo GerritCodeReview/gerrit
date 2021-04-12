@@ -22,6 +22,29 @@
       },
       "revId": "9b1cec5011c5c6282a5e88f3d6f6ce7440c5c7a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19ad23b5_12725d76",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-12T15:35:40Z",
+      "side": 1,
+      "message": "It seems that the method is actually returning a map. \nDo I understand correctly that the map key is the new path, except for deletions it\u0027s the old path?\n\nIs the map sorted by path? \nJust want to double-check whether as a caller I need to do sorting on my own?",
+      "range": {
+        "startLine": 49,
+        "startChar": 17,
+        "endLine": 49,
+        "endChar": 21
+      },
+      "revId": "9b1cec5011c5c6282a5e88f3d6f6ce7440c5c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

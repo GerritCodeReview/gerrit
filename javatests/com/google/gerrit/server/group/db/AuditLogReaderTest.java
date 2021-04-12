@@ -242,17 +242,17 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
             .setNameKey(AccountGroup.nameKey(groupName))
             .setId(AccountGroup.id(next))
             .build();
-    InternalGroupUpdate groupUpdate =
+    GroupDelta groupDelta =
         authorIdent.equals(serverIdent)
-            ? InternalGroupUpdate.builder().setDescription("Groups").build()
-            : InternalGroupUpdate.builder()
+            ? GroupDelta.builder().setDescription("Groups").build()
+            : GroupDelta.builder()
                 .setDescription("Groups")
                 .setMemberModification(members -> ImmutableSet.of(authorId))
                 .build();
 
     GroupConfig groupConfig =
         GroupConfig.createForNewGroup(allUsersName, allUsersRepo, groupCreation);
-    groupConfig.setGroupUpdate(groupUpdate, getAuditLogFormatter());
+    groupConfig.setGroupDelta(groupDelta, getAuditLogFormatter());
 
     groupConfig.commit(createMetaDataUpdate(authorIdent));
     return groupConfig
@@ -260,45 +260,42 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
         .orElseThrow(() -> new IllegalStateException("create group failed"));
   }
 
-  private void updateGroup(AccountGroup.UUID uuid, InternalGroupUpdate groupUpdate)
-      throws Exception {
+  private void updateGroup(AccountGroup.UUID uuid, GroupDelta groupDelta) throws Exception {
     GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, uuid);
-    groupConfig.setGroupUpdate(groupUpdate, getAuditLogFormatter());
+    groupConfig.setGroupDelta(groupDelta, getAuditLogFormatter());
     groupConfig.commit(createMetaDataUpdate(userIdent));
   }
 
   private void addMembers(AccountGroup.UUID groupUuid, Set<Account.Id> ids) throws Exception {
-    InternalGroupUpdate update =
-        InternalGroupUpdate.builder()
-            .setMemberModification(memberIds -> Sets.union(memberIds, ids))
-            .build();
-    updateGroup(groupUuid, update);
+    GroupDelta groupDelta =
+        GroupDelta.builder().setMemberModification(memberIds -> Sets.union(memberIds, ids)).build();
+    updateGroup(groupUuid, groupDelta);
   }
 
   private void removeMembers(AccountGroup.UUID groupUuid, Set<Account.Id> ids) throws Exception {
-    InternalGroupUpdate update =
-        InternalGroupUpdate.builder()
+    GroupDelta groupDelta =
+        GroupDelta.builder()
             .setMemberModification(memberIds -> Sets.difference(memberIds, ids))
             .build();
-    updateGroup(groupUuid, update);
+    updateGroup(groupUuid, groupDelta);
   }
 
   private void addSubgroups(AccountGroup.UUID groupUuid, Set<AccountGroup.UUID> uuids)
       throws Exception {
-    InternalGroupUpdate update =
-        InternalGroupUpdate.builder()
+    GroupDelta groupDelta =
+        GroupDelta.builder()
             .setSubgroupModification(memberIds -> Sets.union(memberIds, uuids))
             .build();
-    updateGroup(groupUuid, update);
+    updateGroup(groupUuid, groupDelta);
   }
 
   private void removeSubgroups(AccountGroup.UUID groupUuid, Set<AccountGroup.UUID> uuids)
       throws Exception {
-    InternalGroupUpdate update =
-        InternalGroupUpdate.builder()
+    GroupDelta groupDelta =
+        GroupDelta.builder()
             .setSubgroupModification(memberIds -> Sets.difference(memberIds, uuids))
             .build();
-    updateGroup(groupUuid, update);
+    updateGroup(groupUuid, groupDelta);
   }
 
   private static AccountGroupMemberAudit createExpMemberAudit(

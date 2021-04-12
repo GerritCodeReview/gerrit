@@ -45,8 +45,8 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.group.GroupResolver;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -196,10 +196,10 @@ public class CreateAccount
 
   private void addGroupMember(AccountGroup.UUID groupUuid, Account.Id accountId)
       throws IOException, NoSuchGroupException, ConfigInvalidException {
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder()
+    GroupDelta groupDelta =
+        GroupDelta.builder()
             .setMemberModification(memberIds -> Sets.union(memberIds, ImmutableSet.of(accountId)))
             .build();
-    groupsUpdate.get().updateGroup(groupUuid, groupUpdate);
+    groupsUpdate.get().updateGroup(groupUuid, groupDelta);
   }
 }

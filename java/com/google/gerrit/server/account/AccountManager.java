@@ -34,14 +34,13 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
-import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
@@ -221,7 +220,7 @@ public class AccountManager {
   private void update(AuthRequest who, ExternalId extId)
       throws IOException, ConfigInvalidException, AccountException {
     IdentifiedUser user = userFactory.create(extId.accountId());
-    List<Consumer<InternalAccountUpdate.Builder>> accountUpdates = new ArrayList<>();
+    List<Consumer<AccountDelta.Builder>> accountUpdates = new ArrayList<>();
 
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
@@ -262,7 +261,7 @@ public class AccountManager {
           .update(
               "Update Account on Login",
               user.getAccountId(),
-              AccountUpdater.joinConsumers(accountUpdates))
+              AccountsUpdate.joinConsumers(accountUpdates))
           .orElseThrow(
               () -> new StorageException("Account " + user.getAccountId() + " has been deleted"));
     }
@@ -382,13 +381,13 @@ public class AccountManager {
       throws IOException, ConfigInvalidException, AccountException {
     // The user initiated this request by logging in. -> Attribute all modifications to that user.
     GroupsUpdate groupsUpdate = groupsUpdateFactory.create(user);
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder()
+    GroupDelta groupDelta =
+        GroupDelta.builder()
             .setMemberModification(
                 memberIds -> Sets.union(memberIds, ImmutableSet.of(user.getAccountId())))
             .build();
     try {
-      groupsUpdate.updateGroup(groupUuid, groupUpdate);
+      groupsUpdate.updateGroup(groupUuid, groupDelta);
     } catch (NoSuchGroupException e) {
       throw new AccountException(String.format("Group %s not found", groupUuid), e);
     }

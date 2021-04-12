@@ -23,10 +23,10 @@ import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.GroupUuid;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -71,9 +71,8 @@ public class GroupOperationsImpl implements GroupOperations {
   private AccountGroup.UUID createNewGroup(TestGroupCreation groupCreation)
       throws ConfigInvalidException, IOException {
     InternalGroupCreation internalGroupCreation = toInternalGroupCreation(groupCreation);
-    InternalGroupUpdate internalGroupUpdate = toInternalGroupUpdate(groupCreation);
-    InternalGroup internalGroup =
-        groupsUpdate.createGroup(internalGroupCreation, internalGroupUpdate);
+    GroupDelta groupDelta = toGroupDelta(groupCreation);
+    InternalGroup internalGroup = groupsUpdate.createGroup(internalGroupCreation, groupDelta);
     return internalGroup.getGroupUUID();
   }
 
@@ -89,8 +88,8 @@ public class GroupOperationsImpl implements GroupOperations {
         .build();
   }
 
-  private static InternalGroupUpdate toInternalGroupUpdate(TestGroupCreation groupCreation) {
-    InternalGroupUpdate.Builder builder = InternalGroupUpdate.builder();
+  private static GroupDelta toGroupDelta(TestGroupCreation groupCreation) {
+    GroupDelta.Builder builder = GroupDelta.builder();
     groupCreation.description().ifPresent(builder::setDescription);
     groupCreation.ownerGroupUuid().ifPresent(builder::setOwnerGroupUUID);
     groupCreation.visibleToAll().ifPresent(builder::setVisibleToAll);
@@ -147,12 +146,12 @@ public class GroupOperationsImpl implements GroupOperations {
 
     private void updateGroup(TestGroupUpdate groupUpdate)
         throws DuplicateKeyException, NoSuchGroupException, ConfigInvalidException, IOException {
-      InternalGroupUpdate internalGroupUpdate = toInternalGroupUpdate(groupUpdate);
-      groupsUpdate.updateGroup(groupUuid, internalGroupUpdate);
+      GroupDelta groupDelta = toGroupDelta(groupUpdate);
+      groupsUpdate.updateGroup(groupUuid, groupDelta);
     }
 
-    private InternalGroupUpdate toInternalGroupUpdate(TestGroupUpdate groupUpdate) {
-      InternalGroupUpdate.Builder builder = InternalGroupUpdate.builder();
+    private GroupDelta toGroupDelta(TestGroupUpdate groupUpdate) {
+      GroupDelta.Builder builder = GroupDelta.builder();
       groupUpdate.name().map(AccountGroup::nameKey).ifPresent(builder::setName);
       groupUpdate.description().ifPresent(builder::setDescription);
       groupUpdate.ownerGroupUuid().ifPresent(builder::setOwnerGroupUUID);

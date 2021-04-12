@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82e80b2a_69eb2d92",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-12T14:04:29Z",
+      "side": 1,
+      "message": "Changed, thanks, done.",
+      "parentUuid": "e7c76145_2c39e234",
+      "range": {
+        "startLine": 151,
+        "startChar": 34,
+        "endLine": 151,
+        "endChar": 41
+      },
+      "revId": "8c4c858460f8b30c2d76d8a3a3fb850d3a160aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b60f0c6f_2192220d",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-12T13:51:46Z",
       "side": 1,
       "message": "Just\n\n  constructor() {\n\ndoes not work?",
+      "range": {
+        "startLine": 815,
+        "startChar": 6,
+        "endLine": 815,
+        "endChar": 30
+      },
+      "revId": "8c4c858460f8b30c2d76d8a3a3fb850d3a160aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9f773bc_b6b05d00",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-12T14:04:29Z",
+      "side": 1,
+      "message": "Nope, fails with \"polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts(793,11): error TS2545: A mixin class must have a constructor with a single rest parameter of type \u0027any[]\u0027.\".",
+      "parentUuid": "b60f0c6f_2192220d",
       "range": {
         "startLine": 815,
         "startChar": 6,

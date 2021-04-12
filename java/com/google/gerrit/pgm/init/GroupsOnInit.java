@@ -34,8 +34,8 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupConfig;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupNameNotes;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
@@ -139,9 +139,9 @@ public class GroupsOnInit {
     InternalGroup group =
         groupConfig.getLoadedGroup().orElseThrow(() -> new NoSuchGroupException(groupUuid));
 
-    InternalGroupUpdate groupUpdate = getMemberAdditionUpdate(account);
+    GroupDelta groupDelta = getMemberAdditionDelta(account);
     AuditLogFormatter auditLogFormatter = getAuditLogFormatter(account);
-    groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
+    groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
     commit(repository, groupConfig, group.getCreatedOn());
   }
@@ -153,8 +153,8 @@ public class GroupsOnInit {
     return RepositoryCache.FileKey.resolve(basePath.resolve(allUsers.get()).toFile(), FS.DETECTED);
   }
 
-  private static InternalGroupUpdate getMemberAdditionUpdate(Account account) {
-    return InternalGroupUpdate.builder()
+  private static GroupDelta getMemberAdditionDelta(Account account) {
+    return GroupDelta.builder()
         .setMemberModification(members -> Sets.union(members, ImmutableSet.of(account.id())))
         .build();
   }

@@ -29,8 +29,8 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -72,10 +72,9 @@ public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
     GroupDescription.Basic owner = groupResolver.parse(input.owner);
     if (!internalGroup.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
       AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
-      InternalGroupUpdate groupUpdate =
-          InternalGroupUpdate.builder().setOwnerGroupUUID(owner.getGroupUUID()).build();
+      GroupDelta groupDelta = GroupDelta.builder().setOwnerGroupUUID(owner.getGroupUUID()).build();
       try {
-        groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
+        groupsUpdateProvider.get().updateGroup(groupUuid, groupDelta);
       } catch (NoSuchGroupException e) {
         throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid), e);
       }

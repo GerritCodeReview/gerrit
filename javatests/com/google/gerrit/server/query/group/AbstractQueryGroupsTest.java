@@ -48,8 +48,8 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
@@ -347,9 +347,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     // update group in the database so that group index is stale
     String newDescription = "barY";
     AccountGroup.UUID groupUuid = AccountGroup.uuid(group1.id);
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setDescription(newDescription).build();
-    groupsUpdateProvider.get().updateGroupInNoteDb(groupUuid, groupUpdate);
+    GroupDelta groupDelta = GroupDelta.builder().setDescription(newDescription).build();
+    groupsUpdateProvider.get().updateGroupInNoteDb(groupUuid, groupDelta);
 
     assertQuery("description:" + group1.description, group1);
     assertQuery("description:" + newDescription);

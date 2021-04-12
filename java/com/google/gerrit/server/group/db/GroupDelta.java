@@ -23,14 +23,13 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Definition of an update to a group.
+ * Data holder for updates to be applied to a group.
  *
- * <p>An {@code InternalGroupUpdate} only specifies the modifications which should be applied to a
- * group. Each of the modifications and hence each call on {@link InternalGroupUpdate.Builder} is
- * optional.
+ * <p>A {@link GroupDelta} specifies the modifications to be applied to a group. Only fields set via
+ * {@link GroupDelta.Builder} will be updated.
  */
 @AutoValue
-public abstract class InternalGroupUpdate {
+public abstract class GroupDelta {
 
   /** Representation of a member modification as defined by {@link #apply(ImmutableSet)}. */
   @FunctionalInterface
@@ -99,10 +98,10 @@ public abstract class InternalGroupUpdate {
    * Defines the {@code Timestamp} to be used for the NoteDb commits of the update. If not
    * specified, the current {@code Timestamp} when creating the commit will be used.
    *
-   * <p>If this {@code InternalGroupUpdate} is passed next to an {@link InternalGroupCreation}
-   * during a group creation, this {@code Timestamp} is used for the NoteDb commits of the new
-   * group. Hence, the {@link com.google.gerrit.entities.InternalGroup#getCreatedOn()
-   * InternalGroup#getCreatedOn()} field will match this {@code Timestamp}.
+   * <p>If this {@link GroupDelta} is passed next to an {@link InternalGroupCreation} during a group
+   * creation, this {@code Timestamp} is used for the NoteDb commits of the new group. Hence, the
+   * {@link com.google.gerrit.entities.InternalGroup#getCreatedOn() InternalGroup#getCreatedOn()}
+   * field will match this {@code Timestamp}.
    *
    * <p><strong>Note: </strong>{@code Timestamp}s of NoteDb commits for groups are used for events
    * in the audit log. For this reason, specifying this field will have an effect on the resulting
@@ -113,12 +112,12 @@ public abstract class InternalGroupUpdate {
   public abstract Builder toBuilder();
 
   public static Builder builder() {
-    return new AutoValue_InternalGroupUpdate.Builder()
+    return new AutoValue_GroupDelta.Builder()
         .setMemberModification(in -> in)
         .setSubgroupModification(in -> in);
   }
 
-  /** A builder for an {@link InternalGroupUpdate}. */
+  /** A builder for a {@link GroupDelta}. */
   @AutoValue.Builder
   public abstract static class Builder {
 
@@ -139,11 +138,11 @@ public abstract class InternalGroupUpdate {
 
     /**
      * Returns the currently defined {@link MemberModification} for the prospective {@link
-     * InternalGroupUpdate}.
+     * GroupDelta}.
      *
      * <p>This modification can be tweaked further and passed to {@link
-     * #setMemberModification(InternalGroupUpdate.MemberModification)} in order to combine multiple
-     * member additions, deletions, or other modifications into one update.
+     * #setMemberModification(GroupDelta.MemberModification)} in order to combine multiple member
+     * additions, deletions, or other modifications into one update.
      */
     public abstract MemberModification getMemberModification();
 
@@ -152,17 +151,17 @@ public abstract class InternalGroupUpdate {
 
     /**
      * Returns the currently defined {@link SubgroupModification} for the prospective {@link
-     * InternalGroupUpdate}.
+     * GroupDelta}.
      *
      * <p>This modification can be tweaked further and passed to {@link
-     * #setSubgroupModification(InternalGroupUpdate.SubgroupModification)} in order to combine
-     * multiple subgroup additions, deletions, or other modifications into one update.
+     * #setSubgroupModification(GroupDelta.SubgroupModification)} in order to combine multiple
+     * subgroup additions, deletions, or other modifications into one update.
      */
     public abstract SubgroupModification getSubgroupModification();
 
     /** @see #getUpdatedOn() */
     public abstract Builder setUpdatedOn(Timestamp timestamp);
 
-    public abstract InternalGroupUpdate build();
+    public abstract GroupDelta build();
   }
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fca2e780_87b0299e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-12T15:18:32Z",
+      "side": 1,
+      "message": "Gerrit has already zillion of tests with serializing/de-serializing of events and all those tests are passing with this change.",
+      "parentUuid": "126bf2ca_4ae4ace9",
+      "revId": "40497523fef3e3c3fa9d1673f5ef80053de3ffb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33c7fa45_94ac574e",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-06T01:30:38Z",
       "side": 1,
       "message": "We should add the @UsedAt(), otherwise someone may just drop this class in the next commit because it is unused.",
+      "revId": "40497523fef3e3c3fa9d1673f5ef80053de3ffb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a217ed2d_e4a99bd6",
+        "filename": "java/com/google/gerrit/server/events/EventSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-12T15:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33c7fa45_94ac574e",
       "revId": "40497523fef3e3c3fa9d1673f5ef80053de3ffb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

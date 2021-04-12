@@ -24,6 +24,7 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -35,6 +36,7 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 
 public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
@@ -55,7 +57,7 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
     };
   }
 
-  @Inject CustomSubmitRule rule;
+  @Inject private CustomSubmitRule rule;
 
   @Test
   public void submitRequirementIsPropagated() throws Exception {
@@ -167,6 +169,38 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
     assertThat(result.get(0).changeId).isEqualTo(change.info().changeId);
   }
 
+  @Test
+  public void submitRuleIsInvokedOnlyOnceWhenGettingChangeDetails() throws Exception {
+    PushOneCommit.Result r = createChange("Some Change", "foo.txt", "some content");
+    String changeId = r.getChangeId();
+
+    rule.numberOfEvaluations.set(0);
+    gApi.changes()
+        .id(changeId)
+        .get(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS);
+
+    // Submit rules are invoked twice, once for populating submit requirements in the change JSON
+    // and once for checking if the submit button should be visible.
+    // TODO(hiesel): Try to avoid calling submit rules twice.
+    assertThat(rule.numberOfEvaluations.get()).isEqualTo(2);
+  }
+
+  @Test
+  public void submitRuleIsNotInvokedWhenQueryingChange() throws Exception {
+    PushOneCommit.Result r = createChange("Some Change", "foo.txt", "some content");
+    String changeId = r.getChangeId();
+
+    rule.numberOfEvaluations.set(0);
+    gApi.changes()
+        .query(changeId)
+        .withOptions(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS)
+        .get();
+
+    // Submit rules are invoked to check if the submit button should be visible.
+    // TODO(hiesel): Change queries must not trigger submit rules.
+    assertThat(rule.numberOfEvaluations.get()).isEqualTo(1);
+  }
+
   private List<ChangeInfo> queryIsSubmittable() throws Exception {
     return gApi.changes().query("is:submittable project:" + project.get()).get();
   }
@@ -186,6 +220,7 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
   @Singleton
   private static class CustomSubmitRule implements SubmitRule {
     private Optional<SubmitRecord.Status> recordStatus = Optional.empty();
+    private AtomicInteger numberOfEvaluations = new AtomicInteger();
 
     public void block(boolean block) {
       this.status(block ? Optional.of(SubmitRecord.Status.NOT_READY) : Optional.empty());
@@ -197,6 +232,7 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
 
     @Override
     public Optional<SubmitRecord> evaluate(ChangeData changeData) {
+      numberOfEvaluations.incrementAndGet();
       if (this.recordStatus.isPresent()) {
         SubmitRecord record = new SubmitRecord();
         record.labels = new ArrayList<>();

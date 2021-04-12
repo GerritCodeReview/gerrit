@@ -20,7 +20,7 @@ import com.google.gerrit.entities.AccountGroup;
 /**
  * Definition of all properties necessary for a group creation.
  *
- * <p>An instance of {@code InternalGroupCreation} is a blueprint for a group which should be
+ * <p>An instance of {@link InternalGroupCreation} is a blueprint for a group which should be
  * created.
  */
 @AutoValue

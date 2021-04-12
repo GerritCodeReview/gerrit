@@ -25,8 +25,8 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupConfig;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupNameNotes;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import java.io.IOException;
@@ -64,8 +64,8 @@ public class Schema_184 implements NoteDbSchemaVersion {
       GroupConfig groupConfig =
           GroupConfig.loadForGroup(
               args.allUsers, allUsersRepo, nonInteractiveUsers.get().getUUID());
-      groupConfig.setGroupUpdate(
-          InternalGroupUpdate.builder().setName(newName).build(),
+      groupConfig.setGroupDelta(
+          GroupDelta.builder().setName(newName).build(),
           AuditLogFormatter.createPartiallyWorkingFallBack());
       commit(args.allUsers, args.serverUser, allUsersRepo, groupConfig, newNameNotes);
       index(

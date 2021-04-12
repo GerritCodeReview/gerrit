@@ -23,14 +23,13 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Definition of an update to a group.
+ * Data holder for updates to be applied to a group.
  *
- * <p>An {@code InternalGroupUpdate} only specifies the modifications which should be applied to a
- * group. Each of the modifications and hence each call on {@link InternalGroupUpdate.Builder} is
- * optional.
+ * <p>A {@link GroupDelta} specifies the modifications to be applied to a group. Only fields set via
+ * {@link GroupDelta.Builder} will be updated.
  */
 @AutoValue
-public abstract class InternalGroupUpdate {
+public abstract class GroupDelta {
 
   /** Representation of a member modification as defined by {@link #apply(ImmutableSet)}. */
   @FunctionalInterface
@@ -113,12 +112,12 @@ public abstract class InternalGroupUpdate {
   public abstract Builder toBuilder();
 
   public static Builder builder() {
-    return new AutoValue_InternalGroupUpdate.Builder()
+    return new AutoValue_GroupDelta.Builder()
         .setMemberModification(in -> in)
         .setSubgroupModification(in -> in);
   }
 
-  /** A builder for an {@link InternalGroupUpdate}. */
+  /** A builder for a {@link GroupDelta}. */
   @AutoValue.Builder
   public abstract static class Builder {
 
@@ -139,11 +138,11 @@ public abstract class InternalGroupUpdate {
 
     /**
      * Returns the currently defined {@link MemberModification} for the prospective {@link
-     * InternalGroupUpdate}.
+     * GroupDelta}.
      *
      * <p>This modification can be tweaked further and passed to {@link
-     * #setMemberModification(InternalGroupUpdate.MemberModification)} in order to combine multiple
-     * member additions, deletions, or other modifications into one update.
+     * #setMemberModification(GroupDelta.MemberModification)} in order to combine multiple member
+     * additions, deletions, or other modifications into one update.
      */
     public abstract MemberModification getMemberModification();
 
@@ -152,17 +151,17 @@ public abstract class InternalGroupUpdate {
 
     /**
      * Returns the currently defined {@link SubgroupModification} for the prospective {@link
-     * InternalGroupUpdate}.
+     * GroupDelta}.
      *
      * <p>This modification can be tweaked further and passed to {@link
-     * #setSubgroupModification(InternalGroupUpdate.SubgroupModification)} in order to combine
-     * multiple subgroup additions, deletions, or other modifications into one update.
+     * #setSubgroupModification(GroupDelta.SubgroupModification)} in order to combine multiple
+     * subgroup additions, deletions, or other modifications into one update.
      */
     public abstract SubgroupModification getSubgroupModification();
 
     /** @see #getUpdatedOn() */
     public abstract Builder setUpdatedOn(Timestamp timestamp);
 
-    public abstract InternalGroupUpdate build();
+    public abstract GroupDelta build();
   }
 }

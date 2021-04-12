@@ -28,8 +28,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -74,10 +74,9 @@ public class PutName implements RestModifyView<GroupResource, NameInput> {
       throws ResourceConflictException, ResourceNotFoundException, IOException,
           ConfigInvalidException {
     AccountGroup.UUID groupUuid = group.getGroupUUID();
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setName(AccountGroup.nameKey(newName)).build();
+    GroupDelta groupDelta = GroupDelta.builder().setName(AccountGroup.nameKey(newName)).build();
     try {
-      groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
+      groupsUpdateProvider.get().updateGroup(groupUuid, groupDelta);
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid), e);
     } catch (DuplicateKeyException e) {

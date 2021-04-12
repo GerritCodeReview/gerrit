@@ -26,8 +26,8 @@ import org.eclipse.jgit.lib.Config;
  * <p>Each property knows how to read and write its value from/to a JGit {@link Config} file.
  *
  * <p><strong>Warning:</strong> This class is a low-level API for properties of groups in NoteDb. It
- * may only be used by {@link GroupConfig}. Other classes should use {@link InternalGroupUpdate} to
- * modify the properties of a group.
+ * may only be used by {@link GroupConfig}. Other classes should use {@link GroupDelta} to modify
+ * the properties of a group.
  */
 enum GroupConfigEntry {
   /**
@@ -59,7 +59,7 @@ enum GroupConfigEntry {
     }
 
     @Override
-    void updateConfigValue(Config config, InternalGroupUpdate groupUpdate) {
+    void updateConfigValue(Config config, GroupDelta groupUpdate) {
       // Updating the ID is not supported.
     }
   },
@@ -87,7 +87,7 @@ enum GroupConfigEntry {
     }
 
     @Override
-    void updateConfigValue(Config config, InternalGroupUpdate groupUpdate) {
+    void updateConfigValue(Config config, GroupDelta groupUpdate) {
       groupUpdate
           .getName()
           .ifPresent(name -> config.setString(SECTION_NAME, null, super.keyName, name.get()));
@@ -112,7 +112,7 @@ enum GroupConfigEntry {
     }
 
     @Override
-    void updateConfigValue(Config config, InternalGroupUpdate groupUpdate) {
+    void updateConfigValue(Config config, GroupDelta groupUpdate) {
       groupUpdate
           .getDescription()
           .ifPresent(
@@ -144,7 +144,7 @@ enum GroupConfigEntry {
     }
 
     @Override
-    void updateConfigValue(Config config, InternalGroupUpdate groupUpdate) {
+    void updateConfigValue(Config config, GroupDelta groupUpdate) {
       groupUpdate
           .getOwnerGroupUUID()
           .ifPresent(
@@ -171,7 +171,7 @@ enum GroupConfigEntry {
     }
 
     @Override
-    void updateConfigValue(Config config, InternalGroupUpdate groupUpdate) {
+    void updateConfigValue(Config config, GroupDelta groupUpdate) {
       groupUpdate
           .getVisibleToAll()
           .ifPresent(
@@ -225,5 +225,5 @@ enum GroupConfigEntry {
    * @param config a {@code Config} for which the property should be updated
    * @param groupUpdate an {@code InternalGroupUpdate} detailing the modifications on a group
    */
-  abstract void updateConfigValue(Config config, InternalGroupUpdate groupUpdate);
+  abstract void updateConfigValue(Config config, GroupDelta groupUpdate);
 }

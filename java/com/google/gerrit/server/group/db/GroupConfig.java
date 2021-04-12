@@ -95,19 +95,18 @@ public class GroupConfig extends VersionedMetaData {
   private static final Pattern LINE_SEPARATOR_PATTERN = Pattern.compile("\\R");
 
   /**
-   * Creates a {@code GroupConfig} for a new group from the {@code InternalGroupCreation} blueprint.
-   * Further, optional properties can be specified by setting an {@code InternalGroupUpdate} via
-   * {@link #setGroupUpdate(InternalGroupUpdate, AuditLogFormatter)} on the returned {@code
-   * GroupConfig}.
+   * Creates a {@link GroupConfig} for a new group from the {@link InternalGroupCreation} blueprint.
+   * Further, optional properties can be specified by setting a {@link GroupDelta} via {@link
+   * #setGroupDelta(GroupDelta, AuditLogFormatter)} on the returned {@link GroupConfig}.
    *
-   * <p><strong>Note:</strong> The returned {@code GroupConfig} has to be committed via {@link
+   * <p><strong>Note:</strong> The returned {@link GroupConfig} has to be committed via {@link
    * #commit(MetaDataUpdate)} in order to create the group for real.
    *
    * @param projectName the name of the project which holds the NoteDb commits for groups
    * @param repository the repository which holds the NoteDb commits for groups
-   * @param groupCreation an {@code InternalGroupCreation} specifying all properties which are
+   * @param groupCreation an {@link InternalGroupCreation} specifying all properties which are
    *     required for a new group
-   * @return a {@code GroupConfig} for a group creation
+   * @return a {@link GroupConfig} for a group creation
    * @throws IOException if the repository can't be accessed for some reason
    * @throws ConfigInvalidException if a group with the same UUID already exists but can't be read
    *     due to an invalid format
@@ -123,7 +122,7 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   /**
-   * Creates a {@code GroupConfig} for an existing group.
+   * Creates a {@link GroupConfig} for an existing group.
    *
    * <p>The group is automatically loaded within this method and can be accessed via {@link
    * #getLoadedGroup()}.
@@ -131,14 +130,14 @@ public class GroupConfig extends VersionedMetaData {
    * <p>It's safe to call this method for non-existing groups. In that case, {@link
    * #getLoadedGroup()} won't return any group. Thus, the existence of a group can be easily tested.
    *
-   * <p>The group represented by the returned {@code GroupConfig} can be updated by setting an
-   * {@code InternalGroupUpdate} via {@link #setGroupUpdate(InternalGroupUpdate, AuditLogFormatter)}
-   * and committing the {@code GroupConfig} via {@link #commit(MetaDataUpdate)}.
+   * <p>The group represented by the returned {@link GroupConfig} can be updated by setting an
+   * {@link GroupDelta} via {@link #setGroupDelta(GroupDelta, AuditLogFormatter)} and committing the
+   * {@link GroupConfig} via {@link #commit(MetaDataUpdate)}.
    *
    * @param projectName the name of the project which holds the NoteDb commits for groups
    * @param repository the repository which holds the NoteDb commits for groups
    * @param groupUuid the UUID of the group
-   * @return a {@code GroupConfig} for the group with the specified UUID
+   * @return a {@link GroupConfig} for the group with the specified UUID
    * @throws IOException if the repository can't be accessed for some reason
    * @throws ConfigInvalidException if the group exists but can't be read due to an invalid format
    */
@@ -169,7 +168,7 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   /**
-   * Creates a {@code GroupConfig} for an existing group at a specific revision of the repository.
+   * Creates a {@link GroupConfig} for an existing group at a specific revision of the repository.
    *
    * <p>This method behaves nearly the same as {@link #loadForGroup(Project.NameKey, Repository,
    * AccountGroup.UUID)}. The only difference is that {@link #loadForGroup(Project.NameKey,
@@ -180,7 +179,7 @@ public class GroupConfig extends VersionedMetaData {
    * @param repository the repository which holds the NoteDb commits for groups
    * @param groupUuid the UUID of the group
    * @param commitId the revision of the repository at which the group should be loaded
-   * @return a {@code GroupConfig} for the group with the specified UUID
+   * @return a {@link GroupConfig} for the group with the specified UUID
    * @throws IOException if the repository can't be accessed for some reason
    * @throws ConfigInvalidException if the group exists but can't be read due to an invalid format
    */
@@ -200,7 +199,7 @@ public class GroupConfig extends VersionedMetaData {
 
   private Optional<InternalGroup> loadedGroup = Optional.empty();
   private Optional<InternalGroupCreation> groupCreation = Optional.empty();
-  private Optional<InternalGroupUpdate> groupUpdate = Optional.empty();
+  private Optional<GroupDelta> groupDelta = Optional.empty();
   private AuditLogFormatter auditLogFormatter = AuditLogFormatter.createPartiallyWorkingFallBack();
   private boolean isLoaded = false;
   private boolean allowSaveEmptyName;
@@ -213,16 +212,16 @@ public class GroupConfig extends VersionedMetaData {
   /**
    * Returns the group loaded from NoteDb.
    *
-   * <p>If not any NoteDb commits exist for the group represented by this {@code GroupConfig}, no
+   * <p>If not any NoteDb commits exist for the group represented by this {@link GroupConfig}, no
    * group is returned.
    *
-   * <p>After {@link #commit(MetaDataUpdate)} was called on this {@code GroupConfig}, this method
+   * <p>After {@link #commit(MetaDataUpdate)} was called on this {@link GroupConfig}, this method
    * returns a group which is in line with the latest NoteDb commit for this group. So, after
-   * creating a {@code GroupConfig} for a new group and committing it, this method can be used to
+   * creating a {@link GroupConfig} for a new group and committing it, this method can be used to
    * retrieve a representation of the created group. The same holds for the representation of an
    * updated group.
    *
-   * @return the loaded group, or an empty {@code Optional} if the group doesn't exist
+   * @return the loaded group, or an empty {@link Optional} if the group doesn't exist
    */
   public Optional<InternalGroup> getLoadedGroup() {
     checkLoaded();
@@ -232,20 +231,19 @@ public class GroupConfig extends VersionedMetaData {
   /**
    * Specifies how the current group should be updated.
    *
-   * <p>If the group is newly created, the {@code InternalGroupUpdate} can be used to specify
-   * optional properties.
+   * <p>If the group is newly created, the {@link GroupDelta} can be used to specify optional
+   * properties.
    *
    * <p><strong>Note:</strong> This method doesn't perform the update. It only contains the
    * instructions for the update. To apply the update for real and write the result back to NoteDb,
-   * call {@link #commit(MetaDataUpdate)} on this {@code GroupConfig}.
+   * call {@link #commit(MetaDataUpdate)} on this {@link GroupConfig}.
    *
-   * @param groupUpdate an {@code InternalGroupUpdate} outlining the modifications which should be
-   *     applied
-   * @param auditLogFormatter an {@code AuditLogFormatter} for formatting the commit message in a
+   * @param groupDelta a {@link GroupDelta} with the modifications to be applied
+   * @param auditLogFormatter an {@link AuditLogFormatter} for formatting the commit message in a
    *     parsable way
    */
-  public void setGroupUpdate(InternalGroupUpdate groupUpdate, AuditLogFormatter auditLogFormatter) {
-    this.groupUpdate = Optional.of(groupUpdate);
+  public void setGroupDelta(GroupDelta groupDelta, AuditLogFormatter auditLogFormatter) {
+    this.groupDelta = Optional.of(groupDelta);
     this.auditLogFormatter = auditLogFormatter;
   }
 
@@ -304,7 +302,7 @@ public class GroupConfig extends VersionedMetaData {
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();
-    if (!groupCreation.isPresent() && !groupUpdate.isPresent()) {
+    if (!groupCreation.isPresent() && !groupDelta.isPresent()) {
       // Group was neither created nor changed. -> A new commit isn't necessary.
       return false;
     }
@@ -318,7 +316,7 @@ public class GroupConfig extends VersionedMetaData {
     // for new groups, we explicitly need to truncate the timestamp here.
     Timestamp commitTimestamp =
         TimeUtil.truncateToSecond(
-            groupUpdate.flatMap(InternalGroupUpdate::getUpdatedOn).orElseGet(TimeUtil::nowTs));
+            groupDelta.flatMap(GroupDelta::getUpdatedOn).orElseGet(TimeUtil::nowTs));
     commit.setAuthor(new PersonIdent(commit.getAuthor(), commitTimestamp));
     commit.setCommitter(new PersonIdent(commit.getCommitter(), commitTimestamp));
 
@@ -329,7 +327,7 @@ public class GroupConfig extends VersionedMetaData {
 
     loadedGroup = Optional.of(updatedGroup);
     groupCreation = Optional.empty();
-    groupUpdate = Optional.empty();
+    groupDelta = Optional.empty();
 
     return true;
   }
@@ -339,8 +337,8 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   private Optional<String> getNewName() {
-    if (groupUpdate.isPresent()) {
-      return groupUpdate.get().getName().map(n -> Strings.nullToEmpty(n.get()));
+    if (groupDelta.isPresent()) {
+      return groupDelta.get().getName().map(n -> Strings.nullToEmpty(n.get()));
     }
     if (groupCreation.isPresent()) {
       return Optional.of(Strings.nullToEmpty(groupCreation.get().getNameKey().get()));
@@ -377,11 +375,10 @@ public class GroupConfig extends VersionedMetaData {
         internalGroupCreation ->
             Arrays.stream(GroupConfigEntry.values())
                 .forEach(configEntry -> configEntry.initNewConfig(config, internalGroupCreation)));
-    groupUpdate.ifPresent(
-        internalGroupUpdate ->
+    groupDelta.ifPresent(
+        delta ->
             Arrays.stream(GroupConfigEntry.values())
-                .forEach(
-                    configEntry -> configEntry.updateConfigValue(config, internalGroupUpdate)));
+                .forEach(configEntry -> configEntry.updateConfigValue(config, delta)));
     saveConfig(GROUP_CONFIG_FILE, config);
     return config;
   }
@@ -389,8 +386,8 @@ public class GroupConfig extends VersionedMetaData {
   private Optional<ImmutableSet<Account.Id>> updateMembers(ImmutableSet<Account.Id> originalMembers)
       throws IOException {
     Optional<ImmutableSet<Account.Id>> updatedMembers =
-        groupUpdate
-            .map(InternalGroupUpdate::getMemberModification)
+        groupDelta
+            .map(GroupDelta::getMemberModification)
             .map(memberModification -> memberModification.apply(originalMembers))
             .map(ImmutableSet::copyOf)
             .filter(members -> !originalMembers.equals(members));
@@ -403,8 +400,8 @@ public class GroupConfig extends VersionedMetaData {
   private Optional<ImmutableSet<AccountGroup.UUID>> updateSubgroups(
       ImmutableSet<AccountGroup.UUID> originalSubgroups) throws IOException {
     Optional<ImmutableSet<AccountGroup.UUID>> updatedSubgroups =
-        groupUpdate
-            .map(InternalGroupUpdate::getSubgroupModification)
+        groupDelta
+            .map(GroupDelta::getSubgroupModification)
             .map(subgroupModification -> subgroupModification.apply(originalSubgroups))
             .map(ImmutableSet::copyOf)
             .filter(subgroups -> !originalSubgroups.equals(subgroups));

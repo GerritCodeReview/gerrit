@@ -127,7 +127,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getExternalIdsOfOtherUserNotAllowed() throws Exception {
+  public void getExternalIdsOfOtherUserNotAllowed() {
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
         assertThrows(
@@ -510,7 +510,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void checkConsistencyNotAllowed() throws Exception {
+  public void checkConsistencyNotAllowed() {
     AuthException thrown =
         assertThrows(
             AuthException.class,
@@ -882,7 +882,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(repo);
       extIdNotes.insert(extId);
       extIdNotes.commit(update);
-      extIdNotes.updateCaches();
+      externalIdNotesFactory.updateExternalIdCacheAndMaybeReindexAccounts(
+          extIdNotes, ImmutableList.of());
     }
   }
 
@@ -909,7 +910,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
       metaDataUpdate.getCommitBuilder().setAuthor(admin.newIdent());
       metaDataUpdate.getCommitBuilder().setCommitter(admin.newIdent());
       extIdNotes.commit(metaDataUpdate);
-      extIdNotes.updateCaches();
+      externalIdNotesFactory.updateExternalIdCacheAndMaybeReindexAccounts(
+          extIdNotes, ImmutableList.of());
     }
   }
 

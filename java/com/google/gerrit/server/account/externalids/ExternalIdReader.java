@@ -106,7 +106,7 @@ public class ExternalIdReader {
 
     try (Timer0.Context ctx = readAllLatency.start();
         Repository repo = repoManager.openRepository(allUsersName)) {
-      return ExternalIdNotes.loadReadOnly(allUsersName, repo).all();
+      return ExternalIdNotes.loadReadOnly(allUsersName, repo, null).all();
     }
   }
 
@@ -135,7 +135,7 @@ public class ExternalIdReader {
 
     try (Timer0.Context ctx = readSingleLatency.start();
         Repository repo = repoManager.openRepository(allUsersName)) {
-      return ExternalIdNotes.loadReadOnly(allUsersName, repo).get(key);
+      return ExternalIdNotes.loadReadOnly(allUsersName, repo, null).get(key);
     }
   }
 

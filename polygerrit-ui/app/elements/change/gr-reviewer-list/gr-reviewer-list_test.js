@@ -50,14 +50,14 @@ suite('gr-reviewer-list tests', () => {
         .querySelector('.addReviewer'));
   });
 
-  test('only show remove for removable reviewers', () => {
+  test.only('only show remove for removable reviewers', () => {
     element.mutable = true;
     element.change = {
       owner: {
         _account_id: 1,
       },
       reviewers: {
-        REVIEWER: [
+        c: [
           {
             _account_id: 2,
             name: 'Bojack Horseman',
@@ -298,6 +298,29 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(element._reviewers.length, 4);
     assert.isTrue(element.shadowRoot
         .querySelector('.hiddenReviewers').hidden);
+  });
+
+  test('account owner comes first in list of reviewers', () => {
+    const reviewers = [];
+    element.maxReviewersDisplayed = 3;
+    for (let i = 0; i < 4; i++) {
+      reviewers.push(
+          {email: i+'reviewer@google.com', name: 'reviewer-' + i, _account_id: i});
+    }
+    element.reviewersOnly = true;
+    element.account = {
+        _account_id: 1,
+    };
+    element.change = {
+      owner: {
+        _account_id: 111,
+      },
+      reviewers: {
+        REVIEWER: reviewers,
+      },
+    };
+    flush();
+    assert.equal(element._displayedReviewers[0]._account_id, 1);
   });
 
   test('show all reviewers button with 9 reviewers', () => {

@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65a99851_8ec96412",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-12T11:52:47Z",
+      "side": 1,
+      "message": "I heard the following arguments for the two options at hand:\n\n1) Do it entirely in the backend:\nWhat/How:\n- Store _gerrit-account-id:123 in NoteDb. Replace when reading.\n- API remains the same.\n- Index remains the same (still contains names,emails)\n\nConsequences:\n- Pro: Index search for names/emails in comments is almost for free\n- Pro: No API change (other callers besides our FE do not need to adapt)\n- Con: Change index once again contains names/emails\n- Con: Need async job to clean up change index when users delete their accounts or change their names (complexity)\n- Con: Harder to show a name chip in the FE\n\n2) Do it entirely in the frontend:\nWhat/How:\n- Store _gerrit-account-id:123 in NoteDb and the change index for comments\n- API changes (comment strings now contain _gerrit-account-id:123)\n- UI needs to replace comments/change messages/commit messages(?) and show a chip\n- Backend could serve additional account info on API so that FE doesn\u0027t have to ask back (e.g. ChangeMessageInfo can have a new field \"List\u003cAccountInfo\u003e users\" where we ship additional account infos)\n\nConsequences:\n- Pro: No issues with change index\n- Pro: Can easily show chips in the UI\n- Con: Harder to get change index search support\n- Con: More coupling between FE/BE (FE needs to adapt first)\n\nMy vote is clearly going towards (2) - do this replacement in the frontend. Ideally, I\u0027d want the backend to only deal with account IDs or external IDs and provide some AccountInfos in the API so that UI(s) can show richer messages (chips). But all our storages besides the account storage, both primary (NoteDb) and secondary (index) only ever know IDs, so they aren\u0027t problematic when names change or accounts get deleted.\n\nYou can think of this like a relational database where you have a \u0027Users\u0027 table and a \u0027Changes\u0027 table. The \u0027Changes\u0027 table should not contain names of users - just references to their IDs as foreign keys. That in the end also applies to in-string mentions.\nIf you compare our storage to a relational database, it\u0027s not that NoteDb is the equivalent of the relational database, it\u0027s actually that NoteDb+Indices provide a functionality comparable to the relational database (that has indices built in). So what applies to NoteDb, should also apply to indices.",
+      "parentUuid": "a12ac9e3_c94beebe",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

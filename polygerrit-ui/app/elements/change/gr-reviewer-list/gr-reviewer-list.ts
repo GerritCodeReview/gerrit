@@ -340,3 +340,9 @@ export class GrReviewerList extends PolymerElement {
     return this.restApiService.removeChangeReviewer(this.change._number, id);
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-reviewer-list': GrReviewerList;
+  }
+}

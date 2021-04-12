@@ -182,6 +182,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f549349f_0ce5bc7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-12T12:51:37Z",
+      "side": 1,
+      "message": "+1 to doing this in the frontend.\n\nPlease loop in Frank, who has a KR for looking into better formatting of comments and messages in the UI already.\n\nThere might be a better syntax than _gerrit-account-id:1234. That still needs to be decided separately.\n\nThe frontend will probably also like to include such ids in messages and comments that are created in the UI. Think +mentions. But I guess the backend does not care. :-)\n\nThis could also further be extended to other meta entities like _gerrit-change-id:1234. Would at least have to think about it a bit before building something specific for just account ids.\n\nYes, we will have to talk about API design. That could potentially affect many APIs. Another good reason for thinking about potential other similar entities.\n\nWould _gerrit-account-id also work with emails addresses? I think you don\u0027t need to have a Gerrit account for being CCed?",
+      "parentUuid": "75e4fa9f_86130224",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

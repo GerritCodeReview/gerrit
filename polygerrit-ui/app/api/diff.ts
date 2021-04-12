@@ -20,7 +20,6 @@
  * limitations under the License.
  */
 
-import {GrAnnotation} from '../elements/diff/gr-diff-highlight/gr-annotation';
 import {CommentRange} from './core';
 
 /**

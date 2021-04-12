@@ -330,6 +330,7 @@ class GrResultExpanded extends GrLitElement {
       css`
         .message {
           padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
+          white-space: pre-wrap;
         }
       `,
     ];

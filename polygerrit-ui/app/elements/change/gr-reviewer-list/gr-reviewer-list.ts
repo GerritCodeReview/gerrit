@@ -20,7 +20,7 @@ import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-reviewer-list_html';
-import {isServiceUser} from '../../../utils/account-util';
+import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {hasAttention} from '../../../utils/attention-set-util';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {
@@ -33,6 +33,7 @@ import {
   AccountId,
   DetailedLabelInfo,
   EmailAddress,
+  AccountDetailInfo,
 } from '../../../types/common';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
@@ -55,6 +56,9 @@ export class GrReviewerList extends PolymerElement {
 
   @property({type: Object})
   change?: ChangeInfo;
+
+  @property({type: Object})
+  account?: AccountDetailInfo;
 
   @property({type: Object})
   serverConfig?: ServerInfo;
@@ -227,10 +231,15 @@ export class GrReviewerList extends PolymerElement {
     this._reviewers = result
       .filter(reviewer => reviewer._account_id !== owner._account_id)
       // Sort order:
-      // 1. Human users in the attention set.
-      // 2. Other human users.
-      // 3. Service users.
+      // 1. The user themselves
+      // 2. Human users in the attention set.
+      // 3. Other human users.
+      // 4. Service users.
       .sort((r1, r2) => {
+        if (this.account) {
+          if (isSelf(r1, this.account)) return -1;
+          if (isSelf(r2, this.account)) return 1;
+        }
         const a1 = hasAttention(serverConfig, r1, this.change!) ? 1 : 0;
         const a2 = hasAttention(serverConfig, r2, this.change!) ? 1 : 0;
         const s1 = isServiceUser(r1) ? -2 : 0;

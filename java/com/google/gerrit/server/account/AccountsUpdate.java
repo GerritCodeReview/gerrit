@@ -454,17 +454,15 @@ public class AccountsUpdate {
 
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
 
-    // Skip accounts that are updated when evicting the account cache via ExternalIdNotes to avoid
-    // double reindexing. The updated accounts will already be reindexed by ReindexAfterRefUpdate.
-    Set<Account.Id> accountsThatWillBeReindexByReindexAfterRefUpdate =
-        getUpdatedAccounts(batchRefUpdate);
-    updatedAccount.externalIdNotes.updateCaches(accountsThatWillBeReindexByReindexAfterRefUpdate);
+    Set<Account.Id> accountsToSkipForReindex = getUpdatedAccountIds(batchRefUpdate);
+    extIdNotesLoader.updateExternalIdCacheAndMaybeReindexAccounts(
+        updatedAccount.externalIdNotes, accountsToSkipForReindex);
 
     gitRefUpdated.fire(
         allUsersName, batchRefUpdate, currentUser.map(IdentifiedUser::state).orElse(null));
   }
 
-  private static Set<Account.Id> getUpdatedAccounts(BatchRefUpdate batchRefUpdate) {
+  private static Set<Account.Id> getUpdatedAccountIds(BatchRefUpdate batchRefUpdate) {
     return batchRefUpdate.getCommands().stream()
         .map(c -> Account.Id.fromRef(c.getRefName()))
         .filter(Objects::nonNull)

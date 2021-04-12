@@ -34,11 +34,17 @@ suite('gr-reviewer-list tests', () => {
   test('controls hidden on immutable element', () => {
     flush();
     element.mutable = false;
-    assert.isTrue(element.shadowRoot
-        .querySelector('.controlsContainer').hasAttribute('hidden'));
+    assert.isTrue(
+      element.shadowRoot
+        .querySelector('.controlsContainer')
+        .hasAttribute('hidden')
+    );
     element.mutable = true;
-    assert.isFalse(element.shadowRoot
-        .querySelector('.controlsContainer').hasAttribute('hidden'));
+    assert.isFalse(
+      element.shadowRoot
+        .querySelector('.controlsContainer')
+        .hasAttribute('hidden')
+    );
   });
 
   test('add reviewer button opens reply dialog', done => {
@@ -46,8 +52,7 @@ suite('gr-reviewer-list tests', () => {
       done();
     });
     flush();
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('.addReviewer'));
+    MockInteractions.tap(element.shadowRoot.querySelector('.addReviewer'));
   });
 
   test('only show remove for removable reviewers', () => {
@@ -95,16 +100,14 @@ suite('gr-reviewer-list tests', () => {
       ],
     };
     flush();
-    const chips =
-        element.root.querySelectorAll('gr-account-chip');
+    const chips = element.root.querySelectorAll('gr-account-chip');
     assert.equal(chips.length, 4);
 
     for (const el of Array.from(chips)) {
       const accountID = el.account._account_id || el.account.email;
       assert.ok(accountID);
 
-      const buttonEl = el.shadowRoot
-          .querySelector('gr-button');
+      const buttonEl = el.shadowRoot.querySelector('gr-button');
       assert.isNotNull(buttonEl);
       if (accountID == 2) {
         assert.isTrue(buttonEl.hasAttribute('hidden'));
@@ -137,8 +140,8 @@ suite('gr-reviewer-list tests', () => {
 
     setup(() => {
       removeReviewerStub = sinon
-          .stub(element, '_removeReviewer')
-          .returns(Promise.resolve(new Response({status: 200})));
+        .stub(element, '_removeReviewer')
+        .returns(Promise.resolve(new Response({status: 200})));
       element.mutable = true;
 
       const allReviewers = [
@@ -163,8 +166,8 @@ suite('gr-reviewer-list tests', () => {
     });
 
     test('_handleRemove for account with accountId only', async () => {
-      const accountChip = chips.find(chip =>
-        chip.account._account_id === reviewerWithId._account_id
+      const accountChip = chips.find(
+        chip => chip.account._account_id === reviewerWithId._account_id
       );
       accountChip._handleRemoveTap(new MouseEvent('click'));
       await flush();
@@ -178,14 +181,15 @@ suite('gr-reviewer-list tests', () => {
     });
 
     test('_handleRemove for account with accountId and email', async () => {
-      const accountChip = chips.find(chip =>
-        chip.account._account_id === reviewerWithIdAndEmail._account_id
+      const accountChip = chips.find(
+        chip => chip.account._account_id === reviewerWithIdAndEmail._account_id
       );
       accountChip._handleRemoveTap(new MouseEvent('click'));
       await flush();
       assert.isTrue(removeReviewerStub.calledOnce);
       assert.isTrue(
-          removeReviewerStub.calledWith(reviewerWithIdAndEmail._account_id));
+        removeReviewerStub.calledWith(reviewerWithIdAndEmail._account_id)
+      );
       assert.isTrue(reviewersChangedSpy.called);
       expect(element.change.reviewers.REVIEWER).to.have.deep.members([
         reviewerWithId,
@@ -195,7 +199,7 @@ suite('gr-reviewer-list tests', () => {
 
     test('_handleRemove for account with email only', async () => {
       const accountChip = chips.find(
-          chip => chip.account.email === reviewerWithEmailOnly.email
+        chip => chip.account.email === reviewerWithEmailOnly.email
       );
       accountChip._handleRemoveTap(new MouseEvent('click'));
       await flush();
@@ -256,32 +260,34 @@ suite('gr-reviewer-list tests', () => {
     element.reviewersOnly = false;
     element._handleAddTap(e);
     assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
-    assert.deepEqual(fireStub.lastCall.args[0].detail, {value: {
-      reviewersOnly: false,
-      ccsOnly: false,
-    }});
+    assert.deepEqual(fireStub.lastCall.args[0].detail, {
+      value: {
+        reviewersOnly: false,
+        ccsOnly: false,
+      },
+    });
 
     element.reviewersOnly = true;
     element._handleAddTap(e);
     assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
-    assert.deepEqual(
-        fireStub.lastCall.args[0].detail,
-        {value: {reviewersOnly: true, ccsOnly: false}});
+    assert.deepEqual(fireStub.lastCall.args[0].detail, {
+      value: {reviewersOnly: true, ccsOnly: false},
+    });
 
     element.ccsOnly = true;
     element.reviewersOnly = false;
     element._handleAddTap(e);
     assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
-    assert.deepEqual(fireStub.lastCall.args[0].detail,
-        {value: {ccsOnly: true, reviewersOnly: false}});
+    assert.deepEqual(fireStub.lastCall.args[0].detail, {
+      value: {ccsOnly: true, reviewersOnly: false},
+    });
   });
 
   test('dont show all reviewers button with 4 reviewers', () => {
     const reviewers = [];
     element.maxReviewersDisplayed = 3;
     for (let i = 0; i < 4; i++) {
-      reviewers.push(
-          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
+      reviewers.push({email: i + 'reviewer@google.com', name: 'reviewer-' + i});
     }
     element.ccsOnly = true;
 
@@ -296,17 +302,18 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(element._hiddenReviewerCount, 0);
     assert.equal(element._displayedReviewers.length, 4);
     assert.equal(element._reviewers.length, 4);
-    assert.isTrue(element.shadowRoot
-        .querySelector('.hiddenReviewers').hidden);
+    assert.isTrue(element.shadowRoot.querySelector('.hiddenReviewers').hidden);
   });
 
   test('account owner comes first in list of reviewers', () => {
     const reviewers = [];
     element.maxReviewersDisplayed = 3;
     for (let i = 0; i < 4; i++) {
-      reviewers.push(
-          {email: i+'reviewer@google.com', name: 'reviewer-' + i,
-            _account_id: i});
+      reviewers.push({
+        email: i + 'reviewer@google.com',
+        name: 'reviewer-' + i,
+        _account_id: i,
+      });
     }
     element.reviewersOnly = true;
     element.account = {
@@ -327,8 +334,7 @@ suite('gr-reviewer-list tests', () => {
   test('show all reviewers button with 9 reviewers', () => {
     const reviewers = [];
     for (let i = 0; i < 9; i++) {
-      reviewers.push(
-          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
+      reviewers.push({email: i + 'reviewer@google.com', name: 'reviewer-' + i});
     }
     element.ccsOnly = true;
 
@@ -343,15 +349,13 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(element._hiddenReviewerCount, 3);
     assert.equal(element._displayedReviewers.length, 6);
     assert.equal(element._reviewers.length, 9);
-    assert.isFalse(element.shadowRoot
-        .querySelector('.hiddenReviewers').hidden);
+    assert.isFalse(element.shadowRoot.querySelector('.hiddenReviewers').hidden);
   });
 
   test('show all reviewers button', () => {
     const reviewers = [];
     for (let i = 0; i < 100; i++) {
-      reviewers.push(
-          {email: i+'reviewer@google.com', name: 'reviewer-' + i});
+      reviewers.push({email: i + 'reviewer@google.com', name: 'reviewer-' + i});
     }
     element.ccsOnly = true;
 
@@ -366,17 +370,14 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(element._hiddenReviewerCount, 94);
     assert.equal(element._displayedReviewers.length, 6);
     assert.equal(element._reviewers.length, 100);
-    assert.isFalse(element.shadowRoot
-        .querySelector('.hiddenReviewers').hidden);
+    assert.isFalse(element.shadowRoot.querySelector('.hiddenReviewers').hidden);
 
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('.hiddenReviewers'));
+    MockInteractions.tap(element.shadowRoot.querySelector('.hiddenReviewers'));
 
     assert.equal(element._hiddenReviewerCount, 0);
     assert.equal(element._displayedReviewers.length, 100);
     assert.equal(element._reviewers.length, 100);
-    assert.isTrue(element.shadowRoot
-        .querySelector('.hiddenReviewers').hidden);
+    assert.isTrue(element.shadowRoot.querySelector('.hiddenReviewers').hidden);
   });
 
   test('votable labels', () => {
@@ -386,8 +387,10 @@ suite('gr-reviewer-list tests', () => {
           all: [{_account_id: 7, permitted_voting_range: {max: 2}}],
         },
         Bar: {
-          all: [{_account_id: 1, permitted_voting_range: {max: 1}},
-            {_account_id: 7, permitted_voting_range: {max: 1}}],
+          all: [
+            {_account_id: 1, permitted_voting_range: {max: 1}},
+            {_account_id: 7, permitted_voting_range: {max: 1}},
+          ],
         },
         FooBar: {
           all: [{_account_id: 7, value: 0}],
@@ -399,14 +402,17 @@ suite('gr-reviewer-list tests', () => {
       },
     };
     assert.strictEqual(
-        element._computeVoteableText({_account_id: 1}, change),
-        'Bar');
+      element._computeVoteableText({_account_id: 1}, change),
+      'Bar'
+    );
     assert.strictEqual(
-        element._computeVoteableText({_account_id: 7}, change),
-        'Foo: +2, Bar, FooBar');
+      element._computeVoteableText({_account_id: 7}, change),
+      'Foo: +2, Bar, FooBar'
+    );
     assert.strictEqual(
-        element._computeVoteableText({_account_id: 2}, change),
-        '');
+      element._computeVoteableText({_account_id: 2}, change),
+      ''
+    );
   });
 
   test('fails gracefully when all is not included', () => {
@@ -417,7 +423,8 @@ suite('gr-reviewer-list tests', () => {
       },
     };
     assert.strictEqual(
-        element._computeVoteableText({_account_id: 1}, change), '');
+      element._computeVoteableText({_account_id: 1}, change),
+      ''
+    );
   });
 });
-

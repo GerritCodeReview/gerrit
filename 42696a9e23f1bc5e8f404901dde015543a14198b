@@ -16,6 +16,29 @@
       "message": "We are just missing the documentation updates and also the warning on the consequences of removing the external ids with schema \u0027username:\u0027. Other than that, I am fine to +2 this change.",
       "revId": "42696a9e23f1bc5e8f404901dde015543a14198b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5428d130_a205564b",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-13T16:30:07Z",
+      "side": 1,
+      "message": "The user may not be able to login anymore, after the removal of the external-id with schema \u0027username:\u0027. Do we want to require a higher permission than just \u0027MODIFY_ACCOUNT\u0027?",
+      "range": {
+        "startLine": 75,
+        "startChar": 44,
+        "endLine": 75,
+        "endChar": 75
+      },
+      "revId": "42696a9e23f1bc5e8f404901dde015543a14198b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

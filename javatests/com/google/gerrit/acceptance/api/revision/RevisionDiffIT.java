@@ -30,6 +30,8 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
@@ -40,8 +42,11 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.webui.EditWebLink;
+import com.google.inject.Inject;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -74,6 +79,8 @@ public class RevisionDiffIT extends AbstractDaemonTest {
           .mapToObj(number -> String.format("Line %d\n", number))
           .collect(joining());
   private static final String FILE_CONTENT2 = "1st line\n2nd line\n3rd line\n";
+
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private boolean intraline;
   private boolean useNewDiffCacheListFiles;
@@ -139,6 +146,24 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffForPatchsetLevelFile).metaA().isNull();
     assertThat(diffForPatchsetLevelFile).metaB().isNull();
     assertThat(diffForPatchsetLevelFile).webLinks().isNull();
+  }
+
+  @Test
+  public void editWebLinkIncludedInDiff() throws Exception {
+    try (Registration registration = newEditWebLink()) {
+      String fileName = "a_new_file.txt";
+      String fileContent = "First line\nSecond line\n";
+      PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
+      DiffInfo info =
+          gApi.changes()
+              .id(result.getChangeId())
+              .revision(result.getCommit().name())
+              .file(fileName)
+              .diff();
+      assertThat(info.metaB.editWebLinks).hasSize(1);
+      assertThat(info.metaB.editWebLinks.get(0).url)
+          .isEqualTo("http://edit/" + project + "/" + fileName);
+    }
   }
 
   @Test
@@ -2873,6 +2898,18 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             BadRequestException.class,
             () -> getDiffRequest(changeId, CURRENT, FILE_NAME).withBase("0").get());
     assertThat(e).hasMessageThat().isEqualTo("edit not allowed as base");
+  }
+
+  private Registration newEditWebLink() {
+    EditWebLink webLink =
+        new EditWebLink() {
+          @Override
+          public WebLinkInfo getEditWebLink(String projectName, String revision, String fileName) {
+            return new WebLinkInfo(
+                "name", "imageURL", "http://edit/" + projectName + "/" + fileName);
+          }
+        };
+    return extensionRegistry.newRegistration().add(webLink);
   }
 
   private String updatedCommitMessage() {

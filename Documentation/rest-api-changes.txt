@@ -7055,8 +7055,11 @@ The `DiffFileMetaInfo` entity contains meta information about a file diff.
 |`name`        ||The name of the file.
 |`content_type`||The content type of the file.
 |`lines`       ||The total number of lines in the file.
-|`web_links`   |optional|
+|`file_web_links`   |optional|
 Links to the file in external sites as a list of
+link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
+|`edit_web_links`   |optional|
+Links to edit the file in external sites as a list of
 link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 |==========================
 

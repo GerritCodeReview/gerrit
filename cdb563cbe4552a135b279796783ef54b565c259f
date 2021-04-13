@@ -124,6 +124,24 @@
       "parentUuid": "1d1d9b1b_cbdae834",
       "revId": "cdb563cbe4552a135b279796783ef54b565c259f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "118af43e_ca8474e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-13T15:42:37Z",
+      "side": 1,
+      "message": "I have explained my viewpoint a bit more in https://gerrit-review.googlesource.com/c/plugins/task/+/302442.\n\nIf you want to escalate, then I think it would be helpful, if you could write an email to gerritcodereview-esc@googlegroups.com summarizing the issue and explaining why your viewpoint is different than mine.",
+      "parentUuid": "40ea280d_8c0fa5fa",
+      "revId": "cdb563cbe4552a135b279796783ef54b565c259f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

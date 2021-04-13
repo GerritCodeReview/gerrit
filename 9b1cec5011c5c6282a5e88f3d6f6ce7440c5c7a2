@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca0b3fc9_be5831e9",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-13T11:44:57Z",
+      "side": 1,
+      "message": "Handling the initial commit is missing AFAIR. I also had a TODO test for it [1].\n\nThat should be supported. The commit should be compared against the empty git tree and all files will be considered as ADDED. I can send you a change with it.\n\n[1] https://gerrit.googlesource.com/gerrit/+/d78050d63a138bb8d5d94557b5a87be4cec504d0/javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java#122",
+      "parentUuid": "7b6db8bf_6f279fba",
+      "range": {
+        "startLine": 47,
+        "startChar": 70,
+        "endLine": 48,
+        "endChar": 74
+      },
+      "revId": "9b1cec5011c5c6282a5e88f3d6f6ce7440c5c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19ad23b5_12725d76",
         "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
         "patchSetId": 11
@@ -61,6 +85,30 @@
       "writtenOn": "2021-04-12T15:35:40Z",
       "side": 1,
       "message": "It seems that the method is actually returning a map. \nDo I understand correctly that the map key is the new path, except for deletions it\u0027s the old path?\n\nIs the map sorted by path? \nJust want to double-check whether as a caller I need to do sorting on my own?",
+      "range": {
+        "startLine": 49,
+        "startChar": 17,
+        "endLine": 49,
+        "endChar": 21
+      },
+      "revId": "9b1cec5011c5c6282a5e88f3d6f6ce7440c5c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63cc1dad_e9e7b7f2",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-13T11:44:57Z",
+      "side": 1,
+      "message": "\u003e It seems that the method is actually returning a map.\n\nYes. That should be fixed.\n\n\u003e Do I understand correctly that the map key is the new path, except for deletions it\u0027s the old path?\n\nYes. I added https://gerrit-review.googlesource.com/c/gerrit/+/303147/ to fix and enhance the javadocs.\n\n\u003e Is the map sorted by path? \n\nNo. It\u0027s using a HashMap underneath.",
+      "parentUuid": "19ad23b5_12725d76",
       "range": {
         "startLine": 49,
         "startChar": 17,

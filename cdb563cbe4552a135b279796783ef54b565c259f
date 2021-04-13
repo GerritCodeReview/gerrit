@@ -88,6 +88,24 @@
       "parentUuid": "8c4c887f_3366b26a",
       "revId": "cdb563cbe4552a135b279796783ef54b565c259f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d1d9b1b_cbdae834",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-13T08:15:54Z",
+      "side": 1,
+      "message": "Also see https://groups.google.com/g/repo-discuss/c/YJY8oQZZo44",
+      "parentUuid": "058208c7_c6d0a8b1",
+      "revId": "cdb563cbe4552a135b279796783ef54b565c259f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

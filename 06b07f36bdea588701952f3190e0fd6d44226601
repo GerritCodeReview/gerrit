@@ -22,6 +22,30 @@
       },
       "revId": "06b07f36bdea588701952f3190e0fd6d44226601",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e07293f_cc2e4bbd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-13T13:56:45Z",
+      "side": 1,
+      "message": "thanks, that explains the strange diff",
+      "parentUuid": "1c06c7c1_da5ede8b",
+      "range": {
+        "startLine": 1374,
+        "startChar": 14,
+        "endLine": 1374,
+        "endChar": 81
+      },
+      "revId": "06b07f36bdea588701952f3190e0fd6d44226601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

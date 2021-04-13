@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3fe82dfa_573f0072",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-13T01:52:49Z",
+      "side": 1,
+      "message": "True, but if we get rid of this code and the tests are still passing, that means this code is NOT useful and people may be tempted to remove it.\n\nI tried to just invert the check at L31 and the tests are still green, which doesn\u0027t look right to me.\n\nLooking carefully at EventJsonTest, we do indeed miss a test for the serialisation of a generic Event.class. Adding that test, then the breakage comes out.\n\nGerrit multi-site isn\u0027t a core plugin and it won\u0027t be obvious for people to realise they are breaking it. Adding one simple test would avoid these problems and allow to save a lot more time in the future.\n\nSample test:\n\n  public static class CustomEvent extends Event {\n\t  public static String TYPE \u003d \"custom-type\";\n\n\tprotected CustomEvent() {\n\t\tsuper(TYPE);\n\t} \n  }\n  \n  @Test\n  public void genericEvent() {\n\t  EventTypes.register(CustomEvent.TYPE, CustomEvent.class);  \n\t  Event event \u003d new CustomEvent();\n    \n    String json \u003d gson.toJson(event, Event.class);\n    Map\u003cObject, Object\u003e map \u003d\n        gson.fromJson(json, new TypeToken\u003cMap\u003cObject, Object\u003e\u003e() {}.getType());\n    assertThat(map.values()).contains(CustomEvent.TYPE);\n  }\n\nWDYT?",
+      "parentUuid": "fca2e780_87b0299e",
+      "revId": "40497523fef3e3c3fa9d1673f5ef80053de3ffb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33c7fa45_94ac574e",
         "filename": "java/com/google/gerrit/server/events/EventSerializer.java",
         "patchSetId": 3

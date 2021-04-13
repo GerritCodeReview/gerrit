@@ -200,6 +200,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16d53e8b_432242e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-13T08:29:56Z",
+      "side": 1,
+      "message": "Option 2) SGTM, I just have two questions:\n- Are there other consumers besides the FE that need to be adapted? Like, plugins or android/chrome automation? I would expect that if we make this change today we\u0027d break some tooling.\n- How would we support searches for name/email? If we don\u0027t index those any more, wouldn\u0027t that break?",
+      "parentUuid": "f549349f_0ce5bc7e",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

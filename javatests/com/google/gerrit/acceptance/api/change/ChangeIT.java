@@ -78,11 +78,13 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -94,6 +96,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
@@ -121,6 +124,7 @@ import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.StarsInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -216,6 +220,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private GroupOperations groupOperations;
   @Inject private IndexConfig indexConfig;
   @Inject private ProjectOperations projectOperations;
+  @Inject private ChangeOperations changeOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
 
@@ -3010,6 +3015,96 @@ public class ChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
     assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(ChangeStatus.MERGED);
+  }
+
+  @Test
+  public void gdfgdf() throws Exception {
+    // setup 5 new groups
+    String newGroupName = name("newGroup");
+    gApi.groups().create(newGroupName).get();
+    InternalGroup group = groupCache.get(AccountGroup.nameKey(newGroupName)).orElse(null);
+
+    String newGroupName2 = name("newGroup2");
+    gApi.groups().create(newGroupName2).get();
+    InternalGroup group2 = groupCache.get(AccountGroup.nameKey(newGroupName2)).orElse(null);
+
+    String newGroupName3 = name("newGroup3");
+    gApi.groups().create(newGroupName3).get();
+    InternalGroup group3 = groupCache.get(AccountGroup.nameKey(newGroupName3)).orElse(null);
+
+    String newGroupName4 = name("newGroup4");
+    gApi.groups().create(newGroupName4).get();
+    InternalGroup group4 = groupCache.get(AccountGroup.nameKey(newGroupName4)).orElse(null);
+
+    String newGroupName5 = name("newGroup5");
+    gApi.groups().create(newGroupName5).get();
+    InternalGroup group5 = groupCache.get(AccountGroup.nameKey(newGroupName5)).orElse(null);
+
+    // newProject -> project -> AllProjects
+    Project.NameKey newProject = projectOperations.newProject().parent(project).create();
+    Change.Id changeId = changeOperations.newChange().project(newProject).create();
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+
+    projectOperations.allProjectsForUpdate().removeAllAccessSections().update();
+    projectOperations.project(project).forUpdate().removeAllAccessSections().update();
+
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(group.getGroupUUID()))
+        .update();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT_AS).ref("refs/heads/*").group(group4.getGroupUUID()))
+        .update();
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(group3.getGroupUUID()))
+        .update();
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(group5.getGroupUUID()))
+        .update();
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(PROJECT_OWNERS))
+        .update();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(group2.getGroupUUID()))
+        .update();
+    projectOperations
+        .project(newProject)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(group3.getGroupUUID()))
+        .update();
+    TestAccount robot =
+        accountCreator.create("robot1", "robot1@example.com", "Ro Bot", "Ro", group4.getName());
+
+    projectOperations
+        .project(newProject)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(group4.getGroupUUID()))
+        .update();
+    projectOperations
+        .project(newProject)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT_AS).ref("refs/heads/*").group(group4.getGroupUUID()))
+        .update();
+
+    requestScopeOperations.setApiUser(robot.id());
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    SubmitInput submitInput = new SubmitInput();
+    submitInput.onBehalfOf =
+        accountCreator
+            .create("userWithoutPermissions", "asdsa@example.com", "asdas", "dss")
+            .email();
+    gApi.changes().id(changeId.get()).current().submit(submitInput);
   }
 
   @Test

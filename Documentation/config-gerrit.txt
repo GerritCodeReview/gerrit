@@ -659,11 +659,25 @@ Default is true.
 +
 Whether users are allowed to register new email addresses.
 +
-In addition for the HTTP authentication type
-link:#auth.httpemailheader[auth.httpemailheader] must *not* be set to
-enable registration of new email addresses.
+In addition for the HTTP authentication type if
+link:#auth.httpemailheader[auth.httpemailheader] is set, then
+registration of new email addresses is denied unless
+link:#auth.httpAllowRegisterNewEmail[auth.httpAllowRegisterNewEmail]
+is also set.
 +
 By default, true.
+
+[[auth.httpAllowRegisterNewEmail]]auth.httpAllowRegisterNewEmail::
++
+When using HTTP authentication with
+link:#auth.httpemailheader[auth.httpemailheader] set, Gerrit by
+default does not allow additional email addresses to be registered
+regardless of the setting of
+link:#auth.allowRegisterNewEmail[auth.allowRegisterNewEmail].  To
+allow additional email addresses to be registered regardless, set this
+to true.
++
+By default, false.
 
 [[auth.autoUpdateAccountActiveStatus]]auth.autoUpdateAccountActiveStatus::
 +

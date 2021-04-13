@@ -51,7 +51,7 @@ public class DefaultRealm extends AbstractRealm {
           return Strings.emptyToNull(authConfig.getHttpDisplaynameHeader()) == null;
         case REGISTER_NEW_EMAIL:
           return authConfig.isAllowRegisterNewEmail()
-              && Strings.emptyToNull(authConfig.getHttpEmailHeader()) == null;
+              && authConfig.isHttpAllowRegisterNewEmail()
         default:
           return true;
       }

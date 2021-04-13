@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.webui.BranchWebLink;
+import com.google.gerrit.extensions.webui.EditWebLink;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ParentWebLink;
@@ -71,6 +72,7 @@ public class GitwebConfig {
         }
 
         if (!isNullOrEmpty(type.getFile()) || !isNullOrEmpty(type.getRootTree())) {
+          DynamicSet.bind(binder(), EditWebLink.class).to(GitwebLinks.class);
           DynamicSet.bind(binder(), FileWebLink.class).to(GitwebLinks.class);
         }
 
@@ -253,6 +255,7 @@ public class GitwebConfig {
   @Singleton
   static class GitwebLinks
       implements BranchWebLink,
+          EditWebLink,
           FileHistoryWebLink,
           FileWebLink,
           PatchSetWebLink,
@@ -316,6 +319,18 @@ public class GitwebConfig {
 
     @Override
     public WebLinkInfo getFileWebLink(String projectName, String revision, String fileName) {
+      if (file != null) {
+        return link(
+            file.replace("project", encode(projectName))
+                .replace("commit", encode(revision))
+                .replace("file", encode(fileName))
+                .toString());
+      }
+      return null;
+    }
+
+    @Override
+    public WebLinkInfo getEditWebLink(String projectName, String revision, String fileName) {
       if (file != null) {
         return link(
             file.replace("project", encode(projectName))

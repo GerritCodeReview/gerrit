@@ -51,7 +51,9 @@ public class DiffInfo {
     // The total number of lines in the file
     public Integer lines;
     // Links to the file in external sites
-    public List<WebLinkInfo> webLinks;
+    public List<WebLinkInfo> fileWebLinks;
+    // Links to edit the file in external sites
+    public List<WebLinkInfo> editWebLinks;
   }
 
   public static final class ContentEntry {

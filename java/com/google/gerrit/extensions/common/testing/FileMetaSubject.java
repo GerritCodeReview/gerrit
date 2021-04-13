@@ -62,6 +62,6 @@ public class FileMetaSubject extends Subject {
 
   public IterableSubject webLinks() {
     isNotNull();
-    return check("webLinks").that(fileMeta.webLinks);
+    return check("webLinks").that(fileMeta.fileWebLinks);
   }
 }

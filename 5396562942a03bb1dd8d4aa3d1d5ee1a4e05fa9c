@@ -16,6 +16,29 @@
       "message": "Sharing here in case you\u0027re interested",
       "revId": "5396562942a03bb1dd8d4aa3d1d5ee1a4e05fa9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d45a5673_aadd8c26",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3084,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-13T10:13:17Z",
+      "side": 1,
+      "message": "We want to submit \"on behalf of\" right? So we need to grant SUBMIT_AS permission and use the SubmitInput to make it on behalf of.",
+      "range": {
+        "startLine": 3083,
+        "startChar": 0,
+        "endLine": 3084,
+        "endChar": 57
+      },
+      "revId": "5396562942a03bb1dd8d4aa3d1d5ee1a4e05fa9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,24 +18,17 @@ import '../../../styles/shared-styles';
 import '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../../diff/gr-patch-range-select/gr-patch-range-select';
 import '../../edit/gr-edit-controls/gr-edit-controls';
-import '../../shared/gr-editable-label/gr-editable-label';
-import '../../shared/gr-linked-chip/gr-linked-chip';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-commit-info/gr-commit-info';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-file-list-header_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {
-  computeLatestPatchNum,
-  getRevisionByPatchNum,
-  PatchSet,
-} from '../../../utils/patch-set-util';
-import {property, computed, observe, customElement} from '@polymer/decorators';
+import {computeLatestPatchNum, PatchSet} from '../../../utils/patch-set-util';
+import {property, customElement} from '@polymer/decorators';
 import {
   AccountInfo,
   ChangeInfo,
@@ -51,11 +44,8 @@ import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {ChangeStatus, DiffViewMode} from '../../../constants/constants';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {appContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
 
-// Maximum length for patch set descriptions.
-const PATCH_DESC_MAX_LENGTH = 500;
 const MERGED_STATUS = 'MERGED';
 
 declare global {
@@ -154,29 +144,8 @@ export class GrFileListHeader extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Number})
   readonly _maxFilesForBulkActions = 225;
 
-  @property({type: String})
-  _patchsetDescription = '';
-
   @property({type: Object})
   revisionInfo?: RevisionInfo;
-
-  private readonly restApiService = appContext.restApiService;
-
-  @computed('loggedIn', 'change', 'account')
-  get _descriptionReadOnly(): boolean {
-    if (
-      this.loggedIn === undefined ||
-      this.change === undefined ||
-      this.account === undefined
-    ) {
-      return true;
-    }
-
-    return !(
-      this.loggedIn &&
-      this.account._account_id === this.change.owner._account_id
-    );
-  }
 
   setDiffViewMode(mode: DiffViewMode) {
     this.$.modeSelect.setMode(mode);
@@ -200,98 +169,6 @@ export class GrFileListHeader extends KeyboardShortcutMixin(PolymerElement) {
       classes.push('someExpanded');
     }
     return classes.join(' ');
-  }
-
-  _computeDescriptionPlaceholder(readOnly: boolean) {
-    return (readOnly ? 'No' : 'Add') + ' patchset description';
-  }
-
-  @observe('change', 'patchNum')
-  _computePatchSetDescription(change: ChangeInfo, patchNum: PatchSetNum) {
-    // Polymer 2: check for undefined
-    if (
-      change === undefined ||
-      change.revisions === undefined ||
-      patchNum === undefined
-    ) {
-      return;
-    }
-
-    const rev = getRevisionByPatchNum(
-      Object.values(change.revisions),
-      patchNum
-    );
-    this._patchsetDescription = rev?.description
-      ? rev.description.substring(0, PATCH_DESC_MAX_LENGTH)
-      : '';
-  }
-
-  _handleDescriptionRemoved(e: CustomEvent) {
-    return this._updateDescription('', e);
-  }
-
-  /**
-   * @param revisions The revisions object keyed by revision hashes
-   * @param patchSet A revision already fetched from {revisions}
-   * @return the SHA hash corresponding to the revision.
-   */
-  _getPatchsetHash(
-    revisions: {[revisionId: string]: RevisionInfo},
-    patchSet: RevisionInfo
-  ) {
-    for (const sha of Object.keys(revisions)) {
-      if (revisions[sha] === patchSet) {
-        return sha;
-      }
-    }
-    throw new Error('patchset hash not found');
-  }
-
-  _handleDescriptionChanged(e: CustomEvent) {
-    const desc = e.detail.trim();
-    this._updateDescription(desc, e);
-  }
-
-  /**
-   * Update the patchset description with the rest API.
-   */
-  _updateDescription(desc: string, e: CustomEvent) {
-    if (
-      !this.change ||
-      !this.change.revisions ||
-      !this.patchNum ||
-      !this.changeNum
-    )
-      return;
-    // target can be either gr-editable-label or gr-linked-chip
-    const target = (dom(e) as EventApi).rootTarget as HTMLElement & {
-      disabled: boolean;
-    };
-    if (target) {
-      target.disabled = true;
-    }
-    const rev = getRevisionByPatchNum(
-      Object.values(this.change.revisions),
-      this.patchNum
-    )!;
-    const sha = this._getPatchsetHash(this.change.revisions, rev);
-    return this.restApiService
-      .setDescription(this.changeNum, this.patchNum, desc)
-      .then((res: Response) => {
-        if (res.ok) {
-          if (target) {
-            target.disabled = false;
-          }
-          this.set(['change', 'revisions', sha, 'description'], desc);
-          this._patchsetDescription = desc;
-        }
-      })
-      .catch(() => {
-        if (target) {
-          target.disabled = false;
-        }
-        return;
-      });
   }
 
   _computePrefsButtonHidden(

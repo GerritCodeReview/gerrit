@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1e8502d9_07baa270",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-13T12:30:33Z",
+      "side": 1,
+      "message": "Thanks.\n\nYes, you can add me as a reviewer when you implement this. Not super urgent for me since I have code to which I can fall back in this case [1].\n\n[1] https://gerrit-review.googlesource.com/c/plugins/code-owners/+/303145/3/java/com/google/gerrit/plugins/codeowners/backend/ChangedFiles.java#259",
+      "parentUuid": "ca0b3fc9_be5831e9",
+      "range": {
+        "startLine": 47,
+        "startChar": 70,
+        "endLine": 48,
+        "endChar": 74
+      },
+      "revId": "9b1cec5011c5c6282a5e88f3d6f6ce7440c5c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19ad23b5_12725d76",
         "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
         "patchSetId": 11
@@ -109,6 +133,30 @@
       "side": 1,
       "message": "\u003e It seems that the method is actually returning a map.\n\nYes. That should be fixed.\n\n\u003e Do I understand correctly that the map key is the new path, except for deletions it\u0027s the old path?\n\nYes. I added https://gerrit-review.googlesource.com/c/gerrit/+/303147/ to fix and enhance the javadocs.\n\n\u003e Is the map sorted by path? \n\nNo. It\u0027s using a HashMap underneath.",
       "parentUuid": "19ad23b5_12725d76",
+      "range": {
+        "startLine": 49,
+        "startChar": 17,
+        "endLine": 49,
+        "endChar": 21
+      },
+      "revId": "9b1cec5011c5c6282a5e88f3d6f6ce7440c5c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f06e7b7a_ac8f5578",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-13T12:30:33Z",
+      "side": 1,
+      "message": "Thanks",
+      "parentUuid": "63cc1dad_e9e7b7f2",
       "range": {
         "startLine": 49,
         "startChar": 17,

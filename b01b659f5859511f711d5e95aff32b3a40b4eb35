@@ -218,6 +218,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e36ad5a2_d0e2c0f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-13T09:42:45Z",
+      "side": 1,
+      "message": "Update from live discussion: We\u0027ll inform Android+Chrome so they are aware and can point out issues they see.\n\nAs for the second item, that is not a problem because the only index that stores name/email is the account index (the \"foreign key\" setup Patrick mentioned), which is updated on Wipeout.",
+      "parentUuid": "16d53e8b_432242e3",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

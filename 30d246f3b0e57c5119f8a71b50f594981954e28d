@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d68fba63_278aac45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-13T10:24:33Z",
+      "side": 1,
+      "message": "This was added and reverted by Dhruv in https://gerrit-review.googlesource.com/c/gerrit/+/292033\n\nMaybe Dhruv can review and work with you on final solution.",
+      "revId": "30d246f3b0e57c5119f8a71b50f594981954e28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

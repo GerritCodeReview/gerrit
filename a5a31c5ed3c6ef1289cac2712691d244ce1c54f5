@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "060b1b7a_42afa75e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-13T15:00:03Z",
+      "side": 1,
+      "message": "Submit is by default granted to admins and project owners. What happens if you remove that default (ProjectUpdate#removeAllAccessSections) before you set up your permissions?",
+      "range": {
+        "startLine": 3100,
+        "startChar": 48,
+        "endLine": 3100,
+        "endChar": 54
+      },
+      "revId": "a5a31c5ed3c6ef1289cac2712691d244ce1c54f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAI
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -66,6 +67,7 @@ public class AuthConfig {
   private final boolean allowRegisterNewEmail;
   private final boolean userNameCaseInsensitive;
   private final boolean userNameCaseInsensitiveMigrationMode;
+  private final boolean httpAllowRegisterNewEmail;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
 
   @Inject
@@ -100,6 +102,7 @@ public class AuthConfig {
     userNameCaseInsensitive = cfg.getBoolean("auth", "userNameCaseInsensitive", false);
     userNameCaseInsensitiveMigrationMode =
         cfg.getBoolean("auth", "userNameCaseInsensitiveMigrationMode", false);
+    httpAllowRegisterNewEmail = cfg.getBoolean("auth", "httpAllowRegisterNewEmail", false);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -348,5 +351,9 @@ public class AuthConfig {
 
   public boolean isAllowRegisterNewEmail() {
     return allowRegisterNewEmail;
+  }
+
+  public boolean isHttpAllowRegisterNewEmail() {
+    return Strings.isNullOrEmpty(httpEmailHeader) || httpAllowRegisterNewEmail;
   }
 }

@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "161ce2e5_2a4de030",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-13T12:27:41Z",
+      "side": 1,
+      "message": "I don\u0027t mind the name that much, actually. We just can\u0027t change the semantic. We can invert the boolean if we like an inverted name better. It has to work as \"this SR can\u0027t be overridden in child projects\". So it can\u0027t be \"this SR can inherit to child projects\".\n\nHow about: allowOverrideInChildProjects (default \u003d true)\n\n(most places call a sub project \u0027child\u0027 in the existing code).",
+      "parentUuid": "e076a5f6_4a0090e4",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "309e80e7_93c0b5ca",
         "filename": "java/com/google/gerrit/entities/SubmitRequirementExpression.java",
         "patchSetId": 4
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "The discussion was in https://gerrit-review.googlesource.com/c/gerrit/+/301927/1..4/java/com/google/gerrit/entities/SubmitRequirement.java#b36.\n\nThe advantages are:\n1) The ability to perform syntax validation.\n2) Sparing parsing the expression many times by multiple callers. SR will be parsed once when loaded from the project\u0027s config.\n\nFor caching, we could still cache it as a String and reload the parse tree while serializing.",
       "parentUuid": "309e80e7_93c0b5ca",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33e06282_161ea90d",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpression.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-13T12:27:41Z",
+      "side": 1,
+      "message": "I don\u0027t understand why we can do syntax validation only if we cache the parsed tree (vs. the string)?\n\nFrom my experience, it\u0027s actually the opposite: If we cache the parsed tree, that means we have to parse it when we deserialize the string from the persisted cache. That\u0027s a bad place to throw a InvalidSubmitRequirementException.\n\nA better place to throw such an exception is when the SR is actually used (the best place is o.c. before the bad config is created).\n\n(2) Is a good argument in case parsing is not trivially cheap.\n\nI think Edwin was mostly asking for this interface to return the parsed tree, not necessarily that we cache the parsed tree? (note that if we cache it, it has to be deeply immutable).\n\nAnyway, happy to chat about this later when we actually want to cache a tree. The code now does not do that, so seems good in any case :-)",
+      "parentUuid": "19c51089_b50fc9f0",
       "range": {
         "startLine": 25,
         "startChar": 12,

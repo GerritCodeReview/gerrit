@@ -70,6 +70,30 @@
       },
       "revId": "5dd91660f745c81836fa8c46c7b17b01b0279b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7671eeff_b88e4c6c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-13T05:39:56Z",
+      "side": 1,
+      "message": "Ah sorry. I did not fetch the newest patchset of the change. I will fix that. SHould we move this change on top of master to make it independent of the rest of the series?",
+      "parentUuid": "0641da53_50be5404",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 77
+      },
+      "revId": "5dd91660f745c81836fa8c46c7b17b01b0279b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

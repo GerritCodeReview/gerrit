@@ -115,6 +115,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c0cb7ab_e7e86ac0",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-13T12:50:03Z",
+      "side": 1,
+      "message": "Works for me. Pretty much any name works for me as long as we keep the required semantics :-)",
+      "parentUuid": "dc2a4893_f4b135f9",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "309e80e7_93c0b5ca",
         "filename": "java/com/google/gerrit/entities/SubmitRequirementExpression.java",
         "patchSetId": 4

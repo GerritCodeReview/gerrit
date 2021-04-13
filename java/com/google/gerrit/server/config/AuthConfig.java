@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAI
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -64,6 +65,7 @@ public class AuthConfig {
   private final boolean cookieSecure;
   private final SignedToken emailReg;
   private final boolean allowRegisterNewEmail;
+  private final boolean httpAllowRegisterNewEmail;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
 
   @Inject
@@ -95,6 +97,7 @@ public class AuthConfig {
     useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
     allowRegisterNewEmail = cfg.getBoolean("auth", "allowRegisterNewEmail", true);
+    httpAllowRegisterNewEmail = cfg.getBoolean("auth", "httpAllowRegisterNewEmail", false);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -333,5 +336,12 @@ public class AuthConfig {
 
   public boolean isAllowRegisterNewEmail() {
     return allowRegisterNewEmail;
+  }
+
+  public boolean isHttpAllowRegisterNewEmail() {
+    if (Strings.emptyToNull(httpEmailHeader) == null)
+      return true;
+    else
+      return httpAllowRegisterNewEmail;
   }
 }

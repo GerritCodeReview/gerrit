@@ -1357,6 +1357,21 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void robotReviewWithNegativeLabelDoesNotAddOwnerOnWorkInProgressChanges()
+      throws Exception {
+    TestAccount robot =
+        accountCreator.create(
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", ServiceUserClassifier.SERVICE_USERS);
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).setWorkInProgress();
+
+    requestScopeOperations.setApiUser(robot.id());
+    change(r).current().review(ReviewInput.dislike());
+
+    assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
   public void robotReviewWithNegativeLabelAddsOwner() throws Exception {
     TestAccount robot =
         accountCreator.create(

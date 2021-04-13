@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.DiffWebLink;
+import com.google.gerrit.extensions.webui.EditWebLink;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ParentWebLink;
@@ -56,6 +57,7 @@ public class WebLinks {
 
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
   private final DynamicSet<ParentWebLink> parentLinks;
+  private final DynamicSet<EditWebLink> editLinks;
   private final DynamicSet<FileWebLink> fileLinks;
   private final DynamicSet<FileHistoryWebLink> fileHistoryLinks;
   private final DynamicSet<DiffWebLink> diffLinks;
@@ -67,6 +69,7 @@ public class WebLinks {
   public WebLinks(
       DynamicSet<PatchSetWebLink> patchSetLinks,
       DynamicSet<ParentWebLink> parentLinks,
+      DynamicSet<EditWebLink> editLinks,
       DynamicSet<FileWebLink> fileLinks,
       DynamicSet<FileHistoryWebLink> fileLogLinks,
       DynamicSet<DiffWebLink> diffLinks,
@@ -75,6 +78,7 @@ public class WebLinks {
       DynamicSet<TagWebLink> tagLinks) {
     this.patchSetLinks = patchSetLinks;
     this.parentLinks = parentLinks;
+    this.editLinks = editLinks;
     this.fileLinks = fileLinks;
     this.fileHistoryLinks = fileLogLinks;
     this.diffLinks = diffLinks;
@@ -109,6 +113,18 @@ public class WebLinks {
     return filterLinks(
         parentLinks,
         webLink -> webLink.getParentWebLink(project.get(), revision, commitMessage, branchName));
+  }
+
+  /**
+   * @param project Project name.
+   * @param revision SHA1 of revision.
+   * @param file File name.
+   * @return Links for editing.
+   */
+  public ImmutableList<WebLinkInfo> getEditLinks(String project, String revision, String file) {
+    return Patch.isMagic(file)
+        ? ImmutableList.of()
+        : filterLinks(editLinks, webLink -> webLink.getEditWebLink(project, revision, file));
   }
 
   /**

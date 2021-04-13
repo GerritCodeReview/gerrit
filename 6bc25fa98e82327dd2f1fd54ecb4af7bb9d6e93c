@@ -46,6 +46,30 @@
       },
       "revId": "6bc25fa98e82327dd2f1fd54ecb4af7bb9d6e93c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "443344a9_100801a8",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-13T13:55:04Z",
+      "side": 1,
+      "message": "I think your are right, thanks for the pointers.",
+      "parentUuid": "5c1d5f6b_dbc4d80a",
+      "range": {
+        "startLine": 143,
+        "startChar": 26,
+        "endLine": 143,
+        "endChar": 36
+      },
+      "revId": "6bc25fa98e82327dd2f1fd54ecb4af7bb9d6e93c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

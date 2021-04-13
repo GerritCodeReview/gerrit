@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc2a4893_f4b135f9",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-13T12:42:14Z",
+      "side": 1,
+      "message": "What do you think about naming it \"isFinal\" (relating to use of \u0027final\u0027 in Java)?",
+      "parentUuid": "161ce2e5_2a4de030",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "309e80e7_93c0b5ca",
         "filename": "java/com/google/gerrit/entities/SubmitRequirementExpression.java",
         "patchSetId": 4
@@ -150,6 +174,30 @@
       "side": 1,
       "message": "I don\u0027t understand why we can do syntax validation only if we cache the parsed tree (vs. the string)?\n\nFrom my experience, it\u0027s actually the opposite: If we cache the parsed tree, that means we have to parse it when we deserialize the string from the persisted cache. That\u0027s a bad place to throw a InvalidSubmitRequirementException.\n\nA better place to throw such an exception is when the SR is actually used (the best place is o.c. before the bad config is created).\n\n(2) Is a good argument in case parsing is not trivially cheap.\n\nI think Edwin was mostly asking for this interface to return the parsed tree, not necessarily that we cache the parsed tree? (note that if we cache it, it has to be deeply immutable).\n\nAnyway, happy to chat about this later when we actually want to cache a tree. The code now does not do that, so seems good in any case :-)",
       "parentUuid": "19c51089_b50fc9f0",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afcffc97_95348db7",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpression.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-13T12:42:14Z",
+      "side": 1,
+      "message": "I think what should be achieved is that\na) callers do not need to do the parsing on their own, they can just get the parsed predicate tree (whether it is parsed when the config is read, or when a caller asks for the predicate tree is not important to me)\nb) the handling of invalid submit requirements is consistent for all callers (e.g. always throw an exception, or always say that the change is not submittable similar to RULE_ERROR works nowadays)",
+      "parentUuid": "33e06282_161ea90d",
       "range": {
         "startLine": 25,
         "startChar": 12,

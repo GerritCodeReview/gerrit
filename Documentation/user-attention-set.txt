@@ -51,6 +51,7 @@ changing the attention set:
   added to the attention set.
 * Only owner, uploader, reviewers and ccs can be in the attention set.
 * The rules for service accounts are different, see link:#bots[Bots].
+* Users are not added by automatic rules when the change is work in progress.
 
 *!IMPORTANT!* These rules are not meant to be super smart and to always do the
 right thing, e.g. if the change owner sends a reply, then they are often

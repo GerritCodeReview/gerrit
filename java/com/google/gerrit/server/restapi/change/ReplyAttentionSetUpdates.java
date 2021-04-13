@@ -123,7 +123,9 @@ public class ReplyAttentionSetUpdates {
       bu.addOp(changeNotes.getChangeId(), new AttentionSetUnchangedOp());
       return;
     }
-    if (serviceUserClassifier.isServiceUser(currentUser.getAccountId())) {
+    boolean isReadyForReview = isReadyForReview(changeNotes, input);
+
+    if (isReadyForReview && serviceUserClassifier.isServiceUser(currentUser.getAccountId())) {
       botsWithNegativeLabelsAddOwnerAndUploader(bu, changeNotes, input);
       return;
     }
@@ -131,7 +133,7 @@ public class ReplyAttentionSetUpdates {
     processRules(
         bu,
         changeNotes,
-        isReadyForReview(changeNotes, input),
+        isReadyForReview,
         currentUser,
         getAllNewComments(changeNotes, input, currentUser));
   }

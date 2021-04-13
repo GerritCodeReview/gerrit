@@ -35,6 +35,7 @@ export enum AccessPermissionId {
   PUSH = 'push',
   PUSH_MERGE = 'pushMerge',
   READ = 'read',
+  READ_REF = 'read-ref',
   REBASE = 'rebase',
   REVERT = 'revert',
   REMOVE_REVIEWER = 'removeReviewer',
@@ -118,6 +119,10 @@ export const AccessPermissions: {[id: string]: AccessPermission} = {
   [AccessPermissionId.READ]: {
     id: AccessPermissionId.READ,
     name: 'Read',
+  },
+  [AccessPermissionId.READ_REF]: {
+    id: AccessPermissionId.READ_REF,
+    name: 'Read Ref',
   },
   [AccessPermissionId.REBASE]: {
     id: AccessPermissionId.REBASE,

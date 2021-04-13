@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b6db8bf_6f279fba",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-13T09:28:08Z",
+      "side": 1,
+      "message": "Seems this is not working but throwing a DiffNotAvailableException.\n\nHow would I get the list of files for the initial commit? Or is this not supported?",
+      "parentUuid": "a31babc3_f964d177",
+      "range": {
+        "startLine": 47,
+        "startChar": 70,
+        "endLine": 48,
+        "endChar": 74
+      },
+      "revId": "9b1cec5011c5c6282a5e88f3d6f6ce7440c5c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19ad23b5_12725d76",
         "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
         "patchSetId": 11

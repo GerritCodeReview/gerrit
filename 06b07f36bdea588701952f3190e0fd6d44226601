@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c06c7c1_da5ede8b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-04-13T13:43:48Z",
+      "side": 1,
+      "message": "Test names seem to have been mixed up.",
+      "range": {
+        "startLine": 1374,
+        "startChar": 14,
+        "endLine": 1374,
+        "endChar": 81
+      },
+      "revId": "06b07f36bdea588701952f3190e0fd6d44226601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

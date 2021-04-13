@@ -59,99 +59,6 @@ suite('gr-file-list-header tests', () => {
     assert.isFalse(element.$.diffPrefsContainer.hidden);
   });
 
-  test('_computeDescriptionReadOnly', () => {
-    element.loggedIn = false;
-    element.change = {owner: {_account_id: 1}};
-    element.account = {_account_id: 1};
-    assert.equal(element._descriptionReadOnly, true);
-
-    element.loggedIn = true;
-    element.change = {owner: {_account_id: 0}};
-    element.account = {_account_id: 1};
-    assert.equal(element._descriptionReadOnly, true);
-
-    element.loggedIn = true;
-    element.change = {owner: {_account_id: 1}};
-    element.account = {_account_id: 1};
-    assert.equal(element._descriptionReadOnly, false);
-  });
-
-  test('_computeDescriptionPlaceholder', () => {
-    assert.equal(element._computeDescriptionPlaceholder(true),
-        'No patchset description');
-    assert.equal(element._computeDescriptionPlaceholder(false),
-        'Add patchset description');
-  });
-
-  test('description editing', () => {
-    const putDescStub = stubRestApi('setDescription')
-        .returns(Promise.resolve({ok: true}));
-
-    element.changeNum = '42';
-    element.basePatchNum = 'PARENT';
-    element.patchNum = 1;
-
-    element.change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      revisions: {
-        rev1: {_number: 1, description: 'test', commit: {commit: 'rev1'}},
-      },
-      current_revision: 'rev1',
-      status: 'NEW',
-      labels: {},
-      actions: {},
-      owner: {_account_id: 1},
-    };
-    element.account = {_account_id: 1};
-    element.owner = {_account_id: 1};
-    element.loggedIn = true;
-
-    flush();
-
-    // The element has a description, so the account chip should be visible
-    element.owner = {_account_id: 1};
-    // and the description label should not exist.
-    const chip = element.root.querySelector('#descriptionChip');
-    let label = element.root.querySelector('#descriptionLabel');
-
-    assert.equal(chip.text, 'test');
-    assert.isNotOk(label);
-
-    // Simulate tapping the remove button, but call function directly so that
-    // can determine what happens after the promise is resolved.
-    return element._handleDescriptionRemoved()
-        .then(() => {
-          // The API stub should be called with an empty string for the new
-          // description.
-          assert.equal(putDescStub.lastCall.args[2], '');
-          assert.equal(element.change.revisions.rev1.description, '');
-
-          flush();
-          // The editable label should now be visible and the chip hidden.
-          label = element.root.querySelector('#descriptionLabel');
-          assert.isOk(label);
-          assert.equal(getComputedStyle(chip).display, 'none');
-          assert.notEqual(getComputedStyle(label).display, 'none');
-          assert.isFalse(label.readOnly);
-          // Edit the label to have a new value of test2, and save.
-          label.editing = true;
-          label._inputText = 'test2';
-          label._save();
-          flush();
-          // The API stub should be called with an `test2` for the new
-          // description.
-          assert.equal(putDescStub.callCount, 2);
-          assert.equal(putDescStub.lastCall.args[2], 'test2');
-        })
-        .then(() => {
-          flush();
-          // The chip should be visible again, and the label hidden.
-          assert.equal(element.change.revisions.rev1.description, 'test2');
-          assert.equal(getComputedStyle(label).display, 'none');
-          assert.notEqual(getComputedStyle(chip).display, 'none');
-        });
-  });
-
   test('expandAllDiffs called when expand button clicked', () => {
     element.shownFileCount = 1;
     flush();
@@ -280,14 +187,10 @@ suite('gr-file-list-header tests', () => {
       flush();
 
       assert.isFalse(isVisible(element.$.diffPrefsContainer));
-      assert.isFalse(isVisible(element.shadowRoot
-          .querySelector('.descriptionContainer')));
 
       element.editMode = false;
       flush();
 
-      assert.isTrue(isVisible(element.shadowRoot
-          .querySelector('.descriptionContainer')));
       assert.isTrue(isVisible(element.$.diffPrefsContainer));
     });
 

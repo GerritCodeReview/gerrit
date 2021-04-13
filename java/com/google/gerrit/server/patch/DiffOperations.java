@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
@@ -47,7 +48,9 @@ public interface DiffOperations {
    * @param newCommit 20 bytes SHA-1 of the new commit used in the diff.
    * @param parentNum integer specifying which parent to use as base. If null, the only parent will
    *     be used or the auto-merge if {@code newCommit} is a merge commit.
-   * @return the list of modified files between the two commits.
+   * @return map of file paths to the file diffs. The map key is the new file path for all {@link
+   *     ChangeType} file diffs except {@link ChangeType#DELETED} entries where the map key contains
+   *     the old file path. The map entries are not sorted by key.
    * @throws DiffNotAvailableException if auto-merge is requested for a commit having more than two
    *     parents, if the {@code newCommit} could not be parsed for extracting the base commit, or if
    *     an internal error occurred in Git while evaluating the diff.
@@ -63,7 +66,9 @@ public interface DiffOperations {
    * @param project a project name representing a git repository.
    * @param oldCommit 20 bytes SHA-1 of the old commit used in the diff.
    * @param newCommit 20 bytes SHA-1 of the new commit used in the diff.
-   * @return the list of modified files between the two commits.
+   * @return map of file paths to the file diffs. The map key is the new file path for all {@link
+   *     ChangeType} file diffs except {@link ChangeType#DELETED} entries where the map key contains
+   *     the old file path. The map entries are not sorted by key.
    * @throws DiffNotAvailableException if an internal error occurred in Git while evaluating the
    *     diff.
    */

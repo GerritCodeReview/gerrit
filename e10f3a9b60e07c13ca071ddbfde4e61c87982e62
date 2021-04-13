@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "052bebe4_05d4bccc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-13T08:12:33Z",
+      "side": 1,
+      "message": "There is a utility for that:\n\n  if (isSelf(r1, this.account)) return -1;\n  if (isSelf(r2, this.account)) return 1;",
+      "range": {
+        "startLine": 253,
+        "startChar": 8,
+        "endLine": 256,
+        "endChar": 9
+      },
+      "revId": "e10f3a9b60e07c13ca071ddbfde4e61c87982e62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

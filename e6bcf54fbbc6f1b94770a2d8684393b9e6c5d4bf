@@ -16,6 +16,24 @@
       "message": "These comments can all be JavaDocs",
       "revId": "e6bcf54fbbc6f1b94770a2d8684393b9e6c5d4bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca372307_7b882ef0",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-13T15:51:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2708d314_f2705578",
+      "revId": "e6bcf54fbbc6f1b94770a2d8684393b9e6c5d4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

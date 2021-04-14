@@ -283,6 +283,10 @@ export class GrChangeMetadata extends PolymerElement {
     return weblinks.length ? weblinks : undefined;
   }
 
+  _isChangeMerged(change?: ParsedChangeInfo) {
+    return change?.status === ChangeStatus.MERGED;
+  }
+
   _isAssigneeEnabled(serverConfig?: ServerInfo) {
     return !!serverConfig?.change?.enable_assignee;
   }

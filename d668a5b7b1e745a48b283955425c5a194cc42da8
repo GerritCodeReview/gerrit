@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55eb6c2b_cd06af34",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T14:33:50Z",
+      "side": 1,
+      "message": "Change the TODO to use/move the `enum ChangeStates` in gr-change-status.",
+      "revId": "d668a5b7b1e745a48b283955425c5a194cc42da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

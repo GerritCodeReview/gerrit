@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b331376b_74ffa5ba",
+        "filename": ".bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030339
+      },
+      "writtenOn": "2021-04-14T14:27:06Z",
+      "side": 1,
+      "message": "Maybe add \"Remove after updating to Bazel 4.1.0\" just so that we don\u0027t forget?",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "e643f1f91eb36b9aa1f5452966c02ac1675e4308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

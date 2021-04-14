@@ -118,6 +118,30 @@
       },
       "revId": "e643f1f91eb36b9aa1f5452966c02ac1675e4308",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0c12f03_0fddf501",
+        "filename": ".bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-14T18:02:24Z",
+      "side": 1,
+      "message": "Thanks for answering, let\u0027s roll this workaround to prod 👍",
+      "parentUuid": "1957acff_c8692e6a",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "e643f1f91eb36b9aa1f5452966c02ac1675e4308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

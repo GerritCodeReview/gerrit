@@ -41,7 +41,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -270,7 +270,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(PostUpdateContext ctx) {
     patchSetInserter.postUpdate(ctx);
   }
 

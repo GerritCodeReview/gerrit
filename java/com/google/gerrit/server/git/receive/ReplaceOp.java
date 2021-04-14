@@ -74,6 +74,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
@@ -493,7 +494,7 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws Exception {
+  public void postUpdate(PostUpdateContext ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
@@ -506,7 +507,8 @@ public class ReplaceOp implements BatchUpdateOp {
       }
     }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
-    revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
+    revisionCreated.fire(
+        ctx.getChangeData(notes), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
     try {
       fireApprovalsEvent(ctx);
     } catch (Exception e) {
@@ -560,7 +562,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
-  private void fireApprovalsEvent(Context ctx) {
+  private void fireApprovalsEvent(PostUpdateContext ctx) {
     if (approvals.isEmpty()) {
       return;
     }
@@ -588,7 +590,7 @@ public class ReplaceOp implements BatchUpdateOp {
       }
     }
     commentAdded.fire(
-        notes.getChange(),
+        ctx.getChangeData(notes),
         newPatchSet,
         ctx.getAccount(),
         null,

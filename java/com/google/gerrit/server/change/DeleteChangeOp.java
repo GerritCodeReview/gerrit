@@ -27,6 +27,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.extensions.events.ChangeDeleted;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
@@ -49,6 +50,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
   private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeDeleted changeDeleted;
   private final Change.Id id;
 
@@ -57,11 +59,13 @@ public class DeleteChangeOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
       PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore,
+      ChangeData.Factory changeDataFactory,
       ChangeDeleted changeDeleted,
       @Assisted Change.Id id) {
     this.psUtil = psUtil;
     this.starredChangesUtil = starredChangesUtil;
     this.accountPatchReviewStore = accountPatchReviewStore;
+    this.changeDataFactory = changeDataFactory;
     this.changeDeleted = changeDeleted;
     this.id = id;
   }
@@ -90,7 +94,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
                     .map(p -> p.commitId().name())
                     .orElse("n/a")));
     ctx.deleteChange();
-    changeDeleted.fire(ctx.getChange(), ctx.getAccount(), ctx.getWhen());
+    changeDeleted.fire(changeDataFactory.create(ctx.getChange()), ctx.getAccount(), ctx.getWhen());
     return true;
   }
 

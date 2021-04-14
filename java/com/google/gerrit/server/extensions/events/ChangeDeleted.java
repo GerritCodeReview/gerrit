@@ -15,7 +15,6 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -23,6 +22,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeDeletedListener;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
@@ -41,12 +41,12 @@ public class ChangeDeleted {
     this.util = util;
   }
 
-  public void fire(Change change, AccountState deleter, Timestamp when) {
+  public void fire(ChangeData changeData, AccountState deleter, Timestamp when) {
     if (listeners.isEmpty()) {
       return;
     }
     try {
-      Event event = new Event(util.changeInfo(change), util.accountInfo(deleter), when);
+      Event event = new Event(util.changeInfo(changeData), util.accountInfo(deleter), when);
       listeners.runEach(l -> l.onChangeDeleted(event));
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");

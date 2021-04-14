@@ -16,7 +16,6 @@ package com.google.gerrit.server.extensions.events;
 
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -24,6 +23,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
@@ -45,7 +45,7 @@ public class HashtagsEdited {
   }
 
   public void fire(
-      Change change,
+      ChangeData changeData,
       AccountState editor,
       ImmutableSortedSet<String> hashtags,
       Set<String> added,
@@ -57,7 +57,12 @@ public class HashtagsEdited {
     try {
       Event event =
           new Event(
-              util.changeInfo(change), util.accountInfo(editor), hashtags, added, removed, when);
+              util.changeInfo(changeData),
+              util.accountInfo(editor),
+              hashtags,
+              added,
+              removed,
+              when);
       listeners.runEach(l -> l.onHashtagsEdited(event));
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");

@@ -64,6 +64,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
@@ -74,9 +75,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.function.Function;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -134,7 +137,7 @@ public class BatchUpdate implements AutoCloseable {
     checkDifferentProject(updates);
 
     try {
-      List<ListenableFuture<?>> indexFutures = new ArrayList<>();
+      List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
       List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
       try {
         for (BatchUpdate u : updates) {
@@ -156,7 +159,11 @@ public class BatchUpdate implements AutoCloseable {
         }
       }
 
-      ((ListenableFuture<?>) Futures.allAsList(indexFutures)).get();
+      Map<Change.Id, ChangeData> changeDatas =
+          Futures.allAsList(indexFutures).get().stream()
+              // filter out null values that were returned for change deletions
+              .filter(Objects::nonNull)
+              .collect(toMap(cd -> cd.change().getId(), Function.identity()));
 
       // Fire ref update events only after all mutations are finished, since callers may assume a
       // patch set ref being created means the change was created, or a branch advancing meaning
@@ -165,7 +172,7 @@ public class BatchUpdate implements AutoCloseable {
 
       if (!dryrun) {
         for (BatchUpdate u : updates) {
-          u.executePostOps();
+          u.executePostOps(changeDatas);
         }
       }
     } catch (Exception e) {
@@ -340,6 +347,19 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
+  private class PostUpdateContextImpl extends ContextImpl implements PostUpdateContext {
+    private final Map<Change.Id, ChangeData> changeDatas;
+
+    PostUpdateContextImpl(Map<Change.Id, ChangeData> changeDatas) {
+      this.changeDatas = changeDatas;
+    }
+
+    @Override
+    public ChangeData getChangeData(Change change) {
+      return changeDatas.computeIfAbsent(change.getId(), id -> changeDataFactory.create(change));
+    }
+  }
+
   /** Per-change result status from {@link #executeChangeOps}. */
   private enum ChangeResult {
     SKIPPED,
@@ -348,6 +368,7 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private final GitRepositoryManager repoManager;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
@@ -377,6 +398,7 @@ public class BatchUpdate implements AutoCloseable {
   BatchUpdate(
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverIdent,
+      ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory changeNotesFactory,
       ChangeUpdate.Factory changeUpdateFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -386,6 +408,7 @@ public class BatchUpdate implements AutoCloseable {
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
     this.repoManager = repoManager;
+    this.changeDataFactory = changeDataFactory;
     this.changeNotesFactory = changeNotesFactory;
     this.changeUpdateFactory = changeUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
@@ -589,12 +612,12 @@ public class BatchUpdate implements AutoCloseable {
       BatchUpdate.this.executed = manager.isExecuted();
     }
 
-    List<ListenableFuture<?>> startIndexFutures() {
+    List<ListenableFuture<ChangeData>> startIndexFutures() {
       if (dryrun) {
         return ImmutableList.of();
       }
       logDebug("Reindexing %d changes", results.size());
-      List<ListenableFuture<?>> indexFutures = new ArrayList<>(results.size());
+      List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>(results.size());
       for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
         Change.Id id = e.getKey();
         switch (e.getValue()) {
@@ -687,8 +710,8 @@ public class BatchUpdate implements AutoCloseable {
     return new ChangeContextImpl(notes);
   }
 
-  private void executePostOps() throws Exception {
-    ContextImpl ctx = new ContextImpl();
+  private void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
+    PostUpdateContextImpl ctx = new PostUpdateContextImpl(changeDatas);
     for (BatchUpdateOp op : ops.values()) {
       try (TraceContext.TraceTimer ignored =
           TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {

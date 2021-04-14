@@ -24,7 +24,7 @@ import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
@@ -73,7 +73,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(PostUpdateContext ctx) {
     try {
       NotifyResolver.Result notify = ctx.getNotify(change.getId());
       if (!notify.shouldNotify()) {

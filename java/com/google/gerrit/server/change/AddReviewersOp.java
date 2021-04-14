@@ -44,7 +44,7 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -238,7 +238,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws Exception {
+  public void postUpdate(PostUpdateContext ctx) throws Exception {
     opResult =
         Result.builder()
             .setAddedReviewers(addedReviewers)
@@ -262,7 +262,8 @@ public class AddReviewersOp implements BatchUpdateOp {
               .map(r -> accountCache.get(r.accountId()))
               .flatMap(Streams::stream)
               .collect(toList());
-      reviewerAdded.fire(change, patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
+      reviewerAdded.fire(
+          ctx.getChangeData(change), patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
     }
   }
 

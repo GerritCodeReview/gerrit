@@ -15,12 +15,12 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeRevertedListener;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
@@ -39,12 +39,12 @@ public class ChangeReverted {
     this.util = util;
   }
 
-  public void fire(Change change, Change revertChange, Timestamp when) {
+  public void fire(ChangeData changeData, ChangeData revertChangeData, Timestamp when) {
     if (listeners.isEmpty()) {
       return;
     }
     try {
-      Event event = new Event(util.changeInfo(change), util.changeInfo(revertChange), when);
+      Event event = new Event(util.changeInfo(changeData), util.changeInfo(revertChangeData), when);
       listeners.runEach(l -> l.onChangeReverted(event));
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");

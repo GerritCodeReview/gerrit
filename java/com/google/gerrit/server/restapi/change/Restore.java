@@ -47,7 +47,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -148,7 +148,7 @@ public class Restore
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public void postUpdate(PostUpdateContext ctx) {
       try {
         ReplyToChangeSender emailSender =
             restoredSenderFactory.create(ctx.getProject(), change.getId());
@@ -161,7 +161,11 @@ public class Restore
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
       changeRestored.fire(
-          change, patchSet, ctx.getAccount(), Strings.emptyToNull(input.message), ctx.getWhen());
+          ctx.getChangeData(change),
+          patchSet,
+          ctx.getAccount(),
+          Strings.emptyToNull(input.message),
+          ctx.getWhen());
     }
   }
 

@@ -33,7 +33,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -178,7 +178,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(PostUpdateContext ctx) {
     if (!correctBranch) {
       return;
     }
@@ -214,7 +214,8 @@ public class MergedByPushOp implements BatchUpdateOp {
                   }
                 }));
 
-    changeMerged.fire(change, patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());
+    changeMerged.fire(
+        ctx.getChangeData(change), patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {

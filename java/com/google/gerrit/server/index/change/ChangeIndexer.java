@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -79,8 +80,7 @@ public class ChangeIndexer {
   private final StalenessChecker stalenessChecker;
   private final boolean autoReindexIfStale;
 
-  private final Set<IndexTask> queuedIndexTasks =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  private final Map<Change.Id, IndexTask> queuedIndexTasks = new ConcurrentHashMap<>();
   private final Set<ReindexIfStaleTask> queuedReindexIfStaleTasks =
       Collections.newSetFromMap(new ConcurrentHashMap<>());
 
@@ -137,16 +137,44 @@ public class ChangeIndexer {
   /**
    * Start indexing a change.
    *
-   * @param id change to index.
+   * @param changeId change to index.
    * @return future for the indexing task.
    */
-  public ListenableFuture<?> indexAsync(Project.NameKey project, Change.Id id) {
-    IndexTask task = new IndexTask(project, id);
-    if (queuedIndexTasks.add(task)) {
-      fireChangeScheduledForIndexingEvent(project.get(), id.get());
-      return submit(task);
-    }
-    return Futures.immediateFuture(null);
+  public ListenableFuture<ChangeData> indexAsync(Project.NameKey project, Change.Id changeId) {
+    // If the change was already scheduled for indexing, we do not need to schedule it again. Change
+    // updates that happened after the change was scheduled for indexing will automatically be taken
+    // into account when the index task is executed (as it reads the current change state).
+    // To skip duplicate index requests, queuedIndexTasks keeps track of the scheduled index tasks.
+    // Here we check if the change has already been scheduled for indexing, and only if not we
+    // create a new index task for the change.
+    // By using computeIfAbsent we ensure that the lookup and the insertion of a new task happens
+    // atomically. Some attempted update operations on this map by other threads may be blocked
+    // while the computation is in progress (but not all as ConcurrentHashMap doesn't lock the
+    // entire table on write, but only segments of the table).
+    IndexTask task =
+        queuedIndexTasks.computeIfAbsent(
+            changeId,
+            id -> {
+              fireChangeScheduledForIndexingEvent(project.get(), id.get());
+              return new IndexTask(project, id);
+            });
+    // Submitting the task to the executor must not happen from within the computeIfAbsent callback,
+    // as this could result in the task being executed before the computeIfAbsent method has
+    // finished (e.g. if a direct executor is used, but also if starting the task asynchronously is
+    // faster than finishing the computeIfAbsent method). This could lead to failures and unexpected
+    // behavior:
+    // * The first thing that IndexTask does is to remove itself from queuedIndexTasks.
+    //   This is done so that index requests which are received while an index task for the same
+    //   change is in progress, are not dropped but added to the queue. This is important since
+    //   the change state that is written to the index is read at the beginning of the index task
+    //   and change updates that happen after this read will not be considered when updating the
+    //   index.
+    // * Trying to remove the IndexTask from queuedIndexTasks at the beginning of the task doesn't
+    //   work if the computeIfAbsent method hasn't finished yet. Either the queuedIndexTasks doesn't
+    //   contain the new entry yet and the removal has no effect as it is done before the entry is
+    //   added to the map, or the removal fails with {@link IllegalStateException} as recursive
+    //   updates from within the computeIfAbsent callback are not allowed.
+    return task.submitIfNeeded();
   }
 
   /**
@@ -155,8 +183,9 @@ public class ChangeIndexer {
    * @param ids changes to index.
    * @return future for completing indexing of all changes.
    */
-  public ListenableFuture<?> indexAsync(Project.NameKey project, Collection<Change.Id> ids) {
-    List<ListenableFuture<?>> futures = new ArrayList<>(ids.size());
+  public ListenableFuture<List<ChangeData>> indexAsync(
+      Project.NameKey project, Collection<Change.Id> ids) {
+    List<ListenableFuture<ChangeData>> futures = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
       futures.add(indexAsync(project, id));
     }
@@ -259,9 +288,9 @@ public class ChangeIndexer {
    * Start deleting a change.
    *
    * @param id change to delete.
-   * @return future for the deleting task.
+   * @return future for the deleting task, the result of the future is always {@code null}
    */
-  public ListenableFuture<?> deleteAsync(Change.Id id) {
+  public ListenableFuture<ChangeData> deleteAsync(Change.Id id) {
     fireChangeScheduledForDeletionFromIndexEvent(id.get());
     return submit(new DeleteTask(id));
   }
@@ -359,17 +388,46 @@ public class ChangeIndexer {
     }
   }
 
-  private class IndexTask extends AbstractIndexTask<Void> {
+  private class IndexTask extends AbstractIndexTask<ChangeData> {
+    ListenableFuture<ChangeData> future;
+
     private IndexTask(Project.NameKey project, Change.Id id) {
       super(project, id);
     }
 
+    /**
+     * Submits this task to be executed, if it wasn't submitted yet.
+     *
+     * <p>Submits this task to the executor if it hasn't been submitted yet. The future is cached so
+     * that it can be returned if this method is called again.
+     *
+     * <p>This method must be synchronized so that concurrent calls do not submit this task to the
+     * executor multiple times.
+     *
+     * @return future from which the result of the index task (the {@link ChangeData} instance) can
+     *     be retrieved.
+     */
+    private synchronized ListenableFuture<ChangeData> submitIfNeeded() {
+      if (future == null) {
+        future = submit(this);
+      }
+      return future;
+    }
+
     @Override
-    public Void callImpl() throws Exception {
+    public ChangeData callImpl() throws Exception {
+      // Remove this task from queuedIndexTasks. This is done right at the beginning of this task so
+      // that index requests which are received for the same change while this index task is in
+      // progress, are not dropped but added to the queue. This is important since change updates
+      // that happen after reading the change notes below will not be considered when updating the
+      // index.
       remove();
+
       try {
         ChangeNotes changeNotes = notesFactory.createChecked(project, id);
-        doIndex(changeDataFactory.create(changeNotes));
+        ChangeData changeData = changeDataFactory.create(changeNotes);
+        doIndex(changeData);
+        return changeData;
       } catch (NoSuchChangeException e) {
         doDelete(id);
       }
@@ -397,12 +455,12 @@ public class ChangeIndexer {
 
     @Override
     protected void remove() {
-      queuedIndexTasks.remove(this);
+      queuedIndexTasks.remove(id);
     }
   }
 
   // Not AbstractIndexTask as it doesn't need a request context.
-  private class DeleteTask implements Callable<Void> {
+  private class DeleteTask implements Callable<ChangeData> {
     private final Change.Id id;
 
     private DeleteTask(Change.Id id) {
@@ -410,7 +468,7 @@ public class ChangeIndexer {
     }
 
     @Override
-    public Void call() {
+    public ChangeData call() {
       logger.atFine().log("Delete change %d from index.", id.get());
       // Don't bother setting a RequestContext to provide the DB.
       // Implementations should not need to access the DB in order to delete a

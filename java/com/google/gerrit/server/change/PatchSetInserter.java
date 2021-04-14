@@ -53,7 +53,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -298,7 +298,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(PostUpdateContext ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (notify.shouldNotify() && sendEmail) {
       requireNonNull(changeMessage);
@@ -321,11 +321,12 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
+      revisionCreated.fire(
+          ctx.getChangeData(change), patchSet, ctx.getAccount(), ctx.getWhen(), notify);
     }
 
     if (workInProgress != null && oldWorkInProgressState != workInProgress) {
-      wipStateChanged.fire(change, patchSet, ctx.getAccount(), ctx.getWhen());
+      wipStateChanged.fire(ctx.getChangeData(change), patchSet, ctx.getAccount(), ctx.getWhen());
     }
   }
 

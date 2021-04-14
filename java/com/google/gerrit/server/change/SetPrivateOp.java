@@ -30,7 +30,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -88,9 +88,9 @@ public class SetPrivateOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(PostUpdateContext ctx) {
     if (!isNoOp) {
-      privateStateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
+      privateStateChanged.fire(ctx.getChangeData(change), ps, ctx.getAccount(), ctx.getWhen());
     }
   }
 

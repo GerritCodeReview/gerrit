@@ -48,7 +48,7 @@ import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.inject.Inject;
@@ -310,8 +310,9 @@ public class CommitUtil {
     }
 
     @Override
-    public void postUpdate(Context ctx) throws Exception {
-      changeReverted.fire(change, ins.getChange(), ctx.getWhen());
+    public void postUpdate(PostUpdateContext ctx) throws Exception {
+      changeReverted.fire(
+          ctx.getChangeData(change), ctx.getChangeData(ins.getChange()), ctx.getWhen());
       try {
         RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());

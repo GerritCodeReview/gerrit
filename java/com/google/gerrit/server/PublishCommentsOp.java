@@ -31,7 +31,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
@@ -108,7 +108,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(PostUpdateContext ctx) {
     if (message == null || comments.isEmpty()) {
       return;
     }
@@ -128,7 +128,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
           .sendAsync();
     }
     commentAdded.fire(
-        changeNotes.getChange(),
+        ctx.getChangeData(changeNotes),
         ps,
         ctx.getAccount(),
         message.getMessage(),

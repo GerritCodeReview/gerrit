@@ -15,7 +15,6 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -23,6 +22,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
@@ -41,13 +41,14 @@ public class TopicEdited {
     this.util = util;
   }
 
-  public void fire(Change change, AccountState account, String oldTopicName, Timestamp when) {
+  public void fire(
+      ChangeData changeData, AccountState account, String oldTopicName, Timestamp when) {
     if (listeners.isEmpty()) {
       return;
     }
     try {
       Event event =
-          new Event(util.changeInfo(change), util.accountInfo(account), oldTopicName, when);
+          new Event(util.changeInfo(changeData), util.accountInfo(account), oldTopicName, when);
       listeners.runEach(l -> l.onTopicEdited(event));
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");

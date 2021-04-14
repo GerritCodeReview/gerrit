@@ -48,7 +48,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -463,7 +463,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   @Override
-  public final void postUpdate(Context ctx) throws Exception {
+  public final void postUpdate(PostUpdateContext ctx) throws Exception {
     if (changeAlreadyMerged) {
       // TODO(dborowitz): This is suboptimal behavior in the presence of retries: postUpdate steps
       // will never get run for changes that submitted successfully on any but the final attempt.
@@ -518,7 +518,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
     if (mergeResultRev != null && !args.dryrun) {
       args.changeMerged.fire(
-          updatedChange,
+          ctx.getChangeData(updatedChange),
           mergedPatchSet,
           args.accountCache.get(submitter.accountId()).orElse(null),
           args.mergeTip.getCurrentTip().name(),
@@ -542,10 +542,10 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   /**
-   * @see #postUpdate(Context)
+   * @see #postUpdate(PostUpdateContext)
    * @param ctx
    */
-  protected void postUpdateImpl(Context ctx) throws Exception {}
+  protected void postUpdateImpl(PostUpdateContext ctx) throws Exception {}
 
   /**
    * Amend the commit with gitlink update

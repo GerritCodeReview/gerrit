@@ -75,7 +75,7 @@ import com.google.gerrit.server.restapi.change.CherryPickChange.Result;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -614,10 +614,10 @@ public class RevertSubmission
     }
 
     @Override
-    public void postUpdate(Context ctx) throws Exception {
+    public void postUpdate(PostUpdateContext ctx) throws Exception {
       changeReverted.fire(
-          change,
-          changeNotesFactory.createChecked(ctx.getProject(), revertChangeId).getChange(),
+          ctx.getChangeData(change),
+          ctx.getChangeData(changeNotesFactory.createChecked(ctx.getProject(), revertChangeId)),
           ctx.getWhen());
       try {
         RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());

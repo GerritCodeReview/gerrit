@@ -74,6 +74,7 @@ import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.InsertChangeOp;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -475,7 +476,7 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws Exception {
+  public void postUpdate(PostUpdateContext ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (sendMail && notify.shouldNotify()) {
@@ -528,7 +529,8 @@ public class ChangeInserter implements InsertChangeOp {
      * show a transition from an oldValue of 0 to the new value.
      */
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
+      revisionCreated.fire(
+          ctx.getChangeData(change), patchSet, ctx.getAccount(), ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
         List<LabelType> labels = projectState.getLabelTypes(change.getDest()).getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
@@ -544,7 +546,13 @@ public class ChangeInserter implements InsertChangeOp {
           }
         }
         commentAdded.fire(
-            change, patchSet, ctx.getAccount(), null, allApprovals, oldApprovals, ctx.getWhen());
+            ctx.getChangeData(change),
+            patchSet,
+            ctx.getAccount(),
+            null,
+            allApprovals,
+            oldApprovals,
+            ctx.getWhen());
       }
     }
   }

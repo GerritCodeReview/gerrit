@@ -24,7 +24,7 @@ import com.google.gerrit.server.extensions.events.TopicEdited;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -81,9 +81,9 @@ public class SetTopicOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(PostUpdateContext ctx) {
     if (change != null) {
-      topicEdited.fire(change, ctx.getAccount(), oldTopicName, ctx.getWhen());
+      topicEdited.fire(ctx.getChangeData(change), ctx.getAccount(), oldTopicName, ctx.getWhen());
     }
   }
 }

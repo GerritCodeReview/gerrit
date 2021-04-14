@@ -46,7 +46,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -177,7 +177,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(PostUpdateContext ctx) {
     NotifyResolver.Result notify = ctx.getNotify(currChange.getId());
     if (input.notify == null
         && currChange.isWorkInProgress()
@@ -195,7 +195,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", currChange.getId());
     }
     reviewerDeleted.fire(
-        currChange,
+        ctx.getChangeData(currChange),
         currPs,
         reviewer,
         ctx.getAccount(),

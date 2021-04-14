@@ -32,7 +32,7 @@ import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -111,7 +111,7 @@ public class AbandonOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(PostUpdateContext ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     try {
       ReplyToChangeSender emailSender =
@@ -127,6 +127,12 @@ public class AbandonOp implements BatchUpdateOp {
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }
-    changeAbandoned.fire(change, patchSet, accountState, msgTxt, ctx.getWhen(), notify.handling());
+    changeAbandoned.fire(
+        ctx.getChangeData(change),
+        patchSet,
+        accountState,
+        msgTxt,
+        ctx.getWhen(),
+        notify.handling());
   }
 }

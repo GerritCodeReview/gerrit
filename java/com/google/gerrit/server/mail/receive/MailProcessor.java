@@ -65,7 +65,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -352,7 +352,7 @@ public class MailProcessor {
     }
 
     @Override
-    public void postUpdate(Context ctx) throws Exception {
+    public void postUpdate(PostUpdateContext ctx) throws Exception {
       String patchSetComment = null;
       if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
         patchSetComment = parsedComments.get(0).getMessage();
@@ -379,7 +379,7 @@ public class MailProcessor {
       // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
       // are always the same here.
       commentAdded.fire(
-          notes.getChange(),
+          ctx.getChangeData(notes),
           patchSet,
           ctx.getAccount(),
           changeMessage.getMessage(),

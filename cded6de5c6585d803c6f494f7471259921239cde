@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f07e52ac_79e31541",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T13:49:20Z",
+      "side": 1,
+      "message": "Nit: I don\u0027t think this wrapper if is needed.",
+      "revId": "cded6de5c6585d803c6f494f7471259921239cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

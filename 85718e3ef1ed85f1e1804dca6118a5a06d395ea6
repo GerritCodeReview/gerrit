@@ -1,0 +1,232 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4fd6209_2fe4f3e5",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "Maybe make part of the enum below?",
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb52ed1a_70494b69",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "There is a bug in the current UI: For active changes \"merged as\" is shown: https://imgur.com/a/I07S3fW\n\nYou have to adapt `isSectionSet`.",
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "686408d4_ebc11dc2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "Adapt `isSectionSet` instead of using dom-if here.",
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9ccd974_02ea4416",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "Is this used?",
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c515e901_b33a3958",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1579,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "Is this used?",
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79386df8_c0ffeec1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "What does this refer to?",
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8585eee6_65455c0f",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "Nit: I would find this a bit more readable:\n\n  const weblink \u003d this._getWeblink(change, commitInfo, serverConfig);\n  return weblink?.name ?? \u0027\u0027;",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 22
+      },
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f82706a_341b1a6c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status_html.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "Better use \u003ca\u003e for links.",
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59d54b8e_0208aab5",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "lower case chars",
+      "range": {
+        "startLine": 256,
+        "startChar": 30,
+        "endLine": 256,
+        "endChar": 36
+      },
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc89266f_62384769",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "lower case chars",
+      "range": {
+        "startLine": 154,
+        "startChar": 32,
+        "endLine": 154,
+        "endChar": 38
+      },
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45da2d63_626cdddf",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "Maybe just return undefined instead of throwing an error?",
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a842250_d719101d",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T10:06:46Z",
+      "side": 1,
+      "message": "What type is it that you are returning here? Maybe just return `commit` and let the caller convert this into something else?",
+      "range": {
+        "startLine": 28,
+        "startChar": 9,
+        "endLine": 30,
+        "endChar": 3
+      },
+      "revId": "85718e3ef1ed85f1e1804dca6118a5a06d395ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -53,6 +53,8 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DefaultPreferencesCacheImpl;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
+import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
+import com.google.gerrit.server.config.EnablePeerIPInReflogRecordProvider;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.SysExecutorModule;
@@ -133,6 +135,10 @@ public class BatchProgramModule extends FactoryModule {
     bind(String.class)
         .annotatedWith(CanonicalWebUrl.class)
         .toProvider(CanonicalWebUrlProvider.class);
+    bind(Boolean.class)
+        .annotatedWith(EnablePeerIPInReflogRecord.class)
+        .toProvider(EnablePeerIPInReflogRecordProvider.class)
+        .in(SINGLETON);
     bind(Realm.class).to(FakeRealm.class);
     bind(IdentifiedUser.class).toProvider(Providers.of(null));
     bind(ReplacePatchSetSender.Factory.class).toProvider(Providers.of(null));

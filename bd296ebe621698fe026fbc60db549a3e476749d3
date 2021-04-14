@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3947c55_949bf944",
+        "filename": ".bazelrc",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-14T17:07:59Z",
+      "side": 1,
+      "message": "Is there any patch-release before 4.1.0?",
+      "range": {
+        "startLine": 14,
+        "startChar": 59,
+        "endLine": 14,
+        "endChar": 64
+      },
+      "revId": "bd296ebe621698fe026fbc60db549a3e476749d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36e60af7_1395c62e",
+        "filename": ".bazelrc",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-14T17:07:59Z",
+      "side": 1,
+      "message": "what about the test target? Are we comfortable of using the worker_multiplex there?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 5
+      },
+      "revId": "bd296ebe621698fe026fbc60db549a3e476749d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

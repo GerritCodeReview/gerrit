@@ -159,7 +159,7 @@ export function changeStatuses(
     states.push('Private');
   }
   if (isRevertCreated(change.messages)) {
-    states.push('Revert Created');
+    states.push('Revert Created or Submitted');
   }
 
   // If there are any pre-defined statuses, only return those. Otherwise,

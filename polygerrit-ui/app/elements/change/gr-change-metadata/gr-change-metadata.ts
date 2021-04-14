@@ -51,6 +51,7 @@ import {
   AccountDetailInfo,
   AccountInfo,
   BranchName,
+  ChangeInfo,
   CommitId,
   CommitInfo,
   ElementPropertyDeepChange,
@@ -141,6 +142,9 @@ export class GrChangeMetadata extends PolymerElement {
 
   @property({type: Object})
   change?: ParsedChangeInfo;
+
+  @property({type: Object})
+  revertSubmittedChange?: ChangeInfo;
 
   @property({type: Object, notify: true})
   labels?: LabelNameToInfoMap;
@@ -591,12 +595,33 @@ export class GrChangeMetadata extends PolymerElement {
     return rev.commit;
   }
 
+  _getRevertSectionTitle(
+    _change?: ParsedChangeInfo,
+    revertSubmittedChange?: ChangeInfo
+  ) {
+    return revertSubmittedChange ? 'Revert Submitted As' : 'Revert Created As';
+  }
+
   _showRevertCreatedAs(change?: ParsedChangeInfo) {
     if (!change) return false;
     return isRevertCreated(change.messages);
   }
 
-  _computeRevertCommit(change?: ParsedChangeInfo) {
+  _computeRevertCommit(
+    change?: ParsedChangeInfo,
+    revertSubmittedChange?: ChangeInfo
+  ) {
+    if (
+      revertSubmittedChange?.current_revision &&
+      revertSubmittedChange?.revisions
+    ) {
+      return {
+        commit: this._computeMergedCommitInfo(
+          revertSubmittedChange.current_revision,
+          revertSubmittedChange.revisions
+        ),
+      };
+    }
     if (!change) return undefined;
     return {commit: getRevertCommitHash(change.messages)};
   }

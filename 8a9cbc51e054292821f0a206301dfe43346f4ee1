@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c913b584_1fb494f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-14T13:03:56Z",
+      "side": 1,
+      "message": "blocking this, I\u0027d rather submit it together with all the follow-ups.",
+      "revId": "8a9cbc51e054292821f0a206301dfe43346f4ee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,348 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "185f4726_95cb8a7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "interface",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d67e559_8fd8a083",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "OutputStream",
+      "range": {
+        "startLine": 11,
+        "startChar": 13,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "597a046e_8ce19ef9",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "Maybe there is no strong need for named arguments, which could only be positional as before. This would also simplify the line as it gets shown to the user.",
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dd3487d_47b67b6f",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "Exceeds the surrounding line lengths.",
+      "range": {
+        "startLine": 7,
+        "startChar": 84,
+        "endLine": 7,
+        "endChar": 111
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd0db954_4b4fa5ad",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "I think this script description should be moved to only a file-level comment, out of this message and further above.",
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e1c7976_db4a242f",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "One displayed example should be enough I think; relates to my other comment below.",
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f32b138_dbcf994c",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "Not mentioned in the synopsis at line 4. You may see the posix standard on how to show such optional arguments. But I\u0027d rather in fact remove this argument, and instead only (and always) output the necessary console traces.\n\nIf the latter are noisy or cluttering the terminal, even after minimizing them, I\u0027d make sure to show the few meaningful lines only at the end of the execution. -To make sure that the user is able to read them all upon termination of this script.",
+      "range": {
+        "startLine": 12,
+        "startChar": 18,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ae41f5a_2195d564",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "\"\"",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 6
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b916a1ac_d1c26ad8",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "Defaults for these two could be admin and localhost, with no harm I think.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 4
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8651d86c_35e64cd9",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "You could use the built-in shell variable instead to get the passed arguments count. This and the previous related comment should help simplify a lot of the related code below.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fa7d079_d4d9fffe",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "These comments are usually unnecessary, if the code snippets are clean (clear or explicit) enough.",
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1748d7d7_3fd4884c",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "These names could be fragile or ephemeral in the longer run. I think this whole verification could be removed.",
+      "range": {
+        "startLine": 71,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 20
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b8366a0_cd569217",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "This could be even more fragile than the aforementioned file names. Some of these strings may change over time. This check could be replaced with a simple ssh command used to validate that this script talks to Gerrit.",
+      "range": {
+        "startLine": 84,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49f98723_b0a5ae1d",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "If I pass 100 times to the script, will this loop run exactly 100 times?",
+      "range": {
+        "startLine": 101,
+        "startChar": 17,
+        "endLine": 101,
+        "endChar": 43
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75c08d9b_68611e72",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "count of file descriptors didn\u0027t increase",
+      "range": {
+        "startLine": 114,
+        "startChar": 36,
+        "endLine": 114,
+        "endChar": 72
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8418cb9c_647e25c8",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-14T20:13:56Z",
+      "side": 1,
+      "message": "count of file descriptors increased by (the result of the difference here)\n\n-Note that something else from the application might have caused this increase.",
+      "range": {
+        "startLine": 116,
+        "startChar": 38,
+        "endLine": 116,
+        "endChar": 78
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

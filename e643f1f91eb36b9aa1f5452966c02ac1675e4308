@@ -22,6 +22,30 @@
       },
       "revId": "e643f1f91eb36b9aa1f5452966c02ac1675e4308",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6403a8bc_aa34c9c3",
+        "filename": ".bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-14T14:31:08Z",
+      "side": 1,
+      "message": "+1\n\n@Philipp are we just unlucky or has this crash been reported by other people as well? If yes, do you guys do also patch-releases? (e.g. 4.0.1?)\n\nThanks for your quick answer and workaround for that, much appreciated.",
+      "parentUuid": "b331376b_74ffa5ba",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "e643f1f91eb36b9aa1f5452966c02ac1675e4308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

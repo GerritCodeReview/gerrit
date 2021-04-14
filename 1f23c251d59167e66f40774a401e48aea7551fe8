@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "566496d3_ef6523ce",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-14T14:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfc3d990_1ce63630",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 12
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cff44553_78e1f759",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-14T13:48:07Z",
       "side": 1,
       "message": "Maybe rename to something with \"link\" rather than \"query\", e.g. `computeCommitLink`. No underscore btw.",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 14
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "519f71e8_b4a221d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-14T14:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cff44553_78e1f759",
       "range": {
         "startLine": 84,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cffefb48_3ae630b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-14T14:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1bfa430_4271f76f",
+      "range": {
+        "startLine": 90,
+        "startChar": 16,
+        "endLine": 90,
+        "endChar": 33
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6074743_9cef9201",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-04-14T13:48:07Z",
       "side": 1,
       "message": "color and background-color are the same?",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 42
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "333eef34_29cf38a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status_html.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-14T14:23:26Z",
+      "side": 1,
+      "message": "That seems to be the pattern with the other chips.\n\nIt looks like the color property is not required. Removed from all chips.",
+      "parentUuid": "b6074743_9cef9201",
       "range": {
         "startLine": 56,
         "startChar": 6,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f4b9d4_1109a5b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status_html.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-14T14:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c180b5ff_470d6dac",
+      "range": {
+        "startLine": 80,
+        "startChar": 32,
+        "endLine": 80,
+        "endChar": 47
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a43c2e7a_aec18fea",
@@ -129,6 +249,30 @@
       "writtenOn": "2021-04-14T13:48:07Z",
       "side": 1,
       "message": "Nit: message-util should not really depend on ChangeInfo. Maybe the caller can pass `change.messages` instead of `change`.",
+      "range": {
+        "startLine": 22,
+        "startChar": 36,
+        "endLine": 22,
+        "endChar": 74
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "922f54df_7209c895",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-14T14:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a43c2e7a_aec18fea",
       "range": {
         "startLine": 22,
         "startChar": 36,

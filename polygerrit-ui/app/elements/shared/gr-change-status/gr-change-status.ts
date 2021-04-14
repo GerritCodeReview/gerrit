@@ -24,13 +24,14 @@ import {getRevertCommitHash} from '../../../utils/message-util';
 import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 
-enum ChangeStates {
+export enum ChangeStates {
   MERGED = 'Merged',
   ABANDONED = 'Abandoned',
   MERGE_CONFLICT = 'Merge Conflict',
   WIP = 'WIP',
   PRIVATE = 'Private',
   REVERT_CREATED = 'Revert Created',
+  REVERT_SUBMITTED = 'Revert Submitted',
 }
 
 const WIP_TOOLTIP =
@@ -65,6 +66,9 @@ class GrChangeStatus extends PolymerElement {
   @property({type: String})
   tooltipText = '';
 
+  @property({type: Object})
+  revertSubmittedChange?: ChangeInfo;
+
   _computeStatusString(status: ChangeStates) {
     if (status === ChangeStates.WIP && !this.flat) {
       return 'Work in Progress';
@@ -77,14 +81,25 @@ class GrChangeStatus extends PolymerElement {
   }
 
   hasStatusLink(status: ChangeStates) {
-    return status === ChangeStates.REVERT_CREATED;
+    return (
+      status === ChangeStates.REVERT_CREATED ||
+      status === ChangeStates.REVERT_SUBMITTED
+    );
   }
 
-  getStatusLink(change?: ParsedChangeInfo) {
+  getStatusLink(change?: ParsedChangeInfo, status?: ChangeStates) {
     if (!change) return;
-    const revertCommit = getRevertCommitHash(change.messages);
-    if (!revertCommit) return;
-    return GerritNav.getUrlForSearchQuery(revertCommit);
+    if (status === ChangeStates.REVERT_CREATED) {
+      const revertCommit = getRevertCommitHash(change.messages);
+      if (!revertCommit) return;
+      return GerritNav.getUrlForSearchQuery(revertCommit);
+    }
+    if (this.revertSubmittedChange) {
+      return GerritNav.getUrlForSearchQuery(
+        `${this.revertSubmittedChange._number}`
+      );
+    }
+    return;
   }
 
   _updateChipDetails(status?: ChangeStates, previousStatus?: ChangeStates) {

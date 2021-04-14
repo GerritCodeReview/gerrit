@@ -175,6 +175,11 @@ import {Subject} from 'rxjs';
 import {GrRelatedChangesListExperimental} from '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {Timing} from '../../../constants/reporting';
+import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
+import {
+  getCommitFromMessage,
+  getRevertCreatedMessages,
+} from '../../../utils/message-util';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -552,6 +557,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: String})
   _tabState?: TabState;
+
+  @property({type: Object})
+  revertSubmittedChange?: ChangeInfo;
 
   restApiService = appContext.restApiService;
 
@@ -1949,6 +1957,29 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
+  computeRevertSubmitted(change?: ChangeInfo | ParsedChangeInfo) {
+    if (!change?.messages) return;
+    Promise.all(
+      getRevertCreatedMessages(change.messages).map(revertMessage =>
+        this.restApiService.getChange(
+          getCommitFromMessage(revertMessage) as ChangeId,
+          () => {}
+        )
+      )
+    ).then(changes => {
+      const change = changes.find(
+        change => change?.status === ChangeStatus.MERGED
+      );
+      if (!this._changeStatuses) return;
+      if (change) {
+        this.revertSubmittedChange = change;
+        this.push('_changeStatuses', ChangeStates.REVERT_SUBMITTED);
+      } else {
+        this.push('_changeStatuses', ChangeStates.REVERT_CREATED);
+      }
+    });
+  }
+
   _getChangeDetail() {
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
@@ -1994,6 +2025,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         this._lineHeight = Number(lineHeight.slice(0, lineHeight.length - 2));
 
         this._change = change;
+        this.computeRevertSubmitted(change);
         this.changeService.updateChange(change);
         if (
           !this._patchRange ||

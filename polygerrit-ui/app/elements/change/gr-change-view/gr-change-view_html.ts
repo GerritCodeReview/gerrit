@@ -369,6 +369,7 @@ export const htmlTemplate = html`
             <template is="dom-repeat" items="[[_changeStatuses]]" as="status">
               <gr-change-status
                 change="[[_change]]"
+                revert-submitted-change="[[revertSubmittedChange]]"
                 max-width="100"
                 status="[[status]]"
               ></gr-change-status>
@@ -430,6 +431,7 @@ export const htmlTemplate = html`
           <gr-change-metadata
             id="metadata"
             change="{{_change}}"
+            revert-submitted-change="[[revertSubmittedChange]]"
             account="[[_account]]"
             revision="[[_selectedRevision]]"
             commit-info="[[_commitInfo]]"

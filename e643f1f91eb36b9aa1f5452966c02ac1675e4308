@@ -94,6 +94,30 @@
       },
       "revId": "e643f1f91eb36b9aa1f5452966c02ac1675e4308",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1957acff_c8692e6a",
+        "filename": ".bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030339
+      },
+      "writtenOn": "2021-04-14T17:42:29Z",
+      "side": 1,
+      "message": "\u003e @Philipp are we just unlucky or has this crash been reported by other people as well? If yes, do you guys do also patch-releases? (e.g. 4.0.1?)\n\nI checked with Lars and this is what I got: \"I\u0027ve had one internal bug report, but I also triggered it myself while working on the multiplexer. It\u0027s not easy to trigger, but with enough builds all bugs are triggered...\"\n\nWe currently don\u0027t have a patch release planned, but if the bug would be grave enough we could do one. I hope the workaround helps for now and that 4.1.0 will be out soon and should be very easy to upgrade to (it only contains additional backwards compatible cherry-picks on top of 4.0.0).",
+      "parentUuid": "e601379c_6bd63a35",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "e643f1f91eb36b9aa1f5452966c02ac1675e4308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

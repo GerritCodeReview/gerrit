@@ -39,11 +39,11 @@ import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -352,7 +352,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
 
     // Add cc
-    AddReviewerInput input = new AddReviewerInput();
+    ReviewerInput input = new ReviewerInput();
     input.reviewer = user.email();
     input.state = ReviewerState.CC;
     change(r).addReviewer(input);
@@ -404,10 +404,10 @@ public class AttentionSetIT extends AbstractDaemonTest {
   public void addingReviewerWhileMarkingWorkInProgressDoesntAddToAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
     ReviewInput reviewInput = ReviewInput.create().setWorkInProgress(true);
-    AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.state = ReviewerState.REVIEWER;
-    addReviewerInput.reviewer = user.email();
-    reviewInput.reviewers = ImmutableList.of(addReviewerInput);
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.state = ReviewerState.REVIEWER;
+    reviewerInput.reviewer = user.email();
+    reviewInput.reviewers = ImmutableList.of(reviewerInput);
 
     change(r).current().review(reviewInput);
     assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
@@ -435,11 +435,11 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void ccsAreIgnored() throws Exception {
     PushOneCommit.Result r = createChange();
-    AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.state = ReviewerState.CC;
-    addReviewerInput.reviewer = user.email();
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.state = ReviewerState.CC;
+    reviewerInput.reviewer = user.email();
 
-    change(r).addReviewer(addReviewerInput);
+    change(r).addReviewer(reviewerInput);
 
     assertThat(r.getChange().attentionSet()).isEmpty();
   }
@@ -449,10 +449,10 @@ public class AttentionSetIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     change(r).addReviewer(user.email());
 
-    AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.state = ReviewerState.CC;
-    addReviewerInput.reviewer = user.email();
-    change(r).addReviewer(addReviewerInput);
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.state = ReviewerState.CC;
+    reviewerInput.reviewer = user.email();
+    change(r).addReviewer(reviewerInput);
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
     assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
@@ -558,10 +558,10 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).addReviewer(user.email());
 
     ReviewInput reviewInput = ReviewInput.create().setReady(true);
-    AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.state = ReviewerState.CC;
-    addReviewerInput.reviewer = user.email();
-    reviewInput.reviewers = ImmutableList.of(addReviewerInput);
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.state = ReviewerState.CC;
+    reviewerInput.reviewer = user.email();
+    reviewInput.reviewers = ImmutableList.of(reviewerInput);
     change(r).addToAttentionSet(new AttentionSetInput(user.email(), "reason"));
     change(r).current().review(reviewInput);
 

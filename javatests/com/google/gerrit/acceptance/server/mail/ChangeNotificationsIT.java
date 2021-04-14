@@ -41,12 +41,12 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -582,7 +582,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private Adder singly(ReviewerState reviewerState) {
     return (String changeId, String reviewer, @Nullable NotifyHandling notify) -> {
-      AddReviewerInput in = new AddReviewerInput();
+      ReviewerInput in = new ReviewerInput();
       in.reviewer = reviewer;
       in.state = reviewerState;
       if (notify != null) {

@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.Change.INITIAL_PATCH_SET_ID;
-import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
+import static com.google.gerrit.server.change.ReviewerAdder.newReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
@@ -50,7 +50,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
+import com.google.gerrit.server.change.ReviewerAdder.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
 import com.google.gerrit.server.config.SendEmailExecutor;
@@ -139,7 +139,7 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean sendMail;
   private boolean updateRef;
   private Change.Id revertOf;
-  private ImmutableList<InternalAddReviewerInput> reviewerInputs;
+  private ImmutableList<InternalReviewerInput> reviewerInputs;
 
   // Fields set during the insertion process.
   private ReceiveCommand cmd;
@@ -281,8 +281,8 @@ public class ChangeInserter implements InsertChangeOp {
         Streams.concat(
                 Streams.stream(reviewers)
                     .distinct()
-                    .map(id -> newAddReviewerInput(id, ReviewerState.REVIEWER)),
-                Streams.stream(ccs).distinct().map(id -> newAddReviewerInput(id, ReviewerState.CC)))
+                    .map(id -> newReviewerInput(id, ReviewerState.REVIEWER)),
+                Streams.stream(ccs).distinct().map(id -> newReviewerInput(id, ReviewerState.CC)))
             .collect(toImmutableList());
     return this;
   }
@@ -588,12 +588,11 @@ public class ChangeInserter implements InsertChangeOp {
     }
   }
 
-  private static InternalAddReviewerInput newAddReviewerInput(
-      String reviewer, ReviewerState state) {
+  private static InternalReviewerInput newReviewerInput(String reviewer, ReviewerState state) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
-    InternalAddReviewerInput input =
-        ReviewerAdder.newAddReviewerInput(reviewer, state, NotifyHandling.NONE);
+    InternalReviewerInput input =
+        ReviewerAdder.newReviewerInput(reviewer, state, NotifyHandling.NONE);
 
     // Ignore failures for reasons like the reviewer being inactive or being unable to see the
     // change. This is required for the push path, where it automatically sets reviewers from
@@ -605,18 +604,18 @@ public class ChangeInserter implements InsertChangeOp {
     return input;
   }
 
-  private ImmutableList<InternalAddReviewerInput> getReviewerInputs() {
+  private ImmutableList<InternalReviewerInput> getReviewerInputs() {
     return Streams.concat(
             reviewerInputs.stream(),
             Streams.stream(
-                newAddReviewerInputFromCommitIdentity(
+                newReviewerInputFromCommitIdentity(
                     change,
                     patchSetInfo.getCommitId(),
                     patchSetInfo.getAuthor().getAccount(),
                     NotifyHandling.NONE,
                     change.getOwner())),
             Streams.stream(
-                newAddReviewerInputFromCommitIdentity(
+                newReviewerInputFromCommitIdentity(
                     change,
                     patchSetInfo.getCommitId(),
                     patchSetInfo.getCommitter().getAccount(),

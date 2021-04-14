@@ -16,7 +16,7 @@ package com.google.gerrit.server.git.receive;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
+import static com.google.gerrit.server.change.ReviewerAdder.newReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -36,8 +36,8 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -53,7 +53,7 @@ import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
+import com.google.gerrit.server.change.ReviewerAdder.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
 import com.google.gerrit.server.config.SendEmailExecutor;
@@ -354,24 +354,24 @@ public class ReplaceOp implements BatchUpdateOp {
     return true;
   }
 
-  private ImmutableList<AddReviewerInput> getReviewerInputs(
+  private ImmutableList<ReviewerInput> getReviewerInputs(
       @Nullable MagicBranchInput magicBranch,
       MailRecipients fromFooters,
       Change change,
       PatchSetInfo psInfo) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
-    Stream<AddReviewerInput> inputs =
+    Stream<ReviewerInput> inputs =
         Streams.concat(
             Streams.stream(
-                newAddReviewerInputFromCommitIdentity(
+                newReviewerInputFromCommitIdentity(
                     change,
                     psInfo.getCommitId(),
                     psInfo.getAuthor().getAccount(),
                     NotifyHandling.NONE,
                     newPatchSet.uploader())),
             Streams.stream(
-                newAddReviewerInputFromCommitIdentity(
+                newReviewerInputFromCommitIdentity(
                     change,
                     psInfo.getCommitId(),
                     psInfo.getCommitter().getAccount(),
@@ -382,19 +382,18 @@ public class ReplaceOp implements BatchUpdateOp {
           Streams.concat(
               inputs,
               magicBranch.getCombinedReviewers(fromFooters).stream()
-                  .map(r -> newAddReviewerInput(r, ReviewerState.REVIEWER)),
+                  .map(r -> newReviewerInput(r, ReviewerState.REVIEWER)),
               magicBranch.getCombinedCcs(fromFooters).stream()
-                  .map(r -> newAddReviewerInput(r, ReviewerState.CC)));
+                  .map(r -> newReviewerInput(r, ReviewerState.CC)));
     }
     return inputs.collect(toImmutableList());
   }
 
-  private static InternalAddReviewerInput newAddReviewerInput(
-      String reviewer, ReviewerState state) {
+  private static InternalReviewerInput newReviewerInput(String reviewer, ReviewerState state) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new patch set email.
-    InternalAddReviewerInput input =
-        ReviewerAdder.newAddReviewerInput(reviewer, state, NotifyHandling.NONE);
+    InternalReviewerInput input =
+        ReviewerAdder.newReviewerInput(reviewer, state, NotifyHandling.NONE);
 
     // Ignore failures for reasons like the reviewer being inactive or being unable to see the
     // change. See discussion in ChangeInserter.

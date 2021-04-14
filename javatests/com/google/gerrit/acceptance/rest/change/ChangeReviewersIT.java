@@ -41,7 +41,6 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
@@ -49,6 +48,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -115,7 +115,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.reviewers).isNull();
 
     // Add medium group with confirmation.
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = mediumGroup;
     in.confirmed = true;
     result = addReviewer(changeId, in);
@@ -133,7 +133,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   public void addCcAccount() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
     in.state = CC;
     AddReviewerResult result = addReviewer(changeId, in);
@@ -169,7 +169,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = groupOperations.newGroup().name("cc1").create().get();
     in.state = CC;
     gApi.groups()
@@ -229,7 +229,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   public void transitionCcToReviewer() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
     in.state = CC;
     addReviewer(changeId, in);
@@ -495,7 +495,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   public void addReviewerToReviewerChangeInfo() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
     in.state = CC;
     addReviewer(changeId, in);
@@ -646,7 +646,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     TestAccount userToNotify = createAccounts(1, "notify-details-post-reviewers").get(0);
 
-    AddReviewerInput addReviewer = new AddReviewerInput();
+    ReviewerInput addReviewer = new ReviewerInput();
     addReviewer.reviewer = user.email();
     addReviewer.notify = NotifyHandling.NONE;
     addReviewer.notifyDetails =
@@ -859,7 +859,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     TestAccount newUser = createAccounts(1, name("foo")).get(0);
 
-    AddReviewerInput input = new AddReviewerInput();
+    ReviewerInput input = new ReviewerInput();
     input.reviewer = user.email();
     input.state = ReviewerState.CC;
     gApi.changes().id(r.getChangeId()).addReviewer(input);
@@ -877,7 +877,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   public void addExistingReviewerShortCircuits() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    AddReviewerInput input = new AddReviewerInput();
+    ReviewerInput input = new ReviewerInput();
     input.reviewer = user.email();
     input.state = ReviewerState.REVIEWER;
 
@@ -893,7 +893,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   public void addExistingCcShortCircuits() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    AddReviewerInput input = new AddReviewerInput();
+    ReviewerInput input = new ReviewerInput();
     input.reviewer = user.email();
     input.state = ReviewerState.CC;
 
@@ -909,7 +909,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   public void moveCcToReviewer() throws Exception {
     // Create a change and add 'user' as CC.
     String changeId = createChange().getChangeId();
-    AddReviewerInput reviewerInput = new AddReviewerInput();
+    ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = user.email();
     reviewerInput.state = ReviewerState.CC;
     gApi.changes().id(changeId).addReviewer(reviewerInput);
@@ -967,7 +967,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // Move 'user' from reviewer to CC.
     requestScopeOperations.setApiUser(admin.id());
-    AddReviewerInput reviewerInput = new AddReviewerInput();
+    ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = user.id().toString();
     reviewerInput.state = CC;
     gApi.changes().id(changeId).addReviewer(reviewerInput);
@@ -998,16 +998,16 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
   private AddReviewerResult addReviewer(String changeId, String reviewer, int expectedStatus)
       throws Exception {
-    AddReviewerInput in = new AddReviewerInput();
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = reviewer;
     return addReviewer(changeId, in, expectedStatus);
   }
 
-  private AddReviewerResult addReviewer(String changeId, AddReviewerInput in) throws Exception {
+  private AddReviewerResult addReviewer(String changeId, ReviewerInput in) throws Exception {
     return addReviewer(changeId, in, SC_OK);
   }
 
-  private AddReviewerResult addReviewer(String changeId, AddReviewerInput in, int expectedStatus)
+  private AddReviewerResult addReviewer(String changeId, ReviewerInput in, int expectedStatus)
       throws Exception {
     RestResponse resp = adminRestSession.post("/changes/" + changeId + "/reviewers", in);
     return readContentFromJson(resp, expectedStatus, AddReviewerResult.class);

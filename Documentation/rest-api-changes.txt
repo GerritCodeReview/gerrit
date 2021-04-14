@@ -6125,6 +6125,8 @@ Users are added to the attention set if one the following apply:
 * As an owner/uploader, when someone replies on your change.
 * As a reviewer, when the owner/uploader replies.
 * When the user's vote is deleted by another user.
+* The rules above (except manually adding to the attention set) don't apply
+ for changes that are work in progress.
 
 Users are removed from the attention set if one the following apply:
 

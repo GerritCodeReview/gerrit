@@ -16,6 +16,24 @@
       "message": "in the sibling\u0027s change you documented resulting error. Maybe you should also include that information here",
       "revId": "82823092edea0a02bc2bd8f980b20aa1b1cf40fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfd33d6e_0967b42e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-14T15:30:20Z",
+      "side": 1,
+      "message": "Done. In line 12-13, I am trying to explain that error. I will mention that the channel session isn\u0027t closed at this point",
+      "parentUuid": "ac1656e7_53da25e9",
+      "revId": "82823092edea0a02bc2bd8f980b20aa1b1cf40fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

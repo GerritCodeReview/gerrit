@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a240afca_db5c5baa",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-14T14:32:33Z",
+      "side": 1,
+      "message": "--spacing-m\n\nSo that icons have more space between them.\n\nI also propose we use the --spacing-m between Actions.",
+      "range": {
+        "startLine": 105,
+        "startChar": 28,
+        "endLine": 105,
+        "endChar": 39
+      },
+      "revId": "efc277bd9293449e723fd680609c71abad2083e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b093ff92_25d8948b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-14T14:32:33Z",
+      "side": 1,
+      "message": "According to Material specs, set dropdown menu min and max width to:\nMinimum width: 112px\nMax width: 280px",
+      "revId": "efc277bd9293449e723fd680609c71abad2083e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cdb62ee_50bf87b4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-14T14:32:33Z",
+      "side": 1,
+      "message": "When clicking on the \"...\" icon, I can see the dropdown menu.\n\nIf I click again on \"...\" while the dropdown menu is open, I expect to hide the dropdown menu. At the moment, the menu stays open if I put my mouse anywhere else on the page.",
+      "range": {
+        "startLine": 142,
+        "startChar": 14,
+        "endLine": 142,
+        "endChar": 25
+      },
+      "revId": "efc277bd9293449e723fd680609c71abad2083e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

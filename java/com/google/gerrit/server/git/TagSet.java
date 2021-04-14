@@ -43,6 +43,17 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * Builds a set of tags, and tracks which tags are reachable from which non-tag, non-special refs.
+ * An instance is constructed from a snapshot of the ref database. TagSets can be incrementally
+ * updated to newer states of the RefDatabase using the refresh method. The updateFastForward method
+ * can do partial updates based on individual refs moving forward.
+ *
+ * <p>This set is used to determine which tags should be advertised when only a subset of refs is
+ * visible to a user.
+ *
+ * <p>TagSets can be serialized for use in a persisted TagCache
+ */
 class TagSet {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final ImmutableSet<String> SKIPPABLE_REF_PREFIXES =
@@ -53,7 +64,14 @@ class TagSet {
           RefNames.REFS_STARRED_CHANGES);
 
   private final Project.NameKey projectName;
+
+  /**
+   * refName => ref. CachedRef is a ref that has an integer identity, used for indexing into
+   * BitSets.
+   */
   private final Map<String, CachedRef> refs;
+
+  /** ObjectId-pointed-to-by-tag => Tag */
   private final ObjectIdOwnerMap<Tag> tags;
 
   TagSet(Project.NameKey projectName) {
@@ -86,13 +104,16 @@ class TagSet {
     return tags;
   }
 
+  /** Record a fast-forward update of the given ref. This is called from multiple threads. */
   boolean updateFastForward(String refName, ObjectId oldValue, ObjectId newValue) {
+    // this looks fishy: refs is not a thread-safe data structure, but it is mutated in build() and
+    // rebuild(). TagSetHolder prohibits concurrent writes through the buildLock mutex, but it does
+    // not prohibit concurrent read/write.
     CachedRef ref = refs.get(refName);
     if (ref != null) {
       // compareAndSet works on reference equality, but this operation
       // wants to use object equality. Switch out oldValue with cur so the
       // compareAndSet will function correctly for this operation.
-      //
       ObjectId cur = ref.get();
       if (cur.equals(oldValue)) {
         return ref.compareAndSet(cur, newValue);
@@ -391,6 +412,9 @@ class TagSet {
   }
 
   static final class Tag extends ObjectIdOwnerMap.Entry {
+
+    // a RefCache.flag => isVisible map. This reference is aliased to the
+    // bitset in TagCommit.refFlags.
     @VisibleForTesting final BitSet refFlags;
 
     Tag(AnyObjectId id, BitSet flags) {
@@ -407,11 +431,12 @@ class TagSet {
       return MoreObjects.toStringHelper(this).addValue(name()).add("refFlags", refFlags).toString();
     }
   }
-
+  /** A ref along with its index into BitSet. */
   @VisibleForTesting
   static final class CachedRef extends AtomicReference<ObjectId> {
     private static final long serialVersionUID = 1L;
 
+    /** unique identifier for this ref within the TagSet. */
     final int flag;
 
     CachedRef(Ref ref, int flag) {
@@ -444,7 +469,9 @@ class TagSet {
     }
   }
 
+  // TODO(hanwen): this would be better named as CommitWithReachability, as it also holds non-tags.
   private static final class TagCommit extends RevCommit {
+    /** CachedRef.flag => isVisible, indicating if this commit is reachable from the ref. */
     final BitSet refFlags;
 
     TagCommit(AnyObjectId id) {

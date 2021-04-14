@@ -55,6 +55,8 @@ import com.google.gerrit.server.config.DefaultPreferencesCacheImpl;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.EnableReverseDnsLookup;
 import com.google.gerrit.server.config.EnableReverseDnsLookupProvider;
+import com.google.gerrit.server.config.EnableUserHostnameInReflogRecord;
+import com.google.gerrit.server.config.EnableUserHostnameInReflogRecordProvider;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.SysExecutorModule;
@@ -138,6 +140,10 @@ public class BatchProgramModule extends FactoryModule {
     bind(Boolean.class)
         .annotatedWith(EnableReverseDnsLookup.class)
         .toProvider(EnableReverseDnsLookupProvider.class)
+        .in(SINGLETON);
+    bind(Boolean.class)
+        .annotatedWith(EnableUserHostnameInReflogRecord.class)
+        .toProvider(EnableUserHostnameInReflogRecordProvider.class)
         .in(SINGLETON);
     bind(Realm.class).to(FakeRealm.class);
     bind(IdentifiedUser.class).toProvider(Providers.of(null));

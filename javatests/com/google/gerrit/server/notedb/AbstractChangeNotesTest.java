@@ -46,6 +46,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.EnableReverseDnsLookup;
+import com.google.gerrit.server.config.EnableUserHostnameInReflogRecord;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -154,6 +155,9 @@ public abstract class AbstractChangeNotesTest {
                     .toInstance("http://localhost:8080/");
                 bind(Boolean.class)
                     .annotatedWith(EnableReverseDnsLookup.class)
+                    .toInstance(Boolean.TRUE);
+                bind(Boolean.class)
+                    .annotatedWith(EnableUserHostnameInReflogRecord.class)
                     .toInstance(Boolean.TRUE);
                 bind(Realm.class).to(FakeRealm.class);
                 bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);

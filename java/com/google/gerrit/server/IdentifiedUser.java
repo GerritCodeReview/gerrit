@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.EnableReverseDnsLookup;
+import com.google.gerrit.server.config.EnableUserHostnameInReflogRecord;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
@@ -70,6 +71,7 @@ public class IdentifiedUser extends CurrentUser {
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
     private final Boolean enableReverseDnsLookup;
+    private final Boolean enableUserHostnameInReflogRecord;
 
     @Inject
     public GenericFactory(
@@ -78,6 +80,7 @@ public class IdentifiedUser extends CurrentUser {
         @AnonymousCowardName String anonymousCowardName,
         @CanonicalWebUrl Provider<String> canonicalUrl,
         @EnableReverseDnsLookup Boolean enableReverseDnsLookup,
+        @EnableUserHostnameInReflogRecord Boolean enableUserHostnameInReflogRecord,
         AccountCache accountCache,
         GroupBackend groupBackend) {
       this.authConfig = authConfig;
@@ -87,6 +90,7 @@ public class IdentifiedUser extends CurrentUser {
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
       this.enableReverseDnsLookup = enableReverseDnsLookup;
+      this.enableUserHostnameInReflogRecord = enableUserHostnameInReflogRecord;
     }
 
     public IdentifiedUser create(AccountState state) {
@@ -98,6 +102,7 @@ public class IdentifiedUser extends CurrentUser {
           accountCache,
           groupBackend,
           enableReverseDnsLookup,
+          enableUserHostnameInReflogRecord,
           Providers.of(null),
           state,
           null);
@@ -135,6 +140,7 @@ public class IdentifiedUser extends CurrentUser {
           accountCache,
           groupBackend,
           enableReverseDnsLookup,
+          enableUserHostnameInReflogRecord,
           Providers.of(remotePeer),
           id,
           caller,
@@ -157,6 +163,7 @@ public class IdentifiedUser extends CurrentUser {
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
     private final Boolean enableReverseDnsLookup;
+    private final Boolean enableUserHostnameInReflogRecord;
     private final Provider<SocketAddress> remotePeerProvider;
 
     @Inject
@@ -168,6 +175,7 @@ public class IdentifiedUser extends CurrentUser {
         AccountCache accountCache,
         GroupBackend groupBackend,
         @EnableReverseDnsLookup Boolean enableReverseDnsLookup,
+        @EnableUserHostnameInReflogRecord Boolean enableUserHostnameInReflogRecord,
         @RemotePeer Provider<SocketAddress> remotePeerProvider) {
       this.authConfig = authConfig;
       this.realm = realm;
@@ -176,6 +184,7 @@ public class IdentifiedUser extends CurrentUser {
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
       this.enableReverseDnsLookup = enableReverseDnsLookup;
+      this.enableUserHostnameInReflogRecord = enableUserHostnameInReflogRecord;
       this.remotePeerProvider = remotePeerProvider;
     }
 
@@ -192,6 +201,7 @@ public class IdentifiedUser extends CurrentUser {
           accountCache,
           groupBackend,
           enableReverseDnsLookup,
+          enableUserHostnameInReflogRecord,
           remotePeerProvider,
           id,
           null,
@@ -207,6 +217,7 @@ public class IdentifiedUser extends CurrentUser {
           accountCache,
           groupBackend,
           enableReverseDnsLookup,
+          enableUserHostnameInReflogRecord,
           remotePeerProvider,
           id,
           caller,
@@ -225,6 +236,7 @@ public class IdentifiedUser extends CurrentUser {
   private final GroupBackend groupBackend;
   private final String anonymousCowardName;
   private final Boolean enableReverseDnsLookup;
+  private final Boolean enableUserHostnameInReflogRecord;
   private final Set<String> validEmails = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
   private final CurrentUser realUser; // Must be final since cached properties depend on it.
 
@@ -244,6 +256,7 @@ public class IdentifiedUser extends CurrentUser {
       AccountCache accountCache,
       GroupBackend groupBackend,
       Boolean enableReverseDnsLookup,
+      Boolean enableUserHostnameInReflogRecord,
       @Nullable Provider<SocketAddress> remotePeerProvider,
       AccountState state,
       @Nullable CurrentUser realUser) {
@@ -255,6 +268,7 @@ public class IdentifiedUser extends CurrentUser {
         accountCache,
         groupBackend,
         enableReverseDnsLookup,
+        enableUserHostnameInReflogRecord,
         remotePeerProvider,
         state.account().id(),
         realUser,
@@ -270,6 +284,7 @@ public class IdentifiedUser extends CurrentUser {
       AccountCache accountCache,
       GroupBackend groupBackend,
       Boolean enableReverseDnsLookup,
+      Boolean enableUserHostnameInReflogRecord,
       @Nullable Provider<SocketAddress> remotePeerProvider,
       Account.Id id,
       @Nullable CurrentUser realUser,
@@ -282,6 +297,7 @@ public class IdentifiedUser extends CurrentUser {
     this.realm = realm;
     this.anonymousCowardName = anonymousCowardName;
     this.enableReverseDnsLookup = enableReverseDnsLookup;
+    this.enableUserHostnameInReflogRecord = enableUserHostnameInReflogRecord;
     this.remotePeerProvider = remotePeerProvider;
     this.accountId = id;
     this.realUser = realUser != null ? realUser : this;
@@ -441,8 +457,14 @@ public class IdentifiedUser extends CurrentUser {
       name = anonymousCowardName;
     }
 
-    String user = getUserName().orElse("") + "|account-" + ua.id().toString();
-    return new PersonIdent(name, user + "@" + guessHost(), when, tz);
+    String user;
+    if (enableUserHostnameInReflogRecord) {
+      user = getUserName().orElse("") + "|account-" + ua.id().toString();
+      user = user + "@" + guessHost();
+    } else {
+      user = ua.preferredEmail();
+    }
+    return new PersonIdent(name, user, when, tz);
   }
 
   public PersonIdent newCommitterIdent(Date when, TimeZone tz) {
@@ -520,6 +542,7 @@ public class IdentifiedUser extends CurrentUser {
         accountCache,
         groupBackend,
         enableReverseDnsLookup,
+        enableUserHostnameInReflogRecord,
         remotePeer,
         state,
         realUser);

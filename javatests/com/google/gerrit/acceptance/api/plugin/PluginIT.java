@@ -48,18 +48,14 @@ import org.junit.Test;
 @NoHttpd
 public class PluginIT extends AbstractDaemonTest {
   private static final String JS_PLUGIN = "Gerrit.install(function(self){});\n";
-  private static final String HTML_PLUGIN =
-      String.format("<dom-module id=\"test\"><script>%s</script></dom-module>", JS_PLUGIN);
   private static final RawInput JS_PLUGIN_CONTENT = RawInputUtil.create(JS_PLUGIN.getBytes(UTF_8));
-  private static final RawInput HTML_PLUGIN_CONTENT =
-      RawInputUtil.create(HTML_PLUGIN.getBytes(UTF_8));
 
   private static final ImmutableList<String> PLUGINS =
       ImmutableList.of(
           "plugin-a.js",
-          "plugin-b.html",
+          "plugin-b.js",
           "plugin-c.js",
-          "plugin-d.html",
+          "plugin-d.js",
           "plugin-normal.jar",
           "plugin-empty.jar",
           "plugin-unset.jar",
@@ -97,7 +93,7 @@ public class PluginIT extends AbstractDaemonTest {
     assertPlugins(list().start(1).limit(2).get(), PLUGINS.subList(1, 3));
 
     // With prefix
-    assertPlugins(list().prefix("plugin-b").get(), ImmutableList.of("plugin-b.html"));
+    assertPlugins(list().prefix("plugin-b").get(), ImmutableList.of("plugin-b.js"));
     assertPlugins(list().prefix("PLUGIN-").get(), ImmutableList.of());
 
     // With substring
@@ -105,7 +101,7 @@ public class PluginIT extends AbstractDaemonTest {
     assertPlugins(list().substring("lugin-").start(1).limit(2).get(), PLUGINS.subList(1, 3));
 
     // With regex
-    assertPlugins(list().regex(".*in-b").get(), ImmutableList.of("plugin-b.html"));
+    assertPlugins(list().regex(".*in-b").get(), ImmutableList.of("plugin-b.js"));
     assertPlugins(list().regex("plugin-.*").get(), PLUGINS.subList(0, PLUGINS.size() - 1));
     assertPlugins(list().regex("plugin-.*").start(1).limit(2).get(), PLUGINS.subList(1, 3));
 
@@ -147,7 +143,7 @@ public class PluginIT extends AbstractDaemonTest {
     com.google.gerrit.extensions.common.InstallPluginInput input =
         new com.google.gerrit.extensions.common.InstallPluginInput();
     input.raw = JS_PLUGIN_CONTENT;
-    gApi.plugins().install("legacy.html", input);
+    gApi.plugins().install("legacy.js", input);
     gApi.plugins().name("legacy").get();
   }
 
@@ -197,9 +193,6 @@ public class PluginIT extends AbstractDaemonTest {
   private RawInput pluginContent(String plugin) throws IOException {
     if (plugin.endsWith(".js")) {
       return JS_PLUGIN_CONTENT;
-    }
-    if (plugin.endsWith(".html")) {
-      return HTML_PLUGIN_CONTENT;
     }
     assertThat(plugin).endsWith(".jar");
     return pluginJarContent(plugin);

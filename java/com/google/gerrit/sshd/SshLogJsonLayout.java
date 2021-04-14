@@ -17,9 +17,12 @@ package com.google.gerrit.sshd;
 import static com.google.gerrit.sshd.SshLog.P_ACCOUNT_ID;
 import static com.google.gerrit.sshd.SshLog.P_AGENT;
 import static com.google.gerrit.sshd.SshLog.P_EXEC;
+import static com.google.gerrit.sshd.SshLog.P_MEMORY;
 import static com.google.gerrit.sshd.SshLog.P_MESSAGE;
 import static com.google.gerrit.sshd.SshLog.P_SESSION;
 import static com.google.gerrit.sshd.SshLog.P_STATUS;
+import static com.google.gerrit.sshd.SshLog.P_TOTAL_CPU;
+import static com.google.gerrit.sshd.SshLog.P_USER_CPU;
 import static com.google.gerrit.sshd.SshLog.P_USER_NAME;
 import static com.google.gerrit.sshd.SshLog.P_WAIT;
 
@@ -44,6 +47,9 @@ public class SshLogJsonLayout extends JsonLayout {
     public String message;
     public String waitTime;
     public String execTime;
+    public String totalCpu;
+    public String userCpu;
+    public String memory;
     public String status;
     public String agent;
     public String timeNegotiating;
@@ -67,6 +73,9 @@ public class SshLogJsonLayout extends JsonLayout {
       this.message = (String) event.getMessage();
       this.waitTime = getMdcString(event, P_WAIT);
       this.execTime = getMdcString(event, P_EXEC);
+      this.totalCpu = getMdcString(event, P_TOTAL_CPU);
+      this.userCpu = getMdcString(event, P_USER_CPU);
+      this.memory = getMdcString(event, P_MEMORY);
       this.status = getMdcString(event, P_STATUS);
       this.agent = getMdcString(event, P_AGENT);
 

@@ -1941,6 +1941,9 @@ extensions by plugins.
 |Field Name    ||Description
 |`has_avatars` |not set if `false`|
 Whether an avatar provider is registered.
+|`js_resource_paths`||
+A list of relative paths (strings). Each path points to a frontend plugin that
+should be loaded, e.g. `plugins/codemirror_editor/static/codemirror_editor.js`.
 |===========================
 
 [[receive-info]]

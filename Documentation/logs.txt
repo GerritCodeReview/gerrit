@@ -51,6 +51,11 @@ if a log field is not present, a "-" is substituted:
 * `referer`: the `Referer` HTTP request header. This gives the site that
   the client reports having been referred from.
 * `client agent`: the client agent which sent the request.
+* `total_cpu`: total CPU time, CPU time in milliseconds to execute command.
+* `user_cpu`: user mode CPU time, CPU time in user mode in milliseconds to execute command.
+  CPU time in kernel mode is `total_cpu - user_cpu`.
+* `memory`: memory allocated in bytes to execute command. -1 if the JVM does
+  not support this metric.
 
 Example:
 ```
@@ -84,6 +89,11 @@ Log format:
 * `wait`: command wait time, time in milliseconds the command waited for an execution thread.
 * `exec`: command execution time, time in milliseconds to execute the command.
 * `status`: status code. 0 means success, any other value is an error.
+* `total_cpu`: total CPU time, CPU time in milliseconds to execute command.
+* `user_cpu`: user mode CPU time, CPU time in user mode in milliseconds to execute command.
+  CPU time in kernel mode is `total_cpu - user_cpu`.
+* `memory`: memory allocated in bytes to execute command. -1 if the JVM does
+  not support this metric.
 
 The `git-upload-pack` command provides the following additional fields after the `exec`
 and before the `status` field. All times are in milliseconds. Fields are -1 if not available

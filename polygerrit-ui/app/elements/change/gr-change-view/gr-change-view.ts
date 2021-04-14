@@ -61,7 +61,11 @@ import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-end
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {DiffViewMode} from '../../../api/diff';
-import {PrimaryTab, SecondaryTab} from '../../../constants/constants';
+import {
+  MessageTag,
+  PrimaryTab,
+  SecondaryTab,
+} from '../../../constants/constants';
 
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages';
 import {appContext} from '../../../services/app-context';
@@ -175,6 +179,8 @@ import {Subject} from 'rxjs';
 import {GrRelatedChangesListExperimental} from '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {Timing} from '../../../constants/reporting';
+import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
+import {getCommitFromMessage} from '../../../utils/message-util';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -552,6 +558,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: String})
   _tabState?: TabState;
+
+  @property({type: Object})
+  revertSubmittedChange?: ChangeInfo;
 
   restApiService = appContext.restApiService;
 
@@ -1949,6 +1958,32 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
+  computeRevertSubmitted(change?: ChangeInfo | ParsedChangeInfo) {
+    if (!change?.messages) return;
+    const revertMessages = change.messages?.filter(
+      m => m.tag === MessageTag.TAG_REVERT
+    );
+    const promises: Promise<ChangeInfo | undefined | null>[] = [];
+    revertMessages.forEach(revertMessage => {
+      const commit = getCommitFromMessage(revertMessage);
+      promises.push(
+        this.restApiService.getChange(commit as ChangeId, () => {})
+      );
+    });
+    Promise.all(promises).then(changes => {
+      const change = changes.find(
+        change => change?.status === ChangeStatus.MERGED
+      );
+      if (!this._changeStatuses) return;
+      if (change) {
+        this.revertSubmittedChange = change;
+        this.push('_changeStatuses', ChangeStates.REVERT_SUBMITTED);
+      } else {
+        this.push('_changeStatuses', ChangeStates.REVERT_CREATED);
+      }
+    });
+  }
+
   _getChangeDetail() {
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
@@ -1994,6 +2029,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         this._lineHeight = Number(lineHeight.slice(0, lineHeight.length - 2));
 
         this._change = change;
+        this.computeRevertSubmitted(change);
         this.changeService.updateChange(change);
         if (
           !this._patchRange ||

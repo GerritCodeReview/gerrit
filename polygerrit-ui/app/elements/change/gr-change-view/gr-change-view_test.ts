@@ -24,6 +24,7 @@ import {
   DefaultBase,
   DiffViewMode,
   HttpMethod,
+  MessageTag,
   PrimaryTab,
   SecondaryTab,
 } from '../../../constants/constants';
@@ -79,6 +80,7 @@ import {
   ParentPatchSetNum,
   PatchRange,
   PatchSetNum,
+  ReviewInputTag,
   RevisionInfo,
   RevisionPatchSetNum,
   RobotId,
@@ -105,6 +107,7 @@ import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
 import {appContext} from '../../../services/app-context';
+import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -1268,6 +1271,77 @@ suite('gr-change-view tests', () => {
       'gr-change-status'
     );
     assert.equal(statusChips.length, 2);
+  });
+
+  suite('ChangeStatus revert', () => {
+    test('show revert created if no revert is merged', done => {
+      const change = {
+        ...createChange(),
+        messages: createChangeMessages(2),
+      };
+      change.messages[0].message = 'Created a revert of this change as 12345';
+      change.messages[0].tag = MessageTag.TAG_REVERT as ReviewInputTag;
+      const getChangeStub = stubRestApi('getChange');
+      getChangeStub.onFirstCall().returns(
+        Promise.resolve({
+          ...createChange(),
+        })
+      );
+      getChangeStub.onSecondCall().returns(
+        Promise.resolve({
+          ...createChange(),
+        })
+      );
+      element._change = change;
+      element._mergeable = true;
+      element._submitEnabled = true;
+      flush();
+      element.computeRevertSubmitted(element._change);
+      flush(() => {
+        assert.isFalse(
+          element._changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
+        );
+        assert.isTrue(
+          element._changeStatuses?.includes(ChangeStates.REVERT_CREATED)
+        );
+        done();
+      });
+    });
+
+    test('show revert created if no revert is merged', done => {
+      const change = {
+        ...createChange(),
+        messages: createChangeMessages(2),
+      };
+      change.messages[0].message = 'Created a revert of this change as 12345';
+      change.messages[0].tag = MessageTag.TAG_REVERT as ReviewInputTag;
+      const getChangeStub = stubRestApi('getChange');
+      getChangeStub.onFirstCall().returns(
+        Promise.resolve({
+          ...createChange(),
+          status: ChangeStatus.MERGED,
+        })
+      );
+      getChangeStub.onSecondCall().returns(
+        Promise.resolve({
+          ...createChange(),
+        })
+      );
+      element._change = change;
+      element._mergeable = true;
+      element._submitEnabled = true;
+      flush();
+      element.computeRevertSubmitted(element._change);
+      flush(() => {
+        assert.isFalse(
+          element._changeStatuses?.includes(ChangeStates.REVERT_CREATED)
+        );
+        assert.isTrue(
+          element._changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
+        );
+        done();
+      });
+    });
   });
 
   test('diff preferences open when open-diff-prefs is fired', () => {

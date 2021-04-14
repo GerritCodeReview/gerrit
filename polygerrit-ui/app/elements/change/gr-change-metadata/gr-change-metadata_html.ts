@@ -339,6 +339,23 @@ export const htmlTemplate = html`
         </ol>
       </span>
     </section>
+<<<<<<< HEAD   (0bef23 Merge "Fixes for Typescript 4.2" into stable-3.4)
+=======
+    <template is="dom-if" if="[[_isChangeMerged(change)]]">
+      <section
+        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.MERGED_AS)]]"
+      >
+        <span class="title">Merged As</span>
+        <span class="value">
+          <gr-commit-info
+            change="[[change]]"
+            commit-info="[[_computeMergedCommitInfo(change.current_revision, change.revisions)]]"
+            server-config="[[serverConfig]]"
+          ></gr-commit-info>
+        </span>
+      </section>
+    </template>
+>>>>>>> CHANGE (bbe0b7 Only show Merged As info if change has been merged)
     <section
       class$="[[_computeDisplayState(_showAllSections, change, _SECTION.MERGED_AS)]]"
     >

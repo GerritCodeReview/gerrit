@@ -16,6 +16,194 @@
       "message": "I tried fixing the error for a while again but gave up and decided to not throw the error instead. 😞",
       "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a27d5e_b784ec93",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor_test.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T06:45:37Z",
+      "side": 1,
+      "message": "Better remove all stubs of `getPatchSetWeblink`. Callers must be prepared to handle weblink objects without a `url` property.",
+      "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b10e43d7_c0bf1ea3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T06:45:37Z",
+      "side": 1,
+      "message": "Returning an empty object as a fallback is unusual. Maybe return `undefined` here?",
+      "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa44021e_02a4b3ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T06:45:37Z",
+      "side": 1,
+      "message": "That should be moved to a utility. Maybe create a message-util?",
+      "range": {
+        "startLine": 932,
+        "startChar": 38,
+        "endLine": 939,
+        "endChar": 6
+      },
+      "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd405d55_dd0bf180",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T06:45:37Z",
+      "side": 1,
+      "message": "Don\u0027t show \"as ...\" information in the header. Move into the summary.",
+      "range": {
+        "startLine": 380,
+        "startChar": 18,
+        "endLine": 385,
+        "endChar": 36
+      },
+      "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4312578_89fa0834",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T06:45:37Z",
+      "side": 1,
+      "message": "This component should not know anything about URLs and their format. Maybe use `getUrlForSearchQuery`.",
+      "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fed90c1_ccfac459",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T06:45:37Z",
+      "side": 1,
+      "message": "I think the fallback should not be `undefined` here. In line 100 we return \u0027\u0027 as a fallback. The fallback should always be the same.",
+      "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7bab9ba_d2ebcecb",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info_html.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T06:45:37Z",
+      "side": 1,
+      "message": "You can refactor this to just always show a link. Let\u0027s drop the dom-if. WDYT?",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 15
+      },
+      "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17d2dcff_74ad979e",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T06:45:37Z",
+      "side": 1,
+      "message": "Tag constants are defined in constants/constants.ts.",
+      "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f859f28d_3d2f6f1b",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T06:45:37Z",
+      "side": 1,
+      "message": "Add a TODO for creating an enum for changeStatuses. And maybe add to our infra excellence doc.",
+      "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8779b318_54d3b2c5",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T06:45:37Z",
+      "side": 1,
+      "message": "Remove empty line for symmetry.",
+      "revId": "c3a52a8e9945ee18c212ff9dd85e52619a8f3df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

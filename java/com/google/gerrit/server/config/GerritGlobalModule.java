@@ -309,6 +309,10 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(SoySauce.class).annotatedWith(MailTemplates.class).toProvider(MailSoySauceProvider.class);
     bind(FromAddressGenerator.class).toProvider(FromAddressGeneratorProvider.class).in(SINGLETON);
+    bind(Boolean.class)
+        .annotatedWith(EnablePeerIPInReflogRecord.class)
+        .toProvider(EnablePeerIPInReflogRecordProvider.class)
+        .in(SINGLETON);
 
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);

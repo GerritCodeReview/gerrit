@@ -56,6 +56,10 @@ export const htmlTemplate = html`
       background-color: var(--status-revert-created);
       color: var(--status-revert-created);
     }
+    :host(.revert-submitted) .chip {
+      background-color: var(--status-revert-created);
+      color: var(--status-revert-created);
+    }
     .status-link {
       text-decoration: none;
     }
@@ -78,7 +82,7 @@ export const htmlTemplate = html`
     max-width="40em"
   >
     <template is="dom-if" if="[[hasStatusLink(status)]]">
-      <a class="status-link" href="[[getStatusLink(change)]]">
+      <a class="status-link" href="[[getStatusLink(change, status)]]">
         <div class="chip" aria-label$="Label: [[status]]">
           [[_computeStatusString(status)]]
         </div>

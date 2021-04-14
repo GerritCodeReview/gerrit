@@ -15,9 +15,13 @@
  * limitations under the License.
  */
 
+import {ChangeStatus, MessageTag} from '../../../constants/constants.js';
 import '../../../test/common-test-setup-karma.js';
+import {createChange, createChangeMessages} from '../../../test/test-data-generators.js';
+import {stubRestApi} from '../../../test/test-utils.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import './gr-change-status.js';
-import {MERGE_CONFLICT_TOOLTIP} from './gr-change-status.js';
+import {ChangeStates, MERGE_CONFLICT_TOOLTIP} from './gr-change-status.js';
 
 const basicFixture = fixtureFromElement('gr-change-status');
 
@@ -119,6 +123,55 @@ suite('gr-change-status tests', () => {
     flush();
     assert.isFalse(element.classList.contains('private'));
     assert.isTrue(element.classList.contains('wip'));
+  });
+
+  suite('revert', () => {
+    test('show revert created if no revert is merged', () => {
+      element.change = {
+        ...createChange(),
+        messages: createChangeMessages(2),
+      };
+      element.change.messages[0].message =
+          'Created a revert of this change as 12345';
+      element.change.messages[0].tag = MessageTag.TAG_REVERT;
+      const getChangeStub = stubRestApi('getChange');
+      getChangeStub.onFirstCall().returns(Promise.resolve({
+        ...createChange(),
+      }));
+      getChangeStub.onSecondCall().returns(Promise.resolve({
+        ...createChange(),
+      }));
+      element.status = ChangeStates.REVERT_CREATED_OR_SUBMITTED;
+      flush(() => {
+        assert.equal(element.status, ChangeStates.REVERT_CREATED);
+        assert.equal(element.getStatusLink(element.change, element.status),
+            GerritNav.getUrlForSearchQuery('12345'));
+      });
+    });
+
+    test('show revert submitted if revert is merged', () => {
+      element.change = {
+        ...createChange(),
+        messages: createChangeMessages(2),
+      };
+      element.change.messages[0].message =
+          'Created a revert of this change as 12345';
+      element.change.messages[0].tag = MessageTag.TAG_REVERT;
+      const getChangeStub = stubRestApi('getChange');
+      getChangeStub.onFirstCall().returns(Promise.resolve({
+        ...createChange(),
+        status: ChangeStatus.MERGED,
+      }));
+      getChangeStub.onSecondCall().returns(Promise.resolve({
+        ...createChange(),
+      }));
+      element.status = ChangeStates.REVERT_CREATED_OR_SUBMITTED;
+      flush(() => {
+        assert.equal(element.status, ChangeStates.REVERT_SUBMITTED);
+        assert.equal(element.getStatusLink(element.change, element.status),
+            GerritNav.getUrlForSearchQuery('42'));
+      });
+    });
   });
 });
 

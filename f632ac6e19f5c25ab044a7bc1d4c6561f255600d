@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b219d98_39b9ab85",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-14T12:48:23Z",
+      "side": 1,
+      "message": "I know about [1] since in the past the maintainer of this client always complained to us when we broke the API. But not sure if it\u0027s still actively developed.\n\n\u003e I think it\u0027s OK to break and mention in the release notes.\n\nMaybe. I\u0027m fine with it if it\u0027s properly mentioned in the commit message and the release notes.",
+      "parentUuid": "0f6c1d77_f8a3e8be",
+      "revId": "f632ac6e19f5c25ab044a7bc1d4c6561f255600d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d1aaf9f1_7a6d3258",
         "filename": "modules/jgit",
         "patchSetId": 1

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0f6c1d77_f8a3e8be",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-14T12:44:31Z",
+      "side": 1,
+      "message": "We could avoid breaking them but it\u0027s at the cost of tech debt (having AddReveiwerResult and RemoveReviewerResult).\n\nHow did you find [1]? If it\u0027s just that one I think it\u0027s OK to break and mention in the release notes.",
+      "parentUuid": "e17a7e5c_bf0a5d62",
+      "revId": "f632ac6e19f5c25ab044a7bc1d4c6561f255600d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d1aaf9f1_7a6d3258",
         "filename": "modules/jgit",
         "patchSetId": 1

@@ -33,6 +33,42 @@
       "message": "It seems the \u0027yarn upgrade\u0027 was executed for upgrading dependencies. This command has some issues with transitive dependencies (https://github.com/yarnpkg/yarn/issues/4986) and sometimes the command doesn\u0027t work as expected.\nI prefer to use another approach:\n  yarn remove ... (list of packages that you want to upgrade)\n  yarn add ... (the same list of packages)\nand/or\n  yarn add ... --save-dev \n\nIt makes it more clear which packages are updated.\n",
       "revId": "48f07a1dbc851cad994440acff2959dfa0a48060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4293fa82_c27a6549",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-14T13:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfcf4a64_2c44519d",
+      "revId": "48f07a1dbc851cad994440acff2959dfa0a48060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d39516_a4900473",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-14T13:21:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "954e721c_17919ef2",
+      "revId": "48f07a1dbc851cad994440acff2959dfa0a48060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

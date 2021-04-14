@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac5d1a72_42e6a0a6",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-14T12:55:10Z",
+      "side": 1,
+      "message": "Done, I\u0027ll add an action item for myself to add to the release notes.",
+      "parentUuid": "2b219d98_39b9ab85",
+      "revId": "f632ac6e19f5c25ab044a7bc1d4c6561f255600d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1aaf9f1_7a6d3258",
@@ -67,6 +85,24 @@
       "writtenOn": "2021-04-01T16:43:01Z",
       "side": 1,
       "message": "err, I\u0027ll get rid of this tomorrow.",
+      "revId": "f632ac6e19f5c25ab044a7bc1d4c6561f255600d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89dc95d5_bba0b2c2",
+        "filename": "modules/jgit",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-14T12:55:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1aaf9f1_7a6d3258",
       "revId": "f632ac6e19f5c25ab044a7bc1d4c6561f255600d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

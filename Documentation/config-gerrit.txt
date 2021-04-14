@@ -2296,6 +2296,12 @@ URL to direct users to when they need to report a bug.
 By default unset, meaning no bug report URL will be displayed. Administrators
 should set this to the URL of their issue tracker, if necessary.
 
+[[gerrit.enablePeerIPInReflogRecord]]gerrit.enablePeerIPInReflogRecord::
+
+Record actual peer IP address in ref log entry for identified user.
+
+Defaults to true.
+
 [[gerrit.secureStoreClass]]gerrit.secureStoreClass::
 +
 Use the secure store implementation from a specified class.

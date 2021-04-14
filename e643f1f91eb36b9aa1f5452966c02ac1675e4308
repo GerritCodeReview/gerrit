@@ -46,6 +46,54 @@
       },
       "revId": "e643f1f91eb36b9aa1f5452966c02ac1675e4308",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "651c8057_9068affa",
+        "filename": ".bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-14T14:40:10Z",
+      "side": 1,
+      "message": "This is a known issue and will be a part of 4.1.0, when it\u0027s released, and then during the upgrade we will revert this. Updated the comment. Done.",
+      "parentUuid": "6403a8bc_aa34c9c3",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "e643f1f91eb36b9aa1f5452966c02ac1675e4308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e601379c_6bd63a35",
+        "filename": ".bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-14T14:40:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6403a8bc_aa34c9c3",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "e643f1f91eb36b9aa1f5452966c02ac1675e4308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

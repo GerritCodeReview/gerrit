@@ -36,7 +36,7 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {appContext} from '../../../services/app-context';
 import {truncatePath} from '../../../utils/path-list-util';
 import {changeStatuses} from '../../../utils/change-util';
-import {isServiceUser} from '../../../utils/account-util';
+import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {customElement, property} from '@polymer/decorators';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
@@ -329,8 +329,8 @@ export class GrChangeListItem extends ChangeTableMixin(PolymerElement) {
     );
     reviewers.sort((r1, r2) => {
       if (this.account) {
-        if (r1._account_id === this.account._account_id) return -1;
-        if (r2._account_id === this.account._account_id) return 1;
+        if (isSelf(r1, this.account)) return -1;
+        if (isSelf(r2, this.account)) return 1;
       }
       if (this._hasAttention(r1) && !this._hasAttention(r2)) return -1;
       if (this._hasAttention(r2) && !this._hasAttention(r1)) return 1;

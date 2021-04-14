@@ -300,6 +300,30 @@ suite('gr-reviewer-list tests', () => {
         .querySelector('.hiddenReviewers').hidden);
   });
 
+  test('account owner comes first in list of reviewers', () => {
+    const reviewers = [];
+    element.maxReviewersDisplayed = 3;
+    for (let i = 0; i < 4; i++) {
+      reviewers.push(
+          {email: i+'reviewer@google.com', name: 'reviewer-' + i,
+            _account_id: i});
+    }
+    element.reviewersOnly = true;
+    element.account = {
+      _account_id: 1,
+    };
+    element.change = {
+      owner: {
+        _account_id: 111,
+      },
+      reviewers: {
+        REVIEWER: reviewers,
+      },
+    };
+    flush();
+    assert.equal(element._displayedReviewers[0]._account_id, 1);
+  });
+
   test('show all reviewers button with 9 reviewers', () => {
     const reviewers = [];
     for (let i = 0; i < 9; i++) {

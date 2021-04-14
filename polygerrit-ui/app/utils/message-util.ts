@@ -18,13 +18,17 @@
 import {MessageTag} from '../constants/constants';
 import {ChangeMessageInfo} from '../types/common';
 
-export function getRevertCommitHash(messages?: ChangeMessageInfo[]) {
-  const msg = messages?.find(m => m.tag === MessageTag.TAG_REVERT);
-  if (!msg) return undefined;
+export function getCommitFromMessage(msg: ChangeMessageInfo) {
   const REVERT_REGEX = /^Created a revert of this change as (.*)$/;
   const commit = msg.message.match(REVERT_REGEX)?.[1];
   if (!commit) throw new Error('revert commit not found');
   return commit;
+}
+
+export function getRevertCommitHash(messages?: ChangeMessageInfo[]) {
+  const msg = messages?.find(m => m.tag === MessageTag.TAG_REVERT);
+  if (!msg) return undefined;
+  return getCommitFromMessage(msg);
 }
 
 export function isRevertCreated(messages?: ChangeMessageInfo[]) {

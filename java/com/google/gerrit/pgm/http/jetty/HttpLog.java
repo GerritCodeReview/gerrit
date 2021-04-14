@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.http.jetty;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.httpd.GetUserFilter;
+import com.google.gerrit.httpd.RequestMetricsFilter;
 import com.google.gerrit.httpd.restapi.LogRedactUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.SystemLog;
@@ -51,6 +52,9 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   protected static final String P_LATENCY = "Latency";
   protected static final String P_REFERER = "Referer";
   protected static final String P_USER_AGENT = "User-Agent";
+  protected static final String P_CPU_TOTAL = "Cpu-Total";
+  protected static final String P_CPU_USER = "Cpu-User";
+  protected static final String P_MEMORY = "Memory";
 
   private final AsyncAppender async;
 
@@ -113,6 +117,12 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     set(event, P_LATENCY, System.currentTimeMillis() - req.getTimeStamp());
     set(event, P_REFERER, req.getHeader("Referer"));
     set(event, P_USER_AGENT, req.getHeader("User-Agent"));
+
+    RequestMetricsFilter.Context ctx =
+        (RequestMetricsFilter.Context) req.getAttribute(RequestMetricsFilter.METRICS_CONTEXT);
+    set(event, P_CPU_TOTAL, ctx.getTotalCpuTime());
+    set(event, P_CPU_USER, ctx.getUserCpuTime());
+    set(event, P_MEMORY, ctx.getAllocatedMemory());
 
     async.append(event);
   }

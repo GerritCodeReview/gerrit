@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.metrics.proc;
 
-import java.util.List;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 
-public class PluginConfigInfo {
-  public Boolean hasAvatars;
-  public List<String> jsResourcePaths;
+public class ThreadMXBeanFactory {
+
+  private ThreadMXBeanFactory() {}
+
+  public static ThreadMXBeanInterface create() {
+    ThreadMXBean sys = ManagementFactory.getThreadMXBean();
+    if (sys instanceof com.sun.management.ThreadMXBean) {
+      return new ThreadMXBeanSun(sys);
+    }
+    return new ThreadMXBeanJava(sys);
+  }
 }

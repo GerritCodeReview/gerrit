@@ -36,7 +36,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.EndOfOptionsHandler;
@@ -480,7 +479,7 @@ public abstract class BaseCommand implements Command {
         context.getSession().setAccessPath(accessPath);
         final Context old = sshScope.set(context);
         try {
-          context.started = TimeUtil.nowMs();
+          context.start();
           thisThread.setName("SSH " + taskName);
 
           try {

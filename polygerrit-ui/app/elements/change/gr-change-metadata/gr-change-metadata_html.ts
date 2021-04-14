@@ -339,18 +339,20 @@ export const htmlTemplate = html`
         </ol>
       </span>
     </section>
-    <section
-      class$="[[_computeDisplayState(_showAllSections, change, _SECTION.MERGED_AS)]]"
-    >
-      <span class="title">Merged As</span>
-      <span class="value">
-        <gr-commit-info
-          change="[[change]]"
-          commit-info="[[_computeMergedCommitInfo(change.current_revision, change.revisions)]]"
-          server-config="[[serverConfig]]"
-        ></gr-commit-info>
-      </span>
-    </section>
+    <template is="dom-if" if="[[_isChangeMerged(change)]]">
+      <section
+        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.MERGED_AS)]]"
+      >
+        <span class="title">Merged As</span>
+        <span class="value">
+          <gr-commit-info
+            change="[[change]]"
+            commit-info="[[_computeMergedCommitInfo(change.current_revision, change.revisions)]]"
+            server-config="[[serverConfig]]"
+          ></gr-commit-info>
+        </span>
+      </section>
+    </template>
     <section
       class$="topic [[_computeDisplayState(_showAllSections, change, _SECTION.TOPIC)]]"
     >

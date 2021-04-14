@@ -239,6 +239,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
         // remaining space after comment card has rendered
         line_wrapping: true,
       };
+      this.syntaxLayer.setEnabled(!!prefs.syntax_highlighting);
     });
     this._setInitialExpandedState();
   }

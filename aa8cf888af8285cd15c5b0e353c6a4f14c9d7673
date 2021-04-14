@@ -22,6 +22,30 @@
       },
       "revId": "aa8cf888af8285cd15c5b0e353c6a4f14c9d7673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1fc564_03dd7551",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-14T12:11:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6d20a73_8f7c3f18",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "aa8cf888af8285cd15c5b0e353c6a4f14c9d7673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

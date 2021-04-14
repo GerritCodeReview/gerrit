@@ -51,6 +51,7 @@ import {
   AccountDetailInfo,
   AccountInfo,
   BranchName,
+  ChangeInfo,
   CommitId,
   CommitInfo,
   ElementPropertyDeepChange,
@@ -85,10 +86,7 @@ import {
   AutocompleteQuery,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
-import {
-  getRevertCommitHash,
-  isRevertCreated,
-} from '../../../utils/message-util';
+import {getRevertCreatedShas} from '../../../utils/message-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -141,6 +139,9 @@ export class GrChangeMetadata extends PolymerElement {
 
   @property({type: Object})
   change?: ParsedChangeInfo;
+
+  @property({type: Object})
+  revertSubmittedChange?: ChangeInfo;
 
   @property({type: Object, notify: true})
   labels?: LabelNameToInfoMap;
@@ -591,14 +592,35 @@ export class GrChangeMetadata extends PolymerElement {
     return rev.commit;
   }
 
-  _showRevertCreatedAs(change?: ParsedChangeInfo) {
-    if (!change) return false;
-    return isRevertCreated(change.messages);
+  _getRevertSectionTitle(
+    _change?: ParsedChangeInfo,
+    revertSubmittedChange?: ChangeInfo
+  ) {
+    return revertSubmittedChange ? 'Revert Submitted As' : 'Revert Created As';
   }
 
-  _computeRevertCommit(change?: ParsedChangeInfo) {
-    if (!change) return undefined;
-    return {commit: getRevertCommitHash(change.messages)};
+  _showRevertCreatedAs(change?: ParsedChangeInfo) {
+    if (!change?.messages) return false;
+    return getRevertCreatedShas(change.messages).length > 0;
+  }
+
+  _computeRevertCommit(
+    change?: ParsedChangeInfo,
+    revertSubmittedChange?: ChangeInfo
+  ) {
+    if (
+      revertSubmittedChange?.current_revision &&
+      revertSubmittedChange?.revisions
+    ) {
+      return {
+        commit: this._computeMergedCommitInfo(
+          revertSubmittedChange.current_revision,
+          revertSubmittedChange.revisions
+        ),
+      };
+    }
+    if (!change?.messages) return undefined;
+    return {commit: getRevertCreatedShas(change.messages)?.[0]};
   }
 
   _computeShowAllLabelText(showAllSections: boolean) {

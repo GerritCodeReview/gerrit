@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "988cb373_2ba0bfa6",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2704,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-14T15:48:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e26eaff5_c5b08d51",
+      "range": {
+        "startLine": 2704,
+        "startChar": 14,
+        "endLine": 2704,
+        "endChar": 21
+      },
+      "revId": "cb05ffb450816c651192dffb045f0b22395b43b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "725b1fc7_15c45fd7",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-12T04:52:14Z",
       "side": 1,
       "message": "alpha order, place below \u0027is:ignored\u0027",
+      "range": {
+        "startLine": 92,
+        "startChar": 3,
+        "endLine": 92,
+        "endChar": 13
+      },
+      "revId": "cb05ffb450816c651192dffb045f0b22395b43b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcc5f456_64e4388b",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-14T15:48:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "725b1fc7_15c45fd7",
       "range": {
         "startLine": 92,
         "startChar": 3,

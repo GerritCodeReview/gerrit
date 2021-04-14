@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfc3d990_1ce63630",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T13:48:07Z",
+      "side": 1,
+      "message": "Rename to TAG_REVERTED to be consistent with the other names.",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 12
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cff44553_78e1f759",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T13:48:07Z",
+      "side": 1,
+      "message": "Maybe rename to something with \"link\" rather than \"query\", e.g. `computeCommitLink`. No underscore btw.",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 14
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1bfa430_4271f76f",
+        "filename": "polygerrit-ui/app/elements/change/gr-commit-info/gr-commit-info.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T13:48:07Z",
+      "side": 1,
+      "message": "empty string is falsy, so this it not needed",
+      "range": {
+        "startLine": 90,
+        "startChar": 16,
+        "endLine": 90,
+        "endChar": 33
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6074743_9cef9201",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status_html.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T13:48:07Z",
+      "side": 1,
+      "message": "color and background-color are the same?",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 42
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c180b5ff_470d6dac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status_html.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T13:48:07Z",
+      "side": 1,
+      "message": "You could also linkify \"merged\" chips, right? Maybe rename the methods:\n\n  isRevertCreated -\u003e hasStatusLink\n  _getUrlForRevertCreated -\u003e getStatusLink",
+      "range": {
+        "startLine": 80,
+        "startChar": 32,
+        "endLine": 80,
+        "endChar": 47
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a43c2e7a_aec18fea",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T13:48:07Z",
+      "side": 1,
+      "message": "Nit: message-util should not really depend on ChangeInfo. Maybe the caller can pass `change.messages` instead of `change`.",
+      "range": {
+        "startLine": 22,
+        "startChar": 36,
+        "endLine": 22,
+        "endChar": 74
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

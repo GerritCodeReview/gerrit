@@ -95,9 +95,9 @@ import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
@@ -919,11 +919,11 @@ public class AccountIT extends AbstractDaemonTest {
 
       PushOneCommit.Result r = createChange();
 
-      AddReviewerInput in = new AddReviewerInput();
+      ReviewerInput in = new ReviewerInput();
       in.reviewer = user.email();
       gApi.changes().id(r.getChangeId()).addReviewer(in);
 
-      in = new AddReviewerInput();
+      in = new ReviewerInput();
       in.reviewer = user2.email();
       gApi.changes().id(r.getChangeId()).addReviewer(in);
 
@@ -957,7 +957,7 @@ public class AccountIT extends AbstractDaemonTest {
       sender.clear();
       requestScopeOperations.setApiUser(admin.id());
 
-      AddReviewerInput in = new AddReviewerInput();
+      ReviewerInput in = new ReviewerInput();
       in.reviewer = user.email();
       gApi.changes().id(r.getChangeId()).addReviewer(in);
       List<Message> messages = sender.getMessages();
@@ -976,9 +976,9 @@ public class AccountIT extends AbstractDaemonTest {
     // First reviewer added to the change
     ReviewInput input = new ReviewInput();
     input.reviewers = new ArrayList<>(1);
-    AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.reviewer = user.email();
-    input.reviewers.add(addReviewerInput);
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = user.email();
+    input.reviewers.add(reviewerInput);
     gApi.changes().id(r.getChangeId()).current().review(input);
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
@@ -991,14 +991,14 @@ public class AccountIT extends AbstractDaemonTest {
     // Second reviewer and existing reviewer added to the change
     ReviewInput input2 = new ReviewInput();
     input2.reviewers = new ArrayList<>(2);
-    AddReviewerInput addReviewerInput2 = new AddReviewerInput();
-    addReviewerInput2.reviewer = user.email();
-    input2.reviewers.add(addReviewerInput2);
-    AddReviewerInput addReviewerInput3 = new AddReviewerInput();
+    ReviewerInput reviewerInput2 = new ReviewerInput();
+    reviewerInput2.reviewer = user.email();
+    input2.reviewers.add(reviewerInput2);
+    ReviewerInput reviewerInput3 = new ReviewerInput();
 
     TestAccount user2 = accountCreator.user2();
-    addReviewerInput3.reviewer = user2.email();
-    input2.reviewers.add(addReviewerInput3);
+    reviewerInput3.reviewer = user2.email();
+    input2.reviewers.add(reviewerInput3);
 
     gApi.changes().id(r.getChangeId()).current().review(input2);
     List<Message> messages2 = sender.getMessages();
@@ -1012,13 +1012,13 @@ public class AccountIT extends AbstractDaemonTest {
     // Existing reviewers re-added to the change: no notifications
     ReviewInput input3 = new ReviewInput();
     input3.reviewers = new ArrayList<>(2);
-    AddReviewerInput addReviewerInput4 = new AddReviewerInput();
-    addReviewerInput4.reviewer = user.email();
-    input3.reviewers.add(addReviewerInput4);
-    AddReviewerInput addReviewerInput5 = new AddReviewerInput();
+    ReviewerInput reviewerInput4 = new ReviewerInput();
+    reviewerInput4.reviewer = user.email();
+    input3.reviewers.add(reviewerInput4);
+    ReviewerInput reviewerInput5 = new ReviewerInput();
 
-    addReviewerInput5.reviewer = user2.email();
-    input3.reviewers.add(addReviewerInput5);
+    reviewerInput5.reviewer = user2.email();
+    input3.reviewers.add(reviewerInput5);
 
     gApi.changes().id(r.getChangeId()).current().review(input3);
     List<Message> messages3 = sender.getMessages();
@@ -1030,9 +1030,9 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
 
     // First reviewer added to the change
-    AddReviewerInput addReviewerInput = new AddReviewerInput();
-    addReviewerInput.reviewer = user.email();
-    gApi.changes().id(r.getChangeId()).addReviewer(addReviewerInput);
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = user.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(reviewerInput);
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message message = messages.get(0);
@@ -1043,9 +1043,9 @@ public class AccountIT extends AbstractDaemonTest {
 
     // Second reviewer added to the change
     TestAccount user2 = accountCreator.user2();
-    AddReviewerInput addReviewerInput2 = new AddReviewerInput();
-    addReviewerInput2.reviewer = user2.email();
-    gApi.changes().id(r.getChangeId()).addReviewer(addReviewerInput2);
+    ReviewerInput reviewerInput2 = new ReviewerInput();
+    reviewerInput2.reviewer = user2.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(reviewerInput2);
     List<Message> messages2 = sender.getMessages();
     assertThat(messages2).hasSize(1);
     Message message2 = messages2.get(0);
@@ -1055,9 +1055,9 @@ public class AccountIT extends AbstractDaemonTest {
     sender.clear();
 
     // Exiting reviewer re-added to the change: no notifications
-    AddReviewerInput addReviewerInput3 = new AddReviewerInput();
-    addReviewerInput3.reviewer = user2.email();
-    gApi.changes().id(r.getChangeId()).addReviewer(addReviewerInput3);
+    ReviewerInput reviewerInput3 = new ReviewerInput();
+    reviewerInput3.reviewer = user2.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(reviewerInput3);
     List<Message> messages3 = sender.getMessages();
     assertThat(messages3).isEmpty();
   }

@@ -50,7 +50,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
+import com.google.gerrit.server.change.ReviewerAdder.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
 import com.google.gerrit.server.config.SendEmailExecutor;
@@ -139,7 +139,7 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean sendMail;
   private boolean updateRef;
   private Change.Id revertOf;
-  private ImmutableList<InternalAddReviewerInput> reviewerInputs;
+  private ImmutableList<InternalReviewerInput> reviewerInputs;
 
   // Fields set during the insertion process.
   private ReceiveCommand cmd;
@@ -588,11 +588,10 @@ public class ChangeInserter implements InsertChangeOp {
     }
   }
 
-  private static InternalAddReviewerInput newAddReviewerInput(
-      String reviewer, ReviewerState state) {
+  private static InternalReviewerInput newAddReviewerInput(String reviewer, ReviewerState state) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
-    InternalAddReviewerInput input =
+    InternalReviewerInput input =
         ReviewerAdder.newAddReviewerInput(reviewer, state, NotifyHandling.NONE);
 
     // Ignore failures for reasons like the reviewer being inactive or being unable to see the
@@ -605,7 +604,7 @@ public class ChangeInserter implements InsertChangeOp {
     return input;
   }
 
-  private ImmutableList<InternalAddReviewerInput> getReviewerInputs() {
+  private ImmutableList<InternalReviewerInput> getReviewerInputs() {
     return Streams.concat(
             reviewerInputs.stream(),
             Streams.stream(

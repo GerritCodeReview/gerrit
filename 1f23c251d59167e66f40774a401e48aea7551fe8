@@ -191,6 +191,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3e094b4c_a2b40f74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status_html.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-14T14:33:50Z",
+      "side": 1,
+      "message": "Ah, there these two magic rules about the `flat` property:\n\n    :host([flat]) .chip {\n      background-color: transparent;\n      padding: 0;\n    }\n    :host(:not([flat])) .chip {\n      color: var(--status-text-color);\n    }\n\nSo maybe add the color back.",
+      "parentUuid": "333eef34_29cf38a5",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 42
+      },
+      "revId": "1f23c251d59167e66f40774a401e48aea7551fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c180b5ff_470d6dac",
         "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status_html.ts",
         "patchSetId": 22

@@ -313,6 +313,10 @@ public class GerritGlobalModule extends FactoryModule {
         .annotatedWith(EnableReverseDnsLookup.class)
         .toProvider(EnableReverseDnsLookupProvider.class)
         .in(SINGLETON);
+    bind(Boolean.class)
+        .annotatedWith(EnableUserHostnameInReflogRecord.class)
+        .toProvider(EnableUserHostnameInReflogRecordProvider.class)
+        .in(SINGLETON);
 
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);

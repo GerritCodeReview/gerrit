@@ -2307,6 +2307,13 @@ the reverse DNS lookup is slow.
 Defaults to false, reverse DNS lookup is disabled. The user's IP address
 will be recorded in the ref log rather than their hostname.
 
+[[gerrit.enableUserHostnameInReflogRecord]]gerrit.enableUserHostnameInReflogRecord::
+
+Record actual user hostname or user IP address in ref log entry for
+identified user.
+
+Defaults to true.
+
 [[gerrit.secureStoreClass]]gerrit.secureStoreClass::
 +
 Use the secure store implementation from a specified class.

@@ -18,11 +18,15 @@ import '../gr-tooltip-content/gr-tooltip-content';
 import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-status_html';
-import {customElement, property} from '@polymer/decorators';
+import {customElement, observe, property} from '@polymer/decorators';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {getRevertCommitHash} from '../../../utils/message-util';
-import {ChangeInfo} from '../../../types/common';
+import {
+  getRevertCommitHash,
+  isRevertSubmitted,
+} from '../../../utils/message-util';
+import {ChangeInfo, NumericChangeId} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
+import {appContext} from '../../../services/app-context';
 
 enum ChangeStates {
   MERGED = 'Merged',
@@ -30,7 +34,9 @@ enum ChangeStates {
   MERGE_CONFLICT = 'Merge Conflict',
   WIP = 'WIP',
   PRIVATE = 'Private',
+  REVERT_CREATED_OR_SUBMITTED = 'Revert Created or Submitted',
   REVERT_CREATED = 'Revert Created',
+  REVERT_SUBMITTED = 'Revert Submitted',
 }
 
 const WIP_TOOLTIP =
@@ -65,7 +71,32 @@ class GrChangeStatus extends PolymerElement {
   @property({type: String})
   tooltipText = '';
 
+  private readonly restApiService = appContext.restApiService;
+
+  private revertSubmittedChangeNum?: NumericChangeId;
+
+  @observe('status', 'change')
+  computeRevertSubmittedStatus(
+    status?: ChangeStates,
+    change?: ChangeInfo | ParsedChangeInfo
+  ) {
+    if (
+      status !== ChangeStates.REVERT_CREATED_OR_SUBMITTED ||
+      !change?.messages
+    )
+      return;
+    isRevertSubmitted(change.messages, this.restApiService).then(changeNum => {
+      if (changeNum) {
+        this.revertSubmittedChangeNum = changeNum;
+        this.set('status', ChangeStates.REVERT_SUBMITTED);
+      } else {
+        this.set('status', ChangeStates.REVERT_CREATED);
+      }
+    });
+  }
+
   _computeStatusString(status: ChangeStates) {
+    if (status === ChangeStates.REVERT_CREATED_OR_SUBMITTED) return;
     if (status === ChangeStates.WIP && !this.flat) {
       return 'Work in Progress';
     }
@@ -77,14 +108,22 @@ class GrChangeStatus extends PolymerElement {
   }
 
   hasStatusLink(status: ChangeStates) {
-    return status === ChangeStates.REVERT_CREATED;
+    return (
+      status === ChangeStates.REVERT_CREATED ||
+      status === ChangeStates.REVERT_SUBMITTED
+    );
   }
 
-  getStatusLink(change?: ParsedChangeInfo) {
+  getStatusLink(change?: ParsedChangeInfo, status?: ChangeStates) {
     if (!change) return;
-    const revertCommit = getRevertCommitHash(change.messages);
-    if (!revertCommit) return;
-    return GerritNav.getUrlForSearchQuery(revertCommit);
+    if (status === ChangeStates.REVERT_CREATED) {
+      const revertCommit = getRevertCommitHash(change.messages);
+      if (!revertCommit) return;
+      return GerritNav.getUrlForSearchQuery(revertCommit);
+    }
+    if (this.revertSubmittedChangeNum)
+      return GerritNav.getUrlForSearchQuery(`${this.revertSubmittedChangeNum}`);
+    return;
   }
 
   _updateChipDetails(status?: ChangeStates, previousStatus?: ChangeStates) {

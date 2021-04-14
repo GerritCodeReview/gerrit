@@ -162,6 +162,10 @@ export function changeStatuses(
     states.push('Revert Created');
   }
 
+  if (isRevertSubmitted(change.messages)) {
+    states.push('Revert Submitted');
+  }
+
   // If there are any pre-defined statuses, only return those. Otherwise,
   // will determine the derived status.
   if (states.length || !opt_options) {

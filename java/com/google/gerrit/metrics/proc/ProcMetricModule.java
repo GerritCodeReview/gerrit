@@ -27,6 +27,7 @@ import com.google.gerrit.server.logging.Metadata;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.ThreadMXBean;
@@ -41,6 +42,7 @@ public class ProcMetricModule extends MetricModule {
     procCpuLoad(metrics);
     procJvmGc(metrics);
     procJvmMemory(metrics);
+    procJvmMemoryPool(metrics);
     procJvmThread(metrics);
   }
 
@@ -164,6 +166,50 @@ public class ProcMetricModule extends MetricModule {
           nonHeapUsed.set(stats.getUsed());
 
           objectPendingFinalizationCount.set(memory.getObjectPendingFinalizationCount());
+        });
+  }
+
+  private void procJvmMemoryPool(MetricMaker metrics) {
+    Field<String> poolName =
+        Field.ofString("pool_name", Metadata.Builder::memoryPoolName)
+            .description("The name of the memory pool")
+            .build();
+
+    CallbackMetric1<String, Long> committed =
+        metrics.newCallbackMetric(
+            "proc/jvm/memory/pool/committed",
+            Long.class,
+            new Description("Committed pool size").setUnit(Units.BYTES),
+            poolName);
+
+    CallbackMetric1<String, Long> max =
+        metrics.newCallbackMetric(
+            "proc/jvm/memory/pool/max",
+            Long.class,
+            new Description("Max pool size").setUnit(Units.BYTES),
+            poolName);
+
+    CallbackMetric1<String, Long> used =
+        metrics.newCallbackMetric(
+            "proc/jvm/memory/pool/used",
+            Long.class,
+            new Description("Used pool size").setUnit(Units.BYTES),
+            poolName);
+
+    metrics.newTrigger(
+        committed,
+        max,
+        used,
+        () -> {
+          for (MemoryPoolMXBean pool : ManagementFactory.getMemoryPoolMXBeans()) {
+            if (!pool.isValid()) {
+              continue;
+            }
+            MemoryUsage u = pool.getUsage();
+            committed.set(pool.getName(), u.getCommitted());
+            max.set(pool.getName(), u.getMax());
+            used.set(pool.getName(), u.getUsed());
+          }
         });
   }
 

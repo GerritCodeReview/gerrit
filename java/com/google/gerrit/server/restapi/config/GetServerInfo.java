@@ -320,17 +320,12 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     PluginConfigInfo info = new PluginConfigInfo();
     info.hasAvatars = toBoolean(avatar.hasImplementation());
     info.jsResourcePaths = new ArrayList<>();
-    info.htmlResourcePaths = new ArrayList<>();
     plugins.runEach(
         plugin -> {
           String path =
               String.format(
                   "plugins/%s/%s", plugin.getPluginName(), plugin.getJavaScriptResourcePath());
-          if (path.endsWith(".html")) {
-            info.htmlResourcePaths.add(path);
-          } else {
-            info.jsResourcePaths.add(path);
-          }
+          info.jsResourcePaths.add(path);
         });
     return info;
   }

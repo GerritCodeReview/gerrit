@@ -57,6 +57,9 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   protected static final String P_STATUS = "status";
   protected static final String P_AGENT = "agent";
   protected static final String P_MESSAGE = "message";
+  protected static final String P_TOTAL_CPU = "totalCpu";
+  protected static final String P_USER_CPU = "userCpu";
+  protected static final String P_MEMORY = "memory";
 
   private final Provider<SshSession> session;
   private final Provider<Context> context;
@@ -171,13 +174,16 @@ class SshLog implements LifecycleListener, GerritConfigListener {
 
   void onExecute(DispatchCommand dcmd, int exitValue, SshSession sshSession, String message) {
     final Context ctx = context.get();
-    ctx.finished = TimeUtil.nowMs();
+    ctx.finish();
 
     String cmd = extractWhat(dcmd);
 
     final LoggingEvent event = log(cmd);
-    event.setProperty(P_WAIT, (ctx.started - ctx.created) + "ms");
-    event.setProperty(P_EXEC, (ctx.finished - ctx.started) + "ms");
+    event.setProperty(P_WAIT, ctx.getWait() + "ms");
+    event.setProperty(P_EXEC, ctx.getExec() + "ms");
+    event.setProperty(P_TOTAL_CPU, ctx.getTotalCpu() + "ms");
+    event.setProperty(P_USER_CPU, ctx.getUserCpu() + "ms");
+    event.setProperty(P_MEMORY, String.valueOf(ctx.getAllocatedMemory()));
 
     final String status;
     switch (exitValue) {
@@ -328,7 +334,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
       SshSession session = ctx.getSession();
       sessionId = HexFormat.fromInt(session.getSessionId());
       currentUser = session.getUser();
-      created = ctx.created;
+      created = ctx.getCreated();
     }
     auditService.dispatch(new SshAuditEvent(sessionId, currentUser, cmd, created, params, result));
   }

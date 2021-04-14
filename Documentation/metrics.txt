@@ -50,6 +50,9 @@ etc.
 objects needing finalization.
 * `proc/jvm/gc/count`: Number of GCs.
 * `proc/jvm/gc/time`: Approximate accumulated GC elapsed time.
+* `proc/jvm/memory/pool/committed/<pool name>`: Committed amount of memory for pool.
+* `proc/jvm/memory/pool/max/<pool name>`: Maximum amount of memory for pool.
+* `proc/jvm/memory/pool/used/<pool name>`: Used amount of memory for pool.
 * `proc/jvm/thread/num_live`: Current live thread count.
 * `proc/jvm/thread/num_daemon_live`: Current live daemon threads count.
 * `proc/jvm/thread/num_peak_live`: Peak live thread count since the Java virtual machine started or peak was reset.

@@ -569,12 +569,10 @@ Historical state of the change can be retrieved by specifying the
 populate ChangeInfo. If the SHA-1 is not reachable as a NoteDb state,
 status code 412 is returned.
 
-----
-
 [[get-meta-diff]]
 === Get Meta Diff
 --
-'GET /changes/link:#change-id[\{change-id\}]/meta_diff/?old=SHA-1&meta=SHA-1'
+'GET /changes/link:#change-id[\{change-id\}]/meta_diff?old=SHA-1&meta=SHA-1'
 --
 
 Retrieves the difference between two historical states of a change
@@ -631,7 +629,6 @@ If the provided SHA-1 for `meta` is not reachable as a NoteDb
 state, the status code 412 is returned. If the SHA-1 for `old`
 is not reachable, the difference between the change at state
 `meta` and an empty change is returned.
-----
 
 [[get-change-detail]]
 === Get Change Detail

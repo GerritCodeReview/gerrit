@@ -206,7 +206,7 @@ export interface RestApiService {
 
   getChange(
     changeNum: ChangeId | NumericChangeId,
-    errFn: ErrorCallback
+    errFn?: ErrorCallback
   ): Promise<ChangeInfo | null>;
 
   savePreferences(prefs: PreferencesInput): Promise<Response>;

@@ -24,7 +24,6 @@ import {
   RelatedChangeAndCommitInfo,
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
-import {isRevertCreated} from './message-util';
 
 // This can be wrong! See WARNING above
 interface ChangeStatusesOptions {
@@ -157,9 +156,6 @@ export function changeStatuses(
   }
   if (change.is_private) {
     states.push('Private');
-  }
-  if (isRevertCreated(change.messages)) {
-    states.push('Revert Created');
   }
 
   // If there are any pre-defined statuses, only return those. Otherwise,

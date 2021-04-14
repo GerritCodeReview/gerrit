@@ -15,18 +15,39 @@
  * limitations under the License.
  */
 
-import {MessageTag} from '../constants/constants';
-import {ChangeMessageInfo} from '../types/common';
+import {ChangeStatus, MessageTag} from '../constants/constants';
+import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
+import {ChangeId, ChangeInfo, ChangeMessageInfo} from '../types/common';
 
-export function getRevertCommitHash(messages?: ChangeMessageInfo[]) {
-  const msg = messages?.find(m => m.tag === MessageTag.TAG_REVERT);
-  if (!msg) return undefined;
+function getCommitFromMessage(msg: ChangeMessageInfo) {
   const REVERT_REGEX = /^Created a revert of this change as (.*)$/;
   const commit = msg.message.match(REVERT_REGEX)?.[1];
   if (!commit) throw new Error('revert commit not found');
   return commit;
 }
 
+export function getRevertCommitHash(messages?: ChangeMessageInfo[]) {
+  const msg = messages?.find(m => m.tag === MessageTag.TAG_REVERT);
+  if (!msg) return undefined;
+  return getCommitFromMessage(msg);
+}
+
 export function isRevertCreated(messages?: ChangeMessageInfo[]) {
   return messages?.some(m => m.tag === MessageTag.TAG_REVERT);
+}
+
+export function getSubmittedRevertChangeNum(
+  messages: ChangeMessageInfo[],
+  restAPI: RestApiService
+) {
+  const revertMessages = messages?.filter(m => m.tag === MessageTag.TAG_REVERT);
+  const promises: Promise<ChangeInfo | undefined | null>[] = [];
+  revertMessages.forEach(revertMessage => {
+    const commit = getCommitFromMessage(revertMessage);
+    promises.push(restAPI.getChange(commit as ChangeId, () => {}));
+  });
+  return Promise.all(promises).then(changes => {
+    return changes.find(change => change?.status === ChangeStatus.MERGED)
+      ?._number;
+  });
 }

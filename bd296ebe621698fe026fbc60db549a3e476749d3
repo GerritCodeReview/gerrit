@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3882caf6_d7d398a0",
+        "filename": ".bazelrc",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-14T17:15:03Z",
+      "side": 1,
+      "message": "Nope.",
+      "parentUuid": "c3947c55_949bf944",
+      "range": {
+        "startLine": 14,
+        "startChar": 59,
+        "endLine": 14,
+        "endChar": 64
+      },
+      "revId": "bd296ebe621698fe026fbc60db549a3e476749d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36e60af7_1395c62e",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-14T17:07:59Z",
       "side": 1,
       "message": "what about the test target? Are we comfortable of using the worker_multiplex there?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 5
+      },
+      "revId": "bd296ebe621698fe026fbc60db549a3e476749d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15a6f12a_865f5ed5",
+        "filename": ".bazelrc",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-14T17:15:03Z",
+      "side": 1,
+      "message": "Test command inherits all options from build command configuration.",
+      "parentUuid": "36e60af7_1395c62e",
       "range": {
         "startLine": 16,
         "startChar": 0,

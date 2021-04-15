@@ -121,6 +121,24 @@
       "parentUuid": "e1774b05_f48597df",
       "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a554e0a4_2c72898b",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-15T14:41:14Z",
+      "side": 1,
+      "message": "One alternative could be then removing the method from the util and making the API call inside `computeRevertSubmittedStatus`.",
+      "parentUuid": "760fdaa2_1ec2a576",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

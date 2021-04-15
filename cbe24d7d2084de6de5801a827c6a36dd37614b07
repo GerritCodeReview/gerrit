@@ -16,6 +16,24 @@
       "message": "What should the code-owners plugin return in case of an invalid OWNERS file (which is also a user error, same as an invalid rules.pl file)?",
       "revId": "cbe24d7d2084de6de5801a827c6a36dd37614b07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cee2fa03_985b42d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-15T11:30:33Z",
+      "side": 1,
+      "message": "Good point. How about we remove the PROLOG_ and document that RULE_ERROR should be used if the user misconfigured the submit rule (wrong Prolog code, wrong owners config, etc)?\n\nAll other non-user caused issues would be RTE/ISEs.",
+      "parentUuid": "3c940955_5015bbc7",
+      "revId": "cbe24d7d2084de6de5801a827c6a36dd37614b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.Change.INITIAL_PATCH_SET_ID;
-import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
+import static com.google.gerrit.server.change.ReviewerModifier.newAddReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
@@ -50,9 +50,9 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.change.ReviewerAdder.InternalReviewerInput;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
+import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerAdditionList;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -113,7 +113,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
-  private final ReviewerAdder reviewerAdder;
+  private final ReviewerModifier reviewerModifier;
   private final MessageIdGenerator messageIdGenerator;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final AutoMerger autoMerger;
@@ -164,7 +164,7 @@ public class ChangeInserter implements InsertChangeOp {
       CommitValidators.Factory commitValidatorsFactory,
       CommentAdded commentAdded,
       RevisionCreated revisionCreated,
-      ReviewerAdder reviewerAdder,
+      ReviewerModifier reviewerModifier,
       MessageIdGenerator messageIdGenerator,
       DynamicItem<UrlFormatter> urlFormatter,
       AutoMerger autoMerger,
@@ -182,7 +182,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
-    this.reviewerAdder = reviewerAdder;
+    this.reviewerModifier = reviewerModifier;
     this.messageIdGenerator = messageIdGenerator;
     this.urlFormatter = urlFormatter;
     this.autoMerger = autoMerger;
@@ -444,7 +444,7 @@ public class ChangeInserter implements InsertChangeOp {
     }
 
     reviewerAdditions =
-        reviewerAdder.prepare(ctx.getNotes(), ctx.getUser(), getReviewerInputs(), true);
+        reviewerModifier.prepare(ctx.getNotes(), ctx.getUser(), getReviewerInputs(), true);
     Optional<ReviewerAddition> reviewerError = reviewerAdditions.getFailures().stream().findFirst();
     if (reviewerError.isPresent()) {
       throw new UnprocessableEntityException(reviewerError.get().result.error);
@@ -592,14 +592,14 @@ public class ChangeInserter implements InsertChangeOp {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
     InternalReviewerInput input =
-        ReviewerAdder.newAddReviewerInput(reviewer, state, NotifyHandling.NONE);
+        ReviewerModifier.newAddReviewerInput(reviewer, state, NotifyHandling.NONE);
 
     // Ignore failures for reasons like the reviewer being inactive or being unable to see the
     // change. This is required for the push path, where it automatically sets reviewers from
     // certain commit footers: putting a nonexistent user in a footer should not cause an error. In
     // theory we could provide finer control to do this for some reviewers and not others, but it's
     // not worth complicating the ChangeInserter interface further at this time.
-    input.otherFailureBehavior = ReviewerAdder.FailureBehavior.IGNORE;
+    input.otherFailureBehavior = ReviewerModifier.FailureBehavior.IGNORE;
 
     return input;
   }

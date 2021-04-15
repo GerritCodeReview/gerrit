@@ -96,8 +96,8 @@ import com.google.gerrit.server.change.AddReviewersOp.Result;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerModifier;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerAddition;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -170,7 +170,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final AccountResolver accountResolver;
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
-  private final ReviewerAdder reviewerAdder;
+  private final ReviewerModifier reviewerModifier;
   private final AddReviewersEmail addReviewersEmail;
   private final NotifyResolver notifyResolver;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
@@ -196,7 +196,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       AccountResolver accountResolver,
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
-      ReviewerAdder reviewerAdder,
+      ReviewerModifier reviewerModifier,
       AddReviewersEmail addReviewersEmail,
       NotifyResolver notifyResolver,
       @GerritServerConfig Config gerritConfig,
@@ -218,7 +218,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.accountResolver = accountResolver;
     this.email = email;
     this.commentAdded = commentAdded;
-    this.reviewerAdder = reviewerAdder;
+    this.reviewerModifier = reviewerModifier;
     this.addReviewersEmail = addReviewersEmail;
     this.notifyResolver = notifyResolver;
     this.workInProgressOpFactory = workInProgressOpFactory;
@@ -284,7 +284,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       reviewerJsonResults = Maps.newHashMap();
       for (ReviewerInput reviewerInput : input.reviewers) {
         ReviewerAddition result =
-            reviewerAdder.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
+            reviewerModifier.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           logger.atFine().log(
@@ -350,7 +350,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
         logger.atFine().log("CCing calling user");
-        ReviewerAddition selfAddition = reviewerAdder.ccCurrentUser(revision.getUser(), revision);
+        ReviewerAddition selfAddition =
+            reviewerModifier.ccCurrentUser(revision.getUser(), revision);
         selfAddition.op.suppressEmail();
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }

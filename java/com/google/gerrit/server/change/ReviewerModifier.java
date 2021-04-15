@@ -85,7 +85,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class ReviewerAdder {
+public class ReviewerModifier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
@@ -102,7 +102,7 @@ public class ReviewerAdder {
   }
 
   // TODO(dborowitz): Subclassing is not the right way to do this. We should instead use an internal
-  // type in the public interfaces of ReviewerAdder, rather than passing around the REST API type
+  // type in the public interfaces of ReviewerModifier, rather than passing around the REST API type
   // internally.
   public static class InternalReviewerInput extends ReviewerInput {
     /**
@@ -163,7 +163,7 @@ public class ReviewerAdder {
   private final OutgoingEmailValidator validator;
 
   @Inject
-  ReviewerAdder(
+  ReviewerModifier(
       AccountResolver accountResolver,
       PermissionBackend permissionBackend,
       GroupResolver groupResolver,

@@ -32,8 +32,8 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerModifier;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerAddition;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -53,7 +53,7 @@ public class PutAssignee
   private final BatchUpdate.Factory updateFactory;
   private final AccountResolver accountResolver;
   private final SetAssigneeOp.Factory assigneeFactory;
-  private final ReviewerAdder reviewerAdder;
+  private final ReviewerModifier reviewerModifier;
   private final AccountLoader.Factory accountLoaderFactory;
   private final PermissionBackend permissionBackend;
   private final ApprovalsUtil approvalsUtil;
@@ -63,14 +63,14 @@ public class PutAssignee
       BatchUpdate.Factory updateFactory,
       AccountResolver accountResolver,
       SetAssigneeOp.Factory assigneeFactory,
-      ReviewerAdder reviewerAdder,
+      ReviewerModifier reviewerModifier,
       AccountLoader.Factory accountLoaderFactory,
       PermissionBackend permissionBackend,
       ApprovalsUtil approvalsUtil) {
     this.updateFactory = updateFactory;
     this.accountResolver = accountResolver;
     this.assigneeFactory = assigneeFactory;
-    this.reviewerAdder = reviewerAdder;
+    this.reviewerModifier = reviewerModifier;
     this.accountLoaderFactory = accountLoaderFactory;
     this.permissionBackend = permissionBackend;
     this.approvalsUtil = approvalsUtil;
@@ -121,7 +121,7 @@ public class PutAssignee
     reviewerInput.state = ReviewerState.CC;
     reviewerInput.confirmed = true;
     reviewerInput.notify = NotifyHandling.NONE;
-    return reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), reviewerInput, false);
+    return reviewerModifier.prepare(rsrc.getNotes(), rsrc.getUser(), reviewerInput, false);
   }
 
   @Override

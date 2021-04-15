@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.mail.send.AbandonedSender;
 import com.google.gerrit.server.mail.send.AddKeySender;
-import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
@@ -26,6 +25,7 @@ import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.HttpPasswordUpdateSender;
 import com.google.gerrit.server.mail.send.MergedSender;
+import com.google.gerrit.server.mail.send.ModifyReviewerSender;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
@@ -38,7 +38,7 @@ public class EmailModule extends FactoryModule {
   protected void configure() {
     factory(AbandonedSender.Factory.class);
     factory(AddKeySender.Factory.class);
-    factory(AddReviewerSender.Factory.class);
+    factory(ModifyReviewerSender.Factory.class);
     factory(CommentSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(DeleteKeySender.Factory.class);

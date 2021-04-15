@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3bbc4345_b1ff4806",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-15T00:23:35Z",
+      "side": 1,
+      "message": "Ping @DavidO?",
+      "parentUuid": "3fe82dfa_573f0072",
+      "revId": "40497523fef3e3c3fa9d1673f5ef80053de3ffb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33c7fa45_94ac574e",
         "filename": "java/com/google/gerrit/server/events/EventSerializer.java",
         "patchSetId": 3

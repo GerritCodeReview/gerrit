@@ -251,6 +251,19 @@ export declare interface MovedLinkClickedEventDetail {
   lineNum: LineNumber;
 }
 
+/** All types of button for expanding diff sections */
+export enum ContextButtonType {
+  ABOVE = 'above',
+  BELOW = 'below',
+  ALL = 'all',
+}
+
+/** Details to be externally accessed when expanding diffs */
+export declare interface DiffContextExpandedExternalDetail {
+  expandedLines: number;
+  buttonType: ContextButtonType;
+}
+
 export enum GrDiffLineType {
   ADD = 'add',
   BOTH = 'both',

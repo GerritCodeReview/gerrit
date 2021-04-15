@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 import {
-  ContentLoadNeededEventDetail,
+  ContextButtonType,
+  DiffContextExpandedExternalDetail,
   MovedLinkClickedEventDetail,
   RenderPreferences,
 } from '../../../api/diff';
@@ -57,13 +58,8 @@ const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
 const PARTIAL_CONTEXT_AMOUNT = 10;
 
-enum ContextButtonType {
-  ABOVE = 'above',
-  BELOW = 'below',
-  ALL = 'all',
-}
-
-export interface DiffContextExpandedEventDetail {
+export interface DiffContextExpandedEventDetail
+  extends DiffContextExpandedExternalDetail {
   groups: GrDiffGroup[];
   section: HTMLElement;
   numLines: number;
@@ -72,7 +68,6 @@ export interface DiffContextExpandedEventDetail {
 declare global {
   interface HTMLElementEventMap {
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
-    'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }
 }
 
@@ -156,13 +151,6 @@ export abstract class GrDiffBuilder {
   static readonly Highlights = {
     ADDED: 'edit_b',
     REMOVED: 'edit_a',
-  };
-
-  // TODO(TS): Replace usages with ContextButtonType enum.
-  static readonly ContextButtonType = {
-    ABOVE: 'above',
-    BELOW: 'below',
-    ALL: 'all',
   };
 
   abstract addColumns(outputEl: HTMLElement, fontSize: number): void;
@@ -455,7 +443,8 @@ export abstract class GrDiffBuilder {
     contextGroups: GrDiffGroup[],
     numLines: number
   ) {
-    const context = PARTIAL_CONTEXT_AMOUNT;
+    const linesToExpand =
+      type === ContextButtonType.ALL ? numLines : PARTIAL_CONTEXT_AMOUNT;
     const button = this._createElement('gr-button', 'showContext');
     button.classList.add('contextControlButton');
     button.setAttribute('link', 'true');
@@ -464,11 +453,11 @@ export abstract class GrDiffBuilder {
     let text = '';
     let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
     let requiresLoad = false;
-    if (type === GrDiffBuilder.ContextButtonType.ALL) {
-      text = `+${pluralize(numLines, 'common line')}`;
+    if (type === ContextButtonType.ALL) {
+      text = `+${pluralize(linesToExpand, 'common line')}`;
       button.setAttribute(
         'aria-label',
-        `Show ${pluralize(numLines, 'common line')}`
+        `Show ${pluralize(linesToExpand, 'common line')}`
       );
       requiresLoad = contextGroups.find(c => !!c.skip) !== undefined;
       if (requiresLoad) {
@@ -476,21 +465,21 @@ export abstract class GrDiffBuilder {
         text += ' (too large)';
       }
       groups.push(...contextGroups);
-    } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
-      groups = hideInContextControl(contextGroups, context, numLines);
-      text = `+${context}`;
+    } else if (type === ContextButtonType.ABOVE) {
+      groups = hideInContextControl(contextGroups, linesToExpand, numLines);
+      text = `+${linesToExpand}`;
       button.classList.add('aboveButton');
       button.setAttribute(
         'aria-label',
-        `Show ${pluralize(context, 'line')} above`
+        `Show ${pluralize(linesToExpand, 'line')} above`
       );
-    } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
-      groups = hideInContextControl(contextGroups, 0, numLines - context);
-      text = `+${context}`;
+    } else if (type === ContextButtonType.BELOW) {
+      groups = hideInContextControl(contextGroups, 0, numLines - linesToExpand);
+      text = `+${linesToExpand}`;
       button.classList.add('belowButton');
       button.setAttribute(
         'aria-label',
-        `Show ${pluralize(context, 'line')} below`
+        `Show ${pluralize(linesToExpand, 'line')} below`
       );
     }
     const textSpan = this._createElement('span', 'showContext');
@@ -523,6 +512,8 @@ export abstract class GrDiffBuilder {
           groups,
           section,
           numLines,
+          buttonType: type,
+          expandedLines: linesToExpand,
         });
       });
     }

@@ -162,6 +162,11 @@ public class AutoMerger {
       return Optional.empty();
     }
 
+    if (repoView.getRef(RefNames.refsCacheAutomerge(maybeMergeCommit.name())).isPresent()) {
+      logger.atFine().log("AutoMerge alredy exists");
+      return Optional.empty();
+    }
+
     ObjectId autoMerge;
     try (Timer1.Context ignored = latency.start(OperationType.ON_DISK_WRITE)) {
       autoMerge =

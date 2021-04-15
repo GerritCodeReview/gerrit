@@ -62,7 +62,7 @@ public class ReviewInput {
    */
   public String onBehalfOf;
 
-  /** Reviewers that should be added to this change. */
+  /** Reviewers that should be added to this change or removed from it. */
   public List<ReviewerInput> reviewers;
 
   /**

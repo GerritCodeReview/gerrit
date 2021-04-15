@@ -19,12 +19,14 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
+import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Streams;
@@ -39,6 +41,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
@@ -155,6 +158,8 @@ public class ReviewerModifier {
   private final Provider<AnonymousUser> anonymousProvider;
   private final AddReviewersOp.Factory addReviewersOpFactory;
   private final OutgoingEmailValidator validator;
+  private final DeleteReviewerOp.Factory deleteReviewerOpFactory;
+  private final DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory;
 
   @Inject
   ReviewerModifier(
@@ -168,7 +173,9 @@ public class ReviewerModifier {
       ProjectCache projectCache,
       Provider<AnonymousUser> anonymousProvider,
       AddReviewersOp.Factory addReviewersOpFactory,
-      OutgoingEmailValidator validator) {
+      OutgoingEmailValidator validator,
+      DeleteReviewerOp.Factory deleteReviewerOpFactory,
+      DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory) {
     this.accountResolver = accountResolver;
     this.permissionBackend = permissionBackend;
     this.groupResolver = groupResolver;
@@ -180,6 +187,8 @@ public class ReviewerModifier {
     this.anonymousProvider = anonymousProvider;
     this.addReviewersOpFactory = addReviewersOpFactory;
     this.validator = validator;
+    this.deleteReviewerOpFactory = deleteReviewerOpFactory;
+    this.deleteReviewerByEmailOpFactory = deleteReviewerByEmailOpFactory;
   }
 
   /**
@@ -209,7 +218,7 @@ public class ReviewerModifier {
               .orElseThrow(illegalState(notes.getProjectName()))
               .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
 
-      ReviewerModification byAccountId = addByAccountId(input, notes, user);
+      ReviewerModification byAccountId = byAccountId(input, notes, user);
 
       ReviewerModification wholeGroup = null;
       if (!byAccountId.exactMatchFound) {
@@ -244,15 +253,14 @@ public class ReviewerModifier {
         newReviewerInput(user.getUserName().orElse(null), CC, NotifyHandling.NONE),
         revision.getNotes(),
         revision.getUser(),
-        ImmutableSet.of(user.getAccountId()),
+        ImmutableSet.of(user.asIdentifiedUser().getAccount()),
         null,
         true,
         false);
   }
 
   @Nullable
-  private ReviewerModification addByAccountId(
-      ReviewerInput input, ChangeNotes notes, CurrentUser user)
+  private ReviewerModification byAccountId(ReviewerInput input, ChangeNotes notes, CurrentUser user)
       throws PermissionBackendException, IOException, ConfigInvalidException {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
@@ -273,7 +281,7 @@ public class ReviewerModifier {
           input,
           notes,
           user,
-          ImmutableSet.of(reviewerUser.getAccountId()),
+          ImmutableSet.of(reviewerUser.getAccount()),
           null,
           exactMatchFound,
           false);
@@ -319,7 +327,14 @@ public class ReviewerModifier {
           MessageFormat.format(ChangeMessages.get().groupIsNotAllowed, group.getName()));
     }
 
-    Set<Account.Id> reviewers = new HashSet<>();
+    if (input.state().equals(REMOVED)) {
+      return fail(
+          input,
+          FailureType.OTHER,
+          MessageFormat.format(ChangeMessages.get().groupRemovalIsNotAllowed, group.getName()));
+    }
+
+    Set<Account> reviewers = new HashSet<>();
     Set<Account> members;
     try {
       members = groupMembers.listAccounts(group.getGroupUUID(), notes.getProjectName());
@@ -356,7 +371,7 @@ public class ReviewerModifier {
 
     for (Account member : members) {
       if (isValidReviewer(notes.getChange().getDest(), member)) {
-        reviewers.add(member.id());
+        reviewers.add(member);
       }
     }
 
@@ -412,8 +427,8 @@ public class ReviewerModifier {
 
   public class ReviewerModification {
     public final ReviewerResult result;
-    @Nullable public final AddReviewersOp op;
-    public final ImmutableSet<Account.Id> reviewers;
+    @Nullable public final ReviewerOp op;
+    public final ImmutableSet<Account> reviewers;
     public final ImmutableSet<Address> reviewersByEmail;
     @Nullable final IdentifiedUser caller;
     final boolean exactMatchFound;
@@ -435,7 +450,7 @@ public class ReviewerModifier {
         ReviewerInput input,
         ChangeNotes notes,
         CurrentUser caller,
-        @Nullable Iterable<Account.Id> reviewers,
+        @Nullable Iterable<Account> reviewers,
         @Nullable Iterable<Address> reviewersByEmail,
         boolean exactMatchFound,
         boolean forGroup) {
@@ -452,14 +467,40 @@ public class ReviewerModifier {
       this.reviewersByEmail =
           reviewersByEmail == null ? ImmutableSet.of() : ImmutableSet.copyOf(reviewersByEmail);
       this.caller = caller.asIdentifiedUser();
-      op = addReviewersOpFactory.create(this.reviewers, this.reviewersByEmail, state(), forGroup);
+      if (state().equals(REMOVED)) {
+        // only one is set.
+        checkState(
+            (this.reviewers.size() == 1 && this.reviewersByEmail.isEmpty())
+                || (this.reviewers.isEmpty() && this.reviewersByEmail.size() == 1));
+        if (this.reviewers.size() >= 1) {
+          checkState(this.reviewers.size() == 1);
+          DeleteReviewerInput deleteReviewerInput = new DeleteReviewerInput();
+          deleteReviewerInput.notify = input.notify;
+          deleteReviewerInput.notifyDetails = input.notifyDetails;
+          op =
+              deleteReviewerOpFactory.create(
+                  Iterables.getOnlyElement(this.reviewers.asList()), deleteReviewerInput);
+        } else {
+          checkState(this.reviewersByEmail.size() == 1);
+          op =
+              deleteReviewerByEmailOpFactory.create(
+                  Iterables.getOnlyElement(this.reviewersByEmail.asList()));
+        }
+      } else {
+        op =
+            addReviewersOpFactory.create(
+                this.reviewers.stream().map(a -> a.id()).collect(toImmutableSet()),
+                this.reviewersByEmail,
+                state(),
+                forGroup);
+      }
       this.exactMatchFound = exactMatchFound;
     }
 
-    private ImmutableSet<Account.Id> omitOwner(ChangeNotes notes, Iterable<Account.Id> reviewers) {
+    private ImmutableSet<Account> omitOwner(ChangeNotes notes, Iterable<Account> reviewers) {
       return reviewers != null
           ? Streams.stream(reviewers)
-              .filter(id -> !id.equals(notes.getChange().getOwner()))
+              .filter(id -> !id.id().equals(notes.getChange().getOwner()))
               .collect(toImmutableSet())
           : ImmutableSet.of();
     }
@@ -470,31 +511,53 @@ public class ReviewerModifier {
 
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
-      AddReviewersOp.Result opResult = op.getResult();
-      if (state() == CC) {
-        result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
-        for (Account.Id accountId : opResult.addedCCs()) {
-          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), accountId, cd));
-        }
-        accountLoaderFactory.create(true).fill(result.ccs);
-        for (Address a : opResult.addedCCsByEmail()) {
-          result.ccs.add(new AccountInfo(a.name(), a.email()));
-        }
-      } else {
-        result.reviewers = Lists.newArrayListWithCapacity(opResult.addedReviewers().size());
-        for (PatchSetApproval psa : opResult.addedReviewers()) {
-          // New reviewers have value 0, don't bother normalizing.
-          result.reviewers.add(
-              json.format(
-                  new ReviewerInfo(psa.accountId().get()),
-                  psa.accountId(),
-                  cd,
-                  ImmutableList.of(psa)));
-        }
-        accountLoaderFactory.create(true).fill(result.reviewers);
-        for (Address a : opResult.addedReviewersByEmail()) {
-          result.reviewers.add(ReviewerInfo.byEmail(a.name(), a.email()));
-        }
+      ReviewerOp.Result opResult = op.getResult();
+      switch (state()) {
+        case CC:
+          result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
+          for (Account.Id accountId : opResult.addedCCs()) {
+            result.ccs.add(json.format(new ReviewerInfo(accountId.get()), accountId, cd));
+          }
+          accountLoaderFactory.create(true).fill(result.ccs);
+          for (Address a : opResult.addedCCsByEmail()) {
+            result.ccs.add(new AccountInfo(a.name(), a.email()));
+          }
+          break;
+        case REVIEWER:
+          result.reviewers = Lists.newArrayListWithCapacity(opResult.addedReviewers().size());
+          for (PatchSetApproval psa : opResult.addedReviewers()) {
+            // New reviewers have value 0, don't bother normalizing.
+            result.reviewers.add(
+                json.format(
+                    new ReviewerInfo(psa.accountId().get()),
+                    psa.accountId(),
+                    cd,
+                    ImmutableList.of(psa)));
+          }
+          accountLoaderFactory.create(true).fill(result.reviewers);
+          for (Address a : opResult.addedReviewersByEmail()) {
+            result.reviewers.add(ReviewerInfo.byEmail(a.name(), a.email()));
+          }
+          break;
+        case REMOVED:
+          if (opResult.deletedReviewer().isPresent()) {
+            result.removed =
+                json.format(
+                    new ReviewerInfo(opResult.deletedReviewer().get().get()),
+                    opResult.deletedReviewer().get(),
+                    cd);
+          }
+          accountLoaderFactory.create(true).fill(ImmutableList.of(result.removed));
+          if (opResult.deletedReviewerByEmail().isPresent()) {
+            result.removed =
+                new AccountInfo(
+                    opResult.deletedReviewerByEmail().get().name(),
+                    opResult.deletedReviewerByEmail().get().email());
+          }
+          break;
+        default:
+          throw new IllegalStateException(
+              String.format("Illegal ReviewerState argument is %s", state().name()));
       }
     }
 
@@ -573,7 +636,7 @@ public class ReviewerModifier {
     // We never call updateRepo on the addition ops, which is only ok because it's a no-op.
 
     public void updateChange(ChangeContext ctx, PatchSet patchSet)
-        throws RestApiException, IOException {
+        throws RestApiException, IOException, PermissionBackendException {
       for (ReviewerModification addition : modifications()) {
         addition.op.setPatchSet(patchSet);
         addition.op.updateChange(ctx);

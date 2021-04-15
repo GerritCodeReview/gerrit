@@ -273,7 +273,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   /*
-   * AddReviewerSender tests.
+   * ModifyReviewerSender tests (only for additions).
    */
 
   private void addReviewerToReviewableChange(Adder adder) throws Exception {

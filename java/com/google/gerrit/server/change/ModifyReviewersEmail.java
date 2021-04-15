@@ -24,8 +24,8 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.ModifyReviewerSender;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -36,13 +36,13 @@ import java.util.concurrent.Future;
 public class ModifyReviewersEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final AddReviewerSender.Factory addReviewerSenderFactory;
+  private final ModifyReviewerSender.Factory addReviewerSenderFactory;
   private final ExecutorService sendEmailsExecutor;
   private final MessageIdGenerator messageIdGenerator;
 
   @Inject
   ModifyReviewersEmail(
-      AddReviewerSender.Factory addReviewerSenderFactory,
+      ModifyReviewerSender.Factory addReviewerSenderFactory,
       @SendEmailExecutor ExecutorService sendEmailsExecutor,
       MessageIdGenerator messageIdGenerator) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
@@ -83,7 +83,7 @@ public class ModifyReviewersEmail {
         sendEmailsExecutor.submit(
             () -> {
               try {
-                AddReviewerSender emailSender =
+                ModifyReviewerSender emailSender =
                     addReviewerSenderFactory.create(projectNameKey, cId);
                 emailSender.setNotify(notify);
                 emailSender.setFrom(userId);

@@ -185,7 +185,7 @@ export class GrRepo extends PolymerElement {
             this.weblinks = repo.web_links;
           });
           this.restApiService.getRepoAccess(repo).then(access => {
-            if (!access || this.repo !== repo) {
+            if (!access || !access[repo] || this.repo !== repo) {
               return;
             }
 

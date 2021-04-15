@@ -118,7 +118,7 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
   _determineIfOwner(repo: RepoName) {
     return this.restApiService
       .getRepoAccess(repo)
-      .then(access => (this._isOwner = !!access && !!access[repo].is_owner));
+      .then(access => (this._isOwner = !!access && !!access[repo] && !!access[repo].is_owner));
   }
 
   _paramsChanged(params?: AppElementRepoParams) {

@@ -327,7 +327,7 @@ public class RevisionJson {
       actionJson.addRevisionActions(
           changeInfo,
           out,
-          new RevisionResource(changeResourceFactory.create(cd.notes(), userProvider.get()), in));
+          new RevisionResource(changeResourceFactory.create(cd, userProvider.get()), in));
     }
 
     if (gpgApi.isEnabled() && has(PUSH_CERTIFICATES)) {

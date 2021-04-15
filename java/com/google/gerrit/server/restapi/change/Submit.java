@@ -311,7 +311,7 @@ public class Submit
       throw new StorageException("Could not determine problems for the change", e);
     }
 
-    ChangeData cd = changeDataFactory.create(resource.getNotes());
+    ChangeData cd = resource.getChangeResource().getChangeData();
     try {
       MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {

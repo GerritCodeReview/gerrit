@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "116a8985_d6f0358f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-15T20:41:09Z",
+      "side": 1,
+      "message": "We cannot just revert this change. That has too big of an impact. We have to understand what is wrong with it.",
+      "revId": "74b9c081bdb4a22e80fc4af511f13555eecd58ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

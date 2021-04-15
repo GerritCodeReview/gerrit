@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b05930bc_96b63d02",
+        "filename": "package.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-15T11:37:57Z",
+      "side": 1,
+      "message": "I did not upgrade ts to 4.2",
+      "range": {
+        "startLine": 24,
+        "startChar": 19,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "d85b5cf636bea160a9b2d932fcf89065637c435c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd9fff21_b3629215",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-15T11:37:57Z",
+      "side": 1,
+      "message": "I had issues with karma 6.x.x and @open-wc/karma-esm 4.0.0, so I did not upgrade them here.",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "d85b5cf636bea160a9b2d932fcf89065637c435c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

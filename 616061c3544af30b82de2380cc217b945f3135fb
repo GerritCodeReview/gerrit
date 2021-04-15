@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42452122_f3c56d7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-15T19:00:06Z",
+      "side": 1,
+      "message": "This should get rebased on top of https://gerrit-review.googlesource.com/c/gerrit/+/303542",
+      "revId": "616061c3544af30b82de2380cc217b945f3135fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

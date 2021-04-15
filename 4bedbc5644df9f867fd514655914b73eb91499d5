@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2030128e_f18f6d4a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-15T14:33:31Z",
+      "side": 1,
+      "message": "Thee extra return statement is so that all code paths of the function return a value.",
+      "parentUuid": "cb778816_6a84bae9",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e1774b05_f48597df",
         "filename": "polygerrit-ui/app/utils/message-util.ts",
         "patchSetId": 5

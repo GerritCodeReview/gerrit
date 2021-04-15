@@ -26,9 +26,10 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    readonly layers: DiffLayer[] = []
+    readonly layers: DiffLayer[] = [],
+    useNewContextControls = false
   ) {
-    super(diff, prefs, outputEl, layers);
+    super(diff, prefs, outputEl, layers, useNewContextControls);
   }
 
   _getMoveControlsConfig() {

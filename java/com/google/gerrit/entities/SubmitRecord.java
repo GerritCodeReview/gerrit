@@ -53,7 +53,11 @@ public class SubmitRecord {
     FORCED,
 
     /**
-     * An internal server error occurred preventing computation.
+     * A rule error caused by user misconfiguration.
+     *
+     * <p>This status should only be used to signal that the user has misconfigured the submit rule.
+     * In case plugins encounter server exceptions while evaluating the rule, they should throw a
+     * {@link RuntimeException} such as {@link IllegalStateException}.
      *
      * <p>Additional detail may be available in {@link SubmitRecord#errorMessage}.
      */

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.rules;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
@@ -22,7 +23,6 @@ import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.project.ProjectCache;
@@ -76,32 +76,17 @@ public final class DefaultSubmitRule implements SubmitRule {
     SubmitRecord submitRecord = new SubmitRecord();
     submitRecord.status = SubmitRecord.Status.OK;
 
-    List<LabelType> labelTypes;
-    List<PatchSetApproval> approvals;
-    try {
-      labelTypes = cd.getLabelTypes().getLabelTypes();
-      approvals = cd.currentApprovals();
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log(
-          "Unable to fetch labels and approvals for change %s", cd.getId());
-
-      submitRecord.errorMessage = "Unable to fetch labels and approvals for the change";
-      submitRecord.status = SubmitRecord.Status.RULE_ERROR;
-      return Optional.of(submitRecord);
-    }
-
+    List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();
+    List<PatchSetApproval> approvals = cd.currentApprovals();
     submitRecord.labels = new ArrayList<>(labelTypes.size());
 
     for (LabelType t : labelTypes) {
       LabelFunction labelFunction = t.getFunction();
-      if (labelFunction == null) {
-        logger.atSevere().log(
-            "Unable to find the LabelFunction for label %s, change %s", t.getName(), cd.getId());
-
-        submitRecord.errorMessage = "Unable to find the LabelFunction for label " + t.getName();
-        submitRecord.status = SubmitRecord.Status.RULE_ERROR;
-        return Optional.of(submitRecord);
-      }
+      checkState(
+          labelFunction != null,
+          "Unable to find the LabelFunction for label %s, change %s",
+          t.getName(),
+          cd.getId());
 
       Collection<PatchSetApproval> approvalsForLabel = getApprovalsForLabel(approvals, t);
       SubmitRecord.Label label = labelFunction.check(t, approvalsForLabel);

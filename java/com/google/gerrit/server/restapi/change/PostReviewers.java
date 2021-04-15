@@ -24,8 +24,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerModifier;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -43,18 +43,18 @@ public class PostReviewers
   private final BatchUpdate.Factory updateFactory;
   private final ChangeData.Factory changeDataFactory;
   private final NotifyResolver notifyResolver;
-  private final ReviewerAdder reviewerAdder;
+  private final ReviewerModifier reviewerModifier;
 
   @Inject
   PostReviewers(
       BatchUpdate.Factory updateFactory,
       ChangeData.Factory changeDataFactory,
       NotifyResolver notifyResolver,
-      ReviewerAdder reviewerAdder) {
+      ReviewerModifier reviewerModifier) {
     this.updateFactory = updateFactory;
     this.changeDataFactory = changeDataFactory;
     this.notifyResolver = notifyResolver;
-    this.reviewerAdder = reviewerAdder;
+    this.reviewerModifier = reviewerModifier;
   }
 
   @Override
@@ -65,7 +65,8 @@ public class PostReviewers
       throw new BadRequestException("missing reviewer field");
     }
 
-    ReviewerAddition addition = reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
+    ReviewerAddition addition =
+        reviewerModifier.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (addition.op == null) {
       return Response.ok(addition.result);
     }

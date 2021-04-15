@@ -56,7 +56,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.change.ReviewerAdder;
+import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
@@ -82,8 +82,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     String largeGroup = groupOperations.newGroup().name("largeGroup").create().get();
     String mediumGroup = groupOperations.newGroup().name("mediumGroup").create().get();
 
-    int largeGroupSize = ReviewerAdder.DEFAULT_MAX_REVIEWERS + 1;
-    int mediumGroupSize = ReviewerAdder.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1;
+    int largeGroupSize = ReviewerModifier.DEFAULT_MAX_REVIEWERS + 1;
+    int mediumGroupSize = ReviewerModifier.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1;
     List<TestAccount> users = createAccounts(largeGroupSize, "addGroupAsReviewer");
     List<String> largeGroupUsernames = new ArrayList<>(mediumGroupSize);
     for (TestAccount u : users) {
@@ -414,8 +414,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
   @Test
   public void reviewAndAddGroupReviewers() throws Exception {
-    int largeGroupSize = ReviewerAdder.DEFAULT_MAX_REVIEWERS + 1;
-    int mediumGroupSize = ReviewerAdder.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1;
+    int largeGroupSize = ReviewerModifier.DEFAULT_MAX_REVIEWERS + 1;
+    int mediumGroupSize = ReviewerModifier.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK + 1;
     List<TestAccount> users = createAccounts(largeGroupSize, "reviewAndAddGroupReviewers");
     List<String> usernames = new ArrayList<>(largeGroupSize);
     for (TestAccount u : users) {

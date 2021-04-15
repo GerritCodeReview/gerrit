@@ -142,6 +142,9 @@ export class GrDiffBuilderElement extends PolymerElement {
   @property({type: Boolean})
   useNewImageDiffUi = false;
 
+  @property({type: Boolean})
+  useNewContextControls = false;
+
   @property({
     type: Array,
     computed: '_computeLeftCoverageRanges(coverageRanges)',
@@ -389,7 +392,8 @@ export class GrDiffBuilderElement extends PolymerElement {
         localPrefs,
         this.diffElement,
         this._layers,
-        renderPrefs
+        renderPrefs,
+        this.useNewContextControls
       );
     } else if (this.viewMode === DiffViewMode.UNIFIED) {
       builder = new GrDiffBuilderUnified(
@@ -397,7 +401,8 @@ export class GrDiffBuilderElement extends PolymerElement {
         localPrefs,
         this.diffElement,
         this._layers,
-        renderPrefs
+        renderPrefs,
+        this.useNewContextControls
       );
     }
     if (!builder) {

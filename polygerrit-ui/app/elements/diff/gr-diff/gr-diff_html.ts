@@ -69,7 +69,7 @@ export const htmlTemplate = html`
     .section {
       border-right: 1px solid var(--border-color);
     }
-    .section.contextControl {
+    .section.contextControl.newStyle {
       /*
        * Divider inside this section must not have border; we set borders on
        * the padding rows below.
@@ -77,9 +77,9 @@ export const htmlTemplate = html`
       border-right-width: 0;
     }
     /*
-     * Padding rows behind context controls. The diff is styled to be cut into
-     * two halves by the negative space of the divider on which the context
-     * control buttons are anchored.
+     * Padding rows behind new style context controls. The diff is styled to be
+     * cut into two halves by the negative space of the divider on which the
+     * context control buttons are anchored.
      */
     .contextBackground {
       border-right: 1px solid var(--border-color);
@@ -285,11 +285,27 @@ export const htmlTemplate = html`
 
     /* Context controls */
     .contextControl {
-      display: var(--context-control-display, table-row-group);
-      background-color: transparent;
-      border: none;
+      background-color: var(--diff-context-control-background-color);
+      border: 1px solid var(--diff-context-control-border-color);
+      color: var(--diff-context-control-color);
       --divider-height: var(--spacing-s);
       --divider-border: 1px;
+    }
+    .contextControl.newStyle {
+      background-color: transparent;
+      border: none;
+      /* Change to --diff-context-control-color once only new style exists. */
+      --diff-context-control-color: var(--default-button-text-color);
+    }
+    .contextControl:not(.newStyle) gr-button {
+      display: inline-block;
+      text-decoration: none;
+      vertical-align: top;
+      line-height: var(--line-height-mono, 18px);
+      --gr-button: {
+        color: var(--diff-context-control-color);
+        padding: var(--spacing-xxs) var(--spacing-l);
+      }
     }
     .contextControl gr-button iron-icon {
       /* should match line-height of gr-button */
@@ -301,8 +317,8 @@ export const htmlTemplate = html`
     }
 
     /*
-     * Padding rows behind context controls. Styled as a continuation of the
-     * line gutters and code area.
+     * Padding rows behind new style context controls. Styled as a continuation
+     * of the line gutters and code area.
      */
     .contextBackground > .contextLineNum {
       background-color: var(--diff-blank-background-color);
@@ -642,6 +658,7 @@ export const htmlTemplate = html`
           layers="[[layers]]"
           revision-image="[[revisionImage]]"
           use-new-image-diff-ui="[[useNewImageDiffUi]]"
+          use-new-context-controls="[[useNewContextControls]]"
         >
           <table
             id="diffTable"

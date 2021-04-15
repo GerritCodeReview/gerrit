@@ -256,6 +256,9 @@ export class GrDiff extends PolymerElement {
   @property({type: String, observer: '_useNewImageDiffUiObserver'})
   useNewImageDiffUi = false;
 
+  @property({type: Boolean})
+  useNewContextControls = false;
+
   @property({
     type: String,
     computed:

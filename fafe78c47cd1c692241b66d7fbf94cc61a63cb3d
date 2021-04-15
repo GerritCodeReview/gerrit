@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a37561aa_3776669a",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "157fb31d_820f8bba",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0442e94a_c34dbb84",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-04-08T13:19:00Z",
       "side": 1,
       "message": "\"detailed\" sounds like it contains information not available in \"message\". Maybe \"resolvedMessage\" (is resolving what you do with a template, or \"expanding\"?)? Or should this rather be the \"normal message field\", and the one above should be named \"messageTemplate\" or something like that?",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "713677b4_5eb2c5ef",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0442e94a_c34dbb84",
       "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "338a3410_9ab367f6",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ae937e8f_ecfaac53",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a337fa78_9d6dc3d7",
@@ -86,6 +140,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e12179f_ae744226",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a337fa78_9d6dc3d7",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d6345fd_ed29657c",
@@ -99,6 +171,30 @@
       "writtenOn": "2021-04-08T13:19:00Z",
       "side": 1,
       "message": "I think messageTemplate is more accurate.",
+      "range": {
+        "startLine": 95,
+        "startChar": 60,
+        "endLine": 95,
+        "endChar": 75
+      },
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "580ee0a9_009944aa",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d6345fd_ed29657c",
       "range": {
         "startLine": 95,
         "startChar": 60,
@@ -132,6 +228,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29f87c94_e4394961",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8085338a_3cfc6e01",
+      "range": {
+        "startLine": 134,
+        "startChar": 94,
+        "endLine": 135,
+        "endChar": 13
+      },
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d16b0d34_08599714",
@@ -149,6 +269,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72fe8a27_bcbabb88",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "I need accountCache to actually replace message.",
+      "parentUuid": "d16b0d34_08599714",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d0c256b_f8ba00cc",
@@ -162,6 +300,24 @@
       "writtenOn": "2021-04-08T13:19:00Z",
       "side": 1,
       "message": "Given the RE, can this ever fail? (I guess if the number is too large?)",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "405d73a6_00cfdf50",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "It might fail e.g if the user input part of the message contained template of invalid format.",
+      "parentUuid": "1d0c256b_f8ba00cc",
       "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -189,6 +345,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30ee96f2_ec700b03",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4c0ccd1_d277b329",
+      "range": {
+        "startLine": 160,
+        "startChar": 14,
+        "endLine": 160,
+        "endChar": 19
+      },
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "008f3175_762d36ad",
@@ -202,6 +382,24 @@
       "writtenOn": "2021-04-08T13:19:00Z",
       "side": 1,
       "message": "... is not actually serialized",
+      "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebee5de6_0e377c2e",
+        "filename": "javatests/com/google/gerrit/entities/converter/ChangeMessageProtoConverterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "008f3175_762d36ad",
       "revId": "fafe78c47cd1c692241b66d7fbf94cc61a63cb3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

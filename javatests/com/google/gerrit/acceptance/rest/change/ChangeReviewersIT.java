@@ -442,6 +442,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(3);
+
     ReviewerResult reviewerResult = result.reviewers.get(largeGroup);
     assertThat(reviewerResult).isNotNull();
     assertThat(reviewerResult.confirm).isNull();
@@ -539,6 +540,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(1);
+
     ReviewerResult reviewerResult = result.reviewers.get(user.email());
     assertThat(reviewerResult).isNotNull();
     assertThat(reviewerResult.confirm).isNull();
@@ -564,6 +566,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(2);
+
     ReviewerResult reviewerResult = result.reviewers.get(group1);
     assertThat(reviewerResult.error).isNull();
     assertThat(reviewerResult.reviewers).hasSize(2);

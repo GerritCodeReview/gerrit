@@ -36,7 +36,7 @@ import './gr-checks-results';
 import {changeNum$} from '../../services/change/change-model';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {ActionTriggeredEvent} from '../../services/checks/checks-util';
-import {RunSelectedEvent} from './gr-checks-util';
+import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {fireAlert} from '../../utils/event-util';
 import {appContext} from '../../services/app-context';
@@ -66,6 +66,13 @@ export class GrChecksTab extends GrLitElement {
 
   @internalProperty()
   selectedRuns: string[] = [];
+
+  /** Maps checkName to selected attempt number. `undefined` means `latest`. */
+  @internalProperty()
+  selectedAttempts: Map<string, number | undefined> = new Map<
+    string,
+    number | undefined
+  >();
 
   private readonly checksService = appContext.checksService;
 
@@ -112,14 +119,17 @@ export class GrChecksTab extends GrLitElement {
           class="runs"
           .runs="${this.runs}"
           .selectedRuns="${this.selectedRuns}"
+          .selectedAttempts="${this.selectedAttempts}"
           .tabState="${this.tabState}"
           @run-selected="${this.handleRunSelected}"
+          @attempt-selected="${this.handleAttemptSelected}"
         ></gr-checks-runs>
         <gr-checks-results
           class="results"
           .tabState="${this.tabState}"
           .runs="${filteredRuns}"
           .selectedRunsCount="${this.selectedRuns.length}"
+          .selectedAttempts="${this.selectedAttempts}"
           @run-selected="${this.handleRunSelected}"
         ></gr-checks-results>
       </div>
@@ -175,6 +185,13 @@ export class GrChecksTab extends GrLitElement {
     if (e.detail.checkName) {
       this.toggleSelected(e.detail.checkName);
     }
+  }
+
+  handleAttemptSelected(e: AttemptSelectedEvent) {
+    const {checkName, attempt} = e.detail;
+    this.selectedAttempts.set(checkName, attempt);
+    // Force property update.
+    this.selectedAttempts = new Map(this.selectedAttempts);
   }
 
   toggleSelected(checkName: string) {

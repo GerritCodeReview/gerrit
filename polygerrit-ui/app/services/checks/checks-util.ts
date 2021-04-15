@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Action, Category, LinkIcon, RunStatus} from '../../api/checks';
+import {
+  Action,
+  Category,
+  CheckRun as CheckRunApi,
+  CheckResult as CheckResultApi,
+  LinkIcon,
+  RunStatus,
+} from '../../api/checks';
 import {assertNever} from '../../utils/common-util';
 import {CheckResult, CheckRun} from './checks-model';
 
@@ -220,4 +227,64 @@ export function fireActionTriggered(
       bubbles: true,
     })
   );
+}
+
+export interface AttemptDetail {
+  attempt: number | undefined;
+  icon: string;
+}
+
+export interface AttemptInfo {
+  latestAttempt: number | undefined;
+  isSingleAttempt: boolean;
+  attempts: AttemptDetail[];
+}
+
+export function createAttemptMap(runs: CheckRunApi[]) {
+  const map = new Map<string, AttemptInfo>();
+  for (const run of runs) {
+    const value = map.get(run.checkName);
+    const detail = {
+      attempt: run.attempt,
+      icon: iconForRun(fromApiToInternalRun(run)),
+    };
+    if (value === undefined) {
+      map.set(run.checkName, {
+        latestAttempt: run.attempt,
+        isSingleAttempt: true,
+        attempts: [detail],
+      });
+      continue;
+    }
+    if (!run.attempt || !value.latestAttempt) {
+      throw new Error(
+        'If multiple run attempts are provided, ' +
+          'then each run must have the "attempt" property set.'
+      );
+    }
+    value.isSingleAttempt = false;
+    if (run.attempt > value.latestAttempt) {
+      value.latestAttempt = run.attempt;
+    }
+    value.attempts.push(detail);
+  }
+  return map;
+}
+
+export function fromApiToInternalRun(run: CheckRunApi): CheckRun {
+  return {
+    ...run,
+    internalRunId: 'fake',
+    isSingleAttempt: false,
+    isLatestAttempt: false,
+    attemptDetails: [],
+    results: (run.results ?? []).map(fromApiToInternalResult),
+  };
+}
+
+export function fromApiToInternalResult(result: CheckResultApi): CheckResult {
+  return {
+    ...result,
+    internalResultId: 'fake',
+  };
 }

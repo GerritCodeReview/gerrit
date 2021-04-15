@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ffd283d_d1bf8bbf",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-15T08:12:14Z",
+      "side": 1,
+      "message": "In dark theme, the selected background is --selected-background: var(--blue-900);\n\nThis color is not consistent with the hover background color when hovering over a file in the Files tab. I propose we user the same color as the Files hover for the results hover.",
+      "range": {
+        "startLine": 155,
+        "startChar": 26,
+        "endLine": 155,
+        "endChar": 47
+      },
+      "revId": "b32577453f03a1915140d2d5da877c9d038d3ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

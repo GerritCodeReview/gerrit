@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a426bfcb_aba3258c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "185f4726_95cb8a7c",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d67e559_8fd8a083",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0230d11_a1408c34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d67e559_8fd8a083",
+      "range": {
+        "startLine": 11,
+        "startChar": 13,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "597a046e_8ce19ef9",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-04-14T20:13:56Z",
       "side": 1,
       "message": "Maybe there is no strong need for named arguments, which could only be positional as before. This would also simplify the line as it gets shown to the user.",
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4acdfd1_49cd4715",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "597a046e_8ce19ef9",
       "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +170,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6df256d_29e79328",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dd3487d_47b67b6f",
+      "range": {
+        "startLine": 7,
+        "startChar": 84,
+        "endLine": 7,
+        "endChar": 111
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94141cd9_49e37226",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd0db954_4b4fa5ad",
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e1c7976_db4a242f",
@@ -121,6 +229,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41437988_95ee2ab6",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e1c7976_db4a242f",
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f32b138_dbcf994c",
@@ -134,6 +260,30 @@
       "writtenOn": "2021-04-14T20:13:56Z",
       "side": 1,
       "message": "Not mentioned in the synopsis at line 4. You may see the posix standard on how to show such optional arguments. But I\u0027d rather in fact remove this argument, and instead only (and always) output the necessary console traces.\n\nIf the latter are noisy or cluttering the terminal, even after minimizing them, I\u0027d make sure to show the few meaningful lines only at the end of the execution. -To make sure that the user is able to read them all upon termination of this script.",
+      "range": {
+        "startLine": 12,
+        "startChar": 18,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e89ed893_00f1ddff",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f32b138_dbcf994c",
       "range": {
         "startLine": 12,
         "startChar": 18,
@@ -190,6 +340,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39debf6f_2ee859e3",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ae41f5a_2195d564",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 6
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e343662_8c06b831",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b916a1ac_d1c26ad8",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 4
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8651d86c_35e64cd9",
@@ -203,6 +401,30 @@
       "writtenOn": "2021-04-14T20:13:56Z",
       "side": 1,
       "message": "You could use the built-in shell variable instead to get the passed arguments count. This and the previous related comment should help simplify a lot of the related code below.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0d4678a_8f330b8a",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8651d86c_35e64cd9",
       "range": {
         "startLine": 20,
         "startChar": 0,
@@ -230,6 +452,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fdf7475_c1b02847",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fa7d079_d4d9fffe",
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1748d7d7_3fd4884c",
@@ -243,6 +483,30 @@
       "writtenOn": "2021-04-14T20:13:56Z",
       "side": 1,
       "message": "These names could be fragile or ephemeral in the longer run. I think this whole verification could be removed.",
+      "range": {
+        "startLine": 71,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 20
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21bebfc8_aad1bcad",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "For the verification checks made in this script, it is in compliance with the comment provided in [1]. This verification in particular addresses point 1, making sure that Gerrit is running.\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/299802/15..17/resources/com/google/gerrit/sshd/NoShell_test.sh",
+      "parentUuid": "1748d7d7_3fd4884c",
       "range": {
         "startLine": 71,
         "startChar": 11,
@@ -278,6 +542,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2fba8dd6_6f6fe728",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "The ssh command is run in line 85. The welcomeMessage is the beginning of the message received from Gerrit. This deals with point 2 in [1] regarding ssh problems. I agree that the welcomeMessage is fragile at this stage.",
+      "parentUuid": "6b8366a0_cd569217",
+      "range": {
+        "startLine": 84,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49f98723_b0a5ae1d",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 4
@@ -289,6 +577,30 @@
       "writtenOn": "2021-04-14T20:13:56Z",
       "side": 1,
       "message": "If I pass 100 times to the script, will this loop run exactly 100 times?",
+      "range": {
+        "startLine": 101,
+        "startChar": 17,
+        "endLine": 101,
+        "endChar": 43
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68168940_c72253af",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "A first run is made in line 85, that explains why it starts by 1 instead of 0. To make it obvious and to show the progress of the test an echo of the iteration can be added.",
+      "parentUuid": "49f98723_b0a5ae1d",
       "range": {
         "startLine": 101,
         "startChar": 17,
@@ -322,6 +634,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80f9013c_bb2c48ad",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75c08d9b_68611e72",
+      "range": {
+        "startLine": 114,
+        "startChar": 36,
+        "endLine": 114,
+        "endChar": 72
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8418cb9c_647e25c8",
@@ -335,6 +671,30 @@
       "writtenOn": "2021-04-14T20:13:56Z",
       "side": 1,
       "message": "count of file descriptors increased by (the result of the difference here)\n\n-Note that something else from the application might have caused this increase.",
+      "range": {
+        "startLine": 116,
+        "startChar": 38,
+        "endLine": 116,
+        "endChar": 78
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49bc411f_03a7738e",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-15T15:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8418cb9c_647e25c8",
       "range": {
         "startLine": 116,
         "startChar": 38,

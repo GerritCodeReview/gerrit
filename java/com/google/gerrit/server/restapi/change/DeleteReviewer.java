@@ -64,7 +64,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, DeleteRe
       if (rsrc.isByEmail()) {
         op = deleteReviewerByEmailOpFactory.create(rsrc.getReviewerByEmail());
       } else {
-        op = deleteReviewerOpFactory.create(rsrc.getReviewerUser().state(), input);
+        op = deleteReviewerOpFactory.create(rsrc.getReviewerUser().getAccount(), input);
       }
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();

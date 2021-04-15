@@ -31,6 +31,8 @@ public abstract class NewChangeSender extends ChangeEmail {
   private final Set<Address> reviewersByEmail = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
   private final Set<Address> extraCCByEmail = new HashSet<>();
+  private final Set<Account.Id> removedReviewers = new HashSet<>();
+  private final Set<Address> removedByEmailReviewers = new HashSet<>();
 
   protected NewChangeSender(EmailArguments args, ChangeData changeData) {
     super(args, "newchange", changeData);
@@ -52,10 +54,17 @@ public abstract class NewChangeSender extends ChangeEmail {
     extraCCByEmail.addAll(cc);
   }
 
+  public void addRemovedReviewers(Collection<Account.Id> removed) {
+    removedReviewers.addAll(removed);
+  }
+
+  public void addRemovedByEmailReviewers(Collection<Address> removed) {
+    removedByEmailReviewers.addAll(removed);
+  }
+
   @Override
   protected void init() throws EmailException {
     super.init();
-
     String threadId = getChangeMessageThreadId();
     setHeader("References", threadId);
 
@@ -71,6 +80,8 @@ public abstract class NewChangeSender extends ChangeEmail {
       case OWNER_REVIEWERS:
         reviewers.stream().forEach(r -> add(RecipientType.TO, r, true));
         addByEmail(RecipientType.TO, reviewersByEmail, true);
+        removedReviewers.stream().forEach(r -> add(RecipientType.TO, r, true));
+        addByEmail(RecipientType.TO, removedByEmailReviewers, true);
         break;
     }
 
@@ -96,10 +107,25 @@ public abstract class NewChangeSender extends ChangeEmail {
     return names;
   }
 
+  public List<String> getRemovedReviewerNames() {
+    if (removedReviewers.isEmpty() && removedByEmailReviewers.isEmpty()) {
+      return null;
+    }
+    List<String> names = new ArrayList<>();
+    for (Account.Id id : removedReviewers) {
+      names.add(getNameFor(id));
+    }
+    for (Address address : removedByEmailReviewers) {
+      names.add(address.name());
+    }
+    return names;
+  }
+
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
     soyContext.put("ownerName", getNameFor(change.getOwner()));
     soyContextEmailData.put("reviewerNames", getReviewerNames());
+    soyContextEmailData.put("removedReviewerNames", getRemovedReviewerNames());
   }
 }

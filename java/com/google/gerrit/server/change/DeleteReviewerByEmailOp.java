@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
@@ -22,14 +23,13 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
 
-public class DeleteReviewerByEmailOp implements BatchUpdateOp {
+public class DeleteReviewerByEmailOp extends ReviewerOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -74,22 +74,32 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(PostUpdateContext ctx) {
-    try {
-      NotifyResolver.Result notify = ctx.getNotify(change.getId());
-      if (!notify.shouldNotify()) {
-        return;
+    opResult =
+        Result.builder()
+            .setAddedReviewers(ImmutableList.of())
+            .setAddedReviewersByEmail(ImmutableList.of())
+            .setAddedCCs(ImmutableList.of())
+            .setAddedCCsByEmail(ImmutableList.of())
+            .setDeletedReviewerByEmail(reviewer)
+            .build();
+    if (sendEmail) {
+      try {
+        NotifyResolver.Result notify = ctx.getNotify(change.getId());
+        if (!notify.shouldNotify()) {
+          return;
+        }
+        DeleteReviewerSender emailSender =
+            deleteReviewerSenderFactory.create(ctx.getProject(), change.getId());
+        emailSender.setFrom(ctx.getAccountId());
+        emailSender.addReviewersByEmail(Collections.singleton(reviewer));
+        emailSender.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
+        emailSender.setNotify(notify);
+        emailSender.setMessageId(
+            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
+        emailSender.send();
+      } catch (Exception err) {
+        logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());
       }
-      DeleteReviewerSender emailSender =
-          deleteReviewerSenderFactory.create(ctx.getProject(), change.getId());
-      emailSender.setFrom(ctx.getAccountId());
-      emailSender.addReviewersByEmail(Collections.singleton(reviewer));
-      emailSender.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
-      emailSender.setNotify(notify);
-      emailSender.setMessageId(
-          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-      emailSender.send();
-    } catch (Exception err) {
-      logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());
     }
   }
 }

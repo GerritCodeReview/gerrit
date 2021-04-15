@@ -166,6 +166,25 @@ public class AutoMergeIT extends AbstractDaemonTest {
     assertNoAutoMergeCreated(result.getCommit());
   }
 
+  @Test
+  public void pushWorksIfAutoMergeExists() throws Exception {
+    PushOneCommit m =
+        pushFactory.create(
+            admin.newIdent(), testRepo, "merge", ImmutableMap.of("foo", "foo-1", "bar", "bar-2"));
+    m.setParents(ImmutableList.of(parent1, parent2));
+    PushOneCommit.Result result = m.to("refs/for/master");
+    result.assertOkStatus();
+    assertAutoMergeCreated(result.getCommit());
+
+    // Delete change and push commit again.
+    gApi.changes().id(result.getChangeId()).delete();
+
+    // Push again successfully and check that AutoMerge commit is still there
+    result = m.to("refs/for/master");
+    result.assertOkStatus();
+    assertAutoMergeCreated(result.getCommit());
+  }
+
   private void assertAutoMergeCreated(ObjectId mergeCommit) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef(RefNames.refsCacheAutomerge(mergeCommit.name()))).isNotNull();

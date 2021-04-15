@@ -236,6 +236,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69c239fb_683fb7d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-15T14:52:44Z",
+      "side": 1,
+      "message": "Thanks for all the input. I reworked the change:\n* Now we serve templates in ChangeAPI\n* Serve full message in ChangeMessageAPI, I think it is a legacy endpoint and we can eventually deprecate it.\n* We still have to index on Change Messages, because some of the endpoints incorporate user input as part of ChangeMessage e.g. AbandonOperation and similar:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#abandon-input\n  * I was considering converting those to PATCHSET_LEVEL comments, but this would require case-by-case refactoring\n* For the android/chrome automation, they rely on the format of comments, but they don\u0027t parse emails/names, so they should not be affected.\n\n\nAs for the template:\n* _gerrit-account-id would only represent registered gerrit users. We will continue to record email addresses for unregistered users as they are today, and serve in APIs\n* At this point, we do not need other templates (like gerrit-change-id:1234), if we need them in the future, we can add in a similar way?",
+      "parentUuid": "e36ad5a2_d0e2c0f1",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

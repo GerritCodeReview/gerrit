@@ -6287,8 +6287,7 @@ ReviewerInfo] entities.
 |`ccs`         |optional|
 The newly CCed accounts as a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities. This field will
-only appear if the requested `state` for the reviewer  was `CC` *and* NoteDb is
-enabled on the server.
+only appear if the requested `state` for the reviewer  was `CC`.
 |`error`       |optional|
 Error message explaining why the reviewer could not be added. +
 If a group was specified in the input and an error is returned, it
@@ -6441,8 +6440,7 @@ to link:#attention-set-info[AttentionSetInfo] of that account.
 The assignee of the change as an link:rest-api-accounts.html#account-info[
 AccountInfo] entity.
 |`hashtags`           |optional|
-List of hashtags that are set on the change (only populated when NoteDb
-is enabled).
+List of hashtags that are set on the change.
 |`change_id`          ||The Change-Id of the change.
 |`subject`            ||
 The subject of the change (header line of the commit message).

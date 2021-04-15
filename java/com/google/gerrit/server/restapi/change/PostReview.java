@@ -55,7 +55,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -63,6 +62,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -276,7 +276,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     logger.atFine().log("notify handling = %s", input.notify);
 
-    Map<String, AddReviewerResult> reviewerJsonResults = null;
+    Map<String, ReviewerResult> reviewerJsonResults = null;
     List<ReviewerModification> reviewerResults = Lists.newArrayList();
     boolean hasError = false;
     boolean confirm = false;

@@ -29,7 +29,7 @@ public class ReviewResult {
    * Map of account or group identifier to outcome of adding as a reviewer. Null if no reviewer
    * additions were requested.
    */
-  @Nullable public Map<String, AddReviewerResult> reviewers;
+  @Nullable public Map<String, ReviewerResult> reviewers;
 
   /**
    * Boolean indicating whether the change was moved out of WIP by this review. Either true or null.

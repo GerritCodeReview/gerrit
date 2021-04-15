@@ -41,7 +41,6 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -49,6 +48,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -100,7 +100,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     // Attempt to add overly large group as reviewers.
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
-    AddReviewerResult result = addReviewer(changeId, largeGroup);
+    ReviewerResult result = addReviewer(changeId, largeGroup);
     assertThat(result.input).isEqualTo(largeGroup);
     assertThat(result.confirm).isNull();
     assertThat(result.error).contains("has too many members to add them all as reviewers");
@@ -136,7 +136,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     ReviewerInput in = new ReviewerInput();
     in.reviewer = user.email();
     in.state = CC;
-    AddReviewerResult result = addReviewer(changeId, in);
+    ReviewerResult result = addReviewer(changeId, in);
 
     assertThat(result.input).isEqualTo(user.email());
     assertThat(result.confirm).isNull();
@@ -175,7 +175,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     gApi.groups()
         .id(in.reviewer)
         .addMembers(firstUsernames.toArray(new String[firstUsernames.size()]));
-    AddReviewerResult result = addReviewer(changeId, in);
+    ReviewerResult result = addReviewer(changeId, in);
 
     assertThat(result.input).isEqualTo(in.reviewer);
     assertThat(result.confirm).isNull();
@@ -442,7 +442,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(3);
-    AddReviewerResult reviewerResult = result.reviewers.get(largeGroup);
+    ReviewerResult reviewerResult = result.reviewers.get(largeGroup);
     assertThat(reviewerResult).isNotNull();
     assertThat(reviewerResult.confirm).isNull();
     assertThat(reviewerResult.error).isNotNull();
@@ -539,7 +539,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(1);
-    AddReviewerResult reviewerResult = result.reviewers.get(user.email());
+    ReviewerResult reviewerResult = result.reviewers.get(user.email());
     assertThat(reviewerResult).isNotNull();
     assertThat(reviewerResult.confirm).isNull();
     assertThat(reviewerResult.error).isNull();
@@ -564,7 +564,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(2);
-    AddReviewerResult reviewerResult = result.reviewers.get(group1);
+    ReviewerResult reviewerResult = result.reviewers.get(group1);
     assertThat(reviewerResult.error).isNull();
     assertThat(reviewerResult.reviewers).hasSize(2);
     reviewerResult = result.reviewers.get(group2);
@@ -881,7 +881,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     input.reviewer = user.email();
     input.state = ReviewerState.REVIEWER;
 
-    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
     assertThat(result.reviewers).hasSize(1);
     ReviewerInfo info = result.reviewers.get(0);
     assertThat(info._accountId).isEqualTo(user.id().get());
@@ -897,7 +897,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     input.reviewer = user.email();
     input.state = ReviewerState.CC;
 
-    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
     assertThat(result.ccs).hasSize(1);
     AccountInfo info = result.ccs.get(0);
     assertThat(info._accountId).isEqualTo(user.id().get());
@@ -992,25 +992,25 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         .containsExactly(ReviewerState.REVIEWER, ImmutableList.of(userInfo));
   }
 
-  private AddReviewerResult addReviewer(String changeId, String reviewer) throws Exception {
+  private ReviewerResult addReviewer(String changeId, String reviewer) throws Exception {
     return addReviewer(changeId, reviewer, SC_OK);
   }
 
-  private AddReviewerResult addReviewer(String changeId, String reviewer, int expectedStatus)
+  private ReviewerResult addReviewer(String changeId, String reviewer, int expectedStatus)
       throws Exception {
     ReviewerInput in = new ReviewerInput();
     in.reviewer = reviewer;
     return addReviewer(changeId, in, expectedStatus);
   }
 
-  private AddReviewerResult addReviewer(String changeId, ReviewerInput in) throws Exception {
+  private ReviewerResult addReviewer(String changeId, ReviewerInput in) throws Exception {
     return addReviewer(changeId, in, SC_OK);
   }
 
-  private AddReviewerResult addReviewer(String changeId, ReviewerInput in, int expectedStatus)
+  private ReviewerResult addReviewer(String changeId, ReviewerInput in, int expectedStatus)
       throws Exception {
     RestResponse resp = adminRestSession.post("/changes/" + changeId + "/reviewers", in);
-    return readContentFromJson(resp, expectedStatus, AddReviewerResult.class);
+    return readContentFromJson(resp, expectedStatus, ReviewerResult.class);
   }
 
   private RestResponse deleteReviewer(String changeId, TestAccount account) throws Exception {

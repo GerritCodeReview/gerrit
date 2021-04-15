@@ -29,6 +29,7 @@ import {GrLitElement} from '../lit/gr-lit-element';
 import {Action, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {
+  AttemptDetail,
   compareByWorstCategory,
   fireActionTriggered,
   iconForCategory,
@@ -44,14 +45,20 @@ import {
   fakeRun1,
   fakeRun2,
   fakeRun3,
-  fakeRun4,
+  fakeRun4_1,
+  fakeRun4_2,
+  fakeRun4_3,
+  fakeRun4_4,
   updateStateSetResults,
-  checksWithMultipleAttempts$,
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
-import {fireRunSelected} from './gr-checks-util';
+import {
+  fireAttemptSelected,
+  fireRunSelected,
+} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
+import {charsOnly} from '../../utils/string-util';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends GrLitElement {
@@ -81,7 +88,14 @@ export class GrChecksRun extends GrLitElement {
           font-weight: var(--font-weight-bold);
         }
         .attempt {
-          color: var(--deemphasized-text-color);
+          display: inline-block;
+          background-color: var(--tag-gray);
+          border-radius: var(--line-height-normal);
+          height: var(--line-height-normal);
+          width: var(--line-height-normal);
+          text-align: center;
+          vertical-align: top;
+          font-size: var(--font-size-small);
         }
         .chip.error {
           border-left: var(--thick-border) solid var(--error-foreground);
@@ -138,6 +152,23 @@ export class GrChecksRun extends GrLitElement {
              that would not have been a nice click target. */
           margin: calc(0px - var(--spacing-xs));
         }
+        .attemptDetails {
+          padding-bottom: var(--spacing-s);
+        }
+        .attemptDetail {
+          /* This is thick-border (6) + spacing-m (8) + icon (20) + padding. */
+          padding-left: 39px;
+          padding-top: var(--spacing-s);
+        }
+        .attemptDetail input {
+          width: 14px;
+          height: 14px;
+          /* The next 3 are for placing in the middle of 20px line-height. */
+          vertical-align: top;
+          position: relative;
+          top: 3px;
+          margin-right: var(--spacing-s);
+        }
       `,
     ];
   }
@@ -152,10 +183,10 @@ export class GrChecksRun extends GrLitElement {
   selected = false;
 
   @property()
-  deselected = false;
+  selectedAttempt?: number;
 
   @property()
-  showAttempt = false;
+  deselected = false;
 
   @property()
   shouldRender = false;
@@ -167,6 +198,21 @@ export class GrChecksRun extends GrLitElement {
       () => this.setAttribute('shouldRender', 'true'),
       200
     );
+  }
+
+  protected updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+
+    // For some reason the browser does not pick up the correct `checked` state
+    // that is set in renderAttempt(). So we have to set it programmatically
+    // here.
+    const selectedAttempt = this.selectedAttempt ?? this.run.attempt;
+    const inputToBeSelected = this.shadowRoot?.querySelector(
+      `.attemptDetails input#attempt-${selectedAttempt}`
+    ) as HTMLInputElement | undefined;
+    if (inputToBeSelected) {
+      inputToBeSelected.checked = true;
+    }
   }
 
   render() {
@@ -189,8 +235,8 @@ export class GrChecksRun extends GrLitElement {
           <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
-          <span class="attempt" ?hidden="${!this.showAttempt}"
-            >[${this.run.attempt}]</span
+          <span class="attempt" ?hidden="${this.run.isSingleAttempt}"
+            >${this.run.attempt}</span
           >
         </div>
         <div class="right">
@@ -204,7 +250,43 @@ export class GrChecksRun extends GrLitElement {
             : ''}
         </div>
       </div>
+      <div
+        class="attemptDetails"
+        ?hidden="${this.run.isSingleAttempt || !this.selected}"
+      >
+        ${this.run.attemptDetails.map(a => this.renderAttempt(a))}
+      </div>
     `;
+  }
+
+  isSelected(detail: AttemptDetail) {
+    // this.selectedAttempt may be undefined, then choose the latest attempt,
+    // which is what this.run has.
+    const selectedAttempt = this.selectedAttempt ?? this.run.attempt;
+    return detail.attempt === selectedAttempt;
+  }
+
+  renderAttempt(detail: AttemptDetail) {
+    const checkNameId = charsOnly(this.run.checkName).toLowerCase();
+    const id = `attempt-${detail.attempt}`;
+    const icon = detail.icon;
+    return html`<div class="attemptDetail">
+      <input
+        type="radio"
+        id="${id}"
+        name="${`${checkNameId}-attempt-choice`}"
+        ?checked="${this.isSelected(detail)}"
+        @change="${() => this.handleAttemptChange(detail)}"
+      />
+      <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
+      <label for="${id}">Attempt ${detail.attempt}</label>
+    </div>`;
+  }
+
+  handleAttemptChange(detail: AttemptDetail) {
+    if (!this.isSelected(detail)) {
+      fireAttemptSelected(this, this.run.checkName, detail.attempt);
+    }
   }
 
   renderFilterIcon() {
@@ -255,8 +337,12 @@ export class GrChecksRuns extends GrLitElement {
   @property()
   selectedRuns: string[] = [];
 
-  @internalProperty()
-  checksWithMultipleAttempts: string[] = [];
+  /** Maps checkName to selected attempt number. `undefined` means `latest`. */
+  @property()
+  selectedAttempts: Map<string, number | undefined> = new Map<
+    string,
+    number | undefined
+  >();
 
   @property()
   tabState?: ChecksTabState;
@@ -266,7 +352,6 @@ export class GrChecksRuns extends GrLitElement {
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
-    this.subscribe('checksWithMultipleAttempts', checksWithMultipleAttempts$);
   }
 
   static get styles() {
@@ -354,19 +439,23 @@ export class GrChecksRuns extends GrLitElement {
         <gr-button link @click="${this.none}">none</gr-button>
         <gr-button
           link
-          @click="${() => this.toggle('f0', fakeRun0, fakeActions)}"
+          @click="${() => this.toggle('f0', [fakeRun0], fakeActions)}"
           >0</gr-button
         >
-        <gr-button link @click="${() => this.toggle('f1', fakeRun1)}"
+        <gr-button link @click="${() => this.toggle('f1', [fakeRun1])}"
           >1</gr-button
         >
-        <gr-button link @click="${() => this.toggle('f2', fakeRun2)}"
+        <gr-button link @click="${() => this.toggle('f2', [fakeRun2])}"
           >2</gr-button
         >
-        <gr-button link @click="${() => this.toggle('f3', fakeRun3)}"
+        <gr-button link @click="${() => this.toggle('f3', [fakeRun3])}"
           >3</gr-button
         >
-        <gr-button link @click="${() => this.toggle('f4', fakeRun4)}"
+        <gr-button
+          link
+          @click="${() => {
+            this.toggle('f4', [fakeRun4_1, fakeRun4_2, fakeRun4_3, fakeRun4_4]);
+          }}"
           >4</gr-button
         >
         <gr-button link @click="${this.all}">all</gr-button>
@@ -392,16 +481,22 @@ export class GrChecksRuns extends GrLitElement {
     updateStateSetResults('f1', [fakeRun1]);
     updateStateSetResults('f2', [fakeRun2]);
     updateStateSetResults('f3', [fakeRun3]);
-    updateStateSetResults('f4', [fakeRun4]);
+    updateStateSetResults('f4', [
+      fakeRun4_1,
+      fakeRun4_2,
+      fakeRun4_3,
+      fakeRun4_4,
+    ]);
   }
 
-  toggle(plugin: string, run: CheckRun, actions: Action[] = []) {
-    const newRuns = this.runs.includes(run) ? [] : [run];
+  toggle(plugin: string, runs: CheckRun[], actions: Action[] = []) {
+    const newRuns = this.runs.includes(runs[0]) ? [] : runs;
     updateStateSetResults(plugin, newRuns, actions);
   }
 
   renderSection(status: RunStatus) {
     const runs = this.runs
+      .filter(r => r.isLatestAttempt)
       .filter(r => r.status === status)
       .filter(r => this.filterRegExp.test(r.checkName))
       .sort(compareByWorstCategory);
@@ -430,13 +525,14 @@ export class GrChecksRuns extends GrLitElement {
   }
 
   renderRun(run: CheckRun) {
-    const selected = this.selectedRuns.includes(run.checkName);
-    const deselected = !selected && this.selectedRuns.length > 0;
+    const selectedRun = this.selectedRuns.includes(run.checkName);
+    const selectedAttempt = this.selectedAttempts.get(run.checkName);
+    const deselected = !selectedRun && this.selectedRuns.length > 0;
     return html`<gr-checks-run
       .run="${run}"
-      .selected="${selected}"
+      .selected="${selectedRun}"
+      .selectedAttempt="${selectedAttempt}"
       .deselected="${deselected}"
-      .showAttempt="${this.checksWithMultipleAttempts.includes(run.checkName)}"
     ></gr-checks-run>`;
   }
 

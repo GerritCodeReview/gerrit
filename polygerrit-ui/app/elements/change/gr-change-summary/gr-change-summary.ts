@@ -23,9 +23,9 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   CheckResult,
   CheckRun,
-  allRuns$,
   aPluginHasRegistered$,
   someProvidersAreLoading$,
+  allRunsLatest$,
 } from '../../../services/checks/checks-model';
 import {Category, Link, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
@@ -289,7 +289,7 @@ export class GrChangeSummary extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRuns$);
+    this.subscribe('runs', allRunsLatest$);
     this.subscribe('showChecksSummary', aPluginHasRegistered$);
     this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
   }

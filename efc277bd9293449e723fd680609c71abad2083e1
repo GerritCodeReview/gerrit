@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a72ec151_83058444",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-15T07:30:48Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a240afca_db5c5baa",
+      "range": {
+        "startLine": 105,
+        "startChar": 28,
+        "endLine": 105,
+        "endChar": 39
+      },
+      "revId": "efc277bd9293449e723fd680609c71abad2083e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b093ff92_25d8948b",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe35c42d_e7b7db85",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-15T07:30:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b093ff92_25d8948b",
+      "revId": "efc277bd9293449e723fd680609c71abad2083e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cdb62ee_50bf87b4",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-04-14T14:32:33Z",
       "side": 1,
       "message": "When clicking on the \"...\" icon, I can see the dropdown menu.\n\nIf I click again on \"...\" while the dropdown menu is open, I expect to hide the dropdown menu. At the moment, the menu stays open if I put my mouse anywhere else on the page.",
+      "range": {
+        "startLine": 142,
+        "startChar": 14,
+        "endLine": 142,
+        "endChar": 25
+      },
+      "revId": "efc277bd9293449e723fd680609c71abad2083e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b33e3d9_83a8e30f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-15T07:30:48Z",
+      "side": 1,
+      "message": "As this affects the entire UI and all dropdowns let\u0027s track this separately.",
+      "parentUuid": "3cdb62ee_50bf87b4",
       "range": {
         "startLine": 142,
         "startChar": 14,

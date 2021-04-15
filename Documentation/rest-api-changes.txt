@@ -6285,10 +6285,10 @@ set while adding the reviewer.
 The newly added reviewers as a list of link:#reviewer-info[
 ReviewerInfo] entities.
 |`ccs`         |optional|
-The newly CCed accounts as a list of link:#reviewer-info[
-ReviewerInfo] entities. This field will only appear if the requested
-`state` for the reviewer was `CC` *and* NoteDb is enabled on the
-server.
+The newly CCed accounts as a list of
+link:rest-api-accounts.html#account-info[AccountInfo] entities. This field will
+only appear if the requested `state` for the reviewer  was `CC` *and* NoteDb is
+enabled on the server.
 |`error`       |optional|
 Error message explaining why the reviewer could not be added. +
 If a group was specified in the input and an error is returned, it

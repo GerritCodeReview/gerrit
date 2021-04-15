@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5e47b80_e376e5ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-15T12:46:08Z",
+      "side": 1,
+      "message": "ran eslintfix after many codestyle complaints from new prettier/lint stuff. No other code changes.",
+      "revId": "6988bdf6736ed5ff7a21893d9c4c0c6cb02134c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

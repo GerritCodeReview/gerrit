@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c333b631_2fcd2e3b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-15T14:25:06Z",
+      "side": 1,
+      "message": "This is showing nothing.\nThe state is just for internal checking.\n\n```\n_computeStatusString(status: ChangeStates) {\n    if (status \u003d\u003d\u003d ChangeStates.REVERT_CREATED_OR_SUBMITTED) return;\n```\n\nThis line ensures nothing is shown.",
+      "parentUuid": "bde3772e_6c78cf8f",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb778816_6a84bae9",
@@ -65,6 +83,24 @@
       "writtenOn": "2021-04-15T13:40:18Z",
       "side": 1,
       "message": "Utilities should never make API calls.",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "760fdaa2_1ec2a576",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-15T14:25:06Z",
+      "side": 1,
+      "message": "I used patch-set-util.ts as reference before writing this.\n\nIt has `fetchChangeUpdates` which uses restAPI as argument.\nLet me find another way to accomplish this.",
+      "parentUuid": "e1774b05_f48597df",
       "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

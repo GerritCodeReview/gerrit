@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerModifier;
-import com.google.gerrit.server.change.ReviewerModifier.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -65,22 +65,22 @@ public class PostReviewers
       throw new BadRequestException("missing reviewer field");
     }
 
-    ReviewerAddition addition =
+    ReviewerModification modification =
         reviewerModifier.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
-    if (addition.op == null) {
-      return Response.ok(addition.result);
+    if (modification.op == null) {
+      return Response.ok(modification.result);
     }
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       bu.setNotify(resolveNotify(rsrc, input));
       Change.Id id = rsrc.getChange().getId();
-      bu.addOp(id, addition.op);
+      bu.addOp(id, modification.op);
       bu.execute();
     }
 
     // Re-read change to take into account results of the update.
-    addition.gatherResults(changeDataFactory.create(rsrc.getProject(), rsrc.getId()));
-    return Response.ok(addition.result);
+    modification.gatherResults(changeDataFactory.create(rsrc.getProject(), rsrc.getId()));
+    return Response.ok(modification.result);
   }
 
   private NotifyResolver.Result resolveNotify(ChangeResource rsrc, ReviewerInput input)

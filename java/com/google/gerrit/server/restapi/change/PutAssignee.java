@@ -33,7 +33,7 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerModifier;
-import com.google.gerrit.server.change.ReviewerModifier.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -104,7 +104,7 @@ public class PutAssignee
 
       ReviewerSet currentReviewers = approvalsUtil.getReviewers(rsrc.getNotes());
       if (!currentReviewers.all().contains(assignee.getAccountId())) {
-        ReviewerAddition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
+        ReviewerModification reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
         reviewersAddition.op.suppressEmail();
         bu.addOp(rsrc.getId(), reviewersAddition.op);
       }
@@ -114,7 +114,7 @@ public class PutAssignee
     }
   }
 
-  private ReviewerAddition addAssigneeAsCC(ChangeResource rsrc, String assignee)
+  private ReviewerModification addAssigneeAsCC(ChangeResource rsrc, String assignee)
       throws IOException, PermissionBackendException, ConfigInvalidException {
     ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = assignee;

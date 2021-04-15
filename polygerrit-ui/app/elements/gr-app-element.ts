@@ -219,6 +219,10 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
 
   constructor() {
     super();
+    // We just want to instantiate this service somewhere. It is reacting to
+    // model changes and updates the config model, but at the moment the service
+    // is not called from anywhere.
+    appContext.configService;
     this._bindKeyboardShortcuts();
     document.addEventListener(EventType.PAGE_ERROR, e => {
       this._handlePageError(e);

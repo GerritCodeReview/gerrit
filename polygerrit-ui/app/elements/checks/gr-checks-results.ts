@@ -63,9 +63,10 @@ import {durationString} from '../../utils/date-util';
 import {charsOnly, pluralize} from '../../utils/string-util';
 import {fireRunSelectionReset} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
-import {PatchSetNumber} from '../../types/common';
+import {ConfigInfo, PatchSetNumber} from '../../types/common';
 import {latestPatchNum$} from '../../services/change/change-model';
 import {appContext} from '../../services/app-context';
+import {repoConfig$} from '../../services/config/config-model';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -421,16 +422,23 @@ class GrResultExpanded extends GrLitElement {
   @property()
   result?: RunResult;
 
+  @property()
+  repoConfig?: ConfigInfo;
+
   static get styles() {
     return [
       sharedStyles,
       css`
         .message {
           padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
-          white-space: pre-wrap;
         }
       `,
     ];
+  }
+
+  constructor() {
+    super();
+    this.subscribe('repoConfig', repoConfig$);
   }
 
   render() {
@@ -445,9 +453,12 @@ class GrResultExpanded extends GrLitElement {
           name="result"
           .value="${this.result}"
         ></gr-endpoint-param>
-        <div class="message">
-          ${this.result.message}
-        </div>
+        <gr-formatted-text
+          no-trailing-margin=""
+          class="message"
+          content="${this.result.message}"
+          config="${this.repoConfig}"
+        ></gr-formatted-text>
       </gr-endpoint-decorator>
     `;
   }

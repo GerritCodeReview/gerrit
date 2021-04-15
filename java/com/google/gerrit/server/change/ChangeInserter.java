@@ -51,8 +51,8 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
-import com.google.gerrit.server.change.ReviewerModifier.ReviewerAdditionList;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -149,7 +149,7 @@ public class ChangeInserter implements InsertChangeOp {
   private PatchSet patchSet;
   private String pushCert;
   private ProjectState projectState;
-  private ReviewerAdditionList reviewerAdditions;
+  private ReviewerModificationList reviewerAdditions;
 
   @Inject
   ChangeInserter(

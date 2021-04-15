@@ -526,7 +526,7 @@ public class ReviewerModifier {
     return !SystemGroupBackend.isSystemGroup(groupUUID);
   }
 
-  public ReviewerAdditionList prepare(
+  public ReviewerModificationList prepare(
       ChangeNotes notes,
       CurrentUser user,
       Iterable<? extends ReviewerInput> inputs,
@@ -555,7 +555,7 @@ public class ReviewerModifier {
       }
       additions.add(addition);
     }
-    return new ReviewerAdditionList(additions);
+    return new ReviewerModificationList(additions);
   }
 
   // TODO(dborowitz): This class works, but ultimately feels wrong. It seems like an op but isn't
@@ -563,10 +563,10 @@ public class ReviewerModifier {
   // could make this class an op, but we would still have AddReviewersOp. Better would probably be
   // to design a single op that supports combining multiple AddReviewerInputs together. That would
   // probably also subsume the Addition class itself, which would be a good thing.
-  public static class ReviewerAdditionList {
+  public static class ReviewerModificationList {
     private final ImmutableList<ReviewerModification> additions;
 
-    private ReviewerAdditionList(List<ReviewerModification> additions) {
+    private ReviewerModificationList(List<ReviewerModification> additions) {
       this.additions = ImmutableList.copyOf(additions);
     }
 

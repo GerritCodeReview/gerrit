@@ -54,8 +54,8 @@ import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
-import com.google.gerrit.server.change.ReviewerModifier.ReviewerAdditionList;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -159,7 +159,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
   private RequestScopePropagator requestScopePropagator;
-  private ReviewerAdditionList reviewerAdditions;
+  private ReviewerModificationList reviewerAdditions;
   private MailRecipients oldRecipients;
 
   @Inject

@@ -46,9 +46,7 @@ export const htmlTemplate = html`
         <template is="dom-repeat" items="[[_groups]]">
           <tr>
             <td class="nameColumn">
-              <a href$="[[_computeGroupPath(item)]]">
-                [[item.name]]
-              </a>
+              <a href$="[[_computeGroupPath(item)]]"> [[item.name]] </a>
             </td>
             <td>[[item.description]]</td>
             <td class="visibleCell">[[_computeVisibleToAll(item)]]</td>

@@ -120,9 +120,7 @@ export const htmlTemplate = html`
         </div></template
       >
 
-      <label for="branchInput">
-        Cherry Pick to branch
-      </label>
+      <label for="branchInput"> Cherry Pick to branch </label>
       <gr-autocomplete
         id="branchInput"
         text="{{branch}}"
@@ -153,9 +151,7 @@ export const htmlTemplate = html`
             bind-value="{{baseCommit}}"
           />
         </iron-input>
-        <label for="messageInput">
-          Cherry Pick Commit Message
-        </label>
+        <label for="messageInput"> Cherry Pick Commit Message </label>
       </template>
       <template
         is="dom-if"

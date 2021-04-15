@@ -90,34 +90,34 @@ export const aPluginHasRegistered$ = checksProviderState$.pipe(
 );
 
 export const someProvidersAreLoading$ = checksProviderState$.pipe(
-  map(state => {
-    return Object.values(state).some(providerState => providerState.loading);
-  }),
+  map(state =>
+    Object.values(state).some(providerState => providerState.loading)
+  ),
   distinctUntilChanged()
 );
 
 export const allActions$ = checksProviderState$.pipe(
-  map(state => {
-    return Object.values(state).reduce(
+  map(state =>
+    Object.values(state).reduce(
       (allActions: Action[], providerState: ChecksProviderState) => [
         ...allActions,
         ...providerState.actions,
       ],
       []
-    );
-  })
+    )
+  )
 );
 
 export const allRuns$ = checksProviderState$.pipe(
-  map(state => {
-    return Object.values(state).reduce(
+  map(state =>
+    Object.values(state).reduce(
       (allRuns: CheckRun[], providerState: ChecksProviderState) => [
         ...allRuns,
         ...providerState.runs,
       ],
       []
-    );
-  })
+    )
+  )
 );
 
 /** Array of check names that have at least 2 entries in allRuns$. */
@@ -148,8 +148,8 @@ export const checkToPluginMap$ = checksProviderState$.pipe(
 );
 
 export const allResults$ = checksProviderState$.pipe(
-  map(state => {
-    return Object.values(state)
+  map(state =>
+    Object.values(state)
       .reduce(
         (allResults: CheckResult[], providerState: ChecksProviderState) => [
           ...allResults,
@@ -161,8 +161,8 @@ export const allResults$ = checksProviderState$.pipe(
         ],
         []
       )
-      .filter(r => r !== undefined);
-  })
+      .filter(r => r !== undefined)
+  )
 );
 
 // Must only be used by the checks service or whatever is in control of this
@@ -210,25 +210,19 @@ export const fakeRun0: CheckRun = {
           name: 'Ignore',
           tooltip: 'Ignore this result',
           primary: true,
-          callback: () => {
-            return undefined;
-          },
+          callback: () => undefined,
         },
         {
           name: 'Flag',
           tooltip: 'Flag this result as not useful',
           primary: true,
-          callback: () => {
-            return undefined;
-          },
+          callback: () => undefined,
         },
         {
           name: 'Upload',
           tooltip: 'Upload the result to the super cloud.',
           primary: false,
-          callback: () => {
-            return undefined;
-          },
+          callback: () => undefined,
         },
       ],
       tags: [{name: 'INTERRUPTED'}, {name: 'WINDOWS'}],

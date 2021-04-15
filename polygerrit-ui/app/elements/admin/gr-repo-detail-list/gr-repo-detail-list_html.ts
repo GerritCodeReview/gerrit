@@ -91,9 +91,7 @@ export const htmlTemplate = html`
           <th class$="tagger topHeader [[_hideIfBranch(detailType)]]">
             Tagger
           </th>
-          <th class="repositoryBrowser topHeader">
-            Repository Browser
-          </th>
+          <th class="repositoryBrowser topHeader">Repository Browser</th>
           <th class="delete topHeader"></th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
@@ -111,13 +109,9 @@ export const htmlTemplate = html`
             <td
               class$="[[detailType]] revision [[_computeCanEditClass(item.ref, detailType, _isOwner)]]"
             >
-              <span class="revisionNoEditing">
-                [[item.revision]]
-              </span>
+              <span class="revisionNoEditing"> [[item.revision]] </span>
               <span class$="revisionEdit [[_computeEditingClass(_isEditing)]]">
-                <span class="revisionWithEditing">
-                  [[item.revision]]
-                </span>
+                <span class="revisionWithEditing"> [[item.revision]] </span>
                 <gr-button
                   link=""
                   on-click="_handleEditRevision"

@@ -418,9 +418,7 @@ export class GrChecksRuns extends GrLitElement {
           <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
           <h3 class="heading-3">${status.toLowerCase()}</h3>
         </div>
-        <div class="sectionRuns">
-          ${runs.map(run => this.renderRun(run))}
-        </div>
+        <div class="sectionRuns">${runs.map(run => this.renderRun(run))}</div>
       </div>
     `;
   }

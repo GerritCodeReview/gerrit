@@ -136,12 +136,8 @@ export const htmlTemplate = html`
       on-click="_handleChangeClick"
     >
       <div class="container">
-        <div class="content">
-          [[change.subject]]
-        </div>
-        <div class="spacer">
-          [[change.subject]]
-        </div>
+        <div class="content">[[change.subject]]</div>
+        <div class="spacer">[[change.subject]]</div>
         <span>&nbsp;</span>
       </div>
     </a>
@@ -243,9 +239,7 @@ export const htmlTemplate = html`
     class="cell branch"
     hidden$="[[isColumnHidden('Branch', visibleChangeTableColumns)]]"
   >
-    <a href$="[[_computeRepoBranchURL(change)]]">
-      [[change.branch]]
-    </a>
+    <a href$="[[_computeRepoBranchURL(change)]]"> [[change.branch]] </a>
     <template is="dom-if" if="[[change.topic]]">
       (<a href$="[[_computeTopicURL(change)]]"
         ><!--

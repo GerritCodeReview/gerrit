@@ -45,8 +45,6 @@ import java.util.Optional;
 public class SubmitRuleEvaluator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final String DEFAULT_MSG = "Error evaluating project rules, check server log";
-
   private final ProjectCache projectCache;
   private final PrologRule prologRule;
   private final PluginSetContext<SubmitRule> submitRules;
@@ -83,17 +81,6 @@ public class SubmitRuleEvaluator {
                 .setUnit(Units.MILLISECONDS));
 
     this.opts = options;
-  }
-
-  public static SubmitRecord defaultRuleError() {
-    return createRuleError(DEFAULT_MSG);
-  }
-
-  public static SubmitRecord createRuleError(String err) {
-    SubmitRecord rec = new SubmitRecord();
-    rec.status = SubmitRecord.Status.RULE_ERROR;
-    rec.errorMessage = err;
-    return rec;
   }
 
   public static SubmitTypeRecord defaultTypeError() {

@@ -323,7 +323,7 @@ public class MergeOp implements AutoCloseable {
         case CLOSED:
           throw new ResourceConflictException("change is closed");
 
-        case RULE_ERROR:
+        case PROLOG_RULE_ERROR:
           throw new ResourceConflictException("submit rule error: " + record.errorMessage);
 
         case NOT_READY:

@@ -17,7 +17,6 @@ package com.google.gerrit.server.rules;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.project.SubmitRuleEvaluator.createRuleError;
-import static com.google.gerrit.server.project.SubmitRuleEvaluator.defaultRuleError;
 import static com.google.gerrit.server.project.SubmitRuleEvaluator.defaultTypeError;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -61,6 +60,9 @@ import java.util.List;
  */
 public class PrologRuleEvaluator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final String DEFAULT_MSG = "Error evaluating project rules, check server log";
+
   /**
    * List of characters to allow in the label name, when an invalid name is used. Dash is allowed as
    * it can't be the first character: we use a prefix.
@@ -289,6 +291,13 @@ public class PrologRuleEvaluator {
     return VALID_LABEL_MATCHER.retainFrom(name);
   }
 
+  private static SubmitRecord createRuleError(String err) {
+    SubmitRecord rec = new SubmitRecord();
+    rec.status = SubmitRecord.Status.PROLOG_RULE_ERROR;
+    rec.errorMessage = err;
+    return rec;
+  }
+
   private SubmitRecord invalidResult(Term rule, Term record, String reason) {
     return ruleError(
         String.format(
@@ -311,7 +320,7 @@ public class PrologRuleEvaluator {
   private SubmitRecord ruleError(String err, Exception e) {
     if (opts.logErrors()) {
       logger.atSevere().withCause(e).log(err);
-      return defaultRuleError();
+      return createRuleError(DEFAULT_MSG);
     }
     return createRuleError(err);
   }

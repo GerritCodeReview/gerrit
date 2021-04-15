@@ -192,7 +192,7 @@ public class EventFactory {
     for (SubmitRecord submitRecord : submitRecords) {
       SubmitRecordAttribute sa = new SubmitRecordAttribute();
       sa.status = submitRecord.status.name();
-      if (submitRecord.status != SubmitRecord.Status.RULE_ERROR) {
+      if (submitRecord.status != SubmitRecord.Status.PROLOG_RULE_ERROR) {
         addSubmitRecordLabels(submitRecord, sa);
         addSubmitRecordRequirements(submitRecord, sa);
       }

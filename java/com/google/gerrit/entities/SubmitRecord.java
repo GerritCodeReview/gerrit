@@ -56,8 +56,13 @@ public class SubmitRecord {
      * An internal server error occurred preventing computation.
      *
      * <p>Additional detail may be available in {@link SubmitRecord#errorMessage}.
+     *
+     * @deprecated This status is deprecated and only to be use the the Prolog submit rule. Plugins
+     *     should throw subclasses of {@link RuntimeException} such as {@link
+     *     IllegalStateException}.
      */
-    RULE_ERROR;
+    @Deprecated
+    PROLOG_RULE_ERROR;
 
     private boolean allowsSubmission() {
       return this == OK || this == FORCED;
@@ -169,7 +174,7 @@ public class SubmitRecord {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append(status);
-    if (status == Status.RULE_ERROR && errorMessage != null) {
+    if (status == Status.PROLOG_RULE_ERROR && errorMessage != null) {
       sb.append('(').append(errorMessage).append(')');
     }
     sb.append('[');

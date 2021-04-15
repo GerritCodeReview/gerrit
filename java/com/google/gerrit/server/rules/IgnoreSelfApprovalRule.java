@@ -17,14 +17,12 @@ package com.google.gerrit.server.rules;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirement;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;
@@ -40,11 +38,6 @@ import java.util.Optional;
  */
 @Singleton
 public class IgnoreSelfApprovalRule implements SubmitRule {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final String E_UNABLE_TO_FETCH_UPLOADER = "Unable to fetch uploader";
-  private static final String E_UNABLE_TO_FETCH_LABELS =
-      "Unable to fetch labels and approvals for the change";
-
   public static class Module extends AbstractModule {
     @Override
     public void configure() {
@@ -56,16 +49,8 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
 
   @Override
   public Optional<SubmitRecord> evaluate(ChangeData cd) {
-    List<LabelType> labelTypes;
-    List<PatchSetApproval> approvals;
-    try {
-      labelTypes = cd.getLabelTypes().getLabelTypes();
-      approvals = cd.currentApprovals();
-    } catch (StorageException e) {
-      logger.atWarning().withCause(e).log(E_UNABLE_TO_FETCH_LABELS);
-      return ruleError(E_UNABLE_TO_FETCH_LABELS);
-    }
-
+    List<LabelType> labelTypes = cd.getLabelTypes().getLabelTypes();
+    List<PatchSetApproval> approvals = cd.currentApprovals();
     boolean shouldIgnoreSelfApproval =
         labelTypes.stream().anyMatch(LabelType::isIgnoreSelfApproval);
     if (!shouldIgnoreSelfApproval) {
@@ -73,14 +58,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
       return Optional.empty();
     }
 
-    Account.Id uploader;
-    try {
-      uploader = cd.currentPatchSet().uploader();
-    } catch (StorageException e) {
-      logger.atWarning().withCause(e).log(E_UNABLE_TO_FETCH_UPLOADER);
-      return ruleError(E_UNABLE_TO_FETCH_UPLOADER);
-    }
-
+    Account.Id uploader = cd.currentPatchSet().uploader();
     SubmitRecord submitRecord = new SubmitRecord();
     submitRecord.status = SubmitRecord.Status.OK;
     submitRecord.labels = new ArrayList<>(labelTypes.size());
@@ -138,13 +116,6 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
         return false;
     }
     return false;
-  }
-
-  private static Optional<SubmitRecord> ruleError(String reason) {
-    SubmitRecord submitRecord = new SubmitRecord();
-    submitRecord.errorMessage = reason;
-    submitRecord.status = SubmitRecord.Status.RULE_ERROR;
-    return Optional.of(submitRecord);
   }
 
   @VisibleForTesting

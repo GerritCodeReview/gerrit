@@ -117,7 +117,7 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
     // Satisfy the default rule.
     approveChange(change);
 
-    rule.status(Optional.of(SubmitRecord.Status.RULE_ERROR));
+    rule.status(Optional.of(SubmitRecord.Status.PROLOG_RULE_ERROR));
     change.index();
 
     assertThat(queryIsSubmittable()).isEmpty();

@@ -669,7 +669,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return Predicate.and(
           new SubmittablePredicate(SubmitRecord.Status.OK),
           Predicate.not(new SubmittablePredicate(SubmitRecord.Status.NOT_READY)),
-          Predicate.not(new SubmittablePredicate(SubmitRecord.Status.RULE_ERROR)));
+          Predicate.not(new SubmittablePredicate(SubmitRecord.Status.PROLOG_RULE_ERROR)));
     }
 
     if ("ignored".equalsIgnoreCase(value)) {

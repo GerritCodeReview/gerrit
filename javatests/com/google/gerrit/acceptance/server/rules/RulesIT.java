@@ -101,7 +101,7 @@ public class RulesIT extends AbstractDaemonTest {
   @Test
   public void testCommitDelta_fail() throws Exception {
     modifySubmitRules("gerrit:commit_delta('no such file')");
-    assertThat(statusForRuleAddFile("file1.txt")).isEqualTo(SubmitRecord.Status.RULE_ERROR);
+    assertThat(statusForRuleAddFile("file1.txt")).isEqualTo(SubmitRecord.Status.PROLOG_RULE_ERROR);
   }
 
   @Test
@@ -113,7 +113,7 @@ public class RulesIT extends AbstractDaemonTest {
   @Test
   public void testCommitDelta_addOwners_fail() throws Exception {
     modifySubmitRules("gerrit:commit_delta('OWNERS', add, _, _)");
-    assertThat(statusForRuleAddFile("foobar")).isEqualTo(SubmitRecord.Status.RULE_ERROR);
+    assertThat(statusForRuleAddFile("foobar")).isEqualTo(SubmitRecord.Status.PROLOG_RULE_ERROR);
   }
 
   @Test

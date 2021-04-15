@@ -421,7 +421,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(singly(), sc.changeId, sc.owner, reviewer.email());
     // TODO(dborowitz): In theory this should match the batch case, but we don't currently pass
-    // enough info into AddReviewersEmail#emailReviewers to distinguish the reviewStarted case.
+    // enough info into ModifyReviewersEmail#emailReviewers to distinguish the reviewStarted case.
     // Complicating the emailReviewers arguments is not the answer; this needs to be rewritten.
     // Tolerate the difference for now.
     assertThat(sender).didNotSend();

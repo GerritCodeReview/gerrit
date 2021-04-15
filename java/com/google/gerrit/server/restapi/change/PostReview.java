@@ -91,10 +91,10 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.AddReviewersOp.Result;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
+import com.google.gerrit.server.change.ModifyReviewersEmail;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
@@ -171,7 +171,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
   private final ReviewerModifier reviewerModifier;
-  private final AddReviewersEmail addReviewersEmail;
+  private final ModifyReviewersEmail modifyReviewersEmail;
   private final NotifyResolver notifyResolver;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
@@ -197,7 +197,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
       ReviewerModifier reviewerModifier,
-      AddReviewersEmail addReviewersEmail,
+      ModifyReviewersEmail modifyReviewersEmail,
       NotifyResolver notifyResolver,
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
@@ -219,7 +219,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.email = email;
     this.commentAdded = commentAdded;
     this.reviewerModifier = reviewerModifier;
-    this.addReviewersEmail = addReviewersEmail;
+    this.modifyReviewersEmail = modifyReviewersEmail;
     this.notifyResolver = notifyResolver;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
@@ -459,7 +459,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ccByEmail.addAll(addition.reviewersByEmail);
         }
       }
-      addReviewersEmail.emailReviewersAsync(
+      modifyReviewersEmail.emailReviewersAsync(
           user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
     }
   }

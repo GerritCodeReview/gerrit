@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 @Singleton
-public class AddReviewersEmail {
+public class ModifyReviewersEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AddReviewerSender.Factory addReviewerSenderFactory;
@@ -41,7 +41,7 @@ public class AddReviewersEmail {
   private final MessageIdGenerator messageIdGenerator;
 
   @Inject
-  AddReviewersEmail(
+  ModifyReviewersEmail(
       AddReviewerSender.Factory addReviewerSenderFactory,
       @SendEmailExecutor ExecutorService sendEmailsExecutor,
       MessageIdGenerator messageIdGenerator) {

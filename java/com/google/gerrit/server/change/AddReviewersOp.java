@@ -108,7 +108,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   private final ReviewerAdded reviewerAdded;
   private final AccountCache accountCache;
   private final ProjectCache projectCache;
-  private final AddReviewersEmail addReviewersEmail;
+  private final ModifyReviewersEmail modifyReviewersEmail;
   private final Set<Account.Id> accountIds;
   private final Collection<Address> addresses;
   private final ReviewerState state;
@@ -133,7 +133,7 @@ public class AddReviewersOp implements BatchUpdateOp {
       ReviewerAdded reviewerAdded,
       AccountCache accountCache,
       ProjectCache projectCache,
-      AddReviewersEmail addReviewersEmail,
+      ModifyReviewersEmail modifyReviewersEmail,
       @Assisted Set<Account.Id> accountIds,
       @Assisted Collection<Address> addresses,
       @Assisted ReviewerState state,
@@ -144,7 +144,7 @@ public class AddReviewersOp implements BatchUpdateOp {
     this.reviewerAdded = reviewerAdded;
     this.accountCache = accountCache;
     this.projectCache = projectCache;
-    this.addReviewersEmail = addReviewersEmail;
+    this.modifyReviewersEmail = modifyReviewersEmail;
 
     this.accountIds = accountIds;
     this.addresses = addresses;
@@ -247,7 +247,7 @@ public class AddReviewersOp implements BatchUpdateOp {
             .setAddedCCsByEmail(addedCCsByEmail)
             .build();
     if (sendEmail) {
-      addReviewersEmail.emailReviewersAsync(
+      modifyReviewersEmail.emailReviewersAsync(
           ctx.getUser().asIdentifiedUser(),
           change,
           Lists.transform(addedReviewers, PatchSetApproval::accountId),

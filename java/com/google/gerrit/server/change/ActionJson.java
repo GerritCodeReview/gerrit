@@ -31,7 +31,7 @@ import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
-import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -89,9 +89,9 @@ public class ActionJson {
     return Lists.newArrayList(visitorSet);
   }
 
-  void addChangeActions(ChangeInfo to, ChangeNotes notes) {
+  void addChangeActions(ChangeInfo to, ChangeData changeData) {
     List<ActionVisitor> visitors = visitors();
-    to.actions = toActionMap(notes, visitors, copy(visitors, to));
+    to.actions = toActionMap(changeData, visitors, copy(visitors, to));
   }
 
   void addRevisionActions(@Nullable ChangeInfo changeInfo, RevisionInfo to, RevisionResource rsrc) {
@@ -167,7 +167,7 @@ public class ActionJson {
   }
 
   private Map<String, ActionInfo> toActionMap(
-      ChangeNotes notes, List<ActionVisitor> visitors, ChangeInfo changeInfo) {
+      ChangeData changeData, List<ActionVisitor> visitors, ChangeInfo changeInfo) {
     CurrentUser user = userProvider.get();
     Map<String, ActionInfo> out = new LinkedHashMap<>();
     if (!user.isIdentifiedUser()) {
@@ -175,12 +175,12 @@ public class ActionJson {
     }
 
     Iterable<UiAction.Description> descs =
-        uiActions.from(changeViews, changeResourceFactory.create(notes, user));
+        uiActions.from(changeViews, changeResourceFactory.create(changeData, user));
 
     // The followup action is a client-side only operation that does not
     // have a server side handler. It must be manually registered into the
     // resulting action map.
-    if (!notes.getChange().isAbandoned()) {
+    if (!changeData.change().isAbandoned()) {
       UiAction.Description descr = new UiAction.Description();
       PrivateInternals_UiActionDescription.setId(descr, "followup");
       PrivateInternals_UiActionDescription.setMethod(descr, "POST");

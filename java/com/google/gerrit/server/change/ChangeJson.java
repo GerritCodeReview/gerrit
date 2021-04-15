@@ -677,7 +677,7 @@ public class ChangeJson {
     }
 
     if (has(CURRENT_ACTIONS) || has(CHANGE_ACTIONS)) {
-      actionJson.addChangeActions(out, cd.notes());
+      actionJson.addChangeActions(out, cd);
     }
 
     if (has(TRACKING_IDS)) {

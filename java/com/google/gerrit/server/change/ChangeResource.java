@@ -44,7 +44,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Inject;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
 import java.util.HashSet;
@@ -66,6 +66,8 @@ public class ChangeResource implements RestResource, HasETag {
 
   public interface Factory {
     ChangeResource create(ChangeNotes notes, CurrentUser user);
+
+    ChangeResource create(ChangeData changeData, CurrentUser user);
   }
 
   private static final String ZERO_ID_STRING = ObjectId.zeroId().name();
@@ -77,10 +79,10 @@ public class ChangeResource implements RestResource, HasETag {
   private final StarredChangesUtil starredChangesUtil;
   private final ProjectCache projectCache;
   private final PluginSetContext<ChangeETagComputation> changeETagComputation;
-  private final ChangeNotes notes;
+  private final ChangeData changeData;
   private final CurrentUser user;
 
-  @Inject
+  @AssistedInject
   ChangeResource(
       AccountCache accountCache,
       ApprovalsUtil approvalUtil,
@@ -89,6 +91,7 @@ public class ChangeResource implements RestResource, HasETag {
       StarredChangesUtil starredChangesUtil,
       ProjectCache projectCache,
       PluginSetContext<ChangeETagComputation> changeETagComputation,
+      ChangeData.Factory changeDataFactory,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user) {
     this.accountCache = accountCache;
@@ -98,12 +101,34 @@ public class ChangeResource implements RestResource, HasETag {
     this.starredChangesUtil = starredChangesUtil;
     this.projectCache = projectCache;
     this.changeETagComputation = changeETagComputation;
-    this.notes = notes;
+    this.changeData = changeDataFactory.create(notes);
+    this.user = user;
+  }
+
+  @AssistedInject
+  ChangeResource(
+      AccountCache accountCache,
+      ApprovalsUtil approvalUtil,
+      PatchSetUtil patchSetUtil,
+      PermissionBackend permissionBackend,
+      StarredChangesUtil starredChangesUtil,
+      ProjectCache projectCache,
+      PluginSetContext<ChangeETagComputation> changeETagComputation,
+      @Assisted ChangeData changeData,
+      @Assisted CurrentUser user) {
+    this.accountCache = accountCache;
+    this.approvalUtil = approvalUtil;
+    this.patchSetUtil = patchSetUtil;
+    this.permissionBackend = permissionBackend;
+    this.starredChangesUtil = starredChangesUtil;
+    this.projectCache = projectCache;
+    this.changeETagComputation = changeETagComputation;
+    this.changeData = changeData;
     this.user = user;
   }
 
   public PermissionBackend.ForChange permissions() {
-    return permissionBackend.user(user).change(notes);
+    return permissionBackend.user(user).change(getNotes());
   }
 
   public CurrentUser getUser() {
@@ -111,7 +136,7 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   public Change.Id getId() {
-    return notes.getChangeId();
+    return changeData.getId();
   }
 
   /** @return true if {@link #getUser()} is the change's owner. */
@@ -121,7 +146,7 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   public Change getChange() {
-    return notes.getChange();
+    return changeData.change();
   }
 
   public Project.NameKey getProject() {
@@ -129,7 +154,11 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   public ChangeNotes getNotes() {
-    return notes;
+    return changeData.notes();
+  }
+
+  public ChangeData getChangeData() {
+    return changeData;
   }
 
   // This includes all information relevant for ETag computation
@@ -153,7 +182,7 @@ public class ChangeResource implements RestResource, HasETag {
       accounts.add(getChange().getAssignee());
     }
     try {
-      patchSetUtil.byChange(notes).stream().map(PatchSet::uploader).forEach(accounts::add);
+      patchSetUtil.byChange(getNotes()).stream().map(PatchSet::uploader).forEach(accounts::add);
 
       // It's intentional to include the states for *all* reviewers into the ETag computation.
       // We need the states of all current reviewers and CCs because they are part of ChangeInfo.
@@ -162,7 +191,7 @@ public class ChangeResource implements RestResource, HasETag {
       // set of accounts that posted a message is too expensive. However everyone who posts a
       // message is automatically added as reviewer. Hence if we include removed reviewers we can
       // be sure that we have all accounts that posted messages on the change.
-      accounts.addAll(approvalUtil.getReviewers(notes).all());
+      accounts.addAll(approvalUtil.getReviewers(getNotes()).all());
     } catch (StorageException e) {
       // This ETag will be invalidated if it loads next time.
     }
@@ -178,7 +207,7 @@ public class ChangeResource implements RestResource, HasETag {
 
     ObjectId noteId;
     try {
-      noteId = notes.loadRevision();
+      noteId = getNotes().loadRevision();
     } catch (StorageException e) {
       noteId = null; // This ETag will be invalidated if it loads next time.
     }
@@ -194,7 +223,7 @@ public class ChangeResource implements RestResource, HasETag {
 
     changeETagComputation.runEach(
         c -> {
-          String pluginETag = c.getETag(notes.getProjectName(), notes.getChangeId());
+          String pluginETag = c.getETag(changeData.project(), changeData.getId());
           if (pluginETag != null) {
             h.putString(pluginETag, UTF_8);
           }
@@ -207,8 +236,8 @@ public class ChangeResource implements RestResource, HasETag {
         TraceContext.newTimer(
             "Compute change ETag",
             Metadata.builder()
-                .changeId(notes.getChangeId().get())
-                .projectName(notes.getProjectName().get())
+                .changeId(changeData.getId().get())
+                .projectName(changeData.project().get())
                 .build())) {
       Hasher h = Hashing.murmur3_128().newHasher();
       if (user.isIdentifiedUser()) {

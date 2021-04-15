@@ -14,6 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {CheckRun} from '../../services/checks/checks-model';
+
+export interface AttemptSelectedEventDetail {
+  checkName: string;
+  attempt: number | undefined;
+}
+
+export type AttemptSelectedEvent = CustomEvent<AttemptSelectedEventDetail>;
+
+declare global {
+  interface HTMLElementEventMap {
+    'attempt-selected': AttemptSelectedEvent;
+  }
+}
+
+export function fireAttemptSelected(
+  target: EventTarget,
+  checkName: string,
+  attempt: number | undefined
+) {
+  target.dispatchEvent(
+    new CustomEvent('attempt-selected', {
+      detail: {checkName, attempt},
+      composed: true,
+      bubbles: true,
+    })
+  );
+}
 
 export interface RunSelectedEventDetail {
   reset: boolean;
@@ -45,5 +73,15 @@ export function fireRunSelectionReset(target: EventTarget) {
       composed: true,
       bubbles: true,
     })
+  );
+}
+
+export function isSelected(
+  selectedAttempts: Map<string, number | undefined>,
+  run: CheckRun
+) {
+  const selected = selectedAttempts.get(run.checkName);
+  return (
+    (selected === undefined && run.isLatestAttempt) || selected === run.attempt
   );
 }

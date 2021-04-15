@@ -1829,7 +1829,10 @@ export interface ReviewResult {
 /**
  * The AddReviewerResult entity describes the result of adding a reviewer to a
  * change.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#add-reviewer-result
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#reviewer-result
+ * TODO(paiking): update this to ReviewerResult while taking removals into
+ account.
+
  */
 export interface AddReviewerResult {
   input: AccountId | GroupId | EmailAddress;

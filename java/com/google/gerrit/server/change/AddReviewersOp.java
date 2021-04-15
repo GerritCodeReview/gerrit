@@ -114,7 +114,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   private final ReviewerState state;
   private final boolean forGroup;
 
-  // Unlike addedCCs, addedReviewers is a PatchSetApproval because the AddReviewerResult returned
+  // Unlike addedCCs, addedReviewers is a PatchSetApproval because the ReviewerResult returned
   // via the REST API is supposed to include vote information.
   private List<PatchSetApproval> addedReviewers = ImmutableList.of();
   private Collection<Address> addedReviewersByEmail = ImmutableList.of();

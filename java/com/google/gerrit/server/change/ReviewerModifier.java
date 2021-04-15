@@ -39,10 +39,10 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -417,7 +417,7 @@ public class ReviewerModifier {
   }
 
   public class ReviewerModification {
-    public final AddReviewerResult result;
+    public final ReviewerResult result;
     @Nullable public final AddReviewersOp op;
     public final ImmutableSet<Account.Id> reviewers;
     public final ImmutableSet<Address> reviewersByEmail;
@@ -429,7 +429,7 @@ public class ReviewerModifier {
     private ReviewerModification(ReviewerInput input, FailureType failureType) {
       this.input = input;
       this.failureType = requireNonNull(failureType);
-      result = new AddReviewerResult(input.reviewer);
+      result = new ReviewerResult(input.reviewer);
       op = null;
       reviewers = ImmutableSet.of();
       reviewersByEmail = ImmutableSet.of();
@@ -451,7 +451,7 @@ public class ReviewerModifier {
 
       this.input = input;
       this.failureType = null;
-      result = new AddReviewerResult(input.reviewer);
+      result = new ReviewerResult(input.reviewer);
       // Always silently ignore adding the owner as any type of reviewer on their own change. They
       // may still be implicitly added as a reviewer if they vote, but not via the reviewer API.
       this.reviewers = omitOwner(notes, reviewers);

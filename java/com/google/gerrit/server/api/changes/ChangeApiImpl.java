@@ -21,7 +21,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetApi;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
@@ -39,6 +38,7 @@ import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewerApi;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
@@ -467,7 +467,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public AddReviewerResult addReviewer(ReviewerInput in) throws RestApiException {
+  public ReviewerResult addReviewer(ReviewerInput in) throws RestApiException {
     try {
       return postReviewers.apply(change, in).value();
     } catch (Exception e) {

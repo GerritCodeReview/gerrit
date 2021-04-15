@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c940955_5015bbc7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-15T11:01:52Z",
+      "side": 1,
+      "message": "What should the code-owners plugin return in case of an invalid OWNERS file (which is also a user error, same as an invalid rules.pl file)?",
+      "revId": "cbe24d7d2084de6de5801a827c6a36dd37614b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

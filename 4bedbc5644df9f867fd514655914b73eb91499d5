@@ -16,6 +16,57 @@
       "message": "Sending for an early look to sanity check if the approach makes sense. Mainly:\n\n1. Delaying of showing any Revert Created/Submitted chip until the response from the API is returned via the status of the reverted change.\n\n2. The creation of ChangeStates.REVERT_CREATED_OR_SUBMITTED.\n\nIf the approach looks good, then I\u0027ll add tests to the change.",
       "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bde3772e_6c78cf8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-15T13:40:18Z",
+      "side": 1,
+      "message": "I find this a confusing state for the user. While the API calls are still running I would recommend to either show \"Revert Created\" or nothing.",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb778816_6a84bae9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-15T13:40:18Z",
+      "side": 1,
+      "message": "If the if-statement spans two lines, then use {}.",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1774b05_f48597df",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-15T13:40:18Z",
+      "side": 1,
+      "message": "Utilities should never make API calls.",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

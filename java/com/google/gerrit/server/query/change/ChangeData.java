@@ -318,7 +318,6 @@ public class ChangeData {
   private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
-  private Boolean merge;
   private Set<String> hashtags;
   private Map<Account.Id, Ref> editsByUser;
   private Set<Account.Id> reviewedBy;
@@ -334,7 +333,7 @@ public class ChangeData {
   private PersonIdent author;
   private PersonIdent committer;
   private ImmutableSet<AttentionSetUpdate> attentionSet;
-  private int parentCount;
+  private Integer parentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
@@ -631,7 +630,6 @@ public class ChangeData {
       author = c.getAuthorIdent();
       committer = c.getCommitterIdent();
       parentCount = c.getParentCount();
-      merge = parentCount > 1;
     } catch (IOException e) {
       throw new StorageException(
           String.format(
@@ -987,12 +985,12 @@ public class ChangeData {
 
   @Nullable
   public Boolean isMerge() {
-    if (merge == null) {
+    if (parentCount == null) {
       if (!loadCommitData()) {
         return null;
       }
     }
-    return merge;
+    return parentCount > 1;
   }
 
   public Set<Account.Id> editsByUser() {

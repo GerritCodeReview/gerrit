@@ -31,6 +31,7 @@ public class ChangeMessages extends TranslationBundle {
   public String reviewerInvalid;
   public String reviewerNotFoundUserOrGroup;
 
+  public String groupRemovalIsNotAllowed;
   public String groupIsNotAllowed;
   public String groupHasTooManyMembers;
   public String groupManyMembersConfirmation;

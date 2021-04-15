@@ -179,10 +179,8 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
         .id(changeId)
         .get(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS);
 
-    // Submit rules are invoked twice, once for populating submit requirements in the change JSON
-    // and once for checking if the submit button should be visible.
-    // TODO(hiesel): Try to avoid calling submit rules twice.
-    assertThat(rule.numberOfEvaluations.get()).isEqualTo(2);
+    // Submit rules are computed freshly, but only once.
+    assertThat(rule.numberOfEvaluations.get()).isEqualTo(1);
   }
 
   @Test
@@ -196,9 +194,8 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
         .withOptions(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS)
         .get();
 
-    // Submit rules are invoked to check if the submit button should be visible.
-    // TODO(hiesel): Change queries must not trigger submit rules.
-    assertThat(rule.numberOfEvaluations.get()).isEqualTo(1);
+    // Submit rule evaluation results from the change index are reused
+    assertThat(rule.numberOfEvaluations.get()).isEqualTo(0);
   }
 
   private List<ChangeInfo> queryIsSubmittable() throws Exception {

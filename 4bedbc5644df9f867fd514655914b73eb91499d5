@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bc20566_1b0436fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-15T09:59:39Z",
+      "side": 1,
+      "message": "Sending for an early look to sanity check if the approach makes sense. Mainly:\n\n1. Delaying of showing any Revert Created/Submitted chip until the response from the API is returned via the status of the reverted change.\n\n2. The creation of ChangeStates.REVERT_CREATED_OR_SUBMITTED.\n\nIf the approach looks good, then I\u0027ll add tests to the change.",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

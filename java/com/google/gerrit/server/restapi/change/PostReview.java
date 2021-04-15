@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
@@ -91,13 +92,13 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.change.AddReviewersOp.Result;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.ModifyReviewersEmail;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
+import com.google.gerrit.server.change.ReviewerOp.Result;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -313,7 +314,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     try (BatchUpdate bu =
         updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
-      Account.Id id = revision.getUser().getAccountId();
+      Account account = revision.getUser().asIdentifiedUser().getAccount();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
         ccOrReviewer = input.labels.values().stream().anyMatch(v -> v != 0);
@@ -326,7 +327,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // Check if user was already CCed or reviewing prior to this review.
         ReviewerSet currentReviewers =
             approvalsUtil.getReviewers(revision.getChangeResource().getNotes());
-        ccOrReviewer = currentReviewers.all().contains(id);
+        ccOrReviewer = currentReviewers.all().contains(account.id());
         if (ccOrReviewer) {
           logger.atFine().log("calling user is already cc/reviewer on the change");
         }
@@ -339,7 +340,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (ReviewerModification reviewerResult : reviewerResults) {
         reviewerResult.op.suppressEmail(); // Send a single batch email below.
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
-        if (!ccOrReviewer && reviewerResult.reviewers.contains(id)) {
+        if (!ccOrReviewer && reviewerResult.reviewers.contains(account)) {
           logger.atFine().log("calling user is explicitly added as reviewer or CC");
           ccOrReviewer = true;
         }
@@ -443,24 +444,39 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     try (TraceContext.TraceTimer ignored = newTimer("batchEmailReviewers")) {
       List<Account.Id> to = new ArrayList<>();
       List<Account.Id> cc = new ArrayList<>();
+      List<Account.Id> removed = new ArrayList<>();
       List<Address> toByEmail = new ArrayList<>();
       List<Address> ccByEmail = new ArrayList<>();
+      List<Address> removedByEmail = new ArrayList<>();
       for (ReviewerModification modification : reviewerModifications) {
         Result reviewAdditionResult = modification.op.getResult();
         if (modification.state() == ReviewerState.REVIEWER
             && (!reviewAdditionResult.addedReviewers().isEmpty()
                 || !reviewAdditionResult.addedReviewersByEmail().isEmpty())) {
-          to.addAll(modification.reviewers);
+          to.addAll(modification.reviewers.stream().map(r -> r.id()).collect(toImmutableSet()));
           toByEmail.addAll(modification.reviewersByEmail);
         } else if (modification.state() == ReviewerState.CC
             && (!reviewAdditionResult.addedCCs().isEmpty()
                 || !reviewAdditionResult.addedCCsByEmail().isEmpty())) {
-          cc.addAll(modification.reviewers);
+          cc.addAll(modification.reviewers.stream().map(r -> r.id()).collect(toImmutableSet()));
           ccByEmail.addAll(modification.reviewersByEmail);
+        } else if (modification.state() == ReviewerState.REMOVED
+            && (reviewAdditionResult.deletedReviewer().isPresent()
+                || reviewAdditionResult.deletedReviewerByEmail().isPresent())) {
+          reviewAdditionResult.deletedReviewer().ifPresent(d -> removed.add(d));
+          reviewAdditionResult.deletedReviewerByEmail().ifPresent(d -> removedByEmail.add(d));
         }
       }
       modifyReviewersEmail.emailReviewersAsync(
-          user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
+          user.asIdentifiedUser(),
+          change,
+          to,
+          cc,
+          removed,
+          toByEmail,
+          ccByEmail,
+          removedByEmail,
+          notify);
     }
   }
 

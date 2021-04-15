@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "541a211f_e3d0e52f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-15T20:54:11Z",
+      "side": 1,
+      "message": "Please add a comment that this is just an intermediate state that the user does not see.\n\nGenerally, if the reviewer does not understand something, then adding a comment is probably a good idea. :-)",
+      "parentUuid": "c333b631_2fcd2e3b",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb778816_6a84bae9",
         "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
         "patchSetId": 5
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Thee extra return statement is so that all code paths of the function return a value.",
       "parentUuid": "cb778816_6a84bae9",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cae75071_51538ee6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-15T20:54:11Z",
+      "side": 1,
+      "message": "I just meant that instead of\n\n  if (this.revertSubmittedChangeNum)\n    return GerritNav.getUrlForSearchQuery(`${this.revertSubmittedChangeNum}`);\n\nyou write\n\n  if (this.revertSubmittedChangeNum) {\n    return GerritNav.getUrlForSearchQuery(`${this.revertSubmittedChangeNum}`);\n  }",
+      "parentUuid": "2030128e_f18f6d4a",
       "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -137,6 +173,24 @@
       "side": 1,
       "message": "One alternative could be then removing the method from the util and making the API call inside `computeRevertSubmittedStatus`.",
       "parentUuid": "760fdaa2_1ec2a576",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d867cdbe_41117384",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-15T20:54:11Z",
+      "side": 1,
+      "message": "Yes, please do that.\n\npatch-set-util needs a TODO then.",
+      "parentUuid": "a554e0a4_2c72898b",
       "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

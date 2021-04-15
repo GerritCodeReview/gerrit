@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd08f1a2_b262945c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-15T14:25:56Z",
+      "side": 1,
+      "message": "The runs panels should stay fixed when users select a run and want to go through the attempts of this run with the radio buttons so that they still have control over the UI elements.",
+      "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69fc5980_e848a514",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-15T14:25:56Z",
+      "side": 1,
+      "message": "The attempt circle is barely visible with --gray-background: var(--gray100);\n\nThanks for bringing this up in the specs, let\u0027s align the attempt circle colors with Tag style.\n\nTag Light:\n--tag-gray: var(--gray-200);\n\nTag Dark:\n--tag-gray: var(--gray-tonal);",
+      "range": {
+        "startLine": 118,
+        "startChar": 32,
+        "endLine": 118,
+        "endChar": 49
+      },
+      "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -102,6 +102,10 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Number})
   verticalOffset = 40;
 
+  /** Propagates/Reflects the `opened` property of the <iron-dropdown> */
+  @property({type: Boolean, notify: true})
+  opened = false;
+
   /**
    * List the IDs of dropdown buttons to be disabled. (Note this only
    * disables buttons and not link entries.)
@@ -195,6 +199,10 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
    */
   _handleDropdownClick() {
     this._close();
+  }
+
+  handleOpenedChanged(e: CustomEvent) {
+    this.opened = e.detail.value;
   }
 
   /**

@@ -172,7 +172,7 @@ class GrResultRow extends GrLitElement {
           display: none;
         }
         td .summary-cell .tags .tag {
-          color: var(--deemphasized-text-color);
+          color: var(--primary-text-color);
           display: inline-block;
           border-radius: 20px;
           background-color: var(--tag-background);
@@ -180,7 +180,7 @@ class GrResultRow extends GrLitElement {
           margin-left: var(--spacing-s);
         }
         td .summary-cell .label {
-          color: var(--deemphasized-text-color);
+          color: var(--primary-text-color);
           display: inline-block;
           border-radius: 20px;
           background-color: var(--label-background);

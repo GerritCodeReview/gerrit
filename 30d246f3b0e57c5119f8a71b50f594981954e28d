@@ -68,6 +68,24 @@
       "message": "Bump :)",
       "revId": "30d246f3b0e57c5119f8a71b50f594981954e28d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54f93715_b90e83c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-15T08:28:14Z",
+      "side": 1,
+      "message": "Hi, your approach and mine are pretty similar but unfortunately this was breaking the build of one of the internal google tools since keyboard-shortcut-mixin is now pulling the dependency of \"restApiService\".\n\nI have assigned a task to myself of rolling forward my change and trying to get the build to work.\nDo you mind waiting for a few days while I get to it?",
+      "parentUuid": "ef3a8019_134efc23",
+      "revId": "30d246f3b0e57c5119f8a71b50f594981954e28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

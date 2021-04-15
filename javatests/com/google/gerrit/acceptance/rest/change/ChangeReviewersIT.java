@@ -41,7 +41,6 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -49,6 +48,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -442,11 +442,11 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(3);
-    AddReviewerResult reviewerResult = result.reviewers.get(largeGroup);
-    assertThat(reviewerResult).isNotNull();
-    assertThat(reviewerResult.confirm).isNull();
-    assertThat(reviewerResult.error).isNotNull();
-    assertThat(reviewerResult.error).contains("has too many members to add them all as reviewers");
+    AddReviewerResult addReviewerResult = result.reviewers.get(largeGroup);
+    assertThat(addReviewerResult).isNotNull();
+    assertThat(addReviewerResult.confirm).isNull();
+    assertThat(addReviewerResult.error).isNotNull();
+    assertThat(addReviewerResult.error).contains("has too many members to add them all as reviewers");
 
     // No labels should have changed, and no reviewers/CCs should have been added.
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
@@ -465,10 +465,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(3);
-    reviewerResult = result.reviewers.get(mediumGroup);
-    assertThat(reviewerResult).isNotNull();
-    assertThat(reviewerResult.confirm).isTrue();
-    assertThat(reviewerResult.error)
+    addReviewerResult = result.reviewers.get(mediumGroup);
+    assertThat(addReviewerResult).isNotNull();
+    assertThat(addReviewerResult.confirm).isTrue();
+    assertThat(addReviewerResult.error)
         .contains("has " + mediumGroupSize + " members. Do you want to add them all as reviewers?");
 
     // No labels should have changed, and no reviewers/CCs should have been added.
@@ -539,10 +539,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(1);
-    AddReviewerResult reviewerResult = result.reviewers.get(user.email());
-    assertThat(reviewerResult).isNotNull();
-    assertThat(reviewerResult.confirm).isNull();
-    assertThat(reviewerResult.error).isNull();
+    AddReviewerResult addReviewerResult = result.reviewers.get(user.email());
+    assertThat(addReviewerResult).isNotNull();
+    assertThat(addReviewerResult.confirm).isNull();
+    assertThat(addReviewerResult.error).isNull();
   }
 
   @Test
@@ -564,12 +564,12 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(2);
-    AddReviewerResult reviewerResult = result.reviewers.get(group1);
-    assertThat(reviewerResult.error).isNull();
-    assertThat(reviewerResult.reviewers).hasSize(2);
-    reviewerResult = result.reviewers.get(group2);
-    assertThat(reviewerResult.error).isNull();
-    assertThat(reviewerResult.reviewers).hasSize(1);
+    AddReviewerResult addReviewerResult = result.reviewers.get(group1);
+    assertThat(addReviewerResult.error).isNull();
+    assertThat(addReviewerResult.reviewers).hasSize(2);
+    addReviewerResult = result.reviewers.get(group2);
+    assertThat(addReviewerResult.error).isNull();
+    assertThat(addReviewerResult.reviewers).hasSize(1);
 
     // Repeat the above for CCs
     r = createChange();
@@ -577,12 +577,12 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(2);
-    reviewerResult = result.reviewers.get(group1);
-    assertThat(reviewerResult.error).isNull();
-    assertThat(reviewerResult.ccs).hasSize(2);
-    reviewerResult = result.reviewers.get(group2);
-    assertThat(reviewerResult.error).isNull();
-    assertThat(reviewerResult.ccs).hasSize(1);
+    addReviewerResult = result.reviewers.get(group1);
+    assertThat(addReviewerResult.error).isNull();
+    assertThat(addReviewerResult.ccs).hasSize(2);
+    addReviewerResult = result.reviewers.get(group2);
+    assertThat(addReviewerResult.error).isNull();
+    assertThat(addReviewerResult.ccs).hasSize(1);
 
     // Repeat again with one group REVIEWER, the other CC. The overlapping
     // member should end up as a REVIEWER.
@@ -591,13 +591,13 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(2);
-    reviewerResult = result.reviewers.get(group1);
-    assertThat(reviewerResult.error).isNull();
-    assertThat(reviewerResult.reviewers).hasSize(2);
-    reviewerResult = result.reviewers.get(group2);
-    assertThat(reviewerResult.error).isNull();
-    assertThat(reviewerResult.reviewers).isNull();
-    assertThat(reviewerResult.ccs).hasSize(1);
+    addReviewerResult = result.reviewers.get(group1);
+    assertThat(addReviewerResult.error).isNull();
+    assertThat(addReviewerResult.reviewers).hasSize(2);
+    addReviewerResult = result.reviewers.get(group2);
+    assertThat(addReviewerResult.error).isNull();
+    assertThat(addReviewerResult.reviewers).isNull();
+    assertThat(addReviewerResult.ccs).hasSize(1);
   }
 
   @Test

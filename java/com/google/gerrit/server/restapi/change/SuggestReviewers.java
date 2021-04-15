@@ -99,7 +99,8 @@ public class SuggestReviewers {
       this.suggestAccounts = (av != AccountVisibility.NONE);
     }
 
-    this.maxAllowed = cfg.getInt("addreviewer", "maxAllowed", ReviewerAdder.DEFAULT_MAX_REVIEWERS);
+    this.maxAllowed =
+        cfg.getInt("addreviewer", "maxAllowed", ReviewerAdder.DEFAULT_MAX_REVIEWERS);
     this.maxAllowedWithoutConfirmation =
         cfg.getInt(
             "addreviewer",

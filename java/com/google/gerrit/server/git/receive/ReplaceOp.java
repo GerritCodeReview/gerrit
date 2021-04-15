@@ -55,7 +55,7 @@ import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
+import com.google.gerrit.server.change.ReviewerAdder.ReviewerModificationList;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -159,7 +159,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
   private RequestScopePropagator requestScopePropagator;
-  private ReviewerAdditionList reviewerAdditions;
+  private ReviewerModificationList reviewerAdditions;
   private MailRecipients oldRecipients;
 
   @Inject
@@ -329,7 +329,8 @@ public class ReplaceOp implements BatchUpdateOp {
             ctx.getUser(),
             getReviewerInputs(magicBranch, fromFooters, ctx.getChange(), info),
             true);
-    Optional<ReviewerAddition> reviewerError = reviewerAdditions.getFailures().stream().findFirst();
+    Optional<ReviewerAddition> reviewerError =
+        reviewerAdditions.getFailures().stream().findFirst();
     if (reviewerError.isPresent()) {
       throw new UnprocessableEntityException(reviewerError.get().result.error);
     }

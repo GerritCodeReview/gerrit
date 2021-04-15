@@ -15,9 +15,9 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -65,7 +65,8 @@ public class PostReviewers
       throw new BadRequestException("missing reviewer field");
     }
 
-    ReviewerAddition addition = reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
+    ReviewerAddition addition =
+        reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (addition.op == null) {
       return Response.ok(addition.result);
     }

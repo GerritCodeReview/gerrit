@@ -24,8 +24,8 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -55,19 +55,25 @@ public class AddReviewersEmail {
       Change change,
       Collection<Account.Id> added,
       Collection<Account.Id> copied,
+      Collection<Account.Id> removed,
       Collection<Address> addedByEmail,
       Collection<Address> copiedByEmail,
+      Collection<Address> removedByEmail,
       NotifyResolver.Result notify) {
-    // The user knows they added themselves, don't bother emailing them.
+    // The user knows they added/removed themselves, don't bother emailing them.
     Account.Id userId = user.getAccountId();
     ImmutableList<Account.Id> immutableToMail =
         added.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
     ImmutableList<Account.Id> immutableToCopy =
         copied.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
+    ImmutableList<Account.Id> immutableToRemove =
+        removed.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
     if (immutableToMail.isEmpty()
         && immutableToCopy.isEmpty()
+        && immutableToRemove.isEmpty()
         && addedByEmail.isEmpty()
-        && copiedByEmail.isEmpty()) {
+        && copiedByEmail.isEmpty()
+        && removedByEmail.isEmpty()) {
       return;
     }
 
@@ -77,6 +83,7 @@ public class AddReviewersEmail {
     Project.NameKey projectNameKey = change.getProject();
     ImmutableList<Address> immutableAddedByEmail = ImmutableList.copyOf(addedByEmail);
     ImmutableList<Address> immutableCopiedByEmail = ImmutableList.copyOf(copiedByEmail);
+    ImmutableList<Address> immutableRemovedByEmail = ImmutableList.copyOf(removedByEmail);
 
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
@@ -91,6 +98,8 @@ public class AddReviewersEmail {
                 emailSender.addReviewersByEmail(immutableAddedByEmail);
                 emailSender.addExtraCC(immutableToCopy);
                 emailSender.addExtraCCByEmail(immutableCopiedByEmail);
+                emailSender.addRemovedReviewers(immutableToRemove);
+                emailSender.addRemovedByEmailReviewers(immutableRemovedByEmail);
                 emailSender.setMessageId(
                     messageIdGenerator.fromChangeUpdate(
                         change.getProject(), change.currentPatchSetId()));

@@ -52,7 +52,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ReviewerAdder.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
+import com.google.gerrit.server.change.ReviewerAdder.ReviewerModificationList;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -149,7 +149,7 @@ public class ChangeInserter implements InsertChangeOp {
   private PatchSet patchSet;
   private String pushCert;
   private ProjectState projectState;
-  private ReviewerAdditionList reviewerAdditions;
+  private ReviewerModificationList reviewerAdditions;
 
   @Inject
   ChangeInserter(
@@ -445,7 +445,8 @@ public class ChangeInserter implements InsertChangeOp {
 
     reviewerAdditions =
         reviewerAdder.prepare(ctx.getNotes(), ctx.getUser(), getReviewerInputs(), true);
-    Optional<ReviewerAddition> reviewerError = reviewerAdditions.getFailures().stream().findFirst();
+    Optional<ReviewerAddition> reviewerError =
+        reviewerAdditions.getFailures().stream().findFirst();
     if (reviewerError.isPresent()) {
       throw new UnprocessableEntityException(reviewerError.get().result.error);
     }

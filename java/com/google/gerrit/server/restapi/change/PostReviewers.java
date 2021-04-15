@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerModifier;
-import com.google.gerrit.server.change.ReviewerModifier.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -65,7 +65,7 @@ public class PostReviewers
       throw new BadRequestException("missing reviewer field");
     }
 
-    ReviewerAddition addition =
+    ReviewerModification addition =
         reviewerModifier.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (addition.op == null) {
       return Response.ok(addition.result);

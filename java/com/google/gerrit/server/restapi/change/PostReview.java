@@ -97,7 +97,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerModifier;
-import com.google.gerrit.server.change.ReviewerModifier.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -277,13 +277,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     logger.atFine().log("notify handling = %s", input.notify);
 
     Map<String, AddReviewerResult> reviewerJsonResults = null;
-    List<ReviewerAddition> reviewerResults = Lists.newArrayList();
+    List<ReviewerModification> reviewerResults = Lists.newArrayList();
     boolean hasError = false;
     boolean confirm = false;
     if (input.reviewers != null) {
       reviewerJsonResults = Maps.newHashMap();
       for (ReviewerInput reviewerInput : input.reviewers) {
-        ReviewerAddition result =
+        ReviewerModification result =
             reviewerModifier.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
@@ -336,7 +336,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // updated set of reviewers. Also keep track of whether the user added
       // themselves as a reviewer or to the CC list.
       logger.atFine().log("adding reviewer additions");
-      for (ReviewerAddition reviewerResult : reviewerResults) {
+      for (ReviewerModification reviewerResult : reviewerResults) {
         reviewerResult.op.suppressEmail(); // Send a single batch email below.
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
         if (!ccOrReviewer && reviewerResult.reviewers.contains(id)) {
@@ -350,7 +350,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
         logger.atFine().log("CCing calling user");
-        ReviewerAddition selfAddition =
+        ReviewerModification selfAddition =
             reviewerModifier.ccCurrentUser(revision.getUser(), revision);
         selfAddition.op.suppressEmail();
         bu.addOp(revision.getChange().getId(), selfAddition.op);
@@ -396,7 +396,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       // Re-read change to take into account results of the update.
       ChangeData cd = changeDataFactory.create(revision.getProject(), revision.getChange().getId());
-      for (ReviewerAddition reviewerResult : reviewerResults) {
+      for (ReviewerModification reviewerResult : reviewerResults) {
         reviewerResult.gatherResults(cd);
       }
 
@@ -438,14 +438,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private void batchEmailReviewers(
       CurrentUser user,
       Change change,
-      List<ReviewerAddition> reviewerAdditions,
+      List<ReviewerModification> reviewerModifications,
       NotifyResolver.Result notify) {
     try (TraceContext.TraceTimer ignored = newTimer("batchEmailReviewers")) {
       List<Account.Id> to = new ArrayList<>();
       List<Account.Id> cc = new ArrayList<>();
       List<Address> toByEmail = new ArrayList<>();
       List<Address> ccByEmail = new ArrayList<>();
-      for (ReviewerAddition addition : reviewerAdditions) {
+      for (ReviewerModification addition : reviewerModifications) {
         Result reviewAdditionResult = addition.op.getResult();
         if (addition.state() == ReviewerState.REVIEWER
             && (!reviewAdditionResult.addedReviewers().isEmpty()

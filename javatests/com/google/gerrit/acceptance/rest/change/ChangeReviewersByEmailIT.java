@@ -25,10 +25,10 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -280,7 +280,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   public void rejectMissingEmail() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("");
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("");
     assertThat(result.error).isEqualTo(" is not a valid user identifier");
     assertThat(result.reviewers).isNull();
   }
@@ -289,7 +289,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   public void rejectMalformedEmail() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@");
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@");
     assertThat(result.error).isEqualTo("Foo Bar <foo.bar@ is not a valid user identifier");
     assertThat(result.reviewers).isNull();
   }
@@ -302,7 +302,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
 
-    AddReviewerResult result =
+    ReviewerResult result =
         gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
     assertThat(result.error)
         .isEqualTo(
@@ -341,7 +341,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     input.reviewer = "nonexisting@example.com";
     input.state = ReviewerState.REVIEWER;
 
-    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
     assertThat(result.reviewers).hasSize(1);
     ReviewerInfo info = result.reviewers.get(0);
     assertThat(info._accountId).isNull();
@@ -357,7 +357,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     ReviewerInput input = new ReviewerInput();
     input.reviewer = "nonexisting@example.com";
     input.state = ReviewerState.CC;
-    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
 
     assertThat(result.ccs).hasSize(1);
     AccountInfo info = result.ccs.get(0);

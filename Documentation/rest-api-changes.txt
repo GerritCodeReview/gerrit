@@ -3363,7 +3363,7 @@ Also, moving a reviewer to CC removes that user from the attention set.
   }
 ----
 
-As response an link:#add-reviewer-result[AddReviewerResult] entity is
+As response an link:#reviewer-result[ReviewerResult] entity is
 returned that describes the newly added reviewers.
 
 .Response
@@ -4169,7 +4169,7 @@ to a change simultaneously with a review:
 Each element of the `reviewers` list is an instance of
 link:#reviewer-input[ReviewerInput]. The corresponding result of
 adding each reviewer will be returned in a map of inputs to
-link:#add-reviewer-result[AddReviewerResult]s.
+link:#reviewer-result[ReviewerResult]s.
 
 .Response
 ----
@@ -6270,10 +6270,10 @@ likely allowed to execute it. This may change if state is updated
 at the server or permissions are modified. Not present if false.
 |====================================
 
-[[add-reviewer-result]]
-=== AddReviewerResult
-The `AddReviewerResult` entity describes the result of adding a
-reviewer to a change.
+[[reviewer-result]]
+=== ReviewerResult
+The `ReviewerResult` entity describes the result of adding a reviewer to a
+change.
 
 [options="header",cols="1,^1,5"]
 |===========================
@@ -7818,7 +7818,7 @@ Map of labels to values after the review was posted. Null if any reviewer
 additions were rejected.
 |`reviewers`              |optional|
 Map of account or group identifier to
-link:rest-api-changes.html#add-reviewer-result[AddReviewerResult]
+link:rest-api-changes.html#reviewer-result[ReviewerResult]
 representing the outcome of adding as a reviewer.
 Absent if no reviewer additions were requested.
 |`ready`                  |optional|

@@ -15,9 +15,9 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -58,7 +58,7 @@ public class PostReviewers
   }
 
   @Override
-  public Response<AddReviewerResult> apply(ChangeResource rsrc, ReviewerInput input)
+  public Response<ReviewerResult> apply(ChangeResource rsrc, ReviewerInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           ConfigInvalidException {
     if (input.reviewer == null) {

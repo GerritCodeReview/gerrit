@@ -19,7 +19,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import java.util.List;
 
 /** Result object representing the outcome of a request to add a reviewer. */
-public class AddReviewerResult {
+public class ReviewerResult {
   /** The identifier of an account or group that was to be added as a reviewer. */
   public String input;
 
@@ -49,7 +49,7 @@ public class AddReviewerResult {
    *
    * @param input String identifier of an account or group, from user request
    */
-  public AddReviewerResult(String input) {
+  public ReviewerResult(String input) {
     this.input = input;
   }
 
@@ -59,7 +59,7 @@ public class AddReviewerResult {
    * @param reviewer String identifier of an account or group
    * @param error Error message
    */
-  public AddReviewerResult(String reviewer, String error) {
+  public ReviewerResult(String reviewer, String error) {
     this(reviewer);
     this.error = error;
   }
@@ -69,7 +69,7 @@ public class AddReviewerResult {
    *
    * @param confirm Whether confirmation is needed.
    */
-  public AddReviewerResult(String reviewer, boolean confirm) {
+  public ReviewerResult(String reviewer, boolean confirm) {
     this(reviewer);
     this.confirm = confirm;
   }

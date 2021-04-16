@@ -549,6 +549,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "abbdae35_b12f9d4d",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "With the old code AccountState was passed in into this class.\nThis AccountState instance was retrieved via ReviewerResource.getReviewerUser().state() which basically gets the AccountState from the AccountCache. When AccountState is retrieved from the account cache, it has the external IDs populated.\n\nWith the new code you instantiate the AccountState here without external IDs.\n\nReviewerDeleted is using the passed in AccountState to populate an AccountInfo entity. One of the fields it sets in AccountInfo is the username field. The username is stores as an external ID. Since with the new code external IDs are not present in the AccountState, the username field in the AccountInfo will always be null now, but with the old code it was set (if the account had a username).\n\nI think fixing this is rather easy. Just use accountCache.get(reviewer.id()) here (or use the getAccountEvenIfMissing method if needed) and you\u0027ll get an AccountState that has externals IDs populated, same as in the old code.",
+      "parentUuid": "5ea5cd9e_75ab2635",
+      "range": {
+        "startLine": 213,
+        "startChar": 8,
+        "endLine": 213,
+        "endChar": 41
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2bbfa33_38347c6b",
         "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
         "patchSetId": 1

@@ -28,7 +28,12 @@ import {customElement, property, observe} from '@polymer/decorators';
 import {DiffInfo} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
-import {getSide, isThreadEl} from '../gr-diff/gr-diff-utils';
+import {
+  getLineElByChild,
+  getSide,
+  getSideByLineEl,
+  isThreadEl,
+} from '../gr-diff/gr-diff-utils';
 
 /**
  * Possible CSS classes indicating the state of selection. Dynamically added/
@@ -110,7 +115,7 @@ export class GrDiffSelection extends PolymerElement {
     // Handle the down event on comment thread in Polymer 2
     const handled = this._handleDownOnRangeComment(target);
     if (handled) return;
-    const lineEl = this.diffBuilder.getLineElByChild(target);
+    const lineEl = getLineElByChild(target);
     const blameSelected = this._elementDescendedFromClass(target, 'blame');
     if (!lineEl && !blameSelected) {
       return;
@@ -125,7 +130,7 @@ export class GrDiffSelection extends PolymerElement {
         target,
         'gr-comment'
       );
-      const side = this.diffBuilder.getSideByLineEl(lineEl);
+      const side = getSideByLineEl(lineEl);
 
       targetClasses.push(
         side === 'left' ? SelectionClass.LEFT : SelectionClass.RIGHT
@@ -179,9 +184,9 @@ export class GrDiffSelection extends PolymerElement {
     if (this.classList.contains(SelectionClass.COMMENT)) {
       commentSelected = true;
     }
-    const lineEl = this.diffBuilder.getLineElByChild(target);
+    const lineEl = getLineElByChild(target);
     if (!lineEl) return;
-    const side = this.diffBuilder.getSideByLineEl(lineEl);
+    const side = getSideByLineEl(lineEl);
     const text = this._getSelectedText(side, commentSelected);
     if (text && e.clipboardData) {
       e.clipboardData.setData('Text', text);
@@ -224,9 +229,9 @@ export class GrDiffSelection extends PolymerElement {
       return this._getCommentLines(sel, side);
     }
     const range = normalize(sel.getRangeAt(0));
-    const startLineEl = this.diffBuilder.getLineElByChild(range.startContainer);
+    const startLineEl = getLineElByChild(range.startContainer);
     if (!startLineEl) return;
-    const endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
+    const endLineEl = getLineElByChild(range.endContainer);
     // Happens when triple click in side-by-side mode with other side empty.
     const endsAtOtherEmptySide =
       !endLineEl &&

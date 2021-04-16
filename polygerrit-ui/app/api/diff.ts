@@ -298,7 +298,8 @@ export declare interface DiffLayer {
   annotate(
     textElement: HTMLElement,
     lineNumberElement: HTMLElement,
-    line: GrDiffLine
+    line: GrDiffLine,
+    side: Side
   ): void;
 }
 

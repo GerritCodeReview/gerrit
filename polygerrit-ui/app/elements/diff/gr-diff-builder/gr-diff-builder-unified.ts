@@ -122,7 +122,14 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
       Side.RIGHT
     );
     row.appendChild(lineNumberEl);
-    row.appendChild(this._createTextEl(lineNumberEl, line));
+    let side = undefined;
+    if (line.type === GrDiffLineType.ADD || line.type === GrDiffLineType.BOTH) {
+      side = Side.RIGHT;
+    }
+    if (line.type === GrDiffLineType.REMOVE) {
+      side = Side.LEFT;
+    }
+    row.appendChild(this._createTextEl(lineNumberEl, line, side));
     return row;
   }
 

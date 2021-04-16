@@ -199,6 +199,7 @@ function getStyleEl() {
       --coverage-covered: #112826;
       --coverage-not-covered: #6b3600;
       --ranged-comment-hint-text-color: var(--blue-50);
+      --token-highlighting-color: var(--yellow-tonal);
 
       /* syntax colors */
       --syntax-attr-color: #80cbbf;

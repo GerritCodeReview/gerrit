@@ -43,6 +43,36 @@ export function isLongCommentRange(range: CommentRange): boolean {
   return range.end_line - range.start_line > 10;
 }
 
+export function getLineNumberByChild(node?: Node) {
+  return getLineNumber(getLineElByChild(node));
+}
+
+export function lineNumberToNumber(lineNumber?: LineNumber | null): number {
+  if (!lineNumber) return 0;
+  if (lineNumber === 'LOST') return 0;
+  if (lineNumber === 'FILE') return 0;
+  return lineNumber;
+}
+
+export function getLineElByChild(node?: Node): HTMLElement | null {
+  while (node) {
+    if (node instanceof Element) {
+      if (node.classList.contains('lineNum')) {
+        return node as HTMLElement;
+      }
+      if (node.classList.contains('section')) {
+        return null;
+      }
+    }
+    node = node.previousSibling ?? node.parentElement ?? undefined;
+  }
+  return null;
+}
+
+export function getSideByLineEl(lineEl: Element) {
+  return lineEl.classList.contains(Side.RIGHT) ? Side.RIGHT : Side.LEFT;
+}
+
 export function getLineNumber(lineEl?: Element | null): LineNumber | null {
   if (!lineEl) return null;
   const lineNumberStr = lineEl.getAttribute('data-value');

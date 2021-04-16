@@ -26,7 +26,6 @@ import org.apache.log4j.spi.ThrowableInformation;
 
 /** Layout for formatting error log events in the JSON format. */
 public class ErrorLogJsonLayout extends JsonLayout {
-
   @Override
   public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
     return new ErrorJsonLogEntry(event);

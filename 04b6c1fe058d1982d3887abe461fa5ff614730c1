@@ -39,6 +39,30 @@
       },
       "revId": "04b6c1fe058d1982d3887abe461fa5ff614730c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1d533a7_d55124fb",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-16T10:03:00Z",
+      "side": 1,
+      "message": "What we will need is a deepFreeze. \n\nAnyway, not related to the change.",
+      "parentUuid": "68050e84_9e1411b3",
+      "range": {
+        "startLine": 25,
+        "startChar": 40,
+        "endLine": 25,
+        "endChar": 52
+      },
+      "revId": "04b6c1fe058d1982d3887abe461fa5ff614730c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

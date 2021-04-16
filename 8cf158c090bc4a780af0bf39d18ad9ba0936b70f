@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02d36dff_64790cc5",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T12:32:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f796c260_41b20231",
+      "range": {
+        "startLine": 28,
+        "startChar": 56,
+        "endLine": 28,
+        "endChar": 62
+      },
+      "revId": "8cf158c090bc4a780af0bf39d18ad9ba0936b70f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "671f9673_e297b6c8",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-04-16T12:24:50Z",
       "side": 1,
       "message": "Do we need Strings.emptyToNull(devCdn) here?\n\nheadless \u0026\u0026 devCdn \u003d\u003d \"\" with the old code resulted in useDevCdn() -\u003e false, now it would be true.",
+      "range": {
+        "startLine": 31,
+        "startChar": 68,
+        "endLine": 31,
+        "endChar": 74
+      },
+      "revId": "8cf158c090bc4a780af0bf39d18ad9ba0936b70f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aee883c_5a19b835",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T12:32:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "671f9673_e297b6c8",
       "range": {
         "startLine": 31,
         "startChar": 68,

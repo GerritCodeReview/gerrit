@@ -1,0 +1,262 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8290fd02_98d8763e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "Looks pretty good now. All I have are nits.",
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcaf78a3_d008f434",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 7833,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "added/removed",
+      "range": {
+        "startLine": 7833,
+        "startChar": 10,
+        "endLine": 7833,
+        "endChar": 15
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3159297_03b68aa2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 7834,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "Maybe mention here that a group can only be specified when adding reviewers, but not for removing reviewers.",
+      "range": {
+        "startLine": 7833,
+        "startChar": 27,
+        "endLine": 7834,
+        "endChar": 77
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90d6bcbf_195abbfd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 7862,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "nit: \"of a change\"? since reviewers are always modified on a single change",
+      "range": {
+        "startLine": 7861,
+        "startChar": 72,
+        "endLine": 7862,
+        "endChar": 7
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56c366b0_25dc99b5",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "better: Account::id",
+      "range": {
+        "startLine": 492,
+        "startChar": 44,
+        "endLine": 492,
+        "endChar": 55
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd03f5e7_eb01ce1c",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "nit: rename to \"account\"",
+      "range": {
+        "startLine": 503,
+        "startChar": 22,
+        "endLine": 503,
+        "endChar": 24
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fd00cee_16a6d4ad",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "Should this be moved up 1 line into the if block?",
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef042301_21e77f1f",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "Should this be an \"else if\" for the if block that starts in l. 543?\nOtherwise if it\u0027s possible that opResult.deletedReviewer() and opResult.deletedReviewerByEmail() are both present, result.removed which is set in line 544 would be overridden in line 552.",
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33140c2b_c7f74ecb",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "could be \"Account::id\"",
+      "range": {
+        "startLine": 456,
+        "startChar": 56,
+        "endLine": 456,
+        "endChar": 67
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1db9d901_4f903e77",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "here too",
+      "range": {
+        "startLine": 461,
+        "startChar": 56,
+        "endLine": 461,
+        "endChar": 67
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e01bad81_eb61be25",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "wrong comment? the line below doesn\u0027t remove user \"user\" from the group, but the user with identified by testUserFullname",
+      "range": {
+        "startLine": 2145,
+        "startChar": 24,
+        "endLine": 2145,
+        "endChar": 30
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36d9e1ed_4315a5d5",
+        "filename": "resources/com/google/gerrit/server/change/ChangeMessages.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:29:36Z",
+      "side": 1,
+      "message": "nit: drop this",
+      "range": {
+        "startLine": 10,
+        "startChar": 76,
+        "endLine": 10,
+        "endChar": 84
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

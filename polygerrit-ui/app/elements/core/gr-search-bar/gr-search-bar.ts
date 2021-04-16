@@ -34,6 +34,7 @@ import {getDocsBaseUrl} from '../../../utils/url-util';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
+import {getKeyboardEvent} from '../../../utils/dom-util';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -385,7 +386,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleSearch(e: CustomKeyboardEvent) {
-    const keyboardEvent = this.getKeyboardEvent(e);
+    const keyboardEvent = getKeyboardEvent(e);
     if (
       this.shouldSuppressKeyboardShortcut(e) ||
       (this.modifierPressed(e) && !keyboardEvent.shiftKey)

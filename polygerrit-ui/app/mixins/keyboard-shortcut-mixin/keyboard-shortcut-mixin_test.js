@@ -377,27 +377,6 @@ suite('keyboard-shortcut-mixin tests', () => {
     assert.isTrue(spy.lastCall.returnValue);
   });
 
-  test('isModifierPressed returns accurate value', () => {
-    const spy = sinon.spy(element, 'isModifierPressed');
-    element._handleKey = e => {
-      element.isModifierPressed(e, 'shiftKey');
-    };
-    MockInteractions.keyDownOn(element, 75, 'shift', 'k');
-    assert.isTrue(spy.lastCall.returnValue);
-    MockInteractions.keyDownOn(element, 75, null, 'k');
-    assert.isFalse(spy.lastCall.returnValue);
-    MockInteractions.keyDownOn(element, 75, 'ctrl', 'k');
-    assert.isFalse(spy.lastCall.returnValue);
-    MockInteractions.keyDownOn(element, 75, null, 'k');
-    assert.isFalse(spy.lastCall.returnValue);
-    MockInteractions.keyDownOn(element, 75, 'meta', 'k');
-    assert.isFalse(spy.lastCall.returnValue);
-    MockInteractions.keyDownOn(element, 75, null, 'k');
-    assert.isFalse(spy.lastCall.returnValue);
-    MockInteractions.keyDownOn(element, 75, 'alt', 'k');
-    assert.isFalse(spy.lastCall.returnValue);
-  });
-
   suite('GO_KEY timing', () => {
     let handlerStub;
 

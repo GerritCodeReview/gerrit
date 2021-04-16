@@ -299,6 +299,11 @@ export function isModifierPressed(event: CustomKeyboardEvent) {
   return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
 }
 
+export function isShiftPressed(event: CustomKeyboardEvent) {
+  const e = getKeyboardEvent(event);
+  return e.shiftKey;
+}
+
 export function getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent {
   const event = dom(e.detail ? e.detail.keyboardEvent : e);
   // TODO(TS): worth checking if this still holds or not, if no, remove this.

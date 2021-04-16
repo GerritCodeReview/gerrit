@@ -98,7 +98,7 @@ import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
-import {toggleClass} from '../../../utils/dom-util';
+import {toggleClass, getKeyboardEvent} from '../../../utils/dom-util';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';
@@ -593,7 +593,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
   _handlePrevFile(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e)) return;
     // Check for meta key to avoid overriding native chrome shortcut.
-    if (this.getKeyboardEvent(e).metaKey) return;
+    if (getKeyboardEvent(e).metaKey) return;
     if (!this._path) return;
     if (!this._fileList) return;
 
@@ -604,7 +604,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
   _handleNextFile(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e)) return;
     // Check for meta key to avoid overriding native chrome shortcut.
-    if (this.getKeyboardEvent(e).metaKey) return;
+    if (getKeyboardEvent(e).metaKey) return;
     if (!this._path) return;
     if (!this._fileList) return;
 

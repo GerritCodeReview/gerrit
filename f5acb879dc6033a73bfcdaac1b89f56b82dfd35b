@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74395388_42ec8aa3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 7833,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcaf78a3_d008f434",
+      "range": {
+        "startLine": 7833,
+        "startChar": 10,
+        "endLine": 7833,
+        "endChar": 15
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3159297_03b68aa2",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-04-16T15:29:36Z",
       "side": 1,
       "message": "Maybe mention here that a group can only be specified when adding reviewers, but not for removing reviewers.",
+      "range": {
+        "startLine": 7833,
+        "startChar": 27,
+        "endLine": 7834,
+        "endChar": 77
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d4f918d_91c8366c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 7834,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3159297_03b68aa2",
       "range": {
         "startLine": 7833,
         "startChar": 27,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bac4f0f1_01c2c244",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 7862,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90d6bcbf_195abbfd",
+      "range": {
+        "startLine": 7861,
+        "startChar": 72,
+        "endLine": 7862,
+        "endChar": 7
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56c366b0_25dc99b5",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-04-16T15:29:36Z",
       "side": 1,
       "message": "better: Account::id",
+      "range": {
+        "startLine": 492,
+        "startChar": 44,
+        "endLine": 492,
+        "endChar": 55
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccd69c6d_d1317983",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56c366b0_25dc99b5",
       "range": {
         "startLine": 492,
         "startChar": 44,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09b07e0d_20150e89",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd03f5e7_eb01ce1c",
+      "range": {
+        "startLine": 503,
+        "startChar": 22,
+        "endLine": 503,
+        "endChar": 24
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fd00cee_16a6d4ad",
@@ -146,6 +266,24 @@
       "writtenOn": "2021-04-16T15:29:36Z",
       "side": 1,
       "message": "Should this be moved up 1 line into the if block?",
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0d4dd19_c6267aca",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fd00cee_16a6d4ad",
       "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -167,6 +305,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e025924_dbb06b70",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef042301_21e77f1f",
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33140c2b_c7f74ecb",
@@ -180,6 +336,30 @@
       "writtenOn": "2021-04-16T15:29:36Z",
       "side": 1,
       "message": "could be \"Account::id\"",
+      "range": {
+        "startLine": 456,
+        "startChar": 56,
+        "endLine": 456,
+        "endChar": 67
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3630ecef_c8a8165a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33140c2b_c7f74ecb",
       "range": {
         "startLine": 456,
         "startChar": 56,
@@ -213,6 +393,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18704c13_9d85e503",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db9d901_4f903e77",
+      "range": {
+        "startLine": 461,
+        "startChar": 56,
+        "endLine": 461,
+        "endChar": 67
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e01bad81_eb61be25",
@@ -236,6 +440,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bbcc107_61bfc1e3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2145,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "removed a useless part.",
+      "parentUuid": "e01bad81_eb61be25",
+      "range": {
+        "startLine": 2145,
+        "startChar": 24,
+        "endLine": 2145,
+        "endChar": 30
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36d9e1ed_4315a5d5",
@@ -249,6 +477,30 @@
       "writtenOn": "2021-04-16T15:29:36Z",
       "side": 1,
       "message": "nit: drop this",
+      "range": {
+        "startLine": 10,
+        "startChar": 76,
+        "endLine": 10,
+        "endChar": 84
+      },
+      "revId": "f5acb879dc6033a73bfcdaac1b89f56b82dfd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb2ea717_9841f262",
+        "filename": "resources/com/google/gerrit/server/change/ChangeMessages.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36d9e1ed_4315a5d5",
       "range": {
         "startLine": 10,
         "startChar": 76,

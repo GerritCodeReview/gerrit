@@ -44,7 +44,6 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.EnableReverseDnsLookup;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -56,7 +55,6 @@ import org.junit.Test;
 public class EmailIT extends AbstractDaemonTest {
   @Inject private @AnonymousCowardName String anonymousCowardName;
   @Inject private @CanonicalWebUrl Provider<String> canonicalUrl;
-  @Inject private @EnableReverseDnsLookup boolean enableReverseDnsLookup;
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private AuthConfig authConfig;
   @Inject private EmailExpander emailExpander;
@@ -280,7 +278,6 @@ public class EmailIT extends AbstractDaemonTest {
             realm,
             anonymousCowardName,
             canonicalUrl,
-            enableReverseDnsLookup,
             accountCache,
             groupBackend);
     return atrScope.set(atrScope.newContext(null, userFactory.create(admin.id())));

@@ -24,7 +24,6 @@ import '../../shared/gr-icons/gr-icons';
 import '../gr-commit-info/gr-commit-info';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-file-list-header_html';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {computeLatestPatchNum, PatchSet} from '../../../utils/patch-set-util';
@@ -63,7 +62,7 @@ export interface GrFileListHeader {
 }
 
 @customElement('gr-file-list-header')
-export class GrFileListHeader extends KeyboardShortcutMixin(PolymerElement) {
+export class GrFileListHeader extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

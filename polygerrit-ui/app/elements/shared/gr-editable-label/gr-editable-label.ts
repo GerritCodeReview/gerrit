@@ -31,6 +31,7 @@ import {
   AutocompleteQuery,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
+import {getKeyboardEvent} from '../../../utils/dom-util';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -203,7 +204,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleEnter(e: CustomKeyboardEvent) {
-    e = this.getKeyboardEvent(e);
+    e = getKeyboardEvent(e);
     const target = (dom(e) as EventApi).rootTarget;
     if (target === this._nativeInput) {
       e.preventDefault();
@@ -212,7 +213,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleEsc(e: CustomKeyboardEvent) {
-    e = this.getKeyboardEvent(e);
+    e = getKeyboardEvent(e);
     const target = (dom(e) as EventApi).rootTarget;
     if (target === this._nativeInput) {
       e.preventDefault();

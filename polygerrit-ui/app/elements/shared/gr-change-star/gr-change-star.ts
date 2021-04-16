@@ -20,7 +20,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-star_html';
 import {customElement, property} from '@polymer/decorators';
 import {ChangeInfo} from '../../../types/common';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {fireAlert} from '../../../utils/event-util';
 
 declare global {
@@ -35,7 +34,7 @@ export interface ChangeStarToggleStarDetail {
 }
 
 @customElement('gr-change-star')
-export class GrChangeStar extends KeyboardShortcutMixin(PolymerElement) {
+export class GrChangeStar extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

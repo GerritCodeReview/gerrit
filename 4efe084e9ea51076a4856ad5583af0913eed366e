@@ -571,6 +571,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7273028_10fd18af",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T16:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbdae35_b12f9d4d",
+      "range": {
+        "startLine": 213,
+        "startChar": 8,
+        "endLine": 213,
+        "endChar": 41
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2bbfa33_38347c6b",

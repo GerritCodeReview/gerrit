@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e976216d_24930903",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d999d78a_b1d2ed4e",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a464f8b0_9a464d84",
@@ -135,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "666f55e0_b614433f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6204,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a757fd3_233ad5d3",
+      "range": {
+        "startLine": 6204,
+        "startChar": 9,
+        "endLine": 6204,
+        "endChar": 11
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2241e9a6_02b3eb3f",
@@ -148,6 +196,30 @@
       "writtenOn": "2021-04-07T09:38:44Z",
       "side": 1,
       "message": "This looks like an unrelated fix that could be a separate change.",
+      "range": {
+        "startLine": 6217,
+        "startChar": 0,
+        "endLine": 6217,
+        "endChar": 52
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "636be93b_133a7466",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6217,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2241e9a6_02b3eb3f",
       "range": {
         "startLine": 6217,
         "startChar": 0,
@@ -181,6 +253,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "730a11d8_412b5886",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6219,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a356f506_a2805c99",
+      "range": {
+        "startLine": 6218,
+        "startChar": 63,
+        "endLine": 6219,
+        "endChar": 22
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80cc8ec7_cdd8925b",
@@ -194,6 +290,30 @@
       "writtenOn": "2021-04-07T09:38:44Z",
       "side": 1,
       "message": "not needed",
+      "range": {
+        "startLine": 6224,
+        "startChar": 38,
+        "endLine": 6224,
+        "endChar": 76
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ae1eda6_14ec8bd2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6224,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80cc8ec7_cdd8925b",
       "range": {
         "startLine": 6224,
         "startChar": 38,
@@ -221,6 +341,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "123cbc62_7fdef5f1",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b72ae13c_4a5148a4",
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0feb0b53_baaabce8",
@@ -234,6 +372,30 @@
       "writtenOn": "2021-04-07T09:38:44Z",
       "side": 1,
       "message": "Is removing reviewers via a group possible? Do we need a test for this?",
+      "range": {
+        "startLine": 48,
+        "startChar": 51,
+        "endLine": 49,
+        "endChar": 36
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a14505b6_0eae8d47",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ReviewerResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "looks like that doesn\u0027t make any sense, removed and added a test.",
+      "parentUuid": "0feb0b53_baaabce8",
       "range": {
         "startLine": 48,
         "startChar": 51,
@@ -267,6 +429,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "244b4d82_51a5124b",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerByEmailOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67dec62a_f738da8d",
+      "range": {
+        "startLine": 78,
+        "startChar": 7,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3490e23_b74bc301",
@@ -280,6 +466,30 @@
       "writtenOn": "2021-04-07T09:38:44Z",
       "side": 1,
       "message": "nit: remove this",
+      "range": {
+        "startLine": 122,
+        "startChar": 55,
+        "endLine": 122,
+        "endChar": 60
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1f2ebe5_7b00b522",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3490e23_b74bc301",
       "range": {
         "startLine": 122,
         "startChar": 55,
@@ -315,6 +525,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ea5cd9e_75ab2635",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "I didn\u0027t get what you mean here.\n\nI had to add this AccountState because the calling class had some changes in the logic which only keeps Account now. I remember it wasn\u0027t working to keep using AccountState there.\nI see AccountState that way includes the username because it takes the first external id (? I don\u0027t fully understand why).",
+      "parentUuid": "a9d1b48a_a3e2d087",
+      "range": {
+        "startLine": 213,
+        "startChar": 8,
+        "endLine": 213,
+        "endChar": 41
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2bbfa33_38347c6b",
         "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
         "patchSetId": 1
@@ -326,6 +560,30 @@
       "writtenOn": "2021-04-07T09:38:44Z",
       "side": 1,
       "message": "Why only the first?",
+      "range": {
+        "startLine": 474,
+        "startChar": 46,
+        "endLine": 474,
+        "endChar": 76
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e0a20d1_dd5582c7",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "This I forgot to clean-up :-)\n\nSo the thing is, this is called only from byAccountId in this class which always sets only one reviewer. Why? Unclear, we can probably refactor this to set all of them at once instead of calling this class multiple times.\n\nAnyway, I guess I\u0027ll just force deleting only one reviewer (deleting multiple reviewers still works by calling it multiple times).\n\nBtw I was thinking to extract some logic here to a method but ended up not doing that since the \"op\" is a final variable, so I\u0027d need to make it not final for that and add a getter for it, I feel like it\u0027s okay now.",
+      "parentUuid": "b2bbfa33_38347c6b",
       "range": {
         "startLine": 474,
         "startChar": 46,
@@ -353,6 +611,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4682be46_bc0184c3",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "I\u0027ll add an assertion - can\u0027t ever happen.",
+      "parentUuid": "ca3131e8_26a3fb9d",
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9dab2354_515e4009",
@@ -366,6 +642,30 @@
       "writtenOn": "2021-04-07T09:38:44Z",
       "side": 1,
       "message": "Why only the first?",
+      "range": {
+        "startLine": 476,
+        "startChar": 53,
+        "endLine": 476,
+        "endChar": 90
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19ead780_95b09d87",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dab2354_515e4009",
       "range": {
         "startLine": 476,
         "startChar": 53,
@@ -399,6 +699,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eee19894_a48e0285",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15b33809_816bfafc",
+      "range": {
+        "startLine": 549,
+        "startChar": 20,
+        "endLine": 549,
+        "endChar": 44
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa3e9602_fceb72dd",
@@ -412,6 +736,30 @@
       "writtenOn": "2021-04-07T09:38:44Z",
       "side": 1,
       "message": "nit: add comments for the boolean flags",
+      "range": {
+        "startLine": 706,
+        "startChar": 67,
+        "endLine": 707,
+        "endChar": 73
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ad9054e_fafdcc1c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa3e9602_fceb72dd",
       "range": {
         "startLine": 706,
         "startChar": 67,
@@ -445,6 +793,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b44125e_c145e7ee",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b77ff3c3_3dd99289",
+      "range": {
+        "startLine": 838,
+        "startChar": 57,
+        "endLine": 838,
+        "endChar": 62
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "972d612a_99bff60d",
@@ -458,6 +830,30 @@
       "writtenOn": "2021-04-07T09:38:44Z",
       "side": 1,
       "message": "ReviewerModifier?",
+      "range": {
+        "startLine": 755,
+        "startChar": 77,
+        "endLine": 755,
+        "endChar": 88
+      },
+      "revId": "4efe084e9ea51076a4856ad5583af0913eed366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e69b698_588f95cd",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-16T11:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "972d612a_99bff60d",
       "range": {
         "startLine": 755,
         "startChar": 77,

@@ -52,9 +52,26 @@ public class EventJsonTest {
 
   private final Gson gson = new EventGsonProvider().get();
 
+  static class CustomEvent extends Event {
+    static String TYPE = "custom-type";
+
+    protected CustomEvent() {
+      super(TYPE);
+    }
+  }
+
   @Before
   public void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+  }
+
+  @Test
+  public void customEvent() {
+    Event event = new CustomEvent();
+    String json = gson.toJson(event, Event.class);
+    Map<Object, Object> map =
+        gson.fromJson(json, new TypeToken<Map<Object, Object>>() {}.getType());
+    assertThat(map.values()).contains(CustomEvent.TYPE);
   }
 
   @Test

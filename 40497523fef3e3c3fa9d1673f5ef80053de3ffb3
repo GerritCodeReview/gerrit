@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c11c9512_5e692285",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-16T06:35:47Z",
+      "side": 1,
+      "message": "I added your test for custom event serialization in its own change 303514. As explained in the commit of this change message: custom events serialization works as-is in:\n\n* gerrit core\n* gerrit plugin\n\nI tried to explain in the commit message, the problem only shows up in inter-plugin communication scenario. Because the plugins have isolated classloader. Class for custom event created in one plugin is not accessible in another plugin.\n\nWhat this change is actually doing is kind of Plugin API, where we create a custom event class in plugin A, register this event in gerrit core using:\n\n  EventTypes.register(CustomEvent.TYPE, CustomEvent.class);\n\nand try to use that class and serialize the event instance as JSON in plugin B.\n\n\u003e Gerrit multi-site isn\u0027t a core plugin and it won\u0027t be obvious for people to realise they are breaking it. \n\nBut we added the multi-site related usage annotation:\n\n  @UsedAt(UsedAt.Project.PLUGIN_MULTI_SITE)\n  class EventSerializer implements JsonSerializer\u003cEvent\u003e {\n  [...]\n\nMy understanding is, it cannot be removed, until multi-site plugin is discontinued, isn\u0027t it?",
+      "parentUuid": "3bbc4345_b1ff4806",
+      "revId": "40497523fef3e3c3fa9d1673f5ef80053de3ffb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33c7fa45_94ac574e",
         "filename": "java/com/google/gerrit/server/events/EventSerializer.java",
         "patchSetId": 3

@@ -33,7 +33,6 @@ import {htmlTemplate} from './gr-file-list_html';
 import {asyncForeach, debounce, DelayedTask} from '../../../utils/async-util';
 import {
   KeyboardShortcutMixin,
-  Modifier,
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {FilesExpandedState} from '../gr-file-list-constants';
@@ -47,7 +46,12 @@ import {
   ScrollMode,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {descendedFromClass, toggleClass} from '../../../utils/dom-util';
+import {
+  descendedFromClass,
+  getKeyboardEvent,
+  isShiftPressed,
+  toggleClass,
+} from '../../../utils/dom-util';
 import {
   addUnmodifiedFiles,
   computeDisplayPath,
@@ -924,7 +928,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       this._displayLine = true;
     } else {
       // Down key
-      if (this.getKeyboardEvent(e).keyCode === 40) {
+      if (getKeyboardEvent(e).keyCode === 40) {
         return;
       }
       e.preventDefault();
@@ -944,7 +948,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       this._displayLine = true;
     } else {
       // Up key
-      if (this.getKeyboardEvent(e).keyCode === 38) {
+      if (getKeyboardEvent(e).keyCode === 38) {
         return;
       }
       e.preventDefault();
@@ -964,10 +968,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   _handleOpenLastFile(e: CustomKeyboardEvent) {
     // Check for meta key to avoid overriding native chrome shortcut.
-    if (
-      this.shouldSuppressKeyboardShortcut(e) ||
-      this.getKeyboardEvent(e).metaKey
-    ) {
+    if (this.shouldSuppressKeyboardShortcut(e) || getKeyboardEvent(e).metaKey) {
       return;
     }
 
@@ -977,10 +978,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   _handleOpenFirstFile(e: CustomKeyboardEvent) {
     // Check for meta key to avoid overriding native chrome shortcut.
-    if (
-      this.shouldSuppressKeyboardShortcut(e) ||
-      this.getKeyboardEvent(e).metaKey
-    ) {
+    if (this.shouldSuppressKeyboardShortcut(e) || getKeyboardEvent(e).metaKey) {
       return;
     }
 
@@ -1005,15 +1003,14 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   _handleNextChunk(e: CustomKeyboardEvent) {
     if (
       this.shouldSuppressKeyboardShortcut(e) ||
-      (this.modifierPressed(e) &&
-        !this.isModifierPressed(e, Modifier.SHIFT_KEY)) ||
+      (this.modifierPressed(e) && !isShiftPressed(e)) ||
       this._noDiffsExpanded()
     ) {
       return;
     }
 
     e.preventDefault();
-    if (this.isModifierPressed(e, Modifier.SHIFT_KEY)) {
+    if (isShiftPressed(e)) {
       this.$.diffCursor.moveToNextCommentThread();
     } else {
       this.$.diffCursor.moveToNextChunk();
@@ -1023,15 +1020,14 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   _handlePrevChunk(e: CustomKeyboardEvent) {
     if (
       this.shouldSuppressKeyboardShortcut(e) ||
-      (this.modifierPressed(e) &&
-        !this.isModifierPressed(e, Modifier.SHIFT_KEY)) ||
+      (this.modifierPressed(e) && !isShiftPressed(e)) ||
       this._noDiffsExpanded()
     ) {
       return;
     }
 
     e.preventDefault();
-    if (this.isModifierPressed(e, Modifier.SHIFT_KEY)) {
+    if (isShiftPressed(e)) {
       this.$.diffCursor.moveToPreviousCommentThread();
     } else {
       this.$.diffCursor.moveToPreviousChunk();

@@ -31,4 +31,5 @@ export enum KnownExperimentId {
   NEW_CHANGE_SUMMARY_UI = 'UiFeature__new_change_summary_ui',
   NEW_IMAGE_DIFF_UI = 'UiFeature__new_image_diff_ui',
   COMMENT_CONTEXT = 'UiFeature__comment_context',
+  TOKEN_HIGHLIGHTING = 'UiFeature__token_highlighting',
 }

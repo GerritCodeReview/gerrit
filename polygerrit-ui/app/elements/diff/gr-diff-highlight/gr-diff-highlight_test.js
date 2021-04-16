@@ -438,7 +438,7 @@ suite('gr-diff-highlight', () => {
       const contentText = stubContent(140, 'left');
       const contentTd = contentText.parentElement;
 
-      emulateSelection(contentTd.previousElementSibling, 0,
+      emulateSelection(contentTd.parentElement, 0,
           contentText.firstChild, 2);
       assert.isFalse(!!element.selectedRange);
     });
@@ -581,21 +581,6 @@ suite('gr-diff-highlight', () => {
         start_character: 0,
         end_line: 119,
         end_character: element._getLength(startContent),
-      });
-      assert.equal(side, 'right');
-    });
-
-    test('_fixTripleClickSelection empty line', () => {
-      const startContent = stubContent(146, 'right');
-      const endContent = stubContent(165, 'left');
-      emulateSelection(startContent.firstChild, 0,
-          endContent.parentElement.previousElementSibling, 0);
-      const {range, side} = element.selectedRange;
-      assert.deepEqual(range, {
-        start_line: 146,
-        start_character: 0,
-        end_line: 146,
-        end_character: 84,
       });
       assert.equal(side, 'right');
     });

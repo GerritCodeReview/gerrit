@@ -29,6 +29,7 @@ import {htmlTemplate} from './gr-diff_html';
 import {LineNumber} from './gr-diff-line';
 import {
   getLine,
+  getLineElByChild,
   getLineNumber,
   getRange,
   getSide,
@@ -543,7 +544,7 @@ export class GrDiff extends PolymerElement {
       el.classList.contains('content') ||
       el.classList.contains('contentText')
     ) {
-      const target = this.$.diffBuilder.getLineElByChild(el);
+      const target = getLineElByChild(el);
       if (target) {
         this._selectLine(target);
       }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7ff221b_d4e845a6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T07:25:49Z",
+      "side": 1,
+      "message": "[optional] maybe \"modifying a reviewer on the a change\"?\n\nI didn\u0027t check if that\u0027s maybe already done in one of the follow-up changes.",
+      "range": {
+        "startLine": 6275,
+        "startChar": 52,
+        "endLine": 6276,
+        "endChar": 6
+      },
+      "revId": "d8e90f35eab4ddd57646b37fbde5f37e2b0bfeb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f37b54e_62912658",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T07:25:49Z",
+      "side": 1,
+      "message": "nit: These sections are sorted alphabetically, since the \"Add\" prefix was removed this section needs to be moved further down now.",
+      "range": {
+        "startLine": 6273,
+        "startChar": 0,
+        "endLine": 6276,
+        "endChar": 7
+      },
+      "revId": "d8e90f35eab4ddd57646b37fbde5f37e2b0bfeb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67b87c33_3c6085c7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7823,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T07:25:49Z",
+      "side": 1,
+      "message": "[optional] update this if not already done in a follow-up change",
+      "range": {
+        "startLine": 7822,
+        "startChar": 0,
+        "endLine": 7823,
+        "endChar": 47
+      },
+      "revId": "d8e90f35eab4ddd57646b37fbde5f37e2b0bfeb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

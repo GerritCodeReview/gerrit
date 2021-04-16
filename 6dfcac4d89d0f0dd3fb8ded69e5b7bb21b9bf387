@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a96f138_724b3e2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-16T07:59:49Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "bd08f1a2_b262945c",
+      "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69fc5980_e848a514",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-04-15T14:25:56Z",
       "side": 1,
       "message": "The attempt circle is barely visible with --gray-background: var(--gray100);\n\nThanks for bringing this up in the specs, let\u0027s align the attempt circle colors with Tag style.\n\nTag Light:\n--tag-gray: var(--gray-200);\n\nTag Dark:\n--tag-gray: var(--gray-tonal);",
+      "range": {
+        "startLine": 118,
+        "startChar": 32,
+        "endLine": 118,
+        "endChar": 49
+      },
+      "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc4d715e_1b9c964e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-16T07:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69fc5980_e848a514",
       "range": {
         "startLine": 118,
         "startChar": 32,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9167ec2_5cc4e0bb",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-16T07:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "609689fe_d4ea5b4c",
+      "range": {
+        "startLine": 157,
+        "startChar": 26,
+        "endLine": 157,
+        "endChar": 29
+      },
+      "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45f23778_9f2b5d46",
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dc46366_a7c42d6d",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-16T07:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45f23778_9f2b5d46",
+      "range": {
+        "startLine": 161,
+        "startChar": 23,
+        "endLine": 161,
+        "endChar": 26
+      },
+      "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b89159ff_3e0cd103",
@@ -100,6 +190,30 @@
       "writtenOn": "2021-04-16T07:33:07Z",
       "side": 1,
       "message": "Here I assume undefined is not latest as in elements, so (b.attempt ?? -1) is better than (b.attempt ?? Number.MAX_VALUE)",
+      "range": {
+        "startLine": 420,
+        "startChar": 54,
+        "endLine": 420,
+        "endChar": 56
+      },
+      "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "319a44e2_f185b1f2",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-16T07:59:49Z",
+      "side": 1,
+      "message": "Added a comment that this does not really matter.",
+      "parentUuid": "b89159ff_3e0cd103",
       "range": {
         "startLine": 420,
         "startChar": 54,

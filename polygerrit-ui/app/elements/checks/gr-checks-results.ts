@@ -40,7 +40,6 @@ import {
   allActions$,
   checksPatchsetNumber$,
   someProvidersAreLoading$,
-  checksWithMultipleAttempts$,
   RunResult,
   CheckRun,
 } from '../../services/checks/checks-model';
@@ -61,7 +60,7 @@ import {
 import {toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly, pluralize} from '../../utils/string-util';
-import {fireRunSelectionReset} from './gr-checks-util';
+import {fireRunSelectionReset, isSelected} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {PatchSetNumber} from '../../types/common';
 import {latestPatchNum$} from '../../services/change/change-model';
@@ -77,9 +76,6 @@ class GrResultRow extends GrLitElement {
 
   @property({type: Boolean, reflect: true})
   isExpandable = false;
-
-  @property()
-  showAttempt = false;
 
   @property()
   shouldRender = false;
@@ -117,7 +113,14 @@ class GrResultRow extends GrLitElement {
           text-overflow: ellipsis;
         }
         .nameCol .attempt {
-          color: var(--deemphasized-text-color);
+          display: inline-block;
+          background-color: var(--tag-gray);
+          border-radius: var(--line-height-normal);
+          height: var(--line-height-normal);
+          width: var(--line-height-normal);
+          text-align: center;
+          vertical-align: top;
+          font-size: var(--font-size-small);
         }
         .summaryCol {
           /* Forces this column to get the remaining space that is left over by
@@ -259,8 +262,8 @@ class GrResultRow extends GrLitElement {
         <td class="nameCol">
           <div>
             <span>${this.result.checkName}</span>
-            <span class="attempt" ?hidden="${!this.showAttempt}"
-              >[${this.result.attempt}]</span
+            <span class="attempt" ?hidden="${this.result.isSingleAttempt}"
+              >${this.result.attempt}</span
             >
           </div>
         </td>
@@ -457,9 +460,6 @@ export class GrChecksResults extends GrLitElement {
   @internalProperty()
   filterRegExp = new RegExp('');
 
-  @internalProperty()
-  checksWithMultipleAttempts: string[] = [];
-
   @property()
   runs: CheckRun[] = [];
 
@@ -486,6 +486,13 @@ export class GrChecksResults extends GrLitElement {
   @property()
   selectedRunsCount = 0;
 
+  /** Maps checkName to selected attempt number. `undefined` means `latest`. */
+  @property()
+  selectedAttempts: Map<string, number | undefined> = new Map<
+    string,
+    number | undefined
+  >();
+
   /**
    * This is the current state of whether a section is expanded or not. As long
    * as isSectionExpandedByUser is false this will be computed by a default rule
@@ -508,7 +515,6 @@ export class GrChecksResults extends GrLitElement {
     this.subscribe('checksPatchsetNumber', checksPatchsetNumber$);
     this.subscribe('latestPatchsetNumber', latestPatchNum$);
     this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
-    this.subscribe('checksWithMultipleAttempts', checksWithMultipleAttempts$);
   }
 
   static get styles() {
@@ -749,7 +755,10 @@ export class GrChecksResults extends GrLitElement {
   }
 
   renderFilter() {
-    if (this.selectedRunsCount === 0 && allResults(this.runs).length <= 3) {
+    const runs = this.runs.filter(run =>
+      isSelected(this.selectedAttempts, run)
+    );
+    if (this.selectedRunsCount === 0 && allResults(runs).length <= 3) {
       if (this.filterRegExp.source.length > 0) {
         this.filterRegExp = new RegExp('');
       }
@@ -792,7 +801,7 @@ export class GrChecksResults extends GrLitElement {
 
   renderSection(category: Category | 'SUCCESS') {
     const catString = category.toString().toLowerCase();
-    let runs = this.runs;
+    let runs = this.runs.filter(run => isSelected(this.selectedAttempts, run));
     if (category === 'SUCCESS') {
       runs = runs.filter(hasCompletedWithoutResults);
     } else {
@@ -869,9 +878,6 @@ export class GrChecksResults extends GrLitElement {
               <gr-result-row
                 class="${charsOnly(result.checkName)}"
                 .result="${result}"
-                .showAttempt="${this.checksWithMultipleAttempts.includes(
-                  result.checkName
-                )}"
               ></gr-result-row>
             `
           )}

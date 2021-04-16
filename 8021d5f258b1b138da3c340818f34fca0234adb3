@@ -1,0 +1,262 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86c53cd7_0479e797",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "super-nit: putting blank lines between paragraphs makes the message easier to read",
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b649cd60_2448df2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "This was the case before. Maybe just state that it now contains account numbers in that form?",
+      "range": {
+        "startLine": 16,
+        "startChar": 35,
+        "endLine": 16,
+        "endChar": 55
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "856b599b_d7b7bef9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "I thought we wanted the frontend to fill this in exclusively?\n\nIs this a left over from the prior version?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 7
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d150a898_33fe5371",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "Nice progress :-)",
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "537978fa_e6a9cf9e",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "nit: lower case user identifiable information",
+      "range": {
+        "startLine": 30,
+        "startChar": 56,
+        "endLine": 30,
+        "endChar": 57
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b24baa20_3496abeb",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "nit: {@link Account.Id}s",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 17
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a53b140f_c9b359c0",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "nit: s/for/from/\n\nor\n\naccountIdsInMessage",
+      "range": {
+        "startLine": 96,
+        "startChar": 37,
+        "endLine": 96,
+        "endChar": 40
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fe94f7b_36d60538",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "nit: extra blank",
+      "range": {
+        "startLine": 123,
+        "startChar": 13,
+        "endLine": 123,
+        "endChar": 14
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae6e2457_c1653e15",
+        "filename": "java/com/google/gerrit/entities/converter/ChangeMessageProtoConverter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "Please see my comment in entity.proto about leaving this as-is.",
+      "range": {
+        "startLine": 60,
+        "startChar": 36,
+        "endLine": 60,
+        "endChar": 58
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6421a606_91f8bd3a",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "Please add a TODO here to remind us about the deprecation and use the experiment provider to gate the replacement so that we can experiment with the deprecation as discussed.",
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2318b78b_79cb8fab",
+        "filename": "java/com/google/gerrit/server/change/WorkInProgressOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "Why are the changes related to the timestamp necessary?",
+      "range": {
+        "startLine": 148,
+        "startChar": 12,
+        "endLine": 148,
+        "endChar": 26
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d9edb0d_5b9f898a",
+        "filename": "proto/entities.proto",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "Please drop this. We can parse it at anytime from the string message and there is no need to cache this parsing (it\u0027s fast).\n\nIf we change the entity here, we need to flush the cache and we generally try to only cache what is necessary to cache.",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 48
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -254,6 +254,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e0015bd_f3d93960",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T08:49:04Z",
+      "side": 1,
+      "message": "Thanks!\n\n\u003e Serve full message in ChangeMessageAPI, I think it is a legacy endpoint and we can eventually deprecate it.\n\nLooking forward to that deprecation (or at least deprecating the template replacement) :-)\n\n\u003e We still have to index on Change Messages, because some of the endpoints incorporate user input as part of ChangeMessage e.g. AbandonOperation and similar:\n\nRight, we have to index it. But can we index the templates instead of the replacements? I\u0027d like to get rid of the template filling in the backend as soon as possible.\n\n\u003e _gerrit-account-id would only represent registered gerrit users. We will continue to record email addresses for unregistered users as they are today, and serve in APIs\n\nThat\u0027s OK. We want to remove any trace of users who have registered and later on decided to delete their account. We don\u0027t need to prevent other users from typing in random email addresses we don\u0027t have on file.\n\n\u003e At this point, we do not need other templates (like gerrit-change-id:1234), if we need them in the future, we can add in a similar way?\n\nI think we are fine for now. Changes are not user data. We currently already linkify IHash change IDs I123123123.",
+      "parentUuid": "69c239fb_683fb7d1",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

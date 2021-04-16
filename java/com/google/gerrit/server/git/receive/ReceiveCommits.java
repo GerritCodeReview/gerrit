@@ -1675,7 +1675,7 @@ class ReceiveCommits {
      * account IDs computed from the commit message itself.
      *
      * @param additionalRecipients recipients parsed from the commit.
-     * @return set of reviewer strings to pass to {@code ReviewerAdder}.
+     * @return set of reviewer strings to pass to {@code ReviewerModifier}.
      */
     ImmutableSet<String> getCombinedReviewers(MailRecipients additionalRecipients) {
       return getCombinedReviewers(reviewer, additionalRecipients.getReviewers());
@@ -1689,7 +1689,7 @@ class ReceiveCommits {
      * account IDs computed from the commit message itself.
      *
      * @param additionalRecipients recipients parsed from the commit.
-     * @return set of CC strings to pass to {@code ReviewerAdder}.
+     * @return set of CC strings to pass to {@code ReviewerModifier}.
      */
     ImmutableSet<String> getCombinedCcs(MailRecipients additionalRecipients) {
       return getCombinedReviewers(cc, additionalRecipients.getCcOnly());

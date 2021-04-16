@@ -15,9 +15,9 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -32,8 +32,8 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerModifier;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -53,7 +53,7 @@ public class PutAssignee
   private final BatchUpdate.Factory updateFactory;
   private final AccountResolver accountResolver;
   private final SetAssigneeOp.Factory assigneeFactory;
-  private final ReviewerAdder reviewerAdder;
+  private final ReviewerModifier reviewerModifier;
   private final AccountLoader.Factory accountLoaderFactory;
   private final PermissionBackend permissionBackend;
   private final ApprovalsUtil approvalsUtil;
@@ -63,14 +63,14 @@ public class PutAssignee
       BatchUpdate.Factory updateFactory,
       AccountResolver accountResolver,
       SetAssigneeOp.Factory assigneeFactory,
-      ReviewerAdder reviewerAdder,
+      ReviewerModifier reviewerModifier,
       AccountLoader.Factory accountLoaderFactory,
       PermissionBackend permissionBackend,
       ApprovalsUtil approvalsUtil) {
     this.updateFactory = updateFactory;
     this.accountResolver = accountResolver;
     this.assigneeFactory = assigneeFactory;
-    this.reviewerAdder = reviewerAdder;
+    this.reviewerModifier = reviewerModifier;
     this.accountLoaderFactory = accountLoaderFactory;
     this.permissionBackend = permissionBackend;
     this.approvalsUtil = approvalsUtil;
@@ -104,7 +104,7 @@ public class PutAssignee
 
       ReviewerSet currentReviewers = approvalsUtil.getReviewers(rsrc.getNotes());
       if (!currentReviewers.all().contains(assignee.getAccountId())) {
-        ReviewerAddition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
+        ReviewerModification reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
         reviewersAddition.op.suppressEmail();
         bu.addOp(rsrc.getId(), reviewersAddition.op);
       }
@@ -114,14 +114,14 @@ public class PutAssignee
     }
   }
 
-  private ReviewerAddition addAssigneeAsCC(ChangeResource rsrc, String assignee)
+  private ReviewerModification addAssigneeAsCC(ChangeResource rsrc, String assignee)
       throws IOException, PermissionBackendException, ConfigInvalidException {
-    AddReviewerInput reviewerInput = new AddReviewerInput();
+    ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = assignee;
     reviewerInput.state = ReviewerState.CC;
     reviewerInput.confirmed = true;
     reviewerInput.notify = NotifyHandling.NONE;
-    return reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), reviewerInput, false);
+    return reviewerModifier.prepare(rsrc.getNotes(), rsrc.getUser(), reviewerInput, false);
   }
 
   @Override

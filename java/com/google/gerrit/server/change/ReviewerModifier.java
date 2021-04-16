@@ -39,10 +39,10 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -85,7 +85,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class ReviewerAdder {
+public class ReviewerModifier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
@@ -102,9 +102,9 @@ public class ReviewerAdder {
   }
 
   // TODO(dborowitz): Subclassing is not the right way to do this. We should instead use an internal
-  // type in the public interfaces of ReviewerAdder, rather than passing around the REST API type
+  // type in the public interfaces of ReviewerModifier, rather than passing around the REST API type
   // internally.
-  public static class InternalAddReviewerInput extends AddReviewerInput {
+  public static class InternalReviewerInput extends ReviewerInput {
     /**
      * Behavior when identifying reviewers fails for any reason <em>besides</em> the input not
      * resolving to an account/group/email.
@@ -112,22 +112,16 @@ public class ReviewerAdder {
     public FailureBehavior otherFailureBehavior = FailureBehavior.FAIL;
   }
 
-  public static InternalAddReviewerInput newAddReviewerInput(
-      Account.Id reviewer, ReviewerState state, NotifyHandling notify) {
-    // AccountResolver always resolves by ID if the input string is numeric.
-    return newAddReviewerInput(reviewer.toString(), state, notify);
-  }
-
-  public static InternalAddReviewerInput newAddReviewerInput(
+  public static InternalReviewerInput newReviewerInput(
       String reviewer, ReviewerState state, NotifyHandling notify) {
-    InternalAddReviewerInput in = new InternalAddReviewerInput();
+    InternalReviewerInput in = new InternalReviewerInput();
     in.reviewer = reviewer;
     in.state = state;
     in.notify = notify;
     return in;
   }
 
-  public static Optional<InternalAddReviewerInput> newAddReviewerInputFromCommitIdentity(
+  public static Optional<InternalReviewerInput> newReviewerInputFromCommitIdentity(
       Change change,
       ObjectId commitId,
       @Nullable Account.Id accountId,
@@ -142,7 +136,7 @@ public class ReviewerAdder {
         "Adding account %d from author/committer identity of commit %s as cc to change %d",
         accountId.get(), commitId.name(), change.getChangeId());
 
-    InternalAddReviewerInput in = new InternalAddReviewerInput();
+    InternalReviewerInput in = new InternalReviewerInput();
     in.reviewer = accountId.toString();
     in.state = CC;
     in.notify = notify;
@@ -163,7 +157,7 @@ public class ReviewerAdder {
   private final OutgoingEmailValidator validator;
 
   @Inject
-  ReviewerAdder(
+  ReviewerModifier(
       AccountResolver accountResolver,
       PermissionBackend permissionBackend,
       GroupResolver groupResolver,
@@ -189,7 +183,7 @@ public class ReviewerAdder {
   }
 
   /**
-   * Prepare application of a single {@link AddReviewerInput}.
+   * Prepare application of a single {@link ReviewerInput}.
    *
    * @param notes change notes.
    * @param user user performing the reviewer addition.
@@ -202,8 +196,8 @@ public class ReviewerAdder {
    * @throws PermissionBackendException
    * @throws ConfigInvalidException
    */
-  public ReviewerAddition prepare(
-      ChangeNotes notes, CurrentUser user, AddReviewerInput input, boolean allowGroup)
+  public ReviewerModification prepare(
+      ChangeNotes notes, CurrentUser user, ReviewerInput input, boolean allowGroup)
       throws IOException, PermissionBackendException, ConfigInvalidException {
     try (TraceContext.TraceTimer ignored =
         TraceContext.newTimer(getClass().getSimpleName() + "#prepare", Metadata.empty())) {
@@ -215,9 +209,9 @@ public class ReviewerAdder {
               .orElseThrow(illegalState(notes.getProjectName()))
               .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
 
-      ReviewerAddition byAccountId = addByAccountId(input, notes, user);
+      ReviewerModification byAccountId = addByAccountId(input, notes, user);
 
-      ReviewerAddition wholeGroup = null;
+      ReviewerModification wholeGroup = null;
       if (!byAccountId.exactMatchFound) {
         wholeGroup = addWholeGroup(input, notes, user, confirmed, allowGroup, allowByEmail);
         if (wholeGroup != null && wholeGroup.exactMatchFound) {
@@ -245,9 +239,9 @@ public class ReviewerAdder {
     }
   }
 
-  public ReviewerAddition ccCurrentUser(CurrentUser user, RevisionResource revision) {
-    return new ReviewerAddition(
-        newAddReviewerInput(user.getUserName().orElse(null), CC, NotifyHandling.NONE),
+  public ReviewerModification ccCurrentUser(CurrentUser user, RevisionResource revision) {
+    return new ReviewerModification(
+        newReviewerInput(user.getUserName().orElse(null), CC, NotifyHandling.NONE),
         revision.getNotes(),
         revision.getUser(),
         ImmutableSet.of(user.getAccountId()),
@@ -257,8 +251,8 @@ public class ReviewerAdder {
   }
 
   @Nullable
-  private ReviewerAddition addByAccountId(
-      AddReviewerInput input, ChangeNotes notes, CurrentUser user)
+  private ReviewerModification addByAccountId(
+      ReviewerInput input, ChangeNotes notes, CurrentUser user)
       throws PermissionBackendException, IOException, ConfigInvalidException {
     IdentifiedUser reviewerUser;
     boolean exactMatchFound = false;
@@ -275,7 +269,7 @@ public class ReviewerAdder {
     }
 
     if (isValidReviewer(notes.getChange().getDest(), reviewerUser.getAccount())) {
-      return new ReviewerAddition(
+      return new ReviewerModification(
           input,
           notes,
           user,
@@ -291,8 +285,8 @@ public class ReviewerAdder {
   }
 
   @Nullable
-  private ReviewerAddition addWholeGroup(
-      AddReviewerInput input,
+  private ReviewerModification addWholeGroup(
+      ReviewerInput input,
       ChangeNotes notes,
       CurrentUser user,
       boolean confirmed,
@@ -366,11 +360,11 @@ public class ReviewerAdder {
       }
     }
 
-    return new ReviewerAddition(input, notes, user, reviewers, null, true, true);
+    return new ReviewerModification(input, notes, user, reviewers, null, true, true);
   }
 
   @Nullable
-  private ReviewerAddition addByEmail(AddReviewerInput input, ChangeNotes notes, CurrentUser user)
+  private ReviewerModification addByEmail(ReviewerInput input, ChangeNotes notes, CurrentUser user)
       throws PermissionBackendException {
     try {
       permissionBackend.user(anonymousProvider.get()).change(notes).check(ChangePermission.READ);
@@ -388,7 +382,7 @@ public class ReviewerAdder {
           FailureType.NOT_FOUND,
           MessageFormat.format(ChangeMessages.get().reviewerInvalid, input.reviewer));
     }
-    return new ReviewerAddition(input, notes, user, null, ImmutableList.of(adr), true, false);
+    return new ReviewerModification(input, notes, user, null, ImmutableList.of(adr), true, false);
   }
 
   private boolean isValidReviewer(BranchNameKey branch, Account member)
@@ -404,32 +398,32 @@ public class ReviewerAdder {
     }
   }
 
-  private ReviewerAddition fail(AddReviewerInput input, FailureType failureType, String error) {
+  private ReviewerModification fail(ReviewerInput input, FailureType failureType, String error) {
     return fail(input, failureType, false, error);
   }
 
-  private ReviewerAddition fail(
-      AddReviewerInput input, FailureType failureType, boolean confirm, String error) {
-    ReviewerAddition addition = new ReviewerAddition(input, failureType);
+  private ReviewerModification fail(
+      ReviewerInput input, FailureType failureType, boolean confirm, String error) {
+    ReviewerModification addition = new ReviewerModification(input, failureType);
     addition.result.confirm = confirm ? true : null;
     addition.result.error = error;
     return addition;
   }
 
-  public class ReviewerAddition {
-    public final AddReviewerResult result;
+  public class ReviewerModification {
+    public final ReviewerResult result;
     @Nullable public final AddReviewersOp op;
     public final ImmutableSet<Account.Id> reviewers;
     public final ImmutableSet<Address> reviewersByEmail;
     @Nullable final IdentifiedUser caller;
     final boolean exactMatchFound;
-    private final AddReviewerInput input;
+    private final ReviewerInput input;
     @Nullable private final FailureType failureType;
 
-    private ReviewerAddition(AddReviewerInput input, FailureType failureType) {
+    private ReviewerModification(ReviewerInput input, FailureType failureType) {
       this.input = input;
       this.failureType = requireNonNull(failureType);
-      result = new AddReviewerResult(input.reviewer);
+      result = new ReviewerResult(input.reviewer);
       op = null;
       reviewers = ImmutableSet.of();
       reviewersByEmail = ImmutableSet.of();
@@ -437,8 +431,8 @@ public class ReviewerAdder {
       exactMatchFound = false;
     }
 
-    private ReviewerAddition(
-        AddReviewerInput input,
+    private ReviewerModification(
+        ReviewerInput input,
         ChangeNotes notes,
         CurrentUser caller,
         @Nullable Iterable<Account.Id> reviewers,
@@ -451,7 +445,7 @@ public class ReviewerAdder {
 
       this.input = input;
       this.failureType = null;
-      result = new AddReviewerResult(input.reviewer);
+      result = new ReviewerResult(input.reviewer);
       // Always silently ignore adding the owner as any type of reviewer on their own change. They
       // may still be implicitly added as a reviewer if they vote, but not via the reviewer API.
       this.reviewers = omitOwner(notes, reviewers);
@@ -515,8 +509,8 @@ public class ReviewerAdder {
     public boolean isIgnorableFailure() {
       checkState(failureType != null);
       FailureBehavior behavior =
-          (input instanceof InternalAddReviewerInput)
-              ? ((InternalAddReviewerInput) input).otherFailureBehavior
+          (input instanceof InternalReviewerInput)
+              ? ((InternalReviewerInput) input).otherFailureBehavior
               : FailureBehavior.FAIL;
       return failureType == FailureType.OTHER && behavior == FailureBehavior.IGNORE;
     }
@@ -526,10 +520,10 @@ public class ReviewerAdder {
     return !SystemGroupBackend.isSystemGroup(groupUUID);
   }
 
-  public ReviewerAdditionList prepare(
+  public ReviewerModificationList prepare(
       ChangeNotes notes,
       CurrentUser user,
-      Iterable<? extends AddReviewerInput> inputs,
+      Iterable<? extends ReviewerInput> inputs,
       boolean allowGroup)
       throws IOException, PermissionBackendException, ConfigInvalidException {
     // Process CC ops before reviewer ops, so a user that appears in both lists ends up as a
@@ -539,39 +533,39 @@ public class ReviewerAdder {
     // TODO(dborowitz): Consider changing interface to allow excluding reviewers that were
     // previously processed, to proactively prevent overlap so we don't have to rely on this subtle
     // behavior.
-    ImmutableList<AddReviewerInput> sorted =
+    ImmutableList<ReviewerInput> sorted =
         Streams.stream(inputs)
             .sorted(
                 comparing(
-                    AddReviewerInput::state,
+                    ReviewerInput::state,
                     Ordering.explicit(ReviewerState.CC, ReviewerState.REVIEWER)))
             .collect(toImmutableList());
-    List<ReviewerAddition> additions = new ArrayList<>();
-    for (AddReviewerInput input : sorted) {
-      ReviewerAddition addition = prepare(notes, user, input, allowGroup);
+    List<ReviewerModification> additions = new ArrayList<>();
+    for (ReviewerInput input : sorted) {
+      ReviewerModification addition = prepare(notes, user, input, allowGroup);
       if (addition.op != null) {
         // Assume any callers preparing a list of batch insertions are handling their own email.
         addition.op.suppressEmail();
       }
       additions.add(addition);
     }
-    return new ReviewerAdditionList(additions);
+    return new ReviewerModificationList(additions);
   }
 
   // TODO(dborowitz): This class works, but ultimately feels wrong. It seems like an op but isn't
   // really an op, it's a collection of ops, and it's only called from the body of other ops. We
   // could make this class an op, but we would still have AddReviewersOp. Better would probably be
-  // to design a single op that supports combining multiple AddReviewerInputs together. That would
+  // to design a single op that supports combining multiple ReviewerInputs together. That would
   // probably also subsume the Addition class itself, which would be a good thing.
-  public static class ReviewerAdditionList {
-    private final ImmutableList<ReviewerAddition> additions;
+  public static class ReviewerModificationList {
+    private final ImmutableList<ReviewerModification> modifications;
 
-    private ReviewerAdditionList(List<ReviewerAddition> additions) {
-      this.additions = ImmutableList.copyOf(additions);
+    private ReviewerModificationList(List<ReviewerModification> modifications) {
+      this.modifications = ImmutableList.copyOf(modifications);
     }
 
-    public ImmutableList<ReviewerAddition> getFailures() {
-      return additions.stream()
+    public ImmutableList<ReviewerModification> getFailures() {
+      return modifications.stream()
           .filter(a -> a.isFailure() && !a.isIgnorableFailure())
           .collect(toImmutableList());
     }
@@ -580,14 +574,14 @@ public class ReviewerAdder {
 
     public void updateChange(ChangeContext ctx, PatchSet patchSet)
         throws RestApiException, IOException {
-      for (ReviewerAddition addition : additions()) {
+      for (ReviewerModification addition : modifications()) {
         addition.op.setPatchSet(patchSet);
         addition.op.updateChange(ctx);
       }
     }
 
     public void postUpdate(PostUpdateContext ctx) throws Exception {
-      for (ReviewerAddition addition : additions()) {
+      for (ReviewerModification addition : modifications()) {
         if (addition.op != null) {
           addition.op.postUpdate(ctx);
         }
@@ -596,20 +590,20 @@ public class ReviewerAdder {
 
     public <T> ImmutableSet<T> flattenResults(
         Function<AddReviewersOp.Result, ? extends Collection<T>> func) {
-      additions()
+      modifications()
           .forEach(
               a ->
                   checkArgument(
                       a.op != null && a.op.getResult() != null, "missing result on %s", a));
-      return additions().stream()
+      return modifications().stream()
           .map(a -> a.op.getResult())
           .map(func)
           .flatMap(Collection::stream)
           .collect(toImmutableSet());
     }
 
-    private ImmutableList<ReviewerAddition> additions() {
-      return additions.stream()
+    private ImmutableList<ReviewerModification> modifications() {
+      return modifications.stream()
           .filter(
               a -> {
                 if (a.isFailure()) {

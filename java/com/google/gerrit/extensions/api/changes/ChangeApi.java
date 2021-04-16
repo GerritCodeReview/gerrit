@@ -205,13 +205,13 @@ public interface ChangeApi {
 
   IncludedInInfo includedIn() throws RestApiException;
 
-  default AddReviewerResult addReviewer(String reviewer) throws RestApiException {
-    AddReviewerInput in = new AddReviewerInput();
+  default ReviewerResult addReviewer(String reviewer) throws RestApiException {
+    ReviewerInput in = new ReviewerInput();
     in.reviewer = reviewer;
     return addReviewer(in);
   }
 
-  AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException;
+  ReviewerResult addReviewer(ReviewerInput in) throws RestApiException;
 
   SuggestedReviewersRequest suggestReviewers() throws RestApiException;
 
@@ -643,7 +643,7 @@ public interface ChangeApi {
     }
 
     @Override
-    public AddReviewerResult addReviewer(AddReviewerInput in) throws RestApiException {
+    public ReviewerResult addReviewer(ReviewerInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

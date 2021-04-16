@@ -25,10 +25,10 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -59,7 +59,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
 
-      AddReviewerInput input = new AddReviewerInput();
+      ReviewerInput input = new ReviewerInput();
       input.reviewer = toRfcAddressString(acc);
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
@@ -79,12 +79,12 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
 
-      AddReviewerInput inputByEmail = new AddReviewerInput();
+      ReviewerInput inputByEmail = new ReviewerInput();
       inputByEmail.reviewer = toRfcAddressString(byEmail);
       inputByEmail.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(inputByEmail);
 
-      AddReviewerInput inputById = new AddReviewerInput();
+      ReviewerInput inputById = new ReviewerInput();
       inputById.reviewer = user.email();
       inputById.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(inputById);
@@ -103,7 +103,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
 
-      AddReviewerInput input = new AddReviewerInput();
+      ReviewerInput input = new ReviewerInput();
       input.reviewer = toRfcAddressString(acc);
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
@@ -130,7 +130,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
 
-      AddReviewerInput addInput = new AddReviewerInput();
+      ReviewerInput addInput = new ReviewerInput();
       addInput.reviewer = toRfcAddressString(acc);
       addInput.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(addInput);
@@ -148,12 +148,12 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
 
-    AddReviewerInput addInput = new AddReviewerInput();
+    ReviewerInput addInput = new ReviewerInput();
     addInput.reviewer = toRfcAddressString(acc);
     addInput.state = ReviewerState.CC;
     gApi.changes().id(r.getChangeId()).addReviewer(addInput);
 
-    AddReviewerInput modifyInput = new AddReviewerInput();
+    ReviewerInput modifyInput = new ReviewerInput();
     modifyInput.reviewer = addInput.reviewer;
     modifyInput.state = ReviewerState.REVIEWER;
     gApi.changes().id(r.getChangeId()).addReviewer(modifyInput);
@@ -170,7 +170,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
 
-      AddReviewerInput input = new AddReviewerInput();
+      ReviewerInput input = new ReviewerInput();
       input.reviewer = toRfcAddressString(acc);
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
@@ -189,7 +189,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
 
-      AddReviewerInput addInput = new AddReviewerInput();
+      ReviewerInput addInput = new ReviewerInput();
       addInput.reviewer = toRfcAddressString(acc);
       addInput.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(addInput);
@@ -221,7 +221,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
 
-      AddReviewerInput input = new AddReviewerInput();
+      ReviewerInput input = new ReviewerInput();
       input.reviewer = toRfcAddressString(acc);
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
@@ -241,7 +241,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       for (int i = 0; i < 10; i++) {
-        AddReviewerInput input = new AddReviewerInput();
+        ReviewerInput input = new ReviewerInput();
         input.reviewer = String.format("%s-%s@gerritcodereview.com", state, i);
         input.state = state;
         gApi.changes().id(r.getChangeId()).addReviewer(input);
@@ -249,7 +249,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     }
 
     // Also add user as a regular reviewer
-    AddReviewerInput input = new AddReviewerInput();
+    ReviewerInput input = new ReviewerInput();
     input.reviewer = user.email();
     input.state = ReviewerState.REVIEWER;
     gApi.changes().id(r.getChangeId()).addReviewer(input);
@@ -280,7 +280,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   public void rejectMissingEmail() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("");
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("");
     assertThat(result.error).isEqualTo(" is not a valid user identifier");
     assertThat(result.reviewers).isNull();
   }
@@ -289,7 +289,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   public void rejectMalformedEmail() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@");
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@");
     assertThat(result.error).isEqualTo("Foo Bar <foo.bar@ is not a valid user identifier");
     assertThat(result.reviewers).isNull();
   }
@@ -302,7 +302,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
 
-    AddReviewerResult result =
+    ReviewerResult result =
         gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
     assertThat(result.error)
         .isEqualTo(
@@ -319,7 +319,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
 
-      AddReviewerInput input = new AddReviewerInput();
+      ReviewerInput input = new ReviewerInput();
       input.reviewer = toRfcAddressString(acc);
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
@@ -337,11 +337,11 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   public void addExistingReviewerByEmailShortCircuits() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    AddReviewerInput input = new AddReviewerInput();
+    ReviewerInput input = new ReviewerInput();
     input.reviewer = "nonexisting@example.com";
     input.state = ReviewerState.REVIEWER;
 
-    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
     assertThat(result.reviewers).hasSize(1);
     ReviewerInfo info = result.reviewers.get(0);
     assertThat(info._accountId).isNull();
@@ -354,10 +354,10 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   public void addExistingCcByEmailShortCircuits() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    AddReviewerInput input = new AddReviewerInput();
+    ReviewerInput input = new ReviewerInput();
     input.reviewer = "nonexisting@example.com";
     input.state = ReviewerState.CC;
-    AddReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
 
     assertThat(result.ccs).hasSize(1);
     AccountInfo info = result.ccs.get(0);

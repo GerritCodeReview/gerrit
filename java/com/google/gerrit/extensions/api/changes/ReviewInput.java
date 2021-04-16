@@ -63,7 +63,7 @@ public class ReviewInput {
   public String onBehalfOf;
 
   /** Reviewers that should be added to this change. */
-  public List<AddReviewerInput> reviewers;
+  public List<ReviewerInput> reviewers;
 
   /**
    * If true mark the change as work in progress. It is an error for both {@link #workInProgress}
@@ -155,7 +155,7 @@ public class ReviewInput {
   }
 
   public ReviewInput reviewer(String reviewer, ReviewerState state, boolean confirmed) {
-    AddReviewerInput input = new AddReviewerInput();
+    ReviewerInput input = new ReviewerInput();
     input.reviewer = reviewer;
     input.state = state;
     input.confirmed = confirmed;

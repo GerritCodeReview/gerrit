@@ -55,14 +55,14 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -91,13 +91,13 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.AddReviewersOp.Result;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
+import com.google.gerrit.server.change.ModifyReviewersEmail;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
+import com.google.gerrit.server.change.ReviewerModifier;
+import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -170,8 +170,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final AccountResolver accountResolver;
   private final EmailReviewComments.Factory email;
   private final CommentAdded commentAdded;
-  private final ReviewerAdder reviewerAdder;
-  private final AddReviewersEmail addReviewersEmail;
+  private final ReviewerModifier reviewerModifier;
+  private final ModifyReviewersEmail modifyReviewersEmail;
   private final NotifyResolver notifyResolver;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
@@ -196,8 +196,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       AccountResolver accountResolver,
       EmailReviewComments.Factory email,
       CommentAdded commentAdded,
-      ReviewerAdder reviewerAdder,
-      AddReviewersEmail addReviewersEmail,
+      ReviewerModifier reviewerModifier,
+      ModifyReviewersEmail modifyReviewersEmail,
       NotifyResolver notifyResolver,
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
@@ -218,8 +218,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.accountResolver = accountResolver;
     this.email = email;
     this.commentAdded = commentAdded;
-    this.reviewerAdder = reviewerAdder;
-    this.addReviewersEmail = addReviewersEmail;
+    this.reviewerModifier = reviewerModifier;
+    this.modifyReviewersEmail = modifyReviewersEmail;
     this.notifyResolver = notifyResolver;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
@@ -276,15 +276,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     logger.atFine().log("notify handling = %s", input.notify);
 
-    Map<String, AddReviewerResult> reviewerJsonResults = null;
-    List<ReviewerAddition> reviewerResults = Lists.newArrayList();
+    Map<String, ReviewerResult> reviewerJsonResults = null;
+    List<ReviewerModification> reviewerResults = Lists.newArrayList();
     boolean hasError = false;
     boolean confirm = false;
     if (input.reviewers != null) {
       reviewerJsonResults = Maps.newHashMap();
-      for (AddReviewerInput reviewerInput : input.reviewers) {
-        ReviewerAddition result =
-            reviewerAdder.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
+      for (ReviewerInput reviewerInput : input.reviewers) {
+        ReviewerModification result =
+            reviewerModifier.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           logger.atFine().log(
@@ -336,7 +336,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // updated set of reviewers. Also keep track of whether the user added
       // themselves as a reviewer or to the CC list.
       logger.atFine().log("adding reviewer additions");
-      for (ReviewerAddition reviewerResult : reviewerResults) {
+      for (ReviewerModification reviewerResult : reviewerResults) {
         reviewerResult.op.suppressEmail(); // Send a single batch email below.
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
         if (!ccOrReviewer && reviewerResult.reviewers.contains(id)) {
@@ -350,7 +350,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
         logger.atFine().log("CCing calling user");
-        ReviewerAddition selfAddition = reviewerAdder.ccCurrentUser(revision.getUser(), revision);
+        ReviewerModification selfAddition =
+            reviewerModifier.ccCurrentUser(revision.getUser(), revision);
         selfAddition.op.suppressEmail();
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
@@ -384,7 +385,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       bu.addOp(
           revision.getChange().getId(), new Op(projectState, revision.getPatchSet().id(), input));
 
-      // Notify based on ReviewInput, ignoring the notify settings from any AddReviewerInputs.
+      // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
       NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
       bu.setNotify(notify);
 
@@ -395,7 +396,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       // Re-read change to take into account results of the update.
       ChangeData cd = changeDataFactory.create(revision.getProject(), revision.getChange().getId());
-      for (ReviewerAddition reviewerResult : reviewerResults) {
+      for (ReviewerModification reviewerResult : reviewerResults) {
         reviewerResult.gatherResults(cd);
       }
 
@@ -437,28 +438,28 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private void batchEmailReviewers(
       CurrentUser user,
       Change change,
-      List<ReviewerAddition> reviewerAdditions,
+      List<ReviewerModification> reviewerModifications,
       NotifyResolver.Result notify) {
     try (TraceContext.TraceTimer ignored = newTimer("batchEmailReviewers")) {
       List<Account.Id> to = new ArrayList<>();
       List<Account.Id> cc = new ArrayList<>();
       List<Address> toByEmail = new ArrayList<>();
       List<Address> ccByEmail = new ArrayList<>();
-      for (ReviewerAddition addition : reviewerAdditions) {
-        Result reviewAdditionResult = addition.op.getResult();
-        if (addition.state() == ReviewerState.REVIEWER
+      for (ReviewerModification modification : reviewerModifications) {
+        Result reviewAdditionResult = modification.op.getResult();
+        if (modification.state() == ReviewerState.REVIEWER
             && (!reviewAdditionResult.addedReviewers().isEmpty()
                 || !reviewAdditionResult.addedReviewersByEmail().isEmpty())) {
-          to.addAll(addition.reviewers);
-          toByEmail.addAll(addition.reviewersByEmail);
-        } else if (addition.state() == ReviewerState.CC
+          to.addAll(modification.reviewers);
+          toByEmail.addAll(modification.reviewersByEmail);
+        } else if (modification.state() == ReviewerState.CC
             && (!reviewAdditionResult.addedCCs().isEmpty()
                 || !reviewAdditionResult.addedCCsByEmail().isEmpty())) {
-          cc.addAll(addition.reviewers);
-          ccByEmail.addAll(addition.reviewersByEmail);
+          cc.addAll(modification.reviewers);
+          ccByEmail.addAll(modification.reviewersByEmail);
         }
       }
-      addReviewersEmail.emailReviewersAsync(
+      modifyReviewersEmail.emailReviewersAsync(
           user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
     }
   }

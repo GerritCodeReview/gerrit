@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec9dd84e_0ee39278",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1132870
+      },
+      "writtenOn": "2021-04-16T03:48:12Z",
+      "side": 1,
+      "message": "We can remove this function and use the parentCount function (https://gerrit-review.googlesource.com/c/gerrit/+/299662/11/java/com/google/gerrit/server/query/change/ChangeData.java#997) here https://gerrit-review.googlesource.com/c/gerrit/+/299662/11/java/com/google/gerrit/server/index/change/ChangeField.java#703",
+      "range": {
+        "startLine": 987,
+        "startChar": 0,
+        "endLine": 987,
+        "endChar": 2
+      },
+      "revId": "53c1b8d0e83596c07086d210624610b4eba87c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

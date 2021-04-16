@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e37b2e8_52b5e3fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-16T07:38:28Z",
+      "side": 1,
+      "message": "Cool, another observable! Thanks!",
+      "revId": "04b6c1fe058d1982d3887abe461fa5ff614730c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68050e84_9e1411b3",
+        "filename": "polygerrit-ui/app/services/config/config-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-16T07:38:28Z",
+      "side": 1,
+      "message": "Object.freeze({}) is not enough?",
+      "range": {
+        "startLine": 25,
+        "startChar": 40,
+        "endLine": 25,
+        "endChar": 52
+      },
+      "revId": "04b6c1fe058d1982d3887abe461fa5ff614730c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

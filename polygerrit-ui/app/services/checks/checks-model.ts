@@ -287,7 +287,13 @@ export const fakeRun2: CheckRun = {
       internalResultId: 'f2r0',
       category: Category.INFO,
       summary: 'This is looking a bit too large.',
-      message: 'We are still looking into how large exactly. Stay tuned.',
+      message: `We are still looking into how large exactly. Stay tuned.
+And have a look at https://www.google.com!
+
+Or have a look at change 30000.
+Example code:
+  const constable = '';
+  var variable = '';`,
       tags: [{name: 'FLAKY'}, {name: 'MAC-OS'}],
     },
   ],

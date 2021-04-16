@@ -103,6 +103,7 @@ import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
 import {Constructor} from '../../utils/common-util';
+import {getKeyboardEvent, isModifierPressed} from '../../utils/dom-util';
 import {
   CustomKeyboardEvent,
   ShortcutTriggeredEventDetail,
@@ -531,19 +532,6 @@ _describe(
   'Emoji dropdown'
 );
 
-// Must be declared outside behavior implementation to be accessed inside
-// behavior functions.
-
-function getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent {
-  const event = dom(e.detail ? e.detail.keyboardEvent : e);
-  // TODO(TS): worth checking if this still holds or not, if no, remove this.
-  // When e is a keyboardEvent, e.event is not null.
-  if ('event' in event && (event as CustomKeyboardEvent).event) {
-    return (event as CustomKeyboardEvent).event;
-  }
-  return event as CustomKeyboardEvent;
-}
-
 /**
  * Shortcut manager, holds all hosts, bindings and listeners.
  */
@@ -817,12 +805,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
          */
         const e = getKeyboardEvent(event);
         return (
-          e.altKey ||
-          e.ctrlKey ||
-          e.metaKey ||
-          e.shiftKey ||
-          !!this._inGoKeyMode() ||
-          !!this.inVKeyMode()
+          isModifierPressed(e) || !!this._inGoKeyMode() || !!this.inVKeyMode()
         );
       }
 

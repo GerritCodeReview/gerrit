@@ -20,8 +20,12 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {htmlTemplate} from './gr-button_html';
 import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {PolymerEvent, getEventPath} from '../../../utils/dom-util';
+import {
+  PolymerEvent,
+  getEventPath,
+  getKeyboardEvent,
+  isModifierPressed,
+} from '../../../utils/dom-util';
 import {appContext} from '../../../services/app-context';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {CustomKeyboardEvent} from '../../../types/events';
@@ -33,9 +37,7 @@ declare global {
 }
 
 @customElement('gr-button')
-export class GrButton extends KeyboardShortcutMixin(
-  TooltipMixin(PolymerElement)
-) {
+export class GrButton extends TooltipMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }
@@ -121,10 +123,10 @@ export class GrButton extends KeyboardShortcutMixin(
   }
 
   _handleKeydown(e: CustomKeyboardEvent) {
-    if (this.modifierPressed(e)) {
+    if (isModifierPressed(e)) {
       return;
     }
-    e = this.getKeyboardEvent(e);
+    e = getKeyboardEvent(e);
     // Handle `enter`, `space`.
     if (e.keyCode === 13 || e.keyCode === 32) {
       e.preventDefault();

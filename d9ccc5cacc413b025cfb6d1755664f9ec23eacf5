@@ -70,6 +70,30 @@
       },
       "revId": "d9ccc5cacc413b025cfb6d1755664f9ec23eacf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcb41482_80d82a3e",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T12:38:32Z",
+      "side": 1,
+      "message": "It\u0027s not related to GWT, see:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/50112\n\nNot sure if that\u0027s still an issue.",
+      "parentUuid": "e7060f4c_dbc6d1be",
+      "range": {
+        "startLine": 19,
+        "startChar": 7,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "d9ccc5cacc413b025cfb6d1755664f9ec23eacf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

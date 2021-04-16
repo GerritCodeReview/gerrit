@@ -39,6 +39,75 @@
       },
       "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "609689fe_d4ea5b4c",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-16T07:33:07Z",
+      "side": 1,
+      "message": "Nit: --spacing-s",
+      "range": {
+        "startLine": 157,
+        "startChar": 26,
+        "endLine": 157,
+        "endChar": 29
+      },
+      "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45f23778_9f2b5d46",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-16T07:33:07Z",
+      "side": 1,
+      "message": "Nit:  --spacing-s",
+      "range": {
+        "startLine": 161,
+        "startChar": 23,
+        "endLine": 161,
+        "endChar": 26
+      },
+      "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b89159ff_3e0cd103",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-16T07:33:07Z",
+      "side": 1,
+      "message": "Here I assume undefined is not latest as in elements, so (b.attempt ?? -1) is better than (b.attempt ?? Number.MAX_VALUE)",
+      "range": {
+        "startLine": 420,
+        "startChar": 54,
+        "endLine": 420,
+        "endChar": 56
+      },
+      "revId": "6dfcac4d89d0f0dd3fb8ded69e5b7bb21b9bf387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

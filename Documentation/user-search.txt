@@ -251,6 +251,16 @@ Changes whose designated topic matches 'TOPIC' exactly.  This is
 often combined with 'branch:' and 'project:' operators to select
 all related changes in a series.
 
+[[inhashtag]]
+inhashtag:'HASHTAG'::
++
+Changes where any hashtag contains 'HASHTAG', using a full-text search.
++
+If 'HASHTAG' starts with `^` it matches hashtag names by regular
+expression patterns.  The
+link:http://www.brics.dk/automaton/[dk.brics.automaton
+library,role=external,window=_blank] is used for evaluation of such patterns.
+
 [[hashtag]]
 hashtag:'HASHTAG'::
 +

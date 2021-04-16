@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,24 +14,21 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.change.HashtagsUtil;
-import com.google.gerrit.server.index.change.ChangeField;
+import static com.google.gerrit.server.index.change.ChangeField.FUZZY_HASHTAG;
 
-public class HashtagPredicate extends ChangeIndexPredicate {
-  public HashtagPredicate(String hashtag) {
-    // Use toLowerCase without locale to match behavior in ChangeField.
-    // TODO(dborowitz): Change both.
-    super(ChangeField.HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
+import com.google.gerrit.server.index.change.ChangeIndex;
+
+public class FuzzyHashtagPredicate extends ChangeIndexPredicate {
+  protected final ChangeIndex index;
+
+  public FuzzyHashtagPredicate(String hashtag, ChangeIndex index) {
+    super(FUZZY_HASHTAG, hashtag.toLowerCase());
+    this.index = index;
   }
 
   @Override
-  public boolean match(ChangeData object) {
-    for (String hashtag : object.notes().load().getHashtags()) {
-      if (hashtag.equalsIgnoreCase(getValue())) {
-        return true;
-      }
-    }
-    return false;
+  public boolean match(ChangeData cd) {
+    return cd.hashtags().stream().anyMatch(ht -> ht.toLowerCase().contains(getValue()));
   }
 
   @Override

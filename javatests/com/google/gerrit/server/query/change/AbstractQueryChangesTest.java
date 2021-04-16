@@ -1951,14 +1951,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
 
-    HashtagsInput in = new HashtagsInput();
-    in.add = ImmutableSet.of("foo");
-    gApi.changes().id(change1.getId().get()).setHashtags(in);
-
-    in.add = ImmutableSet.of("foo", "bar", "a tag", "ACamelCaseTag");
-    gApi.changes().id(change2.getId().get()).setHashtags(in);
-
+    addHashtags(change1.getId(), "foo", "aaa-bbb-ccc");
+    addHashtags(change2.getId(), "foo", "bar", "a tag", "ACamelCaseTag");
     return ImmutableList.of(change1, change2);
+  }
+
+  private void addHashtags(Change.Id changeId, String... hashtags) throws Exception {
+    HashtagsInput in = new HashtagsInput();
+    in.add = ImmutableSet.copyOf(hashtags);
+    gApi.changes().id(changeId.get()).setHashtags(in);
   }
 
   @Test
@@ -1973,6 +1974,31 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("hashtag:\"# #a tag\"", changes.get(1));
     assertQuery("hashtag:acamelcasetag", changes.get(1));
     assertQuery("hashtag:ACamelCaseTAg", changes.get(1));
+  }
+
+  @Test
+  public void byHashtagFullText() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.FUZZY_HASHTAG)).isTrue();
+    List<Change> changes = setUpHashtagChanges();
+    assertQuery("inhashtag:foo", changes.get(1), changes.get(0));
+    assertQuery("inhashtag:bbb", changes.get(0));
+    assertQuery("inhashtag:tag", changes.get(1));
+  }
+
+  @Test
+  public void byHashtagRegex() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
+    addHashtags(change1.getId(), "feature1");
+    addHashtags(change1.getId(), "trending");
+    addHashtags(change2.getId(), "Cherrypick-feature1");
+    addHashtags(change3.getId(), "feature1-fixup");
+
+    assertQuery("inhashtag:^feature1.*", change3, change1);
+    assertQuery("inhashtag:{^.*feature1$}", change2, change1);
+    assertQuery("inhashtag:^trending.*", change1);
   }
 
   @Test

@@ -272,6 +272,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "775cb222_00c93cae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-16T16:17:47Z",
+      "side": 1,
+      "message": "\u003e But can we index the templates instead of the replacements?\nWe don\u0027t need to index on replacements. I was originally planning to cut placeholders from index, but i don\u0027t actually see any harm in having placeholders in index search.",
+      "parentUuid": "7e0015bd_f3d93960",
+      "revId": "b01b659f5859511f711d5e95aff32b3a40b4eb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8470baeb_e168613c",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 2

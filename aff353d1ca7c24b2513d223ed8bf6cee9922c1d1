@@ -16,6 +16,24 @@
       "message": "I think it\u0027s best I submit it because of all the merge conflicts I\u0027ll have later if I don\u0027t :-)\nReformatting changes look good irregardless of the follow-up feature.",
       "revId": "aff353d1ca7c24b2513d223ed8bf6cee9922c1d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3175f988_a78ed0ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T15:35:29Z",
+      "side": 1,
+      "message": "+1 :)",
+      "parentUuid": "7bf14e45_e46b851e",
+      "revId": "aff353d1ca7c24b2513d223ed8bf6cee9922c1d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

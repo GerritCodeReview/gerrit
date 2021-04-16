@@ -750,16 +750,6 @@ export class ShortcutManager {
 
 const shortcutManager = new ShortcutManager();
 
-/**
- * Enum for supported modifiers.
- */
-export enum Modifier {
-  SHIFT_KEY = 'shiftKey',
-  CTRL_KEY = 'ctrlKey',
-  META_KEY = 'metaKey',
-  // Add when you need it
-}
-
 interface IronA11yKeysMixinConstructor {
   // Note: this is needed to have same interface as other mixins
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -807,10 +797,6 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         return (
           isModifierPressed(e) || !!this._inGoKeyMode() || !!this.inVKeyMode()
         );
-      }
-
-      isModifierPressed(e: CustomKeyboardEvent, modifier: Modifier) {
-        return getKeyboardEvent(e)[modifier];
       }
 
       shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent) {
@@ -1083,8 +1069,6 @@ export interface KeyboardShortcutMixinInterface {
   bindShortcut(shortcut: Shortcut, ...bindings: string[]): void;
   shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent): boolean;
   modifierPressed(event: CustomKeyboardEvent): boolean;
-  isModifierPressed(event: CustomKeyboardEvent, modifier: Modifier): boolean;
-  getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent;
   addKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
   removeKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
   // TODO(TS): Remove underscore. Apparently not a private method.

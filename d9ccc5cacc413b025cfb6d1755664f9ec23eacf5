@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1158b025_95ff135f",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-16T12:35:26Z",
+      "side": 1,
+      "message": "Should be com.google.gerrit.common.Nullable",
+      "range": {
+        "startLine": 19,
+        "startChar": 7,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "d9ccc5cacc413b025cfb6d1755664f9ec23eacf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

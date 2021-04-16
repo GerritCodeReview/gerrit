@@ -106,6 +106,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d50b406e_dff8491a",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-16T09:08:33Z",
+      "side": 1,
+      "message": "typo: form",
+      "range": {
+        "startLine": 31,
+        "startChar": 53,
+        "endLine": 31,
+        "endChar": 54
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5c0fcc6_ac8f57e5",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-16T09:08:33Z",
+      "side": 1,
+      "message": "typo: these",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaddf38b_81f76869",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-16T09:08:33Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this be %d for a number?",
+      "range": {
+        "startLine": 39,
+        "startChar": 64,
+        "endLine": 39,
+        "endChar": 67
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b24baa20_3496abeb",
         "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
         "patchSetId": 7
@@ -175,6 +244,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64c5705f_3671c4cf",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-16T09:08:33Z",
+      "side": 1,
+      "message": "Should we log the error if parsing fails?",
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58d207e2_25a40940",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-16T09:08:33Z",
+      "side": 1,
+      "message": "nit: remove",
+      "range": {
+        "startLine": 159,
+        "startChar": 17,
+        "endLine": 159,
+        "endChar": 27
+      },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae6e2457_c1653e15",
         "filename": "java/com/google/gerrit/entities/converter/ChangeMessageProtoConverter.java",
         "patchSetId": 7
@@ -198,6 +307,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b07d6b7_53a805a0",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-16T09:08:33Z",
+      "side": 1,
+      "message": "The comment (and the method name) sounds like the fields in \"update\" are extended when in fact they are replaced. Shouldn\u0027t the method name be \"setChangeMessage\"?",
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "032cda69_ec043055",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-16T09:08:33Z",
+      "side": 1,
+      "message": "This would be accountId.get() if you use %d in the template.",
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6421a606_91f8bd3a",
         "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 7
@@ -209,6 +352,40 @@
       "writtenOn": "2021-04-16T08:49:04Z",
       "side": 1,
       "message": "Please add a TODO here to remind us about the deprecation and use the experiment provider to gate the replacement so that we can experiment with the deprecation as discussed.",
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de8e7a0d_cb9abc0b",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-16T09:08:33Z",
+      "side": 1,
+      "message": "Given that we know accountId can only be a number, should we append it to unrecognizedAccount?",
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff9b204d_d89af7bf",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-16T09:08:33Z",
+      "side": 1,
+      "message": "You can just use String.replaceAll() directly, it also takes a RegEx.",
       "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -255,6 +432,23 @@
         "endLine": 82,
         "endChar": 48
       },
+      "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26ff8305_b76854be",
+        "filename": "proto/entities.proto",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-16T09:08:33Z",
+      "side": 1,
+      "message": "\"for\" sounds a bit as if they\u0027re intended to be put there. But what you mean is accounts that are included/used in the template, so maybe accounts_in_template?",
       "revId": "8021d5f258b1b138da3c340818f34fca0234adb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

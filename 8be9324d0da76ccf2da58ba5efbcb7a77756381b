@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "5053c0bc_b3c2fea6",
         "filename": "/COMMIT_MSG",
@@ -20,8 +21,31 @@
         "endChar": 42
       },
       "revId": "8be9324d0da76ccf2da58ba5efbcb7a77756381b",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04863c2c_5824f297",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-16T11:57:19Z",
+      "side": 1,
+      "message": "The new code still does that, right?",
+      "parentUuid": "5053c0bc_b3c2fea6",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "8be9324d0da76ccf2da58ba5efbcb7a77756381b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

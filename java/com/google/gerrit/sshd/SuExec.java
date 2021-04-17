@@ -145,7 +145,7 @@ public final class SuExec extends BaseCommand {
     if (caller instanceof PeerDaemonUser) {
       caller = null;
     }
-    return new SshSession(session, peer, userFactory.runAs(peer, accountId, caller));
+    return new SshSession(session, peer, userFactory.runAs(accountId, caller));
   }
 
   private static String join(List<String> args) {

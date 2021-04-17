@@ -15,7 +15,6 @@
 package com.google.gerrit.server.util;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Key;
@@ -25,7 +24,6 @@ import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -34,16 +32,12 @@ import java.util.concurrent.Callable;
 public class GuiceRequestScopePropagator extends RequestScopePropagator {
 
   private final String url;
-  private final SocketAddress peer;
 
   @Inject
   GuiceRequestScopePropagator(
-      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      @RemotePeer Provider<SocketAddress> remotePeerProvider,
-      ThreadLocalRequestContext local) {
+      @CanonicalWebUrl @Nullable Provider<String> urlProvider, ThreadLocalRequestContext local) {
     super(ServletScopes.REQUEST, local);
     this.url = urlProvider != null ? urlProvider.get() : null;
-    this.peer = remotePeerProvider.get();
   }
 
   /** @see RequestScopePropagator#wrap(Callable) */
@@ -60,9 +54,6 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
     // provider to the instance to be safe.
     seedMap.put(Key.get(typeOfProvider(String.class), CanonicalWebUrl.class), Providers.of(url));
     seedMap.put(Key.get(String.class, CanonicalWebUrl.class), url);
-
-    seedMap.put(Key.get(typeOfProvider(SocketAddress.class), RemotePeer.class), Providers.of(peer));
-    seedMap.put(Key.get(SocketAddress.class, RemotePeer.class), peer);
 
     return ServletScopes.continueRequest(callable, seedMap);
   }

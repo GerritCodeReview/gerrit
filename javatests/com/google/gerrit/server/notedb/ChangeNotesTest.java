@@ -1880,7 +1880,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void patchLineCommentNotesFormatRealAuthor() throws Exception {
     Change c = newChange();
-    CurrentUser ownerAsOtherUser = userFactory.runAs(null, otherUserId, changeOwner);
+    CurrentUser ownerAsOtherUser = userFactory.runAs(otherUserId, changeOwner);
     ChangeUpdate update = newUpdate(c, ownerAsOtherUser);
     String uuid = "uuid";
     String message = "comment";
@@ -2917,7 +2917,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void realUser() throws Exception {
     Change c = newChange();
-    CurrentUser ownerAsOtherUser = userFactory.runAs(null, otherUserId, changeOwner);
+    CurrentUser ownerAsOtherUser = userFactory.runAs(otherUserId, changeOwner);
     ChangeUpdate update = newUpdate(c, ownerAsOtherUser);
     update.setChangeMessage("Message on behalf of other user");
     update.commit();

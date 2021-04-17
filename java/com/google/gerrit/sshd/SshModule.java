@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.PeerDaemonUser;
-import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -38,7 +37,6 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
-import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,10 +128,6 @@ public class SshModule extends LifecycleModule {
     bind(SshScope.Context.class).toProvider(SshScope.ContextProvider.class);
 
     bind(SshSession.class).toProvider(SshScope.SshSessionProvider.class).in(SshScope.REQUEST);
-    bind(SocketAddress.class)
-        .annotatedWith(RemotePeer.class)
-        .toProvider(SshRemotePeerProvider.class)
-        .in(SshScope.REQUEST);
 
     bind(ScheduledThreadPoolExecutor.class)
         .annotatedWith(CommandExecutor.class)

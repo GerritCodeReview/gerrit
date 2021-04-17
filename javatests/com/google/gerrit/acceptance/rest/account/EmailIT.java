@@ -44,7 +44,6 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -56,7 +55,6 @@ import org.junit.Test;
 public class EmailIT extends AbstractDaemonTest {
   @Inject private @AnonymousCowardName String anonymousCowardName;
   @Inject private @CanonicalWebUrl Provider<String> canonicalUrl;
-  @Inject private @EnablePeerIPInReflogRecord boolean enablePeerIPInReflogRecord;
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private AuthConfig authConfig;
   @Inject private EmailExpander emailExpander;
@@ -276,13 +274,7 @@ public class EmailIT extends AbstractDaemonTest {
   private Context createContextWithCustomRealm(Realm realm) {
     IdentifiedUser.GenericFactory userFactory =
         new IdentifiedUser.GenericFactory(
-            authConfig,
-            realm,
-            anonymousCowardName,
-            canonicalUrl,
-            enablePeerIPInReflogRecord,
-            accountCache,
-            groupBackend);
+            authConfig, realm, anonymousCowardName, canonicalUrl, accountCache, groupBackend);
     return atrScope.set(atrScope.newContext(null, userFactory.create(admin.id())));
   }
 

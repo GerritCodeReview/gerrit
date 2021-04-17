@@ -66,6 +66,7 @@ public class ReflogIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.enablePeerIPInReflogRecord", value = "true")
   public void peerIPIncludedInReflogRecord() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getChange().getId();
@@ -85,7 +86,6 @@ public class ReflogIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "gerrit.enablePeerIPInReflogRecord", value = "false")
   public void emaiIncludedInReflogRecord() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getChange().getId();

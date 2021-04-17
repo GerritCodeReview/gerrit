@@ -2300,7 +2300,7 @@ should set this to the URL of their issue tracker, if necessary.
 
 Record actual peer IP address in ref log entry for identified user.
 
-Defaults to true.
+Defaults to false.
 
 [[gerrit.secureStoreClass]]gerrit.secureStoreClass::
 +

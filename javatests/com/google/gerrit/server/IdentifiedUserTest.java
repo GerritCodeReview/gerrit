@@ -81,7 +81,7 @@ public class IdentifiedUserTest {
           protected void configure() {
             bind(Boolean.class)
                 .annotatedWith(EnablePeerIPInReflogRecord.class)
-                .toInstance(Boolean.TRUE);
+                .toInstance(Boolean.FALSE);
             bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
             bind(String.class)
                 .annotatedWith(AnonymousCowardName.class)

@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
@@ -58,11 +57,9 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
-import com.google.inject.Provides;
 import com.google.inject.Scope;
 import com.google.inject.servlet.RequestScoped;
 import java.io.IOException;
-import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,12 +83,6 @@ class InProcessProtocol extends TestProtocol<Context> {
         install(new GerritRequestModule());
         bind(RequestScopePropagator.class).to(Propagator.class);
         bindScope(RequestScoped.class, InProcessProtocol.REQUEST);
-      }
-
-      @Provides
-      @RemotePeer
-      SocketAddress getSocketAddress() {
-        throw new OutOfScopeException("No remote peer in acceptance tests");
       }
     };
   }

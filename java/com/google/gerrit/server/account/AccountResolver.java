@@ -194,8 +194,7 @@ public class AccountResolver {
         // TODO(dborowitz): This preserves old behavior, but it seems wrong to discard the caller.
         return self.get().asIdentifiedUser();
       }
-      return userFactory.runAs(
-          null, list.get(0).account().id(), requireNonNull(caller).getRealUser());
+      return userFactory.runAs(list.get(0).account().id(), requireNonNull(caller).getRealUser());
     }
 
     @VisibleForTesting

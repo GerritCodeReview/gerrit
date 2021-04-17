@@ -89,9 +89,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
   private SshSession newSession() {
     SshSession n =
         new SshSession(
-            session,
-            session.getRemoteAddress(),
-            userFactory.create(session.getRemoteAddress(), user.getAccountId()));
+            session, session.getRemoteAddress(), userFactory.create(user.getAccountId()));
     return n;
   }
 

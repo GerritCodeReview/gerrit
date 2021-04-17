@@ -45,7 +45,6 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
-import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -152,9 +151,6 @@ public abstract class AbstractChangeNotesTest {
                 bind(String.class)
                     .annotatedWith(CanonicalWebUrl.class)
                     .toInstance("http://localhost:8080/");
-                bind(Boolean.class)
-                    .annotatedWith(EnablePeerIPInReflogRecord.class)
-                    .toInstance(Boolean.TRUE);
                 bind(Realm.class).to(FakeRealm.class);
                 bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
                 bind(AccountCache.class).toInstance(accountCache);

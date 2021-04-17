@@ -22,7 +22,6 @@ import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitwebModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRequestModule;
@@ -32,8 +31,6 @@ import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
-import com.google.inject.servlet.RequestScoped;
-import java.net.SocketAddress;
 
 public class WebModule extends LifecycleModule {
   private final AuthConfig authConfig;
@@ -64,11 +61,6 @@ public class WebModule extends LifecycleModule {
     }
 
     install(new AsyncReceiveCommits.Module());
-
-    bind(SocketAddress.class)
-        .annotatedWith(RemotePeer.class)
-        .toProvider(HttpRemotePeerProvider.class)
-        .in(RequestScoped.class);
 
     bind(ProxyProperties.class).toProvider(ProxyPropertiesProvider.class);
 

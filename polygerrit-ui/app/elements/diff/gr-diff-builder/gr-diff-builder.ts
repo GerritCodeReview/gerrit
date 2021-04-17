@@ -361,7 +361,12 @@ export abstract class GrDiffBuilder {
       row.classList.add('collapsed');
     }
 
-    const element = this._createElement('td', 'dividerCell');
+    let applyHeight = '';
+    let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (!isSafari) {
+      applyHeight = 'height: 100%;';
+    }
+    const element = this._createElement('td', 'dividerCell', applyHeight);
     row.appendChild(element);
 
     const showAllContainer = this._createElement('div', 'aboveBelowButtons');
@@ -743,7 +748,7 @@ export abstract class GrDiffBuilder {
     return result;
   }
 
-  _createElement(tagName: string, classStr?: string): HTMLElement {
+  _createElement(tagName: string, classStr?: string, styleStr?: string): HTMLElement {
     const el = document.createElement(tagName);
     // When Shady DOM is being used, these classes are added to account for
     // Polymer's polyfill behavior. In order to guarantee sufficient
@@ -756,6 +761,9 @@ export abstract class GrDiffBuilder {
       for (const className of classStr.split(' ')) {
         el.classList.add(className);
       }
+    }
+    if (styleStr) {
+      el.style.cssText = styleStr;
     }
     return el;
   }

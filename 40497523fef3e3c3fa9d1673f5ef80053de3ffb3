@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1f5c84c_30249afb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-17T02:07:41Z",
+      "side": 1,
+      "message": "The test in  change 303514 is wrong (I forgot to add some elements when I suggested it) and it could not be green without this fix.\n\nThe serialisation of custom event types is broken, without this change.",
+      "parentUuid": "c11c9512_5e692285",
+      "revId": "40497523fef3e3c3fa9d1673f5ef80053de3ffb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33c7fa45_94ac574e",
         "filename": "java/com/google/gerrit/server/events/EventSerializer.java",
         "patchSetId": 3

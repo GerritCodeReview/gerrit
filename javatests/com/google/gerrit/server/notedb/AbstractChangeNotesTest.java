@@ -154,7 +154,7 @@ public abstract class AbstractChangeNotesTest {
                     .toInstance("http://localhost:8080/");
                 bind(Boolean.class)
                     .annotatedWith(EnablePeerIPInReflogRecord.class)
-                    .toInstance(Boolean.TRUE);
+                    .toInstance(Boolean.FALSE);
                 bind(Realm.class).to(FakeRealm.class);
                 bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
                 bind(AccountCache.class).toInstance(accountCache);

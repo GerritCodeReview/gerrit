@@ -24,7 +24,7 @@ public class EnablePeerIPInReflogRecordProvider implements Provider<Boolean> {
   @Inject
   EnablePeerIPInReflogRecordProvider(@GerritServerConfig Config config) {
     enablePeerIPInReflogRecord =
-        config.getBoolean("gerrit", null, "enablePeerIPInReflogRecord", true);
+        config.getBoolean("gerrit", null, "enablePeerIPInReflogRecord", false);
   }
 
   @Override

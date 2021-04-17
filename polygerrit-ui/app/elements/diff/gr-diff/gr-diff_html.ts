@@ -332,7 +332,6 @@ export const htmlTemplate = html`
       height: 100%;
       display: flex;
       justify-content: center;
-      position: absolute;
       top: 0;
       left: 0;
     }

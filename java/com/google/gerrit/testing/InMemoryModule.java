@@ -154,13 +154,6 @@ public class InMemoryModule extends FactoryModule {
 
   @Override
   protected void configure() {
-    // Do NOT bind @RemotePeer, as it is bound in a child injector of
-    // ChangeMergeQueue (bound via GerritGlobalModule below), so there cannot be
-    // a binding in the parent injector. If you need @RemotePeer, you must bind
-    // it in a child injector of the one containing InMemoryModule. But unless
-    // you really need to test something request-scoped, you likely don't
-    // actually need it.
-
     // For simplicity, don't create child injectors, just use this one to get a
     // few required modules.
     Injector cfgInjector =

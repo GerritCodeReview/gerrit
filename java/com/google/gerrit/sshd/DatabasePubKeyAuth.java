@@ -151,7 +151,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       }
     }
 
-    IdentifiedUser cu = SshUtil.createUser(sd, userFactory, key.getAccount());
+    IdentifiedUser cu = SshUtil.createUser(userFactory, key.getAccount());
     if (!cu.getAccount().isActive()) {
       sd.authenticationError(username, "inactive-account");
       return false;

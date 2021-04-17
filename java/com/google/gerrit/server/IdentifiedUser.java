@@ -36,18 +36,12 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
-import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.SocketAddress;
 import java.net.URL;
 import java.util.Date;
 import java.util.Optional;
@@ -69,7 +63,6 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
-    private final Boolean enablePeerIPInReflogRecord;
 
     @Inject
     public GenericFactory(
@@ -77,7 +70,6 @@ public class IdentifiedUser extends CurrentUser {
         Realm realm,
         @AnonymousCowardName String anonymousCowardName,
         @CanonicalWebUrl Provider<String> canonicalUrl,
-        @EnablePeerIPInReflogRecord Boolean enablePeerIPInReflogRecord,
         AccountCache accountCache,
         GroupBackend groupBackend) {
       this.authConfig = authConfig;
@@ -86,7 +78,6 @@ public class IdentifiedUser extends CurrentUser {
       this.canonicalUrl = canonicalUrl;
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
-      this.enablePeerIPInReflogRecord = enablePeerIPInReflogRecord;
     }
 
     public IdentifiedUser create(AccountState state) {
@@ -97,36 +88,26 @@ public class IdentifiedUser extends CurrentUser {
           canonicalUrl,
           accountCache,
           groupBackend,
-          enablePeerIPInReflogRecord,
-          Providers.of(null),
           state,
           null);
-    }
-
-    public IdentifiedUser create(Account.Id id) {
-      return create(null, id);
     }
 
     @VisibleForTesting
     @UsedAt(UsedAt.Project.GOOGLE)
     public IdentifiedUser forTest(Account.Id id, PropertyMap properties) {
-      return runAs(null, id, null, properties);
+      return runAs(id, null, properties);
     }
 
-    public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
-      return runAs(remotePeer, id, null);
+    public IdentifiedUser create(Account.Id id) {
+      return runAs(id, null);
     }
 
-    public IdentifiedUser runAs(
-        SocketAddress remotePeer, Account.Id id, @Nullable CurrentUser caller) {
-      return runAs(remotePeer, id, caller, PropertyMap.EMPTY);
+    public IdentifiedUser runAs(Account.Id id, @Nullable CurrentUser caller) {
+      return runAs(id, caller, PropertyMap.EMPTY);
     }
 
     private IdentifiedUser runAs(
-        SocketAddress remotePeer,
-        Account.Id id,
-        @Nullable CurrentUser caller,
-        PropertyMap properties) {
+        Account.Id id, @Nullable CurrentUser caller, PropertyMap properties) {
       return new IdentifiedUser(
           authConfig,
           realm,
@@ -134,20 +115,13 @@ public class IdentifiedUser extends CurrentUser {
           canonicalUrl,
           accountCache,
           groupBackend,
-          enablePeerIPInReflogRecord,
-          Providers.of(remotePeer),
           id,
           caller,
           properties);
     }
   }
 
-  /**
-   * Create an IdentifiedUser, relying on current request state.
-   *
-   * <p>Can only be used from within a module that has defined a request scoped {@code @RemotePeer
-   * SocketAddress} provider.
-   */
+  /** Create an IdentifiedUser, relying on current request state. */
   @Singleton
   public static class RequestFactory {
     private final AuthConfig authConfig;
@@ -156,8 +130,6 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
-    private final Boolean enablePeerIPInReflogRecord;
-    private final Provider<SocketAddress> remotePeerProvider;
 
     @Inject
     RequestFactory(
@@ -166,17 +138,13 @@ public class IdentifiedUser extends CurrentUser {
         @AnonymousCowardName String anonymousCowardName,
         @CanonicalWebUrl Provider<String> canonicalUrl,
         AccountCache accountCache,
-        GroupBackend groupBackend,
-        @EnablePeerIPInReflogRecord Boolean enablePeerIPInReflogRecord,
-        @RemotePeer Provider<SocketAddress> remotePeerProvider) {
+        GroupBackend groupBackend) {
       this.authConfig = authConfig;
       this.realm = realm;
       this.anonymousCowardName = anonymousCowardName;
       this.canonicalUrl = canonicalUrl;
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
-      this.enablePeerIPInReflogRecord = enablePeerIPInReflogRecord;
-      this.remotePeerProvider = remotePeerProvider;
     }
 
     public IdentifiedUser create(Account.Id id) {
@@ -191,8 +159,6 @@ public class IdentifiedUser extends CurrentUser {
           canonicalUrl,
           accountCache,
           groupBackend,
-          enablePeerIPInReflogRecord,
-          remotePeerProvider,
           id,
           null,
           properties);
@@ -206,8 +172,6 @@ public class IdentifiedUser extends CurrentUser {
           canonicalUrl,
           accountCache,
           groupBackend,
-          enablePeerIPInReflogRecord,
-          remotePeerProvider,
           id,
           caller,
           properties);
@@ -224,11 +188,8 @@ public class IdentifiedUser extends CurrentUser {
   private final Realm realm;
   private final GroupBackend groupBackend;
   private final String anonymousCowardName;
-  private final Boolean enablePeerIPInReflogRecord;
   private final Set<String> validEmails = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
   private final CurrentUser realUser; // Must be final since cached properties depend on it.
-
-  private final Provider<SocketAddress> remotePeerProvider;
   private final Account.Id accountId;
 
   private AccountState state;
@@ -243,8 +204,6 @@ public class IdentifiedUser extends CurrentUser {
       Provider<String> canonicalUrl,
       AccountCache accountCache,
       GroupBackend groupBackend,
-      Boolean enablePeerIPInReflogRecord,
-      @Nullable Provider<SocketAddress> remotePeerProvider,
       AccountState state,
       @Nullable CurrentUser realUser) {
     this(
@@ -254,8 +213,6 @@ public class IdentifiedUser extends CurrentUser {
         canonicalUrl,
         accountCache,
         groupBackend,
-        enablePeerIPInReflogRecord,
-        remotePeerProvider,
         state.account().id(),
         realUser,
         PropertyMap.EMPTY);
@@ -269,8 +226,6 @@ public class IdentifiedUser extends CurrentUser {
       Provider<String> canonicalUrl,
       AccountCache accountCache,
       GroupBackend groupBackend,
-      Boolean enablePeerIPInReflogRecord,
-      @Nullable Provider<SocketAddress> remotePeerProvider,
       Account.Id id,
       @Nullable CurrentUser realUser,
       PropertyMap properties) {
@@ -281,8 +236,6 @@ public class IdentifiedUser extends CurrentUser {
     this.authConfig = authConfig;
     this.realm = realm;
     this.anonymousCowardName = anonymousCowardName;
-    this.enablePeerIPInReflogRecord = enablePeerIPInReflogRecord;
-    this.remotePeerProvider = remotePeerProvider;
     this.accountId = id;
     this.realUser = realUser != null ? realUser : this;
   }
@@ -441,20 +394,13 @@ public class IdentifiedUser extends CurrentUser {
       name = anonymousCowardName;
     }
 
-    String user;
-    if (enablePeerIPInReflogRecord) {
-      user = constructMailAddress(ua, guessHost());
-    } else {
-      user =
-          Strings.isNullOrEmpty(ua.preferredEmail())
-              ? constructMailAddress(ua, "unknown")
-              : ua.preferredEmail();
-    }
-    return new PersonIdent(name, user, when, tz);
+    return new PersonIdent(name, constructMailAddress(ua), when, tz);
   }
 
-  private String constructMailAddress(Account ua, String host) {
-    return getUserName().orElse("") + "|account-" + ua.id().toString() + "@" + host;
+  private String constructMailAddress(Account ua) {
+    return Strings.isNullOrEmpty(ua.preferredEmail())
+        ? getUserName().orElse("") + "|account-" + ua.id().toString() + "@unknown"
+        : ua.preferredEmail();
   }
 
   public PersonIdent newCommitterIdent(Date when, TimeZone tz) {
@@ -515,15 +461,6 @@ public class IdentifiedUser extends CurrentUser {
    * @return copy of the identified user
    */
   public IdentifiedUser materializedCopy() {
-    Provider<SocketAddress> remotePeer;
-    try {
-      remotePeer = Providers.of(remotePeerProvider.get());
-    } catch (OutOfScopeException | ProvisionException e) {
-      remotePeer =
-          () -> {
-            throw e;
-          };
-    }
     return new IdentifiedUser(
         authConfig,
         realm,
@@ -531,8 +468,6 @@ public class IdentifiedUser extends CurrentUser {
         Providers.of(canonicalUrl.get()),
         accountCache,
         groupBackend,
-        enablePeerIPInReflogRecord,
-        remotePeer,
         state,
         realUser);
   }
@@ -540,24 +475,5 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public boolean hasSameAccountId(CurrentUser other) {
     return getAccountId().get() == other.getAccountId().get();
-  }
-
-  private String guessHost() {
-    String host = null;
-    SocketAddress remotePeer = null;
-    try {
-      remotePeer = remotePeerProvider.get();
-    } catch (OutOfScopeException | ProvisionException e) {
-      // Leave null.
-    }
-    if (remotePeer instanceof InetSocketAddress) {
-      InetSocketAddress sa = (InetSocketAddress) remotePeer;
-      InetAddress in = sa.getAddress();
-      host = in != null ? in.getHostAddress() : sa.getHostName();
-    }
-    if (Strings.isNullOrEmpty(host)) {
-      return "unknown";
-    }
-    return host;
   }
 }

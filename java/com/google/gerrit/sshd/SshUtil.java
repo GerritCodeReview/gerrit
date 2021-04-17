@@ -151,10 +151,8 @@ public class SshUtil {
   }
 
   public static IdentifiedUser createUser(
-      final SshSession sd,
-      final IdentifiedUser.GenericFactory userFactory,
-      final Account.Id account) {
-    return userFactory.create(sd.getRemoteAddress(), account);
+      final IdentifiedUser.GenericFactory userFactory, final Account.Id account) {
+    return userFactory.create(account);
   }
 
   public static void forEachSshSession(SshDaemon sshDaemon, SessionConsumer consumer)

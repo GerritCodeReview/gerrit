@@ -16,6 +16,24 @@
       "message": "we already have it, have you tried running the Docker image?",
       "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48aed90a_ebb73d9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-17T11:50:46Z",
+      "side": 1,
+      "message": "not everybody is using the docker image",
+      "parentUuid": "a58cc19d_39852468",
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

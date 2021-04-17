@@ -157,6 +157,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
 import com.google.gerrit.server.git.ChangeMessageModifier;
@@ -185,6 +186,7 @@ import com.google.inject.name.Named;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -2110,6 +2112,46 @@ public class ChangeIT extends AbstractDaemonTest {
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
+  }
+
+  @Test
+  public void deleteGroupFromReviewersFails() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // create a group named "kobe" with one user: lee
+    String myGroupUserEmail = "lee@example.com";
+    String myGroupUserFullname = "lee";
+    accountOperations
+        .newAccount()
+        .username("lee")
+        .preferredEmail(myGroupUserEmail)
+        .fullname(myGroupUserFullname)
+        .create();
+
+    String groupName = "kobe";
+    String testGroup = groupOperations.newGroup().name(groupName).create().get();
+    GroupApi groupApi = gApi.groups().id(testGroup);
+    groupApi.description("test group");
+    groupApi.addMembers(myGroupUserFullname);
+
+    // add the user as reviewer.
+    gApi.changes().id(r.getChangeId()).addReviewer(myGroupUserFullname);
+
+    // fail to remove that user via group.
+    ReviewResult reviewResult =
+        gApi.changes()
+            .id(r.getChangeId())
+            .current()
+            .review(ReviewInput.create().reviewer(testGroup, REMOVED, /* confirmed= */ true));
+
+    assertThat(reviewResult.error).isEqualTo("error adding reviewer");
+
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = testGroup;
+    in.state = REMOVED;
+    ReviewerResult reviewerResult = gApi.changes().id(r.getChangeId()).addReviewer(in);
+    assertThat(reviewerResult.error)
+        .isEqualTo(MessageFormat.format(ChangeMessages.get().groupRemovalIsNotAllowed, groupName));
   }
 
   @Test

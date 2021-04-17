@@ -7754,7 +7754,7 @@ should be posted on behalf of. To use this option the caller must
 have been granted `labelAs-NAME` permission for all keys of labels.
 |`reviewers`                           |optional|
 A list of link:rest-api-changes.html#reviewer-input[ReviewerInput]
-representing reviewers that should be added to the change.
+representing reviewers that should be added/removed to/from the change.
 |`ready`                               |optional|
 If true, and if the change is work in progress, then start review.
 It is an error for both `ready` and `work_in_progress` to be true.
@@ -7788,7 +7788,7 @@ additions were rejected.
 |`reviewers`              |optional|
 Map of account or group identifier to
 link:rest-api-changes.html#reviewer-result[ReviewerResult]
-representing the outcome of adding as a reviewer.
+representing the outcome of adding/removing a reviewer.
 Absent if no reviewer additions were requested.
 |`ready`                  |optional|
 If true, the change was moved from WIP to ready for review as a result of this
@@ -7819,24 +7819,25 @@ link:rest-api-changes.html#add-reviewer[add-reviewer] for details.
 
 [[reviewer-input]]
 === ReviewerInput
-The `ReviewerInput` entity contains information for adding a reviewer
-to a change.
+The `ReviewerInput` entity contains information for adding or removing
+reviewers to/from the change.
 
 [options="header",cols="1,^1,5"]
 |=============================
 |Field Name      ||Description
 |`reviewer`      ||
 The link:rest-api-accounts.html#account-id[ID] of one account that
-should be added as reviewer or the link:rest-api-groups.html#group-id[
+should be added/removed as reviewer or the link:rest-api-groups.html#group-id[
 ID] of one internal group for which all members should be added as reviewers. +
 If an ID identifies both an account and a group, only the account is
 added as reviewer to the change.
 External groups, such as LDAP groups, will be silently omitted from a
 link:#set-review[set-review] or
-link:rest-api-changes.html#add-reviewer[add-reviewer] call.
+link:rest-api-changes.html#add-reviewer[add-reviewer] call. A group can only be
+specified for adding reviewers, not for removing them.
 |`state`         |optional|
-Add reviewer in this state. Possible reviewer states are `REVIEWER`
-and `CC`. If not given, defaults to `REVIEWER`.
+Add reviewer in this state. Possible reviewer states are `REVIEWER`,
+`CC` and `REMOVED`. If not given, defaults to `REVIEWER`.
 |`confirmed`     |optional|
 Whether adding the reviewer is confirmed. +
 The Gerrit server may be configured to
@@ -7855,8 +7856,8 @@ link:#notify-info[NotifyInfo] entity.
 
 [[reviewer-result]]
 === ReviewerResult
-The `ReviewerResult` entity describes the result of adding a reviewer to a
-change.
+The `ReviewerResult` entity describes the result of modifying reviewers of
+a change.
 
 [options="header",cols="1,^1,5"]
 |===========================
@@ -7870,7 +7871,12 @@ ReviewerInfo] entities.
 |`ccs`         |optional|
 The newly CCed accounts as a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities. This field will
-only appear if the requested `state` for the reviewer  was `CC`.
+only appear if the requested `state` for the reviewer was `CC`.
+|`removed`      |optional|
+The newly removed accounts as a list of
+link:rest-api-accounts.html#account-info[AccountInfo] entities.
+This field will only appear if the requested `state` for the reviewer was
+`REMOVED`.
 |`error`       |optional|
 Error message explaining why the reviewer could not be added. +
 If a group was specified in the input and an error is returned, it

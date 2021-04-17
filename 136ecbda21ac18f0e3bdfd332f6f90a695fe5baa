@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceecb50d_b64c04f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-17T15:23:44Z",
+      "side": 1,
+      "message": "Checks tab shows the CS score as passed. The previous CS-1 was likely irrelevant or out of some flakiness, anyway.",
+      "revId": "136ecbda21ac18f0e3bdfd332f6f90a695fe5baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

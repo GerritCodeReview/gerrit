@@ -90,6 +90,9 @@ public class InitAdminUser implements InitStep {
   public void postRun() throws Exception {
     AuthType authType = flags.cfg.getEnum(AuthType.values(), "auth", null, "type", null);
     if (authType != AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+      if (!accounts.hasAnyAccount()) {
+        welcome();
+      }
       return;
     }
 
@@ -144,6 +147,15 @@ public class InitAdminUser implements InitStep {
         }
       }
     }
+  }
+
+  private void welcome() {
+    ui.message(
+        "============================================================================\n"
+            + "Welcome to the Gerrit community\n\n"
+            + "Find more information on the homepage: https://www.gerritcodereview.com\n"
+            + "Discuss Gerrit on the mailing list: https://groups.google.com/g/repo-discuss\n"
+            + "============================================================================\n");
   }
 
   private String readEmail(AccountSshKey sshKey) {

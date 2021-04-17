@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3403e128_d1240e09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-17T02:06:31Z",
+      "side": 1,
+      "message": "This test is passing whilst the code isn\u0027t able the serialisation of custom event types.\nCode wrong + Test greed \u003d\u003e Test is wrong.\n\nP.S. My bad: I gave you the wrong test :-(",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00811f34_0a281d65",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-17T02:06:31Z",
+      "side": 1,
+      "message": "Can you also add a:\n\n  public String customField;",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5408510a_f34497f0",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-17T02:06:31Z",
+      "side": 1,
+      "message": "You should register the new CustomEvent to its type \"custom-type\":\n\n  EventTypes.register(CustomEvent.TYPE, CustomEvent.class);",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81aa1813_c915bae5",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-17T02:06:31Z",
+      "side": 1,
+      "message": "This should be CustomEvent",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 9
+      },
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41171861_1620ed7a",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-17T02:06:31Z",
+      "side": 1,
+      "message": "You should also set something specific to the CustomEvent.\n\nExample:\n  event.customField \u003d \"customValue\";",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eb10b63_2ada3b94",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-17T02:06:31Z",
+      "side": 1,
+      "message": "Here you should also assert that map.get(\"customField\") \u003d\u003d \"customValue\"",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

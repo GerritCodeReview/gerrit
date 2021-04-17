@@ -34,6 +34,24 @@
       "parentUuid": "a58cc19d_39852468",
       "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33c18f39_f9f91629",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-17T15:32:44Z",
+      "side": 1,
+      "message": "@Luca, can you share the pointer you have in mind for that image message? Maybe this welcome message could align with that other one, I mean.",
+      "parentUuid": "48aed90a_ebb73d9c",
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -360,12 +360,15 @@ export abstract class GrDiffBuilder {
     if (!(showAbove && showBelow)) {
       row.classList.add('collapsed');
     }
+    console.log(section);
+    console.log(numLines);
+    console.log(contextGroups);
 
-    const element = this._createElement('td', 'dividerCell');
-    row.appendChild(element);
+    // const element = this._createElement('td', 'dividerCell');
+    // row.appendChild(element);
 
     const showAllContainer = this._createElement('div', 'aboveBelowButtons');
-    element.appendChild(showAllContainer);
+    row.appendChild(showAllContainer);
 
     const showAllButton = this._createContextButton(
       ContextButtonType.ALL,
@@ -405,7 +408,7 @@ export abstract class GrDiffBuilder {
           )
         );
       }
-      element.appendChild(container);
+      row.appendChild(container);
     }
 
     return row;

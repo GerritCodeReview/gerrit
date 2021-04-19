@@ -265,6 +265,24 @@
       "parentUuid": "764bfa47_92b4015b",
       "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b49d307f_21c5b5be",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-19T06:26:15Z",
+      "side": 1,
+      "message": "Yeah, this function is now unused.\nremoved.\nApologies for the confusion.",
+      "parentUuid": "a9006218_3d15c14c",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

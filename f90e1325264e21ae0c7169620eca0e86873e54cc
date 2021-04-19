@@ -88,6 +88,24 @@
       "parentUuid": "dea87a24_1e2e13ce",
       "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a37ed026_e9f7a9ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-19T09:00:43Z",
+      "side": 1,
+      "message": ":-)\n\nI saw this intro page many times and always unconsciously clicked \"Skip Intro\" without noticing it gives links to the homepage and mailing list.\n\nI guess this is caused by TLDR syndrom, my brain recognised a large logo, a wall of text and activated auto-pilot trying to get this page out of the way. Reading the text now carefully the first time, I think the page should have less text and focus more on attaching the new user to the community, currently the focus seems more to be advertising plugins (which may stem from its home the plugin-manager plugin).\n\nWhat if the user chooses not to install the plugin-manager ?",
+      "parentUuid": "a404669b_40e60a9b",
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -94,6 +94,30 @@
       },
       "revId": "98348598bc370b79ef07970d7595ba286be6f68d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8765ca55_56660c2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T10:58:38Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s really weird. If you tested that the returned object is always empty, this change is fine.\n\nWe should consider changing the return type for this REST endpoint to Object, but this can be done in another change.\n\nThanks for explaining!",
+      "parentUuid": "d1d39e7c_d1907b2a",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "98348598bc370b79ef07970d7595ba286be6f68d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

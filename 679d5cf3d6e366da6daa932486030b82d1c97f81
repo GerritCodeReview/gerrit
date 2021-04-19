@@ -16,6 +16,24 @@
       "message": "thanks for fixing this",
       "revId": "679d5cf3d6e366da6daa932486030b82d1c97f81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db3dfd2a_2256ff16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-19T23:05:25Z",
+      "side": 1,
+      "message": "NP, and thanks for reviewing it.",
+      "parentUuid": "5a68be03_dcee21ba",
+      "revId": "679d5cf3d6e366da6daa932486030b82d1c97f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

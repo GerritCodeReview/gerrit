@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2a41dc1_7fc86829",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1966,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-19T07:30:53Z",
+      "side": 1,
+      "message": "Can you change `getChange` and remove the errFn parameter? It is weird that the only two callers use `() \u003d\u003e {}` for error handling.\n\nOr at least make it optional and don\u0027t use it here.",
+      "revId": "7aa5bf982b203893ce4b6b6963b2cfb03da3d301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "249298b9_399fb6ba",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-19T07:30:53Z",
+      "side": 1,
+      "message": "Why was \"revert\" removed from the function name?",
+      "revId": "7aa5bf982b203893ce4b6b6963b2cfb03da3d301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "209ddd0a_8eb5bd7e",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-19T07:30:53Z",
+      "side": 1,
+      "message": "We now have 4 util functions that are very similar and overlapping. Maybe we can reduce that to 1 or 2?\n\nWould about just `getRevertCommitShas`?\n\nAre callers ever interested in the full message?\n\nMaybe callers can use `getRevertCommitShas().length \u003e 0` instead of `isRevertCreated()`?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 63
+      },
+      "revId": "7aa5bf982b203893ce4b6b6963b2cfb03da3d301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5e0de9f_ebf8a08f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-19T20:48:03Z",
+      "side": 1,
+      "message": "Don\u0027t know, but \u0027grep\u0027 knows :-)\n\nRequestMetricsFilter.java:89:    request.setAttribute(METRICS_CONTEXT, new Context());\n\nI believe the assumption is that everything goes through that filter, which is apparently not true.",
+      "parentUuid": "67783795_cd50be33",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "a68e2a42f2028f8d6b1d49b50122e1e5b1208d98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c1dd3ac_f24d4c59",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-19T20:33:09Z",
       "side": 1,
       "message": "completely",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 49
+      },
+      "revId": "a68e2a42f2028f8d6b1d49b50122e1e5b1208d98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94ddd193_5397209a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-19T20:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c1dd3ac_f24d4c59",
       "range": {
         "startLine": 11,
         "startChar": 39,

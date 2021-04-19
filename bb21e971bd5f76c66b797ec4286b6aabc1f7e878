@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "243eb3a6_0d28a1c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-04-19T16:10:08Z",
+      "side": 1,
+      "message": "Looks like a glitch in the CI",
+      "revId": "bb21e971bd5f76c66b797ec4286b6aabc1f7e878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -142,6 +142,24 @@
       "parentUuid": "d5af968e_f8996a72",
       "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15c8660f_d843d1a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-19T17:29:48Z",
+      "side": 1,
+      "message": "Let me check what would be the user-experience and see if that won\u0027t be too confusing. Having two welcome screens also have the risk to have them misaligned, which isn\u0027t nice.",
+      "parentUuid": "3b21b0f5_e1ee0331",
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

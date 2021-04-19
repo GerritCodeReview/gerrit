@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8577b917_8db853bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-19T14:57:57Z",
+      "side": 1,
+      "message": "Commented on the bug with the specs.\nI propose to use error-background and add an error icon because it is preventing users from logging in.",
+      "range": {
+        "startLine": 323,
+        "startChar": 9,
+        "endLine": 327,
+        "endChar": 40
+      },
+      "revId": "6a293fa932dbae7dfb5f7031d8c92514aa119f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

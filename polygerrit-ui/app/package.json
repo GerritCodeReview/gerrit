@@ -22,6 +22,7 @@
     "@polymer/paper-dialog-behavior": "^3.0.1",
     "@polymer/paper-dialog-scrollable": "^3.0.1",
     "@polymer/paper-dropdown-menu": "^3.2.0",
+    "@polymer/paper-fab": "^3.0.1",
     "@polymer/paper-input": "^3.2.1",
     "@polymer/paper-item": "^3.0.1",
     "@polymer/paper-listbox": "^3.0.1",

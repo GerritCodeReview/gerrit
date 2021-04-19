@@ -4412,21 +4412,6 @@ Submits a revision.
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/submit HTTP/1.0
 ----
 
-As response a link:#submit-info[SubmitInfo] entity is returned that
-describes the status of the submitted change.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "status": "MERGED"
-  }
-----
-
 If the revision cannot be submitted, e.g. because the submit rule
 doesn't allow submitting the revision or the revision is not the
 current revision, the response is "`409 Conflict`" and the error
@@ -8015,27 +8000,6 @@ behavior matches how the rule will execute if installed. +
 If `SKIP` the parent filters are not called, allowing the test
 to return results from the input rule.
 |===========================
-
-[[submit-info]]
-=== SubmitInfo
-The `SubmitInfo` entity contains information about the change status
-after submitting.
-
-[options="header",cols="1,^1,5"]
-|==========================
-|Field Name    ||Description
-|`status`      ||
-The status of the change after submitting is `MERGED`.
-|`on_behalf_of`|optional|
-The link:rest-api-accounts.html#account-id[\{account-id\}] of the user on
-whose behalf the action should be done. To use this option the caller must
-have been granted both `Submit` and `Submit (On Behalf Of)` permissions.
-The user named by `on_behalf_of` does not need to be granted the `Submit`
-permission. This feature is aimed for CI solutions: the CI account can be
-granted both permissions, so individual users don't need `Submit` permission
-themselves. Still the changes can be submitted on behalf of real users and
-not with the identity of the CI account.
-|==========================
 
 [[submit-input]]
 === SubmitInput

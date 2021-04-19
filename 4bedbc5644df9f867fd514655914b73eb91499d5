@@ -247,6 +247,24 @@
       "parentUuid": "d867cdbe_41117384",
       "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9006218_3d15c14c",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-19T06:19:38Z",
+      "side": 1,
+      "message": "Did you upload that change?",
+      "parentUuid": "764bfa47_92b4015b",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

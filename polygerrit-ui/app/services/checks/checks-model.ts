@@ -69,6 +69,10 @@ export type RunResult = CheckRun & CheckResult;
 interface ChecksProviderState {
   pluginName: string;
   loading: boolean;
+  /** Presence of errorMessage implicitly means that the provider is in ERROR state. */
+  errorMessage?: string;
+  /** Presence of loginCallback implicitly means that the provider is in NOT_LOGGED_IN state. */
+  loginCallback?: () => void;
   config?: ChecksApiConfig;
   runs: CheckRun[];
   actions: Action[];
@@ -108,6 +112,26 @@ export const aPluginHasRegistered$ = checksProviderState$.pipe(
 export const someProvidersAreLoading$ = checksProviderState$.pipe(
   map(state =>
     Object.values(state).some(providerState => providerState.loading)
+  ),
+  distinctUntilChanged()
+);
+
+export const errorMessage$ = checksProviderState$.pipe(
+  map(
+    state =>
+      Object.values(state).find(
+        providerState => providerState.errorMessage !== undefined
+      )?.errorMessage
+  ),
+  distinctUntilChanged()
+);
+
+export const loginCallback$ = checksProviderState$.pipe(
+  map(
+    state =>
+      Object.values(state).find(
+        providerState => providerState.loginCallback !== undefined
+      )?.loginCallback
   ),
   distinctUntilChanged()
 );
@@ -410,6 +434,37 @@ export function updateStateSetLoading(pluginName: string) {
   privateState$.next(nextState);
 }
 
+export function updateStateSetError(pluginName: string, errorMessage: string) {
+  const nextState = {...privateState$.getValue()};
+  nextState.providerNameToState = {...nextState.providerNameToState};
+  nextState.providerNameToState[pluginName] = {
+    ...nextState.providerNameToState[pluginName],
+    loading: false,
+    errorMessage,
+    loginCallback: undefined,
+    runs: [],
+    actions: [],
+  };
+  privateState$.next(nextState);
+}
+
+export function updateStateSetNotLoggedIn(
+  pluginName: string,
+  loginCallback: () => void
+) {
+  const nextState = {...privateState$.getValue()};
+  nextState.providerNameToState = {...nextState.providerNameToState};
+  nextState.providerNameToState[pluginName] = {
+    ...nextState.providerNameToState[pluginName],
+    loading: false,
+    errorMessage: undefined,
+    loginCallback,
+    runs: [],
+    actions: [],
+  };
+  privateState$.next(nextState);
+}
+
 export function updateStateSetResults(
   pluginName: string,
   runs: CheckRunApi[],
@@ -426,6 +481,8 @@ export function updateStateSetResults(
   nextState.providerNameToState[pluginName] = {
     ...nextState.providerNameToState[pluginName],
     loading: false,
+    errorMessage: undefined,
+    loginCallback: undefined,
     runs: runs.map(run => {
       const runId = `${run.checkName}-${run.change}-${run.patchset}-${run.attempt}`;
       const attemptInfo = attemptMap.get(run.checkName);

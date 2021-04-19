@@ -160,6 +160,46 @@
       "parentUuid": "3b21b0f5_e1ee0331",
       "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62c01282_0f4b4e6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-19T18:06:37Z",
+      "side": 1,
+      "message": "I tried and the two user-experiences do not interfere with each other.\nJust a small nit.",
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cf2e54a_2df9b70f",
+        "filename": "java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-19T18:06:37Z",
+      "side": 1,
+      "message": "Why wouldn\u0027t you welcome a Gerrit admin that is doing a test setup?",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 92,
+        "endChar": 59
+      },
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

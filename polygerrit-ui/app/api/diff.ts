@@ -264,6 +264,19 @@ export declare interface DiffContextExpandedExternalDetail {
   buttonType: ContextButtonType;
 }
 
+export declare type ImageDiffAction =
+  | {
+      type: 'overview-image-clicked';
+    }
+  | {
+      type: 'overview-frame-dragged';
+    }
+  | {type: 'magnifier-clicked'}
+  | {type: 'magnifier-dragged'}
+  | {type: 'version-switcher-clicked'; button: 'base' | 'revision'}
+  | {type: 'zoom-level-changed'; scale: number | 'fit'}
+  | {type: 'follow-mouse-changed'; value: boolean};
+
 export enum GrDiffLineType {
   ADD = 'add',
   BOTH = 'both',

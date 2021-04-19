@@ -109,6 +109,7 @@ export const htmlTemplate = html`
       height: 100%;
       max-width: var(--image-viewer-max-width, 95vw);
       max-height: var(--image-viewer-max-height, 90vh);
+      --primary-background-color: var(--diff-blank-background-color);
     }
     .image-diff .gr-diff {
       text-align: center;

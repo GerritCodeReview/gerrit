@@ -106,6 +106,24 @@
       "parentUuid": "a404669b_40e60a9b",
       "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5af968e_f8996a72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-19T12:23:40Z",
+      "side": 1,
+      "message": "That page is part of the plugin manager currently, that\u0027s why is focused to allow admins to install plugins. That is similar to what Jenkins does.\n\nWe can of course change the structure of the page and put the links at the same level. What I believe it would be too much is to have two welcome pages, it would be very confusing indeed.",
+      "parentUuid": "a37ed026_e9f7a9ba",
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

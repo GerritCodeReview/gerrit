@@ -180,6 +180,10 @@ export declare interface RenderPreferences {
   hide_line_length_indicator?: boolean;
 }
 
+export declare interface ImageDiffPreferences {
+  automatic_blink_time_ms?: number;
+}
+
 /**
  * Whether whitespace changes should be ignored and if yes, which whitespace
  * changes should be ignored

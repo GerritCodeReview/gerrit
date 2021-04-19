@@ -46,8 +46,14 @@ import {
   Point,
   Rect,
 } from './util';
+import {ImageDiffPreferences} from '../../../api/diff';
 
 const DRAG_DEAD_ZONE_PIXELS = 5;
+
+const DEFAULT_AUTOMATIC_BLINK_TIME_MS = 1000;
+// Cap maximum frequency at 2 Hz when configured through ImageDiffPreferences
+// to make this reasonably safe with regards to photosensitive epilepsy.
+const AUTOMATIC_BLINK_MINIMUM_TIME_MS = 500;
 
 /**
  * This components allows the user to rapidly switch between two given images
@@ -62,6 +68,9 @@ export class GrImageViewer extends LitElement {
   // URL for the image to use as revision.
   @property({type: String}) revisionUrl = '';
 
+  // Preferences for image display.
+  @property({type: Object}) prefs: ImageDiffPreferences = {};
+
   @internalProperty() protected baseSelected = true;
 
   @internalProperty() protected scaledSelected = true;
@@ -73,6 +82,8 @@ export class GrImageViewer extends LitElement {
   @internalProperty() protected checkerboardSelected = true;
 
   @internalProperty() protected backgroundColor = '';
+
+  @internalProperty() protected automaticBlink = false;
 
   @internalProperty() protected zoomedImageStyle: StyleInfo = {};
 
@@ -143,6 +154,8 @@ export class GrImageViewer extends LitElement {
     this.createColorPickerCallback('#aaa'),
   ];
 
+  private automaticBlinkTimer: any = 0;
+
   static styles = css`
     :host {
       display: flex;
@@ -163,6 +176,7 @@ export class GrImageViewer extends LitElement {
       margin: var(--spacing-m);
       padding: var(--image-border-width);
       max-height: 100%;
+      position: relative;
     }
     #spacer {
       visibility: hidden;
@@ -180,6 +194,28 @@ export class GrImageViewer extends LitElement {
     }
     gr-zoomed-image.revision {
       border-color: var(--revision-image-border-color, rgb(170, 242, 170));
+    }
+    .automatic-blink-area {
+      position: absolute;
+      width: 30%;
+      height: 100%;
+      right: 0;
+      bottom: 0;
+    }
+    .automatic-blink-button {
+      position: absolute;
+      right: var(--spacing-xl);
+      bottom: var(--spacing-xl);
+      opacity: 0;
+      transition: opacity 200ms ease;
+      --paper-fab-background: var(--primary-button-background-color);
+      --paper-fab-keyboard-focus-background: var(
+        --primary-button-background-color
+      );
+    }
+    .automatic-blink-area:hover .automatic-blink-button,
+    .automatic-blink-button:focus-visible {
+      opacity: 1;
     }
     .checkerboard {
       --square-size: var(--checkerboard-square-size, 10px);
@@ -210,6 +246,7 @@ export class GrImageViewer extends LitElement {
       padding: var(--spacing-m);
       font: var(--image-diff-button-font);
       text-transform: var(--image-diff-button-text-transform, uppercase);
+      outline: 1px solid transparent;
     }
     paper-button[unelevated] {
       color: var(--primary-button-text-color);
@@ -461,6 +498,18 @@ export class GrImageViewer extends LitElement {
       ></div>
     `;
 
+    const automaticBlink = html`
+      <div class="automatic-blink-area">
+        <paper-fab
+          class="automatic-blink-button"
+          title="Automatic blink"
+          icon="gr-icons:${this.automaticBlink ? 'pause' : 'playArrow'}"
+          @click="${this.toggleAutomaticBlink}"
+        >
+        </paper-fab>
+      </div>
+    `;
+
     // To pass CSS mixins for @apply to Polymer components, they need to be
     // wrapped in a <custom-style>.
     const customStyle = html`
@@ -542,7 +591,7 @@ export class GrImageViewer extends LitElement {
         >
           ${sourceImage}
         </gr-zoomed-image>
-        ${spacer}
+        ${this.baseUrl && this.revisionUrl ? automaticBlink : ''} ${spacer}
       </div>
 
       <paper-card class="controls">
@@ -572,6 +621,10 @@ export class GrImageViewer extends LitElement {
     ) {
       this.frameConstrainer.requestCenter({x: 0, y: 0});
     }
+
+    if (changedProperties.has('prefs') && this.automaticBlink) {
+      this.setBlinkInterval();
+    }
   }
 
   selectBase() {
@@ -594,6 +647,29 @@ export class GrImageViewer extends LitElement {
     if (this.baseUrl && this.revisionUrl) {
       this.baseSelected = !this.baseSelected;
     }
+  }
+
+  toggleAutomaticBlink() {
+    this.automaticBlink = !this.automaticBlink;
+    if (this.automaticBlink) {
+      this.toggleImage();
+      this.setBlinkInterval();
+    } else {
+      clearInterval(this.automaticBlinkTimer);
+    }
+  }
+
+  private setBlinkInterval() {
+    clearInterval(this.automaticBlinkTimer);
+    const blinkTime = this.prefs.automatic_blink_time_ms
+      ? Math.max(
+          this.prefs.automatic_blink_time_ms,
+          AUTOMATIC_BLINK_MINIMUM_TIME_MS
+        )
+      : DEFAULT_AUTOMATIC_BLINK_TIME_MS;
+    this.automaticBlinkTimer = setInterval(() => {
+      this.toggleImage();
+    }, blinkTime);
   }
 
   zoomControlChanged(event: CustomEvent) {

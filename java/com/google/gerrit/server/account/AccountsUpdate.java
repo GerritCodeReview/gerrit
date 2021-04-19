@@ -265,7 +265,7 @@ public class AccountsUpdate {
   }
 
   /** Returns an instance that runs all specified consumers. */
-  static ConfigureDeltaFromState joinConsumers(List<Consumer<AccountDelta.Builder>> consumers) {
+  public static ConfigureDeltaFromState joinConsumers(List<Consumer<AccountDelta.Builder>> consumers) {
     return (accountStateIgnored, update) -> consumers.forEach(c -> c.accept(update));
   }
 

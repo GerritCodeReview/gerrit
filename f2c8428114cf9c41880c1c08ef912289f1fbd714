@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0858cff_779c0946",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/AccountOperationsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T13:21:02Z",
+      "side": 1,
+      "message": "nit: rename to \u0027deltaBuilder\u0027?",
+      "range": {
+        "startLine": 151,
+        "startChar": 25,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "f2c8428114cf9c41880c1c08ef912289f1fbd714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

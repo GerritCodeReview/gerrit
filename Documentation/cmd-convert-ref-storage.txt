@@ -1,0 +1,58 @@
+= gerrit convert-ref-storage
+
+== NAME
+gerrit convert-ref-storage - Convert ref storage to reftable (experimental).
+
+A reftable file is a portable binary file format customized for reference storage.
+References are sorted, enabling linear scans, binary search lookup, and range scans.
+
+See also link:https://www.git-scm.com/docs/reftable for more details[reftable,role=external,window=_blank]
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit convert-ref-storage_
+  [--format <format>]
+  [--backup | -b]
+  [--reflogs | -r]
+  [--project <PROJECT> | -p <PROJECT>]
+--
+
+== DESCRIPTION
+Convert ref storage to reftable.
+
+== ACCESS
+Administrators
+
+== OPTIONS
+--project::
+-p::
+	Required; Name of the project for which the ref format should be changed.
+
+--format::
+	Format to convert to: `reftable` or `refdir`.
+	Default: reftable.
+
+--backup::
+-b::
+	Create backup of old ref storage format.
+	Default: true.
+
+--reflogs::
+-r::
+	Write reflogs to reftable.
+	Default: true.
+
+== EXAMPLES
+
+Convert ref format for project "core" to reftable:
+----
+$ ssh -p 29418 review.example.com gerrit convert-ref-format -p core
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

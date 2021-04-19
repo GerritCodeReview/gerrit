@@ -70,6 +70,30 @@
       },
       "revId": "98348598bc370b79ef07970d7595ba286be6f68d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1d39e7c_d1907b2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-19T10:44:58Z",
+      "side": 1,
+      "message": "This Output entity includes \"Change\" entity, but that doesn\u0027t make sense to me, since this is not a valid JSON object. Testing in staging, I got an empty object as a return.\n\nI don\u0027t think there\u0027s much to document, maybe even some code-cleanup code be useful since I don\u0027t see any use for this Output object (I see other classes return \"Object\" when they want to return nothing).",
+      "parentUuid": "e30cc3d3_bbed0320",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "98348598bc370b79ef07970d7595ba286be6f68d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

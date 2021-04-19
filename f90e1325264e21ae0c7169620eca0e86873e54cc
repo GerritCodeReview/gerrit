@@ -52,6 +52,24 @@
       "parentUuid": "48aed90a_ebb73d9c",
       "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dea87a24_1e2e13ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-19T07:48:25Z",
+      "side": 1,
+      "message": "@Matthias I meant why don\u0027t we have just one message in one place instead of two?\n\n@Marco: just run \u0027docker run -p 8080:8080 gerritcodereview/docker\u0027 and open your browser at http://localhost:8080, it\u0027s a web page.",
+      "parentUuid": "33c18f39_f9f91629",
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

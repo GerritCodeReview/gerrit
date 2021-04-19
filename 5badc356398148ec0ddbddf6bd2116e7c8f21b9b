@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9d28a42_6e95d44b",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T13:21:02Z",
+      "side": 1,
+      "message": "nit: allows to",
+      "range": {
+        "startLine": 71,
+        "startChar": 92,
+        "endLine": 71,
+        "endChar": 94
+      },
+      "revId": "5badc356398148ec0ddbddf6bd2116e7c8f21b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acb207d5_cc18cab0",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T13:21:02Z",
+      "side": 1,
+      "message": "nit: rename to \u0027groupDelta\u0027\n\nHere and for all updates below",
+      "range": {
+        "startLine": 62,
+        "startChar": 53,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "5badc356398148ec0ddbddf6bd2116e7c8f21b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "22b2035c8eb81cc53ec3c822799d4658d084520e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb3edce_776772a3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-19T14:25:09Z",
+      "side": 1,
+      "message": "Thanks, done: https://gerrit-review.googlesource.com/c/gerrit/+/303724",
+      "parentUuid": "fbfeeb2d_b9bcae88",
+      "range": {
+        "startLine": 121,
+        "startChar": 41,
+        "endLine": 121,
+        "endChar": 76
+      },
+      "revId": "22b2035c8eb81cc53ec3c822799d4658d084520e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b9280b_79ff7bc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T11:44:58Z",
+      "side": 1,
+      "message": "While we are at it, should we fix the same issue for ListAccountOption and ListGroupOption?",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "de3a624a_e3a5d9c5",
@@ -14,6 +37,63 @@
       "writtenOn": "2021-04-19T10:12:16Z",
       "side": 1,
       "message": "ping ?",
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbc5b6cd_859f5b5a",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T11:44:58Z",
+      "side": 1,
+      "message": "Do we need to do the same fix for the GetMetaDiff REST endpoint which also accepts hex options?",
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3338ffd7_dfc18bc5",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T11:44:58Z",
+      "side": 1,
+      "message": "This exception is only thrown for an invalid hex option, should we also return 400 Bad Request if a valid but non-existing hex option is specified?",
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbff1146_418fd7db",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T11:44:58Z",
+      "side": 1,
+      "message": "For an invalid hex flag this message is \u0027For input string: \"\u003cinvalid-value\u003e\"\u0027.\n\nCan we return a more user-readable message, such as \u0027\"\u003cinvalid-value\u003e\" is not a valid value for \"-O\"\u0027 which would match the error message that we return if an unknown string option is specified?",
+      "range": {
+        "startLine": 75,
+        "startChar": 36,
+        "endLine": 75,
+        "endChar": 50
+      },
       "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

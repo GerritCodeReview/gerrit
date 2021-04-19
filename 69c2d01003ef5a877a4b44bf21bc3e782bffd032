@@ -16,6 +16,24 @@
       "message": "What if the user doesn\u0027t have an email? Should we default to username (or we could do \u003cusername\u003e:\u003cemail\u003e?",
       "revId": "69c2d01003ef5a877a4b44bf21bc3e782bffd032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1e24c23_ebb40728",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-19T14:00:52Z",
+      "side": 1,
+      "message": "Gonna resolve this comment as looks like its been fixed. Thanks!",
+      "parentUuid": "85bfb11d_427423bd",
+      "revId": "69c2d01003ef5a877a4b44bf21bc3e782bffd032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

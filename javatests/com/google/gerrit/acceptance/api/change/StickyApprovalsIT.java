@@ -405,7 +405,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed() throws Exception {
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed()
+      throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
           .updateLabelType(
@@ -420,10 +421,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
     ChangeInfo c = detailedChange(changeId.toString());
 
-    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
-    // configured for that label, and list of files didn't change (rename is still the same file).
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, -2, 0);
+    // no votes are copied since the list of files changed (rename).
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
   }
 
   @Test

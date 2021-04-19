@@ -16,6 +16,7 @@
  */
 
 import {
+  catchError,
   filter,
   switchMap,
   takeWhile,
@@ -31,12 +32,13 @@ import {
 } from '../../api/checks';
 import {change$, changeNum$, latestPatchNum$} from '../change/change-model';
 import {
-  updateStateSetLoading,
+  checksPatchsetNumber$,
   checkToPluginMap$,
+  updateStateSetError,
+  updateStateSetLoading, updateStateSetNotLoggedIn,
+  updateStateSetPatchset,
   updateStateSetProvider,
   updateStateSetResults,
-  checksPatchsetNumber$,
-  updateStateSetPatchset,
 } from './checks-model';
 import {
   BehaviorSubject,
@@ -150,14 +152,33 @@ export class ChecksService {
             updateStateSetLoading(pluginName);
             return from(this.providers[pluginName].fetch(data));
           }
-        )
+        ),
+        catchError(e => {
+          const errorResponse: FetchResponse = {
+            responseCode: ResponseCode.ERROR,
+            errorMessage: `Error while fetching check results from plugin '${pluginName}': ${e}`,
+          };
+          return of(errorResponse);
+        })
       )
       .subscribe(response => {
-        updateStateSetResults(
-          pluginName,
-          response.runs ?? [],
-          response.actions
-        );
+        switch (response.responseCode) {
+          case ResponseCode.ERROR:
+            assertIsDefined(response.errorMessage, 'errorMessage');
+            updateStateSetError(pluginName, response.errorMessage);
+            break;
+          case ResponseCode.NOT_LOGGED_IN:
+            assertIsDefined(response.loginCallback, 'loginCallback');
+            updateStateSetNotLoggedIn(pluginName, response.loginCallback);
+            break;
+          case ResponseCode.OK:
+            updateStateSetResults(
+              pluginName,
+              response.runs ?? [],
+              response.actions
+            );
+            break;
+        }
       });
   }
 }

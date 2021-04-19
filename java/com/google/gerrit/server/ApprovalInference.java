@@ -176,7 +176,8 @@ public class ApprovalInference {
             .noneMatch(
                 p ->
                     p.getChangeType() == ChangeType.ADDED
-                        || p.getChangeType() == ChangeType.DELETED)) {
+                        || p.getChangeType() == ChangeType.DELETED
+                        || p.getChangeType() == ChangeType.RENAMED)) {
       logger.atFine().log(
           "approval %d on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set "

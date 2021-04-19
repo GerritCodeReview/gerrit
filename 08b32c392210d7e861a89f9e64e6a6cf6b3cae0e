@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e47e898c_a14286d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-19T12:51:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc261cf5_a6624c78",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "08b32c392210d7e861a89f9e64e6a6cf6b3cae0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c79d50f_2c776f48",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "900f1ada_a20bca14",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-19T12:51:28Z",
+      "side": 1,
+      "message": "for some reason I thought that since it used to be \"void\" we don\u0027t break it. Anyway, mentioned.",
+      "parentUuid": "5c79d50f_2c776f48",
+      "revId": "08b32c392210d7e861a89f9e64e6a6cf6b3cae0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b601b136_911fe8aa",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-04-19T12:00:55Z",
       "side": 1,
       "message": "This likely means that you will need to adapt some internal code when importing this.\n\nMaybe have a look at this before submitting this change.",
+      "revId": "08b32c392210d7e861a89f9e64e6a6cf6b3cae0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a882ba4d_50c2e7f6",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-19T12:51:28Z",
+      "side": 1,
+      "message": "Ack, no issue.",
+      "parentUuid": "b601b136_911fe8aa",
       "revId": "08b32c392210d7e861a89f9e64e6a6cf6b3cae0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

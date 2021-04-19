@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "294547fc_0ea3d0cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 1961,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-19T08:53:04Z",
+      "side": 1,
+      "message": "Oh wait! So getRevertCreatedShas() does not return a sha, but a change ID? Then the name of the method needs to be changed. :-) And the return type should be ChangeId[].",
+      "range": {
+        "startLine": 1961,
+        "startChar": 38,
+        "endLine": 1961,
+        "endChar": 53
+      },
+      "revId": "3b54a804e2b3acc5fadd498c63f0dbc026b63380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b729b052_50698cf5",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-19T08:53:04Z",
+      "side": 1,
+      "message": "\"Commit\" and \"Sha\" are the wrong terms. The messages contain a ChangeId.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 69
+      },
+      "revId": "3b54a804e2b3acc5fadd498c63f0dbc026b63380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

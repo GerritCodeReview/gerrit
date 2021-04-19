@@ -27,6 +27,7 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {EditPatchSetNum} from '../../../types/common.js';
+import {SpecialFilePath} from '../../../constants/constants.js';
 
 const commentApiMockElement = createCommentApiMockWithTemplateElement(
     'gr-patch-range-select-comment-api-mock', html`
@@ -363,19 +364,29 @@ suite('gr-patch-range-select tests', () => {
         unresolved: true,
         updated: '2017-10-11 20:48:40.000000000',
       }],
-      bar: [{
-        id: '27dcee4d_f7b77cfa',
-        message: 'test',
-        patch_set: 1,
-        updated: '2017-10-12 20:48:40.000000000',
-      },
-      {
-        id: '27dcee4d_f7b77cfa',
-        message: 'test',
-        patch_set: 1,
-        updated: '2017-10-13 20:48:40.000000000',
-      }],
+      bar: [
+        {
+          id: '27dcee4d_f7b77cfa',
+          message: 'test',
+          patch_set: 1,
+          updated: '2017-10-12 20:48:40.000000000',
+        },
+        {
+          id: '27dcee4d_f7b77cfa',
+          message: 'test',
+          patch_set: 1,
+          updated: '2017-10-13 20:48:40.000000000',
+        },
+      ],
       abc: [],
+      // Patchset level comment does not contribute to the count
+      [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: {
+        id: '27dcee4d_f7b77cfa',
+        message: 'test',
+        patch_set: 1,
+        unresolved: true,
+        updated: '2017-10-11 20:48:40.000000000',
+      },
     };
     element.changeComments = new ChangeComments(comments, {}, {}, 123);
 

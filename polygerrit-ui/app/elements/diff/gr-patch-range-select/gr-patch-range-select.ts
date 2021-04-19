@@ -372,9 +372,12 @@ export class GrPatchRangeSelect extends PolymerElement {
       return;
     }
 
-    const commentThreadCount = changeComments.computeCommentThreadCount({
-      patchNum,
-    });
+    const commentThreadCount = changeComments.computeCommentThreadCount(
+      {
+        patchNum,
+      },
+      true
+    );
     const commentThreadString = pluralize(commentThreadCount, 'comment');
 
     const unresolvedCount = changeComments.computeUnresolvedNum({patchNum});

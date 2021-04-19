@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35741cfd_b321584e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-19T15:14:36Z",
+      "side": 1,
+      "message": "Thanks Edwin for taking the time and look at my change!\n\n@Patrick: Since Edwin asked me to align with another Googler to look at this change, could you have a look? Or who would be the right person to have a look? Thanks!",
+      "revId": "551ad4f63d2b86bf9c55e006c6fd30faf54d7d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

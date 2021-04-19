@@ -124,6 +124,24 @@
       "parentUuid": "a37ed026_e9f7a9ba",
       "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b21b0f5_e1ee0331",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-19T14:52:26Z",
+      "side": 1,
+      "message": "Compared to the plugin-manager\u0027s intro page this is very low profile. It basically \nwrites \"hello, here\u0027s the homepage and here\u0027s the mailing list\" to the init log when a new site is initialised the first time. This also works if the plugin-manager isn\u0027t installed.\n\nDo you think this would confuse a new user if the plugin-manager was installed and later shows its intro page which provides a lot more details ?",
+      "parentUuid": "d5af968e_f8996a72",
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

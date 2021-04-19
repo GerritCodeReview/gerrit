@@ -1274,6 +1274,39 @@ suite('gr-change-view tests', () => {
   });
 
   suite('ChangeStatus revert', () => {
+
+    test('do not show any chip if no revert created', done => {
+      const change = {
+        ...createChange(),
+        messages: createChangeMessages(2),
+      };
+      const getChangeStub = stubRestApi('getChange');
+      getChangeStub.onFirstCall().returns(
+        Promise.resolve({
+          ...createChange(),
+        })
+      );
+      getChangeStub.onSecondCall().returns(
+        Promise.resolve({
+          ...createChange(),
+        })
+      );
+      element._change = change;
+      element._mergeable = true;
+      element._submitEnabled = true;
+      flush();
+      element.computeRevertSubmitted(element._change);
+      flush(() => {
+        assert.isFalse(
+          element._changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
+        );
+        assert.isFalse(
+          element._changeStatuses?.includes(ChangeStates.REVERT_CREATED)
+        );
+        done();
+      });
+    });
+
     test('show revert created if no revert is merged', done => {
       const change = {
         ...createChange(),

@@ -1961,6 +1961,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         this.restApiService.getChange(changeId)
       )
     ).then(changes => {
+      if (!changes.length) return;
       const change = changes.find(
         change => change?.status === ChangeStatus.MERGED
       );

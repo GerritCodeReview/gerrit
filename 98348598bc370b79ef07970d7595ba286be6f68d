@@ -142,6 +142,30 @@
       },
       "revId": "98348598bc370b79ef07970d7595ba286be6f68d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e400f5e6_723c59a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T11:13:07Z",
+      "side": 1,
+      "message": "Would make sense to me.",
+      "parentUuid": "b04deda2_8bcdf9ad",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "98348598bc370b79ef07970d7595ba286be6f68d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

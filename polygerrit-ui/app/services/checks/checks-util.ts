@@ -25,7 +25,8 @@ import {
 import {assertNever} from '../../utils/common-util';
 import {CheckResult, CheckRun} from './checks-model';
 
-export function iconForLink(linkIcon: LinkIcon) {
+export function iconForLink(linkIcon?: LinkIcon) {
+  if (linkIcon === undefined) return 'launch';
   switch (linkIcon) {
     case LinkIcon.EXTERNAL:
       return 'launch';

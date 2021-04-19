@@ -4406,6 +4406,7 @@ body.
 --
 
 Submits a revision.
+Submitting a change also removes all users from the link:#attention-set[attention set].
 
 .Request
 ----

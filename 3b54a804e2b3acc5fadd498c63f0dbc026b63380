@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1424804e_4b463503",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 1961,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-19T09:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "294547fc_0ea3d0cf",
+      "range": {
+        "startLine": 1961,
+        "startChar": 38,
+        "endLine": 1961,
+        "endChar": 53
+      },
+      "revId": "3b54a804e2b3acc5fadd498c63f0dbc026b63380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b729b052_50698cf5",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-19T08:53:04Z",
       "side": 1,
       "message": "\"Commit\" and \"Sha\" are the wrong terms. The messages contain a ChangeId.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 69
+      },
+      "revId": "3b54a804e2b3acc5fadd498c63f0dbc026b63380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b39d765_0c882839",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-19T09:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b729b052_50698cf5",
       "range": {
         "startLine": 21,
         "startChar": 0,

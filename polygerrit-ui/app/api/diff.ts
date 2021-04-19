@@ -178,6 +178,11 @@ export declare interface RenderPreferences {
   disable_context_control_buttons?: boolean;
   show_file_comment_button?: boolean;
   hide_line_length_indicator?: boolean;
+  image_diff_prefs?: ImageDiffPreferences;
+}
+
+export declare interface ImageDiffPreferences {
+  automatic_blink_time_ms?: number;
 }
 
 /**

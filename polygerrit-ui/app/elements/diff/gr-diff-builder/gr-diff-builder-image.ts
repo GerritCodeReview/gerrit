@@ -19,7 +19,7 @@ import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrEndpointParam} from '../../plugins/gr-endpoint-param/gr-endpoint-param';
-import {RenderPreferences} from '../../../api/diff';
+import {ImageDiffPreferences, RenderPreferences} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
 import {GrImageViewer} from '../gr-diff-image-viewer/gr-image-viewer';
 
@@ -28,6 +28,8 @@ import {GrImageViewer} from '../gr-diff-image-viewer/gr-image-viewer';
 const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp)$/;
 
 export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
+  private readonly imageDiffPrefs?: ImageDiffPreferences;
+
   constructor(
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
@@ -38,6 +40,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     private readonly _useNewImageDiffUi: boolean = false
   ) {
     super(diff, prefs, outputEl, [], renderPrefs);
+    this.imageDiffPrefs = renderPrefs?.image_diff_prefs;
   }
 
   public renderDiff() {
@@ -96,6 +99,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
 
     imageViewer.baseUrl = this._getImageSrc(this._baseImage);
     imageViewer.revisionUrl = this._getImageSrc(this._revisionImage);
+    imageViewer.prefs = this.imageDiffPrefs;
 
     td.appendChild(imageViewer);
     tr.appendChild(td);

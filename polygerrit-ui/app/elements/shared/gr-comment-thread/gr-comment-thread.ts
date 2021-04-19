@@ -178,7 +178,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object})
   _renderPrefs: RenderPreferences = {
     hide_left_side: true,
-    disable_context_control_buttons: true,
     show_file_comment_button: false,
     hide_line_length_indicator: true,
   };

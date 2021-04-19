@@ -157,10 +157,10 @@ export abstract class GrDiffBuilder {
 
   abstract addColumns(outputEl: HTMLElement, fontSize: number): void;
 
-  abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
+  abstract buildSectionElement(group: GrDiffGroup, groupIndex?: number): HTMLElement;
 
-  emitGroup(group: GrDiffGroup, beforeSection: HTMLElement | null) {
-    const element = this.buildSectionElement(group);
+  emitGroup(group: GrDiffGroup, beforeSection: HTMLElement | null, groupIndex?: number) {
+    const element = this.buildSectionElement(group, groupIndex);
     this._outputEl.insertBefore(element, beforeSection);
     group.element = element;
   }

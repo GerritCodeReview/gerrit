@@ -42,7 +42,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     };
   }
 
-  buildSectionElement(group: GrDiffGroup) {
+  buildSectionElement(group: GrDiffGroup, groupIndex?: number) {
     const sectionEl = this._createElement('tbody', 'section');
     sectionEl.classList.add(group.type);
     if (this._isTotal(group)) {
@@ -65,6 +65,11 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
         DiffViewMode.SIDE_BY_SIDE
       );
       return sectionEl;
+    }
+    if (groupIndex === 0) {
+      const paddingRow = this._createContextControlRow(sectionEl, [], true, true, 10);
+      paddingRow.classList.add('above');
+      sectionEl.appendChild(paddingRow);
     }
 
     const pairs = group.getSideBySidePairs();

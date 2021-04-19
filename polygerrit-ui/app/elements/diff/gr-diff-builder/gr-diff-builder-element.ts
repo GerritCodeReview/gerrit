@@ -393,12 +393,13 @@ export class GrDiffBuilderElement extends PolymerElement {
     if (!changeRecord || !this._builder) {
       return;
     }
+    let groupIndex = 0;
     for (const splice of changeRecord.indexSplices) {
       let group;
       for (let i = 0; i < splice.addedCount; i++) {
         group = splice.object[splice.index + i];
         this._builder.groups.push(group);
-        this._builder.emitGroup(group, null);
+        this._builder.emitGroup(group, null, groupIndex++);
       }
     }
   }

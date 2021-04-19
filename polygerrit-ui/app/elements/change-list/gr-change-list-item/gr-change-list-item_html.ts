@@ -84,6 +84,9 @@ export const htmlTemplate = html`
     a:hover {
       text-decoration: underline;
     }
+    .subject:hover .content {
+      text-decoration: underline;
+    }
     .u-monospace {
       font-family: var(--monospace-font-family);
       font-size: var(--font-size-mono);

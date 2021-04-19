@@ -120,9 +120,11 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
     RequestMetricsFilter.Context ctx =
         (RequestMetricsFilter.Context) req.getAttribute(RequestMetricsFilter.METRICS_CONTEXT);
-    set(event, P_CPU_TOTAL, ctx.getTotalCpuTime());
-    set(event, P_CPU_USER, ctx.getUserCpuTime());
-    set(event, P_MEMORY, ctx.getAllocatedMemory());
+    if (ctx != null) {
+      set(event, P_CPU_TOTAL, ctx.getTotalCpuTime());
+      set(event, P_CPU_USER, ctx.getUserCpuTime());
+      set(event, P_MEMORY, ctx.getAllocatedMemory());
+    }
 
     async.append(event);
   }

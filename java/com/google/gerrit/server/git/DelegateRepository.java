@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.common.UsedAt;
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +32,7 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.ObjectDatabase;
@@ -390,5 +393,20 @@ public class DelegateRepository extends Repository {
   public void writeRebaseTodoFile(String path, List<RebaseTodoLine> steps, boolean append)
       throws IOException {
     delegate.writeRebaseTodoFile(path, steps, append);
+  }
+
+  /**
+   * Converts between ref storage formats.
+   *
+   * @param format the format to convert to, either "reftable" or "refdir"
+   * @param writeLogs whether to write reflogs
+   * @param backup whether to make a backup of the old data
+   * @throws IOException on I/O problems.
+   */
+  public void convertRefStorage(String format, boolean writeLogs, boolean backup)
+      throws IOException {
+    checkState(
+        delegate instanceof FileRepository, "Repository is not an instance of FileRepository!");
+    ((FileRepository) delegate).convertRefStorage(format, writeLogs, backup);
   }
 }

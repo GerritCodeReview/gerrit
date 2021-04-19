@@ -1741,6 +1741,18 @@ Submitting a change also removes all users from the link:#attention-set[attentio
 As response a link:#change-info[ChangeInfo] entity is returned that
 describes the submitted/merged change.
 
+Submission may submit multiple changes, but we still only return one ChangeInfo
+object. To query for all submitted changes, please use the submission_id that is
+part of the response.
+
+Changes that will also be submitted:
+1. All changes of the same topic if
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+configuration is set to true.
+2. All dependent changes.
+3. The closure of the above (e.g if a dependent change has a topic, all changes
+of *that* topic will also be submitted).
+
 .Response
 ----
   HTTP/1.1 200 OK
@@ -4415,6 +4427,18 @@ Submitting a change also removes all users from the link:#attention-set[attentio
 
 As response a link:#change-info[ChangeInfo] entity is returned that
 describes the submitted/merged change.
+
+Submission may submit multiple changes, but we still only return one ChangeInfo
+object. To query for all submitted changes, please use the submission_id that is
+part of the response.
+
+Changes that will also be submitted:
+1. All changes of the same topic if
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+configuration is set to true.
+2. All dependent changes.
+3. The closure of the above (e.g if a dependent change has a topic, all changes
+of *that* topic will also be submitted).
 
 .Response
 ----

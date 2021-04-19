@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "559eedb9_95a17a94",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1966,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-19T08:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2a41dc1_7fc86829",
+      "revId": "7aa5bf982b203893ce4b6b6963b2cfb03da3d301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "249298b9_399fb6ba",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53783e07_bdd3362d",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-19T08:33:14Z",
+      "side": 1,
+      "message": "Reverted back to getRevertCommitFromMessage",
+      "parentUuid": "249298b9_399fb6ba",
+      "revId": "7aa5bf982b203893ce4b6b6963b2cfb03da3d301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "209ddd0a_8eb5bd7e",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-04-19T07:30:53Z",
       "side": 1,
       "message": "We now have 4 util functions that are very similar and overlapping. Maybe we can reduce that to 1 or 2?\n\nWould about just `getRevertCommitShas`?\n\nAre callers ever interested in the full message?\n\nMaybe callers can use `getRevertCommitShas().length \u003e 0` instead of `isRevertCreated()`?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 63
+      },
+      "revId": "7aa5bf982b203893ce4b6b6963b2cfb03da3d301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08cf2797_6c795394",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-19T08:33:14Z",
+      "side": 1,
+      "message": "Removed isRevertCreated().\n\nreplaced getRevertCommitHash with getRevertCommitShas()?.[0] as well.",
+      "parentUuid": "209ddd0a_8eb5bd7e",
       "range": {
         "startLine": 21,
         "startChar": 0,

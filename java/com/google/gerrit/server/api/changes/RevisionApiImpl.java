@@ -261,9 +261,9 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   }
 
   @Override
-  public void submit(SubmitInput in) throws RestApiException {
+  public ChangeInfo submit(SubmitInput in) throws RestApiException {
     try {
-      submit.apply(revision, in);
+      return submit.apply(revision, in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot submit change", e);
     }

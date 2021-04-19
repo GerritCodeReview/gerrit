@@ -41,6 +41,53 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8b9dddf_09411782",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-19T15:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7cea577_8c5d8ba4",
+      "range": {
+        "startLine": 176,
+        "startChar": 52,
+        "endLine": 176,
+        "endChar": 66
+      },
+      "revId": "4711e886af8a5bd037c64bd46454ca9ebe315043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb2d3a6e_eed7363c",
+        "filename": "java/com/google/gerrit/server/account/externalids/PasswordVerifier.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-19T15:14:36Z",
+      "side": 1,
+      "message": "This will not be true in case the username is case insensitive and the user uses the username with a different capitalization than used during account creation.\n\nWe should rather check the sha1 sum of the key, which is used as the note\u0027s ID.",
+      "range": {
+        "startLine": 37,
+        "startChar": 43,
+        "endLine": 37,
+        "endChar": 74
+      },
+      "revId": "4711e886af8a5bd037c64bd46454ca9ebe315043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b5b2072_7749fe8e",
@@ -64,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d00fc9af_04c05edf",
+        "filename": "proto/cache.proto",
+        "patchSetId": 19
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-19T15:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b5b2072_7749fe8e",
+      "range": {
+        "startLine": 269,
+        "startChar": 14,
+        "endLine": 269,
+        "endChar": 15
+      },
+      "revId": "4711e886af8a5bd037c64bd46454ca9ebe315043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a425e92b_23c106bd",
@@ -77,6 +148,30 @@
       "writtenOn": "2021-04-19T12:34:32Z",
       "side": 1,
       "message": "We must not change the IDs for the existing fields as this is an incompatible change. This means isCaseInsensitive must become ID 6.",
+      "range": {
+        "startLine": 273,
+        "startChar": 3,
+        "endLine": 276,
+        "endChar": 21
+      },
+      "revId": "4711e886af8a5bd037c64bd46454ca9ebe315043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7406d539_c1c32355",
+        "filename": "proto/cache.proto",
+        "patchSetId": 19
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-19T15:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a425e92b_23c106bd",
       "range": {
         "startLine": 273,
         "startChar": 3,

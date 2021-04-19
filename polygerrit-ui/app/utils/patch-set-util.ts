@@ -309,6 +309,7 @@ export function hasEditPatchsetLoaded(patchRange: PatchRange) {
  *     has been loaded, and false if a newer patch has been uploaded in the
  *     meantime. The promise is rejected on network error.
  */
+// TODO: remove usage of RestApiService inside util
 export function fetchChangeUpdates(
   change: ChangeInfo | ParsedChangeInfo,
   restAPI: RestApiService

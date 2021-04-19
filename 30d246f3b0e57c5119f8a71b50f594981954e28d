@@ -104,6 +104,24 @@
       "parentUuid": "54f93715_b90e83c1",
       "revId": "30d246f3b0e57c5119f8a71b50f594981954e28d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edf2a591_5f340d64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-19T06:32:15Z",
+      "side": 1,
+      "message": "The build has been fixed and submitted. It contains my change.\nShould be live in ~2 days.",
+      "parentUuid": "348757f9_51ab5793",
+      "revId": "30d246f3b0e57c5119f8a71b50f594981954e28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

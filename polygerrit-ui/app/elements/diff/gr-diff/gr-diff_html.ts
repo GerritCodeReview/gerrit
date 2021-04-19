@@ -109,6 +109,14 @@ export const htmlTemplate = html`
       height: 100%;
       max-width: var(--image-viewer-max-width, 95vw);
       max-height: var(--image-viewer-max-height, 90vh);
+      /* 
+        Defined by paper-styles default-theme and used in various components.
+        background-color-secondary is a compromise between fairly light in
+        light theme (where we ideally would want background-color-primary) yet
+        slightly offset against the app background in dark mode, where drop
+        shadows e.g. around paper-card are almost invisible.
+        */
+      --primary-background-color: var(--background-color-secondary);
     }
     .image-diff .gr-diff {
       text-align: center;

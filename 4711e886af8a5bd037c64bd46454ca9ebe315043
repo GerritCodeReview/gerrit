@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b882ec_6427482b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T12:34:32Z",
+      "side": 1,
+      "message": "I didn\u0027t do a full review, but the introduction of a factory to create external IDs LGTM.\n\nPlease align with someone at Google before submitting this, as it looks like we will need to do quite some changes in our internal code to adapt to this change.",
+      "revId": "4711e886af8a5bd037c64bd46454ca9ebe315043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7cea577_8c5d8ba4",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T12:34:32Z",
+      "side": 1,
+      "message": "nit: I think we prefer specifying a locale when converting to lowercase:\n\n  .toLowerCase(Locale.US)",
+      "range": {
+        "startLine": 176,
+        "startChar": 52,
+        "endLine": 176,
+        "endChar": 66
+      },
+      "revId": "4711e886af8a5bd037c64bd46454ca9ebe315043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b5b2072_7749fe8e",
+        "filename": "proto/cache.proto",
+        "patchSetId": 19
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T12:34:32Z",
+      "side": 1,
+      "message": "nit: Should be updated to \u00277\u0027.",
+      "range": {
+        "startLine": 269,
+        "startChar": 14,
+        "endLine": 269,
+        "endChar": 15
+      },
+      "revId": "4711e886af8a5bd037c64bd46454ca9ebe315043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a425e92b_23c106bd",
+        "filename": "proto/cache.proto",
+        "patchSetId": 19
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-19T12:34:32Z",
+      "side": 1,
+      "message": "We must not change the IDs for the existing fields as this is an incompatible change. This means isCaseInsensitive must become ID 6.",
+      "range": {
+        "startLine": 273,
+        "startChar": 3,
+        "endLine": 276,
+        "endChar": 21
+      },
+      "revId": "4711e886af8a5bd037c64bd46454ca9ebe315043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

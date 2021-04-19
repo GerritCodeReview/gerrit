@@ -179,6 +179,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b2e6da5_0d3326fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-19T22:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15c8660f_d843d1a7",
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cf2e54a_2df9b70f",

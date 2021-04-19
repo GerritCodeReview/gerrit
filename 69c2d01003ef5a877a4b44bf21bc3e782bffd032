@@ -34,6 +34,24 @@
       "parentUuid": "85bfb11d_427423bd",
       "revId": "69c2d01003ef5a877a4b44bf21bc3e782bffd032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa27bb6_62228250",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-19T14:03:42Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e1e24c23_ebb40728",
+      "revId": "69c2d01003ef5a877a4b44bf21bc3e782bffd032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

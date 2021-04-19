@@ -36,7 +36,15 @@ import {
 import {classMap} from 'lit-html/directives/class-map';
 import {StyleInfo, styleMap} from 'lit-html/directives/style-map';
 
-import {Dimensions, fitToFrame, FrameConstrainer, Point, Rect} from './util';
+import {
+  createEvent,
+  Dimensions,
+  fitToFrame,
+  FrameConstrainer,
+  Point,
+  Rect,
+} from './util';
+import {ImageDiffAction} from '../../../api/diff';
 
 const DRAG_DEAD_ZONE_PIXELS = 5;
 
@@ -272,6 +280,7 @@ export class GrImageViewer extends LitElement {
       <gr-overview-image
         .frameRect="${this.overviewFrame}"
         @center-updated="${this.onOverviewCenterUpdated}"
+        @image-diff-action="${this.logImageDiffAction}"
       >
         <img src="${src}" class="checkerboard" />
       </gr-overview-image>
@@ -414,6 +423,10 @@ export class GrImageViewer extends LitElement {
     `;
   }
 
+  private logImageDiffAction(event: CustomEvent<ImageDiffAction>) {
+    console.log(event.detail.type, event);
+  }
+
   firstUpdated() {
     this.resizeObserver.observe(this.imageArea, {box: 'content-box'});
   }
@@ -439,11 +452,17 @@ export class GrImageViewer extends LitElement {
   selectBase() {
     if (!this.baseUrl) return;
     this.baseSelected = true;
+    this.dispatchEvent(
+      createEvent({type: 'version-switcher-clicked', button: 'base'})
+    );
   }
 
   selectRevision() {
     if (!this.revisionUrl) return;
     this.baseSelected = false;
+    this.dispatchEvent(
+      createEvent({type: 'version-switcher-clicked', button: 'revision'})
+    );
   }
 
   toggleImage() {
@@ -457,16 +476,25 @@ export class GrImageViewer extends LitElement {
     if (!value) return;
     if (value === 'fit') {
       this.scaledSelected = true;
+      this.dispatchEvent(
+        createEvent({type: 'zoom-level-changed', scale: 'fit'})
+      );
     }
     if (value > 0) {
       this.scaledSelected = false;
       this.scale = value;
+      this.dispatchEvent(
+        createEvent({type: 'zoom-level-changed', scale: value})
+      );
     }
     this.updateSizes();
   }
 
   followMouseChanged() {
     this.followMouse = !this.followMouse;
+    this.dispatchEvent(
+      createEvent({type: 'follow-mouse-changed', value: this.followMouse})
+    );
   }
 
   mousedownMagnifier(event: MouseEvent) {

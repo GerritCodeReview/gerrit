@@ -45,6 +45,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
       ImmutableList.of(
           "apropos",
           "close-connection",
+          "convert-ref-storage",
           "flush-caches",
           "gc",
           "logging",

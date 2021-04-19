@@ -70,6 +70,24 @@
       "parentUuid": "33c18f39_f9f91629",
       "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a404669b_40e60a9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-19T07:52:31Z",
+      "side": 1,
+      "message": "Sorry, typo in the CLI:\ndocker run -p 8080:8080 gerritcodereview/gerrit\n\nThe same welcome message appear also for anyone using the native packages:\nrpm -i gerrit (on CentOS / Fedora)\napt-get install gerrit (on Ubuntu / Debian)\n\nScreenshot at:\nhttps://i.imgur.com/PucjPLJ.png",
+      "parentUuid": "dea87a24_1e2e13ce",
+      "revId": "f90e1325264e21ae0c7169620eca0e86873e54cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

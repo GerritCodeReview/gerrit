@@ -16,6 +16,24 @@
       "message": "Add a comment that --primary-background-color is a variable defined and used by paper-styles default-theme.",
       "revId": "58102bdc62bd546f39732204f7a5d72e0037149a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d935ff_ac3fad1c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-19T09:32:35Z",
+      "side": 1,
+      "message": "I documented, but also realized that --diff-blank-background-color wasn\u0027t a great choice in light theme, because it\u0027s visibly darker than the primary background. I think --background-color-secondary strikes a better balance.\n\nLet me know if I should instead make it explicit in the themes (which requires introducing a new custom property).",
+      "parentUuid": "6a8c7759_f7cd12bb",
+      "revId": "58102bdc62bd546f39732204f7a5d72e0037149a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

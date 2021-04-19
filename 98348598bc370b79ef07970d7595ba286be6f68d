@@ -22,6 +22,30 @@
       },
       "revId": "98348598bc370b79ef07970d7595ba286be6f68d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "567233d2_56acf1b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-19T10:22:19Z",
+      "side": 1,
+      "message": "Your link is for the CHANGE_KIND endpoint (the name of this class is wrong then, I guess):\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/change/Module.java#113\n\nThe revision one is the one that returns \"Output\":\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/change/Module.java#148",
+      "parentUuid": "eb08c20a_63f9f22b",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "98348598bc370b79ef07970d7595ba286be6f68d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

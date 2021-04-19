@@ -16,6 +16,47 @@
       "message": "wouldn\u0027t this have to go onto the oldest stable branch still in support? I think that would be 2.16 or 3.0",
       "revId": "1202b0fc02768c9f43e662c94269337fe7677b17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34db5488_fc959d3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-19T17:28:56Z",
+      "side": 1,
+      "message": "+1 for this change to be moved to stable-3.1 by now. The 3-dot, top-right menu can be used for that purpose if unclear.",
+      "parentUuid": "5cc14d90_891da706",
+      "revId": "1202b0fc02768c9f43e662c94269337fe7677b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "969ac140_f03cd9c9",
+        "filename": "java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-19T17:28:56Z",
+      "side": 1,
+      "message": "This fix could extract this preceding constant to reuse it right below. Doing so would make the small logic below more consistent with this check.",
+      "range": {
+        "startLine": 480,
+        "startChar": 35,
+        "endLine": 480,
+        "endChar": 59
+      },
+      "revId": "1202b0fc02768c9f43e662c94269337fe7677b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,6 +26,8 @@ import {
   aPluginHasRegistered$,
   someProvidersAreLoading$,
   allRunsLatest$,
+  errorMessage$,
+  loginCallback$,
 } from '../../../services/checks/checks-model';
 import {Category, Link, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
@@ -284,6 +286,12 @@ export class GrChangeSummary extends GrLitElement {
   @property()
   someProvidersAreLoading = false;
 
+  @property()
+  errorMessage?: string;
+
+  @property()
+  loginCallback?: () => void;
+
   /** Is reset when rendering beings and decreases while chips are rendered. */
   private detailsQuota = DETAILS_QUOTA;
 
@@ -292,6 +300,8 @@ export class GrChangeSummary extends GrLitElement {
     this.subscribe('runs', allRunsLatest$);
     this.subscribe('showChecksSummary', aPluginHasRegistered$);
     this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
+    this.subscribe('errorMessage', errorMessage$);
+    this.subscribe('loginCallback', loginCallback$);
   }
 
   static get styles() {
@@ -301,6 +311,7 @@ export class GrChangeSummary extends GrLitElement {
         :host {
           display: block;
           color: var(--deemphasized-text-color);
+          max-width: 650px;
           /* temporary for old checks status */
         }
         :host.new-change-summary-true {
@@ -308,6 +319,12 @@ export class GrChangeSummary extends GrLitElement {
         }
         .zeroState {
           color: var(--primary-text-color);
+        }
+        .error {
+          background-color: var(--warning-background);
+        }
+        .login gr-button {
+          margin: -4px var(--spacing-s);
         }
         td.key {
           padding-right: var(--spacing-l);
@@ -333,13 +350,33 @@ export class GrChangeSummary extends GrLitElement {
     ];
   }
 
+  renderChecksError() {
+    if (!this.errorMessage) return;
+    return html`
+      <div class="error zeroState">Error while fetching check results.</div>
+      <div class="error zeroState">${this.errorMessage}</div>
+    `;
+  }
+
+  renderChecksLogin() {
+    if (this.errorMessage || !this.loginCallback) return;
+    return html`
+      <div class="login zeroState">
+        Not logged in
+        <gr-button @click="${this.loginCallback}" link>Sign in</gr-button>
+      </div>
+    `;
+  }
+
   renderChecksZeroState() {
+    if (this.errorMessage || this.loginCallback) return;
     if (this.runs.some(isRunningOrHasCompleted)) return;
     const msg = this.someProvidersAreLoading ? 'Loading...' : 'No results';
-    return html`<span class="font-small zeroState">${msg}</span>`;
+    return html`<div class="loading zeroState">${msg}</div>`;
   }
 
   renderChecksChipForCategory(category: Category) {
+    if (this.errorMessage || this.loginCallback) return;
     const icon = iconForCategory(category);
     const runs = this.runs.filter(run => hasResultsOf(run, category));
     const count = (run: CheckRun) => getResultsOf(run, category);
@@ -350,6 +387,7 @@ export class GrChangeSummary extends GrLitElement {
     status: RunStatus,
     filter: (run: CheckRun) => boolean
   ) {
+    if (this.errorMessage || this.loginCallback) return;
     const icon = iconForStatus(status);
     const runs = this.runs.filter(filter);
     return this.renderChecksChip(icon, runs, status, () => []);
@@ -431,6 +469,7 @@ export class GrChangeSummary extends GrLitElement {
           <tr ?hidden=${!this.showChecksSummary}>
             <td class="key">Checks</td>
             <td class="value">
+              ${this.renderChecksError()}${this.renderChecksLogin()}
               ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
                 Category.ERROR
               )}${this.renderChecksChipForCategory(
@@ -447,7 +486,7 @@ export class GrChangeSummary extends GrLitElement {
             <td class="key">Comments</td>
             <td class="value">
               <span
-                class="font-small zeroState"
+                class="zeroState"
                 ?hidden=${!!countResolvedComments ||
                 !!draftCount ||
                 !!countUnresolvedComments}

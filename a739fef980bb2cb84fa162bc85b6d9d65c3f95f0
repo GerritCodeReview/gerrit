@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17299f08_444f07dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1965,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-19T06:40:05Z",
+      "side": 1,
+      "message": "Move this to message-util.",
+      "range": {
+        "startLine": 1963,
+        "startChar": 4,
+        "endLine": 1965,
+        "endChar": 6
+      },
+      "revId": "a739fef980bb2cb84fa162bc85b6d9d65c3f95f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74daff59_b4736b0f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1968,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-19T06:40:05Z",
+      "side": 1,
+      "message": "Maybe do this in a array.map().",
+      "revId": "a739fef980bb2cb84fa162bc85b6d9d65c3f95f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "532c1da5_d8864bf5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1969,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-19T06:40:05Z",
+      "side": 1,
+      "message": "Maybe also just .map() this instead of creating a separate array?",
+      "revId": "a739fef980bb2cb84fa162bc85b6d9d65c3f95f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

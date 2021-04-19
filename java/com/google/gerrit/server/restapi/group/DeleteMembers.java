@@ -31,8 +31,8 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.MemberResource;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.restapi.group.AddMembers.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -86,11 +86,11 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
   private void removeGroupMembers(AccountGroup.UUID groupUuid, Set<Account.Id> accountIds)
       throws IOException, NoSuchGroupException, ConfigInvalidException {
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder()
+    GroupDelta groupDelta =
+        GroupDelta.builder()
             .setMemberModification(memberIds -> Sets.difference(memberIds, accountIds))
             .build();
-    groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
+    groupsUpdateProvider.get().updateGroup(groupUuid, groupDelta);
   }
 
   @Singleton

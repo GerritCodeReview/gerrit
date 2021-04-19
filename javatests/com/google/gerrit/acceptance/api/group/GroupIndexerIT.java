@@ -28,8 +28,8 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.group.testing.InternalGroupSubject;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
@@ -60,7 +60,7 @@ public class GroupIndexerIT {
     AccountGroup.UUID subgroupUuid = AccountGroup.uuid("contributors");
     updateGroupWithoutCacheOrIndex(
         groupUuid,
-        newGroupUpdate()
+        newGroupDelta()
             .setSubgroupModification(subgroups -> ImmutableSet.of(subgroupUuid))
             .build());
 
@@ -77,7 +77,7 @@ public class GroupIndexerIT {
     AccountGroup.UUID subgroupUuid = AccountGroup.uuid("contributors");
     updateGroupWithoutCacheOrIndex(
         groupUuid,
-        newGroupUpdate()
+        newGroupDelta()
             .setSubgroupModification(subgroups -> ImmutableSet.of(subgroupUuid))
             .build());
 
@@ -91,7 +91,7 @@ public class GroupIndexerIT {
   public void indexingUpdatesStaleUuidCache() throws Exception {
     AccountGroup.UUID groupUuid = createGroup("verifiers");
     loadGroupToCache(groupUuid);
-    updateGroupWithoutCacheOrIndex(groupUuid, newGroupUpdate().setDescription("Modified").build());
+    updateGroupWithoutCacheOrIndex(groupUuid, newGroupDelta().setDescription("Modified").build());
 
     groupIndexer.index(groupUuid);
 
@@ -105,7 +105,7 @@ public class GroupIndexerIT {
     AccountGroup.UUID subgroupUuid = AccountGroup.uuid("contributors");
     updateGroupWithoutCacheOrIndex(
         groupUuid,
-        newGroupUpdate()
+        newGroupDelta()
             .setSubgroupModification(subgroups -> ImmutableSet.of(subgroupUuid))
             .build());
 
@@ -118,7 +118,7 @@ public class GroupIndexerIT {
   @Test
   public void notStaleGroupIsNotReindexed() throws Exception {
     AccountGroup.UUID groupUuid = createGroup("verifiers");
-    updateGroupWithoutCacheOrIndex(groupUuid, newGroupUpdate().setDescription("Modified").build());
+    updateGroupWithoutCacheOrIndex(groupUuid, newGroupDelta().setDescription("Modified").build());
     groupIndexer.index(groupUuid);
 
     boolean reindexed = groupIndexer.reindexIfStale(groupUuid);
@@ -129,7 +129,7 @@ public class GroupIndexerIT {
   @Test
   public void indexStalenessIsNotDerivedFromCacheStaleness() throws Exception {
     AccountGroup.UUID groupUuid = createGroup("verifiers");
-    updateGroupWithoutCacheOrIndex(groupUuid, newGroupUpdate().setDescription("Modified").build());
+    updateGroupWithoutCacheOrIndex(groupUuid, newGroupDelta().setDescription("Modified").build());
     reloadGroupToCache(groupUuid);
 
     boolean reindexed = groupIndexer.reindexIfStale(groupUuid);
@@ -151,14 +151,13 @@ public class GroupIndexerIT {
     groupCache.get(groupUuid);
   }
 
-  private static InternalGroupUpdate.Builder newGroupUpdate() {
-    return InternalGroupUpdate.builder();
+  private static GroupDelta.Builder newGroupDelta() {
+    return GroupDelta.builder();
   }
 
-  private void updateGroupWithoutCacheOrIndex(
-      AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+  private void updateGroupWithoutCacheOrIndex(AccountGroup.UUID groupUuid, GroupDelta groupDelta)
       throws NoSuchGroupException, IOException, ConfigInvalidException {
-    groupsUpdate.updateGroupInNoteDb(groupUuid, groupUpdate);
+    groupsUpdate.updateGroupInNoteDb(groupUuid, groupDelta);
   }
 
   private static OptionalSubject<InternalGroupSubject, InternalGroup> assertThatGroup(

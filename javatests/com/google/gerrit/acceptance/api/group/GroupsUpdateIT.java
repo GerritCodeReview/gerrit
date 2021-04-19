@@ -24,10 +24,10 @@ import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,12 +46,12 @@ public class GroupsUpdateIT {
   @Test
   public void groupCreationIsRetriedWhenFailedDueToConcurrentNameModification() throws Exception {
     InternalGroupCreation groupCreation = getGroupCreation("users", "users-UUID");
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder()
+    GroupDelta groupDelta =
+        GroupDelta.builder()
             .setMemberModification(
                 new CreateAnotherGroupOnceAsSideEffectOfMemberModification("verifiers"))
             .build();
-    createGroup(groupCreation, groupUpdate);
+    createGroup(groupCreation, groupDelta);
 
     Stream<String> allGroupNames = getAllGroupNames();
     assertThat(allGroupNames).containsAtLeast("users", "verifiers");
@@ -61,13 +61,13 @@ public class GroupsUpdateIT {
   public void groupRenameIsRetriedWhenFailedDueToConcurrentNameModification() throws Exception {
     createGroup("users", "users-UUID");
 
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder()
+    GroupDelta groupDelta =
+        GroupDelta.builder()
             .setName(AccountGroup.nameKey("contributors"))
             .setMemberModification(
                 new CreateAnotherGroupOnceAsSideEffectOfMemberModification("verifiers"))
             .build();
-    updateGroup(AccountGroup.uuid("users-UUID"), groupUpdate);
+    updateGroup(AccountGroup.uuid("users-UUID"), groupDelta);
 
     Stream<String> allGroupNames = getAllGroupNames();
     assertThat(allGroupNames).containsAtLeast("contributors", "verifiers");
@@ -75,28 +75,27 @@ public class GroupsUpdateIT {
 
   @Test
   public void groupUpdateFailsWithExceptionForNotExistingGroup() throws Exception {
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder().setDescription("A description for the group").build();
+    GroupDelta groupDelta =
+        GroupDelta.builder().setDescription("A description for the group").build();
     assertThrows(
         NoSuchGroupException.class,
-        () -> updateGroup(AccountGroup.uuid("nonexistent-group-UUID"), groupUpdate));
+        () -> updateGroup(AccountGroup.uuid("nonexistent-group-UUID"), groupDelta));
   }
 
   private void createGroup(String groupName, String groupUuid) throws Exception {
     InternalGroupCreation groupCreation = getGroupCreation(groupName, groupUuid);
-    InternalGroupUpdate groupUpdate = InternalGroupUpdate.builder().build();
+    GroupDelta groupDelta = GroupDelta.builder().build();
 
-    createGroup(groupCreation, groupUpdate);
+    createGroup(groupCreation, groupDelta);
   }
 
-  private void createGroup(InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+  private void createGroup(InternalGroupCreation groupCreation, GroupDelta groupDelta)
       throws IOException, ConfigInvalidException {
-    groupsUpdateProvider.get().createGroup(groupCreation, groupUpdate);
+    groupsUpdateProvider.get().createGroup(groupCreation, groupDelta);
   }
 
-  private void updateGroup(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws Exception {
-    groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
+  private void updateGroup(AccountGroup.UUID groupUuid, GroupDelta groupDelta) throws Exception {
+    groupsUpdateProvider.get().updateGroup(groupUuid, groupDelta);
   }
 
   private Stream<String> getAllGroupNames() throws IOException, ConfigInvalidException {
@@ -112,7 +111,7 @@ public class GroupsUpdateIT {
   }
 
   private class CreateAnotherGroupOnceAsSideEffectOfMemberModification
-      implements InternalGroupUpdate.MemberModification {
+      implements GroupDelta.MemberModification {
 
     private boolean groupCreated = false;
     private String groupName;
@@ -133,9 +132,9 @@ public class GroupsUpdateIT {
 
     private void createGroup() {
       InternalGroupCreation groupCreation = getGroupCreation(groupName, groupName + "-UUID");
-      InternalGroupUpdate groupUpdate = InternalGroupUpdate.builder().build();
+      GroupDelta groupDelta = GroupDelta.builder().build();
       try {
-        groupsUpdateProvider.get().createGroup(groupCreation, groupUpdate);
+        groupsUpdateProvider.get().createGroup(groupCreation, groupDelta);
       } catch (StorageException | IOException | ConfigInvalidException e) {
         throw new IllegalStateException(e);
       }

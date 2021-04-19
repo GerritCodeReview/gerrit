@@ -48,9 +48,9 @@ import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -219,19 +219,19 @@ public class CreateGroup
             .setNameKey(createGroupArgs.getGroup())
             .setId(groupId)
             .build();
-    InternalGroupUpdate.Builder groupUpdateBuilder =
-        InternalGroupUpdate.builder().setVisibleToAll(createGroupArgs.visibleToAll);
+    GroupDelta.Builder groupDeltaBuilder =
+        GroupDelta.builder().setVisibleToAll(createGroupArgs.visibleToAll);
     if (createGroupArgs.ownerGroupUuid != null) {
       Optional<InternalGroup> ownerGroup = groupCache.get(createGroupArgs.ownerGroupUuid);
-      ownerGroup.map(InternalGroup::getGroupUUID).ifPresent(groupUpdateBuilder::setOwnerGroupUUID);
+      ownerGroup.map(InternalGroup::getGroupUUID).ifPresent(groupDeltaBuilder::setOwnerGroupUUID);
     }
     if (createGroupArgs.groupDescription != null) {
-      groupUpdateBuilder.setDescription(createGroupArgs.groupDescription);
+      groupDeltaBuilder.setDescription(createGroupArgs.groupDescription);
     }
-    groupUpdateBuilder.setMemberModification(
+    groupDeltaBuilder.setMemberModification(
         members -> ImmutableSet.copyOf(createGroupArgs.initialMembers));
     try {
-      return groupsUpdateProvider.get().createGroup(groupCreation, groupUpdateBuilder.build());
+      return groupsUpdateProvider.get().createGroup(groupCreation, groupDeltaBuilder.build());
     } catch (DuplicateKeyException e) {
       throw new ResourceConflictException(
           "group '" + createGroupArgs.getGroupName() + "' already exists", e);

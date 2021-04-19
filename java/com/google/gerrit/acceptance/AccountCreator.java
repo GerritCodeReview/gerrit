@@ -29,8 +29,8 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
-import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -168,10 +168,10 @@ public class AccountCreator {
 
   private void addGroupMember(AccountGroup.UUID groupUuid, Account.Id accountId)
       throws IOException, NoSuchGroupException, ConfigInvalidException {
-    InternalGroupUpdate groupUpdate =
-        InternalGroupUpdate.builder()
+    GroupDelta groupDelta =
+        GroupDelta.builder()
             .setMemberModification(memberIds -> Sets.union(memberIds, ImmutableSet.of(accountId)))
             .build();
-    groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
+    groupsUpdateProvider.get().updateGroup(groupUuid, groupDelta);
   }
 }

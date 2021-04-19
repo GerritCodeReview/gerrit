@@ -24,8 +24,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountConfig;
+import com.google.gerrit.server.account.AccountDelta;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -59,7 +59,7 @@ public class AccountIndexerIT {
     Account.Id accountId = createAccount("foo");
     String preferredEmail = "foo@example.com";
     updateAccountWithoutCacheOrIndex(
-        accountId, newAccountUpdate().setPreferredEmail(preferredEmail).build());
+        accountId, newAccountDelta().setPreferredEmail(preferredEmail).build());
     assertThat(accountQueryProvider.get().byPreferredEmail(preferredEmail)).isEmpty();
 
     accountIndexer.index(accountId);
@@ -75,7 +75,7 @@ public class AccountIndexerIT {
     loadAccountToCache(accountId);
     String preferredEmail = "foo@example.com";
     updateAccountWithoutCacheOrIndex(
-        accountId, newAccountUpdate().setPreferredEmail(preferredEmail).build());
+        accountId, newAccountDelta().setPreferredEmail(preferredEmail).build());
     assertThat(accountQueryProvider.get().byPreferredEmail(preferredEmail)).isEmpty();
 
     accountIndexer.index(accountId);
@@ -90,7 +90,7 @@ public class AccountIndexerIT {
     Account.Id accountId = createAccount("foo");
     String preferredEmail = "foo@example.com";
     updateAccountWithoutCacheOrIndex(
-        accountId, newAccountUpdate().setPreferredEmail(preferredEmail).build());
+        accountId, newAccountDelta().setPreferredEmail(preferredEmail).build());
     assertThat(accountQueryProvider.get().byPreferredEmail(preferredEmail)).isEmpty();
 
     accountIndexer.reindexIfStale(accountId);
@@ -104,7 +104,7 @@ public class AccountIndexerIT {
   public void notStaleAccountIsNotReindexed() throws Exception {
     Account.Id accountId = createAccount("foo");
     updateAccountWithoutCacheOrIndex(
-        accountId, newAccountUpdate().setPreferredEmail("foo@example.com").build());
+        accountId, newAccountDelta().setPreferredEmail("foo@example.com").build());
     accountIndexer.index(accountId);
 
     boolean reindexed = accountIndexer.reindexIfStale(accountId);
@@ -115,7 +115,7 @@ public class AccountIndexerIT {
   public void indexStalenessIsNotDerivedFromCacheStaleness() throws Exception {
     Account.Id accountId = createAccount("foo");
     updateAccountWithoutCacheOrIndex(
-        accountId, newAccountUpdate().setPreferredEmail("foo@example.com").build());
+        accountId, newAccountDelta().setPreferredEmail("foo@example.com").build());
     reloadAccountToCache(accountId);
 
     boolean reindexed = accountIndexer.reindexIfStale(accountId);
@@ -135,12 +135,11 @@ public class AccountIndexerIT {
     accountCache.get(accountId);
   }
 
-  private static InternalAccountUpdate.Builder newAccountUpdate() {
-    return InternalAccountUpdate.builder();
+  private static AccountDelta.Builder newAccountDelta() {
+    return AccountDelta.builder();
   }
 
-  private void updateAccountWithoutCacheOrIndex(
-      Account.Id accountId, InternalAccountUpdate accountUpdate)
+  private void updateAccountWithoutCacheOrIndex(Account.Id accountId, AccountDelta accountDelta)
       throws IOException, ConfigInvalidException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName);
         MetaDataUpdate md =
@@ -150,7 +149,7 @@ public class AccountIndexerIT {
       md.getCommitBuilder().setCommitter(ident);
 
       AccountConfig accountConfig = new AccountConfig(accountId, allUsersName, allUsersRepo).load();
-      accountConfig.setAccountUpdate(accountUpdate);
+      accountConfig.setAccountDelta(accountDelta);
       accountConfig.commit(md);
     }
   }

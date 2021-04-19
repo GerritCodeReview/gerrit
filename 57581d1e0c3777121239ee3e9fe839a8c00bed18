@@ -519,6 +519,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "59aeb49c_40548bd7",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-19T19:22:52Z",
+      "side": 1,
+      "message": "In a way, yes, however not fully I think. My comment was not proposing to duplicate many string values that may change eventually.",
+      "parentUuid": "21bebfc8_aad1bcad",
+      "range": {
+        "startLine": 71,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 20
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b8366a0_cd569217",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 4
@@ -566,6 +590,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c478daf_f01e1cc8",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-19T19:22:52Z",
+      "side": 1,
+      "message": "Hence I think this requires another approach, maybe a less powerful (capable) -or simpler- one.",
+      "parentUuid": "2fba8dd6_6f6fe728",
+      "range": {
+        "startLine": 84,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49f98723_b0a5ae1d",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 4
@@ -601,6 +649,30 @@
       "side": 1,
       "message": "A first run is made in line 85, that explains why it starts by 1 instead of 0. To make it obvious and to show the progress of the test an echo of the iteration can be added.",
       "parentUuid": "49f98723_b0a5ae1d",
+      "range": {
+        "startLine": 101,
+        "startChar": 17,
+        "endLine": 101,
+        "endChar": 43
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48136e98_df7fb27f",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-19T19:22:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "68168940_c72253af",
       "range": {
         "startLine": 101,
         "startChar": 17,
@@ -695,6 +767,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "8418cb9c_647e25c8",
+      "range": {
+        "startLine": 116,
+        "startChar": 38,
+        "endLine": 116,
+        "endChar": 78
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c60b33a_ce452667",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-19T19:22:52Z",
+      "side": 1,
+      "message": "You hardcoded the actual value placeholder I had above (between parentheses).",
+      "parentUuid": "49bc411f_03a7738e",
       "range": {
         "startLine": 116,
         "startChar": 38,

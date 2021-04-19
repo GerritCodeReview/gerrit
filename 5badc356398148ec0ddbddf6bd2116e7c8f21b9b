@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f807761c_1dddad31",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-19T14:03:04Z",
+      "side": 1,
+      "message": "Done. (Using just \"prepares\" because it actually does it.)",
+      "parentUuid": "a9d28a42_6e95d44b",
+      "range": {
+        "startLine": 71,
+        "startChar": 92,
+        "endLine": 71,
+        "endChar": 94
+      },
+      "revId": "5badc356398148ec0ddbddf6bd2116e7c8f21b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acb207d5_cc18cab0",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-19T13:21:02Z",
       "side": 1,
       "message": "nit: rename to \u0027groupDelta\u0027\n\nHere and for all updates below",
+      "range": {
+        "startLine": 62,
+        "startChar": 53,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "5badc356398148ec0ddbddf6bd2116e7c8f21b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f465624c_3972f366",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfigEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-19T14:03:04Z",
+      "side": 1,
+      "message": "Done. Sorry, I overlooked some parameters; seems I put too much trust in the IDE and not enough in regular expressions :-)",
+      "parentUuid": "acb207d5_cc18cab0",
       "range": {
         "startLine": 62,
         "startChar": 53,

@@ -3326,6 +3326,7 @@ Polymer-2015
 * @polymer/paper-dialog-behavior
 * @polymer/paper-dialog-scrollable
 * @polymer/paper-dropdown-menu
+* @polymer/paper-fab
 * @polymer/paper-icon-button
 * @polymer/paper-input
 * @polymer/paper-item

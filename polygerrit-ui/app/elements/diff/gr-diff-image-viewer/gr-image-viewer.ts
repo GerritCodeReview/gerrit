@@ -18,6 +18,7 @@ import '@polymer/paper-button/paper-button';
 import '@polymer/paper-card/paper-card';
 import '@polymer/paper-checkbox/paper-checkbox';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
+import '@polymer/paper-fab/paper-fab';
 import '@polymer/paper-item/paper-item';
 import '@polymer/paper-listbox/paper-listbox';
 import './gr-overview-image';
@@ -197,12 +198,27 @@ export class GrImageViewer extends LitElement {
     }
     #version-switcher {
       display: flex;
+      align-items: center;
       margin: var(--spacing-xl);
     }
     #version-switcher paper-button {
-      flex-basis: 0;
       flex-grow: 1;
       margin: 0;
+      /*
+        The floating action button below overlaps part of the version buttons.
+        This min-width ensures the button text still appears somewhat balanced.
+        */
+      min-width: 7rem;
+    }
+    #version-switcher paper-fab {
+      /* Round button overlaps Base and Revision buttons. */
+      z-index: 10;
+      margin: 0 -12px;
+      /* Styled as an outlined button. */
+      color: var(--primary-button-background-color);
+      border: 1px solid var(--primary-button-background-color);
+      --paper-fab-background: var(--primary-background-color);
+      --paper-fab-keyboard-focus-background: var(--primary-background-color);
     }
     #version-explanation {
       color: var(--deemphasized-text-color);
@@ -253,6 +269,8 @@ export class GrImageViewer extends LitElement {
         >
           Base
         </paper-button>
+        <paper-fab mini icon="gr-icons:swapHoriz" @click="${this.toggleImage}">
+        </paper-fab>
         <paper-button
           class="right"
           ?unelevated=${!this.baseSelected}
@@ -335,13 +353,15 @@ export class GrImageViewer extends LitElement {
             paper-button.left {
               --paper-button: {
                 border-radius: 4px 0 0 4px;
-                border-width: 1px 0 1px 1px;
+                border-width: 1px;
+                border-style: solid;
+                border-color: var(--primary-button-background-color);
               }
             }
             paper-button.left[outlined] {
               --paper-button: {
                 border-radius: 4px 0 0 4px;
-                border-width: 1px 0 1px 1px;
+                border-width: 1px;
                 border-style: solid;
                 border-color: var(--primary-button-background-color);
               }
@@ -349,13 +369,15 @@ export class GrImageViewer extends LitElement {
             paper-button.right {
               --paper-button: {
                 border-radius: 0 4px 4px 0;
-                border-width: 1px 1px 1px 0;
+                border-width: 1px;
+                border-style: solid;
+                border-color: var(--primary-button-background-color);
               }
             }
             paper-button.right[outlined] {
               --paper-button: {
                 border-radius: 0 4px 4px 0;
-                border-width: 1px 1px 1px 0;
+                border-width: 1px;
                 border-style: solid;
                 border-color: var(--primary-button-background-color);
               }

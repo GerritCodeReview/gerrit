@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26e6e9a1_388bf7dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-19T06:17:56Z",
+      "side": 1,
+      "message": "Took another look at the code and realised this state is not required at all.\nRemoved from the change.",
+      "parentUuid": "541a211f_e3d0e52f",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb778816_6a84bae9",
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "I just meant that instead of\n\n  if (this.revertSubmittedChangeNum)\n    return GerritNav.getUrlForSearchQuery(`${this.revertSubmittedChangeNum}`);\n\nyou write\n\n  if (this.revertSubmittedChangeNum) {\n    return GerritNav.getUrlForSearchQuery(`${this.revertSubmittedChangeNum}`);\n  }",
       "parentUuid": "2030128e_f18f6d4a",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06ef2664_ae79fc1e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-19T06:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cae75071_51538ee6",
       "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -191,6 +227,24 @@
       "side": 1,
       "message": "Yes, please do that.\n\npatch-set-util needs a TODO then.",
       "parentUuid": "a554e0a4_2c72898b",
+      "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "764bfa47_92b4015b",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-19T06:17:56Z",
+      "side": 1,
+      "message": "Added a TODO and moved the call to gr-change-view since the returned reverted change also needs to be sent to gr-change-metadata.",
+      "parentUuid": "d867cdbe_41117384",
       "revId": "4bedbc5644df9f867fd514655914b73eb91499d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

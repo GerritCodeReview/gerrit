@@ -34,6 +34,24 @@
       "parentUuid": "6a8c7759_f7cd12bb",
       "revId": "58102bdc62bd546f39732204f7a5d72e0037149a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce4065c6_26376fd5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-19T10:10:36Z",
+      "side": 1,
+      "message": "Hm, I am still not super happy with how this looks in light mode, I might have to come up with some custom properties to decouple this after all.",
+      "parentUuid": "d1d935ff_ac3fad1c",
+      "revId": "58102bdc62bd546f39732204f7a5d72e0037149a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

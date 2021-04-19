@@ -45,6 +45,7 @@ import {
   isDraftThread,
   isInBaseOfPatchRange,
   isInRevisionOfPatchRange,
+  isPatchsetLevel,
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
@@ -488,7 +489,10 @@ export class ChangeComments {
   /**
    * Computes the number of comment threads in a given file or patch.
    */
-  computeCommentThreadCount(file: PatchSetFile | PatchNumOnly) {
+  computeCommentThreadCount(
+    file: PatchSetFile | PatchNumOnly,
+    ignorePatchsetLevelComments?: boolean
+  ) {
     let comments: Comment[] = [];
     if (isPatchSetFile(file)) {
       comments = this.getAllCommentsForFile(file);
@@ -497,8 +501,10 @@ export class ChangeComments {
         this.getAllPublishedComments(file.patchNum)
       );
     }
-
-    return createCommentThreads(comments).length;
+    let threads = createCommentThreads(comments);
+    if (ignorePatchsetLevelComments)
+      threads = threads.filter(thread => !isPatchsetLevel(thread));
+    return threads.length;
   }
 
   /**

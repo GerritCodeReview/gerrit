@@ -28,7 +28,7 @@ import {
   BasePatchSetNum,
   RevisionPatchSetNum,
 } from '../types/common';
-import {CommentSide, Side} from '../constants/constants';
+import {CommentSide, Side, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
 import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
 import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
@@ -183,6 +183,10 @@ export function getFirstComment(thread?: CommentThread): UIComment | undefined {
 
 export function countComments(thread?: CommentThread) {
   return thread?.comments?.length ?? 0;
+}
+
+export function isPatchsetLevel(thread?: CommentThread): boolean {
+  return thread?.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
 }
 
 export function isUnresolved(thread?: CommentThread): boolean {

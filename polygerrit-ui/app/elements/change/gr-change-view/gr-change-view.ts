@@ -202,6 +202,8 @@ const SMALL_RELATED_HEIGHT = 400;
 
 const REPLY_REFIT_DEBOUNCE_INTERVAL_MS = 500;
 
+const ACCIDENTAL_STARRING_LIMIT_MS = 20 * 10000;
+
 const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
 const MSG_PREFIX = '#message-';
@@ -589,6 +591,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   private replyRefitTask?: DelayedTask;
 
   private scrollTask?: DelayedTask;
+
+  private lastStarredTimestamp?: number;
 
   /** @override */
   ready() {
@@ -2795,6 +2799,16 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleToggleStar(e: CustomEvent<{change: ChangeInfo; starred: boolean}>) {
+    if (e.detail.starred) {
+      this.lastStarredTimestamp = Date.now();
+    } else {
+      if (
+        this.lastStarredTimestamp &&
+        Date.now() - this.lastStarredTimestamp < ACCIDENTAL_STARRING_LIMIT_MS
+      ) {
+        this.reporting.reportInteraction('change-accidentally-starred');
+      }
+    }
     this.restApiService.saveChangeStarred(
       e.detail.change._number,
       e.detail.starred

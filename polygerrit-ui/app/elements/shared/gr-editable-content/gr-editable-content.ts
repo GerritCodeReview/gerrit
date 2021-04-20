@@ -22,7 +22,6 @@ import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-content_html';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
@@ -106,12 +105,7 @@ export class GrEditableContent extends PolymerElement {
   @property({type: String, observer: '_newContentChanged'})
   _newContent?: string;
 
-  @property({type: Boolean})
-  _isNewChangeSummaryUiEnabled = false;
-
   private readonly storage = appContext.storageService;
-
-  private readonly flagsService = appContext.flagsService;
 
   private readonly reporting = appContext.reportingService;
 
@@ -120,9 +114,6 @@ export class GrEditableContent extends PolymerElement {
   /** @override */
   ready() {
     super.ready();
-    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
-    );
   }
 
   /** @override */

@@ -44,12 +44,12 @@ public interface RevisionApi {
 
   ReviewResult review(ReviewInput in) throws RestApiException;
 
-  default void submit() throws RestApiException {
+  default ChangeInfo submit() throws RestApiException {
     SubmitInput in = new SubmitInput();
-    submit(in);
+    return submit(in);
   }
 
-  void submit(SubmitInput in) throws RestApiException;
+  ChangeInfo submit(SubmitInput in) throws RestApiException;
 
   default BinaryResult submitPreview() throws RestApiException {
     return submitPreview("zip");
@@ -200,7 +200,7 @@ public interface RevisionApi {
     }
 
     @Override
-    public void submit(SubmitInput in) throws RestApiException {
+    public ChangeInfo submit(SubmitInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

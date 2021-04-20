@@ -1741,6 +1741,18 @@ Submitting a change also removes all users from the link:#attention-set[attentio
 As response a link:#change-info[ChangeInfo] entity is returned that
 describes the submitted/merged change.
 
+Submission may submit multiple changes, but we still only return one ChangeInfo
+object. To query for all submitted changes, please use the submission_id that is
+part of the response.
+
+Changes that will also be submitted:
+1. All changes of the same topic if
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+configuration is set to true.
+2. All dependent changes.
+3. The closure of the above (e.g if a dependent change has a topic, all changes
+of *that* topic will also be submitted).
+
 .Response
 ----
   HTTP/1.1 200 OK
@@ -4406,10 +4418,50 @@ body.
 --
 
 Submits a revision.
+Submitting a change also removes all users from the link:#attention-set[attention set].
 
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/submit HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the submitted/merged change.
+
+Submission may submit multiple changes, but we still only return one ChangeInfo
+object. To query for all submitted changes, please use the submission_id that is
+part of the response.
+
+Changes that will also be submitted:
+1. All changes of the same topic if
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+configuration is set to true.
+2. All dependent changes.
+3. The closure of the above (e.g if a dependent change has a topic, all changes
+of *that* topic will also be submitted).
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "MERGED",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "submitted": "2013-02-21 11:16:36.615000000",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
 ----
 
 If the revision cannot be submitted, e.g. because the submit rule

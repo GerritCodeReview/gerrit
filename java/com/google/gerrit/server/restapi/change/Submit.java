@@ -102,14 +102,6 @@ public class Submit
   private static final String CLICK_FAILURE_TOOLTIP = "Clicking the button would fail";
   private static final String CHANGE_UNMERGEABLE = "Problems with integrating this change";
 
-  public static class Output {
-    transient Change change;
-
-    private Output(Change c) {
-      change = c;
-    }
-  }
-
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
@@ -126,6 +118,7 @@ public class Submit
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
+  private final ChangeJson.Factory json;
 
   @Inject
   Submit(
@@ -138,7 +131,8 @@ public class Submit
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ChangeJson.Factory json) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
@@ -173,10 +167,11 @@ public class Submit
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
+    this.json = json;
   }
 
   @Override
-  public Response<Output> apply(RevisionResource rsrc, SubmitInput input)
+  public Response<ChangeInfo> apply(RevisionResource rsrc, SubmitInput input)
       throws RestApiException, RepositoryNotFoundException, IOException, PermissionBackendException,
           UpdateException, ConfigInvalidException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
@@ -192,12 +187,11 @@ public class Submit
         .orElseThrow(illegalState(rsrc.getProject()))
         .checkStatePermitsWrite();
 
-    return mergeChange(rsrc, submitter, input);
+    return Response.ok(json.noOptions().format(mergeChange(rsrc, submitter, input)));
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
-  public Response<Output> mergeChange(
-      RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
+  public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
       throws RestApiException, IOException, UpdateException, ConfigInvalidException,
           PermissionBackendException {
     Change change = rsrc.getChange();
@@ -218,7 +212,7 @@ public class Submit
 
       updatedChange = op.merge(change, submitter, true, input, false);
       if (updatedChange.isMerged()) {
-        return Response.ok(new Output(updatedChange));
+        return updatedChange;
       }
 
       throw new IllegalStateException(
@@ -463,13 +457,11 @@ public class Submit
 
   public static class CurrentRevision implements RestModifyView<ChangeResource, SubmitInput> {
     private final Submit submit;
-    private final ChangeJson.Factory json;
     private final PatchSetUtil psUtil;
 
     @Inject
-    CurrentRevision(Submit submit, ChangeJson.Factory json, PatchSetUtil psUtil) {
+    CurrentRevision(Submit submit, PatchSetUtil psUtil) {
       this.submit = submit;
-      this.json = json;
       this.psUtil = psUtil;
     }
 
@@ -480,8 +472,7 @@ public class Submit
         throw new ResourceConflictException("current revision is missing");
       }
 
-      Response<Output> response = submit.apply(new RevisionResource(rsrc, ps), input);
-      return Response.ok(json.noOptions().format(response.value().change));
+      return submit.apply(new RevisionResource(rsrc, ps), input);
     }
   }
 }

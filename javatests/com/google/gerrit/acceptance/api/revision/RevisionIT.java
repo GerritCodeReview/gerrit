@@ -152,7 +152,8 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String changeId = project.get() + "~master~" + r.getChangeId();
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
-    gApi.changes().id(changeId).current().submit();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).current().submit();
+    assertThat(changeInfo.status).isEqualTo(ChangeStatus.MERGED);
     assertThat(gApi.changes().id(changeId).get().status).isEqualTo(ChangeStatus.MERGED);
   }
 

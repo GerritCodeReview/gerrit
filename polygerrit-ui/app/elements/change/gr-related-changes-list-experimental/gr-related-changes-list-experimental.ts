@@ -348,7 +348,10 @@ export class GrRelatedChangesListExperimental extends GrLitElement {
     </section>`;
 
     return html`<gr-endpoint-decorator name="related-changes-section">
-      <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+      <gr-endpoint-param
+        name="change"
+        .value=${this.change}
+      ></gr-endpoint-param>
       <gr-endpoint-slot name="top"></gr-endpoint-slot>
       ${relatedChangeSection} ${submittedTogetherSection} ${sameTopicSection}
       ${mergeConflictsSection} ${cherryPicksSection}

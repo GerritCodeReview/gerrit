@@ -128,20 +128,20 @@ const styleSheet = safeStyleSheet`
 
     --error-foreground: var(--red-700);
     --error-background: var(--red-50);
-    --error-background-hover: linear-gradient(var(--red-700-04), var(--red-700-04)), var(--red-50);
-    --error-background-focus: linear-gradient(var(--red-700-12), var(--red-700-12)), var(--red-50);
+    --error-background-hover: linear-gradient(var(--red-700-04), var(--red-700-04), var(--red-50));
+    --error-background-focus: linear-gradient(var(--red-700-12), var(--red-700-12), var(--red-50));
     --error-ripple: var(--red-700-10);
 
     --warning-foreground: var(--orange-700);
     --warning-background: var(--orange-50);
-    --warning-background-hover: linear-gradient(var(--orange-700-04), var(--orange-700-04)), var(--orange-50);
-    --warning-background-focus: linear-gradient(var(--orange-700-12), var(--orange-700-12)), var(--orange-50);
+    --warning-background-hover: linear-gradient(var(--orange-700-04), var(--orange-700-04), var(--orange-50));
+    --warning-background-focus: linear-gradient(var(--orange-700-12), var(--orange-700-12), var(--orange-50));
     --warning-ripple: var(--orange-700-10);
 
     --info-foreground: var(--blue-700);
     --info-background: var(--blue-50);
-    --info-background-hover: linear-gradient(var(--blue-700-04), var(--blue-700-04)), var(--blue-50);
-    --info-background-focus: linear-gradient(var(--blue-700-12), var(--blue-700-12)), var(--blue-50);
+    --info-background-hover: linear-gradient(var(--blue-700-04), var(--blue-700-04), var(--blue-50));
+    --info-background-focus: linear-gradient(var(--blue-700-12), var(--blue-700-12), var(--blue-50));
     --info-ripple: var(--blue-700-10);
 
     --primary-button-text-color: white;
@@ -154,14 +154,14 @@ const styleSheet = safeStyleSheet`
 
     --success-foreground: var(--green-700);
     --success-background: var(--green-50);
-    --success-background-hover: linear-gradient(var(--green-700-04), var(--green-700-04)), var(--green-50);
-    --success-background-focus: linear-gradient(var(--green-700-12), var(--green-700-12)), var(--green-50);
+    --success-background-hover: linear-gradient(var(--green-700-04), var(--green-700-04), var(--green-50));
+    --success-background-focus: linear-gradient(var(--green-700-12), var(--green-700-12), var(--green-50));
     --success-ripple: var(--green-700-10);
 
     --gray-foreground: var(--gray-700);
     --gray-background: var(--gray-100);
-    --gray-background-hover: linear-gradient(var(--gray-700-04), var(--gray-700-04)), var(--gray-100);
-    --gray-background-focus: linear-gradient(var(--gray-700-12), var(--gray-700-12)), var(--gray-100);
+    --gray-background-hover: linear-gradient(var(--gray-700-04), var(--gray-700-04), var(--gray-100));
+    --gray-background-focus: linear-gradient(var(--gray-700-12), var(--gray-700-12), var(--gray-100));
     --gray-ripple: var(--gray-700-10);
 
     --disabled-foreground: var(--gray-800-38);

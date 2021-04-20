@@ -239,9 +239,13 @@ export const sharedStyles = css`
       font-family: var(--header-font-family);
       -webkit-font-smoothing: initial;
     }
+    --paper-tab-content: {
+      margin-bottom: 4px;
+    }
     --paper-tab-content-focused: {
       /* paper-tabs uses 700 here, which can look awkward */
       font-weight: var(--font-weight-h3);
+      background: var(--gray-background-focus);
     }
     --paper-tab-content-unselected: {
       /* paper-tabs uses 0.8 here, but we want to control the color directly */

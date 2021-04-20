@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9991c44_bf47fc31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-20T10:57:34Z",
+      "side": 1,
+      "message": "\u003e Nothing is wrong here. As explained in another change, the problem is x-plugin communication with different classloaders. GSon can serialize the classe without any issue and without any help.\n\u003e \n\u003e The only issue here, would be if you artificially force GSon to use wrong class:\n\u003e \n\u003e       String json \u003d gson.toJson(event, Event.class);\n\u003e \n\u003e But, that\u0027s not the problem in x-plugin communication. kafka-events plugin is doing this:\n\u003e \n\u003e         String json \u003d gson.toJson(event);\n\nI see, so you\u0027re telling me that if the class of \u0027event\u0027 isn\u0027t visible to the Gson serialiser, then it uses the parent class? (Event.class in this case)\n\n\u003e and that works. Of course we could simulate classloader issue artificially, with providing wrong class in this test, but I don\u0027t see the point.\n\nTrue, but the real simulation would be creating a class loader issue artificially, not passing the wrong class name, isn\u0027t it?\n\nP.S. My test suggestion was a *unit* test and not an *E2E* test. I just wanted to make sure that the code did not break by mistake. Because we define a custom serializer for Event.class, I thought it would be wise to make a test with that class.",
+      "parentUuid": "f377bbf4_a255bcce",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00811f34_0a281d65",

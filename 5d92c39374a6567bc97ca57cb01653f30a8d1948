@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1330b4d_36474168",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-20T08:42:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be it in uppercase?",
+      "range": {
+        "startLine": 399,
+        "startChar": 14,
+        "endLine": 399,
+        "endChar": 22
+      },
+      "revId": "5d92c39374a6567bc97ca57cb01653f30a8d1948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

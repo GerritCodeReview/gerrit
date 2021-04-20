@@ -39,6 +39,30 @@
       },
       "revId": "1c590136a551abf4c67decb56c579a24e3b634f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2bdd6b8_2b585ee0",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-20T08:54:47Z",
+      "side": 1,
+      "message": "Good point. I reverted that change in its own change and adapted the commit message.",
+      "parentUuid": "bd3732cf_1b63ebad",
+      "range": {
+        "startLine": 100,
+        "startChar": 42,
+        "endLine": 100,
+        "endChar": 56
+      },
+      "revId": "1c590136a551abf4c67decb56c579a24e3b634f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

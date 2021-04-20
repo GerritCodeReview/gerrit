@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29aece37_87d49ae2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-20T13:38:31Z",
+      "side": 1,
+      "message": "Naming-wise I am very open to suggestions, maybe this needs more prefixing, as events are sort of global.\n\nIn the future, this will likely not be purely for usage logging but also communicate back certain settings changes that should be synced across all diff views on the page or persisted in user preferences.",
+      "revId": "f928f29955c5629ecca26d5b5ef960b6d9f71ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

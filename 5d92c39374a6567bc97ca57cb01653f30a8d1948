@@ -22,6 +22,30 @@
       },
       "revId": "5d92c39374a6567bc97ca57cb01653f30a8d1948",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "214637bd_626c296d",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-20T08:59:37Z",
+      "side": 1,
+      "message": "I could find a style guide-line, and I think both works. We already have a mix. :-/",
+      "parentUuid": "c1330b4d_36474168",
+      "range": {
+        "startLine": 399,
+        "startChar": 14,
+        "endLine": 399,
+        "endChar": 22
+      },
+      "revId": "5d92c39374a6567bc97ca57cb01653f30a8d1948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8664642_99b3312b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-20T06:49:47Z",
+      "side": 1,
+      "message": "Here is the alternative approach: [1].\n\n[1] https://gerrit-review.googlesource.com/q/topic:peer-ip-reflog-record",
+      "revId": "fd0bdf78f45e09456a703c6f8997abb516347f1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

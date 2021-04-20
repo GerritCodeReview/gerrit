@@ -16,6 +16,24 @@
       "message": "This is reverting one of your changes: are you OK with that?",
       "revId": "edb3d70c87b300c90b8db55a6482edbc7434b213",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89bf7abf_bd8c40d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-20T16:36:54Z",
+      "side": 1,
+      "message": "Could we use getHostAddress() instead? This might lead to less issues and we would only loose little information. Could be done in a separate change to have a clean revert.",
+      "parentUuid": "d8594440_ca69fc01",
+      "revId": "edb3d70c87b300c90b8db55a6482edbc7434b213",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

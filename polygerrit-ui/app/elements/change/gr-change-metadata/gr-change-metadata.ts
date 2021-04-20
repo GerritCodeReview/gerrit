@@ -69,7 +69,6 @@ import {assertNever, unique} from '../../../utils/common-util';
 import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label';
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
 import {appContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   Metadata,
   isSectionSet,
@@ -207,13 +206,8 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Boolean})
   _showAllSections = false;
 
-  @property({type: Boolean})
-  _isNewChangeSummaryUiEnabled = false;
-
   @property({type: Object})
   queryTopic?: AutocompleteQuery;
-
-  flagsService = appContext.flagsService;
 
   restApiService = appContext.restApiService;
 
@@ -222,9 +216,6 @@ export class GrChangeMetadata extends PolymerElement {
   /** @override */
   ready() {
     super.ready();
-    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
-    );
     this.queryTopic = (input: string) => this._getTopicSuggestions(input);
   }
 
@@ -556,7 +547,6 @@ export class GrChangeMetadata extends PolymerElement {
     section: Metadata
   ) {
     if (
-      !this._isNewChangeSummaryUiEnabled ||
       showAllSections ||
       DisplayRules.ALWAYS_SHOW.includes(section) ||
       (DisplayRules.SHOW_IF_SET.includes(section) &&

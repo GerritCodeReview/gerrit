@@ -52,10 +52,10 @@ export const htmlTemplate = html`
       padding-bottom: var(--spacing-s);
     }
     /* consistent with section .title, .value */
-    .hashtagChip.new-change-summary-true:not(last-of-type) {
+    .hashtagChip:not(last-of-type) {
       padding-bottom: var(--spacing-s);
     }
-    .hashtagChip.new-change-summary-true:last-of-type {
+    .hashtagChip:last-of-type {
       display: inline;
       vertical-align: top;
     }
@@ -122,37 +122,33 @@ export const htmlTemplate = html`
     }
   </style>
   <gr-external-style id="externalStyle" name="change-metadata">
-    <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
-      <div class="metadata-header">
-        <h3 class="metadata-title">Change Info</h3>
-        <gr-button link="" class="show-all-button" on-click="_onShowAllClick"
-          >[[_computeShowAllLabelText(_showAllSections)]]
-          <iron-icon
-            icon="gr-icons:expand-more"
-            hidden$="[[_showAllSections]]"
-          ></iron-icon
-          ><iron-icon
-            icon="gr-icons:expand-less"
-            hidden$="[[!_showAllSections]]"
-          ></iron-icon>
-        </gr-button>
-      </div>
-    </template>
-    <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
-      <template is="dom-if" if="[[change.submitted]]">
-        <section
-          class$="[[_computeDisplayState(_showAllSections, change, _SECTION.SUBMITTED)]]"
-        >
-          <span class="title">Submitted</span>
-          <span class="value">
-            <gr-date-formatter
-              has-tooltip=""
-              date-str="[[change.submitted]]"
-              show-yesterday=""
-            ></gr-date-formatter>
-          </span>
-        </section>
-      </template>
+    <div class="metadata-header">
+      <h3 class="metadata-title">Change Info</h3>
+      <gr-button link="" class="show-all-button" on-click="_onShowAllClick"
+        >[[_computeShowAllLabelText(_showAllSections)]]
+        <iron-icon
+          icon="gr-icons:expand-more"
+          hidden$="[[_showAllSections]]"
+        ></iron-icon
+        ><iron-icon
+          icon="gr-icons:expand-less"
+          hidden$="[[!_showAllSections]]"
+        ></iron-icon>
+      </gr-button>
+    </div>
+    <template is="dom-if" if="[[change.submitted]]">
+      <section
+        class$="[[_computeDisplayState(_showAllSections, change, _SECTION.SUBMITTED)]]"
+      >
+        <span class="title">Submitted</span>
+        <span class="value">
+          <gr-date-formatter
+            has-tooltip=""
+            date-str="[[change.submitted]]"
+            show-yesterday=""
+          ></gr-date-formatter>
+        </span>
+      </section>
     </template>
     <section
       class$="[[_computeDisplayState(_showAllSections, change, _SECTION.UPDATED)]]"
@@ -362,7 +358,7 @@ export const htmlTemplate = html`
             placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
             read-only="[[_topicReadOnly]]"
             on-changed="_handleTopicChanged"
-            show-as-edit-pencil="[[_isNewChangeSummaryUiEnabled]]"
+            show-as-edit-pencil="true"
             autocomplete="true"
             query="[[queryTopic]]"
           ></gr-editable-label>
@@ -402,7 +398,7 @@ export const htmlTemplate = html`
       <span class="value">
         <template is="dom-repeat" items="[[change.hashtags]]">
           <gr-linked-chip
-            class$="hashtagChip new-change-summary-[[_isNewChangeSummaryUiEnabled]]"
+            class="hashtagChip"
             text="[[item]]"
             href="[[_computeHashtagUrl(item)]]"
             removable="[[!_hashtagReadOnly]]"
@@ -419,15 +415,12 @@ export const htmlTemplate = html`
             placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
             read-only="[[_hashtagReadOnly]]"
             on-changed="_handleHashtagChanged"
-            show-as-edit-pencil="[[_isNewChangeSummaryUiEnabled]]"
+            show-as-edit-pencil="true"
           ></gr-editable-label>
         </template>
       </span>
     </section>
     <div class="separatedSection">
-      <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
-        <h3 class="assistive-tech-only">Label Scores</h3>
-      </template>
       <gr-change-requirements
         change="{{change}}"
         account="[[account]]"

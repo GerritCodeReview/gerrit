@@ -320,8 +320,18 @@ export class GrChangeSummary extends GrLitElement {
         .zeroState {
           color: var(--primary-text-color);
         }
-        .error {
-          background-color: var(--warning-background);
+        div.error {
+          background-color: var(--error-background);
+          display: flex;
+          padding: var(--spacing-s);
+        }
+        div.error iron-icon {
+          color: var(--error-foreground);
+          width: 16px;
+          height: 16px;
+          position: relative;
+          top: 2px;
+          margin-right: var(--spacing-s);
         }
         .login gr-button {
           margin: -4px var(--spacing-s);
@@ -351,10 +361,16 @@ export class GrChangeSummary extends GrLitElement {
   }
 
   renderChecksError() {
-    if (!this.errorMessage) return;
     return html`
-      <div class="error zeroState">Error while fetching check results.</div>
-      <div class="error zeroState">${this.errorMessage}</div>
+      <div class="error zeroState">
+        <div class="left">
+          <iron-icon icon="gr-icons:error"></iron-icon>
+        </div>
+        <div class="right">
+          <div>Error while fetching check results</div>
+          <div>${this.errorMessage}</div>
+        </div>
+      </div>
     `;
   }
 

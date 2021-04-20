@@ -16,6 +16,24 @@
       "message": "Should this be backported to 3.4?",
       "revId": "279bb47cbd75a59aad592eddf3b76f82d7ad2ef4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7f90975_e8e11640",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-20T07:10:25Z",
+      "side": 1,
+      "message": "I don\u0027t think so. It\u0027s a new feature. Feature development happens on master.",
+      "parentUuid": "2eef6584_8dd95e73",
+      "revId": "279bb47cbd75a59aad592eddf3b76f82d7ad2ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

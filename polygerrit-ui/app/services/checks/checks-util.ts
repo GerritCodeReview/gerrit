@@ -43,11 +43,15 @@ export function iconForLink(linkIcon?: LinkIcon) {
     case LinkIcon.REPORT_BUG:
       return 'bug';
     default:
-      assertNever(linkIcon, `Unsupported LinkIcon: ${linkIcon}`);
+      // We don't throw an assertion error here, because plugins don't have to
+      // be written in TypeScript, so we may encounter arbitrary strings for
+      // linkIcon.
+      return 'launch';
   }
 }
 
-export function tooltipForLink(linkIcon: LinkIcon) {
+export function tooltipForLink(linkIcon?: LinkIcon) {
+  if (linkIcon === undefined) return 'Link to details';
   switch (linkIcon) {
     case LinkIcon.EXTERNAL:
       return 'Link to details';
@@ -64,7 +68,10 @@ export function tooltipForLink(linkIcon: LinkIcon) {
     case LinkIcon.REPORT_BUG:
       return 'Link for reporting a problem';
     default:
-      assertNever(linkIcon, `Unsupported LinkIcon: ${linkIcon}`);
+      // We don't throw an assertion error here, because plugins don't have to
+      // be written in TypeScript, so we may encounter arbitrary strings for
+      // linkIcon.
+      return 'Link to details';
   }
 }
 

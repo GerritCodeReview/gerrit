@@ -38,7 +38,10 @@ export const htmlTemplate = html`
       --iron-icon-height: 18px;
       --iron-icon-width: 18px;
     }
-    gr-button.addReviewer.new-change-summary-true {
+    .controlsContainer {
+      display: inline-block;
+    }
+    gr-button.addReviewer {
       --padding: 1px 4px;
       vertical-align: top;
       top: 1px;
@@ -69,16 +72,16 @@ export const htmlTemplate = html`
         >
         </gr-account-chip>
       </template>
-      <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
+      <div class="controlsContainer" hidden$="[[!mutable]]">
         <gr-button
           link=""
           id="addReviewer"
-          class="addReviewer new-change-summary-true"
+          class="addReviewer"
           on-click="_handleAddTap"
           title="[[_addLabel]]"
           ><iron-icon icon="gr-icons:edit"></iron-icon
         ></gr-button>
-      </template>
+      </div>
     </div>
     <gr-button
       class="hiddenReviewers"
@@ -87,16 +90,5 @@ export const htmlTemplate = html`
       on-click="_handleViewAll"
       >and [[_hiddenReviewerCount]] more</gr-button
     >
-    <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
-      <div class="controlsContainer" hidden$="[[!mutable]]">
-        <gr-button
-          link=""
-          id="addReviewer"
-          class="addReviewer"
-          on-click="_handleAddTap"
-          >[[_addLabel]]</gr-button
-        >
-      </div>
-    </template>
   </div>
 `;

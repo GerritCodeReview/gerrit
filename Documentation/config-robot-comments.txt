@@ -13,9 +13,8 @@ details.
 It is planned to visualize robot comments differently in the web UI so
 that they can be easily distinguished from human comments. Users should
 also be able to use filtering on robot comments, so that only part of
-the robot comments or no robot comments are shown. In addition it is
-planned that robot comments can contain fixes, that users can apply by
-a single click.
+the robot comments or no robot comments are shown. In addition robot
+comments can contain fixes, that users can apply by a single click.
 
 == REST endpoints
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03d62d1e_07194de6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-20T00:14:24Z",
+      "side": 1,
+      "message": "What about targeting v3.4 and adding a warning for the feature still being considered experimental? It would allow more sites (like GerritHub.io) to start adopting reftable and provide feedback.",
+      "revId": "c93bb35cc1cd100a8a72c0a6fe572c1add5a7dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

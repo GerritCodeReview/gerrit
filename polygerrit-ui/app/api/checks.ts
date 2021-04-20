@@ -396,11 +396,11 @@ export interface Link {
 }
 
 export enum LinkIcon {
-  EXTERNAL,
-  IMAGE,
-  HISTORY,
-  DOWNLOAD,
-  DOWNLOAD_MOBILE,
-  HELP_PAGE,
-  REPORT_BUG,
+  EXTERNAL = 'external',
+  IMAGE = 'image',
+  HISTORY = 'history',
+  DOWNLOAD = 'download',
+  DOWNLOAD_MOBILE = 'download_mobile',
+  HELP_PAGE = 'help_page',
+  REPORT_BUG = 'report_bug',
 }

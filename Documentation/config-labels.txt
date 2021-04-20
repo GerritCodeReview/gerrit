@@ -293,9 +293,9 @@ If true, all scores for the label are copied forward when a new
 patch-set is uploaded that has the same list of files as the previous
 patch-set.
 
-Renames are considered the same file when computing whether new files
-were added or old files were deleted. Hence, if there are only renames,
-scores will still be copied over.
+Renames are considered different files when computing whether new files
+were added or old files were deleted. Hence, if there are renames, scores will
+*NOT* be copied over.
 
 Defaults to false.
 

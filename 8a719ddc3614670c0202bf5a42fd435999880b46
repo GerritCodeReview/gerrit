@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f377bbf4_a255bcce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-20T10:51:01Z",
+      "side": 1,
+      "message": "Nothing is wrong here. As explained in another change, the problem is x-plugin communication with different classloaders. GSon can serialize the classe without any issue and without any help.\n\nThe only issue here, would be if you artificially force GSon to use wrong class:\n\n      String json \u003d gson.toJson(event, Event.class);\n\nBut, that\u0027s not the problem in x-plugin communication. kafka-events plugin is doing this:\n\n        String json \u003d gson.toJson(event);\n\nand that works. Of course we could simulate classloader issue artificially, with providing wrong class in this test, but I don\u0027t see the point.",
+      "parentUuid": "3403e128_d1240e09",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00811f34_0a281d65",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8347aa45_a06c4604",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-20T10:51:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00811f34_0a281d65",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5408510a_f34497f0",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-04-17T02:06:31Z",
       "side": 1,
       "message": "You should register the new CustomEvent to its type \"custom-type\":\n\n  EventTypes.register(CustomEvent.TYPE, CustomEvent.class);",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e886e12a_1fb6d203",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-20T10:51:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5408510a_f34497f0",
       "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d592bdbe_ec99f031",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-20T10:51:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81aa1813_c915bae5",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 9
+      },
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41171861_1620ed7a",
@@ -92,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fc4bde0_417f756d",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-20T10:51:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41171861_1620ed7a",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4eb10b63_2ada3b94",
@@ -105,6 +201,24 @@
       "writtenOn": "2021-04-17T02:06:31Z",
       "side": 1,
       "message": "Here you should also assert that map.get(\"customField\") \u003d\u003d \"customValue\"",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15087df2_9a56dbb4",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-20T10:51:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eb10b63_2ada3b94",
       "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

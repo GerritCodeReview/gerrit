@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d80a556b_147f721a",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-20T19:26:14Z",
+      "side": 1,
+      "message": "resources",
+      "range": {
+        "startLine": 4,
+        "startChar": 75,
+        "endLine": 4,
+        "endChar": 85
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fe3da6c_51fba232",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-20T19:26:14Z",
+      "side": 1,
+      "message": "I would inline that value directly here.",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3244806b_2d63a282",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-20T19:26:14Z",
+      "side": 1,
+      "message": "I would inline this instead of using a local variable only once. Also making the resulting string multi-line would help code readability.",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "596a92ea_122b9923",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-20T19:26:14Z",
+      "side": 1,
+      "message": "Better yet if this message could be replaced with a reference to an already existing piece of related documentation (about how to properly use ssh towards Gerrit).",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 15
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af9e6937_ad5a6421",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-20T19:26:14Z",
+      "side": 1,
+      "message": "Line wrap issue.",
+      "range": {
+        "startLine": 39,
+        "startChar": 99,
+        "endLine": 39,
+        "endChar": 103
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db9c973_b10771f0",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-20T19:26:14Z",
+      "side": 1,
+      "message": "This will overwrite that file locally; could be either good or bad for the user.",
+      "range": {
+        "startLine": 41,
+        "startChar": 38,
+        "endLine": 41,
+        "endChar": 58
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c6e94c9_37836277",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-20T19:26:14Z",
+      "side": 1,
+      "message": "These echoes will fill the console up and make it scroll a lot; are they necessary?",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 6
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed8b7fc7_43c73150",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-20T19:26:14Z",
+      "side": 1,
+      "message": "Line wrap issue.",
+      "range": {
+        "startLine": 59,
+        "startChar": 77,
+        "endLine": 59,
+        "endChar": 119
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

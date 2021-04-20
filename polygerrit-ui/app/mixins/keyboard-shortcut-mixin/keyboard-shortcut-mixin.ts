@@ -816,7 +816,10 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
           tagName === 'TEXTAREA' ||
           // Suppress shortcuts if the key is 'enter'
           // and target is an anchor or button.
-          (e.keyCode === 13 && (tagName === 'A' || tagName === 'BUTTON'))
+          (e.keyCode === 13 &&
+            (tagName === 'A' ||
+              tagName === 'BUTTON' ||
+              tagName === 'PAPER-TAB'))
         ) {
           return true;
         }

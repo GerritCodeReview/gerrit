@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b539008_8bd59ac5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-20T15:35:41Z",
+      "side": 1,
+      "message": "The breakage should be fixed with Docker image fix in change 303884.",
+      "revId": "a82be29d3b6a086a9a6ad03ce145cd1d4464932b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

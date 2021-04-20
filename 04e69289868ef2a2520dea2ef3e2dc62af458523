@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41025898_55543538",
+        "filename": "Documentation/cmd-convert-ref-storage.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-20T17:48:19Z",
+      "side": 1,
+      "message": "explain what is reftable ?\nadd links to https://github.com/google/reftable and https://www.git-scm.com/docs/reftable ?\n\nmention that it\u0027s still experimental ?",
+      "revId": "04e69289868ef2a2520dea2ef3e2dc62af458523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef6120b_082c18de",
+        "filename": "Documentation/cmd-convert-ref-storage.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-20T17:48:19Z",
+      "side": 1,
+      "message": "do we also need a way to delete the backup if it is no longer needed ?",
+      "revId": "04e69289868ef2a2520dea2ef3e2dc62af458523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "601ee472_e30b1222",
+        "filename": "java/com/google/gerrit/sshd/commands/ConvertRefStorage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-20T17:48:19Z",
+      "side": 1,
+      "message": "mention that reftable is still experimental ?",
+      "revId": "04e69289868ef2a2520dea2ef3e2dc62af458523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "845f739b_1629bb80",
+        "filename": "java/com/google/gerrit/sshd/commands/ConvertRefStorage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-20T17:48:19Z",
+      "side": 1,
+      "message": "storage format",
+      "range": {
+        "startLine": 48,
+        "startChar": 15,
+        "endLine": 48,
+        "endChar": 21
+      },
+      "revId": "04e69289868ef2a2520dea2ef3e2dc62af458523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

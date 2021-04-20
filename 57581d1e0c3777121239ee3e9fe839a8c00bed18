@@ -660,6 +660,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf781acb_37716a34",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-20T19:26:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d678064e_67027cd0",
+      "range": {
+        "startLine": 84,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49f98723_b0a5ae1d",

@@ -249,6 +249,9 @@ export const sharedStyles = css`
       color: var(--deemphasized-text-color);
     }
   }
+  paper-tab:focus {
+    background: var(--gray-background-focus);
+  }
   iron-autogrow-textarea {
     /** This is needed for firefox */
     --iron-autogrow-textarea_-_white-space: pre-wrap;

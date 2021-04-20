@@ -46,6 +46,30 @@
       },
       "revId": "ebccffc76207011dc1b6d17209dac2be9df902f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "779e8db9_5c37661c",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-20T13:38:51Z",
+      "side": 0,
+      "message": "Gotcha, I\u0027ve commented on that one.",
+      "parentUuid": "250a1360_5b83550c",
+      "range": {
+        "startLine": 109,
+        "startChar": 12,
+        "endLine": 109,
+        "endChar": 55
+      },
+      "revId": "ebccffc76207011dc1b6d17209dac2be9df902f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

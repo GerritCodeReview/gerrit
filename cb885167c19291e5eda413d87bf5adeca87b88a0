@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "100a172a_d94875b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-20T16:08:32Z",
+      "side": 1,
+      "message": "I propose we extend the width of the Error message up to right corner of the commit message (width would be roughly 500px if I look at the spec).\n\nThis will provide more space to show the error message. The error message would always have the same width with 2 lines max.",
+      "revId": "cb885167c19291e5eda413d87bf5adeca87b88a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75e49f06_83b072d3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-20T16:08:32Z",
+      "side": 1,
+      "message": "nit: we can remove the dot at the end, per UX writing rules.",
+      "range": {
+        "startLine": 370,
+        "startChar": 49,
+        "endLine": 370,
+        "endChar": 50
+      },
+      "revId": "cb885167c19291e5eda413d87bf5adeca87b88a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

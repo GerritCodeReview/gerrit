@@ -25,7 +25,11 @@ import '../../../styles/shared-styles';
 import '../../../styles/gr-voting-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-message_html';
-import {MessageTag, SpecialFilePath} from '../../../constants/constants';
+import {
+  ChangeMessageTemplate,
+  MessageTag,
+  SpecialFilePath,
+} from '../../../constants/constants';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {
   ChangeInfo,
@@ -40,6 +44,7 @@ import {
   PatchSetNum,
   AccountInfo,
   BasePatchSetNum,
+  AccountId,
 } from '../../../types/common';
 import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
@@ -176,14 +181,19 @@ export class GrMessage extends PolymerElement {
 
   @property({
     type: String,
-    computed: '_computeMessageContentExpanded(message.message, message.tag)',
+    computed:
+      '_computeMessageContentExpanded(message.message,' +
+      ' message.accountsInMessage,' +
+      ' message.tag)',
   })
   _messageContentExpanded = '';
 
   @property({
     type: String,
     computed:
-      '_computeMessageContentCollapsed(message.message, message.tag,' +
+      '_computeMessageContentCollapsed(message.message,' +
+      ' message.accountsInMessage,' +
+      ' message.tag,' +
       ' message.commentThreads)',
   })
   _messageContentCollapsed = '';
@@ -231,8 +241,12 @@ export class GrMessage extends PolymerElement {
     return pluralize(threadsLength, 'comment');
   }
 
-  _computeMessageContentExpanded(content?: string, tag?: ReviewInputTag) {
-    return this._computeMessageContent(true, content, tag);
+  _computeMessageContentExpanded(
+    content?: string,
+    accountsInMessage?: AccountInfo[],
+    tag?: ReviewInputTag
+  ) {
+    return this._computeMessageContent(true, content, accountsInMessage, tag);
   }
 
   _patchsetCommentSummary(commentThreads: CommentThread[] = []) {
@@ -261,10 +275,16 @@ export class GrMessage extends PolymerElement {
 
   _computeMessageContentCollapsed(
     content?: string,
+    accountsInMessage?: AccountInfo[],
     tag?: ReviewInputTag,
     commentThreads?: CommentThread[]
   ) {
-    const summary = this._computeMessageContent(false, content, tag);
+    const summary = this._computeMessageContent(
+      false,
+      content,
+      accountsInMessage,
+      tag
+    );
     if (summary || !commentThreads) return summary;
     return this._patchsetCommentSummary(commentThreads);
   }
@@ -319,10 +339,21 @@ export class GrMessage extends PolymerElement {
   _computeMessageContent(
     isExpanded: boolean,
     content?: string,
+    accountsInMessage?: AccountInfo[],
     tag?: ReviewInputTag
   ) {
     if (!content) return '';
     const isNewPatchSet = this._isNewPatchsetTag(tag);
+
+    if (accountsInMessage) {
+      content = content.replace(
+        new RegExp(ChangeMessageTemplate.ACCOUNT_TEMPLATE, 'g'),
+        (_accountIdTemplate, accountId) =>
+          accountsInMessage.find(
+            account => account._account_id === (Number(accountId) as AccountId)
+          )?.name || `Gerrit Account ${accountId}`
+      );
+    }
 
     const lines = content.split('\n');
     const filteredLines = lines.filter(line => {

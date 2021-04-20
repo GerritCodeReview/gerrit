@@ -58,6 +58,13 @@ export enum MessageTag {
 }
 
 /**
+ * @desc Templates that can be used in change log messages.
+ */
+export enum ChangeMessageTemplate {
+  ACCOUNT_TEMPLATE = '<GERRIT_ACCOUNT_(\\d+)>',
+}
+
+/**
  * @desc Modes for gr-diff-cursor
  * The scroll behavior for the cursor. Values are 'never' and
  * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond

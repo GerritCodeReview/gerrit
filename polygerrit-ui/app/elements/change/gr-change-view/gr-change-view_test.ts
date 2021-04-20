@@ -61,6 +61,7 @@ import {
   createEditRevision,
   createAccountWithIdNameAndEmail,
   createChangeViewChange,
+  createRelatedChangeAndCommitInfo,
 } from '../../../test/test-data-generators';
 import {ChangeViewPatchRange, GrChangeView} from './gr-change-view';
 import {
@@ -79,6 +80,11 @@ import {
   ParentPatchSetNum,
   PatchRange,
   PatchSetNum,
+<<<<<<< HEAD   (9093a6 Merge "Clean up Add Patchset Description from File List head)
+=======
+  RelatedChangeAndCommitInfo,
+  ReviewInputTag,
+>>>>>>> CHANGE (e9ddfa Move tests from old to new gr-related-changes-list)
   RevisionInfo,
   RevisionPatchSetNum,
   RobotId,
@@ -2981,5 +2987,24 @@ suite('gr-change-view tests', () => {
         done();
       });
     });
+  });
+
+  test('_calculateHasParent', () => {
+    const changeId = '123' as ChangeId;
+    const relatedChanges: RelatedChangeAndCommitInfo[] = [];
+
+    assert.equal(element._calculateHasParent(changeId, relatedChanges), false);
+
+    relatedChanges.push({
+      ...createRelatedChangeAndCommitInfo(),
+      change_id: '123' as ChangeId,
+    });
+    assert.equal(element._calculateHasParent(changeId, relatedChanges), false);
+
+    relatedChanges.push({
+      ...createRelatedChangeAndCommitInfo(),
+      change_id: '234' as ChangeId,
+    });
+    assert.equal(element._calculateHasParent(changeId, relatedChanges), true);
   });
 });

@@ -541,6 +541,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e003e038_ef258ae2",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Ack. I think gerrit.sh can be removed as calling gerrit.sh start will call gerrit.war. With the command ps aux | grep gerrit, I am able to see gerrit.war in the process command. I think release.war can also be removed. Leaving only gerrit.war.",
+      "parentUuid": "59aeb49c_40548bd7",
+      "range": {
+        "startLine": 71,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 20
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b8366a0_cd569217",
@@ -602,6 +626,30 @@
       "side": 1,
       "message": "Hence I think this requires another approach, maybe a less powerful (capable) -or simpler- one.",
       "parentUuid": "2fba8dd6_6f6fe728",
+      "range": {
+        "startLine": 84,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d678064e_67027cd0",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Another approach in the next patchset is to use the exit code sent at the end of the command. The exit code is 127 (command not found). If this exit code is not equal to 127, so the error message is printed to the screen.",
+      "parentUuid": "7c478daf_f01e1cc8",
       "range": {
         "startLine": 84,
         "startChar": 15,
@@ -791,6 +839,30 @@
       "side": 1,
       "message": "You hardcoded the actual value placeholder I had above (between parentheses).",
       "parentUuid": "49bc411f_03a7738e",
+      "range": {
+        "startLine": 116,
+        "startChar": 38,
+        "endLine": 116,
+        "endChar": 78
+      },
+      "revId": "57581d1e0c3777121239ee3e9fe839a8c00bed18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbe01166_8f963452",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c60b33a_ce452667",
       "range": {
         "startLine": 116,
         "startChar": 38,

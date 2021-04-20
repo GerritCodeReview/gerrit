@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24954764_cf994355",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f09696ad_da49448f",
+      "range": {
+        "startLine": 2,
+        "startChar": 2,
+        "endLine": 2,
+        "endChar": 10
+      },
+      "revId": "d4febfb7f97590ff1800b2db60683d41adef8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e34584d3_e76f8b67",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7afedd15_ca7af496",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e34584d3_e76f8b67",
+      "revId": "d4febfb7f97590ff1800b2db60683d41adef8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5860b410_5019ade6",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-04-19T19:22:52Z",
       "side": 1,
       "message": "usageMessage, or usage, at this stage (no longer that general).",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 14
+      },
+      "revId": "d4febfb7f97590ff1800b2db60683d41adef8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4355653d_462a25ce",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5860b410_5019ade6",
       "range": {
         "startLine": 4,
         "startChar": 0,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f50d108b_4376fcda",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4e1c467_dc68e1b2",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "d4febfb7f97590ff1800b2db60683d41adef8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "798a9a32_86ce09be",
@@ -100,6 +190,30 @@
       "writtenOn": "2021-04-19T19:22:52Z",
       "side": 1,
       "message": "gerritWar",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "d4febfb7f97590ff1800b2db60683d41adef8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6744e0d_eb97b94a",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "798a9a32_86ce09be",
       "range": {
         "startLine": 22,
         "startChar": 0,
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6bf9820_e280e237",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34ca61fa_d60bef01",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 8
+      },
+      "revId": "d4febfb7f97590ff1800b2db60683d41adef8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35bd8309_2331b72a",
@@ -150,6 +288,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac0c7745_313443a3",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35bd8309_2331b72a",
+      "revId": "d4febfb7f97590ff1800b2db60683d41adef8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a697bbb_9beaf755",
@@ -163,6 +319,30 @@
       "writtenOn": "2021-04-19T19:22:52Z",
       "side": 1,
       "message": "Misplaced?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "d4febfb7f97590ff1800b2db60683d41adef8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca1982d5_1a51bada",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a697bbb_9beaf755",
       "range": {
         "startLine": 40,
         "startChar": 0,
@@ -196,6 +376,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f52f0aeb_4162f1e3",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27ac46ed_07686c23",
+      "range": {
+        "startLine": 48,
+        "startChar": 17,
+        "endLine": 48,
+        "endChar": 36
+      },
+      "revId": "d4febfb7f97590ff1800b2db60683d41adef8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30304496_8b86de80",
@@ -209,6 +413,30 @@
       "writtenOn": "2021-04-19T19:22:52Z",
       "side": 1,
       "message": "Typo.",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 18
+      },
+      "revId": "d4febfb7f97590ff1800b2db60683d41adef8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f77a9319_911feae1",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-20T14:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30304496_8b86de80",
       "range": {
         "startLine": 49,
         "startChar": 8,

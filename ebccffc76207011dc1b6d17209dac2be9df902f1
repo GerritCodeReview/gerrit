@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c528c815_d5623ab6",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-20T07:59:02Z",
+      "side": 0,
+      "message": "Shall we also ping @Thomas on that? He actually introduced the reuse of this option for this purpose, on Change-Id: I238c2692",
+      "range": {
+        "startLine": 109,
+        "startChar": 12,
+        "endLine": 109,
+        "endChar": 55
+      },
+      "revId": "ebccffc76207011dc1b6d17209dac2be9df902f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

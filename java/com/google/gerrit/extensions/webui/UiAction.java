@@ -30,7 +30,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
    *     the same as {@code setVisible(false)}.
    */
   @Nullable
-  Description getDescription(R resource);
+  Description getDescription(R resource) throws Exception;
 
   /** Describes an action invokable through the web interface. */
   class Description {

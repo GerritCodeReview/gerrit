@@ -32,12 +32,12 @@ export const htmlTemplate = html`
       padding: var(--spacing-m);
     }
     :host([collapsed]) .viewer,
-    .viewer.new-change-summary-true[collapsed] {
+    .viewer[collapsed] {
       max-height: var(--collapsed-max-height, 300px);
       overflow: hidden;
     }
-    .editor.new-change-summary-true iron-autogrow-textarea,
-    .viewer.new-change-summary-true {
+    .editor iron-autogrow-textarea,
+    .viewer {
       min-height: 100px;
     }
     .editor iron-autogrow-textarea {
@@ -94,76 +94,60 @@ export const htmlTemplate = html`
     }
   </style>
   <div
-    class$="viewer new-change-summary-[[_isNewChangeSummaryUiEnabled]]"
+    class="viewer"
     hidden$="[[editing]]"
     collapsed$="[[_computeCommitMessageCollapsed(_commitCollapsed, commitCollapsible)]]"
   >
     <slot></slot>
   </div>
-  <div
-    class$="editor new-change-summary-[[_isNewChangeSummaryUiEnabled]]"
-    hidden$="[[!editing]]"
-  >
+  <div class="editor" hidden$="[[!editing]]">
     <div>
       <iron-autogrow-textarea
         autocomplete="on"
         bind-value="{{_newContent}}"
         disabled="[[disabled]]"
       ></iron-autogrow-textarea>
-      <div class="editButtons" hidden$="[[_isNewChangeSummaryUiEnabled]]">
-        <gr-button
-          primary=""
-          on-click="_handleSave"
-          disabled="[[_saveDisabled]]"
-          >Save</gr-button
-        >
-        <gr-button on-click="_handleCancel" disabled="[[disabled]]"
-          >Cancel</gr-button
-        >
-      </div>
     </div>
   </div>
-  <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
-    <div class="show-all-container" hidden$="[[_hideShowAllContainer]]">
+  <div class="show-all-container" hidden$="[[_hideShowAllContainer]]">
+    <gr-button
+      link=""
+      class="show-all-button"
+      on-click="_toggleCommitCollapsed"
+      hidden$="[[_hideShowAllButton]]"
+      ><iron-icon
+        icon="gr-icons:expand-more"
+        hidden$="[[!_commitCollapsed]]"
+      ></iron-icon
+      ><iron-icon
+        icon="gr-icons:expand-less"
+        hidden$="[[_commitCollapsed]]"
+      ></iron-icon>
+      [[_computeCollapseText(_commitCollapsed)]]
+    </gr-button>
+    <gr-button
+      link=""
+      class="edit-commit-message"
+      title="Edit commit message"
+      on-click="_handleEditCommitMessage"
+      hidden$="[[hideEditCommitMessage]]"
+      ><iron-icon icon="gr-icons:edit"></iron-icon> Edit</gr-button
+    >
+    <div class="editButtons" hidden$="[[!editing]]">
       <gr-button
         link=""
-        class="show-all-button"
-        on-click="_toggleCommitCollapsed"
-        hidden$="[[_hideShowAllButton]]"
-        ><iron-icon
-          icon="gr-icons:expand-more"
-          hidden$="[[!_commitCollapsed]]"
-        ></iron-icon
-        ><iron-icon
-          icon="gr-icons:expand-less"
-          hidden$="[[_commitCollapsed]]"
-        ></iron-icon>
-        [[_computeCollapseText(_commitCollapsed)]]
-      </gr-button>
-      <gr-button
-        link=""
-        class="edit-commit-message"
-        title="Edit commit message"
-        on-click="_handleEditCommitMessage"
-        hidden$="[[hideEditCommitMessage]]"
-        ><iron-icon icon="gr-icons:edit"></iron-icon> Edit</gr-button
+        class="cancel-button"
+        on-click="_handleCancel"
+        disabled="[[disabled]]"
+        >Cancel</gr-button
       >
-      <div class="editButtons" hidden$="[[!editing]]">
-        <gr-button
-          link=""
-          class="cancel-button"
-          on-click="_handleCancel"
-          disabled="[[disabled]]"
-          >Cancel</gr-button
-        >
-        <gr-button
-          class="save-button"
-          primary=""
-          on-click="_handleSave"
-          disabled="[[_saveDisabled]]"
-          >Save</gr-button
-        >
-      </div>
+      <gr-button
+        class="save-button"
+        primary=""
+        on-click="_handleSave"
+        disabled="[[_saveDisabled]]"
+        >Save</gr-button
+      >
     </div>
-  </template>
+  </div>
 `;

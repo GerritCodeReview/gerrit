@@ -34,6 +34,24 @@
       "parentUuid": "1b25bf71_472643af",
       "revId": "0a630bff2af8a6fce867d83ed04a050a877486d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee3e7f1d_e2ad578a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-20T16:59:09Z",
+      "side": 1,
+      "message": "this is a pretty new feature so I would be surprised if this breaks anyone (checked; not part of 3.3). Maybe we should cherry-pick those fixes to 3.4, though?\n\nThanks for the nit, done here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/303888",
+      "parentUuid": "f91fedda_3dde99ee",
+      "revId": "0a630bff2af8a6fce867d83ed04a050a877486d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Can we target stable-3.4 instead?",
       "revId": "efee4349e0e0b912983625743b11d16e43108561",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0c10c00_d35136be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-20T00:11:15Z",
+      "side": 1,
+      "message": "Ping @DavidO? Any objections?",
+      "parentUuid": "7720f577_36b5f65e",
+      "revId": "efee4349e0e0b912983625743b11d16e43108561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

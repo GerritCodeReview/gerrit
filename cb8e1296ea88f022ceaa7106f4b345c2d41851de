@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf20fde2_790477e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-20T16:20:10Z",
+      "side": 1,
+      "message": "Click behavior:\nIn this change, if I click on the tabs, the hover stays active.\nI propose we keep the current behavior of users click on the tab, show hover interaction but then remove hover state.\n\nKeyboard behavior (Tab): Current behavior LGTM. Left a comment on the background color for focus.\n\n\n\n",
+      "revId": "cb8e1296ea88f022ceaa7106f4b345c2d41851de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28e90440_4e517f6a",
+        "filename": "polygerrit-ui/app/styles/shared-styles.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-20T16:20:10Z",
+      "side": 1,
+      "message": "It seems that there is a gradient from white to grey (white at the bottom of the tab) in this grey background when I focus/Tab on a tab, do you know where this might be coming from?",
+      "range": {
+        "startLine": 248,
+        "startChar": 22,
+        "endLine": 248,
+        "endChar": 45
+      },
+      "revId": "cb8e1296ea88f022ceaa7106f4b345c2d41851de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

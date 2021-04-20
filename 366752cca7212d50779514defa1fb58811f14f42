@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2252111_59ea2532",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-20T06:39:10Z",
+      "side": 1,
+      "message": "20 is a lot. Maybe 5 or 10?",
+      "range": {
+        "startLine": 205,
+        "startChar": 37,
+        "endLine": 205,
+        "endChar": 39
+      },
+      "revId": "366752cca7212d50779514defa1fb58811f14f42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e82a16b_81995730",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-20T06:39:10Z",
+      "side": 1,
+      "message": "Did you mean 1000?",
+      "range": {
+        "startLine": 205,
+        "startChar": 42,
+        "endLine": 205,
+        "endChar": 47
+      },
+      "revId": "366752cca7212d50779514defa1fb58811f14f42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -528,6 +528,7 @@ export interface ChangeMessageInfo {
   real_author?: AccountInfo;
   date: Timestamp;
   message: string;
+  accountsInTemplate?: AccountInfo[];
   tag?: ReviewInputTag;
   _revision_number?: PatchSetNum;
 }

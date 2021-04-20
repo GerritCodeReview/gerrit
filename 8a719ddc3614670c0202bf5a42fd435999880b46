@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5de9eca4_d60191d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-20T11:10:24Z",
+      "side": 1,
+      "message": "I adapted the follow-up change and added similar test to simulate classloader issue.",
+      "parentUuid": "b9991c44_bf47fc31",
+      "revId": "8a719ddc3614670c0202bf5a42fd435999880b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00811f34_0a281d65",

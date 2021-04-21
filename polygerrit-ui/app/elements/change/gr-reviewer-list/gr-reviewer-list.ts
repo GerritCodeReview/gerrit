@@ -41,7 +41,6 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {isRemovableReviewer} from '../../../utils/change-util';
 import {ReviewerState} from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends PolymerElement {
@@ -88,20 +87,7 @@ export class GrReviewerList extends PolymerElement {
   @property({type: Object})
   _xhrPromise?: Promise<Response | undefined>;
 
-  @property({type: Boolean})
-  _isNewChangeSummaryUiEnabled = false;
-
   private readonly restApiService = appContext.restApiService;
-
-  private readonly flagsService = appContext.flagsService;
-
-  /** @override */
-  ready() {
-    super.ready();
-    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
-    );
-  }
 
   @computed('ccsOnly')
   get _addLabel() {

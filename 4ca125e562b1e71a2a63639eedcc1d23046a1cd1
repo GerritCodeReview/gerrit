@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aae23beb_1674c9c2",
+        "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-04-21T17:35:53Z",
+      "side": 1,
+      "message": "noticed that but this is how gjf (called from command line treats it as of version 1.10.0) can try to revert it.",
+      "parentUuid": "83835c86_293f8b08",
+      "range": {
+        "startLine": 281,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 33
+      },
+      "revId": "4ca125e562b1e71a2a63639eedcc1d23046a1cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49634e72_c9d450af",
         "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2021-04-21T17:13:59Z",
       "side": 1,
       "message": "Have you measured the performance implications of this dump?",
+      "range": {
+        "startLine": 324,
+        "startChar": 20,
+        "endLine": 324,
+        "endChar": 41
+      },
+      "revId": "4ca125e562b1e71a2a63639eedcc1d23046a1cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc7f64bf_5529439b",
+        "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-04-21T17:35:53Z",
+      "side": 1,
+      "message": "not yet, wanted to gather some feedback on the presented solution - there is no dedicated method hence dump needs to be performed...",
+      "parentUuid": "f5bb5207_f76e47e5",
       "range": {
         "startLine": 324,
         "startChar": 20,

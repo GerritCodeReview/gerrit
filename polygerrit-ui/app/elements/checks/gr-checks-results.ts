@@ -253,14 +253,11 @@ class GrResultRow extends GrLitElement {
       `;
     }
     return html`
-      <tr
-        class="${classMap({container: true, collapsed: !this.isExpanded})}"
-        @click="${this.toggleExpanded}"
-      >
-        <td class="iconCol">
+      <tr class="${classMap({container: true, collapsed: !this.isExpanded})}">
+        <td class="iconCol" @click="${this.toggleExpanded}">
           <div>${this.renderIcon()}</div>
         </td>
-        <td class="nameCol">
+        <td class="nameCol" @click="${this.toggleExpanded}">
           <div>
             <span>${this.result.checkName}</span>
             <span class="attempt" ?hidden="${this.result.isSingleAttempt}"
@@ -272,7 +269,7 @@ class GrResultRow extends GrLitElement {
           <div class="summary-cell">
             ${(this.result.links?.slice(0, 1) ?? []).map(this.renderLink)}
             ${this.renderSummary(this.result.summary)}
-            <div class="message">
+            <div class="message" @click="${this.toggleExpanded}">
               ${this.isExpanded ? '' : this.result.message}
             </div>
             <div class="tags">
@@ -282,7 +279,7 @@ class GrResultRow extends GrLitElement {
           </div>
           ${this.renderExpanded()}
         </td>
-        <td class="expanderCol">
+        <td class="expanderCol" @click="${this.toggleExpanded}">
           <div
             class="show-hide"
             role="switch"
@@ -309,7 +306,6 @@ class GrResultRow extends GrLitElement {
     if (!this.isExpanded) return;
     return html`<gr-result-expanded
       .result="${this.result}"
-      @click="${this.avoidToggleExpanded}"
     ></gr-result-expanded>`;
   }
 
@@ -318,16 +314,12 @@ class GrResultRow extends GrLitElement {
     this.isExpanded = !this.isExpanded;
   }
 
-  private avoidToggleExpanded(e: Event) {
-    e.stopPropagation();
-  }
-
   renderSummary(text?: string) {
     if (!text) return;
     return html`
       <!-- The &nbsp; is for being able to shrink a tiny amount without
        the text itself getting shrunk with an ellipsis. -->
-      <div class="summary">${text}&nbsp;</div>
+      <div class="summary" @click="${this.toggleExpanded}">${text}&nbsp;</div>
     `;
   }
 

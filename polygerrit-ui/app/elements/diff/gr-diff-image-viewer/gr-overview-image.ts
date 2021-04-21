@@ -25,8 +25,9 @@ import {
   query,
 } from 'lit-element';
 import {StyleInfo, styleMap} from 'lit-html/directives/style-map';
+import {ImageDiffAction} from '../../../api/diff';
 
-import {Dimensions, fitToFrame, Point, Rect} from './util';
+import {createEvent, Dimensions, fitToFrame, Point, Rect} from './util';
 
 /**
  * Displays a scaled-down version of an image with a draggable frame for
@@ -179,9 +180,12 @@ export class GrOverviewImage extends LitElement {
       this.overlay.addEventListener('mousemove', (event: MouseEvent) =>
         this.maybeDragFrame(event)
       );
-      this.overlay.addEventListener('mouseleave', (event: MouseEvent) =>
-        this.releaseFrame(event)
-      );
+      this.overlay.addEventListener('mouseleave', (event: MouseEvent) => {
+        // Ignore mouseleave events that are due to closeOverlay() calls.
+        if (this.overlay?.style.display !== 'none') {
+          this.releaseFrame(event);
+        }
+      });
       this.overlay.addEventListener('mouseup', (event: MouseEvent) =>
         this.releaseFrame(event)
       );
@@ -254,6 +258,12 @@ export class GrOverviewImage extends LitElement {
 
   releaseFrame(event: MouseEvent) {
     event.preventDefault();
+
+    const detail: ImageDiffAction = {
+      type: this.dragging ? 'overview-frame-dragged' : 'overview-image-clicked',
+    };
+    this.dispatchEvent(createEvent(detail));
+
     this.dragging = false;
     this.closeOverlay();
     this.grabOffset = {x: 0, y: 0};

@@ -140,6 +140,30 @@
       },
       "revId": "4ca125e562b1e71a2a63639eedcc1d23046a1cd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3e39570_a0795759",
+        "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-21T19:26:31Z",
+      "side": 1,
+      "message": "Because this is a callback metric, it will get invoked every time that the metric is read. If this method is very very cheap (micro-secs) then it would take millions of calls per second to exploit it. However, if this method is expensive (msecs) then a much lower rate could create problems.\n\nCan you measure it with a simple loop?",
+      "parentUuid": "d412e6d0_8c65a9f5",
+      "range": {
+        "startLine": 324,
+        "startChar": 20,
+        "endLine": 324,
+        "endChar": 41
+      },
+      "revId": "4ca125e562b1e71a2a63639eedcc1d23046a1cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

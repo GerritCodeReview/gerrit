@@ -34,6 +34,6 @@ public class GetRevisionActions implements RestReadView<RevisionResource> {
 
   @Override
   public Response<Map<String, ActionInfo>> apply(RevisionResource rsrc) {
-    return Response.withMustRevalidate(delegate.format(rsrc));
+    return Response.ok(delegate.format(rsrc));
   }
 }

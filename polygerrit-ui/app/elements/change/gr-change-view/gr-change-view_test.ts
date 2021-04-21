@@ -1622,10 +1622,6 @@ suite('gr-change-view tests', () => {
       .stub(element, '_reloadPatchNumDependentResources')
       .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
     flush();
-    const relatedChanges = element.shadowRoot!.querySelector(
-      '#relatedChanges'
-    ) as GrRelatedChangesList;
-    const relatedClearSpy = sinon.spy(relatedChanges, 'clear');
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
 
     const value: AppElementChangeViewParams = {
@@ -1635,7 +1631,6 @@ suite('gr-change-view tests', () => {
     };
     element._paramsChanged(value);
     assert.isTrue(reloadStub.calledOnce);
-    assert.isTrue(relatedClearSpy.calledOnce);
 
     element._initialLoadComplete = true;
 
@@ -1644,7 +1639,6 @@ suite('gr-change-view tests', () => {
     element._paramsChanged(value);
     assert.isFalse(reloadStub.calledTwice);
     assert.isTrue(reloadPatchDependentStub.calledOnce);
-    assert.isTrue(relatedClearSpy.calledOnce);
     assert.isTrue(collapseStub.calledTwice);
   });
 
@@ -1657,10 +1651,6 @@ suite('gr-change-view tests', () => {
       element.$.commentAPI,
       'reloadPortedComments'
     );
-    const relatedChanges = element.shadowRoot!.querySelector(
-      '#relatedChanges'
-    ) as GrRelatedChangesList;
-    sinon.spy(relatedChanges, 'clear');
     sinon.stub(element.$.fileList, 'collapseAllDiffs');
 
     const value: AppElementChangeViewParams = {

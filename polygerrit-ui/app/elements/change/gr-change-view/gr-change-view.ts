@@ -1966,6 +1966,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       )
     ).then(changes => {
       if (!changes.length) return;
+      // do not add a chip if all reverts created were abandoned
+      if (changes.every(change => change?.status === ChangeStatus.ABANDONED))
+        return;
       const change = changes.find(
         change => change?.status === ChangeStatus.MERGED
       );

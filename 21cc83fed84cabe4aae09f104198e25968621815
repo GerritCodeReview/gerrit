@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c0a248c_f2daf371",
+        "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-21T20:56:41Z",
+      "side": 1,
+      "message": "if both these metrics aren\u0027t supported by the JVM we could skip adding this metric",
+      "revId": "21cc83fed84cabe4aae09f104198e25968621815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

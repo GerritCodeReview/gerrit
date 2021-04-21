@@ -104,9 +104,7 @@ export const htmlTemplate = html`
       padding-left: 0;
     }
   </style>
-  <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
-    <h3 class="metadata-title">Submit requirements</h3>
-  </template>
+  <h3 class="metadata-title">Submit requirements</h3>
   <template is="dom-repeat" items="[[_requirements]]">
     <gr-endpoint-decorator
       class="submit-requirement-endpoints"
@@ -161,42 +159,24 @@ export const htmlTemplate = html`
   <section
     class$="spacer [[_computeShowOptional(_optionalLabels.*)]]"
   ></section>
-  <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
-    <section class$="showHide [[_computeShowOptional(_optionalLabels.*)]]">
-      <div class="title">
-        <h3 class="metadata-title">Other labels</h3>
-      </div>
-      <div class="value">
-        <gr-button link="" class="show-all-button" on-click="_handleShowHide"
-          >[[_computeShowAllLabelText(_showOptionalLabels)]]
-          <iron-icon
-            icon="gr-icons:expand-more"
-            hidden$="[[_showOptionalLabels]]"
-          ></iron-icon
-          ><iron-icon
-            icon="gr-icons:expand-less"
-            hidden$="[[!_showOptionalLabels]]"
-          ></iron-icon>
-        </gr-button>
-      </div>
-    </section>
-  </template>
-  <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
-    <section
-      show-bottom-border$="[[_showOptionalLabels]]"
-      on-click="_handleShowHide"
-      class$="showHide [[_computeShowOptional(_optionalLabels.*)]]"
-    >
-      <div class="title">Other labels</div>
-      <div class="value">
+  <section class$="showHide [[_computeShowOptional(_optionalLabels.*)]]">
+    <div class="title">
+      <h3 class="metadata-title">Other labels</h3>
+    </div>
+    <div class="value">
+      <gr-button link="" class="show-all-button" on-click="_handleShowHide"
+        >[[_computeShowAllLabelText(_showOptionalLabels)]]
         <iron-icon
-          id="showHide"
-          icon="[[_computeShowHideIcon(_showOptionalLabels)]]"
-        >
-        </iron-icon>
-      </div>
-    </section>
-  </template>
+          icon="gr-icons:expand-more"
+          hidden$="[[_showOptionalLabels]]"
+        ></iron-icon
+        ><iron-icon
+          icon="gr-icons:expand-less"
+          hidden$="[[!_showOptionalLabels]]"
+        ></iron-icon>
+      </gr-button>
+    </div>
+  </section>
   <template is="dom-repeat" items="[[_optionalLabels]]">
     <section class$="optional [[_computeSectionClass(_showOptionalLabels)]]">
       <div class="title">

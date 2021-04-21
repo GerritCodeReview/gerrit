@@ -77,61 +77,39 @@ export const htmlTemplate = html`
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
-      <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
-        <div class="toggleItem">
-          <paper-toggle-button
-            id="unresolvedToggle"
-            checked="{{!unresolvedOnly}}"
-            on-click="_onTapUnresolvedToggle"
-            >All comments</paper-toggle-button
-          >
-        </div>
-        <div
-          class$="toggleItem draftToggle [[_computeShowDraftToggle(loggedIn)]]"
-        >
-          <paper-toggle-button
-            id="draftToggle"
-            checked="{{_draftsOnly}}"
-            on-click="_onTapUnresolvedToggle"
-            >Comments with drafts</paper-toggle-button
-          >
-        </div>
-      </template>
-      <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
-          <input
-            class="categoryRadio"
-            id="unresolvedRadio"
-            name="filterComments"
-            type="radio"
-            on-click="_handleOnlyUnresolved"
-            checked="[[unresolvedOnly]]"
-          />
-          <label for="unresolvedRadio">
-            Unresolved ([[_countUnresolved(threads)]])
-          </label>
-          <input
-            class="categoryRadio"
-            id="draftsRadio"
-            name="filterComments"
-            type="radio"
-            on-click="_handleOnlyDrafts"
-            checked="[[_draftsOnly]]"
-          />
-          <label for="draftsRadio">
-            Drafts ([[_countDrafts(threads)]])
-          </label>
-          <input
-            class="categoryRadio"
-            id="allRadio"
-            name="filterComments"
-            type="radio"
-            on-click="_handleAllComments"
-            checked="[[_showAllComments(_draftsOnly, unresolvedOnly)]]"
-          />
-          <label for="allRadio">
-            All ([[_countAllThreads(threads)]])
-          </label>
-      </template>
+        <input
+          class="categoryRadio"
+          id="unresolvedRadio"
+          name="filterComments"
+          type="radio"
+          on-click="_handleOnlyUnresolved"
+          checked="[[unresolvedOnly]]"
+        />
+        <label for="unresolvedRadio">
+          Unresolved ([[_countUnresolved(threads)]])
+        </label>
+        <input
+          class="categoryRadio"
+          id="draftsRadio"
+          name="filterComments"
+          type="radio"
+          on-click="_handleOnlyDrafts"
+          checked="[[_draftsOnly]]"
+        />
+        <label for="draftsRadio">
+          Drafts ([[_countDrafts(threads)]])
+        </label>
+        <input
+          class="categoryRadio"
+          id="allRadio"
+          name="filterComments"
+          type="radio"
+          on-click="_handleAllComments"
+          checked="[[_showAllComments(_draftsOnly, unresolvedOnly)]]"
+        />
+        <label for="allRadio">
+          All ([[_countAllThreads(threads)]])
+        </label>
     </div>
   </template>
   <div id="threads">

@@ -39,8 +39,6 @@ import {
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireThreadListModifiedEvent} from '../../../utils/event-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
-import {appContext} from '../../../services/app-context';
 import {assertNever} from '../../../utils/common-util';
 import {CommentTabState} from '../../../types/events';
 
@@ -101,21 +99,8 @@ export class GrThreadList extends PolymerElement {
   @property({type: Boolean})
   hideToggleButtons = false;
 
-  @property({type: Boolean})
-  _isNewChangeSummaryUiEnabled = false;
-
   @property({type: Object, observer: '_commentTabStateChange'})
   commentTabState?: CommentTabState;
-
-  flagsService = appContext.flagsService;
-
-  /** @override */
-  ready() {
-    super.ready();
-    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
-    );
-  }
 
   _computeShowDraftToggle(loggedIn?: boolean) {
     return loggedIn ? 'show' : '';

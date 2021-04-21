@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6644714b_cd330ec9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-21T09:55:56Z",
+      "side": 1,
+      "message": "That is too complicated to implement, sorry. :-(",
+      "parentUuid": "100a172a_d94875b9",
+      "revId": "cb885167c19291e5eda413d87bf5adeca87b88a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75e49f06_83b072d3",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-04-20T16:08:32Z",
       "side": 1,
       "message": "nit: we can remove the dot at the end, per UX writing rules.",
+      "range": {
+        "startLine": 370,
+        "startChar": 49,
+        "endLine": 370,
+        "endChar": 50
+      },
+      "revId": "cb885167c19291e5eda413d87bf5adeca87b88a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e55b4dd6_719114c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-21T09:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75e49f06_83b072d3",
       "range": {
         "startLine": 370,
         "startChar": 49,

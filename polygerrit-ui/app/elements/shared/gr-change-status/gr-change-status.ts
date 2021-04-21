@@ -20,7 +20,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-status_html';
 import {customElement, property} from '@polymer/decorators';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 
@@ -67,7 +66,7 @@ class GrChangeStatus extends PolymerElement {
   tooltipText = '';
 
   @property({type: Object})
-  revertSubmittedChange?: ChangeInfo;
+  revertedChange?: ChangeInfo;
 
   _computeStatusString(status: ChangeStates) {
     if (status === ChangeStates.WIP && !this.flat) {
@@ -87,19 +86,11 @@ class GrChangeStatus extends PolymerElement {
     );
   }
 
-  getStatusLink(change?: ParsedChangeInfo, status?: ChangeStates) {
-    if (!change?.messages) return;
-    if (status === ChangeStates.REVERT_CREATED) {
-      const revertChangeId = getRevertCreatedChangeIds(change.messages)?.[0];
-      if (!revertChangeId) return;
-      return GerritNav.getUrlForSearchQuery(revertChangeId);
-    }
-    if (this.revertSubmittedChange) {
-      return GerritNav.getUrlForSearchQuery(
-        `${this.revertSubmittedChange._number}`
-      );
-    }
-    return;
+  getStatusLink(revertedChange?: ChangeInfo) {
+    return (
+      revertedChange &&
+      GerritNav.getUrlForSearchQuery(`${revertedChange._number}`)
+    );
   }
 
   _updateChipDetails(status?: ChangeStates, previousStatus?: ChangeStates) {

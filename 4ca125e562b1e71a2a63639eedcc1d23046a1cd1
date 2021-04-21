@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83835c86_293f8b08",
+        "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-21T17:13:59Z",
+      "side": 1,
+      "message": "nit: unrelated change",
+      "range": {
+        "startLine": 281,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 33
+      },
+      "revId": "4ca125e562b1e71a2a63639eedcc1d23046a1cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49634e72_c9d450af",
+        "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-21T17:13:59Z",
+      "side": 1,
+      "message": "nit: unrelated change",
+      "range": {
+        "startLine": 291,
+        "startChar": 1,
+        "endLine": 293,
+        "endChar": 0
+      },
+      "revId": "4ca125e562b1e71a2a63639eedcc1d23046a1cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5bb5207_f76e47e5",
+        "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-21T17:13:59Z",
+      "side": 1,
+      "message": "Have you measured the performance implications of this dump?",
+      "range": {
+        "startLine": 324,
+        "startChar": 20,
+        "endLine": 324,
+        "endChar": 41
+      },
+      "revId": "4ca125e562b1e71a2a63639eedcc1d23046a1cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

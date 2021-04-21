@@ -59,6 +59,8 @@ objects needing finalization.
 * `proc/jvm/thread/num_total_started`: Total number of threads created and also started since the Java virtual machine started.
 * `proc/jvm/thread/num_deadlocked_threads`: Number of threads that are deadlocked waiting for object monitors or ownable synchronizers.
    If deadlocks waiting for ownable synchronizers can be monitored depends on the capabilities of the used JVM.
+* `proc/jvm/thread/num_blocked_threads`: Number of threads that are currently in _BLOCKED_ state it
+  is a superset of the _deadlocked_ threads.
 
 === Caches
 

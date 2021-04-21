@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c489f83e_20705c87",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-21T12:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d80a556b_147f721a",
+      "range": {
+        "startLine": 4,
+        "startChar": 75,
+        "endLine": 4,
+        "endChar": 85
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fe3da6c_51fba232",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-20T19:26:14Z",
       "side": 1,
       "message": "I would inline that value directly here.",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 33
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2df959d3_4e3cccce",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-21T12:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fe3da6c_51fba232",
       "range": {
         "startLine": 28,
         "startChar": 23,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60f42eb4_08c82daf",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-21T12:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3244806b_2d63a282",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "596a92ea_122b9923",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-04-20T19:26:14Z",
       "side": 1,
       "message": "Better yet if this message could be replaced with a reference to an already existing piece of related documentation (about how to properly use ssh towards Gerrit).",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 15
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dd123b8_e0d0c3d6",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-21T12:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "596a92ea_122b9923",
       "range": {
         "startLine": 38,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9d0b848_18bf8367",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-21T12:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af9e6937_ad5a6421",
+      "range": {
+        "startLine": 39,
+        "startChar": 99,
+        "endLine": 39,
+        "endChar": 103
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6db9c973_b10771f0",
@@ -129,6 +249,30 @@
       "writtenOn": "2021-04-20T19:26:14Z",
       "side": 1,
       "message": "This will overwrite that file locally; could be either good or bad for the user.",
+      "range": {
+        "startLine": 41,
+        "startChar": 38,
+        "endLine": 41,
+        "endChar": 58
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65bfda23_2e080394",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-21T12:09:00Z",
+      "side": 1,
+      "message": "Done. Replace the \u003e by \u003e\u003e to append the information to the file according to [2].\n[2] https://www.fosslinux.com/36292/how-to-append-text-to-end-of-a-file-in-linux.htm",
+      "parentUuid": "6db9c973_b10771f0",
       "range": {
         "startLine": 41,
         "startChar": 38,
@@ -162,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebfb2f69_09df6b97",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-21T12:09:00Z",
+      "side": 1,
+      "message": "Done, no they are not necessary but they were used as a feedback on the progress.",
+      "parentUuid": "3c6e94c9_37836277",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 6
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed8b7fc7_43c73150",
@@ -175,6 +343,30 @@
       "writtenOn": "2021-04-20T19:26:14Z",
       "side": 1,
       "message": "Line wrap issue.",
+      "range": {
+        "startLine": 59,
+        "startChar": 77,
+        "endLine": 59,
+        "endChar": 119
+      },
+      "revId": "3b148a333cad55bbcc4abba2ff8e5984f4a5af29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cadc4ae_f165d075",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-21T12:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed8b7fc7_43c73150",
       "range": {
         "startLine": 59,
         "startChar": 77,

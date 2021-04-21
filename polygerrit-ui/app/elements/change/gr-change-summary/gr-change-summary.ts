@@ -361,6 +361,7 @@ export class GrChangeSummary extends GrLitElement {
   }
 
   renderChecksError() {
+    if (!this.errorMessage) return;
     return html`
       <div class="error zeroState">
         <div class="left">

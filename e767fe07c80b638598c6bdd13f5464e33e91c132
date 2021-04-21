@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9006eec_53644fca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-21T13:13:27Z",
+      "side": 1,
+      "message": "Sorry, I had to rename the new field based on the feedback for the backend change, could you, please, re-LGTM?",
+      "revId": "e767fe07c80b638598c6bdd13f5464e33e91c132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

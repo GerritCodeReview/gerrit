@@ -370,6 +370,7 @@ export const htmlTemplate = html`
               <gr-change-status
                 change="[[_change]]"
                 revert-submitted-change="[[revertSubmittedChange]]"
+                revert-created-change="[[revertCreatedChange]]"
                 max-width="100"
                 status="[[status]]"
               ></gr-change-status>

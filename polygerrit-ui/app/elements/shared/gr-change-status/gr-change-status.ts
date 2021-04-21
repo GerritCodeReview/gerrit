@@ -20,7 +20,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-status_html';
 import {customElement, property} from '@polymer/decorators';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 
@@ -69,6 +68,9 @@ class GrChangeStatus extends PolymerElement {
   @property({type: Object})
   revertSubmittedChange?: ChangeInfo;
 
+  @property({type: Object})
+  revertCreatedChange?: ChangeInfo;
+
   _computeStatusString(status: ChangeStates) {
     if (status === ChangeStates.WIP && !this.flat) {
       return 'Work in Progress';
@@ -90,9 +92,11 @@ class GrChangeStatus extends PolymerElement {
   getStatusLink(change?: ParsedChangeInfo, status?: ChangeStates) {
     if (!change?.messages) return;
     if (status === ChangeStates.REVERT_CREATED) {
-      const revertChangeId = getRevertCreatedChangeIds(change.messages)?.[0];
-      if (!revertChangeId) return;
-      return GerritNav.getUrlForSearchQuery(revertChangeId);
+      if (!this.revertCreatedChange)
+        throw new Error('revert created undefined');
+      return GerritNav.getUrlForSearchQuery(
+        `${this.revertCreatedChange._number}`
+      );
     }
     if (this.revertSubmittedChange) {
       return GerritNav.getUrlForSearchQuery(

@@ -69,7 +69,6 @@ import {ChangeStatus} from '../../../constants/constants';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
-  fetchChangeUpdates,
   hasEditBasedOnCurrentPatchSet,
   hasEditPatchsetLoaded,
   PatchSet,
@@ -2599,7 +2598,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this._updateCheckTimerHandle = window.setTimeout(() => {
       assertIsDefined(this._change, '_change');
       const change = this._change;
-      fetchChangeUpdates(change, this.restApiService).then(result => {
+      this.changeService.fetchChangeUpdates(change).then(result => {
         let toastMessage = null;
         if (!result.isLatest) {
           toastMessage = ReloadToastMessage.NEWER_REVISION;

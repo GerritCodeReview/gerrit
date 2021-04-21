@@ -30,7 +30,9 @@ import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
 import java.lang.management.OperatingSystemMXBean;
+import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class ProcMetricModule extends MetricModule {
@@ -311,5 +313,20 @@ public class ProcMetricModule extends MetricModule {
             return deadlocked.length;
           });
     }
+    metrics.newCallbackMetric(
+        "proc/jvm/thread/num_blocked_threads",
+        Long.class,
+        new Description("number of threads that are blocked").setGauge().setUnit("threads"),
+        () -> {
+          ThreadInfo[] threads =
+              thread.dumpAllThreads(
+                  thread.isObjectMonitorUsageSupported(), thread.isSynchronizerUsageSupported());
+          if (threads == null) {
+            return 0L;
+          }
+          return Arrays.stream(threads)
+              .filter(t -> Thread.State.BLOCKED == t.getThreadState())
+              .count();
+        });
   }
 }

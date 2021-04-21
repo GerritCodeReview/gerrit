@@ -118,6 +118,26 @@ export const htmlTemplate = html`
         display: flex;
       }
     }
+
+    .size-label {
+      text-shadow: 1px 1px black;
+      font-weight: bold;
+    }
+    .XS-size {
+      color: darkgreen;
+    }
+    .S-size {
+      color: lightgreen;
+    }
+    .M-size {
+      color: yellow;
+    }
+    .L-size {
+      color: orange;
+    }
+    .XL-size {
+      color: red;
+    }
   </style>
   <style include="gr-change-list-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
@@ -287,7 +307,7 @@ export const htmlTemplate = html`
   >
     <gr-tooltip-content has-tooltip="" title="[[_computeSizeTooltip(change)]]">
       <template is="dom-if" if="[[_changeSize]]">
-        <span>[[_changeSize]]</span>
+        <span class$="size-label [[_changeSize.color]]">[[_changeSize.text]]</span>
       </template>
       <template is="dom-if" if="[[!_changeSize]]">
         <span class="placeholder">--</span>

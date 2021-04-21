@@ -270,6 +270,17 @@ suite('gr-thread-list tests', () => {
     });
   });
 
+  test('draft toggle only appears when logged in', () => {
+    element.loggedIn = false;
+    assert.equal(getComputedStyle(element.shadowRoot
+        .querySelector('#draftsRadio')).display,
+    'none');
+    element.loggedIn = true;
+    assert.notEqual(getComputedStyle(element.shadowRoot
+        .querySelector('#draftsRadio')).display,
+    'none');
+  });
+
   test('show all threads by default', () => {
     assert.equal(dom(element.root)
         .querySelectorAll('gr-comment-thread').length, element.threads.length);

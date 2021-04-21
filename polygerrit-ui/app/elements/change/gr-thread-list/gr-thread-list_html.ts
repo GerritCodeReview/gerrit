@@ -84,8 +84,9 @@ export const htmlTemplate = html`
           type="radio"
           on-click="_handleOnlyDrafts"
           checked="[[_draftsOnly]]"
+          hidden$="[[!loggedIn]]"
         />
-        <label for="draftsRadio">
+        <label for="draftsRadio" hidden$="[[!loggedIn]]">
           Drafts ([[_countDrafts(threads)]])
         </label>
         <input

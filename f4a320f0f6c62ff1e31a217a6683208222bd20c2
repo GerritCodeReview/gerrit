@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5051b89_dca7a8fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-21T07:54:21Z",
+      "side": 1,
+      "message": "Joerg, can you please have a look as well?",
+      "revId": "f4a320f0f6c62ff1e31a217a6683208222bd20c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a3a645f_e196e6a3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 6681,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-21T07:54:21Z",
+      "side": 1,
+      "message": "sorry for the bikeshedding, how about \"accountsInMessage\" ?\n\nThe term \"template\" isn\u0027t clear IMO. Maybe we should also just avoid it in the docs in l.6677 and just say: \"The text left by the user or Gerrit system. Accounts are served as account IDs inlined in the text as `\u003cGERRIT_ACCOUNT_18419\u003e`.",
+      "range": {
+        "startLine": 6681,
+        "startChar": 12,
+        "endLine": 6681,
+        "endChar": 19
+      },
+      "revId": "f4a320f0f6c62ff1e31a217a6683208222bd20c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51341c18_43223c6b",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-21T07:54:21Z",
+      "side": 1,
+      "message": "Users can delete their accounts, so this is a case that can happen during normal operations. Just log atInfo?",
+      "range": {
+        "startLine": 123,
+        "startChar": 15,
+        "endLine": 123,
+        "endChar": 23
+      },
+      "revId": "f4a320f0f6c62ff1e31a217a6683208222bd20c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

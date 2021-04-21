@@ -88,7 +88,7 @@ suite('gr-change-metadata tests', () => {
     assert.ok(element.shadowRoot
         .querySelector('section.optional'));
     MockInteractions.tap(element.shadowRoot
-        .querySelector('.showHide'));
+        .querySelector('.show-all-button'));
     flush();
 
     assert.isFalse(element._showOptionalLabels);

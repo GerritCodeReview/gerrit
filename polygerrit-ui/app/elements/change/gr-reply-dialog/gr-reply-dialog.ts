@@ -38,7 +38,6 @@ import {
   ReviewerState,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {fetchChangeUpdates} from '../../../utils/patch-set-util';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {accountKey, removeServiceUsers} from '../../../utils/account-util';
 import {getDisplayName} from '../../../utils/display-name-util';
@@ -225,6 +224,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   reporting = appContext.reportingService;
 
   flagsService = appContext.flagsService;
+
+  changeService = appContext.changeService;
 
   @property({type: Object})
   change?: ChangeInfo;
@@ -436,7 +437,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   open(focusTarget?: FocusTarget) {
     assertIsDefined(this.change, 'change');
     this.knownLatestState = LatestPatchState.CHECKING;
-    fetchChangeUpdates(this.change, this.restApiService).then(result => {
+    this.changeService.fetchChangeUpdates(this.change).then(result => {
       this.knownLatestState = result.isLatest
         ? LatestPatchState.LATEST
         : LatestPatchState.NOT_LATEST;

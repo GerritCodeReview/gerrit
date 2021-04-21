@@ -8,7 +8,6 @@ import {
   BasePatchSetNum,
   RevisionPatchSetNum,
 } from '../types/common';
-import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {check} from './common-util';
 
@@ -299,41 +298,6 @@ export function hasEditPatchsetLoaded(patchRange: PatchRange) {
     patchRange.patchNum === EditPatchSetNum ||
     patchRange.basePatchNum === EditPatchSetNum
   );
-}
-
-/**
- * Check whether there is no newer patch than the latest patch that was
- * available when this change was loaded.
- *
- * @return A promise that yields true if the latest patch
- *     has been loaded, and false if a newer patch has been uploaded in the
- *     meantime. The promise is rejected on network error.
- */
-// TODO: remove usage of RestApiService inside util
-export function fetchChangeUpdates(
-  change: ChangeInfo | ParsedChangeInfo,
-  restAPI: RestApiService
-) {
-  const knownLatest = computeLatestPatchNum(computeAllPatchSets(change));
-  return restAPI.getChangeDetail(change._number).then(detail => {
-    if (!detail) {
-      const error = new Error('Change detail not found.');
-      return Promise.reject(error);
-    }
-    const actualLatest = computeLatestPatchNum(computeAllPatchSets(detail));
-    if (!actualLatest || !knownLatest) {
-      const error = new Error('Unable to check for latest patchset.');
-      return Promise.reject(error);
-    }
-    return {
-      isLatest: actualLatest <= knownLatest,
-      newStatus: change.status !== detail.status ? detail.status : null,
-      newMessages:
-        (change.messages || []).length < (detail.messages || []).length
-          ? detail.messages![detail.messages!.length - 1]
-          : undefined,
-    };
-  });
 }
 
 /**

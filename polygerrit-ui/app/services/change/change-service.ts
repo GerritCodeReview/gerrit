@@ -17,8 +17,16 @@
 import {routerChangeNum$} from '../router/router-model';
 import {updateState} from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
+import {appContext} from '../app-context';
+import {ChangeInfo} from '../../types/common';
+import {
+  computeAllPatchSets,
+  computeLatestPatchNum,
+} from '../../utils/patch-set-util';
 
 export class ChangeService {
+  private readonly restApiService = appContext.restApiService;
+
   constructor() {
     // TODO: In the future we will want to make restApiService.getChangeDetail()
     // calls from a switchMap() here. For now just make sure to invalidate the
@@ -37,5 +45,36 @@ export class ChangeService {
    */
   updateChange(change: ParsedChangeInfo) {
     updateState(change);
+  }
+
+  /**
+   * Check whether there is no newer patch than the latest patch that was
+   * available when this change was loaded.
+   *
+   * @return A promise that yields true if the latest patch
+   *     has been loaded, and false if a newer patch has been uploaded in the
+   *     meantime. The promise is rejected on network error.
+   */
+  fetchChangeUpdates(change: ChangeInfo | ParsedChangeInfo) {
+    const knownLatest = computeLatestPatchNum(computeAllPatchSets(change));
+    return this.restApiService.getChangeDetail(change._number).then(detail => {
+      if (!detail) {
+        const error = new Error('Change detail not found.');
+        return Promise.reject(error);
+      }
+      const actualLatest = computeLatestPatchNum(computeAllPatchSets(detail));
+      if (!actualLatest || !knownLatest) {
+        const error = new Error('Unable to check for latest patchset.');
+        return Promise.reject(error);
+      }
+      return {
+        isLatest: actualLatest <= knownLatest,
+        newStatus: change.status !== detail.status ? detail.status : null,
+        newMessages:
+          (change.messages || []).length < (detail.messages || []).length
+            ? detail.messages![detail.messages!.length - 1]
+            : undefined,
+      };
+    });
   }
 }

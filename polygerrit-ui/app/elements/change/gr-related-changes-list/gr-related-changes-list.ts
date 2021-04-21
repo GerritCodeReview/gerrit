@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2021 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,217 +14,547 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
+import {html, nothing} from 'lit-html';
+import './gr-related-change';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-related-changes-list_html';
+import {classMap} from 'lit-html/directives/class-map';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {
+  customElement,
+  property,
+  css,
+  internalProperty,
+  TemplateResult,
+} from 'lit-element';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {
+  SubmittedTogetherInfo,
+  ChangeInfo,
+  RelatedChangeAndCommitInfo,
+  RelatedChangesInfo,
+  PatchSetNum,
+  CommitId,
+} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
+import {ParsedChangeInfo} from '../../../types/types';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {ChangeStatus} from '../../../constants/constants';
-
+import {pluralize} from '../../../utils/string-util';
 import {
   changeIsOpen,
   getRevisionKey,
   isChangeInfo,
 } from '../../../utils/change-util';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
-import {customElement, observe, property} from '@polymer/decorators';
-import {
-  ChangeId,
-  ChangeInfo,
-  CommitId,
-  NumericChangeId,
-  PatchSetNum,
-  RelatedChangeAndCommitInfo,
-  RelatedChangesInfo,
-  RepoName,
-  SubmittedTogetherInfo,
-} from '../../../types/common';
-import {appContext} from '../../../services/app-context';
-import {pluralize} from '../../../utils/string-util';
-import {ParsedChangeInfo} from '../../../types/types';
 
-function getEmptySubmitTogetherInfo(): SubmittedTogetherInfo {
-  return {changes: [], non_visible_changes: 0};
+/** What is the maximum number of shown changes in collapsed list? */
+const DEFALT_NUM_CHANGES_WHEN_COLLAPSED = 3;
+
+export interface ChangeMarkersInList {
+  showCurrentChangeArrow: boolean;
+  showWhenCollapsed: boolean;
+  showTopArrow: boolean;
+  showBottomArrow: boolean;
+}
+
+export enum Section {
+  RELATED_CHANGES = 'related changes',
+  SUBMITTED_TOGETHER = 'submitted together',
+  SAME_TOPIC = 'same topic',
+  MERGE_CONFLICTS = 'merge conflicts',
+  CHERRY_PICKS = 'cherry picks',
 }
 
 @customElement('gr-related-changes-list')
-export class GrRelatedChangesList extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  /**
-   * Fired when a new section is loaded so that the change view can determine
-   * a show more button is needed, sometimes before all the sections finish
-   * loading.
-   *
-   * @event new-section-loaded
-   */
-
-  @property({type: Object})
+export class GrRelatedChangesList extends GrLitElement {
+  @property()
   change?: ParsedChangeInfo;
-
-  @property({type: Boolean, notify: true})
-  hasParent = false;
 
   @property({type: String})
   patchNum?: PatchSetNum;
 
-  @property({type: Boolean, reflectToAttribute: true})
-  hidden = false;
-
-  @property({type: Boolean, notify: true})
-  loading?: boolean;
-
-  @property({type: Boolean})
+  @property()
   mergeable?: boolean;
 
-  @property({
-    type: Array,
-    computed:
-      '_computeConnectedRevisions(change, patchNum, ' +
-      '_relatedResponse.changes)',
-  })
-  _connectedRevisions?: CommitId[];
+  @internalProperty()
+  submittedTogether?: SubmittedTogetherInfo = {
+    changes: [],
+    non_visible_changes: 0,
+  };
 
-  @property({type: Object})
-  _relatedResponse: RelatedChangesInfo = {changes: []};
+  @internalProperty()
+  relatedChanges: RelatedChangeAndCommitInfo[] = [];
 
-  @property({type: Object})
-  _submittedTogether?: SubmittedTogetherInfo = getEmptySubmitTogetherInfo();
+  @internalProperty()
+  conflictingChanges: ChangeInfo[] = [];
 
-  @property({type: Array})
-  _conflicts: ChangeInfo[] = [];
+  @internalProperty()
+  cherryPickChanges: ChangeInfo[] = [];
 
-  @property({type: Array})
-  _cherryPicks: ChangeInfo[] = [];
-
-  @property({type: Array})
-  _sameTopic?: ChangeInfo[] = [];
+  @internalProperty()
+  sameTopicChanges: ChangeInfo[] = [];
 
   private readonly restApiService = appContext.restApiService;
 
-  private readonly reportingService = appContext.reportingService;
-
-  clear() {
-    this.loading = true;
-    this.hidden = true;
-
-    this._relatedResponse = {changes: []};
-    this._submittedTogether = getEmptySubmitTogetherInfo();
-    this._conflicts = [];
-    this._cherryPicks = [];
-    this._sameTopic = [];
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        .note {
+          color: var(--error-text-color);
+          margin-left: 1.2em;
+        }
+        section {
+          margin-bottom: var(--spacing-l);
+        }
+        gr-related-change {
+          display: flex;
+        }
+        .marker {
+          position: absolute;
+          margin-left: calc(-1 * var(--spacing-s));
+        }
+        .arrowToCurrentChange {
+          position: absolute;
+        }
+      `,
+    ];
   }
 
-  reload() {
-    if (!this.change || !this.patchNum) {
-      return Promise.resolve();
+  render() {
+    const sectionSize = this.sectionSizeFactory(
+      this.relatedChanges.length,
+      this.submittedTogether?.changes.length || 0,
+      this.sameTopicChanges.length,
+      this.conflictingChanges.length,
+      this.cherryPickChanges.length
+    );
+    const relatedChangesMarkersPredicate = this.markersPredicateFactory(
+      this.relatedChanges.length,
+      this.relatedChanges.findIndex(relatedChange =>
+        this._changesEqual(relatedChange, this.change)
+      ),
+      sectionSize(Section.RELATED_CHANGES)
+    );
+    const connectedRevisions = this._computeConnectedRevisions(
+      this.change,
+      this.patchNum,
+      this.relatedChanges
+    );
+    let firstNonEmptySectionFound = false;
+    let isFirstNonEmpty =
+      !firstNonEmptySectionFound && !!this.relatedChanges.length;
+    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
+    const relatedChangeSection = html` <section
+      id="relatedChanges"
+      ?hidden=${!this.relatedChanges.length}
+    >
+      <gr-related-collapse
+        title="Relation chain"
+        class="${classMap({first: isFirstNonEmpty})}"
+        .length=${this.relatedChanges.length}
+        .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
+      >
+        ${this.relatedChanges.map(
+          (change, index) =>
+            html`${this.renderMarkers(
+                relatedChangesMarkersPredicate(index)
+              )}<gr-related-change
+                class="${classMap({
+                  ['show-when-collapsed']: relatedChangesMarkersPredicate(index)
+                    .showWhenCollapsed,
+                })}"
+                .change="${change}"
+                .connectedRevisions="${connectedRevisions}"
+                .href="${change?._change_number
+                  ? GerritNav.getUrlForChangeById(
+                      change._change_number,
+                      change.project,
+                      change._revision_number as PatchSetNum
+                    )
+                  : ''}"
+                .showChangeStatus=${true}
+                >${change.commit.subject}</gr-related-change
+              >`
+        )}
+      </gr-related-collapse>
+    </section>`;
+
+    const submittedTogetherChanges = this.submittedTogether?.changes ?? [];
+    const countNonVisibleChanges =
+      this.submittedTogether?.non_visible_changes ?? 0;
+    const submittedTogetherMarkersPredicate = this.markersPredicateFactory(
+      submittedTogetherChanges.length,
+      submittedTogetherChanges.findIndex(relatedChange =>
+        this._changesEqual(relatedChange, this.change)
+      ),
+      sectionSize(Section.SUBMITTED_TOGETHER)
+    );
+    isFirstNonEmpty =
+      !firstNonEmptySectionFound &&
+      (!!submittedTogetherChanges?.length ||
+        !!this.submittedTogether?.non_visible_changes);
+    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
+    const submittedTogetherSection = html`<section
+      id="submittedTogether"
+      ?hidden=${!submittedTogetherChanges?.length &&
+      !this.submittedTogether?.non_visible_changes}
+    >
+      <gr-related-collapse
+        title="Submitted together"
+        class="${classMap({first: isFirstNonEmpty})}"
+        .length=${submittedTogetherChanges.length}
+        .numChangesWhenCollapsed=${sectionSize(Section.SUBMITTED_TOGETHER)}
+      >
+        ${submittedTogetherChanges.map(
+          (change, index) =>
+            html`${this.renderMarkers(
+                submittedTogetherMarkersPredicate(index)
+              )}<gr-related-change
+                class="${classMap({
+                  ['show-when-collapsed']: submittedTogetherMarkersPredicate(
+                    index
+                  ).showWhenCollapsed,
+                })}"
+                .change="${change}"
+                .href="${GerritNav.getUrlForChangeById(
+                  change._number,
+                  change.project
+                )}"
+                .showSubmittableCheck=${true}
+                >${change.project}: ${change.branch}:
+                ${change.subject}</gr-related-change
+              >`
+        )}
+      </gr-related-collapse>
+      <div class="note" ?hidden=${!countNonVisibleChanges}>
+        (+ ${pluralize(countNonVisibleChanges, 'non-visible change')})
+      </div>
+    </section>`;
+
+    const sameTopicMarkersPredicate = this.markersPredicateFactory(
+      this.sameTopicChanges.length,
+      -1,
+      sectionSize(Section.SAME_TOPIC)
+    );
+    isFirstNonEmpty =
+      !firstNonEmptySectionFound && !!this.sameTopicChanges?.length;
+    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
+    const sameTopicSection = html`<section
+      id="sameTopic"
+      ?hidden=${!this.sameTopicChanges?.length}
+    >
+      <gr-related-collapse
+        title="Same topic"
+        class="${classMap({first: isFirstNonEmpty})}"
+        .length=${this.sameTopicChanges.length}
+        .numChangesWhenCollapsed=${sectionSize(Section.SAME_TOPIC)}
+      >
+        ${this.sameTopicChanges.map(
+          (change, index) =>
+            html`${this.renderMarkers(
+                sameTopicMarkersPredicate(index)
+              )}<gr-related-change
+                class="${classMap({
+                  ['show-when-collapsed']: sameTopicMarkersPredicate(index)
+                    .showWhenCollapsed,
+                })}"
+                .change="${change}"
+                .href="${GerritNav.getUrlForChangeById(
+                  change._number,
+                  change.project
+                )}"
+                >${change.project}: ${change.branch}:
+                ${change.subject}</gr-related-change
+              >`
+        )}
+      </gr-related-collapse>
+    </section>`;
+
+    const mergeConflictsMarkersPredicate = this.markersPredicateFactory(
+      this.conflictingChanges.length,
+      -1,
+      sectionSize(Section.MERGE_CONFLICTS)
+    );
+    isFirstNonEmpty =
+      !firstNonEmptySectionFound && !!this.conflictingChanges?.length;
+    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
+    const mergeConflictsSection = html`<section
+      id="mergeConflicts"
+      ?hidden=${!this.conflictingChanges?.length}
+    >
+      <gr-related-collapse
+        title="Merge conflicts"
+        class="${classMap({first: isFirstNonEmpty})}"
+        .length=${this.conflictingChanges.length}
+        .numChangesWhenCollapsed=${sectionSize(Section.MERGE_CONFLICTS)}
+      >
+        ${this.conflictingChanges.map(
+          (change, index) =>
+            html`${this.renderMarkers(
+                mergeConflictsMarkersPredicate(index)
+              )}<gr-related-change
+                class="${classMap({
+                  ['show-when-collapsed']: mergeConflictsMarkersPredicate(index)
+                    .showWhenCollapsed,
+                })}"
+                .change="${change}"
+                .href="${GerritNav.getUrlForChangeById(
+                  change._number,
+                  change.project
+                )}"
+                >${change.subject}</gr-related-change
+              >`
+        )}
+      </gr-related-collapse>
+    </section>`;
+
+    const cherryPicksMarkersPredicate = this.markersPredicateFactory(
+      this.cherryPickChanges.length,
+      -1,
+      sectionSize(Section.CHERRY_PICKS)
+    );
+    isFirstNonEmpty =
+      !firstNonEmptySectionFound && !!this.cherryPickChanges?.length;
+    firstNonEmptySectionFound = firstNonEmptySectionFound || isFirstNonEmpty;
+    const cherryPicksSection = html`<section
+      id="cherryPicks"
+      ?hidden=${!this.cherryPickChanges?.length}
+    >
+      <gr-related-collapse
+        title="Cherry picks"
+        class="${classMap({first: isFirstNonEmpty})}"
+        .length=${this.cherryPickChanges.length}
+        .numChangesWhenCollapsed=${sectionSize(Section.CHERRY_PICKS)}
+      >
+        ${this.cherryPickChanges.map(
+          (change, index) =>
+            html`${this.renderMarkers(
+                cherryPicksMarkersPredicate(index)
+              )}<gr-related-change
+                class="${classMap({
+                  ['show-when-collapsed']: cherryPicksMarkersPredicate(index)
+                    .showWhenCollapsed,
+                })}"
+                .change="${change}"
+                .href="${GerritNav.getUrlForChangeById(
+                  change._number,
+                  change.project
+                )}"
+                >${change.branch}: ${change.subject}</gr-related-change
+              >`
+        )}
+      </gr-related-collapse>
+    </section>`;
+
+    return html`<gr-endpoint-decorator name="related-changes-section">
+      <gr-endpoint-param
+        name="change"
+        .value=${this.change}
+      ></gr-endpoint-param>
+      <gr-endpoint-slot name="top"></gr-endpoint-slot>
+      ${relatedChangeSection} ${submittedTogetherSection} ${sameTopicSection}
+      ${mergeConflictsSection} ${cherryPicksSection}
+      <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
+    </gr-endpoint-decorator>`;
+  }
+
+  sectionSizeFactory(
+    relatedChangesLen: number,
+    submittedTogetherLen: number,
+    sameTopicLen: number,
+    mergeConflictsLen: number,
+    cherryPicksLen: number
+  ) {
+    const calcDefaultSize = (length: number) =>
+      Math.min(length, DEFALT_NUM_CHANGES_WHEN_COLLAPSED);
+
+    const sectionSizes = [
+      {
+        section: Section.RELATED_CHANGES,
+        size: calcDefaultSize(relatedChangesLen),
+        len: relatedChangesLen,
+      },
+      {
+        section: Section.SUBMITTED_TOGETHER,
+        size: calcDefaultSize(submittedTogetherLen),
+        len: submittedTogetherLen,
+      },
+      {
+        section: Section.SAME_TOPIC,
+        size: calcDefaultSize(sameTopicLen),
+        len: sameTopicLen,
+      },
+      {
+        section: Section.MERGE_CONFLICTS,
+        size: calcDefaultSize(mergeConflictsLen),
+        len: mergeConflictsLen,
+      },
+      {
+        section: Section.CHERRY_PICKS,
+        size: calcDefaultSize(cherryPicksLen),
+        len: cherryPicksLen,
+      },
+    ];
+
+    const FILLER = 1; // space for header
+    let totalSize = sectionSizes.reduce(
+      (acc, val) => acc + val.size + (val.size !== 0 ? FILLER : 0),
+      0
+    );
+
+    const MAX_SIZE = 16;
+    for (let i = 0; i < sectionSizes.length; i++) {
+      if (totalSize >= MAX_SIZE) break;
+      const sizeObj = sectionSizes[i];
+      if (sizeObj.size === sizeObj.len) continue;
+      const newSize = Math.min(
+        MAX_SIZE - totalSize + sizeObj.size,
+        sizeObj.len
+      );
+      totalSize += newSize - sizeObj.size;
+      sizeObj.size = newSize;
     }
+
+    return (section: Section) => {
+      const sizeObj = sectionSizes.find(sizeObj => sizeObj.section === section);
+      if (sizeObj) return sizeObj.size;
+      return DEFALT_NUM_CHANGES_WHEN_COLLAPSED;
+    };
+  }
+
+  markersPredicateFactory(
+    length: number,
+    highlightIndex: number,
+    numChangesShownWhenCollapsed = DEFALT_NUM_CHANGES_WHEN_COLLAPSED
+  ): (index: number) => ChangeMarkersInList {
+    const showWhenCollapsedPredicate = (index: number) => {
+      if (highlightIndex === -1) return index < numChangesShownWhenCollapsed;
+      if (highlightIndex === 0)
+        return index <= numChangesShownWhenCollapsed - 1;
+      if (highlightIndex === length - 1)
+        return index >= length - numChangesShownWhenCollapsed;
+      let numBeforeHighlight = Math.floor(numChangesShownWhenCollapsed / 2);
+      let numAfterHighlight =
+        Math.floor(numChangesShownWhenCollapsed / 2) -
+        (numChangesShownWhenCollapsed % 2 ? 0 : 1);
+      numBeforeHighlight += Math.max(
+        highlightIndex + numAfterHighlight - length + 1,
+        0
+      );
+      numAfterHighlight -= Math.min(0, highlightIndex - numBeforeHighlight);
+      return (
+        highlightIndex - numBeforeHighlight <= index &&
+        index <= highlightIndex + numAfterHighlight
+      );
+    };
+    return (index: number) => {
+      return {
+        showCurrentChangeArrow:
+          highlightIndex !== -1 && index === highlightIndex,
+        showWhenCollapsed: showWhenCollapsedPredicate(index),
+        showTopArrow:
+          index >= 1 &&
+          index !== highlightIndex &&
+          showWhenCollapsedPredicate(index) &&
+          !showWhenCollapsedPredicate(index - 1),
+        showBottomArrow:
+          index <= length - 2 &&
+          index !== highlightIndex &&
+          showWhenCollapsedPredicate(index) &&
+          !showWhenCollapsedPredicate(index + 1),
+      };
+    };
+  }
+
+  renderMarkers(changeMarkers: ChangeMarkersInList) {
+    if (changeMarkers.showCurrentChangeArrow) {
+      return html`<span
+        role="img"
+        class="arrowToCurrentChange"
+        aria-label="Arrow marking current change"
+        >➔</span
+      >`;
+    }
+    if (changeMarkers.showTopArrow) {
+      return html`<span
+        role="img"
+        class="marker"
+        aria-label="Arrow marking change has collapsed ancestors"
+        ><iron-icon icon="gr-icons:arrowDropUp"></iron-icon
+      ></span> `;
+    }
+    if (changeMarkers.showBottomArrow) {
+      return html`<span
+        role="img"
+        class="marker"
+        aria-label="Arrow marking change has collapsed descendants"
+        ><iron-icon icon="gr-icons:arrowDropDown"></iron-icon
+      ></span> `;
+    }
+    return nothing;
+  }
+
+  reload(getRelatedChanges?: Promise<RelatedChangesInfo | undefined>) {
     const change = this.change;
-    this.loading = true;
+    if (!change) return Promise.reject(new Error('change missing'));
+    if (!this.patchNum) return Promise.reject(new Error('patchNum missing'));
+    if (!getRelatedChanges) {
+      getRelatedChanges = this.restApiService.getRelatedChanges(
+        change._number,
+        this.patchNum
+      );
+    }
     const promises: Array<Promise<void>> = [
-      this.restApiService
-        .getRelatedChanges(change._number, this.patchNum)
-        .then(response => {
-          if (!response) {
-            throw new Error('getRelatedChanges returned undefined response');
-          }
-          this._relatedResponse = response;
-          this._fireReloadEvent();
-          this.hasParent = this._calculateHasParent(
-            change.change_id,
-            response.changes
-          );
-        }),
+      getRelatedChanges.then(response => {
+        if (!response) {
+          throw new Error('getRelatedChanges returned undefined response');
+        }
+        this.relatedChanges = response?.changes ?? [];
+      }),
       this.restApiService
         .getChangesSubmittedTogether(change._number)
         .then(response => {
-          this._submittedTogether = response;
-          this._fireReloadEvent();
+          this.submittedTogether = response;
         }),
       this.restApiService
         .getChangeCherryPicks(change.project, change.change_id, change._number)
         .then(response => {
-          this._cherryPicks = response || [];
-          this._fireReloadEvent();
+          this.cherryPickChanges = response || [];
         }),
     ];
 
     // Get conflicts if change is open and is mergeable.
+    // Mergeable is output of restApiServict.getMergeable from gr-change-view
     if (changeIsOpen(change) && this.mergeable) {
       promises.push(
         this.restApiService
           .getChangeConflicts(change._number)
           .then(response => {
-            // Because the server doesn't always return a response and the
-            // template expects an array, always return an array.
-            this._conflicts = response ? response : [];
-            this._fireReloadEvent();
+            this.conflictingChanges = response ?? [];
           })
       );
     }
-
-    promises.push(
-      this._getServerConfig().then(config => {
-        if (change.topic) {
-          if (!config) {
-            throw new Error('_getServerConfig returned undefined ');
-          }
-          if (!config.change.submit_whole_topic) {
+    if (change.topic) {
+      const changeTopic = change.topic;
+      promises.push(
+        this.restApiService.getConfig().then(config => {
+          if (config && !config.change.submit_whole_topic) {
             return this.restApiService
-              .getChangesWithSameTopic(change.topic, change._number)
+              .getChangesWithSameTopic(changeTopic, change._number)
               .then(response => {
-                this._sameTopic = response;
+                if (changeTopic === this.change?.topic) {
+                  this.sameTopicChanges = response ?? [];
+                }
               });
           }
-        }
-        this._sameTopic = [];
-        return Promise.resolve();
-      })
-    );
+          this.sameTopicChanges = [];
+          return Promise.resolve();
+        })
+      );
+    }
 
-    return Promise.all(promises).then(() => {
-      this.loading = false;
-    });
-  }
-
-  _fireReloadEvent() {
-    // The listener on the change computes height of the related changes
-    // section, so they have to be rendered first, and inside a dom-repeat,
-    // that requires a flush.
-    flush();
-    this.dispatchEvent(new CustomEvent('new-section-loaded'));
-  }
-
-  /**
-   * Determines whether or not the given change has a parent change. If there
-   * is a relation chain, and the change id is not the last item of the
-   * relation chain, there is a parent.
-   */
-  _calculateHasParent(
-    currentChangeId: ChangeId,
-    relatedChanges: RelatedChangeAndCommitInfo[]
-  ) {
-    return (
-      relatedChanges.length > 0 &&
-      relatedChanges[relatedChanges.length - 1].change_id !== currentChangeId
-    );
-  }
-
-  _getServerConfig() {
-    return this.restApiService.getConfig();
-  }
-
-  _computeChangeURL(
-    changeNum: NumericChangeId,
-    project: RepoName,
-    patchNum?: PatchSetNum
-  ) {
-    return GerritNav.getUrlForChangeById(changeNum, project, patchNum);
+    return Promise.all(promises);
   }
 
   /**
@@ -232,8 +562,8 @@ export class GrRelatedChangesList extends PolymerElement {
    * their numbers.
    */
   _changesEqual(
-    a: ChangeInfo | RelatedChangeAndCommitInfo,
-    b: ChangeInfo | RelatedChangeAndCommitInfo
+    a?: ChangeInfo | RelatedChangeAndCommitInfo,
+    b?: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo
   ) {
     const aNum = this._getChangeNumber(a);
     const bNum = this._getChangeNumber(b);
@@ -246,7 +576,9 @@ export class GrRelatedChangesList extends PolymerElement {
    * RelatedChangeAndCommitInfo (such as those included in a
    * RelatedChangesInfo response).
    */
-  _getChangeNumber(change?: ChangeInfo | RelatedChangeAndCommitInfo) {
+  _getChangeNumber(
+    change?: ChangeInfo | ParsedChangeInfo | RelatedChangeAndCommitInfo
+  ) {
     // Default to 0 if change property is not defined.
     if (!change) return 0;
 
@@ -256,136 +588,10 @@ export class GrRelatedChangesList extends PolymerElement {
     return change._change_number;
   }
 
-  _computeLinkClass(change: ParsedChangeInfo) {
-    const statuses = [];
-    if (change.status === ChangeStatus.ABANDONED) {
-      statuses.push('strikethrough');
-    }
-    if (change.submittable) {
-      statuses.push('submittable');
-    }
-    return statuses.join(' ');
-  }
-
-  _computeChangeStatusClass(change: RelatedChangeAndCommitInfo) {
-    const classes = ['status'];
-    if (change._revision_number !== change._current_revision_number) {
-      classes.push('notCurrent');
-    } else if (this._isIndirectAncestor(change)) {
-      classes.push('indirectAncestor');
-    } else if (change.submittable) {
-      classes.push('submittable');
-    } else if (change.status === ChangeStatus.NEW) {
-      classes.push('hidden');
-    }
-    return classes.join(' ');
-  }
-
-  _computeChangeStatus(change: RelatedChangeAndCommitInfo) {
-    switch (change.status) {
-      case ChangeStatus.MERGED:
-        return 'Merged';
-      case ChangeStatus.ABANDONED:
-        return 'Abandoned';
-    }
-    if (change._revision_number !== change._current_revision_number) {
-      return 'Not current';
-    } else if (this._isIndirectAncestor(change)) {
-      return 'Indirect ancestor';
-    } else if (change.submittable) {
-      return 'Submittable';
-    }
-    return '';
-  }
-
-  /** @override */
-  connectedCallback() {
-    super.connectedCallback();
-    // We listen to `new-section-loaded` events to allow plugins to trigger
-    // visibility computations, if their content or visibility changed.
-    this.addEventListener('new-section-loaded', () =>
-      this._handleNewSectionLoaded()
-    );
-  }
-
-  _handleNewSectionLoaded() {
-    // A plugin sent a `new-section-loaded` event, so its visibility likely
-    // changed. Hence, we update our visibility if needed.
-    this._resultsChanged(
-      this._relatedResponse,
-      this._submittedTogether,
-      this._conflicts,
-      this._cherryPicks,
-      this._sameTopic
-    );
-  }
-
-  @observe(
-    '_relatedResponse',
-    '_submittedTogether',
-    '_conflicts',
-    '_cherryPicks',
-    '_sameTopic'
-  )
-  _resultsChanged(
-    related: RelatedChangesInfo,
-    submittedTogether: SubmittedTogetherInfo | undefined,
-    conflicts: ChangeInfo[],
-    cherryPicks: ChangeInfo[],
-    sameTopic?: ChangeInfo[]
-  ) {
-    if (!submittedTogether || !sameTopic) {
-      return;
-    }
-    const submittedTogetherChangesCount =
-      (submittedTogether.changes || []).length +
-      (submittedTogether.non_visible_changes || 0);
-    const results = [
-      related && related.changes,
-      // If there are either visible or non-visible changes, we need a
-      // non-empty list to fire the event and set visibility.
-      submittedTogetherChangesCount ? [{}] : [],
-      conflicts,
-      cherryPicks,
-      sameTopic,
-    ];
-    for (let i = 0; i < results.length; i++) {
-      if (results[i] && results[i].length > 0) {
-        this.hidden = false;
-        this.dispatchEvent(
-          new CustomEvent('update', {
-            composed: true,
-            bubbles: false,
-          })
-        );
-        return;
-      }
-    }
-
-    this._computeHidden();
-  }
-
-  _computeHidden() {
-    // None of the built-in change lists had elements. So all of them are
-    // hidden. But since plugins might have injected visible content, we need
-    // to check for that and stay visible if we find any such visible content.
-    // (We consider plugins visible except if it's main element has the hidden
-    // attribute set to true.)
-    const plugins = getPluginEndpoints().getDetails('related-changes-section');
-    this.hidden = !plugins.some(
-      plugin =>
-        !plugin.domHook ||
-        plugin.domHook.getAllAttached().some(instance => !instance.hidden)
-    );
-  }
-
-  _isIndirectAncestor(change: RelatedChangeAndCommitInfo) {
-    return (
-      this._connectedRevisions &&
-      !this._connectedRevisions.includes(change.commit.commit)
-    );
-  }
-
+  /*
+   * A list of commit ids connected to change to understand if other change
+   * is direct or indirect ancestor / descendant.
+   */
   _computeConnectedRevisions(
     change?: ParsedChangeInfo,
     patchNum?: PatchSetNum,
@@ -421,40 +627,121 @@ export class GrRelatedChangesList extends PolymerElement {
     }
     return connected;
   }
+}
 
-  _computeSubmittedTogetherClass(submittedTogether?: SubmittedTogetherInfo) {
-    if (
-      !submittedTogether ||
-      (submittedTogether.changes.length === 0 &&
-        !submittedTogether.non_visible_changes)
-    ) {
-      return 'hidden';
+@customElement('gr-related-collapse')
+export class GrRelatedCollapse extends GrLitElement {
+  @property()
+  title = '';
+
+  @property()
+  showAll = false;
+
+  @property()
+  length = 0;
+
+  @property()
+  numChangesWhenCollapsed = DEFALT_NUM_CHANGES_WHEN_COLLAPSED;
+
+  private readonly reporting = appContext.reportingService;
+
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        .title {
+          font-weight: var(--font-weight-bold);
+          color: var(--deemphasized-text-color);
+          padding-left: var(--metadata-horizontal-padding);
+        }
+        h4 {
+          display: flex;
+          align-self: flex-end;
+        }
+        gr-button {
+          display: flex;
+        }
+        /* This is a hacky solution from old gr-related-change-list
+         * TODO(milutin): find layout without needing it
+         */
+        h4:before,
+        gr-button:before,
+        ::slotted(gr-related-change):before {
+          content: ' ';
+          flex-shrink: 0;
+          width: 1.2em;
+        }
+        .collapsed ::slotted(gr-related-change.show-when-collapsed) {
+          visibility: visible;
+          height: auto;
+        }
+        .collapsed ::slotted(.marker) {
+          display: block;
+        }
+        .show-all ::slotted(.marker) {
+          display: none;
+        }
+        /* keep width, so width of section and position of show all button
+         * are set according to width of all (even hidden) elements
+         */
+        .collapsed ::slotted(gr-related-change) {
+          visibility: hidden;
+          height: 0px;
+        }
+        ::slotted(gr-related-change) {
+          visibility: visible;
+          height: auto;
+        }
+        gr-button iron-icon {
+          color: inherit;
+          --iron-icon-height: 18px;
+          --iron-icon-width: 18px;
+        }
+        .container {
+          justify-content: space-between;
+          display: flex;
+          margin-bottom: var(--spacing-s);
+        }
+        :host(.first) .container {
+          margin-bottom: var(--spacing-m);
+        }
+      `,
+    ];
+  }
+
+  render() {
+    const title = html`<h4 class="title">${this.title}</h4>`;
+
+    const collapsible = this.length > this.numChangesWhenCollapsed;
+    const items = html` <div
+      class="${!this.showAll && collapsible ? 'collapsed' : 'show-all'}"
+    >
+      <slot></slot>
+    </div>`;
+
+    let button: TemplateResult | typeof nothing = nothing;
+    if (collapsible) {
+      let buttonText = 'Show less';
+      let buttonIcon = 'expand-less';
+      if (!this.showAll) {
+        buttonText = `Show all (${this.length})`;
+        buttonIcon = 'expand-more';
+      }
+      button = html`<gr-button link="" @click="${this.toggle}"
+        >${buttonText}<iron-icon icon="gr-icons:${buttonIcon}"></iron-icon
+      ></gr-button>`;
     }
-    return '';
+
+    return html`<div class="container">${title}${button}</div>
+      ${items}`;
   }
 
-  _computeNonVisibleChangesNote(n: number) {
-    return `(+ ${pluralize(n, 'non-visible change')})`;
-  }
-
-  // TODO(milutin): Temporary for data collection, remove when data collected
-  _reportClick(e: Event) {
-    const target = e.target as HTMLAnchorElement | undefined;
-    const section = target?.parentElement?.parentElement;
-    const sectionName = section?.getElementsByTagName('h4')[0]?.innerText;
-    const sectionLinks = [...(section?.getElementsByTagName('a') ?? [])];
-    const currentChange = section
-      ?.getElementsByClassName('arrowToCurrentChange')[0]
-      ?.nextElementSibling?.nextElementSibling?.getElementsByTagName('a')[0];
-
-    if (!target) return;
-    this.reportingService.reportInteraction('related-change-click', {
-      sectionName,
-      index: sectionLinks.indexOf(target) + 1,
-      countChanges: sectionLinks.length,
-      currentChangeIndex: !currentChange
-        ? undefined
-        : sectionLinks.indexOf(currentChange) + 1,
+  private toggle(e: MouseEvent) {
+    e.stopPropagation();
+    this.showAll = !this.showAll;
+    this.reporting.reportInteraction('toggle show all button', {
+      sectionName: this.title,
+      toState: this.showAll ? 'Show all' : 'Show less',
     });
   }
 }
@@ -462,5 +749,6 @@ export class GrRelatedChangesList extends PolymerElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-related-changes-list': GrRelatedChangesList;
+    'gr-related-collapse': GrRelatedCollapse;
   }
 }

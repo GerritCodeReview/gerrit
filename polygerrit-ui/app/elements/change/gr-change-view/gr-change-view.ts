@@ -38,7 +38,6 @@ import '../gr-file-list-header/gr-file-list-header';
 import '../gr-included-in-dialog/gr-included-in-dialog';
 import '../gr-messages-list/gr-messages-list';
 import '../gr-related-changes-list/gr-related-changes-list';
-import '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
@@ -172,7 +171,6 @@ import {GerritView} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
-import {GrRelatedChangesListExperimental} from '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {Timing} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
@@ -1331,7 +1329,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
-    this.getRelatedChangesList()?.clear();
     this._reload(true).then(() => {
       this._performPostLoadTasks();
     });
@@ -2299,30 +2296,25 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     if (isLocationChange) {
       this._editingCommitMessage = false;
       const relatedChangesLoaded = coreDataPromise.then(() => {
-        this.getRelatedChangesList()?.reload();
-        if (this._isNewChangeSummaryUiEnabled) {
-          let relatedChangesPromise:
-            | Promise<RelatedChangesInfo | undefined>
-            | undefined;
-          const patchNum = this._computeLatestPatchNum(this._allPatchSets);
-          if (this._change && patchNum) {
-            relatedChangesPromise = this.restApiService
-              .getRelatedChanges(this._change._number, patchNum)
-              .then(response => {
-                if (this._change && response) {
-                  this.hasParent = this._calculateHasParent(
-                    this._change.change_id,
-                    response.changes
-                  );
-                }
-                return response;
-              });
-          }
-          // TODO: use returned Promise
-          this.getRelatedChangesListExperimental()?.reload(
-            relatedChangesPromise
-          );
+        let relatedChangesPromise:
+          | Promise<RelatedChangesInfo | undefined>
+          | undefined;
+        const patchNum = this._computeLatestPatchNum(this._allPatchSets);
+        if (this._change && patchNum) {
+          relatedChangesPromise = this.restApiService
+            .getRelatedChanges(this._change._number, patchNum)
+            .then(response => {
+              if (this._change && response) {
+                this.hasParent = this._calculateHasParent(
+                  this._change.change_id,
+                  response.changes
+                );
+              }
+              return response;
+            });
         }
+        // TODO: use returned Promise
+        this.getRelatedChangesList()?.reload(relatedChangesPromise);
       });
       allDataPromises.push(relatedChangesLoaded);
     }
@@ -2870,12 +2862,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   getRelatedChangesList() {
     return this.shadowRoot!.querySelector<GrRelatedChangesList>(
       '#relatedChanges'
-    );
-  }
-
-  getRelatedChangesListExperimental() {
-    return this.shadowRoot!.querySelector<GrRelatedChangesListExperimental>(
-      '#relatedChangesExperimental'
     );
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7da582bf_d3aa6da0",
+        "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-04-21T17:57:04Z",
+      "side": 1,
+      "message": "ouch Steam.ofNullable was introduced in Java9 but it seems that we use Java8 compatibility mode...",
+      "range": {
+        "startLine": 321,
+        "startChar": 12,
+        "endLine": 321,
+        "endChar": 29
+      },
+      "revId": "597dc6d865a948792bd548f136a4171083cc3de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

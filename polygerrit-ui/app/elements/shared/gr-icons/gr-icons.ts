@@ -140,6 +140,8 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="download"><path d="M0 0h24v24H0z" fill="none"/><path d="M5,20h14v-2H5V20z M19,9h-4V3H9v6H5l7,7L19,9z"/></g>
       <!-- This SVG is a copy from material.io https://material.io/icons/#system_update-->
       <g id="system-update"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14zm-1-6h-3V8h-2v5H8l4 4 4-4z"/></g>
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material%20Icons%3Aswap_horiz-->
+      <g id="swapHoriz"><path d="M0 0h24v24H0z" fill="none"/><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></g>
     </defs>
   </svg>
 </iron-iconset-svg>`;

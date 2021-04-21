@@ -520,7 +520,6 @@ export const htmlTemplate = html`
                 </div>
               </template>
               <gr-change-summary
-                class$="new-change-summary-[[_isNewChangeSummaryUiEnabled]]"
                 change-comments="[[_changeComments]]"
                 comment-threads="[[_commentThreads]]"
                 self-account="[[_account]]"

@@ -519,25 +519,25 @@ suite('gr-change-list-item tests', () => {
       }),
       null
     );
-    assert.equal(
+    assert.deepEqual(
       element._computeChangeSize({...change, insertions: 1, deletions: 1}),
-      'XS'
+      {text: 'XS', color: 'XS-size'}
     );
-    assert.equal(
+    assert.deepEqual(
       element._computeChangeSize({...change, insertions: 9, deletions: 1}),
-      'S'
+      {text: 'S', color: 'S-size'}
     );
-    assert.equal(
+    assert.deepEqual(
       element._computeChangeSize({...change, insertions: 10, deletions: 200}),
-      'M'
+      {text: 'M', color: 'M-size'}
     );
-    assert.equal(
+    assert.deepEqual(
       element._computeChangeSize({...change, insertions: 99, deletions: 900}),
-      'L'
+      {text: 'L', color: 'L-size'}
     );
-    assert.equal(
+    assert.deepEqual(
       element._computeChangeSize({...change, insertions: 99, deletions: 999}),
-      'XL'
+      {text: 'XL', color: 'XL-size'}
     );
   });
 

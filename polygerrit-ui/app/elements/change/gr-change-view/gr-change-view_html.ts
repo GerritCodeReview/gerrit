@@ -165,12 +165,6 @@ export const htmlTemplate = html`
       height: 0;
       margin-bottom: var(--spacing-l);
     }
-    #relatedChanges.collapsed {
-      margin-bottom: var(--spacing-l);
-      max-height: var(--relation-chain-max-height, 2em);
-      overflow: hidden;
-      position: relative; /* for arrowToCurrentChange to have position:absolute and be hidden */
-    }
     .emptySpace {
       flex-grow: 1;
     }
@@ -185,18 +179,8 @@ export const htmlTemplate = html`
       display: flex;
       margin-bottom: 8px;
     }
-    #relatedChangesToggle {
-      display: none;
-    }
-    #relatedChangesToggle.showToggle {
-      display: flex;
-    }
     .collapseToggleContainer gr-button {
       display: block;
-    }
-    #relatedChangesToggle {
-      margin-left: var(--spacing-l);
-      padding-top: var(--related-change-btn-top-padding, 0);
     }
     .showOnEdit {
       display: none;
@@ -243,8 +227,6 @@ export const htmlTemplate = html`
       /* temporary for old checks status */
       margin-bottom: var(--spacing-m);
     }
-    /* NOTE: If you update this breakpoint, also update the
-      BREAKPOINT_RELATED_MED in the JS */
     @media screen and (max-width: 75em) {
       .relatedChanges {
         padding: 0;
@@ -266,8 +248,6 @@ export const htmlTemplate = html`
         padding-right: 0;
       }
     }
-    /* NOTE: If you update this breakpoint, also update the
-      BREAKPOINT_RELATED_SMALL in the JS */
     @media screen and (max-width: 50em) {
       .mobile {
         display: block;
@@ -533,36 +513,11 @@ export const htmlTemplate = html`
               </gr-endpoint-decorator>
             </div>
             <div class="relatedChanges">
-              <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
-                <gr-related-changes-list-experimental
-                  change="[[_change]]"
-                  id="relatedChangesExperimental"
-                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
-                ></gr-related-changes-list-experimental>
-              </template>
-              <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
-                <gr-related-changes-list
-                  id="relatedChanges"
-                  class$="[[_computeRelatedChangesClass(_relatedChangesCollapsed)]]"
-                  change="[[_change]]"
-                  mergeable="[[_mergeable]]"
-                  has-parent="{{hasParent}}"
-                  on-update="_updateRelatedChangeMaxHeight"
-                  patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
-                  on-new-section-loaded="_computeShowRelatedToggle"
-                >
-                </gr-related-changes-list>
-                <div id="relatedChangesToggle" class="collapseToggleContainer">
-                  <gr-button
-                    link=""
-                    id="relatedChangesToggleButton"
-                    class="collapseToggleButton"
-                    on-click="_toggleRelatedChangesCollapsed"
-                  >
-                    [[_computeCollapseText(_relatedChangesCollapsed)]]
-                  </gr-button>
-                </div>
-              </template>
+              <gr-related-changes-list
+                change="[[_change]]"
+                id="relatedChanges"
+                patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
+              ></gr-related-changes-list>
             </div>
             <div class="emptySpace"></div>
           </div>

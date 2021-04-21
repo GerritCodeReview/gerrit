@@ -38,7 +38,6 @@ import '../gr-file-list-header/gr-file-list-header';
 import '../gr-included-in-dialog/gr-included-in-dialog';
 import '../gr-messages-list/gr-messages-list';
 import '../gr-related-changes-list/gr-related-changes-list';
-import '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
@@ -52,10 +51,7 @@ import {
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {
-  getComputedStyleValue,
-  windowLocationReload,
-} from '../../../utils/dom-util';
+import {windowLocationReload} from '../../../utils/dom-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -172,7 +168,6 @@ import {GerritView} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
-import {GrRelatedChangesListExperimental} from '../gr-related-changes-list-experimental/gr-related-changes-list-experimental';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {Timing} from '../../../constants/reporting';
 
@@ -186,17 +181,6 @@ const MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
 
 const REVIEWERS_REGEX = /^(R|CC)=/gm;
 const MIN_CHECK_INTERVAL_SECS = 0;
-
-// These are the same as the breakpoint set in CSS. Make sure both are changed
-// together.
-const BREAKPOINT_RELATED_SMALL = '50em';
-const BREAKPOINT_RELATED_MED = '75em';
-
-// In the event that the related changes medium width calculation is too close
-// to zero, provide some height.
-const MINIMUM_RELATED_MAX_HEIGHT = 100;
-
-const SMALL_RELATED_HEIGHT = 400;
 
 const REPLY_REFIT_DEBOUNCE_INTERVAL_MS = 500;
 
@@ -467,9 +451,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   })
   _commitCollapsible?: boolean;
 
-  @property({type: Boolean})
-  _relatedChangesCollapsed = true;
-
   @property({type: Number})
   _updateCheckTimerHandle?: number | null;
 
@@ -478,9 +459,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     computed: '_computeEditMode(_patchRange.*, params.*)',
   })
   _editMode?: boolean;
-
-  @property({type: Boolean, observer: '_updateToggleContainerClass'})
-  _showRelatedToggle = false;
 
   @property({
     type: Boolean,
@@ -1302,7 +1280,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
-    this.getRelatedChangesList()?.clear();
     this._reload(true).then(() => {
       this._performPostLoadTasks();
     });
@@ -2161,7 +2138,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       return Promise.resolve([]);
     }
     this._loading = true;
-    this._relatedChangesCollapsed = true;
     this.reporting.time(Timing.CHANGE_RELOAD);
     this.reporting.time(Timing.CHANGE_DATA);
 
@@ -2259,30 +2235,25 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     if (isLocationChange) {
       this._editingCommitMessage = false;
       const relatedChangesLoaded = coreDataPromise.then(() => {
-        this.getRelatedChangesList()?.reload();
-        if (this._isNewChangeSummaryUiEnabled) {
-          let relatedChangesPromise:
-            | Promise<RelatedChangesInfo | undefined>
-            | undefined;
-          const patchNum = this._computeLatestPatchNum(this._allPatchSets);
-          if (this._change && patchNum) {
-            relatedChangesPromise = this.restApiService
-              .getRelatedChanges(this._change._number, patchNum)
-              .then(response => {
-                if (this._change && response) {
-                  this.hasParent = this._calculateHasParent(
-                    this._change.change_id,
-                    response.changes
-                  );
-                }
-                return response;
-              });
-          }
-          // TODO: use returned Promise
-          this.getRelatedChangesListExperimental()?.reload(
-            relatedChangesPromise
-          );
+        let relatedChangesPromise:
+          | Promise<RelatedChangesInfo | undefined>
+          | undefined;
+        const patchNum = this._computeLatestPatchNum(this._allPatchSets);
+        if (this._change && patchNum) {
+          relatedChangesPromise = this.restApiService
+            .getRelatedChanges(this._change._number, patchNum)
+            .then(response => {
+              if (this._change && response) {
+                this.hasParent = this._calculateHasParent(
+                  this._change.change_id,
+                  response.changes
+                );
+              }
+              return response;
+            });
         }
+        // TODO: use returned Promise
+        this.getRelatedChangesList()?.reload(relatedChangesPromise);
       });
       allDataPromises.push(relatedChangesLoaded);
     }
@@ -2383,15 +2354,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return collapsible && collapsed;
   }
 
-  _computeRelatedChangesClass(collapsed: boolean) {
-    return collapsed ? 'collapsed' : '';
-  }
-
-  _computeCollapseText(collapsed: boolean) {
-    // Symbols are up and down triangles.
-    return collapsed ? '\u25bc Show more' : '\u25b2 Show less';
-  }
-
   /**
    * Returns the text to be copied when
    * click the copy icon next to change subject
@@ -2411,13 +2373,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
-  _toggleRelatedChangesCollapsed() {
-    this._relatedChangesCollapsed = !this._relatedChangesCollapsed;
-    if (this._relatedChangesCollapsed) {
-      window.scrollTo(0, 0);
-    }
-  }
-
   _computeCommitCollapsible(commitMessage?: string) {
     if (!commitMessage) {
       return false;
@@ -2426,124 +2381,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       ? 17
       : MIN_LINES_FOR_COMMIT_COLLAPSE;
     return commitMessage.split('\n').length >= MIN_LINES;
-  }
-
-  _getOffsetHeight(element: HTMLElement) {
-    return element.offsetHeight;
-  }
-
-  _getScrollHeight(element: HTMLElement) {
-    return element.scrollHeight;
-  }
-
-  /**
-   * Get the line height of an element to the nearest integer.
-   */
-  _getLineHeight(element: Element) {
-    const lineHeightStr = getComputedStyle(element).lineHeight;
-    return Math.round(Number(lineHeightStr.slice(0, lineHeightStr.length - 2)));
-  }
-
-  /**
-   * New max height for the related changes section, shorter than the existing
-   * change info height.
-   */
-  _updateRelatedChangeMaxHeight() {
-    // Takes into account approximate height for the expand button and
-    // bottom margin.
-    const EXTRA_HEIGHT = 30;
-    let newHeight;
-
-    if (window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_SMALL})`).matches) {
-      // In a small (mobile) view, give the relation chain some space.
-      newHeight = SMALL_RELATED_HEIGHT;
-    } else if (
-      window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_MED})`).matches
-    ) {
-      // Since related changes are below the commit message, but still next to
-      // metadata, the height should be the height of the metadata minus the
-      // height of the commit message to reduce jank. However, if that doesn't
-      // result in enough space, instead use the MINIMUM_RELATED_MAX_HEIGHT.
-      // Note: extraHeight is to take into account margin/padding.
-      const medRelatedHeight = Math.max(
-        this._getOffsetHeight(this.$.mainChangeInfo) -
-          this._getOffsetHeight(this.$.commitMessage) -
-          2 * EXTRA_HEIGHT,
-        MINIMUM_RELATED_MAX_HEIGHT
-      );
-      newHeight = medRelatedHeight;
-    } else {
-      if (this._commitCollapsible) {
-        // Make sure the content is lined up if both areas have buttons. If
-        // the commit message is not collapsed, instead use the change info
-        // height.
-        newHeight = this._getOffsetHeight(this.$.commitMessage);
-      } else {
-        newHeight =
-          this._getOffsetHeight(this.$.commitAndRelated) - EXTRA_HEIGHT;
-      }
-    }
-    const stylesToUpdate: {[key: string]: string} = {};
-
-    const relatedChanges = this.getRelatedChangesList();
-    // Get the line height of related changes, and convert it to the nearest
-    // integer.
-    const DEFAULT_LINE_HEIGHT = 20;
-    const lineHeight = relatedChanges
-      ? this._getLineHeight(relatedChanges)
-      : DEFAULT_LINE_HEIGHT;
-
-    // Figure out a new height that is divisible by the rounded line height.
-    const remainder = newHeight % lineHeight;
-    newHeight = newHeight - remainder;
-
-    stylesToUpdate['--relation-chain-max-height'] = `${newHeight}px`;
-
-    // Update the max-height of the relation chain to this new height.
-    if (this._commitCollapsible) {
-      stylesToUpdate['--related-change-btn-top-padding'] = `${remainder}px`;
-    }
-
-    this.updateStyles(stylesToUpdate);
-  }
-
-  _computeShowRelatedToggle() {
-    // Make sure the max height has been applied, since there is now content
-    // to populate.
-    if (!getComputedStyleValue('--relation-chain-max-height', this)) {
-      this._updateRelatedChangeMaxHeight();
-    }
-    // Prevents showMore from showing when click on related change, since the
-    // line height would be positive, but related changes height is 0.
-    const relatedChanges = this.getRelatedChangesList();
-    if (relatedChanges) {
-      if (!this._getScrollHeight(relatedChanges)) {
-        return (this._showRelatedToggle = false);
-      }
-
-      if (
-        this._getScrollHeight(relatedChanges) >
-        this._getOffsetHeight(relatedChanges) +
-          this._getLineHeight(relatedChanges)
-      ) {
-        return (this._showRelatedToggle = true);
-      }
-    }
-    return (this._showRelatedToggle = false);
-  }
-
-  _updateToggleContainerClass(showRelatedToggle: boolean) {
-    const relatedChangesToggle = this.shadowRoot!.querySelector<HTMLDivElement>(
-      '#relatedChangesToggle'
-    );
-    if (!relatedChangesToggle) {
-      return;
-    }
-    if (showRelatedToggle) {
-      relatedChangesToggle.classList.add('showToggle');
-    } else {
-      relatedChangesToggle.classList.remove('showToggle');
-    }
   }
 
   _startUpdateCheckTimer() {
@@ -2820,12 +2657,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   getRelatedChangesList() {
     return this.shadowRoot!.querySelector<GrRelatedChangesList>(
       '#relatedChanges'
-    );
-  }
-
-  getRelatedChangesListExperimental() {
-    return this.shadowRoot!.querySelector<GrRelatedChangesListExperimental>(
-      '#relatedChangesExperimental'
     );
   }
 }

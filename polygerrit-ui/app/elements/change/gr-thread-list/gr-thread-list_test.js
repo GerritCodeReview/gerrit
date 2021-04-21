@@ -270,16 +270,6 @@ suite('gr-thread-list tests', () => {
     });
   });
 
-  test('draft toggle only appears when logged in', () => {
-    assert.equal(getComputedStyle(element.shadowRoot
-        .querySelector('.draftToggle')).display,
-    'none');
-    element.loggedIn = true;
-    assert.notEqual(getComputedStyle(element.shadowRoot
-        .querySelector('.draftToggle')).display,
-    'none');
-  });
-
   test('show all threads by default', () => {
     assert.equal(dom(element.root)
         .querySelectorAll('gr-comment-thread').length, element.threads.length);
@@ -548,43 +538,24 @@ suite('gr-thread-list tests', () => {
     });
   });
 
-  test('toggle unresolved shows all comments', () => {
+  test('toggle all shows all all comments', () => {
     MockInteractions.tap(element.shadowRoot.querySelector(
-        '#unresolvedToggle'));
+        '#allRadio'));
+    flush();
+    assert.equal(getVisibleThreads().length, 9);
+  });
+
+  test('toggle unresolved shows all unresolved comments', () => {
+    MockInteractions.tap(element.shadowRoot.querySelector(
+        '#unresolvedRadio'));
     flush();
     assert.equal(getVisibleThreads().length, 4);
   });
 
   test('toggle drafts only shows threads with draft comments', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
+    MockInteractions.tap(element.shadowRoot.querySelector('#draftsRadio'));
     flush();
     assert.equal(getVisibleThreads().length, 2);
-  });
-
-  test('toggle drafts and unresolved should ignore comments in editing', () => {
-    const modifiedThreads = [...element.threads];
-    modifiedThreads[5] = {...modifiedThreads[5]};
-    modifiedThreads[5].comments = [...modifiedThreads[5].comments];
-    modifiedThreads[5].comments.push({
-      ...modifiedThreads[5].comments[0],
-      __editing: true,
-      __draft: true,
-    });
-    element.threads = modifiedThreads;
-    MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
-    MockInteractions.tap(element.shadowRoot.querySelector(
-        '#unresolvedToggle'));
-    flush();
-    assert.equal(getVisibleThreads().length, 2);
-  });
-
-  test('toggle drafts and unresolved only shows threads with drafts and ' +
-      'publicly unresolved ', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
-    MockInteractions.tap(element.shadowRoot.querySelector(
-        '#unresolvedToggle'));
-    flush();
-    assert.equal(getVisibleThreads().length, 1);
   });
 
   test('modification events are consumed and displatched', () => {

@@ -45,7 +45,7 @@ suite('gr-editable-content tests', () => {
     element.addEventListener('editable-content-cancel', handler);
 
     MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button:not([primary])'));
+        .querySelector('gr-button.cancel-button'));
 
     assert.isTrue(handler.called);
   });

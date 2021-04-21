@@ -34,7 +34,6 @@ import {
 } from '../../../types/common';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {appContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {labelCompare} from '../../../utils/label-util';
 
 interface ChangeRequirement extends Requirement {
@@ -84,11 +83,6 @@ class GrChangeRequirements extends PolymerElement {
 
   @property({type: Boolean})
   _showOptionalLabels = true;
-
-  @property({type: Boolean})
-  _isNewChangeSummaryUiEnabled = appContext.flagsService.isEnabled(
-    KnownExperimentId.NEW_CHANGE_SUMMARY_UI
-  );
 
   private readonly reporting = appContext.reportingService;
 

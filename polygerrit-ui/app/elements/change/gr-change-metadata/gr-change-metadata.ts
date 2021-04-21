@@ -140,7 +140,7 @@ export class GrChangeMetadata extends PolymerElement {
   change?: ParsedChangeInfo;
 
   @property({type: Object})
-  revertSubmittedChange?: ChangeInfo;
+  revertedChange?: ChangeInfo;
 
   @property({type: Object, notify: true})
   labels?: LabelNameToInfoMap;
@@ -584,9 +584,11 @@ export class GrChangeMetadata extends PolymerElement {
 
   _getRevertSectionTitle(
     _change?: ParsedChangeInfo,
-    revertSubmittedChange?: ChangeInfo
+    revertedChange?: ChangeInfo
   ) {
-    return revertSubmittedChange ? 'Revert Submitted As' : 'Revert Created As';
+    return revertedChange?.status === ChangeStatus.MERGED
+      ? 'Revert Submitted As'
+      : 'Revert Created As';
   }
 
   _showRevertCreatedAs(change?: ParsedChangeInfo) {
@@ -594,18 +596,12 @@ export class GrChangeMetadata extends PolymerElement {
     return getRevertCreatedChangeIds(change.messages).length > 0;
   }
 
-  _computeRevertCommit(
-    change?: ParsedChangeInfo,
-    revertSubmittedChange?: ChangeInfo
-  ) {
-    if (
-      revertSubmittedChange?.current_revision &&
-      revertSubmittedChange?.revisions
-    ) {
+  _computeRevertCommit(change?: ParsedChangeInfo, revertedChange?: ChangeInfo) {
+    if (revertedChange?.current_revision && revertedChange?.revisions) {
       return {
         commit: this._computeMergedCommitInfo(
-          revertSubmittedChange.current_revision,
-          revertSubmittedChange.revisions
+          revertedChange.current_revision,
+          revertedChange.revisions
         ),
       };
     }

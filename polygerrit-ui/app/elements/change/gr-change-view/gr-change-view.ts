@@ -560,6 +560,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object})
   revertSubmittedChange?: ChangeInfo;
 
+  @property({type: Object})
+  revertCreatedChange?: ChangeInfo;
+
   restApiService = appContext.restApiService;
 
   checksService = appContext.checksService;
@@ -1977,6 +1980,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         this.revertSubmittedChange = change;
         this.push('_changeStatuses', ChangeStates.REVERT_SUBMITTED);
       } else {
+        if (changes[0]) this.revertCreatedChange = changes[0];
         this.push('_changeStatuses', ChangeStates.REVERT_CREATED);
       }
     });

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94e17944_27bf2ebe",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 6681,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-21T14:47:22Z",
+      "side": 1,
+      "message": "Good timing! I was about to submit https://gerrit-review.googlesource.com/c/gerrit/+/303801",
+      "parentUuid": "4a3a645f_e196e6a3",
+      "range": {
+        "startLine": 6681,
+        "startChar": 12,
+        "endLine": 6681,
+        "endChar": 19
+      },
+      "revId": "f4a320f0f6c62ff1e31a217a6683208222bd20c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51341c18_43223c6b",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-04-21T07:54:21Z",
       "side": 1,
       "message": "Users can delete their accounts, so this is a case that can happen during normal operations. Just log atInfo?",
+      "range": {
+        "startLine": 123,
+        "startChar": 15,
+        "endLine": 123,
+        "endChar": 23
+      },
+      "revId": "f4a320f0f6c62ff1e31a217a6683208222bd20c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "617e8d80_c29a54c5",
+        "filename": "java/com/google/gerrit/entities/ChangeMessage.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-21T14:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51341c18_43223c6b",
       "range": {
         "startLine": 123,
         "startChar": 15,

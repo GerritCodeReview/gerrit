@@ -116,6 +116,30 @@
       },
       "revId": "4ca125e562b1e71a2a63639eedcc1d23046a1cd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d412e6d0_8c65a9f5",
+        "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-04-21T17:57:04Z",
+      "side": 1,
+      "message": "in the worst case we could have it as configurable/optional but I would treat it as the last resort option ;)",
+      "parentUuid": "bc7f64bf_5529439b",
+      "range": {
+        "startLine": 324,
+        "startChar": 20,
+        "endLine": 324,
+        "endChar": 41
+      },
+      "revId": "4ca125e562b1e71a2a63639eedcc1d23046a1cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

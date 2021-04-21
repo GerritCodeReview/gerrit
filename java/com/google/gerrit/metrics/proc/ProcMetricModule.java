@@ -31,7 +31,9 @@ import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.ThreadMXBean;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 public class ProcMetricModule extends MetricModule {
   @Override
@@ -276,7 +278,8 @@ public class ProcMetricModule extends MetricModule {
         "proc/jvm/thread/num_total_started",
         Long.class,
         new Description(
-                "Total number of threads created and also started since the Java virtual machine started")
+                "Total number of threads created and also started since the Java virtual machine"
+                    + " started")
             .setGauge()
             .setUnit("threads"),
         thread::getTotalStartedThreadCount);
@@ -285,7 +288,8 @@ public class ProcMetricModule extends MetricModule {
           "proc/jvm/thread/num_deadlocked_threads",
           Integer.class,
           new Description(
-                  "number of threads that are deadlocked waiting for object monitors or ownable synchronizers")
+                  "number of threads that are deadlocked waiting for object monitors or ownable"
+                      + " synchronizers")
               .setGauge()
               .setUnit("threads"),
           () -> {
@@ -311,5 +315,20 @@ public class ProcMetricModule extends MetricModule {
             return deadlocked.length;
           });
     }
+    metrics.newCallbackMetric(
+        "proc/jvm/thread/num_blocked_threads",
+        Long.class,
+        new Description("number of threads that are blocked waiting to acquire object monitors")
+            .setGauge()
+            .setUnit("threads"),
+        () ->
+            Stream.ofNullable(
+                    thread.dumpAllThreads(
+                        thread.isObjectMonitorUsageSupported(),
+                        thread.isSynchronizerUsageSupported(),
+                        0))
+                .flatMap(Arrays::stream)
+                .filter(t -> Thread.State.BLOCKED == t.getThreadState())
+                .count());
   }
 }

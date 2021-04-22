@@ -106,7 +106,7 @@ public abstract class AbstractChangeNotesTest {
 
   @Inject protected AbstractChangeNotes.Args args;
 
-  @Inject @GerritServerId private String serverId;
+  @Inject @GerritServerId protected String serverId;
 
   protected Injector injector;
   private String systemTimeZone;

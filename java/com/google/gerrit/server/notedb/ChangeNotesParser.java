@@ -750,11 +750,13 @@ class ChangeNotesParser {
     Optional<ChangeNoteUtil.CommitMessageRange> range = parseCommitMessageRange(commit);
     return range.map(
         commitMessageRange ->
-            RawParseUtils.decode(
-                enc,
-                raw,
-                commitMessageRange.changeMessageStart(),
-                commitMessageRange.changeMessageEnd() + 1));
+            commitMessageRange.hasChangeMessage()
+                ? RawParseUtils.decode(
+                    enc,
+                    raw,
+                    commitMessageRange.changeMessageStart(),
+                    commitMessageRange.changeMessageEnd() + 1)
+                : null);
   }
 
   private void parseNotes() throws IOException, ConfigInvalidException {

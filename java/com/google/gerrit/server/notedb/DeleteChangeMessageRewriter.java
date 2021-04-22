@@ -88,7 +88,8 @@ public class DeleteChangeMessageRewriter implements NoteDbRewriter {
     byte[] raw = commit.getRawBuffer();
 
     Optional<ChangeNoteUtil.CommitMessageRange> range = parseCommitMessageRange(commit);
-    checkState(range.isPresent(), "failed to parse commit message");
+    checkState(
+        range.isPresent() && range.get().hasChangeMessage(), "failed to parse commit message");
 
     // Only replace the commit message body, which is the user-provided message. The subject and
     // footers are NoteDb metadata.

@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d37292b2_d51f438c",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79c7f4a7_d5495321",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 27,
+        "endChar": 58
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0bde2f23_b52c891b",
@@ -93,6 +117,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e54fff06_5cafd130",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bde2f23_b52c891b",
+      "range": {
+        "startLine": 35,
+        "startChar": 60,
+        "endLine": 35,
+        "endChar": 64
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dea0646_5a7f3cb2",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e67047e_5fe47143",
+      "range": {
+        "startLine": 35,
+        "startChar": 16,
+        "endLine": 35,
+        "endChar": 25
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58f8fb4d_3196586b",
@@ -106,6 +178,30 @@
       "writtenOn": "2021-04-21T18:22:11Z",
       "side": 1,
       "message": "Make sure that the ssh key is properly registered in Gerrit, that ssh_port\nis right and that the host is registered as a known host. For the latter,\nthis command can be used:",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 46
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca51b137_203fe5f4",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58f8fb4d_3196586b",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -139,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "439fa1b5_7f3c0579",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1d1726e_be6e7035",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "caab13b1_48547737",
@@ -162,6 +282,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77cfb5d4_7ff3f51b",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caab13b1_48547737",
+      "range": {
+        "startLine": 41,
+        "startChar": 69,
+        "endLine": 41,
+        "endChar": 78
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29547d09_de725f44",
@@ -175,6 +319,30 @@
       "writtenOn": "2021-04-21T18:22:11Z",
       "side": 1,
       "message": "For me on macOS locally, I get 255 as $? no matter if having successfully connected or not. Grepping for \"successfully connected\" in the output of that ssh command might be better as a check.",
+      "range": {
+        "startLine": 43,
+        "startChar": 28,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d553c611_fb9ebcba",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29547d09_de725f44",
       "range": {
         "startLine": 43,
         "startChar": 28,
@@ -210,6 +378,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43abb3b2_09670fff",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "I renamed the variables to fdBefore and fdAfter to wrap the line  but even with this change in names the line reaches 103 colums long according to the IDE.",
+      "parentUuid": "a6af2441_ae60d1e5",
+      "range": {
+        "startLine": 59,
+        "startChar": 74,
+        "endLine": 60,
+        "endChar": 44
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06f31c2b_9e5d903f",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 7
@@ -221,6 +413,30 @@
       "writtenOn": "2021-04-21T18:22:11Z",
       "side": 1,
       "message": "This 2-spaces indent shows at the console. Have you considered using line continuation syntax instead (using backslashes)? You should be able to find an elegant way of coding the echoing of multi-line string values. You could also stick to using one local variable per line as right below.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 2
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63b722f8_dbf5580d",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "Done, using backslashes worked in the terminal but produced lint errors. Will use a local variable per line.",
+      "parentUuid": "06f31c2b_9e5d903f",
       "range": {
         "startLine": 61,
         "startChar": 0,
@@ -248,6 +464,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27a1a86a_c4baa27b",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "Done. I mentioned that the command was hanging before this change. Therefore, I don\u0027t think it would have reached these lines as the command before this change didn\u0027t end.",
+      "parentUuid": "5bdd7562_eb3cbe4b",
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f42aeac_355b39fc",
@@ -261,6 +495,30 @@
       "writtenOn": "2021-04-21T18:22:11Z",
       "side": 1,
       "message": "Should be moved to right after line 49, to not capture another command\u0027s return code inadvertently.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 22
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83454cb1_a88d27fd",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-22T14:20:20Z",
+      "side": 1,
+      "message": "Done. But when I try with a number of times different than one it will give me code error 127 on linux which I think is correct given that it is the same code given to the exit at the end of the command. On Mac OS as you mentioned you are getting 255. Will it be left for interpretation at this point given that the termination status is shown on screen?",
+      "parentUuid": "9f42aeac_355b39fc",
       "range": {
         "startLine": 65,
         "startChar": 0,

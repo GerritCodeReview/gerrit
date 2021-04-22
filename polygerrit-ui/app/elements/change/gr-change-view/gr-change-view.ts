@@ -163,7 +163,6 @@ import {
   fireDialogChange,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {GerritView} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
@@ -171,13 +170,7 @@ import {Subject} from 'rxjs';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {Timing} from '../../../constants/reporting';
 
-const CHANGE_ID_ERROR = {
-  MISMATCH: 'mismatch',
-  MISSING: 'missing',
-};
-const CHANGE_ID_REGEX_PATTERN = /^(Change-Id:\s|Link:.*\/id\/)(I[0-9a-f]{8,40})/gm;
-
-const MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
+const MIN_LINES_FOR_COMMIT_COLLAPSE = 17;
 
 const REVIEWERS_REGEX = /^(R|CC)=/gm;
 const MIN_CHECK_INTERVAL_SECS = 0;
@@ -250,8 +243,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    */
 
   private readonly reporting = appContext.reportingService;
-
-  private readonly flagsService = appContext.flagsService;
 
   private readonly jsAPI = appContext.jsApiService;
 
@@ -356,8 +347,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     type: Boolean,
     computed:
       '_computeHideEditCommitMessage(_loggedIn, ' +
-      '_editingCommitMessage, _change, _editMode, _commitCollapsed, ' +
-      '_commitCollapsible)',
+      '_editingCommitMessage, _change, _editMode)',
   })
   _hideEditCommitMessage?: boolean;
 
@@ -378,13 +368,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: Number})
   _lineHeight?: number;
-
-  @property({
-    type: String,
-    computed:
-      '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
-  })
-  _changeIdCommitMessageError?: string;
 
   @property({type: Object})
   _patchRange?: ChangeViewPatchRange;
@@ -525,9 +508,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   _showChecksTab = false;
 
-  @property({type: Boolean})
-  _isNewChangeSummaryUiEnabled = false;
-
   @property({type: String})
   _tabState?: TabState;
 
@@ -569,9 +549,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
       this._showChecksTab = b;
     });
-    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
-    );
   }
 
   constructor() {
@@ -841,9 +818,19 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
-  _handleEditCommitMessage() {
-    this._editingCommitMessage = true;
-    this.$.commitMessageEditor.focusTextarea();
+  _onPaperTabClick(e: MouseEvent) {
+    let target = e.target as HTMLElement | null;
+    let tabName: string | undefined;
+    // target can be slot child of papertab, so we search for tabName in parents
+    do {
+      tabName = target?.dataset?.['name'];
+      if (tabName) break;
+      target = target?.parentElement as HTMLElement | null;
+    } while (target);
+    this.reporting.reportInteraction('show-tab', {
+      tabName,
+      src: 'paper-tab-click',
+    });
   }
 
   _handleCommitMessageSave(e: EditableContentSaveEvent) {
@@ -907,19 +894,13 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     loggedIn: boolean,
     editing: boolean,
     change: ChangeInfo,
-    editMode?: boolean,
-    collapsed?: boolean,
-    collapsible?: boolean
+    editMode?: boolean
   ) {
-    const hideWhenCollapsed = this._isNewChangeSummaryUiEnabled
-      ? false
-      : collapsed && collapsible;
     if (
       !loggedIn ||
       editing ||
       (change && change.status === ChangeStatus.MERGED) ||
-      editMode ||
-      hideWhenCollapsed
+      editMode
     ) {
       return true;
     }
@@ -1527,64 +1508,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   _computeChangeUrl(change: ChangeInfo) {
     return GerritNav.getUrlForChange(change);
-  }
-
-  _computeShowCommitInfo(
-    changeStatuses: string[],
-    current_revision: RevisionInfo
-  ) {
-    return (
-      changeStatuses.length === 1 &&
-      changeStatuses[0] === 'Merged' &&
-      current_revision
-    );
-  }
-
-  _computeChangeIdClass(displayChangeId: string) {
-    return displayChangeId === CHANGE_ID_ERROR.MISMATCH ? 'warning' : '';
-  }
-
-  _computeTitleAttributeWarning(displayChangeId: string) {
-    if (displayChangeId === CHANGE_ID_ERROR.MISMATCH) {
-      return 'Change-Id mismatch';
-    } else if (displayChangeId === CHANGE_ID_ERROR.MISSING) {
-      return 'No Change-Id in commit message';
-    }
-    return undefined;
-  }
-
-  _computeChangeIdCommitMessageError(
-    commitMessage?: string,
-    change?: ChangeInfo
-  ) {
-    if (change === undefined) {
-      return undefined;
-    }
-
-    if (!commitMessage) {
-      return CHANGE_ID_ERROR.MISSING;
-    }
-
-    // Find the last match in the commit message:
-    let changeId;
-    let changeIdArr;
-
-    while ((changeIdArr = CHANGE_ID_REGEX_PATTERN.exec(commitMessage))) {
-      changeId = changeIdArr[2];
-    }
-
-    if (changeId) {
-      // A change-id is detected in the commit message.
-
-      if (changeId === change.change_id) {
-        // The change-id found matches the real change-id.
-        return null;
-      }
-      // The change-id found does not match the change-id.
-      return CHANGE_ID_ERROR.MISMATCH;
-    }
-    // There is no change-id in the commit message.
-    return CHANGE_ID_ERROR.MISSING;
   }
 
   _computeReplyButtonLabel(
@@ -2347,13 +2270,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return `Change ${changeNum}`;
   }
 
-  _computeCommitMessageCollapsed(collapsed?: boolean, collapsible?: boolean) {
-    if (this._isNewChangeSummaryUiEnabled) {
-      return false;
-    }
-    return collapsible && collapsed;
-  }
-
   /**
    * Returns the text to be copied when
    * click the copy icon next to change subject
@@ -2366,21 +2282,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _toggleCommitCollapsed() {
-    this._commitCollapsed = !this._commitCollapsed;
-    if (this._commitCollapsed) {
-      window.scrollTo(0, 0);
-    }
-  }
-
   _computeCommitCollapsible(commitMessage?: string) {
     if (!commitMessage) {
       return false;
     }
-    const MIN_LINES = this._isNewChangeSummaryUiEnabled
-      ? 17
-      : MIN_LINES_FOR_COMMIT_COLLAPSE;
-    return commitMessage.split('\n').length >= MIN_LINES;
+    return commitMessage.split('\n').length >= MIN_LINES_FOR_COMMIT_COLLAPSE;
   }
 
   _startUpdateCheckTimer() {

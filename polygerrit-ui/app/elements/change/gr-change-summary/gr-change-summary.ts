@@ -19,7 +19,6 @@ import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   CheckResult,
   CheckRun,
@@ -264,10 +263,6 @@ const DETAILS_QUOTA = 3;
 
 @customElement('gr-change-summary')
 export class GrChangeSummary extends GrLitElement {
-  private readonly newChangeSummaryUiEnabled = appContext.flagsService.isEnabled(
-    KnownExperimentId.NEW_CHANGE_SUMMARY_UI
-  );
-
   @property({type: Object})
   changeComments?: ChangeComments;
 
@@ -312,9 +307,6 @@ export class GrChangeSummary extends GrLitElement {
           display: block;
           color: var(--deemphasized-text-color);
           max-width: 650px;
-          /* temporary for old checks status */
-        }
-        :host.new-change-summary-true {
           margin-bottom: var(--spacing-m);
         }
         .zeroState {
@@ -500,7 +492,7 @@ export class GrChangeSummary extends GrLitElement {
               )}${this.renderChecksChipForStatus(RunStatus.RUNNING, isRunning)}
             </td>
           </tr>
-          <tr ?hidden=${!this.newChangeSummaryUiEnabled}>
+          <tr>
             <td class="key">Comments</td>
             <td class="value">
               <span

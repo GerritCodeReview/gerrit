@@ -115,9 +115,6 @@ export const htmlTemplate = html`
     #commitMessageEditor {
       /* Account for border and padding and rounding errors. */
       min-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
-      --collapsed-max-height: 36em;
-    }
-    .new-change-summary-true #commitMessageEditor {
       --collapsed-max-height: 300px;
     }
     .editCommitMessage {
@@ -223,7 +220,7 @@ export const htmlTemplate = html`
       padding-top: var(--spacing-l);
       width: 100%;
     }
-    gr-change-summary.new-change-summary-true {
+    gr-change-summary {
       /* temporary for old checks status */
       margin-bottom: var(--spacing-m);
     }
@@ -438,10 +435,7 @@ export const htmlTemplate = html`
                   >[[_replyButtonLabel]]</gr-button
                 >
               </div>
-              <div
-                id="commitMessage"
-                class$="commitMessage new-change-summary-[[_isNewChangeSummaryUiEnabled]]"
-              >
+              <div id="commitMessage" class$="commitMessage">
                 <gr-editable-content
                   id="commitMessageEditor"
                   editing="{{_editingCommitMessage}}"
@@ -459,46 +453,7 @@ export const htmlTemplate = html`
                     remove-zero-width-space=""
                   ></gr-linked-text>
                 </gr-editable-content>
-                <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
-                  <gr-button
-                    link=""
-                    class="editCommitMessage"
-                    title="Edit commit message"
-                    on-click="_handleEditCommitMessage"
-                    hidden$="[[_hideEditCommitMessage]]"
-                    >Edit</gr-button
-                  >
-                  <div
-                    class="changeId"
-                    hidden$="[[!_changeIdCommitMessageError]]"
-                  >
-                    <hr />
-                    Change-Id:
-                    <span
-                      class$="[[_computeChangeIdClass(_changeIdCommitMessageError)]]"
-                      title$="[[_computeTitleAttributeWarning(_changeIdCommitMessageError)]]"
-                    >
-                      [[_change.change_id]]
-                    </span>
-                  </div>
-                </template>
               </div>
-              <template is="dom-if" if="[[!_isNewChangeSummaryUiEnabled]]">
-                <div
-                  id="commitCollapseToggle"
-                  class="collapseToggleContainer"
-                  hidden$="[[!_commitCollapsible]]"
-                >
-                  <gr-button
-                    link=""
-                    id="commitCollapseToggleButton"
-                    class="collapseToggleButton"
-                    on-click="_toggleCommitCollapsed"
-                  >
-                    [[_computeCollapseText(_commitCollapsed)]]
-                  </gr-button>
-                </div>
-              </template>
               <gr-change-summary
                 change-comments="[[_changeComments]]"
                 comment-threads="[[_commentThreads]]"

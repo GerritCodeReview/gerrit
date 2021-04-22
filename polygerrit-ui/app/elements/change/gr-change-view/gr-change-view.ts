@@ -163,7 +163,6 @@ import {
   fireDialogChange,
   fireTitleChange,
 } from '../../../utils/event-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {GerritView} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
@@ -179,7 +178,7 @@ const CHANGE_ID_ERROR = {
 };
 const CHANGE_ID_REGEX_PATTERN = /^(Change-Id:\s|Link:.*\/id\/)(I[0-9a-f]{8,40})/gm;
 
-const MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
+const MIN_LINES_FOR_COMMIT_COLLAPSE = 17;
 
 const REVIEWERS_REGEX = /^(R|CC)=/gm;
 const MIN_CHECK_INTERVAL_SECS = 0;
@@ -254,8 +253,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    */
 
   private readonly reporting = appContext.reportingService;
-
-  private readonly flagsService = appContext.flagsService;
 
   private readonly jsAPI = appContext.jsApiService;
 
@@ -529,9 +526,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   _showChecksTab = false;
 
-  @property({type: Boolean})
-  _isNewChangeSummaryUiEnabled = false;
-
   @property({type: String})
   _tabState?: TabState;
 
@@ -578,9 +572,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
       this._showChecksTab = b;
     });
-    this._isNewChangeSummaryUiEnabled = this.flagsService.isEnabled(
-      KnownExperimentId.NEW_CHANGE_SUMMARY_UI
-    );
   }
 
   constructor() {
@@ -940,9 +931,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     collapsed?: boolean,
     collapsible?: boolean
   ) {
-    const hideWhenCollapsed = this._isNewChangeSummaryUiEnabled
-      ? false
-      : collapsed && collapsible;
+    const hideWhenCollapsed = false;
     if (
       !loggedIn ||
       editing ||
@@ -2388,10 +2377,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _computeCommitMessageCollapsed(collapsed?: boolean, collapsible?: boolean) {
-    if (this._isNewChangeSummaryUiEnabled) {
-      return false;
-    }
-    return collapsible && collapsed;
+    return false;
   }
 
   /**
@@ -2417,10 +2403,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     if (!commitMessage) {
       return false;
     }
-    const MIN_LINES = this._isNewChangeSummaryUiEnabled
-      ? 17
-      : MIN_LINES_FOR_COMMIT_COLLAPSE;
-    return commitMessage.split('\n').length >= MIN_LINES;
+    return commitMessage.split('\n').length >= MIN_LINES_FOR_COMMIT_COLLAPSE;
   }
 
   _startUpdateCheckTimer() {

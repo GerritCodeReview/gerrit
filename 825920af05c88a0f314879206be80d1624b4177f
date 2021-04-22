@@ -191,6 +191,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb6b5f40_80671f66",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-22T18:42:16Z",
+      "side": 1,
+      "message": "Not fully done, I think you forgot the new-line, per my original proposal.",
+      "parentUuid": "6dea0646_5a7f3cb2",
+      "range": {
+        "startLine": 35,
+        "startChar": 16,
+        "endLine": 35,
+        "endChar": 25
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58f8fb4d_3196586b",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 7
@@ -426,6 +450,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36ab38cd_376d3457",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-22T18:42:16Z",
+      "side": 1,
+      "message": "Why not using another single variable conveying the fd comparison result? Such a variable could also be reused at line 56.",
+      "parentUuid": "43abb3b2_09670fff",
+      "range": {
+        "startLine": 59,
+        "startChar": 74,
+        "endLine": 60,
+        "endChar": 44
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06f31c2b_9e5d903f",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 7
@@ -508,6 +556,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00afbedc_98e52475",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-22T18:42:16Z",
+      "side": 1,
+      "message": "So then, this test doesn\u0027t really cover the exact issue without the fix. How is this script exactly failing without the latter? I mean, the test should explicitly fail without the fix (then pass with it).",
+      "parentUuid": "27a1a86a_c4baa27b",
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f42aeac_355b39fc",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 7
@@ -543,6 +609,30 @@
       "side": 1,
       "message": "Done. But when I try with a number of times different than one it will give me code error 127 on linux which I think is correct given that it is the same code given to the exit at the end of the command. On Mac OS as you mentioned you are getting 255. Will it be left for interpretation at this point given that the termination status is shown on screen?",
       "parentUuid": "9f42aeac_355b39fc",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 22
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e823a68_43232628",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-22T18:42:16Z",
+      "side": 1,
+      "message": "Maybe you don\u0027t need to show it below, not anymore?",
+      "parentUuid": "83454cb1_a88d27fd",
       "range": {
         "startLine": 65,
         "startChar": 0,

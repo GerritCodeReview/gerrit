@@ -363,8 +363,8 @@ export class GrRepoDetailList extends base {
     this.$.overlay.open();
   }
 
-  _computeHideDeleteClass(owner?: boolean, canDelete?: boolean) {
-    if (canDelete || owner) {
+  _computeHideDeleteClass(canDelete: boolean) {
+    if (canDelete) {
       return 'show';
     }
 

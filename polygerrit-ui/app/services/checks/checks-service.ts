@@ -100,6 +100,7 @@ export class ChecksService {
     provider: ChecksProvider,
     config: ChecksApiConfig
   ) {
+    console.log(`checks plugin register: ${pluginName}`);
     this.providers[pluginName] = provider;
     this.reloadSubjects[pluginName] = new BehaviorSubject<void>(undefined);
     updateStateSetProvider(pluginName, config);

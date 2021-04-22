@@ -1,0 +1,42 @@
+)]}'
+{
+  "javatests/com/googlesource/gerrit/plugins/supermanifest/RepoSuperManifestIT.java": {
+    "lines_inserted": 50,
+    "size_delta": 2026,
+    "size": 23974
+  },
+  "/COMMIT_MSG": {
+    "status": "A",
+    "lines_inserted": 15,
+    "size_delta": 530,
+    "size": 530
+  },
+  "java/Documentation/about.md": {
+    "lines_inserted": 6,
+    "lines_deleted": 2,
+    "size_delta": 295,
+    "size": 2833
+  },
+  "java/com/googlesource/gerrit/plugins/supermanifest/SuperManifestRefUpdatedListener.java": {
+    "lines_inserted": 4,
+    "size_delta": 76,
+    "size": 17571
+  },
+  "BUILD": {
+    "lines_inserted": 4,
+    "lines_deleted": 1,
+    "size_delta": 50,
+    "size": 1189
+  },
+  "java/com/googlesource/gerrit/plugins/supermanifest/ConfigEntry.java": {
+    "lines_inserted": 13,
+    "size_delta": 434,
+    "size": 6471
+  },
+  "javatests/com/googlesource/gerrit/plugins/supermanifest/ConfigEntryTest.java": {
+    "status": "A",
+    "lines_inserted": 146,
+    "size_delta": 5275,
+    "size": 5275
+  }
+}

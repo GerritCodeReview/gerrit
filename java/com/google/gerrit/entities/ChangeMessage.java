@@ -41,8 +41,10 @@ public final class ChangeMessage {
   /** Template to identify an account in {@link ChangeMessage#message}. */
   public static final String ACCOUNT_TEMPLATE = "<GERRIT_ACCOUNT_%d>";
 
+  public static final String ACCOUNT_TEMPLATE_REGEX = "<GERRIT_ACCOUNT_%d>";
+
   public static final Pattern ACCOUNT_TEMPLATE_PATTERN =
-      Pattern.compile("<GERRIT_ACCOUNT_([0-9]+)>");
+      Pattern.compile(ACCOUNT_TEMPLATE_REGEX);
 
   public static Key key(Change.Id changeId, String uuid) {
     return new AutoValue_ChangeMessage_Key(changeId, uuid);

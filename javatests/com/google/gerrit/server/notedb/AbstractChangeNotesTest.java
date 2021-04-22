@@ -53,6 +53,7 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.AssertableExecutorService;
 import com.google.gerrit.testing.ConfigSuite;
@@ -106,7 +107,7 @@ public abstract class AbstractChangeNotesTest {
 
   @Inject protected AbstractChangeNotes.Args args;
 
-  @Inject @GerritServerId private String serverId;
+  @Inject @GerritServerId protected String serverId;
 
   protected Injector injector;
   private String systemTimeZone;
@@ -167,6 +168,7 @@ public abstract class AbstractChangeNotesTest {
                     .annotatedWith(FanOutExecutor.class)
                     .toInstance(assertableFanOutExecutor);
                 bind(ServiceUserClassifier.class).to(ServiceUserClassifier.NoOp.class);
+                bind(InternalChangeQuery.class).toProvider(Providers.of(null));
               }
             });
 

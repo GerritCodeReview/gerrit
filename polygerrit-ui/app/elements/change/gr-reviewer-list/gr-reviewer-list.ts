@@ -41,6 +41,7 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {isRemovableReviewer} from '../../../utils/change-util';
 import {ReviewerState} from '../../../constants/constants';
 import {appContext} from '../../../services/app-context';
+import {fireAlert} from '../../../utils/event-util';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends PolymerElement {
@@ -261,32 +262,37 @@ export class GrReviewerList extends PolymerElement {
   _handleRemove(e: Event) {
     e.preventDefault();
     const target = (dom(e) as EventApi).rootTarget as GrAccountChip;
-    if (!target.account || !this.change) {
-      return;
-    }
+    if (!target.account || !this.change?.reviewers) return;
     const accountID = target.account._account_id || target.account.email;
-    this.disabled = true;
     if (!accountID) return;
-    this._xhrPromise = this._removeReviewer(accountID)
-      .then((response: Response | undefined) => {
-        this.disabled = false;
-        if (!response || !response.ok) {
-          return response;
+    const reviewers = this.change.reviewers;
+    let removedAccount: AccountInfo | undefined;
+    let removedType: ReviewerState | undefined;
+    for (const type of [ReviewerState.REVIEWER, ReviewerState.CC]) {
+      const reviewerStateByType = reviewers[type] || [];
+      reviewers[type] = reviewerStateByType;
+      for (let i = 0; i < reviewerStateByType.length; i++) {
+        if (
+          reviewerStateByType[i]._account_id === accountID ||
+          reviewerStateByType[i].email === accountID
+        ) {
+          removedAccount = reviewerStateByType[i];
+          removedType = type;
+          this.splice(`change.reviewers.${type}`, i, 1);
+          break;
         }
-        if (!this.change || !this.change.reviewers) return;
-        const reviewers = this.change.reviewers;
-        for (const type of [ReviewerState.REVIEWER, ReviewerState.CC]) {
-          const reviewerStateByType = reviewers[type] || [];
-          reviewers[type] = reviewerStateByType;
-          for (let i = 0; i < reviewerStateByType.length; i++) {
-            if (
-              reviewerStateByType[i]._account_id === accountID ||
-              reviewerStateByType[i].email === accountID
-            ) {
-              this.splice('change.reviewers.' + type, i, 1);
-              break;
-            }
-          }
+      }
+    }
+    const curChange = this.change;
+    this.disabled = true;
+    this._xhrPromise = this._removeReviewer(accountID)
+      .then(response => {
+        this.disabled = false;
+        if (!this.change?.reviewers || this.change !== curChange) return;
+        if (!response?.ok) {
+          this.push(`change.reviewers.${removedType}`, removedAccount);
+          fireAlert(this, `Cannot remove a ${removedType}`);
+          return response;
         }
         return;
       })

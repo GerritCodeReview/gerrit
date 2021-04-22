@@ -1302,6 +1302,46 @@ suite('gr-change-view tests', () => {
       });
     });
 
+    test('do not show any chip if all reverts are abandoned', done => {
+      const change = {
+        ...createChange(),
+        messages: createChangeMessages(2),
+      };
+      change.messages[0].message = 'Created a revert of this change as 12345';
+      change.messages[0].tag = MessageTag.TAG_REVERT as ReviewInputTag;
+
+      change.messages[1].message = 'Created a revert of this change as 23456';
+      change.messages[1].tag = MessageTag.TAG_REVERT as ReviewInputTag;
+
+      const getChangeStub = stubRestApi('getChange');
+      getChangeStub.onFirstCall().returns(
+        Promise.resolve({
+          ...createChange(),
+          status: ChangeStatus.ABANDONED,
+        })
+      );
+      getChangeStub.onSecondCall().returns(
+        Promise.resolve({
+          ...createChange(),
+          status: ChangeStatus.ABANDONED,
+        })
+      );
+      element._change = change;
+      element._mergeable = true;
+      element._submitEnabled = true;
+      flush();
+      element.computeRevertSubmitted(element._change);
+      flush(() => {
+        assert.isFalse(
+          element._changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
+        );
+        assert.isFalse(
+          element._changeStatuses?.includes(ChangeStates.REVERT_CREATED)
+        );
+        done();
+      });
+    });
+
     test('show revert created if no revert is merged', done => {
       const change = {
         ...createChange(),
@@ -1309,6 +1349,10 @@ suite('gr-change-view tests', () => {
       };
       change.messages[0].message = 'Created a revert of this change as 12345';
       change.messages[0].tag = MessageTag.TAG_REVERT as ReviewInputTag;
+
+      change.messages[1].message = 'Created a revert of this change as 23456';
+      change.messages[1].tag = MessageTag.TAG_REVERT as ReviewInputTag;
+
       const getChangeStub = stubRestApi('getChange');
       getChangeStub.onFirstCall().returns(
         Promise.resolve({
@@ -1336,7 +1380,7 @@ suite('gr-change-view tests', () => {
       });
     });
 
-    test('show revert created if no revert is merged', done => {
+    test('show revert submitted if revert is merged', done => {
       const change = {
         ...createChange(),
         messages: createChangeMessages(2),

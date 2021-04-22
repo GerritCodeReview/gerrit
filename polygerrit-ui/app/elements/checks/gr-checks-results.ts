@@ -60,7 +60,7 @@ import {
 import {toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly, pluralize} from '../../utils/string-util';
-import {fireRunSelectionReset, isSelected} from './gr-checks-util';
+import {fireRunSelectionReset, isAttemptSelected} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {ConfigInfo, PatchSetNumber} from '../../types/common';
 import {latestPatchNum$} from '../../services/change/change-model';
@@ -473,8 +473,16 @@ export class GrChecksResults extends GrLitElement {
   @internalProperty()
   filterRegExp = new RegExp('');
 
+  /** All runs. Shown should only the selected/filtered ones. */
   @property()
   runs: CheckRun[] = [];
+
+  /**
+   * Check names of runs that are selected in the runs panel. When this array
+   * is empty, then no run is selected and all runs should be shown.
+   */
+  @property()
+  selectedRuns: string[] = [];
 
   @property()
   actions: Action[] = [];
@@ -490,14 +498,6 @@ export class GrChecksResults extends GrLitElement {
 
   @property()
   latestPatchsetNumber: PatchSetNumber | undefined = undefined;
-
-  /**
-   * How many runs are selected in the runs panel?
-   * If 0, then the `runs` property contains all the runs there are.
-   * If >0, then it only contains the data of certain selected runs.
-   */
-  @property()
-  selectedRunsCount = 0;
 
   /** Maps checkName to selected attempt number. `undefined` means `latest`. */
   @property()
@@ -767,11 +767,17 @@ export class GrChecksResults extends GrLitElement {
     });
   }
 
+  isRunSelected(run: {checkName: string}) {
+    if (this.selectedRuns.length === 0) return true;
+    return this.selectedRuns.includes(run.checkName);
+  }
+
   renderFilter() {
-    const runs = this.runs.filter(run =>
-      isSelected(this.selectedAttempts, run)
+    const runs = this.runs.filter(
+      run =>
+        this.isRunSelected(run) && isAttemptSelected(this.selectedAttempts, run)
     );
-    if (this.selectedRunsCount === 0 && allResults(runs).length <= 3) {
+    if (this.selectedRuns.length === 0 && allResults(runs).length <= 3) {
       if (this.filterRegExp.source.length > 0) {
         this.filterRegExp = new RegExp('');
       }
@@ -791,7 +797,7 @@ export class GrChecksResults extends GrLitElement {
   }
 
   renderSelectionFilter() {
-    const count = this.selectedRunsCount;
+    const count = this.selectedRuns.length;
     if (count === 0) return;
     return html`
       <iron-icon class="filter" icon="gr-icons:filter"></iron-icon>
@@ -814,20 +820,23 @@ export class GrChecksResults extends GrLitElement {
 
   renderSection(category: Category | 'SUCCESS') {
     const catString = category.toString().toLowerCase();
-    let runs = this.runs.filter(run => isSelected(this.selectedAttempts, run));
+    let allRuns = this.runs.filter(run =>
+      isAttemptSelected(this.selectedAttempts, run)
+    );
     if (category === 'SUCCESS') {
-      runs = runs.filter(hasCompletedWithoutResults);
+      allRuns = allRuns.filter(hasCompletedWithoutResults);
     } else {
-      runs = runs.filter(r => hasResultsOf(r, category));
+      allRuns = allRuns.filter(r => hasResultsOf(r, category));
     }
-    const all = runs.reduce(
-      (allResults: RunResult[], run) => [
-        ...allResults,
+    const all = allRuns.reduce(
+      (results: RunResult[], run) => [
+        ...results,
         ...this.computeRunResults(category, run),
       ],
       []
     );
-    const filtered = all.filter(
+    const selected = all.filter(result => this.isRunSelected(result));
+    const filtered = selected.filter(
       result =>
         this.filterRegExp.test(result.checkName) ||
         this.filterRegExp.test(result.summary)
@@ -835,7 +844,7 @@ export class GrChecksResults extends GrLitElement {
     let expanded = this.isSectionExpanded.get(category);
     const expandedByUser = this.isSectionExpandedByUser.get(category) ?? false;
     if (!expandedByUser || expanded === undefined) {
-      expanded = all.length > 0;
+      expanded = selected.length > 0;
       this.isSectionExpanded.set(category, expanded);
     }
     const expandedClass = expanded ? 'expanded' : 'collapsed';
@@ -852,21 +861,27 @@ export class GrChecksResults extends GrLitElement {
             class="statusIcon ${catString}"
           ></iron-icon>
           <span class="title">${catString}</span>
-          <span class="count">${this.renderCount(all, filtered)}</span>
+          <span class="count"
+            >${this.renderCount(all, selected, filtered)}</span
+          >
         </h3>
-        ${this.renderResults(all, filtered)}
+        ${this.renderResults(all, selected, filtered)}
       </div>
     `;
   }
 
-  renderResults(all: RunResult[], filtered: RunResult[]) {
-    if (all.length === 0 && this.selectedRunsCount > 0) {
+  renderResults(
+    all: RunResult[],
+    selected: RunResult[],
+    filtered: RunResult[]
+  ) {
+    if (all.length === 0) {
+      return html`<div class="noResultsMessage">No results</div>`;
+    }
+    if (selected.length === 0) {
       return html`<div class="noResultsMessage">
         No results for this filtered view
       </div>`;
-    }
-    if (all.length === 0) {
-      return html`<div class="noResultsMessage">No results</div>`;
     }
     if (filtered.length === 0) {
       return html`<div class="noResultsMessage">
@@ -899,15 +914,14 @@ export class GrChecksResults extends GrLitElement {
     `;
   }
 
-  renderCount(all: RunResult[], filtered: RunResult[]) {
-    if (this.selectedRunsCount > 0) {
-      return html`<span class="filtered"> - filtered</span>`;
-    }
+  renderCount(all: RunResult[], selected: RunResult[], filtered: RunResult[]) {
     if (all.length === filtered.length) {
       return html`(${all.length})`;
-    } else {
-      return html`(${filtered.length} of ${all.length})`;
     }
+    if (all.length !== selected.length) {
+      return html`<span class="filtered"> - filtered</span>`;
+    }
+    return html`(${filtered.length} of ${all.length})`;
   }
 
   toggleExpanded(category: Category | 'SUCCESS') {

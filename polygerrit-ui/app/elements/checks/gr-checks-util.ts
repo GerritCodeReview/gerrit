@@ -76,7 +76,7 @@ export function fireRunSelectionReset(target: EventTarget) {
   );
 }
 
-export function isSelected(
+export function isAttemptSelected(
   selectedAttempts: Map<string, number | undefined>,
   run: CheckRun
 ) {

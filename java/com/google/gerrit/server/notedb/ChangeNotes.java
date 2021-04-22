@@ -99,12 +99,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public static class Factory {
     private final Args args;
     private final Provider<InternalChangeQuery> queryProvider;
-    private final ProjectCache projectCache;
+    private final Provider<ProjectCache> projectCache;
 
     @VisibleForTesting
     @Inject
     public Factory(
-        Args args, Provider<InternalChangeQuery> queryProvider, ProjectCache projectCache) {
+        Args args,
+        Provider<InternalChangeQuery> queryProvider,
+        Provider<ProjectCache> projectCache) {
       this.args = args;
       this.queryProvider = queryProvider;
       this.projectCache = projectCache;
@@ -201,7 +203,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         throws IOException {
       ListMultimap<Project.NameKey, ChangeNotes> m =
           MultimapBuilder.hashKeys().arrayListValues().build();
-      for (Project.NameKey project : projectCache.all()) {
+      for (Project.NameKey project : projectCache.get().all()) {
         try (Repository repo = args.repoManager.openRepository(project)) {
           scan(repo, project)
               .filter(r -> !r.error().isPresent())

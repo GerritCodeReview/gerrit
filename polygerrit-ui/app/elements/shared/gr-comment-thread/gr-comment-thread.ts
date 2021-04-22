@@ -60,6 +60,7 @@ import {check, assertIsDefined} from '../../../utils/common-util';
 import {waitForEventOnce} from '../../../utils/event-util';
 import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 import {StorageLocation} from '../../../services/storage/gr-storage';
+import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-layer';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -344,7 +345,14 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
 
   _getLayers(diff?: DiffInfo) {
     if (!diff) return [];
-    return [this.syntaxLayer];
+    const layers = [];
+    if (
+      appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)
+    ) {
+      layers.push(new TokenHighlightLayer());
+    }
+    layers.push(this.syntaxLayer);
+    return layers;
   }
 
   _getUrlForViewDiff(comments: UIComment[]) {

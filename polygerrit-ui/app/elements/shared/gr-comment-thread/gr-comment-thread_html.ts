@@ -197,6 +197,9 @@ export const htmlTemplate = html`
         </div>
       </div>
     </div>
+    <template is="dom-if" if="[[_showGetContextButton(comments)]]">
+      <gr-button on-click="_handleShowContext">Show Context</gr-button>
+    </template>
     <template is="dom-if" if="[[_shouldShowCommentContext(_diff)]]">
       <div class="diff-container">
         <gr-diff

@@ -268,6 +268,14 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
+  _showGetContextButton(comments?: UIComment[]) {
+    return isDraft(comments?.[0]) && !comments?.[0].context_lines;
+  }
+
+  _handleShowContext() {
+    return this.restApiService
+  }
+
   addOrEditDraft(lineNum?: LineNumber, rangeParam?: CommentRange) {
     const lastComment = this.comments[this.comments.length - 1] || {};
     if (isDraft(lastComment)) {

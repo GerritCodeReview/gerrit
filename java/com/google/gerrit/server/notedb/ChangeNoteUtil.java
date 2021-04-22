@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
+import java.util.TimeZone;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -54,6 +55,8 @@ public class ChangeNoteUtil {
   static final FooterKey FOOTER_REVERT_OF = new FooterKey("Revert-of");
   static final FooterKey FOOTER_CHERRY_PICK_OF = new FooterKey("Cherry-pick-of");
 
+  static final String GERRIT_USER_TEMPLATE = "Gerrit User %d";
+
   private static final Gson gson = OutputFormat.JSON_COMPACT.newGson();
 
   private final ChangeNoteJson changeNoteJson;
@@ -83,21 +86,30 @@ public class ChangeNoteUtil {
         .append('>');
   }
 
+  String getAccountIdIdentString(Account.Id accountId) {
+    StringBuilder stringBuilder = new StringBuilder();
+    return appendAccountIdIdentString(stringBuilder, accountId).toString();
+  }
+
   /**
    * Returns a {@link PersonIdent} that contains the account ID, but not the user's name or email
    * address.
    */
   public PersonIdent newAccountIdIdent(Account.Id accountId, Date when, PersonIdent serverIdent) {
+    return newAccountIdIdent(accountId, when, serverIdent.getTimeZone());
+  }
+
+  public PersonIdent newAccountIdIdent(Account.Id accountId, Date when, TimeZone timeZone) {
     return new PersonIdent(
         getAccountIdAsUsername(accountId),
         getAccountIdAsEmailAddress(accountId),
         when,
-        serverIdent.getTimeZone());
+        timeZone);
   }
 
   /** Returns the string {@code "Gerrit User " + accountId}, to pseudonymize user names. */
   public static String getAccountIdAsUsername(Account.Id accountId) {
-    return "Gerrit User " + accountId.toString();
+    return String.format(GERRIT_USER_TEMPLATE, accountId.get());
   }
 
   private String getAccountIdAsEmailAddress(Account.Id accountId) {

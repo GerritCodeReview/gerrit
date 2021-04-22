@@ -55,7 +55,6 @@ import {
   createUserConfig,
   TEST_NUMERIC_CHANGE_ID,
   TEST_PROJECT_NAME,
-  getCurrentRevision,
   createEditRevision,
   createAccountWithIdNameAndEmail,
   createChangeViewChange,
@@ -1812,104 +1811,6 @@ suite('gr-change-view tests', () => {
     assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
   });
 
-  test('_computeChangeIdCommitMessageError', () => {
-    let commitMessage = 'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483';
-    let change: ChangeInfo = {
-      ...createChangeViewChange(),
-      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483' as ChangeId,
-    };
-    assert.equal(
-      element._computeChangeIdCommitMessageError(commitMessage, change),
-      null
-    );
-
-    change = {
-      ...createChangeViewChange(),
-      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484' as ChangeId,
-    };
-    assert.equal(
-      element._computeChangeIdCommitMessageError(commitMessage, change),
-      'mismatch'
-    );
-
-    commitMessage = 'This is the greatest change.';
-    assert.equal(
-      element._computeChangeIdCommitMessageError(commitMessage, change),
-      'missing'
-    );
-  });
-
-  test('multiple change Ids in commit message picks last', () => {
-    const commitMessage = [
-      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282484',
-      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483',
-    ].join('\n');
-    let change: ChangeInfo = {
-      ...createChangeViewChange(),
-      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483' as ChangeId,
-    };
-    assert.equal(
-      element._computeChangeIdCommitMessageError(commitMessage, change),
-      null
-    );
-    change = {
-      ...createChangeViewChange(),
-      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484' as ChangeId,
-    };
-    assert.equal(
-      element._computeChangeIdCommitMessageError(commitMessage, change),
-      'mismatch'
-    );
-  });
-
-  test('does not count change Id that starts mid line', () => {
-    const commitMessage = [
-      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282484',
-      'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483',
-    ].join(' and ');
-    let change: ChangeInfo = {
-      ...createChangeViewChange(),
-      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484' as ChangeId,
-    };
-    assert.equal(
-      element._computeChangeIdCommitMessageError(commitMessage, change),
-      null
-    );
-    change = {
-      ...createChangeViewChange(),
-      change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483' as ChangeId,
-    };
-    assert.equal(
-      element._computeChangeIdCommitMessageError(commitMessage, change),
-      'mismatch'
-    );
-  });
-
-  test('_computeTitleAttributeWarning', () => {
-    let changeIdCommitMessageError = 'missing';
-    assert.equal(
-      element._computeTitleAttributeWarning(changeIdCommitMessageError),
-      'No Change-Id in commit message'
-    );
-
-    changeIdCommitMessageError = 'mismatch';
-    assert.equal(
-      element._computeTitleAttributeWarning(changeIdCommitMessageError),
-      'Change-Id mismatch'
-    );
-  });
-
-  test('_computeChangeIdClass', () => {
-    let changeIdCommitMessageError = 'missing';
-    assert.equal(element._computeChangeIdClass(changeIdCommitMessageError), '');
-
-    changeIdCommitMessageError = 'mismatch';
-    assert.equal(
-      element._computeChangeIdClass(changeIdCommitMessageError),
-      'warning'
-    );
-  });
-
   test('topic is coalesced to null', done => {
     sinon.stub(element, '_changeChanged');
     stubRestApi('getChangeDetail').returns(
@@ -2260,57 +2161,6 @@ suite('gr-change-view tests', () => {
     flush(() => {
       assert.isFalse(element._replyDisabled);
       done();
-    });
-  });
-
-  suite('commit message expand/collapse', () => {
-    setup(() => {
-      element._change = {
-        ...createChangeViewChange(),
-        revisions: createRevisions(1),
-        messages: createChangeMessages(1),
-      };
-      element._change.labels = {};
-      stubRestApi('getChangeDetail').callsFake(() =>
-        Promise.resolve({
-          ...createChangeViewChange(),
-          // new patchset was uploaded
-          revisions: createRevisions(2),
-          current_revision: getCurrentRevision(2),
-          messages: createChangeMessages(1),
-        })
-      );
-    });
-
-    test('commitCollapseToggle hidden for short commit message', () => {
-      element._latestCommitMessage = '';
-      flush();
-      const commitCollapseToggle = element.shadowRoot!.querySelector(
-        '#commitCollapseToggle'
-      );
-      assert.isTrue(commitCollapseToggle?.hasAttribute('hidden'));
-    });
-
-    test('commitCollapseToggle shown for long commit message', () => {
-      element._latestCommitMessage = _.times(31, String).join('\n');
-      const commitCollapseToggle = element.shadowRoot!.querySelector(
-        '#commitCollapseToggle'
-      );
-      assert.isFalse(commitCollapseToggle?.hasAttribute('hidden'));
-    });
-
-    test('commitCollapseToggle functions', () => {
-      element._latestCommitMessage = _.times(35, String).join('\n');
-      assert.isTrue(element._commitCollapsed);
-      assert.isTrue(element._commitCollapsible);
-      assert.isTrue(element.$.commitMessageEditor.hasAttribute('collapsed'));
-      const commitCollapseToggleButton = element.shadowRoot!.querySelector(
-        '#commitCollapseToggleButton'
-      )!;
-      tap(commitCollapseToggleButton);
-      assert.isFalse(element._commitCollapsed);
-      assert.isTrue(element._commitCollapsible);
-      assert.isFalse(element.$.commitMessageEditor.hasAttribute('collapsed'));
     });
   });
 

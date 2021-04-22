@@ -271,12 +271,8 @@ class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return
-        // We allow owner to delete refs even if they have no force-push rights. We forbid
-        // it if force push is blocked, though. See commit 40bd5741026863c99bea13eb5384bd27855c5e1b
-        (isOwner() && !isBlocked(Permission.PUSH, false, true))
-            || canPushWithForce()
-            || canPerform(Permission.DELETE)
+        return ((!isBlocked(Permission.PUSH, false, true))
+                && (canPushWithForce() || canPerform(Permission.DELETE)))
             || projectControl.isAdmin();
     }
   }

@@ -19,6 +19,7 @@ import '@polymer/paper-card/paper-card';
 import '@polymer/paper-checkbox/paper-checkbox';
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu';
 import '@polymer/paper-fab/paper-fab';
+import '@polymer/paper-icon-button/paper-icon-button';
 import '@polymer/paper-item/paper-item';
 import '@polymer/paper-listbox/paper-listbox';
 import './gr-overview-image';
@@ -70,6 +71,8 @@ export class GrImageViewer extends LitElement {
   @internalProperty() protected scale = 1;
 
   @internalProperty() protected checkerboardSelected = true;
+
+  @internalProperty() protected backgroundColor = '';
 
   @internalProperty() protected zoomedImageStyle: StyleInfo = {};
 
@@ -128,12 +131,25 @@ export class GrImageViewer extends LitElement {
     }
   );
 
+  // Ensure constant function references, so that render() does not bind a new
+  // event listener on every call, as it would with lambdas.
+  private createColorPickerCallback(color: string) {
+    return {color, callback: () => this.pickColor(color)};
+  }
+
+  private readonly colorPickerCallbacks = [
+    this.createColorPickerCallback('#fff'),
+    this.createColorPickerCallback('#000'),
+    this.createColorPickerCallback('#aaa'),
+  ];
+
   static styles = css`
     :host {
       display: flex;
       width: 100%;
       height: 100%;
       box-sizing: border-box;
+      text-align: initial !important;
       font-size: var(--font-size-normal);
       --image-border-width: 2px;
     }
@@ -240,9 +256,77 @@ export class GrImageViewer extends LitElement {
       margin: 0 var(--spacing-xl);
     }
     #follow-mouse {
+      margin: var(--spacing-m) var(--spacing-xl);
+    }
+    .color-picker {
       margin: var(--spacing-m) var(--spacing-xl) 0;
     }
+    .color-picker .label {
+      margin-bottom: var(--spacing-s);
+    }
+    .color-picker .options {
+      display: flex;
+    }
+    .color-picker-button {
+      border-width: 2px;
+      border-style: solid;
+      border-color: transparent;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      padding: 1px;
+    }
+    .color-picker-button.selected {
+      border-color: var(--primary-button-background-color);
+    }
+    .color-picker-button:focus-within:not(.selected) {
+      /* Not an actual outline, as those do not follow border-radius. */
+      border-color: var(--outline-color-focus);
+    }
+    .color-picker-button .color {
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+    }
   `;
+
+  private renderColorPickerButton(color: string, colorPicked: () => void) {
+    const selected =
+      color === this.backgroundColor && !this.checkerboardSelected;
+    return html`
+      <div
+        class="${classMap({
+          'color-picker-button': true,
+          selected,
+        })}"
+      >
+        <paper-icon-button
+          class="color"
+          style="${styleMap({backgroundColor: color})}"
+          @click="${colorPicked}"
+        ></paper-icon-button>
+      </div>
+    `;
+  }
+
+  private renderCheckerboardButton() {
+    return html`
+      <div
+        class="${classMap({
+          'color-picker-button': true,
+          selected: this.checkerboardSelected,
+        })}"
+      >
+        <paper-icon-button
+          class="color checkerboard"
+          @click="${this.pickCheckerboard}"
+        >
+        </paper-icon-button>
+      </div>
+    `;
+  }
 
   render() {
     const src = this.baseSelected ? this.baseUrl : this.revisionUrl;
@@ -251,8 +335,11 @@ export class GrImageViewer extends LitElement {
       <img
         id="source-image"
         src="${src}"
-        class="${classMap({
-          checkerboard: this.checkerboardSelected,
+        class="${classMap({checkerboard: this.checkerboardSelected})}"
+        style="${styleMap({
+          backgroundColor: this.checkerboardSelected
+            ? ''
+            : this.backgroundColor,
         })}"
         @load="${this.updateSizes}"
       />
@@ -298,7 +385,15 @@ export class GrImageViewer extends LitElement {
         .frameRect="${this.overviewFrame}"
         @center-updated="${this.onOverviewCenterUpdated}"
       >
-        <img src="${src}" class="checkerboard" />
+        <img
+          src="${src}"
+          class="${classMap({checkerboard: this.checkerboardSelected})}"
+          style="${styleMap({
+            backgroundColor: this.checkerboardSelected
+              ? ''
+              : this.backgroundColor,
+          })}"
+        />
       </gr-overview-image>
     `;
 
@@ -329,6 +424,18 @@ export class GrImageViewer extends LitElement {
       >
         Magnifier follows mouse
       </paper-checkbox>
+    `;
+
+    const backgroundPicker = html`
+      <div class="color-picker">
+        <div class="label">Background</div>
+        <div class="options">
+          ${this.renderCheckerboardButton()}
+          ${this.colorPickerCallbacks.map(({color, callback}) =>
+            this.renderColorPickerButton(color, callback)
+          )}
+        </div>
+      </div>
     `;
 
     /*
@@ -438,7 +545,7 @@ export class GrImageViewer extends LitElement {
 
       <paper-card class="controls">
         ${versionSwitcher} ${overviewImage} ${zoomControl}
-        ${!this.scaledSelected ? followMouse : ''}
+        ${!this.scaledSelected ? followMouse : ''} ${backgroundPicker}
       </paper-card>
     `;
   }
@@ -510,6 +617,19 @@ export class GrImageViewer extends LitElement {
     this.followMouse = !this.followMouse;
     this.dispatchEvent(
       createEvent({type: 'follow-mouse-changed', value: this.followMouse})
+    );
+  }
+
+  pickColor(value: string) {
+    this.checkerboardSelected = false;
+    this.backgroundColor = value;
+    this.dispatchEvent(createEvent({type: 'background-color-changed', value}));
+  }
+
+  pickCheckerboard() {
+    this.checkerboardSelected = true;
+    this.dispatchEvent(
+      createEvent({type: 'background-color-changed', value: 'checkerboard'})
     );
   }
 

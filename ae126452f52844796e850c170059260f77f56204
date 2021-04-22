@@ -22,6 +22,30 @@
       },
       "revId": "ae126452f52844796e850c170059260f77f56204",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a31073e_d066caae",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteTagIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2021-04-22T15:00:09Z",
+      "side": 1,
+      "message": "Instead of asserting it false, since the Owner no longer has any implicit permission, and follows the same rules as a regular user, I removed the specific Owner test.\n\nDone.",
+      "parentUuid": "2b1edbad_9e1dcef7",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 27
+      },
+      "revId": "ae126452f52844796e850c170059260f77f56204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

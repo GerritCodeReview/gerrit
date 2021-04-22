@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0cf19e53_e5baef38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-04-22T09:04:42Z",
+      "side": 1,
+      "message": "nit: change using new naming convention. Also add kinesis and gcloud pubsub",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 14
+      },
+      "revId": "ae6e13ff5745e39b945ffd1684f878340f7dd3ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10d3514b_1fa59571",
         "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
         "patchSetId": 5

@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2cfa3ded_2305502c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-22T18:45:44Z",
+      "side": 1,
+      "message": "Not exactly so if on macOS, AFAIK. Anyway, I think this check about 127 was to be removed from the said script.",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 21
+      },
+      "revId": "858410356043474cf6b0e6808af74c3375aa0f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd104dd5_2b80e8cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-22T18:45:44Z",
+      "side": 1,
+      "message": "Forgot this-",
+      "revId": "858410356043474cf6b0e6808af74c3375aa0f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "538f7363_d82a7590",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 8

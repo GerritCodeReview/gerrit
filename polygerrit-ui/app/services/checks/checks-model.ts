@@ -303,9 +303,25 @@ export const fakeRun1: CheckRun = {
 export const fakeRun2: CheckRun = {
   internalRunId: 'f2',
   checkName: 'FAKE Mega Analysis',
+  statusDescription: 'This run is nearly completed, but not quite.',
+  statusLink: 'https://www.google.com/',
+  checkDescription:
+    'From what the title says you can tell that this check analyses.',
+  checkLink: 'https://www.google.com/',
+  scheduledTimestamp: new Date('2021-04-01T03:14:15'),
+  startedTimestamp: new Date('2021-04-01T04:24:25'),
+  finishedTimestamp: new Date('2021-04-01T04:44:44'),
   isSingleAttempt: true,
   isLatestAttempt: true,
   attemptDetails: [],
+  actions: [
+    {
+      name: 'Re-Run',
+      tooltip: 'More powerful run than before',
+      primary: true,
+      callback: () => undefined,
+    },
+  ],
   results: [
     {
       internalResultId: 'f2r0',
@@ -380,8 +396,15 @@ export const fakeRun4_3: CheckRun = {
 export const fakeRun4_4: CheckRun = {
   internalRunId: 'f4',
   checkName: 'FAKE Elimination',
+  checkDescription: 'Shows you the possible eliminations.',
+  checkLink: 'https://www.google.com',
   status: RunStatus.RUNNING,
+  statusDescription: 'Everything was eliminated already.',
+  statusLink: 'https://www.google.com',
   attempt: 4,
+  scheduledTimestamp: new Date('2021-04-02T03:14:15'),
+  startedTimestamp: new Date('2021-04-02T04:24:25'),
+  finishedTimestamp: new Date('2021-04-02T04:25:44'),
   isSingleAttempt: false,
   isLatestAttempt: true,
   attemptDetails: [],

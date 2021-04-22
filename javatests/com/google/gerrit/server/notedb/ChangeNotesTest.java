@@ -3382,7 +3382,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     RevCommit commit = tr.commit().message("PS" + c.currentPatchSetId().get()).create();
     ChangeUpdate update = newUpdate(c, user);
     update.setCommit(rw, commit);
-    update.commit();
+    update.getResult();
     return tr.parseBody(commit);
   }
 

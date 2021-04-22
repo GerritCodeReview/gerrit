@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95862abe_9a6ca428",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-22T07:01:21Z",
+      "side": 1,
+      "message": "FWIW I don\u0027t think that the value of such a test is higher than the maintenance cost. :-)",
+      "revId": "d27f6369311627c2297b5b5fba5d27385f49a61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

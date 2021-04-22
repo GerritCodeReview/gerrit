@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a31f320_2719a8e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-22T16:57:14Z",
+      "side": 1,
+      "message": "I was not able to see attempts but will take a look once it is in Monday\u0027s release.",
+      "revId": "d18d301a5588fc3acaee36004e0dc7517411321f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "725b643d_93d39386",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-22T16:57:14Z",
+      "side": 1,
+      "message": "At the moment, on the runs side panel, I see that a check run has an action \u0027RERUN\u0027 but in the hovercard, the action is \u0027RUN\u0027, actions should be consistent.",
+      "revId": "d18d301a5588fc3acaee36004e0dc7517411321f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b95b261_ad3ab4d3",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-22T16:57:14Z",
+      "side": 1,
+      "message": "When a run is running but has not produced results, we\u0027ll need to align the Checks name with the \u0027Running\u0027 chip and other icons at the left of the hovercard.",
+      "revId": "d18d301a5588fc3acaee36004e0dc7517411321f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e1b51e3_1e0ac656",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-04-22T16:57:14Z",
+      "side": 1,
+      "message": "The distance between the description and the bottom line (on top of the button) also is --spacing-xl. So that all margins are 16px.",
+      "range": {
+        "startLine": 49,
+        "startChar": 68,
+        "endLine": 49,
+        "endChar": 69
+      },
+      "revId": "d18d301a5588fc3acaee36004e0dc7517411321f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

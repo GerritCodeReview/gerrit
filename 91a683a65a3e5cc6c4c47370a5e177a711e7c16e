@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26847673_35b2fe19",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1975,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-22T20:25:11Z",
+      "side": 1,
+      "message": "maybe rename to \"submittedRevert\" or \"revertSubmittedChange\"",
+      "range": {
+        "startLine": 1975,
+        "startChar": 12,
+        "endLine": 1975,
+        "endChar": 18
+      },
+      "revId": "91a683a65a3e5cc6c4c47370a5e177a711e7c16e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24647bca_839013a1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-22T20:25:11Z",
+      "side": 1,
+      "message": "Can one property `revertChange` maybe be shared? The change can speak for itself about whether it is merged or not.",
+      "revId": "91a683a65a3e5cc6c4c47370a5e177a711e7c16e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

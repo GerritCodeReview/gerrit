@@ -322,7 +322,7 @@ export class GrRepoDetailList extends LitElement {
         </td>
         <td class="delete">
           <gr-button
-            class="deleteButton ${item.can_delete || this.isOwner
+            class="deleteButton ${item.can_delete
               ? 'show'
               : ''}"
             link

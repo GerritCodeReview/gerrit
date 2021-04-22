@@ -28,7 +28,6 @@ export enum KnownExperimentId {
   // be used by plugins. The new Checks UI will show up, if a plugin registers
   // with the new Checks plugin API.
   CI_REBOOT_CHECKS = 'UiFeature__ci_reboot_checks',
-  NEW_CHANGE_SUMMARY_UI = 'UiFeature__new_change_summary_ui',
   NEW_IMAGE_DIFF_UI = 'UiFeature__new_image_diff_ui',
   COMMENT_CONTEXT = 'UiFeature__comment_context',
 }

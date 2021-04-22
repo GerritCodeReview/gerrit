@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1e5921d7_a3522ad1",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-22T07:31:18Z",
+      "side": 1,
+      "message": "@Sasa: Is that OK for you or should I change this to use AuthConfig?",
+      "parentUuid": "25d73f9c_97798463",
+      "revId": "6dffd29e86d75d7b02ac3a20404db9329d18852c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a159024d_023a0c6d",
         "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
         "patchSetId": 15
@@ -124,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19769f53_66be34bb",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-22T07:31:18Z",
+      "side": 1,
+      "message": "Using static injection should resolve this issue.",
+      "parentUuid": "055bcc04_98de370b",
+      "revId": "6dffd29e86d75d7b02ac3a20404db9329d18852c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a17101ad_bc9cfe28",
@@ -155,6 +191,24 @@
       "side": 1,
       "message": "We can\u0027t inject it in WebSessionManager.Val, since this class is static and can\u0027t be not static. However, if we remove the new field in the cache, this could be removed here.",
       "parentUuid": "a17101ad_bc9cfe28",
+      "revId": "6dffd29e86d75d7b02ac3a20404db9329d18852c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b098e481_b5c3cd0f",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-22T07:31:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c817d3f_c5e156b4",
       "revId": "6dffd29e86d75d7b02ac3a20404db9329d18852c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

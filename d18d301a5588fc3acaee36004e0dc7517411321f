@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7913456b_e6c21ad9",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-22T20:55:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "725b643d_93d39386",
+      "revId": "d18d301a5588fc3acaee36004e0dc7517411321f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b95b261_ad3ab4d3",
@@ -70,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "494d2731_3090823c",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-22T20:55:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b95b261_ad3ab4d3",
+      "revId": "d18d301a5588fc3acaee36004e0dc7517411321f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e1b51e3_1e0ac656",
@@ -83,6 +119,30 @@
       "writtenOn": "2021-04-22T16:57:14Z",
       "side": 1,
       "message": "The distance between the description and the bottom line (on top of the button) also is --spacing-xl. So that all margins are 16px.",
+      "range": {
+        "startLine": 49,
+        "startChar": 68,
+        "endLine": 49,
+        "endChar": 69
+      },
+      "revId": "d18d301a5588fc3acaee36004e0dc7517411321f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a33bdaeb_8e52ba60",
+        "filename": "polygerrit-ui/app/elements/checks/gr-hovercard-run_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-22T20:55:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e1b51e3_1e0ac656",
       "range": {
         "startLine": 49,
         "startChar": 68,

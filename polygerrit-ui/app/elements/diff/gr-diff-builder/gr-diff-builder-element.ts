@@ -49,6 +49,8 @@ import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {TokenHighlightLayer} from './token-highlight-layer';
+import {appContext } from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -250,7 +252,6 @@ export class GrDiffBuilderElement extends PolymerElement {
       this.$.rangeLayer,
       this.$.coverageLayerLeft,
       this.$.coverageLayerRight,
-      new TokenHighlightLayer(),
     ];
 
     if (this.layers) {

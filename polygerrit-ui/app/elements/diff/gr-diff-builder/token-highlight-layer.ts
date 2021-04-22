@@ -22,8 +22,6 @@ import {
   getLineNumberByChild,
   lineNumberToNumber,
 } from '../gr-diff/gr-diff-utils';
-import {appContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 const tokenMatcher = new RegExp(/[a-zA-Z0-9_-]+/g);
 
@@ -96,17 +94,12 @@ export class TokenHighlightLayer implements DiffLayer {
 
   private updateTokenTask?: DelayedTask;
 
-  private readonly enabled = appContext.flagsService.isEnabled(
-    KnownExperimentId.TOKEN_HIGHLIGHTING
-  );
-
   annotate(
     el: HTMLElement,
     _: HTMLElement,
     line: GrDiffLine,
     side: Side
   ): void {
-    if (!this.enabled) return;
     const text = el.textContent;
     if (!text) return;
     // Binary files encoded as text for example can have super long lines

@@ -504,9 +504,8 @@ suite('gr-repo-detail-list', () => {
     });
 
     test('test _computeHideDeleteClass', () => {
-      assert.deepEqual(element._computeHideDeleteClass(true, false), 'show');
-      assert.deepEqual(element._computeHideDeleteClass(false, true), 'show');
-      assert.deepEqual(element._computeHideDeleteClass(false, false), '');
+      assert.deepEqual(element._computeHideDeleteClass(false), '');
+      assert.deepEqual(element._computeHideDeleteClass(true), 'show');
     });
   });
 });

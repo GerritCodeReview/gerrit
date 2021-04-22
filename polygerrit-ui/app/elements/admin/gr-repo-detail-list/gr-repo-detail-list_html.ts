@@ -172,7 +172,7 @@ export const htmlTemplate = html`
             <td class="delete">
               <gr-button
                 link=""
-                class$="deleteButton [[_computeHideDeleteClass(_isOwner, item.can_delete)]]"
+                class$="deleteButton [[_computeHideDeleteClass(item.can_delete)]]"
                 on-click="_handleDeleteItem"
               >
                 Delete

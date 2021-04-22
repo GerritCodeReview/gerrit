@@ -108,11 +108,6 @@ export class GrChecksTab extends GrLitElement {
   }
 
   render() {
-    const filteredRuns = this.runs.filter(
-      r =>
-        this.selectedRuns.length === 0 ||
-        this.selectedRuns.includes(r.checkName)
-    );
     return html`
       <div class="container">
         <gr-checks-runs
@@ -127,8 +122,8 @@ export class GrChecksTab extends GrLitElement {
         <gr-checks-results
           class="results"
           .tabState="${this.tabState}"
-          .runs="${filteredRuns}"
-          .selectedRunsCount="${this.selectedRuns.length}"
+          .runs="${this.runs}"
+          .selectedRuns="${this.selectedRuns}"
           .selectedAttempts="${this.selectedAttempts}"
           @run-selected="${this.handleRunSelected}"
         ></gr-checks-results>

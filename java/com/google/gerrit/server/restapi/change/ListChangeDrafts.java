@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 import org.kohsuke.args4j.Option;
 
-@Singleton
 public class ListChangeDrafts implements RestReadView<ChangeResource> {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;

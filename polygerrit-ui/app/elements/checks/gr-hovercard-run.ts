@@ -20,8 +20,14 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-run_html';
 import {customElement, property} from '@polymer/decorators';
 import {CheckRun} from '../../services/checks/checks-model';
-import {iconForRun} from '../../services/checks/checks-util';
-import {fromNow} from '../../utils/date-util';
+import {
+  iconForCategory,
+  iconForStatus,
+  runActions,
+  worstCategory,
+} from '../../services/checks/checks-util';
+import {durationString, fromNow} from '../../utils/date-util';
+import {RunStatus} from '../../api/checks';
 
 @customElement('gr-hovercard-run')
 export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
@@ -32,12 +38,77 @@ export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
   @property({type: Object})
   run?: CheckRun;
 
-  computeIcon(run: CheckRun) {
-    return iconForRun(run);
+  computeIcon(run?: CheckRun) {
+    if (!run) return '';
+    const category = worstCategory(run);
+    if (category) return iconForCategory(category);
+    return run.status === RunStatus.COMPLETED
+      ? iconForStatus(RunStatus.COMPLETED)
+      : '';
   }
 
-  computeDuration(date: Date) {
+  computeActions(run?: CheckRun) {
+    return runActions(run);
+  }
+
+  computeChipIcon(run?: CheckRun) {
+    if (run?.status === RunStatus.COMPLETED) return 'check';
+    if (run?.status === RunStatus.RUNNING) return 'timelapse';
+    return '';
+  }
+
+  computeCompletionDuration(run?: CheckRun) {
+    if (!run?.finishedTimestamp || !run?.startedTimestamp) return '';
+    return durationString(run.startedTimestamp, run.finishedTimestamp, true);
+  }
+
+  computeDuration(date?: Date) {
     return date ? fromNow(date) : '';
+  }
+
+  computeHostName(link?: string) {
+    return link ? new URL(link).hostname : '';
+  }
+
+  hideChip(run?: CheckRun) {
+    return !run || run.status === RunStatus.RUNNABLE;
+  }
+
+  hideHeaderSectionIcon(run?: CheckRun) {
+    return this.computeIcon(run).length === 0;
+  }
+
+  hideStatusSection(run?: CheckRun) {
+    if (!run) return true;
+    return !run.statusLink && !run.statusDescription;
+  }
+
+  hideAttemptSection(run?: CheckRun) {
+    if (!run) return true;
+    return (
+      !run.startedTimestamp &&
+      !run.scheduledTimestamp &&
+      !run.finishedTimestamp &&
+      this.hideAttempts(run)
+    );
+  }
+
+  hideAttempts(run?: CheckRun) {
+    const attemptCount = run?.attemptDetails?.length;
+    return attemptCount === undefined || attemptCount < 2;
+  }
+
+  hideScheduled(run?: CheckRun) {
+    return !run?.scheduledTimestamp || !!run?.startedTimestamp;
+  }
+
+  hideCompletion(run?: CheckRun) {
+    return !run?.startedTimestamp || !run?.finishedTimestamp;
+  }
+
+  hideDescriptionSection(run?: CheckRun) {
+    if (!run) return true;
+    return !run.checkLink && !run.checkDescription;
   }
 }
 

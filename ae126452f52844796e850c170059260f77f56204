@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b1edbad_9e1dcef7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteTagIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-04-22T14:22:26Z",
+      "side": 1,
+      "message": "assertDeleteForbidden();",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 27
+      },
+      "revId": "ae126452f52844796e850c170059260f77f56204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

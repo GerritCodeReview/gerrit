@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8179b4c2_6a9804af",
+        "filename": "polygerrit-ui/app/services/change/change-services_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-22T11:20:19Z",
+      "side": 1,
+      "message": "If you use `...knownChange` here, then it is less code to write and it is more obvious what the changes are between actual and known.",
+      "revId": "fdd1ce1a550c34024a1866bbcf31e12488f59e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -275,7 +275,8 @@ export declare type ImageDiffAction =
   | {type: 'magnifier-dragged'}
   | {type: 'version-switcher-clicked'; button: 'base' | 'revision'}
   | {type: 'zoom-level-changed'; scale: number | 'fit'}
-  | {type: 'follow-mouse-changed'; value: boolean};
+  | {type: 'follow-mouse-changed'; value: boolean}
+  | {type: 'background-color-changed'; value: string};
 
 export enum GrDiffLineType {
   ADD = 'add',

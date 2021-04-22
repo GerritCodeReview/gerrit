@@ -65,24 +65,16 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteBranchByProjectOwner() throws Exception {
+  public void deleteBranchByProjectOwner_Forbidden() throws Exception {
     grantOwner();
     requestScopeOperations.setApiUser(user.id());
-    assertDeleteSucceeds(testBranch);
+    assertDeleteForbidden(testBranch);
   }
 
   @Test
   public void deleteBranchByAdminForcePushBlocked() throws Exception {
     blockForcePush();
     assertDeleteSucceeds(testBranch);
-  }
-
-  @Test
-  public void deleteBranchByProjectOwnerForcePushBlocked_Forbidden() throws Exception {
-    grantOwner();
-    blockForcePush();
-    requestScopeOperations.setApiUser(user.id());
-    assertDeleteForbidden(testBranch);
   }
 
   @Test

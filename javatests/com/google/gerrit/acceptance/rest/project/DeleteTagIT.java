@@ -59,24 +59,16 @@ public class DeleteTagIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteTagByProjectOwner() throws Exception {
+  public void deleteTagByProjectOwner_Forbidden() throws Exception {
     grantOwner();
     requestScopeOperations.setApiUser(user.id());
-    assertDeleteSucceeds();
+    assertDeleteForbidden();
   }
 
   @Test
   public void deleteTagByAdminForcePushBlocked() throws Exception {
     blockForcePush();
     assertDeleteSucceeds();
-  }
-
-  @Test
-  public void deleteTagByProjectOwnerForcePushBlocked_Forbidden() throws Exception {
-    grantOwner();
-    blockForcePush();
-    requestScopeOperations.setApiUser(user.id());
-    assertDeleteForbidden();
   }
 
   @Test

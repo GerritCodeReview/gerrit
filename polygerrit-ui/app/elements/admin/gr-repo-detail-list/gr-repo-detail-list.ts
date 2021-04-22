@@ -346,8 +346,8 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     this.$.overlay.open();
   }
 
-  _computeHideDeleteClass(owner: boolean, canDelete: boolean) {
-    if (canDelete || owner) {
+  _computeHideDeleteClass(canDelete: boolean) {
+    if (canDelete) {
       return 'show';
     }
 

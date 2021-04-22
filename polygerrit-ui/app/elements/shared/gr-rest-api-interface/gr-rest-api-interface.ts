@@ -2316,12 +2316,18 @@ export class GrRestApiInterface
         return {};
       }
       if (!basePatchNum && !patchNum && !path) {
-        return this._getDiffComments(changeNum, '/drafts');
+        return this._getDiffComments(changeNum, '/drafts', {
+          'enable-context': true,
+          'context-padding': 3,
+        });
       }
       return this._getDiffComments(
         changeNum,
         '/drafts',
-        undefined,
+        {
+          'enable-context': true,
+          'context-padding': 3,
+        },
         basePatchNum,
         patchNum,
         path

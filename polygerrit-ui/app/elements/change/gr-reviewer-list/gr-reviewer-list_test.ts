@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-reviewer-list';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
-import {GrReviewerList} from './gr-reviewer-list';
+import {GrReviewerList2} from './gr-reviewer-list';
 import {
   createAccountDetailWithId,
   createChange,
@@ -29,10 +29,10 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {AccountId, EmailAddress} from '../../../types/common';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 
-const basicFixture = fixtureFromElement('gr-reviewer-list');
+const basicFixture = fixtureFromElement('gr-reviewer-list2');
 
 suite('gr-reviewer-list tests', () => {
-  let element: GrReviewerList;
+  let element: GrReviewerList2;
 
   setup(() => {
     element = basicFixture.instantiate();

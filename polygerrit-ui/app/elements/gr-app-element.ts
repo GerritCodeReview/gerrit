@@ -80,6 +80,8 @@ import {GerritView} from '../services/router/router-model';
 import {windowLocationReload} from '../utils/dom-util';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
+import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {FetchResponse, ResponseCode} from '../api/checks';
 
 interface ErrorInfo {
   text: string;
@@ -299,6 +301,28 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
       },
       dashboardView: {},
     };
+
+    console.log('fake plugin install');
+    getPluginLoader().install(
+      pluginApi => {
+        const checksApi = pluginApi.checks();
+        pluginApi.registerDynamicCustomComponent('change-view-file-list-header-prepend', 'gr-account-label');
+        pluginApi.registerDynamicCustomComponent('change-view-file-list-content-prepend', 'gr-account-label');
+        checksApi.register({
+          fetch: _ => {
+            console.log('FETCH');
+            const ok: FetchResponse = {
+              responseCode: ResponseCode.OK,
+              runs: [],
+            };
+            return new Promise(resolve => setTimeout(() => resolve(ok), 1000));
+          },
+        });
+        setInterval(() => checksApi.announceUpdate(), 3000);
+      },
+      undefined,
+      'fake-plugin'
+    );
   }
 
   _bindKeyboardShortcuts() {

@@ -125,13 +125,13 @@ export class GrEndpointDecorator extends PolymerElement {
       // TODO: this should be replaced by accessing the property directly
       const paramName = paramEl.getAttribute('name');
       if (!paramName) throw Error('plugin endpoint parameter missing a name');
-      return helper
-        .get('value')
-        .then(() =>
-          helper.bind('value', value =>
-            plugin.attributeHelper(el).set(paramName, value)
-          )
-        );
+      console.log(`endpoint param: ${paramName} ${plugin.getPluginName()}`);
+      return helper.get('value').then(() =>
+        helper.bind('value', value => {
+          console.log(`endpoint param update: ${paramName} ${value?.length}`);
+          plugin.attributeHelper(el).set(paramName, value);
+        })
+      );
     });
     let timeoutId: number;
     const timeout = new Promise(

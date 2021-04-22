@@ -128,9 +128,14 @@ export function primaryActionName(status: RunStatus) {
 }
 
 export function primaryRunAction(run: CheckRun): Action | undefined {
-  return (run.actions ?? [])
-    .map(action => toCanonicalAction(action, run.status))
-    .filter(action => action.name === primaryActionName(run.status))[0];
+  return runActions(run).filter(
+    action => action.name === primaryActionName(run.status)
+  )[0];
+}
+
+export function runActions(run?: CheckRun): Action[] {
+  if (!run?.actions) return [];
+  return run.actions.map(action => toCanonicalAction(action, run.status));
 }
 
 export function iconForRun(run: CheckRun) {

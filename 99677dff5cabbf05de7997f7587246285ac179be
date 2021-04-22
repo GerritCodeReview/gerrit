@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6ac9363_73c28f32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-22T08:45:06Z",
+      "side": 1,
+      "message": "In RevisionIT#commit there is a test for getPatchSetWebLink. Can you do a similar test for the new method?",
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82fe1feb_006b32aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-22T08:45:06Z",
+      "side": 1,
+      "message": "just nits",
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "381fb9e1_58d7a55c",
+        "filename": "java/com/google/gerrit/extensions/webui/EditWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-22T08:45:06Z",
+      "side": 1,
+      "message": "optional: if you can think of a Javadoc for the class then great, but I\u0027m not sure there\u0027s much to say.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2893927_f3d1607d",
+        "filename": "java/com/google/gerrit/extensions/webui/EditWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-22T08:45:06Z",
+      "side": 1,
+      "message": "these prefixes can be removed (I see it\u0027s wrong in other java-docs, though).",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d216506_35f5b4a0",
+        "filename": "java/com/google/gerrit/extensions/webui/EditWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-22T08:45:06Z",
+      "side": 1,
+      "message": "omit",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 8
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7174af97_bc5cacc1",
+        "filename": "java/com/google/gerrit/extensions/webui/EditWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-22T08:45:06Z",
+      "side": 1,
+      "message": "these shouldn\u0027t start with capital letters (I see this is wrong in some other places though).",
+      "range": {
+        "startLine": 33,
+        "startChar": 24,
+        "endLine": 33,
+        "endChar": 25
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce903d92_43a49813",
+        "filename": "java/com/google/gerrit/server/config/GitwebConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-22T08:45:06Z",
+      "side": 1,
+      "message": "Looks like a duplicate of the above method, can you do the same as in getParentWebLink?",
+      "range": {
+        "startLine": 333,
+        "startChar": 23,
+        "endLine": 333,
+        "endChar": 37
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "482b7af1_eac4538a",
+        "filename": "java/com/google/gerrit/server/diff/DiffWebLinksProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-22T08:45:06Z",
+      "side": 1,
+      "message": "This comment is the same as the one for getFileWebLinks. Can you distinguish them?",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 52
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "180e2cfd_e1ee38cc",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-22T08:45:06Z",
+      "side": 1,
+      "message": "at least this part can be extracted to a method.",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 0
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

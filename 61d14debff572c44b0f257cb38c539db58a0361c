@@ -16,6 +16,24 @@
       "message": "Needs to be removed according to https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/68263/console",
       "revId": "61d14debff572c44b0f257cb38c539db58a0361c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fa48430_59fb2829",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-23T19:56:07Z",
+      "side": 1,
+      "message": "Done https://gerrit-review.googlesource.com/c/gerrit/+/303996",
+      "parentUuid": "8a67c015_70900555",
+      "revId": "61d14debff572c44b0f257cb38c539db58a0361c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

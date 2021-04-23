@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "562a56d6_efaac00e",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-23T19:45:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1ff43db_85f54cc6",
+      "range": {
+        "startLine": 442,
+        "startChar": 68,
+        "endLine": 442,
+        "endChar": 76
+      },
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffa4ad47_b00c08d8",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-04-23T19:24:13Z",
       "side": 1,
       "message": "Maybe instead:\n\nThis rule minifies a plugin javascript file, potentially renames it, and produces a file set.",
+      "range": {
+        "startLine": 445,
+        "startChar": 4,
+        "endLine": 445,
+        "endChar": 87
+      },
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f94096cd_8122a918",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-23T19:45:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffa4ad47_b00c08d8",
       "range": {
         "startLine": 445,
         "startChar": 4,
@@ -110,6 +158,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc511f0b_289fb717",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-23T19:45:06Z",
+      "side": 1,
+      "message": "May be it was trying to say, that the results of this rule should be put into plugins\u0027 static directory. Anyway, removed.",
+      "parentUuid": "1742a255_365ec8c1",
+      "range": {
+        "startLine": 447,
+        "startChar": 93,
+        "endLine": 447,
+        "endChar": 115
+      },
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaee70fd_be4e762a",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-23T19:45:06Z",
+      "side": 1,
+      "message": "Where it\u0027s belong to?",
+      "parentUuid": "b7910aa3_9ac7a2b2",
+      "range": {
+        "startLine": 447,
+        "startChar": 45,
+        "endLine": 447,
+        "endChar": 49
+      },
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "682ed4b9_12ad0ec3",
@@ -123,6 +219,24 @@
       "writtenOn": "2021-04-23T19:24:13Z",
       "side": 1,
       "message": "Maybe it should be pointed out that this must be *one* file. And it must be a js file.",
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c127d54d_130a9477",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-23T19:45:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "682ed4b9_12ad0ec3",
       "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

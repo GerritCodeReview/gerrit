@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fd481e5_3c6c498a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteBranchIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-04-23T07:09:11Z",
+      "side": 0,
+      "message": "Same here, shouldn\u0027t we test that it\u0027s *not* possible to delete branches without permission even if you are an admin?",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 72,
+        "endChar": 3
+      },
+      "revId": "5f057294df50caa10643e035eb7dd7e01d7bc0c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83060045_5a145aba",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/DeleteTagIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-04-23T07:09:11Z",
+      "side": 0,
+      "message": "Shouldn\u0027t we keep this test but reversed?\nIt shouldn\u0027t be possible to delete tag without specific permission even if you are admin.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "5f057294df50caa10643e035eb7dd7e01d7bc0c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

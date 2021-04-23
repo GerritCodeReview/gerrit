@@ -429,10 +429,6 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     return this.restApiService.getPreferences();
   }
 
-  _getWindowWidth() {
-    return window.innerWidth;
-  }
-
   _handleReviewedChange(e: Event) {
     this._setReviewed(
       ((dom(e) as EventApi).rootTarget as HTMLInputElement).checked
@@ -1215,17 +1211,6 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _patchRangeStr(patchRange: PatchRange) {
-    let patchStr = `${patchRange.patchNum}`;
-    if (
-      patchRange.basePatchNum &&
-      patchRange.basePatchNum !== ParentPatchSetNum
-    ) {
-      patchStr = `${patchRange.basePatchNum}..${patchRange.patchNum}`;
-    }
-    return patchStr;
-  }
-
   /**
    * When the latest patch of the change is selected (and there is no base
    * patch) then the patch range need not appear in the URL. Return a patch
@@ -1530,12 +1515,6 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     return this._changeComments.getPaths(patchRange);
   }
 
-  _getDiffDrafts() {
-    assertIsDefined(this._changeNum, '_changeNum');
-
-    return this.restApiService.getDiffDrafts(this._changeNum);
-  }
-
   _computeCommentSkips(
     commentMap?: CommentMap,
     fileList?: string[],
@@ -1810,10 +1789,6 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
   ) {
     if (!changeChangeRecord?.base) return false;
     return loggedIn && changeIsOpen(changeChangeRecord.base);
-  }
-
-  _computeIsLoggedIn(loggedIn: boolean) {
-    return loggedIn ? true : false;
   }
 
   /**

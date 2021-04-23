@@ -213,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "055d78f5_0dc6ebe0",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-23T12:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb6b5f40_80671f66",
+      "range": {
+        "startLine": 35,
+        "startChar": 16,
+        "endLine": 35,
+        "endChar": 25
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58f8fb4d_3196586b",
@@ -472,6 +496,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "024c85c8_3ff802ee",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-23T12:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36ab38cd_376d3457",
+      "range": {
+        "startLine": 59,
+        "startChar": 74,
+        "endLine": 60,
+        "endChar": 44
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06f31c2b_9e5d903f",
@@ -574,6 +622,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "665ad963_4f7627fc",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-23T12:46:45Z",
+      "side": 1,
+      "message": "This check was introduced by the original approach, to remove out.close(), to know the impact of that change. It was not always stable in that change. In fact, this check can help reassure that there is no potential leaked resources introduced by this change, given that the number of times is as high as 1000+. To Address the hanging problem that was there before this change, a timeout can be placed for the first ssh call line 32. It can check if the string closed is present in the server response or not.",
+      "parentUuid": "00afbedc_98e52475",
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f42aeac_355b39fc",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 7
@@ -633,6 +699,30 @@
       "side": 1,
       "message": "Maybe you don\u0027t need to show it below, not anymore?",
       "parentUuid": "83454cb1_a88d27fd",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 22
+      },
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "826f2242_5bbad080",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-23T12:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e823a68_43232628",
       "range": {
         "startLine": 65,
         "startChar": 0,

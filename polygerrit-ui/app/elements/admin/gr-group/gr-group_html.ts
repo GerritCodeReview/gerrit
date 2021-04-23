@@ -25,9 +25,6 @@ export const htmlTemplate = html`
       color: var(--deemphasized-text-color);
       content: ' *';
     }
-    .inputUpdateBtn {
-      margin-top: var(--spacing-s);
-    }
   </style>
   <style include="gr-form-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */

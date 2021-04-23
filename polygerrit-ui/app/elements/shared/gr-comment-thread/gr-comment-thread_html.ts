@@ -80,10 +80,6 @@ export const htmlTemplate = html`
       justify-content: space-between;
       padding: 0 var(--spacing-s) var(--spacing-s);
     }
-    .descriptionText {
-      margin-left: var(--spacing-m);
-      font-style: italic;
-    }
     .fileName {
       padding: var(--spacing-m) var(--spacing-s) var(--spacing-m);
     }

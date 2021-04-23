@@ -21,9 +21,6 @@ export const htmlTemplate = html`
     .prefsButton {
       float: right;
     }
-    .collapseToggleButton {
-      text-decoration: none;
-    }
     .patchInfoOldPatchSet.patchInfo-header {
       background-color: var(--emphasis-color);
     }

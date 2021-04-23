@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dffad2b_72f061d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-23T16:40:59Z",
+      "side": 1,
+      "message": "I have not yet added edit weblink field it to GerritAPI (at least I don\u0027t think so) so I cannot adjust that test case yet. It seems like the current API will not be able to differentiate between FileWebLink and EditWebLink, so I will be looking at this in a separate change. WDYT?",
+      "parentUuid": "e6ac9363_73c28f32",
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "82fe1feb_006b32aa",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9217343_2f5cfb28",
+        "filename": "java/com/google/gerrit/extensions/webui/EditWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-23T16:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "381fb9e1_58d7a55c",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2893927_f3d1607d",
@@ -71,6 +113,30 @@
       "writtenOn": "2021-04-22T08:45:06Z",
       "side": 1,
       "message": "these prefixes can be removed (I see it\u0027s wrong in other java-docs, though).",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0060aeca_46c394c2",
+        "filename": "java/com/google/gerrit/extensions/webui/EditWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-23T16:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2893927_f3d1607d",
       "range": {
         "startLine": 28,
         "startChar": 5,
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86309d6a_af92ce8a",
+        "filename": "java/com/google/gerrit/extensions/webui/EditWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-23T16:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d216506_35f5b4a0",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 8
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7174af97_bc5cacc1",
@@ -117,6 +207,30 @@
       "writtenOn": "2021-04-22T08:45:06Z",
       "side": 1,
       "message": "these shouldn\u0027t start with capital letters (I see this is wrong in some other places though).",
+      "range": {
+        "startLine": 33,
+        "startChar": 24,
+        "endLine": 33,
+        "endChar": 25
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8b2d636_e82236d1",
+        "filename": "java/com/google/gerrit/extensions/webui/EditWebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-23T16:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7174af97_bc5cacc1",
       "range": {
         "startLine": 33,
         "startChar": 24,
@@ -150,6 +264,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "411c39da_b02012fa",
+        "filename": "java/com/google/gerrit/server/config/GitwebConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-23T16:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce903d92_43a49813",
+      "range": {
+        "startLine": 333,
+        "startChar": 23,
+        "endLine": 333,
+        "endChar": 37
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "482b7af1_eac4538a",
@@ -173,6 +311,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd69bad5_5b368914",
+        "filename": "java/com/google/gerrit/server/diff/DiffWebLinksProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-23T16:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "482b7af1_eac4538a",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 52
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "180e2cfd_e1ee38cc",
@@ -186,6 +348,30 @@
       "writtenOn": "2021-04-22T08:45:06Z",
       "side": 1,
       "message": "at least this part can be extracted to a method.",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 0
+      },
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8a4b455_6ed87af3",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-23T16:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "180e2cfd_e1ee38cc",
       "range": {
         "startLine": 230,
         "startChar": 0,

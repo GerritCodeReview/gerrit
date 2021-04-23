@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "862f9b22_ca67b513",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-23T19:24:13Z",
+      "side": 1,
+      "message": "Thanks for working on this. I had this on my TODO list for later this quarter.",
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1ff43db_85f54cc6",
@@ -20,6 +37,92 @@
         "endLine": 442,
         "endChar": 76
       },
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffa4ad47_b00c08d8",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-23T19:24:13Z",
+      "side": 1,
+      "message": "Maybe instead:\n\nThis rule minifies a plugin javascript file, potentially renames it, and produces a file set.",
+      "range": {
+        "startLine": 445,
+        "startChar": 4,
+        "endLine": 445,
+        "endChar": 87
+      },
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1742a255_365ec8c1",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-23T19:24:13Z",
+      "side": 1,
+      "message": "This is actually not true. A \"static\" subdirectory is not created. And \"plugins/${name}\" is only incidental, if this is where the plugin is located in the BUILD tree.\n\ncodemirror has an ugly extra genrule for creating a jar with a \"static\" subdir.",
+      "range": {
+        "startLine": 447,
+        "startChar": 93,
+        "endLine": 447,
+        "endChar": 115
+      },
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7910aa3_9ac7a2b2",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-23T19:24:13Z",
+      "side": 1,
+      "message": "plugin_name",
+      "range": {
+        "startLine": 447,
+        "startChar": 45,
+        "endLine": 447,
+        "endChar": 49
+      },
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "682ed4b9_12ad0ec3",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-23T19:24:13Z",
+      "side": 1,
+      "message": "Maybe it should be pointed out that this must be *one* file. And it must be a js file.",
       "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

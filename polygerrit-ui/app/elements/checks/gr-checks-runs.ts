@@ -26,7 +26,7 @@ import {
   query,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
-import {Action, RunStatus} from '../../api/checks';
+import {Action, Link, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {
   AttemptDetail,
@@ -50,6 +50,7 @@ import {
   fakeRun4_3,
   fakeRun4_4,
   updateStateSetResults,
+  fakeLinks,
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
@@ -436,7 +437,8 @@ export class GrChecksRuns extends GrLitElement {
         <gr-button link @click="${this.none}">none</gr-button>
         <gr-button
           link
-          @click="${() => this.toggle('f0', [fakeRun0], fakeActions)}"
+          @click="${() =>
+            this.toggle('f0', [fakeRun0], fakeActions, fakeLinks)}"
           >0</gr-button
         >
         <gr-button link @click="${() => this.toggle('f1', [fakeRun1])}"
@@ -474,7 +476,7 @@ export class GrChecksRuns extends GrLitElement {
   }
 
   all() {
-    updateStateSetResults('f0', [fakeRun0], fakeActions);
+    updateStateSetResults('f0', [fakeRun0], fakeActions, fakeLinks);
     updateStateSetResults('f1', [fakeRun1]);
     updateStateSetResults('f2', [fakeRun2]);
     updateStateSetResults('f3', [fakeRun3]);
@@ -486,9 +488,14 @@ export class GrChecksRuns extends GrLitElement {
     ]);
   }
 
-  toggle(plugin: string, runs: CheckRun[], actions: Action[] = []) {
+  toggle(
+    plugin: string,
+    runs: CheckRun[],
+    actions: Action[] = [],
+    links: Link[] = []
+  ) {
     const newRuns = this.runs.includes(runs[0]) ? [] : runs;
-    updateStateSetResults(plugin, newRuns, actions);
+    updateStateSetResults(plugin, newRuns, actions, links);
   }
 
   renderSection(status: RunStatus) {

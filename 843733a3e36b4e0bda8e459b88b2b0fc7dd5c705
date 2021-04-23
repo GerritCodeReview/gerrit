@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "442df548_9bb6c971",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-23T18:46:53Z",
+      "side": 1,
+      "message": "I don\u0027t think this is doing any bundling now, is it?\n\nRelated, the \"into\" part confuses me still. codemirror-editor is providing a html file as an asset, but we\u0027re just copying that to a different directory, correct?",
+      "range": {
+        "startLine": 443,
+        "startChar": 7,
+        "endLine": 445,
+        "endChar": 87
+      },
+      "revId": "843733a3e36b4e0bda8e459b88b2b0fc7dd5c705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b085b97_4715297d",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-23T18:46:53Z",
+      "side": 1,
+      "message": "Since this only has one file, do we still need it?\n\nI think this would work:\n\n    terser_minified(\n        name \u003d name + \".min\",\n        sourcemap \u003d False,\n        src \u003d app,\n    )",
+      "range": {
+        "startLine": 458,
+        "startChar": 0,
+        "endLine": 461,
+        "endChar": 5
+      },
+      "revId": "843733a3e36b4e0bda8e459b88b2b0fc7dd5c705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

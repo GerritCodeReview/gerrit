@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16e3bd45_cf286e19",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-23T18:22:11Z",
+      "side": 0,
+      "message": "This is not correct, see codemirror-editor plugin:\n\n  INFO: Found 1 target...\nTarget //plugins/codemirror-editor:codemirror_editor up-to-date:\n  bazel-bin/plugins/codemirror-editor/codemirror_editor.js\n  bazel-bin/plugins/codemirror-editor/codemirror-element.html\nINFO: Elapsed time: 1.833s, Critical Path: 0.61s\nINFO: 1 process: 1 internal.\nINFO: Build completed successfully, 1 total action",
+      "range": {
+        "startLine": 445,
+        "startChar": 68,
+        "endLine": 445,
+        "endChar": 81
+      },
+      "revId": "9093a638bbe4eb81a34e54550f0b983508fee306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -42,7 +42,7 @@ import {
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
-import {ChangeStatus, DiffViewMode} from '../../../constants/constants';
+import {DiffViewMode} from '../../../constants/constants';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fireEvent} from '../../../utils/event-util';
 
@@ -183,13 +183,6 @@ export class GrFileListHeader extends KeyboardShortcutMixin(PolymerElement) {
     maxFilesForBulkActions: number
   ) {
     return shownFileCount <= maxFilesForBulkActions;
-  }
-
-  _showAddPatchsetDescription(
-    patchsetDescription: string,
-    change?: ChangeInfo
-  ) {
-    return !patchsetDescription && change?.status === ChangeStatus.NEW;
   }
 
   _handlePatchChange(e: CustomEvent) {

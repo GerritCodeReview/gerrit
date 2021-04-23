@@ -189,10 +189,6 @@ export class GrAccessSection extends PolymerElement {
     );
   }
 
-  _computeHideEditClass(section: PermissionAccessSection) {
-    return section.id === 'GLOBAL_CAPABILITIES' ? 'hide' : '';
-  }
-
   _handleAddedPermissionRemoved(e: PolymerDomRepeatEvent) {
     if (!this._permissions) {
       return;

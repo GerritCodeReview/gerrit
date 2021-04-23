@@ -1100,14 +1100,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _addDraftAtTarget() {
-    const diff = this.$.diffCursor.getTargetDiffElement();
-    const target = this.$.diffCursor.getTargetLineElement();
-    if (diff && target) {
-      diff.addDraftAtLine(target);
-    }
-  }
-
   _shouldHideChangeTotals(_patchChange: PatchChange): boolean {
     return _patchChange.inserted === 0 && _patchChange.deleted === 0;
   }

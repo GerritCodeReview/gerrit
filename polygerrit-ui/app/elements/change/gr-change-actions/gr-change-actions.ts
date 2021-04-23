@@ -1684,10 +1684,6 @@ export class GrChangeActions
     });
   }
 
-  _handleShowRevertSubmissionChangesConfirm() {
-    this._hideAllDialogs();
-  }
-
   _handleResponseError(
     action: UIActionInfo,
     response: Response | undefined | null,
@@ -1791,10 +1787,6 @@ export class GrChangeActions
           return response;
         });
     });
-  }
-
-  _handleAbandonTap() {
-    this._showActionDialog(this.$.confirmAbandonDialog);
   }
 
   _handleCherrypickTap() {

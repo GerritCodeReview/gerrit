@@ -271,15 +271,6 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
     this._openEmojiDropdown();
   }
 
-  _getFontSize() {
-    const fontSizePx = getComputedStyle(this).fontSize || '12px';
-    return Number(fontSizePx.substr(0, fontSizePx.length - 2));
-  }
-
-  _getScrollTop() {
-    return document.body.scrollTop;
-  }
-
   /**
    * _handleKeydown used for key handling in the this.$.textarea AND all child
    * autocomplete options.

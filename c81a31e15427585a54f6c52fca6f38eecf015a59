@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e412f7c2_4b4305e2",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-04-23T10:43:35Z",
+      "side": 1,
+      "message": "Better don\u0027t assign a value here, because Java compiler will not produce an error if we forget to set a value in the no-dryRun case.\n\n  int exitCode;\n  if (!dryRun) {\n    ...\n    exitCode \u003d ...\n  } else {\n    exitCode \u003d 0;\n  }",
+      "revId": "c81a31e15427585a54f6c52fca6f38eecf015a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

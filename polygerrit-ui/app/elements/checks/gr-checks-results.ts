@@ -24,6 +24,7 @@ import {
   property,
   PropertyValues,
   query,
+  TemplateResult,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import '@polymer/paper-tooltip/paper-tooltip';
@@ -458,6 +459,12 @@ class GrResultExpanded extends GrLitElement {
   }
 }
 
+const SHOW_ALL_THRESHOLDS: Map<Category | 'SUCCESS', number> = new Map();
+SHOW_ALL_THRESHOLDS.set(Category.ERROR, 20);
+SHOW_ALL_THRESHOLDS.set(Category.WARNING, 20);
+SHOW_ALL_THRESHOLDS.set(Category.INFO, 5);
+SHOW_ALL_THRESHOLDS.set('SUCCESS', 5);
+
 @customElement('gr-checks-results')
 export class GrChecksResults extends GrLitElement {
   @query('#filterInput')
@@ -501,6 +508,10 @@ export class GrChecksResults extends GrLitElement {
     string,
     number | undefined
   >();
+
+  /** Maintains the state of which result sections should show all results. */
+  @internalProperty()
+  isShowAll: Map<Category | 'SUCCESS', boolean> = new Map();
 
   /**
    * This is the current state of whether a section is expanded or not. As long
@@ -653,6 +664,12 @@ export class GrChecksResults extends GrLitElement {
           text-align: left;
           font-weight: var(--font-weight-bold);
           padding: var(--spacing-s);
+        }
+        gr-button.showAll {
+          margin: var(--spacing-m);
+        }
+        tr {
+          border-top: 1px solid var(--border-color);
         }
       `,
     ];
@@ -870,6 +887,16 @@ export class GrChecksResults extends GrLitElement {
     }
     const expandedClass = expanded ? 'expanded' : 'collapsed';
     const icon = expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
+    const isShowAll = this.isShowAll.get(category) ?? false;
+    const showAllThreshold = SHOW_ALL_THRESHOLDS.get(category) ?? 5;
+    const resultCount = filtered.length;
+    const resultLimit = isShowAll ? 1000 : showAllThreshold;
+    const showAllButton = this.renderShowAllButton(
+      category,
+      isShowAll,
+      showAllThreshold,
+      resultCount
+    );
     return html`
       <div class="${expandedClass}">
         <h3
@@ -886,15 +913,49 @@ export class GrChecksResults extends GrLitElement {
             >${this.renderCount(all, selected, filtered)}</span
           >
         </h3>
-        ${this.renderResults(all, selected, filtered)}
+        ${this.renderResults(
+          all,
+          selected,
+          filtered,
+          resultLimit,
+          showAllButton
+        )}
       </div>
     `;
+  }
+
+  renderShowAllButton(
+    category: Category | 'SUCCESS',
+    isShowAll: boolean,
+    showAllThreshold: number,
+    resultCount: number
+  ) {
+    if (resultCount <= showAllThreshold) return;
+    const message = isShowAll ? 'Show Less' : `Show All (${resultCount})`;
+    const handler = () => this.toggleShowAll(category);
+    return html`
+      <tr class="showAllRow">
+        <td colspan="4">
+          <gr-button class="showAll" link @click="${handler}"
+            >${message}</gr-button
+          >
+        </td>
+      </tr>
+    `;
+  }
+
+  toggleShowAll(category: Category | 'SUCCESS') {
+    const current = this.isShowAll.get(category) ?? false;
+    this.isShowAll.set(category, !current);
+    this.requestUpdate();
   }
 
   renderResults(
     all: RunResult[],
     selected: RunResult[],
-    filtered: RunResult[]
+    filtered: RunResult[],
+    limit: number,
+    showAll: TemplateResult | undefined
   ) {
     if (all.length === 0) {
       return html`<div class="noResultsMessage">No results</div>`;
@@ -909,6 +970,7 @@ export class GrChecksResults extends GrLitElement {
         No results match the regular expression
       </div>`;
     }
+    filtered = filtered.slice(0, limit);
     return html`
       <table class="resultsTable">
         <thead>
@@ -930,6 +992,7 @@ export class GrChecksResults extends GrLitElement {
               ></gr-result-row>
             `
           )}
+          ${showAll}
         </tbody>
       </table>
     `;

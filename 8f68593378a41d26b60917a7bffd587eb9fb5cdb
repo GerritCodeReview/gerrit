@@ -16,6 +16,24 @@
       "message": "hasStatusLink\u003d\u003d\u003dtrue is not obviously the same as getStatusLink!\u003d\u003d undefined. But it should, right?\n\nMaybe hasStatusLink() can be implemented as\n\n  return revertedChange !\u003d\u003d undefined;",
       "revId": "8f68593378a41d26b60917a7bffd587eb9fb5cdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b43c6476_b4e10298",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-23T08:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ff28d26_d3afb6c8",
+      "revId": "8f68593378a41d26b60917a7bffd587eb9fb5cdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

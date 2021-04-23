@@ -515,7 +515,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   _tabState?: TabState;
 
   @property({type: Object})
-  revertSubmittedChange?: ChangeInfo;
+  revertedChange?: ChangeInfo;
 
   restApiService = appContext.restApiService;
 
@@ -1864,14 +1864,15 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         change => change?.status !== ChangeStatus.ABANDONED
       );
       if (!changes.length) return;
-      const change = changes.find(
+      const submittedRevert = changes.find(
         change => change?.status === ChangeStatus.MERGED
       );
       if (!this._changeStatuses) return;
-      if (change) {
-        this.revertSubmittedChange = change;
+      if (submittedRevert) {
+        this.revertedChange = submittedRevert;
         this.push('_changeStatuses', ChangeStates.REVERT_SUBMITTED);
       } else {
+        if (changes[0]) this.revertedChange = changes[0];
         this.push('_changeStatuses', ChangeStates.REVERT_CREATED);
       }
     });

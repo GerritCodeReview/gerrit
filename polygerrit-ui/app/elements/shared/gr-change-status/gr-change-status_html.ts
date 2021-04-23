@@ -81,14 +81,14 @@ export const htmlTemplate = html`
     title="[[tooltipText]]"
     max-width="40em"
   >
-    <template is="dom-if" if="[[hasStatusLink(status)]]">
-      <a class="status-link" href="[[getStatusLink(change, status)]]">
+    <template is="dom-if" if="[[!!hasStatusLink(revertedChange)]]">
+      <a class="status-link" href="[[getStatusLink(revertedChange)]]">
         <div class="chip" aria-label$="Label: [[status]]">
           [[_computeStatusString(status)]]
         </div>
       </a>
     </template>
-    <template is="dom-if" if="[[!hasStatusLink(status)]]">
+    <template is="dom-if" if="[[!hasStatusLink(revertedChange)]]">
       <div class="chip" aria-label$="Label: [[status]]">
         [[_computeStatusString(status)]]
       </div>

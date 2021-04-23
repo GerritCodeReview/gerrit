@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84f18ba4_8ed0f162",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-23T20:03:37Z",
+      "side": 1,
+      "message": "Needs an update still?\n\nMaybe: Produces plugin file set with minified javascript and assets",
+      "range": {
+        "startLine": 443,
+        "startChar": 7,
+        "endLine": 443,
+        "endChar": 50
+      },
+      "revId": "0b3c2c373f667c7677005bbbf0543ba45af97127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

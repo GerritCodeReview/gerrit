@@ -65,6 +65,7 @@ export const htmlTemplate = html`
               change-num="[[changeNum]]"
               path="[[item.filepath]]"
               diff="[[item.preview]]"
+              layers="[[layers]]"
             ></gr-diff>
           </div>
         </template>

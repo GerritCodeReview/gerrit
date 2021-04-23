@@ -80,6 +80,7 @@ import {
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {assertIsDefined} from '../../../utils/common-util';
 import {DiffContextExpandedEventDetail} from '../gr-diff-builder/gr-diff-builder';
+import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
 import {Timing} from '../../../constants/reporting';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
@@ -400,8 +401,16 @@ export class GrDiffHost extends PolymerElement {
   }
 
   private _getLayers(path: string): DiffLayer[] {
+    const layers = [];
+    if (
+      appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)
+    ) {
+      layers.push(new TokenHighlightLayer());
+    }
+    layers.push(this.syntaxLayer);
     // Get layers from plugins (if any).
-    return [this.syntaxLayer, ...this.jsAPI.getDiffLayers(path)];
+    layers.push(...this.jsAPI.getDiffLayers(path));
+    return layers;
   }
 
   clear() {

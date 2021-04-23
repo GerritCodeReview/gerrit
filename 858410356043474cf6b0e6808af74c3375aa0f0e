@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cdb04d75_86976dc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-23T12:46:45Z",
+      "side": 1,
+      "message": "Done. This paragraph is removed",
+      "parentUuid": "2cfa3ded_2305502c",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 21
+      },
+      "revId": "858410356043474cf6b0e6808af74c3375aa0f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "dd104dd5_2b80e8cc",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "819ffd4e_51a6459a",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-23T12:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "538f7363_d82a7590",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 15
+      },
+      "revId": "858410356043474cf6b0e6808af74c3375aa0f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7af89fc_a711fa8e",
@@ -77,6 +125,30 @@
       "writtenOn": "2021-04-22T18:42:16Z",
       "side": 1,
       "message": "Is this trace working as expected?",
+      "range": {
+        "startLine": 61,
+        "startChar": 10,
+        "endLine": 61,
+        "endChar": 12
+      },
+      "revId": "858410356043474cf6b0e6808af74c3375aa0f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7056283c_754803c6",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-23T12:46:45Z",
+      "side": 1,
+      "message": "Interestingly yes, it works fine for Linux I think it will work fine for Mac OS as well. I found it here [2].\n[2] https://stackoverflow.com/a/57839821",
+      "parentUuid": "e7af89fc_a711fa8e",
       "range": {
         "startLine": 61,
         "startChar": 10,

@@ -82,6 +82,13 @@ export interface FetchResponse {
    * Will be shown as buttons in the header of the Checks tab.
    */
   actions?: Action[];
+
+  /**
+   * Top-level links that are not associated with a specific run or result.
+   * Will be shown as icons in the header of the Checks tab.
+   */
+  links?: Link[];
+
   runs?: CheckRun[];
 }
 
@@ -223,6 +230,8 @@ export interface Action {
   name: string;
   tooltip?: string;
   /**
+   * TODO: Maybe drop this property? Do we really need it?
+   *
    * Primary actions will get a more prominent treatment in the UI. For example
    * primary actions might be rendered as buttons versus just menu entries in
    * an overflow menu.
@@ -383,6 +392,8 @@ export interface Link {
   url: string;
   tooltip?: string;
   /**
+   * TODO: Maybe drop this property? Do we really need it?
+   *
    * Primary links will get a more prominent treatment in the UI, e.g. being
    * always visible in the results table or also showing up in the change page
    * summary of checks.
@@ -391,8 +402,12 @@ export interface Link {
   icon: LinkIcon;
 }
 
-// TBD: Add more ...
 export enum LinkIcon {
-  EXTERNAL,
-  DOWNLOAD,
+  EXTERNAL = 'external',
+  IMAGE = 'image',
+  HISTORY = 'history',
+  DOWNLOAD = 'download',
+  DOWNLOAD_MOBILE = 'download_mobile',
+  HELP_PAGE = 'help_page',
+  REPORT_BUG = 'report_bug',
 }

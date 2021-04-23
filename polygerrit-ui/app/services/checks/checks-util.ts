@@ -14,9 +14,66 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Action, Category, RunStatus} from '../../api/checks';
+import {
+  Action,
+  Category,
+  CheckRun as CheckRunApi,
+  CheckResult as CheckResultApi,
+  LinkIcon,
+  RunStatus,
+} from '../../api/checks';
 import {assertNever} from '../../utils/common-util';
 import {CheckResult, CheckRun} from './checks-model';
+
+export function iconForLink(linkIcon?: LinkIcon) {
+  if (linkIcon === undefined) return 'launch';
+  switch (linkIcon) {
+    case LinkIcon.EXTERNAL:
+      return 'launch';
+    case LinkIcon.IMAGE:
+      return 'insert-photo';
+    case LinkIcon.HISTORY:
+      return 'restore';
+    case LinkIcon.DOWNLOAD:
+      return 'download';
+    case LinkIcon.DOWNLOAD_MOBILE:
+      return 'system-update';
+    case LinkIcon.HELP_PAGE:
+      return 'help-outline';
+    case LinkIcon.REPORT_BUG:
+      return 'bug';
+    default:
+      // We don't throw an assertion error here, because plugins don't have to
+      // be written in TypeScript, so we may encounter arbitrary strings for
+      // linkIcon.
+      return 'launch';
+  }
+}
+
+export function tooltipForLink(linkIcon?: LinkIcon) {
+  if (linkIcon === undefined) return 'Link to details';
+  switch (linkIcon) {
+    case LinkIcon.EXTERNAL:
+      return 'Link to details';
+    case LinkIcon.IMAGE:
+      return 'Link to image';
+    case LinkIcon.HISTORY:
+      return 'Link to result history';
+    case LinkIcon.DOWNLOAD:
+      return 'Download';
+    case LinkIcon.DOWNLOAD_MOBILE:
+      return 'Download';
+    case LinkIcon.HELP_PAGE:
+      return 'Link to help page';
+    case LinkIcon.REPORT_BUG:
+      return 'Link for reporting a problem';
+    default:
+      // We don't throw an assertion error here, because plugins don't have to
+      // be written in TypeScript, so we may encounter arbitrary strings for
+      // linkIcon.
+      return 'Link to details';
+  }
+}
 
 export function worstCategory(run: CheckRun) {
   if (hasResultsOf(run, Category.ERROR)) return Category.ERROR;
@@ -71,9 +128,14 @@ export function primaryActionName(status: RunStatus) {
 }
 
 export function primaryRunAction(run: CheckRun): Action | undefined {
-  return (run.actions ?? [])
-    .map(action => toCanonicalAction(action, run.status))
-    .filter(action => action.name === primaryActionName(run.status))[0];
+  return runActions(run).filter(
+    action => action.name === primaryActionName(run.status)
+  )[0];
+}
+
+export function runActions(run?: CheckRun): Action[] {
+  if (!run?.actions) return [];
+  return run.actions.map(action => toCanonicalAction(action, run.status));
 }
 
 export function iconForRun(run: CheckRun) {
@@ -178,4 +240,64 @@ export function fireActionTriggered(
       bubbles: true,
     })
   );
+}
+
+export interface AttemptDetail {
+  attempt: number | undefined;
+  icon: string;
+}
+
+export interface AttemptInfo {
+  latestAttempt: number | undefined;
+  isSingleAttempt: boolean;
+  attempts: AttemptDetail[];
+}
+
+export function createAttemptMap(runs: CheckRunApi[]) {
+  const map = new Map<string, AttemptInfo>();
+  for (const run of runs) {
+    const value = map.get(run.checkName);
+    const detail = {
+      attempt: run.attempt,
+      icon: iconForRun(fromApiToInternalRun(run)),
+    };
+    if (value === undefined) {
+      map.set(run.checkName, {
+        latestAttempt: run.attempt,
+        isSingleAttempt: true,
+        attempts: [detail],
+      });
+      continue;
+    }
+    if (!run.attempt || !value.latestAttempt) {
+      throw new Error(
+        'If multiple run attempts are provided, ' +
+          'then each run must have the "attempt" property set.'
+      );
+    }
+    value.isSingleAttempt = false;
+    if (run.attempt > value.latestAttempt) {
+      value.latestAttempt = run.attempt;
+    }
+    value.attempts.push(detail);
+  }
+  return map;
+}
+
+export function fromApiToInternalRun(run: CheckRunApi): CheckRun {
+  return {
+    ...run,
+    internalRunId: 'fake',
+    isSingleAttempt: false,
+    isLatestAttempt: false,
+    attemptDetails: [],
+    results: (run.results ?? []).map(fromApiToInternalResult),
+  };
+}
+
+export function fromApiToInternalResult(result: CheckResultApi): CheckResult {
+  return {
+    ...result,
+    internalResultId: 'fake',
+  };
 }

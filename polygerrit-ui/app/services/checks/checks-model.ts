@@ -22,18 +22,21 @@ import {
   CheckResult as CheckResultApi,
   CheckRun as CheckRunApi,
   ChecksApiConfig,
+  Link,
   LinkIcon,
   RunStatus,
 } from '../../api/checks';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {PatchSetNumber} from '../../types/common';
+import {AttemptDetail, createAttemptMap} from './checks-util';
+import {assertIsDefined} from '../../utils/common-util';
 
 export interface CheckResult extends CheckResultApi {
   /**
    * Internally we want to uniquely identify a run with an id, for example when
    * efficiently re-rendering lists of runs in the UI.
    */
-  internalId: string;
+  internalResultId: string;
 }
 
 export interface CheckRun extends CheckRunApi {
@@ -41,7 +44,21 @@ export interface CheckRun extends CheckRunApi {
    * Internally we want to uniquely identify a result with an id, for example
    * when efficiently re-rendering lists of results in the UI.
    */
-  internalId: string;
+  internalRunId: string;
+  /**
+   * Is this run attempt the latest attempt for the check, i.e. does it have
+   * the highest attempt number among all checks with the same name?
+   */
+  isLatestAttempt: boolean;
+  /**
+   * Is this the only attempt for the check, i.e. we don't have data for other
+   * attempts?
+   */
+  isSingleAttempt: boolean;
+  /**
+   * List of all attempts for the same check, ordered by attempt number.
+   */
+  attemptDetails: AttemptDetail[];
   results?: CheckResult[];
 }
 
@@ -53,9 +70,14 @@ export type RunResult = CheckRun & CheckResult;
 interface ChecksProviderState {
   pluginName: string;
   loading: boolean;
+  /** Presence of errorMessage implicitly means that the provider is in ERROR state. */
+  errorMessage?: string;
+  /** Presence of loginCallback implicitly means that the provider is in NOT_LOGGED_IN state. */
+  loginCallback?: () => void;
   config?: ChecksApiConfig;
   runs: CheckRun[];
   actions: Action[];
+  links: Link[];
 }
 
 interface ChecksState {
@@ -96,6 +118,26 @@ export const someProvidersAreLoading$ = checksProviderState$.pipe(
   distinctUntilChanged()
 );
 
+export const errorMessage$ = checksProviderState$.pipe(
+  map(
+    state =>
+      Object.values(state).find(
+        providerState => providerState.errorMessage !== undefined
+      )?.errorMessage
+  ),
+  distinctUntilChanged()
+);
+
+export const loginCallback$ = checksProviderState$.pipe(
+  map(
+    state =>
+      Object.values(state).find(
+        providerState => providerState.loginCallback !== undefined
+      )?.loginCallback
+  ),
+  distinctUntilChanged()
+);
+
 export const allActions$ = checksProviderState$.pipe(
   map(state => {
     return Object.values(state).reduce(
@@ -106,6 +148,18 @@ export const allActions$ = checksProviderState$.pipe(
       []
     );
   })
+);
+
+export const allLinks$ = checksProviderState$.pipe(
+  map(state =>
+    Object.values(state).reduce(
+      (allActions: Link[], providerState: ChecksProviderState) => [
+        ...allActions,
+        ...providerState.links,
+      ],
+      []
+    )
+  )
 );
 
 export const allRuns$ = checksProviderState$.pipe(
@@ -120,19 +174,8 @@ export const allRuns$ = checksProviderState$.pipe(
   })
 );
 
-/** Array of check names that have at least 2 entries in allRuns$. */
-export const checksWithMultipleAttempts$ = allRuns$.pipe(
-  map(runs => {
-    const attemptsPerCheck = new Map<string, number>();
-    for (const run of runs) {
-      const check = run.checkName;
-      const attempts = attemptsPerCheck.get(check) ?? 0;
-      attemptsPerCheck.set(check, attempts + 1);
-    }
-    return [...attemptsPerCheck.keys()].filter(
-      check => (attemptsPerCheck.get(check) ?? 0) > 1
-    );
-  })
+export const allRunsLatest$ = allRuns$.pipe(
+  map(runs => runs.filter(run => run.isLatestAttempt))
 );
 
 export const checkToPluginMap$ = checksProviderState$.pipe(
@@ -179,20 +222,25 @@ export function updateStateSetProvider(
     config,
     runs: [],
     actions: [],
+    links: [],
   };
   privateState$.next(nextState);
 }
 
-// TODO(brohlfs): Remove all fake runs by end of January. They are just making
+// TODO(brohlfs): Remove all fake runs by end of April. They are just making
 // it easier to develop the UI and always see all the different types/states of
 // runs and results.
 
 export const fakeRun0: CheckRun = {
-  internalId: 'f0',
+  internalRunId: 'f0',
   checkName: 'FAKE Error Finder',
+  labelName: 'Presubmit',
+  isSingleAttempt: true,
+  isLatestAttempt: true,
+  attemptDetails: [],
   results: [
     {
-      internalId: 'f0r0',
+      internalResultId: 'f0r0',
       category: Category.ERROR,
       summary: 'I would like to point out this error: 1 is not equal to 2!',
       links: [
@@ -201,11 +249,42 @@ export const fakeRun0: CheckRun = {
       tags: [{name: 'OBSOLETE'}, {name: 'E2E'}],
     },
     {
-      internalId: 'f0r1',
+      internalResultId: 'f0r1',
       category: Category.ERROR,
       summary: 'Running the mighty test has failed by crashing.',
+      actions: [
+        {
+          name: 'Ignore',
+          tooltip: 'Ignore this result',
+          primary: true,
+          callback: () => {
+            return undefined;
+          },
+        },
+        {
+          name: 'Flag',
+          tooltip: 'Flag this result as not useful',
+          primary: true,
+          callback: () => {
+            return undefined;
+          },
+        },
+        {
+          name: 'Upload',
+          tooltip: 'Upload the result to the super cloud.',
+          primary: false,
+          callback: () => {
+            return undefined;
+          },
+        },
+      ],
+      tags: [{name: 'INTERRUPTED'}, {name: 'WINDOWS'}],
       links: [
-        {primary: true, url: 'https://www.google.com', icon: LinkIcon.EXTERNAL},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.EXTERNAL},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.DOWNLOAD},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.REPORT_BUG},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.HELP_PAGE},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.HISTORY},
       ],
     },
   ],
@@ -213,31 +292,79 @@ export const fakeRun0: CheckRun = {
 };
 
 export const fakeRun1: CheckRun = {
-  internalId: 'f1',
+  internalRunId: 'f1',
   checkName: 'FAKE Super Check',
   labelName: 'Verified',
+  isSingleAttempt: true,
+  isLatestAttempt: true,
+  attemptDetails: [],
   results: [
     {
-      internalId: 'f1r0',
+      internalResultId: 'f1r0',
       category: Category.WARNING,
       summary: 'We think that you could improve this.',
       message: `There is a lot to be said. A lot. I say, a lot.\n
                 So please keep reading.`,
       tags: [{name: 'INTERRUPTED'}, {name: 'WINDOWS'}],
+      links: [
+        {primary: true, url: 'https://google.com', icon: LinkIcon.EXTERNAL},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.DOWNLOAD},
+        {
+          primary: true,
+          url: 'https://google.com',
+          icon: LinkIcon.DOWNLOAD_MOBILE,
+        },
+        {primary: true, url: 'https://google.com', icon: LinkIcon.IMAGE},
+      ],
     },
   ],
   status: RunStatus.RUNNING,
 };
 
 export const fakeRun2: CheckRun = {
-  internalId: 'f2',
+  internalRunId: 'f2',
   checkName: 'FAKE Mega Analysis',
+  statusDescription: 'This run is nearly completed, but not quite.',
+  statusLink: 'https://www.google.com/',
+  checkDescription:
+    'From what the title says you can tell that this check analyses.',
+  checkLink: 'https://www.google.com/',
+  scheduledTimestamp: new Date('2021-04-01T03:14:15'),
+  startedTimestamp: new Date('2021-04-01T04:24:25'),
+  finishedTimestamp: new Date('2021-04-01T04:44:44'),
+  isSingleAttempt: true,
+  isLatestAttempt: true,
+  attemptDetails: [],
+  actions: [
+    {
+      name: 'Re-Run',
+      tooltip: 'More powerful run than before',
+      primary: true,
+      callback: () => undefined,
+    },
+    {
+      name: 'Monetize',
+      primary: true,
+      callback: () => undefined,
+    },
+    {
+      name: 'Delete',
+      primary: true,
+      callback: () => undefined,
+    },
+  ],
   results: [
     {
-      internalId: 'f2r0',
+      internalResultId: 'f2r0',
       category: Category.INFO,
       summary: 'This is looking a bit too large.',
-      message: 'We are still looking into how large exactly. Stay tuned.',
+      message: `We are still looking into how large exactly. Stay tuned.
+And have a look at https://www.google.com!
+
+Or have a look at change 30000.
+Example code:
+  const constable = '';
+  var variable = '';`,
       tags: [{name: 'FLAKY'}, {name: 'MAC-OS'}],
     },
   ],
@@ -245,15 +372,80 @@ export const fakeRun2: CheckRun = {
 };
 
 export const fakeRun3: CheckRun = {
-  internalId: 'f3',
+  internalRunId: 'f3',
   checkName: 'FAKE Critical Observations',
   status: RunStatus.RUNNABLE,
+  isSingleAttempt: true,
+  isLatestAttempt: true,
+  attemptDetails: [],
 };
 
-export const fakeRun4: CheckRun = {
-  internalId: 'f4',
-  checkName: 'FAKE TODO Elimination',
+export const fakeRun4_1: CheckRun = {
+  internalRunId: 'f4',
+  checkName: 'FAKE Elimination',
   status: RunStatus.COMPLETED,
+  attempt: 1,
+  isSingleAttempt: false,
+  isLatestAttempt: false,
+  attemptDetails: [],
+};
+
+export const fakeRun4_2: CheckRun = {
+  internalRunId: 'f4',
+  checkName: 'FAKE Elimination',
+  status: RunStatus.COMPLETED,
+  attempt: 2,
+  isSingleAttempt: false,
+  isLatestAttempt: false,
+  attemptDetails: [],
+  results: [
+    {
+      internalResultId: 'f42r0',
+      category: Category.INFO,
+      summary: 'Please eliminate all the TODOs!',
+    },
+  ],
+};
+
+export const fakeRun4_3: CheckRun = {
+  internalRunId: 'f4',
+  checkName: 'FAKE Elimination',
+  status: RunStatus.COMPLETED,
+  attempt: 3,
+  isSingleAttempt: false,
+  isLatestAttempt: false,
+  attemptDetails: [],
+  results: [
+    {
+      internalResultId: 'f43r0',
+      category: Category.ERROR,
+      summary: 'Without eliminating all the TODOs your change will break!',
+    },
+  ],
+};
+
+export const fakeRun4_4: CheckRun = {
+  internalRunId: 'f4',
+  checkName: 'FAKE Elimination',
+  checkDescription: 'Shows you the possible eliminations.',
+  checkLink: 'https://www.google.com',
+  status: RunStatus.RUNNING,
+  statusDescription: 'Everything was eliminated already.',
+  statusLink: 'https://www.google.com',
+  attempt: 4,
+  scheduledTimestamp: new Date('2021-04-02T03:14:15'),
+  startedTimestamp: new Date('2021-04-02T04:24:25'),
+  finishedTimestamp: new Date('2021-04-02T04:25:44'),
+  isSingleAttempt: false,
+  isLatestAttempt: true,
+  attemptDetails: [],
+  results: [
+    {
+      internalResultId: 'f44r0',
+      category: Category.INFO,
+      summary: 'Dont be afraid. All TODOs will be eliminated.',
+    },
+  ],
 };
 
 export const fakeActions: Action[] = [
@@ -286,6 +478,21 @@ export const fakeActions: Action[] = [
   },
 ];
 
+export const fakeLinks: Link[] = [
+  {
+    url: 'https://www.google.com',
+    primary: false,
+    tooltip: 'Tooltip for Bug Report Fake Link',
+    icon: LinkIcon.REPORT_BUG,
+  },
+  {
+    url: 'https://www.google.com',
+    primary: false,
+    tooltip: 'Tooltip for External Fake Link',
+    icon: LinkIcon.EXTERNAL,
+  },
+];
+
 export function updateStateSetLoading(pluginName: string) {
   const nextState = {...privateState$.getValue()};
   nextState.providerNameToState = {...nextState.providerNameToState};
@@ -296,30 +503,76 @@ export function updateStateSetLoading(pluginName: string) {
   privateState$.next(nextState);
 }
 
-export function updateStateSetResults(
+export function updateStateSetError(pluginName: string, errorMessage: string) {
+  const nextState = {...privateState$.getValue()};
+  nextState.providerNameToState = {...nextState.providerNameToState};
+  nextState.providerNameToState[pluginName] = {
+    ...nextState.providerNameToState[pluginName],
+    loading: false,
+    errorMessage,
+    loginCallback: undefined,
+    runs: [],
+    actions: [],
+  };
+  privateState$.next(nextState);
+}
+
+export function updateStateSetNotLoggedIn(
   pluginName: string,
-  runs: CheckRunApi[],
-  actions: Action[] = []
+  loginCallback: () => void
 ) {
   const nextState = {...privateState$.getValue()};
   nextState.providerNameToState = {...nextState.providerNameToState};
   nextState.providerNameToState[pluginName] = {
     ...nextState.providerNameToState[pluginName],
     loading: false,
+    errorMessage: undefined,
+    loginCallback,
+    runs: [],
+    actions: [],
+  };
+  privateState$.next(nextState);
+}
+
+export function updateStateSetResults(
+  pluginName: string,
+  runs: CheckRunApi[],
+  actions: Action[] = [],
+  links: Link[] = []
+) {
+  const attemptMap = createAttemptMap(runs);
+  for (const attemptInfo of attemptMap.values()) {
+    // Per run only one attempt can be undefined, so the '?? -1' is not really
+    // relevant for sorting.
+    attemptInfo.attempts.sort((a, b) => (b.attempt ?? -1) - (a.attempt ?? -1));
+  }
+  const nextState = {...privateState$.getValue()};
+  nextState.providerNameToState = {...nextState.providerNameToState};
+  nextState.providerNameToState[pluginName] = {
+    ...nextState.providerNameToState[pluginName],
+    loading: false,
+    errorMessage: undefined,
+    loginCallback: undefined,
     runs: runs.map(run => {
       const runId = `${run.checkName}-${run.change}-${run.patchset}-${run.attempt}`;
+      const attemptInfo = attemptMap.get(run.checkName);
+      assertIsDefined(attemptInfo, 'attemptInfo');
       return {
         ...run,
-        internalId: runId,
+        internalRunId: runId,
+        isLatestAttempt: attemptInfo.latestAttempt === run.attempt,
+        isSingleAttempt: attemptInfo.isSingleAttempt,
+        attemptDetails: attemptInfo.attempts,
         results: (run.results ?? []).map((result, i) => {
           return {
             ...result,
-            internalId: `${runId}-${i}`,
+            internalResultId: `${runId}-${i}`,
           };
         }),
       };
     }),
     actions: [...actions],
+    links: [...links],
   };
   privateState$.next(nextState);
 }

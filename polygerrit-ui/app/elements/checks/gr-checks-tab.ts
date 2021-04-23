@@ -36,7 +36,7 @@ import './gr-checks-results';
 import {changeNum$} from '../../services/change/change-model';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {ActionTriggeredEvent} from '../../services/checks/checks-util';
-import {RunSelectedEvent} from './gr-checks-util';
+import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {fireAlert} from '../../utils/event-util';
 import {appContext} from '../../services/app-context';
@@ -66,6 +66,13 @@ export class GrChecksTab extends GrLitElement {
 
   @internalProperty()
   selectedRuns: string[] = [];
+
+  /** Maps checkName to selected attempt number. `undefined` means `latest`. */
+  @internalProperty()
+  selectedAttempts: Map<string, number | undefined> = new Map<
+    string,
+    number | undefined
+  >();
 
   private readonly checksService = appContext.checksService;
 
@@ -101,25 +108,23 @@ export class GrChecksTab extends GrLitElement {
   }
 
   render() {
-    const filteredRuns = this.runs.filter(
-      r =>
-        this.selectedRuns.length === 0 ||
-        this.selectedRuns.includes(r.checkName)
-    );
     return html`
       <div class="container">
         <gr-checks-runs
           class="runs"
           .runs="${this.runs}"
           .selectedRuns="${this.selectedRuns}"
+          .selectedAttempts="${this.selectedAttempts}"
           .tabState="${this.tabState}"
           @run-selected="${this.handleRunSelected}"
+          @attempt-selected="${this.handleAttemptSelected}"
         ></gr-checks-runs>
         <gr-checks-results
           class="results"
           .tabState="${this.tabState}"
-          .runs="${filteredRuns}"
-          .selectedRunsCount="${this.selectedRuns.length}"
+          .runs="${this.runs}"
+          .selectedRuns="${this.selectedRuns}"
+          .selectedAttempts="${this.selectedAttempts}"
           @run-selected="${this.handleRunSelected}"
         ></gr-checks-results>
       </div>
@@ -170,6 +175,7 @@ export class GrChecksTab extends GrLitElement {
   handleRunSelected(e: RunSelectedEvent) {
     if (e.detail.reset) {
       this.selectedRuns = [];
+      this.selectedAttempts = new Map();
       return;
     }
     if (e.detail.checkName) {
@@ -177,9 +183,18 @@ export class GrChecksTab extends GrLitElement {
     }
   }
 
+  handleAttemptSelected(e: AttemptSelectedEvent) {
+    const {checkName, attempt} = e.detail;
+    this.selectedAttempts.set(checkName, attempt);
+    // Force property update.
+    this.selectedAttempts = new Map(this.selectedAttempts);
+  }
+
   toggleSelected(checkName: string) {
     if (this.selectedRuns.includes(checkName)) {
       this.selectedRuns = this.selectedRuns.filter(r => r !== checkName);
+      this.selectedAttempts.set(checkName, undefined);
+      this.selectedAttempts = new Map(this.selectedAttempts);
     } else {
       this.selectedRuns = [...this.selectedRuns, checkName];
     }

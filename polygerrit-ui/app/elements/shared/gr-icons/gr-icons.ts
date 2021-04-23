@@ -134,6 +134,14 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="arrowDropUp"><path d="M0 0h24v24H0z" fill="none"/><path d="M7 14l5-5 5 5z"/></g>
       <!-- This is just a placeholder, i.e. an empty icon that has the same size as a normal icon. -->
       <g id="placeholder"><path d="M0 0h24v24H0z" fill="none"/></g>
+      <!-- This SVG is a copy from material.io https://material.io/icons/#insert_photo-->
+      <g id="insert-photo"><path d="M0 0h24v24H0z" fill="none"/><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></g>
+      <!-- This SVG is a copy from material.io https://material.io/icons/#download-->
+      <g id="download"><path d="M0 0h24v24H0z" fill="none"/><path d="M5,20h14v-2H5V20z M19,9h-4V3H9v6H5l7,7L19,9z"/></g>
+      <!-- This SVG is a copy from material.io https://material.io/icons/#system_update-->
+      <g id="system-update"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14zm-1-6h-3V8h-2v5H8l4 4 4-4z"/></g>
+      <!-- This SVG is a copy from material.io https://material.io/icons/#link-->
+      <g id="link"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></g>
     </defs>
   </svg>
 </iron-iconset-svg>`;

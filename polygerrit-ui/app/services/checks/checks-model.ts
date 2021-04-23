@@ -22,6 +22,7 @@ import {
   CheckResult as CheckResultApi,
   CheckRun as CheckRunApi,
   ChecksApiConfig,
+  Link,
   LinkIcon,
   RunStatus,
 } from '../../api/checks';
@@ -76,6 +77,7 @@ interface ChecksProviderState {
   config?: ChecksApiConfig;
   runs: CheckRun[];
   actions: Action[];
+  links: Link[];
 }
 
 interface ChecksState {
@@ -148,6 +150,18 @@ export const allActions$ = checksProviderState$.pipe(
   )
 );
 
+export const allLinks$ = checksProviderState$.pipe(
+  map(state =>
+    Object.values(state).reduce(
+      (allActions: Link[], providerState: ChecksProviderState) => [
+        ...allActions,
+        ...providerState.links,
+      ],
+      []
+    )
+  )
+);
+
 export const allRuns$ = checksProviderState$.pipe(
   map(state =>
     Object.values(state).reduce(
@@ -208,6 +222,7 @@ export function updateStateSetProvider(
     config,
     runs: [],
     actions: [],
+    links: [],
   };
   privateState$.next(nextState);
 }
@@ -424,6 +439,21 @@ export const fakeActions: Action[] = [
   },
 ];
 
+export const fakeLinks: Link[] = [
+  {
+    url: 'https://www.google.com',
+    primary: false,
+    tooltip: 'Tooltip for Bug Report Fake Link',
+    icon: LinkIcon.REPORT_BUG,
+  },
+  {
+    url: 'https://www.google.com',
+    primary: false,
+    tooltip: 'Tooltip for External Fake Link',
+    icon: LinkIcon.EXTERNAL,
+  },
+];
+
 export function updateStateSetLoading(pluginName: string) {
   const nextState = {...privateState$.getValue()};
   nextState.providerNameToState = {...nextState.providerNameToState};
@@ -468,7 +498,8 @@ export function updateStateSetNotLoggedIn(
 export function updateStateSetResults(
   pluginName: string,
   runs: CheckRunApi[],
-  actions: Action[] = []
+  actions: Action[] = [],
+  links: Link[] = []
 ) {
   const attemptMap = createAttemptMap(runs);
   for (const attemptInfo of attemptMap.values()) {
@@ -502,6 +533,7 @@ export function updateStateSetResults(
       };
     }),
     actions: [...actions],
+    links: [...links],
   };
   privateState$.next(nextState);
 }

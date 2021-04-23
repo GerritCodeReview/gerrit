@@ -2164,6 +2164,376 @@ suite('gr-change-view tests', () => {
     });
   });
 
+<<<<<<< HEAD
+=======
+  suite('commit message expand/collapse', () => {
+    setup(() => {
+      element._change = {
+        ...createChangeViewChange(),
+        revisions: createRevisions(1),
+        messages: createChangeMessages(1),
+      };
+      element._change.labels = {};
+      stubRestApi('getChangeDetail').callsFake(() =>
+        Promise.resolve({
+          ...createChangeViewChange(),
+          // new patchset was uploaded
+          revisions: createRevisions(2),
+          current_revision: getCurrentRevision(2),
+          messages: createChangeMessages(1),
+        })
+      );
+    });
+
+    test('commitCollapseToggle hidden for short commit message', () => {
+      element._latestCommitMessage = '';
+      flush();
+      const commitCollapseToggle = element.shadowRoot!.querySelector(
+        '#commitCollapseToggle'
+      );
+      assert.isTrue(commitCollapseToggle?.hasAttribute('hidden'));
+    });
+
+    test('commitCollapseToggle shown for long commit message', () => {
+      element._latestCommitMessage = _.times(31, String).join('\n');
+      const commitCollapseToggle = element.shadowRoot!.querySelector(
+        '#commitCollapseToggle'
+      );
+      assert.isFalse(commitCollapseToggle?.hasAttribute('hidden'));
+    });
+
+    test('commitCollapseToggle functions', () => {
+      element._latestCommitMessage = _.times(35, String).join('\n');
+      assert.isTrue(element._commitCollapsed);
+      assert.isTrue(element._commitCollapsible);
+      assert.isTrue(element.$.commitMessageEditor.hasAttribute('collapsed'));
+      const commitCollapseToggleButton = element.shadowRoot!.querySelector(
+        '#commitCollapseToggleButton'
+      )!;
+      tap(commitCollapseToggleButton);
+      assert.isFalse(element._commitCollapsed);
+      assert.isTrue(element._commitCollapsible);
+      assert.isFalse(element.$.commitMessageEditor.hasAttribute('collapsed'));
+    });
+  });
+
+  suite('related changes expand/collapse', () => {
+    let updateHeightSpy: SinonSpyMember<
+      typeof element._updateRelatedChangeMaxHeight
+    >;
+    setup(() => {
+      updateHeightSpy = sinon.spy(element, '_updateRelatedChangeMaxHeight');
+    });
+
+    test('relatedChangesToggle shown height greater than changeInfo height', () => {
+      const relatedChangesToggle = element.shadowRoot!.querySelector(
+        '#relatedChangesToggle'
+      );
+      assert.isFalse(relatedChangesToggle!.classList.contains('showToggle'));
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(element, '_getScrollHeight').callsFake(() => 60);
+      sinon.stub(element, '_getLineHeight').callsFake(() => 5);
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: true} as MediaQueryList));
+      const relatedChanges = element.shadowRoot!.querySelector(
+        '#relatedChanges'
+      ) as GrRelatedChangesList;
+      relatedChanges.dispatchEvent(new CustomEvent('new-section-loaded'));
+      assert.isTrue(relatedChangesToggle!.classList.contains('showToggle'));
+      assert.equal(updateHeightSpy.callCount, 1);
+    });
+
+    test('relatedChangesToggle hidden height less than changeInfo height', () => {
+      const relatedChangesToggle = element.shadowRoot!.querySelector(
+        '#relatedChangesToggle'
+      );
+      assert.isFalse(relatedChangesToggle!.classList.contains('showToggle'));
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(element, '_getScrollHeight').callsFake(() => 40);
+      sinon.stub(element, '_getLineHeight').callsFake(() => 5);
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: true} as MediaQueryList));
+      const relatedChanges = element.shadowRoot!.querySelector(
+        '#relatedChanges'
+      ) as GrRelatedChangesList;
+      relatedChanges.dispatchEvent(new CustomEvent('new-section-loaded'));
+      assert.isFalse(relatedChangesToggle!.classList.contains('showToggle'));
+      assert.equal(updateHeightSpy.callCount, 1);
+    });
+
+    test('relatedChangesToggle functions', () => {
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: false} as MediaQueryList));
+      assert.isTrue(element._relatedChangesCollapsed);
+      const relatedChangesToggleButton = element.shadowRoot!.querySelector(
+        '#relatedChangesToggleButton'
+      );
+      const relatedChanges = element.shadowRoot!.querySelector(
+        '#relatedChanges'
+      ) as GrRelatedChangesList;
+      assert.isTrue(relatedChanges.classList.contains('collapsed'));
+      tap(relatedChangesToggleButton!);
+      assert.isFalse(element._relatedChangesCollapsed);
+      assert.isFalse(relatedChanges.classList.contains('collapsed'));
+    });
+
+    test('_updateRelatedChangeMaxHeight without commit toggle', () => {
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(element, '_getLineHeight').callsFake(() => 12);
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: false} as MediaQueryList));
+
+      // 50 (existing height) - 30 (extra height) = 20 (adjusted height).
+      // 20 (max existing height)  % 12 (line height) = 6 (remainder).
+      // 20 (adjusted height) - 8 (remainder) = 12 (max height to set).
+
+      element._updateRelatedChangeMaxHeight();
+      assert.equal(getCustomCssValue('--relation-chain-max-height'), '12px');
+      assert.equal(getCustomCssValue('--related-change-btn-top-padding'), '');
+    });
+
+    test('_updateRelatedChangeMaxHeight with commit toggle', () => {
+      element._latestCommitMessage = _.times(31, String).join('\n');
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(element, '_getLineHeight').callsFake(() => 12);
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: false} as MediaQueryList));
+
+      // 50 (existing height) % 12 (line height) = 2 (remainder).
+      // 50 (existing height)  - 2 (remainder) = 48 (max height to set).
+
+      element._updateRelatedChangeMaxHeight();
+      assert.equal(getCustomCssValue('--relation-chain-max-height'), '48px');
+      assert.equal(
+        getCustomCssValue('--related-change-btn-top-padding'),
+        '2px'
+      );
+    });
+
+    test('_updateRelatedChangeMaxHeight in small screen mode', () => {
+      element._latestCommitMessage = _.times(31, String).join('\n');
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(element, '_getLineHeight').callsFake(() => 12);
+      sinon
+        .stub(window, 'matchMedia')
+        .callsFake(() => ({matches: true} as MediaQueryList));
+
+      element._updateRelatedChangeMaxHeight();
+
+      // 400 (new height) % 12 (line height) = 4 (remainder).
+      // 400 (new height) - 4 (remainder) = 396.
+
+      assert.equal(getCustomCssValue('--relation-chain-max-height'), '396px');
+    });
+
+    test('_updateRelatedChangeMaxHeight in medium screen mode', () => {
+      element._latestCommitMessage = _.times(31, String).join('\n');
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(element, '_getLineHeight').callsFake(() => 12);
+      const matchMediaStub = sinon.stub(window, 'matchMedia').callsFake(() => {
+        if (matchMediaStub.lastCall.args[0] === '(max-width: 75em)') {
+          return {matches: true} as MediaQueryList;
+        } else {
+          return {matches: false} as MediaQueryList;
+        }
+      });
+
+      // 100 (new height) % 12 (line height) = 4 (remainder).
+      // 100 (new height) - 4 (remainder) = 96.
+      element._updateRelatedChangeMaxHeight();
+      assert.equal(getCustomCssValue('--relation-chain-max-height'), '96px');
+    });
+
+    suite('update checks', () => {
+      let clock: SinonFakeTimers;
+      let startUpdateCheckTimerSpy: SinonSpyMember<
+        typeof element._startUpdateCheckTimer
+      >;
+      setup(() => {
+        clock = sinon.useFakeTimers();
+        startUpdateCheckTimerSpy = sinon.spy(element, '_startUpdateCheckTimer');
+        element._change = {
+          ...createChangeViewChange(),
+          revisions: createRevisions(1),
+          messages: createChangeMessages(1),
+        };
+      });
+
+      test('_startUpdateCheckTimer negative delay', () => {
+        const getChangeDetailStub = stubRestApi('getChangeDetail').returns(
+          Promise.resolve({
+            ...createChangeViewChange(),
+            // element has latest info
+            revisions: {rev1: createRevision()},
+            messages: createChangeMessages(1),
+            current_revision: 'rev1' as CommitId,
+          })
+        );
+
+        element._serverConfig = {
+          ...createServerInfo(),
+          change: {...createChangeConfig(), update_delay: -1},
+        };
+
+        assert.isTrue(startUpdateCheckTimerSpy.called);
+        assert.isFalse(getChangeDetailStub.called);
+      });
+
+      test('_startUpdateCheckTimer up-to-date', async () => {
+        const getChangeDetailStub = stubRestApi('getChangeDetail').callsFake(
+          () =>
+            Promise.resolve({
+              ...createChangeViewChange(),
+              // element has latest info
+              revisions: {rev1: createRevision()},
+              messages: createChangeMessages(1),
+              current_revision: 'rev1' as CommitId,
+            })
+        );
+
+        element._serverConfig = {
+          ...createServerInfo(),
+          change: {...createChangeConfig(), update_delay: 12345},
+        };
+        clock.tick(12345 * 1000);
+        await flush();
+
+        assert.equal(startUpdateCheckTimerSpy.callCount, 2);
+        assert.isTrue(getChangeDetailStub.called);
+      });
+
+      test('_startUpdateCheckTimer out-of-date shows an alert', async () => {
+        stubRestApi('getChangeDetail').callsFake(() =>
+          Promise.resolve({
+            ...createChange(),
+            // new patchset was uploaded
+            revisions: createRevisions(2),
+            current_revision: getCurrentRevision(2),
+            messages: createChangeMessages(1),
+          })
+        );
+
+        let alertMessage = 'alert not fired';
+        element.addEventListener('show-alert', e => {
+          alertMessage = e.detail.message;
+        });
+        element._serverConfig = {
+          ...createServerInfo(),
+          change: {...createChangeConfig(), update_delay: 12345},
+        };
+        clock.tick(12345 * 1000);
+        await flush();
+
+        assert.equal(alertMessage, 'A newer patch set has been uploaded');
+        assert.equal(startUpdateCheckTimerSpy.callCount, 1);
+      });
+
+      test('_startUpdateCheckTimer respects _loading', async () => {
+        stubRestApi('getChangeDetail').callsFake(() =>
+          Promise.resolve({
+            ...createChangeViewChange(),
+            // new patchset was uploaded
+            revisions: createRevisions(2),
+            current_revision: getCurrentRevision(2),
+            messages: createChangeMessages(1),
+          })
+        );
+
+        element._loading = true;
+        element._serverConfig = {
+          ...createServerInfo(),
+          change: {...createChangeConfig(), update_delay: 12345},
+        };
+        clock.tick(12345 * 1000 * 2);
+        await flush();
+
+        // No toast, instead a second call to _startUpdateCheckTimer().
+        assert.equal(startUpdateCheckTimerSpy.callCount, 2);
+      });
+
+      test('_startUpdateCheckTimer new status shows an alert', async () => {
+        stubRestApi('getChangeDetail').callsFake(() =>
+          Promise.resolve({
+            ...createChangeViewChange(),
+            // element has latest info
+            revisions: {rev1: createRevision()},
+            messages: createChangeMessages(1),
+            current_revision: 'rev1' as CommitId,
+            status: ChangeStatus.MERGED,
+          })
+        );
+
+        let alertMessage = 'alert not fired';
+        element.addEventListener('show-alert', e => {
+          alertMessage = e.detail.message;
+        });
+        element._serverConfig = {
+          ...createServerInfo(),
+          change: {...createChangeConfig(), update_delay: 12345},
+        };
+        clock.tick(12345 * 1000);
+        await flush();
+
+        assert.equal(alertMessage, 'This change has been merged');
+      });
+
+      test('_startUpdateCheckTimer new messages shows an alert', async () => {
+        stubRestApi('getChangeDetail').callsFake(() =>
+          Promise.resolve({
+            ...createChangeViewChange(),
+            revisions: {rev1: createRevision()},
+            // element has new message
+            messages: createChangeMessages(2),
+            current_revision: 'rev1' as CommitId,
+          })
+        );
+
+        let alertMessage = 'alert not fired';
+        element.addEventListener('show-alert', e => {
+          alertMessage = e.detail.message;
+        });
+        element._serverConfig = {
+          ...createServerInfo(),
+          change: {...createChangeConfig(), update_delay: 12345},
+        };
+        clock.tick(12345 * 1000);
+        await flush();
+
+        assert.equal(alertMessage, 'There are new messages on this change');
+      });
+    });
+
+    test('canStartReview computation', () => {
+      const change1: ChangeInfo = createChange();
+      const change2: ChangeInfo = {
+        ...createChangeViewChange(),
+        actions: {
+          ready: {
+            enabled: true,
+          },
+        },
+      };
+      const change3: ChangeInfo = {
+        ...createChangeViewChange(),
+        actions: {
+          ready: {
+            label: 'Ready for Review',
+          },
+        },
+      };
+      assert.isFalse(element._computeCanStartReview(change1));
+      assert.isTrue(element._computeCanStartReview(change2));
+      assert.isFalse(element._computeCanStartReview(change3));
+    });
+  });
+
+>>>>>>> origin/stable-3.4
   test('header class computation', () => {
     assert.equal(element._computeHeaderClass(), 'header');
     assert.equal(element._computeHeaderClass(true), 'header editMode');

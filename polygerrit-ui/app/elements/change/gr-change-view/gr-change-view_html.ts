@@ -113,8 +113,7 @@ export const htmlTemplate = html`
       --collapsed-max-height: 300px;
     }
     .changeStatuses,
-    .commitActions,
-    .statusText {
+    .commitActions {
       align-items: center;
       display: flex;
     }

@@ -31,10 +31,6 @@ export const htmlTemplate = html`
       background-color: var(--background-color-secondary);
       border-bottom: 1px solid var(--border-color);
     }
-    .fixActions {
-      display: flex;
-      justify-content: flex-end;
-    }
     gr-button {
       margin-left: var(--spacing-m);
     }

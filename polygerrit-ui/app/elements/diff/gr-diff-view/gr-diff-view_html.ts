@@ -112,10 +112,6 @@ export const htmlTemplate = html`
     .prefsButton {
       text-align: right;
     }
-    .noOverflow {
-      display: block;
-      overflow: auto;
-    }
     .editMode .hideOnEdit {
       display: none;
     }

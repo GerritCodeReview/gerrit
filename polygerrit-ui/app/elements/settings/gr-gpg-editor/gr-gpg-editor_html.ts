@@ -31,14 +31,6 @@ export const htmlTemplate = html`
       padding: var(--spacing-xxl);
       width: 50em;
     }
-    .publicKey {
-      font-family: var(--monospace-font-family);
-      font-size: var(--font-size-mono);
-      line-height: var(--line-height-mono);
-      overflow-x: scroll;
-      overflow-wrap: break-word;
-      width: 30em;
-    }
     .closeButton {
       bottom: 2em;
       position: absolute;

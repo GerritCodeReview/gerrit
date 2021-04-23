@@ -44,10 +44,6 @@ export const htmlTemplate = html`
       border-top: 1px solid var(--border-color);
       margin-top: var(--spacing-xl);
     }
-    .resolved-comments-message {
-      color: var(--link-color);
-      cursor: pointer;
-    }
     .show-resolved-comments {
       box-shadow: none;
       padding-left: var(--spacing-m);

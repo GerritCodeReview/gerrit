@@ -16,6 +16,24 @@
       "message": "The value of this option is implicitly defined by the current value of the auth.userNameCaseInsensitive.\n\nMaybe just inform/ask the user about the direction of the migration?",
       "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c31d5f43_b6df95cc",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-23T13:08:58Z",
+      "side": 1,
+      "message": "I think it\u0027s good to make this very explicit instead of looking at the current configuration",
+      "parentUuid": "95332038_02919ae9",
+      "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f87af3b_10ad6d54",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-23T12:49:27Z",
+      "side": 1,
+      "message": "I placed a hard-coded value of 10 seconds for the timeout. I don\u0027t think the timeout has to be configured by the user. What do you think?",
+      "range": {
+        "startLine": 32,
+        "startChar": 41,
+        "endLine": 32,
+        "endChar": 44
+      },
+      "revId": "8e8617474a64ecc641e10b2d5a9f4b1c30e40d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ff43db_85f54cc6",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-23T19:10:59Z",
+      "side": 1,
+      "message": "Not used and should be removed.",
+      "range": {
+        "startLine": 442,
+        "startChar": 68,
+        "endLine": 442,
+        "endChar": 76
+      },
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

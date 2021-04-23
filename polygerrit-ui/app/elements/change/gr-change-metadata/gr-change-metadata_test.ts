@@ -87,6 +87,26 @@ suite('gr-change-metadata tests', () => {
     element = basicFixture.instantiate();
   });
 
+  test('_computeMergedCommitInfo', () => {
+    const dummyRevs: {[revisionId: string]: RevisionInfo} = {
+      1: createRevision(1),
+      2: createRevision(2),
+    };
+    assert.deepEqual(
+      element._computeMergedCommitInfo('0' as CommitId, dummyRevs),
+      {}
+    );
+    assert.deepEqual(
+      element._computeMergedCommitInfo('1' as CommitId, dummyRevs),
+      dummyRevs[1].commit
+    );
+
+    // Regression test for issue 5337.
+    const commit = element._computeMergedCommitInfo('2' as CommitId, dummyRevs);
+    assert.notDeepEqual(commit, dummyRevs[2]);
+    assert.deepEqual(commit, dummyRevs[2].commit);
+  });
+
   test('computed fields', () => {
     assert.isFalse(
       element._computeHideStrategy({

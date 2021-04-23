@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33827cfe_20fd5cd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9af68db_c230ad49",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "775724fd_fee4dd8d",
@@ -70,6 +94,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43b07c06_ecd65382",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "775724fd_fee4dd8d",
+      "range": {
+        "startLine": 21,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95f92efc_c1eb4cb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb9fca56_7504e14d",
+      "range": {
+        "startLine": 21,
+        "startChar": 29,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8aa51de6_89f1bbbb",
@@ -83,6 +155,24 @@
       "writtenOn": "2021-04-23T08:48:28Z",
       "side": 1,
       "message": "Maybe link to the FE change?",
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0e30094_c28f2475",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8aa51de6_89f1bbbb",
       "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -127,6 +217,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24d3b924_32cfb29f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 6689,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13c8eea3_171c3a06",
+      "range": {
+        "startLine": 6689,
+        "startChar": 0,
+        "endLine": 6689,
+        "endChar": 5
+      },
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec1c205b_58edc6fa",
@@ -144,6 +258,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae41d597_e41ee838",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec1c205b_58edc6fa",
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e78aa8a1_3721f09b",
@@ -157,6 +289,24 @@
       "writtenOn": "2021-04-23T08:48:28Z",
       "side": 1,
       "message": "opt: IMHO such overloads reduce readability. They prevent the IDE\u0027s \"search occurrences\" from finding all occurrences in one operation, and at the call site it\u0027s no longer immediately obvious that the method only operates on .getMessage(). Personally I prefer to be a little more verbose and inline the .getMessage().",
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18bc7e57_38e97efb",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e78aa8a1_3721f09b",
       "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -184,6 +334,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "701d72dd_c2135506",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "341eeba5_5bb2fa28",
+      "range": {
+        "startLine": 122,
+        "startChar": 63,
+        "endLine": 122,
+        "endChar": 64
+      },
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2878b466_c25014ff",
@@ -197,6 +371,24 @@
       "writtenOn": "2021-04-23T08:48:28Z",
       "side": 1,
       "message": "Add javadoc.",
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97a91104_c6b6e08a",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2878b466_c25014ff",
       "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -224,6 +416,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35df67ed_c3529750",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d9c6abd_f5fbda8c",
+      "range": {
+        "startLine": 199,
+        "startChar": 62,
+        "endLine": 199,
+        "endChar": 69
+      },
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f06cbeac_c583aad4",
@@ -237,6 +453,24 @@
       "writtenOn": "2021-04-23T08:48:28Z",
       "side": 1,
       "message": "The comment should mention that because of this there is no need to avoid PII in the message.",
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a83485bd_62717d51",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerByEmailOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f06cbeac_c583aad4",
       "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -258,6 +492,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "264f99bc_aee07d8d",
+        "filename": "java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76a213ff_8bac225b",
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa6fb727_7f1dd8cc",
@@ -271,6 +523,30 @@
       "writtenOn": "2021-04-23T08:48:28Z",
       "side": 1,
       "message": "Is this needed?",
+      "range": {
+        "startLine": 953,
+        "startChar": 22,
+        "endLine": 953,
+        "endChar": 33
+      },
+      "revId": "70ca38824efebed0ac9c20434745e8ee9bc49cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91f35c70_7f712a3e",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T10:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa6fb727_7f1dd8cc",
       "range": {
         "startLine": 953,
         "startChar": 22,

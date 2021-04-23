@@ -230,6 +230,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a715c322_1c480974",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-23T20:22:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd7b700f_48c3fd0f",
+      "range": {
+        "startLine": 447,
+        "startChar": 45,
+        "endLine": 447,
+        "endChar": 49
+      },
+      "revId": "e36b4db20e43b0d62eab1586f44d11175e4f4580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "682ed4b9_12ad0ec3",

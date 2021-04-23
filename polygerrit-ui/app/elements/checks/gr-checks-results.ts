@@ -41,7 +41,7 @@ import {
   checksPatchsetNumber$,
   someProvidersAreLoading$,
   RunResult,
-  CheckRun,
+  CheckRun, allLinks$,
 } from '../../services/checks/checks-model';
 import {
   allResults,
@@ -480,6 +480,9 @@ export class GrChecksResults extends GrLitElement {
   actions: Action[] = [];
 
   @property()
+  links: Link[] = [];
+
+  @property()
   tabState?: ChecksTabState;
 
   @property()
@@ -517,6 +520,7 @@ export class GrChecksResults extends GrLitElement {
   constructor() {
     super();
     this.subscribe('actions', allActions$);
+    this.subscribe('links', allLinks$);
     this.subscribe('checksPatchsetNumber', checksPatchsetNumber$);
     this.subscribe('latestPatchsetNumber', latestPatchNum$);
     this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
@@ -554,6 +558,10 @@ export class GrChecksResults extends GrLitElement {
         .headerBottomRow .right {
           display: flex;
           align-items: center;
+        }
+        .headerBottomRow .links iron-icon {
+          color: var(--link-color);
+          margin-right: var(--spacing-l);
         }
         #moreActions iron-icon {
           color: var(--link-color);
@@ -697,7 +705,7 @@ export class GrChecksResults extends GrLitElement {
         </div>
         <div class="headerBottomRow">
           <div class="left">${this.renderFilter()}</div>
-          <div class="right">${this.renderActions()}</div>
+          <div class="right">${this.renderLinks()}${this.renderActions()}</div>
         </div>
       </div>
       <div class="body">
@@ -706,6 +714,24 @@ export class GrChecksResults extends GrLitElement {
         ${this.renderSection(Category.INFO)} ${this.renderSection('SUCCESS')}
       </div>
     `;
+  }
+
+  private renderLinks() {
+    const links = (this.links ?? []).slice(0, 4);
+    if (links.length === 0) return;
+    return html`<div class="links">${links.map(this.renderLink)}</div>`;
+  }
+
+  private renderLink(link: Link) {
+    const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
+    return html`<a href="${link.url}" target="_blank"
+      ><iron-icon
+        aria-label="external link to details"
+        class="link"
+        icon="gr-icons:${iconForLink(link.icon)}"
+      ></iron-icon
+      ><paper-tooltip offset="5">${tooltipText}</paper-tooltip></a
+    >`;
   }
 
   private renderActions() {

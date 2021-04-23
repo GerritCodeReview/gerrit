@@ -176,7 +176,8 @@ export class ChecksService {
             updateStateSetResults(
               pluginName,
               response.runs ?? [],
-              response.actions
+              response.actions ?? [],
+              response.links ?? []
             );
             break;
         }

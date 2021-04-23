@@ -82,6 +82,13 @@ export interface FetchResponse {
    * Will be shown as buttons in the header of the Checks tab.
    */
   actions?: Action[];
+
+  /**
+   * Top-level links that are not associated with a specific run or result.
+   * Will be shown as icons in the header of the Checks tab.
+   */
+  links?: Link[];
+
   runs?: CheckRun[];
 }
 

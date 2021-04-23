@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1e82298_db0658e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-23T17:49:38Z",
+      "side": 1,
+      "message": "Wrong commit message for merge change. We usually use this command:\n\n  $ git merge --log --no-ff stable-3.4\n\nI can redo the merge and upload new patch set later today.",
+      "revId": "47433821a6ca0cea5c5471e18f3b591c98b43a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -439,12 +439,12 @@ def bundle_assets(*args, **kwargs):
     """Combine html, js, css files and optionally split into js and html bundles."""
     _bundle_rule(pkg = native.package_name(), *args, **kwargs)
 
-def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_name = None, **kwargs):
+def polygerrit_plugin(name, app, assets = None, plugin_name = None, **kwargs):
     """Bundles plugin dependencies for deployment.
 
-    This rule bundles all Polymer elements and JS dependencies into .html and .js files.
+    This rule bundles all Polymer elements and JS dependencies into .js file.
     Run-time dependencies (e.g. JS libraries loaded after plugin starts) should be provided using "assets" property.
-    Output of this rule is a FileSet with "${name}_fs", with deploy artifacts in "plugins/${name}/static".
+    Output of this rule is a FileSet with "${name}.js" and assets, with deploy artifacts in "plugins/${name}/static".
 
     Args:
       name: String, rule name.
@@ -455,12 +455,9 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_nam
     if not plugin_name:
         plugin_name = name
 
-    srcs = srcs if app in srcs else srcs + [app]
-    js_srcs = srcs
-
     native.filegroup(
         name = name + "-src-fg",
-        srcs = js_srcs,
+        srcs = [app],
     )
 
     terser_minified(

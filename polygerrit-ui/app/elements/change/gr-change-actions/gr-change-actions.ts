@@ -35,7 +35,7 @@ import {htmlTemplate} from './gr-change-actions_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {appContext} from '../../../services/app-context';
-import {fetchChangeUpdates, CURRENT} from '../../../utils/patch-set-util';
+import {CURRENT} from '../../../utils/patch-set-util';
 import {
   changeIsOpen,
   isOwner,
@@ -382,6 +382,8 @@ export class GrChangeActions
   reporting = appContext.reportingService;
 
   private readonly jsAPI = appContext.jsApiService;
+
+  private readonly changeService = appContext.changeService;
 
   @property({type: Object})
   change?: ChangeViewChangeInfo;
@@ -1745,7 +1747,7 @@ export class GrChangeActions
         new Error('Properties change and changeNum must be set.')
       );
     }
-    return fetchChangeUpdates(change, this.restApiService).then(result => {
+    return this.changeService.fetchChangeUpdates(change).then(result => {
       if (!result.isLatest) {
         this.dispatchEvent(
           new CustomEvent<ShowAlertEventDetail>('show-alert', {

@@ -705,7 +705,9 @@ export class GrChangeMetadata extends PolymerElement {
           .map(change => change.topic)
           .filter(notUndefined)
           .filter(unique)
-          .map(topic => ({name: topic, value: topic}))
+          .map(topic => {
+            return {name: topic, value: topic};
+          })
       );
   }
 }

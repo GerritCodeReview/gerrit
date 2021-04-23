@@ -108,9 +108,7 @@ export const htmlTemplate = html`
         />
         <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
           Rebase on a specific change, ref, or commit
-          <span hidden$="[[!hasParent]]">
-            (breaks relation chain)
-          </span>
+          <span hidden$="[[!hasParent]]"> (breaks relation chain) </span>
         </label>
       </div>
       <div class="parentRevisionContainer">

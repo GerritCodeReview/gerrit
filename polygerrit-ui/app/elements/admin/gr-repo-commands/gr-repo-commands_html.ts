@@ -76,9 +76,7 @@ export const htmlTemplate = html`
       on-confirm="_handleCreateChange"
       on-cancel="_handleCloseCreateChange"
     >
-      <div class="header" slot="header">
-        Create Change
-      </div>
+      <div class="header" slot="header">Create Change</div>
       <div class="main" slot="main">
         <gr-create-change-dialog
           id="createNewChangeModal"

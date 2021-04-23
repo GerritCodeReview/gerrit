@@ -189,9 +189,9 @@ export const htmlTemplate = html`
             >
               <option value="IGNORE_NONE">None</option>
               <option value="IGNORE_TRAILING">Trailing</option>
-              <option value="IGNORE_LEADING_AND_TRAILING"
-                >Leading &amp; trailing</option
-              >
+              <option value="IGNORE_LEADING_AND_TRAILING">
+                Leading &amp; trailing
+              </option>
               <option value="IGNORE_ALL">All</option>
             </select>
           </gr-select>

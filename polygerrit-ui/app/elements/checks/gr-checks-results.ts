@@ -393,9 +393,7 @@ class GrResultRow extends GrLitElement {
     const primaryActions = (this.result?.actions ?? []).slice(0, 2);
     if (primaryActions.length === 0) return;
     return html`
-      <div class="primaryActions">
-        ${primaryActions.map(this.renderAction)}
-      </div>
+      <div class="primaryActions">${primaryActions.map(this.renderAction)}</div>
     `;
   }
 
@@ -831,9 +829,7 @@ export class GrChecksResults extends GrLitElement {
           placeholder="Filter results by regular expression"
           @input="${this.onInput}"
         />
-        <div class="selection">
-          ${this.renderSelectionFilter()}
-        </div>
+        <div class="selection">${this.renderSelectionFilter()}</div>
       </div>
     `;
   }

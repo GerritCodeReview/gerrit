@@ -92,9 +92,7 @@ export const htmlTemplate = html`
             on-create-tap="_handleCreateChangeTap"
           ></gr-create-change-help>
         </template>
-        <template is="dom-if" if="[[!_showNewUserHelp]]">
-          No changes
-        </template>
+        <template is="dom-if" if="[[!_showNewUserHelp]]"> No changes </template>
       </div>
       <div id="emptyYourTurn" slot="empty-your-turn">
         <span>No changes need your attention &nbsp;&#x1f389;</span>
@@ -108,9 +106,7 @@ export const htmlTemplate = html`
       on-confirm="_handleConfirmDelete"
       on-cancel="_closeConfirmDeleteOverlay"
     >
-      <div class="header" slot="header">
-        Delete comments
-      </div>
+      <div class="header" slot="header">Delete comments</div>
       <div class="main" slot="main">
         Are you sure you want to delete all your draft comments in closed
         changes? This action cannot be undone.

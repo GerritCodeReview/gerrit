@@ -415,9 +415,10 @@ export class GrChangeSummary extends GrLitElement {
       this.detailsQuota -= runs.length;
       return runs.map(run => {
         const allLinks = resultFilter(run)
-          .reduce((links, result) => {
-            return links.concat(result.links ?? []);
-          }, [] as Link[])
+          .reduce(
+            (links, result) => links.concat(result.links ?? []),
+            [] as Link[]
+          )
           .filter(link => link.primary);
         const links = allLinks.length === 1 ? allLinks : [];
         const text = `${run.checkName}`;

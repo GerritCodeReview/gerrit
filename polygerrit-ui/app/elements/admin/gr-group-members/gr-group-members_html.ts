@@ -136,9 +136,7 @@ export const htmlTemplate = html`
               <tr class="headerRow">
                 <th class="groupNameHeader">Group Name</th>
                 <th class="descriptionHeader">Description</th>
-                <th class="deleteIncludedHeader">
-                  Delete Group
-                </th>
+                <th class="deleteIncludedHeader">Delete Group</th>
               </tr>
             </tbody>
             <tbody>

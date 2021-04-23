@@ -302,9 +302,7 @@ export const htmlTemplate = html`
             items="[[_computeDownloadDropdownLinks(_change.project, _changeNum, _patchRange, _path, _diff)]]"
             horizontal-align="left"
           >
-            <span class="downloadTitle">
-              Download
-            </span>
+            <span class="downloadTitle"> Download </span>
           </gr-dropdown>
         </span>
       </div>

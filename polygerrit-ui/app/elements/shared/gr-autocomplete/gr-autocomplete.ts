@@ -61,9 +61,7 @@ export interface AutocompleteCommitEventDetail {
   value: string;
 }
 
-export type AutocompleteCommitEvent = CustomEvent<
-  AutocompleteCommitEventDetail
->;
+export type AutocompleteCommitEvent = CustomEvent<AutocompleteCommitEventDetail>;
 
 @customElement('gr-autocomplete')
 export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {

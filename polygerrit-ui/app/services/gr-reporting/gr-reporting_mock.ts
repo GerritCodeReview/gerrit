@@ -47,9 +47,7 @@ export const grReportingMock: ReportingService = {
   diffViewDisplayed: () => {},
   diffViewFullyLoaded: () => {},
   fileListDisplayed: () => {},
-  getTimer: () => {
-    return new MockTimer();
-  },
+  getTimer: () => new MockTimer(),
   locationChanged: (page: string) => {
     log(`locationChanged: ${page}`);
   },

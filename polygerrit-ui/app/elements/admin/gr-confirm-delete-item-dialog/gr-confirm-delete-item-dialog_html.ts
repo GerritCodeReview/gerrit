@@ -37,9 +37,7 @@ export const htmlTemplate = html`
         Do you really want to delete the following
         [[_computeItemName(itemType)]]?
       </label>
-      <div>
-        [[item]]
-      </div>
+      <div>[[item]]</div>
     </div>
   </gr-dialog>
 `;

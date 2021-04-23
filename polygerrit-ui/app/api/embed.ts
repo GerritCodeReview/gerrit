@@ -20,12 +20,13 @@
  * limitations under the License.
  */
 
-import {GrAnnotation} from './diff';
+import {DiffLayer, GrAnnotation} from './diff';
 
 declare global {
   interface Window {
     grdiff: {
       GrAnnotation: GrAnnotation;
+      TokenHighlightLayer: {new(): DiffLayer};
     };
   }
 }

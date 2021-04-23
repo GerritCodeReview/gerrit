@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cba28e30_63414a3b",
+        "filename": "polygerrit-ui/app/services/change/change-services_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-23T08:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96c7dd4e_f2684400",
+      "revId": "3250d9b2ed1e9d130a50b03d7e08f6cf43fd0ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ade10d5_b2ef1fe6",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "249cf272_2c0a41c8",
+        "filename": "polygerrit-ui/app/services/change/change-services_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-23T08:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ade10d5_b2ef1fe6",
+      "revId": "3250d9b2ed1e9d130a50b03d7e08f6cf43fd0ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06a374a1_91dd0c1b",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-04-22T20:19:20Z",
       "side": 1,
       "message": "the revisions did not change",
+      "revId": "3250d9b2ed1e9d130a50b03d7e08f6cf43fd0ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a13f8a76_87bae648",
+        "filename": "polygerrit-ui/app/services/change/change-services_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-23T08:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06a374a1_91dd0c1b",
       "revId": "3250d9b2ed1e9d130a50b03d7e08f6cf43fd0ab7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

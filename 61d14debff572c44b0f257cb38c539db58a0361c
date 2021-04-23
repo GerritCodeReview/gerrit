@@ -34,6 +34,24 @@
       "parentUuid": "8a67c015_70900555",
       "revId": "61d14debff572c44b0f257cb38c539db58a0361c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f81480b_2d666082",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-23T21:26:35Z",
+      "side": 1,
+      "message": "Sorry for the breakage. \n\nI was comparing patchset 1 and 2: No diff! PS1 was verified, so PS2 should be fine, not? :-) Oh well ...\n\nThanks for the fix!",
+      "parentUuid": "4fa48430_59fb2829",
+      "revId": "61d14debff572c44b0f257cb38c539db58a0361c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -213,10 +213,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly syntaxLayer = new GrSyntaxLayer();
 
-  private isCommentContextExperimentEnabled = this.flagsService.isEnabled(
-    KnownExperimentId.COMMENT_CONTEXT
-  );
-
   readonly restApiService = appContext.restApiService;
 
   constructor() {
@@ -262,11 +258,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _shouldShowCommentContext(diff?: DiffInfo) {
-    return (
-      this.isCommentContextExperimentEnabled &&
-      this.showCommentContext &&
-      !!diff
-    );
+    return this.showCommentContext && !!diff;
   }
 
   addOrEditDraft(lineNum?: LineNumber, rangeParam?: CommentRange) {

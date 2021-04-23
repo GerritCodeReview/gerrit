@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "391a521f_e265a8b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "Could you add a line that it only affects SCHEME_USERNAME and SCHEME_GERRIT?",
+      "range": {
+        "startLine": 17,
+        "startChar": 18,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "38067943_0cc11846",
@@ -36,6 +59,115 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8931efe7_11808672",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "Thank you for the change, I added some comments, mostly asking to improve tests/docs, I will double-check if we depend on username external id and how it could affect us once I am back from vacation.",
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bc13e58_f1c8fb36",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "could you link this doc here:\nhttps://gerrit-review.googlesource.com/Documentation/config-accounts.html#external-ids\n\nalso, update the above mentioned doc with the description how this option affects sha1",
+      "range": {
+        "startLine": 653,
+        "startChar": 42,
+        "endLine": 654,
+        "endChar": 43
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d9362ff_4e40079f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "nit: you meant after setting the option \u0027JohnDoe\u0027 won\u0027t be able to authenticate?",
+      "range": {
+        "startLine": 657,
+        "startChar": 29,
+        "endLine": 657,
+        "endChar": 37
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34cc2b36_5d9bad65",
+        "filename": "java/com/google/gerrit/server/account/AuthRequest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "Would it be better to convert this to FactoryProvider with Assisted Injection and get rid of this public constructor?\nhttps://google.github.io/guice/api-docs/3.0/javadoc/com/google/inject/assistedinject/FactoryProvider.html",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 20
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9f3d3a4_c6516cc3",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "could you, please, update the doc that those schme might be handled case-insensitive. Also, do you know what SCHEME_GERRIT is used for?",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 54
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35e2a676_65a7388d",
@@ -49,6 +181,167 @@
       "writtenOn": "2021-04-23T10:28:34Z",
       "side": 1,
       "message": "Add @VisibleForTesting",
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db1c3038_66286735",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "Could you add a line to the docs, that we keep external ids case-preserving, but they can be matched case-insensitive, if the option is provided?",
+      "range": {
+        "startLine": 307,
+        "startChar": 27,
+        "endLine": 307,
+        "endChar": 39
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fec4e15a_c7a7ced0",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "please, add a link to sheme, currently defined in ExternalId",
+      "range": {
+        "startLine": 68,
+        "startChar": 13,
+        "endLine": 68,
+        "endChar": 19
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82bd20a_f8d1ce64",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "Could you, please, add this param to docs?",
+      "range": {
+        "startLine": 219,
+        "startChar": 26,
+        "endLine": 219,
+        "endChar": 39
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d97fb257_aa5d0a7a",
+        "filename": "java/com/google/gerrit/server/account/externalids/PasswordVerifier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "override ExternalId.Key.equals?",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be63ace9_00d487f1",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutUsername.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "Could you add an integration test for the case when user updates tries to update their account, but there is an already existing account with the username in different case?",
+      "range": {
+        "startLine": 63,
+        "startChar": 13,
+        "endLine": 63,
+        "endChar": 24
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97be3eb7_f6b6d322",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "Could you, please, split it into multiple test methods? The common logic can be extracted to helper functions.",
+      "range": {
+        "startLine": 894,
+        "startChar": 0,
+        "endLine": 899,
+        "endChar": 96
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "217442c5_b2228435",
+        "filename": "javatests/com/google/gerrit/server/index/account/AccountFieldTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-04-23T15:07:16Z",
+      "side": 1,
+      "message": "could you add a test for case sensitive and insensitive case?\nAre there any changes needed to support matching in index? Should we keep search case sensitive/insensitive depending on the option? Could you add a test to AbstractQuery for that?\n\nI suppose we would not have to reindex accounts during migration, staleness checker would report non-lowercase accounts as stale, because sha1 has changed?",
+      "range": {
+        "startLine": 51,
+        "startChar": 14,
+        "endLine": 51,
+        "endChar": 40
+      },
       "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

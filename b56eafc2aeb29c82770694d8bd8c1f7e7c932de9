@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95332038_02919ae9",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-04-23T10:44:42Z",
+      "side": 1,
+      "message": "The value of this option is implicitly defined by the current value of the auth.userNameCaseInsensitive.\n\nMaybe just inform/ask the user about the direction of the migration?",
+      "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

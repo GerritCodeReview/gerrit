@@ -184,13 +184,6 @@ export class GrFileListHeader extends PolymerElement {
     return shownFileCount <= maxFilesForBulkActions;
   }
 
-  _showAddPatchsetDescription(
-    patchsetDescription: string,
-    change?: ChangeInfo
-  ) {
-    return !patchsetDescription && change?.status === ChangeStatus.NEW;
-  }
-
   _handlePatchChange(e: CustomEvent) {
     const {basePatchNum, patchNum} = e.detail;
     if (

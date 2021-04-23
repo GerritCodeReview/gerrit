@@ -2301,10 +2301,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _computeReplyDisabled() {
-    return false;
-  }
-
   _computeChangePermalinkAriaLabel(changeNum: NumericChangeId) {
     return `Change ${changeNum}`;
   }

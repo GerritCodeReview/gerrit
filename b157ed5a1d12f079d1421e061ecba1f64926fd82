@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73f9dfe2_ddbbf6c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-04-23T14:43:22Z",
+      "side": 1,
+      "message": "I extracted this from the \"ext id batch update\" change because it\u0027s really independent.",
+      "revId": "b157ed5a1d12f079d1421e061ecba1f64926fd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

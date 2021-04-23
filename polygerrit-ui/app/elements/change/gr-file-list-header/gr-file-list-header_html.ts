@@ -53,9 +53,6 @@ export const htmlTemplate = html`
     .latestPatchContainer a {
       text-decoration: none;
     }
-    gr-editable-label.descriptionLabel {
-      max-width: 100%;
-    }
     .mobile {
       display: none;
     }
@@ -88,9 +85,6 @@ export const htmlTemplate = html`
     }
     .someExpanded #expandBtn {
       margin-right: 8px;
-    }
-    gr-linked-chip {
-      --linked-chip-text-color: var(--primary-text-color);
     }
     .someExpanded #collapseBtn,
     .allExpanded #collapseBtn,
@@ -164,32 +158,6 @@ export const htmlTemplate = html`
         <span class="container latestPatchContainer">
           <span class="separator"></span>
           <a href$="[[changeUrl]]">Go to latest patch set</a>
-        </span>
-        <span class="container descriptionContainer hideOnEdit">
-          <span class="separator"></span>
-          <template is="dom-if" if="[[_patchsetDescription]]">
-            <gr-linked-chip
-              id="descriptionChip"
-              text="[[_patchsetDescription]]"
-              removable="[[!_descriptionReadOnly]]"
-              on-remove="_handleDescriptionRemoved"
-            ></gr-linked-chip>
-          </template>
-          <template
-            is="dom-if"
-            if="[[_showAddPatchsetDescription(_patchsetDescription, change)]]"
-          >
-            <gr-editable-label
-              id="descriptionLabel"
-              uppercase=""
-              class="descriptionLabel"
-              label-text="Add patchset description"
-              value="[[_patchsetDescription]]"
-              placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"
-              read-only="[[_descriptionReadOnly]]"
-              on-changed="_handleDescriptionChanged"
-            ></gr-editable-label>
-          </template>
         </span>
       </div>
     </div>

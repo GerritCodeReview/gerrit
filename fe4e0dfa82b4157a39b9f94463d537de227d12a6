@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4aa039d_4ab95a20",
+        "filename": "java/com/google/gerrit/sshd/commands/ConvertRefStorage.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-24T00:31:47Z",
+      "side": 1,
+      "message": "It would be best to use a DelegateRepository and adding that method there.\n\nWe could then check if the delegated repository is a FileRepository and, if yes, delegate the call to a FileRepository.\n\nIn that way, both HA and Multi-Site setups would be able to benefit from this command.",
+      "range": {
+        "startLine": 76,
+        "startChar": 7,
+        "endLine": 76,
+        "endChar": 23
+      },
+      "revId": "fe4e0dfa82b4157a39b9f94463d537de227d12a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

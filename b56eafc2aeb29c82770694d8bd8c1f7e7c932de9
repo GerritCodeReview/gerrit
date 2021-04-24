@@ -34,6 +34,75 @@
       "parentUuid": "95332038_02919ae9",
       "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70d06d34_f669f73a",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-24T02:08:12Z",
+      "side": 1,
+      "message": "What do you mean by \u0027direct connectivity\u0027 ?",
+      "range": {
+        "startLine": 34,
+        "startChar": 41,
+        "endLine": 35,
+        "endChar": 12
+      },
+      "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e6057fb_b7c823a9",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-24T02:08:12Z",
+      "side": 1,
+      "message": "If we only allow to convert to insensitive, what\u0027s the point of having an option with a parameter?\n\nJust call this --toInsensitive",
+      "range": {
+        "startLine": 65,
+        "startChar": 44,
+        "endLine": 65,
+        "endChar": 68
+      },
+      "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6faf9e07_b3c81bff",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-24T02:08:12Z",
+      "side": 1,
+      "message": "Should we rather say: \"Gerrit is already configured as case-insensitive, nothing to do\" ?",
+      "range": {
+        "startLine": 110,
+        "startChar": 69,
+        "endLine": 110,
+        "endChar": 85
+      },
+      "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

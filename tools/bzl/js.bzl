@@ -1,5 +1,11 @@
+<<<<<<< HEAD   (6ac3b0 Merge branch 'stable-3.1' into stable-3.2)
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
+=======
+load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
+load("@npm//@bazel/terser:index.bzl", "terser_minified")
+>>>>>>> CHANGE (021523 Bazel: Add gerrit_js_bundle rule)
 load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
+load("//tools/bzl:genrule2.bzl", "genrule2")
 
 NPMJS = "NPMJS"
 
@@ -548,4 +554,56 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
     native.filegroup(
         name = name,
         srcs = static_files,
+    )
+
+def gerrit_js_bundle(name, srcs, entry_point):
+    """Produces a Gerrit JavaScript bundle archive.
+
+    This rule bundles and minifies the javascript files of a frontend plugin and
+    produces a file archive.
+    Output of this rule is an archive with "${name}.jar" with specific layout for
+    Gerrit frontentd plugins. That archive should be provided to gerrit_plugin
+    rule as resource_jars attribute.
+
+    Args:
+      name: Rule name.
+      srcs: Plugin sources.
+      entry_point: Plugin entry_point.
+    """
+    rollup_bundle(
+        name = name + "-bundle",
+        srcs = srcs,
+        entry_point = entry_point,
+        format = "iife",
+        rollup_bin = "//tools/node_tools:rollup-bin",
+        sourcemap = "hidden",
+        deps = [
+            "@tools_npm//rollup-plugin-node-resolve",
+        ],
+    )
+
+    terser_minified(
+        name = name + ".min",
+        sourcemap = False,
+        src = name + "-bundle.js",
+    )
+
+    native.genrule(
+        name = name + "_rename_js",
+        srcs = [name + ".min"],
+        outs = [name + ".js"],
+        cmd = "cp $< $@",
+        output_to_bindir = True,
+    )
+
+    genrule2(
+        name = name,
+        srcs = [name + ".js"],
+        outs = [name + ".jar"],
+        cmd = " && ".join([
+            "mkdir $$TMP/static",
+            "cp $(SRCS) $$TMP/static",
+            "cd $$TMP",
+            "zip -Drq $$ROOT/$@ -g .",
+        ]),
     )

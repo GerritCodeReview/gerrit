@@ -545,6 +545,30 @@
       },
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24a7c391_3b458251",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-24T01:52:33Z",
+      "side": 1,
+      "message": "I do not believe there is any username in the external ids.",
+      "parentUuid": "ca220b67_ff0b14cd",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

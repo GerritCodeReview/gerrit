@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d33a348_6a1108c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-24T01:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cf19e53_e5baef38",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 14
+      },
+      "revId": "ae6e13ff5745e39b945ffd1684f878340f7dd3ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10d3514b_1fa59571",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-20T20:26:44Z",
       "side": 1,
       "message": "This would need some explanation (comments?) on why it represents a simulation of a class loader issue.",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 50
+      },
+      "revId": "ae6e13ff5745e39b945ffd1684f878340f7dd3ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "125c85b3_d5fd76b6",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-24T01:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d3514b_1fa59571",
       "range": {
         "startLine": 85,
         "startChar": 4,

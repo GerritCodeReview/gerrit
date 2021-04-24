@@ -439,17 +439,15 @@ def bundle_assets(*args, **kwargs):
     """Combine html, js, css files and optionally split into js and html bundles."""
     _bundle_rule(pkg = native.package_name(), *args, **kwargs)
 
-def polygerrit_plugin(name, app, assets = [], plugin_name = None):
-    """Produces plugin file set with minified javascript and assets.
+def polygerrit_plugin(name, app, plugin_name = None):
+    """Produces plugin file set with minified javascript.
 
     This rule minifies a plugin javascript file, potentially renames it, and produces a file set.
-    Run-time dependencies (e.g. JS libraries loaded after plugin starts) should be provided using "assets" property.
-    Output of this rule is a FileSet with "${plugin_name}.js" and assets.
+    Output of this rule is a FileSet with "${plugin_name}.js".
 
     Args:
       name: String, rule name.
       app: String, the main or root source file. This must be single JavaScript file.
-      assets: Fileset, additional files to be used by plugin in runtime.
       plugin_name: String, plugin name. ${name} is used if not provided.
     """
     if not plugin_name:
@@ -471,5 +469,5 @@ def polygerrit_plugin(name, app, assets = [], plugin_name = None):
 
     native.filegroup(
         name = name,
-        srcs = [plugin_name + ".js"] + assets,
+        srcs = [plugin_name + ".js"],
     )

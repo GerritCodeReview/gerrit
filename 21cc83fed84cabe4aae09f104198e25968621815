@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a41122c_7a91b7a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-04-25T09:15:34Z",
+      "side": 1,
+      "message": "Hi all, here https://gist.github.com/geminicaprograms/a8b8e0bfe954782866396ee11c7c3967 is a code snippet that I have used to gather timings vs different number of threads and different java versions.\nI have also compared it against the existing call to get deadlocks so that we have some reference.\n\nUnder Java15 it looks not bad... but I would like others to speak up in terms of the measurement (I was not able to start more than 4k threads on my laptop).",
+      "revId": "21cc83fed84cabe4aae09f104198e25968621815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c0a248c_f2daf371",
         "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
         "patchSetId": 4

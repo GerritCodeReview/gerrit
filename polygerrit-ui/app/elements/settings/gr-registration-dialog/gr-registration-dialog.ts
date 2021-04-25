@@ -73,10 +73,16 @@ export class GrRegistrationDialog extends PolymerElement {
   _serverConfig?: ServerInfo;
 
   @property({
-    computed: '_computeUsernameMutable(_serverConfig,_account.username)',
+    computed: '_computeUsernameMutable(_serverConfig, _account.username)',
     type: Boolean,
   })
   _usernameMutable = false;
+
+  @property({type: Boolean})
+  _hasUsernameChange?: boolean;
+
+  @property({type: String, observer: '_usernameChanged'})
+  _username?: string;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -86,26 +92,15 @@ export class GrRegistrationDialog extends PolymerElement {
     this._ensureAttribute('role', 'dialog');
   }
 
-  _computeUsernameMutable(config?: ServerInfo, username?: string) {
-    // Polymer 2: check for undefined
-    // username is not being checked for undefined as we want to avoid
-    // setting it null explicitly to trigger the computation
-    if (config === undefined) {
-      return false;
-    }
-
-    return (
-      config.auth.editable_account_fields.includes(
-        EditableAccountField.USER_NAME
-      ) && !username
-    );
-  }
-
   loadData() {
     this._loading = true;
 
     const loadAccount = this.restApiService.getAccount().then(account => {
+      if (!account) return;
+      this._hasUsernameChange = false;
+      account.username = account.username || '';
       this._account = {...this._account, ...account};
+      this._username = account.username;
     });
 
     const loadConfig = this.restApiService.getConfig().then(config => {
@@ -117,6 +112,28 @@ export class GrRegistrationDialog extends PolymerElement {
     });
   }
 
+  _usernameChanged() {
+    if (this._loading || !this._account) {
+      return;
+    }
+    this._hasUsernameChange =
+      (this._account.username || '') !== (this._username || '');
+  }
+
+  _computeUsernameMutable(config: ServerInfo, username?: string) {
+    // Polymer 2: check for undefined
+    if ([config, username].includes(undefined)) {
+      return undefined;
+    }
+
+    // Username may not be changed once it is set.
+    return (
+      config.auth.editable_account_fields.includes(
+        EditableAccountField.USER_NAME
+      ) && !username
+    );
+  }
+
   _save() {
     this._saving = true;
     const promises = [
@@ -124,11 +141,13 @@ export class GrRegistrationDialog extends PolymerElement {
       this.restApiService.setPreferredAccountEmail(this.$.email.value || ''),
     ];
 
-    if (this._usernameMutable) {
-      promises.push(
-        this.restApiService.setAccountUsername(this.$.username.value)
-      );
-    }
+    // Note that we are intentionally not acting on this._username being the
+    // empty string (which is falsy).
+    promises.push(
+      this._hasUsernameChange && this._usernameMutable && this._username
+        ? this.restApiService.setAccountUsername(this._username)
+        : Promise.resolve()
+    );
 
     return Promise.all(promises).then(() => {
       this._saving = false;
@@ -151,12 +170,13 @@ export class GrRegistrationDialog extends PolymerElement {
     fireEvent(this, 'close');
   }
 
-  _computeSaveDisabled(name?: string, email?: string, saving?: boolean) {
-    return !name || !email || saving;
-  }
-
-  _computeUsernameClass(usernameMutable: boolean) {
-    return usernameMutable ? '' : 'hide';
+  _computeSaveDisabled(
+    name?: string,
+    username?: string,
+    email?: string,
+    saving?: boolean
+  ) {
+    return (!name && !username && !email) || saving;
   }
 
   @observe('_loading')

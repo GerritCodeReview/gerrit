@@ -17,11 +17,7 @@
 import '../../../test/common-test-setup-karma';
 import {GrRegistrationDialog} from './gr-registration-dialog';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
-import {
-  AccountDetailInfo,
-  EmailAddress,
-  Timestamp,
-} from '../../../types/common';
+import {AccountDetailInfo, Timestamp} from '../../../types/common';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {AuthType, EditableAccountField} from '../../../constants/constants';
 import {createServerInfo} from '../../../test/test-data-generators';
@@ -39,8 +35,6 @@ suite('gr-registration-dialog tests', () => {
 
     account = {
       name: 'name',
-      email: 'email' as EmailAddress,
-      secondary_emails: ['email2', 'email3'],
       registered_on: '2018-02-08 18:49:18.000000000' as Timestamp,
     };
 
@@ -51,10 +45,6 @@ suite('gr-registration-dialog tests', () => {
     });
     stubRestApi('setAccountUsername').callsFake(username => {
       account.username = username;
-      return Promise.resolve();
-    });
-    stubRestApi('setPreferredAccountEmail').callsFake(email => {
-      account.email = email as EmailAddress;
       return Promise.resolve();
     });
     stubRestApi('getConfig').returns(
@@ -117,32 +107,18 @@ suite('gr-registration-dialog tests', () => {
     flush(() => {
       element.$.name.value = 'new name';
       element.$.username.value = 'new username';
-      element.$.email.value = 'email3';
 
       // Nothing should be committed yet.
       assert.equal(account.name, 'name');
       assert.isNotOk(account.username);
-      assert.equal(account.email, 'email' as EmailAddress);
 
       // Save and verify new values are committed.
       save()
         .then(() => {
           assert.equal(account.name, 'new name');
           assert.equal(account.username, 'new username');
-          assert.equal(account.email, 'email3' as EmailAddress);
         })
         .then(done);
-    });
-  });
-
-  test('email select properly populated', done => {
-    element._account = {
-      email: 'foo' as EmailAddress,
-      secondary_emails: ['bar', 'baz'],
-    };
-    flush(() => {
-      assert.equal(element.$.email.value, 'foo');
-      done();
     });
   });
 

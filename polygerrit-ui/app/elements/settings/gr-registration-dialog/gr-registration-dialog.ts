@@ -151,12 +151,8 @@ export class GrRegistrationDialog extends PolymerElement {
     fireEvent(this, 'close');
   }
 
-  _computeSaveDisabled(name?: string, email?: string, saving?: boolean) {
-    return !name || !email || saving;
-  }
-
-  _computeUsernameClass(usernameMutable: boolean) {
-    return usernameMutable ? '' : 'hide';
+  _computeSaveDisabled(name?: string, username?: string, email?: string, saving?: boolean) {
+    return !name || !username || !email || saving;
   }
 
   @observe('_loading')

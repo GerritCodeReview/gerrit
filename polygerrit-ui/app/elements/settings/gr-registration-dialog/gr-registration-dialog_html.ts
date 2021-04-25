@@ -59,9 +59,6 @@ export const htmlTemplate = html`
     input {
       width: 20em;
     }
-    section.hide {
-      display: none;
-    }
   </style>
   <div class="container gr-form-styles">
     <header>Please confirm your contact information</header>
@@ -85,7 +82,7 @@ export const htmlTemplate = html`
           />
         </iron-input>
       </section>
-      <section class$="[[_computeUsernameClass(_usernameMutable)]]">
+      <section>
         <div class="title">Username</div>
         <iron-input bind-value="{{_account.username}}">
           <input
@@ -123,7 +120,7 @@ export const htmlTemplate = html`
         id="saveButton"
         primary=""
         link=""
-        disabled="[[_computeSaveDisabled(_account.name, _account.email, _saving)]]"
+        disabled="[[_computeSaveDisabled(_account.name, _account.username, _account.email, _saving)]]"
         on-click="_handleSave"
         >Save</gr-button
       >

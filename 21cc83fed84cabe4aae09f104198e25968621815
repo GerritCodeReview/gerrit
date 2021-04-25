@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "134cb5cd_f4a5629e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-25T21:51:21Z",
+      "side": 1,
+      "message": "If the numbers in the table are \u0027msec\u0027 then it is definitely not a good idea to use a callback-style metric.\n\nOn Java 11, with 4000 threads, spending 230 ms of CPU time for 1 call per second means using 23% of the CPU. I believe we need to check for blocked threads on a regular basis and contribute the metric, so that we can limit the CPU utilisation, rather than calculating it on a callback basis.",
+      "parentUuid": "5a41122c_7a91b7a2",
+      "revId": "21cc83fed84cabe4aae09f104198e25968621815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c0a248c_f2daf371",
         "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
         "patchSetId": 4

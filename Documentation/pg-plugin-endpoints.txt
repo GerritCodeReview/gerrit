@@ -1,16 +1,24 @@
-= Gerrit Code Review - PolyGerrit Plugin Styling
+= Gerrit Code Review - JavaScript Plugin Endpoints
 
-Plugins should be html-based and imported following PolyGerrit's
-link:pg-plugin-dev.html#loading[dev guide].
+This document describes Gerrit JavaScript plugin endpoints that you can hook
+into for customizing the UI. It is assumed that you are familiar with
+link:pg-plugin-dev.html#loading[the general dev guide].
 
-Sample code for testing endpoints:
+You can either hook into an endpoint by calling `plugin.hook(endpoint)` and
+then interact with the returned `HookApi`, which has `onAttached(callback)` and
+`onDetached(callback)` methods.
+
+Or you can define a
+link:https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements[Web Component,role=external,window=_blank]
+and register it directly using
+`plugin.registerCustomComponent(endpoint, elementName)`.
+
+Sample code for using an endpoint:
 
 ``` js
 Gerrit.install(plugin => {
-  // Change endpoint below
   const endpoint = 'change-metadata-item';
   plugin.hook(endpoint).onAttached(element => {
-    console.log(endpoint, element);
     const el = element.appendChild(document.createElement('div'));
     el.textContent = 'Ah, there it is. Lovely.';
     el.style = 'background: pink; line-height: 4em; text-align: center;';
@@ -42,9 +50,8 @@ all users.
 
 === change-view-integration
 The `change-view-integration` extension point is located between `Files` and
-`Messages` section on the change view page, and it may take full page's
-width. Primary purpose is to enable plugins to display custom CI-related
-information (build status, etc).
+`Change Log` section on the change view page, and it may take full page's
+width.
 
 * `change`
 +
@@ -174,7 +181,8 @@ link:rest-api-changes.html#revision-info[RevisionInfo]
 
 == Dynamic Plugin endpoints
 
-The following endpoints are available to plugins.
+The following dynamic endpoints are available to plugins by calling
+`plugin.registerDynamicCustomComponent(endpoint, elementName)`.
 
 === change-list-header
 The `change-list-header` extension point adds a header to the change list view.

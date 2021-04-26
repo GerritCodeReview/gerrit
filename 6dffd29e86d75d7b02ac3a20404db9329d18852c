@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e1022db_fabbca1b",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Could be removed anyway, since it wasn\u0027t used anymore after using static injection in Val.",
+      "parentUuid": "9f2ef011_5d428fe6",
+      "revId": "6dffd29e86d75d7b02ac3a20404db9329d18852c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a159024d_023a0c6d",

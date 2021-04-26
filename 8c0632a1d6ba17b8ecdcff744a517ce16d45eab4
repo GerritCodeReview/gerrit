@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ac5ed711_9978feba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "391a521f_e265a8b6",
+      "range": {
+        "startLine": 17,
+        "startChar": 18,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "38067943_0cc11846",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 21
@@ -76,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68fc04bd_389c93fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Thanks Marija for looking into this!",
+      "parentUuid": "fc040328_57975783",
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bc13e58_f1c8fb36",
@@ -89,6 +131,30 @@
       "writtenOn": "2021-04-23T15:07:16Z",
       "side": 1,
       "message": "could you link this doc here:\nhttps://gerrit-review.googlesource.com/Documentation/config-accounts.html#external-ids\n\nalso, update the above mentioned doc with the description how this option affects sha1",
+      "range": {
+        "startLine": 653,
+        "startChar": 42,
+        "endLine": 654,
+        "endChar": 43
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c09d2c80_2ae941eb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bc13e58_f1c8fb36",
       "range": {
         "startLine": 653,
         "startChar": 42,
@@ -122,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "780c35eb_d80eb248",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d9362ff_4e40079f",
+      "range": {
+        "startLine": 657,
+        "startChar": 29,
+        "endLine": 657,
+        "endChar": 37
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34cc2b36_5d9bad65",
@@ -135,6 +225,30 @@
       "writtenOn": "2021-04-23T15:07:16Z",
       "side": 1,
       "message": "Would it be better to convert this to FactoryProvider with Assisted Injection and get rid of this public constructor?\nhttps://google.github.io/guice/api-docs/3.0/javadoc/com/google/inject/assistedinject/FactoryProvider.html",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 20
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81413363_d10057f2",
+        "filename": "java/com/google/gerrit/server/account/AuthRequest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Unfortunately a Guice factory wouldn\u0027t work well, since we have multiple create(String) method signatures in it. That is why I created a factory without using Guice to create it for me. However, I added a create function to take over the task of the constructor, made the factory a nested class and made the constructor private.",
+      "parentUuid": "34cc2b36_5d9bad65",
       "range": {
         "startLine": 44,
         "startChar": 9,
@@ -168,6 +282,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e1345e0_6d57f57f",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Done.\n\nThe external IDs mark a user as being managed by an external identity provider like LDAP. If an account has an external ID in SCHEME_GERRIT, authentication (mainly in the UI) will be delegated to the IDP, instead of Gerrit, as it would be for internal accounts.",
+      "parentUuid": "f9f3d3a4_c6516cc3",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 54
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35e2a676_65a7388d",
@@ -185,6 +323,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53840cea_25411fd3",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35e2a676_65a7388d",
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db1c3038_66286735",
@@ -198,6 +354,30 @@
       "writtenOn": "2021-04-23T15:07:16Z",
       "side": 1,
       "message": "Could you add a line to the docs, that we keep external ids case-preserving, but they can be matched case-insensitive, if the option is provided?",
+      "range": {
+        "startLine": 307,
+        "startChar": 27,
+        "endLine": 307,
+        "endChar": 39
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1611e97_5727c669",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "This is already described like this in the documentation describing the new option:\n\n\u003e If set the username will be handled case insensitively but case preserving,\n\nI also explicitly added it to config-accounts.txt",
+      "parentUuid": "db1c3038_66286735",
       "range": {
         "startLine": 307,
         "startChar": 27,
@@ -231,6 +411,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "657431d9_a99fe364",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "I added SCHEME_USERNAME as an example. Linking all might be a bit much and would also not be fully correct. In principal, plugins could just define a new scheme, e.g. to be used as reference. There is nothing to forbid or prevent this. And I would guess, that this is by design, otherwise an enum would have been used for schemes.",
+      "parentUuid": "fec4e15a_c7a7ced0",
+      "range": {
+        "startLine": 68,
+        "startChar": 13,
+        "endLine": 68,
+        "endChar": 19
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e82bd20a_f8d1ce64",
@@ -244,6 +448,30 @@
       "writtenOn": "2021-04-23T15:07:16Z",
       "side": 1,
       "message": "Could you, please, add this param to docs?",
+      "range": {
+        "startLine": 219,
+        "startChar": 26,
+        "endLine": 219,
+        "endChar": 39
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "451d9235_04c2f2ca",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e82bd20a_f8d1ce64",
       "range": {
         "startLine": 219,
         "startChar": 26,
@@ -277,6 +505,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab3966c2_c3321f0e",
+        "filename": "java/com/google/gerrit/server/account/externalids/PasswordVerifier.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d97fb257_aa5d0a7a",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be63ace9_00d487f1",
@@ -290,6 +542,30 @@
       "writtenOn": "2021-04-23T15:07:16Z",
       "side": 1,
       "message": "Could you add an integration test for the case when user updates tries to update their account, but there is an already existing account with the username in different case?",
+      "range": {
+        "startLine": 63,
+        "startChar": 13,
+        "endLine": 63,
+        "endChar": 24
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "608f8d8f_5551f739",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutUsername.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be63ace9_00d487f1",
       "range": {
         "startLine": 63,
         "startChar": 13,
@@ -323,6 +599,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdba29f0_66172f99",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97be3eb7_f6b6d322",
+      "range": {
+        "startLine": 894,
+        "startChar": 0,
+        "endLine": 899,
+        "endChar": 96
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "217442c5_b2228435",
@@ -336,6 +636,30 @@
       "writtenOn": "2021-04-23T15:07:16Z",
       "side": 1,
       "message": "could you add a test for case sensitive and insensitive case?\nAre there any changes needed to support matching in index? Should we keep search case sensitive/insensitive depending on the option? Could you add a test to AbstractQuery for that?\n\nI suppose we would not have to reindex accounts during migration, staleness checker would report non-lowercase accounts as stale, because sha1 has changed?",
+      "range": {
+        "startLine": 51,
+        "startChar": 14,
+        "endLine": 51,
+        "endChar": 40
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9536571_da753c1f",
+        "filename": "javatests/com/google/gerrit/server/index/account/AccountFieldTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T11:26:45Z",
+      "side": 1,
+      "message": "I added another test case to test case insensitive external IDs.\n\nI don\u0027t think that there are any further changes required. As far as I can see, the external ID key SHA-1 sum is only used for the EXTERNAL_ID_STATE field in the index. This field is only used in the StalenessChecker to determine whether an account entry in the index is stale. I believe, that it should be stale, if case sensitivity changes. Other than such a change the SHA-1 sums should be stable again and teh index shouldn\u0027t care.\n\nI think starting Gerrit after the migration with a ready and correct index should be the right way, thus the reindex after the migration. However, you are correct I believe in that the Stalenesschecker would allow to do the migration without a reindex of the account index and by updating the index online. I could add a --no-reindex flag to the migration tool, if somebody would like to avoid offline reindexing.",
+      "parentUuid": "217442c5_b2228435",
       "range": {
         "startLine": 51,
         "startChar": 14,

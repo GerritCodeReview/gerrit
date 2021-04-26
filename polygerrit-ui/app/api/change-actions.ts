@@ -52,7 +52,6 @@ export enum ChangeActions {
   READY = 'ready',
   RESTORE = 'restore',
   REVERT = 'revert',
-  REVERT_SUBMISSION = 'revert_submission',
   REVIEWED = 'reviewed',
   STOP_EDIT = 'stopEdit',
   SUBMIT = 'submit',

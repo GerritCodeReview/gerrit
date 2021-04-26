@@ -64,16 +64,6 @@ suite('gr-gerrit tests', () => {
       pluginApi._isPluginLoaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
-
-    test('Gerrit._isPluginPreloaded proxy to getPluginLoader()', () => {
-      const stubFn = sinon.stub();
-      sinon.stub(
-          getPluginLoader(),
-          'isPluginPreloaded')
-          .callsFake((...args) => stubFn(...args));
-      pluginApi._isPluginPreloaded('test_plugin');
-      assert.isTrue(stubFn.calledWith('test_plugin'));
-    });
   });
 });
 

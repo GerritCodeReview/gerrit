@@ -65,28 +65,6 @@ suite('GrJsApiInterface tests', () => {
         'http://test.com/plugins/testplugin/static/test.js');
   });
 
-  test('url for preloaded plugin without ASSETS_PATH', () => {
-    let plugin;
-    pluginApi.install(p => { plugin = p; }, '0.1',
-        'preloaded:testpluginB');
-    assert.equal(plugin.url(),
-        `${window.location.origin}/plugins/testpluginB/`);
-    assert.equal(plugin.url('/static/test.js'),
-        `${window.location.origin}/plugins/testpluginB/static/test.js`);
-  });
-
-  test('url for preloaded plugin without ASSETS_PATH', () => {
-    const oldAssetsPath = window.ASSETS_PATH;
-    window.ASSETS_PATH = 'http://test.com';
-    let plugin;
-    pluginApi.install(p => { plugin = p; }, '0.1',
-        'preloaded:testpluginC');
-    assert.equal(plugin.url(), `${window.ASSETS_PATH}/plugins/testpluginC/`);
-    assert.equal(plugin.url('/static/test.js'),
-        `${window.ASSETS_PATH}/plugins/testpluginC/static/test.js`);
-    window.ASSETS_PATH = oldAssetsPath;
-  });
-
   test('_send on failure rejects with response text', () => {
     sendStub.returns(Promise.resolve(
         {status: 400, text() { return Promise.resolve('text'); }}));

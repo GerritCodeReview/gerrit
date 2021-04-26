@@ -56,18 +56,5 @@ suite('gr-plugin-host tests', () => {
       'gerrit-theme.js', 'plugins/42', 'plugins/foo/bar', 'plugins/baz',
     ]));
   });
-
-  test('skip theme if preloaded', () => {
-    sinon.stub(getPluginLoader(), 'isPluginPreloaded')
-        .withArgs('preloaded:gerrit-theme')
-        .returns(true);
-    sinon.stub(getPluginLoader(), 'loadPlugins');
-    element.config = {
-      default_theme: '/oof',
-      plugin: {},
-    };
-    assert.isTrue(getPluginLoader().loadPlugins.calledOnce);
-    assert.isTrue(getPluginLoader().loadPlugins.calledWith([]));
-  });
 });
 

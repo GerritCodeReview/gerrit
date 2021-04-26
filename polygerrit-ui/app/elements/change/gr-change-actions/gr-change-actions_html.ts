@@ -196,14 +196,6 @@ export const htmlTemplate = html`
       on-cancel="_handleConfirmDialogCancel"
       hidden=""
     ></gr-confirm-revert-dialog>
-    <gr-confirm-revert-submission-dialog
-      id="confirmRevertSubmissionDialog"
-      class="confirmDialog"
-      commit-message="[[commitMessage]]"
-      on-confirm="_handleRevertSubmissionDialogConfirm"
-      on-cancel="_handleConfirmDialogCancel"
-      hidden=""
-    ></gr-confirm-revert-submission-dialog>
     <gr-confirm-abandon-dialog
       id="confirmAbandonDialog"
       class="confirmDialog"

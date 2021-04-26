@@ -5,8 +5,8 @@ The Gerrit server functionality can be extended by installing plugins.
 This page describes how plugins for Gerrit can be developed and hosted
 on gerrit-review.googlesource.com.
 
-For PolyGerrit-specific plugin development, consult with
-link:pg-plugin-dev.html[PolyGerrit Plugin Development] guide.
+For JavaScript plugin development, consult with
+link:pg-plugin-dev.html[JavaScript Plugin Development] guide.
 
 Depending on how tightly the extension code is coupled with the Gerrit
 server code, there is a distinction between `plugins` and `extensions`.
@@ -1456,141 +1456,7 @@ This is useful if certain approvals have a special meaning (e.g. custom logic
 that is implemented in Prolog submit rules, signal for triggering an action
 like running CI etc.), as it allows the plugin to tell users about this meaning
 in the change message. This makes the effect of a given approval more
-transparent to the user. 
-
-[[ui_extension]]
-== UI Extension
-
-[[panels]]
-=== Panels
-
-UI plugins can contribute panels to Gerrit screens.
-
-Gerrit screens define extension points where plugins can add GWT
-panels with custom controls:
-
-* Change Screen:
-** `GerritUiExtensionPoint.CHANGE_SCREEN_HEADER`:
-+
-Panel will be shown in the header bar to the right of the change
-status.
-
-** `GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_BUTTONS`:
-+
-Panel will be shown in the header bar on the right side of the buttons.
-
-** `GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_POP_DOWNS`:
-+
-Panel will be shown in the header bar on the right side of the pop down
-buttons.
-
-** `GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK`:
-+
-Panel will be shown below the commit info block.
-
-** `GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK`:
-+
-Panel will be shown below the change info block.
-
-** `GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_RELATED_INFO_BLOCK`:
-+
-Panel will be shown below the related info block.
-
-** `GerritUiExtensionPoint.CHANGE_SCREEN_HISTORY_RIGHT_OF_BUTTONS`:
-+
-Panel will be shown in the history bar on the right side of the buttons.
-
-** The following parameters are provided:
-*** `GerritUiExtensionPoint.Key.CHANGE_INFO`:
-+
-The link:rest-api-changes.html#change-info[ChangeInfo] entity for the
-current change.
-+
-The link:rest-api-changes.html#revision-info[RevisionInfo] entity for
-the current patch set.
-
-* Project Info Screen:
-** `GerritUiExtensionPoint.PROJECT_INFO_SCREEN_TOP`:
-+
-Panel will be shown at the top of the screen.
-
-** `GerritUiExtensionPoint.PROJECT_INFO_SCREEN_BOTTOM`:
-+
-Panel will be shown at the bottom of the screen.
-
-** The following parameters are provided:
-*** `GerritUiExtensionPoint.Key.PROJECT_NAME`:
-+
-The name of the project.
-
-* User Password Screen:
-** `GerritUiExtensionPoint.PASSWORD_SCREEN_BOTTOM`:
-+
-Panel will be shown at the bottom of the screen.
-
-** The following parameters are provided:
-*** `GerritUiExtensionPoint.Key.ACCOUNT_INFO`:
-+
-The link:rest-api-accounts.html#account-info[AccountInfo] entity for
-the current user.
-
-* User Preferences Screen:
-** `GerritUiExtensionPoint.PREFERENCES_SCREEN_BOTTOM`:
-+
-Panel will be shown at the bottom of the screen.
-
-** The following parameters are provided:
-*** `GerritUiExtensionPoint.Key.ACCOUNT_INFO`:
-+
-The link:rest-api-accounts.html#account-info[AccountInfo] entity for
-the current user.
-
-* User Profile Screen:
-** `GerritUiExtensionPoint.PROFILE_SCREEN_BOTTOM`:
-+
-Panel will be shown at the bottom of the screen below the grid with the
-profile data.
-
-** The following parameters are provided:
-*** `GerritUiExtensionPoint.Key.ACCOUNT_INFO`:
-+
-The link:rest-api-accounts.html#account-info[AccountInfo] entity for
-the current user.
-
-Example panel:
-[source,java]
-----
-public class MyPlugin extends PluginEntryPoint {
-  @Override
-  public void onPluginLoad() {
-    Plugin.get().panel(GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
-        "my_panel_name",
-        new Panel.EntryPoint() {
-          @Override
-          public void onLoad(Panel panel) {
-            panel.setWidget(new InlineLabel("My Panel for change "
-                + panel.getInt(GerritUiExtensionPoint.Key.CHANGE_ID, -1));
-          }
-        });
-  }
-}
-----
-
-Change Screen panel ordering may be specified in the
-project config. Values may be either "plugin name" or
-"plugin name"."panel name".
-Panels not specified in the config will be added
-to the end in load order. Panels specified in the config that
-are not found will be ignored.
-
-Example config:
-----
-[extension-panels "CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK"]
-        panel = helloworld.change_id
-        panel = myotherplugin
-        panel = myplugin.my_panel_name
-----
-
+transparent to the user.
 
 
 [[actions]]
@@ -2557,11 +2423,7 @@ plugin name. For JAR plugins, the value of the `Gerrit-PluginName`
 manifest attribute will be used, if provided, otherwise the name of
 the file, minus the `.jar` extension, will be used.
 
-For Web UI plugins, the plugin version is derived from the filename.
-If the filename contains one or more hyphens, the version is taken
-from the portion following the last hyphen. For example if the plugin
-filename is `my-plugin-1.0.js` the version will be `1.0`. For JAR
-plugins, the version is taken from the `Version` attribute in the
+For JAR plugins, the version is taken from the `Version` attribute in the
 manifest.
 
 Unless disabled, servers periodically scan the `$site_path/plugins`
@@ -2989,7 +2851,7 @@ invoked each time the server executes a request from a user.
 
 == SEE ALSO
 
-* link:js-api.html[JavaScript API]
+* link:pg-plugin-dev.html[JavaScript Plugin API]
 * link:dev-rest-api.html[REST API Developers' Notes]
 
 GERRIT

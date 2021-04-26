@@ -1,35 +1,30 @@
 :linkattrs:
-= Gerrit Code Review - PolyGerrit Plugin Development
+= Gerrit Code Review - JavaScript Plugin Development and API
 
-CAUTION: Work in progress. Hard hat area. Please
-link:https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20plugins[send
-feedback,role=external,window=_blank] if something's not right.
-
-For migrating existing GWT UI plugins, please check out the
-link:pg-plugin-migration.html#migration[migration guide].
+Gerrit Code Review supports an API for JavaScript plugins to interact
+with the web UI and the server process.
 
 [[loading]]
 == Plugin loading and initialization
 
-link:js-api.html#_entry_point[Entry point] for the plugin.
+JavaScript is loaded using a standard `<script src='...'>` HTML tag.
+Plugins should protect the global namespace by defining their code
+within an anonymous function passed to `Gerrit.install()`. The plugin
+will be passed an object describing its registration with Gerrit.
 
 * The plugin provides pluginname.js, and can be a standalone file or a static
   asset in a jar as a link:dev-plugins.html#deployment[Web UI plugin].
 * pluginname.js contains a call to `Gerrit.install()`. There should
-  only be single `Gerrit.install()` per file.
-* PolyGerrit imports pluginname.js.
+  only be a single `Gerrit.install()` call per file.
+* The Gerrit web app imports pluginname.js.
 * For standalone plugins, the entry point file is a `pluginname.js` file
   located in `gerrit-site/plugins` folder, where `pluginname` is an alphanumeric
   plugin name.
-
-Note: Code examples target modern browsers (Chrome, Firefox, Safari, Edge).
 
 Here's a recommended starter `myplugin.js`:
 
 ``` js
 Gerrit.install(plugin => {
-  'use strict';
-
   // Your code here.
 });
 ```
@@ -41,7 +36,7 @@ Basically, the DOM is the API surface. Low-level API provides methods for
 decorating, replacing, and styling DOM elements exposed through a set of
 link:pg-plugin-endpoints.html[endpoints].
 
-PolyGerrit provides a simple way for accessing the DOM via DOM hooks API. A DOM
+Gerrit provides a simple way for accessing the DOM via DOM hooks API. A DOM
 hook is a custom element that is instantiated for the plugin endpoint. In the
 decoration case, a hook is set with a `content` attribute that points to the DOM
 element.
@@ -64,7 +59,7 @@ Gerrit.install(plugin => {
 [[low-level-decorating]]
 === Decorating DOM Elements
 
-For each endpoint, PolyGerrit provides a list of DOM properties (such as
+For each endpoint, Gerrit provides a list of DOM properties (such as
 attributes and events) that are supported in the long-term.
 
 ``` js
@@ -149,42 +144,83 @@ attribute changes to callbacks.
 See `samples/bind-parameters.js` for examples on both Polymer data bindings
 and `attibuteHelper` usage.
 
-=== eventHelper
-`plugin.eventHelper(element)`
-
-Note: TODO
-
 === hook
 `plugin.hook(endpointName, opt_options)`
 
-See list of supported link:pg-plugin-endpoints.html[endpoints].
-
-Note: TODO
+See link:pg-plugin-endpoints.html[endpoints].
 
 === registerCustomComponent
 `plugin.registerCustomComponent(endpointName, opt_moduleName, opt_options)`
 
-See list of supported link:pg-plugin-endpoints.html[endpoints].
-
-Note: TODO
+See link:pg-plugin-endpoints.html[endpoints].
 
 === registerDynamicCustomComponent
 `plugin.registerDynamicCustomComponent(dynamicEndpointName, opt_moduleName,
 opt_options)`
 
-See list of supported link:pg-plugin-endpoints.html[endpoints].
-
-Note: TODO
+See link:pg-plugin-endpoints.html[endpoints].
 
 === registerStyleModule
 `plugin.registerStyleModule(endpointName, moduleName)`
 
-Note: TODO
+See link:#low-level-style[above].
+
+=== on
+Register a JavaScript callback to be invoked when events occur within
+the web interface. Signature
+
+``` js
+self.on(event, callback);
+```
+
+Parameters
+
+* event: A supported event type. See below for description.
+
+* callback: JavaScript function to be invoked when event happens.
+  Arguments may be passed to this function, depending on the event.
+
+Supported events:
+
+* `history`: Invoked when the view is changed to a new screen within
+  the Gerrit web application.  The token after "#" is passed as the
+  argument to the callback function, for example "/c/42/" while
+  showing change 42.
+
+* `showchange`: Invoked when a change is made visible. A
+  link:rest-api-changes.html#change-info[ChangeInfo] and
+  link:rest-api-changes.html#revision-info[RevisionInfo]
+  are passed as arguments. Gerrit provides a third parameter which
+  is an object with a `mergeable` boolean.
+
+* `submitchange`: Invoked when the submit button is clicked
+  on a change. A link:rest-api-changes.html#change-info[ChangeInfo]
+  and link:rest-api-changes.html#revision-info[RevisionInfo] are
+  passed as arguments. Similar to a form submit validation, the
+  function must return true to allow the operation to continue, or
+  false to prevent it. The function may be called multiple times, for
+  example, if submitting a change shows a confirmation dialog, this
+  event may be called to validate that the check whether dialog can be
+  shown, and called again when the submit is confirmed to check whether
+  the actual submission action can proceed.
+
+* `comment`: Invoked when a DOM element that represents a comment is
+  created. This DOM element is passed as argument. This DOM element
+  contains nested elements that Gerrit uses to format the comment. The
+  DOM structure may differ between comment types such as inline
+  comments, file-level comments and summary comments, and it may change
+  with new Gerrit versions.
+
+* `highlightjs-loaded`: Invoked when the highlight.js library has
+  finished loading. The global `hljs` object (also now accessible via
+  `window.hljs`) is passed as an argument to the callback function.
+  This event can be used to register a new language highlighter with
+  the highlight.js library before syntax highlighting begins.
 
 [[high-level-api]]
 == High-level API
 
-Plugin instance provides access to number of more specific APIs and methods
+Plugin instance provides access to a number of more specific APIs and methods
 to be used by plugin authors.
 
 === admin
@@ -196,95 +232,161 @@ to be used by plugin authors.
 .Returns:
 - Instance of link:pg-plugin-admin-api.html[GrAdminApi].
 
+=== changeActions
+`self.changeActions()`
+
+Returns an instance of the
+link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/change-actions.ts[ChangeActionsPluginApi].
+
+==== changeActions.add()
+Adds a new action to the change actions section. Returns the key of the newly
+added action.
+
+``` js
+changeActions.add(type, label)
+```
+
+* type: The type of the action, either `change` or `revision`.
+
+* label: The label to be used in UI for this action.
+
+
+==== changeActions.remove()
+Removes an action from the change actions section.
+
+``` js
+changeActions.remove(key)
+```
+
+* key: The key of the action.
+
+
+==== changeActions.addTapListener()
+Adds a tap listener to an action that will be invoked when the action
+is tapped.
+
+``` js
+changeActions.addTapListener(key, callback)
+```
+
+* key: The key of the action.
+
+* callback: JavaScript function to be invoked when action tapped.
+
+
+==== changeActions.removeTapListener()
+Removes an existing tap listener on an action.
+
+``` js
+changeActions.removeTapListener(key, callback)
+```
+
+* key: The key of the action.
+
+* callback: JavaScript function to be removed.
+
+
+==== changeActions.setLabel()
+Sets the label for an action.
+
+``` js
+changeActions.setLabel(key, label)
+```
+
+* key: The key of the action.
+
+* label: The label of the action.
+
+
+==== changeActions.setTitle()
+Sets the title for an action.
+
+``` js
+changeActions.setTitle(key, title)
+```
+
+* key: The key of the action.
+
+* title: The title of the action.
+
+
+==== changeActions.setIcon()
+Sets an icon for an action.
+
+``` js
+changeActions.setIcon(key, icon)
+```
+
+* key: The key of the action.
+
+* icon: The name of the icon.
+
+
+==== changeActions.setEnabled()
+Sets an action to enabled or disabled.
+
+``` js
+changeActions.setEnabled(key, enabled)
+```
+
+* key: The key of the action.
+
+* enabled: The status of the action, true to enable.
+
+
+==== changeActions.setActionHidden()
+Sets an action to be hidden.
+
+``` js
+changeActions.setActionHidden(type, key, hidden)
+```
+
+* type: The type of the action.
+
+* key: The key of the action.
+
+* hidden: True to hide the action, false to show the action.
+
+
+==== changeActions.setActionOverflow()
+Sets an action to show in overflow menu.
+
+``` js
+changeActions.setActionOverflow(type, key, overflow)
+```
+
+* type: The type of the action.
+
+* key: The key of the action.
+
+* overflow: True to move the action to overflow menu, false to move
+  the action out of the overflow menu.
+
+
 === changeReply
 `plugin.changeReply()`
 
-Note: TODO
-
-=== delete
-`plugin.delete(url, opt_callback)`
-
-Note: TODO
-
-=== get
-`plugin.get(url, opt_callback)`
-
-Note: TODO
+Returns an instance of the
+link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/change-reply.ts[ChangeReplyPluginApi].
 
 === getPluginName
 `plugin.getPluginName()`
 
-Note: TODO
+Returns the name this plugin was installed as by the server
+administrator. The plugin name is required to access REST API
+views installed by the plugin, or to access resources.
 
 === getServerInfo
 `plugin.getServerInfo()`
 
-Note: TODO
-
-=== on
-`plugin.on(eventName, callback)`
-
-Note: TODO
-
-=== panel
-`plugin.panel(extensionpoint, callback)`
-
-Deprecated. Use `plugin.registerCustomComponent()` instead.
-
-``` js
-Gerrit.install(function(self) {
-  self.panel('CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK', function(context) {
-    context.body.innerHTML =
-      'Sample link: <a href="http://some.com/foo">Foo</a>';
-    context.show();
-  });
-});
-```
-
-Here's the recommended approach that uses Polymer for generating custom elements:
-
-``` js
-class SomeCiModule extends Polymer.Element {
-  static get is() {
-    return "some-ci-module";
-  }
-  static get template() {
-    return Polymer.html`
-      Sample link: <a href="http://some.com/foo">Foo</a>
-    `;
-  }
-}
-
-// Register this element
-customElements.define(SomeCiModule.is, SomeCiModule);
-
-// Install the plugin
-Gerrit.install(plugin => {
-  plugin.registerCustomComponent('change-view-integration', 'some-ci-module');
-});
-```
-
-See `samples/` for more examples.
-
-Here's a minimal example that uses low-level DOM Hooks API for the same purpose:
-
-``` js
-Gerrit.install(plugin => {
-  plugin.hook('change-view-integration', el => {
-    el.innerHTML = 'Sample link: <a href="http://some.com/foo">Foo</a>';
-  });
-});
-```
+Returns the host config as a link:rest-api-config.html#server-info[ServerInfo]
+object.
 
 === popup
 `plugin.popup(moduleName)`
 
-Note: TODO
-
-=== post
-`plugin.post(url, payload, opt_callback)`
-
-Note: TODO
+Creates a popup that contains the given web components. Can be controlled with
+calling `open()` and `close()` on the return value.
 
 [[plugin-rest-api]]
 === restApi
@@ -295,25 +397,16 @@ Note: TODO
   e.g. `changes/1/revisions/1/cookbook~say-hello`
 
 .Returns:
-- Instance of link:pg-plugin-rest-api.html[GrPluginRestApi].
+- Instance of link:pg-plugin-rest-api.html[RestPluginApi].
 
-[[plugin-repo]]
-=== repo
-`plugin.repo()`
-
-.Params:
-- none
-
-.Returns:
-- Instance of link:pg-plugin-repo-api.html[GrRepoApi].
-
-=== put
-`plugin.put(url, payload, opt_callback)`
-
-Note: TODO
-
+[[plugin-screen]]
 === screen
 `plugin.screen(screenName, opt_moduleName)`
+
+Registers a web component as a dedicated top-level page that the router
+understands and that has a URL (/x/pluginname/screenname) that can be navigated
+to. Extension screens are usually linked from the
+link:dev-plugins.html#top-menu-extensions[top menu].
 
 .Params:
 - `*string* screenName` URL path fragment of the screen, e.g.
@@ -322,57 +415,20 @@ Note: TODO
 screen.
 
 .Returns:
-- Instance of GrDomHook.
-
-=== screenUrl
-`plugin.url(opt_screenName)`
-
-.Params:
-- `*string* screenName` (optional) URL path fragment of the screen, e.g.
-`/x/pluginname/*screenname*`
-
-.Returns:
-- Absolute URL for the screen, e.g. `http://localhost/base/x/pluginname/screenname`
-
-[[plugin-settings]]
-=== settings
-`plugin.settings()`
-
-.Params:
-- none
-
-.Returns:
-- Instance of link:pg-plugin-settings-api.html[GrSettingsApi].
-
-=== settingsScreen
-`plugin.settingsScreen(path, menu, callback)`
-
-Deprecated. Use link:#plugin-settings[`plugin.settings()`] instead.
-
-[[plugin-styles]]
-=== styles
-`plugin.styles()`
-
-.Params:
-- none
-
-.Returns:
-- Instance of link:pg-plugin-styles-api.html[GrStylesApi]
-
-=== changeMetadata
-`plugin.changeMetadata()`
-
-.Params:
-- none
-
-.Returns:
-- Instance of link:pg-plugin-change-metadata-api.html[GrChangeMetadataApi].
-
-=== theme
-`plugin.theme()`
-
-
-Note: TODO
+- Instance of HookApi.
 
 === url
 `plugin.url(opt_path)`
+
+Returns a URL within the plugin's URL space. If invoked with no
+parameter the URL of the plugin is returned. If passed a string
+the argument is appended to the plugin URL.
+
+A plugin's URL is where this plugin is loaded, it doesn't
+necessary to be the same as the Gerrit host. Use `window.location`
+if you need to access the Gerrit host info.
+
+``` js
+self.url();                    // "https://gerrit-review.googlesource.com/plugins/demo/"
+self.url('/static/icon.png');  // "https://gerrit-review.googlesource.com/plugins/demo/static/icon.png"
+```

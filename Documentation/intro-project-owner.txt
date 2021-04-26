@@ -634,9 +634,9 @@ Gerrit.
 The Gerrit functionality can be extended by plugins and there are many
 extension points, e.g. plugins can
 +
-** link:dev-plugins.html#top-menu-extensions[add new menu entries]
-** link:dev-plugins.html#ui_extension[extend existing screens] and
-   link:dev-plugins.html#screen[add new screens]
+** link:pg-plugin-admin-api.html[add new menu entries]
+** link:pg-plugin-endpoints.html[hook into DOM elements] and
+   link:pg-plugin-dev.html#plugin-screen[add new pages]
 ** link:config-validation.html[do validation], e.g. of new commits
 ** add new REST endpoints and link:dev-plugins.html#ssh[SSH commands]
 

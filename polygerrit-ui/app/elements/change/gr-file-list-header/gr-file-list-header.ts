@@ -45,8 +45,6 @@ import {DiffViewMode} from '../../../constants/constants';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fireEvent} from '../../../utils/event-util';
 
-const MERGED_STATUS = 'MERGED';
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-file-list-header': GrFileListHeader;
@@ -77,10 +75,6 @@ export class GrFileListHeader extends PolymerElement {
 
   /**
    * @event open-diff-prefs
-   */
-
-  /**
-   * @event open-included-in-dialog
    */
 
   /**
@@ -200,11 +194,6 @@ export class GrFileListHeader extends PolymerElement {
     fireEvent(this, 'open-diff-prefs');
   }
 
-  _handleIncludedInTap(e: Event) {
-    e.preventDefault();
-    fireEvent(this, 'open-included-in-dialog');
-  }
-
   _handleDownloadTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
@@ -223,9 +212,5 @@ export class GrFileListHeader extends PolymerElement {
       return '';
     }
     return 'patchInfoOldPatchSet';
-  }
-
-  _hideIncludedIn(change?: ChangeInfo) {
-    return change?.status === MERGED_STATUS ? '' : 'hide';
   }
 }

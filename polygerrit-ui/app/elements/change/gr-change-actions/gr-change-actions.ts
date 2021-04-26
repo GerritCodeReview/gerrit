@@ -187,6 +187,15 @@ const DOWNLOAD_ACTION: UIActionInfo = {
   __type: ActionType.REVISION,
 };
 
+const INCLUDED_IN_ACTION: UIActionInfo = {
+  enabled: true,
+  label: 'Included In',
+  title: 'Open Included In dialog',
+  __key: 'includedIn',
+  __primary: false,
+  __type: ActionType.CHANGE,
+};
+
 const REBASE_EDIT: UIActionInfo = {
   enabled: true,
   label: 'Rebase edit',
@@ -530,6 +539,10 @@ export class GrChangeActions
       type: ActionType.CHANGE,
       key: ChangeActions.FOLLOW_UP,
     },
+    {
+      type: ActionType.CHANGE,
+      key: ChangeActions.INCLUDED_IN,
+    },
   ];
 
   @property({type: Array})
@@ -813,6 +826,10 @@ export class GrChangeActions
       if (!revisionActions.download) {
         this.set('revisionActions.download', DOWNLOAD_ACTION);
       }
+    }
+    const actions = actionsChangeRecord.base || {};
+    if (!actions.includedIn && this.change?.status === ChangeStatus.MERGED) {
+      this.set('actions.includedIn', INCLUDED_IN_ACTION);
     }
   }
 
@@ -1311,6 +1328,9 @@ export class GrChangeActions
         break;
       case ChangeActions.REBASE_EDIT:
         this._handleRebaseEditTap();
+        break;
+      case ChangeActions.INCLUDED_IN:
+        this._handleIncludedInTap();
         break;
       default:
         this._fireAction(
@@ -1825,6 +1845,15 @@ export class GrChangeActions
   _handleDownloadTap() {
     this.dispatchEvent(
       new CustomEvent('download-tap', {
+        composed: true,
+        bubbles: false,
+      })
+    );
+  }
+
+  _handleIncludedInTap() {
+    this.dispatchEvent(
+      new CustomEvent('included-tap', {
         composed: true,
         bubbles: false,
       })

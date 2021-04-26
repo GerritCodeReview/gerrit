@@ -65,9 +65,6 @@ export const htmlTemplate = html`
     .loading.loaded {
       display: none;
     }
-    .warning {
-      color: var(--warning-foreground);
-    }
   </style>
   <header>
     <h1 id="title" class="heading-1">Included In:</h1>
@@ -89,11 +86,6 @@ export const htmlTemplate = html`
     </iron-input>
   </header>
   <div class$="[[_computeLoadingClass(_loaded)]]">Loading...</div>
-  <iron-icon icon="gr-icons:warning" class="warningBeforeSubmit"></iron-icon>
-  <span class="warning"
-    >The Inlcuded In button will be moved to the overflow menu on the top right
-    in 2 weeks.
-  </span>
   <template
     is="dom-repeat"
     items="[[_computeGroups(_includedIn, _filterText)]]"

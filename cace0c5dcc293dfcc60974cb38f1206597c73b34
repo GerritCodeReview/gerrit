@@ -16,6 +16,24 @@
       "message": "I am lacking context to properly review this change. I have not looked into or touched the registration dialog in a very long time. Is there is bug that you could reference? Or maybe describe in more detail in the commit message what was broken about the previous state?",
       "revId": "cace0c5dcc293dfcc60974cb38f1206597c73b34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c5a0b32_a00f8f17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-04-26T14:06:15Z",
+      "side": 1,
+      "message": "I haven\u0027t filed a bug but the issue when typing a username the field is instantly hidden. Then there\u0027s the fact that you have no emails registered which makes the \"preferred emails\" redundant.\n\nI\u0027m not sure why the tests are failing, maybe you know why?",
+      "parentUuid": "4fe788b9_b1a6c90d",
+      "revId": "cace0c5dcc293dfcc60974cb38f1206597c73b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

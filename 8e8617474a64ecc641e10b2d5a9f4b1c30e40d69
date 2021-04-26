@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77a15df7_4b1b42a3",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-26T20:08:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15f461ff_7cec64d7",
+      "range": {
+        "startLine": 32,
+        "startChar": 41,
+        "endLine": 32,
+        "endChar": 44
+      },
+      "revId": "8e8617474a64ecc641e10b2d5a9f4b1c30e40d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8806bf79_f5269d3b",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d07d5997_d2c906d4",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-26T20:08:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8806bf79_f5269d3b",
+      "range": {
+        "startLine": 42,
+        "startChar": 23,
+        "endLine": 42,
+        "endChar": 33
+      },
+      "revId": "8e8617474a64ecc641e10b2d5a9f4b1c30e40d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30210818_34300c43",
@@ -84,6 +132,24 @@
       "writtenOn": "2021-04-26T18:52:16Z",
       "side": 1,
       "message": "Would insert a blank line above, to separate these message variables from the other ones above.",
+      "revId": "8e8617474a64ecc641e10b2d5a9f4b1c30e40d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "337d5f26_17eda71a",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-26T20:08:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30210818_34300c43",
       "revId": "8e8617474a64ecc641e10b2d5a9f4b1c30e40d69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

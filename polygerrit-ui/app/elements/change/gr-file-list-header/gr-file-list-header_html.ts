@@ -58,11 +58,9 @@ export const htmlTemplate = html`
       display: flex;
     }
     .downloadContainer,
-    .uploadContainer,
-    .includedInContainer {
+    .uploadContainer {
       margin-right: 16px;
     }
-    .includedInContainer.hide,
     .uploadContainer.hide {
       display: none;
     }
@@ -177,11 +175,6 @@ export const htmlTemplate = html`
                 ShortcutSection.ACTIONS)]]"
           on-click="_handleDownloadTap"
           >Download</gr-button
-        >
-      </span>
-      <span class$="includedInContainer [[_hideIncludedIn(change)]] desktop">
-        <gr-button link="" class="includedIn" on-click="_handleIncludedInTap"
-          >Included In</gr-button
         >
       </span>
       <template

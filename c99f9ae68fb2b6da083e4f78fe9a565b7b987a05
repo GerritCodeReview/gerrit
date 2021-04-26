@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0bc8a1d_81611df4",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-26T11:55:23Z",
+      "side": 1,
+      "message": "Renamed to gerrit_js_bundle. Given that we also supports pure js plugin (used by  chromium project), this rules shouldn\u0027t use word plugin. It produces reasource JAR file (or may be later zip) that is included in Jar-based plugins as resource_jars attributes. Done.",
+      "parentUuid": "786feec6_33100b3b",
+      "range": {
+        "startLine": 507,
+        "startChar": 4,
+        "endLine": 507,
+        "endChar": 21
+      },
+      "revId": "c99f9ae68fb2b6da083e4f78fe9a565b7b987a05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac12bb5f_3ac7610f",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-26T11:43:18Z",
       "side": 1,
       "message": "What about\n\n  Produces a Gerrit JavaScript plugin archive.",
+      "range": {
+        "startLine": 508,
+        "startChar": 7,
+        "endLine": 508,
+        "endChar": 42
+      },
+      "revId": "c99f9ae68fb2b6da083e4f78fe9a565b7b987a05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f0221b9_4f7de0cb",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-26T11:55:23Z",
+      "side": 1,
+      "message": "Rename to \"Produces a Gerrit JavaScript bundle archive.\". Done.",
+      "parentUuid": "ac12bb5f_3ac7610f",
       "range": {
         "startLine": 508,
         "startChar": 7,

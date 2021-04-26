@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e815ce0_57bf1945",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-26T08:05:42Z",
+      "side": 1,
+      "message": "Maybe instead of\n\n  a plugin assets\n\nyou could write\n\n  the javascript files of a frontend plugin",
+      "range": {
+        "startLine": 510,
+        "startChar": 37,
+        "endLine": 510,
+        "endChar": 50
+      },
+      "revId": "6f8557727324f5cc289a1a1ad509cc07dc405d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3349e8d0_51386939",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-26T08:05:42Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 510,
+        "startChar": 14,
+        "endLine": 510,
+        "endChar": 21
+      },
+      "revId": "6f8557727324f5cc289a1a1ad509cc07dc405d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd5dbada_87186750",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-26T08:05:42Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 511,
+        "startChar": 27,
+        "endLine": 511,
+        "endChar": 28
+      },
+      "revId": "6f8557727324f5cc289a1a1ad509cc07dc405d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c204cf7_0feaf703",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-26T08:05:42Z",
+      "side": 1,
+      "message": "Would be nice to not have the \".min\" extension here.",
+      "revId": "6f8557727324f5cc289a1a1ad509cc07dc405d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

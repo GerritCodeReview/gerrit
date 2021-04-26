@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "786feec6_33100b3b",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-26T11:43:18Z",
+      "side": 1,
+      "message": "Sorry for not bringing this up in the first review round, but I would love to get rid of the name \"polygerrit\", because it does not mean anything to outsiders and hopefully we will get rid of Polymer in 2022.\n\nWhat about renaming this to `gerrit_javascript_plugin` of `gerrit_js_plugin`?",
+      "range": {
+        "startLine": 507,
+        "startChar": 4,
+        "endLine": 507,
+        "endChar": 21
+      },
+      "revId": "c99f9ae68fb2b6da083e4f78fe9a565b7b987a05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac12bb5f_3ac7610f",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-26T11:43:18Z",
+      "side": 1,
+      "message": "What about\n\n  Produces a Gerrit JavaScript plugin archive.",
+      "range": {
+        "startLine": 508,
+        "startChar": 7,
+        "endLine": 508,
+        "endChar": 42
+      },
+      "revId": "c99f9ae68fb2b6da083e4f78fe9a565b7b987a05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

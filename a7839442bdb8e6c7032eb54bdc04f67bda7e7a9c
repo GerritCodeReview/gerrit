@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31db1201_c5bfec04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-26T09:30:18Z",
+      "side": 1,
+      "message": "This is backport of original change from stable-3.3 branch: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/290998",
+      "revId": "a7839442bdb8e6c7032eb54bdc04f67bda7e7a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0be01b5d_ca1ba26f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-26T08:05:41Z",
+      "side": 1,
+      "message": "Right, that\u0027s true, since I see the new methods are in fact not used.\n\nSince currently this code has no uses, it would be better to first add the logic that uses it in the API and test it. I\u0027m fine if it\u0027s a separate change. Unless you see a reason to submit this change separately?",
+      "parentUuid": "3dffad2b_72f061d6",
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "82fe1feb_006b32aa",

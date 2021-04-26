@@ -658,6 +658,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6409cd7_09981dc9",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-04-26T20:08:29Z",
+      "side": 1,
+      "message": "After, the check for the timeout line 49, I added a feedback to tell the user that the connection didn\u0027t time out . I think this feedback will help separate the two checks done by the script. I tested it against a 2.16 instance and against the fix in a 3.1 instance, it passes with 3.1 and fails with the 2.16 as expected. I think the second check can be left as a complementary verification in that sense. What do you think?",
+      "parentUuid": "9b11baca_f23e9d22",
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f42aeac_355b39fc",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 7

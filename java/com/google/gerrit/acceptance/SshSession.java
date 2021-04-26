@@ -25,8 +25,12 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class SshSession {
@@ -79,6 +83,20 @@ public class SshSession {
     } finally {
       channel.disconnect();
     }
+  }
+
+  public Reader execAndReturnReader(String command) throws Exception {
+    ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
+    channel.setCommand(command);
+    channel.connect();
+
+    return new InputStreamReader(channel.getInputStream(), StandardCharsets.UTF_8) {
+      @Override
+      public void close() throws IOException {
+        super.close();
+        channel.disconnect();
+      }
+    };
   }
 
   private boolean hasError() {

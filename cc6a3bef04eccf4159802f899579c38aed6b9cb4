@@ -16,6 +16,24 @@
       "message": "Unrelated change.",
       "revId": "cc6a3bef04eccf4159802f899579c38aed6b9cb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf7cc456_1e28fd00",
+        "filename": "java/com/google/gerrit/acceptance/SshSessionMina.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-26T10:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b0bcba2_58899640",
+      "revId": "cc6a3bef04eccf4159802f899579c38aed6b9cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

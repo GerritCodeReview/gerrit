@@ -161,6 +161,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efd816d8_46a152f7",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-26T14:47:15Z",
+      "side": 1,
+      "message": "Fine with me. FWIW I like \"isFinal\" more since \"allowOverrideInChildProjects\" is quite long for a config parameter name in project.config.",
+      "parentUuid": "537bd69a_d2ddde27",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "309e80e7_93c0b5ca",
@@ -275,6 +299,53 @@
         "startChar": 12,
         "endLine": 25,
         "endChar": 26
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63fa424b_aeae8cc0",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpression.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-26T14:47:15Z",
+      "side": 1,
+      "message": "I actually think there is one argument for doing the parsing directly when the project.config file is loaded (instead of doing the parsing only on first access). If the parsing is done immediately ReceiveCommit will automatically reject pushes that add non-parseable submit requirements [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/git/receive/ReceiveCommits.java#1213",
+      "parentUuid": "567614ea_8df97f2c",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61020234_19b5b5f6",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-26T14:47:15Z",
+      "side": 1,
+      "message": "This needs to be renamed too, now.",
+      "range": {
+        "startLine": 1710,
+        "startChar": 48,
+        "endLine": 1710,
+        "endChar": 66
       },
       "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

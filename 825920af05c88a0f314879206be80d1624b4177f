@@ -640,6 +640,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b11baca_f23e9d22",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-04-26T18:52:16Z",
+      "side": 1,
+      "message": "I really think that we need a test that 1. fails without the java fix and 2. passes with it.",
+      "parentUuid": "665ad963_4f7627fc",
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f42aeac_355b39fc",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 7

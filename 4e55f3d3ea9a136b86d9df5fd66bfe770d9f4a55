@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "929c282c_668346c2",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-26T13:10:35Z",
+      "side": 1,
+      "message": "you removed the --to option in the last PS",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 21
+      },
+      "revId": "4e55f3d3ea9a136b86d9df5fd66bfe770d9f4a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b36e2ec_6e1be329",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-26T13:10:35Z",
+      "side": 1,
+      "message": "you removed the --to option in the last PS",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 21
+      },
+      "revId": "4e55f3d3ea9a136b86d9df5fd66bfe770d9f4a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53d622f6_23f13110",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-04-26T13:10:35Z",
+      "side": 1,
+      "message": "you removed the --to option in the last PS",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 30
+      },
+      "revId": "4e55f3d3ea9a136b86d9df5fd66bfe770d9f4a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,7 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import {PRELOADED_PROTOCOL, PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
+import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {_testOnly_resetPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins, stubBaseUrl} from '../../../test/test-utils.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
@@ -396,55 +396,5 @@ suite('gr-plugin-loader tests', () => {
     await pluginLoader.awaitPluginsLoaded();
     assert.isTrue(installed);
     await pluginLoader.awaitPluginsLoaded();
-  });
-
-  suite('preloaded plugins', () => {
-    teardown(() => {
-      window.Gerrit._preloadedPlugins = null;
-    });
-    test('skips preloaded plugins when load plugins', () => {
-      const loadJsPluginStub = sinon.stub();
-      sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-        loadJsPluginStub(url);
-      });
-
-      window.Gerrit._preloadedPlugins = {
-        foo: () => void 0,
-        bar: () => void 0,
-      };
-
-      pluginLoader.loadPlugins([
-        'http://e.com/plugins/foo.js',
-        'http://e.com/plugins/test/foo.js',
-      ]);
-
-      assert.isTrue(loadJsPluginStub.calledOnce);
-    });
-
-    test('isPluginPreloaded', () => {
-      window.Gerrit._preloadedPlugins = {baz: ()=>{}};
-      assert.isFalse(pluginLoader.isPluginPreloaded('plugins/foo/bar'));
-      assert.isFalse(pluginLoader.isPluginPreloaded('http://a.com/42'));
-      assert.isTrue(
-          pluginLoader.isPluginPreloaded(PRELOADED_PROTOCOL + 'baz')
-      );
-    });
-
-    test('preloaded plugins are installed', () => {
-      const installStub = sinon.stub();
-      window.Gerrit._preloadedPlugins = {foo: installStub};
-      pluginLoader.installPreloadedPlugins();
-      assert.isTrue(installStub.called);
-      const pluginApi = installStub.lastCall.args[0];
-      assert.strictEqual(pluginApi.getPluginName(), 'foo');
-    });
-
-    test('installing preloaded plugin', () => {
-      let plugin;
-      pluginApi.install(p => { plugin = p; }, '0.1', 'preloaded:foo');
-      assert.strictEqual(plugin.getPluginName(), 'foo');
-      assert.strictEqual(plugin.url('/some/thing.js'),
-          `${window.location.origin}/plugins/foo/some/thing.js`);
-    });
   });
 });

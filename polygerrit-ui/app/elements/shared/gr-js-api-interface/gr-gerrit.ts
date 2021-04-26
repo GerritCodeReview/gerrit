@@ -55,7 +55,6 @@ export interface GerritGlobal extends EventEmitterService {
   awaitPluginsLoaded(): Promise<unknown>;
   _loadPlugins(plugins: string[], opts: PluginOptionMap): void;
   _arePluginsLoaded(): boolean;
-  _isPluginPreloaded(pathOrUrl: string): boolean;
   _isPluginEnabled(pathOrUrl: string): boolean;
   _isPluginLoaded(pathOrUrl: string): boolean;
   _eventEmitter: EventEmitterService;
@@ -69,10 +68,6 @@ export interface GerritGlobal extends EventEmitterService {
 export function initGerritPluginApi() {
   window.Gerrit = window.Gerrit || {};
   initGerritPluginsMethods(window.Gerrit as GerritGlobal);
-  // Preloaded plugins should be installed after Gerrit.install() is set,
-  // since plugin preloader substitutes Gerrit.install() temporarily.
-  // (Gerrit.install() is set in initGerritPluginsMethods)
-  getPluginLoader().installPreloadedPlugins();
 }
 
 export function _testOnly_initGerritPluginApi(): GerritGlobal {
@@ -205,15 +200,6 @@ function initGerritPluginsMethods(globalGerritObj: GerritGlobal) {
       '_arePluginsLoaded'
     );
     return getPluginLoader().arePluginsLoaded();
-  };
-
-  globalGerritObj._isPluginPreloaded = url => {
-    appContext.reportingService.trackApi(
-      fakeApi,
-      'global',
-      '_isPluginPreloaded'
-    );
-    return getPluginLoader().isPluginPreloaded(url);
   };
 
   globalGerritObj._isPluginEnabled = pathOrUrl => {

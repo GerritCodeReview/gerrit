@@ -19,8 +19,6 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {getPluginNameFromUrl} from './gr-api-utils.js';
 
-const PRELOADED_PROTOCOL = 'preloaded:';
-
 suite('gr-api-utils tests', () => {
   suite('test getPluginNameFromUrl', () => {
     test('with empty string', () => {
@@ -48,10 +46,6 @@ suite('gr-api-utils tests', () => {
           getPluginNameFromUrl('http://example.com/plugins/a/static/t.js'),
           'a'
       );
-    });
-
-    test('with preloaded urls', () => {
-      assert.equal(getPluginNameFromUrl(`${PRELOADED_PROTOCOL}a`), 'a');
     });
 
     test('with gerrit-theme override', () => {

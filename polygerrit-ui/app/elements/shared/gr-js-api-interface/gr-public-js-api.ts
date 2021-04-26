@@ -25,7 +25,7 @@ import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
 import {GrPluginRestApi} from './gr-plugin-rest-api';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
-import {getPluginNameFromUrl, PRELOADED_PROTOCOL, send} from './gr-api-utils';
+import {getPluginNameFromUrl, send} from './gr-api-utils';
 import {GrReportingJsApi} from './gr-reporting-js-api';
 import {EventType, PluginApi, TargetElement} from '../../../api/plugin';
 import {RequestPayload} from '../../../types/common';
@@ -187,11 +187,6 @@ export class Plugin implements PluginApi {
     if (window.location.origin === this._url.origin) {
       // Plugin loaded from the same origin as gr-app, getBaseUrl in effect.
       return sameOriginPath;
-    } else if (this._url.protocol === PRELOADED_PROTOCOL) {
-      // Plugin is preloaded, load plugin with ASSETS_PATH or location.origin
-      return window.ASSETS_PATH
-        ? `${window.ASSETS_PATH}${relPath}`
-        : sameOriginPath;
     } else {
       // Plugin loaded from assets bundle, expect assets placed along with it.
       return this._url.href.split('/plugins/' + this._name)[0] + relPath;

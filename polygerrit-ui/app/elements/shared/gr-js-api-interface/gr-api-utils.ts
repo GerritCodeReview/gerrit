@@ -20,7 +20,6 @@ import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 
-export const PRELOADED_PROTOCOL = 'preloaded:';
 export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
 /**
@@ -34,9 +33,6 @@ export function getPluginNameFromUrl(url: URL | string) {
       console.warn(e);
       return null;
     }
-  }
-  if (url.protocol === PRELOADED_PROTOCOL) {
-    return url.pathname;
   }
   const base = getBaseUrl();
   let pathname = url.pathname.replace(base, '');

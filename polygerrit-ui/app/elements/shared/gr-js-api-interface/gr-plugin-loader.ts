@@ -15,17 +15,12 @@
  * limitations under the License.
  */
 import {appContext} from '../../../services/app-context';
-import {
-  PLUGIN_LOADING_TIMEOUT_MS,
-  PRELOADED_PROTOCOL,
-  getPluginNameFromUrl,
-} from './gr-api-utils';
+import {PLUGIN_LOADING_TIMEOUT_MS, getPluginNameFromUrl} from './gr-api-utils';
 import {Plugin} from './gr-public-js-api';
 import {getBaseUrl} from '../../../utils/url-util';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {ShowAlertEventDetail} from '../../../types/events';
 
 enum PluginState {
@@ -55,16 +50,6 @@ export interface PluginOptionMap {
 type GerritScriptElement = HTMLScriptElement & {
   __importElement: HTMLScriptElement;
 };
-
-type PluginCallback = (plugin: PluginApi) => void;
-
-interface PluginCallbackMap {
-  [name: string]: PluginCallback;
-}
-
-interface GerritGlobal {
-  _preloadedPlugins?: PluginCallbackMap;
-}
 
 // Prefix for any unrecognized plugin urls.
 // Url should match following patterns:
@@ -120,9 +105,6 @@ export class PluginLoader {
 
     plugins.forEach(path => {
       const url = this._urlFor(path, window.ASSETS_PATH);
-      // Skip if preloaded, for bundling.
-      if (this.isPluginPreloaded(url)) return;
-
       const pluginKey = this._getPluginKeyFromUrl(url);
       // Skip if already installed.
       if (this._plugins.has(pluginKey)) return;
@@ -281,34 +263,11 @@ export class PluginLoader {
     this._checkIfCompleted();
   }
 
-  installPreloadedPlugins() {
-    const Gerrit = window.Gerrit as GerritGlobal;
-    if (!Gerrit || !Gerrit._preloadedPlugins) {
-      return;
-    }
-    for (const name of Object.keys(Gerrit._preloadedPlugins)) {
-      const callback = Gerrit._preloadedPlugins[name];
-      this.install(callback, API_VERSION, PRELOADED_PROTOCOL + name);
-    }
-  }
-
-  isPluginPreloaded(pathOrUrl: string) {
-    const url = this._urlFor(pathOrUrl);
-    const name = getPluginNameFromUrl(url);
-    const Gerrit = window.Gerrit as GerritGlobal;
-    if (name && Gerrit?._preloadedPlugins) {
-      return hasOwnProperty(Gerrit._preloadedPlugins, name);
-    } else {
-      return false;
-    }
-  }
-
   /**
    * Checks if given plugin path/url is enabled or not.
    */
   isPluginEnabled(pathOrUrl: string) {
     const url = this._urlFor(pathOrUrl);
-    if (this.isPluginPreloaded(url)) return true;
     const key = this._getPluginKeyFromUrl(url);
     return this._plugins.has(key);
   }
@@ -364,10 +323,7 @@ export class PluginLoader {
     // theme is per host, should always load from assetsPath
     const isThemeFile = pathOrUrl.endsWith('static/gerrit-theme.js');
     const shouldTryLoadFromAssetsPathFirst = !isThemeFile && assetsPath;
-    if (
-      pathOrUrl.startsWith(PRELOADED_PROTOCOL) ||
-      pathOrUrl.startsWith('http')
-    ) {
+    if (pathOrUrl.startsWith('http')) {
       // Plugins are loaded from another domain or preloaded.
       if (
         pathOrUrl.includes(location.host) &&

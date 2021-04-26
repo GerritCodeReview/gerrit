@@ -152,7 +152,6 @@ const ActionLoadingLabels: {[actionKey: string]: string} = {
   rebase: 'Rebasing...',
   restore: 'Restoring...',
   revert: 'Reverting...',
-  revert_submission: 'Reverting Submission...',
   submit: 'Submitting...',
 };
 
@@ -246,7 +245,6 @@ const ACTIONS_WITH_ICONS = new Set([
   ChangeActions.REBASE_EDIT,
   ChangeActions.RESTORE,
   ChangeActions.REVERT,
-  ChangeActions.REVERT_SUBMISSION,
   ChangeActions.STOP_EDIT,
   QUICK_APPROVE_ACTION.key,
   RevisionActions.REBASE,
@@ -263,12 +261,6 @@ const EDIT_ACTIONS: Set<string> = new Set([
 
 const AWAIT_CHANGE_ATTEMPTS = 5;
 const AWAIT_CHANGE_TIMEOUT_MS = 1000;
-
-/* Revert submission is skipped as the normal revert dialog will now show
-the user a choice between reverting single change or an entire submission.
-Hence, a second button is not needed.
-*/
-const SKIP_ACTION_KEYS = [ChangeActions.REVERT_SUBMISSION];
 
 const SKIP_ACTION_KEYS_ATTENTION_SET = [
   ChangeActions.REVIEWED,
@@ -326,7 +318,6 @@ export interface GrChangeActions {
     confirmCherrypickConflict: GrConfirmCherrypickConflictDialog;
     confirmMove: GrConfirmMoveDialog;
     confirmRevertDialog: GrConfirmRevertDialog;
-    confirmRevertSubmissionDialog: GrConfirmRevertSubmissionDialog;
     confirmAbandonDialog: GrConfirmAbandonDialog;
     confirmSubmitDialog: GrConfirmSubmitDialog;
     createFollowUpDialog: GrDialog;
@@ -1180,23 +1171,6 @@ export class GrChangeActions
     });
   }
 
-  showRevertSubmissionDialog() {
-    const change = this.change;
-    if (!change) return;
-    const query = `submissionid:${change.submission_id}`;
-    this.restApiService.getChanges(0, query).then(changes => {
-      if (!changes) {
-        this.reporting.error(new Error('changes is undefined'));
-        return;
-      }
-      this.$.confirmRevertSubmissionDialog._populateRevertSubmissionMessage(
-        change,
-        changes
-      );
-      this._showActionDialog(this.$.confirmRevertSubmissionDialog);
-    });
-  }
-
   _handleActionTap(e: MouseEvent) {
     e.preventDefault();
     let el = (dom(e) as EventApi).localTarget as Element;
@@ -1270,9 +1244,6 @@ export class GrChangeActions
     switch (key) {
       case ChangeActions.REVERT:
         this.showRevertDialog();
-        break;
-      case ChangeActions.REVERT_SUBMISSION:
-        this.showRevertSubmissionDialog();
         break;
       case ChangeActions.ABANDON:
         this._showActionDialog(this.$.confirmAbandonDialog);
@@ -1466,18 +1437,6 @@ export class GrChangeActions
       default:
         this.reporting.error(new Error('invalid revert type'));
     }
-  }
-
-  _handleRevertSubmissionDialogConfirm() {
-    const el = this.$.confirmRevertSubmissionDialog;
-    this.$.overlay.close();
-    el.hidden = true;
-    this._fireAction(
-      '/revert_submission',
-      assertUIActionInfo(this.actions.revert_submission),
-      false,
-      {message: el.message}
-    );
   }
 
   _handleAbandonDialogConfirm() {

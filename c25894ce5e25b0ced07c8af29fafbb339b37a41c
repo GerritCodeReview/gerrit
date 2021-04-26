@@ -52,6 +52,24 @@
       "parentUuid": "c82a4785_8ee79dee",
       "revId": "c25894ce5e25b0ced07c8af29fafbb339b37a41c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2db0db93_3c758bd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-26T14:17:13Z",
+      "side": 1,
+      "message": "LegacySubmitRequirement SGTM. Done.",
+      "parentUuid": "1221ca70_97631705",
+      "revId": "c25894ce5e25b0ced07c8af29fafbb339b37a41c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

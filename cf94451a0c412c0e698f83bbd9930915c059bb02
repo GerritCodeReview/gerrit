@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88f4abe2_c4d5e7ca",
+        "filename": "Documentation/dev-community.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-26T15:16:52Z",
+      "side": 1,
+      "message": "Should this be renamed too?",
+      "range": {
+        "startLine": 55,
+        "startChar": 26,
+        "endLine": 55,
+        "endChar": 47
+      },
+      "revId": "cf94451a0c412c0e698f83bbd9930915c059bb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b466b84_5516f3f4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1466,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-26T15:16:52Z",
+      "side": 1,
+      "message": "Are these still valid? References GWT below and I think the pg version of this is the \u0027endpoints\u0027 doc.",
+      "range": {
+        "startLine": 1464,
+        "startChar": 0,
+        "endLine": 1466,
+        "endChar": 0
+      },
+      "revId": "cf94451a0c412c0e698f83bbd9930915c059bb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3749a401_c2adf584",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-26T15:16:52Z",
+      "side": 1,
+      "message": "What\u0027s a preloaded plugin?",
+      "range": {
+        "startLine": 430,
+        "startChar": 4,
+        "endLine": 430,
+        "endChar": 21
+      },
+      "revId": "cf94451a0c412c0e698f83bbd9930915c059bb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8415bf5_18310ea4",
+        "filename": "Documentation/rest-api-documentation.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-26T15:16:52Z",
+      "side": 1,
+      "message": "Should be pg-plugin-dev.html?",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 39
+      },
+      "revId": "cf94451a0c412c0e698f83bbd9930915c059bb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

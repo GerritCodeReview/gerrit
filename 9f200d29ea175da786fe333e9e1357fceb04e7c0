@@ -16,6 +16,24 @@
       "message": "@Luca: do we want this change on stable-3.4 or should we move it to gerrit@HEAD, so that it will be included in next gerrit release?",
       "revId": "9f200d29ea175da786fe333e9e1357fceb04e7c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1af5d49_df341c49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-26T12:16:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "610184f5_d5242179",
+      "revId": "9f200d29ea175da786fe333e9e1357fceb04e7c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

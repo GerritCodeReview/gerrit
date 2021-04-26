@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3c97e0c_5d203ba4",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-26T11:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3349e8d0_51386939",
+      "range": {
+        "startLine": 510,
+        "startChar": 14,
+        "endLine": 510,
+        "endChar": 21
+      },
+      "revId": "6f8557727324f5cc289a1a1ad509cc07dc405d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f3762f_1f8e4add",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-26T11:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e815ce0_57bf1945",
+      "range": {
+        "startLine": 510,
+        "startChar": 37,
+        "endLine": 510,
+        "endChar": 50
+      },
+      "revId": "6f8557727324f5cc289a1a1ad509cc07dc405d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd5dbada_87186750",
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13ea402b_6cee31af",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-26T11:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd5dbada_87186750",
+      "range": {
+        "startLine": 511,
+        "startChar": 27,
+        "endLine": 511,
+        "endChar": 28
+      },
+      "revId": "6f8557727324f5cc289a1a1ad509cc07dc405d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c204cf7_0feaf703",
@@ -83,6 +155,24 @@
       "writtenOn": "2021-04-26T08:05:42Z",
       "side": 1,
       "message": "Would be nice to not have the \".min\" extension here.",
+      "revId": "6f8557727324f5cc289a1a1ad509cc07dc405d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92e92538_ba9baae7",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-26T11:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c204cf7_0feaf703",
       "revId": "6f8557727324f5cc289a1a1ad509cc07dc405d21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

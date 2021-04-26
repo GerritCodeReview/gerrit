@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf678422_f85624b0",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T12:36:07Z",
+      "side": 1,
+      "message": "I now use the config to decide the direction, but ask the user whether the migration should be done in the given direction.",
+      "parentUuid": "c31d5f43_b6df95cc",
+      "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70d06d34_f669f73a",
@@ -49,6 +67,30 @@
       "writtenOn": "2021-04-24T02:08:12Z",
       "side": 1,
       "message": "What do you mean by \u0027direct connectivity\u0027 ?",
+      "range": {
+        "startLine": 34,
+        "startChar": 41,
+        "endLine": 35,
+        "endChar": 12
+      },
+      "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d61fe81_7822af95",
+        "filename": "Documentation/pgm-ChangeExternalIdCaseSensitivity.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T12:36:07Z",
+      "side": 1,
+      "message": "I copied that part from another pgm tool. I modified it to be clearer.",
+      "parentUuid": "70d06d34_f669f73a",
       "range": {
         "startLine": 34,
         "startChar": 41,
@@ -82,6 +124,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccfad85c_1fbf656b",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T12:36:07Z",
+      "side": 1,
+      "message": "I use the auth.userNameCaseInsensitive option to decide the migration direction.",
+      "parentUuid": "0e6057fb_b7c823a9",
+      "range": {
+        "startLine": 65,
+        "startChar": 44,
+        "endLine": 65,
+        "endChar": 68
+      },
+      "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6faf9e07_b3c81bff",
@@ -95,6 +161,54 @@
       "writtenOn": "2021-04-24T02:08:12Z",
       "side": 1,
       "message": "Should we rather say: \"Gerrit is already configured as case-insensitive, nothing to do\" ?",
+      "range": {
+        "startLine": 110,
+        "startChar": 69,
+        "endLine": 110,
+        "endChar": 85
+      },
+      "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05165601_4c3065c0",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T12:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6faf9e07_b3c81bff",
+      "range": {
+        "startLine": 110,
+        "startChar": 69,
+        "endLine": 110,
+        "endChar": 85
+      },
+      "revId": "b56eafc2aeb29c82770694d8bd8c1f7e7c932de9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "830bcb96_4b9553ed",
+        "filename": "java/com/google/gerrit/pgm/ChangeExternalIdCaseSensitivity.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-26T12:36:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6faf9e07_b3c81bff",
       "range": {
         "startLine": 110,
         "startChar": 69,

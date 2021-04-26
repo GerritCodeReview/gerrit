@@ -33,6 +33,23 @@
       "message": "This should be rebased.",
       "revId": "af0f320204143080e794bc536fdf9dc2cc75ff34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "610db72a_be33a1ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-26T09:30:53Z",
+      "side": 1,
+      "message": "I moved it forward to stable-3.4 branch: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/304223",
+      "revId": "af0f320204143080e794bc536fdf9dc2cc75ff34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -137,6 +137,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "537bd69a_d2ddde27",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-26T14:18:32Z",
+      "side": 1,
+      "message": "\"isFinal\" is good and short but I\u0027d rather prefer a longer and self-explanatory version. I went with \"allowOverrideInChildProjects\" as it can\u0027t be confused.",
+      "parentUuid": "5c0cb7ab_e7e86ac0",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "309e80e7_93c0b5ca",
@@ -222,6 +246,30 @@
       "side": 1,
       "message": "I think what should be achieved is that\na) callers do not need to do the parsing on their own, they can just get the parsed predicate tree (whether it is parsed when the config is read, or when a caller asks for the predicate tree is not important to me)\nb) the handling of invalid submit requirements is consistent for all callers (e.g. always throw an exception, or always say that the change is not submittable similar to RULE_ERROR works nowadays)",
       "parentUuid": "33e06282_161ea90d",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "99d9e23fc57fc99d47e8c855efaaa9a4c4edc01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "567614ea_8df97f2c",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpression.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-26T14:18:32Z",
+      "side": 1,
+      "message": "I also don\u0027t like persisting the whole expression tree.\n\nWe could store the expression tree as a field in this class, but that could be transient (no need to persist it) since it can be derived from the expression string.\n\nAs Edwin said, parsing and handling of invalid submit requirements will only be done in one place: the project config. All callers can retrieve the parsed predicate tree afterwards.",
+      "parentUuid": "afcffc97_95348db7",
       "range": {
         "startLine": 25,
         "startChar": 12,

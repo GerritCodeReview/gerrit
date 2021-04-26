@@ -16,6 +16,23 @@
       "message": "@Davido ping?",
       "revId": "af0f320204143080e794bc536fdf9dc2cc75ff34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "199d6524_8f87cff0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-26T09:09:45Z",
+      "side": 1,
+      "message": "This should be rebased.",
+      "revId": "af0f320204143080e794bc536fdf9dc2cc75ff34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

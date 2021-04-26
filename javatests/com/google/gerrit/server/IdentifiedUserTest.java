@@ -25,7 +25,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.EnableReverseDnsLookup;
+import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -80,8 +80,8 @@ public class IdentifiedUserTest {
           @Override
           protected void configure() {
             bind(Boolean.class)
-                .annotatedWith(EnableReverseDnsLookup.class)
-                .toInstance(Boolean.TRUE);
+                .annotatedWith(EnablePeerIPInReflogRecord.class)
+                .toInstance(Boolean.FALSE);
             bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
             bind(String.class)
                 .annotatedWith(AnonymousCowardName.class)

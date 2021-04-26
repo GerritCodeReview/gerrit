@@ -25,8 +25,11 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.StringWriter;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -128,6 +131,21 @@ public class SshSessionJsch extends SshSession {
     } finally {
       channel.disconnect();
     }
+  }
+
+  @Override
+  public Reader execAndReturnReader(String command) throws Exception {
+    ChannelExec channel = (ChannelExec) getJschSession().openChannel("exec");
+    channel.setCommand(command);
+    channel.connect();
+
+    return new InputStreamReader(channel.getInputStream(), StandardCharsets.UTF_8) {
+      @Override
+      public void close() throws IOException {
+        super.close();
+        channel.disconnect();
+      }
+    };
   }
 
   private Session getJschSession() throws Exception {

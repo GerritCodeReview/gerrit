@@ -2296,16 +2296,11 @@ URL to direct users to when they need to report a bug.
 By default unset, meaning no bug report URL will be displayed. Administrators
 should set this to the URL of their issue tracker, if necessary.
 
-[[gerrit.enableReverseDnsLookup]]gerrit.enableReverseDnsLookup::
-+
-Enable reverse DNS lookup during computing ref log entry for identified user,
-to record the actual hostname of the user's host in the ref log.
-+
-Enabling reverse DNS lookup can cause performance issues on git push when
-the reverse DNS lookup is slow.
-+
-Defaults to false, reverse DNS lookup is disabled. The user's IP address
-will be recorded in the ref log rather than their hostname.
+[[gerrit.enablePeerIPInReflogRecord]]gerrit.enablePeerIPInReflogRecord::
+
+Record actual peer IP address in ref log entry for identified user.
+
+Defaults to false.
 
 [[gerrit.secureStoreClass]]gerrit.secureStoreClass::
 +

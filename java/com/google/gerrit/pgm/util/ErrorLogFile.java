@@ -95,14 +95,9 @@ public class ErrorLogFile {
     }
 
     if (json) {
-      Boolean enableReverseDnsLookup =
-          config.getBoolean("gerrit", null, "enableReverseDnsLookup", false);
       root.addAppender(
           SystemLog.createAppender(
-              logdir,
-              LOG_NAME + JSON_SUFFIX,
-              new ErrorLogJsonLayout(enableReverseDnsLookup),
-              rotate));
+              logdir, LOG_NAME + JSON_SUFFIX, new ErrorLogJsonLayout(), rotate));
     }
   }
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ecd27a9_c58513e7",
+        "filename": "Documentation/dev-community.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-26T15:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88f4abe2_c4d5e7ca",
+      "range": {
+        "startLine": 55,
+        "startChar": 26,
+        "endLine": 55,
+        "endChar": 47
+      },
+      "revId": "cf94451a0c412c0e698f83bbd9930915c059bb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b466b84_5516f3f4",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-26T15:16:52Z",
       "side": 1,
       "message": "Are these still valid? References GWT below and I think the pg version of this is the \u0027endpoints\u0027 doc.",
+      "range": {
+        "startLine": 1464,
+        "startChar": 0,
+        "endLine": 1466,
+        "endChar": 0
+      },
+      "revId": "cf94451a0c412c0e698f83bbd9930915c059bb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dd2e3a6_1d53a1f0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1466,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-26T15:40:55Z",
+      "side": 1,
+      "message": "Good point. Removed.",
+      "parentUuid": "8b466b84_5516f3f4",
       "range": {
         "startLine": 1464,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "850c065f_3cdf5fcc",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-26T15:40:55Z",
+      "side": 1,
+      "message": "Sorry, preloading support was removed. So removed this sentence, as well.",
+      "parentUuid": "3749a401_c2adf584",
+      "range": {
+        "startLine": 430,
+        "startChar": 4,
+        "endLine": 430,
+        "endChar": 21
+      },
+      "revId": "cf94451a0c412c0e698f83bbd9930915c059bb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8415bf5_18310ea4",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-04-26T15:16:52Z",
       "side": 1,
       "message": "Should be pg-plugin-dev.html?",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 39
+      },
+      "revId": "cf94451a0c412c0e698f83bbd9930915c059bb02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62c08234_7added0f",
+        "filename": "Documentation/rest-api-documentation.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-26T15:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8415bf5_18310ea4",
       "range": {
         "startLine": 71,
         "startChar": 28,

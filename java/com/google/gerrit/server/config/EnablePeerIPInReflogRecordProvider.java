@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,11 +14,21 @@
 
 package com.google.gerrit.server.config;
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import org.eclipse.jgit.lib.Config;
 
-import com.google.inject.BindingAnnotation;
-import java.lang.annotation.Retention;
+public class EnablePeerIPInReflogRecordProvider implements Provider<Boolean> {
+  private final Boolean enablePeerIPInReflogRecord;
 
-@Retention(RUNTIME)
-@BindingAnnotation
-public @interface EnableReverseDnsLookup {}
+  @Inject
+  EnablePeerIPInReflogRecordProvider(@GerritServerConfig Config config) {
+    enablePeerIPInReflogRecord =
+        config.getBoolean("gerrit", null, "enablePeerIPInReflogRecord", false);
+  }
+
+  @Override
+  public Boolean get() {
+    return enablePeerIPInReflogRecord;
+  }
+}

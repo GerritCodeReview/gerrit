@@ -26,8 +26,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPairGenerator;
@@ -117,6 +120,12 @@ public class SshSessionMina extends SshSession {
       // SSH command was interrupted
       return -1;
     }
+  }
+
+  @Override
+  public Reader execAndReturnReader(String command) throws Exception {
+    return new InputStreamReader(
+        getMinaSession().exec(command, 0).getInputStream(), StandardCharsets.UTF_8);
   }
 
   private SshdSession getMinaSession() throws Exception {

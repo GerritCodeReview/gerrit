@@ -36,7 +36,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.EnableReverseDnsLookup;
+import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
@@ -69,7 +69,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
-    private final Boolean enableReverseDnsLookup;
+    private final Boolean enablePeerIPInReflogRecord;
 
     @Inject
     public GenericFactory(
@@ -77,7 +77,7 @@ public class IdentifiedUser extends CurrentUser {
         Realm realm,
         @AnonymousCowardName String anonymousCowardName,
         @CanonicalWebUrl Provider<String> canonicalUrl,
-        @EnableReverseDnsLookup Boolean enableReverseDnsLookup,
+        @EnablePeerIPInReflogRecord Boolean enablePeerIPInReflogRecord,
         AccountCache accountCache,
         GroupBackend groupBackend) {
       this.authConfig = authConfig;
@@ -86,7 +86,7 @@ public class IdentifiedUser extends CurrentUser {
       this.canonicalUrl = canonicalUrl;
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
-      this.enableReverseDnsLookup = enableReverseDnsLookup;
+      this.enablePeerIPInReflogRecord = enablePeerIPInReflogRecord;
     }
 
     public IdentifiedUser create(AccountState state) {
@@ -97,7 +97,7 @@ public class IdentifiedUser extends CurrentUser {
           canonicalUrl,
           accountCache,
           groupBackend,
-          enableReverseDnsLookup,
+          enablePeerIPInReflogRecord,
           Providers.of(null),
           state,
           null);
@@ -134,7 +134,7 @@ public class IdentifiedUser extends CurrentUser {
           canonicalUrl,
           accountCache,
           groupBackend,
-          enableReverseDnsLookup,
+          enablePeerIPInReflogRecord,
           Providers.of(remotePeer),
           id,
           caller,
@@ -156,7 +156,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
-    private final Boolean enableReverseDnsLookup;
+    private final Boolean enablePeerIPInReflogRecord;
     private final Provider<SocketAddress> remotePeerProvider;
 
     @Inject
@@ -167,7 +167,7 @@ public class IdentifiedUser extends CurrentUser {
         @CanonicalWebUrl Provider<String> canonicalUrl,
         AccountCache accountCache,
         GroupBackend groupBackend,
-        @EnableReverseDnsLookup Boolean enableReverseDnsLookup,
+        @EnablePeerIPInReflogRecord Boolean enablePeerIPInReflogRecord,
         @RemotePeer Provider<SocketAddress> remotePeerProvider) {
       this.authConfig = authConfig;
       this.realm = realm;
@@ -175,7 +175,7 @@ public class IdentifiedUser extends CurrentUser {
       this.canonicalUrl = canonicalUrl;
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
-      this.enableReverseDnsLookup = enableReverseDnsLookup;
+      this.enablePeerIPInReflogRecord = enablePeerIPInReflogRecord;
       this.remotePeerProvider = remotePeerProvider;
     }
 
@@ -191,7 +191,7 @@ public class IdentifiedUser extends CurrentUser {
           canonicalUrl,
           accountCache,
           groupBackend,
-          enableReverseDnsLookup,
+          enablePeerIPInReflogRecord,
           remotePeerProvider,
           id,
           null,
@@ -206,7 +206,7 @@ public class IdentifiedUser extends CurrentUser {
           canonicalUrl,
           accountCache,
           groupBackend,
-          enableReverseDnsLookup,
+          enablePeerIPInReflogRecord,
           remotePeerProvider,
           id,
           caller,
@@ -224,7 +224,7 @@ public class IdentifiedUser extends CurrentUser {
   private final Realm realm;
   private final GroupBackend groupBackend;
   private final String anonymousCowardName;
-  private final Boolean enableReverseDnsLookup;
+  private final Boolean enablePeerIPInReflogRecord;
   private final Set<String> validEmails = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
   private final CurrentUser realUser; // Must be final since cached properties depend on it.
 
@@ -243,7 +243,7 @@ public class IdentifiedUser extends CurrentUser {
       Provider<String> canonicalUrl,
       AccountCache accountCache,
       GroupBackend groupBackend,
-      Boolean enableReverseDnsLookup,
+      Boolean enablePeerIPInReflogRecord,
       @Nullable Provider<SocketAddress> remotePeerProvider,
       AccountState state,
       @Nullable CurrentUser realUser) {
@@ -254,7 +254,7 @@ public class IdentifiedUser extends CurrentUser {
         canonicalUrl,
         accountCache,
         groupBackend,
-        enableReverseDnsLookup,
+        enablePeerIPInReflogRecord,
         remotePeerProvider,
         state.account().id(),
         realUser,
@@ -269,7 +269,7 @@ public class IdentifiedUser extends CurrentUser {
       Provider<String> canonicalUrl,
       AccountCache accountCache,
       GroupBackend groupBackend,
-      Boolean enableReverseDnsLookup,
+      Boolean enablePeerIPInReflogRecord,
       @Nullable Provider<SocketAddress> remotePeerProvider,
       Account.Id id,
       @Nullable CurrentUser realUser,
@@ -281,7 +281,7 @@ public class IdentifiedUser extends CurrentUser {
     this.authConfig = authConfig;
     this.realm = realm;
     this.anonymousCowardName = anonymousCowardName;
-    this.enableReverseDnsLookup = enableReverseDnsLookup;
+    this.enablePeerIPInReflogRecord = enablePeerIPInReflogRecord;
     this.remotePeerProvider = remotePeerProvider;
     this.accountId = id;
     this.realUser = realUser != null ? realUser : this;
@@ -441,8 +441,20 @@ public class IdentifiedUser extends CurrentUser {
       name = anonymousCowardName;
     }
 
-    String user = getUserName().orElse("") + "|account-" + ua.id().toString();
-    return new PersonIdent(name, user + "@" + guessHost(), when, tz);
+    String user;
+    if (enablePeerIPInReflogRecord) {
+      user = constructMailAddress(ua, guessHost());
+    } else {
+      user =
+          Strings.isNullOrEmpty(ua.preferredEmail())
+              ? constructMailAddress(ua, "unknown")
+              : ua.preferredEmail();
+    }
+    return new PersonIdent(name, user, when, tz);
+  }
+
+  private String constructMailAddress(Account ua, String host) {
+    return getUserName().orElse("") + "|account-" + ua.id().toString() + "@" + host;
   }
 
   public PersonIdent newCommitterIdent(Date when, TimeZone tz) {
@@ -519,7 +531,7 @@ public class IdentifiedUser extends CurrentUser {
         Providers.of(canonicalUrl.get()),
         accountCache,
         groupBackend,
-        enableReverseDnsLookup,
+        enablePeerIPInReflogRecord,
         remotePeer,
         state,
         realUser);
@@ -541,18 +553,11 @@ public class IdentifiedUser extends CurrentUser {
     if (remotePeer instanceof InetSocketAddress) {
       InetSocketAddress sa = (InetSocketAddress) remotePeer;
       InetAddress in = sa.getAddress();
-      host = in != null ? getHost(in) : sa.getHostName();
+      host = in != null ? in.getHostAddress() : sa.getHostName();
     }
     if (Strings.isNullOrEmpty(host)) {
       return "unknown";
     }
     return host;
-  }
-
-  private String getHost(InetAddress in) {
-    if (Boolean.TRUE.equals(enableReverseDnsLookup)) {
-      return in.getCanonicalHostName();
-    }
-    return in.getHostAddress();
   }
 }

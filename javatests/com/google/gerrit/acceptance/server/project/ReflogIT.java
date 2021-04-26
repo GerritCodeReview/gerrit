@@ -23,6 +23,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
@@ -61,6 +62,44 @@ public class ReflogIT extends AbstractDaemonTest {
       ReflogEntry last = repo.getReflogReader(changeMetaRef(id)).getLastEntry();
       assertWithMessage("last RefLogEntry").that(last).isNotNull();
       assertThat(last.getComment()).isEqualTo("restapi.change.PutTopic");
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.enablePeerIPInReflogRecord", value = "true")
+  public void peerIPIncludedInReflogRecord() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    try (Repository repo = repoManager.openRepository(r.getChange().project())) {
+      File log = new File(repo.getDirectory(), "logs/" + changeMetaRef(id));
+      if (!log.exists()) {
+        log.getParentFile().mkdirs();
+        assertThat(log.createNewFile()).isTrue();
+      }
+
+      gApi.changes().id(id.get()).topic("foo");
+      ReflogEntry last = repo.getReflogReader(changeMetaRef(id)).getLastEntry();
+      assertThat(last.getWho().getEmailAddress())
+          .isEqualTo(admin.username() + "|account-" + admin.id() + "@unknown");
+    }
+  }
+
+  @Test
+  public void emaiIncludedInReflogRecord() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+
+    try (Repository repo = repoManager.openRepository(r.getChange().project())) {
+      File log = new File(repo.getDirectory(), "logs/" + changeMetaRef(id));
+      if (!log.exists()) {
+        log.getParentFile().mkdirs();
+        assertThat(log.createNewFile()).isTrue();
+      }
+
+      gApi.changes().id(id.get()).topic("foo");
+      ReflogEntry last = repo.getReflogReader(changeMetaRef(id)).getLastEntry();
+      assertThat(last.getWho().getEmailAddress()).isEqualTo(admin.email());
     }
   }
 

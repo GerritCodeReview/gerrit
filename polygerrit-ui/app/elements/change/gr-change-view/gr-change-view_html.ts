@@ -632,7 +632,7 @@ export const htmlTemplate = html`
       </gr-endpoint-param>
     </gr-endpoint-decorator>
 
-    <paper-tabs id="secondaryTabs" on-selected-changed="_setActiveSecondaryTab">
+    <paper-tabs id="secondaryTabs">
       <paper-tab
         data-name$="[[_constants.SecondaryTab.CHANGE_LOG]]"
         class="changeLog"
@@ -642,24 +642,19 @@ export const htmlTemplate = html`
     </paper-tabs>
     <section class="changeLog">
       <h2 class="assistive-tech-only">Change Log</h2>
-      <template
-        is="dom-if"
-        if="[[_isTabActive(_constants.SecondaryTab.CHANGE_LOG, _activeTabs)]]"
-      >
-        <gr-messages-list
-          class="hideOnMobileOverlay"
-          change="[[_change]]"
-          change-num="[[_changeNum]]"
-          labels="[[_change.labels]]"
-          messages="[[_change.messages]]"
-          reviewer-updates="[[_change.reviewer_updates]]"
-          change-comments="[[_changeComments]]"
-          project-name="[[_change.project]]"
-          show-reply-buttons="[[_loggedIn]]"
-          on-message-anchor-tap="_handleMessageAnchorTap"
-          on-reply="_handleMessageReply"
-        ></gr-messages-list>
-      </template>
+      <gr-messages-list
+        class="hideOnMobileOverlay"
+        change="[[_change]]"
+        change-num="[[_changeNum]]"
+        labels="[[_change.labels]]"
+        messages="[[_change.messages]]"
+        reviewer-updates="[[_change.reviewer_updates]]"
+        change-comments="[[_changeComments]]"
+        project-name="[[_change.project]]"
+        show-reply-buttons="[[_loggedIn]]"
+        on-message-anchor-tap="_handleMessageAnchorTap"
+        on-reply="_handleMessageReply"
+      ></gr-messages-list>
     </section>
   </div>
 

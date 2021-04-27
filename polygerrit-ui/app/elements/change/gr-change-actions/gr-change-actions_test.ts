@@ -2327,33 +2327,6 @@ suite('gr-change-actions tests', () => {
               ])
             );
           });
-
-          test('revert submission shows submissionId', done => {
-            const expectedMsg =
-              'Revert submission 199' +
-              '\n\n' +
-              'Reason for revert: <INSERT REASONING HERE>' +
-              '\n' +
-              'Reverted Changes:' +
-              '\n' +
-              '1234567890: random' +
-              '\n' +
-              '23456: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
-              '\n';
-            const modifiedMsg = expectedMsg + 'abcd';
-            sinon
-              .stub(
-                element.$.confirmRevertSubmissionDialog,
-                '_modifyRevertSubmissionMsg'
-              )
-              .returns(modifiedMsg);
-            element.showRevertSubmissionDialog();
-            flush(() => {
-              const msg = element.$.confirmRevertSubmissionDialog.message;
-              assert.equal(msg, modifiedMsg);
-              done();
-            });
-          });
         });
 
         suite('single changes revert', () => {

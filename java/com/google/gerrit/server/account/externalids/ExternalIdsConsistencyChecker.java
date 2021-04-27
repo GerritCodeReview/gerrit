@@ -58,7 +58,7 @@ public class ExternalIdsConsistencyChecker {
 
   public List<ConsistencyProblemInfo> check() throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return check(ExternalIdNotes.loadReadOnly(allUsers, repo));
+      return check(ExternalIdNotes.loadReadOnly(allUsers, repo, null));
     }
   }
 

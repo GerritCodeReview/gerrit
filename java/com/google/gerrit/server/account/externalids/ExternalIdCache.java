@@ -22,7 +22,8 @@ import java.util.Collection;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * Caches external IDs of all accounts.
+ * Caches external IDs of all accounts. Note that the granularity is "revision" only, so each update
+ * will cache a new value containing <b>all</b> external IDs.
  *
  * <p>On each cache access the SHA1 of the refs/meta/external-ids branch is read to verify that the
  * cache is up to date.
@@ -30,6 +31,15 @@ import org.eclipse.jgit.lib.ObjectId;
  * <p>All returned collections are unmodifiable.
  */
 interface ExternalIdCache {
+
+  /**
+   * Updates the cache.
+   *
+   * @param oldNotesRev current revision against which the below updates are applied
+   * @param newNotesRev key for the new cache revision
+   * @param toRemove external IDs to remove
+   * @param toAdd external IDs to add
+   */
   void onReplace(
       ObjectId oldNotesRev,
       ObjectId newNotesRev,

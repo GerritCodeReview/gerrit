@@ -35,7 +35,6 @@ import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -86,21 +85,34 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>On save the staged external ID updates are performed (see {@link #onSave(CommitBuilder)}).
  *
  * <p>After committing the external IDs a cache update can be requested which also reindexes the
- * accounts for which external IDs have been updated (see {@link #updateCaches()}).
+ * accounts for which external IDs have been updated (see {@link
+ * ExternalIdNotesLoader#updateExternalIdCacheAndMaybeReindexAccounts)}).
  */
 public class ExternalIdNotes extends VersionedMetaData {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final int MAX_NOTE_SZ = 1 << 19;
 
-  public interface ExternalIdNotesLoader {
+  public abstract static class ExternalIdNotesLoader {
+    protected final ExternalIdCache externalIdCache;
+    protected final MetricMaker metricMaker;
+    protected final AllUsersName allUsersName;
+
+    protected ExternalIdNotesLoader(
+        ExternalIdCache externalIdCache, MetricMaker metricMaker, AllUsersName allUsersName) {
+      this.externalIdCache = externalIdCache;
+      this.metricMaker = metricMaker;
+      this.allUsersName = allUsersName;
+    }
+
     /**
      * Loads the external ID notes from the current tip of the {@code refs/meta/external-ids}
      * branch.
      *
      * @param allUsersRepo the All-Users repository
      */
-    ExternalIdNotes load(Repository allUsersRepo) throws IOException, ConfigInvalidException;
+    public abstract ExternalIdNotes load(Repository allUsersRepo)
+        throws IOException, ConfigInvalidException;
 
     /**
      * Loads the external ID notes from the specified revision of the {@code refs/meta/external-ids}
@@ -112,107 +124,121 @@ public class ExternalIdNotes extends VersionedMetaData {
      *     assumed that the {@code refs/meta/external-ids} branch doesn't exist and the loaded
      *     external IDs will be empty
      */
-    ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
+    public abstract ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException;
+
+    /**
+     * Updates the external ID cache. Subclasses of type {@link Factory} will also reindex the
+     * accounts for which external IDs were modified, while subclasses of type {@link
+     * FactoryNoReindex} will skip this.
+     *
+     * <p>Must only be called after committing changes.
+     *
+     * @param externalIdNotes the committed updates that should be applied to the cache. This first
+     *     and last element must be the updates commited first and last, respectively.
+     * @param accountsToSkipForReindex accounts that should not be reindexed. This is to avoid
+     *     double reindexing when updated accounts will already be reindexed by
+     *     ReindexAfterRefUpdate.
+     */
+    public void updateExternalIdCacheAndMaybeReindexAccounts(
+        ExternalIdNotes externalIdNotes, Collection<Account.Id> accountsToSkipForReindex)
+        throws IOException {
+      checkState(externalIdNotes.oldRev != null, "no changes committed yet");
+
+      // readOnly is ignored here (legacy behavior).
+
+      // Aggregate all updates.
+      ExternalIdCacheUpdates updates = new ExternalIdCacheUpdates();
+      for (CacheUpdate cacheUpdate : externalIdNotes.cacheUpdates) {
+        cacheUpdate.execute(updates);
+      }
+
+      // Perform the cache update.
+      if (!externalIdNotes.noCacheUpdate) {
+        // Regardless of noCacheUpdate it's still possible that the ExternalIdCache instance is of
+        // type DisabledExternalIdCache, making this call a no-op.
+        externalIdCache.onReplace(
+            externalIdNotes.oldRev,
+            externalIdNotes.getRevision(),
+            updates.getRemoved(),
+            updates.getAdded());
+      }
+
+      // Reindex accounts (if the subclass implements reindexAccount()).
+      if (!externalIdNotes.noReindex) {
+        Streams.concat(updates.getAdded().stream(), updates.getRemoved().stream())
+            .map(ExternalId::accountId)
+            .filter(i -> !accountsToSkipForReindex.contains(i))
+            .distinct()
+            .forEach(this::reindexAccount);
+      }
+
+      // Reset instance state.
+      externalIdNotes.cacheUpdates.clear();
+      externalIdNotes.oldRev = null;
+    }
+
+    protected abstract void reindexAccount(Account.Id id);
   }
 
   @Singleton
-  public static class Factory implements ExternalIdNotesLoader {
-    private final ExternalIdCache externalIdCache;
-    private final AccountCache accountCache;
+  public static class Factory extends ExternalIdNotesLoader {
+
     private final Provider<AccountIndexer> accountIndexer;
-    private final MetricMaker metricMaker;
-    private final AllUsersName allUsersName;
 
     @Inject
     Factory(
         ExternalIdCache externalIdCache,
-        AccountCache accountCache,
         Provider<AccountIndexer> accountIndexer,
         MetricMaker metricMaker,
         AllUsersName allUsersName) {
-      this.externalIdCache = externalIdCache;
-      this.accountCache = accountCache;
+      super(externalIdCache, metricMaker, allUsersName);
       this.accountIndexer = accountIndexer;
-      this.metricMaker = metricMaker;
-      this.allUsersName = allUsersName;
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(
-              externalIdCache,
-              accountCache,
-              accountIndexer,
-              metricMaker,
-              allUsersName,
-              allUsersRepo)
-          .load();
+      return new ExternalIdNotes(metricMaker, allUsersName, allUsersRepo).load();
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(
-              externalIdCache,
-              accountCache,
-              accountIndexer,
-              metricMaker,
-              allUsersName,
-              allUsersRepo)
-          .load(rev);
+      return new ExternalIdNotes(metricMaker, allUsersName, allUsersRepo).load(rev);
+    }
+
+    @Override
+    protected void reindexAccount(Account.Id id) {
+      accountIndexer.get().index(id);
     }
   }
 
   @Singleton
-  public static class FactoryNoReindex implements ExternalIdNotesLoader {
-    private final ExternalIdCache externalIdCache;
-    private final MetricMaker metricMaker;
-    private final AllUsersName allUsersName;
+  public static class FactoryNoReindex extends ExternalIdNotesLoader {
 
     @Inject
     FactoryNoReindex(
         ExternalIdCache externalIdCache, MetricMaker metricMaker, AllUsersName allUsersName) {
-      this.externalIdCache = externalIdCache;
-      this.metricMaker = metricMaker;
-      this.allUsersName = allUsersName;
+      super(externalIdCache, metricMaker, allUsersName);
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(
-              externalIdCache, null, null, metricMaker, allUsersName, allUsersRepo)
-          .load();
+      return new ExternalIdNotes(metricMaker, allUsersName, allUsersRepo).setNoReindex().load();
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(
-              externalIdCache, null, null, metricMaker, allUsersName, allUsersRepo)
-          .load(rev);
+      return new ExternalIdNotes(metricMaker, allUsersName, allUsersRepo).setNoReindex().load(rev);
     }
-  }
 
-  /**
-   * Loads the external ID notes for reading only. The external ID notes are loaded from the current
-   * tip of the {@code refs/meta/external-ids} branch.
-   *
-   * @return read-only {@link ExternalIdNotes} instance
-   */
-  public static ExternalIdNotes loadReadOnly(AllUsersName allUsersName, Repository allUsersRepo)
-      throws IOException, ConfigInvalidException {
-    return new ExternalIdNotes(
-            new DisabledExternalIdCache(),
-            null,
-            null,
-            new DisabledMetricMaker(),
-            allUsersName,
-            allUsersRepo)
-        .setReadOnly()
-        .load();
+    @Override
+    protected void reindexAccount(Account.Id id) {
+      // Do not reindex.
+    }
   }
 
   /**
@@ -228,14 +254,10 @@ public class ExternalIdNotes extends VersionedMetaData {
   public static ExternalIdNotes loadReadOnly(
       AllUsersName allUsersName, Repository allUsersRepo, @Nullable ObjectId rev)
       throws IOException, ConfigInvalidException {
-    return new ExternalIdNotes(
-            new DisabledExternalIdCache(),
-            null,
-            null,
-            new DisabledMetricMaker(),
-            allUsersName,
-            allUsersRepo)
+    return new ExternalIdNotes(new DisabledMetricMaker(), allUsersName, allUsersRepo)
         .setReadOnly()
+        .setNoCacheUpdate()
+        .setNoReindex()
         .load(rev);
   }
 
@@ -252,19 +274,12 @@ public class ExternalIdNotes extends VersionedMetaData {
   public static ExternalIdNotes loadNoCacheUpdate(
       AllUsersName allUsersName, Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
-    return new ExternalIdNotes(
-            new DisabledExternalIdCache(),
-            null,
-            null,
-            new DisabledMetricMaker(),
-            allUsersName,
-            allUsersRepo)
+    return new ExternalIdNotes(new DisabledMetricMaker(), allUsersName, allUsersRepo)
+        .setNoCacheUpdate()
+        .setNoReindex()
         .load();
   }
 
-  private final ExternalIdCache externalIdCache;
-  @Nullable private final AccountCache accountCache;
-  @Nullable private final Provider<AccountIndexer> accountIndexer;
   private final AllUsersName allUsersName;
   private final Counter0 updateCount;
   private final Repository repo;
@@ -281,17 +296,11 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   private Runnable afterReadRevision;
   private boolean readOnly = false;
+  private boolean noCacheUpdate = false;
+  private boolean noReindex = false;
 
   private ExternalIdNotes(
-      ExternalIdCache externalIdCache,
-      @Nullable AccountCache accountCache,
-      @Nullable Provider<AccountIndexer> accountIndexer,
-      MetricMaker metricMaker,
-      AllUsersName allUsersName,
-      Repository allUsersRepo) {
-    this.externalIdCache = requireNonNull(externalIdCache, "externalIdCache");
-    this.accountCache = accountCache;
-    this.accountIndexer = accountIndexer;
+      MetricMaker metricMaker, AllUsersName allUsersName, Repository allUsersRepo) {
     this.updateCount =
         metricMaker.newCounter(
             "notedb/external_id_update_count",
@@ -319,7 +328,17 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   private ExternalIdNotes setReadOnly() {
-    this.readOnly = true;
+    readOnly = true;
+    return this;
+  }
+
+  private ExternalIdNotes setNoCacheUpdate() {
+    noCacheUpdate = true;
+    return this;
+  }
+
+  private ExternalIdNotes setNoReindex() {
+    noReindex = true;
     return this;
   }
 
@@ -695,66 +714,6 @@ public class ExternalIdNotes extends VersionedMetaData {
     return commit;
   }
 
-  /**
-   * Updates the caches (external ID cache, account cache) and reindexes the accounts for which
-   * external IDs were modified.
-   *
-   * <p>Must only be called after committing changes.
-   *
-   * <p>No-op if this instance was created by {@link #loadNoCacheUpdate(AllUsersName, Repository)}.
-   *
-   * <p>No eviction from account cache and no reindex if this instance was created by {@link
-   * FactoryNoReindex}.
-   */
-  public void updateCaches() throws IOException {
-    updateCaches(ImmutableSet.of());
-  }
-
-  /**
-   * Updates the caches (external ID cache, account cache) and reindexes the accounts for which
-   * external IDs were modified.
-   *
-   * <p>Must only be called after committing changes.
-   *
-   * <p>No-op if this instance was created by {@link #loadNoCacheUpdate(AllUsersName, Repository)}.
-   *
-   * <p>No eviction from account cache if this instance was created by {@link FactoryNoReindex}.
-   *
-   * @param accountsToSkip set of accounts that should not be evicted from the account cache, in
-   *     this case the caller must take care to evict them otherwise
-   */
-  public void updateCaches(Collection<Account.Id> accountsToSkip) throws IOException {
-    checkState(oldRev != null, "no changes committed yet");
-
-    ExternalIdCacheUpdates externalIdCacheUpdates = new ExternalIdCacheUpdates();
-    for (CacheUpdate cacheUpdate : cacheUpdates) {
-      cacheUpdate.execute(externalIdCacheUpdates);
-    }
-
-    externalIdCache.onReplace(
-        oldRev,
-        getRevision(),
-        externalIdCacheUpdates.getRemoved(),
-        externalIdCacheUpdates.getAdded());
-
-    if (accountCache != null || accountIndexer != null) {
-      for (Account.Id id :
-          Streams.concat(
-                  externalIdCacheUpdates.getAdded().stream(),
-                  externalIdCacheUpdates.getRemoved().stream())
-              .map(ExternalId::accountId)
-              .filter(i -> !accountsToSkip.contains(i))
-              .collect(toSet())) {
-        if (accountIndexer != null) {
-          accountIndexer.get().index(id);
-        }
-      }
-    }
-
-    cacheUpdates.clear();
-    oldRev = null;
-  }
-
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkState(!readOnly, "Updating external IDs is disabled");
@@ -866,12 +825,11 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @throws IllegalStateException is thrown if there is an existing external ID that has the same
    *     key, but otherwise doesn't match the specified external ID.
    */
-  private static ExternalId remove(
-      RevWalk rw, NoteMap noteMap, Set<String> footers, ExternalId extId)
+  private static void remove(RevWalk rw, NoteMap noteMap, Set<String> footers, ExternalId extId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extId.key().sha1();
     if (!noteMap.contains(noteId)) {
-      return null;
+      return;
     }
 
     ObjectId noteDataId = noteMap.get(noteId);
@@ -884,7 +842,6 @@ public class ExternalIdNotes extends VersionedMetaData {
         actualExtId.toString());
     noteMap.remove(noteId);
     addFooters(footers, actualExtId);
-    return actualExtId;
   }
 
   /**

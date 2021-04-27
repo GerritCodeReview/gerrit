@@ -174,7 +174,8 @@ will be an iterative process.
 While the design doc is still in review, contributors may already start
 with the implementation (e.g. do some prototyping to demonstrate parts
 of the proposed design), but those changes should not be submitted
-while the design wasn't approved yet.
+while the design wasn't approved yet. Another way to demonstrate the
+design can be to add screenshots or the like, early enough in the doc.
 
 By approving a design, the steering committee commits to:
 

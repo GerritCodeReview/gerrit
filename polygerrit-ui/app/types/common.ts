@@ -490,6 +490,7 @@ export interface ActionNameToActionInfoMap {
   hashtags?: ActionInfo;
   assignee?: ActionInfo;
   ready?: ActionInfo;
+  includedIn?: ActionInfo;
 }
 
 /**

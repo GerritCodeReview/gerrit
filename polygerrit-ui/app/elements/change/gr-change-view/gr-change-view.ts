@@ -647,9 +647,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
       this._setActivePrimaryTab(e)
     );
-    this.addEventListener('show-secondary-tab', e =>
-      this._setActiveSecondaryTab(e)
-    );
     this.addEventListener('reload', e => {
       e.stopPropagation();
       this._reload(
@@ -812,23 +809,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       }
     }
     this._tabState = e.detail.tabState;
-  }
-
-  /**
-   * Changes active secondary tab.
-   */
-  _setActiveSecondaryTab(e: SwitchTabEvent) {
-    const secondaryTabs = this.shadowRoot!.querySelector<PaperTabsElement>(
-      '#secondaryTabs'
-    );
-    const activeTabName = this._setActiveTab(secondaryTabs, {
-      activeTabName: e.detail.tab,
-      activeTabIndex: e.detail.value,
-      scrollIntoView: e.detail.scrollIntoView,
-    });
-    if (activeTabName) {
-      this._activeTabs = [this._activeTabs[0], activeTabName];
-    }
   }
 
   _onPaperTabClick(e: MouseEvent) {
@@ -1294,13 +1274,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       new CustomEvent('initActiveTab', {
         detail: {
           tab: primaryTab,
-        },
-      })
-    );
-    this._setActiveSecondaryTab(
-      new CustomEvent('initActiveTab', {
-        detail: {
-          tab: SecondaryTab.CHANGE_LOG,
         },
       })
     );

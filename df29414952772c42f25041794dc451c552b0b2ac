@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2319781_20e155d8",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-27T08:33:41Z",
+      "side": 1,
+      "message": "We anticipate that users will want some control over this (maybe not a slider across a full range of values, but distinct levels) so I made it an option, but I can leave it out until we see that confirmed in user feedback.",
+      "parentUuid": "9e6a2814_41e5e6d0",
+      "revId": "df29414952772c42f25041794dc451c552b0b2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92d8267d_7a48f70c",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-04-27T07:36:51Z",
       "side": 1,
       "message": "Just using a DEFAULT_AUTOMATIC_BLINK_TIME_MS as blinkTime should be sufficient, see comment on the preference above.",
+      "revId": "df29414952772c42f25041794dc451c552b0b2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09fa6115_c59adcbe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-04-27T08:33:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92d8267d_7a48f70c",
       "revId": "df29414952772c42f25041794dc451c552b0b2ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -59,6 +59,7 @@ export enum ChangeActions {
   UNIGNORE = 'unignore',
   UNREVIEWED = 'unreviewed',
   WIP = 'wip',
+  INCLUDED_IN = 'includedIn',
 }
 
 export enum RevisionActions {

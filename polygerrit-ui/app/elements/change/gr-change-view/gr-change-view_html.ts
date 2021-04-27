@@ -373,6 +373,7 @@ export const htmlTemplate = html`
             on-edit-tap="_handleEditTap"
             on-stop-edit-tap="_handleStopEditTap"
             on-download-tap="_handleOpenDownloadDialog"
+            on-included-tap="_handleOpenIncludedInDialog"
             comment-threads="[[_commentThreads]]"
           ></gr-change-actions>
         </div>
@@ -533,7 +534,6 @@ export const htmlTemplate = html`
           diff-prefs-disabled="[[_diffPrefsDisabled]]"
           on-open-diff-prefs="_handleOpenDiffPrefs"
           on-open-download-dialog="_handleOpenDownloadDialog"
-          on-open-included-in-dialog="_handleOpenIncludedInDialog"
           on-expand-diffs="_expandAllDiffs"
           on-collapse-diffs="_collapseAllDiffs"
         >

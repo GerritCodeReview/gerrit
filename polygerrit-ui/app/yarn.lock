@@ -418,6 +418,11 @@
 "ba-linkify@file:../../lib/ba-linkify/src":
   version "1.0.0"
 
+codemirror-minified@^5.60.0:
+  version "5.60.0"
+  resolved "https://registry.yarnpkg.com/codemirror-minified/-/codemirror-minified-5.60.0.tgz#d0d8b62ab6d50864903f812cd203b97193b1fb75"
+  integrity sha512-Ru9aChh07DwYrUEfI+LznD3l8GxOPlYKAqcG8qxIlxRZTyw4BPfZsV5m1oUz1y6knxaPxa23FwM/R5rWggRnKg==
+
 isarray@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"

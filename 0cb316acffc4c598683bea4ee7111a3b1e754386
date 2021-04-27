@@ -16,6 +16,24 @@
       "message": "Replace by:\n\n  fireEvent(this, \u0027included-tap\u0027);",
       "revId": "0cb316acffc4c598683bea4ee7111a3b1e754386",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66295bd1_6c3c0a8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1855,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-27T09:01:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dfc9d52_6043a4d5",
+      "revId": "0cb316acffc4c598683bea4ee7111a3b1e754386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e6a2814_41e5e6d0",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-27T07:36:51Z",
+      "side": 1,
+      "message": "I would prefer to not introduce a preference for this. It adds complexity and I don\u0027t see the benefit.",
+      "revId": "df29414952772c42f25041794dc451c552b0b2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92d8267d_7a48f70c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-27T07:36:51Z",
+      "side": 1,
+      "message": "Just using a DEFAULT_AUTOMATIC_BLINK_TIME_MS as blinkTime should be sufficient, see comment on the preference above.",
+      "revId": "df29414952772c42f25041794dc451c552b0b2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

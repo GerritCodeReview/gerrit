@@ -138,7 +138,7 @@ The output executable WAR will be placed in:
 [[release]]
 === Gerrit Release WAR File
 
-To build the Gerrit web application that includes the PolyGerrit UI,
+To build the Gerrit web application that includes the Gerrit UI,
 core plugins and documentation:
 
 ----
@@ -153,8 +153,7 @@ The output executable WAR will be placed in:
 
 === Headless Mode
 
-To build Gerrit in headless mode, i.e. without the PolyGerrit UI:
-Web UI:
+To build Gerrit in headless mode, i.e. without the Gerrit UI:
 
 ----
   bazel build headless
@@ -559,10 +558,10 @@ necessary.
 [[npm-binary]]
 == NPM Binaries
 
-Parts of the PolyGerrit build require running NPM-based JavaScript programs as
-"binaries". We don't attempt to resolve and download NPM dependencies at build
-time, but instead use pre-built bundles of the NPM binary along with all its
-dependencies. Some packages on
+Parts of the Gerrit web app build require running NPM-based JavaScript programs
+as "binaries". We don't attempt to resolve and download NPM dependencies at
+build time, but instead use pre-built bundles of the NPM binary along with all
+its dependencies. Some packages on
 link:https://docs.npmjs.com/misc/registry[registry.npmjs.org,role=external,window=_blank] come with their
 dependencies bundled, but this is the exception rather than the rule. More
 commonly, to add a new binary to this list, you will need to bundle the binary
@@ -625,8 +624,8 @@ After the update, commit all changes to the repository (including `yarn.lock`).
 If a npm package has transitive dependencies (or just several files) with a not allowed
 license and you can't avoid use it in release, then you can add this package.
 For example some packages contain demo-code with a different license. Another example - optional
-dependencies, which are not needed to build polygerrit, but they are installed together with
-the package anyway.
+dependencies, which are not needed to build the Gerrit web app, but they are installed together
+with the package anyway.
 
 In this case you should exclude all files and/or transitive dependencies with a not allowed license.
 Adding such package requires additional updates:

@@ -47,10 +47,6 @@ results.
       "url": "Documentation/rest-api.html"
     },
     {
-      "title": "Gerrit Code Review - JavaScript API",
-      "url": "Documentation/js-api.html"
-    },
-    {
       "title": "Gerrit Code Review - /plugins/ REST API",
       "url": "Documentation/rest-api-plugins.html"
     },
@@ -67,8 +63,12 @@ results.
       "url": "Documentation/rest-api-access.html"
     },
     {
-      "title": "Gerrit Code Review - Plugin Development",
+      "title": "Gerrit Code Review - Java Plugin Development",
       "url": "Documentation/dev-plugins.html"
+    },
+    {
+      "title": "Gerrit Code Review - JavaScript Plugin Development and API",
+      "url": "Documentation/pg-plugin-dev.html"
     },
     {
       "title": "Gerrit Code Review - Developer Setup",

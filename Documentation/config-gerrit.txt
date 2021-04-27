@@ -504,10 +504,10 @@ the "Switch Account" link is displayed next to "Sign Out".
 +
 When `auth.type` does not normally enable this URL administrators may
 set this to `login/`, allowing users to begin a new web session. This value
-is used as an href in PolyGerrit, so absolute URLs like
+is used as an href in the Gerrit web app, so absolute URLs like
 `https://someotherhost/login` work as well.
 +
-If a ${path} parameter is included, then PolyGerrit will substitute the
+If a ${path} parameter is included, then the Gerrit web app will substitute the
 currently viewed path in the link. Be aware that this path will include
 a leading slash, so a value like this might be appropriate: `/login${path}`.
 
@@ -2340,11 +2340,11 @@ By default SAMEORIGIN.
 
 [[gerrit.cdnPath]]gerrit.cdnPath::
 +
-Path prefix for PolyGerrit's static resources if using a CDN.
+Path prefix for Gerrit's static resources if using a CDN.
 
 [[gerrit.faviconPath]]gerrit.faviconPath::
 +
-Path for PolyGerrit's favicon after link:#gerrit.canonicalWebUrl[default URL],
+Path for Gerrit's favicon after link:#gerrit.canonicalWebUrl[default URL],
 including icon name and extension (.ico should be used).
 
 [[gerrit.instanceId]]gerrit.instanceId::

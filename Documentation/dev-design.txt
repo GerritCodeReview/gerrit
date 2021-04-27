@@ -80,10 +80,10 @@ change.
 == Infrastructure
 
 End-user web browsers make HTTP requests directly to Gerrit's
-HTTP server.  As nearly all of the user interface is implemented
-through PolyGerrit, the majority of these requests are transmitting
-compressed JSON payloads, with all HTML being generated within the
-browser.
+HTTP server. As nearly all of the Gerrit user interface is implemented
+in a JavaScript based web app, the majority of these requests are
+transmitting compressed JSON payloads, with all HTML being generated
+within the browser.
 
 Gerrit's HTTP server side component is implemented as a standard Java
 servlet, and thus runs within any link:install-j2ee.html[J2EE servlet

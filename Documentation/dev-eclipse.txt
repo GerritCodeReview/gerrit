@@ -118,7 +118,7 @@ Developer Setup guide to configure a local site for testing.
 
 == Testing
 
-=== PolyGerrit UI is served by `server.go` process. To launch it,
+=== The Gerrit web app UI is served by `server.go` process. To launch it,
 run this command:
 
 ----

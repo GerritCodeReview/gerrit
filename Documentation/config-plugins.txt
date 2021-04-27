@@ -49,7 +49,7 @@ revision for the Gerrit version you are using.
 [[codemirror-editor]]
 === codemirror-editor
 
-CodeMirror plugin for polygerrit.
+CodeMirror JavaScript plugin for Gerrit.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/codemirror-editor[
 Project,role=external,window=_blank] |

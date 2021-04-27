@@ -2773,7 +2773,7 @@ Which theme to use.
 Allowed values are `DARK` or `LIGHT`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
-(PolyGerrit only).
+(Gerrit web app UI only).
 |`download_scheme`              |optional|
 The type of download URL the user prefers to use. May be any key from
 the `schemes` map in
@@ -2802,8 +2802,8 @@ inline edit feature.
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`change_table`                           ||
-The columns to display in the change table (PolyGerrit only). The default is
-empty, which will default columns as determined by the frontend.
+The columns to display in the change table (Gerrit web app UI only). The
+default is empty, which will default columns as determined by the frontend.
 |`email_strategy`               ||
 The type of email strategy to use. On `ENABLED`, the user will receive emails
 from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for
@@ -2842,7 +2842,7 @@ Which theme to use.
 Allowed values are `DARK` or `LIGHT`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
-(PolyGerrit only).
+(Gerrit web app UI only).
 |`download_scheme`              |optional|
 The type of download URL the user prefers to use.
 |`date_format`                  |optional|
@@ -2869,8 +2869,8 @@ inline edit feature.
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`change_table`                           ||
-The columns to display in the change table (PolyGerrit only). The default is
-empty, which will default columns as determined by the frontend.
+The columns to display in the change table (Gerrit web app UI only). The
+default is empty, which will default columns as determined by the frontend.
 |`email_strategy`               |optional|
 The type of email strategy to use. On `ENABLED`, the user will receive emails
 from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for

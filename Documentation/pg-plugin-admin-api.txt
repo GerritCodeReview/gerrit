@@ -1,4 +1,4 @@
-= Gerrit Code Review - Admin customization API
+= Gerrit Code Review - JavaScript Plugin Admin API
 
 This API is provided by link:pg-plugin-dev.html#plugin-admin[plugin.admin()]
 and provides customization of the admin menu.

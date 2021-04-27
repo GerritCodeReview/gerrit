@@ -1,4 +1,4 @@
-= Gerrit Code Review - Repo admin customization API
+= Gerrit Code Review - JavaScript Plugin Rest API
 
 This API is provided by link:pg-plugin-dev.html#plugin-rest-api[plugin.restApi()]
 and provides interface for Gerrit REST API.
@@ -28,13 +28,14 @@ Get server version.
 == getConfig
 `repoApi.getConfig()`
 
-Get server config.
+Returns the host config as a link:rest-api-config.html#server-info[ServerInfo]
+object.
 
 .Params
 - None
 
 .Returns
-- Promise<Object>
+- Promise<ServerInfo>
 
 == get
 `repoApi.get(url)`

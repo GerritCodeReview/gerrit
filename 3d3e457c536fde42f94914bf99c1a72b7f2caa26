@@ -34,6 +34,24 @@
       "parentUuid": "2793de77_9f48ae25",
       "revId": "3d3e457c536fde42f94914bf99c1a72b7f2caa26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4132d811_96d413fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-27T09:05:02Z",
+      "side": 1,
+      "message": "I had a look; changing requirements make this upgrade quite involved (basically, we have to create a bazel build for asciidoctor). What security fix are we talking about?",
+      "parentUuid": "88d8a98f_7fee3989",
+      "revId": "3d3e457c536fde42f94914bf99c1a72b7f2caa26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

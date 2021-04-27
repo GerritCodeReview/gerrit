@@ -468,6 +468,17 @@ message LabelTypeProto {
   bool copy_all_scores_if_list_of_files_did_not_change = 19;
 }
 
+// Serialized form of com.google.gerrit.entities.SubmitRequirement.
+// Next ID: 7
+message SubmitRequirementProto {
+  string name = 1;
+  string description = 2;
+  string applicability_expression = 3;
+  string blocking_expression = 4;
+  string override_expression = 5;
+  bool allow_override_in_child_projects = 6;
+}
+
 // Serialized form of com.google.gerrit.server.project.ConfiguredMimeTypes.
 // Next ID: 4
 message ConfiguredMimeTypeProto {
@@ -496,7 +507,7 @@ message StoredCommentLinkInfoProto {
 }
 
 // Serialized form of com.google.gerrit.entities.CachedProjectConfigProto.
-// Next ID: 19
+// Next ID: 20
 message CachedProjectConfigProto {
   ProjectProto project = 1;
   repeated GroupReferenceProto group_list = 2;
@@ -516,6 +527,7 @@ message CachedProjectConfigProto {
   map<string, ExtensionPanelSectionProto> extension_panels = 16;
   map<string, string> plugin_configs = 17;
   map<string, string> project_level_configs = 18;
+  repeated SubmitRequirementProto submit_requirement_sections = 19;
 
   // Next ID: 2
   message ExtensionPanelSectionProto {

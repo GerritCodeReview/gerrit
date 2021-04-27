@@ -1,60 +1,84 @@
-// Copyright (C) 2018 The Android Open Source Project
+//  Copyright (C) 2021 The Android Open Source Project
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
 //
-// http://www.apache.org/licenses/LICENSE-2.0
+//  http://www.apache.org/licenses/LICENSE-2.0
 //
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
 
 package com.google.gerrit.entities;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.auto.value.AutoValue;
-import com.google.common.base.CharMatcher;
+import java.util.Optional;
 
-/** Describes a requirement to submit a change. */
+/** Entity describing a requirement that should be met for a change to become submittable. */
 @AutoValue
-@AutoValue.CopyAnnotations
 public abstract class SubmitRequirement {
-  private static final CharMatcher TYPE_MATCHER =
-      CharMatcher.inRange('a', 'z')
-          .or(CharMatcher.inRange('A', 'Z'))
-          .or(CharMatcher.inRange('0', '9'))
-          .or(CharMatcher.anyOf("-_"));
+  /** Requirement name. */
+  public abstract String name();
 
-  @AutoValue.Builder
-  public abstract static class Builder {
-    public abstract Builder setType(String value);
+  /** Description of what this requirement means. */
+  public abstract Optional<String> description();
 
-    public abstract Builder setFallbackText(String value);
+  /**
+   * Expression of the condition that makes the requirement applicable. The expression should be
+   * evaluated for a specific {@link Change} and if it returns false, the requirement becomes
+   * irrelevant for the change (i.e. {@link #blockingExpression()} and {@link #overrideExpression()}
+   * become irrelevant).
+   *
+   * <p>An empty {@link Optional} indicates that the requirement is applicable for any change.
+   */
+  public abstract Optional<SubmitRequirementExpression> applicabilityExpression();
 
-    public SubmitRequirement build() {
-      SubmitRequirement requirement = autoBuild();
-      checkState(
-          validateType(requirement.type()),
-          "SubmitRequirement's type contains non alphanumerical symbols.");
-      return requirement;
-    }
+  /**
+   * Expression of the condition that blocks the submission of a change. The expression should be
+   * evaluated for a specific {@link Change} and if it returns false, the requirement becomes
+   * fulfilled for the change.
+   */
+  public abstract SubmitRequirementExpression blockingExpression();
 
-    abstract SubmitRequirement autoBuild();
-  }
+  /**
+   * Expression that, if evaluated to true, causes the submit requirement to be fulfilled,
+   * regardless of the blocking expression. This expression should be evaluated for a specific
+   * {@link Change}.
+   *
+   * <p>An empty {@link Optional} indicates that the requirement is not overridable.
+   */
+  public abstract Optional<SubmitRequirementExpression> overrideExpression();
 
-  public abstract String fallbackText();
+  /**
+   * Boolean value indicating if the {@link SubmitRequirement} definition can be overridden in child
+   * projects. Default is false.
+   */
+  public abstract boolean allowOverrideInChildProjects();
 
-  public abstract String type();
-
-  public static Builder builder() {
+  public static SubmitRequirement.Builder builder() {
     return new AutoValue_SubmitRequirement.Builder();
   }
 
-  private static boolean validateType(String type) {
-    return TYPE_MATCHER.matchesAllOf(type);
+  @AutoValue.Builder
+  public abstract static class Builder {
+
+    public abstract Builder setName(String name);
+
+    public abstract Builder setDescription(Optional<String> description);
+
+    public abstract Builder setApplicabilityExpression(
+        Optional<SubmitRequirementExpression> applicabilityExpression);
+
+    public abstract Builder setBlockingExpression(SubmitRequirementExpression blockingExpression);
+
+    public abstract Builder setOverrideExpression(
+        Optional<SubmitRequirementExpression> overrideExpression);
+
+    public abstract Builder setAllowOverrideInChildProjects(boolean allowOverrideInChildProjects);
+
+    public abstract SubmitRequirement build();
   }
 }

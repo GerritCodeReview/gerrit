@@ -20,9 +20,9 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;
@@ -90,7 +90,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
         // Add an additional requirement to be more descriptive on why the label counts as not
         // approved.
         submitRecord.requirements.add(
-            SubmitRequirement.builder()
+            LegacySubmitRequirement.builder()
                 .setFallbackText("Approval from non-uploader required")
                 .setType("non_uploader_approval")
                 .build());

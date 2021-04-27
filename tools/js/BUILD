@@ -1,1 +1,1 @@
-exports_files(["run_npm_binary.py", "eslint-chdir.js"])
+exports_files(["eslint-chdir.js"])

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dfc9d52_6043a4d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1855,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-27T07:39:31Z",
+      "side": 1,
+      "message": "Replace by:\n\n  fireEvent(this, \u0027included-tap\u0027);",
+      "revId": "0cb316acffc4c598683bea4ee7111a3b1e754386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ## Gerrit in Polymer 3
 
-Gerrit has migrated to polymer 3 as of submitted of submitted of https://gerrit-review.googlesource.com/q/topic:%22bower+to+npm+packages+switch%22+(status:open%20OR%20status:merged).
+Gerrit has migrated to polymer 3 as of submitted of https://gerrit-review.googlesource.com/q/topic:%22bower+to+npm+packages+switch%22+(status:open%20OR%20status:merged).
 
 ## Polymer 3 vs Polymer 2
 
@@ -16,7 +16,7 @@ To get inspirations, check out our [samples here](https://gerrit.googlesource.co
 
 ### Plugin dependencies
 
-Since most of Gerrit plugins are treated as sub modules and part of the Gerrit workspace when develop, dependencies of plugins are also defined and installed from Gerrit WORKSPACE, currently most of them are `bower_archives`. When moving to npm, if your plugin requires dependencies, you can have them added to your plugin's `package.json` and then link that file to `plugins/package.json` in gerrit.
+When moving to npm, if your plugin requires dependencies, you can have them added to your plugin's `package.json` and then link that file to `plugins/package.json` in gerrit.
 Then use `@plugins_npm//:node_modules` to make sure `rollup_bundle` knows the right place to look for. More examples from `image-diff` plugin, [change 271672](https://gerrit-review.googlesource.com/c/plugins/image-diff/+/271672).
 
 ### Related resources

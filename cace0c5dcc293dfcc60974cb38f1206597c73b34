@@ -34,6 +34,23 @@
       "parentUuid": "4fe788b9_b1a6c90d",
       "revId": "cace0c5dcc293dfcc60974cb38f1206597c73b34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc069f14_134c0ecf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-27T07:31:52Z",
+      "side": 1,
+      "message": "Dhruv, can you review as part of this week\u0027s sheriff duty?",
+      "revId": "cace0c5dcc293dfcc60974cb38f1206597c73b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

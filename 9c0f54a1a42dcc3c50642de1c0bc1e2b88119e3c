@@ -56,6 +56,30 @@
       },
       "revId": "9c0f54a1a42dcc3c50642de1c0bc1e2b88119e3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a86e875_f172076d",
+        "filename": "Documentation/pg-plugin-dev.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-27T07:18:57Z",
+      "side": 1,
+      "message": "Yeah, I have updated the change and removed all mentions of the term \"PolyGerrit\".",
+      "parentUuid": "c89bff46_e279bb1e",
+      "range": {
+        "startLine": 193,
+        "startChar": 27,
+        "endLine": 193,
+        "endChar": 37
+      },
+      "revId": "9c0f54a1a42dcc3c50642de1c0bc1e2b88119e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

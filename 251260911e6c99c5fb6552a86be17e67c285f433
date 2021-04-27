@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aac4f85f_951821eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-04-27T08:49:16Z",
+      "side": 1,
+      "message": "Yes, we can preload plugins in index with \u003clink rel\u003dpreload\u003e as we preload json requests.",
+      "revId": "251260911e6c99c5fb6552a86be17e67c285f433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -27,9 +27,7 @@ class GrPluginHost extends PolymerElement {
   _configChanged(config: ServerInfo) {
     const plugins = config.plugin;
     const jsPlugins = (plugins && plugins.js_resource_paths) || [];
-    const shouldLoadTheme =
-      !!config.default_theme &&
-      !getPluginLoader().isPluginPreloaded('preloaded:gerrit-theme');
+    const shouldLoadTheme = !!config.default_theme;
     // config.default_theme is defined when shouldLoadTheme is true
     const themeToLoad: string[] = shouldLoadTheme
       ? [config.default_theme!]

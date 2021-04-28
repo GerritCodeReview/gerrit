@@ -51,6 +51,24 @@
       "parentUuid": "dc7ec9c1_380de5c8",
       "revId": "bd5114d4472f0fbb906eb3e4658663627b5e3b4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2654ceaa_9a9a387e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-28T09:34:03Z",
+      "side": 1,
+      "message": "Thanks for the proposal.\n\n\u003e I guess the cleaner solution would be to add (yet) another yarn_install/package.json/yarn.lock/node_modules set for core UI plugins to depend on?\n\nWe shouldn\u0027t to it more complex as needed. Will move the dependency to:\n\n  polygerrit-ui/app/package.json\n\nand adapt the license generation pipeline.",
+      "parentUuid": "ac663002_7f8131cc",
+      "revId": "bd5114d4472f0fbb906eb3e4658663627b5e3b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

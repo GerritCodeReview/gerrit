@@ -153,6 +153,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9edfebe_1d85bf81",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-28T10:49:39Z",
+      "side": 1,
+      "message": "if you specify 1000 \u003d 0b1111101000, you get the union of the options that make up the number, ie. 6 options switched on.",
+      "parentUuid": "52a30d65_9d6c93fd",
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbff1146_418fd7db",

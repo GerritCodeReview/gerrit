@@ -118,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da6f7567_3b455452",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-28T05:56:16Z",
+      "side": 1,
+      "message": "Take the following example:\n- User uses JaneD\n- In the database we would expect janed (L63)\n- The user input and username in the db are different (L64 \u003d\u003e true)\n- We don\u0027t want that the form of the username the user used is stored in the database/cache as well. Thus the assertion in L65.\n\n- If user uses janed instead\n- In the database we would expect janed (L63)\n- The user input and username in the db are the same (L64 \u003d\u003e false)\n- The assertion in L65 is not required.",
+      "parentUuid": "fa9dfec5_f8c1a4a6",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "bd84edbf35a6c4f0eddf0222e1f96b2320c52d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c799cc5_e77ca1df",
@@ -131,6 +155,30 @@
       "writtenOn": "2021-03-16T20:43:45Z",
       "side": 1,
       "message": "Unneeded, for the same reason as above.",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 40
+      },
+      "revId": "bd84edbf35a6c4f0eddf0222e1f96b2320c52d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc8b6791_a893521d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-28T05:56:16Z",
+      "side": 1,
+      "message": "See my previous reply.",
+      "parentUuid": "7c799cc5_e77ca1df",
       "range": {
         "startLine": 67,
         "startChar": 4,

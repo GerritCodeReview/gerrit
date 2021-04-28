@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21d8a12a_2f3833a4",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 1781,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-28T07:11:56Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "range": {
+        "startLine": 1781,
+        "startChar": 45,
+        "endLine": 1781,
+        "endChar": 46
+      },
+      "revId": "790c6c4b57f8a8d81ddb567c3131738f66569e3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

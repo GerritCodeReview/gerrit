@@ -16,6 +16,24 @@
       "message": "Looks good to me, but I would like a +2 from Dmitrii, because I don\u0027t fully understand the change.",
       "revId": "e7be72173208857c1a7c72c21c9dbe33d42dd59c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3e66e8b_5cdfb6d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-28T06:58:39Z",
+      "side": 1,
+      "message": "\u003e Looks good to me, but I would like a +2 from Dmitrii, because I don\u0027t fully understand the change.\n\nShould I add more explanation to the commit message then?\n\nBazel doesn\u0027t support recursive workspaces (and cannot load transitive dependencies of the plugins for granted).\n\nFor core gerrit plugins, however, we have to add those dependencies already in gerrit core.\n\nThe same applies for Java and JavaScript dependencies.\n\nExample: @commons-io//jar\n\nGerrit core doesn\u0027t depend on this library, but it\u0027s still listed in WORKSPACE, because core gerrit plugin delete-project depends on it, see plugins/delete-projects/BUILD.\n\nThe same situation applies for core plugin codemirror-editor. Gerrit itself deosn\u0027t depend on npm package codemirror-minified. But given that core plugin depends on it, we add it in gerrit core: package.json file. That\u0027s what this change is doing.",
+      "parentUuid": "58f1284a_367b53e3",
+      "revId": "e7be72173208857c1a7c72c21c9dbe33d42dd59c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

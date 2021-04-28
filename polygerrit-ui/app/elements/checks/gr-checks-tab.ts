@@ -38,7 +38,7 @@ import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {ActionTriggeredEvent} from '../../services/checks/checks-util';
 import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
-import {fireAlert} from '../../utils/event-util';
+import {fireAlert, fireEvent} from '../../utils/event-util';
 import {appContext} from '../../services/app-context';
 import {from, timer} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -151,25 +151,24 @@ export class GrChecksTab extends GrLitElement {
       run?.checkName,
       action.name
     );
-    // Plugins *should* return a promise, but you never know ...
-    if (promise?.then) {
-      const prefix = `Triggering action '${action.name}'`;
-      fireAlert(this, `${prefix} ...`);
-      from(promise)
-        // If the action takes longer than 5 seconds, then most likely the
-        // user is either not interested or the result not relevant anymore.
-        .pipe(takeUntil(timer(5000)))
-        .subscribe(result => {
-          if (result.errorMessage) {
-            fireAlert(this, `${prefix} failed with ${result.errorMessage}.`);
-          } else {
-            fireAlert(this, `${prefix} successful.`);
-            this.checksService.reloadForCheck(run?.checkName);
-          }
-        });
-    } else {
-      fireAlert(this, `Action '${action.name}' triggered.`);
-    }
+    // If plugins return undefined or not a promise, then show no toast.
+    if (!promise?.then) return;
+
+    fireAlert(this, `Triggering action '${action.name}' ...`);
+    from(promise)
+      // If the action takes longer than 5 seconds, then most likely the
+      // user is either not interested or the result not relevant anymore.
+      .pipe(takeUntil(timer(5000)))
+      .subscribe(result => {
+        if (result.errorMessage || result.message) {
+          fireAlert(this, `${result.message ?? result.errorMessage}`);
+        } else {
+          fireEvent(this, 'hide-alert');
+        }
+        if (result.shouldReload) {
+          this.checksService.reloadForCheck(run?.checkName);
+        }
+      });
   }
 
   handleRunSelected(e: RunSelectedEvent) {

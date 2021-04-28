@@ -186,8 +186,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Option(name = "-O", usage = "Output option flags, in hex")
-  void setOptionFlagsHex(String hex) {
-    options.addAll(ListOption.fromBits(ListGroupsOption.class, Integer.parseInt(hex, 16)));
+  void setOptionFlagsHex(String hex) throws BadRequestException {
+    options.addAll(ListOption.fromHexString(ListGroupsOption.class, hex));
   }
 
   @Option(

@@ -62,8 +62,8 @@ public class GetMetaDiff
   }
 
   @Option(name = "-O", usage = "Output option flags, in hex")
-  void setOptionFlagsHex(String hex) {
-    options.addAll(ListOption.fromBits(ListChangesOption.class, Integer.parseInt(hex, 16)));
+  void setOptionFlagsHex(String hex) throws BadRequestException {
+    options.addAll(ListOption.fromHexString(ListChangesOption.class, hex));
   }
 
   @Option(name = "--old", usage = "old NoteDb meta SHA-1")

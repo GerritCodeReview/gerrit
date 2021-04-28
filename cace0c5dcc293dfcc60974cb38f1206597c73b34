@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0e3351f_98609c20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-28T08:53:20Z",
+      "side": 1,
+      "message": "\u003e\u003e I haven\u0027t filed a bug but the issue when typing a username the field is instantly hidden. \n\nCould you add this to the commit message? Yeah, the issue is that _computeUsernameMutable checks for !username which becomes false as soon as you type something and then hides the username field.",
+      "parentUuid": "1c5a0b32_a00f8f17",
+      "revId": "cace0c5dcc293dfcc60974cb38f1206597c73b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fc069f14_134c0ecf",
@@ -67,6 +85,23 @@
       "side": 1,
       "message": "Sure.",
       "parentUuid": "fc069f14_134c0ecf",
+      "revId": "cace0c5dcc293dfcc60974cb38f1206597c73b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "145855c3_41af5269",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-28T08:53:20Z",
+      "side": 1,
+      "message": "Can you fix the tests before I further review this change?\nLet me know if you need any help.",
       "revId": "cace0c5dcc293dfcc60974cb38f1206597c73b34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

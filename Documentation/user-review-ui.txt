@@ -335,6 +335,11 @@ appear in the file list if 2 patch sets are compared and the file has
 comments on at least one of the sides. Otherwise unchanged files are
 filtered out.
 
+
+- `W` (Rewritten):
++
+The file is rewritten.
+
 image::images/user-review-ui-change-screen-file-list-modification-type.png[width=800, link="images/user-review-ui-change-screen-file-list-modification-type.png"]
 
 [[rename-or-copy]]

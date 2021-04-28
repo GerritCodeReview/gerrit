@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "371216cb_4a92d515",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-28T13:47:47Z",
+      "side": 1,
+      "message": "This doesn\u0027t really explain the difference between W and M, mention that \"Rewritten\" means e.g changed from text to binary?",
+      "range": {
+        "startLine": 341,
+        "startChar": 0,
+        "endLine": 341,
+        "endChar": 22
+      },
+      "revId": "28e64f444ea00cb6db1b618396dacef79c9b0ff2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6319e3b_12e855a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-28T17:12:03Z",
+      "side": 1,
+      "message": "Good approach overall.",
+      "revId": "d2282b77bbc4175efb1ce699bf4c0cb29542ec83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d332369_a12104b9",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-28T17:12:03Z",
+      "side": 1,
+      "message": "No need for a factory and you also don\u0027t need to inject this. You can really just do \"new DestBranchRefValidator()\" where you need it.",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 5
+      },
+      "revId": "d2282b77bbc4175efb1ce699bf4c0cb29542ec83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd960a1c_b94c2bf8",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-28T17:12:03Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 381,
+        "startChar": 4,
+        "endLine": 381,
+        "endChar": 10
+      },
+      "revId": "d2282b77bbc4175efb1ce699bf4c0cb29542ec83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "58f1284a_367b53e3",
       "revId": "e7be72173208857c1a7c72c21c9dbe33d42dd59c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60923eb4_ab8ec35a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-28T09:32:00Z",
+      "side": 1,
+      "message": "As mentioned in https://gerrit-review.googlesource.com/c/gerrit/+/304428, maybe the \u0027tools\u0027 location is not ideal, e.g. because of license generation issues.",
+      "parentUuid": "e3e66e8b_5cdfb6d8",
+      "revId": "e7be72173208857c1a7c72c21c9dbe33d42dd59c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

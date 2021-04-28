@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21af7ba4_02240f68",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-04-28T08:25:04Z",
+      "side": 1,
+      "message": "Nice finding !!!",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 79
+      },
+      "revId": "3c47304a3aa8d61e0b6c44952837fd724351a33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

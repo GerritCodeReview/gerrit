@@ -569,6 +569,30 @@
       },
       "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4740f7b6_10dbf0c5",
+        "filename": "java/com/google/gerrit/server/restapi/account/CreateAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-28T05:59:03Z",
+      "side": 1,
+      "message": "Yes, this was a mistake of mine. I was looking at the external: external IDs created by the SAML plugin. Our SAML IDP uses user IDs that are also used as our usernames (company employee IDs). Thus, it looked to me that it uses the username there as well, but in reality it uses the UID used by SAML.",
+      "parentUuid": "24a7c391_3b458251",
+      "range": {
+        "startLine": 134,
+        "startChar": 36,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "a99d7fdda9c92f6380be237c2f868aa5ce793067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

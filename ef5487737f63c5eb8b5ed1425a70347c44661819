@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f2a55ff_0edbb521",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-28T10:23:25Z",
+      "side": 1,
+      "message": "probably, but let\u0027s do Changes first 😊",
+      "parentUuid": "87b9280b_79ff7bc1",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "de3a624a_e3a5d9c5",
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03fe746b_74013994",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-28T10:23:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbc5b6cd_859f5b5a",
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3338ffd7_dfc18bc5",
@@ -77,6 +119,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5dcc6495_0ab90890",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-28T10:23:25Z",
+      "side": 1,
+      "message": "what do you mean with \"valid but non-existing\" ?\n\nI got this when I specified an \u0027f\u0027 too many in the hex options.",
+      "parentUuid": "3338ffd7_dfc18bc5",
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dbff1146_418fd7db",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
         "patchSetId": 2
@@ -88,6 +148,30 @@
       "writtenOn": "2021-04-19T11:44:58Z",
       "side": 1,
       "message": "For an invalid hex flag this message is \u0027For input string: \"\u003cinvalid-value\u003e\"\u0027.\n\nCan we return a more user-readable message, such as \u0027\"\u003cinvalid-value\u003e\" is not a valid value for \"-O\"\u0027 which would match the error message that we return if an unknown string option is specified?",
+      "range": {
+        "startLine": 75,
+        "startChar": 36,
+        "endLine": 75,
+        "endChar": 50
+      },
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a26197c2_d7a3e394",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-28T10:23:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbff1146_418fd7db",
       "range": {
         "startLine": 75,
         "startChar": 36,

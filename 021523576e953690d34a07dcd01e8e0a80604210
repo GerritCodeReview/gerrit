@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d0eb2eb_4afd40e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-28T06:41:50Z",
+      "side": 1,
+      "message": "This cherry-pick is needed to support the building of frontend plugins on stable-3.4 branch with new gerrit_js_bundle() rule.",
+      "revId": "021523576e953690d34a07dcd01e8e0a80604210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

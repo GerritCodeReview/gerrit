@@ -73,6 +73,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1087f4b8_7d6c4e85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-28T09:36:29Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "59fff06d_07c02189",
+      "revId": "3c47304a3aa8d61e0b6c44952837fd724351a33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "21af7ba4_02240f68",
         "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
         "patchSetId": 2

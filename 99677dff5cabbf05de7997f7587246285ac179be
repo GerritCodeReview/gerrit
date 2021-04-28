@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5200d521_be11c694",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-28T20:09:51Z",
+      "side": 1,
+      "message": "PTAL. I have added a field in DiffInfo and populated it in DiffInfoCreator which is used in GetDiff. The test for the link in RevisionDiffIT is based off of the test for FileHistoryWebLink in AccessIT.",
+      "parentUuid": "201838ae_38135ebe",
+      "revId": "99677dff5cabbf05de7997f7587246285ac179be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "82fe1feb_006b32aa",

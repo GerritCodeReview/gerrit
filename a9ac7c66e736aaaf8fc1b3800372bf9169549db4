@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01dbfd8f_3055ca93",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2021-04-28T14:53:50Z",
+      "side": 1,
+      "message": "nit. parentheses directly around !isBlocked is not needed.",
+      "range": {
+        "startLine": 274,
+        "startChar": 16,
+        "endLine": 274,
+        "endChar": 58
+      },
+      "revId": "a9ac7c66e736aaaf8fc1b3800372bf9169549db4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

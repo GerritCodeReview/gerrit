@@ -69,6 +69,7 @@ public class MergeValidators {
   private final ProjectConfigValidator.Factory projectConfigValidatorFactory;
   private final AccountMergeValidator.Factory accountValidatorFactory;
   private final GroupMergeValidator.Factory groupValidatorFactory;
+  private final DestBranchRefValidator.Factory destBranchRefValidatorFactory;
 
   public interface Factory {
     MergeValidators create();
@@ -79,11 +80,13 @@ public class MergeValidators {
       PluginSetContext<MergeValidationListener> mergeValidationListeners,
       ProjectConfigValidator.Factory projectConfigValidatorFactory,
       AccountMergeValidator.Factory accountValidatorFactory,
-      GroupMergeValidator.Factory groupValidatorFactory) {
+      GroupMergeValidator.Factory groupValidatorFactory,
+      DestBranchRefValidator.Factory destBranchRefValidatorFactory) {
     this.mergeValidationListeners = mergeValidationListeners;
     this.projectConfigValidatorFactory = projectConfigValidatorFactory;
     this.accountValidatorFactory = accountValidatorFactory;
     this.groupValidatorFactory = groupValidatorFactory;
+    this.destBranchRefValidatorFactory = destBranchRefValidatorFactory;
   }
 
   /**
@@ -104,7 +107,8 @@ public class MergeValidators {
             new PluginMergeValidationListener(mergeValidationListeners),
             projectConfigValidatorFactory.create(),
             accountValidatorFactory.create(),
-            groupValidatorFactory.create());
+            groupValidatorFactory.create(),
+            destBranchRefValidatorFactory.create());
 
     for (MergeValidationListener validator : validators) {
       validator.onPreMerge(repo, revWalk, commit, destProject, destBranch, patchSetId, caller);
@@ -364,6 +368,32 @@ public class MergeValidators {
       }
 
       throw new MergeValidationException("group update not allowed");
+    }
+  }
+
+  /** Validator to ensure that destBranch is not a symbolic reference (an attempt to merge into a
+   * symbolic ref branch leads to LOCK_FAILURE exception) */
+  public static class DestBranchRefValidator implements MergeValidationListener {
+    public interface Factory {
+      DestBranchRefValidator create();
+    }
+
+    public DestBranchRefValidator() {
+    }
+
+    @Override
+    public void onPreMerge(Repository repo,
+        CodeReviewRevWalk revWalk, CodeReviewCommit commit,
+        ProjectState destProject, BranchNameKey destBranch,
+        PatchSet.Id patchSetId, IdentifiedUser caller) throws MergeValidationException {
+      try {
+        if (repo.exactRef(destBranch.branch()).isSymbolic()) {
+          throw new MergeValidationException("the target branch is a symbolic ref");
+        }
+      } catch (IOException e) {
+        logger.atSevere().withCause(e).log("Cannot validate destination branch");
+        throw new MergeValidationException("symref validation unavailable");
+      }
     }
   }
 }

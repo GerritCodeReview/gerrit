@@ -712,6 +712,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f5ef4b5_39566386",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2021-04-28T18:27:42Z",
+      "side": 1,
+      "message": "I tested on my set up (Linux):\n1. build and init the instance without the fix\n2. started the test instance an got its \u003cPID\u003e\n3. executed the test: ./NoShell_test.sh \u003cPID\u003e 29418 admin localhost 1\n4. after 30 seconds I got: The test fails. The connection has timed out.\n5. next applied the fix and re-init\n6. using the same steps and command to run the test I got the output instantly (without needing to wait for 30 seconds): The connection didn\u0027t time out. Therefore, it passed the first verification. The test is successful. The count of file descriptors didn\u0027t increase.",
+      "parentUuid": "215d7177_7b8b8e9d",
+      "revId": "825920af05c88a0f314879206be80d1624b4177f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f42aeac_355b39fc",
         "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
         "patchSetId": 7

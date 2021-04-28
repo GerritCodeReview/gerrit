@@ -202,6 +202,8 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -3051,6 +3053,25 @@ public class ChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
     assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(ChangeStatus.MERGED);
+  }
+
+  @Test
+  public void submitToSymref() throws Exception {
+    // Create symref in the origin repository (testRepo references to a local repository)
+    try (Repository repo = repoManager.openRepository(project)) {
+      RefUpdate u = repo.updateRef("refs/heads/master_symref");
+      assertThat(u.link("refs/heads/master")).isEqualTo(Result.NEW);
+    }
+
+    PushOneCommit.Result r = createChange("refs/for/master_symref");
+    String id = r.getChangeId();
+
+    gApi.changes().id(id).current().review(ReviewInput.approve());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(id).current().submit());
+    assertThat(thrown).hasMessageThat().contains("the target branch is a symbolic ref");
   }
 
   @Test

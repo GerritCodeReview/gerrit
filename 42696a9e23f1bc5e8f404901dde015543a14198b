@@ -111,6 +111,30 @@
       },
       "revId": "42696a9e23f1bc5e8f404901dde015543a14198b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "792efdcf_65016534",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-28T23:33:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab3bfbd3_ea4139a4",
+      "range": {
+        "startLine": 75,
+        "startChar": 44,
+        "endLine": 75,
+        "endChar": 75
+      },
+      "revId": "42696a9e23f1bc5e8f404901dde015543a14198b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

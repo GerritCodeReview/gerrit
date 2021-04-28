@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6baf670a_50f9ac8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-28T23:22:48Z",
+      "side": 1,
+      "message": "We should document the change of requirements in Documentation/dev-bazel.txt",
+      "revId": "529a838752810c20b99049ce49c7282d5e87dd8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

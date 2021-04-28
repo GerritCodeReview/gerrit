@@ -76,8 +76,13 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
 
   @Test
   public void pushWithAvailableTokens() throws Exception {
+    // The push creates a pack that contains 325 bytes of uncompressed data.
+    // The data in the push contains sha and timestamps which are different on each test run.
+    // Due to it, the push's pack size varies after data compression and lead to a flaky tests
+    // if the amount of availableTokens doesn't cover all possible sizes. To avoid flakiness, we
+    // set availableTokens value large enough to cover all possible pack sizes.
     when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
-        .thenReturn(singletonAggregation(ok(277L)));
+        .thenReturn(singletonAggregation(ok(512L)));
     when(quotaBackendWithResource.requestTokens(eq(REPOSITORY_SIZE_GROUP), anyLong()))
         .thenReturn(singletonAggregation(ok()));
     when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);

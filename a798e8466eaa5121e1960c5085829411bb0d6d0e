@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04a40527_bcacbf9f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-28T19:08:55Z",
+      "side": 1,
+      "message": "result.errorMessage is deprecated but is given first preference here?\nMaybe\nresult.message ?? result.errorMessage instead?",
+      "range": {
+        "startLine": 164,
+        "startChar": 29,
+        "endLine": 164,
+        "endChar": 66
+      },
+      "revId": "a798e8466eaa5121e1960c5085829411bb0d6d0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

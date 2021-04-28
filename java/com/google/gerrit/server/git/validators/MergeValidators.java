@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Objects;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -104,7 +105,8 @@ public class MergeValidators {
             new PluginMergeValidationListener(mergeValidationListeners),
             projectConfigValidatorFactory.create(),
             accountValidatorFactory.create(),
-            groupValidatorFactory.create());
+            groupValidatorFactory.create(),
+            new DestBranchRefValidator());
 
     for (MergeValidationListener validator : validators) {
       validator.onPreMerge(repo, revWalk, commit, destProject, destBranch, patchSetId, caller);
@@ -364,6 +366,36 @@ public class MergeValidators {
       }
 
       throw new MergeValidationException("group update not allowed");
+    }
+  }
+
+  /**
+   * Validator to ensure that destBranch is not a symbolic reference (an attempt to merge into a
+   * symbolic ref branch leads to LOCK_FAILURE exception)
+   */
+  private static class DestBranchRefValidator implements MergeValidationListener {
+    @Override
+    public void onPreMerge(
+        Repository repo,
+        CodeReviewRevWalk revWalk,
+        CodeReviewCommit commit,
+        ProjectState destProject,
+        BranchNameKey destBranch,
+        PatchSet.Id patchSetId,
+        IdentifiedUser caller)
+        throws MergeValidationException {
+      try {
+        Ref ref = repo.exactRef(destBranch.branch());
+        // Usually the target branch exists, but there is an exception for some branches (see
+        // {@link com.google.gerrit.server.git.receive.ReceiveCommits} for details).
+        // Such non-existing branches should be ignored.
+        if (ref != null && ref.isSymbolic()) {
+          throw new MergeValidationException("the target branch is a symbolic ref");
+        }
+      } catch (IOException e) {
+        logger.atSevere().withCause(e).log("Cannot validate destination branch");
+        throw new MergeValidationException("symref validation unavailable");
+      }
     }
   }
 }

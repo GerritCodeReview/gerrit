@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b31f7ae_8eca63a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-04-28T20:35:48Z",
+      "side": 1,
+      "message": "Metric was meant to support primary the healthchek plugin but it will be costly (especially on the older JVMs). I have introduced check https://gerrit-review.googlesource.com/c/plugins/healthcheck/+/304528 that is not metric based for now (it can be disabled). By default it fails when half of the JVM threads are blocked (can be reconfigured).\n\nAt this point I can see the following options for this change:\n* abandon it and forget about metric (rely solely on the healthcheck)\n* make it configurable (disabled by default) so that it could be consumed by the plugin (also visible in graphana etc. charts, prometheus alarms ;)). It would have to be modified to keep the ratio between the blocked and all threads in such case.",
+      "parentUuid": "8f3598c3_bf2ca3f9",
+      "revId": "21cc83fed84cabe4aae09f104198e25968621815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c0a248c_f2daf371",
         "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
         "patchSetId": 4

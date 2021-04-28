@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66429dae_917a2ec4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-28T23:31:45Z",
+      "side": 1,
+      "message": "We have passed Gerrit v3.4.0-rc3 and this change hasn\u0027t been merged yet :-(\nHow should we proceed?",
+      "revId": "894681b3abf1b74fbdc8ff0b00e38be447ed6a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

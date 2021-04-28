@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9390803e_f9449cda",
+        "filename": "polygerrit-ui/app/node_modules_licenses/licenses.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-04-28T11:24:19Z",
+      "side": 1,
+      "message": "As I can see, the package already contains LICENSE file. It is better to use the file, so license is always up-to-date:\n  name: \"codemirror-minified\",\n  license: {\n    name: \"codemirror-minified\",\n    type: LicenseTypes.Mit,\n    packageLicenseFile: \"LICENSE\",\n  }",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 322,
+        "endChar": 46
+      },
+      "revId": "3ac6a91e50f68d1f1fb48a22ec480320939792b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

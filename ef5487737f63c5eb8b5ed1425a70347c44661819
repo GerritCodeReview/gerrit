@@ -189,6 +189,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9465499_3cd7ffb5",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-28T10:57:59Z",
+      "side": 1,
+      "message": "you currently get a message that lists the remaining unrecognized bits.  \n\n```\nBadRequestException: unknown ListChangesOption: 7f000000\n```",
+      "parentUuid": "054d6f0d_79a0198d",
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbff1146_418fd7db",

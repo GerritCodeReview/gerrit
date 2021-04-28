@@ -137,6 +137,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52a30d65_9d6c93fd",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-28T10:46:35Z",
+      "side": 1,
+      "message": "I meant specifying something like \"O\u003d\" + Integer.toHexString(1000)\n\nIt\u0027s a valid value for a hex option, but there is no change option for this value.",
+      "parentUuid": "5dcc6495_0ab90890",
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dbff1146_418fd7db",
         "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
         "patchSetId": 2

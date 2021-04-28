@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19701e4c_de53c56f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-28T23:29:51Z",
+      "side": 1,
+      "message": "Let\u0027s abandon this change, as the metrics alone doesn\u0027t really tell much anyway.\nIt should be more tailored to what we want to monitor, therefore it should be directly computed in the healthcheck plugin.",
+      "parentUuid": "9b31f7ae_8eca63a7",
+      "revId": "21cc83fed84cabe4aae09f104198e25968621815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c0a248c_f2daf371",
         "filename": "java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
         "patchSetId": 4

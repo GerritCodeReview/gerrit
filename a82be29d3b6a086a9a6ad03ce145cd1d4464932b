@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "69bc7505_d829070b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-28T07:09:09Z",
+      "side": 1,
+      "message": "optional: You could mention the PEP recommending using python3 in the shebang: https://www.python.org/dev/peps/pep-0394/",
+      "revId": "a82be29d3b6a086a9a6ad03ce145cd1d4464932b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2b539008_8bd59ac5",

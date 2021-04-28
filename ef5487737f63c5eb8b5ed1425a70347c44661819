@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "79a85cdd_2d53ed5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-28T11:07:03Z",
+      "side": 1,
+      "message": "Seems to be done now.",
+      "parentUuid": "0f2a55ff_0edbb521",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "de3a624a_e3a5d9c5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -203,6 +227,24 @@
       "side": 1,
       "message": "you currently get a message that lists the remaining unrecognized bits.  \n\n```\nBadRequestException: unknown ListChangesOption: 7f000000\n```",
       "parentUuid": "054d6f0d_79a0198d",
+      "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "404589b2_602907dc",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-28T11:07:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d9465499_3cd7ffb5",
       "revId": "ef5487737f63c5eb8b5ed1425a70347c44661819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

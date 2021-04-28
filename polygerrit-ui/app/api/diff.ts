@@ -178,6 +178,7 @@ export declare interface RenderPreferences {
   disable_context_control_buttons?: boolean;
   show_file_comment_button?: boolean;
   hide_line_length_indicator?: boolean;
+  use_block_expansion?: boolean;
 }
 
 /**
@@ -255,6 +256,8 @@ export declare interface MovedLinkClickedEventDetail {
 export enum ContextButtonType {
   ABOVE = 'above',
   BELOW = 'below',
+  BLOCK_ABOVE = 'block-above',
+  BLOCK_BELOW = 'block-below',
   ALL = 'all',
 }
 

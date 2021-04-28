@@ -384,6 +384,33 @@ export abstract class GrDiffBuilder {
 
     const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
     if (showPartialLinks) {
+      if (this._renderPrefs?.use_block_expansion) {
+        const blockExpansionContainer = this._createElement(
+          'div',
+          'aboveBelowButtons'
+        );
+        if (showAbove) {
+          blockExpansionContainer.appendChild(
+            this._createContextButton(
+              ContextButtonType.BLOCK_ABOVE,
+              section,
+              contextGroups,
+              numLines
+            )
+          );
+        }
+        if (showBelow) {
+          blockExpansionContainer.appendChild(
+            this._createContextButton(
+              ContextButtonType.BLOCK_BELOW,
+              section,
+              contextGroups,
+              numLines
+            )
+          );
+        }
+        element.appendChild(blockExpansionContainer);
+      }
       const container = this._createElement('div', 'aboveBelowButtons');
       if (showAbove) {
         container.appendChild(
@@ -483,6 +510,16 @@ export abstract class GrDiffBuilder {
         'aria-label',
         `Show ${pluralize(linesToExpand, 'line')} below`
       );
+    } else if (type === ContextButtonType.BLOCK_ABOVE) {
+      groups = hideInContextControl(contextGroups, linesToExpand, numLines);
+      text = '+Block';
+      button.classList.add('aboveButton');
+      button.setAttribute('aria-label', 'Show block above');
+    } else if (type === ContextButtonType.BLOCK_BELOW) {
+      groups = hideInContextControl(contextGroups, 0, numLines - linesToExpand);
+      text = '+Block';
+      button.classList.add('belowButton');
+      button.setAttribute('aria-label', 'Show block below');
     }
     const textSpan = this._createElement('span', 'showContext');
     textSpan.textContent = text;

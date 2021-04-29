@@ -722,12 +722,6 @@ The user that created the change, e.g. uploaded the first patch set.
 +
 A user that has reviewed the change or has been asked to review the change.
 
-- CC:
-+
-A user that has been added as CC to the change. CCs get notified on
-change updates, but no action is required from them. They may become
-reviewers by commenting or voting on the change.
-
 Often one user assumes several of these roles, but it's possible that each role
 is assumed by a different user.
 

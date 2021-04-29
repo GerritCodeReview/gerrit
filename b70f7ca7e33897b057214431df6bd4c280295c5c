@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b70b92a_c83c5d72",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-29T13:14:37Z",
+      "side": 1,
+      "message": "\"This user uploaded the first patchset\"\n\nCould we do an account chip, eg.\n\n [Ben Rohlfs] uploaded the first patchset",
+      "range": {
+        "startLine": 171,
+        "startChar": 17,
+        "endLine": 171,
+        "endChar": 27
+      },
+      "revId": "b70f7ca7e33897b057214431df6bd4c280295c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e922b2c0_b4ab9ea8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-04-29T13:14:37Z",
+      "side": 1,
+      "message": "the commit -\u003e this patchset ? The commit in this patchset ? \n\n\nnote that you can create patchsets witout using git-push.",
+      "range": {
+        "startLine": 200,
+        "startChar": 36,
+        "endLine": 200,
+        "endChar": 46
+      },
+      "revId": "b70f7ca7e33897b057214431df6bd4c280295c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

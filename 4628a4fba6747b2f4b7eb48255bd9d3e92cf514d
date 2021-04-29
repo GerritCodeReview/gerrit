@@ -22,6 +22,30 @@
       },
       "revId": "4628a4fba6747b2f4b7eb48255bd9d3e92cf514d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9edf783_5e318d95",
+        "filename": "java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-04-29T14:36:38Z",
+      "side": 1,
+      "message": "Ben had the same suggestion. Reverted the name change.",
+      "parentUuid": "28d3a62f_7ea6b9b8",
+      "range": {
+        "startLine": 54,
+        "startChar": 29,
+        "endLine": 54,
+        "endChar": 41
+      },
+      "revId": "4628a4fba6747b2f4b7eb48255bd9d3e92cf514d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

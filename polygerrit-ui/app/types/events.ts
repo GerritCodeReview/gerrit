@@ -56,6 +56,7 @@ declare global {
     'moved-link-clicked': MovedLinkClickedEvent;
     'open-fix-preview': OpenFixPreviewEvent;
     'close-fix-preview': CloseFixPreviewEvent;
+    'create-fix-comment': CreateFixCommentEvent;
     /* prettier-ignore */
     'reload': ReloadEvent;
     /* prettier-ignore */
@@ -135,6 +136,11 @@ export interface CloseFixPreviewEventDetail {
   fixApplied: boolean;
 }
 export type CloseFixPreviewEvent = CustomEvent<CloseFixPreviewEventDetail>;
+export interface CreateFixCommentEventDetail {
+  patchNum?: PatchSetNum;
+  comment?: UIComment;
+}
+export type CreateFixCommentEvent = CustomEvent<CreateFixCommentEventDetail>;
 
 export interface PageErrorEventDetail {
   response?: Response;

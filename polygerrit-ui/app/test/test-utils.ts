@@ -71,6 +71,11 @@ export function queryAndAssert<E extends Element = Element>(
   return found;
 }
 
+export function isVisible(el: Element) {
+  assert.ok(el);
+  return getComputedStyle(el).getPropertyValue('display') !== 'none';
+}
+
 // Some tests/elements can define its own binding. We want to restore bindings
 // at the end of the test. The TestKeyboardShortcutBinder store bindings in
 // stack, so it is possible to override bindings in nested suites.
@@ -168,6 +173,10 @@ export function spyRestApi<K extends keyof RestApiService>(method: K) {
 
 export function stubStorage<K extends keyof StorageService>(method: K) {
   return sinon.stub(appContext.storageService, method);
+}
+
+export function spyStorage<K extends keyof StorageService>(method: K) {
+  return sinon.spy(appContext.storageService, method);
 }
 
 export type SinonSpyMember<F extends (...args: any) => any> = SinonSpy<

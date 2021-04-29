@@ -614,52 +614,20 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     return changeComments.computeCommentsString(patchRange, file.__path, file);
   }
 
-  _computeDraftCount(
-    changeComments?: ChangeComments,
-    patchRange?: PatchRange,
-    path?: string
-  ) {
-    if (
-      changeComments === undefined ||
-      patchRange === undefined ||
-      path === undefined
-    ) {
-      return '';
-    }
-    return (
-      changeComments.computeDraftCount({
-        patchNum: patchRange.basePatchNum,
-        path,
-      }) +
-      changeComments.computeDraftCount({
-        patchNum: patchRange.patchNum,
-        path,
-      }) +
-      changeComments.computePortedDraftCount(
-        {
-          patchNum: patchRange.patchNum,
-          basePatchNum: patchRange.basePatchNum,
-        },
-        path
-      )
-    );
-  }
-
   /**
    * Computes a string with the number of drafts.
    */
   _computeDraftsString(
     changeComments?: ChangeComments,
     patchRange?: PatchRange,
-    path?: string
+    file?: NormalizedFileInfo
   ) {
-    const draftCount = this._computeDraftCount(
-      changeComments,
+    const draftCount = changeComments?.computeDraftCountForFile(
       patchRange,
-      path
+      file
     );
-    if (draftCount === '') return draftCount;
-    return pluralize(draftCount, 'draft');
+    if (draftCount === 0) return '';
+    return pluralize(Number(draftCount), 'draft');
   }
 
   /**
@@ -668,12 +636,11 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   _computeDraftsStringMobile(
     changeComments?: ChangeComments,
     patchRange?: PatchRange,
-    path?: string
+    file?: NormalizedFileInfo
   ) {
-    const draftCount = this._computeDraftCount(
-      changeComments,
+    const draftCount = changeComments?.computeDraftCountForFile(
       patchRange,
-      path
+      file
     );
     return draftCount === 0 ? '' : `${draftCount}d`;
   }
@@ -684,23 +651,23 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   _computeCommentsStringMobile(
     changeComments?: ChangeComments,
     patchRange?: PatchRange,
-    path?: string
+    file?: NormalizedFileInfo
   ) {
     if (
       changeComments === undefined ||
       patchRange === undefined ||
-      path === undefined
+      file === undefined
     ) {
       return '';
     }
     const commentThreadCount =
       changeComments.computeCommentThreadCount({
         patchNum: patchRange.basePatchNum,
-        path,
+        path: file.__path,
       }) +
       changeComments.computeCommentThreadCount({
         patchNum: patchRange.patchNum,
-        path,
+        path: file.__path,
       });
     return commentThreadCount === 0 ? '' : `${commentThreadCount}c`;
   }

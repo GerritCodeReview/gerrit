@@ -360,103 +360,103 @@ suite('gr-file-list tests', () => {
 
       assert.equal(
           element._computeCommentsStringMobile(element.changeComments, parentTo1
-              , '/COMMIT_MSG'), '2c');
+              , {__path: '/COMMIT_MSG'}), '2c');
       assert.equal(
           element._computeCommentsStringMobile(element.changeComments, _1To2
-              , '/COMMIT_MSG'), '3c');
+              , {__path: '/COMMIT_MSG'}), '3c');
       assert.equal(
           element._computeDraftsString(element.changeComments, parentTo1,
-              'unresolved.file'), '1 draft');
+              {__path: 'unresolved.file'}), '1 draft');
       assert.equal(
           element._computeDraftsString(element.changeComments, _1To2,
-              'unresolved.file'), '1 draft');
+              {__path: 'unresolved.file'}), '1 draft');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, parentTo1,
-              'unresolved.file'), '1d');
+              {__path: 'unresolved.file'}), '1d');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, _1To2,
-              'unresolved.file'), '1d');
+              {__path: 'unresolved.file'}), '1d');
       assert.equal(
           element._computeCommentsStringMobile(
               element.changeComments,
               parentTo1,
-              'myfile.txt'
+              {__path: 'myfile.txt'}
           ), '1c');
       assert.equal(
           element._computeCommentsStringMobile(element.changeComments, _1To2,
-              'myfile.txt'), '3c');
+              {__path: 'myfile.txt'}), '3c');
       assert.equal(
           element._computeDraftsString(element.changeComments, parentTo1,
-              'myfile.txt'), '');
+              {__path: 'myfile.txt'}), '');
       assert.equal(
           element._computeDraftsString(element.changeComments, _1To2,
-              'myfile.txt'), '');
+              {__path: 'myfile.txt'}), '');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, parentTo1,
-              'myfile.txt'), '');
+              {__path: 'myfile.txt'}), '');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, _1To2,
-              'myfile.txt'), '');
+              {__path: 'myfile.txt'}), '');
       assert.equal(
           element._computeCommentsStringMobile(
               element.changeComments,
               parentTo1,
-              'file_added_in_rev2.txt'
+              {__path: 'file_added_in_rev2.txt'}
           ), '');
       assert.equal(
           element._computeCommentsStringMobile(element.changeComments, _1To2,
-              'file_added_in_rev2.txt'), '');
+              {__path: 'file_added_in_rev2.txt'}), '');
       assert.equal(
           element._computeDraftsString(element.changeComments, parentTo1,
-              'file_added_in_rev2.txt'), '');
+              {__path: 'file_added_in_rev2.txt'}), '');
       assert.equal(
           element._computeDraftsString(element.changeComments, _1To2,
-              'file_added_in_rev2.txt'), '');
+              {__path: 'file_added_in_rev2.txt'}), '');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, parentTo1,
-              'file_added_in_rev2.txt'), '');
+              {__path: 'file_added_in_rev2.txt'}), '');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, _1To2,
-              'file_added_in_rev2.txt'), '');
+              {__path: 'file_added_in_rev2.txt'}), '');
       assert.equal(
           element._computeCommentsStringMobile(
               element.changeComments,
               parentTo2,
-              '/COMMIT_MSG'
+              {__path: '/COMMIT_MSG'}
           ), '1c');
       assert.equal(
           element._computeCommentsStringMobile(element.changeComments, _1To2,
-              '/COMMIT_MSG'), '3c');
+              {__path: '/COMMIT_MSG'}), '3c');
       assert.equal(
           element._computeDraftsString(element.changeComments, parentTo1,
-              '/COMMIT_MSG'), '2 drafts');
+              {__path: '/COMMIT_MSG'}), '2 drafts');
       assert.equal(
           element._computeDraftsString(element.changeComments, _1To2,
-              '/COMMIT_MSG'), '2 drafts');
+              {__path: '/COMMIT_MSG'}), '2 drafts');
       assert.equal(
           element._computeDraftsStringMobile(
               element.changeComments,
               parentTo1,
-              '/COMMIT_MSG'
+              {__path: '/COMMIT_MSG'}
           ), '2d');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, _1To2,
-              '/COMMIT_MSG'), '2d');
+              {__path: '/COMMIT_MSG'}), '2d');
       assert.equal(
           element._computeCommentsStringMobile(
               element.changeComments,
               parentTo2,
-              'myfile.txt'
+              {__path: 'myfile.txt'}
           ), '2c');
       assert.equal(
           element._computeCommentsStringMobile(element.changeComments, _1To2,
-              'myfile.txt'), '3c');
+              {__path: 'myfile.txt'}), '3c');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, parentTo2,
-              'myfile.txt'), '');
+              {__path: 'myfile.txt'}), '');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, _1To2,
-              'myfile.txt'), '');
+              {__path: 'myfile.txt'}), '');
     });
 
     test('_reviewedTitle', () => {

@@ -39,6 +39,30 @@
       },
       "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8299862f_38293e15",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-29T11:31:44Z",
+      "side": 1,
+      "message": "Honestly I\u0027m not sure, but if CC doesn\u0027t trigger any notification being CC would be kind of pointless.",
+      "parentUuid": "7cf48dcd_b5da2c46",
+      "range": {
+        "startLine": 727,
+        "startChar": 48,
+        "endLine": 728,
+        "endChar": 15
+      },
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

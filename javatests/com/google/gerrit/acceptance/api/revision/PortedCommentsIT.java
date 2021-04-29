@@ -391,31 +391,31 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void portedCommentHasOriginalUuid() throws Exception {
+  public void portedCommentHasOriginalCommentFields() throws Exception {
     // Set up change and patchsets.
+    Account.Id authorId = accountOps.newAccount().create();
     Change.Id changeId = changeOps.newChange().create();
-    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    TestPatchset ps1 = changeOps.change(changeId).currentPatchset().get();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid = newComment(patchset1Id).create();
+    String commentUuid =
+        newComment(ps1.patchsetId())
+            .author(authorId)
+            .message("My comment text")
+            .tag("My comment tag")
+            .create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
-    assertThatList(portedComments).onlyElement().uuid().isEqualTo(commentUuid);
-  }
-
-  @Test
-  public void portedCommentHasOriginalPatchset() throws Exception {
-    // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
-    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
-    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
-    // Add comment.
-    String commentUuid = newComment(patchset1Id).create();
-
-    CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
-
-    assertThat(portedComment).patchSet().isEqualTo(patchset1Id.get());
+    assertThat(portedComments).hasSize(1);
+    CommentInfo portedComment = portedComments.get(0);
+    assertThat(portedComment).uuid().isEqualTo(commentUuid);
+    assertThat(portedComment).patchSet().isEqualTo(ps1.patchsetId().get());
+    assertThat(portedComment).commitId().isEqualTo(ps1.commitId().name());
+    assertThat(portedComment).message().isEqualTo("My comment text");
+    assertThat(portedComment).author().id().isEqualTo(authorId.get());
+    assertThat(portedComment).tag().isEqualTo("My comment tag");
+    assertThat(portedComment).updated().isNotNull();
   }
 
   @Test
@@ -439,34 +439,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void portedCommentHasOriginalPatchsetCommitId() throws Exception {
-    // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
-    TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
-    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
-    // Add comment.
-    String commentUuid = newComment(patchset1.patchsetId()).create();
-
-    CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
-
-    assertThat(portedComment).commitId().isEqualTo(patchset1.commitId().name());
-  }
-
-  @Test
-  public void portedCommentHasOriginalMessage() throws Exception {
-    // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
-    TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
-    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
-    // Add comment.
-    String commentUuid = newComment(patchset1.patchsetId()).message("My comment text").create();
-
-    CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
-
-    assertThat(portedComment).message().isEqualTo("My comment text");
-  }
-
-  @Test
   public void portedReplyStillRefersToParentComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId = changeOps.newChange().create();
@@ -480,21 +452,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     CommentInfo portedComment = getPortedComment(patchset2Id, childCommentUuid);
 
     assertThat(portedComment).inReplyTo().isEqualTo(rootCommentUuid);
-  }
-
-  @Test
-  public void portedPublishedCommentHasOriginalAuthor() throws Exception {
-    // Set up change and patchsets.
-    Account.Id authorId = accountOps.newAccount().create();
-    Change.Id changeId = changeOps.newChange().create();
-    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
-    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
-    // Add comment.
-    String commentUuid = newComment(patchset1Id).author(authorId).create();
-
-    CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
-
-    assertThat(portedComment).author().id().isEqualTo(authorId.get());
   }
 
   @Test
@@ -532,34 +489,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
 
     // Authors of draft comments are never set.
     assertThat(portedComment).author().isNull();
-  }
-
-  @Test
-  public void portedCommentHasOriginalTag() throws Exception {
-    // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
-    TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
-    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
-    // Add comment.
-    String commentUuid = newComment(patchset1.patchsetId()).tag("My comment tag").create();
-
-    CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
-
-    assertThat(portedComment).tag().isEqualTo("My comment tag");
-  }
-
-  @Test
-  public void portedCommentHasUpdatedTimestamp() throws Exception {
-    // Set up change and patchsets.
-    Change.Id changeId = changeOps.newChange().create();
-    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
-    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
-    // Add comment.
-    String commentUuid = newComment(patchset1Id).create();
-
-    CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
-
-    assertThat(portedComment).updated().isNotNull();
   }
 
   @Test

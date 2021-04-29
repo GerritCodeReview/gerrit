@@ -366,10 +366,10 @@ suite('gr-file-list tests', () => {
               , '/COMMIT_MSG'), '3c');
       assert.equal(
           element._computeDraftsString(element.changeComments, parentTo1,
-              'unresolved.file'), '1 draft');
+              {__path: 'unresolved.file'}), '1 draft');
       assert.equal(
           element._computeDraftsString(element.changeComments, _1To2,
-              'unresolved.file'), '1 draft');
+              {__path: 'unresolved.file'}), '1 draft');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, parentTo1,
               'unresolved.file'), '1d');
@@ -387,10 +387,10 @@ suite('gr-file-list tests', () => {
               'myfile.txt'), '3c');
       assert.equal(
           element._computeDraftsString(element.changeComments, parentTo1,
-              'myfile.txt'), '');
+              {__path: 'myfile.txt'}), '');
       assert.equal(
           element._computeDraftsString(element.changeComments, _1To2,
-              'myfile.txt'), '');
+              {__path: 'myfile.txt'}), '');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, parentTo1,
               'myfile.txt'), '');
@@ -408,10 +408,10 @@ suite('gr-file-list tests', () => {
               'file_added_in_rev2.txt'), '');
       assert.equal(
           element._computeDraftsString(element.changeComments, parentTo1,
-              'file_added_in_rev2.txt'), '');
+              {__path: 'file_added_in_rev2.txt'}), '');
       assert.equal(
           element._computeDraftsString(element.changeComments, _1To2,
-              'file_added_in_rev2.txt'), '');
+              {__path: 'file_added_in_rev2.txt'}), '');
       assert.equal(
           element._computeDraftsStringMobile(element.changeComments, parentTo1,
               'file_added_in_rev2.txt'), '');
@@ -429,10 +429,10 @@ suite('gr-file-list tests', () => {
               '/COMMIT_MSG'), '3c');
       assert.equal(
           element._computeDraftsString(element.changeComments, parentTo1,
-              '/COMMIT_MSG'), '2 drafts');
+              {__path: '/COMMIT_MSG'}), '2 drafts');
       assert.equal(
           element._computeDraftsString(element.changeComments, _1To2,
-              '/COMMIT_MSG'), '2 drafts');
+              {__path: '/COMMIT_MSG'}), '2 drafts');
       assert.equal(
           element._computeDraftsStringMobile(
               element.changeComments,

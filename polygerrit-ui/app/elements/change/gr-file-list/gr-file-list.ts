@@ -655,15 +655,26 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   _computeDraftsString(
     changeComments?: ChangeComments,
     patchRange?: PatchRange,
-    path?: string
+    file?: NormalizedFileInfo
   ) {
-    const draftCount = this._computeDraftCount(
+    let draftCount = this._computeDraftCount(
       changeComments,
       patchRange,
-      path
+      file?.__path
     );
+    if (file?.old_path) {
+      const oldPathCount = this._computeDraftCount(
+        changeComments,
+        patchRange,
+        file.old_path
+      );
+      if (draftCount === '') draftCount = oldPathCount;
+      else if (oldPathCount !== '') {
+        draftCount = Number(draftCount) + Number(oldPathCount);
+      }
+    }
     if (draftCount === '') return draftCount;
-    return pluralize(draftCount, 'draft');
+    return pluralize(Number(draftCount), 'draft');
   }
 
   /**

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e8b3963_3f548b9f",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-29T23:32:27Z",
+      "side": 1,
+      "message": "\u003e Primary is an adjective and therefore doesn\u0027t make sense on its own.\n\nPrimary is a noun [1], and it is that usage we mean here: \"First in importance\".\n\n\u003e Primary/replica are two terms that we introduce to avoid the inappropriate master/slave replication terms.\n\nAgreed.\n\n\u003e \n\u003e When you have multiple Gerrit \"servers\" that can all serve any type of traffic, we don\u0027t have anymore the primary/replica configuration, hence the term \u0027primary\u0027 loses its meaning because there isn\u0027t a \"secondary\" or a \"replica\" necessarily.\n\nYes, if you have that configuration. That is however, a specific configuration. Other configurations could have some of the servers as read-only, or some that only do replication, or ... (there\u0027s many possibilities).\n\n\u003e \n\u003e Why don\u0027t we just call it a Gerrit cluster?\n\nAs I note above, not all clusters are composed entirely of primaries. If it helps with this title though, I would be fine renaming it to \"Multi-primary cluster(s)\". I can also add some other \"common cluster configurations\", maybe all under a \"Gerrit clusters\" heading? I do want to respect that this is a glossary and not a how-to guide for configuring Gerrit servers.\n\n\u003e Inside the Gerrit cluster you have multiple nodes that all run the same stack.\n\u003e In front of a Gerrit cluster you typically have a workload balancer.\n\nThese are specific to a given configuration. I\u0027m trying to keep this definition quite generic. More specific definitions can be added if you want.\n\n[1] https://www.merriam-webster.com/dictionary/primary#:~:text\u003dDefinition%20of%20primary%20(Entry%202,of%20a%20binary%20star%20system",
+      "parentUuid": "ad4dce9e_899d7c6e",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3480064e_7ad35e64",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2021-04-29T20:54:37Z",
       "side": 1,
       "message": "Node? Server? Service?\n\nPrimary is an adjustive and not a noun.",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 57,
+        "endChar": 17
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f9af80d_ce0a4488",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-04-29T23:32:27Z",
+      "side": 1,
+      "message": "See above 😊",
+      "parentUuid": "3480064e_7ad35e64",
       "range": {
         "startLine": 57,
         "startChar": 10,

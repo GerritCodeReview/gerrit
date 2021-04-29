@@ -309,11 +309,11 @@ export const htmlTemplate = html`
           as="headerEndpoint"
         >
           <gr-endpoint-decorator name$="[[headerEndpoint]]" role="columnheader">
-            <gr-endpoint-param
-              name="change"
-              value="[[change]]"
-            ></gr-endpoint-param>
+            <gr-endpoint-param name="change" value="[[change]]">
+            </gr-endpoint-param>
             <gr-endpoint-param name="patchRange" value="[[patchRange]]">
+            </gr-endpoint-param>
+            <gr-endpoint-param name="files" value="[[_files]]">
             </gr-endpoint-param>
           </gr-endpoint-decorator>
         </template>

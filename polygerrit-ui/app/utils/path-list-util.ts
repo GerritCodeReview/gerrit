@@ -73,6 +73,16 @@ export function addUnmodifiedFiles(
     if (hasOwnProperty(files, commentedPath) || shouldHideFile(commentedPath)) {
       return;
     }
+
+    // if file is Renamed but has comments, then do not show the entry for the
+    // old file path name
+    if (
+      Object.values(files).some(
+        file => file.status === 'R' && file.old_path === commentedPath
+      )
+    ) {
+      return;
+    }
     // TODO(TS): either change FileInfo to mark delta and size optional
     // or fill in 0 here
     files[commentedPath] = {

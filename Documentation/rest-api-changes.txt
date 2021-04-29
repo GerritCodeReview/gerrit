@@ -5291,6 +5291,48 @@ This endpoint requires authentication.
   }
 ----
 
+[[get-ported-comments]]
+=== Get Ported Comments
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/ported_comments'
+--
+
+Ports comments of other revisions to the requested revision.
+
+This endpoint is similar to the link:#list-ported-comments[List Ported Comments]
+endpoint, except that it accepts a specific file path in the URL. Only comments
+written on this file in previous patchsets are ported.
+
+This endpoint does not handle file renames, that is no ported comments are
+returned if the request is made using the new file path.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/ported_comments/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+      {
+        "id": "TveXwFiA",
+        "patch_set": 2,
+        "line": 23,
+        "in_reply_to": "TvcXrmjM",
+        "message": "Done",
+        "updated": "2013-02-26 15:40:45.328000000",
+        "unresolved": true
+      }
+    ]
+  }
+----
+
 [[apply-fix]]
 === Apply Fix
 --

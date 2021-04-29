@@ -166,7 +166,10 @@ export const htmlTemplate = html`
       class$="[[_computeDisplayState(_showAllSections, change, _SECTION.OWNER)]]"
     >
       <span class="title">
-        <gr-tooltip-content has-tooltip="" title="The Owner is ...">
+        <gr-tooltip-content
+          has-tooltip=""
+          title="This user owns the code change. Typically this means that they have uploaded the first patchset."
+        >
           Owner
         </gr-tooltip-content>
       </span>
@@ -192,7 +195,10 @@ export const htmlTemplate = html`
     </section>
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.UPLOADER)]]">
       <span class="title">
-        <gr-tooltip-content has-tooltip="" title="The Uploader is ...">
+        <gr-tooltip-content
+          has-tooltip=""
+          title="This user uploaded the commit to Gerrit (by running the 'git push' command)."
+        >
           Uploader
         </gr-tooltip-content>
       </span>
@@ -206,7 +212,10 @@ export const htmlTemplate = html`
     </section>
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.AUTHOR)]]">
       <span class="title">
-        <gr-tooltip-content has-tooltip="" title="The Author is ...">
+        <gr-tooltip-content
+          has-tooltip=""
+          title="This user wrote the code change."
+        >
           Author
         </gr-tooltip-content>
       </span>
@@ -219,7 +228,10 @@ export const htmlTemplate = html`
     </section>
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.COMMITTER)]]">
       <span class="title">
-        <gr-tooltip-content has-tooltip="" title="The Committer is ...">
+        <gr-tooltip-content
+          has-tooltip=""
+          title="This user committed the code change to (the local) Git repository (before it was uploaded)."
+        >
           Committer
         </gr-tooltip-content>
       </span>

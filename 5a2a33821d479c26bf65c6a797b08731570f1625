@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a20d3dc_411a4dcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-29T11:49:06Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "005f2874_24a26354",
@@ -60,6 +77,29 @@
         "startChar": 0,
         "endLine": 708,
         "endChar": 42
+      },
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5217227_dcc8b7ea",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-29T11:49:06Z",
+      "side": 1,
+      "message": "i.e., not e.g.",
+      "range": {
+        "startLine": 719,
+        "startChar": 34,
+        "endLine": 719,
+        "endChar": 37
       },
       "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

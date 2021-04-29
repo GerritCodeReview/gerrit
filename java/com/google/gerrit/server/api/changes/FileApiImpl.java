@@ -18,6 +18,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.common.BlameInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -26,6 +27,7 @@ import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.restapi.change.GetBlame;
 import com.google.gerrit.server.restapi.change.GetContent;
 import com.google.gerrit.server.restapi.change.GetDiff;
+import com.google.gerrit.server.restapi.change.GetPortedComments;
 import com.google.gerrit.server.restapi.change.Reviewed;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,6 +42,7 @@ class FileApiImpl implements FileApi {
   private final GetContent getContent;
   private final Provider<GetBlame> getBlame;
   private final GetDiff getDiff;
+  private final GetPortedComments getPortedComments;
   private final Reviewed.PutReviewed putReviewed;
   private final Reviewed.DeleteReviewed deleteReviewed;
   private final FileResource file;
@@ -49,12 +52,14 @@ class FileApiImpl implements FileApi {
       GetContent getContent,
       Provider<GetBlame> getBlame,
       GetDiff getDiff,
+      GetPortedComments getPortedComments,
       Reviewed.PutReviewed putReviewed,
       Reviewed.DeleteReviewed deleteReviewed,
       @Assisted FileResource file) {
     this.getContent = getContent;
     this.getBlame = getBlame;
     this.getDiff = getDiff;
+    this.getPortedComments = getPortedComments;
     this.putReviewed = putReviewed;
     this.deleteReviewed = deleteReviewed;
     this.file = file;
@@ -93,6 +98,15 @@ class FileApiImpl implements FileApi {
       return getDiff.setParent(parent).apply(file).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve diff", e);
+    }
+  }
+
+  @Override
+  public List<CommentInfo> portedComments() throws RestApiException {
+    try {
+      return getPortedComments.apply(file).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot compute ported comments", e);
     }
   }
 

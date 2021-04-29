@@ -93,6 +93,49 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void portedCommentsCanBeRequestedForSpecificFilePath() throws Exception {
+    // Set up change and patchsets
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+
+    String comment1Uuid = newComment(patchset1Id).onFileLevelOf("file_1.txt").create();
+    String comment2Uuid = newComment(patchset1Id).onFileLevelOf("file_2.txt").create();
+
+    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id, "file_1.txt"));
+    assertThatList(portedComments).onlyElement().uuid().isEqualTo(comment1Uuid);
+
+    portedComments = flatten(getPortedComments(patchset2Id, "file_2.txt"));
+    assertThatList(portedComments).onlyElement().uuid().isEqualTo(comment2Uuid);
+
+    portedComments = flatten(getPortedComments(patchset2Id));
+    assertThatList(portedComments).element(0).uuid().isEqualTo(comment1Uuid);
+    assertThatList(portedComments).element(1).uuid().isEqualTo(comment2Uuid);
+  }
+
+  @Test
+  public void portedCommentsForSpecificFilePathCannotHandleRenames() throws Exception {
+    // When requesting ported comments for a specific file path, the logic looks at all comments
+    // written on previous patchsets and filters only those that match the desired file path.
+    // Since older comments are written on the old file path, that would be different from the new
+    // file path we are requesting.
+
+    // Set up change and patchsets.
+    Change.Id changeId =
+        changeOps.newChange().file("myFile").content("Line 1\nLine 2\nLine 3\nLine 4\n").create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id =
+        changeOps.change(changeId).newPatchset().file("myFile").renameTo("newFileName").create();
+
+    // Add comment.
+    newComment(patchset1Id).onLine(3).ofFile("myFile").create();
+
+    Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id, "myFile");
+
+    assertThatMap(portedComments).isEmpty();
+  }
+
+  @Test
   public void severalCommentsFromEarlierPatchsetArePorted() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId = changeOps.newChange().create();
@@ -1801,6 +1844,15 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     return gApi.changes()
         .id(patchsetId.changeId().get())
         .revision(patchsetId.get())
+        .portedComments();
+  }
+
+  private Map<String, List<CommentInfo>> getPortedComments(PatchSet.Id patchsetId, String filePath)
+      throws RestApiException {
+    return gApi.changes()
+        .id(patchsetId.changeId().get())
+        .revision(patchsetId.get())
+        .file(filePath)
         .portedComments();
   }
 

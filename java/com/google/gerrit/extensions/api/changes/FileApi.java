@@ -16,11 +16,13 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.BlameInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.List;
+import java.util.Map;
 import java.util.OptionalInt;
 
 public interface FileApi {
@@ -34,6 +36,8 @@ public interface FileApi {
 
   /** @param parent 1-based parent number to diff against */
   DiffInfo diff(int parent) throws RestApiException;
+
+  Map<String, List<CommentInfo>> portedComments() throws RestApiException;
 
   /**
    * Creates a request to retrieve the diff. On the returned request formatting options for the diff
@@ -132,6 +136,11 @@ public interface FileApi {
 
     @Override
     public DiffInfo diff(int parent) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, List<CommentInfo>> portedComments() throws RestApiException {
       throw new NotImplementedException();
     }
 

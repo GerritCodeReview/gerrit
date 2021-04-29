@@ -15,14 +15,7 @@
  * limitations under the License.
  */
 
-// Element class exists in all browsers:
-// https://developer.mozilla.org/en-US/docs/Web/API/Element
-// Rename it to PolymerElement to avoid conflicts. Also,
-// typescript reports the following error:
-// error TS2451: Cannot redeclare block-scoped variable 'Element'.
-const {html, Element: PolymerElement} = Polymer;
-
-class RepoCommandLow extends PolymerElement {
+class RepoCommandLow extends Polymer.Element {
   static get is() { return 'repo-command-low'; }
 
   static get properties() {
@@ -32,20 +25,16 @@ class RepoCommandLow extends PolymerElement {
   }
 
   static get template() {
-    return html`
-    <style include="shared-styles">
-    :host {
-      display: block;
-      margin-bottom: var(--spacing-xxl);
-    }
-    </style>
-    <h3>Low-level bork</h3>
-    <gr-button
-      on-click="_handleCommandTap"
-    >
-      Low-level bork
-    </gr-button>
-   `;
+    return Polymer.html`
+      <style include="shared-styles">
+      :host {
+        display: block;
+        margin-bottom: var(--spacing-xxl);
+      }
+      </style>
+      <h3>Plugin Bork</h3>
+      <gr-button on-click="_handleCommandTap">Bork</gr-button>
+    `;
   }
 
   connectedCallback() {
@@ -56,32 +45,16 @@ class RepoCommandLow extends PolymerElement {
   }
 
   _handleCommandTap() {
-    alert('(softly) bork, bork.');
+    alert('bork');
   }
 }
 
-// register the custom component
 customElements.define(RepoCommandLow.is, RepoCommandLow);
 
 /**
- * This plugin will add two new commands in command page for
- * All-Projects.
- *
- * The added commands will simply alert you when click.
+ * This plugin adds a new command to the command page of the repo All-Projects.
  */
 Gerrit.install(plugin => {
-  // High-level API
-  plugin.project()
-      .createCommand('Bork', (repoName, projectConfig) => {
-        if (repoName !== 'All-Projects') {
-          return false;
-        }
-      })
-      .onTap(() => {
-        alert('Bork, bork!');
-      });
-
-  // Low-level API
   plugin.registerCustomComponent(
       'repo-command', 'repo-command-low');
 });

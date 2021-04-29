@@ -537,6 +537,14 @@ export class ChangeComments {
     if (!patchRange) return '';
 
     const threads = this.getThreadsBySideForFile({path}, patchRange);
+    if (changeFileInfo?.old_path) {
+      threads.push(
+        ...this.getThreadsBySideForFile(
+          {path: changeFileInfo.old_path},
+          patchRange
+        )
+      );
+    }
     const commentThreadCount = threads.filter(thread => !isDraftThread(thread))
       .length;
     const unresolvedCount = threads.reduce((cnt, thread) => {

@@ -16,6 +16,24 @@
       "message": "Why delete this one? I feel like coverage has come up on the mailing list a few times, so it would be good to have an example of it?",
       "revId": "d8b86f11bad099130482efeed24489ae86bf4616",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af787351_fb809e06",
+        "filename": "polygerrit-ui/app/samples/coverage-plugin.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-29T20:04:23Z",
+      "side": 0,
+      "message": "This example is obsolete, because we have built (a year ago?) first class coverage support into the plugin API with the new setCoverageProvider() API. It would be beyond this change to come up with a complete example of how to use the setCoverageProvider().",
+      "parentUuid": "233931eb_3e8cbbd3",
+      "revId": "d8b86f11bad099130482efeed24489ae86bf4616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

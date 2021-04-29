@@ -16,6 +16,29 @@
       "message": "cool!",
       "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cf48dcd_b5da2c46",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-04-29T11:19:40Z",
+      "side": 1,
+      "message": "Is this really true?\nWith Attention-Set Reviewers only get notifications from a sub-set of the change updates, which updates does CC get notified on?",
+      "range": {
+        "startLine": 727,
+        "startChar": 48,
+        "endLine": 728,
+        "endChar": 15
+      },
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

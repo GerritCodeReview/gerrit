@@ -1,6 +1,12 @@
 :linkattrs:
 = Glossary
 
+[[cluster]]
+== Cluster
+A Gerrit Cluster is a set of Gerrit processes sharing the same
+link:config-gerrit.html#gerrit.serverId[ServerId] and associated to the same
+set of repositories, accounts, and groups.
+
 [[event]]
 == Event
 
@@ -31,6 +37,44 @@ Hierarchy of events representing anything that can happen in Gerrit.
 
 API for listening to Gerrit events from plugins, without having any
 visibility restrictions.
+
+[[multi-primary]]
+== Multi-primary
+Multi-primary typically refers to configurations where multiple Gerrit primary
+processes are running in one or more xref:cluster[clusters] together.
+
+=== Single cluster multi-primary with shared storage
+A variation of multi-primary that shares a file storage volume for the git
+repositories. These configurations can use the
+link:https://gerrit.googlesource.com/plugins/high-availability[high-availability plugin]
+to synchronize or share caches, indexes, events, and web sessions. The
+replication plugin also
+link:https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/resources/Documentation/config.md#configuring-cluster-replication[supports]
+synchronizing events using a shared file storage volume.
+
+[[multi-site-primaries]]
+== Multi-site primaries
+Multi-site primaries typically refers to configurations where multiple Gerrit
+primary processes are running in different (likely geographically distributed)
+clusters (sites). This also typically makes use of a multi-primary configuration
+within each cluster. Synchronization across sites is necessary to detect and
+prevent split-brain scenarios. These configurations can use the
+link:https://gerrit.googlesource.com/plugins/multi-site[multi-site plugin]
+to facilitate synchronization.
+
+[[primary]]
+== Primary
+A Gerrit primary is the link:pgm-daemon.html[main Gerrit process]. Most
+installations of Gerrit have only a single Gerrit primary running at a time for
+their service.
+
+[[replica]]
+== Replica
+A Gerrit process running with the link:pgm-daemon.html[--replica switch]
+provided. This permits only read operations by clients. Replicas can be run in
+the same cluster with primaries (likely sharing the storage volume) or in other
+clusters/sites (likely facilitated by the
+link:https://gerrit.googlesource.com/plugins/replication[replication plugin]).
 
 [[stream-events]]
 == Stream events

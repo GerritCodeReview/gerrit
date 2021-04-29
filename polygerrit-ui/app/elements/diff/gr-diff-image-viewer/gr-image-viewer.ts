@@ -51,6 +51,8 @@ const DRAG_DEAD_ZONE_PIXELS = 5;
 
 const DEFAULT_AUTOMATIC_BLINK_TIME_MS = 1000;
 
+const AUTOMATIC_BLINK_BUTTON_ACTIVE_AREA_PIXELS = 350;
+
 /**
  * This components allows the user to rapidly switch between two given images
  * rendered in the same location, to make subtle differences more noticeable.
@@ -78,6 +80,8 @@ export class GrImageViewer extends LitElement {
 
   @internalProperty() protected automaticBlink = false;
 
+  @internalProperty() protected automaticBlinkShown = false;
+
   @internalProperty() protected zoomedImageStyle: StyleInfo = {};
 
   @query('.imageArea') protected imageArea!: HTMLDivElement;
@@ -85,6 +89,8 @@ export class GrImageViewer extends LitElement {
   @query('gr-zoomed-image') protected zoomedImage!: Element;
 
   @query('#source-image') protected sourceImage!: HTMLImageElement;
+
+  @query('#automatic-blink-button') protected automaticBlinkButton?: Element;
 
   private imageSize: Dimensions = {width: 0, height: 0};
 
@@ -188,14 +194,7 @@ export class GrImageViewer extends LitElement {
     gr-zoomed-image.revision {
       border-color: var(--revision-image-border-color, rgb(170, 242, 170));
     }
-    .automatic-blink-area {
-      position: absolute;
-      width: 30%;
-      height: 100%;
-      right: 0;
-      bottom: 0;
-    }
-    .automatic-blink-button {
+    #automatic-blink-button {
       position: absolute;
       right: var(--spacing-xl);
       bottom: var(--spacing-xl);
@@ -206,8 +205,8 @@ export class GrImageViewer extends LitElement {
         --primary-button-background-color
       );
     }
-    .automatic-blink-area:hover .automatic-blink-button,
-    .automatic-blink-button:focus-visible {
+    #automatic-blink-button.show,
+    #automatic-blink-button:focus-visible {
       opacity: 1;
     }
     .checkerboard {
@@ -492,15 +491,14 @@ export class GrImageViewer extends LitElement {
     `;
 
     const automaticBlink = html`
-      <div class="automatic-blink-area">
-        <paper-fab
-          class="automatic-blink-button"
-          title="Automatic blink"
-          icon="gr-icons:${this.automaticBlink ? 'pause' : 'playArrow'}"
-          @click="${this.toggleAutomaticBlink}"
-        >
-        </paper-fab>
-      </div>
+      <paper-fab
+        id="automatic-blink-button"
+        class="${classMap({show: this.automaticBlinkShown})}"
+        title="Automatic blink"
+        icon="gr-icons:${this.automaticBlink ? 'pause' : 'playArrow'}"
+        @click="${this.toggleAutomaticBlink}"
+      >
+      </paper-fab>
     `;
 
     // To pass CSS mixins for @apply to Polymer components, they need to be
@@ -564,7 +562,11 @@ export class GrImageViewer extends LitElement {
 
     return html`
       ${customStyle}
-      <div class="imageArea" @mousemove="${this.mousemoveMagnifier}">
+      <div
+        class="imageArea"
+        @mousemove="${this.mousemoveImageArea}"
+        @mouseleave="${this.mouseleaveImageArea}"
+      >
         <gr-zoomed-image
           class="${classMap({
             base: this.baseSelected,
@@ -697,6 +699,28 @@ export class GrImageViewer extends LitElement {
     this.dispatchEvent(
       createEvent({type: 'background-color-changed', value: 'checkerboard'})
     );
+  }
+
+  mousemoveImageArea(event: MouseEvent) {
+    if (this.automaticBlinkButton) {
+      this.updateAutomaticBlinkVisibility(event);
+    }
+    this.mousemoveMagnifier(event);
+  }
+
+  private updateAutomaticBlinkVisibility(event: MouseEvent) {
+    const rect = this.automaticBlinkButton!.getBoundingClientRect();
+    const centerX = rect.left + (rect.right - rect.left) / 2;
+    const centerY = rect.top + (rect.bottom - rect.top) / 2;
+    const distX = Math.abs(centerX - event.clientX);
+    const distY = Math.abs(centerY - event.clientY);
+    this.automaticBlinkShown =
+      distX < AUTOMATIC_BLINK_BUTTON_ACTIVE_AREA_PIXELS &&
+      distY < AUTOMATIC_BLINK_BUTTON_ACTIVE_AREA_PIXELS;
+  }
+
+  mouseleaveImageArea() {
+    this.automaticBlinkShown = false;
   }
 
   mousedownMagnifier(event: MouseEvent) {

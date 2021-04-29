@@ -64,6 +64,8 @@ export function shouldHideFile(file: string) {
   return file === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
 }
 
+// In case there are files with comments on them but they are unchanged, then
+// we explicitly displays the file to render the comments with Unchanged status
 export function addUnmodifiedFiles(
   files: {[filename: string]: FileInfo},
   commentedPaths: {[fileName: string]: boolean}
@@ -71,6 +73,18 @@ export function addUnmodifiedFiles(
   if (!commentedPaths) return;
   Object.keys(commentedPaths).forEach(commentedPath => {
     if (hasOwnProperty(files, commentedPath) || shouldHideFile(commentedPath)) {
+      return;
+    }
+
+    // if file is Renamed but has comments, then do not show the entry for the
+    // old file path name
+    if (
+      Object.values(files).some(
+        file =>
+          file.status === FileInfoStatus.RENAMED &&
+          file.old_path === commentedPath
+      )
+    ) {
       return;
     }
     // TODO(TS): either change FileInfo to mark delta and size optional

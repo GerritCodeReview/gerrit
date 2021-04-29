@@ -423,8 +423,7 @@ export const htmlTemplate = html`
               <span class="drafts"
                 ><!-- This comments ensure that span is empty when the function
                 returns empty string.
-              -->[[_computeDraftsString(changeComments, patchRange,
-                file.__path)]]<!-- This comments ensure that span is empty when
+              -->[[_computeDraftsString(changeComments, patchRange, file)]]<!-- This comments ensure that span is empty when
                 the function returns empty string.
            --></span
               >
@@ -450,14 +449,14 @@ export const htmlTemplate = html`
                 ><!-- This comments ensure that span is empty when the function
                 returns empty string.
               -->[[_computeDraftsStringMobile(changeComments, patchRange,
-                file.__path)]]<!-- This comments ensure that span is empty when
+                file)]]<!-- This comments ensure that span is empty when
                 the function returns empty string.
            --></span
               >
               <span
                 ><!--
              -->[[_computeCommentsStringMobile(changeComments, patchRange,
-                file.__path)]]<!--
+                file)]]<!--
            --></span
               >
               <span class="noCommentsScreenReaderText">

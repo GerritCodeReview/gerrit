@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da5e6ad6_b2697ba0",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-29T00:32:02Z",
+      "side": 1,
+      "message": "By following my suggestion at L69, this would become:\nprepareExternalIdNotes(CASE_INSENSITIVE)",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 34
+      },
+      "revId": "5589e5e534d4a76da0a3e279a6c2c1705e799820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5c76274_fe05977d",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-29T00:32:02Z",
+      "side": 1,
+      "message": "This isn\u0027t very readable here: why not defining two constants CASE_INSENSITIVE \u003d true\nCASE_SENSITIVE \u003d false\n\nThe assertion would then become more readable:\nassertExternalIdNotes(CASE_INSENSITIVE)",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "5589e5e534d4a76da0a3e279a6c2c1705e799820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c6300f4_2b7cc1db",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-29T00:32:02Z",
+      "side": 1,
+      "message": "Should you also assert that \u0027username:johndoe\u0027 still exists?",
+      "revId": "5589e5e534d4a76da0a3e279a6c2c1705e799820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

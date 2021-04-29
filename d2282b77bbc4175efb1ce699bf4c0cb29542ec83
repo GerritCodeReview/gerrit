@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb4e6062_cc84130e",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-04-29T14:43:42Z",
+      "side": 1,
+      "message": "Yes, I know. I just wanted to make the new validator similar to other validators.\nChanged to new...",
+      "parentUuid": "3d332369_a12104b9",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 5
+      },
+      "revId": "d2282b77bbc4175efb1ce699bf4c0cb29542ec83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd960a1c_b94c2bf8",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-04-28T17:12:03Z",
       "side": 1,
       "message": "private",
+      "range": {
+        "startLine": 381,
+        "startChar": 4,
+        "endLine": 381,
+        "endChar": 10
+      },
+      "revId": "d2282b77bbc4175efb1ce699bf4c0cb29542ec83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b5c61e2_e0ffb655",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-04-29T14:43:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd960a1c_b94c2bf8",
       "range": {
         "startLine": 381,
         "startChar": 4,

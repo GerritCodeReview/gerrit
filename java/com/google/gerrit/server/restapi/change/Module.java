@@ -177,6 +177,7 @@ public class Module extends RestApiModule {
 
     get(REVISION_KIND, "ported_comments").to(ListPortedComments.class);
     get(REVISION_KIND, "ported_drafts").to(ListPortedDrafts.class);
+    get(FILE_KIND, "ported_comments").to(GetPortedComments.class);
 
     child(REVISION_KIND, "files").to(Files.class);
     put(FILE_KIND, "reviewed").to(PutReviewed.class);

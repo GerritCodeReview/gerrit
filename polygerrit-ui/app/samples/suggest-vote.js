@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * This plugin will upgrade your +1 on Code-Review label
  * to +2 and show a message below the voting labels.
@@ -29,8 +30,7 @@ Gerrit.install(plugin => {
     if (wasSuggested && name === CODE_REVIEW) {
       replyApi.showMessage('');
       wasSuggested = false;
-    } else if (replyApi.getLabelValue(CODE_REVIEW) === '+1' &&
-    !wasSuggested) {
+    } else if (replyApi.getLabelValue(CODE_REVIEW) === '+1' && !wasSuggested) {
       replyApi.setLabelValue(CODE_REVIEW, '+2');
       replyApi.showMessage(`Suggested ${CODE_REVIEW} upgrade: +2`);
       wasSuggested = true;

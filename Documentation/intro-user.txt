@@ -686,6 +686,51 @@ corrections immediately and publish them as a new patch set.
 It is also possible to link:user-inline-edit.html#create-change[create
 new changes inline].
 
+[[roles]]
+== Roles
+
+Making and reviewing changes usually involves multiple users that
+assume different roles:
+
+- Author:
++
+The person who wrote the code change. Recorded as author in the Git
+commit.
+
+- Committer:
++
+The person who created the Git commit, e.g. the person that executed
+the `git commit` command. Recorded as committer in the Git commit.
+
+- Uploader:
++
+The user that uploaded the commit as a patch set to Gerrit, e.g. the
+user that executed the `git push` command.
++
+The uploader of the first patch set is the change owner.
++
+The uploader of the latest patch set, the user that uploaded the
+current patch set, is relevant when [self approvals on labels are
+ignored](config-labels.html#label_ignoreSelfApproval), as in this case
+approvals from the uploader of the latest patch set are ignored.
+
+- Change Owner:
++
+The user that created the change, e.g. uploaded the first patch set.
+
+- Reviewer:
++
+A user that has reviewed the change or has been asked to review the change.
+
+- CC:
++
+A user that has been added as CC to the change. CCs get notified on
+change updates, but no action is required from them. They may become
+reviewers by commenting or voting on the change.
+
+Often one user assumes several of these roles, but it's possible that each role
+is assumed by a different user.
+
 [[project-administration]]
 == Project Administration
 

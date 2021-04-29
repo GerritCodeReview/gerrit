@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "27c67d91_83596b67",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-29T23:47:13Z",
+      "side": 1,
+      "message": "I believe [1] refers to the noun \"primaries\" which is the early stage of the US presidential elections. In British english [2] it is an adjective that stays before a noun. I am fine with the term \u0027primary node\u0027 (a single Gerrit instance) or \u0027primary cluster\u0027 (a set of Gerrit instances). The term \u0027multi-primary\u0027 just does not make sense to me because the word comes from Latin (primarius) which means *the first*. Does multi-first make sense in English?\n\n[2] https://www.oxfordlearnersdictionaries.com/definition/english/primary_1?q\u003dprimary",
+      "parentUuid": "8e8b3963_3f548b9f",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3480064e_7ad35e64",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

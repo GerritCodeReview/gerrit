@@ -51,6 +51,7 @@ import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
 import {CommentSide, Side} from '../../../constants/constants';
 import {pluralize} from '../../../utils/string-util';
+import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
@@ -522,6 +523,33 @@ export class ChangeComments {
       .length;
   }
 
+  computeDraftCountForFile(patchRange?: PatchRange, file?: NormalizedFileInfo) {
+    if (patchRange === undefined || file === undefined) {
+      return 0;
+    }
+    const getCommentForPath = (path?: string) => {
+      if (!path) return 0;
+      return (
+        this.computeDraftCount({
+          patchNum: patchRange.basePatchNum,
+          path,
+        }) +
+        this.computeDraftCount({
+          patchNum: patchRange.patchNum,
+          path,
+        }) +
+        this.computePortedDraftCount(
+          {
+            patchNum: patchRange.patchNum,
+            basePatchNum: patchRange.basePatchNum,
+          },
+          path
+        )
+      );
+    };
+    return getCommentForPath(file.__path) + getCommentForPath(file.old_path);
+  }
+
   /**
    * @param includeUnmodified Included unmodified status of the file in the
    * comment string or not. For files we opt of chip instead of a string.
@@ -537,6 +565,14 @@ export class ChangeComments {
     if (!patchRange) return '';
 
     const threads = this.getThreadsBySideForFile({path}, patchRange);
+    if (changeFileInfo?.old_path) {
+      threads.push(
+        ...this.getThreadsBySideForFile(
+          {path: changeFileInfo.old_path},
+          patchRange
+        )
+      );
+    }
     const commentThreadCount = threads.filter(thread => !isDraftThread(thread))
       .length;
     const unresolvedCount = threads.reduce((cnt, thread) => {

@@ -15,11 +15,6 @@
  * limitations under the License.
  */
 
-// IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// The entire API is currently in DRAFT state.
-// Changes to all type and interfaces are expected.
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 export interface ChecksPluginApi {
   /**
    * Must only be called once. You cannot register twice. You cannot unregister.

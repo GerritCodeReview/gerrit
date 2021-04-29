@@ -16,6 +16,24 @@
       "message": "Add Feature: or Bug: footer?",
       "revId": "5f91628ecc220d2981640b3a9a649e7b58110dcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7de45a5a_745bb57a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-29T20:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8aed0a5_5323e2f0",
+      "revId": "5f91628ecc220d2981640b3a9a649e7b58110dcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -43,6 +43,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f7df5af7_15c9380f",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-29T11:36:36Z",
+      "side": 1,
+      "message": "Well, this covers the common case where the setup was done correctly. I don\u0027t think that this high-level documentation here, needs to cover all special cases. That would only confuse readers.",
+      "parentUuid": "005f2874_24a26354",
+      "range": {
+        "startLine": 695,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 42
+      },
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7cf48dcd_b5da2c46",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 1

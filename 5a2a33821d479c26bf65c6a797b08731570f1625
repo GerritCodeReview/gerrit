@@ -131,6 +131,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7e96aebc_d0adbba6",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-29T13:02:06Z",
+      "side": 1,
+      "message": "Ah ok, I thought you meant \"id est\" here, i.e. \"uploading the first patchset is the *only* way to create a change\". :-)",
+      "parentUuid": "0b1b3a70_96b30104",
+      "range": {
+        "startLine": 719,
+        "startChar": 34,
+        "endLine": 719,
+        "endChar": 37
+      },
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7cf48dcd_b5da2c46",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 1

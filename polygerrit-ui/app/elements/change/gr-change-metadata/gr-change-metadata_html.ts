@@ -165,7 +165,14 @@ export const htmlTemplate = html`
     <section
       class$="[[_computeDisplayState(_showAllSections, change, _SECTION.OWNER)]]"
     >
-      <span class="title">Owner</span>
+      <span class="title">
+        <gr-tooltip-content
+          has-tooltip=""
+          title="This user created or uploaded the first patchset of this change."
+        >
+          Owner
+        </gr-tooltip-content>
+      </span>
       <span class="value">
         <gr-account-chip
           account="[[change.owner]]"
@@ -187,7 +194,14 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.UPLOADER)]]">
-      <span class="title">Uploader</span>
+      <span class="title">
+        <gr-tooltip-content
+          has-tooltip=""
+          title="This user uploaded the patchset to Gerrit (typically by running the 'git push' command)."
+        >
+          Uploader
+        </gr-tooltip-content>
+      </span>
       <span class="value">
         <gr-account-chip
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.UPLOADER)]]"
@@ -197,7 +211,14 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.AUTHOR)]]">
-      <span class="title">Author</span>
+      <span class="title">
+        <gr-tooltip-content
+          has-tooltip=""
+          title="This user wrote the code change."
+        >
+          Author
+        </gr-tooltip-content>
+      </span>
       <span class="value">
         <gr-account-chip
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.AUTHOR)]]"
@@ -206,7 +227,14 @@ export const htmlTemplate = html`
       </span>
     </section>
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.COMMITTER)]]">
-      <span class="title">Committer</span>
+      <span class="title">
+        <gr-tooltip-content
+          has-tooltip=""
+          title="This user committed the code change to the Git repository (typically to the local Git repo before uploading)."
+        >
+          Committer
+        </gr-tooltip-content>
+      </span>
       <span class="value">
         <gr-account-chip
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"

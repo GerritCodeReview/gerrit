@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28d3a62f_7ea6b9b8",
+        "filename": "java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-04-29T10:36:39Z",
+      "side": 1,
+      "message": "you can\u0027t do this rename: The frontend and backend rollout happen in different times, so this rename + the frontend change will happen in different times. Hence, one will break.\n\nYou could do the rename progressively:\n1. make the frontend understand both webLinks and fileWebLinks; wait for full rollout.\n2. rename in the backend; wait for full rollout.\n3. rename in the frontend to only support fileWebLinks.\n\nThis is also a bit bad since you break everyone that use it except the frontend (probably not that many use it though) :-)\n\nI would just keep the name as is and suffer the bad naming.",
+      "range": {
+        "startLine": 54,
+        "startChar": 29,
+        "endLine": 54,
+        "endChar": 41
+      },
+      "revId": "4628a4fba6747b2f4b7eb48255bd9d3e92cf514d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -29,6 +29,7 @@ import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.index.OnlineReindexMode;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Inject;
@@ -89,13 +90,14 @@ public class SubmitRuleEvaluator {
   public List<SubmitRecord> evaluate(ChangeData cd) {
     try (Timer0.Context ignored = submitRuleEvaluationLatency.start()) {
       Change change;
+      ProjectState projectState;
       try {
         change = cd.change();
         if (change == null) {
           throw new StorageException("Change not found");
         }
 
-        projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
+        projectState = projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
       } catch (NoSuchProjectException e) {
         throw new IllegalStateException("Unable to find project while evaluating submit rule", e);
       }
@@ -117,6 +119,12 @@ public class SubmitRuleEvaluator {
       // We evaluate all the plugin-defined evaluators,
       // and then we collect the results in one list.
       return Streams.stream(submitRules)
+          // Skip evaluating the default submit rule if the project has prolog rules.
+          // Note that in this case, the prolog submit rule will handle labels for us
+          .filter(
+              projectState.hasPrologRules()
+                  ? rule -> !(rule.get() instanceof DefaultSubmitRule)
+                  : rule -> true)
           .map(c -> c.call(s -> s.evaluate(cd)))
           .filter(Optional::isPresent)
           .map(Optional::get)

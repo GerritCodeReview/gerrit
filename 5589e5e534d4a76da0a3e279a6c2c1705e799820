@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d1aa426_39e52d29",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-29T07:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da5e6ad6_b2697ba0",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 34
+      },
+      "revId": "5589e5e534d4a76da0a3e279a6c2c1705e799820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5c76274_fe05977d",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "026afdf8_d4e19643",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-29T07:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5c76274_fe05977d",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "5589e5e534d4a76da0a3e279a6c2c1705e799820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c6300f4_2b7cc1db",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-04-29T00:32:02Z",
       "side": 1,
       "message": "Should you also assert that \u0027username:johndoe\u0027 still exists?",
+      "revId": "5589e5e534d4a76da0a3e279a6c2c1705e799820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b8a931b_5ef766d2",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-29T07:03:27Z",
+      "side": 1,
+      "message": "Done.\nHowever, it shouldn\u0027t be changed, even if the migration would have partly migrated the external IDs, since it is already all lowercase.",
+      "parentUuid": "6c6300f4_2b7cc1db",
       "revId": "5589e5e534d4a76da0a3e279a6c2c1705e799820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

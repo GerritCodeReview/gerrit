@@ -134,6 +134,30 @@
       },
       "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "460225bf_2f5ef06f",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-29T11:38:53Z",
+      "side": 1,
+      "message": "Dropping this here: https://gerrit-review.googlesource.com/c/gerrit/+/304553",
+      "parentUuid": "9fbbb971_d0a571a6",
+      "range": {
+        "startLine": 727,
+        "startChar": 48,
+        "endLine": 728,
+        "endChar": 15
+      },
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

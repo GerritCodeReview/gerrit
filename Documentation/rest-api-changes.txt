@@ -5158,8 +5158,8 @@ returned that describes the robot comment.
   }
 ----
 
-[[get-ported-comments]]
-=== Get Ported Comments
+[[list-ported-comments]]
+=== List Ported Comments
 --
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/ported_comments'
 --
@@ -5242,24 +5242,24 @@ comments may change.
   }
 ----
 
-[[get-ported-drafts]]
-=== Get Ported Drafts
+[[list-ported-drafts]]
+=== List Ported Drafts
 --
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/ported_drafts'
 --
 
 Ports draft comments of other revisions to the requested revision.
 
-This endpoint behaves similarly to the link:#get-ported-comments[Get Ported Comments] endpoint.
+This endpoint behaves similarly to the link:#list-ported-comments[Get Ported Comments] endpoint.
 With this endpoint, only draft comments of the calling user are ported, though. If a draft comment
 is a reply to a published comment, only the ported draft comment is returned.
 
 Depending on the filtering rules, it's possible that this endpoint returns a draft comment which is
 a reply to a comment thread which is not returned by the
-link:#get-ported-comments[Get Ported Comments] endpoint. That's intended behavior. Callers must be
+link:#list-ported-comments[Get Ported Comments] endpoint. That's intended behavior. Callers must be
 able to handle this situation. The same holds for drafts which are a reply to a robot comment.
 
-Different than the link:#get-ported-comments[Get Ported Comments] endpoint, the `author` of the
+Different than the link:#list-ported-comments[Get Ported Comments] endpoint, the `author` of the
 returned comments is not filled for this endpoint as only comments of the calling user are returned.
 
 This endpoint requires authentication.

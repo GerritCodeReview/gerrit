@@ -18,6 +18,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "005f2874_24a26354",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-29T11:33:09Z",
+      "side": 1,
+      "message": "That\u0027s no the whole truth, unfortunately.\n\nWe should mention a specific case, where all three are the same user, but reported as different user in Gerrit.\n\nKasper Nilsson tried to fix it on context of issue 10026, but it didn\u0027t work in the end, see: [1] and my dependent change: [2].\n\nConsider the change 304499 (or all my changes on gerrit-review). Even though, I did it all, there are two different email addresses. That\u0027s because I used one email address for git commit, but my preferred email address in gerrit-review is a different one.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/205150\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/204330",
+      "range": {
+        "startLine": 695,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 42
+      },
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7cf48dcd_b5da2c46",
@@ -54,6 +77,30 @@
       "writtenOn": "2021-04-29T11:31:44Z",
       "side": 1,
       "message": "Honestly I\u0027m not sure, but if CC doesn\u0027t trigger any notification being CC would be kind of pointless.",
+      "parentUuid": "7cf48dcd_b5da2c46",
+      "range": {
+        "startLine": 727,
+        "startChar": 48,
+        "endLine": 728,
+        "endChar": 15
+      },
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fbbb971_d0a571a6",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-29T11:33:09Z",
+      "side": 1,
+      "message": "I\u0027m also confused here, see my recent comment on: [1].\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d14452#c18",
       "parentUuid": "7cf48dcd_b5da2c46",
       "range": {
         "startLine": 727,

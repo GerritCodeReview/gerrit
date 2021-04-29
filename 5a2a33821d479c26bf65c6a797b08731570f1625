@@ -105,6 +105,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b1b3a70_96b30104",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-29T11:58:17Z",
+      "side": 1,
+      "message": "Not sure. If understand the difference between i.e. and e.g. correctly [1] it\u0027s supposed to be \u0027e.g.\u0027/\u0027for example\u0027 here, as uploading is just one way to create the change (another way would be creating the change through the Gerrit REST API).\n\n\n[1]\ni.e. is the customary abbreviation for \"that is.\" It is derived from the Latin term \"id est.\"\ne.g. is the customary abbreviation for \"for example.\" It is derived from the Latin phrase \"exempli gratia.\"",
+      "parentUuid": "d5217227_dcc8b7ea",
+      "range": {
+        "startLine": 719,
+        "startChar": 34,
+        "endLine": 719,
+        "endChar": 37
+      },
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7cf48dcd_b5da2c46",

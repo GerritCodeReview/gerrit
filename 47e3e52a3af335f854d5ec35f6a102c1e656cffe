@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad4dce9e_899d7c6e",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-29T20:54:37Z",
+      "side": 1,
+      "message": "Primary is an adjective and therefore doesn\u0027t make sense on its own.\nPrimary/replica are two terms that we introduce to avoid the inappropriate master/slave replication terms.\n\nWhen you have multiple Gerrit \"servers\" that can all serve any type of traffic, we don\u0027t have anymore the primary/replica configuration, hence the term \u0027primary\u0027 loses its meaning because there isn\u0027t a \"secondary\" or a \"replica\" necessarily.\n\nWhy don\u0027t we just call it a Gerrit cluster?\nInside the Gerrit cluster you have multiple nodes that all run the same stack.\nIn front of a Gerrit cluster you typically have a workload balancer.",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3480064e_7ad35e64",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-29T20:54:37Z",
+      "side": 1,
+      "message": "Node? Server? Service?\n\nPrimary is an adjustive and not a noun.",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 57,
+        "endChar": 17
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

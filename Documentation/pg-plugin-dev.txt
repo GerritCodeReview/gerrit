@@ -369,6 +369,12 @@ changeActions.setActionOverflow(type, key, overflow)
 Returns an instance of the
 link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/change-reply.ts[ChangeReplyPluginApi].
 
+[[checks]]
+=== checks
+`plugin.checks()`
+
+Returns an instance of the link:pg-plugin-checks-api.html[ChecksApi].
+
 === getPluginName
 `plugin.getPluginName()`
 

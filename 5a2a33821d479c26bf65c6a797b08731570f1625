@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa21b872_fcc17b18",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-29T17:09:15Z",
+      "side": 0,
+      "message": "IMHO, when used for e-mails that aren\u0027t Gerrit accounts, it makes sense, otherwise it doesn\u0027t as its role is barely distinguishable from a reviewer.",
+      "range": {
+        "startLine": 725,
+        "startChar": 0,
+        "endLine": 729,
+        "endChar": 48
+      },
+      "revId": "5a2a33821d479c26bf65c6a797b08731570f1625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

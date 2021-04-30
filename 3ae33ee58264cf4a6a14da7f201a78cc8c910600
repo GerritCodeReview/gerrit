@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51608d3e_548d369a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-30T09:44:11Z",
+      "side": 1,
+      "message": "Maybe add a type here. Is this string|number?\n\nMaybe you can change `_computeDraftCount` to always return a number?\n\nMaybe `_computeDraftCount` is better moved to the comments-api or a utility (similar to `computeCommentsString`)?",
+      "range": {
+        "startLine": 660,
+        "startChar": 8,
+        "endLine": 660,
+        "endChar": 18
+      },
+      "revId": "3ae33ee58264cf4a6a14da7f201a78cc8c910600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca699701_c799e5fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-30T09:44:11Z",
+      "side": 1,
+      "message": "Does this have to be changed, as well?\n\nShould the new logic above be moved into _computeDraftCount()?",
+      "revId": "3ae33ee58264cf4a6a14da7f201a78cc8c910600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e7e0cea_8da18fff",
+        "filename": "polygerrit-ui/app/utils/path-list-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-30T09:44:11Z",
+      "side": 1,
+      "message": "A comment for this function would be nice.",
+      "revId": "3ae33ee58264cf4a6a14da7f201a78cc8c910600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09fb420b_aec17ec6",
+        "filename": "polygerrit-ui/app/utils/path-list-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-04-30T09:44:11Z",
+      "side": 1,
+      "message": "FileInfoStatus.RENAMED",
+      "range": {
+        "startLine": 81,
+        "startChar": 32,
+        "endLine": 81,
+        "endChar": 35
+      },
+      "revId": "3ae33ee58264cf4a6a14da7f201a78cc8c910600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

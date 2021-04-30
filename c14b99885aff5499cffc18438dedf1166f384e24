@@ -16,6 +16,24 @@
       "message": "How can a documentation change break the build?\nLet me see what\u0027s going on.",
       "revId": "c14b99885aff5499cffc18438dedf1166f384e24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc6f402_65a8e6d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-04-30T09:56:59Z",
+      "side": 1,
+      "message": "Thanks for fixing this. I\u0027m curious to know how this rebase fixed the issue.",
+      "parentUuid": "2dc4d804_8ee5f6d9",
+      "revId": "c14b99885aff5499cffc18438dedf1166f384e24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -15,10 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.server.index.change.ChangeField;
-import java.util.Objects;
 
 public class CommentByPredicate extends ChangeIndexPredicate {
   protected final Account.Id id;
@@ -30,25 +27,5 @@ public class CommentByPredicate extends ChangeIndexPredicate {
 
   Account.Id getAccountId() {
     return id;
-  }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    for (ChangeMessage m : cd.messages()) {
-      if (Objects.equals(m.getAuthor(), id)) {
-        return true;
-      }
-    }
-    for (HumanComment c : cd.publishedComments()) {
-      if (Objects.equals(c.author.getId(), id)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

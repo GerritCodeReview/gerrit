@@ -17,20 +17,8 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.COMMITTER;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_COMMITTER;
 
-import com.google.gerrit.server.index.change.ChangeField;
-
 public class CommitterPredicate extends ChangeIndexPredicate {
   public CommitterPredicate(String value) {
     super(COMMITTER, FIELD_COMMITTER, value.toLowerCase());
-  }
-
-  @Override
-  public boolean match(ChangeData object) {
-    return ChangeField.getCommitterParts(object).contains(getValue().toLowerCase());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

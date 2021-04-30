@@ -2039,7 +2039,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("user@example.com", expected);
     assertQuery("repo", expected);
 
-    assertQuery("Code-Review:+1", change4);
+    assertQuery("Code-Review=+1", change4);
   }
 
   @Test

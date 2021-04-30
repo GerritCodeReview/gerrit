@@ -43,7 +43,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 ** link:dev-contributing.html#mentorship[Mentorship]
 * link:dev-design-docs.html[Design Docs]
 * link:dev-readme.html[Developer Setup]
-* link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui[Polymer Frontend Developer Setup]
+* link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui[TypeScript Frontend Developer Setup]
 * link:dev-crafting-changes.html[Crafting Changes]
 * link:dev-starter-projects.html[Starter Projects]
 

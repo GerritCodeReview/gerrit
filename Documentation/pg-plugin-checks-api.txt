@@ -1,0 +1,44 @@
+:linkattrs:
+= Gerrit Code Review - JavaScript Plugin Checks API
+
+This API is provided by link:pg-plugin-dev.html#plugin-checks[plugin.checks()].
+It allows plugins to contribute to the "Checks" tab and summary:
+
+image::images/user-checks-overview.png[width=800]
+
+Each plugin can link:#register[register] a checks provider that will be called
+when a change page is loaded. Such a call would return a list of `Runs` and each
+run can contain a list of `Results`.
+
+The details of the ChecksApi are documented in the
+link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/checks.ts[source code].
+Note that this link points to the `master` branch and might thus reflect a
+newer version of the API than your Gerrit installation.
+
+If no plugins are registered with the ChecksApi, then the Checks tab will be
+hidden.
+
+You can read about the motivation, the use cases and the original plans in the
+link:https://www.gerritcodereview.com/design-docs/ci-reboot.html[design doc].
+
+Here are some examples of open source plugins that make use of the Checks API:
+
+* link:https://gerrit.googlesource.com/plugins/checks/+/master/gr-checks/plugin.js[Gerrit Checks Plugin]
+* link:https://chromium.googlesource.com/infra/gerrit-plugins/buildbucket/+/master/src/main/resources/static/buildbucket.js[Chromium Buildbucket Plugin]
+* link:https://chromium.googlesource.com/infra/gerrit-plugins/code-coverage/+/master/src/main/resources/static/chromium-coverage.js[Chromium Coverage Plugin]
+
+[[register]]
+== register
+`checksApi.register(provider, config?)`
+
+.Params
+- *provider* Must implement a `fetch()` interface that returns a
+  `Promise<FetchResponse>` with runs and results. See also documentation in the
+  link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/checks.ts[source code].
+- *config* Optional configuration values for the checks provider.
+
+[[announceUpdate]]
+== announceUpdate
+`checksApi.announceUpdate()`
+
+Tells Gerrit to call `provider.fetch()`.

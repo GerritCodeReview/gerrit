@@ -16,6 +16,23 @@
       "message": "Thanks!",
       "revId": "2bc5fd7c89fa6493f66288ca05420ae8a4ce39cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc527540_e24c0af3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2021-04-30T19:05:47Z",
+      "side": 1,
+      "message": "I tried this out in the plugin:\n\nplugin.registerDynamicCustomComponent(\n    \u0027change-view-file-list-header-prepend\u0027, DocsPreviewColumnHeader.is);\n\nDocsPreviewColumnHeader has-\n  connectedCallback(): void {\n    super.connectedCallback();\n    console.log(\u0027FILES\u0027);\n    console.log(this.files);\n\n\nIt always returns an empty list.\nThen I put console.log stmts around https://gerrit.googlesource.com/gerrit/+/refs/changes/94/304594/1/polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts#1237\n\nand that is being printed after the empty files list from the plugin.\nSo looks like _files is getting populated after the plugin hook is called.",
+      "revId": "2bc5fd7c89fa6493f66288ca05420ae8a4ce39cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

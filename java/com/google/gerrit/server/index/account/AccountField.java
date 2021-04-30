@@ -85,6 +85,7 @@ public class AccountField {
   public static final FieldDef<AccountState, String> FULL_NAME =
       exact("full_name").build(a -> a.account().fullName());
 
+  // TODO: Resolve naming mismatch. This needs to be called "active", not "inactive"
   public static final FieldDef<AccountState, String> ACTIVE =
       exact("inactive").build(a -> a.account().isActive() ? "1" : "0");
 

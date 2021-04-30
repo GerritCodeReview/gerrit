@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e0e04423_0f863d12",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-04-30T10:41:30Z",
+      "side": 1,
+      "message": "To use a test method for every case seemed a little much IMHO, but I moved this checks out of the helper method and close to the test cases.",
+      "parentUuid": "49266394_71ec683b",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "bd84edbf35a6c4f0eddf0222e1f96b2320c52d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c799cc5_e77ca1df",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
         "patchSetId": 2

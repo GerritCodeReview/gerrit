@@ -365,6 +365,11 @@ To run one or more specific groups of tests:
   bazel test --test_tag_filters=api,git //...
 ----
 
+To run the tests against a specific index backend (LUCENE, FAKE):
+----
+  bazel test --test_env=GERRIT_INDEX_TYPE=LUCENE //...
+----
+
 The following values are currently supported for the group name:
 
 * annotation

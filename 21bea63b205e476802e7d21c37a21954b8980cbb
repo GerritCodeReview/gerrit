@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "398eaf4a_7c535327",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2095,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-30T08:23:35Z",
+      "side": 1,
+      "message": "_reload is called on the event \u0027reload\u0027 so can the checks service listen to this event directly?\n\nWe could replace calls to _reload with fireEvent(\u0027reload\u0027) to make sure checks service is always aware of reload event being fired.",
+      "range": {
+        "startLine": 2095,
+        "startChar": 9,
+        "endLine": 2095,
+        "endChar": 58
+      },
+      "revId": "21bea63b205e476802e7d21c37a21954b8980cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

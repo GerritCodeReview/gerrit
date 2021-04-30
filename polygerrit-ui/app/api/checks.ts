@@ -255,10 +255,32 @@ export type ActionCallback = (
   checkName: string | undefined,
   /** Identical to 'name' property of Action entity. */
   actionName: string
+  /**
+   * If the callback does not return a promise, then the user will get no
+   * feedback from the Gerrit UI. This is adequate when the plugin opens a
+   * dialog for example. If a Promise<ActionResult> is returned, then Gerrit
+   * will show toasts for user feedback, see ActionResult below.
+   */
 ) => Promise<ActionResult> | undefined;
 
+/**
+ * Until the Promise<ActionResult> resolves (max. 5 seconds) Gerrit will show a
+ * toast with the message `Triggering action '${action.name}' ...`.
+ *
+ * When the promise resolves (within 5 seconds) then Gerrit will replace the
+ * toast with a new one with the message `${message}` and show it for 5 seconds.
+ * If `message` is empty or undefined, then the `Triggering ...` toast will just
+ * be hidden and no further toast will be shown.
+ */
 export interface ActionResult {
   /** An empty errorMessage means success. */
+  message?: string;
+  /**
+   * If true, then ChecksProvider.fetch() is called. Has the same affect as if
+   * the plugin would call announceUpdate(). So just for convenience.
+   */
+  shouldReload?: boolean;
+  /** DEPRECATED: Use `message` instead. */
   errorMessage?: string;
 }
 

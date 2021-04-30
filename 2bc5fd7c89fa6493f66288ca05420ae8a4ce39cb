@@ -51,6 +51,24 @@
       "parentUuid": "cc527540_e24c0af3",
       "revId": "2bc5fd7c89fa6493f66288ca05420ae8a4ce39cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca26a412_a9430456",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2021-04-30T20:39:03Z",
+      "side": 1,
+      "message": "Oh, I did not think about using an observer. Thanks!",
+      "parentUuid": "222c31fc_4cfc0143",
+      "revId": "2bc5fd7c89fa6493f66288ca05420ae8a4ce39cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

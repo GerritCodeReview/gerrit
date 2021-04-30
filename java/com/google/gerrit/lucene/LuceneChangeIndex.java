@@ -522,6 +522,11 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     // Any decoding that is done here must also be done in {@link ElasticChangeIndex}.
 
+    for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+      if (fields.contains(field.getName())) {
+        // TODO(hiesel): Use generic convert instead of hand-wiring
+      }
+    }
     if (fields.contains(PATCH_SET_FIELD)) {
       decodePatchSets(doc, cd);
     }

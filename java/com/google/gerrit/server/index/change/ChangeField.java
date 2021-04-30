@@ -71,6 +71,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gson.Gson;
+import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**
@@ -153,7 +155,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Timestamp> MERGED_ON =
       timestamp(ChangeQueryBuilder.FIELD_MERGED_ON)
           .stored()
-          .build(cd -> cd.getMergedOn().orElse(null));
+          .build(cd -> cd.getMergedOn().orElse(null), (cd, field) -> cd.setMergedOn(field));
 
   /** List of full file paths modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> PATH =
@@ -335,7 +337,14 @@ public class ChangeField {
    */
   public static final FieldDef<ChangeData, Iterable<byte[]>> ATTENTION_SET_FULL =
       storedOnly(ChangeQueryBuilder.FIELD_ATTENTION_SET_FULL)
-          .buildRepeatable(ChangeField::storedAttentionSet);
+          .buildRepeatable(
+              ChangeField::storedAttentionSet,
+              (cd, value) ->
+                  parseAttentionSet(
+                      StreamSupport.stream(value.spliterator(), false)
+                          .map(v -> new String(v, UTF_8))
+                          .collect(toImmutableSet()),
+                      cd));
 
   /** The user assigned to the change. */
   public static final FieldDef<ChangeData, Integer> ASSIGNEE =
@@ -642,13 +651,18 @@ public class ChangeField {
   /** Serialized change object, used for pre-populating results. */
   public static final FieldDef<ChangeData, byte[]> CHANGE =
       storedOnly("_change")
-          .build(changeGetter(change -> toProto(ChangeProtoConverter.INSTANCE, change)));
+          .build(
+              changeGetter(change -> toProto(ChangeProtoConverter.INSTANCE, change)),
+              (cd, field) -> cd.setChange(parseProtoFrom(field, ChangeProtoConverter.INSTANCE)));
 
   /** Serialized approvals for the current patch set, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> APPROVAL =
       storedOnly("_approval")
           .buildRepeatable(
-              cd -> toProtos(PatchSetApprovalProtoConverter.INSTANCE, cd.currentApprovals()));
+              cd -> toProtos(PatchSetApprovalProtoConverter.INSTANCE, cd.currentApprovals()),
+              (cd, field) ->
+                  cd.setCurrentApprovals(
+                      decodeProtos(field, PatchSetApprovalProtoConverter.INSTANCE)));
 
   public static String formatLabel(String label, int value) {
     return formatLabel(label, value, null);
@@ -783,7 +797,9 @@ public class ChangeField {
   /** Serialized patch set object, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =
       storedOnly("_patch_set")
-          .buildRepeatable(cd -> toProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()));
+          .buildRepeatable(
+              cd -> toProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()),
+              (cd, field) -> cd.setPatchSets(decodeProtos(field, PatchSetProtoConverter.INSTANCE)));
 
   /** Users who have edits on this change. */
   public static final FieldDef<ChangeData, Iterable<Integer>> EDITBY =
@@ -1025,6 +1041,18 @@ public class ChangeField {
 
   private static <T> byte[] toProto(ProtoConverter<?, T> converter, T object) {
     return Protos.toByteArray(converter.toProto(object));
+  }
+
+  private static <T> List<T> decodeProtos(Iterable<byte[]> raw, ProtoConverter<?, T> converter) {
+    return StreamSupport.stream(raw.spliterator(), false)
+        .map(bytes -> parseProtoFrom(bytes, converter))
+        .collect(toImmutableList());
+  }
+
+  private static <P extends MessageLite, T> T parseProtoFrom(
+      byte[] bytes, ProtoConverter<P, T> converter) {
+    P message = Protos.parseUnchecked(converter.getParser(), bytes, 0, bytes.length);
+    return converter.fromProto(message);
   }
 
   private static <T> FieldDef.Getter<ChangeData, T> changeGetter(Function<Change, T> func) {

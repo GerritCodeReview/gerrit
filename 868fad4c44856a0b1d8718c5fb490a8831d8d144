@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df75076_bcd0fd34",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-30T10:03:15Z",
+      "side": 1,
+      "message": "It is added hard coded and doesn\u0027t respect change.enableAttentionSet configuration option. I filed issue 14470.",
+      "range": {
+        "startLine": 178,
+        "startChar": 16,
+        "endLine": 180,
+        "endChar": 17
+      },
+      "revId": "868fad4c44856a0b1d8718c5fb490a8831d8d144",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

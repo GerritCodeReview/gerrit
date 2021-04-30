@@ -46,6 +46,7 @@ import com.google.gerrit.httpd.auth.restapi.OAuthRestModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.httpd.raw.StaticModule;
 import com.google.gerrit.index.IndexType;
+import com.google.gerrit.index.testing.FakeIndexModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
@@ -87,6 +88,7 @@ import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
+import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
@@ -207,7 +209,7 @@ public class Daemon extends SiteProgram {
   private Injector httpdInjector;
   private Path runFile;
   private boolean inMemoryTest;
-  private AbstractModule luceneModule;
+  private AbstractModule indexModule;
   private Module emailModule;
   private List<Module> testSysModules = new ArrayList<>();
   private List<Module> testSshModules = new ArrayList<>();
@@ -336,9 +338,13 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public void setLuceneModule(LuceneIndexModule m) {
-    luceneModule = m;
-    inMemoryTest = true;
+  public void setIndexModule(AbstractIndexModule m) {
+    indexModule = m;
+  }
+
+  @VisibleForTesting
+  public void setInMemory(boolean inMemory) {
+    this.inMemoryTest = inMemory;
   }
 
   @VisibleForTesting
@@ -523,14 +529,17 @@ public class Daemon extends SiteProgram {
   }
 
   private Module createIndexModule() {
-    if (luceneModule != null) {
-      return luceneModule;
+    if (indexModule != null) {
+      return indexModule;
     }
     if (indexType.isLucene()) {
       return LuceneIndexModule.latestVersion(replica);
     }
     if (indexType.isElasticsearch()) {
       return ElasticIndexModule.latestVersion(replica);
+    }
+    if (indexType.isFake()) {
+      return FakeIndexModule.latestVersion(replica);
     }
     throw new IllegalStateException("unsupported index.type = " + indexType);
   }

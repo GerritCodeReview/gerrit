@@ -45,7 +45,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperationsImpl
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.lucene.LuceneIndexModule;
+import com.google.gerrit.index.testing.FakeIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.GerritRuntime;
@@ -411,6 +411,7 @@ public class GerritServer implements AutoCloseable {
     if (testSshModule != null) {
       daemon.addAdditionalSshModuleForTesting(testSshModule);
     }
+    daemon.setIndexModule(FakeIndexModule.latestVersion(false));
     daemon.setEnableSshd(desc.useSsh());
     daemon.addAdditionalSysModuleForTesting(
         new AbstractModule() {
@@ -450,8 +451,7 @@ public class GerritServer implements AutoCloseable {
     cfg.setString(
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
     daemon.setEnableHttpd(desc.httpd());
-    daemon.setLuceneModule(
-        LuceneIndexModule.singleVersionAllLatest(0, ReplicaUtil.isReplica(baseConfig)));
+    daemon.setInMemory(true);
     daemon.setDatabaseForTesting(
         ImmutableList.of(
             new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),
@@ -476,6 +476,8 @@ public class GerritServer implements AutoCloseable {
       String[] additionalArgs)
       throws Exception {
     requireNonNull(site);
+    daemon.addAdditionalSysModuleForTesting(
+        new ReindexProjectsAtStartup.Module(), new ReindexGroupsAtStartup.Module());
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
     String[] args =
         Stream.concat(

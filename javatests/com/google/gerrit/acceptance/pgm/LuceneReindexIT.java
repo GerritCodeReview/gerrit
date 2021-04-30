@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance.pgm;
 
 import com.google.inject.Injector;
 
-public class ReindexIT extends AbstractReindexTests {
+public class LuceneReindexIT extends AbstractReindexTests {
   @Override
   public void configureIndex(Injector injector) {}
 }

@@ -51,8 +51,8 @@ import {
   isAttentionSetEnabled,
 } from '../../../utils/attention-set-util';
 import {CustomKeyboardEvent} from '../../../types/events';
-import {fireEvent} from '../../../utils/event-util';
-import {isShiftPressed, windowLocationReload} from '../../../utils/dom-util';
+import {fireEvent, fireReload} from '../../../utils/event-util';
+import {isShiftPressed} from '../../../utils/dom-util';
 import {ScrollMode} from '../../../constants/constants';
 
 const NUMBER_FIXED_COLUMNS = 3;
@@ -489,11 +489,7 @@ export class GrChangeList extends ChangeTableMixin(
     }
 
     e.preventDefault();
-    this._reloadWindow();
-  }
-
-  _reloadWindow() {
-    windowLocationReload();
+    fireReload(this);
   }
 
   _toggleChangeStar(e: CustomKeyboardEvent) {

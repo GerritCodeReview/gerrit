@@ -77,7 +77,6 @@ import {
 } from '../types/events';
 import {ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
-import {windowLocationReload} from '../utils/dom-util';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
 
@@ -240,10 +239,6 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener('shortcut-triggered', e =>
       this._handleShortcutTriggered(e)
     );
-    // Ideally individual views should handle this event and respond with a soft
-    // reload. This is a catch-all for all views that cannot or have not
-    // implemented that.
-    this.addEventListener('reload', () => windowLocationReload());
   }
 
   /** @override */

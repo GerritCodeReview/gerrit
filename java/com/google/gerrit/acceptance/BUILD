@@ -19,6 +19,7 @@ DEPLOY_ENV = [
     "//java/com/google/gerrit/extensions:api",
     "//java/com/google/gerrit/httpd",
     "//java/com/google/gerrit/index",
+    "//java/com/google/gerrit/elasticsearch",
     "//java/com/google/gerrit/index/project",
     "//java/com/google/gerrit/json",
     "//java/com/google/gerrit/lucene",
@@ -75,6 +76,7 @@ TEST_DEPS = [
     "//java/com/google/gerrit/extensions/restapi/testing:restapi-test-util",
     "//java/com/google/gerrit/gpg/testing:gpg-test-util",
     "//java/com/google/gerrit/git/testing",
+    "//java/com/google/gerrit/index/testing",
 ]
 
 PGM_DEPLOY_ENV = [

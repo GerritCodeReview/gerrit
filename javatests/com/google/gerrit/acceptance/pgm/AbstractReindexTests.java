@@ -31,14 +31,18 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import java.nio.file.Files;
+import java.util.Collection;
 import java.util.Set;
 import java.util.function.Consumer;
 import org.eclipse.jgit.lib.Config;
@@ -48,9 +52,6 @@ import org.junit.Test;
 
 @NoHttpd
 public abstract class AbstractReindexTests extends StandaloneSiteTest {
-  /** @param injector injector */
-  public abstract void configureIndex(Injector injector) throws Exception;
-
   private static final String CHANGES = ChangeSchemaDefinitions.NAME;
 
   private Project.NameKey project;
@@ -223,10 +224,18 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
     }
   }
 
+  protected static void createAllIndexes(Injector injector) {
+    Collection<IndexDefinition<?, ?, ?>> indexDefs =
+        injector.getInstance(Key.get(new TypeLiteral<Collection<IndexDefinition<?, ?, ?>>>() {}));
+    for (IndexDefinition<?, ?, ?> indexDef : indexDefs) {
+      indexDef.getIndexCollection().getSearchIndex().deleteAll();
+    }
+  }
+
   private void setUpChange() throws Exception {
     project = Project.nameKey("reindex-project-test");
     try (ServerContext ctx = startServer()) {
-      configureIndex(ctx.getInjector());
+      createAllIndexes(ctx.getInjector());
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
       gApi.projects().create(project.get());
 

@@ -43,8 +43,11 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperationsImpl;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.index.IndexType;
+import com.google.gerrit.index.testing.FakeIndexModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
@@ -449,9 +452,30 @@ public class GerritServer implements AutoCloseable {
     cfg.setString("gitweb", null, "cgi", "");
     cfg.setString(
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
+
+    String configuredIndexBackend = cfg.getString("index", null, "type");
+    IndexType indexType;
+    if (configuredIndexBackend != null) {
+      // Explicitly configured index backend from gerrit.config trumps any other ways to configure
+      // index backends so that Reindex tests can be explicit about the backend they want to test
+      // against.
+      indexType = new IndexType(configuredIndexBackend);
+    } else {
+      // Allow configuring the index backend based on sys/env variables so that integration tests
+      // can be run against different index backends.
+      indexType = IndexType.fromEnvironment().orElse(new IndexType("fake"));
+    }
+    if (indexType.isLucene()) {
+      daemon.setIndexModule(
+          LuceneIndexModule.singleVersionAllLatest(0, ReplicaUtil.isReplica(baseConfig)));
+    } else if (indexType.isElasticsearch()) {
+      daemon.setIndexModule(ElasticIndexModule.latestVersion(false));
+    } else if (indexType.isFake()) {
+      daemon.setIndexModule(FakeIndexModule.latestVersion(false));
+    }
+
     daemon.setEnableHttpd(desc.httpd());
-    daemon.setLuceneModule(
-        LuceneIndexModule.singleVersionAllLatest(0, ReplicaUtil.isReplica(baseConfig)));
+    daemon.setInMemory(true);
     daemon.setDatabaseForTesting(
         ImmutableList.of(
             new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),
@@ -476,6 +500,8 @@ public class GerritServer implements AutoCloseable {
       String[] additionalArgs)
       throws Exception {
     requireNonNull(site);
+    daemon.addAdditionalSysModuleForTesting(
+        new ReindexProjectsAtStartup.Module(), new ReindexGroupsAtStartup.Module());
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
     String[] args =
         Stream.concat(

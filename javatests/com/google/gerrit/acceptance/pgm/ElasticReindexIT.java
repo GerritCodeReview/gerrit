@@ -14,23 +14,15 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import static com.google.gerrit.elasticsearch.ElasticTestUtils.createAllIndexes;
 import static com.google.gerrit.elasticsearch.ElasticTestUtils.getConfig;
 
 import com.google.gerrit.elasticsearch.ElasticVersion;
 import com.google.gerrit.testing.ConfigSuite;
-import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 
 public class ElasticReindexIT extends AbstractReindexTests {
-
   @ConfigSuite.Default
   public static Config elasticsearchV7() {
     return getConfig(ElasticVersion.V7_8);
-  }
-
-  @Override
-  public void configureIndex(Injector injector) {
-    createAllIndexes(injector);
   }
 }

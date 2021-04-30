@@ -44,7 +44,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperationsImpl;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.lucene.LuceneIndexModule;
+import com.google.gerrit.index.testing.FakeIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.GerritRuntime;
@@ -428,8 +428,7 @@ public class GerritServer implements AutoCloseable {
     cfg.setString(
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
     daemon.setEnableHttpd(desc.httpd());
-    daemon.setLuceneModule(
-        LuceneIndexModule.singleVersionAllLatest(0, ReplicaUtil.isReplica(baseConfig)));
+    daemon.setIndexModule(FakeIndexModule.latestVersion(false));
     daemon.setDatabaseForTesting(
         ImmutableList.of(
             new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),

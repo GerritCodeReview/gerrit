@@ -440,6 +440,7 @@ public abstract class AbstractDaemonTest {
     baseConfig.unset("httpd", null, "listenUrl");
 
     baseConfig.setInt("index", null, "batchThreads", -1);
+    baseConfig.setString("index", null, "type", "fake");
 
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     Module module = createModule();

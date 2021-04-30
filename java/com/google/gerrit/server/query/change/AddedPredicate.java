@@ -21,9 +21,4 @@ public class AddedPredicate extends IntegerRangeChangePredicate {
   public AddedPredicate(String value) throws QueryParseException {
     super(ChangeField.ADDED, value);
   }
-
-  @Override
-  protected Integer getValueInt(ChangeData changeData) {
-    return ChangeField.ADDED.get(changeData);
-  }
 }

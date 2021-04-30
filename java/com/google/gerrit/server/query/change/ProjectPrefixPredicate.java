@@ -14,22 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 
 public class ProjectPrefixPredicate extends ChangeIndexPredicate {
   public ProjectPrefixPredicate(String prefix) {
     super(ChangeField.PROJECTS, prefix);
-  }
-
-  @Override
-  public boolean match(ChangeData object) {
-    Change c = object.change();
-    return c != null && c.getDest().project().get().startsWith(getValue());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

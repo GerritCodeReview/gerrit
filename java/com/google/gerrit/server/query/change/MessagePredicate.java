@@ -14,12 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
-import com.google.gerrit.server.index.change.IndexedChangeQuery;
 
 /** Predicate to match changes that contains specified text in commit messages body. */
 public class MessagePredicate extends ChangeIndexPredicate {
@@ -28,31 +24,5 @@ public class MessagePredicate extends ChangeIndexPredicate {
   public MessagePredicate(ChangeIndex index, String value) {
     super(ChangeField.COMMIT_MESSAGE, value);
     this.index = index;
-  }
-
-  @Override
-  public boolean match(ChangeData object) {
-    try {
-      Predicate<ChangeData> p =
-          Predicate.and(
-              index.getSchema().useLegacyNumericFields()
-                  ? new LegacyChangeIdPredicate(object.getId())
-                  : new LegacyChangeIdStrPredicate(object.getId()),
-              this);
-      for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {
-        if (cData.getId().equals(object.getId())) {
-          return true;
-        }
-      }
-    } catch (QueryParseException e) {
-      throw new StorageException(e);
-    }
-
-    return false;
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

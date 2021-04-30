@@ -28,14 +28,4 @@ public class FileExtensionPredicate extends ChangeIndexPredicate {
   FileExtensionPredicate(String value) {
     super(ChangeField.EXTENSION, clean(value));
   }
-
-  @Override
-  public boolean match(ChangeData object) {
-    return ChangeField.getExtensions(object).contains(value);
-  }
-
-  @Override
-  public int getCost() {
-    return 0;
-  }
 }

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 
 public class OwnerPredicate extends ChangeIndexPredicate {
@@ -28,16 +27,5 @@ public class OwnerPredicate extends ChangeIndexPredicate {
 
   protected Account.Id getAccountId() {
     return id;
-  }
-
-  @Override
-  public boolean match(ChangeData object) {
-    Change change = object.change();
-    return change != null && id.equals(change.getOwner());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

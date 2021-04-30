@@ -19,7 +19,7 @@ import {
   catchError,
   filter,
   switchMap,
-  takeWhile,
+  takeWhile, tap,
   throttleTime,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -82,10 +82,12 @@ export class ChecksService {
   }
 
   reload(pluginName: string) {
+    console.log(`fetchChecks reload requested for ${pluginName}`);
     this.reloadSubjects[pluginName].next();
   }
 
   reloadAll() {
+    console.log(`fetchChecks reload requested for all`);
     Object.keys(this.providers).forEach(key => this.reload(key));
   }
 
@@ -110,11 +112,11 @@ export class ChecksService {
     // 3. Regular polling starting with an initial fetch right now.
     // 4. A hidden Gerrit tab becoming visible.
     combineLatest([
-      changeNum$,
-      checksPatchsetNumber$,
-      this.reloadSubjects[pluginName].pipe(throttleTime(1000)),
-      timer(0, pollIntervalMs),
-      this.documentVisibilityChange$,
+      changeNum$.pipe(tap(num => console.log(`fetchChecks changeNum ${pluginName} ${num}`))),
+      checksPatchsetNumber$.pipe(tap(num => console.log(`fetchChecks psNum ${pluginName} ${num}`))),
+      this.reloadSubjects[pluginName].pipe(throttleTime(1000), tap(_ => console.log(`fetchChecks reload ${pluginName}`))),
+      timer(0, pollIntervalMs).pipe(tap(_ => console.log(`fetchChecks timer ${pluginName}`))),
+      this.documentVisibilityChange$.pipe(tap(_ => console.log(`fetchChecks visibility ${pluginName}`))),
     ])
       .pipe(
         takeWhile(_ => !!this.providers[pluginName]),
@@ -122,12 +124,14 @@ export class ChecksService {
         withLatestFrom(change$),
         switchMap(
           ([[changeNum, patchNum], change]): Observable<FetchResponse> => {
+            console.log(`fetchChecks switchMap: ${pluginName} ${changeNum}`);
             if (
               !change ||
               !changeNum ||
               !patchNum ||
               typeof patchNum !== 'number'
             ) {
+              console.log(`fetchChecks undefined: ${pluginName} ${changeNum}`);
               return of({
                 responseCode: ResponseCode.OK,
                 runs: [],
@@ -138,6 +142,7 @@ export class ChecksService {
             // Sometimes patchNum is updated earlier than change, so change
             // revisions don't have patchNum yet
             if (!patchsetSha) {
+              console.log(`fetchChecks noPatchset: ${pluginName} ${changeNum}`);
               return of({
                 responseCode: ResponseCode.OK,
                 runs: [],
@@ -187,12 +192,16 @@ export class ChecksService {
   private fetchResults(pluginName: string, data: ChangeData) {
     updateStateSetLoading(pluginName);
     const timer = this.reporting.getTimer('ChecksPluginFetch');
+    const start = new Date().getTime();
     const fetchPromise = this.providers[pluginName]
       .fetch(data)
       .then(response => {
+        const stop = new Date().getTime();
+        console.log(`fetchChecks stop:  ${pluginName} ${data.changeNumber} ${stop} ${stop - start}`);
         timer.end({pluginName});
         return response;
       });
+    console.log(`fetchChecks start: ${pluginName} ${data.changeNumber} ${start}`);
     return from(fetchPromise);
   }
 }

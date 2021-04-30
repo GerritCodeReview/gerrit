@@ -2083,7 +2083,16 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     // are loaded.
     const detailCompletes = this._getChangeDetail();
     allDataPromises.push(detailCompletes);
-    this.checksService.reloadAll();
+
+    // Location changes are picked up by the checks service independently by
+    // listening to change number changes. But if a change page just refreshes
+    // (without a change number change), then we must notify the checks service
+    // to also refresh all its data. It would probably be better to introduce an
+    // application wide 'refresh/reload' event that the checks service can
+    // listen to. Calling this from here is not the right place and introduces
+    // a direct dependency from the change view to the checks service, which we
+    // would rather like to avoid.
+    if (!isLocationChange) this.checksService.reloadAll();
 
     // Resolves when the loading flag is set to false, meaning that some
     // change content may start appearing.

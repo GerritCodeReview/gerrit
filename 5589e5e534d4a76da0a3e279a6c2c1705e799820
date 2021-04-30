@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "322627c4_5f310d64",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/ChangeExternalIdCaseSensitivityIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-30T01:08:57Z",
+      "side": 1,
+      "message": "Cool, now that you changed it I can clearly understand that you first prepare the change nodes as case-sensitive, then you convert and assert that becomes case-insensitive. Good stuff !",
+      "parentUuid": "2d1aa426_39e52d29",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 34
+      },
+      "revId": "5589e5e534d4a76da0a3e279a6c2c1705e799820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5c76274_fe05977d",

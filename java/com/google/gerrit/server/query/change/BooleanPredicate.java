@@ -20,14 +20,4 @@ public class BooleanPredicate extends ChangeIndexPredicate {
   public BooleanPredicate(FieldDef<ChangeData, String> field) {
     super(field, "1");
   }
-
-  @Override
-  public boolean match(ChangeData object) {
-    return getValue().equals(getField().get(object));
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

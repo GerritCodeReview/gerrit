@@ -15,7 +15,6 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
@@ -27,8 +26,6 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -38,25 +35,19 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
-import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
-import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
-import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -65,7 +56,6 @@ import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.inject.Inject;
@@ -82,7 +72,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
@@ -119,34 +108,10 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String CHANGES = "changes";
   private static final String CHANGES_OPEN = "open";
   private static final String CHANGES_CLOSED = "closed";
-  private static final String ADDED_FIELD = ChangeField.ADDED.getName();
-  private static final String APPROVAL_FIELD = ChangeField.APPROVAL.getName();
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
-  private static final String DELETED_FIELD = ChangeField.DELETED.getName();
-  private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
-  private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
-  private static final String PENDING_REVIEWER_FIELD = ChangeField.PENDING_REVIEWER.getName();
-  private static final String PENDING_REVIEWER_BY_EMAIL_FIELD =
-      ChangeField.PENDING_REVIEWER_BY_EMAIL.getName();
-  private static final String REF_STATE_FIELD = ChangeField.REF_STATE.getName();
-  private static final String REF_STATE_PATTERN_FIELD = ChangeField.REF_STATE_PATTERN.getName();
-  private static final String REVIEWEDBY_FIELD = ChangeField.REVIEWEDBY.getName();
-  private static final String REVIEWER_FIELD = ChangeField.REVIEWER.getName();
-  private static final String REVIEWER_BY_EMAIL_FIELD = ChangeField.REVIEWER_BY_EMAIL.getName();
-  private static final String HASHTAG_FIELD = ChangeField.HASHTAG_CASE_AWARE.getName();
-  private static final String STAR_FIELD = ChangeField.STAR.getName();
-  private static final String SUBMIT_RECORD_LENIENT_FIELD =
-      ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName();
-  private static final String SUBMIT_RECORD_STRICT_FIELD =
-      ChangeField.STORED_SUBMIT_RECORD_STRICT.getName();
-  private static final String TOTAL_COMMENT_COUNT_FIELD = ChangeField.TOTAL_COMMENT_COUNT.getName();
-  private static final String UNRESOLVED_COMMENT_COUNT_FIELD =
-      ChangeField.UNRESOLVED_COMMENT_COUNT.getName();
-  private static final String ATTENTION_SET_FULL_FIELD = ChangeField.ATTENTION_SET_FULL.getName();
-  private static final String MERGED_ON_FIELD = ChangeField.MERGED_ON.getName();
 
   @FunctionalInterface
-  static interface IdTerm {
+  interface IdTerm {
     Term get(String name, int id);
   }
 
@@ -159,7 +124,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @FunctionalInterface
-  static interface ChangeIdExtractor {
+  interface ChangeIdExtractor {
     Change.Id extract(IndexableField f);
   }
 
@@ -520,229 +485,65 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd = changeDataFactory.create(Project.nameKey(project.stringValue()), extractor.extract(f));
     }
 
-    // Any decoding that is done here must also be done in {@link ElasticChangeIndex}.
+    for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+      if (fields.contains(field.getName()) && doc.get(field.getName()) != null) {
+        field.setIfPossible(
+            cd,
+            new FieldDef.IndexedDocument() {
+              @Override
+              public String stringValue() {
+                return Iterables.getFirst(stringValues(), null);
+              }
 
-    if (fields.contains(PATCH_SET_FIELD)) {
-      decodePatchSets(doc, cd);
-    }
-    if (fields.contains(APPROVAL_FIELD)) {
-      decodeApprovals(doc, cd);
-    }
-    if (fields.contains(ADDED_FIELD) && fields.contains(DELETED_FIELD)) {
-      decodeChangedLines(doc, cd);
-    }
-    if (fields.contains(MERGEABLE_FIELD)) {
-      decodeMergeable(doc, cd);
-    }
-    if (fields.contains(REVIEWEDBY_FIELD)) {
-      decodeReviewedBy(doc, cd);
-    }
-    if (fields.contains(HASHTAG_FIELD)) {
-      decodeHashtags(doc, cd);
-    }
-    if (fields.contains(STAR_FIELD)) {
-      decodeStar(doc, cd);
-    }
-    if (fields.contains(REVIEWER_FIELD)) {
-      decodeReviewers(doc, cd);
-    }
-    if (fields.contains(REVIEWER_BY_EMAIL_FIELD)) {
-      decodeReviewersByEmail(doc, cd);
-    }
-    if (fields.contains(PENDING_REVIEWER_FIELD)) {
-      decodePendingReviewers(doc, cd);
-    }
-    if (fields.contains(PENDING_REVIEWER_BY_EMAIL_FIELD)) {
-      decodePendingReviewersByEmail(doc, cd);
-    }
-    if (fields.contains(ATTENTION_SET_FULL_FIELD)) {
-      decodeAttentionSet(doc, cd);
-    }
-    decodeSubmitRecords(
-        doc, SUBMIT_RECORD_STRICT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
-    decodeSubmitRecords(
-        doc, SUBMIT_RECORD_LENIENT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_LENIENT, cd);
-    if (fields.contains(REF_STATE_FIELD)) {
-      decodeRefStates(doc, cd);
-    }
-    if (fields.contains(REF_STATE_PATTERN_FIELD)) {
-      decodeRefStatePatterns(doc, cd);
-    }
-    if (fields.contains(MERGED_ON_FIELD)) {
-      decodeMergedOn(doc, cd);
-    }
+              @Override
+              public Iterable<String> stringValues() {
+                return doc.get(field.getName()).stream()
+                    .map(f -> f.stringValue())
+                    .collect(toImmutableList());
+              }
 
-    decodeUnresolvedCommentCount(doc, cd);
-    decodeTotalCommentCount(doc, cd);
+              @Override
+              public Integer integerValue() {
+                return Iterables.getFirst(integerValues(), null);
+              }
+
+              @Override
+              public Iterable<Integer> integerValues() {
+                return doc.get(field.getName()).stream()
+                    .map(f -> f.numericValue().intValue())
+                    .collect(toImmutableList());
+              }
+
+              @Override
+              public Long longValue() {
+                return Iterables.getFirst(longValues(), null);
+              }
+
+              @Override
+              public Iterable<Long> longValues() {
+                return doc.get(field.getName()).stream()
+                    .map(f -> f.numericValue().longValue())
+                    .collect(toImmutableList());
+              }
+
+              @Override
+              public Timestamp timestampValue() {
+                return longValue() == null ? null : new Timestamp(longValue());
+              }
+
+              @Override
+              public byte[] rawValue() {
+                return Iterables.getFirst(rawValues(), null);
+              }
+
+              @Override
+              public Iterable<byte[]> rawValues() {
+                return copyAsBytes(doc.get(field.getName()));
+              }
+            });
+      }
+    }
     return cd;
-  }
-
-  private void decodePatchSets(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    List<PatchSet> patchSets = decodeProtos(doc, PATCH_SET_FIELD, PatchSetProtoConverter.INSTANCE);
-    if (!patchSets.isEmpty()) {
-      // Will be an empty list for schemas prior to when this field was stored;
-      // this cannot be valid since a change needs at least one patch set.
-      cd.setPatchSets(patchSets);
-    }
-  }
-
-  private void decodeApprovals(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setCurrentApprovals(
-        decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoConverter.INSTANCE));
-  }
-
-  private void decodeChangedLines(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    IndexableField added = Iterables.getFirst(doc.get(ADDED_FIELD), null);
-    IndexableField deleted = Iterables.getFirst(doc.get(DELETED_FIELD), null);
-    if (added != null && deleted != null) {
-      cd.setChangedLines(added.numericValue().intValue(), deleted.numericValue().intValue());
-    } else {
-      // No ChangedLines stored, likely due to failure during reindexing, for
-      // example due to LargeObjectException. But we know the field was
-      // requested, so update ChangeData to prevent callers from trying to
-      // lazily load it, as that would probably also fail.
-      cd.setNoChangedLines();
-    }
-  }
-
-  private void decodeMergeable(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    IndexableField f = Iterables.getFirst(doc.get(MERGEABLE_FIELD), null);
-    if (f != null && !skipFields.contains(MERGEABLE_FIELD)) {
-      String mergeable = f.stringValue();
-      if ("1".equals(mergeable)) {
-        cd.setMergeable(true);
-      } else if ("0".equals(mergeable)) {
-        cd.setMergeable(false);
-      }
-    }
-  }
-
-  private void decodeReviewedBy(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    Collection<IndexableField> reviewedBy = doc.get(REVIEWEDBY_FIELD);
-    if (!reviewedBy.isEmpty()) {
-      Set<Account.Id> accounts = Sets.newHashSetWithExpectedSize(reviewedBy.size());
-      for (IndexableField r : reviewedBy) {
-        int id = r.numericValue().intValue();
-        if (reviewedBy.size() == 1 && id == ChangeField.NOT_REVIEWED) {
-          break;
-        }
-        accounts.add(Account.id(id));
-      }
-      cd.setReviewedBy(accounts);
-    }
-  }
-
-  private void decodeHashtags(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    Collection<IndexableField> hashtag = doc.get(HASHTAG_FIELD);
-    Set<String> hashtags = Sets.newHashSetWithExpectedSize(hashtag.size());
-    for (IndexableField r : hashtag) {
-      hashtags.add(r.binaryValue().utf8ToString());
-    }
-    cd.setHashtags(hashtags);
-  }
-
-  private void decodeStar(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    Collection<IndexableField> star = doc.get(STAR_FIELD);
-    ListMultimap<Account.Id, String> stars = MultimapBuilder.hashKeys().arrayListValues().build();
-    for (IndexableField r : star) {
-      StarredChangesUtil.StarField starField = StarredChangesUtil.StarField.parse(r.stringValue());
-      if (starField != null) {
-        stars.put(starField.accountId(), starField.label());
-      }
-    }
-    cd.setStars(stars);
-  }
-
-  private void decodeReviewers(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setReviewers(
-        ChangeField.parseReviewerFieldValues(
-            cd.getId(),
-            FluentIterable.from(doc.get(REVIEWER_FIELD)).transform(IndexableField::stringValue)));
-  }
-
-  private void decodeReviewersByEmail(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setReviewersByEmail(
-        ChangeField.parseReviewerByEmailFieldValues(
-            cd.getId(),
-            FluentIterable.from(doc.get(REVIEWER_BY_EMAIL_FIELD))
-                .transform(IndexableField::stringValue)));
-  }
-
-  private void decodePendingReviewers(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setPendingReviewers(
-        ChangeField.parseReviewerFieldValues(
-            cd.getId(),
-            FluentIterable.from(doc.get(PENDING_REVIEWER_FIELD))
-                .transform(IndexableField::stringValue)));
-  }
-
-  private void decodePendingReviewersByEmail(
-      ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setPendingReviewersByEmail(
-        ChangeField.parseReviewerByEmailFieldValues(
-            cd.getId(),
-            FluentIterable.from(doc.get(PENDING_REVIEWER_BY_EMAIL_FIELD))
-                .transform(IndexableField::stringValue)));
-  }
-
-  private void decodeAttentionSet(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    ChangeField.parseAttentionSet(
-        doc.get(ATTENTION_SET_FULL_FIELD).stream()
-            .map(field -> field.binaryValue().utf8ToString())
-            .collect(toImmutableSet()),
-        cd);
-  }
-
-  private void decodeSubmitRecords(
-      ListMultimap<String, IndexableField> doc,
-      String field,
-      SubmitRuleOptions opts,
-      ChangeData cd) {
-    ChangeField.parseSubmitRecords(
-        Collections2.transform(doc.get(field), f -> f.binaryValue().utf8ToString()), opts, cd);
-  }
-
-  private void decodeRefStates(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setRefStates(RefState.parseStates(copyAsBytes(doc.get(REF_STATE_FIELD))));
-  }
-
-  private void decodeRefStatePatterns(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setRefStatePatterns(copyAsBytes(doc.get(REF_STATE_PATTERN_FIELD)));
-  }
-
-  private void decodeUnresolvedCommentCount(
-      ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    decodeIntField(doc, UNRESOLVED_COMMENT_COUNT_FIELD, cd::setUnresolvedCommentCount);
-  }
-
-  private void decodeTotalCommentCount(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    decodeIntField(doc, TOTAL_COMMENT_COUNT_FIELD, cd::setTotalCommentCount);
-  }
-
-  private static void decodeIntField(
-      ListMultimap<String, IndexableField> doc, String fieldName, Consumer<Integer> consumer) {
-    IndexableField f = Iterables.getFirst(doc.get(fieldName), null);
-    if (f != null && f.numericValue() != null) {
-      consumer.accept(f.numericValue().intValue());
-    }
-  }
-
-  private void decodeMergedOn(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    IndexableField mergedOnField =
-        Iterables.getFirst(doc.get(MERGED_ON_FIELD), /* defaultValue= */ null);
-    Timestamp mergedOn = null;
-    if (mergedOnField != null && mergedOnField.numericValue() != null) {
-      mergedOn = new Timestamp(mergedOnField.numericValue().longValue());
-    }
-    cd.setMergedOn(mergedOn);
-  }
-
-  private static <T> List<T> decodeProtos(
-      ListMultimap<String, IndexableField> doc, String fieldName, ProtoConverter<?, T> converter) {
-    return doc.get(fieldName).stream()
-        .map(IndexableField::binaryValue)
-        .map(bytesRef -> parseProtoFrom(bytesRef, converter))
-        .collect(toImmutableList());
   }
 
   private static <P extends MessageLite, T> T parseProtoFrom(

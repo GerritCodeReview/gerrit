@@ -14,7 +14,10 @@
 
 package com.google.gerrit.index.query;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.FieldType;
 import com.google.gerrit.json.JavaSqlTimestampHelper;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -32,6 +35,18 @@ public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
 
   protected TimestampRangePredicate(FieldDef<I, Timestamp> def, String name, String value) {
     super(def, name, value);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public boolean match(I object) {
+    checkState(getField().getType().getName().equals(FieldType.TIMESTAMP.getName()));
+    Timestamp timestamp = (Timestamp) getField().get(object);
+    if (timestamp == null) {
+      return false;
+    }
+    return timestamp.getTime() >= getMinTimestamp().getTime()
+        && timestamp.getTime() <= getMaxTimestamp().getTime();
   }
 
   protected Timestamp getValueTimestamp(I object) {

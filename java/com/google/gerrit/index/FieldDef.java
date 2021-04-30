@@ -15,6 +15,7 @@
 package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.CharMatcher;
@@ -65,6 +66,11 @@ public final class FieldDef<I, T> {
     T get(I input) throws IOException;
   }
 
+  @FunctionalInterface
+  public interface Setter<I, T> {
+    void set(I object, T value);
+  }
+
   public static class Builder<T> {
     private final FieldType<T> type;
     private final String name;
@@ -81,11 +87,20 @@ public final class FieldDef<I, T> {
     }
 
     public <I> FieldDef<I, T> build(Getter<I, T> getter) {
-      return new FieldDef<>(name, type, stored, false, getter);
+      return new FieldDef<>(name, type, stored, false, getter, null);
+    }
+
+    public <I> FieldDef<I, T> build(Getter<I, T> getter, Setter<I, T> setter) {
+      return new FieldDef<>(name, type, stored, false, getter, setter);
     }
 
     public <I> FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
-      return new FieldDef<>(name, type, stored, true, getter);
+      return new FieldDef<>(name, type, stored, true, getter, null);
+    }
+
+    public <I> FieldDef<I, Iterable<T>> buildRepeatable(
+        Getter<I, Iterable<T>> getter, Setter<I, Iterable<T>> setter) {
+      return new FieldDef<>(name, type, stored, true, getter, setter);
     }
   }
 
@@ -96,9 +111,15 @@ public final class FieldDef<I, T> {
 
   private final boolean repeatable;
   private final Getter<I, T> getter;
+  @Nullable private final Setter<I, T> setter;
 
   private FieldDef(
-      String name, FieldType<?> type, boolean stored, boolean repeatable, Getter<I, T> getter) {
+      String name,
+      FieldType<?> type,
+      boolean stored,
+      boolean repeatable,
+      Getter<I, T> getter,
+      @Nullable Setter<I, T> setter) {
     checkArgument(
         !(repeatable && type == FieldType.INTEGER_RANGE),
         "Range queries against repeated fields are unsupported");
@@ -107,6 +128,7 @@ public final class FieldDef<I, T> {
     this.stored = stored;
     this.repeatable = repeatable;
     this.getter = requireNonNull(getter);
+    this.setter = setter;
   }
 
   private static String checkName(String name) {
@@ -145,8 +167,64 @@ public final class FieldDef<I, T> {
     }
   }
 
+  /**
+   * Set the field contents back to an object. Used to reconstruct fields from indexed values. No-op
+   * if the field can't be reconstructed.
+   *
+   * @param object input object.
+   * @param doc indexed document
+   * @return the field value(s) to index.
+   */
+  @SuppressWarnings("unchecked")
+  public void setIfPossible(I object, IndexedDocument doc) {
+    if (setter == null) {
+      return;
+    }
+
+    if (FieldType.STRING_TYPES.stream().anyMatch(t -> t.getName().equals(getType().getName()))) {
+      setter.set(object, (T) (isRepeatable() ? doc.stringValues() : doc.stringValue()));
+    } else if (FieldType.INTEGER_TYPES.stream()
+        .anyMatch(t -> t.getName().equals(getType().getName()))) {
+      setter.set(object, (T) (isRepeatable() ? doc.integerValues() : doc.integerValue()));
+    } else if (FieldType.LONG.getName().equals(getType().getName())) {
+      setter.set(object, (T) (isRepeatable() ? doc.longValues() : doc.longValue()));
+    } else if (FieldType.STORED_ONLY.getName().equals(getType().getName())) {
+      setter.set(object, (T) (isRepeatable() ? doc.rawValues() : doc.rawValue()));
+    } else if (FieldType.TIMESTAMP.getName().equals(getType().getName())) {
+      checkState(!isRepeatable(), "can't repeat timestamp values");
+      setter.set(object, (T) doc.timestampValue());
+    }
+  }
+
+  /** Copy field from one object to another. */
+  public void copyField(I from, I to) {
+    if (setter != null) {
+      setter.set(to, get(from));
+    }
+  }
+
   /** @return whether the field is repeatable. */
   public boolean isRepeatable() {
     return repeatable;
+  }
+
+  public interface IndexedDocument {
+    String stringValue();
+
+    Iterable<String> stringValues();
+
+    Integer integerValue();
+
+    Iterable<Integer> integerValues();
+
+    Long longValue();
+
+    Timestamp timestampValue();
+
+    Iterable<Long> longValues();
+
+    byte[] rawValue();
+
+    Iterable<byte[]> rawValues();
   }
 }

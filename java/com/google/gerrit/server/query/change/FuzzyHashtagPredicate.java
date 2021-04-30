@@ -25,14 +25,4 @@ public class FuzzyHashtagPredicate extends ChangeIndexPredicate {
     super(FUZZY_HASHTAG, hashtag.toLowerCase());
     this.index = index;
   }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    return cd.hashtags().stream().anyMatch(ht -> ht.toLowerCase().contains(getValue()));
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

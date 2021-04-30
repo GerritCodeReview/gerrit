@@ -42,13 +42,4 @@ public class AgePredicate extends TimestampRangeChangePredicate {
   public Timestamp getMaxTimestamp() {
     return new Timestamp(cut);
   }
-
-  @Override
-  public boolean match(ChangeData object) {
-    Timestamp valueTimestamp = this.getValueTimestamp(object);
-    if (valueTimestamp == null) {
-      return false;
-    }
-    return valueTimestamp.getTime() <= cut;
-  }
 }

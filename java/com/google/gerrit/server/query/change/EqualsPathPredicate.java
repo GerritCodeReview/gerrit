@@ -15,20 +15,9 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.change.ChangeField;
-import java.util.Collections;
 
 public class EqualsPathPredicate extends ChangeIndexPredicate {
   public EqualsPathPredicate(String fieldName, String value) {
     super(ChangeField.PATH, fieldName, value);
-  }
-
-  @Override
-  public boolean match(ChangeData object) {
-    return Collections.binarySearch(object.currentFilePaths(), value) >= 0;
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

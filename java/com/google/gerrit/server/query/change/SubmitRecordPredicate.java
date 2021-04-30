@@ -38,14 +38,4 @@ public class SubmitRecordPredicate extends ChangeIndexPredicate {
   private SubmitRecordPredicate(String value) {
     super(ChangeField.SUBMIT_RECORD, value);
   }
-
-  @Override
-  public boolean match(ChangeData in) {
-    return ChangeField.formatSubmitRecordValues(in).contains(getValue());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

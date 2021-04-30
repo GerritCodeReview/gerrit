@@ -17,21 +17,10 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_COMMITTER;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_EXACTCOMMITTER;
 
-import com.google.gerrit.server.index.change.ChangeField;
 import java.util.Locale;
 
 public class ExactCommitterPredicate extends ChangeIndexPredicate {
   public ExactCommitterPredicate(String value) {
     super(EXACT_COMMITTER, FIELD_EXACTCOMMITTER, value.toLowerCase(Locale.US));
-  }
-
-  @Override
-  public boolean match(ChangeData object) {
-    return ChangeField.getCommitterNameAndEmail(object).contains(getValue());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

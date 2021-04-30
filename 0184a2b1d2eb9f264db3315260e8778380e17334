@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ce98668_e84ec077",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-30T10:57:12Z",
+      "side": 1,
+      "message": "Should we cherry-pick this series to stable-3.4 branch?",
+      "revId": "0184a2b1d2eb9f264db3315260e8778380e17334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

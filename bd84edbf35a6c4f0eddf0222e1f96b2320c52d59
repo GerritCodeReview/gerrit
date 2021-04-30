@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49266394_71ec683b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-30T00:33:53Z",
+      "side": 1,
+      "message": "OK, I do understand now the logic. One suggestion: when you need to explain the logic in a test, that means the test isn\u0027t trivial, which means that it would more likely to break in the future.\n\nWhy not making different methods for the different cases, instead of having conditional logic inside?",
+      "parentUuid": "da6f7567_3b455452",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "bd84edbf35a6c4f0eddf0222e1f96b2320c52d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c799cc5_e77ca1df",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
         "patchSetId": 2
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "See my previous reply.",
       "parentUuid": "7c799cc5_e77ca1df",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 40
+      },
+      "revId": "bd84edbf35a6c4f0eddf0222e1f96b2320c52d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c41a9afe_00837abc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-30T00:33:53Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "dc8b6791_a893521d",
       "range": {
         "startLine": 67,
         "startChar": 4,

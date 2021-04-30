@@ -45,6 +45,7 @@ import com.google.gerrit.httpd.auth.restapi.OAuthRestModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.httpd.raw.StaticModule;
 import com.google.gerrit.index.IndexType;
+import com.google.gerrit.index.testing.FakeIndexModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
@@ -86,6 +87,7 @@ import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
+import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
@@ -335,7 +337,7 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public void setLuceneModule(LuceneIndexModule m) {
+  public void setIndexModule(AbstractIndexModule m) {
     luceneModule = m;
     inMemoryTest = true;
   }
@@ -530,6 +532,9 @@ public class Daemon extends SiteProgram {
     }
     if (indexType.isElasticsearch()) {
       return ElasticIndexModule.latestVersion(replica);
+    }
+    if (indexType.isFake()) {
+      return FakeIndexModule.latestVersion(replica);
     }
     throw new IllegalStateException("unsupported index.type = " + indexType);
   }

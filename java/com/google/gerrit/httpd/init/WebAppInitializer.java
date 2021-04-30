@@ -41,6 +41,7 @@ import com.google.gerrit.httpd.auth.restapi.OAuthRestModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.httpd.raw.StaticModule;
 import com.google.gerrit.index.IndexType;
+import com.google.gerrit.index.testing.FakeIndexModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -364,6 +365,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       return LuceneIndexModule.latestVersion(false);
     } else if (indexType.isElasticsearch()) {
       return ElasticIndexModule.latestVersion(false);
+    } else if (indexType.isFake()) {
+      return FakeIndexModule.latestVersion(false);
     } else {
       throw new IllegalStateException("unsupported index.type = " + indexType);
     }

@@ -97,8 +97,13 @@ suite('gr-diff-builder tests', () => {
       return section;
     }
 
+    let diffInfo;
+    let renderPrefs;
+
     setup(() => {
-      builder = new GrDiffBuilder({content: []}, prefs, null, []);
+      diffInfo = {content: []};
+      renderPrefs = {};
+      builder = new GrDiffBuilder(diffInfo, prefs, null, [], renderPrefs);
     });
 
     test('no +10 buttons for 10 or less lines', () => {
@@ -148,6 +153,70 @@ suite('gr-diff-builder tests', () => {
 
       assert.include([...buttons[0].classList.values()], 'aboveButton');
       assert.include([...buttons[1].classList.values()], 'aboveButton');
+    });
+
+    suite('with block expansion', () => {
+      setup(() => {
+        builder._numLinesLeft = 50;
+        renderPrefs.use_block_expansion = true;
+        diffInfo.meta_b = {
+          syntax_tree: [],
+        };
+      });
+
+      test('context control with block expansion at the top', () => {
+        const section = createContextSectionForGroups({offset: 0, count: 20});
+
+        const fullExpansionButtons = section
+            .querySelectorAll('.fullExpansion gr-button');
+        const partialExpansionButtons = section
+            .querySelectorAll('.partialExpansion gr-button');
+        const blockExpansionButtons = section
+            .querySelectorAll('.blockExpansion gr-button');
+        assert.equal(fullExpansionButtons.length, 1);
+        assert.equal(partialExpansionButtons.length, 1);
+        assert.equal(blockExpansionButtons.length, 1);
+        assert.equal(blockExpansionButtons[0].textContent, '+Block');
+        assert.include([...blockExpansionButtons[0].classList.values()],
+            'belowButton');
+      });
+
+      test('context control in the middle', () => {
+        const section = createContextSectionForGroups({offset: 10, count: 20});
+
+        const fullExpansionButtons = section
+            .querySelectorAll('.fullExpansion gr-button');
+        const partialExpansionButtons = section
+            .querySelectorAll('.partialExpansion gr-button');
+        const blockExpansionButtons = section
+            .querySelectorAll('.blockExpansion gr-button');
+        assert.equal(fullExpansionButtons.length, 1);
+        assert.equal(partialExpansionButtons.length, 2);
+        assert.equal(blockExpansionButtons.length, 2);
+        assert.equal(blockExpansionButtons[0].textContent, '+Block');
+        assert.equal(blockExpansionButtons[1].textContent, '+Block');
+        assert.include([...blockExpansionButtons[0].classList.values()],
+            'aboveButton');
+        assert.include([...blockExpansionButtons[1].classList.values()],
+            'belowButton');
+      });
+
+      test('context control at the bottom', () => {
+        const section = createContextSectionForGroups({offset: 30, count: 20});
+
+        const fullExpansionButtons = section
+            .querySelectorAll('.fullExpansion gr-button');
+        const partialExpansionButtons = section
+            .querySelectorAll('.partialExpansion gr-button');
+        const blockExpansionButtons = section
+            .querySelectorAll('.blockExpansion gr-button');
+        assert.equal(fullExpansionButtons.length, 1);
+        assert.equal(partialExpansionButtons.length, 1);
+        assert.equal(blockExpansionButtons.length, 1);
+        assert.equal(blockExpansionButtons[0].textContent, '+Block');
+        assert.include([...blockExpansionButtons[0].classList.values()],
+            'aboveButton');
+      });
     });
   });
 

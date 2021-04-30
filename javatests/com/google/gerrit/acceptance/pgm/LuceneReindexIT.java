@@ -14,9 +14,14 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import com.google.inject.Injector;
+import com.google.gerrit.testing.ConfigSuite;
+import org.eclipse.jgit.lib.Config;
 
-public class ReindexIT extends AbstractReindexTests {
-  @Override
-  public void configureIndex(Injector injector) {}
+public class LuceneReindexIT extends AbstractReindexTests {
+  @ConfigSuite.Default
+  public static Config luceneConfig() {
+    Config cfg = new Config();
+    cfg.setString("index", null, "type", "lucene");
+    return cfg;
+  }
 }

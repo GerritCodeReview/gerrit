@@ -54,7 +54,6 @@ import {PatchSetNumber} from '../../types/common';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {assertIsDefined} from '../../utils/common-util';
-import {ReportingService} from '../gr-reporting/gr-reporting';
 
 export class ChecksService {
   private readonly providers: {[name: string]: ChecksProvider} = {};
@@ -65,7 +64,7 @@ export class ChecksService {
 
   private readonly documentVisibilityChange$ = new BehaviorSubject(undefined);
 
-  constructor(readonly reporting: ReportingService) {
+  constructor() {
     checkToPluginMap$.subscribe(map => {
       this.checkToPluginMap = map;
     });
@@ -151,7 +150,8 @@ export class ChecksService {
               commmitMessage: getCurrentRevision(change)?.commit?.message,
               changeInfo: change,
             };
-            return this.fetchResults(pluginName, data);
+            updateStateSetLoading(pluginName);
+            return from(this.providers[pluginName].fetch(data));
           }
         ),
         catchError(e => {
@@ -182,17 +182,5 @@ export class ChecksService {
             break;
         }
       });
-  }
-
-  private fetchResults(pluginName: string, data: ChangeData) {
-    updateStateSetLoading(pluginName);
-    const timer = this.reporting.getTimer('ChecksPluginFetch');
-    const fetchPromise = this.providers[pluginName]
-      .fetch(data)
-      .then(response => {
-        timer.end({pluginName});
-        return response;
-      });
-    return from(fetchPromise);
   }
 }

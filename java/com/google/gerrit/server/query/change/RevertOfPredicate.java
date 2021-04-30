@@ -20,17 +20,4 @@ public class RevertOfPredicate extends ChangeIndexPredicate {
   public RevertOfPredicate(String revertOf) {
     super(ChangeField.REVERT_OF, revertOf);
   }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    if (cd.change().getRevertOf() == null) {
-      return false;
-    }
-    return cd.change().getRevertOf().toString().equals(value);
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

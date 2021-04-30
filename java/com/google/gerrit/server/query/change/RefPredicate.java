@@ -14,25 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 
 public class RefPredicate extends ChangeIndexPredicate {
   public RefPredicate(String ref) {
     super(ChangeField.REF, ref);
-  }
-
-  @Override
-  public boolean match(ChangeData object) {
-    Change change = object.change();
-    if (change == null) {
-      return false;
-    }
-    return getValue().equals(change.getDest().branch());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

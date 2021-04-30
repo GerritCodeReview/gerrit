@@ -24,14 +24,4 @@ public class EditByPredicate extends ChangeIndexPredicate {
     super(ChangeField.EDITBY, id.toString());
     this.id = id;
   }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    return cd.editsByUser().contains(id);
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

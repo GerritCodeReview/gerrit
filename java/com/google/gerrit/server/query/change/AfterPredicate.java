@@ -41,13 +41,4 @@ public class AfterPredicate extends TimestampRangeChangePredicate {
   public Date getMaxTimestamp() {
     return new Date(Long.MAX_VALUE);
   }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    Timestamp valueTimestamp = this.getValueTimestamp(cd);
-    if (valueTimestamp == null) {
-      return false;
-    }
-    return valueTimestamp.getTime() >= cut.getTime();
-  }
 }

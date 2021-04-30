@@ -14,7 +14,10 @@
 
 package com.google.gerrit.index.query;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.query.RangeUtil.Range;
 
 public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
@@ -29,13 +32,13 @@ public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
     }
   }
 
-  protected abstract Integer getValueInt(T object);
-
+  @Override
+  @SuppressWarnings("unchecked")
   public boolean match(T object) {
-    Integer valueInt = getValueInt(object);
-    if (valueInt == null) {
-      return false;
-    }
+    checkState(
+        getField().getType().getName().equals(FieldType.INTEGER_RANGE.getName())
+            || getField().getType().getName().equals(FieldType.INTEGER.getName()));
+    Integer valueInt = (Integer) getField().get(object);
     return valueInt >= range.min && valueInt <= range.max;
   }
 

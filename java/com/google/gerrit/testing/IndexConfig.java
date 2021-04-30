@@ -50,4 +50,8 @@ public class IndexConfig {
 
     return cfg;
   }
+
+  public static Config createForFake() {
+    return create();
+  }
 }

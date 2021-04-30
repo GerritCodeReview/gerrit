@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index;
 
+import com.google.common.collect.ImmutableList;
 import java.sql.Timestamp;
 
 /** Document field types supported by the secondary index system. */
@@ -41,6 +42,12 @@ public class FieldType<T> {
 
   /** A field that is only stored as raw bytes and cannot be queried. */
   public static final FieldType<byte[]> STORED_ONLY = new FieldType<>("STORED_ONLY");
+
+  public static final ImmutableList<FieldType<String>> STRING_TYPES =
+      ImmutableList.of(EXACT, PREFIX, FULL_TEXT);
+
+  public static final ImmutableList<FieldType<Integer>> INTEGER_TYPES =
+      ImmutableList.of(INTEGER_RANGE, INTEGER);
 
   private final String name;
 

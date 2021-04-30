@@ -29,6 +29,7 @@ import com.google.gerrit.common.Nullable;
 public class IndexType {
   private static final String LUCENE = "lucene";
   private static final String ELASTICSEARCH = "elasticsearch";
+  private static final String FAKE = "fake";
 
   private final String type;
 
@@ -41,7 +42,7 @@ public class IndexType {
   }
 
   public static ImmutableSet<String> getKnownTypes() {
-    return ImmutableSet.of(LUCENE, ELASTICSEARCH);
+    return ImmutableSet.of(LUCENE, ELASTICSEARCH, FAKE);
   }
 
   public boolean isLucene() {
@@ -50,6 +51,10 @@ public class IndexType {
 
   public boolean isElasticsearch() {
     return type.equals(ELASTICSEARCH);
+  }
+
+  public boolean isFake() {
+    return type.equals(FAKE);
   }
 
   @Override

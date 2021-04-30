@@ -26,14 +26,4 @@ public class LegacyChangeIdPredicate extends ChangeIndexPredicate {
     super(LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
     this.id = id;
   }
-
-  @Override
-  public boolean match(ChangeData object) {
-    return id.equals(object.getId());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

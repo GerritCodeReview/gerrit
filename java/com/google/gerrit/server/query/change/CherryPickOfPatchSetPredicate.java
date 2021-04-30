@@ -22,14 +22,6 @@ public class CherryPickOfPatchSetPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) {
-    if (cd.change().getCherryPickOf() == null) {
-      return false;
-    }
-    return cd.change().getCherryPickOf().getId().equals(value);
-  }
-
-  @Override
   public int getCost() {
     return 1;
   }

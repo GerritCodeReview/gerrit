@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.index.change.ChangeField;
 
@@ -25,21 +24,5 @@ public class ProjectPredicate extends ChangeIndexPredicate {
 
   protected Project.NameKey getValueKey() {
     return Project.nameKey(getValue());
-  }
-
-  @Override
-  public boolean match(ChangeData object) {
-    Change change = object.change();
-    if (change == null) {
-      return false;
-    }
-
-    Project.NameKey p = change.getDest().project();
-    return p.equals(getValueKey());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
-
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.index.change.ChangeField;
 
@@ -26,16 +24,5 @@ public class AttentionSetPredicate extends ChangeIndexPredicate {
   AttentionSetPredicate(Account.Id id) {
     super(ChangeField.ATTENTION_SET_USERS, id.toString());
     this.id = id;
-  }
-
-  @Override
-  public boolean match(ChangeData changeData) {
-    return additionsOnly(changeData.attentionSet()).stream()
-        .anyMatch(update -> update.account().equals(id));
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

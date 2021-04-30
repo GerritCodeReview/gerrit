@@ -122,6 +122,8 @@ import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
 import com.google.inject.util.Providers;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -365,6 +367,20 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       return LuceneIndexModule.latestVersion(false);
     } else if (indexType.isElasticsearch()) {
       return ElasticIndexModule.latestVersion(false);
+    } else if (indexType.isFake()) {
+      // Use Reflection so that we can omit the fake index binary in production code. Test code does
+      // compile the
+      // component in.
+      try {
+        Class<?> clazz = Class.forName("com.google.gerrit.index.testing.FakeIndexModule");
+        Method m = clazz.getMethod("latestVersion", boolean.class);
+        return (Module) m.invoke(null, false);
+      } catch (NoSuchMethodException
+          | ClassNotFoundException
+          | IllegalAccessException
+          | InvocationTargetException e) {
+        throw new IllegalStateException("can't create index", e);
+      }
     } else {
       throw new IllegalStateException("unsupported index.type = " + indexType);
     }

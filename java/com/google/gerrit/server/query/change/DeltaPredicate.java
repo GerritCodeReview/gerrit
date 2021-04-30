@@ -21,9 +21,4 @@ public class DeltaPredicate extends IntegerRangeChangePredicate {
   public DeltaPredicate(String value) throws QueryParseException {
     super(ChangeField.DELTA, value);
   }
-
-  @Override
-  protected Integer getValueInt(ChangeData changeData) {
-    return ChangeField.DELTA.get(changeData);
-  }
 }

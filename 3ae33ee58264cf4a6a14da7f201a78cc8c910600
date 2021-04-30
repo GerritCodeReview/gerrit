@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cdde335_5bf01a29",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-30T17:20:38Z",
+      "side": 1,
+      "message": "Changed to return number. Much cleaner.\nMoved _computeDraftCount to comment-api as well.",
+      "parentUuid": "51608d3e_548d369a",
+      "range": {
+        "startLine": 660,
+        "startChar": 8,
+        "endLine": 660,
+        "endChar": 18
+      },
+      "revId": "3ae33ee58264cf4a6a14da7f201a78cc8c910600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca699701_c799e5fa",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-04-30T09:44:11Z",
       "side": 1,
       "message": "Does this have to be changed, as well?\n\nShould the new logic above be moved into _computeDraftCount()?",
+      "revId": "3ae33ee58264cf4a6a14da7f201a78cc8c910600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13955629_c272b432",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-30T17:20:38Z",
+      "side": 1,
+      "message": "Yeah, updated this and moved the old file logic to _computeDraftCount.",
+      "parentUuid": "ca699701_c799e5fa",
       "revId": "3ae33ee58264cf4a6a14da7f201a78cc8c910600",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c17acf53_e97206a8",
+        "filename": "polygerrit-ui/app/utils/path-list-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-30T17:20:38Z",
+      "side": 1,
+      "message": "I think I need to consider more cases before making a proper comment but I tried to write a few lines.",
+      "parentUuid": "5e7e0cea_8da18fff",
+      "revId": "3ae33ee58264cf4a6a14da7f201a78cc8c910600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09fb420b_aec17ec6",
@@ -71,6 +131,30 @@
       "writtenOn": "2021-04-30T09:44:11Z",
       "side": 1,
       "message": "FileInfoStatus.RENAMED",
+      "range": {
+        "startLine": 81,
+        "startChar": 32,
+        "endLine": 81,
+        "endChar": 35
+      },
+      "revId": "3ae33ee58264cf4a6a14da7f201a78cc8c910600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a110be70_ef32cf8c",
+        "filename": "polygerrit-ui/app/utils/path-list-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-04-30T17:20:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09fb420b_aec17ec6",
       "range": {
         "startLine": 81,
         "startChar": 32,

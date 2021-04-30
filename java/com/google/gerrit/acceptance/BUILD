@@ -75,6 +75,7 @@ TEST_DEPS = [
     "//java/com/google/gerrit/extensions/restapi/testing:restapi-test-util",
     "//java/com/google/gerrit/gpg/testing:gpg-test-util",
     "//java/com/google/gerrit/git/testing",
+    "//java/com/google/gerrit/index/testing",
 ]
 
 PGM_DEPLOY_ENV = [

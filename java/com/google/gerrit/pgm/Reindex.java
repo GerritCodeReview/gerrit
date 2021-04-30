@@ -25,6 +25,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.SiteIndexer;
+import com.google.gerrit.index.testing.FakeIndexModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
@@ -154,6 +155,8 @@ public class Reindex extends SiteProgram {
     } else if (indexType.isElasticsearch()) {
       indexModule =
           ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
+    } else if (indexType.isFake()) {
+      indexModule = FakeIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
     } else {
       throw new IllegalStateException("unsupported index.type = " + indexType);
     }

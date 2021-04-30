@@ -33,6 +33,7 @@ import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.LibraryDownload;
 import com.google.gerrit.pgm.init.index.IndexManagerOnInit;
 import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
+import com.google.gerrit.pgm.init.index.fake.FakeIndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -418,6 +419,8 @@ public class BaseInit extends SiteProgram {
         modules.add(new LuceneIndexModuleOnInit());
       } else if (indexType.isElasticsearch()) {
         modules.add(new ElasticIndexModuleOnInit());
+      } else if (indexType.isFake()) {
+        modules.add(new FakeIndexModuleOnInit());
       } else {
         throw new IllegalStateException("unsupported index.type = " + indexType);
       }

@@ -86,6 +86,7 @@ import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
+import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
@@ -335,7 +336,7 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public void setLuceneModule(LuceneIndexModule m) {
+  public void setIndexModule(AbstractIndexModule m) {
     luceneModule = m;
     inMemoryTest = true;
   }

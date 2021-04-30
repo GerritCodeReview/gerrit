@@ -65,6 +65,11 @@ public final class FieldDef<I, T> {
     T get(I input) throws IOException;
   }
 
+  @FunctionalInterface
+  public interface Setter<I, T> {
+    void set(I object, T value);
+  }
+
   public static class Builder<T> {
     private final FieldType<T> type;
     private final String name;
@@ -81,11 +86,20 @@ public final class FieldDef<I, T> {
     }
 
     public <I> FieldDef<I, T> build(Getter<I, T> getter) {
-      return new FieldDef<>(name, type, stored, false, getter);
+      return new FieldDef<>(name, type, stored, false, getter, null);
+    }
+
+    public <I> FieldDef<I, T> build(Getter<I, T> getter, Setter<I, T> setter) {
+      return new FieldDef<>(name, type, stored, false, getter, setter);
     }
 
     public <I> FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
-      return new FieldDef<>(name, type, stored, true, getter);
+      return new FieldDef<>(name, type, stored, true, getter, null);
+    }
+
+    public <I> FieldDef<I, Iterable<T>> buildRepeatable(
+        Getter<I, Iterable<T>> getter, Setter<I, Iterable<T>> setter) {
+      return new FieldDef<>(name, type, stored, true, getter, setter);
     }
   }
 
@@ -96,9 +110,15 @@ public final class FieldDef<I, T> {
 
   private final boolean repeatable;
   private final Getter<I, T> getter;
+  @Nullable private final Setter<I, T> setter;
 
   private FieldDef(
-      String name, FieldType<?> type, boolean stored, boolean repeatable, Getter<I, T> getter) {
+      String name,
+      FieldType<?> type,
+      boolean stored,
+      boolean repeatable,
+      Getter<I, T> getter,
+      @Nullable Setter<I, T> setter) {
     checkArgument(
         !(repeatable && type == FieldType.INTEGER_RANGE),
         "Range queries against repeated fields are unsupported");
@@ -107,6 +127,7 @@ public final class FieldDef<I, T> {
     this.stored = stored;
     this.repeatable = repeatable;
     this.getter = requireNonNull(getter);
+    this.setter = setter;
   }
 
   private static String checkName(String name) {
@@ -142,6 +163,20 @@ public final class FieldDef<I, T> {
       return getter.get(input);
     } catch (IOException e) {
       throw new StorageException(e);
+    }
+  }
+
+  /**
+   * Set the field contents back to an object. Used to reconstruct fields from indexed values. No-op
+   * if the field can't be reconstructed.
+   *
+   * @param object input object.
+   * @param value input object.
+   * @return the field value(s) to index.
+   */
+  public void setIfPossible(I object, T value) {
+    if (setter != null) {
+      setter.set(object, value);
     }
   }
 

@@ -26,16 +26,6 @@ public class HasStarsPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData cd) {
-    return cd.stars().containsKey(accountId);
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
-
-  @Override
   public String toString() {
     return ChangeQueryBuilder.FIELD_STARBY + ":" + accountId;
   }

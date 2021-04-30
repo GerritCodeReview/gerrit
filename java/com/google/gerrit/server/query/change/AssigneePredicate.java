@@ -24,18 +24,4 @@ public class AssigneePredicate extends ChangeIndexPredicate {
     super(ChangeField.ASSIGNEE, id.toString());
     this.id = id;
   }
-
-  @Override
-  public boolean match(ChangeData object) {
-    if (id.get() == ChangeField.NO_ASSIGNEE) {
-      Account.Id assignee = object.change().getAssignee();
-      return assignee == null;
-    }
-    return id.equals(object.change().getAssignee());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

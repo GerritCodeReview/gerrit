@@ -14,28 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.index.change.ChangeField;
-import java.util.List;
 
 public class GroupPredicate extends ChangeIndexPredicate {
   public GroupPredicate(String group) {
     super(ChangeField.GROUP, group);
-  }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    for (PatchSet ps : cd.patchSets()) {
-      List<String> groups = ps.groups();
-      if (groups != null && groups.contains(getValue())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

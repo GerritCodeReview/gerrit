@@ -32,14 +32,4 @@ public class FooterPredicate extends ChangeIndexPredicate {
   FooterPredicate(String value) {
     super(ChangeField.FOOTER, clean(value));
   }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    return ChangeField.getFooters(cd).contains(value);
-  }
-
-  @Override
-  public int getCost() {
-    return 0;
-  }
 }

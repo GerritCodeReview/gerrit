@@ -26,14 +26,4 @@ public class DirectoryPredicate extends ChangeIndexPredicate {
   DirectoryPredicate(String value) {
     super(ChangeField.DIRECTORY, clean(value));
   }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    return ChangeField.getDirectories(cd).contains(value);
-  }
-
-  @Override
-  public int getCost() {
-    return 0;
-  }
 }

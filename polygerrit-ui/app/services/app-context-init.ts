@@ -73,7 +73,7 @@ export function initAppContext() {
     authService: () => new Auth(appContext.eventEmitter),
     restApiService: () => new GrRestApiInterface(appContext.authService),
     changeService: () => new ChangeService(),
-    checksService: () => new ChecksService(),
+    checksService: () => new ChecksService(appContext.reportingService),
     jsApiService: () => new GrJsApiInterface(),
     storageService: () => new GrStorageService(),
     configService: () => new ConfigService(),

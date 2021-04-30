@@ -713,7 +713,7 @@ export class GrReporting implements ReportingService {
       },
 
       // Stop the timer and report the intervening time.
-      end: () => {
+      end: (eventDetails?: EventDetails) => {
         if (called) {
           throw new Error(`Timer for "${name}" already ended.`);
         }
@@ -725,7 +725,7 @@ export class GrReporting implements ReportingService {
           return timer;
         }
 
-        this._reportTiming(name, time);
+        this._reportTiming(name, time, eventDetails);
         return timer;
       },
 

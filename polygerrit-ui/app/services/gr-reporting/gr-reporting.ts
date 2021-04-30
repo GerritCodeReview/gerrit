@@ -24,7 +24,7 @@ export type EventValue = string | number | {error?: Error};
 
 export interface Timer {
   reset(): this;
-  end(): this;
+  end(eventDetails?: EventDetails): this;
   withMaximum(maximum: number): this;
 }
 

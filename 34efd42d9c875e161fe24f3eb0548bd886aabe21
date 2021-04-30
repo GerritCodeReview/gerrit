@@ -16,6 +16,23 @@
       "message": "Rebased and resolved conflicts. Please, re-approve. ",
       "revId": "34efd42d9c875e161fe24f3eb0548bd886aabe21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41e21881_3fbdaa6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-04-30T12:53:11Z",
+      "side": 1,
+      "message": "Re-approving.",
+      "revId": "34efd42d9c875e161fe24f3eb0548bd886aabe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

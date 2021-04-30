@@ -76,6 +76,8 @@ declare global {
     'gr-rpc-log': RpcLogEvent;
     'network-error': NetworkErrorEvent;
     'page-error': PageErrorEvent;
+    /* prettier-ignore */
+    'reload': ReloadEvent;
     'server-error': ServerErrorEvent;
     'show-alert': ShowAlertEvent;
     'show-error': ShowErrorEvent;

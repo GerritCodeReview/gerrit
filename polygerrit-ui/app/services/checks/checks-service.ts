@@ -75,6 +75,9 @@ export class ChecksService {
     document.addEventListener('visibilitychange', () => {
       this.documentVisibilityChange$.next(undefined);
     });
+    document.addEventListener('reload', () => {
+      this.reloadAll();
+    });
   }
 
   setPatchset(num: PatchSetNumber) {

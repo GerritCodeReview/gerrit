@@ -14,11 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.gerrit.index.IndexDefinition;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.TypeLiteral;
-import java.util.Collection;
 import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 
@@ -30,14 +25,6 @@ public final class ElasticTestUtils {
     config.setString("elasticsearch", null, "server", "http://" + hostname + ":" + port);
     config.setString("elasticsearch", null, "prefix", prefix);
     config.setInt("index", null, "maxLimit", 10000);
-  }
-
-  public static void createAllIndexes(Injector injector) {
-    Collection<IndexDefinition<?, ?, ?>> indexDefs =
-        injector.getInstance(Key.get(new TypeLiteral<Collection<IndexDefinition<?, ?, ?>>>() {}));
-    for (IndexDefinition<?, ?, ?> indexDef : indexDefs) {
-      indexDef.getIndexCollection().getSearchIndex().deleteAll();
-    }
   }
 
   public static Config getConfig(ElasticVersion version) {

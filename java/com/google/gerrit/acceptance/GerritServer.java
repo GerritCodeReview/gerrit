@@ -45,6 +45,8 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperationsImpl
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.index.IndexType;
+import com.google.gerrit.index.testing.FakeIndexModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
@@ -442,6 +444,14 @@ public class GerritServer implements AutoCloseable {
     // Set the log4j configuration to an invalid one to prevent system logs
     // from getting configured and creating log files.
     System.setProperty(SystemLog.LOG4J_CONFIGURATION, "invalidConfiguration");
+    String configuredIndexBackend = cfg.getString("index", null, "type");
+    IndexType indexType = new IndexType(MoreObjects.firstNonNull(configuredIndexBackend, "fake"));
+    if (indexType.isLucene()) {
+      daemon.setIndexModule(
+          LuceneIndexModule.singleVersionAllLatest(0, ReplicaUtil.isReplica(baseConfig)));
+    } else if (indexType.isFake()) {
+      daemon.setIndexModule(FakeIndexModule.latestVersion(false));
+    }
     cfg.setBoolean("httpd", null, "requestLog", false);
     cfg.setBoolean("sshd", null, "requestLog", false);
     cfg.setBoolean("index", "lucene", "testInmemory", true);
@@ -450,8 +460,7 @@ public class GerritServer implements AutoCloseable {
     cfg.setString(
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
     daemon.setEnableHttpd(desc.httpd());
-    daemon.setLuceneModule(
-        LuceneIndexModule.singleVersionAllLatest(0, ReplicaUtil.isReplica(baseConfig)));
+    daemon.setInMemory(true);
     daemon.setDatabaseForTesting(
         ImmutableList.of(
             new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),
@@ -476,6 +485,8 @@ public class GerritServer implements AutoCloseable {
       String[] additionalArgs)
       throws Exception {
     requireNonNull(site);
+    daemon.addAdditionalSysModuleForTesting(
+        new ReindexProjectsAtStartup.Module(), new ReindexGroupsAtStartup.Module());
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
     String[] args =
         Stream.concat(

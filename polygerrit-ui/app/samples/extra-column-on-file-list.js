@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
  * This plugin will an extra column to file list on change page to show
  * the first character of the path.

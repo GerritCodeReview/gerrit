@@ -15,14 +15,7 @@
  * limitations under the License.
  */
 
-// Element class exists in all browsers:
-// https://developer.mozilla.org/en-US/docs/Web/API/Element
-// Rename it to PolymerElement to avoid conflicts. Also,
-// typescript reports the following error:
-// error TS2451: Cannot redeclare block-scoped variable 'Element'.
-const {html, Element: PolymerElement} = Polymer;
-
-class SomeScreenMain extends PolymerElement {
+class SomeScreenMain extends Polymer.Element {
   static get is() { return 'some-screen-main'; }
 
   static get properties() {
@@ -32,7 +25,7 @@ class SomeScreenMain extends PolymerElement {
   }
 
   static get template() {
-    return html`
+    return Polymer.html`
       This is the <b>main</b> plugin screen at [[token]]
       <ul>
         <li><a href$="[[rootUrl]]/bar">without component</a></li>
@@ -46,7 +39,6 @@ class SomeScreenMain extends PolymerElement {
   }
 }
 
-// register the custom component
 customElements.define(SomeScreenMain.is, SomeScreenMain);
 
 /**

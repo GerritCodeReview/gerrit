@@ -149,7 +149,7 @@ If you don't expect action from reviewers, then consider adding them to CC
 instead.
 
 The "Assignee" feature can be turned on/off with the
-link:config-gerrit.html#change.enableAttentionSet[enableAssignee] config option.
+link:config-gerrit.html#change.enableAssignee[enableAssignee] config option.
 
 === Bold Changes / Mark Reviewed
 

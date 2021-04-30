@@ -97,7 +97,7 @@ public class ErrorLogJsonLayout extends JsonLayout {
 
     private String getSourceHost() {
       try {
-        return InetAddress.getLocalHost().getHostName();
+        return InetAddress.getLocalHost().getHostAddress();
       } catch (UnknownHostException e) {
         return "unknown-host";
       }

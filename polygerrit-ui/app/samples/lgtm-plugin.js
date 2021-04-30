@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
- * This plugin will +1 on Code-Review label if detect that you have
+ * This plugin will +1 on Code-Review label if it detects that you have
  * LGTM as start of your reply.
  */
 Gerrit.install(plugin => {

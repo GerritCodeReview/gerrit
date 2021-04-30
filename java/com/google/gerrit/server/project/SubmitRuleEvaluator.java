@@ -97,7 +97,7 @@ public class SubmitRuleEvaluator {
           throw new StorageException("Change not found");
         }
 
-        projectState = projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
+	projectState = projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
       } catch (NoSuchProjectException e) {
         throw new IllegalStateException("Unable to find project while evaluating submit rule", e);
       }

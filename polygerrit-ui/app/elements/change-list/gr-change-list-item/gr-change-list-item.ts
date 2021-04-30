@@ -72,6 +72,11 @@ export interface ChangeListToggleReviewedDetail {
   reviewed: boolean;
 }
 
+interface ChangeSizeAttribute {
+  text: string;
+  class: string;
+}
+
 // How many reviewers should be shown with an account-label?
 const PRIMARY_REVIEWERS_COUNT = 2;
 
@@ -113,8 +118,8 @@ export class GrChangeListItem extends ChangeTableMixin(PolymerElement) {
   @property({type: Boolean})
   showNumber = false;
 
-  @property({type: String, computed: '_computeChangeSize(change)'})
-  _changeSize?: string;
+  @property({type: Object, computed: '_computeChangeSize(change)'})
+  _changeSize?: ChangeSizeAttribute;
 
   @property({type: Array})
   _dynamicCellEndpoints?: string[];
@@ -377,15 +382,15 @@ export class GrChangeListItem extends ChangeTableMixin(PolymerElement) {
       return null; // Unknown
     }
     if (delta < ChangeSize.XS) {
-      return 'XS';
+      return {text: 'XS', class: 'XS-size-label'};
     } else if (delta < ChangeSize.SMALL) {
-      return 'S';
+      return {text: 'S', class: 'S-size-label'};
     } else if (delta < ChangeSize.MEDIUM) {
-      return 'M';
+      return {text: 'M', class: 'M-size-label'};
     } else if (delta < ChangeSize.LARGE) {
-      return 'L';
+      return {text: 'L', class: 'L-size-label'};
     } else {
-      return 'XL';
+      return {text: 'XL', class: 'XL-size-label'};
     }
   }
 

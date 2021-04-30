@@ -519,25 +519,25 @@ suite('gr-change-list-item tests', () => {
       }),
       null
     );
-    assert.equal(
+    assert.deepEqual(
       element._computeChangeSize({...change, insertions: 1, deletions: 1}),
-      'XS'
+      {text: 'XS', class: 'XS-size-label'}
     );
-    assert.equal(
+    assert.deepEqual(
       element._computeChangeSize({...change, insertions: 9, deletions: 1}),
-      'S'
+      {text: 'S', class: 'S-size-label'}
     );
-    assert.equal(
+    assert.deepEqual(
       element._computeChangeSize({...change, insertions: 10, deletions: 200}),
-      'M'
+      {text: 'M', class: 'M-size-label'}
     );
-    assert.equal(
+    assert.deepEqual(
       element._computeChangeSize({...change, insertions: 99, deletions: 900}),
-      'L'
+      {text: 'L', class: 'L-size-label'}
     );
-    assert.equal(
+    assert.deepEqual(
       element._computeChangeSize({...change, insertions: 99, deletions: 999}),
-      'XL'
+      {text: 'XL', class: 'XL-size-label'}
     );
   });
 

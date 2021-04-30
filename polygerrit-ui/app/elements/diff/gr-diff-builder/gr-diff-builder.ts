@@ -20,6 +20,7 @@ import {
   DiffContextExpandedExternalDetail,
   MovedLinkClickedEventDetail,
   RenderPreferences,
+  SyntaxBlock,
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
@@ -71,6 +72,19 @@ declare global {
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }
+}
+
+function findMostNestedContainingBlock(
+  lineNum: number,
+  blocks?: SyntaxBlock[]
+): SyntaxBlock | undefined {
+  const containingBlock = blocks?.find(
+    ({range}) => range.start_line < lineNum && range.end_line > lineNum
+  );
+  const containingChildBlock = containingBlock
+    ? findMostNestedContainingBlock(lineNum, containingBlock?.children)
+    : undefined;
+  return containingChildBlock || containingBlock;
 }
 
 export abstract class GrDiffBuilder {
@@ -314,9 +328,9 @@ export abstract class GrDiffBuilder {
     const leftStart = contextGroups[0].lineRange.left.start_line;
     const leftEnd =
       contextGroups[contextGroups.length - 1].lineRange.left.end_line;
-    const numLines = leftEnd - leftStart + 1;
-
-    if (numLines === 0) console.error('context group without lines');
+    const rightStart = contextGroups[0].lineRange.right.start_line;
+    const rightEnd =
+      contextGroups[contextGroups.length - 1].lineRange.right.end_line;
 
     const firstGroupIsSkipped = !!contextGroups[0].skip;
     const lastGroupIsSkipped = !!contextGroups[contextGroups.length - 1].skip;
@@ -335,7 +349,8 @@ export abstract class GrDiffBuilder {
         contextGroups,
         showAbove,
         showBelow,
-        numLines
+        rightStart,
+        rightEnd
       )
     );
     if (showBelow) {
@@ -354,8 +369,12 @@ export abstract class GrDiffBuilder {
     contextGroups: GrDiffGroup[],
     showAbove: boolean,
     showBelow: boolean,
-    numLines: number
+    rightStart: number,
+    rightEnd: number
   ): HTMLElement {
+    const numLines = rightEnd - rightStart + 1;
+    if (numLines === 0) console.error('context group without lines');
+
     const row = this._createElement('tr', 'contextDivider');
     if (!(showAbove && showBelow)) {
       row.classList.add('collapsed');
@@ -364,13 +383,55 @@ export abstract class GrDiffBuilder {
     const element = this._createElement('td', 'dividerCell');
     row.appendChild(element);
 
-    const showAllContainer = this._createElement('div', 'aboveBelowButtons');
+    const showAllContainer = this._createExpandAllButtonContainer(
+      section,
+      contextGroups,
+      showAbove,
+      showBelow,
+      numLines
+    );
     element.appendChild(showAllContainer);
 
+    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
+    if (showPartialLinks) {
+      const partialExpansionContainer = this._createPartialExpansionButtons(
+        section,
+        contextGroups,
+        showAbove,
+        showBelow,
+        numLines
+      );
+      if (partialExpansionContainer) {
+        element.appendChild(partialExpansionContainer);
+      }
+      const blockExpansionContainer = this._createBlockExpansionButtons(
+        section,
+        contextGroups,
+        showAbove,
+        showBelow,
+        rightStart,
+        rightEnd,
+        numLines
+      );
+      if (blockExpansionContainer) {
+        element.appendChild(blockExpansionContainer);
+      }
+    }
+    return row;
+  }
+
+  private _createExpandAllButtonContainer(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[],
+    showAbove: boolean,
+    showBelow: boolean,
+    numLines: number
+  ) {
     const showAllButton = this._createContextButton(
       ContextButtonType.ALL,
       section,
       contextGroups,
+      numLines,
       numLines
     );
     showAllButton.classList.add(
@@ -380,61 +441,120 @@ export abstract class GrDiffBuilder {
         ? 'aboveButton'
         : 'belowButton'
     );
+    const showAllContainer = this._createElement(
+      'div',
+      'aboveBelowButtons fullExpansion'
+    );
     showAllContainer.appendChild(showAllButton);
+    return showAllContainer;
+  }
 
-    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
-    if (showPartialLinks) {
-      const container = this._createElement('div', 'aboveBelowButtons');
-      if (showAbove) {
-        container.appendChild(
-          this._createContextButton(
-            ContextButtonType.ABOVE,
-            section,
-            contextGroups,
-            numLines
-          )
-        );
-      }
-      if (showBelow) {
-        container.appendChild(
-          this._createContextButton(
-            ContextButtonType.BELOW,
-            section,
-            contextGroups,
-            numLines
-          )
-        );
-      }
-      element.appendChild(container);
-      if (this._renderPrefs?.use_block_expansion) {
-        const blockExpansionContainer = this._createElement(
-          'div',
-          'aboveBelowButtons'
-        );
-        if (showAbove) {
-          blockExpansionContainer.appendChild(
-            this._createContextButton(
-              ContextButtonType.BLOCK_ABOVE,
-              section,
-              contextGroups,
-              numLines
-            )
-          );
-        }
-        if (showBelow) {
-          blockExpansionContainer.appendChild(
-            this._createContextButton(
-              ContextButtonType.BLOCK_BELOW,
-              section,
-              contextGroups,
-              numLines
-            )
-          );
-        }
-        element.appendChild(blockExpansionContainer);
-      }
+  private _createPartialExpansionButtons(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[],
+    showAbove: boolean,
+    showBelow: boolean,
+    numLines: number
+  ) {
+    let aboveButton;
+    let belowButton;
+    if (showAbove) {
+      aboveButton = this._createContextButton(
+        ContextButtonType.ABOVE,
+        section,
+        contextGroups,
+        numLines,
+        PARTIAL_CONTEXT_AMOUNT
+      );
     }
-    return row;
+    if (showBelow) {
+      belowButton = this._createContextButton(
+        ContextButtonType.BELOW,
+        section,
+        contextGroups,
+        numLines,
+        PARTIAL_CONTEXT_AMOUNT
+      );
+    }
+    if (aboveButton || belowButton) {
+      const partialExpansionContainer = this._createElement(
+        'div',
+        'aboveBelowButtons partialExpansion'
+      );
+      aboveButton && partialExpansionContainer.appendChild(aboveButton);
+      belowButton && partialExpansionContainer.appendChild(belowButton);
+      return partialExpansionContainer;
+    }
+    return undefined;
+  }
+
+  private _createBlockExpansionButtons(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[],
+    showAbove: boolean,
+    showBelow: boolean,
+    rightStart: number,
+    rightEnd: number,
+    numLines: number
+  ) {
+    if (!this._renderPrefs?.use_block_expansion) {
+      return undefined;
+    }
+    let aboveBlockButton;
+    let belowBlockButton;
+    const rightSyntaxTree = this._diff.meta_b.syntax_tree;
+    if (showAbove) {
+      const rightLineAbove = rightStart - 1;
+      const containingBlock = findMostNestedContainingBlock(
+        rightLineAbove,
+        rightSyntaxTree
+      );
+      const distanceToBlockEnd =
+        containingBlock && containingBlock.range.end_line - rightLineAbove;
+      const linesToExpand =
+        distanceToBlockEnd && distanceToBlockEnd < numLines
+          ? distanceToBlockEnd
+          : numLines;
+      aboveBlockButton = this._createContextButton(
+        ContextButtonType.BLOCK_ABOVE,
+        section,
+        contextGroups,
+        numLines,
+        linesToExpand
+      );
+    }
+    if (showBelow) {
+      const rightLineBelow = rightEnd + 1;
+      const containingBlock = findMostNestedContainingBlock(
+        rightLineBelow,
+        rightSyntaxTree
+      );
+      const distanceToBlockStart =
+        containingBlock && rightLineBelow - containingBlock.range.start_line;
+      const linesToExpand =
+        distanceToBlockStart && distanceToBlockStart < numLines
+          ? distanceToBlockStart
+          : numLines;
+      belowBlockButton = this._createContextButton(
+        ContextButtonType.BLOCK_BELOW,
+        section,
+        contextGroups,
+        numLines,
+        linesToExpand
+      );
+    }
+    if (aboveBlockButton || belowBlockButton) {
+      const blockExpansionContainer = this._createElement(
+        'div',
+        'blockExpansion aboveBelowButtons'
+      );
+      aboveBlockButton &&
+        blockExpansionContainer.appendChild(aboveBlockButton);
+      belowBlockButton &&
+        blockExpansionContainer.appendChild(belowBlockButton);
+      return blockExpansionContainer;
+    }
+    return undefined;
   }
 
   /**
@@ -469,10 +589,9 @@ export abstract class GrDiffBuilder {
     type: ContextButtonType,
     section: HTMLElement,
     contextGroups: GrDiffGroup[],
-    numLines: number
+    numLines: number,
+    linesToExpand: number
   ) {
-    const linesToExpand =
-      type === ContextButtonType.ALL ? numLines : PARTIAL_CONTEXT_AMOUNT;
     const button = this._createElement('gr-button', 'showContext');
     button.classList.add('contextControlButton');
     button.setAttribute('link', 'true');

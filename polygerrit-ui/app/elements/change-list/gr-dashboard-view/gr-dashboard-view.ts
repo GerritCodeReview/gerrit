@@ -129,10 +129,7 @@ export class GrDashboardView extends PolymerElement {
   connectedCallback() {
     super.connectedCallback();
     this._loadPreferences();
-    this.addEventListener('reload', e => {
-      e.stopPropagation();
-      this._reload(this.params);
-    });
+    this.addEventListener('reload', () => this._reload(this.params));
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         if (

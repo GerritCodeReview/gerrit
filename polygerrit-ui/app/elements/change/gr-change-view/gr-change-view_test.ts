@@ -819,43 +819,6 @@ suite('gr-change-view tests', () => {
       });
     });
 
-    test('reload event from reply dialog is processed', () => {
-      const handleReloadStub = sinon.stub(element, '_reload');
-      element.$.replyDialog.dispatchEvent(
-        new CustomEvent('reload', {
-          detail: {clearPatchset: true},
-          bubbles: true,
-          composed: true,
-        })
-      );
-      assert.isTrue(handleReloadStub.called);
-    });
-
-    test('shift + R should fetch and navigate to the latest patch set', done => {
-      element._changeNum = TEST_NUMERIC_CHANGE_ID;
-      element._patchRange = {
-        basePatchNum: ParentPatchSetNum,
-        patchNum: 1 as RevisionPatchSetNum,
-      };
-      element._change = {
-        ...createChangeViewChange(),
-        revisions: {
-          rev1: createRevision(),
-        },
-        current_revision: 'rev1' as CommitId,
-        status: ChangeStatus.NEW,
-        labels: {},
-        actions: {},
-      };
-
-      const reloadChangeStub = sinon.stub(element, '_reload');
-      pressAndReleaseKeyOn(element, 82, 'shift', 'r');
-      flush(() => {
-        assert.isTrue(reloadChangeStub.called);
-        done();
-      });
-    });
-
     test('d should open download overlay', () => {
       const stub = sinon
         .stub(element.$.downloadOverlay, 'open')
@@ -1105,7 +1068,7 @@ suite('gr-change-view tests', () => {
         '#relatedChanges'
       ) as GrRelatedChangesList;
       sinon.stub(relatedChanges, 'reload');
-      sinon.stub(element, '_reload').returns(Promise.resolve([]));
+      sinon.stub(element, 'loadData').returns(Promise.resolve([]));
       sinon.spy(element, '_paramsChanged');
       element.params = createAppElementChangeViewParams();
     });
@@ -1480,7 +1443,7 @@ suite('gr-change-view tests', () => {
     };
     element._change = change;
     flush();
-    const reloadStub = sinon.stub(element, '_reload');
+    const reloadStub = sinon.stub(element, 'loadData');
     element.splice('_change.labels.test.all', 0, 1);
     assert.isFalse(reloadStub.called);
     change.labels.test.all.push(vote);
@@ -1653,7 +1616,7 @@ suite('gr-change-view tests', () => {
 
   test('don’t reload entire page when patchRange changes', () => {
     const reloadStub = sinon
-      .stub(element, '_reload')
+      .stub(element, 'loadData')
       .callsFake(() => Promise.resolve([]));
     const reloadPatchDependentStub = sinon
       .stub(element, '_reloadPatchNumDependentResources')
@@ -1680,7 +1643,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('reload ported comments when patchNum changes', () => {
-    sinon.stub(element, '_reload').callsFake(() => Promise.resolve([]));
+    sinon.stub(element, 'loadData').callsFake(() => Promise.resolve([]));
     sinon.stub(element, '_getCommitInfo');
     sinon.stub(element.$.fileList, 'reload');
     flush();
@@ -1707,7 +1670,7 @@ suite('gr-change-view tests', () => {
 
   test('reload entire page when patchRange doesnt change', () => {
     const reloadStub = sinon
-      .stub(element, '_reload')
+      .stub(element, 'loadData')
       .callsFake(() => Promise.resolve([]));
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
     const value: AppElementChangeViewParams = createAppElementChangeViewParams();
@@ -1720,13 +1683,13 @@ suite('gr-change-view tests', () => {
   });
 
   test('related changes are not updated after other action', done => {
-    sinon.stub(element, '_reload').callsFake(() => Promise.resolve([]));
+    sinon.stub(element, 'loadData').callsFake(() => Promise.resolve([]));
     flush();
     const relatedChanges = element.shadowRoot!.querySelector(
       '#relatedChanges'
     ) as GrRelatedChangesList;
     sinon.stub(relatedChanges, 'reload');
-    element._reload(true).then(() => {
+    element.loadData(true).then(() => {
       assert.isFalse(navigateToChangeStub.called);
       done();
     });
@@ -2052,7 +2015,7 @@ suite('gr-change-view tests', () => {
     test('scrollTop is set correctly', () => {
       element.viewState = {scrollTop: TEST_SCROLL_TOP_PX};
 
-      sinon.stub(element, '_reload').callsFake(() => {
+      sinon.stub(element, 'loadData').callsFake(() => {
         // When element is reloaded, ensure that the history
         // state has the scrollTop set earlier. This will then
         // be reset.
@@ -2573,7 +2536,7 @@ suite('gr-change-view tests', () => {
       '#relatedChanges'
     ) as GrRelatedChangesList;
     sinon.stub(relatedChanges, 'reload');
-    sinon.stub(element, '_reload').returns(Promise.resolve([]));
+    sinon.stub(element, 'loadData').returns(Promise.resolve([]));
     const setStub = stubRestApi('setInProjectLookup');
     element._paramsChanged({
       view: GerritNav.View.CHANGE,

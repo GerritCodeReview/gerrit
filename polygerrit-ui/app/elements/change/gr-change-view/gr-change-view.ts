@@ -160,7 +160,7 @@ import {
   fireEvent,
   firePageError,
   fireDialogChange,
-  fireTitleChange,
+  fireTitleChange, fireReload,
 } from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
@@ -632,7 +632,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener('comment-discard', e =>
       this._handleCommentDiscard(e)
     );
-    this.addEventListener('change-message-deleted', () => this._reload());
+    this.addEventListener('change-message-deleted', () => fireReload(this));
     this.addEventListener('editable-content-save', e =>
       this._handleCommitMessageSave(e)
     );
@@ -648,8 +648,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       this._setActivePrimaryTab(e)
     );
     this.addEventListener('reload', e => {
-      e.stopPropagation();
-      this._reload(
+      this.loadData(
         /* isLocationChange= */ false,
         /* clearPatchset= */ e.detail && e.detail.clearPatchset
       );
@@ -704,7 +703,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _onCloseFixPreview(e: CloseFixPreviewEvent) {
-    if (e.detail.fixApplied) this._reload();
+    if (e.detail.fixApplied) fireReload(this);
   }
 
   _handleToggleDiffMode(e: CustomKeyboardEvent) {
@@ -1161,7 +1160,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       {once: true}
     );
     this.$.replyOverlay.cancel();
-    this._reload();
+    fireReload(this);
   }
 
   _handleReplyCancel() {
@@ -1254,7 +1253,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
     this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
-    this._reload(true).then(() => {
+    this.loadData(true).then(() => {
       this._performPostLoadTasks();
     });
 
@@ -1642,7 +1641,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       return;
     }
     e.preventDefault();
-    this._reload(/* isLocationChange= */ false, /* clearPatchset= */ true);
+    fireReload(this, true);
   }
 
   _handleToggleChangeStar(e: CustomKeyboardEvent) {
@@ -1716,7 +1715,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
           labelDict.approved &&
           labelDict.approved._account_id === removed._account_id
         ) {
-          this._reload();
+          fireReload(this);
           return;
         }
       }
@@ -2067,7 +2066,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    * Some non-core data loading may still be in-flight when the core data
    * promise resolves.
    */
-  _reload(isLocationChange?: boolean, clearPatchset?: boolean) {
+  loadData(isLocationChange?: boolean, clearPatchset?: boolean) {
     if (clearPatchset && this._change) {
       GerritNav.navigateToChange(this._change);
       return Promise.resolve([]);
@@ -2355,12 +2354,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
               dismissOnNavigation: true,
               showDismiss: true,
               action: 'Reload',
-              callback: () => {
-                this._reload(
-                  /* isLocationChange= */ false,
-                  /* clearPatchset= */ true
-                );
-              },
+              callback: () => fireReload(this, true),
             },
             composed: true,
             bubbles: true,

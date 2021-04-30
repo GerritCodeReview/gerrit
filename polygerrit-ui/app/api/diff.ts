@@ -53,6 +53,35 @@ export declare interface DiffInfo {
 }
 
 /**
+ * Represents a syntax block in a code (e.g. method, function, class, if-else).
+ */
+export interface SyntaxBlock {
+  /** Name of the block (e.g. name of the method/class)*/
+  name: string;
+  /** Where does this block syntatically starts and ends (line number and column).*/
+  range: {
+    /** first line of the block (1-based inclusive). */
+    start_line: number;
+    /**
+     * column of the range start inside the first line (e.g. "{" character ending a function/method)
+     * (1-based inclusive).
+     */
+    start_column: number;
+    /**
+     * last line of the block (1-based inclusive).
+     */
+    end_line: number;
+    /**
+     * column of the block end inside the end line (e.g. "}" character ending a function/method)
+     * (1-based inclusive).
+     */
+    end_column: number;
+  };
+  /** Sub-blocks of the current syntax block (e.g. methods of a class) */
+  children: SyntaxBlock[];
+}
+
+/**
  * The DiffFileMetaInfo entity contains meta information about a file diff.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-file-meta-info
  */
@@ -65,6 +94,12 @@ export declare interface DiffFileMetaInfo {
   lines: number;
   // TODO: Not documented.
   language?: string;
+  /**
+   * The first level of syntax blocks tree (outline) within the current file.
+   * It contains an hierarchical structure where each block contains its
+   * sub-blocks (children).
+   */
+  syntax_tree?: SyntaxBlock[];
 }
 
 export declare type ChangeType =

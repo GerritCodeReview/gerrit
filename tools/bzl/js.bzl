@@ -474,7 +474,7 @@ def polygerrit_plugin(name, app, plugin_name = None):
         srcs = [plugin_name + ".js"],
     )
 
-def gerrit_js_bundle(name, srcs, entry_point):
+def gerrit_js_bundle(name, entry_point, srcs = []):
     """Produces a Gerrit JavaScript bundle archive.
 
     This rule bundles and minifies the javascript files of a frontend plugin and

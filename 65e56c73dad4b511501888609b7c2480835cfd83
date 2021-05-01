@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8a08671_267ced33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-01T07:50:39Z",
+      "side": 1,
+      "message": "This is needed for zuul-results-summary plugin, see change 304802.",
+      "revId": "65e56c73dad4b511501888609b7c2480835cfd83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

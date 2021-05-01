@@ -33,7 +33,6 @@ import {
   EmailAddress,
   PreferencesInput,
 } from '../../../types/common';
-import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {ChangeListViewState} from '../../../types/types';
 import {fireTitleChange} from '../../../utils/event-util';
@@ -276,13 +275,6 @@ export class GrChangeListView extends PolymerElement {
     this.restApiService.saveChangeStarred(
       e.detail.change._number,
       e.detail.starred
-    );
-  }
-
-  _handleToggleReviewed(e: CustomEvent<ChangeListToggleReviewedDetail>) {
-    this.restApiService.saveChangeReviewed(
-      e.detail.change._number,
-      e.detail.reviewed
     );
   }
 }

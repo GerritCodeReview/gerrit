@@ -78,13 +78,11 @@ export const htmlTemplate = html`
     <h1 class="assistive-tech-only">Dashboard</h1>
     <gr-change-list
       show-star=""
-      show-reviewed-state=""
       account="[[account]]"
       preferences="[[preferences]]"
       selected-index="{{_selectedChangeIndex}}"
       sections="[[_results]]"
       on-toggle-star="_handleToggleStar"
-      on-toggle-reviewed="_handleToggleReviewed"
     >
       <div id="emptyOutgoing" slot="empty-outgoing">
         <template is="dom-if" if="[[_showNewUserHelp]]">

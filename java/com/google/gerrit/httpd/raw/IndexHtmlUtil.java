@@ -120,7 +120,7 @@ public class IndexHtmlUtil {
           serializeObject(GSON, accountApi.getEditPreferences()));
       data.put("userIsAuthenticated", true);
       if (page == RequestedPage.DASHBOARD) {
-        data.put("defaultDashboardHex", IndexPreloadingUtil.getDefaultDashboardHex(serverApi));
+        data.put("defaultDashboardHex", IndexPreloadingUtil.getDefaultDashboardHex());
         data.put("dashboardQuery", IndexPreloadingUtil.computeDashboardQueryList(serverApi));
       }
     } catch (AuthException e) {

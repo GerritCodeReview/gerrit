@@ -85,7 +85,7 @@ export class GrAccountLabel extends PolymerElement {
     type: Boolean,
     reflectToAttribute: true,
     computed:
-      '_computeCancelLeftPadding(hideAvatar, _config, ' +
+      '_computeCancelLeftPadding(hideAvatar, ' +
       'highlightAttention, account, change, forceAttention)',
   })
   cancelLeftPadding = false;
@@ -127,56 +127,41 @@ export class GrAccountLabel extends PolymerElement {
   }
 
   _isAttentionSetEnabled(
-    config: ServerInfo | undefined,
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo
   ) {
-    return (
-      !!config &&
-      !!config.change &&
-      !!config.change.enable_attention_set &&
-      !!highlight &&
-      !!change &&
-      !!account &&
-      !isServiceUser(account)
-    );
+    return !!highlight && !!change && !!account && !isServiceUser(account);
   }
 
   _computeCancelLeftPadding(
     hideAvatar: boolean,
-    config: ServerInfo | undefined,
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo,
     force: boolean
   ) {
     return (
-      !hideAvatar &&
-      !this._hasAttention(config, highlight, account, change, force)
+      !hideAvatar && !this._hasAttention(highlight, account, change, force)
     );
   }
 
   _hasAttention(
-    config: ServerInfo | undefined,
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo,
     force: boolean
   ) {
-    return (
-      force || this._hasUnforcedAttention(config, highlight, account, change)
-    );
+    return force || this._hasUnforcedAttention(highlight, account, change);
   }
 
   _hasUnforcedAttention(
-    config: ServerInfo | undefined,
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo
   ) {
     return (
-      this._isAttentionSetEnabled(config, highlight, account, change) &&
+      this._isAttentionSetEnabled(highlight, account, change) &&
       change.attention_set &&
       !!account._account_id &&
       hasOwnProperty(change.attention_set, account._account_id)
@@ -184,13 +169,12 @@ export class GrAccountLabel extends PolymerElement {
   }
 
   _computeHasAttentionClass(
-    config: ServerInfo | undefined,
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo,
     force: boolean
   ) {
-    return this._hasAttention(config, highlight, account, change, force)
+    return this._hasAttention(highlight, account, change, force)
       ? 'hasAttention'
       : '';
   }
@@ -266,7 +250,6 @@ export class GrAccountLabel extends PolymerElement {
   }
 
   _computeAttentionButtonEnabled(
-    config: ServerInfo | undefined,
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo,
@@ -275,13 +258,12 @@ export class GrAccountLabel extends PolymerElement {
   ) {
     if (selected) return true;
     return (
-      this._hasUnforcedAttention(config, highlight, account, change) &&
+      this._hasUnforcedAttention(highlight, account, change) &&
       (isInvolved(change, selfAccount) || isSelf(account, selfAccount))
     );
   }
 
   _computeAttentionIconTitle(
-    config: ServerInfo | undefined,
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo,
@@ -290,7 +272,6 @@ export class GrAccountLabel extends PolymerElement {
     selected: boolean
   ) {
     const enabled = this._computeAttentionButtonEnabled(
-      config,
       highlight,
       account,
       change,

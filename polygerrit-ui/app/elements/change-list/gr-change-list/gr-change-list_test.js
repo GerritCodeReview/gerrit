@@ -258,9 +258,6 @@ suite('gr-change-list basic tests', () => {
     assert.isFalse(elementItems[3].hasAttribute('needs-review'));
     assert.isFalse(elementItems[4].hasAttribute('needs-review'));
 
-    element._config = {
-      change: {enable_attention_set: true},
-    };
     elementItems = element.root.querySelectorAll(
         'gr-change-list-item');
     for (let i = 0; i < elementItems.length; i++) {

@@ -1450,9 +1450,6 @@ suite('gr-change-actions tests', () => {
       });
 
       test('action is skipped when attention set is enabled', () => {
-        element._config = {
-          change: {enable_attention_set: true},
-        };
         assert.equal(element._allActionValues.filter(action =>
           action.__key === 'reviewed').length, 0);
       });

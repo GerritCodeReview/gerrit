@@ -710,10 +710,7 @@ export interface RestApiService {
 
   addAccountEmail(email: string): Promise<Response>;
 
-  saveChangeReviewed(
-    changeNum: NumericChangeId,
-    reviewed: boolean
-  ): Promise<Response | undefined>;
+  saveChangeReviewed(): Promise<Response | undefined>;
 
   saveChangeStarred(
     changeNum: NumericChangeId,

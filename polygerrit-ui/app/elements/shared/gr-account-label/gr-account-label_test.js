@@ -84,7 +84,6 @@ suite('gr-account-label tests', () => {
       const kermit = createAccount('kermit', 31);
       element.highlightAttention = true;
       element._config = {
-        change: {enable_attention_set: true},
         user: {anonymous_coward_name: 'Anonymous Coward'},
       };
       element._selfAccount = kermit;

@@ -392,10 +392,7 @@ export class GrDashboardView extends PolymerElement {
   }
 
   _handleToggleReviewed(e: CustomEvent<ChangeListToggleReviewedDetail>) {
-    this.restApiService.saveChangeReviewed(
-      e.detail.change._number,
-      e.detail.reviewed
-    );
+    this.restApiService.saveChangeReviewed();
     // When a change is updated the same change may appear elsewhere in the
     // dashboard (but is not the same object), so we must update other
     // occurrences of the same change.

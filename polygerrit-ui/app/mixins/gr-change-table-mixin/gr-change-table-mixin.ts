@@ -70,7 +70,6 @@ export const ChangeTableMixin = dedupingMixin(
         if (column === 'Assignee') return !!config.change.enable_assignee;
         if (column === 'Comments')
           return experiments.includes('comments-column');
-        if (column === 'Reviewers') return !!config.change.enable_attention_set;
         return true;
       }
 

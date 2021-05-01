@@ -80,6 +80,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -164,6 +165,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.IntraLineDiff;
@@ -218,6 +220,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private Sequences sequences;
 
   @Inject
   @Named("diff")
@@ -736,6 +739,33 @@ public class ChangeIT extends AbstractDaemonTest {
     ResourceNotFoundException thrown =
         assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id(changeId).get());
     assertThat(thrown).hasMessageThat().contains("Multiple changes found for " + changeId);
+  }
+
+  @Test
+  @UseLocalDisk
+  @GerritConfig(name = "noteDb.changes.sequenceBatchSize", value = "1")
+  public void changeNumberCorruption() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    String changeId = r1.getChangeId();
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    sequences.setChangeIdValue(1);
+
+    Project.NameKey project2 = projectOperations.newProject().create();
+
+    TestRepository<?> tr2 = cloneProject(project2);
+    PushOneCommit.Result r2 =
+        createChange(
+            tr2,
+            "refs/heads/master",
+            "Change in project2",
+            PushOneCommit.FILE_NAME,
+            "content2",
+            null);
+
+    String changeId2 = r2.getChangeId();
+    ChangeInfo info2 = gApi.changes().id(changeId2).get();
+    assertThat(changeId).isNotEqualTo(changeId2);
+    assertThat(info._number).isNotEqualTo(info2._number);
   }
 
   @FunctionalInterface

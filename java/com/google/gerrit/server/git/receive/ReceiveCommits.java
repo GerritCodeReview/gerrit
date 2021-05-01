@@ -358,6 +358,7 @@ class ReceiveCommits {
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final AutoMerger autoMerger;
+  private final boolean checkAmbiguousChangeNumber;
 
   // Assisted injected fields.
   private final ProjectState projectState;
@@ -537,6 +538,9 @@ class ReceiveCommits {
         useRefCache
             ? ReceivePackRefCache.withAdvertisedRefs(() -> allRefsWatcher.getAllRefs())
             : ReceivePackRefCache.noCache(receivePack.getRepository().getRefDatabase());
+
+    this.checkAmbiguousChangeNumber =
+        config.getBoolean("changes", "checkAmbiguousChangeNumber", false);
   }
 
   void init() {
@@ -2565,8 +2569,13 @@ class ReceiveCommits {
       this.progress = progress;
     }
 
-    private void setChangeId(int id) {
+    private void setChangeId(int id) throws IOException {
       try (TraceTimer traceTimer = newTimer(CreateRequest.class, "setChangeId")) {
+        if (checkAmbiguousChangeNumber
+            && queryProvider.get().noFields().byLegacyChangeId(Change.id(id)).size() != 0) {
+          throw new IOException(
+              "Ambiguous change number: " + id + " (check changes sequence value)");
+        }
         changeId = Change.id(id);
         ins =
             changeInserterFactory

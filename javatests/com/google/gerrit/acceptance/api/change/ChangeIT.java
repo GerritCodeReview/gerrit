@@ -164,6 +164,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.IntraLineDiff;
@@ -218,6 +219,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private Sequences sequences;
 
   @Inject
   @Named("diff")
@@ -736,6 +738,67 @@ public class ChangeIT extends AbstractDaemonTest {
     ResourceNotFoundException thrown =
         assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id(changeId).get());
     assertThat(thrown).hasMessageThat().contains("Multiple changes found for " + changeId);
+  }
+
+  @Test
+  @GerritConfig(name = "noteDb.changes.sequenceBatchSize", value = "1")
+  public void undetectedCreationOfChangesWithAmbiguousChangeNumber() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    String changeId = r1.getChangeId();
+    ChangeInfo info = gApi.changes().id(changeId).get();
+
+    // Reset changes sequence value with the number of last created change.
+    sequences.setChangeIdValue(info._number);
+
+    Project.NameKey project2 = projectOperations.newProject().create();
+
+    TestRepository<?> tr2 = cloneProject(project2);
+    PushOneCommit.Result r2 =
+        createChange(
+            tr2,
+            "refs/heads/master",
+            "Change in project2",
+            PushOneCommit.FILE_NAME,
+            "content2",
+            null);
+
+    r2.assertOkStatus();
+    String changeId2 = r2.getChangeId();
+    ChangeInfo info2 = gApi.changes().id(changeId2).get();
+    assertThat(changeId).isNotEqualTo(changeId2);
+    // Now we have two change on different projects with the same change number.
+    assertThat(info._number).isEqualTo(info2._number);
+
+    // Due to changeIdProjectCache Cache in ChangeFinder,
+    // we get the last created change back.
+    ChangeInfo crash = gApi.changes().id(info._number).get();
+    assertThat(crash._number).isEqualTo(info2._number);
+  }
+
+  @Test
+  @GerritConfig(name = "noteDb.changes.sequenceBatchSize", value = "1")
+  @GerritConfig(name = "changes.checkAmbiguousChangeNumber", value = "true")
+  public void preventCreationOfChangesWithAmbiguousChangeNumber() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    String changeId = r1.getChangeId();
+    ChangeInfo info = gApi.changes().id(changeId).get();
+
+    // Reset changes sequence value with the number of last created change.
+    sequences.setChangeIdValue(info._number);
+
+    Project.NameKey project2 = projectOperations.newProject().create();
+
+    TestRepository<?> tr2 = cloneProject(project2);
+    PushOneCommit.Result r2 =
+        createChange(
+            tr2,
+            "refs/heads/master",
+            "Change in project2",
+            PushOneCommit.FILE_NAME,
+            "content2",
+            null);
+
+    r2.assertErrorStatus();
   }
 
   @FunctionalInterface

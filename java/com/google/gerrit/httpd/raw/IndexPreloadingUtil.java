@@ -118,15 +118,9 @@ public class IndexPreloadingUtil {
     return ListOption.toHex(options);
   }
 
-  public static String getDefaultDashboardHex(Server serverApi) throws RestApiException {
-    Set<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
-    options.add(ListChangesOption.LABELS);
-    options.add(ListChangesOption.DETAILED_ACCOUNTS);
-
-    if (!isEnabledAttentionSet(serverApi)) {
-      options.add(ListChangesOption.REVIEWED);
-    }
-    return ListOption.toHex(options);
+  public static String getDefaultDashboardHex() {
+    return ListOption.toHex(
+        EnumSet.of(ListChangesOption.LABELS, ListChangesOption.DETAILED_ACCOUNTS));
   }
 
   public static String getPath(@Nullable String requestedURL) throws URISyntaxException {
@@ -193,9 +187,7 @@ public class IndexPreloadingUtil {
   public static List<String> computeDashboardQueryList(Server serverApi) throws RestApiException {
     List<String> queryList = new ArrayList<>();
     queryList.add(SELF_DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY);
-    if (isEnabledAttentionSet(serverApi)) {
-      queryList.add(SELF_YOUR_TURN);
-    }
+    queryList.add(SELF_YOUR_TURN);
     if (isEnabledAssignee(serverApi)) {
       queryList.add(SELF_DASHBOARD_ASSIGNED_QUERY);
     }
@@ -203,13 +195,6 @@ public class IndexPreloadingUtil {
     queryList.addAll(SELF_DASHBOARD_QUERIES);
 
     return queryList;
-  }
-
-  private static boolean isEnabledAttentionSet(Server serverApi) throws RestApiException {
-    return serverApi.getInfo() != null
-        && serverApi.getInfo().change != null
-        && serverApi.getInfo().change.enableAttentionSet != null
-        && serverApi.getInfo().change.enableAttentionSet;
   }
 
   private static boolean isEnabledAssignee(Server serverApi) throws RestApiException {

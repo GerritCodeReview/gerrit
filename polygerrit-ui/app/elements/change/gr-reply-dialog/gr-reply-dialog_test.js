@@ -182,9 +182,6 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('modified attention set', done => {
-    element.serverConfig = {
-      change: {enable_attention_set: true},
-    };
     element._newAttentionSet = new Set([314]);
     const buttonEl = element.shadowRoot.querySelector('.edit-attention-button');
     MockInteractions.tap(buttonEl);

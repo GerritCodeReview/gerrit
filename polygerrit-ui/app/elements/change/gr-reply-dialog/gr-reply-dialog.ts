@@ -97,7 +97,6 @@ import {CommentThread, isUnresolved} from '../../../utils/comment-util';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
 import {
   CODE_REVIEW,
   getApprovalInfo,
@@ -656,29 +655,27 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
       reviewInput.ready = true;
     }
 
-    if (isAttentionSetEnabled(this.serverConfig)) {
-      const selfName = getDisplayName(this.serverConfig, this._account);
-      const reason = `${selfName} replied on the change`;
+    const selfName = getDisplayName(this.serverConfig, this._account);
+    const reason = `${selfName} replied on the change`;
 
-      reviewInput.ignore_automatic_attention_set_rules = true;
-      reviewInput.add_to_attention_set = [];
-      for (const user of this._newAttentionSet) {
-        if (!this._currentAttentionSet.has(user)) {
-          reviewInput.add_to_attention_set.push({user, reason});
-        }
+    reviewInput.ignore_automatic_attention_set_rules = true;
+    reviewInput.add_to_attention_set = [];
+    for (const user of this._newAttentionSet) {
+      if (!this._currentAttentionSet.has(user)) {
+        reviewInput.add_to_attention_set.push({user, reason});
       }
-      reviewInput.remove_from_attention_set = [];
-      for (const user of this._currentAttentionSet) {
-        if (!this._newAttentionSet.has(user)) {
-          reviewInput.remove_from_attention_set.push({user, reason});
-        }
-      }
-      this.reportAttentionSetChanges(
-        this._attentionExpanded,
-        reviewInput.add_to_attention_set,
-        reviewInput.remove_from_attention_set
-      );
     }
+    reviewInput.remove_from_attention_set = [];
+    for (const user of this._currentAttentionSet) {
+      if (!this._newAttentionSet.has(user)) {
+        reviewInput.remove_from_attention_set.push({user, reason});
+      }
+    }
+    this.reportAttentionSetChanges(
+      this._attentionExpanded,
+      reviewInput.add_to_attention_set,
+      reviewInput.remove_from_attention_set
+    );
 
     if (this.draft) {
       const comment: CommentInput = {
@@ -889,12 +886,12 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     fireEvent(this, 'iron-resize');
   }
 
-  _showAttentionSummary(config?: ServerInfo, attentionExpanded?: boolean) {
-    return isAttentionSetEnabled(config) && !attentionExpanded;
+  _showAttentionSummary(attentionExpanded?: boolean) {
+    return !attentionExpanded;
   }
 
-  _showAttentionDetails(config?: ServerInfo, attentionExpanded?: boolean) {
-    return isAttentionSetEnabled(config) && attentionExpanded;
+  _showAttentionDetails(attentionExpanded?: boolean) {
+    return attentionExpanded;
   }
 
   _computeAttentionButtonTitle(sendDisabled?: boolean) {

@@ -80,7 +80,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
-import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -742,13 +741,14 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @UseLocalDisk
   @GerritConfig(name = "noteDb.changes.sequenceBatchSize", value = "1")
-  public void changeNumberCorruption() throws Exception {
+  public void undetectedCreationOfChangesWithAmbigiousChangeNumber() throws Exception {
     PushOneCommit.Result r1 = createChange();
     String changeId = r1.getChangeId();
     ChangeInfo info = gApi.changes().id(changeId).get();
-    sequences.setChangeIdValue(1);
+
+    // Reset changes sequence value with the number of last created change.
+    sequences.setChangeIdValue(info._number);
 
     Project.NameKey project2 = projectOperations.newProject().create();
 
@@ -762,10 +762,43 @@ public class ChangeIT extends AbstractDaemonTest {
             "content2",
             null);
 
+    r2.assertOkStatus();
     String changeId2 = r2.getChangeId();
     ChangeInfo info2 = gApi.changes().id(changeId2).get();
     assertThat(changeId).isNotEqualTo(changeId2);
-    assertThat(info._number).isNotEqualTo(info2._number);
+    // Now we have two change on different projects with the same change number.
+    assertThat(info._number).isEqualTo(info2._number);
+
+    // Due to changeIdProjectCache Cache in ChangeFinder,
+    // we get the last created change back.
+    ChangeInfo crash = gApi.changes().id(info._number).get();
+    assertThat(crash._number).isEqualTo(info2._number);
+  }
+
+  @Test
+  @GerritConfig(name = "noteDb.changes.sequenceBatchSize", value = "1")
+  @GerritConfig(name = "changes.checkAmbiguousChangeNumber", value = "true")
+  public void preventCreationOfChangesWithAmbigiousChangeNumber() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    String changeId = r1.getChangeId();
+    ChangeInfo info = gApi.changes().id(changeId).get();
+
+    // Reset changes sequence value with the number of last created change.
+    sequences.setChangeIdValue(info._number);
+
+    Project.NameKey project2 = projectOperations.newProject().create();
+
+    TestRepository<?> tr2 = cloneProject(project2);
+    PushOneCommit.Result r2 =
+        createChange(
+            tr2,
+            "refs/heads/master",
+            "Change in project2",
+            PushOneCommit.FILE_NAME,
+            "content2",
+            null);
+
+    r2.assertErrorStatus();
   }
 
   @FunctionalInterface

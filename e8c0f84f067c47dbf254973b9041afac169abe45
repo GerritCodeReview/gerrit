@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a64a1575_eb7d9afd",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2577,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2021-05-01T17:54:47Z",
+      "side": 1,
+      "message": "typo, Ambiguous",
+      "range": {
+        "startLine": 2577,
+        "startChar": 15,
+        "endLine": 2577,
+        "endChar": 23
+      },
+      "revId": "e8c0f84f067c47dbf254973b9041afac169abe45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

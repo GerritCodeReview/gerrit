@@ -73,6 +73,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     }
 
     boolean hasVote = false;
+    object.setLazyLoad(true);
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;

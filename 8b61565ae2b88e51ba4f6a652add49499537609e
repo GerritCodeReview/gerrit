@@ -46,6 +46,30 @@
       },
       "revId": "8b61565ae2b88e51ba4f6a652add49499537609e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df90a47_a59a9625",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-03T14:52:00Z",
+      "side": 1,
+      "message": "Yeah that\u0027s what I was thinking as well. I don\u0027t think the spread operator is needed.\n\n`this._account \u003d account;`\n\nCan you make the change?",
+      "parentUuid": "b61d08b1_a15e162e",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 53
+      },
+      "revId": "8b61565ae2b88e51ba4f6a652add49499537609e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

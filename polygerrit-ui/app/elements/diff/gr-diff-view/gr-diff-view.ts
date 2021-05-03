@@ -81,7 +81,10 @@ import {
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
-import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
+import {
+  EditWebLinks,
+  FilesWebLinks
+} from '../gr-patch-range-select/gr-patch-range-select';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrDiffCursor} from '../gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
@@ -224,6 +227,9 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: Boolean})
   _isImageDiff?: boolean;
+
+  @property({type: Object})
+  _editWeblinks?: EditWebLinks;
 
   @property({type: Object})
   _filesWeblinks?: FilesWebLinks;

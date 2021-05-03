@@ -223,7 +223,7 @@ suite('gr-diff-host tests', () => {
     element.commitRange = {baseCommit: 'test-base', commit: 'test-commit'};
     element.patchRange = {};
     return element.reload().then(() => {
-      assert.isTrue(weblinksStub.calledTwice);
+      assert.equal(weblinksStub.callCount, 4);
       assert.isTrue(weblinksStub.firstCall.calledWith({
         commit: 'test-base',
         file: 'test-path',

@@ -67,6 +67,11 @@ export interface FilesWebLinks {
   meta_b: GeneratedWebLink[];
 }
 
+export interface EditWebLinks {
+  meta_a: GeneratedWebLink[];
+  meta_b: GeneratedWebLink[];
+}
+
 export interface GrPatchRangeSelect {
   $: {
     patchNumDropdown: GrDropdownList;
@@ -111,6 +116,9 @@ export class GrPatchRangeSelect extends PolymerElement {
 
   @property({type: Object})
   changeComments?: ChangeComments;
+
+  @property({type: Object})
+  editWeblinks?: EditWebLinks;
 
   @property({type: Object})
   filesWeblinks?: FilesWebLinks;

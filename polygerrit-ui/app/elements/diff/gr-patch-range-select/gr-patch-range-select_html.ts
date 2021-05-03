@@ -40,6 +40,9 @@ export const htmlTemplate = html`
       .filesWeblinks {
         display: none;
       }
+      .editWeblinks {
+        display: none;
+      }
       gr-dropdown-list {
         --native-select-style: {
           max-width: 5.25em;
@@ -64,6 +67,13 @@ export const htmlTemplate = html`
       >
     </template>
   </span>
+  <span is="dom-if" if="[[editWeblinks.meta_a]]" class="editWeblinks">
+    <template is="dom-repeat" items="[[editWeblinks.meta_a]]" as="weblink">
+      <a target="_blank" rel="noopener" href$="[[weblink.url]]"
+        >[[weblink.name]]</a
+      >
+    </template>
+  </span>
   <span aria-hidden="true" class="arrow">→</span>
   <span class="patchRange" aria-label="patch range ends with">
     <gr-dropdown-list
@@ -75,6 +85,11 @@ export const htmlTemplate = html`
     </gr-dropdown-list>
     <span is="dom-if" if="[[filesWeblinks.meta_b]]" class="filesWeblinks">
       <template is="dom-repeat" items="[[filesWeblinks.meta_b]]" as="weblink">
+        <a target="_blank" href$="[[weblink.url]]">[[weblink.name]]</a>
+      </template>
+    </span>
+    <span is="dom-if" if="[[editWeblinks.meta_b]]" class="editWeblinks">
+      <template is="dom-repeat" items="[[editWeblinks.meta_b]]" as="weblink">
         <a target="_blank" href$="[[weblink.url]]">[[weblink.name]]</a>
       </template>
     </span>

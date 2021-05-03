@@ -66,7 +66,10 @@ import {
 import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
+import {
+  EditWebLinks,
+  FilesWebLinks,
+} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber, FILE} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {KnownExperimentId} from '../../../services/flags/flags';
@@ -186,6 +189,9 @@ export class GrDiffHost extends PolymerElement {
 
   @property({type: Object})
   commitRange?: CommitRange;
+
+  @property({type: Object, notify: true})
+  editWeblinks: EditWebLinks | {} = {};
 
   @property({type: Object, notify: true})
   filesWeblinks: FilesWebLinks | {} = {};
@@ -372,6 +378,7 @@ export class GrDiffHost extends PolymerElement {
       // Not waiting for coverage ranges intentionally as
       // plugin loading should not block the content rendering
 
+      this.editWeblinks = this._getEditWeblinks(diff);
       this.filesWeblinks = this._getFilesWeblinks(diff);
       this.diff = diff;
       const event = (await waitForEventOnce(this, 'render')) as CustomEvent;
@@ -485,6 +492,24 @@ export class GrDiffHost extends PolymerElement {
       .catch(err => {
         console.warn('Loading coverage ranges failed: ', err);
       });
+  }
+
+  _getEditWeblinks(diff: DiffInfo) {
+    if (!this.projectName || !this.commitRange || !this.path) return {};
+    return {
+      meta_a: GerritNav.getEditWebLinks(
+        this.projectName,
+        this.commitRange.baseCommit,
+        this.path,
+        {weblinks: diff?.meta_a?.edit_web_links}
+      ),
+      meta_b: GerritNav.getEditWebLinks(
+        this.projectName,
+        this.commitRange.commit,
+        this.path,
+        {weblinks: diff?.meta_b?.edit_web_links}
+      ),
+    };
   }
 
   _getFilesWeblinks(diff: DiffInfo) {

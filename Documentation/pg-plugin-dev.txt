@@ -21,6 +21,7 @@ will be passed an object describing its registration with Gerrit.
   located in `gerrit-site/plugins` folder, where `pluginname` is an alphanumeric
   plugin name.
 
+=== Examples
 Here's a recommended starter `myplugin.js`:
 
 ``` js
@@ -28,6 +29,10 @@ Gerrit.install(plugin => {
   // Your code here.
 });
 ```
+
+You can find more elaborate examples in the
+link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/samples/[polygerrit-ui/app/samples/]
+directory of the source tree.
 
 [[low-level-api-concepts]]
 == Low-level DOM API concepts
@@ -96,9 +101,9 @@ modules,role=external,window=_blank] to style individual endpoints using
 `plugin.registerStyleModule(endpointName, moduleName)`. A style must be defined
 as a standalone `<dom-module>` defined in the same .js file.
 
-See `samples/theme-plugin.js` for examples.
-
-Note: TODO: Insert link to the full styling API.
+See
+link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/samples/theme-plugin.js[samples/theme-plugin.js]
+for an example.
 
 ``` js
 const styleElement = document.createElement('dom-module');
@@ -141,8 +146,9 @@ link:https://polymer-library.polymer-project.org/3.0/docs/devguide/data-binding[
 binding,role=external,window=_blank] for plugins that don't use Polymer. Can be used to bind element
 attribute changes to callbacks.
 
-See `samples/bind-parameters.js` for examples on both Polymer data bindings
-and `attibuteHelper` usage.
+See
+link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/samples/bind-parameters.js[samples/bind-parameters.js]
+for an example.
 
 === hook
 `plugin.hook(endpointName, opt_options)`
@@ -368,6 +374,12 @@ changeActions.setActionOverflow(type, key, overflow)
 
 Returns an instance of the
 link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/change-reply.ts[ChangeReplyPluginApi].
+
+[[checks]]
+=== checks
+`plugin.checks()`
+
+Returns an instance of the link:pg-plugin-checks-api.html[ChecksApi].
 
 === getPluginName
 `plugin.getPluginName()`

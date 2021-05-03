@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e24851_e8bc3852",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-03T21:11:38Z",
+      "side": 1,
+      "message": "I would prefer to not pick this into 3.4.",
+      "revId": "a42ee653de8f891008f0cc392314259ca5e15999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

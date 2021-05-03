@@ -166,7 +166,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   Iterable<ChangeData> byCommitsOnBranchNotMerged(
       Repository repo, BranchNameKey branch, Collection<String> hashes, int indexLimit)
       throws IOException {
-    if (hashes.size() > indexLimit) {
+    if (hashes.size() > indexLimit || !indexes.getSearchIndex().isEnabled()) {
       return byCommitsOnBranchNotMergedFromDatabase(repo, branch, hashes);
     }
     return byCommitsOnBranchNotMergedFromIndex(branch, hashes);

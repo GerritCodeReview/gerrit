@@ -135,4 +135,12 @@ public interface Index<K, V> {
    * @param ready whether the index is ready
    */
   void markReady(boolean ready);
+
+  /**
+   * Returns whether the index is enabled. {@code true} by default, but could be overridden by
+   * implementations.
+   */
+  default boolean isEnabled() {
+    return true;
+  }
 }

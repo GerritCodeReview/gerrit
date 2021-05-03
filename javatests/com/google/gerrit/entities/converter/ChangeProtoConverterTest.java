@@ -48,7 +48,6 @@ public class ChangeProtoConverterTest {
         PatchSet.id(Change.id(14), 23), "subject XYZ", "original subject ABC");
     change.setTopic("my topic");
     change.setSubmissionId("submission ID 234");
-    change.setAssignee(Account.id(100001));
     change.setPrivate(true);
     change.setWorkInProgress(true);
     change.setReviewStarted(true);
@@ -74,7 +73,6 @@ public class ChangeProtoConverterTest {
             .setTopic("my topic")
             .setOriginalSubject("original subject ABC")
             .setSubmissionId("submission ID 234")
-            .setAssignee(Entities.Account_Id.newBuilder().setId(100001))
             .setIsPrivate(true)
             .setWorkInProgress(true)
             .setReviewStarted(true)
@@ -209,7 +207,6 @@ public class ChangeProtoConverterTest {
         PatchSet.id(Change.id(14), 23), "subject XYZ", "original subject ABC");
     change.setTopic("my topic");
     change.setSubmissionId("submission ID 234");
-    change.setAssignee(Account.id(100001));
     change.setPrivate(true);
     change.setWorkInProgress(true);
     change.setReviewStarted(true);
@@ -295,7 +292,6 @@ public class ChangeProtoConverterTest {
                 .put("topic", String.class)
                 .put("originalSubject", String.class)
                 .put("submissionId", String.class)
-                .put("assignee", Account.Id.class)
                 .put("isPrivate", boolean.class)
                 .put("workInProgress", boolean.class)
                 .put("reviewStarted", boolean.class)
@@ -320,7 +316,6 @@ public class ChangeProtoConverterTest {
     assertThat(change.getTopic()).isEqualTo(expectedChange.getTopic());
     assertThat(change.getOriginalSubject()).isEqualTo(expectedChange.getOriginalSubject());
     assertThat(change.getSubmissionId()).isEqualTo(expectedChange.getSubmissionId());
-    assertThat(change.getAssignee()).isEqualTo(expectedChange.getAssignee());
     assertThat(change.isPrivate()).isEqualTo(expectedChange.isPrivate());
     assertThat(change.isWorkInProgress()).isEqualTo(expectedChange.isWorkInProgress());
     assertThat(change.hasReviewStarted()).isEqualTo(expectedChange.hasReviewStarted());

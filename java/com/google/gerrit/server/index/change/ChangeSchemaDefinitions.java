@@ -27,7 +27,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       schema(
           ChangeField.ADDED,
           ChangeField.APPROVAL,
-          ChangeField.ASSIGNEE,
           ChangeField.AUTHOR,
           ChangeField.CHANGE,
           ChangeField.COMMENT,
@@ -135,8 +134,13 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
       new Schema.Builder<ChangeData>().add(V59).add(ChangeField.MERGE).build();
 
   /** Added new field {@link ChangeField#MERGED_ON} */
+  @Deprecated
   static final Schema<ChangeData> V61 =
       new Schema.Builder<ChangeData>().add(V60).add(ChangeField.MERGED_ON).build();
+
+  /** Remove field {@link ChangeField#ASSIGNEE} */
+  static final Schema<ChangeData> V62 =
+      new Schema.Builder<ChangeData>().add(V61).remove(ChangeField.LEGACY_ID).build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

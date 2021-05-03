@@ -32,7 +32,6 @@ import org.eclipse.jgit.util.RawParseUtils;
 public class ChangeNoteUtil {
 
   static final FooterKey FOOTER_ATTENTION = new FooterKey("Attention");
-  static final FooterKey FOOTER_ASSIGNEE = new FooterKey("Assignee");
   static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
   static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
   static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");

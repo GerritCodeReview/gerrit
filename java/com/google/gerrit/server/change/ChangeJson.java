@@ -555,7 +555,6 @@ public class ChangeJson {
                               Timestamp.from(a.timestamp()),
                               a.reason())));
     }
-    out.assignee = in.getAssignee() != null ? accountLoader.get(in.getAssignee()) : null;
     out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();
     if (in.isNew()) {

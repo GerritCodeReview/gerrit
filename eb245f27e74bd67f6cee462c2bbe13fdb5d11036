@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12a119cc_9fbacaaa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-03T21:04:43Z",
+      "side": 1,
+      "message": "I tried this with a mirror of the egit repository in a test instance, converting to reftable works nicely, but converting back to refdir storage fails with the error\n\n[2021-05-03T22:22:25.576+02:00] [SSH gerrit convert-ref-storage --project egit --format refdir (admin)] ERROR org.eclipse.jgit.internal.storage.file.LockFile : Creating lock file /Users/d029788/src/git/gerrit-site-3.4/git/egit.git/refs/changes/42/8742/3.lock failed\njava.nio.file.FileSystemException: /Users/d029788/src/git/gerrit-site-3.4/git/egit.git/refs/changes/42/8742/3.lock: Too many open files\n\tat java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:100)\n\tat java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)\n\tat java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:116)\n\tat java.base/sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:219)\n\tat java.base/java.nio.file.Files.newByteChannel(Files.java:370)\n\tat java.base/java.nio.file.Files.createFile(Files.java:647)\n\tat org.eclipse.jgit.util.FS_POSIX.createNewFileAtomic(FS_POSIX.java:427)\n\tat org.eclipse.jgit.internal.storage.file.LockFile.lock(LockFile.java:132)\n\tat org.eclipse.jgit.internal.storage.file.PackedBatchRefUpdate.lockLooseRefs(PackedBatchRefUpdate.java:316)\n\tat org.eclipse.jgit.internal.storage.file.PackedBatchRefUpdate.execute(PackedBatchRefUpdate.java:159)\n\tat org.eclipse.jgit.lib.BatchRefUpdate.execute(BatchRefUpdate.java:602)\n\tat org.eclipse.jgit.internal.storage.file.FileRepository.convertToPackedRefs(FileRepository.java:671)\n\tat org.eclipse.jgit.internal.storage.file.FileRepository.convertRefStorage(FileRepository.java:814)\n\tat com.google.gerrit.sshd.commands.ConvertRefStorage.run(ConvertRefStorage.java:83)\n\tat com.google.gerrit.sshd.SshCommand.lambda$start$1(SshCommand.java:63)\n\tat com.google.gerrit.sshd.BaseCommand$TaskThunk.run(BaseCommand.java:493)\n\tat com.google.gerrit.server.logging.LoggingContextAwareRunnable.run(LoggingContextAwareRunnable.java:113)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)\n\tat com.google.gerrit.server.git.WorkQueue$Task.run(WorkQueue.java:612)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n\nThe same happens when using the corresponding jgit cli command. Filed https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d573328 to track this.",
+      "revId": "eb245f27e74bd67f6cee462c2bbe13fdb5d11036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

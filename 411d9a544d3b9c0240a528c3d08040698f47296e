@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a9eecae_d9c10d3e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-03T19:11:40Z",
+      "side": 0,
+      "message": "This should have been preserved. I am getting build warnings:\n\n  $ bazel build :withdocs\n  [...]\n  May 03, 2021 8:48:11 PM \u003cscript\u003e convertFile\nSEVERE: dev-plugins.txt.html_htmlonly_expn: line 1463: post_review_extensions sections do not support nested sections\nMay 03, 2021 8:48:12 PM \u003cscript\u003e convertFile\nSEVERE: dev-plugins.txt.html_htmlonly_expn: line 1726: post_review_extensions sections do not support nested sections",
+      "range": {
+        "startLine": 1460,
+        "startChar": 0,
+        "endLine": 1462,
+        "endChar": 15
+      },
+      "revId": "411d9a544d3b9c0240a528c3d08040698f47296e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

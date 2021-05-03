@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c91318de_6268f65f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-03T15:22:13Z",
+      "side": 1,
+      "message": "I was now able to reproduce each script flow case and it LGTM; thanks guys. I was pressing enter(s) in the before-fix case and this was misleading me on the expected behaviour, loop and all. Of course having to press enter was part of the original issue. Adding @David if willing to review; thanks.",
+      "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

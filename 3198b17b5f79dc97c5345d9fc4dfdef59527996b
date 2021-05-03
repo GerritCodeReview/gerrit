@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d64ce383_ca3ffbfd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-03T14:22:35Z",
+      "side": 1,
+      "message": "$ bazel test --test_filter\u003dcom.google.gerrit.acceptance.ssh.PredicateIT -- //javatests/com/google/gerrit/acceptance/ssh:ssh\n\n//javatests/com/google/gerrit/acceptance/ssh:ssh PASSED in 10.9s\n\n$ bazel test --test_filter\u003dcom.google.gerrit.acceptance.rest.change.PredicateIT -- //javatests/com/google/gerrit/acceptance/rest/change:rest_change_other\n\n  There was 1 failure:\n1) testLabelPredicate(com.google.gerrit.acceptance.rest.change.PredicateIT)\nexpected: matched\nbut was : not matched\n\tat com.google.gerrit.acceptance.rest.change.PredicateIT.testLabelPredicate(PredicateIT.java:40)\n\n//javatests/com/google/gerrit/acceptance/rest/change:rest_change_other FAILED in 11.3s",
+      "revId": "3198b17b5f79dc97c5345d9fc4dfdef59527996b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -28,14 +28,8 @@ import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -84,21 +78,15 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     abstract ImmutableSet<String> hashes();
   }
 
-  private final PermissionBackend permissionBackend;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Map<QueryKey, ImmutableList<ChangeData>> queryCache;
   private final Map<BranchNameKey, Optional<RevCommit>> heads;
-  private final ProjectCache projectCache;
   private final ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory;
 
   @Inject
   LocalMergeSuperSetComputation(
-      PermissionBackend permissionBackend,
       Provider<InternalChangeQuery> queryProvider,
-      ProjectCache projectCache,
       ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory) {
-    this.projectCache = projectCache;
-    this.permissionBackend = permissionBackend;
     this.queryProvider = queryProvider;
     this.queryCache = new HashMap<>();
     this.heads = new HashMap<>();
@@ -107,51 +95,46 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
 
   @Override
   public ChangeSet completeWithoutTopic(
-      MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user)
-      throws IOException, PermissionBackendException {
+      MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user) throws IOException {
     Collection<ChangeData> visibleChanges = new ArrayList<>();
     Collection<ChangeData> nonVisibleChanges = new ArrayList<>();
 
     // For each target branch we run a separate rev walk to find open changes
     // reachable from changes already in the merge super set.
-    ImmutableListMultimap<BranchNameKey, ChangeData> bc =
-        byBranch(Iterables.concat(changeSet.changes(), changeSet.nonVisibleChanges()));
-    for (BranchNameKey b : bc.keySet()) {
-      OpenRepo or = getRepo(orm, b.project());
+    ImmutableSet<BranchNameKey> branches =
+        byBranch(Iterables.concat(changeSet.changes(), changeSet.nonVisibleChanges())).keySet();
+    ImmutableListMultimap<BranchNameKey, ChangeData> visibleChangesPerBranch =
+        byBranch(changeSet.changes());
+    ImmutableListMultimap<BranchNameKey, ChangeData> nonVisibleChangesPerBranch =
+        byBranch(changeSet.nonVisibleChanges());
+
+    for (BranchNameKey branchNameKey : branches) {
+      OpenRepo or = getRepo(orm, branchNameKey.project());
       List<RevCommit> visibleCommits = new ArrayList<>();
       List<RevCommit> nonVisibleCommits = new ArrayList<>();
-      for (ChangeData cd : bc.get(b)) {
-        boolean visible = isVisible(changeSet, cd, user);
 
+      for (ChangeData cd : visibleChangesPerBranch.get(branchNameKey)) {
         if (submitType(cd) == SubmitType.CHERRY_PICK) {
-          if (visible) {
-            visibleChanges.add(cd);
-          } else {
-            nonVisibleChanges.add(cd);
-          }
-
-          continue;
-        }
-
-        // Get the underlying git commit object
-        RevCommit commit = or.rw.parseCommit(cd.currentPatchSet().commitId());
-
-        // Always include the input, even if merged. This allows
-        // SubmitStrategyOp to correct the situation later, assuming it gets
-        // returned by byCommitsOnBranchNotMerged below.
-        if (visible) {
-          visibleCommits.add(commit);
+          visibleChanges.add(cd);
         } else {
-          nonVisibleCommits.add(commit);
+          visibleCommits.add(or.rw.parseCommit(cd.currentPatchSet().commitId()));
+        }
+      }
+      for (ChangeData cd : nonVisibleChangesPerBranch.get(branchNameKey)) {
+        if (submitType(cd) == SubmitType.CHERRY_PICK) {
+          nonVisibleChanges.add(cd);
+        } else {
+          visibleCommits.add(or.rw.parseCommit(cd.currentPatchSet().commitId()));
         }
       }
 
       Set<String> visibleHashes =
-          walkChangesByHashes(visibleCommits, Collections.emptySet(), or, b);
-      Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
+          walkChangesByHashes(visibleCommits, Collections.emptySet(), or, branchNameKey);
+      Set<String> nonVisibleHashes =
+          walkChangesByHashes(nonVisibleCommits, visibleHashes, or, branchNameKey);
 
       ChangeSet partialSet =
-          byCommitsOnBranchNotMerged(or, b, visibleHashes, nonVisibleHashes, user);
+          byCommitsOnBranchNotMerged(or, branchNameKey, visibleHashes, nonVisibleHashes, user);
       Iterables.addAll(visibleChanges, partialSet.changes());
       Iterables.addAll(nonVisibleChanges, partialSet.nonVisibleChanges());
     }
@@ -176,26 +159,6 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       return or;
     } catch (NoSuchProjectException e) {
       throw new IOException(e);
-    }
-  }
-
-  private boolean isVisible(ChangeSet changeSet, ChangeData cd, CurrentUser user)
-      throws PermissionBackendException {
-    boolean statePermitsRead =
-        projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false);
-    boolean visible = statePermitsRead && changeSet.ids().contains(cd.getId());
-    if (!visible) {
-      return false;
-    }
-
-    try {
-      permissionBackend.user(user).change(cd).check(ChangePermission.READ);
-      return true;
-    } catch (AuthException e) {
-      // We thought the change was visible, but it isn't.
-      // This can happen if the ACL changes during the
-      // completeChangeSet computation, for example.
-      return false;
     }
   }
 

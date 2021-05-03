@@ -180,8 +180,6 @@ public class ChangeNotesCache {
           + P
           + list(state.reviewerUpdates(), 4 * O + K + K + P)
           + P
-          + list(state.assigneeUpdates(), 4 * O + K + K)
-          + P
           + set(state.attentionSet(), 4 * O + K + I + str(15))
           + P
           + list(state.allAttentionSetUpdates(), 4 * O + K + I + str(15))

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
@@ -69,7 +68,6 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.metrics.Timer0;
-import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -122,7 +120,6 @@ class ChangeNotesParser {
   /** Holds all updates to attention set. */
   private final List<AttentionSetUpdate> allAttentionSetUpdates;
 
-  private final List<AssigneeStatusUpdate> assigneeUpdates;
   private final List<SubmitRecord> submitRecords;
   private final ListMultimap<ObjectId, HumanComment> humanComments;
   private final Map<PatchSet.Id, PatchSet.Builder> patchSets;
@@ -183,7 +180,6 @@ class ChangeNotesParser {
     reviewerUpdates = new ArrayList<>();
     latestAttentionStatus = new HashMap<>();
     allAttentionSetUpdates = new ArrayList<>();
-    assigneeUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
     humanComments = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -255,7 +251,6 @@ class ChangeNotesParser {
         buildReviewerUpdates(),
         ImmutableSet.copyOf(latestAttentionStatus.values()),
         allAttentionSetUpdates,
-        assigneeUpdates,
         submitRecords,
         buildAllMessages(),
         humanComments,
@@ -377,7 +372,6 @@ class ChangeNotesParser {
 
     parseHashtags(commit);
     parseAttentionSetUpdates(commit);
-    parseAssigneeUpdates(commitTimestamp, commit);
 
     parseSubmission(commit, commitTimestamp);
 
@@ -612,22 +606,6 @@ class ChangeNotesParser {
 
       // Keep all updates as well.
       allAttentionSetUpdates.add(attentionStatus.get());
-    }
-  }
-
-  private void parseAssigneeUpdates(Timestamp ts, ChangeNotesCommit commit)
-      throws ConfigInvalidException {
-    String assigneeValue = parseOneFooter(commit, FOOTER_ASSIGNEE);
-    if (assigneeValue != null) {
-      Optional<Account.Id> parsedAssignee;
-      if (assigneeValue.equals("")) {
-        // Empty footer found, assignee deleted
-        parsedAssignee = Optional.empty();
-      } else {
-        PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
-        parsedAssignee = Optional.ofNullable(parseIdent(ident));
-      }
-      assigneeUpdates.add(AssigneeStatusUpdate.create(ts, ownerId, parsedAssignee));
     }
   }
 

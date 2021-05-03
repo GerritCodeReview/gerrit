@@ -78,61 +78,6 @@ public final class ChangeInfoDifferTest {
   }
 
   @Test
-  public void getDiff_givenEqualAssignees_returnsNullAssignee() {
-    ChangeInfo oldChangeInfo =
-        createChangeInfoWithAccount(new AccountInfo("name", "mail@mail.com"));
-    ChangeInfo newChangeInfo =
-        createChangeInfoWithAccount(
-            new AccountInfo(oldChangeInfo.assignee.name, oldChangeInfo.assignee.email));
-
-    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
-
-    assertThat(diff.added().assignee).isNull();
-    assertThat(diff.removed().assignee).isNull();
-  }
-
-  @Test
-  public void getDiff_givenNewAssignee_returnsAssignee() {
-    ChangeInfo oldChangeInfo = new ChangeInfo();
-    ChangeInfo newChangeInfo =
-        createChangeInfoWithAccount(new AccountInfo("name", "mail@mail.com"));
-
-    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
-
-    assertThat(diff.added().assignee).isEqualTo(newChangeInfo.assignee);
-    assertThat(diff.removed().assignee).isNull();
-  }
-
-  @Test
-  public void getDiff_withRemovedAssignee_returnsAssignee() {
-    ChangeInfo oldChangeInfo =
-        createChangeInfoWithAccount(new AccountInfo("name", "mail@mail.com"));
-    ChangeInfo newChangeInfo = new ChangeInfo();
-
-    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
-
-    assertThat(diff.added().assignee).isNull();
-    assertThat(diff.removed().assignee).isEqualTo(oldChangeInfo.assignee);
-  }
-
-  @Test
-  public void getDiff_givenAssigneeWithNewName_returnsNameButNotEmail() {
-    ChangeInfo oldChangeInfo =
-        createChangeInfoWithAccount(new AccountInfo("old name", "mail@mail.com"));
-    ChangeInfo newChangeInfo =
-        createChangeInfoWithAccount(new AccountInfo("new name", oldChangeInfo.assignee.email));
-
-    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
-
-    assertThat(diff.added().assignee).isNotNull();
-    assertThat(diff.added().assignee.name).isEqualTo(newChangeInfo.assignee.name);
-    assertThat(diff.added().assignee.email).isNull();
-    assertThat(diff.removed().assignee).isNotNull();
-    assertThat(diff.removed().assignee.name).isEqualTo(oldChangeInfo.assignee.name);
-    assertThat(diff.removed().assignee.email).isNull();
-  }
-
-  @Test
   public void getDiff_whenHashtagsChanged_returnsHashtags() {
     String removedHashtag = "removed";
     String addedHashtag = "added";
@@ -340,12 +285,6 @@ public final class ChangeInfoDifferTest {
   private static ChangeInfo createChangeInfoWithTopic(String topic) {
     ChangeInfo changeInfo = new ChangeInfo();
     changeInfo.topic = topic;
-    return changeInfo;
-  }
-
-  private static ChangeInfo createChangeInfoWithAccount(AccountInfo accountInfo) {
-    ChangeInfo changeInfo = new ChangeInfo();
-    changeInfo.assignee = accountInfo;
     return changeInfo;
   }
 

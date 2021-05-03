@@ -179,9 +179,6 @@ public class ChangeResource implements RestResource, HasETag {
     byte[] buf = new byte[20];
     Set<Account.Id> accounts = new HashSet<>();
     accounts.add(getChange().getOwner());
-    if (getChange().getAssignee() != null) {
-      accounts.add(getChange().getAssignee());
-    }
     try {
       patchSetUtil.byChange(getNotes()).stream().map(PatchSet::uploader).forEach(accounts::add);
 

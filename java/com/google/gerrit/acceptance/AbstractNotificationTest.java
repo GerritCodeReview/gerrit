@@ -328,7 +328,6 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     public final TestAccount reviewer;
     public final TestAccount ccer;
     public final TestAccount starrer;
-    public final TestAccount assignee;
     public final TestAccount watchingProjectOwner;
     private final Map<NotifyType, TestAccount> watchers = new HashMap<>();
     private final Map<String, TestAccount> accountsByEmail = new HashMap<>();
@@ -354,7 +353,6 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
           reviewer = reindexAndCopy(existing.reviewer);
           ccer = reindexAndCopy(existing.ccer);
           starrer = reindexAndCopy(existing.starrer);
-          assignee = reindexAndCopy(existing.assignee);
           watchingProjectOwner = reindexAndCopy(existing.watchingProjectOwner);
           watchers.putAll(existing.watchers);
           return;
@@ -366,7 +364,6 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
         uploader = testAccount("uploader");
         ccer = testAccount("ccer");
         starrer = testAccount("starrer");
-        assignee = testAccount("assignee");
 
         watchingProjectOwner = testAccount("watchingProjectOwner", "Administrators");
         requestScopeOperations.setApiUser(watchingProjectOwner.id());

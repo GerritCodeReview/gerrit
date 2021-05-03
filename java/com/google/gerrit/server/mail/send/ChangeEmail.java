@@ -501,9 +501,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     footers.add(MailHeader.CHANGE_NUMBER.withDelimiter() + Integer.toString(change.getChangeId()));
     footers.add(MailHeader.PATCH_SET.withDelimiter() + patchSet.number());
     footers.add(MailHeader.OWNER.withDelimiter() + getNameEmailFor(change.getOwner()));
-    if (change.getAssignee() != null) {
-      footers.add(MailHeader.ASSIGNEE.withDelimiter() + getNameEmailFor(change.getAssignee()));
-    }
     for (String reviewer : getEmailsByState(ReviewerStateInternal.REVIEWER)) {
       footers.add(MailHeader.REVIEWER.withDelimiter() + reviewer);
     }

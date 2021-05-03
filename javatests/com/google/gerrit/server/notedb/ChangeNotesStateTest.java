@@ -41,12 +41,10 @@ import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.Protos;
-import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
-import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AssigneeStatusUpdateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AttentionSetUpdateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeColumnsProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
@@ -671,35 +669,6 @@ public class ChangeNotesStateTest {
   }
 
   @Test
-  public void serializeAssigneeUpdates() throws Exception {
-    assertRoundTrip(
-        newBuilder()
-            .assigneeUpdates(
-                ImmutableList.of(
-                    AssigneeStatusUpdate.create(
-                        new Timestamp(1212L), Account.id(1000), Optional.of(Account.id(2001))),
-                    AssigneeStatusUpdate.create(
-                        new Timestamp(3434L), Account.id(1000), Optional.empty())))
-            .build(),
-        ChangeNotesStateProto.newBuilder()
-            .setMetaId(SHA_BYTES)
-            .setChangeId(ID.get())
-            .setColumns(colsProto)
-            .addAssigneeUpdate(
-                AssigneeStatusUpdateProto.newBuilder()
-                    .setTimestampMillis(1212L)
-                    .setUpdatedBy(1000)
-                    .setCurrentAssignee(2001)
-                    .setHasCurrentAssignee(true))
-            .addAssigneeUpdate(
-                AssigneeStatusUpdateProto.newBuilder()
-                    .setTimestampMillis(3434L)
-                    .setUpdatedBy(1000)
-                    .setHasCurrentAssignee(false))
-            .build());
-  }
-
-  @Test
   public void serializeSubmitRecords() throws Exception {
     SubmitRecord sr1 = new SubmitRecord();
     sr1.status = SubmitRecord.Status.OK;
@@ -834,9 +803,6 @@ public class ChangeNotesStateTest {
                 .put(
                     "allAttentionSetUpdates",
                     new TypeLiteral<ImmutableList<AttentionSetUpdate>>() {}.getType())
-                .put(
-                    "assigneeUpdates",
-                    new TypeLiteral<ImmutableList<AssigneeStatusUpdate>>() {}.getType())
                 .put("submitRecords", new TypeLiteral<ImmutableList<SubmitRecord>>() {}.getType())
                 .put("changeMessages", new TypeLiteral<ImmutableList<ChangeMessage>>() {}.getType())
                 .put(
@@ -942,19 +908,6 @@ public class ChangeNotesStateTest {
                 "updatedBy", Account.Id.class,
                 "reviewer", Account.Id.class,
                 "state", ReviewerStateInternal.class));
-  }
-
-  @Test
-  public void assigneeStatusUpdateMethods() throws Exception {
-    assertThatSerializedClass(AssigneeStatusUpdate.class)
-        .hasAutoValueMethods(
-            ImmutableMap.of(
-                "date",
-                Timestamp.class,
-                "updatedBy",
-                Account.Id.class,
-                "currentAssignee",
-                new TypeLiteral<Optional<Account.Id>>() {}.getType()));
   }
 
   @Test

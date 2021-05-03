@@ -31,7 +31,6 @@ import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.mail.send.RevertedSender;
-import com.google.gerrit.server.mail.send.SetAssigneeSender;
 
 public class EmailModule extends FactoryModule {
   @Override
@@ -50,7 +49,6 @@ public class EmailModule extends FactoryModule {
     factory(ReplacePatchSetSender.Factory.class);
     factory(RestoredSender.Factory.class);
     factory(RevertedSender.Factory.class);
-    factory(SetAssigneeSender.Factory.class);
     factory(AddToAttentionSetSender.Factory.class);
     factory(RemoveFromAttentionSetSender.Factory.class);
   }

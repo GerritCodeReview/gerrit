@@ -72,10 +72,6 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     if (submissionId != null) {
       builder.setSubmissionId(submissionId);
     }
-    Account.Id assignee = change.getAssignee();
-    if (assignee != null) {
-      builder.setAssignee(accountIdConverter.toProto(assignee));
-    }
     Change.Id revertOf = change.getRevertOf();
     if (revertOf != null) {
       builder.setRevertOf(changeIdConverter.toProto(revertOf));
@@ -114,9 +110,6 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     }
     if (proto.hasSubmissionId()) {
       change.setSubmissionId(proto.getSubmissionId());
-    }
-    if (proto.hasAssignee()) {
-      change.setAssignee(accountIdConverter.fromProto(proto.getAssignee()));
     }
     change.setPrivate(proto.getIsPrivate());
     change.setWorkInProgress(proto.getWorkInProgress());

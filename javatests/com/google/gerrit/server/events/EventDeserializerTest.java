@@ -67,22 +67,6 @@ public class EventDeserializerTest {
   }
 
   @Test
-  public void assigneeChangedEvent() {
-    Change change = newChange();
-    AssigneeChangedEvent orig = new AssigneeChangedEvent(change);
-    orig.change = asChangeAttribute(change);
-    orig.changer = newAccount("changer");
-    orig.oldAssignee = newAccount("oldAssignee");
-
-    AssigneeChangedEvent e = roundTrip(orig);
-
-    assertThat(e).isNotNull();
-    assertSameChangeEvent(e, orig);
-    assertSameAccount(e.changer, orig.changer);
-    assertSameAccount(e.oldAssignee, orig.oldAssignee);
-  }
-
-  @Test
   public void changeDeletedEvent() {
     Change change = newChange();
     ChangeDeletedEvent orig = new ChangeDeletedEvent(change);

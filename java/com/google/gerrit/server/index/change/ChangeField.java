@@ -338,9 +338,9 @@ public class ChangeField {
           .buildRepeatable(ChangeField::storedAttentionSet);
 
   /** The user assigned to the change. */
+  @Deprecated
   public static final FieldDef<ChangeData, Integer> ASSIGNEE =
-      integer(ChangeQueryBuilder.FIELD_ASSIGNEE)
-          .build(changeGetter(c -> c.getAssignee() != null ? c.getAssignee().get() : NO_ASSIGNEE));
+      integer(ChangeQueryBuilder.FIELD_ASSIGNEE).build(changeGetter((t) -> NO_ASSIGNEE));
 
   /** Reviewer(s) associated with the change. */
   public static final FieldDef<ChangeData, Iterable<String>> REVIEWER =

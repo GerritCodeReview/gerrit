@@ -46,7 +46,8 @@ message Change {
   optional string topic = 14;
   optional string original_subject = 17;
   optional string submission_id = 18;
-  optional Account_Id assignee = 19;
+  // Deleted field:
+  // optional Account_Id assignee = 19;
   optional bool is_private = 20;
   optional bool work_in_progress = 21;
   optional bool review_started = 22;

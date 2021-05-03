@@ -1450,7 +1450,7 @@ this can be specified by setting `scope = CapabilityScope.CORE`:
 
 By implementing the `com.google.gerrit.server.restapi.change.OnPostReview`
 interface plugins can extend the change message that is being posted when the
-[post review](rest-api-changes.html#set-review) REST endpoint is invoked.
+link:rest-api-changes.html#set-review[post review] REST endpoint is invoked.
 
 This is useful if certain approvals have a special meaning (e.g. custom logic
 that is implemented in Prolog submit rules, signal for triggering an action
@@ -1458,6 +1458,8 @@ like running CI etc.), as it allows the plugin to tell users about this meaning
 in the change message. This makes the effect of a given approval more
 transparent to the user.
 
+[[ui_extension]]
+== UI Extension
 
 [[actions]]
 === Actions

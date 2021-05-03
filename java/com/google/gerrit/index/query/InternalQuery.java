@@ -42,7 +42,7 @@ import java.util.function.Supplier;
  */
 public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
   private final QueryProcessor<T> queryProcessor;
-  private final IndexCollection<?, T, ? extends Index<?, T>> indexes;
+  protected final IndexCollection<?, T, ? extends Index<?, T>> indexes;
 
   protected final IndexConfig indexConfig;
 

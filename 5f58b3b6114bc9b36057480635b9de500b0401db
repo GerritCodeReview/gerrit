@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77ba39e6_a6c000d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-03T15:38:36Z",
+      "side": 1,
+      "message": "Looks good, thanks!\n\nBut on master we have two independent releases for frontend and backend. So we cannot merge this as is into master. We would need to first change and release the frontend. And then later the backend. :-(\n\nEither we have break this up or delay the submit or the merge until I have at least forced the frontend to always return true for isAttentionSetEnabled(). What do you prefer?",
+      "revId": "5f58b3b6114bc9b36057480635b9de500b0401db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

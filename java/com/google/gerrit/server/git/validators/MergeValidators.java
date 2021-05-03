@@ -200,7 +200,7 @@ public class MergeValidators {
                   throw new MergeValidationException(SET_BY_ADMIN, e);
                 } catch (PermissionBackendException e) {
                   logger.atWarning().withCause(e).log("Cannot check ADMINISTRATE_SERVER");
-                  throw new MergeValidationException("validation unavailable");
+                  throw new MergeValidationException("validation unavailable", e);
                 }
               } else {
                 try {
@@ -212,7 +212,7 @@ public class MergeValidators {
                   throw new MergeValidationException(SET_BY_OWNER, e);
                 } catch (PermissionBackendException e) {
                   logger.atWarning().withCause(e).log("Cannot check WRITE_CONFIG");
-                  throw new MergeValidationException("validation unavailable");
+                  throw new MergeValidationException("validation unavailable", e);
                 }
               }
               if (allUsersName.equals(destProject.getNameKey())
@@ -319,7 +319,7 @@ public class MergeValidators {
         }
       } catch (StorageException e) {
         logger.atSevere().withCause(e).log("Cannot validate account update");
-        throw new MergeValidationException("account validation unavailable");
+        throw new MergeValidationException("account validation unavailable", e);
       }
 
       try {
@@ -331,7 +331,7 @@ public class MergeValidators {
         }
       } catch (IOException e) {
         logger.atSevere().withCause(e).log("Cannot validate account update");
-        throw new MergeValidationException("account validation unavailable");
+        throw new MergeValidationException("account validation unavailable", e);
       }
     }
   }

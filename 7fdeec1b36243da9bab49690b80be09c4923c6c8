@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c0131f3_79c74594",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-03T05:34:57Z",
+      "side": 1,
+      "message": "Test failure seems to be related:\n\n\u003e gr-account-label tests\n\nI cannot reproduce this failure on IDE.\n\n",
+      "revId": "7fdeec1b36243da9bab49690b80be09c4923c6c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

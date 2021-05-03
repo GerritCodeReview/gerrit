@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "94383807_a480bf82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-03T06:34:40Z",
+      "side": 1,
+      "message": "Could you elaborate more the commit message, explain the issue that is happening with the username field.\n\n`the issue when typing a username the field is instantly hidden`?",
+      "parentUuid": "1c69d6cb_d97b269a",
+      "revId": "cace0c5dcc293dfcc60974cb38f1206597c73b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fc069f14_134c0ecf",

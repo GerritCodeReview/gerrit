@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f53cd75d_d8b3ef31",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-03T14:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5db34cd5_28501af3",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 40
+      },
+      "revId": "6179040a38aa3c4fba97dabc2943283ce9942107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9f610a5_68bce03d",
@@ -71,6 +95,30 @@
       "writtenOn": "2021-05-03T12:36:42Z",
       "side": 1,
       "message": "Long parameter lists are typically a good indication that there is an opportunity to refactor into a separate class or component. I don\u0027t want to put the burden on you, but I had asked Hermann to maybe create a separate component for expansion buttons, and I think it would start paying off here. I don\u0027t like how much DOM we are creating programmatically here. Feel free to push back on such a fairly refactoring, but maybe add a TODO such that it would be the agreed upon path forward.",
+      "range": {
+        "startLine": 407,
+        "startChar": 5,
+        "endLine": 415,
+        "endChar": 8
+      },
+      "revId": "6179040a38aa3c4fba97dabc2943283ce9942107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c730deb1_f0db1026",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-03T14:14:41Z",
+      "side": 1,
+      "message": "I 100% agree with you. I tried to extract the whole creation of context controls into a separate class but got stuck whenever defining event listeners, where we use methods specific from polymer components:\n\n```\nthis.fire(button, \u0027content-load-needed\u0027, {\n          lineRange,\n        });\n```\n\nIdeally we would either extract the whole line into a polymer component (using lit-html?) or refactor the code a bit so it can be extracted into a class. \n\nI will do it but would rather do it in the next iterations still in the context of block expansion - if that is fine for you of course - so not a hard push back but a soft one.\n\nAdding it as a TODO for me in code.",
+      "parentUuid": "f9f610a5_68bce03d",
       "range": {
         "startLine": 407,
         "startChar": 5,
@@ -98,6 +146,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab828080_e73551de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-03T14:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2803037_5ca782c7",
+      "revId": "6179040a38aa3c4fba97dabc2943283ce9942107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e9cea86_d538632f",
@@ -111,6 +177,30 @@
       "writtenOn": "2021-05-03T12:36:42Z",
       "side": 1,
       "message": "Maybe extract this into a method and try re-using it for above and below.\n\nThat would also make it easier to insert clearer statements like:\n\n  if (!containingBlock) return undefined;",
+      "range": {
+        "startLine": 504,
+        "startChar": 6,
+        "endLine": 523,
+        "endChar": 7
+      },
+      "revId": "6179040a38aa3c4fba97dabc2943283ce9942107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fed9bc7b_d8e571ab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-03T14:14:41Z",
+      "side": 1,
+      "message": "I extracted it to a method, but I 100% agree with you creating the whole context expansion row should be an independent polymer component (or at least be extracted into a separate class).",
+      "parentUuid": "7e9cea86_d538632f",
       "range": {
         "startLine": 504,
         "startChar": 6,

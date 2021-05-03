@@ -18,7 +18,10 @@ import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../gr-diff/gr-diff';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-host_html';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GerritNav,
+  GeneratedWebLink,
+} from '../../core/gr-navigation/gr-navigation';
 import {
   getLine,
   getRange,
@@ -186,6 +189,9 @@ export class GrDiffHost extends PolymerElement {
 
   @property({type: Object})
   commitRange?: CommitRange;
+
+  @property({type: Object, notify: true})
+  editWeblinks?: GeneratedWebLink[];
 
   @property({type: Object, notify: true})
   filesWeblinks: FilesWebLinks | {} = {};
@@ -372,6 +378,7 @@ export class GrDiffHost extends PolymerElement {
       // Not waiting for coverage ranges intentionally as
       // plugin loading should not block the content rendering
 
+      this.editWeblinks = this._getEditWeblinks(diff);
       this.filesWeblinks = this._getFilesWeblinks(diff);
       this.diff = diff;
       const event = (await waitForEventOnce(this, 'render')) as CustomEvent;
@@ -485,6 +492,16 @@ export class GrDiffHost extends PolymerElement {
       .catch(err => {
         console.warn('Loading coverage ranges failed: ', err);
       });
+  }
+
+  _getEditWeblinks(diff: DiffInfo) {
+    if (!this.projectName || !this.commitRange || !this.path) return undefined;
+    return GerritNav.getEditWebLinks(
+      this.projectName,
+      this.commitRange.baseCommit,
+      this.path,
+      {weblinks: diff?.edit_web_links}
+    );
   }
 
   _getFilesWeblinks(diff: DiffInfo) {

@@ -62,6 +62,7 @@ const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?[Pp]atch [Ss]et \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.]?$/;
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
+const VOTE_RESET_TEXT = '0(vote reset)';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -466,7 +467,7 @@ export class GrMessage extends PolymerElement {
       )
       .map(ms => {
         const label = ms?.[2];
-        const value = ms?.[1] === '-' ? 'removed' : ms?.[3];
+        const value = ms?.[1] === '-' ? VOTE_RESET_TEXT : ms?.[3];
         return {label, value};
       });
   }
@@ -479,7 +480,7 @@ export class GrMessage extends PolymerElement {
     if (!score.value) {
       return '';
     }
-    if (score.value === 'removed') {
+    if (score.value.includes(VOTE_RESET_TEXT)) {
       return 'removed';
     }
     const classes = [];

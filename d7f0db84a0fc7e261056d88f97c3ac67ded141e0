@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fce5f8f1_fe121231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-03T15:10:20Z",
+      "side": 1,
+      "message": "Doesn\u0027t this mean that ported comments would not work for renamed files? (Is that acceptable?)",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc3e7ee6_91c4d523",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5300,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-03T15:10:20Z",
+      "side": 1,
+      "message": "Which other revisions?",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "583a7b66_43785e76",
+        "filename": "java/com/google/gerrit/extensions/api/changes/FileApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-03T15:10:20Z",
+      "side": 1,
+      "message": "Add javadoc.",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32f74e7c_f3bba445",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPortedComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-03T15:10:20Z",
+      "side": 1,
+      "message": "At this point it\u0027s no longer allComments. Maybe introduce a second variable fileComments?\n\nOn second thought, WDYT about making this a filter in CommentPorter where it already does filtering anyway? That way all of this logic would be in one place.",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

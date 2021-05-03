@@ -73,6 +73,8 @@ public class DiffInfoCreator {
 
     ImmutableList<DiffWebLinkInfo> links = webLinksProvider.getDiffLinks();
     result.webLinks = links.isEmpty() ? null : links;
+    ImmutableList<WebLinkInfo> editLinks = webLinksProvider.getEditWebLinks();
+    result.editWebLinks = editLinks.isEmpty() ? null : editLinks;
 
     if (ps.isBinary()) {
       result.binary = true;
@@ -158,8 +160,6 @@ public class DiffInfoCreator {
     result.lines = fileInfo.content.getSize();
     ImmutableList<WebLinkInfo> fileLinks = webLinksProvider.getFileWebLinks(side.type());
     result.webLinks = fileLinks.isEmpty() ? null : fileLinks;
-    ImmutableList<WebLinkInfo> editLinks = webLinksProvider.getEditWebLinks(side.type());
-    result.editWebLinks = editLinks.isEmpty() ? null : editLinks;
     result.commitId = fileInfo.commitId;
     return Optional.of(result);
   }

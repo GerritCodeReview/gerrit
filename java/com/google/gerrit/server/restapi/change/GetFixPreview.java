@@ -142,7 +142,7 @@ public class GetFixPreview implements RestReadView<FixResource> {
     }
 
     @Override
-    public ImmutableList<WebLinkInfo> getEditWebLinks(Type fileInfoType) {
+    public ImmutableList<WebLinkInfo> getEditWebLinks() {
       return ImmutableList.of();
     }
   }

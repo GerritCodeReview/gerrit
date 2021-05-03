@@ -65,10 +65,10 @@ export declare interface DiffWebLinkInfo {
   url: string;
   /** URL to the icon of the link. */
   image_url: string;
-  // TODO: Are these really of type string? Not able to trigger them, but the
-  // docs sound more like boolean.
-  show_on_side_by_side_diff_view: string;
-  show_on_unified_diff_view: string;
+  /** Whether the web link should be shown on the side-by-side diff screen. */
+  show_on_side_by_side_diff_view: boolean;
+  /** Whether the web link should be shown on the unified diff screen. */
+  show_on_unified_diff_view: boolean;
 }
 
 export interface DiffFileMetaInfo extends DiffFileMetaInfoApi {

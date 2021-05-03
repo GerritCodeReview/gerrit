@@ -74,6 +74,11 @@ public class DiffInfoSubject extends Subject {
     return check("webLinks").that(diffInfo.webLinks);
   }
 
+  public IterableSubject editWebLinks() {
+    isNotNull();
+    return check("editWebLinks").that(diffInfo.editWebLinks);
+  }
+
   public BooleanSubject binary() {
     isNotNull();
     return check("binary").that(diffInfo.binary);

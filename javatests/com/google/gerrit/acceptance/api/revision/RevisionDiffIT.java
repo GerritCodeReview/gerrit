@@ -160,8 +160,8 @@ public class RevisionDiffIT extends AbstractDaemonTest {
               .revision(result.getCommit().name())
               .file(fileName)
               .diff();
-      assertThat(info.metaB.editWebLinks).hasSize(1);
-      assertThat(info.metaB.editWebLinks.get(0).url)
+      assertThat(info.editWebLinks).hasSize(1);
+      assertThat(info.editWebLinks.get(0).url)
           .isEqualTo("http://edit/" + project + "/" + fileName);
     }
   }

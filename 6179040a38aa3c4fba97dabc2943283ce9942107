@@ -16,6 +16,109 @@
       "message": "Hey Ben,\n\nI\u0027m still planning to add some tests to this behavior but since it\u0027s protected by a renderPreference (feature flag) + we will probably still change behavior we can maybe split it in small commits.",
       "revId": "6179040a38aa3c4fba97dabc2943283ce9942107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "397bb9bb_af6fa185",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-03T12:36:42Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "6179040a38aa3c4fba97dabc2943283ce9942107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db34cd5_28501af3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-03T12:36:42Z",
+      "side": 1,
+      "message": "most instead of mostly?",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 40
+      },
+      "revId": "6179040a38aa3c4fba97dabc2943283ce9942107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9f610a5_68bce03d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-03T12:36:42Z",
+      "side": 1,
+      "message": "Long parameter lists are typically a good indication that there is an opportunity to refactor into a separate class or component. I don\u0027t want to put the burden on you, but I had asked Hermann to maybe create a separate component for expansion buttons, and I think it would start paying off here. I don\u0027t like how much DOM we are creating programmatically here. Feel free to push back on such a fairly refactoring, but maybe add a TODO such that it would be the agreed upon path forward.",
+      "range": {
+        "startLine": 407,
+        "startChar": 5,
+        "endLine": 415,
+        "endChar": 8
+      },
+      "revId": "6179040a38aa3c4fba97dabc2943283ce9942107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2803037_5ca782c7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-03T12:36:42Z",
+      "side": 1,
+      "message": "Using `if (!...) return undefined;` decreases the nesting levels.",
+      "revId": "6179040a38aa3c4fba97dabc2943283ce9942107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e9cea86_d538632f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-03T12:36:42Z",
+      "side": 1,
+      "message": "Maybe extract this into a method and try re-using it for above and below.\n\nThat would also make it easier to insert clearer statements like:\n\n  if (!containingBlock) return undefined;",
+      "range": {
+        "startLine": 504,
+        "startChar": 6,
+        "endLine": 523,
+        "endChar": 7
+      },
+      "revId": "6179040a38aa3c4fba97dabc2943283ce9942107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

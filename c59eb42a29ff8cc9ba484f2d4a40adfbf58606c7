@@ -16,6 +16,23 @@
       "message": "Please coordinate with Dhruv.",
       "revId": "c59eb42a29ff8cc9ba484f2d4a40adfbf58606c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5fde1c9_3e7e9bf8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-03T06:58:37Z",
+      "side": 1,
+      "message": "Maybe cherry pick https://gerrit-review.googlesource.com/c/gerrit/+/303642 before this change? This was the fix for the internal build.",
+      "revId": "c59eb42a29ff8cc9ba484f2d4a40adfbf58606c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

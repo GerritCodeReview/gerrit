@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b5d0061_a7a11cbf",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-05-03T17:42:39Z",
+      "side": 1,
+      "message": "Add spacing between 0 and (",
+      "range": {
+        "startLine": 65,
+        "startChar": 25,
+        "endLine": 65,
+        "endChar": 27
+      },
+      "revId": "c8c4b1a348208e82d4d99d90cf78231c4b2e4585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "8b61565ae2b88e51ba4f6a652add49499537609e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b61d08b1_a15e162e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-05-03T14:40:27Z",
+      "side": 1,
+      "message": "I was following how we did it for https://github.com/GerritCodeReview/gerrit/blob/14aa087f9c530341f0783dd7869b08bd88bf5846/polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts#L117. Though that has a note so i will add it.\n\nFor `this._account \u003d {...this._account, ...account};` i\u0027m not sure.\n\nDon\u0027t think we need to do that? We can simply do https://github.com/GerritCodeReview/gerrit/blob/14aa087f9c530341f0783dd7869b08bd88bf5846/polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts#L118 ?",
+      "parentUuid": "917122d4_7da3fda8",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 53
+      },
+      "revId": "8b61565ae2b88e51ba4f6a652add49499537609e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

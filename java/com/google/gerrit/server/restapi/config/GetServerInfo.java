@@ -54,8 +54,6 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
-import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.plugincontext.PluginMapContext;
@@ -91,7 +89,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final QueryDocumentationExecutor docSearcher;
   private final ProjectCache projectCache;
   private final AgreementJson agreementJson;
-  private final ChangeIndexCollection indexes;
   private final SitePaths sitePaths;
 
   @Inject
@@ -114,7 +111,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       QueryDocumentationExecutor docSearcher,
       ProjectCache projectCache,
       AgreementJson agreementJson,
-      ChangeIndexCollection indexes,
       SitePaths sitePaths) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
@@ -134,7 +130,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.docSearcher = docSearcher;
     this.projectCache = projectCache;
     this.agreementJson = agreementJson;
-    this.indexes = indexes;
     this.sitePaths = sitePaths;
   }
 
@@ -217,11 +212,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private ChangeConfigInfo getChangeInfo() {
     ChangeConfigInfo info = new ChangeConfigInfo();
     info.allowBlame = toBoolean(config.getBoolean("change", "allowBlame", true));
-    boolean hasAssigneeInIndex =
-        indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE);
-    info.showAssigneeInChangesTable =
-        toBoolean(
-            config.getBoolean("change", "showAssigneeInChangesTable", false) && hasAssigneeInIndex);
     info.replyTooltip =
         Optional.ofNullable(config.getString("change", null, "replyTooltip"))
                 .orElse("Reply and score")
@@ -238,8 +228,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         MergeabilityComputationBehavior.fromConfig(config).name();
     info.enableAttentionSet =
         toBoolean(this.config.getBoolean("change", null, "enableAttentionSet", true));
-    info.enableAssignee =
-        toBoolean(this.config.getBoolean("change", null, "enableAssignee", false));
     return info;
   }
 

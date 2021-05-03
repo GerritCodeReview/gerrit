@@ -139,7 +139,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_AGE = "age";
   public static final String FIELD_ATTENTION_SET_USERS = "attentionusers";
   public static final String FIELD_ATTENTION_SET_FULL = "attentionfull";
-  public static final String FIELD_ASSIGNEE = "assignee";
+  @Deprecated public static final String FIELD_ASSIGNEE = "assignee";
   public static final String FIELD_AUTHOR = "author";
   public static final String FIELD_EXACTAUTHOR = "exactauthor";
 
@@ -652,14 +652,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           "'is:private' operator is not supported by change index version");
     }
 
-    if ("assigned".equalsIgnoreCase(value)) {
-      return Predicate.not(new AssigneePredicate(Account.id(ChangeField.NO_ASSIGNEE)));
-    }
-
-    if ("unassigned".equalsIgnoreCase(value)) {
-      return new AssigneePredicate(Account.id(ChangeField.NO_ASSIGNEE));
-    }
-
     if ("submittable".equalsIgnoreCase(value)) {
       // SubmittablePredicate will match if *any* of the submit records are OK,
       // but we need to check that they're *all* OK, so check that none of the
@@ -1147,20 +1139,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private Predicate<ChangeData> attention(Set<Account.Id> who) {
     return Predicate.or(who.stream().map(AttentionSetPredicate::new).collect(toImmutableSet()));
-  }
-
-  @Operator
-  public Predicate<ChangeData> assignee(String who)
-      throws QueryParseException, IOException, ConfigInvalidException {
-    return assignee(parseAccount(who, (AccountState s) -> true));
-  }
-
-  private Predicate<ChangeData> assignee(Set<Account.Id> who) {
-    List<AssigneePredicate> p = Lists.newArrayListWithCapacity(who.size());
-    for (Account.Id id : who) {
-      p.add(new AssigneePredicate(id));
-    }
-    return Predicate.or(p);
   }
 
   @Operator

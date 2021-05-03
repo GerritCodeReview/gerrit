@@ -487,9 +487,6 @@ public final class Change {
    */
   @Nullable protected String submissionId;
 
-  /** Allows assigning a change to a user. */
-  @Nullable protected Account.Id assignee;
-
   /** Whether the change is private. */
   protected boolean isPrivate;
 
@@ -523,7 +520,6 @@ public final class Change {
   }
 
   public Change(Change other) {
-    assignee = other.assignee;
     changeId = other.changeId;
     changeKey = other.changeKey;
     rowVersion = other.rowVersion;
@@ -561,14 +557,6 @@ public final class Change {
 
   public void setKey(Change.Key k) {
     changeKey = k;
-  }
-
-  public Account.Id getAssignee() {
-    return assignee;
-  }
-
-  public void setAssignee(Account.Id a) {
-    assignee = a;
   }
 
   public Timestamp getCreatedOn() {

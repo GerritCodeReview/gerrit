@@ -1324,13 +1324,6 @@ attention set are enabled.
 +
 The default is true.
 
-[[change.enableAssignee]]change.enableAssignee::
-+
-If set to true, then all UI features for using and interacting with the
-assignee are enabled.
-+
-The default is false.
-
 [[change.maxComments]]change.maxComments::
 +
 Maximum number of comments (regular plus robot) allowed per change. Additional
@@ -1448,13 +1441,6 @@ creating a new patchset unless they are project watchers or have starred
 the change.
 +
 Default is true.
-
-[[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::
-+
-Show assignee field in changes table. If set to false, assignees will
-not be visible in changes table.
-+
-Default is false.
 
 [[change.strictLabels]]change.strictLabels::
 +

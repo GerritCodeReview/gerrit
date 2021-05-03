@@ -346,22 +346,6 @@ public interface ChangeApi {
   /** Adds a user to the attention set. */
   AccountInfo addToAttentionSet(AttentionSetInput input) throws RestApiException;
 
-  /** Set the assignee of a change. */
-  AccountInfo setAssignee(AssigneeInput input) throws RestApiException;
-
-  /** Get the assignee of a change. */
-  AccountInfo getAssignee() throws RestApiException;
-
-  /** Get all past assignees. */
-  List<AccountInfo> getPastAssignees() throws RestApiException;
-
-  /**
-   * Delete the assignee of a change.
-   *
-   * @return the assignee that was deleted, or null if there was no assignee.
-   */
-  AccountInfo deleteAssignee() throws RestApiException;
-
   /**
    * Get all published comments on a change.
    *
@@ -706,26 +690,6 @@ public interface ChangeApi {
 
     @Override
     public AccountInfo addToAttentionSet(AttentionSetInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public AccountInfo setAssignee(AssigneeInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public AccountInfo getAssignee() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public List<AccountInfo> getPastAssignees() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public AccountInfo deleteAssignee() throws RestApiException {
       throw new NotImplementedException();
     }
 

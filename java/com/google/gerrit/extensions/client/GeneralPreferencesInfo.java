@@ -136,7 +136,6 @@ public class GeneralPreferencesInfo {
   public DateFormat dateFormat;
   public TimeFormat timeFormat;
   public Boolean expandInlineDiffs;
-  public Boolean highlightAssigneeInChangeTable;
   public Boolean relativeDateInChangeTable;
   public DiffView diffView;
   public Boolean sizeBarInChangeTable;
@@ -195,7 +194,6 @@ public class GeneralPreferencesInfo {
     p.dateFormat = DateFormat.STD;
     p.timeFormat = TimeFormat.HHMM_12;
     p.expandInlineDiffs = false;
-    p.highlightAssigneeInChangeTable = true;
     p.relativeDateInChangeTable = false;
     p.diffView = DiffView.SIDE_BY_SIDE;
     p.sizeBarInChangeTable = true;

@@ -18,7 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
@@ -141,7 +140,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String commit;
   private Map<Account.Id, AttentionSetUpdate> plannedAttentionSetUpdates;
   private boolean ignoreFurtherAttentionSetUpdates;
-  private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
   private String tag;
@@ -425,15 +423,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     addToPlannedAttentionSetUpdates(ImmutableSet.of(update));
   }
 
-  public void setAssignee(Account.Id assignee) {
-    checkArgument(assignee != null, "use removeAssignee");
-    this.assignee = Optional.of(assignee);
-  }
-
-  public void removeAssignee() {
-    this.assignee = Optional.empty();
-  }
-
   public Map<Account.Id, ReviewerStateInternal> getReviewers() {
     return reviewers;
   }
@@ -642,15 +631,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (commit != null) {
       addFooter(msg, FOOTER_COMMIT, commit);
-    }
-
-    if (assignee != null) {
-      if (assignee.isPresent()) {
-        addFooter(msg, FOOTER_ASSIGNEE);
-        noteUtil.appendAccountIdIdentString(msg, assignee.get()).append('\n');
-      } else {
-        addFooter(msg, FOOTER_ASSIGNEE).append('\n');
-      }
     }
 
     Joiner comma = Joiner.on(',');
@@ -937,7 +917,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && submissionId == null
         && submitRecords == null
         && plannedAttentionSetUpdates == null
-        && assignee == null
         && hashtags == null
         && topic == null
         && commit == null

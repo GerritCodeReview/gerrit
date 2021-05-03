@@ -42,7 +42,6 @@ import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.change.ReviewerResource;
-import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.change.SetCherryPickOp;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.SetPrivateOp;
@@ -91,10 +90,6 @@ public class Module extends RestApiModule {
     delete(ATTENTION_SET_ENTRY_KIND).to(RemoveFromAttentionSet.class);
     post(ATTENTION_SET_ENTRY_KIND, "delete").to(RemoveFromAttentionSet.class);
     postOnCollection(ATTENTION_SET_ENTRY_KIND).to(AddToAttentionSet.class);
-    get(CHANGE_KIND, "assignee").to(GetAssignee.class);
-    get(CHANGE_KIND, "past_assignees").to(GetPastAssignees.class);
-    put(CHANGE_KIND, "assignee").to(PutAssignee.class);
-    delete(CHANGE_KIND, "assignee").to(DeleteAssignee.class);
     get(CHANGE_KIND, "hashtags").to(GetHashtags.class);
     get(CHANGE_KIND, "comments").to(ListChangeComments.class);
     get(CHANGE_KIND, "robotcomments").to(ListChangeRobotComments.class);
@@ -217,7 +212,6 @@ public class Module extends RestApiModule {
     factory(AddReviewersOp.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
-    factory(SetAssigneeOp.Factory.class);
     factory(SetCherryPickOp.Factory.class);
     factory(SetHashtagsOp.Factory.class);
     factory(SetTopicOp.Factory.class);

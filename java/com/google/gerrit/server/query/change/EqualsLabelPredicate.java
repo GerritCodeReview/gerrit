@@ -53,6 +53,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) {
+    object.setLazyLoad(true);
     Change c = object.change();
     if (c == null) {
       // The change has disappeared.

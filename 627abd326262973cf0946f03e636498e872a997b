@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea52d37e_37e316e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-03T06:45:20Z",
+      "side": 1,
+      "message": "Nice!\n\nMost merge validators have an equivalent CommitValidator, but I think we don\u0027t need that here b/c the problem only occurs when merging changes.",
+      "revId": "627abd326262973cf0946f03e636498e872a997b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c12f732_98c31185",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-03T06:45:20Z",
+      "side": 1,
+      "message": "nit: missing . at the end",
+      "range": {
+        "startLine": 374,
+        "startChar": 56,
+        "endLine": 374,
+        "endChar": 57
+      },
+      "revId": "627abd326262973cf0946f03e636498e872a997b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53548aa5_3c9f53d2",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-03T06:45:20Z",
+      "side": 1,
+      "message": "nit: instantiate the MVE by passing the message and the original exception. that makes it easier to read logs in the end\n\n\nthrow new MVE(\"...\", e);",
+      "range": {
+        "startLine": 397,
+        "startChar": 74,
+        "endLine": 397,
+        "endChar": 75
+      },
+      "revId": "627abd326262973cf0946f03e636498e872a997b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

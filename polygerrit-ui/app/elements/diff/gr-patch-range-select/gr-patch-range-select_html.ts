@@ -40,6 +40,9 @@ export const htmlTemplate = html`
       .filesWeblinks {
         display: none;
       }
+      .editWeblinks {
+        display: none;
+      }
       gr-dropdown-list {
         --native-select-style: {
           max-width: 5.25em;

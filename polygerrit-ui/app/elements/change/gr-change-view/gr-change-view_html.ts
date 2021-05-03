@@ -570,7 +570,7 @@ export const htmlTemplate = html`
           logged-in="[[_loggedIn]]"
           comment-tab-state="[[_tabState.commentTab]]"
           only-show-robot-comments-with-human-reply=""
-          unresolved-only
+          unresolved-only="[[_computeShowUnresolved(_commentThreads)]]"
           show-comment-context
         ></gr-thread-list>
       </template>

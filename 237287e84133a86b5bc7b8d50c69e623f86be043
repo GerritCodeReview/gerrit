@@ -63,6 +63,30 @@
       },
       "revId": "237287e84133a86b5bc7b8d50c69e623f86be043",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f10052bb_2218c328",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-03T08:30:36Z",
+      "side": 1,
+      "message": "In bazlets change it was done correctly:\n\n[1] https://gerrit-review.googlesource.com/c/bazlets/+/304117/11/tools/js.bzl#40",
+      "parentUuid": "80a5f238_f9aa0590",
+      "range": {
+        "startLine": 516,
+        "startChar": 16,
+        "endLine": 516,
+        "endChar": 22
+      },
+      "revId": "237287e84133a86b5bc7b8d50c69e623f86be043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "917122d4_7da3fda8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-03T14:36:35Z",
+      "side": 1,
+      "message": "Any idea why we are doing this instead of directly assigning the account object here?\n\nIs there any property in _account we want to maintain?",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 53
+      },
+      "revId": "8b61565ae2b88e51ba4f6a652add49499537609e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

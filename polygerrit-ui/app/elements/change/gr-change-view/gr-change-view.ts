@@ -122,6 +122,7 @@ import {
   DraftInfo,
   isDraftThread,
   isRobot,
+  isUnresolved,
 } from '../../../utils/comment-util';
 import {
   PolymerDeepPropertyChange,
@@ -899,6 +900,13 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }
 
     return false;
+  }
+
+  _computeShowUnresolved(threads?: CommentThread[]) {
+    // If all threads are resolved and the Comments Tab is opened then show
+    // all threads instead
+    if (!threads?.length) return true;
+    return threads.filter(thread => isUnresolved(thread)).length > 0;
   }
 
   _robotCommentCountPerPatchSet(threads: CommentThread[]) {

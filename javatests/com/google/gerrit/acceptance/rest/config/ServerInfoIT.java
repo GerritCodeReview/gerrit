@@ -62,7 +62,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.replyLabel", value = "Vote")
   @GerritConfig(name = "change.updateDelay", value = "50s")
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
-  @GerritConfig(name = "change.enableAssignee", value = "true")
 
   // download
   @GerritConfig(
@@ -105,7 +104,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.replyLabel).isEqualTo("Vote\u2026");
     assertThat(i.change.updateDelay).isEqualTo(50);
     assertThat(i.change.disablePrivateChanges).isTrue();
-    assertThat(i.change.enableAssignee).isTrue();
 
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");

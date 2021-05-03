@@ -46,7 +46,6 @@ public class ChangeInfo {
    */
   public Map<Integer, AttentionSetInfo> attentionSet;
 
-  public AccountInfo assignee;
   public Collection<String> hashtags;
   public String changeId;
   public String subject;

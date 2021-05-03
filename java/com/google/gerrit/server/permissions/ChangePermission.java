@@ -35,7 +35,6 @@ public enum ChangePermission implements ChangePermissionOrLabel {
    * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
    */
   ABANDON,
-  EDIT_ASSIGNEE,
   EDIT_DESCRIPTION,
   EDIT_HASHTAGS,
   EDIT_TOPIC_NAME,

@@ -7058,6 +7058,9 @@ The `DiffFileMetaInfo` entity contains meta information about a file diff.
 |`web_links`   |optional|
 Links to the file in external sites as a list of
 link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
+|`edit_web_links`   |optional|
+Links to edit the file in external sites as a list of
+link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 |==========================
 
 [[diff-info]]

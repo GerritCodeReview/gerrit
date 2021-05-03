@@ -156,8 +156,10 @@ public class DiffInfoCreator {
         FileContentUtil.resolveContentType(
             state, side.fileName(), fileInfo.mode, fileInfo.mimeType);
     result.lines = fileInfo.content.getSize();
-    ImmutableList<WebLinkInfo> links = webLinksProvider.getFileWebLinks(side.type());
-    result.webLinks = links.isEmpty() ? null : links;
+    ImmutableList<WebLinkInfo> fileLinks = webLinksProvider.getFileWebLinks(side.type());
+    result.webLinks = fileLinks.isEmpty() ? null : fileLinks;
+    ImmutableList<WebLinkInfo> editLinks = webLinksProvider.getEditWebLinks(side.type());
+    result.editWebLinks = editLinks.isEmpty() ? null : editLinks;
     result.commitId = fileInfo.commitId;
     return Optional.of(result);
   }

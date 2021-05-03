@@ -74,6 +74,11 @@ export declare interface DiffWebLinkInfo {
 export interface DiffFileMetaInfo extends DiffFileMetaInfoApi {
   /** Links to the file in external sites as a list of WebLinkInfo entries. */
   web_links?: WebLinkInfo[];
+  /**
+   * Links to edit the file in external sites as a list of WebLinkInfo
+   * entries.
+   */
+  edit_web_links?: WebLinkInfo[];
 }
 
 /**

@@ -98,6 +98,7 @@ import com.google.gerrit.server.restapi.change.TestSubmitType;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
@@ -412,7 +413,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   }
 
   @Override
-  public FileApi file(String path) {
+  public FileApi file(String path) throws RestApiException, IOException {
     return fileApi.create(files.parse(revision, IdString.fromDecoded(path)));
   }
 

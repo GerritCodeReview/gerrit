@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.webui.EditWebLink;
 import com.google.inject.Inject;
 import java.awt.image.BufferedImage;
@@ -164,6 +165,20 @@ public class RevisionDiffIT extends AbstractDaemonTest {
       assertThat(info.metaB.editWebLinks.get(0).url)
           .isEqualTo("http://edit/" + project + "/" + fileName);
     }
+  }
+
+  @Test
+  public void nonExistingFileDiffNotFound() throws Exception {
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.changes().id(changeId).current().file("INVALID").diff());
+  }
+
+  @Test
+  public void nonExistingFileContentNotFound() throws Exception {
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.changes().id(changeId).current().file("INVALID").content());
   }
 
   @Test

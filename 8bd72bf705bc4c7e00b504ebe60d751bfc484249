@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1296b344_86ee9cbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-04T17:47:25Z",
+      "side": 1,
+      "message": "Test import was successful.\n\nLMK if you can think of a more seamless way of doing the additional duplicate key checking in ExternalIdNotes.",
+      "revId": "8bd72bf705bc4c7e00b504ebe60d751bfc484249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

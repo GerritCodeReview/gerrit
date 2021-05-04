@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ab00bb3_6a411311",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T18:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6755cd68_92c4c7c1",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad4d2cc1_f0c622c4",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-04T15:26:44Z",
       "side": 1,
       "message": "\"Calling match()\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d4f766c_d51c50d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T18:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad4d2cc1_f0c622c4",
       "range": {
         "startLine": 9,
         "startChar": 8,
@@ -93,6 +141,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf3e4927_e7c447bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T18:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3007efb3_fed33560",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d59d6bc_4e3f7575",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T18:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd0aa0ee_dec59c9e",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a3599ac_8c0c74b4",
@@ -106,6 +202,30 @@
       "writtenOn": "2021-05-04T15:26:44Z",
       "side": 1,
       "message": "Maybe: \"In [1], ChangeControl was modified to use ChangeNotes, but EqualsLabelPredicate wasn\u0027t updated to always load ChangeNotes in order to check permissions for approvers.\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c273d63_a079d3e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T18:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a3599ac_8c0c74b4",
       "range": {
         "startLine": 11,
         "startChar": 10,
@@ -157,6 +277,54 @@
         "startChar": 0,
         "endLine": 14,
         "endChar": 9
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0847b2aa_f141c95e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T18:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d40bb24_9ddcfb3f",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ec83ea5_84519717",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T18:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48919f44_28eaf687",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 14,
+        "endChar": 30
       },
       "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

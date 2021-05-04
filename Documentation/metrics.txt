@@ -87,6 +87,13 @@ setting.
 * `http/server/jetty/threadpool/pool_size`: Current thread pool size
 * `http/server/jetty/threadpool/queue_size`: Queued requests waiting for a thread
 
+==== LDAP
+
+* `ldap/login_latency`: Latency of logins.
+* `ldap/user_search_latency`: Latency for searching the user account.
+* `ldap/group_search_latency`: Latency for querying the group memberships of an account.
+* `ldap/group_expansion_latency`: Latency for expanding nested groups.
+
 ==== REST API
 
 * `http/server/error_count`: Rate of REST API error responses.

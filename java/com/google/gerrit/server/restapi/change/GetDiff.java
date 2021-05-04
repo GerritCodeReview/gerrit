@@ -226,10 +226,8 @@ public class GetDiff implements RestReadView<FileResource> {
     }
 
     @Override
-    public ImmutableList<WebLinkInfo> getEditWebLinks(DiffSide.Type type) {
-      String rev = getSideRev(type);
-      DiffSide side = getDiffSide(type);
-      return webLinks.getEditLinks(projectName.get(), rev, side.fileName());
+    public ImmutableList<WebLinkInfo> getEditWebLinks() {
+      return webLinks.getEditLinks(projectName.get(), revB, sideB.fileName());
     }
 
     @Override

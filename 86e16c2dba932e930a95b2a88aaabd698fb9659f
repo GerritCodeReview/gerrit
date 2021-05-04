@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "dd33f548_1928daeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T07:31:42Z",
+      "side": 1,
+      "message": "\u003e I guess the problem here is the different injectors, right? Or why are you testing it for SSH, HTTP, etc?\n\nNope, problem is not with different injectors for SSH and HTTP. The problem is with different workflows for SSH and HTTP. In HTTP workflow we care about lazyLoad in ChangeData and only set it to true when certain conditions are met. But in SSH workflow, it knows nothing about lazyLoad flag and by default it is set to true.\n\nIn case of EqualsLabelPredicate, as it needs ChangeNotes for checking permissions, it needs to load ChangeNotes if not already loaded. If we set lazyLoad flag to false, it will prevent ChangeNotes to be loaded even when it is null.\n\nIn case of EqualsLabelPredicate being used directly from a plugin, the lazyLoad flag is being set to false from HTTP workflow. Due to this, we observe the failure in only HTTP workflow. The tests written in this change are trying depict the same.",
+      "parentUuid": "0e2b48f6_9f7ce462",
+      "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7dc9d71d_e00c187b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2021-05-04T06:54:51Z",
       "side": 1,
       "message": "Please leave a comment why this is necessary.",
+      "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "039cc2c7_d448cc6f",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T07:31:42Z",
+      "side": 1,
+      "message": "We believe that EqualsLabelPredicate should know if it can set lazyLoad to true depending on the logic within the Predicate. In this case, as the EqualsLabelPredicate needs ChangeNotes for checking permissions, thus it needs to set lazyLoad to true in order to load ChangeNotes.",
+      "parentUuid": "d5536385_0a1ef06e",
       "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

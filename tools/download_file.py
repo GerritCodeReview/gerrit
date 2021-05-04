@@ -17,7 +17,7 @@ from __future__ import print_function
 
 import argparse
 from hashlib import sha1
-from os import link, makedirs, path, remove
+from os import environ, link, makedirs, path, remove
 import shutil
 from subprocess import check_call, CalledProcessError
 from sys import stderr
@@ -25,7 +25,14 @@ from util import hash_file, resolve_url
 from zipfile import ZipFile, BadZipfile, LargeZipFile
 
 GERRIT_HOME = path.expanduser('~/.gerritcodereview')
-CACHE_DIR = path.join(GERRIT_HOME, 'bazel-cache', 'downloaded-artifacts')
+
+CACHE_DIR = path.join(
+    environ.get(
+        'XDG_CACHE_HOME',
+        path.expanduser('~/.cache')
+    ),
+    'gerritcodereview', 'bazel-cache', 'downloaded-artifacts')
+
 LOCAL_PROPERTIES = 'local.properties'
 
 

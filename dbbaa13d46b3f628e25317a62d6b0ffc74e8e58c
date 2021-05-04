@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2b7c8bf_0caa590d",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T18:45:48Z",
+      "side": 1,
+      "message": "If something calls this match() directly, do we need to set lazyLoad\u003dtrue in here as well (i.e. does permissionBackend need it set?)?",
+      "range": {
+        "startLine": 106,
+        "startChar": 20,
+        "endLine": 106,
+        "endChar": 25
+      },
+      "revId": "dbbaa13d46b3f628e25317a62d6b0ffc74e8e58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

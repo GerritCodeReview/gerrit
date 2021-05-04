@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e2b48f6_9f7ce462",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-04T06:54:51Z",
+      "side": 1,
+      "message": "I guess the problem here is the different injectors, right? Or why are you testing it for SSH, HTTP, etc? If so, please detail that in the commit message.",
+      "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7dc9d71d_e00c187b",
@@ -14,6 +31,23 @@
       "writtenOn": "2021-05-03T18:17:50Z",
       "side": 1,
       "message": "$ bazel test --test_filter\u003dcom.google.gerrit.acceptance.rest.change.PredicateIT -- //javatests/com/google/gerrit/acceptance/rest/change:rest_change_other\n\n//javatests/com/google/gerrit/acceptance/rest/change:rest_change_other   PASSED in 10.4s\n\n$ bazel test --test_filter\u003dcom.google.gerrit.acceptance.ssh.PredicateIT -- //javatests/com/google/gerrit/acceptance/ssh:ssh\n\n//javatests/com/google/gerrit/acceptance/ssh:ssh                         PASSED in 10.1s",
+      "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5536385_0a1ef06e",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-04T06:54:51Z",
+      "side": 1,
+      "message": "Please leave a comment why this is necessary.",
       "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32768f54_ee29bf7b",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3196,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-04T05:31:24Z",
+      "side": 1,
+      "message": "We should look deeper why these dashboard query tests are failing.",
+      "range": {
+        "startLine": 3175,
+        "startChar": 4,
+        "endLine": 3196,
+        "endChar": 6
+      },
+      "revId": "574af59dd6c9a0101190632b2556593bac8cd8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

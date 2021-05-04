@@ -26,7 +26,7 @@ export enum HttpMethod {
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 
-export interface RestPluginApi {
+export declare interface RestPluginApi {
   getLoggedIn(): Promise<boolean>;
 
   getVersion(): Promise<string | undefined>;

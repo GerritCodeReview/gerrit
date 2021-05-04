@@ -16,13 +16,13 @@
  */
 
 /** Interface for menu link */
-export interface MenuLink {
+export declare interface MenuLink {
   text: string;
   url: string;
   capability: string | null;
 }
 
-export interface AdminPluginApi {
+export declare interface AdminPluginApi {
   addMenuLink(text: string, url: string, capability?: string): void;
 
   getMenuLinks(): MenuLink[];

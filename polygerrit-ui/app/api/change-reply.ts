@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface LabelsChangedDetail {
+export declare interface LabelsChangedDetail {
   name: string;
   value: string;
 }
-export interface ValueChangedDetail {
+export declare interface ValueChangedDetail {
   value: string;
 }
 export type ReplyChangedCallback = (text: string) => void;
 export type LabelsChangedCallback = (detail: LabelsChangedDetail) => void;
 
-export interface ChangeReplyPluginApi {
+export declare interface ChangeReplyPluginApi {
   getLabelValue(label: string): string;
 
   setLabelValue(label: string, value: string): void;

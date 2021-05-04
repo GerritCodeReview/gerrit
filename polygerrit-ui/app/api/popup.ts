@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-export interface PopupPluginApi {
+export declare interface PopupPluginApi {
   /**
    * Opens the popup, inserts it into DOM over current UI.
    * Creates the popup if not previously created. Creates popup content element,

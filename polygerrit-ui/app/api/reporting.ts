@@ -18,7 +18,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EventDetails = any;
 
-export interface ReportingPluginApi {
+export declare interface ReportingPluginApi {
   reportInteraction(eventName: string, details?: EventDetails): void;
 
   reportLifeCycle(eventName: string, details?: EventDetails): void;

@@ -48,7 +48,7 @@ export enum EventType {
   HIGHLIGHTJS_LOADED = 'highlightjs-loaded',
 }
 
-export interface PluginApi {
+export declare interface PluginApi {
   _url?: URL;
   admin(): AdminPluginApi;
   annotationApi(): AnnotationPluginApi;

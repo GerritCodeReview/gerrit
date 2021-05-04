@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-export interface ChecksPluginApi {
+export declare interface ChecksPluginApi {
   /**
    * Must only be called once. You cannot register twice. You cannot unregister.
    */
@@ -29,7 +29,7 @@ export interface ChecksPluginApi {
   announceUpdate(): void;
 }
 
-export interface ChecksApiConfig {
+export declare interface ChecksApiConfig {
   /**
    * How often should the provider be called for new CheckData while the user
    * navigates change related pages and the browser tab remains visible?
@@ -38,7 +38,7 @@ export interface ChecksApiConfig {
   fetchPollingIntervalSeconds: number;
 }
 
-export interface ChangeData {
+export declare interface ChangeData {
   changeNumber: number;
   patchsetNumber: number;
   patchsetSha: string;
@@ -48,7 +48,7 @@ export interface ChangeData {
   changeInfo: unknown;
 }
 
-export interface ChecksProvider {
+export declare interface ChecksProvider {
   /**
    * Gerrit calls this method when ...
    * - ... the change or diff page is loaded.
@@ -59,7 +59,7 @@ export interface ChecksProvider {
   fetch(change: ChangeData): Promise<FetchResponse>;
 }
 
-export interface FetchResponse {
+export declare interface FetchResponse {
   responseCode: ResponseCode;
 
   /** Only relevant when the responseCode is ERROR. */
@@ -102,7 +102,7 @@ export enum ResponseCode {
  * runs are completed the users' interest shifts to results: What do I have to
  * fix? The only actions that can be associated with runs are RUN and CANCEL.
  */
-export interface CheckRun {
+export declare interface CheckRun {
   /**
    * Gerrit requests check runs and results from the plugin by change number and
    * patchset number. So these two properties can as well be left empty when
@@ -221,7 +221,7 @@ export interface CheckRun {
   results?: CheckResult[];
 }
 
-export interface Action {
+export declare interface Action {
   name: string;
   tooltip?: string;
   /**
@@ -272,7 +272,7 @@ export type ActionCallback = (
  * If `message` is empty or undefined, then the `Triggering ...` toast will just
  * be hidden and no further toast will be shown.
  */
-export interface ActionResult {
+export declare interface ActionResult {
   /** An empty errorMessage means success. */
   message?: string;
   /**
@@ -290,7 +290,7 @@ export enum RunStatus {
   COMPLETED = 'COMPLETED',
 }
 
-export interface CheckResult {
+export declare interface CheckResult {
   /**
    * An optional opaque identifier not used by Gerrit directly, but might be
    * used by plugin extensions and callbacks.
@@ -388,7 +388,7 @@ export enum Category {
   ERROR = 'ERROR',
 }
 
-export interface Tag {
+export declare interface Tag {
   name: string;
   tooltip?: string;
   color?: TagColor;
@@ -404,7 +404,7 @@ export enum TagColor {
   BROWN = 'brown',
 }
 
-export interface Link {
+export declare interface Link {
   /** Must begin with 'http'. */
   url: string;
   tooltip?: string;

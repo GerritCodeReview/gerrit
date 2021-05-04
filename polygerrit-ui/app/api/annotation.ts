@@ -36,7 +36,7 @@ export type CoverageProvider = (
   change?: unknown
 ) => Promise<Array<CoverageRange>>;
 
-export interface AnnotationPluginApi {
+export declare interface AnnotationPluginApi {
   /**
    * The specified function will be called when a gr-diff component is built,
    * and feeds the returned coverage data into the diff. Optional.

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a51cd458_65741941",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T15:29:48Z",
+      "side": 1,
+      "message": "What happens when this is unset? (I think it\u0027s unset on Macs by default)",
+      "range": {
+        "startLine": 22,
+        "startChar": 9,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "ec31faaf10578fd22bff7951ad9f1caf2d3ed356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5be82e56_a498dafb",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T15:29:48Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of these caches being split into different directories. Is there a way to honor the old location still? Or to only override for the use case you\u0027re interested in?",
+      "range": {
+        "startLine": 549,
+        "startChar": 2,
+        "endLine": 549,
+        "endChar": 11
+      },
+      "revId": "ec31faaf10578fd22bff7951ad9f1caf2d3ed356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

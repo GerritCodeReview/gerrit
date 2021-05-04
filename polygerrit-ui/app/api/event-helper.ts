@@ -16,7 +16,7 @@
  */
 export type UnsubscribeCallback = () => void;
 
-export interface EventHelperPluginApi {
+export declare interface EventHelperPluginApi {
   /**
    * Alias for @see onClick
    */

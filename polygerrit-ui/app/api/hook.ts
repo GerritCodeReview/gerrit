@@ -30,12 +30,12 @@ interface GerritElementExtensions {
 
 export type HookCallback = (el: HTMLElement & GerritElementExtensions) => void;
 
-export interface RegisterOptions {
+export declare interface RegisterOptions {
   slot?: string;
   replace: unknown;
 }
 
-export interface HookApi {
+export declare interface HookApi {
   onAttached(callback: HookCallback): HookApi;
 
   onDetached(callback: HookCallback): HookApi;

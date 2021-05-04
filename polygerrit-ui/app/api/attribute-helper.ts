@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-export interface AttributeHelperPluginApi {
+export declare interface AttributeHelperPluginApi {
   /**
    * Binds callback to property updates.
    *

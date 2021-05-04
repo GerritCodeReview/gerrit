@@ -55,7 +55,7 @@ export declare interface DiffInfo {
 /**
  * Represents a syntax block in a code (e.g. method, function, class, if-else).
  */
-export interface SyntaxBlock {
+export declare interface SyntaxBlock {
   /** Name of the block (e.g. name of the method/class)*/
   name: string;
   /** Where does this block syntatically starts and ends (line number and column).*/

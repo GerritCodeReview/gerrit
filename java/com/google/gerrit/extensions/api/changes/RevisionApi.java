@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -88,7 +89,7 @@ public interface RevisionApi {
 
   List<String> queryFiles(String query) throws RestApiException;
 
-  FileApi file(String path);
+  FileApi file(String path) throws RestApiException, IOException;
 
   CommitInfo commit(boolean addLinks) throws RestApiException;
 
@@ -270,7 +271,7 @@ public interface RevisionApi {
     }
 
     @Override
-    public FileApi file(String path) {
+    public FileApi file(String path) throws RestApiException, IOException {
       throw new NotImplementedException();
     }
 

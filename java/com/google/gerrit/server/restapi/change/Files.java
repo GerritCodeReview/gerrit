@@ -21,6 +21,7 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -75,11 +76,16 @@ import org.kohsuke.args4j.Option;
 public class Files implements ChildCollection<RevisionResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
   private final Provider<ListFiles> list;
+  private final GitRepositoryManager repoManager;
 
   @Inject
-  Files(DynamicMap<RestView<FileResource>> views, Provider<ListFiles> list) {
+  Files(
+      DynamicMap<RestView<FileResource>> views,
+      Provider<ListFiles> list,
+      GitRepositoryManager repoManager) {
     this.views = views;
     this.list = list;
+    this.repoManager = repoManager;
   }
 
   @Override
@@ -93,8 +99,12 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
   }
 
   @Override
-  public FileResource parse(RevisionResource rev, IdString id) {
-    return new FileResource(rev, id.get());
+  public FileResource parse(RevisionResource rev, IdString id)
+      throws RestApiException, IOException {
+    if (Patch.isMagic(id.get())) {
+      return new FileResource(rev, id.get());
+    }
+    return FileResource.create(repoManager, rev, id.get());
   }
 
   public static final class ListFiles implements ETagView<RevisionResource> {

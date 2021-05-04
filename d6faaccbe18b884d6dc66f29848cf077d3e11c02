@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfd4c03f_452383c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-04T13:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1400a88e_44d6f678",
+      "revId": "d6faaccbe18b884d6dc66f29848cf077d3e11c02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be63c425_6b0abd8f",
@@ -66,6 +84,30 @@
       "writtenOn": "2021-05-04T12:43:01Z",
       "side": 1,
       "message": "this isn\u0027t really used yet, right?",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "revId": "d6faaccbe18b884d6dc66f29848cf077d3e11c02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bd5165b_43adde72",
+        "filename": "polygerrit-ui/app/types/diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-04T13:07:55Z",
+      "side": 1,
+      "message": "It\u0027s unused. I have only defined the type. My next FE change will use the data to control the EDIT button link.",
+      "parentUuid": "4268da7f_683f3511",
       "range": {
         "startLine": 55,
         "startChar": 0,

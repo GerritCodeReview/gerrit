@@ -311,10 +311,11 @@ export declare type ImageDiffAction =
     }
   | {type: 'magnifier-clicked'}
   | {type: 'magnifier-dragged'}
-  | {type: 'version-switcher-clicked'; button: 'base' | 'revision'}
+  | {type: 'version-switcher-clicked'; button: 'base' | 'revision' | 'switch'}
   | {type: 'zoom-level-changed'; scale: number | 'fit'}
   | {type: 'follow-mouse-changed'; value: boolean}
-  | {type: 'background-color-changed'; value: string};
+  | {type: 'background-color-changed'; value: string}
+  | {type: 'automatic-blink-changed'; value: boolean};
 
 export enum GrDiffLineType {
   ADD = 'add',

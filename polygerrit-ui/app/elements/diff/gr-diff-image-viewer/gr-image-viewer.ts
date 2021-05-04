@@ -394,7 +394,7 @@ export class GrImageViewer extends LitElement {
         >
           Base
         </paper-button>
-        <paper-fab mini icon="gr-icons:swapHoriz" @click="${this.toggleImage}">
+        <paper-fab mini icon="gr-icons:swapHoriz" @click="${this.manualBlink}">
         </paper-fab>
         <paper-button
           class="right"
@@ -634,7 +634,14 @@ export class GrImageViewer extends LitElement {
     );
   }
 
-  toggleImage() {
+  manualBlink() {
+    this.toggleImage();
+    this.dispatchEvent(
+      createEvent({type: 'version-switcher-clicked', button: 'switch'})
+    );
+  }
+
+  private toggleImage() {
     if (this.baseUrl && this.revisionUrl) {
       this.baseSelected = !this.baseSelected;
     }
@@ -651,6 +658,9 @@ export class GrImageViewer extends LitElement {
         this.automaticBlinkTimer = undefined;
       }
     }
+    this.dispatchEvent(
+      createEvent({type: 'automatic-blink-changed', value: this.automaticBlink})
+    );
   }
 
   private setBlinkInterval() {

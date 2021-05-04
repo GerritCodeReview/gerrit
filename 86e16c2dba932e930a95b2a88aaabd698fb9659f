@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "60c41001_e5b97f28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-04T13:07:10Z",
+      "side": 1,
+      "message": "This pointer should probably go in the commit message.",
+      "parentUuid": "6c838513_eabc743a",
+      "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7dc9d71d_e00c187b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -102,6 +120,23 @@
       "side": 1,
       "message": "We believe that EqualsLabelPredicate should know if it can set lazyLoad to true depending on the logic within the Predicate. In this case, as the EqualsLabelPredicate needs ChangeNotes for checking permissions, thus it needs to set lazyLoad to true in order to load ChangeNotes.",
       "parentUuid": "d5536385_0a1ef06e",
+      "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "154a837e_8a4b7437",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-04T13:07:10Z",
+      "side": 1,
+      "message": "This should likely be done where it is first needed, i.e.right before line 76?",
       "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

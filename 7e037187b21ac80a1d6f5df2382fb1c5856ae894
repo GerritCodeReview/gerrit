@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6755cd68_92c4c7c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T15:26:44Z",
+      "side": 1,
+      "message": "match()",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad4d2cc1_f0c622c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T15:26:44Z",
+      "side": 1,
+      "message": "\"Calling match()\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3007efb3_fed33560",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T15:26:44Z",
+      "side": 1,
+      "message": "You explained in your reply to Patrick why this only affects HTTP. Can you also add that detail to the commit message below this paragraph?",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd0aa0ee_dec59c9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T15:26:44Z",
+      "side": 1,
+      "message": "\"when in the context of an HTTP query\" ?",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a3599ac_8c0c74b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T15:26:44Z",
+      "side": 1,
+      "message": "Maybe: \"In [1], ChangeControl was modified to use ChangeNotes, but EqualsLabelPredicate wasn\u0027t updated to always load ChangeNotes in order to check permissions for approvers.\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48919f44_28eaf687",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T15:26:44Z",
+      "side": 1,
+      "message": "match()",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d40bb24_9ddcfb3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T15:26:44Z",
+      "side": 1,
+      "message": "\"ChangeData lazy load\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a04827_118b2808",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-04T15:26:44Z",
+      "side": 1,
+      "message": "Code looks good, mostly nits on the commit message wording.",
+      "revId": "7e037187b21ac80a1d6f5df2382fb1c5856ae894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

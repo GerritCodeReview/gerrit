@@ -20,6 +20,11 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.NoSuchUserException;
@@ -81,11 +86,18 @@ class Helper {
   private final String connectTimeoutMillis;
   private final boolean useConnectionPooling;
   private final boolean groupsVisibleToAll;
+  private final Timer0 loginLatencyTimer;
+  private final Timer0 userSearchLatencyTimer;
+  private final Timer0 groupSearchLatencyTimer;
+  private final Counter0 loginCounter;
+  private final Counter0 userSearchCounter;
+  private final Counter0 groupSearchCounter;
 
   @Inject
   Helper(
       @GerritServerConfig Config config,
-      @Named(LdapModule.PARENT_GROUPS_CACHE) Cache<String, ImmutableSet<String>> parentGroups) {
+      @Named(LdapModule.PARENT_GROUPS_CACHE) Cache<String, ImmutableSet<String>> parentGroups,
+      MetricMaker metricMaker) {
     this.config = config;
     this.server = LdapRealm.optional(config, "server");
     this.username = LdapRealm.optional(config, "username");
@@ -112,6 +124,45 @@ class Helper {
     }
     this.parentGroups = parentGroups;
     this.useConnectionPooling = LdapRealm.optional(config, "useConnectionPooling", false);
+
+    this.loginLatencyTimer =
+        metricMaker.newTimer(
+            "ldap/login_latency",
+            new Description("Latency of logins to LDAP")
+                .setCumulative()
+                .setUnit(Units.NANOSECONDS));
+    this.loginCounter =
+        metricMaker.newCounter(
+            "ldap/login_count", new Description("Rate of ldap logins").setRate());
+
+    this.userSearchLatencyTimer =
+        metricMaker.newTimer(
+            "ldap/user_search_latency",
+            new Description("Latency for searching the user account in LDAP")
+                .setCumulative()
+                .setUnit(Units.NANOSECONDS));
+    this.userSearchCounter =
+        metricMaker.newCounter(
+            "ldap/user_search_count", new Description("Rate of LDAP user searches").setRate());
+
+    this.groupSearchLatencyTimer =
+        metricMaker.newTimer(
+            "ldap/group_search_latency",
+            new Description("Latency for querying the groups membership of an account")
+                .setCumulative()
+                .setUnit(Units.NANOSECONDS));
+    this.groupSearchCounter =
+        metricMaker.newCounter(
+            "ldap/group_search_count",
+            new Description("Rate of LDAP groups membership searches").setRate());
+  }
+
+  Timer0 getGroupSearchLatencyTimer() {
+    return groupSearchLatencyTimer;
+  }
+
+  Counter0 getGroupSearchCounter() {
+    return groupSearchCounter;
   }
 
   private Properties createContextProperties() {
@@ -191,7 +242,10 @@ class Helper {
   private DirContext kerberosOpen(Properties env)
       throws IOException, LoginException, NamingException {
     LoginContext ctx = new LoginContext("KerberosLogin");
-    ctx.login();
+    try (Timer0.Context unused = loginLatencyTimer.start()) {
+      ctx.login();
+      loginCounter.increment();
+    }
     Subject subject = ctx.getSubject();
     try {
       return Subject.doAs(
@@ -209,7 +263,7 @@ class Helper {
 
   DirContext authenticate(String dn, String password) throws AccountException {
     final Properties env = createContextProperties();
-    try {
+    try (Timer0.Context unused = loginLatencyTimer.start()) {
       env.put(Context.REFERRAL, referral);
 
       if (!supportAnonymous) {
@@ -227,6 +281,7 @@ class Helper {
         ctx.reconnect(null);
       }
 
+      loginCounter.increment();
       return ctx;
     } catch (IOException | NamingException e) {
       throw new AuthenticationFailedException("Incorrect username or password", e);
@@ -258,11 +313,14 @@ class Helper {
     }
 
     for (LdapQuery accountQuery : accountQueryList) {
-      List<LdapQuery.Result> res = accountQuery.query(ctx, params);
-      if (res.size() == 1) {
-        return res.get(0);
-      } else if (res.size() > 1) {
-        throw new AccountException("Duplicate users: " + username);
+      try (Timer0.Context ignored = userSearchLatencyTimer.start()) {
+        List<LdapQuery.Result> res = accountQuery.query(ctx, params, userSearchLatencyTimer);
+        userSearchCounter.increment();
+        if (res.size() == 1) {
+          return res.get(0);
+        } else if (res.size() > 1) {
+          throw new AccountException("Duplicate users: " + username);
+        }
       }
     }
     throw new NoSuchUserException(username);
@@ -290,7 +348,8 @@ class Helper {
       params.put(LdapRealm.USERNAME, username);
 
       for (LdapQuery groupMemberQuery : schema.groupMemberQueryList) {
-        for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
+        for (LdapQuery.Result r : groupMemberQuery.query(ctx, params, groupSearchLatencyTimer)) {
+          groupSearchCounter.increment();
           recursivelyExpandGroups(groupDNs, schema, ctx, r.getDN());
         }
       }

@@ -213,7 +213,9 @@ public class LdapGroupBackend implements GroupBackend {
         Map<String, String> params = Collections.emptyMap();
         for (String groupBase : schema.groupBases) {
           LdapQuery query = new LdapQuery(groupBase, schema.groupScope, filter, returnAttrs);
-          for (LdapQuery.Result res : query.query(ctx, params)) {
+          for (LdapQuery.Result res :
+              query.query(ctx, params, helper.getGroupSearchLatencyTimer())) {
+            helper.getGroupSearchCounter().increment();
             out.add(groupReference(schema.groupName, res));
           }
         }

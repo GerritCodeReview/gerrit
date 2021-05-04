@@ -1268,6 +1268,7 @@ public abstract class AbstractDaemonTest {
     assertThat(diff.diffHeader).isNotNull();
     assertThat(diff.intralineStatus).isNull();
     assertThat(diff.webLinks).isNull();
+    assertThat(diff.editWebLinks).isNull();
 
     assertThat(diff.metaA).isNull();
     assertThat(diff.metaB).isNotNull();
@@ -1284,7 +1285,6 @@ public abstract class AbstractDaemonTest {
     assertThat(diff.metaB.lines).isEqualTo(expectedLines.size());
     assertThat(diff.metaB.name).isEqualTo(path);
     assertThat(diff.metaB.webLinks).isNull();
-    assertThat(diff.metaB.editWebLinks).isNull();
 
     assertThat(diff.content).hasSize(1);
     DiffInfo.ContentEntry contentEntry = diff.content.get(0);

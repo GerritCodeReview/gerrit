@@ -546,9 +546,14 @@ To build against SNAPSHOT Maven JARs, the complete SNAPSHOT version must be used
 
 To accelerate builds, several caches are activated per default:
 
-* ~/.gerritcodereview/bazel-cache/downloaded-artifacts
+* ~/.gerritcodereview/gerritcodereview/bazel-cache/downloaded-artifacts
 * ~/.gerritcodereview/bazel-cache/repository
 * ~/.gerritcodereview/bazel-cache/cas
+
+The first one can be relocated by setting the `XDG_CACHE_HOME` environment
+variable which would replace `~/.gerritcodereview`. The other two can be
+adjusted with `bazel build` options `--repository_cache` and `--disk_cache`
+respectively.
 
 Currently none of these caches have a maximum size limit. See
 link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue,role=external,window=_blank] for

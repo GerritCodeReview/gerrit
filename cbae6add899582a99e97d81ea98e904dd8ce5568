@@ -16,6 +16,29 @@
       "message": "@Matthias do you guys have experienced problems with LDAP latencies in the past? Would this metric be useful for you?",
       "revId": "cbae6add899582a99e97d81ea98e904dd8ce5568",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c4be172_dc49fbf0",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-04T23:57:15Z",
+      "side": 1,
+      "message": "Those are redundant: the timers already store the counters out of the box.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 44
+      },
+      "revId": "cbae6add899582a99e97d81ea98e904dd8ce5568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -14,24 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface LabelsChangedDetail {
-  name: string;
-  value: string;
-}
-export interface ValueChangedDetail {
-  value: string;
-}
-export type ReplyChangedCallback = (text: string) => void;
-export type LabelsChangedCallback = (detail: LabelsChangedDetail) => void;
+export type UnsubscribeCallback = () => void;
 
-export interface ChangeReplyPluginApi {
-  getLabelValue(label: string): string;
+export declare interface EventHelperPluginApi {
+  /**
+   * Alias for @see onClick
+   */
+  onTap(callback: (event: Event) => boolean): UnsubscribeCallback;
 
-  setLabelValue(label: string, value: string): void;
-
-  addReplyTextChangedCallback(handler: ReplyChangedCallback): void;
-
-  addLabelValuesChangedCallback(handler: LabelsChangedCallback): void;
-
-  showMessage(message: string): void;
+  /**
+   * Add a callback to element click or touch.
+   * The callback may return false to prevent event bubbling.
+   */
+  onClick(callback: (event: Event) => boolean): UnsubscribeCallback;
 }

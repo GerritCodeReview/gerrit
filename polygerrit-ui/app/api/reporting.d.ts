@@ -15,15 +15,11 @@
  * limitations under the License.
  */
 
-/** Interface for menu link */
-export interface MenuLink {
-  text: string;
-  url: string;
-  capability: string | null;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type EventDetails = any;
 
-export interface AdminPluginApi {
-  addMenuLink(text: string, url: string, capability?: string): void;
+export declare interface ReportingPluginApi {
+  reportInteraction(eventName: string, details?: EventDetails): void;
 
-  getMenuLinks(): MenuLink[];
+  reportLifeCycle(eventName: string, details?: EventDetails): void;
 }

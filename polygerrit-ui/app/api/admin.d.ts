@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type UnsubscribeCallback = () => void;
 
-export interface EventHelperPluginApi {
-  /**
-   * Alias for @see onClick
-   */
-  onTap(callback: (event: Event) => boolean): UnsubscribeCallback;
+/** Interface for menu link */
+export declare interface MenuLink {
+  text: string;
+  url: string;
+  capability: string | null;
+}
 
-  /**
-   * Add a callback to element click or touch.
-   * The callback may return false to prevent event bubbling.
-   */
-  onClick(callback: (event: Event) => boolean): UnsubscribeCallback;
+export declare interface AdminPluginApi {
+  addMenuLink(text: string, url: string, capability?: string): void;
+
+  getMenuLinks(): MenuLink[];
 }

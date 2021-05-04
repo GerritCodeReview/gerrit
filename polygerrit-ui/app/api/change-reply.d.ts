@@ -14,12 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export declare interface LabelsChangedDetail {
+  name: string;
+  value: string;
+}
+export declare interface ValueChangedDetail {
+  value: string;
+}
+export type ReplyChangedCallback = (text: string) => void;
+export type LabelsChangedCallback = (detail: LabelsChangedDetail) => void;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type EventDetails = any;
+export declare interface ChangeReplyPluginApi {
+  getLabelValue(label: string): string;
 
-export interface ReportingPluginApi {
-  reportInteraction(eventName: string, details?: EventDetails): void;
+  setLabelValue(label: string, value: string): void;
 
-  reportLifeCycle(eventName: string, details?: EventDetails): void;
+  addReplyTextChangedCallback(handler: ReplyChangedCallback): void;
+
+  addLabelValuesChangedCallback(handler: LabelsChangedCallback): void;
+
+  showMessage(message: string): void;
 }

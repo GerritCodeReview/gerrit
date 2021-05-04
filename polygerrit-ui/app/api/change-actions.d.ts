@@ -16,7 +16,7 @@
  */
 import {HttpMethod} from './rest';
 
-export interface ActionInfo {
+export declare interface ActionInfo {
   method?: HttpMethod;
   label?: string;
   title?: string;
@@ -71,7 +71,7 @@ export enum RevisionActions {
 
 export type PrimaryActionKey = ChangeActions | RevisionActions;
 
-export interface ChangeActionsPluginApi {
+export declare interface ChangeActionsPluginApi {
   addPrimaryActionKey(key: PrimaryActionKey): void;
 
   removePrimaryActionKey(key: string): void;

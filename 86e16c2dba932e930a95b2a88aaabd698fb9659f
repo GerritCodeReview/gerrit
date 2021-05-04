@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6c838513_eabc743a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T11:06:51Z",
+      "side": 1,
+      "message": "EqualsLabelPredicate was made dependent on ChangeNotes with this change : Iac176b8e55e9f0e",
+      "parentUuid": "dd33f548_1928daeb",
+      "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7dc9d71d_e00c187b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

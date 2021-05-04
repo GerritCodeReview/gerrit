@@ -118,6 +118,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6154e7f3_8276df25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-04T15:46:49Z",
+      "side": 1,
+      "message": "Thank you for your patience! Overall, the change should be no-op for us, if we don\u0027t use the option. I cherry-picked the change to \u0027master\u0027and need another day to run tests, I expect I will do the final round of review tomorrow. Sorry for the delay!",
+      "parentUuid": "68fc04bd_389c93fc",
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bc13e58_f1c8fb36",
@@ -308,6 +326,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2cda8428_2f373240",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-04T15:46:49Z",
+      "side": 1,
+      "message": "Thank you for the explanation! I know you did not touch this part of the code in this change, but since you are here, could you, please, add details about the usage of schema here?",
+      "parentUuid": "7e1345e0_6d57f57f",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 54
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "35e2a676_65a7388d",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
         "patchSetId": 21
@@ -378,6 +420,30 @@
       "side": 1,
       "message": "This is already described like this in the documentation describing the new option:\n\n\u003e If set the username will be handled case insensitively but case preserving,\n\nI also explicitly added it to config-accounts.txt",
       "parentUuid": "db1c3038_66286735",
+      "range": {
+        "startLine": 307,
+        "startChar": 27,
+        "endLine": 307,
+        "endChar": 39
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf5fb9e7_ed8fe03a",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-04T15:46:49Z",
+      "side": 1,
+      "message": "I was confused first, why it is required to preserve case in NoteDb, since if the option is used, we do not expect to have external ids only different in case (e.g. we could just always convert username to lowercase on registration, now we would throw if someone tries to register with the username only different in case).\n\nCould you, please, add a line to the description why we are preserving the case in NoteDB? I guess this is not necessary, it just makes the implementation simpler?",
+      "parentUuid": "e1611e97_5727c669",
       "range": {
         "startLine": 307,
         "startChar": 27,

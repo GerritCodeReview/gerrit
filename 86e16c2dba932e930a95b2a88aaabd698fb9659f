@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e5fe3d28_90934563",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T14:45:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60c41001_e5b97f28",
+      "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7dc9d71d_e00c187b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -137,6 +155,24 @@
       "writtenOn": "2021-05-04T13:07:10Z",
       "side": 1,
       "message": "This should likely be done where it is first needed, i.e.right before line 76?",
+      "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74db6c93_2197429f",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-04T14:45:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "154a837e_8a4b7437",
       "revId": "86e16c2dba932e930a95b2a88aaabd698fb9659f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

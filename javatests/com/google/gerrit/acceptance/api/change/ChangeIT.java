@@ -4032,6 +4032,58 @@ public class ChangeIT extends AbstractDaemonTest {
     submittableAfterLosingPermissions("Label");
   }
 
+  @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void cantSubmitWithInvisibleChangesWithTopic() throws Exception {
+    createBranch(BranchNameKey.create(project, "secret"));
+
+    // create two changes in the same topic.
+    String topic = "topic";
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange("refs/for/secret");
+    approve(r1.getChangeId());
+    approve(r2.getChangeId());
+    gApi.changes().id(r1.getChangeId()).topic(topic);
+    gApi.changes().id(r2.getChangeId()).topic(topic);
+
+    // make one of the changes invisible.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/secret").group(REGISTERED_USERS))
+        .update();
+
+    // can't submit with invisible changes.
+    requestScopeOperations.setApiUser(user.id());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    assertThrows(AuthException.class, () -> gApi.changes().id(r1.getChangeId()).current().submit());
+  }
+
+  @Test
+  public void cantSubmitWithInvisibleDependentChange() throws Exception {
+    // create two dependent changes.
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+    approve(r1.getChangeId());
+    approve(r2.getChangeId());
+
+    // make the dependent change invisible.
+    gApi.changes().id(r1.getChangeId()).setPrivate(true);
+
+    // can't submit with invisible changes.
+    requestScopeOperations.setApiUser(user.id());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    assertThrows(AuthException.class, () -> gApi.changes().id(r2.getChangeId()).current().submit());
+  }
+
   private void submittableAfterLosingPermissions(String label) throws Exception {
     String codeReviewLabel = LabelId.CODE_REVIEW;
     AccountGroup.UUID registered = REGISTERED_USERS;

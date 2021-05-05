@@ -37,7 +37,7 @@ import {
 } from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {changeIsOpen, isOwner} from '../../../utils/change-util';
+import {isOwner} from '../../../utils/change-util';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {
@@ -46,10 +46,7 @@ import {
   ServerInfo,
   PreferencesInput,
 } from '../../../types/common';
-import {
-  hasAttention,
-  isAttentionSetEnabled,
-} from '../../../utils/attention-set-util';
+import {hasAttention} from '../../../utils/attention-set-util';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {fireEvent, fireReload} from '../../../utils/event-util';
 import {isShiftPressed} from '../../../utils/dom-util';
@@ -370,35 +367,24 @@ export class GrChangeList extends ChangeTableMixin(
       : undefined;
   }
 
-  _computeItemNeedsReview(
-    account: AccountInfo | undefined,
-    change: ChangeInfo,
-    showReviewedState: boolean,
-    config?: ServerInfo
-  ) {
-    return (
-      !isAttentionSetEnabled(config) &&
-      showReviewedState &&
-      !change.reviewed &&
-      !change.work_in_progress &&
-      changeIsOpen(change) &&
-      (!account || account._account_id !== change.owner._account_id)
-    );
+  // TODO(davido): Remove this method entirely:
+  // attention set feature is always enabled.
+  _computeItemNeedsReview() {
+    return false;
   }
 
   _computeItemHighlight(
     account?: AccountInfo,
     change?: ChangeInfo,
-    config?: ServerInfo,
     sectionName?: string
   ) {
     if (!change || !account) return false;
     if (CLOSED_STATUS.indexOf(change.status) !== -1) return false;
-    return isAttentionSetEnabled(config)
-      ? hasAttention(config, account, change) &&
-          !isOwner(change, account) &&
-          sectionName === YOUR_TURN.name
-      : account._account_id === change.assignee?._account_id;
+    return (
+      hasAttention(account, change) &&
+      !isOwner(change, account) &&
+      sectionName === YOUR_TURN.name
+    );
   }
 
   _nextChange(e: CustomKeyboardEvent) {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "037a9bab_b2762e28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-05T12:31:52Z",
+      "side": 1,
+      "message": "is this safe to do?\nMaybe there is an event being fired that depends on this generic handler?",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 55
+      },
+      "revId": "66367b6cb33865af5a069b70e242352f4f0d4bec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "283dfa74_13985ead",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-05T12:31:52Z",
+      "side": 1,
+      "message": "does this mean each listener to \u0027reload\u0027 event needs to be careful to not stop propagation of the event, so that checks service can listen to the event?",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "66367b6cb33865af5a069b70e242352f4f0d4bec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ad3480_886c65e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-05T13:05:16Z",
+      "side": 1,
+      "message": "I think so, yes. I could not find anything that fires \u0027reload\u0027 on other pages.\n\nAnd I find it a bit stupid to support a refresh event that does not refresh, but actually reloads the entire page. Then we can as well let the user reload the page with Ctrl-R.",
+      "parentUuid": "037a9bab_b2762e28",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 55
+      },
+      "revId": "66367b6cb33865af5a069b70e242352f4f0d4bec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "283dfa74_13985ead",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-05T12:31:52Z",
       "side": 1,
       "message": "does this mean each listener to \u0027reload\u0027 event needs to be careful to not stop propagation of the event, so that checks service can listen to the event?",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "66367b6cb33865af5a069b70e242352f4f0d4bec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3e38a4e_b4642ca3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-05T13:05:16Z",
+      "side": 1,
+      "message": "Well, yes. But stopping propagation is a bit unusual. You would only do this, if you know that you are the only target and that you want to prevent other handlers. That is rare. And the \u0027reload\u0027 event is now an application wide event, so I hope that developers will not randomly stop its propagation.",
+      "parentUuid": "283dfa74_13985ead",
       "range": {
         "startLine": 20,
         "startChar": 7,

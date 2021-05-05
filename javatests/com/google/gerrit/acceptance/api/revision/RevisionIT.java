@@ -93,6 +93,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
+import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender;
@@ -1616,16 +1617,26 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void commit() throws Exception {
-    WebLinkInfo expectedWebLinkInfo = new WebLinkInfo("foo", "imageUrl", "url");
-    PatchSetWebLink link =
+    WebLinkInfo expectedPatchSetLinkInfo = new WebLinkInfo("foo", "imageUrl", "url");
+    PatchSetWebLink patchSetLink =
         new PatchSetWebLink() {
           @Override
           public WebLinkInfo getPatchSetWebLink(
               String projectName, String commit, String commitMessage, String branchName) {
-            return expectedWebLinkInfo;
+            return expectedPatchSetLinkInfo;
           }
         };
-    try (Registration registration = extensionRegistry.newRegistration().add(link)) {
+    WebLinkInfo expectedResolveConflictsLinkInfo = new WebLinkInfo("bar", "img", "resolve");
+    ResolveConflictsWebLink resolveConflictsLink =
+        new ResolveConflictsWebLink() {
+          @Override
+          public WebLinkInfo getResolveConflictsWebLink(
+              String projectName, String commit, String commitMessage, String branchName) {
+            return expectedResolveConflictsLinkInfo;
+          }
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(patchSetLink).add(resolveConflictsLink)) {
       PushOneCommit.Result r = createChange();
       RevCommit c = r.getCommit();
 
@@ -1642,11 +1653,20 @@ public class RevisionIT extends AbstractDaemonTest {
 
       commitInfo = gApi.changes().id(r.getChangeId()).current().commit(true);
       assertThat(commitInfo.webLinks).hasSize(1);
-      WebLinkInfo webLinkInfo = Iterables.getOnlyElement(commitInfo.webLinks);
-      assertThat(webLinkInfo.name).isEqualTo(expectedWebLinkInfo.name);
-      assertThat(webLinkInfo.imageUrl).isEqualTo(expectedWebLinkInfo.imageUrl);
-      assertThat(webLinkInfo.url).isEqualTo(expectedWebLinkInfo.url);
-      assertThat(webLinkInfo.target).isEqualTo(expectedWebLinkInfo.target);
+      WebLinkInfo patchSetLinkInfo = Iterables.getOnlyElement(commitInfo.webLinks);
+      assertThat(patchSetLinkInfo.name).isEqualTo(expectedPatchSetLinkInfo.name);
+      assertThat(patchSetLinkInfo.imageUrl).isEqualTo(expectedPatchSetLinkInfo.imageUrl);
+      assertThat(patchSetLinkInfo.url).isEqualTo(expectedPatchSetLinkInfo.url);
+      assertThat(patchSetLinkInfo.target).isEqualTo(expectedPatchSetLinkInfo.target);
+
+      assertThat(commitInfo.resolveConflictsWebLinks).hasSize(1);
+      WebLinkInfo resolveCommentsLinkInfo =
+          Iterables.getOnlyElement(commitInfo.resolveConflictsWebLinks);
+      assertThat(resolveCommentsLinkInfo.name).isEqualTo(expectedResolveConflictsLinkInfo.name);
+      assertThat(resolveCommentsLinkInfo.imageUrl)
+          .isEqualTo(expectedResolveConflictsLinkInfo.imageUrl);
+      assertThat(resolveCommentsLinkInfo.url).isEqualTo(expectedResolveConflictsLinkInfo.url);
+      assertThat(resolveCommentsLinkInfo.target).isEqualTo(expectedResolveConflictsLinkInfo.target);
     }
   }
 

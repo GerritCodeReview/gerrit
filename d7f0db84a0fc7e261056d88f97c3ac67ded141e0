@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bdfd9fe2_f1f2eae9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-05T05:50:42Z",
+      "side": 1,
+      "message": "I\u0027m also interested in the details.\n\nThe change [1] has a renamed file but the comments posted on the old file name are automatically mapped to the new file name.\nSo if I am just requesting a subset of the API response(containing the new file name), I would assume that use case would still work?\n\n[1] https://gerrit-review.staging-git.corp.google.com/c/gerrit/+/23240/21/Documentation/config-cla_renamed.txt",
+      "parentUuid": "fce5f8f1_fe121231",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc3e7ee6_91c4d523",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3

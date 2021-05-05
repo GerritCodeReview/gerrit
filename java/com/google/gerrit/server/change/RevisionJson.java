@@ -182,9 +182,12 @@ public class RevisionJson {
     info.message = commit.getFullMessage();
 
     if (addLinks) {
-      ImmutableList<WebLinkInfo> links =
+      ImmutableList<WebLinkInfo> patchSetLinks =
           webLinks.getPatchSetLinks(project, commit.name(), commit.getFullMessage(), branchName);
-      info.webLinks = links.isEmpty() ? null : links;
+      info.webLinks = patchSetLinks.isEmpty() ? null : patchSetLinks;
+      ImmutableList<WebLinkInfo> resolveConflictsLinks =
+          webLinks.getResolveConflictsLinks(project, commit.name(), commit.getFullMessage(), branchName);
+      info.resolveConflictsWebLinks = resolveConflictsLinks.isEmpty() ? null : resolveConflictsLinks;
     }
 
     for (RevCommit parent : commit.getParents()) {

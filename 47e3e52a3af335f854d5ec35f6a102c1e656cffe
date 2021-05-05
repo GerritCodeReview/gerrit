@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b63b52d4_c61dc612",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-05T20:51:51Z",
+      "side": 1,
+      "message": "\u003e Does multi-first make sense in English?\n\nNo, multi-first does not make sense. Does/did \u0027multi-master\u0027 make sense? Would \u0027multi-leader\u0027 make sense? (ignoring the problems with those nouns)\n\nI\u0027m happy to use different words, I just want them to be clear. Ignoring the \u0027multi-\u0027 aspect for the moment, if we had a \"Gerrit master\" before, do we not have a \"Gerrit primary\" now? Are you concerned that previously we had an implicit suffix of \u0027process\u0027 and when you s/master/primary/ it seems strange that you\u0027re not ending with \u0027process\u0027? i.e. does \"Gerrit primary process\" sound better to you?\n\nIn a document with single and multiple configurations being discussed, the single variant might be referred to as \"A single Gerrit primary process configuration (aka single-primary)\". Continuing that to \"multi-\", I would think a long version could be \"A multiple Gerrit primary processes configuration (aka multi-primary)\". WDYT?\n\nI wasn\u0027t the one who picked the word primary, but I think it\u0027s a fine choice. For full context, the link I had as [1] includes 6 definitions of \u0027primary\u0027 as a noun and I was referring to the first:\n\n Definition of primary (Entry 2 of 2)\n 1: something that stands first in rank, importance, or value : FUNDAMENTAL —usually used in plural\n\nFrom that site as well, the origins:\n\n Noun\n \n in part borrowed from Late Latin prīmārius \"person leading, leader,\" noun\n derivative of Latin prīmārius \"of the highest importance or station, chief,\n PRIMARY entry 1\"; in part noun derivative of PRIMARY entry 1, or shortened from\n collocations with the adjective; (sense 5) shortened from primary election,\n earlier primary assembly, translation of French assemblée primaire\n\nThat does seem to indicate that it blurs the line between adjective and noun and I think that\u0027s exactly how we\u0027re using it too. We mean it generally as an adjective of \u0027process\u0027, but we shorten it for convenience.",
+      "parentUuid": "27c67d91_83596b67",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3480064e_7ad35e64",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1170bb44_b8281d37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-05T13:17:16Z",
+      "side": 1,
+      "message": "I have described it in the next paragraph, the default is ~/.cache per the XDG spec.",
+      "parentUuid": "a51cd458_65741941",
+      "range": {
+        "startLine": 22,
+        "startChar": 9,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "ec31faaf10578fd22bff7951ad9f1caf2d3ed356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5be82e56_a498dafb",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-04T15:29:48Z",
       "side": 1,
       "message": "I\u0027m not a fan of these caches being split into different directories. Is there a way to honor the old location still? Or to only override for the use case you\u0027re interested in?",
+      "range": {
+        "startLine": 549,
+        "startChar": 2,
+        "endLine": 549,
+        "endChar": 11
+      },
+      "revId": "ec31faaf10578fd22bff7951ad9f1caf2d3ed356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bac92aa7_cc2197f0",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-05T13:17:16Z",
+      "side": 1,
+      "message": "For sure, we can just fallback to use ~/.gerritcodereview indeed. That is probably less intrusive.\n\n\nI also wanted to have the Bazel cache to respect XDG_CACHE_HOME environment variable. Tentatively:\n\n bazel build --action_env\u003dXDG_CACHE_HOME\u003d~/.cache --repository_cache\u003d$XDG_CACHE_HOME\n\nBut action_env does an assignement and there is no way to override from the invoking environment. There is also no way to have the value be set solely when the environment variable is not set.\n\nSo I guess yes I should amend to fallback to ~/.gerritcodereview for consistency with the bazel caches.",
+      "parentUuid": "5be82e56_a498dafb",
       "range": {
         "startLine": 549,
         "startChar": 2,

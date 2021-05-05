@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28c3e36e_3839329a",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T22:11:04Z",
+      "side": 1,
+      "message": "This is wrong, it should be:\n\n  session.get().isSignedIn() || verify(req, rsp)",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 39
+      },
+      "revId": "e5bab740171ee31101dd2a00ce1802ea3e36ff43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

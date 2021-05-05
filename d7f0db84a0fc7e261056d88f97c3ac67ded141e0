@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5246ecaa_8c15980e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-05T12:26:16Z",
+      "side": 1,
+      "message": "I think that\u0027s a tradeoff we will have to make here.\n\nThe current ported comments endpoint (that works for all files) works as follows:\n1) It loads all the comments for previous patchsets from NoteDb.\n2) For each comment (or bunch of comments grouped by previous patchsets), we compute the diff of that file (where comments were written) against the latest patchset. \n\nAfter the diff is computed, we can get the mapping of {old, new} file paths along with the range mapping (which lines this comment should be ported to). \n\nIn this change, we are requesting ported comments for a specific file path (using the new file name at the latest patchset). We do that by:\n1) Loading all comments for previous patchsets from NoteDb.\n2) Filter only comments that were written for that specific file path.\n3) Compute the diff of all patchsets that have comments against the latest patchset.\n\nFor any comment that has a different file name on a previous patchset, we will not be able to know if that file was renamed to the file we are looking for (at the latest patchset) because this comment will be filtered by step #2. We don\u0027t know the mapping of {old, new} file name until we request the diff (with step #3). If we want to support this, we\u0027ll end up looking for all diffs for all comments to detect a probable rename, which is what we are trying to avoid.\n\nI\u0027m happy to explain that in chat/gvc if my comment is still unclear.",
+      "parentUuid": "bdfd9fe2_f1f2eae9",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc3e7ee6_91c4d523",
@@ -49,6 +67,24 @@
       "writtenOn": "2021-05-03T15:10:20Z",
       "side": 1,
       "message": "Which other revisions?",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9ec465b_79f2556e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5300,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-05T12:26:16Z",
+      "side": 1,
+      "message": "Other revisions here mean other patchset commits of the same change. The notation is the same to what we use in the URL: \u0027GET /changes/{change-id}/revisions/{revision-id}/ported_comments\u0027.\n\nI\u0027m reusing the description that we already have for the existing ported comments endpoint [1]. Please note that I renamed the existing endpoint (which ports all comments of a change) from \"Get ported comments\" to \"List ported comments\". This is done in change [2] in this series. I did that to re-use \"Get ported comments\" in this change for porting comments for a single file.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-ported-comments\n\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/304590/1",
+      "parentUuid": "fc3e7ee6_91c4d523",
       "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -70,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e88e204b_6cd0600a",
+        "filename": "java/com/google/gerrit/extensions/api/changes/FileApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-05T12:26:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "583a7b66_43785e76",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32f74e7c_f3bba445",
@@ -83,6 +137,24 @@
       "writtenOn": "2021-05-03T15:10:20Z",
       "side": 1,
       "message": "At this point it\u0027s no longer allComments. Maybe introduce a second variable fileComments?\n\nOn second thought, WDYT about making this a filter in CommentPorter where it already does filtering anyway? That way all of this logic would be in one place.",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dbb23d9_49fbc306",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPortedComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-05T12:26:16Z",
+      "side": 1,
+      "message": "Done. CommentsPorter actually supports filters. I passed a file path filter to do the job.\n\nAddendum: I also changed the API to return a List\u003cCommentInfo\u003e instead of a Map\u003cString, List\u003cCommentInfo\u003e\u003e. The map was actually meant to support multiple file paths (as map keys), but we don\u0027t need this for the new endpoint since we are returning comments for a single file path.",
+      "parentUuid": "32f74e7c_f3bba445",
       "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

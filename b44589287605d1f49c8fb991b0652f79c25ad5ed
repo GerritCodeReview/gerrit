@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2841bc5_71188255",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-05T10:17:45Z",
+      "side": 1,
+      "message": "_accountOrGroupKey is already checking for account.email so we don\u0027t need to check for it again here.\nHence removed.",
+      "range": {
+        "startLine": 551,
+        "startChar": 12,
+        "endLine": 551,
+        "endChar": 43
+      },
+      "revId": "b44589287605d1f49c8fb991b0652f79c25ad5ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

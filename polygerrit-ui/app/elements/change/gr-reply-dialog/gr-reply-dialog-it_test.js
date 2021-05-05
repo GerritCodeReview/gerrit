@@ -87,9 +87,6 @@ suite('gr-reply-dialog-it tests', () => {
 
   test('_submit blocked when invalid email is supplied to ccs', () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
-    // Stub the below function to avoid side effects from the send promise
-    // resolving.
-    sinon.stub(element, '_purgeReviewersPendingRemove');
 
     element.$.ccs.$.entry.setText('test');
     MockInteractions.tap(element.shadowRoot

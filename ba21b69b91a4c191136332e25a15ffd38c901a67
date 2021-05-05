@@ -140,6 +140,30 @@
       },
       "revId": "ba21b69b91a4c191136332e25a15ffd38c901a67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a0ab5a_c578dac0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-05T12:51:13Z",
+      "side": 1,
+      "message": "I think it\u0027s happening here. The fact that Error chips will be processed before warning chips.\n\n[1] https://gerrit.googlesource.com/gerrit/+/631562cd7f852be44a3e97b6f524066536c94ad3/polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts#483",
+      "parentUuid": "1e192455_bec26a30",
+      "range": {
+        "startLine": 421,
+        "startChar": 7,
+        "endLine": 421,
+        "endChar": 61
+      },
+      "revId": "ba21b69b91a4c191136332e25a15ffd38c901a67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

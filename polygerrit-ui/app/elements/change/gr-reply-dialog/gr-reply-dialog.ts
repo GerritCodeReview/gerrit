@@ -107,6 +107,7 @@ import {
   fireAlert,
   fireEvent,
   fireIronAnnounce,
+  fireReload,
   fireServerError,
 } from '../../../utils/event-util';
 import {ErrorCallback} from '../../../api/rest';
@@ -1369,13 +1370,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _reload() {
-    this.dispatchEvent(
-      new CustomEvent('reload', {
-        detail: {clearPatchset: true},
-        bubbles: false,
-        composed: true,
-      })
-    );
+    fireReload(this, true);
     this.cancel();
   }
 

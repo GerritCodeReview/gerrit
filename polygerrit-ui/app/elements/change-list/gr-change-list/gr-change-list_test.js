@@ -192,10 +192,6 @@ suite('gr-change-list basic tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
       assert.equal(element.selectedIndex, 0);
 
-      const reloadStub = sinon.stub(element, '_reloadWindow');
-      MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
-      assert.isTrue(reloadStub.called);
-
       done();
     });
   });

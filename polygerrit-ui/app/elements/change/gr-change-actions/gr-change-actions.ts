@@ -93,7 +93,7 @@ import {
   GrChangeActionsElement,
   UIActionInfo,
 } from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
-import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {fireAlert, fireEvent, fireReload} from '../../../utils/event-util';
 import {
   CODE_REVIEW,
   getApprovalInfo,
@@ -1631,13 +1631,7 @@ export class GrChangeActions
         case ChangeActions.REBASE_EDIT:
         case ChangeActions.REBASE:
         case ChangeActions.SUBMIT:
-          this.dispatchEvent(
-            new CustomEvent('reload', {
-              detail: {clearPatchset: true},
-              bubbles: false,
-              composed: true,
-            })
-          );
+          fireReload(this, true);
           break;
         case ChangeActions.REVERT_SUBMISSION: {
           const revertSubmistionInfo = (obj as unknown) as RevertSubmissionInfo;
@@ -1654,13 +1648,7 @@ export class GrChangeActions
           break;
         }
         default:
-          this.dispatchEvent(
-            new CustomEvent('reload', {
-              detail: {action: action.__key, clearPatchset: true},
-              bubbles: false,
-              composed: true,
-            })
-          );
+          fireReload(this, true);
           break;
       }
     });
@@ -1733,15 +1721,7 @@ export class GrChangeActions
                 'Cannot set label: a newer patch has been ' +
                 'uploaded to this change.',
               action: 'Reload',
-              callback: () => {
-                this.dispatchEvent(
-                  new CustomEvent('reload', {
-                    detail: {clearPatchset: true},
-                    bubbles: false,
-                    composed: true,
-                  })
-                );
-              },
+              callback: () => fireReload(this, true),
             },
             composed: true,
             bubbles: true,

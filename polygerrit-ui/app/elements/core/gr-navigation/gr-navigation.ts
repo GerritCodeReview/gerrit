@@ -359,6 +359,13 @@ export interface GenerateWebLinksPatchsetParameters {
   commit?: CommitId;
   options?: GenerateWebLinksOptions;
 }
+export interface GenerateWebLinksEditParameters {
+  type: WeblinkType.EDIT;
+  repo: RepoName;
+  commit: CommitId;
+  file: string;
+  options?: GenerateWebLinksOptions;
+}
 export interface GenerateWebLinksFileParameters {
   type: WeblinkType.FILE;
   repo: RepoName;
@@ -375,6 +382,7 @@ export interface GenerateWebLinksChangeParameters {
 
 export type GenerateWebLinksParameters =
   | GenerateWebLinksPatchsetParameters
+  | GenerateWebLinksEditParameters
   | GenerateWebLinksFileParameters
   | GenerateWebLinksChangeParameters;
 
@@ -413,6 +421,7 @@ export enum RepoDetailView {
 
 export enum WeblinkType {
   CHANGE = 'change',
+  EDIT = 'edit',
   FILE = 'file',
   PATCHSET = 'patchset',
 }
@@ -887,6 +896,24 @@ export const GerritNav = {
 
   getUrlForSettings() {
     return this._getUrlFor({view: GerritView.SETTINGS});
+  },
+
+  getEditWebLinks(
+    repo: RepoName,
+    commit: CommitId,
+    file: string,
+    options?: GenerateWebLinksOptions
+  ): GeneratedWebLink[] {
+    const params: GenerateWebLinksEditParameters = {
+      type: WeblinkType.EDIT,
+      repo,
+      commit,
+      file,
+    };
+    if (options) {
+      params.options = options;
+    }
+    return ([] as GeneratedWebLink[]).concat(this._generateWeblinks(params));
   },
 
   getFileWebLinks(

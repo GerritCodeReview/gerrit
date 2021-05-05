@@ -316,7 +316,10 @@ export const htmlTemplate = html`
             _isBlameLoading)]]</gr-button
           >
         </span>
-        <template is="dom-if" if="[[_computeCanEdit(_loggedIn, _change.*)]]">
+        <template
+          is="dom-if"
+          if="[[_computeCanEdit(_loggedIn, _editWeblinks, _change.*)]]"
+        >
           <span class="separator"></span>
           <span class="editButton">
             <gr-button
@@ -326,6 +329,12 @@ export const htmlTemplate = html`
               >edit</gr-button
             >
           </span>
+        </template>
+        <template is="dom-if" if="[[_computeShowEditLinks(_editWeblinks)]]">
+          <span class="separator"></span>
+          <template is="dom-repeat" items="[[_editWeblinks]]" as="weblink">
+            <a target="_blank" href$="[[weblink.url]]">[[weblink.name]]</a>
+          </template>
         </template>
         <span class="separator"></span>
         <div class$="diffModeSelector [[_computeModeSelectHideClass(_diff)]]">
@@ -390,6 +399,7 @@ export const htmlTemplate = html`
     hidden=""
     hidden$="[[_loading]]"
     is-image-diff="{{_isImageDiff}}"
+    edit-weblinks="{{_editWeblinks}}"
     files-weblinks="{{_filesWeblinks}}"
     diff="{{_diff}}"
     change-num="[[_changeNum]]"

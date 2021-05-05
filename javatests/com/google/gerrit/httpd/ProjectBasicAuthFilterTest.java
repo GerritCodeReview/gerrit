@@ -148,6 +148,27 @@ public class ProjectBasicAuthFilterTest {
   }
 
   @Test
+  public void shouldNotReauthenticateIfAlreadySignedIn() throws Exception {
+    req.addHeader(
+        "Authorization",
+        "Basic " + B64_ENC.encodeToString((AUTH_USER + ":" + AUTH_PASSWORD).getBytes()));
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    doReturn(true).when(webSession).isSignedIn();
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+
+    basicAuthFilter.init(config);
+    basicAuthFilter.doFilter(req, res, chain);
+    basicAuthFilter.destroy();
+
+    verify(accountManager, never()).authenticate(any());
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
   public void shouldFailedAuthenticationAgainstRealm() throws Exception {
     req.addHeader(
         "Authorization",

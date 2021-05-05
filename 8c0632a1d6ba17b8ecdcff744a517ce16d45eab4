@@ -136,6 +136,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a4e2370_be6e87d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-05T07:30:22Z",
+      "side": 1,
+      "message": "Thanks for the review!",
+      "parentUuid": "6154e7f3_8276df25",
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bc13e58_f1c8fb36",
@@ -348,6 +366,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d502d4f0_07579926",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-05T07:30:22Z",
+      "side": 1,
+      "message": "Done here: https://gerrit-review.googlesource.com/c/gerrit/+/305302",
+      "parentUuid": "2cda8428_2f373240",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 54
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35e2a676_65a7388d",
@@ -444,6 +486,30 @@
       "side": 1,
       "message": "I was confused first, why it is required to preserve case in NoteDb, since if the option is used, we do not expect to have external ids only different in case (e.g. we could just always convert username to lowercase on registration, now we would throw if someone tries to register with the username only different in case).\n\nCould you, please, add a line to the description why we are preserving the case in NoteDB? I guess this is not necessary, it just makes the implementation simpler?",
       "parentUuid": "e1611e97_5727c669",
+      "range": {
+        "startLine": 307,
+        "startChar": 27,
+        "endLine": 307,
+        "endChar": 39
+      },
+      "revId": "8c0632a1d6ba17b8ecdcff744a517ce16d45eab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31a3f6db_1caf13e4",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-05T07:30:22Z",
+      "side": 1,
+      "message": "Actually case preservation is necessary. This is mainly to not disrupt the sandbox branch feature. This feature uses the username to compute a sandbox branch for a user. Since git branches are case sensitive, changing the username would make existing branches unreachable for users. Also users will expect to see the username that they used to create the account in the UI, e.g. their settings. Thus, the case should be preserved.\nI added some more explanation in the docs.",
+      "parentUuid": "cf5fb9e7_ed8fe03a",
       "range": {
         "startLine": 307,
         "startChar": 27,

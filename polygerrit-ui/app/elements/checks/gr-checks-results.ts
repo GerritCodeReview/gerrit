@@ -169,6 +169,9 @@ class GrResultRow extends GrLitElement {
           display: inline-block;
           margin-left: var(--spacing-s);
         }
+        tr.collapsed td .summary-cell .message {
+          color: var(--deemphasized-text-color);
+        }
         tr.collapsed td .summary-cell .links,
         tr.collapsed td .summary-cell .actions {
           display: none;

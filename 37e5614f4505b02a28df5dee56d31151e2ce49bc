@@ -222,6 +222,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "050ebc9a_a5ab4cea",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T20:40:45Z",
+      "side": 1,
+      "message": "Metrics are very expensive in terms of payload and having a metric that is there with always a zero value (Kerberos auth for LDAP) won\u0027t be helpful.\n\nAlso with Kerberos, it is still an LDAP authentication so the login metrics is appropriate here I believe.",
+      "parentUuid": "75a720de_3dc83879",
+      "range": {
+        "startLine": 227,
+        "startChar": 33,
+        "endLine": 227,
+        "endChar": 50
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a8531e_23c1938b",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T20:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58f53ac3_3afcec13",
+      "range": {
+        "startLine": 227,
+        "startChar": 24,
+        "endLine": 227,
+        "endChar": 30
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a30c3544_3415908d",
@@ -239,6 +287,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6a89dc2_0498e06c",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T20:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a30c3544_3415908d",
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97b0dd23_841b50a8",
@@ -252,6 +318,30 @@
       "writtenOn": "2021-05-05T16:40:59Z",
       "side": 1,
       "message": "This is long running action, so it should be also recorded? May be:\n\n  try (Timer0.Context ignored \u003d groupSearchLatencyTimer.start()) {\n          for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {\n            recursivelyExpandGroups(groupDNs, schema, ctx, r.getDN());\n          }\n        }\n\nIn that case we wouldn\u0027t differentiate, though, between group lookup and recursive group resolution. Alternatively add a dedicated metric just for that?",
+      "range": {
+        "startLine": 331,
+        "startChar": 10,
+        "endLine": 331,
+        "endChar": 68
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "081bc04c_e46658f0",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T20:40:45Z",
+      "side": 1,
+      "message": "The expansion of groups does not interact with the LDAP server, hence it isn\u0027t technically part of the LDAP group query metric.\n\nLet me trace it as a separate metric as it would be potentially impacting the E2E latency for deep groups nesting.",
+      "parentUuid": "97b0dd23_841b50a8",
       "range": {
         "startLine": 331,
         "startChar": 10,

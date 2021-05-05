@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac720074_ed9732dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-05T13:01:36Z",
+      "side": 1,
+      "message": "This should only be submitted one week after the frontend change. But otherwise LGTM!",
+      "revId": "6f1cda658df544869fadc783fd74ac9e4a0f4825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

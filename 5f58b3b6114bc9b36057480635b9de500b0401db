@@ -34,6 +34,24 @@
       "parentUuid": "77ba39e6_a6c000d0",
       "revId": "5f58b3b6114bc9b36057480635b9de500b0401db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "894eedec_b9ce83b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-05T06:53:07Z",
+      "side": 1,
+      "message": "Yes, please split this into two changes. The frontend change should be submitted ~1 week before the backend change. Then we are safe.\n\nDo we really gain much by including this into stable-3.4 at this point? Up to you, but there is a certain probability (like with everything else) that this is not working as intended, so you are introducing a certain risk to the 3.4 release.",
+      "parentUuid": "e6a7fbc3_3aefbf16",
+      "revId": "5f58b3b6114bc9b36057480635b9de500b0401db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

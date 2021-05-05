@@ -287,8 +287,22 @@ export class GrChangeSummary extends GrLitElement {
   @property()
   loginCallback?: () => void;
 
-  /** Is reset when rendering beings and decreases while chips are rendered. */
+  /**
+   * How many check chips may still be rendered as a detailed chip. Is reset
+   * when rendering begins and decreases while chips are rendered. So when
+   * there are two ERRORs, then those would consume 2 from this quota and then
+   * there would only by DETAILS_QUOTA - 2 left for the other summary chips.
+   * Once there are more results than quota left we will stop rendering
+   * detailed chips and fall back to just icon+number rendering.
+   */
   private detailsQuota = DETAILS_QUOTA;
+
+  /**
+   * Is reset when rendering begins and contains the check names of runs that
+   * have a detailed chip. We keep track of this such that we can ensure to not
+   * show two detailed chips with the same name.
+   */
+  private detailsCheckNames: string[] = [];
 
   constructor() {
     super();
@@ -411,9 +425,17 @@ export class GrChangeSummary extends GrLitElement {
     if (runs.length === 0) {
       return html``;
     }
-    if (runs.length <= this.detailsQuota) {
+    // If a run has both an error and a warning result, then we only want to
+    // show a detailed chip with the expanded checkName once. For simplicity
+    // just stop rendering detailed chips completely as soon as we run into
+    // this by setting detailsQuota to 0 (after the if-block).
+    const hasDetailChipAlready = runs.some(run =>
+      this.detailsCheckNames.includes(run.checkName)
+    );
+    if (!hasDetailChipAlready && runs.length <= this.detailsQuota) {
       this.detailsQuota -= runs.length;
       return runs.map(run => {
+        this.detailsCheckNames.push(run.checkName);
         const allLinks = resultFilter(run)
           .reduce(
             (links, result) => links.concat(result.links ?? []),
@@ -437,8 +459,8 @@ export class GrChangeSummary extends GrLitElement {
         </gr-checks-chip>`;
       });
     }
-    // runs.length > this.detailsQuota
     this.detailsQuota = 0;
+    this.detailsCheckNames = [];
     const sum = runs.reduce(
       (sum, run) => sum + (resultFilter(run).length || 1),
       0
@@ -465,6 +487,7 @@ export class GrChangeSummary extends GrLitElement {
 
   render() {
     this.detailsQuota = DETAILS_QUOTA;
+    this.detailsCheckNames = [];
     const commentThreads =
       this.commentThreads?.filter(t => !isRobotThread(t) || hasHumanReply(t)) ??
       [];

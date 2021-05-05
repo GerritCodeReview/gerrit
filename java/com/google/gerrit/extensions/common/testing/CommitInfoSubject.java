@@ -20,6 +20,7 @@ import static com.google.gerrit.truth.ListSubject.elements;
 
 import com.google.common.truth.Correspondence;
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -66,6 +67,16 @@ public class CommitInfoSubject extends Subject {
   public StringSubject message() {
     isNotNull();
     return check("message").that(commitInfo.message);
+  }
+
+  public IterableSubject webLinks() {
+    isNotNull();
+    return check("webLinks").that(commitInfo.webLinks);
+  }
+
+  public IterableSubject resolveConflictsWebLinks() {
+    isNotNull();
+    return check("resolveConflictsWebLinks").that(commitInfo.resolveConflictsWebLinks);
   }
 
   public static Correspondence<CommitInfo, String> hasCommit() {

@@ -20,12 +20,16 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.WebLinkInfo;
+import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -37,11 +41,13 @@ import org.junit.Test;
 
 public class GetCommitIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private TestRepository<Repository> repo;
 
   @Before
   public void setUp() throws Exception {
+    Registration registration = newResolveConflictsWebLink();
     repo = GitUtil.newTestRepository(repoManager.openRepository(project));
     blockRead();
   }
@@ -126,6 +132,19 @@ public class GetCommitIT extends AbstractDaemonTest {
     blockRead();
     assertNotFound(r.getCommit());
   }
+  
+  @Test
+  public void getWeblinks_Found() throws Exception {
+    unblockRead();
+    PushOneCommit.Result r = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
+    r.assertOkStatus();
+
+    CommitInfo info = getCommit(r.getCommit());
+    assertThat(info.resolveConflictsWebLinks).isNotNull();
+    assertThat(info.resolveConflictsWebLinks).isNotEmpty();
+    // assertThat(info.webLinks).isNotNull();
+    // assertThat(info.webLinks).isNotEmpty();
+  }
 
   private void unblockRead() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
@@ -145,6 +164,19 @@ public class GetCommitIT extends AbstractDaemonTest {
         .forUpdate()
         .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
         .update();
+  }
+
+  private Registration newResolveConflictsWebLink() {
+    ResolveConflictsWebLink webLink =
+      new ResolveConflictsWebLink() {
+        @Override
+        public WebLinkInfo getResolveConflictsWebLink(
+          String projectName, String commit, String commitMessage, String branchName) {
+            return new WebLinkInfo(
+              "name", "imageURL", "http://resolve/" + projectName + "/" + branchName);
+          }
+      };
+      return extensionRegistry.newRegistration().add(webLink);
   }
 
   private void assertNotFound(ObjectId id) throws Exception {

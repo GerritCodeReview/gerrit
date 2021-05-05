@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c1bfea9_472d1774",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-05T20:55:05Z",
+      "side": 1,
+      "message": "did you mean to add this extra path here now?",
+      "range": {
+        "startLine": 549,
+        "startChar": 22,
+        "endLine": 549,
+        "endChar": 39
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

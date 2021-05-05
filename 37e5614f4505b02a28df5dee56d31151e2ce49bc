@@ -152,6 +152,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df0a1303_51e98134",
+        "filename": "java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-05T16:26:51Z",
+      "side": 1,
+      "message": "What if we measure it consistently on the caller sites and don\u0027t pass in the metric instance to query, something like:\n\n  try (Timer0.Context ignored \u003d helper.getGroupSearchLatencyTimer().start()) {\n            for (LdapQuery.Result res : query.query(ctx, params)) {\n              out.add(groupReference(schema.groupName, res));\n            }\n          }\n\nHere and in other places.",
+      "range": {
+        "startLine": 216,
+        "startChar": 10,
+        "endLine": 219,
+        "endChar": 11
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e26c0b9e_8823fd22",
         "filename": "java/com/google/gerrit/server/auth/ldap/LdapQuery.java",
         "patchSetId": 2

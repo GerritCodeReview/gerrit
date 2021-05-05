@@ -25,6 +25,7 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountDefaultDisplayName;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.common.ServerInfo;
@@ -213,5 +214,13 @@ public class ServerInfoIT extends AbstractDaemonTest {
   public void mergeabilityComputationBehavior_neverCompute() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
     assertThat(i.change.mergeabilityComputationBehavior).isEqualTo("NEVER");
+  }
+
+  @Test
+  @GerritConfig(name = "download.scheme", value = "fooBar")
+  @GerritConfig(name = "download.command", value = "fooBar")
+  public void misconfiguredDownloadCommands() throws Exception {
+    ServerInfo i = gApi.config().server().getInfo();
+    assertThat(i.download.schemes).isEmpty();
   }
 }

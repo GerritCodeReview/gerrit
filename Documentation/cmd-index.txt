@@ -118,6 +118,9 @@ git upload-pack::
 link:cmd-close-connection.html[gerrit close-connection]::
 	Close the specified SSH connection.
 
+link:cmd-convert-ref-storage.html[gerrit convert-ref-storage]::
+	Convert ref storage to reftable (experimental).
+
 link:cmd-create-account.html[gerrit create-account]::
 	Create a new user account.
 

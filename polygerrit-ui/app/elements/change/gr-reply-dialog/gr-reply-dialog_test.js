@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import {IronOverlayManager} from '@polymer/iron-overlay-behavior/iron-overlay-manager.js';
 import './gr-reply-dialog.js';
 import {mockPromise, stubStorage} from '../../../test/test-utils.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
+import {ReviewerState, SpecialFilePath} from '../../../constants/constants.js';
 import {appContext} from '../../../services/app-context.js';
 import {addListenerForTest} from '../../../test/test-utils.js';
 import {stubRestApi} from '../../../test/test-utils.js';
@@ -57,7 +57,7 @@ suite('gr-reply-dialog tests', () => {
   let setDraftCommentStub;
   let eraseDraftCommentStub;
 
-  let lastId = 0;
+  let lastId = 1;
   const makeAccount = function() { return {_account_id: lastId++}; };
   const makeGroup = function() { return {id: lastId++}; };
 
@@ -969,63 +969,7 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
-  test('_processReviewerChange', () => {
-    const mockIndexSplices = function(toRemove) {
-      return [{
-        removed: [toRemove],
-      }];
-    };
-
-    element._processReviewerChange(
-        mockIndexSplices(makeAccount()), 'REVIEWER');
-    assert.equal(element._reviewersPendingRemove.REVIEWER.length, 1);
-  });
-
-  test('_purgeReviewersPendingRemove', () => {
-    const removeStub = sinon.stub(element, '_removeAccount');
-    const mock = function() {
-      element._reviewersPendingRemove = {
-        CC: [makeAccount()],
-        REVIEWER: [makeAccount(), makeAccount()],
-      };
-    };
-    const checkObjEmpty = function(obj) {
-      for (const prop of Object.keys(obj)) {
-        if (obj[prop].length) { return false; }
-      }
-      return true;
-    };
-    mock();
-    element._purgeReviewersPendingRemove(true); // Cancel
-    assert.isFalse(removeStub.called);
-    assert.isTrue(checkObjEmpty(element._reviewersPendingRemove));
-
-    mock();
-    element._purgeReviewersPendingRemove(false); // Submit
-    assert.isTrue(removeStub.called);
-    assert.isTrue(checkObjEmpty(element._reviewersPendingRemove));
-  });
-
-  test('_removeAccount', done => {
-    stubRestApi('removeChangeReviewer')
-        .returns(Promise.resolve({ok: true}));
-    const arr = [makeAccount(), makeAccount()];
-    element.change.reviewers = {
-      REVIEWER: arr.slice(),
-    };
-
-    element._removeAccount(arr[1], 'REVIEWER').then(() => {
-      assert.equal(element.change.reviewers.REVIEWER.length, 1);
-      assert.deepEqual(element.change.reviewers.REVIEWER, arr.slice(0, 1));
-      done();
-    });
-  });
-
   test('moving from cc to reviewer', () => {
-    element._reviewersPendingRemove = {
-      CC: [],
-      REVIEWER: [],
-    };
     flush();
 
     const reviewer1 = makeAccount();
@@ -1043,7 +987,6 @@ suite('gr-reply-dialog tests', () => {
     assert.deepEqual(element._reviewers,
         [reviewer1, reviewer2, reviewer3, cc1]);
     assert.deepEqual(element._ccs, [cc2, cc3, cc4]);
-    assert.deepEqual(element._reviewersPendingRemove.CC, [cc1]);
 
     element.push('_reviewers', cc4, cc3);
     flush();
@@ -1051,7 +994,6 @@ suite('gr-reply-dialog tests', () => {
     assert.deepEqual(element._reviewers,
         [reviewer1, reviewer2, reviewer3, cc1, cc4, cc3]);
     assert.deepEqual(element._ccs, [cc2]);
-    assert.deepEqual(element._reviewersPendingRemove.CC, [cc1, cc4, cc3]);
   });
 
   test('update attention section when reviewers and ccs change', () => {
@@ -1107,10 +1049,6 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('moving from reviewer to cc', () => {
-    element._reviewersPendingRemove = {
-      CC: [],
-      REVIEWER: [],
-    };
     flush();
 
     const reviewer1 = makeAccount();
@@ -1128,7 +1066,6 @@ suite('gr-reply-dialog tests', () => {
     assert.deepEqual(element._reviewers,
         [reviewer2, reviewer3]);
     assert.deepEqual(element._ccs, [cc1, cc2, cc3, cc4, reviewer1]);
-    assert.deepEqual(element._reviewersPendingRemove.REVIEWER, [reviewer1]);
 
     element.push('_ccs', reviewer3, reviewer2);
     flush();
@@ -1136,15 +1073,9 @@ suite('gr-reply-dialog tests', () => {
     assert.deepEqual(element._reviewers, []);
     assert.deepEqual(element._ccs,
         [cc1, cc2, cc3, cc4, reviewer1, reviewer3, reviewer2]);
-    assert.deepEqual(element._reviewersPendingRemove.REVIEWER,
-        [reviewer1, reviewer3, reviewer2]);
   });
 
   test('migrate reviewers between states', async () => {
-    element._reviewersPendingRemove = {
-      CC: [],
-      REVIEWER: [],
-    };
     flush();
     const reviewers = element.$.reviewers;
     const ccs = element.$.ccs;
@@ -1159,11 +1090,6 @@ suite('gr-reply-dialog tests', () => {
     const mutations = [];
 
     stubSaveReview(review => mutations.push(...review.reviewers));
-
-    sinon.stub(element, '_removeAccount').callsFake((account, type) => {
-      mutations.push({state: 'REMOVED', account});
-      return Promise.resolve();
-    });
 
     // Remove and add to other field.
     reviewers.dispatchEvent(
@@ -1213,15 +1139,24 @@ suite('gr-reply-dialog tests', () => {
     };
 
     // Send and purge and verify moves, delete cc3.
-    await element.send()
-        .then(keepReviewers =>
-          element._purgeReviewersPendingRemove(false, keepReviewers));
-    expect(mutations).to.have.lengthOf(5);
-    expect(mutations[0]).to.deep.equal(mapReviewer(cc1));
-    expect(mutations[1]).to.deep.equal(mapReviewer(cc2));
-    expect(mutations[2]).to.deep.equal(mapReviewer(reviewer1, 'CC'));
-    expect(mutations[3]).to.deep.equal(mapReviewer(reviewer2, 'CC'));
-    expect(mutations[4]).to.deep.equal({account: cc3, state: 'REMOVED'});
+    await element.send();
+    expect(mutations).to.have.lengthOf(7);
+    expect(mutations[0]).to.deep.equal(mapReviewer(cc1,
+        ReviewerState.REVIEWER));
+    expect(mutations[1]).to.deep.equal(mapReviewer(cc2,
+        ReviewerState.REVIEWER));
+    expect(mutations[2]).to.deep.equal(mapReviewer(reviewer1,
+        ReviewerState.CC));
+    expect(mutations[3]).to.deep.equal(mapReviewer(reviewer2,
+        ReviewerState.CC));
+
+    // 3 remove events stored
+    expect(mutations[4]).to.deep.equal({reviewer: 33, state:
+        ReviewerState.REMOVED});
+    expect(mutations[5]).to.deep.equal({reviewer: 35, state:
+        ReviewerState.REMOVED});
+    expect(mutations[6]).to.deep.equal({reviewer: 37, state:
+        ReviewerState.REMOVED});
   });
 
   test('emits cancel on esc key', () => {
@@ -1544,9 +1479,6 @@ suite('gr-reply-dialog tests', () => {
 
   test('_submit blocked when no mutations exist', async () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
-    // Stub the below function to avoid side effects from the send promise
-    // resolving.
-    sinon.stub(element, '_purgeReviewersPendingRemove');
     element.account = makeAccount();
     element.draftCommentThreads = [];
     await flush();

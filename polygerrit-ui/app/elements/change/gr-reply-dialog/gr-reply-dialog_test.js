@@ -981,31 +981,6 @@ suite('gr-reply-dialog tests', () => {
     assert.equal(element._reviewersPendingRemove.REVIEWER.length, 1);
   });
 
-  test('_purgeReviewersPendingRemove', () => {
-    const removeStub = sinon.stub(element, '_removeAccount');
-    const mock = function() {
-      element._reviewersPendingRemove = {
-        CC: [makeAccount()],
-        REVIEWER: [makeAccount(), makeAccount()],
-      };
-    };
-    const checkObjEmpty = function(obj) {
-      for (const prop of Object.keys(obj)) {
-        if (obj[prop].length) { return false; }
-      }
-      return true;
-    };
-    mock();
-    element._purgeReviewersPendingRemove(true); // Cancel
-    assert.isFalse(removeStub.called);
-    assert.isTrue(checkObjEmpty(element._reviewersPendingRemove));
-
-    mock();
-    element._purgeReviewersPendingRemove(false); // Submit
-    assert.isTrue(removeStub.called);
-    assert.isTrue(checkObjEmpty(element._reviewersPendingRemove));
-  });
-
   test('_removeAccount', done => {
     stubRestApi('removeChangeReviewer')
         .returns(Promise.resolve({ok: true}));
@@ -1213,9 +1188,7 @@ suite('gr-reply-dialog tests', () => {
     };
 
     // Send and purge and verify moves, delete cc3.
-    await element.send()
-        .then(keepReviewers =>
-          element._purgeReviewersPendingRemove(false, keepReviewers));
+    await element.send();
     expect(mutations).to.have.lengthOf(5);
     expect(mutations[0]).to.deep.equal(mapReviewer(cc1));
     expect(mutations[1]).to.deep.equal(mapReviewer(cc2));
@@ -1544,9 +1517,6 @@ suite('gr-reply-dialog tests', () => {
 
   test('_submit blocked when no mutations exist', async () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
-    // Stub the below function to avoid side effects from the send promise
-    // resolving.
-    sinon.stub(element, '_purgeReviewersPendingRemove');
     element.account = makeAccount();
     element.draftCommentThreads = [];
     await flush();

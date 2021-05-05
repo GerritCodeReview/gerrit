@@ -26,6 +26,7 @@ import {
   Suggestion,
   AccountInfo,
   GroupInfo,
+  EmailAddress,
 } from '../../../types/common';
 import {
   GrReviewerSuggestionsProvider,
@@ -185,6 +186,8 @@ export class GrAccountList extends PolymerElement {
 
   reporting: ReportingService;
 
+  private pendingRemoval: AccountInput[] = [];
+
   constructor() {
     super();
     this.reporting = appContext.reportingService;
@@ -234,6 +237,7 @@ export class GrAccountList extends PolymerElement {
     let itemTypeAdded = 'unknown';
     if (isAccountObject(item)) {
       const account = {...item.account, _pendingAdd: true};
+      this.removeFromPendingRemoval(account);
       this.push('accounts', account);
       itemTypeAdded = 'account';
     } else if (isGroupObjectInput(item)) {
@@ -243,6 +247,7 @@ export class GrAccountList extends PolymerElement {
       }
       const group = {...item.group, _pendingAdd: true, _group: true};
       this.push('accounts', group);
+      this.removeFromPendingRemoval(group);
       itemTypeAdded = 'group';
     } else if (this.allowAnyInput) {
       if (!item.includes('@')) {
@@ -252,8 +257,9 @@ export class GrAccountList extends PolymerElement {
         fireAlert(this, VALID_EMAIL_ALERT);
         return false;
       } else {
-        const account = {email: item, _pendingAdd: true};
+        const account = {email: item as EmailAddress, _pendingAdd: true};
         this.push('accounts', account);
+        this.removeFromPendingRemoval(account);
         itemTypeAdded = 'email';
       }
     }
@@ -315,6 +321,8 @@ export class GrAccountList extends PolymerElement {
     for (let i = 0; i < this.accounts.length; i++) {
       if (accountOrGroupKey(toRemove) === accountOrGroupKey(this.accounts[i])) {
         this.splice('accounts', i, 1);
+        if (this.pendingRemoval.indexOf(toRemove) === -1)
+          this.pendingRemoval.push(toRemove);
         this.reporting.reportInteraction(`Remove from ${this.id}`);
         return;
       }
@@ -420,6 +428,27 @@ export class GrAccountList extends PolymerElement {
           throw new Error('AccountInput must be either Account or Group.');
         }
       });
+  }
+
+  removals(): AccountAddition[] {
+    return this.pendingRemoval.map(account => {
+      if (isGroupInfoInput(account)) {
+        return {group: account};
+      } else if (isAccountInfoInput(account)) {
+        return {account};
+      } else {
+        throw new Error('AccountInput must be either Account or Group.');
+      }
+    });
+  }
+
+  removeFromPendingRemoval(account: AccountInput) {
+    const index = this.pendingRemoval.indexOf(account);
+    if (index !== -1) this.pendingRemoval.splice(index, 1);
+  }
+
+  clearPendingRemovals() {
+    this.pendingRemoval = [];
   }
 
   _computeEntryHidden(

@@ -60,6 +60,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92513e12_2efc7743",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T20:23:40Z",
+      "side": 1,
+      "message": "Isn\u0027t it done at L129 already?\n\nWith regards to the Description, I believe it isn\u0027t the right place as all metrics of latencies in Gerrit have the same unit.\n\nIt would make more sense to add one documentation update for that for all metrics on Documentation/metrics.txt.\n\nWhat do you think?",
+      "parentUuid": "3698ece3_9cc5916c",
+      "range": {
+        "startLine": 127,
+        "startChar": 54,
+        "endLine": 127,
+        "endChar": 55
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "18a05e15_325df9eb",
         "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
         "patchSetId": 2
@@ -83,6 +107,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc55bf57_3462863f",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T20:23:40Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "18a05e15_325df9eb",
+      "range": {
+        "startLine": 134,
+        "startChar": 75,
+        "endLine": 134,
+        "endChar": 76
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d7ffbd9_4b49f99a",
         "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
         "patchSetId": 2
@@ -94,6 +142,30 @@
       "writtenOn": "2021-05-05T16:01:34Z",
       "side": 1,
       "message": "Might be useful to add the unit",
+      "range": {
+        "startLine": 141,
+        "startChar": 85,
+        "endLine": 141,
+        "endChar": 86
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abbd07f2_388d1fa9",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T20:23:40Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "6d7ffbd9_4b49f99a",
       "range": {
         "startLine": 141,
         "startChar": 85,
@@ -213,6 +285,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "009be6f7_da41ec99",
+        "filename": "java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T20:23:40Z",
+      "side": 1,
+      "message": "We could BUT we won\u0027t measure the LDAP search latency because extra code is involved which could have added extra latency.\n\nWhen you measure you typically want to reduce the errors to the measurements to a minimum.",
+      "parentUuid": "df0a1303_51e98134",
+      "range": {
+        "startLine": 216,
+        "startChar": 10,
+        "endLine": 219,
+        "endChar": 11
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e26c0b9e_8823fd22",
@@ -254,6 +350,54 @@
         "startChar": 24,
         "endLine": 72,
         "endChar": 30
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "761c6560_b01b7c29",
+        "filename": "java/com/google/gerrit/server/auth/ldap/LdapQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T20:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e82ec221_626a1830",
+      "range": {
+        "startLine": 72,
+        "startChar": 24,
+        "endLine": 72,
+        "endChar": 30
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b3a3ea4_a60f7d90",
+        "filename": "java/com/google/gerrit/server/auth/ldap/LdapQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-05T20:23:40Z",
+      "side": 1,
+      "message": "Good catch: it needs to be measured only here and NOT on the caller.\nThanks for the feedback, going to fix it in the next PS.",
+      "parentUuid": "e26c0b9e_8823fd22",
+      "range": {
+        "startLine": 72,
+        "startChar": 33,
+        "endLine": 72,
+        "endChar": 49
       },
       "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

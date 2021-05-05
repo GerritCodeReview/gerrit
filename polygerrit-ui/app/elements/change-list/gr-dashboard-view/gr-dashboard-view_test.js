@@ -356,31 +356,6 @@ suite('gr-dashboard-view tests', () => {
     assert.isFalse(differentChange.starred);
   });
 
-  test('toggling reviewed will update change everywhere', () => {
-    // It is important that the same change is represented by multiple objects
-    // and all are updated.
-    const change = {id: '5', reviewed: false};
-    const sameChange = {id: '5', reviewed: false};
-    const differentChange = {id: '4', reviewed: false};
-    element._results = [
-      {query: 'has:draft', results: [change]},
-      {query: 'is:open', results: [sameChange, differentChange]},
-    ];
-
-    element._handleToggleReviewed(
-        new CustomEvent('toggle-reviewed', {
-          detail: {
-            change,
-            reviewed: true,
-          },
-        })
-    );
-
-    assert.isTrue(change.reviewed);
-    assert.isTrue(sameChange.reviewed);
-    assert.isFalse(differentChange.reviewed);
-  });
-
   test('_showNewUserHelp', () => {
     element._loading = false;
     element._showNewUserHelp = false;

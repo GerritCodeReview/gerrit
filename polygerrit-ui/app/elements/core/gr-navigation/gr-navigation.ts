@@ -130,7 +130,6 @@ export interface DashboardSection {
   name: string;
   query: string;
   suffixForDashboard?: string;
-  attentionSetOnly?: boolean;
   selfOnly?: boolean;
   hideIfEmpty?: boolean;
   assigneeOnly?: boolean;
@@ -165,7 +164,6 @@ export const YOUR_TURN: DashboardSection = {
   query: 'attention:${user}',
   hideIfEmpty: false,
   suffixForDashboard: 'limit:25',
-  attentionSetOnly: true,
 };
 const ASSIGNED: DashboardSection = {
   // Changes that are assigned to the viewed user.
@@ -953,11 +951,8 @@ export const GerritNav = {
     title = '',
     config: UserDashboardConfig = {}
   ): UserDashboard {
-    const attentionEnabled =
-      config.change && !!config.change.enable_attention_set;
     const assigneeEnabled = config.change && !!config.change.enable_assignee;
     sections = sections
-      .filter(section => attentionEnabled || !section.attentionSetOnly)
       .filter(section => assigneeEnabled || !section.assigneeOnly)
       .filter(section => user === 'self' || !section.selfOnly)
       .map(section => {

@@ -144,47 +144,47 @@ suite('gr-reply-dialog tests', () => {
         }));
   }
 
-  test('default to publishing draft comments with reply', done => {
+  function interceptSaveReview() {
+    let resolver;
+    const promise = new Promise(resolve => { resolver = resolve; });
+    stubSaveReview(review => { resolver(review); });
+    return promise;
+  }
+
+  test('default to publishing draft comments with reply', async () => {
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.
-    // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
-    flush(() => {
-      flush(() => {
-        element.draft = 'I wholeheartedly disapprove';
+    await flush();
+    element.draft = 'I wholeheartedly disapprove';
+    const saveReviewPromise = interceptSaveReview();
 
-        stubSaveReview(review => {
-          assert.deepEqual(review, {
-            drafts: 'PUBLISH_ALL_REVISIONS',
-            labels: {
-              'Code-Review': 0,
-              'Verified': 0,
-            },
-            comments: {
-              [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-                message: 'I wholeheartedly disapprove',
-                unresolved: false,
-              }],
-            },
-            reviewers: [],
-          });
-          assert.isFalse(element.$.commentList.hidden);
-          done();
-        });
+    // This is needed on non-Blink engines most likely due to the ways in
+    // which the dom-repeat elements are stamped.
+    await flush();
+    MockInteractions.tap(element.shadowRoot.querySelector('.send'));
 
-        // This is needed on non-Blink engines most likely due to the ways in
-        // which the dom-repeat elements are stamped.
-        flush(() => {
-          MockInteractions.tap(element.shadowRoot
-              .querySelector('.send'));
-        });
-      });
+    const review = await saveReviewPromise;
+    assert.deepEqual(review, {
+      drafts: 'PUBLISH_ALL_REVISIONS',
+      labels: {
+        'Code-Review': 0,
+        'Verified': 0,
+      },
+      comments: {
+        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
+          message: 'I wholeheartedly disapprove',
+          unresolved: false,
+        }],
+      },
+      reviewers: [],
+      add_to_attention_set: [],
+      remove_from_attention_set: [],
+      ignore_automatic_attention_set_rules: true,
     });
+    assert.isFalse(element.$.commentList.hidden);
   });
 
   test('modified attention set', done => {
-    element.serverConfig = {
-      change: {enable_attention_set: true},
-    };
     element._newAttentionSet = new Set([314]);
     const buttonEl = element.shadowRoot.querySelector('.edit-attention-button');
     MockInteractions.tap(buttonEl);
@@ -406,103 +406,45 @@ suite('gr-reply-dialog tests', () => {
     assert.sameMembers(actualAccounts, [1, 2, 4]);
   });
 
-  test('toggle resolved checkbox', done => {
-    // Async tick is needed because iron-selector content is distributed and
-    // distributed content requires an observer to be set up.
-    // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
+  test('toggle resolved checkbox', async () => {
     const checkboxEl = element.shadowRoot.querySelector(
         '#resolvedPatchsetLevelCommentCheckbox');
     MockInteractions.tap(checkboxEl);
-    flush(() => {
-      flush(() => {
-        element.draft = 'I wholeheartedly disapprove';
-
-        stubSaveReview(review => {
-          assert.deepEqual(review, {
-            drafts: 'PUBLISH_ALL_REVISIONS',
-            labels: {
-              'Code-Review': 0,
-              'Verified': 0,
-            },
-            comments: {
-              [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-                message: 'I wholeheartedly disapprove',
-                unresolved: true,
-              }],
-            },
-            reviewers: [],
-          });
-          done();
-        });
-
-        // This is needed on non-Blink engines most likely due to the ways in
-        // which the dom-repeat elements are stamped.
-        flush(() => {
-          MockInteractions.tap(element.shadowRoot
-              .querySelector('.send'));
-        });
-      });
-    });
-  });
-
-  test('keep draft comments with reply', done => {
-    MockInteractions.tap(element.shadowRoot.querySelector('#includeComments'));
-    assert.equal(element._includeComments, false);
 
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.
-    // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
-    flush(() => {
-      flush(() => {
-        element.draft = 'I wholeheartedly disapprove';
+    await flush();
+    element.draft = 'I wholeheartedly disapprove';
+    const saveReviewPromise = interceptSaveReview();
 
-        stubSaveReview(review => {
-          assert.deepEqual(review, {
-            drafts: 'KEEP',
-            labels: {
-              'Code-Review': 0,
-              'Verified': 0,
-            },
-            comments: {
-              [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-                message: 'I wholeheartedly disapprove',
-                unresolved: false,
-              }],
-            },
-            reviewers: [],
-          });
-          assert.isTrue(element.$.commentList.hidden);
-          done();
-        });
+    // This is needed on non-Blink engines most likely due to the ways in
+    // which the dom-repeat elements are stamped.
+    await flush();
+    MockInteractions.tap(element.shadowRoot.querySelector('.send'));
 
-        // This is needed on non-Blink engines most likely due to the ways in
-        // which the dom-repeat elements are stamped.
-        flush(() => {
-          MockInteractions.tap(element.shadowRoot
-              .querySelector('.send'));
-        });
-      });
+    const review = await saveReviewPromise;
+    assert.deepEqual(review, {
+      drafts: 'PUBLISH_ALL_REVISIONS',
+      labels: {
+        'Code-Review': 0,
+        'Verified': 0,
+      },
+      comments: {
+        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
+          message: 'I wholeheartedly disapprove',
+          unresolved: true,
+        }],
+      },
+      reviewers: [],
+      add_to_attention_set: [],
+      remove_from_attention_set: [],
+      ignore_automatic_attention_set_rules: true,
     });
   });
 
-  test('label picker', done => {
+  test('label picker', async () => {
     element.draft = 'I wholeheartedly disapprove';
-    stubSaveReview(review => {
-      assert.deepEqual(review, {
-        drafts: 'PUBLISH_ALL_REVISIONS',
-        labels: {
-          'Code-Review': -1,
-          'Verified': -1,
-        },
-        comments: {
-          [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-            message: 'I wholeheartedly disapprove',
-            unresolved: false,
-          }],
-        },
-        reviewers: [],
-      });
-    });
+    const saveReviewPromise = interceptSaveReview();
 
     sinon.stub(element.$.labelScores, 'getLabelValues').callsFake( () => {
       return {
@@ -511,22 +453,69 @@ suite('gr-reply-dialog tests', () => {
       };
     });
 
-    element.addEventListener('send', () => {
-      // Flush to ensure properties are updated.
-      flush(() => {
-        assert.isFalse(element.disabled,
-            'Element should be enabled when done sending reply.');
-        assert.equal(element.draft.length, 0);
-        done();
-      });
+    // This is needed on non-Blink engines most likely due to the ways in
+    // which the dom-repeat elements are stamped.
+    await flush();
+    MockInteractions.tap(element.shadowRoot.querySelector('.send'));
+    assert.isTrue(element.disabled);
+
+    const review = await saveReviewPromise;
+    await flush();
+    assert.isFalse(element.disabled,
+        'Element should be enabled when done sending reply.');
+    assert.equal(element.draft.length, 0);
+    assert.deepEqual(review, {
+      drafts: 'PUBLISH_ALL_REVISIONS',
+      labels: {
+        'Code-Review': -1,
+        'Verified': -1,
+      },
+      comments: {
+        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
+          message: 'I wholeheartedly disapprove',
+          unresolved: false,
+        }],
+      },
+      reviewers: [],
+      add_to_attention_set: [],
+      remove_from_attention_set: [],
+      ignore_automatic_attention_set_rules: true,
     });
+  });
+
+  test('keep draft comments with reply', async () => {
+    MockInteractions.tap(element.shadowRoot.querySelector('#includeComments'));
+    assert.equal(element._includeComments, false);
+
+    // Async tick is needed because iron-selector content is distributed and
+    // distributed content requires an observer to be set up.
+    await flush();
+    element.draft = 'I wholeheartedly disapprove';
+    const saveReviewPromise = interceptSaveReview();
 
     // This is needed on non-Blink engines most likely due to the ways in
     // which the dom-repeat elements are stamped.
-    flush(() => {
-      MockInteractions.tap(element.shadowRoot
-          .querySelector('.send'));
-      assert.isTrue(element.disabled);
+    await flush();
+    MockInteractions.tap(element.shadowRoot.querySelector('.send'));
+
+    const review = await saveReviewPromise;
+    await flush();
+    assert.deepEqual(review, {
+      drafts: 'KEEP',
+      labels: {
+        'Code-Review': 0,
+        'Verified': 0,
+      },
+      comments: {
+        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
+          message: 'I wholeheartedly disapprove',
+          unresolved: false,
+        }],
+      },
+      reviewers: [],
+      add_to_attention_set: [],
+      remove_from_attention_set: [],
+      ignore_automatic_attention_set_rules: true,
     });
   });
 

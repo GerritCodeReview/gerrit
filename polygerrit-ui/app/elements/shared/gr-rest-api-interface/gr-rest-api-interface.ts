@@ -1036,63 +1036,58 @@ export class GrRestApiInterface
     offset?: 'n,z' | number,
     options?: string
   ): Promise<ChangeInfo[] | ChangeInfo[][] | undefined> {
-    return this.getConfig(false)
-      .then(config => {
-        // TODO(TS): config can be null/undefined. Need some checks
-        options = options || this._getChangesOptionsHex(config);
-        // Issue 4524: respect legacy token with max sortkey.
-        if (offset === 'n,z') {
-          offset = 0;
+    options = options || this._getChangesOptionsHex();
+    // Issue 4524: respect legacy token with max sortkey.
+    if (offset === 'n,z') {
+      offset = 0;
+    }
+    const params: QueryChangesParams = {
+      O: options,
+      S: offset || 0,
+    };
+    if (changesPerPage) {
+      params.n = changesPerPage;
+    }
+    if (query && query.length > 0) {
+      params.q = query;
+    }
+    const request = {
+      url: '/changes/',
+      params,
+      reportUrlAsIs: true,
+    };
+
+    return Promise.resolve(
+      this._restApiHelper.fetchJSON(request, true) as Promise<
+        ChangeInfo[] | ChangeInfo[][] | undefined
+      >
+    ).then(response => {
+      if (!response) {
+        return;
+      }
+      const iterateOverChanges = (arr: ChangeInfo[]) => {
+        for (const change of arr) {
+          this._maybeInsertInLookup(change);
         }
-        const params: QueryChangesParams = {
-          O: options,
-          S: offset || 0,
-        };
-        if (changesPerPage) {
-          params.n = changesPerPage;
+      };
+      // Response may be an array of changes OR an array of arrays of
+      // changes.
+      if (query instanceof Array) {
+        // Normalize the response to look like a multi-query response
+        // when there is only one query.
+        const responseArray: Array<ChangeInfo[]> =
+          query.length === 1
+            ? [response as ChangeInfo[]]
+            : (response as ChangeInfo[][]);
+        for (const arr of responseArray) {
+          iterateOverChanges(arr);
         }
-        if (query && query.length > 0) {
-          params.q = query;
-        }
-        return {
-          url: '/changes/',
-          params,
-          reportUrlAsIs: true,
-        };
-      })
-      .then(
-        req =>
-          this._restApiHelper.fetchJSON(req, true) as Promise<
-            ChangeInfo[] | ChangeInfo[][] | undefined
-          >
-      )
-      .then(response => {
-        if (!response) {
-          return;
-        }
-        const iterateOverChanges = (arr: ChangeInfo[]) => {
-          for (const change of arr) {
-            this._maybeInsertInLookup(change);
-          }
-        };
-        // Response may be an array of changes OR an array of arrays of
-        // changes.
-        if (query instanceof Array) {
-          // Normalize the response to look like a multi-query response
-          // when there is only one query.
-          const responseArray: Array<ChangeInfo[]> =
-            query.length === 1
-              ? [response as ChangeInfo[]]
-              : (response as ChangeInfo[][]);
-          for (const arr of responseArray) {
-            iterateOverChanges(arr);
-          }
-          return responseArray;
-        } else {
-          iterateOverChanges(response as ChangeInfo[]);
-          return response as ChangeInfo[];
-        }
-      });
+        return responseArray;
+      } else {
+        iterateOverChanges(response as ChangeInfo[]);
+        return response as ChangeInfo[];
+      }
+    });
   }
 
   /**
@@ -1134,7 +1129,7 @@ export class GrRestApiInterface
     });
   }
 
-  _getChangesOptionsHex(config?: ServerInfo) {
+  _getChangesOptionsHex() {
     if (
       window.DEFAULT_DETAIL_HEXES &&
       window.DEFAULT_DETAIL_HEXES.dashboardPage
@@ -1145,9 +1140,6 @@ export class GrRestApiInterface
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
     ];
-    if (!config?.change?.enable_attention_set) {
-      options.push(ListChangesOption.REVIEWED);
-    }
 
     return listChangesOptionsToHex(...options);
   }
@@ -2119,22 +2111,6 @@ export class GrRestApiInterface
         method: starred ? HttpMethod.PUT : HttpMethod.DELETE,
         url,
         anonymizedUrl: '/accounts/self/starred.changes/*',
-      });
-    });
-  }
-
-  saveChangeReviewed(
-    changeNum: NumericChangeId,
-    reviewed: boolean
-  ): Promise<Response | undefined> {
-    return this.getConfig().then(config => {
-      const isAttentionSetEnabled =
-        !!config && !!config.change && config.change.enable_attention_set;
-      if (isAttentionSetEnabled) return;
-      return this._getChangeURLAndSend({
-        changeNum,
-        method: HttpMethod.PUT,
-        endpoint: reviewed ? '/reviewed' : '/unreviewed',
       });
     });
   }

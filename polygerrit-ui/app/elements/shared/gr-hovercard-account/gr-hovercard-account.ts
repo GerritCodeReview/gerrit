@@ -38,7 +38,6 @@ import {
   getLastUpdate,
   getReason,
   hasAttention,
-  isAttentionSetEnabled,
 } from '../../../utils/attention-set-util';
 import {ReviewerState} from '../../../constants/constants';
 import {CURRENT} from '../../../utils/patch-set-util';
@@ -109,7 +108,6 @@ export class GrHovercardAccount extends hovercardBehaviorMixin(PolymerElement) {
 
   get isAttentionEnabled() {
     return (
-      isAttentionSetEnabled(this._config) &&
       !!this.highlightAttention &&
       !!this.change &&
       canHaveAttention(this.account)
@@ -117,7 +115,7 @@ export class GrHovercardAccount extends hovercardBehaviorMixin(PolymerElement) {
   }
 
   get hasUserAttention() {
-    return hasAttention(this._config, this.account, this.change);
+    return hasAttention(this.account, this.change);
   }
 
   _computeReason(change?: ChangeInfo) {

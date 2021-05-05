@@ -273,9 +273,8 @@ const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 the user a choice between reverting single change or an entire submission.
 Hence, a second button is not needed.
 */
-const SKIP_ACTION_KEYS = [ChangeActions.REVERT_SUBMISSION];
-
-const SKIP_ACTION_KEYS_ATTENTION_SET = [
+const SKIP_ACTION_KEYS = [
+  ChangeActions.REVERT_SUBMISSION,
   ChangeActions.REVIEWED,
   ChangeActions.UNREVIEWED,
 ];
@@ -457,7 +456,7 @@ export class GrChangeActions
     computed:
       '_computeAllActions(actions.*, revisionActions.*,' +
       'primaryActionKeys.*, _additionalActions.*, change, ' +
-      '_config, _actionPriorityOverrides.*)',
+      '_actionPriorityOverrides.*)',
   })
   _allActionValues: UIActionInfo[] = []; // _computeAllActions always returns an array
 
@@ -1884,8 +1883,7 @@ export class GrChangeActions
       UIActionInfo[],
       UIActionInfo[]
     >,
-    change?: ChangeInfo,
-    config?: ServerInfo
+    change?: ChangeInfo
   ): UIActionInfo[] {
     // Polymer 2: check for undefined
     if (
@@ -1932,7 +1930,7 @@ export class GrChangeActions
         // End of hack
         return action;
       })
-      .filter(action => !this._shouldSkipAction(action, config));
+      .filter(action => !this._shouldSkipAction(action));
   }
 
   _getActionPriority(action: UIActionInfo) {
@@ -1971,13 +1969,8 @@ export class GrChangeActions
     }
   }
 
-  _shouldSkipAction(action: UIActionInfo, config?: ServerInfo) {
+  _shouldSkipAction(action: UIActionInfo) {
     const skipActionKeys: string[] = [...SKIP_ACTION_KEYS];
-    const isAttentionSetEnabled =
-      !!config && !!config.change && config.change.enable_attention_set;
-    if (isAttentionSetEnabled) {
-      skipActionKeys.push(...SKIP_ACTION_KEYS_ATTENTION_SET);
-    }
     return skipActionKeys.includes(action.__key);
   }
 

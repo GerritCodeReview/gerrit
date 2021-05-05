@@ -50,7 +50,6 @@ import {
   GrCreateDestinationDialog,
 } from '../gr-create-destination-dialog/gr-create-destination-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {DashboardViewState} from '../../../types/types';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
@@ -385,26 +384,6 @@ export class GrDashboardView extends PolymerElement {
           this.set(
             `_results.${dashboardIndex}.results.${changeIndex}.starred`,
             e.detail.starred
-          );
-        }
-      })
-    );
-  }
-
-  _handleToggleReviewed(e: CustomEvent<ChangeListToggleReviewedDetail>) {
-    this.restApiService.saveChangeReviewed(
-      e.detail.change._number,
-      e.detail.reviewed
-    );
-    // When a change is updated the same change may appear elsewhere in the
-    // dashboard (but is not the same object), so we must update other
-    // occurrences of the same change.
-    this._results?.forEach((dashboardChange, dashboardIndex) =>
-      dashboardChange.results.forEach((change, changeIndex) => {
-        if (change.id === e.detail.change.id) {
-          this.set(
-            `_results.${dashboardIndex}.results.${changeIndex}.reviewed`,
-            e.detail.reviewed
           );
         }
       })

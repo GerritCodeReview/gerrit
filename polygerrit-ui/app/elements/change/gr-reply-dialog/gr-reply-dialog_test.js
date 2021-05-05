@@ -57,7 +57,7 @@ suite('gr-reply-dialog tests', () => {
   let setDraftCommentStub;
   let eraseDraftCommentStub;
 
-  let lastId = 0;
+  let lastId = 1;
   const makeAccount = function() { return {_account_id: lastId++}; };
   const makeGroup = function() { return {id: lastId++}; };
 
@@ -981,46 +981,6 @@ suite('gr-reply-dialog tests', () => {
     assert.equal(element._reviewersPendingRemove.REVIEWER.length, 1);
   });
 
-  test('_purgeReviewersPendingRemove', () => {
-    const removeStub = sinon.stub(element, '_removeAccount');
-    const mock = function() {
-      element._reviewersPendingRemove = {
-        CC: [makeAccount()],
-        REVIEWER: [makeAccount(), makeAccount()],
-      };
-    };
-    const checkObjEmpty = function(obj) {
-      for (const prop of Object.keys(obj)) {
-        if (obj[prop].length) { return false; }
-      }
-      return true;
-    };
-    mock();
-    element._purgeReviewersPendingRemove(true); // Cancel
-    assert.isFalse(removeStub.called);
-    assert.isTrue(checkObjEmpty(element._reviewersPendingRemove));
-
-    mock();
-    element._purgeReviewersPendingRemove(false); // Submit
-    assert.isTrue(removeStub.called);
-    assert.isTrue(checkObjEmpty(element._reviewersPendingRemove));
-  });
-
-  test('_removeAccount', done => {
-    stubRestApi('removeChangeReviewer')
-        .returns(Promise.resolve({ok: true}));
-    const arr = [makeAccount(), makeAccount()];
-    element.change.reviewers = {
-      REVIEWER: arr.slice(),
-    };
-
-    element._removeAccount(arr[1], 'REVIEWER').then(() => {
-      assert.equal(element.change.reviewers.REVIEWER.length, 1);
-      assert.deepEqual(element.change.reviewers.REVIEWER, arr.slice(0, 1));
-      done();
-    });
-  });
-
   test('moving from cc to reviewer', () => {
     element._reviewersPendingRemove = {
       CC: [],
@@ -1160,11 +1120,6 @@ suite('gr-reply-dialog tests', () => {
 
     stubSaveReview(review => mutations.push(...review.reviewers));
 
-    sinon.stub(element, '_removeAccount').callsFake((account, type) => {
-      mutations.push({state: 'REMOVED', account});
-      return Promise.resolve();
-    });
-
     // Remove and add to other field.
     reviewers.dispatchEvent(
         new CustomEvent('remove', {
@@ -1213,15 +1168,13 @@ suite('gr-reply-dialog tests', () => {
     };
 
     // Send and purge and verify moves, delete cc3.
-    await element.send()
-        .then(keepReviewers =>
-          element._purgeReviewersPendingRemove(false, keepReviewers));
-    expect(mutations).to.have.lengthOf(5);
+    await element.send();
+    expect(mutations).to.have.lengthOf(9);
     expect(mutations[0]).to.deep.equal(mapReviewer(cc1));
     expect(mutations[1]).to.deep.equal(mapReviewer(cc2));
     expect(mutations[2]).to.deep.equal(mapReviewer(reviewer1, 'CC'));
     expect(mutations[3]).to.deep.equal(mapReviewer(reviewer2, 'CC'));
-    expect(mutations[4]).to.deep.equal({account: cc3, state: 'REMOVED'});
+    expect(mutations[4]).to.deep.equal({reviewer: 36, state: 'REMOVED'});
   });
 
   test('emits cancel on esc key', () => {
@@ -1544,9 +1497,6 @@ suite('gr-reply-dialog tests', () => {
 
   test('_submit blocked when no mutations exist', async () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
-    // Stub the below function to avoid side effects from the send promise
-    // resolving.
-    sinon.stub(element, '_purgeReviewersPendingRemove');
     element.account = makeAccount();
     element.draftCommentThreads = [];
     await flush();

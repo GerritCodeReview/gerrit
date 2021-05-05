@@ -49,6 +49,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "426c5bef_636a31f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-05T14:10:53Z",
+      "side": 1,
+      "message": "Bug: Issue 10373\n\n?",
+      "revId": "a24fbc95224c3665d3c5bffb2c2db4f1911bc2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "284e69a3_04dfa553",
         "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1

@@ -269,13 +269,7 @@ const EDIT_ACTIONS: Set<string> = new Set([
 const AWAIT_CHANGE_ATTEMPTS = 5;
 const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
-/* Revert submission is skipped as the normal revert dialog will now show
-the user a choice between reverting single change or an entire submission.
-Hence, a second button is not needed.
-*/
-const SKIP_ACTION_KEYS = [ChangeActions.REVERT_SUBMISSION];
-
-const SKIP_ACTION_KEYS_ATTENTION_SET = [
+const SKIP_ACTION_KEYS_ATTENTION_SET: string[] = [
   ChangeActions.REVIEWED,
   ChangeActions.UNREVIEWED,
 ];
@@ -1972,13 +1966,12 @@ export class GrChangeActions
   }
 
   _shouldSkipAction(action: UIActionInfo, config?: ServerInfo) {
-    const skipActionKeys: string[] = [...SKIP_ACTION_KEYS];
     const isAttentionSetEnabled =
       !!config && !!config.change && config.change.enable_attention_set;
-    if (isAttentionSetEnabled) {
-      skipActionKeys.push(...SKIP_ACTION_KEYS_ATTENTION_SET);
-    }
-    return skipActionKeys.includes(action.__key);
+    return (
+      isAttentionSetEnabled &&
+      SKIP_ACTION_KEYS_ATTENTION_SET.includes(action.__key)
+    );
   }
 
   _computeTopLevelActions(

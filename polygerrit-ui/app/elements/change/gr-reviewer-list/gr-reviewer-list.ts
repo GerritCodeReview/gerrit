@@ -25,7 +25,6 @@ import {hasAttention} from '../../../utils/attention-set-util';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {
   ChangeInfo,
-  ServerInfo,
   LabelNameToValueMap,
   AccountInfo,
   ApprovalInfo,
@@ -60,9 +59,6 @@ export class GrReviewerList extends PolymerElement {
 
   @property({type: Object})
   account?: AccountDetailInfo;
-
-  @property({type: Object})
-  serverConfig?: ServerInfo;
 
   @property({type: Boolean, reflectToAttribute: true})
   disabled = false;
@@ -201,17 +197,15 @@ export class GrReviewerList extends PolymerElement {
     return maxScores.join(', ');
   }
 
-  @observe('change.reviewers.*', 'change.owner', 'serverConfig')
+  @observe('change.reviewers.*', 'change.owner')
   _reviewersChanged(
     changeRecord: PolymerDeepPropertyChange<Reviewers, Reviewers>,
-    owner: AccountInfo,
-    serverConfig: ServerInfo
+    owner: AccountInfo
   ) {
     // Polymer 2: check for undefined
     if (
       changeRecord === undefined ||
       owner === undefined ||
-      serverConfig === undefined ||
       this.change === undefined
     ) {
       return;
@@ -241,8 +235,8 @@ export class GrReviewerList extends PolymerElement {
           if (isSelf(r1, this.account)) return -1;
           if (isSelf(r2, this.account)) return 1;
         }
-        const a1 = hasAttention(serverConfig, r1, this.change!) ? 1 : 0;
-        const a2 = hasAttention(serverConfig, r2, this.change!) ? 1 : 0;
+        const a1 = hasAttention(r1, this.change!) ? 1 : 0;
+        const a2 = hasAttention(r2, this.change!) ? 1 : 0;
         const s1 = isServiceUser(r1) ? -2 : 0;
         const s2 = isServiceUser(r2) ? -2 : 0;
         return a2 - a1 + s2 - s1;

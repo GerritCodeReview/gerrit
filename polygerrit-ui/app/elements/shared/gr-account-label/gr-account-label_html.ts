@@ -109,23 +109,23 @@ export const htmlTemplate = html`
     </template>
     <template
       is="dom-if"
-      if="[[_hasAttention(_config, highlightAttention, account, change, forceAttention)]]"
+      if="[[_hasAttention(highlightAttention, account, change, forceAttention)]]"
     >
       <gr-button
         id="attentionButton"
         link=""
         aria-label="Remove user from attention set"
         on-click="_handleRemoveAttentionClick"
-        disabled="[[!_computeAttentionButtonEnabled(_config, highlightAttention, account, change, _selfAccount, selected)]]"
-        has-tooltip="[[_computeAttentionButtonEnabled(_config, highlightAttention, account, change, _selfAccount, false)]]"
-        title="[[_computeAttentionIconTitle(_config, highlightAttention, account, change, _selfAccount, forceAttention, selected)]]"
+        disabled="[[!_computeAttentionButtonEnabled(highlightAttention, account, change, _selfAccount, selected)]]"
+        has-tooltip="[[_computeAttentionButtonEnabled(highlightAttention, account, change, _selfAccount, false)]]"
+        title="[[_computeAttentionIconTitle(highlightAttention, account, change, _selfAccount, forceAttention, selected)]]"
         ><iron-icon class="attention" icon="gr-icons:attention"></iron-icon>
       </gr-button>
     </template>
   </span>
   <span
     id="hovercardTarget"
-    class$="[[_computeHasAttentionClass(_config, highlightAttention, account, change, forceAttention)]]"
+    class$="[[_computeHasAttentionClass(highlightAttention, account, change, forceAttention)]]"
   >
     <template is="dom-if" if="[[!hideAvatar]]">
       <gr-avatar account="[[account]]" image-size="32"></gr-avatar>

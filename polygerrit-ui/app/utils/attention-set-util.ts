@@ -19,33 +19,15 @@ import {AccountInfo, ChangeInfo} from '../types/common';
 import {isServiceUser} from './account-util';
 import {hasOwnProperty} from './common-util';
 
-// You would typically use a ServerInfo here, but this utility does not care
-// about all the other parameters in that object.
-interface SimpleServerInfo {
-  change?: {
-    enable_attention_set?: boolean;
-  };
-}
-
-const CONFIG_ENABLED: SimpleServerInfo = {
-  change: {enable_attention_set: true},
-};
-
-export function isAttentionSetEnabled(config?: SimpleServerInfo): boolean {
-  return !!config?.change?.enable_attention_set;
-}
-
 export function canHaveAttention(account?: AccountInfo): boolean {
   return !!account?._account_id && !isServiceUser(account);
 }
 
 export function hasAttention(
-  config?: SimpleServerInfo,
   account?: AccountInfo,
   change?: ChangeInfo
 ): boolean {
   return (
-    isAttentionSetEnabled(config) &&
     canHaveAttention(account) &&
     !!change?.attention_set &&
     hasOwnProperty(change?.attention_set, account!._account_id!)
@@ -53,13 +35,13 @@ export function hasAttention(
 }
 
 export function getReason(account?: AccountInfo, change?: ChangeInfo) {
-  if (!hasAttention(CONFIG_ENABLED, account, change)) return '';
+  if (!hasAttention(account, change)) return '';
   const entry = change!.attention_set![account!._account_id!];
   return entry?.reason ? entry.reason : '';
 }
 
 export function getLastUpdate(account?: AccountInfo, change?: ChangeInfo) {
-  if (!hasAttention(CONFIG_ENABLED, account, change)) return '';
+  if (!hasAttention(account, change)) return '';
   const entry = change!.attention_set![account!._account_id!];
   return entry?.last_update ? entry.last_update : '';
 }

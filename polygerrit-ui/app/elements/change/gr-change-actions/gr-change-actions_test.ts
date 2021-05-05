@@ -23,12 +23,10 @@ import {
   createAccountWithId,
   createApproval,
   createChange,
-  createChangeConfig,
   createChangeMessages,
   createChangeViewChange,
   createRevision,
   createRevisions,
-  createServerInfo,
 } from '../../../test/test-data-generators';
 import {ChangeStatus, HttpMethod} from '../../../constants/constants';
 import {
@@ -1699,112 +1697,6 @@ suite('gr-change-actions tests', () => {
         assert.isOk(query(element, '[data-action-key="unignore"]'));
         assert.isNotOk(
           query(element.$.moreActions, 'span[data-id="unignore-change"]')
-        );
-      });
-    });
-
-    suite('reviewed change', () => {
-      setup(done => {
-        sinon.stub(element, '_fireAction');
-
-        const ReviewedAction = {
-          __key: 'reviewed',
-          __type: 'change',
-          __primary: false,
-          method: HttpMethod.PUT,
-          label: 'Mark reviewed',
-          title: 'Working...',
-          enabled: true,
-        };
-
-        element.actions = {
-          reviewed: ReviewedAction,
-        };
-
-        element.changeNum = 2 as NumericChangeId;
-        element.latestPatchNum = 2 as PatchSetNum;
-
-        element.reload().then(() => {
-          flush(done);
-        });
-      });
-
-      test('action is enabled', () => {
-        assert.equal(
-          element._allActionValues.filter(action => action.__key === 'reviewed')
-            .length,
-          1
-        );
-      });
-
-      test('action is skipped when attention set is enabled', () => {
-        element._config = {
-          ...createServerInfo(),
-          change: {...createChangeConfig(), enable_attention_set: true},
-        };
-        assert.equal(
-          element._allActionValues.filter(action => action.__key === 'reviewed')
-            .length,
-          0
-        );
-      });
-
-      test('make sure the reviewed button is not outside of the overflow menu', () => {
-        assert.isNotOk(query(element, '[data-action-key="reviewed"]'));
-      });
-
-      test('reviewing change', () => {
-        assert.isOk(
-          query(element.$.moreActions, 'span[data-id="reviewed-change"]')
-        );
-        element.setActionOverflow(ActionType.CHANGE, 'reviewed', false);
-        flush();
-        assert.isOk(query(element, '[data-action-key="reviewed"]'));
-        assert.isNotOk(
-          query(element.$.moreActions, 'span[data-id="reviewed-change"]')
-        );
-      });
-    });
-
-    suite('unreviewed change', () => {
-      setup(done => {
-        sinon.stub(element, '_fireAction');
-
-        const UnreviewedAction = {
-          __key: 'unreviewed',
-          __type: 'change',
-          __primary: false,
-          method: HttpMethod.PUT,
-          label: 'Mark unreviewed',
-          title: 'Working...',
-          enabled: true,
-        };
-
-        element.actions = {
-          unreviewed: UnreviewedAction,
-        };
-
-        element.changeNum = 2 as NumericChangeId;
-        element.latestPatchNum = 2 as PatchSetNum;
-
-        element.reload().then(() => {
-          flush(done);
-        });
-      });
-
-      test('unreviewed button not outside of the overflow menu', () => {
-        assert.isNotOk(query(element, '[data-action-key="unreviewed"]'));
-      });
-
-      test('unreviewed change', () => {
-        assert.isOk(
-          query(element.$.moreActions, 'span[data-id="unreviewed-change"]')
-        );
-        element.setActionOverflow(ActionType.CHANGE, 'unreviewed', false);
-        flush();
-        assert.isOk(query(element, '[data-action-key="unreviewed"]'));
-        assert.isNotOk(
-          query(element.$.moreActions, 'span[data-id="unreviewed-change"]')
         );
       });
     });

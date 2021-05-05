@@ -514,17 +514,17 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   @observe('_ccs.splices')
-  _ccsChanged(splices: PolymerSpliceChange<AccountInfo[]>) {
+  _ccsChanged(splices: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>) {
     this._reviewerTypeChanged(splices, ReviewerType.CC);
   }
 
   @observe('_reviewers.splices')
-  _reviewersChanged(splices: PolymerSpliceChange<AccountInfo[]>) {
+  _reviewersChanged(splices: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>) {
     this._reviewerTypeChanged(splices, ReviewerType.REVIEWER);
   }
 
   _reviewerTypeChanged(
-    splices: PolymerSpliceChange<AccountInfo[]>,
+    splices: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>,
     reviewerType: ReviewerType
   ) {
     if (splices && splices.indexSplices) {
@@ -548,7 +548,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
             this.splice(isReviewer ? '_ccs' : '_reviewers', index, 1);
             const moveFrom = isReviewer ? 'CC' : 'reviewer';
             const moveTo = isReviewer ? 'reviewer' : 'CC';
-            const id = account.name || account.email || key;
+            const id = account.name || key;
             const message = `${id} moved from ${moveFrom} to ${moveTo}.`;
             fireAlert(this, message);
           }

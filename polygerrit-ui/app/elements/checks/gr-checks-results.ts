@@ -464,7 +464,7 @@ class GrResultExpanded extends GrLitElement {
 
 const SHOW_ALL_THRESHOLDS: Map<Category | 'SUCCESS', number> = new Map();
 SHOW_ALL_THRESHOLDS.set(Category.ERROR, 20);
-SHOW_ALL_THRESHOLDS.set(Category.WARNING, 20);
+SHOW_ALL_THRESHOLDS.set(Category.WARNING, 10);
 SHOW_ALL_THRESHOLDS.set(Category.INFO, 5);
 SHOW_ALL_THRESHOLDS.set('SUCCESS', 5);
 

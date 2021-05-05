@@ -152,6 +152,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97b0dd23_841b50a8",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-05T16:40:59Z",
+      "side": 1,
+      "message": "This is long running action, so it should be also recorded? May be:\n\n  try (Timer0.Context ignored \u003d groupSearchLatencyTimer.start()) {\n          for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {\n            recursivelyExpandGroups(groupDNs, schema, ctx, r.getDN());\n          }\n        }\n\nIn that case we wouldn\u0027t differentiate, though, between group lookup and recursive group resolution. Alternatively add a dedicated metric just for that?",
+      "range": {
+        "startLine": 331,
+        "startChar": 10,
+        "endLine": 331,
+        "endChar": 68
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df0a1303_51e98134",
         "filename": "java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
         "patchSetId": 2

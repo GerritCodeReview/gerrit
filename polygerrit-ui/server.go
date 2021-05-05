@@ -41,11 +41,11 @@ import (
 )
 
 var (
-	plugins               = flag.String("plugins", "", "comma seperated plugin paths to serve")
-	port                  = flag.String("port", "localhost:8081", "address to serve HTTP requests on")
-	host                  = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
-	scheme                = flag.String("scheme", "https", "URL scheme")
-	cdnPattern            = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_ui/[0-9.]*")
+	plugins    = flag.String("plugins", "", "comma seperated plugin paths to serve")
+	port       = flag.String("port", "localhost:8081", "address to serve HTTP requests on")
+	host       = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
+	scheme     = flag.String("scheme", "https", "URL scheme")
+	cdnPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_ui/[0-9.]*")
 )
 
 func main() {
@@ -120,8 +120,8 @@ func addDevHeadersMiddleware(h http.Handler) http.Handler {
 
 func addDevHeaders(writer http.ResponseWriter) {
 	writer.Header().Set("Access-Control-Allow-Origin", "*")
+	writer.Header().Set("Access-Control-Allow-Headers", "cache-control,x-test-origin")
 	writer.Header().Set("Cache-Control", "public, max-age=10, must-revalidate")
-
 }
 
 func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writer http.ResponseWriter, originalRequest *http.Request) {

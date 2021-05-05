@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5ca1a9_ba14a9c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T16:01:34Z",
+      "side": 1,
+      "message": "Might be worth adding a section in the documentation: Documentation/metrics.txt",
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3698ece3_9cc5916c",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T16:01:34Z",
+      "side": 1,
+      "message": "Might be useful to add the unit",
+      "range": {
+        "startLine": 127,
+        "startChar": 54,
+        "endLine": 127,
+        "endChar": 55
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18a05e15_325df9eb",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T16:01:34Z",
+      "side": 1,
+      "message": "Might be useful to add the unit",
+      "range": {
+        "startLine": 134,
+        "startChar": 75,
+        "endLine": 134,
+        "endChar": 76
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d7ffbd9_4b49f99a",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T16:01:34Z",
+      "side": 1,
+      "message": "Might be useful to add the unit",
+      "range": {
+        "startLine": 141,
+        "startChar": 85,
+        "endLine": 141,
+        "endChar": 86
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75a720de_3dc83879",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T16:01:34Z",
+      "side": 1,
+      "message": "Might be worth keeping a different metric for this one? Maybe with kerberos/login_latency namespace.",
+      "range": {
+        "startLine": 227,
+        "startChar": 33,
+        "endLine": 227,
+        "endChar": 50
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58f53ac3_3afcec13",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T16:01:34Z",
+      "side": 1,
+      "message": "nit: ignored for consistency with the codebase",
+      "range": {
+        "startLine": 227,
+        "startChar": 24,
+        "endLine": 227,
+        "endChar": 30
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a30c3544_3415908d",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T16:01:34Z",
+      "side": 1,
+      "message": "nit: ignored for consistency with the codebase",
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e26c0b9e_8823fd22",
+        "filename": "java/com/google/gerrit/server/auth/ldap/LdapQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T16:01:34Z",
+      "side": 1,
+      "message": "What happens when you call multiple time `start` on the same Timer as in this case?\n\ntimer.start() is called here and in the method caller as well.",
+      "range": {
+        "startLine": 72,
+        "startChar": 33,
+        "endLine": 72,
+        "endChar": 49
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82ec221_626a1830",
+        "filename": "java/com/google/gerrit/server/auth/ldap/LdapQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T16:01:34Z",
+      "side": 1,
+      "message": "nit: ignored for consistency with the codebase",
+      "range": {
+        "startLine": 72,
+        "startChar": 24,
+        "endLine": 72,
+        "endChar": 30
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -638,6 +638,7 @@ export interface CommitInfo {
   subject: string;
   message: string;
   web_links?: WebLinkInfo[];
+  resolve_conflicts_web_links?: WebLinkInfo[];
 }
 
 export interface CommitInfoWithRequiredCommit extends CommitInfo {

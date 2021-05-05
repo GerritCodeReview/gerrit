@@ -6913,6 +6913,9 @@ The subject of the commit (header line of the commit message).
 |`web_links`   |optional|
 Links to the commit in external sites as a list of
 link:#web-link-info[WebLinkInfo] entities.
+|`resolve_conflicts_web_links`   |optional|
+Links to the commit in external sites for resolving conflicts as a list of
+link:#web-link-info[WebLinkInfo] entities.
 |===========================
 
 [[commit-message-input]]

@@ -16,6 +16,24 @@
       "message": "PTAL",
       "revId": "54b12621816550a87e0b7e7836e3a4d7b9ae9fd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26adc370_1e621743",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-05T12:56:37Z",
+      "side": 1,
+      "message": "Thanks for the style fixes! LGTM, I would prefer that someone from frontend team would approve this. Could you also vote CRVW-2 on follow-up backend change?",
+      "parentUuid": "d316ec8c_29552ce3",
+      "revId": "54b12621816550a87e0b7e7836e3a4d7b9ae9fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

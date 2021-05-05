@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cf4667d_1ad461b0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4068,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-05T11:26:15Z",
+      "side": 1,
+      "message": "nit: dependent changes",
+      "range": {
+        "startLine": 4068,
+        "startChar": 17,
+        "endLine": 4068,
+        "endChar": 44
+      },
+      "revId": "08fcd66c19255cbdc6cfbe739dc769379682e924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a273fe80_9a4e3131",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4075,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-05T11:26:15Z",
+      "side": 1,
+      "message": "omit this since setting a topic is not needed by this change",
+      "range": {
+        "startLine": 4074,
+        "startChar": 4,
+        "endLine": 4075,
+        "endChar": 53
+      },
+      "revId": "08fcd66c19255cbdc6cfbe739dc769379682e924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebe9cb71_a3a66214",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4077,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-05T11:26:15Z",
+      "side": 1,
+      "message": "better: the dependent change",
+      "range": {
+        "startLine": 4077,
+        "startChar": 12,
+        "endLine": 4077,
+        "endChar": 30
+      },
+      "revId": "08fcd66c19255cbdc6cfbe739dc769379682e924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

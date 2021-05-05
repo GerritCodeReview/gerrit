@@ -16,6 +16,29 @@
       "message": "conflict resolved",
       "revId": "ea53c096a5eed700c0bfcd5a31bd5fa05639f13f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33e5d117_a3554c0b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-05T13:37:44Z",
+      "side": 1,
+      "message": "We should kill the feature too.",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 26
+      },
+      "revId": "ea53c096a5eed700c0bfcd5a31bd5fa05639f13f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

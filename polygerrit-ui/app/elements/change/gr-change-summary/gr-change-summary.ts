@@ -290,6 +290,12 @@ export class GrChangeSummary extends GrLitElement {
   /** Is reset when rendering beings and decreases while chips are rendered. */
   private detailsQuota = DETAILS_QUOTA;
 
+  /**
+   * Is reset when rendering beings and contains the check names of runs that
+   * have a detailed chip.
+   */
+  private detailsCheckNames: string[] = [];
+
   constructor() {
     super();
     this.subscribe('runs', allRunsLatest$);
@@ -411,9 +417,17 @@ export class GrChangeSummary extends GrLitElement {
     if (runs.length === 0) {
       return html``;
     }
-    if (runs.length <= this.detailsQuota) {
+    // If a run has both an error and a warning result, then we only want to
+    // show a detailed chip with the expanded checkName once. For simplicity
+    // just stop rendering detailed chips completely as soon as we run into
+    // this by setting detailsQuota to 0 (after the if-block).
+    const hasDetailChipAlready = runs.some(run =>
+      this.detailsCheckNames.includes(run.checkName)
+    );
+    if (!hasDetailChipAlready && runs.length <= this.detailsQuota) {
       this.detailsQuota -= runs.length;
       return runs.map(run => {
+        this.detailsCheckNames.push(run.checkName);
         const allLinks = resultFilter(run)
           .reduce(
             (links, result) => links.concat(result.links ?? []),
@@ -437,8 +451,8 @@ export class GrChangeSummary extends GrLitElement {
         </gr-checks-chip>`;
       });
     }
-    // runs.length > this.detailsQuota
     this.detailsQuota = 0;
+    this.detailsCheckNames = [];
     const sum = runs.reduce(
       (sum, run) => sum + (resultFilter(run).length || 1),
       0
@@ -465,6 +479,7 @@ export class GrChangeSummary extends GrLitElement {
 
   render() {
     this.detailsQuota = DETAILS_QUOTA;
+    this.detailsCheckNames = [];
     const commentThreads =
       this.commentThreads?.filter(t => !isRobotThread(t) || hasHumanReply(t)) ??
       [];

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a33c76a5_19d45b71",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-05T10:32:56Z",
+      "side": 1,
+      "message": "According to the next test that would be anyway forbidden. The test should rather test that a user can\u0027t delete an external ID of somebody else.",
+      "range": {
+        "startLine": 272,
+        "startChar": 60,
+        "endLine": 272,
+        "endChar": 64
+      },
+      "revId": "1bff534eb76e41bec0870dedf60aaed3d040be16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

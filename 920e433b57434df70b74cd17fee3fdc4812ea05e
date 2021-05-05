@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8970d100_c2cee29d",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-05T15:18:33Z",
+      "side": 1,
+      "message": "_generateWebLinks() return type is strangely defined as GeneratedWebLink[] | GeneratedWebLink so spread will not work due to the non-array case. The codepath for PatchSetWeblink is the only one using the non-array case, so it could be unified in some other change.",
+      "parentUuid": "8069752a_1437f476",
+      "revId": "920e433b57434df70b74cd17fee3fdc4812ea05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbd897e7_4b45b026",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-05-05T14:44:06Z",
       "side": 1,
       "message": "Maybe !! to force the return value to be a boolean?",
+      "range": {
+        "startLine": 1806,
+        "startChar": 11,
+        "endLine": 1806,
+        "endChar": 23
+      },
+      "revId": "920e433b57434df70b74cd17fee3fdc4812ea05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68711e24_a101f166",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1806,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-05T15:18:33Z",
+      "side": 1,
+      "message": "wow TIL: undefined \u0026\u0026 true !\u003d\u003d false\n\nDone.",
+      "parentUuid": "fbd897e7_4b45b026",
       "range": {
         "startLine": 1806,
         "startChar": 11,

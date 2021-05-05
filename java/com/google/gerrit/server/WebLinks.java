@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ParentWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.extensions.webui.TagWebLink;
 import com.google.gerrit.extensions.webui.WebLink;
 import com.google.inject.Inject;
@@ -56,6 +57,7 @@ public class WebLinks {
       };
 
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
+  private final DynamicSet<ResolveConflictsWebLink> resolveConflictsLinks;
   private final DynamicSet<ParentWebLink> parentLinks;
   private final DynamicSet<EditWebLink> editLinks;
   private final DynamicSet<FileWebLink> fileLinks;
@@ -68,6 +70,7 @@ public class WebLinks {
   @Inject
   public WebLinks(
       DynamicSet<PatchSetWebLink> patchSetLinks,
+      DynamicSet<ResolveConflictsWebLink> resolveConflictsLinks,
       DynamicSet<ParentWebLink> parentLinks,
       DynamicSet<EditWebLink> editLinks,
       DynamicSet<FileWebLink> fileLinks,
@@ -77,6 +80,7 @@ public class WebLinks {
       DynamicSet<BranchWebLink> branchLinks,
       DynamicSet<TagWebLink> tagLinks) {
     this.patchSetLinks = patchSetLinks;
+    this.resolveConflictsLinks = resolveConflictsLinks;
     this.parentLinks = parentLinks;
     this.editLinks = editLinks;
     this.fileLinks = fileLinks;
@@ -99,6 +103,21 @@ public class WebLinks {
     return filterLinks(
         patchSetLinks,
         webLink -> webLink.getPatchSetWebLink(project.get(), commit, commitMessage, branchName));
+  }
+
+  /**
+   * @param project
+   * @param revision
+   * @param commitMessage
+   * @param branchName
+   * @return
+   */
+  public ImmutableList<WebLinkInfo> getResolveConflictsLinks(
+      Project.NameKey project, String commit, String commitMessage, String branchName) {
+    return filterLinks(
+        resolveConflictsLinks,
+        webLink ->
+            webLink.getResolveConflictsWebLink(project.get(), commit, commitMessage, branchName));
   }
 
   /**

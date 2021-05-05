@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.ParentWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.extensions.webui.TagWebLink;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -83,6 +84,7 @@ public class GitwebConfig {
         if (!isNullOrEmpty(type.getRevision())) {
           DynamicSet.bind(binder(), PatchSetWebLink.class).to(GitwebLinks.class);
           DynamicSet.bind(binder(), ParentWebLink.class).to(GitwebLinks.class);
+          DynamicSet.bind(binder(), ResolveConflictsWebLink.class).to(GitwebLinks.class);
         }
 
         if (!isNullOrEmpty(type.getProject())) {
@@ -261,6 +263,7 @@ public class GitwebConfig {
           PatchSetWebLink,
           ParentWebLink,
           ProjectWebLink,
+          ResolveConflictsWebLink,
           TagWebLink {
     private final String url;
     private final GitwebType type;
@@ -347,6 +350,13 @@ public class GitwebConfig {
                 .toString());
       }
       return null;
+    }
+
+    @Override
+    public WebLinkInfo getResolveConflictsWebLink(
+        String projectName, String commit, String commitMessage, String branchName) {
+      // For Gitweb treat resolve conflicts links the same as patch set links
+      return getPatchSetWebLink(projectName, commit, commitMessage, branchName);
     }
 
     @Override

@@ -82,6 +82,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a920215_4c5e6934",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T20:59:01Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t it done at L129 already?\n\u003e \n\nI think you are right\n\n\u003e With regards to the Description, I believe it isn\u0027t the right place as all metrics of latencies in Gerrit have the same unit.\n\u003e \n\u003e It would make more sense to add one documentation update for that for all metrics on Documentation/metrics.txt.\n\u003e \n\u003e What do you think?\n\nMakes sense",
+      "parentUuid": "92513e12_2efc7743",
+      "range": {
+        "startLine": 127,
+        "startChar": 54,
+        "endLine": 127,
+        "endChar": 55
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18a05e15_325df9eb",
@@ -129,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e83b1882_dbb9240b",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T20:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc55bf57_3462863f",
+      "range": {
+        "startLine": 134,
+        "startChar": 75,
+        "endLine": 134,
+        "endChar": 76
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d7ffbd9_4b49f99a",
@@ -166,6 +214,30 @@
       "side": 1,
       "message": "Same as above.",
       "parentUuid": "6d7ffbd9_4b49f99a",
+      "range": {
+        "startLine": 141,
+        "startChar": 85,
+        "endLine": 141,
+        "endChar": 86
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c51d540_f37242cf",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-05T20:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbd07f2_388d1fa9",
       "range": {
         "startLine": 141,
         "startChar": 85,

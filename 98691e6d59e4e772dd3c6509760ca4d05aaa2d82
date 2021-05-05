@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "648cefa7_785a6b24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-05T15:55:37Z",
+      "side": 1,
+      "message": "This is papering over fallout from https://gerrit-review.googlesource.com/q/topic:repo-download-rename",
+      "revId": "98691e6d59e4e772dd3c6509760ca4d05aaa2d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

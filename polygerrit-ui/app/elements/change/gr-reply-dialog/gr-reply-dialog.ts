@@ -86,7 +86,6 @@ import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {
   PolymerDeepPropertyChange,
-  PolymerSplice,
   PolymerSpliceChange,
 } from '@polymer/polymer/interfaces';
 import {
@@ -150,15 +149,6 @@ const ButtonTooltips = {
 };
 
 const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
-
-interface PendingRemovals {
-  CC: (AccountInfoInput | GroupInfoInput)[];
-  REVIEWER: (AccountInfoInput | GroupInfoInput)[];
-}
-const PENDING_REMOVAL_KEYS: (keyof PendingRemovals)[] = [
-  ReviewerType.CC,
-  ReviewerType.REVIEWER,
-];
 
 export interface GrReplyDialog {
   $: {
@@ -313,12 +303,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: Boolean, observer: '_handleHeightChanged'})
   _previewFormatting = false;
-
-  @property({type: Object})
-  _reviewersPendingRemove: PendingRemovals = {
-    CC: [],
-    REVIEWER: [],
-  };
 
   @property({type: String, computed: '_computeSendButtonLabel(canBeStarted)'})
   _sendButtonLabel?: string;
@@ -532,7 +516,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   ) {
     if (splices && splices.indexSplices) {
       this._reviewersMutated = true;
-      this._processReviewerChange(splices.indexSplices, reviewerType);
       let key: AccountId | EmailAddress | GroupId | undefined;
       let index;
       let account;
@@ -558,76 +541,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
         }
       }
     }
-  }
-
-  _processReviewerChange(
-    indexSplices: Array<PolymerSplice<AccountInfo[]>>,
-    type: ReviewerType
-  ) {
-    for (const splice of indexSplices) {
-      for (const account of splice.removed) {
-        if (!this._reviewersPendingRemove[type]) {
-          this.reporting.error(new Error(`Invalid type ${type} for reviewer.`));
-          return;
-        }
-        this._reviewersPendingRemove[type].push(account);
-      }
-    }
-  }
-
-  /**
-   * Resets the state of the _reviewersPendingRemove object, and removes
-   * accounts if necessary.
-   *
-   * @param isCancel true if the action is a cancel.
-   * @param keep map of account IDs that must
-   * not be removed, because they have been readded in another state.
-   */
-  _purgeReviewersPendingRemove(
-    isCancel: boolean,
-    keep = new Map<AccountId | EmailAddress, boolean>()
-  ) {
-    let reviewerArr: (AccountInfoInput | GroupInfoInput)[];
-    for (const type of PENDING_REMOVAL_KEYS) {
-      if (!isCancel) {
-        reviewerArr = this._reviewersPendingRemove[type];
-        for (let i = 0; i < reviewerArr.length; i++) {
-          const reviewer = reviewerArr[i];
-          if (!isAccount(reviewer) || !keep.get(accountKey(reviewer))) {
-            this._removeAccount(reviewer, type as ReviewerType);
-          }
-        }
-      }
-      this._reviewersPendingRemove[type] = [];
-    }
-  }
-
-  /**
-   * Removes an account from the change, both on the backend and the client.
-   * Does nothing if the account is a pending addition.
-   */
-  _removeAccount(
-    account: AccountInfoInput | GroupInfoInput,
-    type: ReviewerType
-  ) {
-    assertIsDefined(this.change, 'change');
-    if (account._pendingAdd || !isAccount(account)) {
-      return;
-    }
-
-    return this.restApiService
-      .removeChangeReviewer(this.change._number, accountKey(account))
-      .then((response?: Response) => {
-        if (!response?.ok || !this.change) return;
-
-        const reviewers = this.change.reviewers[type] || [];
-        for (let i = 0; i < reviewers.length; i++) {
-          if (reviewers[i]._account_id === account._account_id) {
-            this.splice(`change.reviewers.${type}`, i, 1);
-            break;
-          }
-        }
-      });
   }
 
   _mapReviewer(addition: AccountAddition): ReviewerInput {
@@ -701,6 +614,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
       }
       return this._mapReviewer(reviewer);
     });
+
     const ccsEl = this.$.ccs;
     if (ccsEl) {
       for (const addition of ccsEl.additions()) {
@@ -712,6 +626,22 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
         reviewInput.reviewers.push(reviewer);
       }
     }
+
+    reviewInput.reviewers.push(
+      ...this.$.reviewers.removals().map(reviewer => {
+        const r = this._mapReviewer(reviewer);
+        r.state = ReviewerState.REMOVED;
+        return r;
+      })
+    );
+
+    reviewInput.reviewers.push(
+      ...this.$.ccs.removals().map(reviewer => {
+        const r = this._mapReviewer(reviewer);
+        r.state = ReviewerState.REMOVED;
+        return r;
+      })
+    );
 
     this.disabled = true;
 
@@ -1221,7 +1151,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
       })
     );
     this.$.textarea.closeDropdown();
-    this._purgeReviewersPendingRemove(true);
+    this.$.reviewers.clearPendingRemovals();
     this._rebuildReviewerArrays(this.change.reviewers, this._owner);
   }
 
@@ -1232,9 +1162,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
       // the text field of the CC entry.
       return;
     }
-    this.send(this._includeComments, false).then(keepReviewers => {
-      this._purgeReviewersPendingRemove(false, keepReviewers);
-    });
+    this.send(this._includeComments, false);
   }
 
   _sendTapHandler(e: Event) {
@@ -1252,19 +1180,15 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
       fireAlert(this, EMPTY_REPLY_MESSAGE);
       return;
     }
-    return this.send(this._includeComments, this.canBeStarted)
-      .then(keepReviewers => {
-        this._purgeReviewersPendingRemove(false, keepReviewers);
-      })
-      .catch(err => {
-        this.dispatchEvent(
-          new CustomEvent('show-error', {
-            bubbles: true,
-            composed: true,
-            detail: {message: `Error submitting review ${err}`},
-          })
-        );
-      });
+    return this.send(this._includeComments, this.canBeStarted).catch(err => {
+      this.dispatchEvent(
+        new CustomEvent('show-error', {
+          bubbles: true,
+          composed: true,
+          detail: {message: `Error submitting review ${err}`},
+        })
+      );
+    });
   }
 
   _saveReview(review: ReviewInput, errFn?: ErrorCallback) {

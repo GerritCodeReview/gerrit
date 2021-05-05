@@ -29,9 +29,6 @@ const KERMIT = {
 
 suite('attention-set-util', () => {
   test('hasAttention', () => {
-    const config = {
-      change: {enable_attention_set: true},
-    };
     const change = {
       attention_set: {
         31415926535: {
@@ -40,7 +37,7 @@ suite('attention-set-util', () => {
       },
     };
 
-    assert.isTrue(hasAttention(config, KERMIT, change));
+    assert.isTrue(hasAttention(KERMIT, change));
   });
 
   test('getReason', () => {

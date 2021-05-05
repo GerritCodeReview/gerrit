@@ -363,7 +363,7 @@ export const htmlTemplate = html`
     </section>
     <div class="stickyBottom">
       <section
-        hidden$="[[!_showAttentionSummary(serverConfig, _attentionExpanded)]]"
+        hidden$="[[!_showAttentionSummary(_attentionExpanded)]]"
         class="attention"
       >
         <div class="attentionSummary">
@@ -429,7 +429,7 @@ export const htmlTemplate = html`
         </div>
       </section>
       <section
-        hidden$="[[!_showAttentionDetails(serverConfig, _attentionExpanded)]]"
+        hidden$="[[!_showAttentionDetails(_attentionExpanded)]]"
         class="attention-detail"
       >
         <div class="attentionDetailsTitle">

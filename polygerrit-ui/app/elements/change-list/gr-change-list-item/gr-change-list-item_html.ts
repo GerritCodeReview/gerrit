@@ -28,10 +28,6 @@ export const htmlTemplate = html`
     :host(:hover) {
       background-color: var(--hover-background-color);
     }
-    :host([needs-review]) {
-      font-weight: var(--font-weight-bold);
-      color: var(--primary-text-color);
-    }
     .container {
       position: relative;
     }

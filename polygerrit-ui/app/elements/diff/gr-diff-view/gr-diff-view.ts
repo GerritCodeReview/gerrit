@@ -37,7 +37,10 @@ import {
   KeyboardShortcutMixin,
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GeneratedWebLink,
+  GerritNav,
+} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
@@ -224,6 +227,9 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: Boolean})
   _isImageDiff?: boolean;
+
+  @property({type: Object})
+  _editWeblinks?: GeneratedWebLink[];
 
   @property({type: Object})
   _filesWeblinks?: FilesWebLinks;
@@ -1785,10 +1791,19 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   _computeCanEdit(
     loggedIn?: boolean,
+    editWeblinks?: GeneratedWebLink[],
     changeChangeRecord?: PolymerDeepPropertyChange<ChangeInfo, ChangeInfo>
   ) {
     if (!changeChangeRecord?.base) return false;
-    return loggedIn && changeIsOpen(changeChangeRecord.base);
+    return (
+      loggedIn &&
+      changeIsOpen(changeChangeRecord.base) &&
+      (!editWeblinks || editWeblinks.length === 0)
+    );
+  }
+
+  _computeShowEditLinks(editWeblinks?: GeneratedWebLink[]) {
+    return editWeblinks && editWeblinks.length > 0;
   }
 
   /**

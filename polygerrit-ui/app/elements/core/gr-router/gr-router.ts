@@ -33,6 +33,7 @@ import {
   GenerateUrlRepoViewParameters,
   GenerateUrlSearchViewParameters,
   GenerateWebLinksChangeParameters,
+  GenerateWebLinksEditParameters,
   GenerateWebLinksFileParameters,
   GenerateWebLinksParameters,
   GenerateWebLinksPatchsetParameters,
@@ -382,6 +383,8 @@ export class GrRouter extends PolymerElement {
     params: GenerateWebLinksParameters
   ): GeneratedWebLink[] | GeneratedWebLink {
     switch (params.type) {
+      case WeblinkType.EDIT:
+        return this._getEditWebLinks(params);
       case WeblinkType.FILE:
         return this._getFileWebLinks(params);
       case WeblinkType.CHANGE:
@@ -455,6 +458,10 @@ export class GrRouter extends PolymerElement {
         !commitWeblink.name ||
         weblink.name !== commitWeblink.name
     );
+  }
+
+  _getEditWebLinks(params: GenerateWebLinksEditParameters): GeneratedWebLink[] {
+    return params.options?.weblinks || [];
   }
 
   _getFileWebLinks(params: GenerateWebLinksFileParameters): GeneratedWebLink[] {

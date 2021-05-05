@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "040a53e8_f19bfaa7",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-05T16:36:17Z",
+      "side": 1,
+      "message": "nit: This is done, since git branches are case sensitive, so that sandbox branches (computed from the username) are still reachable by the users.",
+      "range": {
+        "startLine": 483,
+        "startChar": 17,
+        "endLine": 483,
+        "endChar": 32
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "314839d9_6f84a1f2",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-05T16:36:17Z",
+      "side": 1,
+      "message": "same as for the ExternalId, either move to factory or move factory here?",
+      "range": {
+        "startLine": 151,
+        "startChar": 22,
+        "endLine": 151,
+        "endChar": 28
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e36d1467_a1a8fd6e",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-05T16:36:17Z",
+      "side": 1,
+      "message": "move to Factory?",
+      "range": {
+        "startLine": 228,
+        "startChar": 2,
+        "endLine": 228,
+        "endChar": 26
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f2d8576_d2584252",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-05T16:36:17Z",
+      "side": 1,
+      "message": "Even though this could be static, I think it makes sense to keep it non-static for consistency (same for all create methods, that belonged to ExternalIds before)\n\nHowever, as I understand you did not move\npublic static ExternalId create(\n      Key key,\n      Account.Id accountId,\n      @Nullable String email,\n      @Nullable String hashedPassword,\n      @Nullable ObjectId blobId)\n\nhere to avoid calling AutoValue constructor, but maybe just have all \u0027create\u0027 methods in Factory and have Factory and ExternalId in the same file?",
+      "range": {
+        "startLine": 192,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 20
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e109732_d6368d47",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-05T16:36:17Z",
+      "side": 1,
+      "message": "Could you, please, add a static method with \u0027isCaseInsensitive\u0027 option? That would be useful for testing.",
+      "range": {
+        "startLine": 250,
+        "startChar": 20,
+        "endLine": 250,
+        "endChar": 25
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

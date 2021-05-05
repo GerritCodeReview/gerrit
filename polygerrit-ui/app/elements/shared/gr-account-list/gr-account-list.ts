@@ -185,6 +185,8 @@ export class GrAccountList extends PolymerElement {
 
   reporting: ReportingService;
 
+  private pendingRemoval: AccountInput[] = [];
+
   constructor() {
     super();
     this.reporting = appContext.reportingService;
@@ -315,6 +317,7 @@ export class GrAccountList extends PolymerElement {
     for (let i = 0; i < this.accounts.length; i++) {
       if (accountOrGroupKey(toRemove) === accountOrGroupKey(this.accounts[i])) {
         this.splice('accounts', i, 1);
+        this.pendingRemoval.push(toRemove);
         this.reporting.reportInteraction(`Remove from ${this.id}`);
         return;
       }
@@ -420,6 +423,22 @@ export class GrAccountList extends PolymerElement {
           throw new Error('AccountInput must be either Account or Group.');
         }
       });
+  }
+
+  removals(): AccountAddition[] {
+    return this.pendingRemoval.map(account => {
+      if (isGroupInfoInput(account)) {
+        return {group: account};
+      } else if (isAccountInfoInput(account)) {
+        return {account};
+      } else {
+        throw new Error('AccountInput must be either Account or Group.');
+      }
+    });
+  }
+
+  clearPendingRemovals() {
+    this.pendingRemoval = [];
   }
 
   _computeEntryHidden(

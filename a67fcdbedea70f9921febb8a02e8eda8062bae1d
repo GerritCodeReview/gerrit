@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "758a3400_2ce19f38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-06T11:16:01Z",
+      "side": 1,
+      "message": "Thanks for giving CR+1",
+      "revId": "a67fcdbedea70f9921febb8a02e8eda8062bae1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

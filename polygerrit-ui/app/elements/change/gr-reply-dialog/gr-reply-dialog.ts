@@ -39,7 +39,11 @@ import {
   SpecialFilePath,
 } from '../../../constants/constants';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {accountKey, removeServiceUsers} from '../../../utils/account-util';
+import {
+  accountKey,
+  accountOrGroupKey,
+  removeServiceUsers,
+} from '../../../utils/account-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../../api/plugin';
@@ -64,7 +68,6 @@ import {
   GroupInfo,
   isAccount,
   isDetailedLabelInfo,
-  isGroup,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
   LabelNameToValueMap,
@@ -89,7 +92,6 @@ import {
 import {
   areSetsEqual,
   assertIsDefined,
-  assertNever,
   containsAll,
 } from '../../../utils/common-util';
 import {CommentThread, isUnresolved} from '../../../utils/comment-util';
@@ -540,10 +542,10 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
       for (const splice of splices.indexSplices) {
         for (let i = 0; i < splice.addedCount; i++) {
           account = splice.object[splice.index + i];
-          key = this._accountOrGroupKey(account);
+          key = accountOrGroupKey(account);
           const array = isReviewer ? this._ccs : this._reviewers;
           index = array.findIndex(
-            account => this._accountOrGroupKey(account) === key
+            account => accountOrGroupKey(account) === key
           );
           if (index >= 0) {
             this.splice(isReviewer ? '_ccs' : '_reviewers', index, 1);
@@ -1165,12 +1167,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     return rev.uploader;
   }
 
-  _accountOrGroupKey(entry: AccountInfo | GroupInfo) {
-    if (isAccount(entry)) return accountKey(entry);
-    if (isGroup(entry)) return entry.id;
-    assertNever(entry, 'entry must be account or group');
-  }
-
   /**
    * Generates a function to filter out reviewer/CC entries. When isCCs is
    * truthy, the function filters out entries that already exist in this._ccs.
@@ -1196,9 +1192,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
         return false;
       }
 
-      const key = this._accountOrGroupKey(entry);
+      const key = accountOrGroupKey(entry);
       const finder = (entry: AccountInfo | GroupInfo) =>
-        this._accountOrGroupKey(entry) === key;
+        accountOrGroupKey(entry) === key;
       if (isCCs) {
         return this._ccs.find(finder) === undefined;
       }

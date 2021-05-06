@@ -44,6 +44,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
@@ -59,6 +60,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -82,6 +84,7 @@ public class CreateAccount
   private final PluginSetContext<AccountExternalIdCreator> externalIdCreators;
   private final Provider<GroupsUpdate> groupsUpdate;
   private final OutgoingEmailValidator validator;
+  private final AuthConfig authConfig;
 
   @Inject
   CreateAccount(
@@ -93,7 +96,8 @@ public class CreateAccount
       AccountLoader.Factory infoLoader,
       PluginSetContext<AccountExternalIdCreator> externalIdCreators,
       @UserInitiated Provider<GroupsUpdate> groupsUpdate,
-      OutgoingEmailValidator validator) {
+      OutgoingEmailValidator validator,
+      AuthConfig authConfig) {
     this.seq = seq;
     this.groupResolver = groupResolver;
     this.authorizedKeys = authorizedKeys;
@@ -103,6 +107,7 @@ public class CreateAccount
     this.externalIdCreators = externalIdCreators;
     this.groupsUpdate = groupsUpdate;
     this.validator = validator;
+    this.authConfig = authConfig;
   }
 
   @Override
@@ -116,12 +121,16 @@ public class CreateAccount
   public Response<AccountInfo> apply(IdString id, AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
           IOException, ConfigInvalidException, PermissionBackendException {
-    String username = id.get();
-    if (input.username != null && !username.equals(input.username)) {
+    String username = applyCaseOfUsername(id.get());
+    if (input.username != null && !username.equals(applyCaseOfUsername(input.username))) {
       throw new BadRequestException("username must match URL");
     }
     if (!ExternalId.isValidUsername(username)) {
       throw new BadRequestException("Invalid username '" + username + "'");
+    }
+
+    if (input.name == null) {
+      input.name = input.username;
     }
 
     Set<AccountGroup.UUID> groups = parseGroups(input.groups);
@@ -180,6 +189,10 @@ public class CreateAccount
     AccountInfo info = loader.get(accountId);
     loader.fill();
     return Response.created(info);
+  }
+
+  private String applyCaseOfUsername(String username) {
+    return authConfig.isUserNameToLowerCase() ? username.toLowerCase(Locale.US) : username;
   }
 
   private Set<AccountGroup.UUID> parseGroups(List<String> groups)

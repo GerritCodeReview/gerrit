@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import org.junit.Test;
 
@@ -30,5 +31,45 @@ public class CreateAccountIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.put("/accounts/" + input.username, input);
     r.assertCreated();
     assertThat(accountCache.getByUsername(input.username)).isPresent();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameToLowerCase", value = "false")
+  public void createAccountRestApiUserNameToLowerCaseFalse() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = "JohnDoe";
+    assertThat(accountCache.getByUsername(input.username)).isEmpty();
+    RestResponse r = adminRestSession.put("/accounts/" + input.username, input);
+    r.assertCreated();
+    assertThat(accountCache.getByUsername(input.username)).isPresent();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameToLowerCase", value = "true")
+  public void createAccountRestApiUserNameToLowerCaseTrue() throws Exception {
+    testUserNameToLowerCase("John1", "John1", "john1");
+    assertThat(accountCache.getByUsername("John1")).isEmpty();
+
+    testUserNameToLowerCase("john2", "John2", "john2");
+    assertThat(accountCache.getByUsername("John2")).isEmpty();
+
+    testUserNameToLowerCase("John3", "john3", "john3");
+    assertThat(accountCache.getByUsername("John3")).isEmpty();
+
+    testUserNameToLowerCase("John4", "johN4", "john4");
+    assertThat(accountCache.getByUsername("John4")).isEmpty();
+    assertThat(accountCache.getByUsername("johN4")).isEmpty();
+
+    testUserNameToLowerCase("john5", "john5", "john5");
+  }
+
+  private void testUserNameToLowerCase(String usernameUrl, String usernameInput, String usernameDb)
+      throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = usernameInput;
+    assertThat(accountCache.getByUsername(usernameDb)).isEmpty();
+    RestResponse r = adminRestSession.put("/accounts/" + usernameUrl, input);
+    r.assertCreated();
+    assertThat(accountCache.getByUsername(usernameDb)).isPresent();
   }
 }

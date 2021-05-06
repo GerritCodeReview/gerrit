@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56d7ad27_1b2a8759",
+        "filename": "java/com/google/gerrit/extensions/api/changes/FileApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-06T08:31:08Z",
+      "side": 1,
+      "message": "Could you add Javadoc here too?",
+      "revId": "38ca7153e728e03227bec5326a663426644c2fb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "454385a3_a258a2b6",
+        "filename": "java/com/google/gerrit/extensions/api/changes/FileApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-06T08:31:08Z",
+      "side": 1,
+      "message": "nit: this (\"that\" sounds like there is another file involved)",
+      "range": {
+        "startLine": 39,
+        "startChar": 66,
+        "endLine": 39,
+        "endChar": 70
+      },
+      "revId": "38ca7153e728e03227bec5326a663426644c2fb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aab97c1_7336edbb",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPortedComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-06T08:31:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be private, or do you expect to use it somewhere else?",
+      "revId": "38ca7153e728e03227bec5326a663426644c2fb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

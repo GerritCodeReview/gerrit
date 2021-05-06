@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d1f5d3c_18d9806b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-06T08:31:08Z",
+      "side": 1,
+      "message": "I think the algorithm and context are clear, but the question is whether it is suitable. How did you conclude that it\u0027s OK for it to not work on renamed files? How often would this occur? ISTM missing a comment is a problem because it undermines the purpose of the review. What if that comment is \"Oh, no, don\u0027t rename this file!\"? I feel that users need to be able to rely on Gerrit always showing all comments.\n\nSome ideas:\n- Can we store filenames with rename information etc. for each change? I realize this extends the scope quite a bit, but from a 10.000 ft perspective it seems odd that we have to jump through hoops to determine the list of affected files/edit types. This is one case in point, limit enforcement (cf. recent performance issues) is another. (Maybe this calls for another cache?)\n- Can we do the rename detection asynchronously and hide that latency while the user is viewing the change?\n- Can we somehow make use of having done this computation for the change overview page?",
+      "parentUuid": "5246ecaa_8c15980e",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc3e7ee6_91c4d523",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -85,6 +103,24 @@
       "side": 1,
       "message": "Other revisions here mean other patchset commits of the same change. The notation is the same to what we use in the URL: \u0027GET /changes/{change-id}/revisions/{revision-id}/ported_comments\u0027.\n\nI\u0027m reusing the description that we already have for the existing ported comments endpoint [1]. Please note that I renamed the existing endpoint (which ports all comments of a change) from \"Get ported comments\" to \"List ported comments\". This is done in change [2] in this series. I did that to re-use \"Get ported comments\" in this change for porting comments for a single file.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-ported-comments\n\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/304590/1",
       "parentUuid": "fc3e7ee6_91c4d523",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "255a604d_b7115dc3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5300,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-06T08:31:08Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be more accurate to say \"Ports comments of a revision A of this PS to the requested revision B\u003eA\"? Or \"... of a previous revision ... to the requested revision\"? I think that would make the comment more helpful.",
+      "parentUuid": "b9ec465b_79f2556e",
       "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

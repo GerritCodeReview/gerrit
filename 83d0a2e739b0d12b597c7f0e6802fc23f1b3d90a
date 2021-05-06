@@ -39,6 +39,30 @@
       },
       "revId": "83d0a2e739b0d12b597c7f0e6802fc23f1b3d90a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "884b0522_a3b8b133",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-06T12:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "147a189a_5fa6f27d",
+      "range": {
+        "startLine": 103,
+        "startChar": 56,
+        "endLine": 103,
+        "endChar": 73
+      },
+      "revId": "83d0a2e739b0d12b597c7f0e6802fc23f1b3d90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

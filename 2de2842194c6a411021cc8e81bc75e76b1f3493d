@@ -138,6 +138,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3dbf2ad2_4183be87",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-06T13:38:50Z",
+      "side": 1,
+      "message": "Yes, this is a standard idiom, but in that case all create methods would likely belong to the AutoValue class, and there won\u0027t be a separate factory.\n\nI am fine keeping it as it is though.",
+      "parentUuid": "380da6de_7802158b",
+      "range": {
+        "startLine": 151,
+        "startChar": 22,
+        "endLine": 151,
+        "endChar": 28
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e36d1467_a1a8fd6e",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
         "patchSetId": 24
@@ -173,6 +197,30 @@
       "side": 1,
       "message": "See my response on your other comment.",
       "parentUuid": "e36d1467_a1a8fd6e",
+      "range": {
+        "startLine": 228,
+        "startChar": 2,
+        "endLine": 228,
+        "endChar": 26
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa9bcc17_0207a5f7",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-06T13:38:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ebce4da2_b08346f0",
       "range": {
         "startLine": 228,
         "startChar": 2,
@@ -230,6 +278,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0902e81f_62a25eb2",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-06T13:38:50Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "70346b53_cf926779",
+      "range": {
+        "startLine": 192,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 20
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e109732_d6368d47",
@@ -267,6 +339,30 @@
       "side": 1,
       "message": "I don\u0027t want to add a method that is currently not used anywhere. A quick check showed that this should be easily possible by exchanging L264 with:\n\n  Key externalIdKey \u003d ExternalId.Key.parse(externalIdKeyStr, isCaseSensitive);\n\nand L284ff with:\n\n      return ExternalId.create(\n        externalIdKey,\n        Account.id(accountId),\n        Strings.emptyToNull(email),\n        Strings.emptyToNull(password),\n        blobId);\n\nwhile using the same logic as in the non-static method.\n\nIf you have some tests in mind, I would also implement them or add then to this change.",
       "parentUuid": "9e109732_d6368d47",
+      "range": {
+        "startLine": 250,
+        "startChar": 20,
+        "endLine": 250,
+        "endChar": 25
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c500a2c5_e3e39275",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-06T13:38:50Z",
+      "side": 1,
+      "message": "Actually, we just have static calls to\npublic ExternalId parse(String noteId, byte[] raw, ObjectId blobId)\n\nthat would always need to parse case-sensitive.\n\nI think injecting the factory in that cases should not be such a big problem, so I am ok keeping it as it is.",
+      "parentUuid": "7a76715c_cbbcfef0",
       "range": {
         "startLine": 250,
         "startChar": 20,

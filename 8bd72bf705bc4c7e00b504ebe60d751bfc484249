@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8261bb25_e28e5caa",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-06T15:54:22Z",
+      "side": 1,
+      "message": "Uh, you are right, I didn\u0027t see that. Better to keep as-is then!",
+      "parentUuid": "70965ec0_41ac479b",
+      "revId": "8bd72bf705bc4c7e00b504ebe60d751bfc484249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91e0093b_1daca5ca",

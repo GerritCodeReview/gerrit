@@ -34,6 +34,9 @@ import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffMappings;
 import com.google.gerrit.server.patch.GitPositionTransformer;
@@ -142,10 +145,13 @@ public class CommentPorter {
       PatchSet targetPatchset,
       List<HumanComment> comments,
       List<HumanCommentFilter> filters) {
-
-    ImmutableList<HumanCommentFilter> allFilters = addDefaultFilters(filters, targetPatchset);
-    ImmutableList<HumanComment> relevantComments = filter(comments, allFilters);
-    return port(changeNotes, targetPatchset, relevantComments);
+    try (TraceTimer ignored =
+        TraceContext.newTimer(
+            "Porting comments", Metadata.builder().patchSetId(targetPatchset.number()).build())) {
+      ImmutableList<HumanCommentFilter> allFilters = addDefaultFilters(filters, targetPatchset);
+      ImmutableList<HumanComment> relevantComments = filter(comments, allFilters);
+      return port(changeNotes, targetPatchset, relevantComments);
+    }
   }
 
   private ImmutableList<HumanCommentFilter> addDefaultFilters(
@@ -203,20 +209,29 @@ public class CommentPorter {
       PatchSet originalPatchset,
       PatchSet targetPatchset,
       ImmutableList<HumanComment> comments) {
-    Map<Short, List<HumanComment>> commentsPerSide =
-        comments.stream().collect(groupingBy(comment -> comment.side));
-    ImmutableList.Builder<HumanComment> portedComments = ImmutableList.builder();
-    for (Entry<Short, List<HumanComment>> sideAndComments : commentsPerSide.entrySet()) {
-      portedComments.addAll(
-          portSamePatchsetAndSide(
-              project,
-              change,
-              originalPatchset,
-              targetPatchset,
-              sideAndComments.getValue(),
-              sideAndComments.getKey()));
+    try (TraceTimer ignored =
+        TraceContext.newTimer(
+            "Porting comments same patchset",
+            Metadata.builder()
+                .projectName(project.get())
+                .changeId(change.getChangeId())
+                .patchSetId(originalPatchset.number())
+                .build())) {
+      Map<Short, List<HumanComment>> commentsPerSide =
+          comments.stream().collect(groupingBy(comment -> comment.side));
+      ImmutableList.Builder<HumanComment> portedComments = ImmutableList.builder();
+      for (Entry<Short, List<HumanComment>> sideAndComments : commentsPerSide.entrySet()) {
+        portedComments.addAll(
+            portSamePatchsetAndSide(
+                project,
+                change,
+                originalPatchset,
+                targetPatchset,
+                sideAndComments.getValue(),
+                sideAndComments.getKey()));
+      }
+      return portedComments.build();
     }
-    return portedComments.build();
   }
 
   private ImmutableList<HumanComment> portSamePatchsetAndSide(
@@ -226,30 +241,40 @@ public class CommentPorter {
       PatchSet targetPatchset,
       List<HumanComment> comments,
       short side) {
-    ImmutableSet<Mapping> mappings;
-    try {
-      mappings = loadMappings(project, change, originalPatchset, targetPatchset, side);
-    } catch (Exception e) {
-      logger.atWarning().withCause(e).log(
-          "Could not determine some necessary diff mappings for porting comments on change %s from"
-              + " patchset %s to patchset %s. Mapping %d affected comments to the fallback"
-              + " destination.",
-          change.getChangeId(),
-          originalPatchset.id().getId(),
-          targetPatchset.id().getId(),
-          comments.size());
-      mappings = getFallbackMappings(comments);
-    }
+    try (TraceTimer ignored =
+        TraceContext.newTimer(
+            "Porting comments same patchset and side",
+            Metadata.builder()
+                .projectName(project.get())
+                .changeId(change.getChangeId())
+                .patchSetId(originalPatchset.number())
+                .commentSide(side)
+                .build())) {
+      ImmutableSet<Mapping> mappings;
+      try {
+        mappings = loadMappings(project, change, originalPatchset, targetPatchset, side);
+      } catch (Exception e) {
+        logger.atWarning().withCause(e).log(
+            "Could not determine some necessary diff mappings for porting comments on change %s from"
+                + " patchset %s to patchset %s. Mapping %d affected comments to the fallback"
+                + " destination.",
+            change.getChangeId(),
+            originalPatchset.id().getId(),
+            targetPatchset.id().getId(),
+            comments.size());
+        mappings = getFallbackMappings(comments);
+      }
 
-    ImmutableList<PositionedEntity<HumanComment>> positionedComments =
-        comments.stream().map(this::toPositionedEntity).collect(toImmutableList());
-    ImmutableMap<PositionedEntity<HumanComment>, HumanComment> origToPortedMap =
-        positionTransformer.transform(positionedComments, mappings).stream()
-            .collect(
-                ImmutableMap.toImmutableMap(
-                    Function.identity(), PositionedEntity::getEntityAtUpdatedPosition));
-    collectMetrics(origToPortedMap);
-    return ImmutableList.copyOf(origToPortedMap.values());
+      ImmutableList<PositionedEntity<HumanComment>> positionedComments =
+          comments.stream().map(this::toPositionedEntity).collect(toImmutableList());
+      ImmutableMap<PositionedEntity<HumanComment>, HumanComment> origToPortedMap =
+          positionTransformer.transform(positionedComments, mappings).stream()
+              .collect(
+                  ImmutableMap.toImmutableMap(
+                      Function.identity(), PositionedEntity::getEntityAtUpdatedPosition));
+      collectMetrics(origToPortedMap);
+      return ImmutableList.copyOf(origToPortedMap.values());
+    }
   }
 
   private ImmutableSet<Mapping> loadMappings(
@@ -259,9 +284,18 @@ public class CommentPorter {
       PatchSet targetPatchset,
       short side)
       throws PatchListNotAvailableException {
-    ObjectId originalCommit = determineCommitId(change, originalPatchset, side);
-    ObjectId targetCommit = determineCommitId(change, targetPatchset, side);
-    return loadCommitMappings(project, originalCommit, targetCommit);
+    try (TraceTimer ignored =
+        TraceContext.newTimer(
+            "Loading commit mappings",
+            Metadata.builder()
+                .projectName(project.get())
+                .changeId(change.getChangeId())
+                .patchSetId(originalPatchset.number())
+                .build())) {
+      ObjectId originalCommit = determineCommitId(change, originalPatchset, side);
+      ObjectId targetCommit = determineCommitId(change, targetPatchset, side);
+      return loadCommitMappings(project, originalCommit, targetCommit);
+    }
   }
 
   private ObjectId determineCommitId(Change change, PatchSet patchset, short side) {
@@ -278,11 +312,15 @@ public class CommentPorter {
   private ImmutableSet<Mapping> loadCommitMappings(
       Project.NameKey project, ObjectId originalCommit, ObjectId targetCommit)
       throws PatchListNotAvailableException {
-    PatchList patchList =
-        patchListCache.get(
-            PatchListKey.againstCommit(originalCommit, targetCommit, Whitespace.IGNORE_NONE),
-            project);
-    return patchList.getPatches().stream().map(DiffMappings::toMapping).collect(toImmutableSet());
+    try (TraceTimer ignored =
+        TraceContext.newTimer(
+            "Computing diffs", Metadata.builder().commit(originalCommit.name()).build())) {
+      PatchList patchList =
+          patchListCache.get(
+              PatchListKey.againstCommit(originalCommit, targetCommit, Whitespace.IGNORE_NONE),
+              project);
+      return patchList.getPatches().stream().map(DiffMappings::toMapping).collect(toImmutableSet());
+    }
   }
 
   private ImmutableSet<Mapping> getFallbackMappings(List<HumanComment> comments) {

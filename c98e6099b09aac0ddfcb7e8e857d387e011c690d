@@ -70,6 +70,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "884925ce_9eb2e83c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-06T13:23:12Z",
+      "side": 1,
+      "message": "Sorry that was a bit of an odd patch, but I guess that is why code review exists: makes thing better.   \n\nI like davido idea of using \"GERRIT_CACHE_HOME\" and have it focused solely on being able to override  ~/.gerritcodereview/bazel-cache/downloaded-artifacts .  That would fit my use case ( I already get the bazel cache adjusted when invoking bazel.\n\nNasser: would that work for you as well?",
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c1bfea9_472d1774",
@@ -83,6 +100,30 @@
       "writtenOn": "2021-05-05T20:55:05Z",
       "side": 1,
       "message": "did you mean to add this extra path here now?",
+      "range": {
+        "startLine": 549,
+        "startChar": 22,
+        "endLine": 549,
+        "endChar": 39
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7a7a372_7033b006",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-06T13:23:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6c1bfea9_472d1774",
       "range": {
         "startLine": 549,
         "startChar": 22,

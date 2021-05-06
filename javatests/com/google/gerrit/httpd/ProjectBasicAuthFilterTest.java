@@ -19,12 +19,15 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -55,10 +58,16 @@ public class ProjectBasicAuthFilterTest {
   private static final String AUTH_USER_B64 =
       B64_ENC.encodeToString(AUTH_USER.getBytes(StandardCharsets.UTF_8));
   private static final String AUTH_PASSWORD = "jd123";
+  private static final String GERRIT_COOKIE_KEY = "GerritAccount";
+  private static final String AUTH_COOKIE_VALUE = "gerritcookie";
+  private static final ExternalId AUTH_USER_PASSWORD_EXTERNAL_ID =
+      ExternalId.createWithPassword(
+          ExternalId.Key.create(ExternalId.SCHEME_USERNAME, AUTH_USER),
+          AUTH_ACCOUNT_ID,
+          null,
+          AUTH_PASSWORD);
 
   @Mock private DynamicItem<WebSession> webSessionItem;
-
-  @Mock private WebSession webSession;
 
   @Mock private AccountCache accountCache;
 
@@ -74,21 +83,57 @@ public class ProjectBasicAuthFilterTest {
 
   @Captor private ArgumentCaptor<HttpServletResponse> filterResponseCaptor;
 
+  @Mock private IdentifiedUser.RequestFactory userRequestFactory;
+
+  @Mock private WebSessionManager webSessionManager;
+
+  private WebSession webSession;
   private FakeHttpServletRequest req;
   private HttpServletResponse res;
+  private AuthResult authSuccessful;
 
   @Before
   public void setUp() throws Exception {
-    doReturn(webSession).when(webSessionItem).get();
-    doReturn(Optional.of(accountState)).when(accountCache).getByUsername(AUTH_USER);
-    doReturn(account).when(accountState).account();
-
     req = new FakeHttpServletRequest();
     res = new FakeHttpServletResponse();
+
+    authSuccessful =
+        new AuthResult(AUTH_ACCOUNT_ID, ExternalId.Key.create("username", AUTH_USER), false);
+    doReturn(Optional.of(accountState)).when(accountCache).getByUsername(AUTH_USER);
+    doReturn(Optional.of(accountState)).when(accountCache).get(AUTH_ACCOUNT_ID);
+    doReturn(account).when(accountState).account();
+    doReturn(ImmutableSet.builder().add(AUTH_USER_PASSWORD_EXTERNAL_ID).build())
+        .when(accountState)
+        .externalIds();
+
+    doReturn(new WebSessionManager.Key(AUTH_COOKIE_VALUE)).when(webSessionManager).createKey(any());
+    WebSessionManager.Val webSessionValue =
+        new WebSessionManager.Val(AUTH_ACCOUNT_ID, 0L, false, null, 0L, "", "");
+    doReturn(webSessionValue)
+        .when(webSessionManager)
+        .createVal(any(), any(), eq(false), any(), any(), any());
+  }
+
+  private void initWebSessionWithCookie(String cookie) {
+    req.addHeader("Cookie", cookie);
+    initWebSessionWithoutCookie();
+  }
+
+  private void initWebSessionWithoutCookie() {
+    webSession =
+        new CacheBasedWebSession(
+            req, res, webSessionManager, authConfig, null, userRequestFactory, accountCache) {};
+    doReturn(webSession).when(webSessionItem).get();
+  }
+
+  private void initMockedWebSession() {
+    webSession = mock(WebSession.class);
+    doReturn(webSession).when(webSessionItem).get();
   }
 
   @Test
   public void shouldAllowAnonymousRequest() throws Exception {
+    initMockedWebSession();
     res.setStatus(HttpServletResponse.SC_OK);
 
     ProjectBasicAuthFilter basicAuthFilter =
@@ -102,6 +147,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldRequestAuthenticationForBasicAuthRequest() throws Exception {
+    initMockedWebSession();
     req.addHeader("Authorization", "Basic " + AUTH_USER_B64);
     res.setStatus(HttpServletResponse.SC_OK);
 
@@ -116,16 +162,11 @@ public class ProjectBasicAuthFilterTest {
   }
 
   @Test
-  public void shouldAuthenticateSucessfullyAgainstRealm() throws Exception {
-    req.addHeader(
-        "Authorization",
-        "Basic "
-            + B64_ENC.encodeToString(
-                (AUTH_USER + ":" + AUTH_PASSWORD).getBytes(StandardCharsets.UTF_8)));
+  public void shouldAuthenticateSucessfullyAgainstRealmAndReturnCookie() throws Exception {
+    initWebSessionWithoutCookie();
+    requestBasicAuth(req);
     res.setStatus(HttpServletResponse.SC_OK);
 
-    AuthResult authSuccessful =
-        new AuthResult(AUTH_ACCOUNT_ID, ExternalId.Key.create("username", AUTH_USER), false);
     doReturn(true).when(account).isActive();
     doReturn(authSuccessful).when(accountManager).authenticate(any());
     doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
@@ -139,18 +180,51 @@ public class ProjectBasicAuthFilterTest {
 
     verify(chain).doFilter(eq(req), any());
     assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(res.getHeader("Set-Cookie")).contains(GERRIT_COOKIE_KEY);
+  }
+
+  @Test
+  public void shouldValidateUserPasswordAndNotReturnCookie() throws Exception {
+    initWebSessionWithoutCookie();
+    requestBasicAuth(req);
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    doReturn(true).when(account).isActive();
+    doReturn(GitBasicAuthPolicy.HTTP).when(authConfig).getGitBasicAuthPolicy();
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(accountManager, never()).authenticate(any());
+
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(res.getHeader("Set-Cookie")).isNull();
   }
 
   @Test
   public void shouldNotReauthenticateIfAlreadySignedIn() throws Exception {
-    req.addHeader(
-        "Authorization",
-        "Basic "
-            + B64_ENC.encodeToString(
-                (AUTH_USER + ":" + AUTH_PASSWORD).getBytes(StandardCharsets.UTF_8)));
+    initMockedWebSession();
+    doReturn(true).when(webSession).isSignedIn();
+    requestBasicAuth(req);
     res.setStatus(HttpServletResponse.SC_OK);
 
-    doReturn(true).when(webSession).isSignedIn();
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(accountManager, never()).authenticate(any());
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldNotReauthenticateIfHasExistingCookie() throws Exception {
+    initWebSessionWithCookie("GerritAccount=" + AUTH_COOKIE_VALUE);
+    res.setStatus(HttpServletResponse.SC_OK);
 
     ProjectBasicAuthFilter basicAuthFilter =
         new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
@@ -164,11 +238,8 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldFailedAuthenticationAgainstRealm() throws Exception {
-    req.addHeader(
-        "Authorization",
-        "Basic "
-            + B64_ENC.encodeToString(
-                (AUTH_USER + ":" + AUTH_PASSWORD).getBytes(StandardCharsets.UTF_8)));
+    initMockedWebSession();
+    requestBasicAuth(req);
 
     doReturn(true).when(account).isActive();
     doThrow(new AccountException("Authentication error")).when(accountManager).authenticate(any());
@@ -183,5 +254,13 @@ public class ProjectBasicAuthFilterTest {
 
     verify(chain, never()).doFilter(any(), any());
     assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
+  }
+
+  private void requestBasicAuth(FakeHttpServletRequest fakeReq) {
+    fakeReq.addHeader(
+        "Authorization",
+        "Basic "
+            + B64_ENC.encodeToString(
+                (AUTH_USER + ":" + AUTH_PASSWORD).getBytes(StandardCharsets.UTF_8)));
   }
 }

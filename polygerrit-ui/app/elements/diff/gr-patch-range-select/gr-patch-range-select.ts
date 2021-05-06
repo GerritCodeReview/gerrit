@@ -300,7 +300,10 @@ export class GrPatchRangeSelect extends PolymerElement {
     revisionsRecord: PolymerDeepPropertyChange<RevisionInfo[], RevisionInfo[]>
   ) {
     const revisions = revisionsRecord.base;
-    if (!revisions) return;
+    if (!revisions) {
+      this._sortedRevisions = undefined;
+      return;
+    }
     this._sortedRevisions = sortRevisions(Object.values(revisions));
   }
 
@@ -397,10 +400,11 @@ export class GrPatchRangeSelect extends PolymerElement {
   }
 
   _computePatchSetDescription(
-    revisions: RevisionInfo[],
-    patchNum: PatchSetNum,
+    revisions?: RevisionInfo[],
+    patchNum?: PatchSetNum,
     addFrontSpace?: boolean
   ) {
+    if (!revisions || !patchNum) return '';
     const rev = getRevisionByPatchNum(revisions, patchNum);
     return rev?.description
       ? (addFrontSpace ? ' ' : '') +
@@ -409,9 +413,10 @@ export class GrPatchRangeSelect extends PolymerElement {
   }
 
   _computePatchSetDate(
-    revisions: RevisionInfo[],
-    patchNum: PatchSetNum
+    revisions?: RevisionInfo[],
+    patchNum?: PatchSetNum
   ): Timestamp | undefined {
+    if (!revisions || !patchNum) return undefined;
     const rev = getRevisionByPatchNum(revisions, patchNum);
     return rev ? rev.created : undefined;
   }

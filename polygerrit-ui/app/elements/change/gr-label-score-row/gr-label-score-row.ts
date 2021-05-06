@@ -277,7 +277,7 @@ export class GrLabelScoreRow extends PolymerElement {
   ) {
     // TODO(TS): maybe add a type guard for DetailedLabelInfo and QuickLabelInfo
     return (
-      labels[label] &&
+      labels?.[label] &&
       (labels[label] as DetailedLabelInfo).values &&
       (labels[label] as DetailedLabelInfo).values![value]
     );

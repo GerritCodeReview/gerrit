@@ -25,7 +25,7 @@ import {customElement, property} from '@polymer/decorators';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi} from '../../../api/hook';
 
-const INIT_PROPERTIES_TIMEOUT_MS = 10000;
+const INIT_PROPERTIES_TIMEOUT_MS = 100;
 
 @customElement('gr-endpoint-decorator')
 export class GrEndpointDecorator extends PolymerElement {

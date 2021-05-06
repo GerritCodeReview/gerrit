@@ -929,49 +929,52 @@ suite('gr-change-view tests', () => {
       // Fake computeDraftCount as its required for ChangeComments,
       // see gr-comment-api#reloadDrafts.
       sinon.stub(element.$.commentAPI, 'reloadDrafts').returns(
-        Promise.resolve({
+        Promise.resolve(({
           drafts: {},
           getAllThreadsForChange: () => THREADS,
           computeDraftCount: () => 0,
-        } as ChangeComments)
+          computeCommentThreadCount: () => 0,
+          computeUnresolvedNum: () => 0,
+        } as unknown) as ChangeComments)
       );
       element._change = createChangeViewChange();
       element._changeNum = element._change._number;
     });
 
-    test('draft threads should be a new copy with correct states', done => {
+    test('draft threads should be a new copy with correct states', async () => {
+      let resolver: (value: unknown) => void = () => {};
+      const detailResolve = new Promise(r => (resolver = r));
       element.$.fileList.dispatchEvent(
         new CustomEvent('reload-drafts', {
           detail: {
             resolve: () => {
-              assert.equal(element._draftCommentThreads!.length, 2);
-              assert.equal(
-                element._draftCommentThreads![0].rootId,
-                THREADS[0].rootId
-              );
-              assert.notEqual(
-                element._draftCommentThreads![0].comments,
-                THREADS[0].comments
-              );
-              assert.notEqual(
-                element._draftCommentThreads![0].comments[0],
-                THREADS[0].comments[0]
-              );
-              assert.isTrue(
-                element
-                  ._draftCommentThreads![0].comments.slice(0, 2)
-                  .every(c => c.collapsed === true)
-              );
-
-              assert.isTrue(
-                element._draftCommentThreads![0].comments[2].collapsed === false
-              );
-              done();
+              resolver(undefined);
             },
           },
           composed: true,
           bubbles: true,
         })
+      );
+      await flush();
+      await detailResolve;
+      assert.equal(element._draftCommentThreads!.length, 2);
+      assert.equal(element._draftCommentThreads![0].rootId, THREADS[0].rootId);
+      assert.notEqual(
+        element._draftCommentThreads![0].comments,
+        THREADS[0].comments
+      );
+      assert.notEqual(
+        element._draftCommentThreads![0].comments[0],
+        THREADS[0].comments[0]
+      );
+      assert.isTrue(
+        element
+          ._draftCommentThreads![0].comments.slice(0, 2)
+          .every(c => c.collapsed === true)
+      );
+
+      assert.isTrue(
+        element._draftCommentThreads![0].comments[2].collapsed === false
       );
     });
   });

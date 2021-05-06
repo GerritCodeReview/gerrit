@@ -495,6 +495,18 @@ export class GrRelatedChangesList extends GrLitElement {
     return nothing;
   }
 
+  reset() {
+    this.mergeable = undefined;
+    this.submittedTogether = {
+      changes: [],
+      non_visible_changes: 0,
+    };
+    this.relatedChanges = [];
+    this.conflictingChanges = [];
+    this.cherryPickChanges = [];
+    this.sameTopicChanges = [];
+  }
+
   reload(getRelatedChanges?: Promise<RelatedChangesInfo | undefined>) {
     const change = this.change;
     if (!change) return Promise.reject(new Error('change missing'));

@@ -1449,7 +1449,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     this.dispatchEvent(new CustomEvent('send-disabled-changed'));
   }
 
-  _getReviewerSuggestionsProvider(change: ChangeInfo) {
+  _getReviewerSuggestionsProvider(change?: ChangeInfo) {
+    if (!change) return undefined;
     const provider = GrReviewerSuggestionsProvider.create(
       this.restApiService,
       change._number,
@@ -1459,7 +1460,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     return provider;
   }
 
-  _getCcSuggestionsProvider(change: ChangeInfo) {
+  _getCcSuggestionsProvider(change?: ChangeInfo) {
+    if (!change) return undefined;
     const provider = GrReviewerSuggestionsProvider.create(
       this.restApiService,
       change._number,

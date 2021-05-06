@@ -86,21 +86,21 @@ class GrChangeRequirements extends PolymerElement {
 
   private readonly reporting = appContext.reportingService;
 
-  _computeShowWip(change: ChangeInfo) {
-    return change.work_in_progress;
+  _computeShowWip(change?: ChangeInfo) {
+    return change?.work_in_progress;
   }
 
-  _computeRequirements(change: ChangeInfo) {
+  _computeRequirements(change?: ChangeInfo) {
     const _requirements: Array<ChangeRequirement | ChangeWIP> = [];
 
-    if (change.requirements) {
+    if (change?.requirements) {
       for (const requirement of change.requirements) {
         const satisfied = requirement.status === 'OK';
         const style = this._computeRequirementClass(satisfied);
         _requirements.push({...requirement, satisfied, style});
       }
     }
-    if (change.work_in_progress) {
+    if (change?.work_in_progress) {
       _requirements.push({
         type: 'wip' as RequirementType,
         fallback_text: 'Work-in-progress',

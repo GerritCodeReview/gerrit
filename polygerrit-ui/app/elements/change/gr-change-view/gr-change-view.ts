@@ -357,9 +357,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   _hideEditCommitMessage?: boolean;
 
   @property({type: String})
-  _diffAgainst?: string;
-
-  @property({type: String})
   _latestCommitMessage: string | null = '';
 
   @property({type: Object})
@@ -375,7 +372,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   _lineHeight?: number;
 
   @property({type: Object})
-  _patchRange?: ChangeViewPatchRange;
+  _patchRange: ChangeViewPatchRange = {};
 
   @property({type: String})
   _filesExpanded?: string;
@@ -680,6 +677,72 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return this.shadowRoot!.querySelector<GrThreadList>('gr-thread-list');
   }
 
+  /**
+   * When navigating from one change to another we want to avoid inconsistent
+   * state, so when the change number changes, then this reset() method must be
+   * called. An alternative would be to just throw away the entire
+   * <gr-change-view> element and create a new one. Maybe that would be cleaner
+   * and safer and not much slower?
+   */
+  private reset() {
+    // TODO: The _change should also be reset, but unfortunately we will first
+    // have to fix all the plugins that cannot deal with an endpoint property
+    // that changes back from defined to undefined. :-/
+    // this._change = undefined;
+    this._changeNum = undefined;
+    this._patchRange.basePatchNum = undefined;
+    this._patchRange.patchNum = undefined;
+
+    this._changeComments = undefined;
+    this._commentThreads = undefined;
+    this._diffDrafts = undefined;
+    this._draftCommentThreads = undefined;
+    this._robotCommentThreads = undefined;
+
+    this._revisionInfo = undefined;
+    this._commitInfo = undefined;
+    this._currentRevision = undefined;
+    this._editingCommitMessage = false;
+    this._latestCommitMessage = '';
+
+    this.backPage = undefined;
+    this.hasParent = undefined;
+    this.disableEdit = false;
+    this.disableDiffPrefs = false;
+    this._filesExpanded = undefined;
+    this._basePatchNum = undefined;
+    this._selectedRevision = undefined;
+    this._currentRevisionActions = undefined;
+    this._allPatchSets = undefined;
+    this._replyButtonLabel = 'Reply';
+    this._selectedPatchSet = undefined;
+    this._shownFileCount = undefined;
+    this._initialLoadComplete = false;
+    this._replyDisabled = true;
+    this._changeStatuses = undefined;
+    this._commitCollapsed = true;
+    this._commitCollapsible = undefined;
+    this._updateCheckTimerHandle = undefined;
+    this._editMode = undefined;
+    this._parentIsCurrent = undefined;
+    this._submitEnabled = undefined;
+    this._mergeable = null;
+    this._showFileTabContent = true;
+    this._selectedTabPluginEndpoint = undefined;
+    this._selectedTabPluginHeader = undefined;
+    this._robotCommentsPatchSetDropdownItems = [];
+    this._currentRobotCommentsPatchSet = undefined;
+    this._changeViewAriaHidden = false;
+    this._activeTabs = [PrimaryTab.FILES, SecondaryTab.CHANGE_LOG];
+    this._showAllRobotComments = false;
+    this._showRobotCommentsButton = false;
+    this._showChecksTab = false;
+    this._tabState = undefined;
+    this.revertedChange = undefined;
+
+    this.getRelatedChangesList()?.reset();
+  }
+
   _setDiffViewMode(opt_reset?: boolean) {
     if (!opt_reset && this.viewState.diffViewMode) {
       return;
@@ -883,21 +946,17 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _computeHideEditCommitMessage(
-    loggedIn: boolean,
-    editing: boolean,
-    change: ChangeInfo,
+    loggedIn?: boolean,
+    editing?: boolean,
+    change?: ChangeInfo,
     editMode?: boolean
   ) {
-    if (
+    return (
       !loggedIn ||
-      editing ||
-      (change && change.status === ChangeStatus.MERGED) ||
-      editMode
-    ) {
-      return true;
-    }
-
-    return false;
+      !!editing ||
+      change?.status === ChangeStatus.MERGED ||
+      !!editMode
+    );
   }
 
   _computeShowUnresolved(threads?: CommentThread[]) {
@@ -922,7 +981,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }, {} as {[patchset: string]: number});
   }
 
-  _computeText(patch: RevisionInfo, commentThreads: CommentThread[]) {
+  _computeText(patch?: RevisionInfo, commentThreads?: CommentThread[]) {
+    if (!patch || !commentThreads) return '';
     const commentCount = this._robotCommentCountPerPatchSet(commentThreads);
     const commentCnt = commentCount[patch._number] || 0;
     if (commentCnt === 0) return `Patchset ${patch._number}`;
@@ -930,10 +990,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _computeRobotCommentsPatchSetDropdownItems(
-    change: ChangeInfo,
-    commentThreads: CommentThread[]
+    change?: ChangeInfo,
+    commentThreads?: CommentThread[]
   ) {
-    if (!change || !commentThreads || !change.revisions) return [];
+    if (!commentThreads || !change?.revisions) return [];
 
     return Object.values(change.revisions)
       .filter(patch => patch._number !== 'edit')
@@ -946,8 +1006,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       .sort((a, b) => (b.value as number) - (a.value as number));
   }
 
-  _handleCurrentRevisionUpdate(currentRevision: RevisionInfo) {
-    this._currentRobotCommentsPatchSet = currentRevision._number;
+  _handleCurrentRevisionUpdate(currentRevision?: RevisionInfo) {
+    this._currentRobotCommentsPatchSet = currentRevision?._number;
   }
 
   _handleRobotCommentPatchSetChanged(e: CustomEvent<{value: string}>) {
@@ -965,9 +1025,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _computeRobotCommentThreads(
-    commentThreads: CommentThread[],
-    currentRobotCommentsPatchSet: PatchSetNum,
-    showAllRobotComments: boolean
+    commentThreads?: CommentThread[],
+    currentRobotCommentsPatchSet?: PatchSetNum,
+    showAllRobotComments?: boolean
   ) {
     if (!commentThreads || !currentRobotCommentsPatchSet) return [];
     const threads = commentThreads.filter(thread => {
@@ -1011,7 +1071,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   _computeTotalCommentCounts(
     unresolvedCount: number,
-    changeComments: ChangeComments
+    changeComments?: ChangeComments
   ) {
     if (!changeComments) return undefined;
     const draftCount = changeComments.computeDraftCount();
@@ -1243,11 +1303,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     };
 
     this.$.fileList.collapseAllDiffs();
-    this._patchRange = patchRange;
 
     // If the change has already been loaded and the parameter change is only
     // in the patch range, then don't do a full reload.
     if (!changeChanged && patchChanged) {
+      this._patchRange = patchRange;
       if (!patchRange.patchNum) {
         patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
         rightPatchNumChanged = true;
@@ -1258,8 +1318,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       return;
     }
 
-    this._initialLoadComplete = false;
+    // This resets EVERYTHING to avoid inconsistent state.
+    this.reset();
+
     this._changeNum = value.changeNum;
+    this._patchRange = patchRange;
     this.loadData(true).then(() => {
       this._performPostLoadTasks();
     });
@@ -1498,7 +1561,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return 'PARENT';
   }
 
-  _computeChangeUrl(change: ChangeInfo) {
+  _computeChangeUrl(change?: ChangeInfo) {
+    if (!change) return '';
     return GerritNav.getUrlForChange(change);
   }
 
@@ -1934,20 +1998,13 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _isSubmitEnabled(revisionActions: ActionNameToActionInfoMap) {
-    return !!(
-      revisionActions &&
-      revisionActions.submit &&
-      revisionActions.submit.enabled
-    );
+  _isSubmitEnabled(revisionActions?: ActionNameToActionInfoMap) {
+    return !!revisionActions?.submit?.enabled;
   }
 
-  _isParentCurrent(revisionActions: ActionNameToActionInfoMap) {
-    if (revisionActions && revisionActions.rebase) {
-      return !revisionActions.rebase.enabled;
-    } else {
-      return true;
-    }
+  _isParentCurrent(revisionActions?: ActionNameToActionInfoMap) {
+    if (revisionActions?.rebase) return !revisionActions.rebase?.enabled;
+    return true;
   }
 
   _getEdit() {
@@ -2002,7 +2059,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _reloadDraftsWithCallback(e: CustomEvent<{resolve: () => void}>) {
-    return this._reloadDrafts().then(() => e.detail.resolve());
+    return this._reloadDrafts().then(() => {
+      e.detail.resolve();
+    });
   }
 
   /**
@@ -2010,13 +2069,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    * (comments, robot comments, draft comments) is requested.
    */
   _reloadComments() {
-    // We are resetting all comment related properties, because we want to avoid
-    // a new change being loaded and then paired with outdated comments.
-    this._changeComments = undefined;
-    this._commentThreads = undefined;
-    this._diffDrafts = undefined;
-    this._draftCommentThreads = undefined;
-    this._robotCommentThreads = undefined;
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
 
@@ -2271,15 +2323,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       });
   }
 
-  _computeCanStartReview(change: ChangeInfo) {
-    return !!(
-      change.actions &&
-      change.actions.ready &&
-      change.actions.ready.enabled
-    );
+  _computeCanStartReview(change?: ChangeInfo) {
+    return !!change?.actions?.ready?.enabled;
   }
 
-  _computeChangePermalinkAriaLabel(changeNum: NumericChangeId) {
+  _computeChangePermalinkAriaLabel(changeNum?: NumericChangeId) {
     return `Change ${changeNum}`;
   }
 
@@ -2287,7 +2335,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    * Returns the text to be copied when
    * click the copy icon next to change subject
    */
-  _computeCopyTextForTitle(change: ChangeInfo) {
+  _computeCopyTextForTitle(change?: ChangeInfo): string {
+    if (!change) return '';
     return (
       `${change._number}: ${change.subject} | ` +
       `${location.protocol}//${location.host}` +
@@ -2296,9 +2345,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _computeCommitCollapsible(commitMessage?: string) {
-    if (!commitMessage) {
-      return false;
-    }
+    if (!commitMessage) return false;
     return commitMessage.split('\n').length >= MIN_LINES_FOR_COMMIT_COLLAPSE;
   }
 
@@ -2313,7 +2360,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }
 
     this._updateCheckTimerHandle = window.setTimeout(() => {
-      assertIsDefined(this._change, '_change');
+      // This can happen when we are in the middle of reloading.
+      if (!this._change) {
+        this._startUpdateCheckTimer();
+        return;
+      }
       const change = this._change;
       this.changeService.fetchChangeUpdates(change).then(result => {
         let toastMessage = null;
@@ -2448,10 +2499,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   @observe('_patchRange.patchNum')
   _patchNumChanged(patchNumStr: PatchSetNum) {
-    if (!this._selectedRevision) {
-      return;
-    }
-    assertIsDefined(this._change, '_change');
+    if (!this._change) return;
 
     let patchNum: PatchSetNum;
     if (patchNumStr === 'edit') {
@@ -2460,7 +2508,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       patchNum = Number(`${patchNumStr}`) as PatchSetNum;
     }
 
-    if (patchNum === this._selectedRevision._number) {
+    if (patchNum === this?._selectedRevision?._number) {
       return;
     }
     if (this._change.revisions)
@@ -2531,10 +2579,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _computeCurrentRevision(
-    currentRevision: CommitId,
-    revisions: {[revisionId: string]: RevisionInfo}
+    currentRevision?: CommitId,
+    revisions?: {[revisionId: string]: RevisionInfo}
   ) {
-    return currentRevision && revisions && revisions[currentRevision];
+    if (!currentRevision || !revisions) return undefined;
+    return revisions[currentRevision];
   }
 
   _computeDiffPrefsDisabled(disableDiffPrefs: boolean, loggedIn: boolean) {
@@ -2574,7 +2623,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   /**
    * Wrapper for using in the element template and computed properties
    */
-  _computeAllPatchSets(change: ChangeInfo) {
+  _computeAllPatchSets(change?: ChangeInfo) {
     return computeAllPatchSets(change);
   }
 

@@ -63,6 +63,30 @@
       },
       "revId": "98691e6d59e4e772dd3c6509760ca4d05aaa2d82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21b0c52f_7dd8593f",
+        "filename": "java/com/google/gerrit/server/config/DownloadConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-06T10:33:54Z",
+      "side": 1,
+      "message": "I don\u0027t mind much, but Flogger best practises recommend to avoid string concatenations: go/flogger-practices#literals",
+      "parentUuid": "7f5589bf_391f44b1",
+      "range": {
+        "startLine": 57,
+        "startChar": 60,
+        "endLine": 57,
+        "endChar": 69
+      },
+      "revId": "98691e6d59e4e772dd3c6509760ca4d05aaa2d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -37,6 +37,7 @@ import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {PaperInputElementExt} from '../../../types/types';
 import {fireAlert} from '../../../utils/event-util';
+import {accountOrGroupKey} from '../../../utils/account-util';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -283,32 +284,16 @@ export class GrAccountList extends PolymerElement {
     return classes.join(' ');
   }
 
-  _accountMatches(a: AccountInput, b: AccountInput) {
-    // TODO(TS): seems a & b always exists ?
-    if (a && b) {
-      // both conditions are checking against AccountInfo
-      // and only check a not b.. typeguard won't work very good without
-      // changing logic, so keep it as inline casting
-      if ((a as AccountInfoInput)._account_id) {
-        return (
-          (a as AccountInfoInput)._account_id ===
-          (b as AccountInfoInput)._account_id
-        );
-      }
-      if ((a as AccountInfoInput).email) {
-        return (a as AccountInfoInput).email === (b as AccountInfoInput).email;
-      }
-    }
-    return a === b;
-  }
-
   _computeRemovable(account: AccountInput, readonly: boolean) {
     if (readonly) {
       return false;
     }
     if (this.removableValues) {
       for (let i = 0; i < this.removableValues.length; i++) {
-        if (this._accountMatches(this.removableValues[i], account)) {
+        if (
+          accountOrGroupKey(this.removableValues[i]) ===
+          accountOrGroupKey(account)
+        ) {
           return true;
         }
       }
@@ -328,15 +313,8 @@ export class GrAccountList extends PolymerElement {
       return;
     }
     for (let i = 0; i < this.accounts.length; i++) {
-      let matches;
       const account = this.accounts[i];
-      if (toRemove._group) {
-        matches =
-          (toRemove as GroupInfoInput).id === (account as GroupInfoInput).id;
-      } else {
-        matches = this._accountMatches(toRemove, account);
-      }
-      if (matches) {
+      if (accountOrGroupKey(toRemove) === accountOrGroupKey(account)) {
         this.splice('accounts', i, 1);
         this.reporting.reportInteraction(`Remove from ${this.id}`);
         return;

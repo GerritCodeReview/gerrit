@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "504684a2_04022fcc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-06T07:37:49Z",
+      "side": 1,
+      "message": "Midterm plan is to migrate to rules_jvm_external: [1]. See related caching section in their documentation: [2].\n\n[1] https://github.com/bazelbuild/rules_jvm_external\n[2] https://github.com/bazelbuild/rules_jvm_external#using-a-persistent-artifact-cache",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13e4b9e5_278ac343",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-06T07:37:49Z",
+      "side": 1,
+      "message": "Why don\u0027t we just introduce GERRIT_CACHE_HOME instead? Of course, it would only affect download_file artifacts cache but not bazel native repository and disk caches. Those are hard coded in .bazelrc file anyway. But, could be overridden in user\u0027s $HOME/.bazelrc file:\n\n  build --repository_cache\u003d~/.cache/gerritcodereview/repository\n  build --disk_cache\u003d~/.cache/gerritcodereview/cas",
+      "range": {
+        "startLine": 22,
+        "startChar": 9,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0235fbe1_b6000e10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-06T07:37:49Z",
+      "side": 1,
+      "message": "explain?",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 12
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c1bfea9_472d1774",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 2
@@ -19,6 +88,52 @@
         "startChar": 22,
         "endLine": 549,
         "endChar": 39
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26c8382f_60c221cc",
+        "filename": "tools/download_file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-06T07:37:49Z",
+      "side": 1,
+      "message": "GERRIT_CACHE_HOME ?",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 18
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44af1884_77cce370",
+        "filename": "tools/download_file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-06T07:37:49Z",
+      "side": 1,
+      "message": "Or just externalize all the concatenation and just say:\n\n  CACHE_DIR \u003d environ.get(\u0027GERRIT_CACHE_HOME\u0027)",
+      "range": {
+        "startLine": 30,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 66
       },
       "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -39,6 +39,30 @@
       },
       "revId": "98691e6d59e4e772dd3c6509760ca4d05aaa2d82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5589bf_391f44b1",
+        "filename": "java/com/google/gerrit/server/config/DownloadConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-06T10:28:42Z",
+      "side": 1,
+      "message": "Actually, I disagree :-)\n\nString concats are cheaper and easier to read in case it\u0027s a concatenation ISO in-the-middle formatting.",
+      "parentUuid": "aacdf200_b4e74b02",
+      "range": {
+        "startLine": 57,
+        "startChar": 60,
+        "endLine": 57,
+        "endChar": 69
+      },
+      "revId": "98691e6d59e4e772dd3c6509760ca4d05aaa2d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

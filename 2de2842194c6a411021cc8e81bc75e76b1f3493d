@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c838045f_ffa1f27f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-06T11:16:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "040a53e8_f19bfaa7",
+      "range": {
+        "startLine": 483,
+        "startChar": 17,
+        "endLine": 483,
+        "endChar": 32
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "314839d9_6f84a1f2",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-05-05T16:36:17Z",
       "side": 1,
       "message": "same as for the ExternalId, either move to factory or move factory here?",
+      "range": {
+        "startLine": 151,
+        "startChar": 22,
+        "endLine": 151,
+        "endChar": 28
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d01740a_308b5285",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-06T11:16:01Z",
+      "side": 1,
+      "message": "The factory\u0027s purpose is to create external id keys, while respecting the Gerrit configuration. This method however explicitly ignores the configuration and allows to overwrite it. This is kind of against the purpose of the factory.\n\nAnd as you said in another comment, it would also move the AutoValue constructor call into a class other than the AutoValue class, which would work, but doesn\u0027t fit the usual pattern.",
+      "parentUuid": "314839d9_6f84a1f2",
       "range": {
         "startLine": 151,
         "startChar": 22,
@@ -89,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ebce4da2_b08346f0",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-06T11:16:01Z",
+      "side": 1,
+      "message": "See my response on your other comment.",
+      "parentUuid": "e36d1467_a1a8fd6e",
+      "range": {
+        "startLine": 228,
+        "startChar": 2,
+        "endLine": 228,
+        "endChar": 26
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f2d8576_d2584252",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
         "patchSetId": 24
@@ -112,6 +184,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "70346b53_cf926779",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-06T11:16:01Z",
+      "side": 1,
+      "message": "Moving the factory as a subclass to ExternalId would not work, since it would have to be static and this does not work with injecting the configuration to the factory.\nFurther, especially in tests, we need a way to create ExternalIds without relying on injection, which makes this factory methods useful.\nI fully agree however, that this seems quite dangerous in that it may lead to errors, because the configuration is by mistake not applied in some cases.",
+      "parentUuid": "4f2d8576_d2584252",
+      "range": {
+        "startLine": 192,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 20
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e109732_d6368d47",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
         "patchSetId": 24
@@ -123,6 +219,30 @@
       "writtenOn": "2021-05-05T16:36:17Z",
       "side": 1,
       "message": "Could you, please, add a static method with \u0027isCaseInsensitive\u0027 option? That would be useful for testing.",
+      "range": {
+        "startLine": 250,
+        "startChar": 20,
+        "endLine": 250,
+        "endChar": 25
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a76715c_cbbcfef0",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-06T11:16:01Z",
+      "side": 1,
+      "message": "I don\u0027t want to add a method that is currently not used anywhere. A quick check showed that this should be easily possible by exchanging L264 with:\n\n  Key externalIdKey \u003d ExternalId.Key.parse(externalIdKeyStr, isCaseSensitive);\n\nand L284ff with:\n\n      return ExternalId.create(\n        externalIdKey,\n        Account.id(accountId),\n        Strings.emptyToNull(email),\n        Strings.emptyToNull(password),\n        blobId);\n\nwhile using the same logic as in the non-static method.\n\nIf you have some tests in mind, I would also implement them or add then to this change.",
+      "parentUuid": "9e109732_d6368d47",
       "range": {
         "startLine": 250,
         "startChar": 20,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abe62c77_5c8e4ce1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-06T15:14:42Z",
+      "side": 1,
+      "message": "marked remaining open questions as done since Marija said she is ok with current code",
+      "revId": "8e8350c6bd6ec99d56f1143c363eefcc1411ec09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

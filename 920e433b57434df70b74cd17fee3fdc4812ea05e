@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd7be1d0_deeb941a",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-06T07:09:28Z",
+      "side": 1,
+      "message": "Maybe just leave a comment on the code?\nI was also surprised by seeing the .concat(). Maybe leave a TODO for concating in the future.",
+      "parentUuid": "8970d100_c2cee29d",
+      "revId": "920e433b57434df70b74cd17fee3fdc4812ea05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fbd897e7_4b45b026",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 3

@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "70965ec0_41ac479b",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-06T15:11:38Z",
+      "side": 1,
+      "message": "Hmm, we\u0027d have to distinguish between additions and deletions. So it would have to be something like Map\u003cBoolean, Map\u003cExtId.Key, NoteMapUpdates\u003e\u003e, or Map\u003cOperationTypeAndKey, NoteMapUpdate\u003e. I think that amounts to about the same complexity, but I\u0027m happy to change it if you prefer.",
+      "parentUuid": "d423fc37_025aa887",
+      "revId": "8bd72bf705bc4c7e00b504ebe60d751bfc484249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91e0093b_1daca5ca",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "writtenOn": "2021-05-06T13:40:53Z",
       "side": 1,
       "message": "Can we assert the state of refs/meta/external-ids?\n\nSpecifically, I think we want to check that the parent of the tip of the ref \u003d the SHA1 before the transaction was applied. Meaning: We really only applied a single commit.\n\nWe could apply multiple commits in the same ref transaction, of course, but I don\u0027t think we do that here, so that test would be authoritative in telling us that we really batched updates.",
+      "revId": "8bd72bf705bc4c7e00b504ebe60d751bfc484249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1787d6e_4a8e48ea",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2921,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-06T15:11:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91e0093b_1daca5ca",
       "revId": "8bd72bf705bc4c7e00b504ebe60d751bfc484249",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

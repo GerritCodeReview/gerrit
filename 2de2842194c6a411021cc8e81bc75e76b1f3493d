@@ -160,6 +160,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6f3226d_5bc03a9c",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-06T15:14:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dbf2ad2_4183be87",
+      "range": {
+        "startLine": 151,
+        "startChar": 22,
+        "endLine": 151,
+        "endChar": 28
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e36d1467_a1a8fd6e",
@@ -363,6 +387,30 @@
       "side": 1,
       "message": "Actually, we just have static calls to\npublic ExternalId parse(String noteId, byte[] raw, ObjectId blobId)\n\nthat would always need to parse case-sensitive.\n\nI think injecting the factory in that cases should not be such a big problem, so I am ok keeping it as it is.",
       "parentUuid": "7a76715c_cbbcfef0",
+      "range": {
+        "startLine": 250,
+        "startChar": 20,
+        "endLine": 250,
+        "endChar": 25
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9126367f_4cc1bdf6",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-06T15:14:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c500a2c5_e3e39275",
       "range": {
         "startLine": 250,
         "startChar": 20,

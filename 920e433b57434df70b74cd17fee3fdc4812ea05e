@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d2c6056_dd0bbe20",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-06T10:31:52Z",
+      "side": 1,
+      "message": "Left TODO on the type definition to simplify.",
+      "parentUuid": "dd7be1d0_deeb941a",
+      "revId": "920e433b57434df70b74cd17fee3fdc4812ea05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbd897e7_4b45b026",

@@ -36,6 +36,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
@@ -257,7 +258,17 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public Cookie[] getCookies() {
-    return new Cookie[0];
+    List<String> cookiesValues =
+        Splitter.on(";").splitToList(Strings.nullToEmpty(getHeader("Cookie")));
+    return cookiesValues.stream()
+        .filter(s -> !s.isEmpty())
+        .map(
+            (String cookieValue) -> {
+              String[] kv = cookieValue.split("=");
+              return new Cookie(kv[0], kv[1]);
+            })
+        .collect(Collectors.toList())
+        .toArray(new Cookie[0]);
   }
 
   @Override

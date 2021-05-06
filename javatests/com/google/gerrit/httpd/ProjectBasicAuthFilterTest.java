@@ -19,12 +19,15 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -55,10 +58,10 @@ public class ProjectBasicAuthFilterTest {
   private static final String AUTH_USER_B64 =
       B64_ENC.encodeToString(AUTH_USER.getBytes(StandardCharsets.UTF_8));
   private static final String AUTH_PASSWORD = "jd123";
+  private static final String GERRIT_COOKIE_KEY = "GerritAccount";
+  private static final String AUTH_COOKIE_VALUE = "gerritcookie";
 
   @Mock private DynamicItem<WebSession> webSessionItem;
-
-  @Mock private WebSession webSession;
 
   @Mock private AccountCache accountCache;
 
@@ -74,21 +77,52 @@ public class ProjectBasicAuthFilterTest {
 
   @Captor private ArgumentCaptor<HttpServletResponse> filterResponseCaptor;
 
+  @Mock private IdentifiedUser.RequestFactory userRequestFactory;
+
+  @Mock private WebSessionManager webSessionManager;
+
+  private WebSession webSession;
   private FakeHttpServletRequest req;
   private HttpServletResponse res;
+  private AuthResult authSuccessful;
 
   @Before
   public void setUp() throws Exception {
-    doReturn(webSession).when(webSessionItem).get();
-    doReturn(Optional.of(accountState)).when(accountCache).getByUsername(AUTH_USER);
-    doReturn(account).when(accountState).account();
-
     req = new FakeHttpServletRequest();
     res = new FakeHttpServletResponse();
+
+    authSuccessful =
+        new AuthResult(AUTH_ACCOUNT_ID, ExternalId.Key.create("username", AUTH_USER), false);
+    doReturn(Optional.of(accountState)).when(accountCache).getByUsername(AUTH_USER);
+    doReturn(Optional.of(accountState)).when(accountCache).get(AUTH_ACCOUNT_ID);
+    doReturn(account).when(accountState).account();
+
+    doReturn(new WebSessionManager.Key(AUTH_COOKIE_VALUE)).when(webSessionManager).createKey(any());
+    WebSessionManager.Val webSessionValue =
+        new WebSessionManager.Val(AUTH_ACCOUNT_ID, 0L, false, null, 0L, "", "");
+    doReturn(webSessionValue)
+        .when(webSessionManager)
+        .createVal(any(), any(), eq(false), any(), any(), any());
+  }
+
+  private void initWebSession(@Nullable String cookie) {
+    if (cookie != null) {
+      req.addHeader("Cookie", cookie);
+    }
+    webSession =
+        new CacheBasedWebSession(
+            req, res, webSessionManager, authConfig, null, userRequestFactory, accountCache) {};
+    doReturn(webSession).when(webSessionItem).get();
+  }
+
+  private void initMockedWebSession() {
+    webSession = mock(WebSession.class);
+    doReturn(webSession).when(webSessionItem).get();
   }
 
   @Test
   public void shouldAllowAnonymousRequest() throws Exception {
+    initWebSession(null);
     res.setStatus(HttpServletResponse.SC_OK);
 
     ProjectBasicAuthFilter basicAuthFilter =
@@ -102,6 +136,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldRequestAuthenticationForBasicAuthRequest() throws Exception {
+    initWebSession(null);
     req.addHeader("Authorization", "Basic " + AUTH_USER_B64);
     res.setStatus(HttpServletResponse.SC_OK);
 
@@ -117,6 +152,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldAuthenticateSucessfullyAgainstRealm() throws Exception {
+    initWebSession(null);
     req.addHeader(
         "Authorization",
         "Basic "
@@ -124,8 +160,6 @@ public class ProjectBasicAuthFilterTest {
                 (AUTH_USER + ":" + AUTH_PASSWORD).getBytes(StandardCharsets.UTF_8)));
     res.setStatus(HttpServletResponse.SC_OK);
 
-    AuthResult authSuccessful =
-        new AuthResult(AUTH_ACCOUNT_ID, ExternalId.Key.create("username", AUTH_USER), false);
     doReturn(true).when(account).isActive();
     doReturn(authSuccessful).when(accountManager).authenticate(any());
     doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
@@ -139,10 +173,13 @@ public class ProjectBasicAuthFilterTest {
 
     verify(chain).doFilter(eq(req), any());
     assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(res.getHeader("Set-Cookie")).contains(GERRIT_COOKIE_KEY);
   }
 
   @Test
   public void shouldNotReauthenticateIfAlreadySignedIn() throws Exception {
+    initMockedWebSession();
+    doReturn(true).when(webSession).isSignedIn();
     req.addHeader(
         "Authorization",
         "Basic "
@@ -150,7 +187,20 @@ public class ProjectBasicAuthFilterTest {
                 (AUTH_USER + ":" + AUTH_PASSWORD).getBytes(StandardCharsets.UTF_8)));
     res.setStatus(HttpServletResponse.SC_OK);
 
-    doReturn(true).when(webSession).isSignedIn();
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(accountManager, never()).authenticate(any());
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldNotReauthenticateIfHasExistingCookie() throws Exception {
+    initWebSession("GerritAccount=" + AUTH_COOKIE_VALUE);
+    res.setStatus(HttpServletResponse.SC_OK);
 
     ProjectBasicAuthFilter basicAuthFilter =
         new ProjectBasicAuthFilter(webSessionItem, accountCache, accountManager, authConfig);
@@ -164,6 +214,7 @@ public class ProjectBasicAuthFilterTest {
 
   @Test
   public void shouldFailedAuthenticationAgainstRealm() throws Exception {
+    initWebSession(null);
     req.addHeader(
         "Authorization",
         "Basic "

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65fad9b8_47e5d6e8",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-05-06T17:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed607eca_f7cd8f18",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 85
+      },
+      "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "185c1258_6e46f653",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b2434f1_03d6d964",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-05-06T17:05:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "185c1258_6e46f653",
+      "range": {
+        "startLine": 135,
+        "startChar": 10,
+        "endLine": 135,
+        "endChar": 21
+      },
+      "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "144439e5_f1c0e55d",
@@ -77,6 +125,24 @@
       "writtenOn": "2021-05-06T14:01:39Z",
       "side": 1,
       "message": "I have a problem with this test that is not run automagically. It isn\u0027t executed with:\n\n  $ bazel test //...\n\nThe options, that I see are:\n\n* Remove this test.\n* Don\u0027t put it in source tree, but may be in contrib directory.\n* Implement java integration test, that starts gerrit daemon, establish client SSH connections and run `ssh gerrit`. For inspiration, see git v2 protocol test and upload archive test that I added recently: [1],[2].\n* Implement a combination of gerrit daemon and shell test. For inspiration, see git prolog integration tests: [3], add by Chih-Hung Hsieh.\n\n[1] javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java\n[2] javatests/com/google/gerrit/integration/git/UploadArchiveIT.java\n[3] prologtests/examples/run.sh",
+      "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8781527_b109c5d2",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-05-06T17:05:31Z",
+      "side": 1,
+      "message": "I am still working on Point 3 and 4.",
+      "parentUuid": "144439e5_f1c0e55d",
       "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

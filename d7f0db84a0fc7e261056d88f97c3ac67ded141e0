@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19795668_25f68b20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-06T09:56:26Z",
+      "side": 1,
+      "message": "Another idea from Patrick:\n- asynchronously compute diffs against all prior patch sets that have comments when a new patch set gets uploaded",
+      "parentUuid": "9d1f5d3c_18d9806b",
+      "revId": "d7f0db84a0fc7e261056d88f97c3ac67ded141e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc3e7ee6_91c4d523",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3

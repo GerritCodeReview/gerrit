@@ -114,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "380da6de_7802158b",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2021-05-06T13:02:49Z",
+      "side": 1,
+      "message": "Having a static factory method inside an AutoValue class is a standard idiom [1].\nI would propose to keep the code as-is for now and discuss moving the factory methods in a new change.\n\n@Marija: if we can agree on that I would give CR+2 on this change.\n\n[1] https://github.com/google/auto/blob/master/value/userguide/index.md#in-your-value-class",
+      "parentUuid": "8d01740a_308b5285",
+      "range": {
+        "startLine": 151,
+        "startChar": 22,
+        "endLine": 151,
+        "endChar": 28
+      },
+      "revId": "2de2842194c6a411021cc8e81bc75e76b1f3493d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e36d1467_a1a8fd6e",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
         "patchSetId": 24

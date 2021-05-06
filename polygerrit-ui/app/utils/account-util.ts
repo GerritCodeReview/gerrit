@@ -15,8 +15,16 @@
  * limitations under the License.
  */
 
-import {AccountId, AccountInfo, EmailAddress} from '../types/common';
+import {
+  AccountId,
+  AccountInfo,
+  EmailAddress,
+  GroupInfo,
+  isAccount,
+  isGroup,
+} from '../types/common';
 import {AccountTag} from '../constants/constants';
+import {assertNever} from './common-util';
 
 export function accountKey(account: AccountInfo): AccountId | EmailAddress {
   if (account._account_id) return account._account_id;
@@ -38,6 +46,12 @@ export function removeServiceUsers(accounts?: AccountInfo[]): AccountInfo[] {
 
 export function hasSameAvatar(account?: AccountInfo, other?: AccountInfo) {
   return account?.avatars?.[0]?.url === other?.avatars?.[0]?.url;
+}
+
+export function accountOrGroupKey(entry: AccountInfo | GroupInfo) {
+  if (isAccount(entry)) return accountKey(entry);
+  if (isGroup(entry)) return entry.id;
+  assertNever(entry, 'entry must be account or group');
 }
 
 export function uniqueDefinedAvatar(

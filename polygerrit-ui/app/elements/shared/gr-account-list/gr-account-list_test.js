@@ -441,19 +441,6 @@ suite('gr-account-list tests', () => {
     });
   });
 
-  test('_accountMatches', () => {
-    const acct = makeAccount();
-
-    assert.isTrue(element._accountMatches(acct, acct));
-    acct.email = 'test';
-    assert.isTrue(element._accountMatches(acct, acct));
-    assert.isTrue(element._accountMatches({email: 'test'}, acct));
-
-    assert.isFalse(element._accountMatches({}, acct));
-    assert.isFalse(element._accountMatches({email: 'test2'}, acct));
-    assert.isFalse(element._accountMatches({_account_id: -1}, acct));
-  });
-
   suite('keyboard interactions', () => {
     test('backspace at text input start removes last account', async () => {
       const input = element.$.entry.$.input;

@@ -16,6 +16,75 @@
       "message": "Test import was successful.\n\nLMK if you can think of a more seamless way of doing the additional duplicate key checking in ExternalIdNotes.",
       "revId": "8bd72bf705bc4c7e00b504ebe60d751bfc484249",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1653e1d2_709615a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-06T13:40:53Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "8bd72bf705bc4c7e00b504ebe60d751bfc484249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "833d0427_7276fbd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-06T13:40:53Z",
+      "side": 1,
+      "message": "Fantastico!",
+      "parentUuid": "1296b344_86ee9cbc",
+      "revId": "8bd72bf705bc4c7e00b504ebe60d751bfc484249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d423fc37_025aa887",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-06T13:40:53Z",
+      "side": 1,
+      "message": "I see no other way of checking for duplicates, but a tiny improvement.\n\nInstead of keeping a separate set, we can change the list that keeps the lambdas to be a Map\u003cExtId.Key, noteMapUpdates\u003e if we put the for loop outside the lambda.",
+      "revId": "8bd72bf705bc4c7e00b504ebe60d751bfc484249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91e0093b_1daca5ca",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2921,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-06T13:40:53Z",
+      "side": 1,
+      "message": "Can we assert the state of refs/meta/external-ids?\n\nSpecifically, I think we want to check that the parent of the tip of the ref \u003d the SHA1 before the transaction was applied. Meaning: We really only applied a single commit.\n\nWe could apply multiple commits in the same ref transaction, of course, but I don\u0027t think we do that here, so that test would be authoritative in telling us that we really batched updates.",
+      "revId": "8bd72bf705bc4c7e00b504ebe60d751bfc484249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

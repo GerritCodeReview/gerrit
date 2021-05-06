@@ -140,6 +140,7 @@ public class ProjectBasicAuthFilterTest {
     verify(accountManager).authenticate(any());
 
     verify(chain).doFilter(eq(req), any());
+    verify(webSession).login(authSuccessful, false);
     assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
   }
 

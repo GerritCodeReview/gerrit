@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8d218bc_423403f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-06T18:58:40Z",
+      "side": 1,
+      "message": "There is still one gap: when Git/HTTP is authenticated against LDAP the session is created but the cookie isn\u0027t returned to the client.\n\nGoing to add that part to the fix and add at least one test.",
+      "revId": "1745088ed2ca84e08ad8733968c132639ae7c935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

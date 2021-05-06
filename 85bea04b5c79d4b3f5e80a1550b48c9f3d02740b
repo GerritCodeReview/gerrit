@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c4e90e_500aa246",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-06T17:31:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6365b93b_b8954241",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 2
+      },
+      "revId": "85bea04b5c79d4b3f5e80a1550b48c9f3d02740b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07631f11_a4b90e0b",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-05T15:26:31Z",
       "side": 1,
       "message": "Can this be handled similar to the additions? Maybe\n\n  this.$.reviewers.deletions()\n\ninstead of\n\n  this.$.reviewers.additions()\n\n?",
+      "range": {
+        "startLine": 660,
+        "startChar": 4,
+        "endLine": 671,
+        "endChar": 0
+      },
+      "revId": "85bea04b5c79d4b3f5e80a1550b48c9f3d02740b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d9d3168_b6ededb1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-06T17:31:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07631f11_a4b90e0b",
       "range": {
         "startLine": 660,
         "startChar": 4,

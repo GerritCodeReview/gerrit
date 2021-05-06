@@ -424,6 +424,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df9f3731_736f2586",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-06T08:15:35Z",
+      "side": 1,
+      "message": "But it\u0027s using DirContext, so that it actually interacts with LDAP:\n\n  private void recursivelyExpandGroups(\n      final Set\u003cString\u003e groupDNs,\n      final LdapSchema schema,\n      final DirContext ctx,\n      final String groupDN) {\n  [...]",
+      "parentUuid": "081bc04c_e46658f0",
+      "range": {
+        "startLine": 331,
+        "startChar": 10,
+        "endLine": 331,
+        "endChar": 68
+      },
+      "revId": "37e5614f4505b02a28df5dee56d31151e2ce49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df0a1303_51e98134",

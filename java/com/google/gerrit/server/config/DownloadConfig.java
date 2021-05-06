@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.CoreDownloadSchemes;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.server.change.ArchiveFormatInternal;
@@ -35,6 +36,8 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 public class DownloadConfig {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final ImmutableSet<String> downloadSchemes;
   private final ImmutableSet<DownloadCommand> downloadCommands;
   private final ImmutableSet<ArchiveFormatInternal> archiveFormats;
@@ -51,7 +54,8 @@ public class DownloadConfig {
       for (String s : allSchemes) {
         String core = toCoreScheme(s);
         if (core == null) {
-          throw new IllegalArgumentException("not a core download scheme: " + s);
+          logger.atWarning().log("not a core download scheme: " + s);
+          continue;
         }
         normalized.add(core);
       }

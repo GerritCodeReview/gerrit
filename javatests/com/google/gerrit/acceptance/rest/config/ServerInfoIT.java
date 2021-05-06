@@ -214,4 +214,12 @@ public class ServerInfoIT extends AbstractDaemonTest {
     ServerInfo i = gApi.config().server().getInfo();
     assertThat(i.change.mergeabilityComputationBehavior).isEqualTo("NEVER");
   }
+
+  @Test
+  @GerritConfig(name = "download.scheme", value = "fooBar")
+  @GerritConfig(name = "download.command", value = "fooBar")
+  public void misconfiguredDownloadCommands() throws Exception {
+    ServerInfo i = gApi.config().server().getInfo();
+    assertThat(i.download.schemes).isEmpty();
+  }
 }

@@ -16,6 +16,69 @@
       "message": "I was now able to reproduce each script flow case and it LGTM; thanks guys. I was pressing enter(s) in the before-fix case and this was misleading me on the expected behaviour, loop and all. Of course having to press enter was part of the original issue. Adding @David if willing to review; thanks.",
       "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed607eca_f7cd8f18",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-06T14:01:39Z",
+      "side": 1,
+      "message": "Optional, just say:\n\n  // ignored\n\nhere and below.",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 85
+      },
+      "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "185c1258_6e46f653",
+        "filename": "java/com/google/gerrit/sshd/NoShell.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-06T14:01:39Z",
+      "side": 1,
+      "message": "That would need to be changed to writeBuffer when merged to recent gerrit branches, see: [1].\n\n[1] https://github.com/apache/mina-sshd/commit/8e59075bc55c497e4d4056f457e4d657d3c61c1a",
+      "range": {
+        "startLine": 135,
+        "startChar": 10,
+        "endLine": 135,
+        "endChar": 21
+      },
+      "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "144439e5_f1c0e55d",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-06T14:01:39Z",
+      "side": 1,
+      "message": "I have a problem with this test that is not run automagically. It isn\u0027t executed with:\n\n  $ bazel test //...\n\nThe options, that I see are:\n\n* Remove this test.\n* Don\u0027t put it in source tree, but may be in contrib directory.\n* Implement java integration test, that starts gerrit daemon, establish client SSH connections and run `ssh gerrit`. For inspiration, see git v2 protocol test and upload archive test that I added recently: [1],[2].\n* Implement a combination of gerrit daemon and shell test. For inspiration, see git prolog integration tests: [3], add by Chih-Hung Hsieh.\n\n[1] javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java\n[2] javatests/com/google/gerrit/integration/git/UploadArchiveIT.java\n[3] prologtests/examples/run.sh",
+      "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

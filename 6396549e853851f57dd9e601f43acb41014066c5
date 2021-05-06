@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98f25fbb_a6b6ac5f",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-06T07:52:19Z",
+      "side": 1,
+      "message": "Might be worth adding a test for it. It seems pretty \"straight forward\". There are several examples in AllRequestFilterFilterProxyTest. You can probably inject a mocked `FilterChain` in the `doFilter` and make sure it gets called or not depending if the user is signed in or not.",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 35
+      },
+      "revId": "6396549e853851f57dd9e601f43acb41014066c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

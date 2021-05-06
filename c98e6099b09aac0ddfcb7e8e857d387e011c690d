@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97e7edcd_bc094935",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-06T13:51:51Z",
+      "side": 1,
+      "message": "Good to know. Thanks for the reference.",
+      "parentUuid": "504684a2_04022fcc",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13e4b9e5_278ac343",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "316e91cc_b8a2ebb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-06T13:51:51Z",
+      "side": 1,
+      "message": "I have repurposed my change to support GERRIT_CACHE_HOME which would completely override the hardcoded ~/.gerritcodereview/bazel-cache/downloaded-artifacts",
+      "parentUuid": "13e4b9e5_278ac343",
+      "range": {
+        "startLine": 22,
+        "startChar": 9,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0235fbe1_b6000e10",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-05-06T07:37:49Z",
       "side": 1,
       "message": "explain?",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 12
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fa25663_3f4a1abb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-06T13:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0235fbe1_b6000e10",
       "range": {
         "startLine": 35,
         "startChar": 4,
@@ -175,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eafe0996_f7d206f0",
+        "filename": "tools/download_file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-06T13:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26c8382f_60c221cc",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 18
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44af1884_77cce370",
@@ -188,6 +284,30 @@
       "writtenOn": "2021-05-06T07:37:49Z",
       "side": 1,
       "message": "Or just externalize all the concatenation and just say:\n\n  CACHE_DIR \u003d environ.get(\u0027GERRIT_CACHE_HOME\u0027)",
+      "range": {
+        "startLine": 30,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 66
+      },
+      "revId": "c98e6099b09aac0ddfcb7e8e857d387e011c690d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "641038c6_989b5dc9",
+        "filename": "tools/download_file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-06T13:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44af1884_77cce370",
       "range": {
         "startLine": 30,
         "startChar": 16,

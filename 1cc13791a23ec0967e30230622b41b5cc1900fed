@@ -16,6 +16,24 @@
       "message": "UI tests are flaky?",
       "revId": "1cc13791a23ec0967e30230622b41b5cc1900fed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afee89a9_b55d6451",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-06T18:59:20Z",
+      "side": 1,
+      "message": "Nope, usual Bazel flakiness :-(",
+      "parentUuid": "62882234_4e40766e",
+      "revId": "1cc13791a23ec0967e30230622b41b5cc1900fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

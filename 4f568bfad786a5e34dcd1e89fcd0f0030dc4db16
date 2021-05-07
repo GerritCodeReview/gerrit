@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6442c58a_5e2be2c6",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-07T11:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c862c46_a097b900",
+      "range": {
+        "startLine": 476,
+        "startChar": 10,
+        "endLine": 476,
+        "endChar": 34
+      },
+      "revId": "4f568bfad786a5e34dcd1e89fcd0f0030dc4db16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f0ea5a1_1f7e8baf",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb16944f_6ab83afc",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-07T11:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f0ea5a1_1f7e8baf",
+      "range": {
+        "startLine": 480,
+        "startChar": 15,
+        "endLine": 481,
+        "endChar": 59
+      },
+      "revId": "4f568bfad786a5e34dcd1e89fcd0f0030dc4db16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10a8c221_6e3a0aad",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-05-07T10:59:08Z",
       "side": 1,
       "message": "this needs more comments maybe explaining why simply doing\n\nthis._showChangeView \u003d false\nthis._showChangeView \u003d true\n\ndoes not work",
+      "range": {
+        "startLine": 488,
+        "startChar": 8,
+        "endLine": 488,
+        "endChar": 30
+      },
+      "revId": "4f568bfad786a5e34dcd1e89fcd0f0030dc4db16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de859dfb_29603bb8",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-07T11:21:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a8c221_6e3a0aad",
       "range": {
         "startLine": 488,
         "startChar": 8,

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {css} from 'lit-element';
+import {css} from 'lit';
 
 // Mark the file as a module. Otherwise typescript assumes this is a script
 // and $_documentContainer is a global variable.
@@ -294,7 +294,7 @@ export const sharedStyles = css`
 $_documentContainer.innerHTML = `<dom-module id="shared-styles">
   <template>
     <style>
-    ${sharedStyles.cssText}
+    ${sharedStyles}
     </style>
   </template>
 </dom-module>`;

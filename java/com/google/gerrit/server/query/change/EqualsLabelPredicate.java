@@ -73,6 +73,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     }
 
     boolean hasVote = false;
+    object.setStorageConstraint(ChangeData.StorageConstraint.INDEX_ONLY);
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;

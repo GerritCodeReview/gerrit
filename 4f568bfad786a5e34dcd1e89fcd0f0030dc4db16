@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c862c46_a097b900",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-07T10:59:08Z",
+      "side": 1,
+      "message": "could we merge it with handleRecreateDiffView, have one method handleRecreateView and let the target who is firing the event decide which view they want to recreate?\n\nJust seeing a bit of code duplication in the 2 methods.",
+      "range": {
+        "startLine": 476,
+        "startChar": 10,
+        "endLine": 476,
+        "endChar": 34
+      },
+      "revId": "4f568bfad786a5e34dcd1e89fcd0f0030dc4db16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f0ea5a1_1f7e8baf",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-07T10:59:08Z",
+      "side": 1,
+      "message": "not sure I fully understand this.\n\nwhich changes are you referring to when you say \"both changes are actually being rendered\".\n\nalso not sure what the conflict with the normal _viewChanged() observer is.",
+      "range": {
+        "startLine": 480,
+        "startChar": 15,
+        "endLine": 481,
+        "endChar": 59
+      },
+      "revId": "4f568bfad786a5e34dcd1e89fcd0f0030dc4db16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10a8c221_6e3a0aad",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-07T10:59:08Z",
+      "side": 1,
+      "message": "this needs more comments maybe explaining why simply doing\n\nthis._showChangeView \u003d false\nthis._showChangeView \u003d true\n\ndoes not work",
+      "range": {
+        "startLine": 488,
+        "startChar": 8,
+        "endLine": 488,
+        "endChar": 30
+      },
+      "revId": "4f568bfad786a5e34dcd1e89fcd0f0030dc4db16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

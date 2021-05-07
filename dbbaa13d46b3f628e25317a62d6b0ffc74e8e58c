@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dffcac2_2b8e4f27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T00:40:03Z",
+      "side": 1,
+      "message": "I\u0027ve fixed it in the merge to stable-3.3:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/305403\n\nPlease have look if the fix is appropriate or not.",
+      "parentUuid": "a18fc475_90edb0b2",
+      "revId": "dbbaa13d46b3f628e25317a62d6b0ffc74e8e58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2b7c8bf_0caa590d",

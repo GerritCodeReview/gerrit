@@ -16,25 +16,20 @@
  */
 import {
   ContentLoadNeededEventDetail,
-  ContextButtonType,
   DiffContextExpandedExternalDetail,
   MovedLinkClickedEventDetail,
   RenderPreferences,
-  SyntaxBlock,
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
-import {
-  GrDiffGroup,
-  GrDiffGroupType,
-  hideInContextControl,
-} from '../gr-diff/gr-diff-group';
+import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
+
+import '../gr-context-controls/gr-context-controls';
+import {GrContextControls} from '../gr-context-controls/gr-context-controls';
 import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
-import {pluralize} from '../../../utils/string-util';
-import {fire} from '../../../utils/event-util';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -58,8 +53,6 @@ import {fire} from '../../../utils/event-util';
  */
 const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-const PARTIAL_CONTEXT_AMOUNT = 10;
-
 export interface DiffContextExpandedEventDetail
   extends DiffContextExpandedExternalDetail {
   groups: GrDiffGroup[];
@@ -72,19 +65,6 @@ declare global {
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }
-}
-
-function findMostNestedContainingBlock(
-  lineNum: number,
-  blocks?: SyntaxBlock[]
-): SyntaxBlock | undefined {
-  const containingBlock = blocks?.find(
-    ({range}) => range.start_line < lineNum && range.end_line > lineNum
-  );
-  const containingChildBlock = containingBlock
-    ? findMostNestedContainingBlock(lineNum, containingBlock?.children)
-    : undefined;
-  return containingChildBlock || containingBlock;
 }
 
 export abstract class GrDiffBuilder {
@@ -329,10 +309,6 @@ export abstract class GrDiffBuilder {
     const leftStart = contextGroups[0].lineRange.left.start_line;
     const leftEnd =
       contextGroups[contextGroups.length - 1].lineRange.left.end_line;
-    const rightStart = contextGroups[0].lineRange.right.start_line;
-    const rightEnd =
-      contextGroups[contextGroups.length - 1].lineRange.right.end_line;
-
     const firstGroupIsSkipped = !!contextGroups[0].skip;
     const lastGroupIsSkipped = !!contextGroups[contextGroups.length - 1].skip;
 
@@ -349,9 +325,7 @@ export abstract class GrDiffBuilder {
         section,
         contextGroups,
         showAbove,
-        showBelow,
-        rightStart,
-        rightEnd
+        showBelow
       )
     );
     if (showBelow) {
@@ -369,13 +343,8 @@ export abstract class GrDiffBuilder {
     section: HTMLElement,
     contextGroups: GrDiffGroup[],
     showAbove: boolean,
-    showBelow: boolean,
-    rightStart: number,
-    rightEnd: number
+    showBelow: boolean
   ): HTMLElement {
-    const numLines = rightEnd - rightStart + 1;
-    if (numLines === 0) console.error('context group without lines');
-
     const row = this._createElement('tr', 'contextDivider');
     if (!(showAbove && showBelow)) {
       row.classList.add('collapsed');
@@ -384,191 +353,17 @@ export abstract class GrDiffBuilder {
     const element = this._createElement('td', 'dividerCell');
     row.appendChild(element);
 
-    const showAllContainer = this._createExpandAllButtonContainer(
-      section,
-      contextGroups,
-      showAbove,
-      showBelow,
-      numLines
-    );
-    element.appendChild(showAllContainer);
-
-    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
-    if (showPartialLinks) {
-      const partialExpansionContainer = this._createPartialExpansionButtons(
-        section,
-        contextGroups,
-        showAbove,
-        showBelow,
-        numLines
-      );
-      if (partialExpansionContainer) {
-        element.appendChild(partialExpansionContainer);
-      }
-      const blockExpansionContainer = this._createBlockExpansionButtons(
-        section,
-        contextGroups,
-        showAbove,
-        showBelow,
-        rightStart,
-        rightEnd,
-        numLines
-      );
-      if (blockExpansionContainer) {
-        element.appendChild(blockExpansionContainer);
-      }
-    }
+    const contextControls = this._createElement(
+      'gr-context-controls'
+    ) as GrContextControls;
+    contextControls.diff = this._diff;
+    contextControls.renderPreferences = this._renderPrefs;
+    contextControls.section = section;
+    contextControls.contextGroups = contextGroups;
+    contextControls.showAbove = showAbove;
+    contextControls.showBelow = showBelow;
+    element.appendChild(contextControls);
     return row;
-  }
-
-  private _createExpandAllButtonContainer(
-    section: HTMLElement,
-    contextGroups: GrDiffGroup[],
-    showAbove: boolean,
-    showBelow: boolean,
-    numLines: number
-  ) {
-    const showAllButton = this._createContextButton(
-      ContextButtonType.ALL,
-      section,
-      contextGroups,
-      numLines,
-      numLines
-    );
-    showAllButton.classList.add(
-      showAbove && showBelow
-        ? 'centeredButton'
-        : showAbove
-        ? 'aboveButton'
-        : 'belowButton'
-    );
-    const showAllContainer = this._createElement(
-      'div',
-      'aboveBelowButtons fullExpansion'
-    );
-    showAllContainer.appendChild(showAllButton);
-    return showAllContainer;
-  }
-
-  private _createPartialExpansionButtons(
-    section: HTMLElement,
-    contextGroups: GrDiffGroup[],
-    showAbove: boolean,
-    showBelow: boolean,
-    numLines: number
-  ) {
-    let aboveButton;
-    let belowButton;
-    if (showAbove) {
-      aboveButton = this._createContextButton(
-        ContextButtonType.ABOVE,
-        section,
-        contextGroups,
-        numLines,
-        PARTIAL_CONTEXT_AMOUNT
-      );
-    }
-    if (showBelow) {
-      belowButton = this._createContextButton(
-        ContextButtonType.BELOW,
-        section,
-        contextGroups,
-        numLines,
-        PARTIAL_CONTEXT_AMOUNT
-      );
-    }
-    if (aboveButton || belowButton) {
-      const partialExpansionContainer = this._createElement(
-        'div',
-        'aboveBelowButtons partialExpansion'
-      );
-      aboveButton && partialExpansionContainer.appendChild(aboveButton);
-      belowButton && partialExpansionContainer.appendChild(belowButton);
-      return partialExpansionContainer;
-    }
-    return undefined;
-  }
-
-  private _createBlockExpansionButtons(
-    section: HTMLElement,
-    contextGroups: GrDiffGroup[],
-    showAbove: boolean,
-    showBelow: boolean,
-    rightStart: number,
-    rightEnd: number,
-    numLines: number
-  ) {
-    const fullContentNotAvailable =
-      contextGroups.find(c => !!c.skip) !== undefined;
-    if (!this._renderPrefs?.use_block_expansion || fullContentNotAvailable) {
-      return undefined;
-    }
-    let aboveBlockButton;
-    let belowBlockButton;
-    const rightSyntaxTree = this._diff.meta_b.syntax_tree;
-    if (showAbove) {
-      aboveBlockButton = this._createBlockButton(
-        section,
-        contextGroups,
-        ContextButtonType.BLOCK_ABOVE,
-        numLines,
-        rightStart - 1,
-        rightSyntaxTree
-      );
-    }
-    if (showBelow) {
-      belowBlockButton = this._createBlockButton(
-        section,
-        contextGroups,
-        ContextButtonType.BLOCK_BELOW,
-        numLines,
-        rightEnd + 1,
-        rightSyntaxTree
-      );
-    }
-    if (aboveBlockButton || belowBlockButton) {
-      const blockExpansionContainer = this._createElement(
-        'div',
-        'blockExpansion aboveBelowButtons'
-      );
-      aboveBlockButton && blockExpansionContainer.appendChild(aboveBlockButton);
-      belowBlockButton && blockExpansionContainer.appendChild(belowBlockButton);
-      return blockExpansionContainer;
-    }
-    return undefined;
-  }
-
-  private _createBlockButton(
-    section: HTMLElement,
-    contextGroups: GrDiffGroup[],
-    buttonType: ContextButtonType,
-    numLines: number,
-    referenceLine: number,
-    syntaxTree?: SyntaxBlock[]
-  ) {
-    const containingBlock = findMostNestedContainingBlock(
-      referenceLine,
-      syntaxTree
-    );
-    let linesToExpand = numLines;
-    if (containingBlock) {
-      const {range} = containingBlock;
-      const targetLine =
-        buttonType === ContextButtonType.BLOCK_ABOVE
-          ? range.end_line
-          : range.start_line;
-      const distanceToTargetLine = Math.abs(targetLine - referenceLine);
-      if (distanceToTargetLine < numLines) {
-        linesToExpand = distanceToTargetLine;
-      }
-    }
-    return this._createContextButton(
-      buttonType,
-      section,
-      contextGroups,
-      numLines,
-      linesToExpand
-    );
   }
 
   /**
@@ -597,99 +392,6 @@ export abstract class GrDiffBuilder {
     row.appendChild(this._createElement('td'));
 
     return row;
-  }
-
-  _createContextButton(
-    type: ContextButtonType,
-    section: HTMLElement,
-    contextGroups: GrDiffGroup[],
-    numLines: number,
-    linesToExpand: number
-  ) {
-    const button = this._createElement('gr-button', 'showContext');
-    button.classList.add('contextControlButton');
-    button.setAttribute('link', 'true');
-    button.setAttribute('no-uppercase', 'true');
-
-    let text = '';
-    let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
-    let requiresLoad = false;
-    if (type === ContextButtonType.ALL) {
-      text = `+${pluralize(linesToExpand, 'common line')}`;
-      button.setAttribute(
-        'aria-label',
-        `Show ${pluralize(linesToExpand, 'common line')}`
-      );
-      requiresLoad = contextGroups.find(c => !!c.skip) !== undefined;
-      if (requiresLoad) {
-        // Expanding content would require load of more data
-        text += ' (too large)';
-      }
-      groups.push(...contextGroups);
-    } else if (type === ContextButtonType.ABOVE) {
-      groups = hideInContextControl(contextGroups, linesToExpand, numLines);
-      text = `+${linesToExpand}`;
-      button.classList.add('aboveButton');
-      button.setAttribute(
-        'aria-label',
-        `Show ${pluralize(linesToExpand, 'line')} above`
-      );
-    } else if (type === ContextButtonType.BELOW) {
-      groups = hideInContextControl(contextGroups, 0, numLines - linesToExpand);
-      text = `+${linesToExpand}`;
-      button.classList.add('belowButton');
-      button.setAttribute(
-        'aria-label',
-        `Show ${pluralize(linesToExpand, 'line')} below`
-      );
-    } else if (type === ContextButtonType.BLOCK_ABOVE) {
-      groups = hideInContextControl(contextGroups, linesToExpand, numLines);
-      text = '+Block';
-      button.classList.add('aboveButton');
-      button.setAttribute('aria-label', 'Show block above');
-    } else if (type === ContextButtonType.BLOCK_BELOW) {
-      groups = hideInContextControl(contextGroups, 0, numLines - linesToExpand);
-      text = '+Block';
-      button.classList.add('belowButton');
-      button.setAttribute('aria-label', 'Show block below');
-    }
-    const textSpan = this._createElement('span', 'showContext');
-    textSpan.textContent = text;
-    button.appendChild(textSpan);
-
-    if (requiresLoad) {
-      button.addEventListener('click', e => {
-        e.stopPropagation();
-        const firstRange = groups[0].lineRange;
-        const lastRange = groups[groups.length - 1].lineRange;
-        const lineRange = {
-          left: {
-            start_line: firstRange.left.start_line,
-            end_line: lastRange.left.end_line,
-          },
-          right: {
-            start_line: firstRange.right.start_line,
-            end_line: lastRange.right.end_line,
-          },
-        };
-        fire(button, 'content-load-needed', {
-          lineRange,
-        });
-      });
-    } else {
-      button.addEventListener('click', e => {
-        e.stopPropagation();
-        fire(button, 'diff-context-expanded', {
-          groups,
-          section,
-          numLines,
-          buttonType: type,
-          expandedLines: linesToExpand,
-        });
-      });
-    }
-
-    return button;
   }
 
   _createLineEl(

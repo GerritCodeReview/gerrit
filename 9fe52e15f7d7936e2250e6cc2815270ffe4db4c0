@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f53605f_c2f63cb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T21:56:45Z",
+      "side": 1,
+      "message": "The persistence of the data hasn\u0027t changed, the class was renamed but that doesn\u0027t mean the older data is incompatible.\n\nThe version number should not be bumped.",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "9fe52e15f7d7936e2250e6cc2815270ffe4db4c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

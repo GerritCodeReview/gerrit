@@ -131,6 +131,29 @@
       "message": "Shouldn\u0027t GitBasicAuthPolicy.HTTP policy be used?\n\nRight now the call returns null: \n  GitBasicAuthPolicy gitBasicAuthPolicy \u003d authConfig.getGitBasicAuthPolicy();\n\nSo that this if branch is never tested:\n\n  if (gitBasicAuthPolicy \u003d\u003d GitBasicAuthPolicy.HTTP\n        || gitBasicAuthPolicy \u003d\u003d GitBasicAuthPolicy.HTTP_LDAP) {\n      if (PasswordVerifier.checkPassword(who.externalIds(), username, password)) {\n        return succeedAuthentication(who);\n      }\n    }\n\nOr add a dedicated test for GitBasicAuthPolicy: HTTP/HTTP_LDAP?",
       "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9928df76_5a26fd4d",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-07T11:34:24Z",
+      "side": 1,
+      "message": "is the setStatus needed?",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 17
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

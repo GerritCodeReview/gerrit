@@ -458,8 +458,10 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
       (this._account && this._account._account_id) || null;
   }
 
-  @observe('params.view')
-  _viewChanged(view?: GerritView) {
+  @observe('params.*')
+  _viewChanged() {
+    const view = this.params?.view;
+    console.log(`xxx _viewChanged ${view} ${this.params?.view}`);
     this.$.errorView.classList.remove('show');
     this.set('_showChangeListView', view === GerritView.SEARCH);
     this.set('_showDashboardView', view === GerritView.DASHBOARD);
@@ -600,6 +602,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     paramsRecord: ElementPropertyDeepChange<GrAppElement, 'params'>
   ) {
     const params = paramsRecord.base;
+    console.log(`xxx _paramsChanged ${params?.view} ${this.params?.view}`);
     const viewsToCheck = [GerritView.SEARCH, GerritView.DASHBOARD];
     if (params?.view && viewsToCheck.includes(params.view)) {
       this.set('_lastSearchPage', location.pathname);

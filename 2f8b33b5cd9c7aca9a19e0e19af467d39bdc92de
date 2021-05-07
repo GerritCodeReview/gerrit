@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ebcdcaf_b57b7ab8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T09:47:16Z",
+      "side": 1,
+      "message": "Actually it isn\u0027t a pre-requisite: the Git client will keep the HTTP session across requests *ALSO* if you do not store the cookie.",
+      "parentUuid": "2476b8da_e9fb1d2b",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 29
+      },
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "727d32e4_7d41c6be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "892b55d8_965ed008",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T09:47:16Z",
+      "side": 1,
+      "message": "Yes, good point. I checked the code and it was broken since 2012, but apparently nobody realised it because we actually didn\u0027t have metrics.\n\nI saw this problem also in the past, but I did not understand that it was associated with the filter and the session management.",
+      "parentUuid": "727d32e4_7d41c6be",
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "385bdb79_176ec19a",
         "filename": "java/com/google/gerrit/httpd/CacheBasedWebSession.java",
         "patchSetId": 6
@@ -54,6 +96,30 @@
       "writtenOn": "2021-05-07T07:29:14Z",
       "side": 1,
       "message": "Why this condition was moved from outside if to else branch? Add explanation in the commit message?",
+      "range": {
+        "startLine": 81,
+        "startChar": 11,
+        "endLine": 81,
+        "endChar": 92
+      },
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e9f09c8_710491bc",
+        "filename": "java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T09:47:16Z",
+      "side": 1,
+      "message": "I\u0027ll include the reference to the offending commit that broke it.",
+      "parentUuid": "385bdb79_176ec19a",
       "range": {
         "startLine": 81,
         "startChar": 11,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2629baeb_460cb80b",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T09:47:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "294e34c5_81cbcab0",
+      "range": {
+        "startLine": 187,
+        "startChar": 58,
+        "endLine": 187,
+        "endChar": 68
+      },
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7290e2ec_782cb823",
@@ -100,6 +190,30 @@
       "writtenOn": "2021-05-07T07:29:14Z",
       "side": 1,
       "message": "Are we missing the right test here? That would only verify, that the cookie is written back to the client, isn\u0027t it?\n\nI would have expected that multiple requests are re-used with the same Cookie is and that there is no re-authentication handshake take place.",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 52
+      },
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1972ecb2_93f5c24a",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T09:47:16Z",
+      "side": 1,
+      "message": "This line is correct: the problem was that the authentication missed the login step. We can add one assertion that says that the response should contain a cookie.\n\nWe can also add one more test where a request with a Cookie doesn\u0027t re-trigger an authentication but reuses an existing session.",
+      "parentUuid": "7290e2ec_782cb823",
       "range": {
         "startLine": 147,
         "startChar": 4,

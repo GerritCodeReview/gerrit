@@ -185,7 +185,9 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     ChangeIsVisibleToPredicate changeIsVisibleToPredicate =
         changeIsVisibleToPredicateFactory.forUser(user);
     for (ChangeData cd : potentiallyVisibleChanges) {
-      if (changeIsVisibleToPredicate.match(cd)) {
+      // short circuit permission checks for non-private changes, as we already checked all
+      // permissions (except for private changes).
+      if (!cd.change().isPrivate() || changeIsVisibleToPredicate.match(cd)) {
         visibleChanges.add(cd);
       } else {
         invisibleChanges.add(cd);

@@ -16,6 +16,24 @@
       "message": "Looks good, but the test failure is related and needs to be fixed",
       "revId": "d7544055c97075d9d2a26178e8fbb19d5575c72c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f5666ad_0ceb1bdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T07:57:21Z",
+      "side": 1,
+      "message": "Fixed. Done.",
+      "parentUuid": "8aa4a673_ff2a9e5e",
+      "revId": "d7544055c97075d9d2a26178e8fbb19d5575c72c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

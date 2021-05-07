@@ -94,7 +94,7 @@ import {
   getPatchRangeForCommentUrl,
 } from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
-import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
+import {CustomKeyboardEvent, EventType, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -999,6 +999,14 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   _paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
+      return;
+    }
+
+    // Everything in the diff view is tied to the change. It seems better to
+    // force the re-creation of the diff view when the change number changes.
+    const changeChanged = this._changeNum !== value.changeNum;
+    if (this._changeNum !== undefined && changeChanged) {
+      fireEvent(this, EventType.RECREATE_DIFF_VIEW);
       return;
     }
 

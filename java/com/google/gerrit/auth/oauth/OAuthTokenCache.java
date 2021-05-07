@@ -64,7 +64,7 @@ public class OAuthTokenCache {
       @Override
       protected void configure() {
         persist(OAUTH_TOKENS, Account.Id.class, OAuthToken.class)
-            .version(1)
+            .version(2)
             .keySerializer(AccountIdSerializer.INSTANCE)
             .valueSerializer(new Serializer());
       }

@@ -458,8 +458,9 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
       (this._account && this._account._account_id) || null;
   }
 
-  @observe('params.view')
-  _viewChanged(view?: GerritView) {
+  @observe('params.*')
+  _viewChanged() {
+    const view = this.params?.view;
     this.$.errorView.classList.remove('show');
     this.set('_showChangeListView', view === GerritView.SEARCH);
     this.set('_showDashboardView', view === GerritView.DASHBOARD);

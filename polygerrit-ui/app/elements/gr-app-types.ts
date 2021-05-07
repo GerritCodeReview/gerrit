@@ -106,6 +106,16 @@ export interface AppElementDiffViewParam {
   leftSide?: boolean;
   commentLink?: boolean;
 }
+
+export interface AppElementDiffEditViewParam {
+  view: GerritView.EDIT;
+  changeNum: NumericChangeId;
+  project: RepoName;
+  path: string;
+  patchNum: RevisionPatchSetNum;
+  lineNum?: number;
+}
+
 export interface AppElementChangeViewParams {
   view: GerritView.CHANGE;
   changeNum: NumericChangeId;
@@ -138,6 +148,7 @@ export type AppElementParams =
   | AppElementSettingsParam
   | AppElementAgreementParam
   | AppElementDiffViewParam
+  | AppElementDiffEditViewParam
   | AppElementJustRegisteredParams;
 
 export function isAppElementJustRegisteredParams(

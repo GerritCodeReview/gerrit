@@ -33,6 +33,24 @@
       "message": "I am OK to submit this series on stable-3.4, making one single ad-hoc exception to the release plan rules.\n\n@DavidO (as release manager): are you with that?\n@Patrick, @Han-Wen, @Ben (as ESC members): are you with that?",
       "revId": "8e8350c6bd6ec99d56f1143c363eefcc1411ec09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2ea8812_bd933149",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-07T21:38:07Z",
+      "side": 1,
+      "message": "meanwhile we run a downport of this series to 2.16 and 3.2 in production",
+      "parentUuid": "b1855ceb_9a26c5d1",
+      "revId": "8e8350c6bd6ec99d56f1143c363eefcc1411ec09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

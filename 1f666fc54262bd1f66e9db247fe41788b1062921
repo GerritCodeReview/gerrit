@@ -39,6 +39,30 @@
       },
       "revId": "1f666fc54262bd1f66e9db247fe41788b1062921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd947fba_22d22f36",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-07T19:48:17Z",
+      "side": 1,
+      "message": "Thanks. This part of the code was only added for 2 weeks and already has been removed.",
+      "parentUuid": "3e40a3b3_39f9bbb3",
+      "range": {
+        "startLine": 94,
+        "startChar": 9,
+        "endLine": 94,
+        "endChar": 17
+      },
+      "revId": "1f666fc54262bd1f66e9db247fe41788b1062921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

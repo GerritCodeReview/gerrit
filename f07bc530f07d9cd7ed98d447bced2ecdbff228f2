@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1e90fd6_e3c8e608",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-07T10:48:49Z",
+      "side": 1,
+      "message": "do we need all these properties?\n\nWe can instead just keep one property \"currentView\" and then use the enums in the dom-if template?\nCreate a method let\u0027s say isViewEqual(currentView, GerritView)",
+      "range": {
+        "startLine": 465,
+        "startChar": 4,
+        "endLine": 468,
+        "endChar": 22
+      },
+      "revId": "f07bc530f07d9cd7ed98d447bced2ecdbff228f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

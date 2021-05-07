@@ -114,6 +114,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Timing} from '../../../constants/reporting';
+import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -158,6 +159,8 @@ export interface GrReplyDialog {
     labelScores: GrLabelScores;
     textarea: GrTextarea;
     reviewerConfirmationOverlay: GrOverlay;
+    commentList: GrThreadList;
+    pluginMessage: HTMLDivElement;
   };
 }
 

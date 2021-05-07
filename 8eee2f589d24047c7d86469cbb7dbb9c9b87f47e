@@ -16,6 +16,23 @@
       "message": "Do you know if anyone is planning to backport this to older JGit versions?",
       "revId": "8eee2f589d24047c7d86469cbb7dbb9c9b87f47e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7055d2c5_53c0da70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T23:58:40Z",
+      "side": 1,
+      "message": "Thanks @Matthias 👍\nThis change gives me one more reason to upgrade GerritHub.io to Gerrit v3.4 from day-1",
+      "revId": "8eee2f589d24047c7d86469cbb7dbb9c9b87f47e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

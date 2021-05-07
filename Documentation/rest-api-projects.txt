@@ -2621,6 +2621,11 @@ link:rest-api-changes.html#cherrypick-input[CherryPickInput] entity.
 If the commit message is not set, the commit message of the source
 commit will be used.
 
+When cherry-picking a commit into a branch that already contains the Change-Id
+that we want to cherry-pick, the cherry-pick will create a new patch-set on the
+destination's branch's appropriate Change-Id. If the change is closed on the
+destination branch, the cherry-pick will fail.
+
 .Request
 ----
   POST /projects/work%2Fmy-project/commits/a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96/cherrypick HTTP/1.0

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "641430f4_c60af0c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-07T20:37:22Z",
+      "side": 1,
+      "message": "And Luca has done the merge dance to all the other stable branches so I am set. Thank you everyone.",
+      "revId": "ff89f79e83691d6d093a57187ecda094507600be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

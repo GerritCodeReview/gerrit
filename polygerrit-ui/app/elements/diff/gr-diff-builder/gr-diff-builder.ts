@@ -498,7 +498,9 @@ export abstract class GrDiffBuilder {
     rightEnd: number,
     numLines: number
   ) {
-    if (!this._renderPrefs?.use_block_expansion) {
+    const fullContentNotAvailable =
+      contextGroups.find(c => !!c.skip) !== undefined;
+    if (!this._renderPrefs?.use_block_expansion || fullContentNotAvailable) {
       return undefined;
     }
     let aboveBlockButton;

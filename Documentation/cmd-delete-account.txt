@@ -1,0 +1,43 @@
+= gerrit delete-account
+
+== NAME
+gerrit delete-account - Delete an account.
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit delete-account_ <USERNAME>
+--
+
+== DESCRIPTION
+Deletes an account.
+
+Note, that this request does not delete all traces of the account, but
+will set the account to inactive and delete all external IDs linked to
+the account. Thereby the account becomes unusable and undiscoverable.
+However, the link:config-accounts.html#account-data-in-user-branch[user branch in All-Users.git]
+will remain.
+
+== ACCESS
+Caller must be a member of the privileged 'Administrators' group.
+
+== SCRIPTING
+This command is intended to be used in scripts.
+
+== OPTIONS
+<USERNAME>::
+	Required; username of the user account.
+
+== EXAMPLES
+Delete account 'john'.
+
+----
+$ ssh -p 29418 review.example.com gerrit delete-account john
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

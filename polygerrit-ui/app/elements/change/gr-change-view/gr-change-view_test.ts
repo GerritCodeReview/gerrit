@@ -380,7 +380,7 @@ suite('gr-change-view tests', () => {
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
     element = fixture.instantiate();
-    element._changeNum = 1 as NumericChangeId;
+    element._changeNum = TEST_NUMERIC_CHANGE_ID;
     sinon.stub(element.$.actions, 'reload').returns(Promise.resolve());
     getPluginLoader().loadPlugins([]);
     pluginApi.install(
@@ -518,7 +518,7 @@ suite('gr-change-view tests', () => {
 
   suite('plugins adding to file tab', () => {
     setup(done => {
-      element._changeNum = 1 as NumericChangeId;
+      element._changeNum = TEST_NUMERIC_CHANGE_ID;
       // Resolving it here instead of during setup() as other tests depend
       // on flush() not being called during setup.
       flush(() => done());
@@ -2530,23 +2530,6 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  test('_paramsChanged sets in projectLookup', () => {
-    flush();
-    const relatedChanges = element.shadowRoot!.querySelector(
-      '#relatedChanges'
-    ) as GrRelatedChangesList;
-    sinon.stub(relatedChanges, 'reload');
-    sinon.stub(element, 'loadData').returns(Promise.resolve([]));
-    const setStub = stubRestApi('setInProjectLookup');
-    element._paramsChanged({
-      view: GerritNav.View.CHANGE,
-      changeNum: 101 as NumericChangeId,
-      project: TEST_PROJECT_NAME,
-    });
-    assert.isTrue(setStub.calledOnce);
-    assert.isTrue(setStub.calledWith(101 as never, TEST_PROJECT_NAME as never));
-  });
-
   test('_handleToggleStar called when star is tapped', () => {
     element._change = {
       ...createChangeViewChange(),
@@ -2605,7 +2588,7 @@ suite('gr-change-view tests', () => {
       );
       element._paramsChanged({
         ...createAppElementChangeViewParams(),
-        changeNum: 101 as NumericChangeId,
+        changeNum: TEST_NUMERIC_CHANGE_ID,
         project: TEST_PROJECT_NAME,
       });
       flush(() => {

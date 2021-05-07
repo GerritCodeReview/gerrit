@@ -40,45 +40,25 @@ import './settings/gr-settings-view/gr-settings-view';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-app-element_html';
 import {getBaseUrl} from '../utils/url-util';
-import {
-  KeyboardShortcutMixin,
-  Shortcut,
-  SPECIAL_SHORTCUT,
-} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {KeyboardShortcutMixin, Shortcut, SPECIAL_SHORTCUT,} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GerritNav} from './core/gr-navigation/gr-navigation';
 import {appContext} from '../services/app-context';
 import {flush} from '@polymer/polymer/lib/utils/flush';
 import {customElement, observe, property} from '@polymer/decorators';
 import {GrRouter} from './core/gr-router/gr-router';
-import {
-  AccountDetailInfo,
-  ElementPropertyDeepChange,
-  ServerInfo,
-} from '../types/common';
+import {AccountDetailInfo, ElementPropertyDeepChange, ServerInfo,} from '../types/common';
 import {GrErrorManager} from './core/gr-error-manager/gr-error-manager';
 import {GrOverlay} from './shared/gr-overlay/gr-overlay';
 import {GrRegistrationDialog} from './settings/gr-registration-dialog/gr-registration-dialog';
-import {
-  AppElementJustRegisteredParams,
-  AppElementParams,
-  isAppElementJustRegisteredParams,
-} from './gr-app-types';
+import {AppElementJustRegisteredParams, AppElementParams, isAppElementJustRegisteredParams,} from './gr-app-types';
 import {GrMainHeader} from './core/gr-main-header/gr-main-header';
 import {GrSettingsView} from './settings/gr-settings-view/gr-settings-view';
-import {
-  CustomKeyboardEvent,
-  LocationChangeEvent,
-  PageErrorEventDetail,
-  RpcLogEvent,
-  ShortcutTriggeredEvent,
-  TitleChangeEventDetail,
-  DialogChangeEventDetail,
-  EventType,
-} from '../types/events';
+import {CustomKeyboardEvent, DialogChangeEventDetail, EventType, LocationChangeEvent, PageErrorEventDetail, RpcLogEvent, ShortcutTriggeredEvent, TitleChangeEventDetail,} from '../types/events';
 import {ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
+import {assertIsDefined} from '../utils/common-util';
 
 interface ErrorInfo {
   text: string;
@@ -94,6 +74,10 @@ export interface GrAppElement {
     mainHeader: GrMainHeader;
   };
 }
+
+type DomIf = PolymerElement & {
+  restamp: boolean;
+};
 
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
@@ -234,6 +218,12 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     });
     this.addEventListener('location-change', e =>
       this._handleLocationChange(e)
+    );
+    this.addEventListener(EventType.RECREATE_CHANGE_VIEW, () =>
+      this.handleRecreateView(GerritView.CHANGE)
+    );
+    this.addEventListener(EventType.RECREATE_DIFF_VIEW, () =>
+      this.handleRecreateView(GerritView.DIFF)
     );
     document.addEventListener('gr-rpc-log', e => this._handleRpcLog(e));
     this.addEventListener('shortcut-triggered', e =>
@@ -456,6 +446,33 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     this.restApiService.getEditPreferences();
     this.$.errorManager.knownAccountId =
       (this._account && this._account._account_id) || null;
+  }
+
+  /**
+   * Throws away the view and re-creates it. The view itself fires an event, if
+   * it wants to be re-created.
+   */
+  private handleRecreateView(view: GerritView.DIFF | GerritView.CHANGE) {
+    const isDiff = view === GerritView.DIFF;
+    const domId = isDiff ? '#dom-if-diff-view' : '#dom-if-change-view';
+    const domIf = this.root!.querySelector(domId) as DomIf;
+    assertIsDefined(domIf, '<dom-if> for the view');
+    // The rendering of DomIf is debounced, so just changing _show...View and
+    // restamp properties back and forth won't work. That is why we are using
+    // timeouts.
+    // The first timeout is needed, because the _viewChanged() observer also
+    // affects _show...View and would change _show...View=false directly back to
+    // _show...View=true.
+    setTimeout(() => {
+      this._showChangeView = false;
+      this._showDiffView = false;
+      domIf.restamp = true;
+      setTimeout(() => {
+        this._showChangeView = this.params?.view === GerritView.CHANGE;
+        this._showDiffView = this.params?.view === GerritView.DIFF;
+        domIf.restamp = false;
+      }, 1);
+    }, 1);
   }
 
   @observe('params.*')

@@ -634,7 +634,9 @@ set to `${sAMAccountName.toLowerCase}`). It is important that for all
 existing accounts this username is already in lower case. It is not
 possible to convert the usernames of the existing accounts to lower
 case because this would break the access to existing per-user
-branches and Gerrit provides no tool to do such a conversion.
+branches and Gerrit provides no tool to do such a conversion. Accounts
+created using the REST API or the `create-account` SSH command will
+be created with all lowercase characters, when this option is set.
 +
 Setting this parameter to `true` will prevent all users from login that
 have a non-lower-case username.

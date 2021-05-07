@@ -33,6 +33,29 @@
       "message": "I am btw refactoring this whole thing to a polymer component (at https://gerrit-review.googlesource.com/c/gerrit/+/305566). This change is supposed to be a quick-fix for partial diffs.",
       "revId": "8ad528054f448bb2fa9d042adf80038cc20b4fcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e76f2c89_c8f121f7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-07T09:30:04Z",
+      "side": 1,
+      "message": "some?",
+      "range": {
+        "startLine": 502,
+        "startChar": 20,
+        "endLine": 502,
+        "endChar": 24
+      },
+      "revId": "8ad528054f448bb2fa9d042adf80038cc20b4fcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

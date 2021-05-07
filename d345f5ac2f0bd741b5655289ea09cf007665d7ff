@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "931bf4b8_67b9e4da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T07:17:25Z",
+      "side": 1,
+      "message": "Can you mention here, that this change is only fixing re-authentication handshakes for the same request. While for cross-requests re-authentication handshakes is still broken and will be fixed in a follow-up change?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "d345f5ac2f0bd741b5655289ea09cf007665d7ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

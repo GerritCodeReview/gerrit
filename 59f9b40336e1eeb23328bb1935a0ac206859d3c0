@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40e1c6b7_baa2b64b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-07T15:14:27Z",
+      "side": 1,
+      "message": "Hi Ben, this is the refactoring I mentioned before. Could you take a look?",
+      "revId": "59f9b40336e1eeb23328bb1935a0ac206859d3c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

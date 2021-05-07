@@ -5840,6 +5840,12 @@ The commit message and destination branch must be provided in the request body i
 link:#cherrypick-input[CherryPickInput] entity.  If the commit message
 does not specify a Change-Id, a new one is picked for the destination change.
 
+When cherry-picking a change into a branch that already contains the Change-Id
+that we want to cherry-pick, the cherry-pick will create a new patch-set on the
+destination's branch's appropriate Change-Id. If the change is closed on the
+destination branch, the cherry-pick will fail.
+
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/cherrypick HTTP/1.0

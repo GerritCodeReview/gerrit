@@ -22,7 +22,6 @@ import {GrReviewerList} from './gr-reviewer-list';
 import {
   createAccountDetailWithId,
   createChange,
-  createServerInfo,
 } from '../../../test/test-data-generators';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -36,7 +35,6 @@ suite('gr-reviewer-list tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    element.serverConfig = createServerInfo();
 
     stubRestApi('removeChangeReviewer').returns(
       Promise.resolve({...new Response(), ok: true})

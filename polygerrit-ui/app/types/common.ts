@@ -810,7 +810,6 @@ export interface ChangeConfigInfo {
   submit_whole_topic?: boolean;
   disable_private_changes?: boolean;
   mergeability_computation_behavior: MergeabilityComputationBehavior;
-  enable_attention_set: boolean;
   enable_assignee: boolean;
 }
 

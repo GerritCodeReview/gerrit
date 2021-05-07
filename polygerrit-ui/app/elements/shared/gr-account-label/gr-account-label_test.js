@@ -23,12 +23,14 @@ const basicFixture = fixtureFromElement('gr-account-label');
 
 suite('gr-account-label tests', () => {
   let element;
+  const kermit = createAccount('kermit', 31);
 
   function createAccount(name, id) {
     return {name, _account_id: id};
   }
 
   setup(() => {
+    stubRestApi('getAccount').callsFake(() => Promise.resolve(kermit));
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
     element._config = {
@@ -81,10 +83,8 @@ suite('gr-account-label tests', () => {
 
   suite('attention set', () => {
     setup(async () => {
-      const kermit = createAccount('kermit', 31);
       element.highlightAttention = true;
       element._config = {
-        change: {enable_attention_set: true},
         user: {anonymous_coward_name: 'Anonymous Coward'},
       };
       element._selfAccount = kermit;
@@ -98,15 +98,18 @@ suite('gr-account-label tests', () => {
     });
 
     test('show attention button', () => {
-      assert.ok(element.shadowRoot.querySelector('#attentionButton'));
+      const button = element.shadowRoot.querySelector('#attentionButton');
+      assert.ok(button);
+      assert.isNull(button.getAttribute('disabled'));
     });
 
-    test('tap attention button', () => {
+    test('tap attention button', async () => {
       const apiStub = stubRestApi(
           'removeFromAttentionSet')
           .callsFake(() => Promise.resolve());
       const button = element.shadowRoot.querySelector('#attentionButton');
       assert.ok(button);
+      assert.isNull(button.getAttribute('disabled'));
       MockInteractions.tap(button);
       assert.isTrue(apiStub.calledOnce);
       assert.equal(apiStub.lastCall.args[1], 42);

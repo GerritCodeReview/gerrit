@@ -196,74 +196,6 @@ suite('gr-change-list basic tests', () => {
     });
   });
 
-  test('changes needing review', () => {
-    element.changes = [
-      {
-        _number: 0,
-        status: 'NEW',
-        reviewed: true,
-        owner: {_account_id: 0},
-      },
-      {
-        _number: 1,
-        status: 'NEW',
-        owner: {_account_id: 0},
-      },
-      {
-        _number: 2,
-        status: 'MERGED',
-        owner: {_account_id: 0},
-      },
-      {
-        _number: 3,
-        status: 'ABANDONED',
-        owner: {_account_id: 0},
-      },
-      {
-        _number: 4,
-        status: 'NEW',
-        work_in_progress: true,
-        owner: {_account_id: 0},
-      },
-    ];
-    flush();
-    let elementItems = element.root.querySelectorAll(
-        'gr-change-list-item');
-    assert.equal(elementItems.length, 5);
-    for (let i = 0; i < elementItems.length; i++) {
-      assert.isFalse(elementItems[i].hasAttribute('needs-review'));
-    }
-
-    element.showReviewedState = true;
-    elementItems = element.root.querySelectorAll(
-        'gr-change-list-item');
-    assert.equal(elementItems.length, 5);
-    assert.isFalse(elementItems[0].hasAttribute('needs-review'));
-    assert.isTrue(elementItems[1].hasAttribute('needs-review'));
-    assert.isFalse(elementItems[2].hasAttribute('needs-review'));
-    assert.isFalse(elementItems[3].hasAttribute('needs-review'));
-    assert.isFalse(elementItems[4].hasAttribute('needs-review'));
-
-    element.account = {_account_id: 42};
-    elementItems = element.root.querySelectorAll(
-        'gr-change-list-item');
-    assert.equal(elementItems.length, 5);
-    assert.isFalse(elementItems[0].hasAttribute('needs-review'));
-    assert.isTrue(elementItems[1].hasAttribute('needs-review'));
-    assert.isFalse(elementItems[2].hasAttribute('needs-review'));
-    assert.isFalse(elementItems[3].hasAttribute('needs-review'));
-    assert.isFalse(elementItems[4].hasAttribute('needs-review'));
-
-    element._config = {
-      change: {enable_attention_set: true},
-    };
-    elementItems = element.root.querySelectorAll(
-        'gr-change-list-item');
-    for (let i = 0; i < elementItems.length; i++) {
-      assert.isFalse(elementItems[i].hasAttribute('needs-review'));
-    }
-  });
-
   test('no changes', () => {
     element.changes = [];
     flush();
@@ -569,37 +501,6 @@ suite('gr-change-list basic tests', () => {
             'Should mark change as unreviewed');
         done();
       });
-    });
-
-    test('highlight attribute is updated correctly', () => {
-      element.changes = [
-        {
-          _number: 0,
-          status: 'NEW',
-          owner: {_account_id: 0},
-        },
-        {
-          _number: 1,
-          status: 'ABANDONED',
-          owner: {_account_id: 0},
-        },
-      ];
-      element.account = {_account_id: 42};
-      flush();
-      let items = element._getListItems();
-      assert.equal(items.length, 2);
-      assert.isFalse(items[0].hasAttribute('highlight'));
-      assert.isFalse(items[1].hasAttribute('highlight'));
-
-      // Assign all issues to the user, but only the first one is highlighted
-      // because the second one is abandoned.
-      element.set(['changes', 0, 'assignee'], {_account_id: 12});
-      element.set(['changes', 1, 'assignee'], {_account_id: 12});
-      element.account = {_account_id: 12};
-      flush();
-      items = element._getListItems();
-      assert.isTrue(items[0].hasAttribute('highlight'));
-      assert.isFalse(items[1].hasAttribute('highlight'));
     });
 
     test('_computeItemHighlight gives false for null account', () => {

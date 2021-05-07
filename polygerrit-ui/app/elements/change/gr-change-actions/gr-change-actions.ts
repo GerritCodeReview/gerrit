@@ -269,7 +269,9 @@ const EDIT_ACTIONS: Set<string> = new Set([
 const AWAIT_CHANGE_ATTEMPTS = 5;
 const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
-const SKIP_ACTION_KEYS_ATTENTION_SET: string[] = [
+// TODO: Remove these once we are sure that the backend does not support/send
+// them anymore.
+const SKIP_ACTION_KEYS: string[] = [
   ChangeActions.REVIEWED,
   ChangeActions.UNREVIEWED,
 ];
@@ -451,7 +453,7 @@ export class GrChangeActions
     computed:
       '_computeAllActions(actions.*, revisionActions.*,' +
       'primaryActionKeys.*, _additionalActions.*, change, ' +
-      '_config, _actionPriorityOverrides.*)',
+      '_actionPriorityOverrides.*)',
   })
   _allActionValues: UIActionInfo[] = []; // _computeAllActions always returns an array
 
@@ -1858,8 +1860,7 @@ export class GrChangeActions
       UIActionInfo[],
       UIActionInfo[]
     >,
-    change?: ChangeInfo,
-    config?: ServerInfo
+    change?: ChangeInfo
   ): UIActionInfo[] {
     // Polymer 2: check for undefined
     if (
@@ -1906,7 +1907,7 @@ export class GrChangeActions
         // End of hack
         return action;
       })
-      .filter(action => !this._shouldSkipAction(action, config));
+      .filter(action => !this._shouldSkipAction(action));
   }
 
   _getActionPriority(action: UIActionInfo) {
@@ -1945,13 +1946,8 @@ export class GrChangeActions
     }
   }
 
-  _shouldSkipAction(action: UIActionInfo, config?: ServerInfo) {
-    const isAttentionSetEnabled =
-      !!config && !!config.change && config.change.enable_attention_set;
-    return (
-      isAttentionSetEnabled &&
-      SKIP_ACTION_KEYS_ATTENTION_SET.includes(action.__key)
-    );
+  _shouldSkipAction(action: UIActionInfo) {
+    return SKIP_ACTION_KEYS.includes(action.__key);
   }
 
   _computeTopLevelActions(

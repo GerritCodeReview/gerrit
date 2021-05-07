@@ -37,9 +37,6 @@ suite('gr-hovercard-account tests', () => {
 
   setup(async () => {
     stubRestApi('getAccount').returns(Promise.resolve({...ACCOUNT}));
-    stubRestApi('getConfig').returns(
-        Promise.resolve({change: {enable_attention_set: true}})
-    );
     element = basicFixture.instantiate();
     element.account = {...ACCOUNT};
     element.change = {

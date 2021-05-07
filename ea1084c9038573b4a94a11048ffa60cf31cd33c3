@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96101839_916d1503",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T13:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f09861c_2c05a780",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0eedead_9d29117f",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-07T11:26:18Z",
       "side": 1,
       "message": "Not really used, see below.",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afab5a55_eeb82dfa",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T13:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0eedead_9d29117f",
       "range": {
         "startLine": 74,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41c33adc_3d2eb723",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T13:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86042580_4698db69",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 32
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d350b8d4_2a3b1461",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-05-07T11:26:18Z",
       "side": 1,
       "message": "For now this method is a no op and could be removed, here and in all other tests.",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 33
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa237214_5a3e29b4",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T13:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d350b8d4_2a3b1461",
       "range": {
         "startLine": 98,
         "startChar": 4,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "475c6e68_d64ba215",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T13:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9c67334_85015d87",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4273e3b0_771548f6",
@@ -133,6 +253,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8fb902a_2079ccb6",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T13:26:37Z",
+      "side": 1,
+      "message": "The authentication against realm is the LDAP case, not HTTP.\nBut yes, I need to use LDAP here.\n\nIt was passing just because of luck.",
+      "parentUuid": "4273e3b0_771548f6",
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9928df76_5a26fd4d",
@@ -146,6 +284,30 @@
       "writtenOn": "2021-05-07T11:34:24Z",
       "side": 1,
       "message": "is the setStatus needed?",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 17
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17431fa9_b48626cc",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T13:26:37Z",
+      "side": 1,
+      "message": "You are right it isn\u0027t necessarily needed here. Removing it now.",
+      "parentUuid": "9928df76_5a26fd4d",
       "range": {
         "startLine": 157,
         "startChar": 8,

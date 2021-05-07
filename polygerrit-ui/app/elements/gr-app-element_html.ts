@@ -131,7 +131,9 @@ export const htmlTemplate = html`
         view-state="{{_viewState.dashboardView}}"
       ></gr-dashboard-view>
     </template>
-    <template is="dom-if" if="[[_showChangeView]]" restamp="true">
+    <!-- Note that the change view does not have restamp="true" set, because we
+         want to re-use it as long as the change number does not change. -->
+    <template id="dom-if-change-view" is="dom-if" if="[[_showChangeView]]">
       <gr-change-view
         params="[[params]]"
         view-state="{{_viewState.changeView}}"
@@ -141,7 +143,9 @@ export const htmlTemplate = html`
     <template is="dom-if" if="[[_showEditorView]]" restamp="true">
       <gr-editor-view params="[[params]]"></gr-editor-view>
     </template>
-    <template is="dom-if" if="[[_showDiffView]]" restamp="true">
+    <!-- Note that the diff view does not have restamp="true" set, because we
+         want to re-use it as long as the change number does not change. -->
+    <template id="dom-if-diff-view" is="dom-if" if="[[_showDiffView]]">
       <gr-diff-view
         params="[[params]]"
         change-view-state="{{_viewState.changeView}}"

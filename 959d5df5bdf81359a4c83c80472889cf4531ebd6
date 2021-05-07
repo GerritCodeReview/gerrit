@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff42eff5_4585d9ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-07T15:51:27Z",
+      "side": 1,
+      "message": "Thanks!  Since this change would benefit other stable releases, I am unsure how to proceed next.\n\nShould I use the \"Move change\" feature to move it to the stable-3.1 branch, then what would be the parent commit? Intuitively I would expect the change to then be attached to the head of stable-3.1.\n\nAnd how would I get it included in the other stable branches and master? Are there routine merges from old stable branches to the newer ones up to master? :]\n\n",
+      "revId": "959d5df5bdf81359a4c83c80472889cf4531ebd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

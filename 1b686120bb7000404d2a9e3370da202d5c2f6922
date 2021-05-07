@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b25dbcaf_5acaf34a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-07T10:39:19Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "cbcec05e_e907d1b5",
+      "revId": "1b686120bb7000404d2a9e3370da202d5c2f6922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ed15205_f3fc8e1a",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce066ef_d08da7ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-07T10:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ed15205_f3fc8e1a",
+      "range": {
+        "startLine": 610,
+        "startChar": 4,
+        "endLine": 644,
+        "endChar": 6
+      },
+      "revId": "1b686120bb7000404d2a9e3370da202d5c2f6922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64a6f15e_f5f91c15",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-05-07T09:41:18Z",
       "side": 1,
       "message": "Where is this return value used?",
+      "revId": "1b686120bb7000404d2a9e3370da202d5c2f6922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65214c4a_e8bbe62b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-07T10:39:19Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "64a6f15e_f5f91c15",
       "revId": "1b686120bb7000404d2a9e3370da202d5c2f6922",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

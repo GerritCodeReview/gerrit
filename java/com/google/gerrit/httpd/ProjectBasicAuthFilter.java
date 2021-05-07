@@ -99,7 +99,7 @@ class ProjectBasicAuthFilter implements Filter {
     HttpServletRequest req = (HttpServletRequest) request;
     Response rsp = new Response((HttpServletResponse) response);
 
-    if (verify(req, rsp)) {
+    if (session.get().isSignedIn() || verify(req, rsp)) {
       chain.doFilter(req, rsp);
     }
   }

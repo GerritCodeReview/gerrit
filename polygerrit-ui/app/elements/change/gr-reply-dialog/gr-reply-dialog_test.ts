@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma';
-import {IronOverlayManager} from '@polymer/iron-overlay-behavior/iron-overlay-manager';
-import './gr-reply-dialog';
-import {mockPromise, stubStorage} from '../../../test/test-utils';
-import {ReviewerState, SpecialFilePath} from '../../../constants/constants';
-import {appContext} from '../../../services/app-context';
-import {addListenerForTest} from '../../../test/test-utils';
-import {stubRestApi} from '../../../test/test-utils';
-import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {CODE_REVIEW} from '../../../utils/label-util';
-import {createAccountWithId} from '../../../test/test-data-generators';
+import '../../../test/common-test-setup-karma.js';
+import {IronOverlayManager} from '@polymer/iron-overlay-behavior/iron-overlay-manager.js';
+import './gr-reply-dialog.js';
+import {mockPromise, stubStorage} from '../../../test/test-utils.js';
+import {ReviewerState, SpecialFilePath} from '../../../constants/constants.js';
+import {appContext} from '../../../services/app-context.js';
+import {addListenerForTest} from '../../../test/test-utils.js';
+import {stubRestApi} from '../../../test/test-utils.js';
+import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
+import {CODE_REVIEW} from '../../../utils/label-util.js';
+import {createAccountWithId} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -58,8 +58,12 @@ suite('gr-reply-dialog tests', () => {
   let eraseDraftCommentStub;
 
   let lastId = 1;
-  const makeAccount = function() { return {_account_id: lastId++}; };
-  const makeGroup = function() { return {id: lastId++}; };
+  const makeAccount = function () {
+    return {_account_id: lastId++};
+  };
+  const makeGroup = function () {
+    return {id: lastId++};
+  };
 
   setup(() => {
     changeNum = 42;
@@ -79,7 +83,7 @@ suite('gr-reply-dialog tests', () => {
         display_name: 'Kermit',
       },
       labels: {
-        'Verified': {
+        Verified: {
           values: {
             '-1': 'Fails',
             ' 0': 'No score',
@@ -90,7 +94,7 @@ suite('gr-reply-dialog tests', () => {
         'Code-Review': {
           values: {
             '-2': 'Do not submit',
-            '-1': 'I would prefer that you didn\'t submit this',
+            '-1': "I would prefer that you didn't submit this",
             ' 0': 'No score',
             '+1': 'Looks good to me, but someone else must approve',
             '+2': 'Looks good to me, approved',
@@ -101,16 +105,8 @@ suite('gr-reply-dialog tests', () => {
     };
     element.patchNum = patchNum;
     element.permittedLabels = {
-      'Code-Review': [
-        '-1',
-        ' 0',
-        '+1',
-      ],
-      'Verified': [
-        '-1',
-        ' 0',
-        '+1',
-      ],
+      'Code-Review': ['-1', ' 0', '+1'],
+      Verified: ['-1', ' 0', '+1'],
     };
 
     getDraftCommentStub = stubStorage('getDraftComment');
@@ -125,10 +121,9 @@ suite('gr-reply-dialog tests', () => {
   });
 
   function stubSaveReview(jsonResponseProducer) {
-    return sinon.stub(
-        element,
-        '_saveReview')
-        .callsFake(review => new Promise((resolve, reject) => {
+    return sinon.stub(element, '_saveReview').callsFake(
+      review =>
+        new Promise((resolve, reject) => {
           try {
             const result = jsonResponseProducer(review) || {};
             const resultStr = JSON_PREFIX + JSON.stringify(result);
@@ -141,13 +136,18 @@ suite('gr-reply-dialog tests', () => {
           } catch (err) {
             reject(err);
           }
-        }));
+        })
+    );
   }
 
   function interceptSaveReview() {
     let resolver;
-    const promise = new Promise(resolve => { resolver = resolve; });
-    stubSaveReview(review => { resolver(review); });
+    const promise = new Promise(resolve => {
+      resolver = resolve;
+    });
+    stubSaveReview(review => {
+      resolver(review);
+    });
     return promise;
   }
 
@@ -168,13 +168,15 @@ suite('gr-reply-dialog tests', () => {
       drafts: 'PUBLISH_ALL_REVISIONS',
       labels: {
         'Code-Review': 0,
-        'Verified': 0,
+        Verified: 0,
       },
       comments: {
-        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-          message: 'I wholeheartedly disapprove',
-          unresolved: false,
-        }],
+        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [
+          {
+            message: 'I wholeheartedly disapprove',
+            unresolved: false,
+          },
+        ],
       },
       reviewers: [],
       add_to_attention_set: [],
@@ -192,38 +194,51 @@ suite('gr-reply-dialog tests', () => {
 
     stubSaveReview(review => {
       assert.isTrue(review.ignore_automatic_attention_set_rules);
-      assert.deepEqual(review.add_to_attention_set, [{
-        user: 314,
-        reason: 'Anonymous replied on the change',
-      }]);
+      assert.deepEqual(review.add_to_attention_set, [
+        {
+          user: 314,
+          reason: 'Anonymous replied on the change',
+        },
+      ]);
       assert.deepEqual(review.remove_from_attention_set, []);
       done();
     });
     MockInteractions.tap(element.shadowRoot.querySelector('.send'));
   });
 
-  function checkComputeAttention(status, userId, reviewerIds, ownerId,
-      attSetIds, replyToIds, expectedIds, uploaderId, hasDraft,
-      includeComments = true) {
+  function checkComputeAttention(
+    status,
+    userId,
+    reviewerIds,
+    ownerId,
+    attSetIds,
+    replyToIds,
+    expectedIds,
+    uploaderId,
+    hasDraft,
+    includeComments = true
+  ) {
     const user = {_account_id: userId};
-    const reviewers = {base: reviewerIds.map(id => {
-      return {_account_id: id};
-    })};
-    const draftThreads = [
-      {comments: []},
-    ];
+    const reviewers = {
+      base: reviewerIds.map(id => {
+        return {_account_id: id};
+      }),
+    };
+    const draftThreads = [{comments: []}];
     if (hasDraft) {
       draftThreads[0].comments.push({__draft: true, unresolved: true});
     }
-    replyToIds.forEach(id => draftThreads[0].comments.push({
-      author: {_account_id: id},
-    }));
+    replyToIds.forEach(id =>
+      draftThreads[0].comments.push({
+        author: {_account_id: id},
+      })
+    );
     const change = {
       owner: {_account_id: ownerId},
       status,
       attention_set: {},
     };
-    attSetIds.forEach(id => change.attention_set[id] = {});
+    attSetIds.forEach(id => (change.attention_set[id] = {}));
     if (uploaderId) {
       change.current_revision = 1;
       change.revisions = [{}, {uploader: {_account_id: uploaderId}}];
@@ -234,8 +249,15 @@ suite('gr-reply-dialog tests', () => {
     flush();
     const hasDrafts = draftThreads.length > 0;
     element._computeNewAttention(
-        user, reviewers, [], change, draftThreads, includeComments, undefined,
-        hasDrafts);
+      user,
+      reviewers,
+      [],
+      change,
+      draftThreads,
+      includeComments,
+      undefined,
+      hasDrafts
+    );
     assert.sameMembers([...element._newAttentionSet], expectedIds);
   }
 
@@ -268,7 +290,17 @@ suite('gr-reply-dialog tests', () => {
     checkComputeAttention('MERGED', 1, [], 999, [], [], []);
     checkComputeAttention('MERGED', 1, [], 999, [], [], [999], undefined, true);
     checkComputeAttention(
-        'MERGED', 1, [], 999, [], [], [], undefined, true, false);
+      'MERGED',
+      1,
+      [],
+      999,
+      [],
+      [],
+      [],
+      undefined,
+      true,
+      false
+    );
     checkComputeAttention('MERGED', 1, [], 999, [1], [], []);
     checkComputeAttention('MERGED', 1, [22], 999, [], [], []);
     checkComputeAttention('MERGED', 1, [22], 999, [22], [], [22]);
@@ -288,10 +320,12 @@ suite('gr-reply-dialog tests', () => {
 
   test('computeNewAttention when adding reviewers', () => {
     const user = {_account_id: 1};
-    const reviewers = {base: [
-      {_account_id: 1, _pendingAdd: true},
-      {_account_id: 2, _pendingAdd: true},
-    ]};
+    const reviewers = {
+      base: [
+        {_account_id: 1, _pendingAdd: true},
+        {_account_id: 2, _pendingAdd: true},
+      ],
+    };
     const change = {
       owner: {_account_id: 5},
       status: 'NEW',
@@ -309,15 +343,19 @@ suite('gr-reply-dialog tests', () => {
     // But voting should also add the owner (5).
     const labelsChanged = true;
     element._computeNewAttention(
-        user, reviewers, [], change, [], true, labelsChanged);
+      user,
+      reviewers,
+      [],
+      change,
+      [],
+      true,
+      labelsChanged
+    );
     assert.sameMembers([...element._newAttentionSet], [2, 5]);
   });
 
   test('computeNewAttention when sending wip change for review', () => {
-    const reviewers = {base: [
-      {_account_id: 2},
-      {_account_id: 3},
-    ]};
+    const reviewers = {base: [{_account_id: 2}, {_account_id: 3}]};
     const change = {
       owner: {_account_id: 1},
       status: 'NEW',
@@ -351,13 +389,15 @@ suite('gr-reply-dialog tests', () => {
       {_account_id: 123, display_name: 'Ernie'},
       {_account_id: 321, display_name: 'Bert'},
     ];
-    element._ccs = [
-      {_account_id: 7, display_name: 'Elmo'},
-    ];
+    element._ccs = [{_account_id: 7, display_name: 'Elmo'}];
     const compute = (currentAtt, newAtt) =>
-      element._computeNewAttentionAccounts(
-          undefined, new Set(currentAtt), new Set(newAtt))
-          .map(a => a._account_id);
+      element
+        ._computeNewAttentionAccounts(
+          undefined,
+          new Set(currentAtt),
+          new Set(newAtt)
+        )
+        .map(a => a._account_id);
 
     assert.sameMembers(compute([], []), []);
     assert.sameMembers(compute([], [999]), [999]);
@@ -408,7 +448,8 @@ suite('gr-reply-dialog tests', () => {
 
   test('toggle resolved checkbox', async () => {
     const checkboxEl = element.shadowRoot.querySelector(
-        '#resolvedPatchsetLevelCommentCheckbox');
+      '#resolvedPatchsetLevelCommentCheckbox'
+    );
     MockInteractions.tap(checkboxEl);
 
     // Async tick is needed because iron-selector content is distributed and
@@ -427,13 +468,15 @@ suite('gr-reply-dialog tests', () => {
       drafts: 'PUBLISH_ALL_REVISIONS',
       labels: {
         'Code-Review': 0,
-        'Verified': 0,
+        Verified: 0,
       },
       comments: {
-        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-          message: 'I wholeheartedly disapprove',
-          unresolved: true,
-        }],
+        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [
+          {
+            message: 'I wholeheartedly disapprove',
+            unresolved: true,
+          },
+        ],
       },
       reviewers: [],
       add_to_attention_set: [],
@@ -446,10 +489,10 @@ suite('gr-reply-dialog tests', () => {
     element.draft = 'I wholeheartedly disapprove';
     const saveReviewPromise = interceptSaveReview();
 
-    sinon.stub(element.$.labelScores, 'getLabelValues').callsFake( () => {
+    sinon.stub(element.$.labelScores, 'getLabelValues').callsFake(() => {
       return {
         'Code-Review': -1,
-        'Verified': -1,
+        Verified: -1,
       };
     });
 
@@ -461,20 +504,24 @@ suite('gr-reply-dialog tests', () => {
 
     const review = await saveReviewPromise;
     await flush();
-    assert.isFalse(element.disabled,
-        'Element should be enabled when done sending reply.');
+    assert.isFalse(
+      element.disabled,
+      'Element should be enabled when done sending reply.'
+    );
     assert.equal(element.draft.length, 0);
     assert.deepEqual(review, {
       drafts: 'PUBLISH_ALL_REVISIONS',
       labels: {
         'Code-Review': -1,
-        'Verified': -1,
+        Verified: -1,
       },
       comments: {
-        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-          message: 'I wholeheartedly disapprove',
-          unresolved: false,
-        }],
+        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [
+          {
+            message: 'I wholeheartedly disapprove',
+            unresolved: false,
+          },
+        ],
       },
       reviewers: [],
       add_to_attention_set: [],
@@ -504,13 +551,15 @@ suite('gr-reply-dialog tests', () => {
       drafts: 'KEEP',
       labels: {
         'Code-Review': 0,
-        'Verified': 0,
+        Verified: 0,
       },
       comments: {
-        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-          message: 'I wholeheartedly disapprove',
-          unresolved: false,
-        }],
+        [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [
+          {
+            message: 'I wholeheartedly disapprove',
+            unresolved: false,
+          },
+        ],
       },
       reviewers: [],
       add_to_attention_set: [],
@@ -522,10 +571,9 @@ suite('gr-reply-dialog tests', () => {
   test('getlabelValue returns value', done => {
     flush(() => {
       element.shadowRoot
-          .querySelector('gr-label-scores')
-          .shadowRoot
-          .querySelector(`gr-label-score-row[name="Verified"]`)
-          .setSelectedValue(-1);
+        .querySelector('gr-label-scores')
+        .shadowRoot.querySelector('gr-label-score-row[name="Verified"]')
+        .setSelectedValue(-1);
       assert.equal('-1', element.getLabelValue('Verified'));
       done();
     });
@@ -534,10 +582,9 @@ suite('gr-reply-dialog tests', () => {
   test('getlabelValue when no score is selected', done => {
     flush(() => {
       element.shadowRoot
-          .querySelector('gr-label-scores')
-          .shadowRoot
-          .querySelector(`gr-label-score-row[name="Code-Review"]`)
-          .setSelectedValue(-1);
+        .querySelector('gr-label-scores')
+        .shadowRoot.querySelector('gr-label-score-row[name="Code-Review"]')
+        .setSelectedValue(-1);
       assert.strictEqual(element.getLabelValue('Verified'), ' 0');
       done();
     });
@@ -553,7 +600,7 @@ suite('gr-reply-dialog tests', () => {
       const labels = element.$.labelScores.getLabelValues();
       assert.deepEqual(labels, {
         'Code-Review': 0,
-        'Verified': 1,
+        Verified: 1,
       });
       done();
     });
@@ -599,12 +646,12 @@ suite('gr-reply-dialog tests', () => {
   }
 
   async function testConfirmationDialog(cc) {
-    const yesButton = element
-        .shadowRoot
-        .querySelector('.reviewerConfirmationButtons gr-button:first-child');
-    const noButton = element
-        .shadowRoot
-        .querySelector('.reviewerConfirmationButtons gr-button:last-child');
+    const yesButton = element.shadowRoot.querySelector(
+      '.reviewerConfirmationButtons gr-button:first-child'
+    );
+    const noButton = element.shadowRoot.querySelector(
+      '.reviewerConfirmationButtons gr-button:last-child'
+    );
 
     element._ccPendingConfirmation = null;
     element._reviewerPendingConfirmation = null;
@@ -632,12 +679,14 @@ suite('gr-reply-dialog tests', () => {
 
     if (cc) {
       assert.deepEqual(
-          element._ccPendingConfirmation,
-          element._pendingConfirmationDetails);
+        element._ccPendingConfirmation,
+        element._pendingConfirmationDetails
+      );
     } else {
       assert.deepEqual(
-          element._reviewerPendingConfirmation,
-          element._pendingConfirmationDetails);
+        element._reviewerPendingConfirmation,
+        element._pendingConfirmationDetails
+      );
     }
 
     await observer;
@@ -645,9 +694,9 @@ suite('gr-reply-dialog tests', () => {
     observer = overlayObserver('closed');
     const expected = 'Group name has 10 members';
     assert.notEqual(
-        element.$.reviewerConfirmationOverlay.innerText
-            .indexOf(expected),
-        -1);
+      element.$.reviewerConfirmationOverlay.innerText.indexOf(expected),
+      -1
+    );
     MockInteractions.tap(noButton); // close the overlay
 
     await observer;
@@ -655,9 +704,7 @@ suite('gr-reply-dialog tests', () => {
 
     // We should be focused on account entry input.
     assert.isTrue(
-        isFocusInsideElement(
-            element.$.reviewers.$.entry.$.input.$.input
-        )
+      isFocusInsideElement(element.$.reviewers.$.entry.$.input.$.input)
     );
 
     // No reviewer/CC should have been added.
@@ -685,35 +732,29 @@ suite('gr-reply-dialog tests', () => {
 
     await observer;
     assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
-    const additions = cc ?
-      element.$.ccs.additions() :
-      element.$.reviewers.additions();
-    assert.deepEqual(
-        additions,
-        [
-          {
-            group: {
-              id: 'id',
-              name: 'name',
-              confirmed: true,
-              _group: true,
-              _pendingAdd: true,
-            },
-          },
-        ]);
+    const additions = cc
+      ? element.$.ccs.additions()
+      : element.$.reviewers.additions();
+    assert.deepEqual(additions, [
+      {
+        group: {
+          id: 'id',
+          name: 'name',
+          confirmed: true,
+          _group: true,
+          _pendingAdd: true,
+        },
+      },
+    ]);
 
     // We should be focused on account entry input.
     if (cc) {
       assert.isTrue(
-          isFocusInsideElement(
-              element.$.ccs.$.entry.$.input.$.input
-          )
+        isFocusInsideElement(element.$.ccs.$.entry.$.input.$.input)
       );
     } else {
       assert.isTrue(
-          isFocusInsideElement(
-              element.$.reviewers.$.entry.$.input.$.input
-          )
+        isFocusInsideElement(element.$.reviewers.$.entry.$.input.$.input)
       );
     }
   }
@@ -737,10 +778,12 @@ suite('gr-reply-dialog tests', () => {
     flush();
     assert.isFalse(element._reviewersMutated);
     assert.isTrue(element.$.ccs.allowAnyInput);
-    assert.isFalse(element.shadowRoot
-        .querySelector('#reviewers').allowAnyInput);
-    element.$.ccs.dispatchEvent(new CustomEvent('account-text-changed',
-        {bubbles: true, composed: true}));
+    assert.isFalse(
+      element.shadowRoot.querySelector('#reviewers').allowAnyInput
+    );
+    element.$.ccs.dispatchEvent(
+      new CustomEvent('account-text-changed', {bubbles: true, composed: true})
+    );
     assert.isTrue(element._reviewersMutated);
   });
 
@@ -797,13 +840,15 @@ suite('gr-reply-dialog tests', () => {
 
   test('400 converts to human-readable server-error', done => {
     stubRestApi('saveChangeReview').callsFake(
-        (changeNum, patchNum, review, errFn) => {
-          errFn(cloneableResponse(
-              400,
-              '....{"reviewers":{"id1":{"error":"human readable"}}}'
-          ));
-          return Promise.resolve(undefined);
-        }
+      (changeNum, patchNum, review, errFn) => {
+        errFn(
+          cloneableResponse(
+            400,
+            '....{"reviewers":{"id1":{"error":"human readable"}}}'
+          )
+        );
+        return Promise.resolve(undefined);
+      }
     );
 
     const listener = event => {
@@ -816,15 +861,17 @@ suite('gr-reply-dialog tests', () => {
     };
     addListenerForTest(document, 'server-error', listener);
 
-    flush(() => { element.send(); });
+    flush(() => {
+      element.send();
+    });
   });
 
   test('non-json 400 is treated as a normal server-error', done => {
     stubRestApi('saveChangeReview').callsFake(
-        (changeNum, patchNum, review, errFn) => {
-          errFn(cloneableResponse(400, 'Comment validation error!'));
-          return Promise.resolve(undefined);
-        }
+      (changeNum, patchNum, review, errFn) => {
+        errFn(cloneableResponse(400, 'Comment validation error!'));
+        return Promise.resolve(undefined);
+      }
     );
 
     const listener = event => {
@@ -839,7 +886,9 @@ suite('gr-reply-dialog tests', () => {
 
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.
-    flush(() => { element.send(); });
+    flush(() => {
+      element.send();
+    });
   });
 
   test('filterReviewerSuggestion', () => {
@@ -906,29 +955,29 @@ suite('gr-reply-dialog tests', () => {
 
   test('_chooseFocusTarget', () => {
     element._account = undefined;
-    assert.strictEqual(
-        element._chooseFocusTarget(), element.FocusTarget.BODY);
+    assert.strictEqual(element._chooseFocusTarget(), element.FocusTarget.BODY);
 
     element._account = {_account_id: 1};
-    assert.strictEqual(
-        element._chooseFocusTarget(), element.FocusTarget.BODY);
+    assert.strictEqual(element._chooseFocusTarget(), element.FocusTarget.BODY);
 
     element.change.owner = {_account_id: 2};
-    assert.strictEqual(
-        element._chooseFocusTarget(), element.FocusTarget.BODY);
+    assert.strictEqual(element._chooseFocusTarget(), element.FocusTarget.BODY);
 
     element.change.owner._account_id = 1;
     element.change._reviewers = null;
     assert.strictEqual(
-        element._chooseFocusTarget(), element.FocusTarget.REVIEWERS);
+      element._chooseFocusTarget(),
+      element.FocusTarget.REVIEWERS
+    );
 
     element._reviewers = [];
     assert.strictEqual(
-        element._chooseFocusTarget(), element.FocusTarget.REVIEWERS);
+      element._chooseFocusTarget(),
+      element.FocusTarget.REVIEWERS
+    );
 
     element._reviewers.push({});
-    assert.strictEqual(
-        element._chooseFocusTarget(), element.FocusTarget.BODY);
+    assert.strictEqual(element._chooseFocusTarget(), element.FocusTarget.BODY);
   });
 
   test('only send labels that have changed', done => {
@@ -936,7 +985,7 @@ suite('gr-reply-dialog tests', () => {
       stubSaveReview(review => {
         assert.deepEqual(review.labels, {
           'Code-Review': 0,
-          'Verified': -1,
+          Verified: -1,
         });
       });
 
@@ -949,12 +998,10 @@ suite('gr-reply-dialog tests', () => {
       // fail.
 
       element.shadowRoot
-          .querySelector('gr-label-scores').shadowRoot
-          .querySelector(
-              'gr-label-score-row[name="Verified"]')
-          .setSelectedValue(-1);
-      MockInteractions.tap(element.shadowRoot
-          .querySelector('.send'));
+        .querySelector('gr-label-scores')
+        .shadowRoot.querySelector('gr-label-score-row[name="Verified"]')
+        .setSelectedValue(-1);
+      MockInteractions.tap(element.shadowRoot.querySelector('.send'));
     });
   });
 
@@ -973,15 +1020,25 @@ suite('gr-reply-dialog tests', () => {
     element.push('_reviewers', cc1);
     flush();
 
-    assert.deepEqual(element._reviewers,
-        [reviewer1, reviewer2, reviewer3, cc1]);
+    assert.deepEqual(element._reviewers, [
+      reviewer1,
+      reviewer2,
+      reviewer3,
+      cc1,
+    ]);
     assert.deepEqual(element._ccs, [cc2, cc3, cc4]);
 
     element.push('_reviewers', cc4, cc3);
     flush();
 
-    assert.deepEqual(element._reviewers,
-        [reviewer1, reviewer2, reviewer3, cc1, cc4, cc3]);
+    assert.deepEqual(element._reviewers, [
+      reviewer1,
+      reviewer2,
+      reviewer3,
+      cc1,
+      cc4,
+      cc3,
+    ]);
     assert.deepEqual(element._ccs, [cc2]);
   });
 
@@ -990,8 +1047,9 @@ suite('gr-reply-dialog tests', () => {
     element._reviewers = [makeAccount(), makeAccount()];
     element._ccs = [makeAccount(), makeAccount()];
     element.draftCommentThreads = [];
-    const modifyButton =
-        element.shadowRoot.querySelector('.edit-attention-button');
+    const modifyButton = element.shadowRoot.querySelector(
+      '.edit-attention-button'
+    );
     MockInteractions.tap(modifyButton);
     flush();
 
@@ -1002,8 +1060,9 @@ suite('gr-reply-dialog tests', () => {
     flush();
     assert.isTrue(element._attentionExpanded);
 
-    let accountLabels = Array.from(element.shadowRoot.querySelectorAll(
-        '.attention-detail gr-account-label'));
+    let accountLabels = Array.from(
+      element.shadowRoot.querySelectorAll('.attention-detail gr-account-label')
+    );
     assert.equal(accountLabels.length, 5);
 
     element.push('_reviewers', makeAccount());
@@ -1015,12 +1074,14 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(element._attentionExpanded);
 
     MockInteractions.tap(
-        element.shadowRoot.querySelector('.edit-attention-button'));
+      element.shadowRoot.querySelector('.edit-attention-button')
+    );
     flush();
 
     assert.isTrue(element._attentionExpanded);
-    accountLabels = Array.from(element.shadowRoot.querySelectorAll(
-        '.attention-detail gr-account-label'));
+    accountLabels = Array.from(
+      element.shadowRoot.querySelectorAll('.attention-detail gr-account-label')
+    );
     assert.equal(accountLabels.length, 7);
 
     element.pop('_reviewers', makeAccount());
@@ -1029,11 +1090,13 @@ suite('gr-reply-dialog tests', () => {
     element.pop('_ccs', makeAccount());
 
     MockInteractions.tap(
-        element.shadowRoot.querySelector('.edit-attention-button'));
+      element.shadowRoot.querySelector('.edit-attention-button')
+    );
     flush();
 
-    accountLabels = Array.from(element.shadowRoot.querySelectorAll(
-        '.attention-detail gr-account-label'));
+    accountLabels = Array.from(
+      element.shadowRoot.querySelectorAll('.attention-detail gr-account-label')
+    );
     assert.equal(accountLabels.length, 3);
   });
 
@@ -1052,16 +1115,22 @@ suite('gr-reply-dialog tests', () => {
     element.push('_ccs', reviewer1);
     flush();
 
-    assert.deepEqual(element._reviewers,
-        [reviewer2, reviewer3]);
+    assert.deepEqual(element._reviewers, [reviewer2, reviewer3]);
     assert.deepEqual(element._ccs, [cc1, cc2, cc3, cc4, reviewer1]);
 
     element.push('_ccs', reviewer3, reviewer2);
     flush();
 
     assert.deepEqual(element._reviewers, []);
-    assert.deepEqual(element._ccs,
-        [cc1, cc2, cc3, cc4, reviewer1, reviewer3, reviewer2]);
+    assert.deepEqual(element._ccs, [
+      cc1,
+      cc2,
+      cc3,
+      cc4,
+      reviewer1,
+      reviewer3,
+      reviewer2,
+    ]);
   });
 
   test('migrate reviewers between states', async () => {
@@ -1082,44 +1151,58 @@ suite('gr-reply-dialog tests', () => {
 
     // Remove and add to other field.
     reviewers.dispatchEvent(
-        new CustomEvent('remove', {
-          detail: {account: reviewer1},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('remove', {
+        detail: {account: reviewer1},
+        composed: true,
+        bubbles: true,
+      })
+    );
     ccs.$.entry.dispatchEvent(
-        new CustomEvent('add', {
-          detail: {value: {account: reviewer1}},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('add', {
+        detail: {value: {account: reviewer1}},
+        composed: true,
+        bubbles: true,
+      })
+    );
     ccs.dispatchEvent(
-        new CustomEvent('remove', {
-          detail: {account: cc1},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('remove', {
+        detail: {account: cc1},
+        composed: true,
+        bubbles: true,
+      })
+    );
     ccs.dispatchEvent(
-        new CustomEvent('remove', {
-          detail: {account: cc3},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('remove', {
+        detail: {account: cc3},
+        composed: true,
+        bubbles: true,
+      })
+    );
     reviewers.$.entry.dispatchEvent(
-        new CustomEvent('add', {
-          detail: {value: {account: cc1}},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('add', {
+        detail: {value: {account: cc1}},
+        composed: true,
+        bubbles: true,
+      })
+    );
 
     // Add to other field without removing from former field.
     // (Currently not possible in UI, but this is a good consistency check).
     reviewers.$.entry.dispatchEvent(
-        new CustomEvent('add', {
-          detail: {value: {account: cc2}},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('add', {
+        detail: {value: {account: cc2}},
+        composed: true,
+        bubbles: true,
+      })
+    );
     ccs.$.entry.dispatchEvent(
-        new CustomEvent('add', {
-          detail: {value: {account: reviewer2}},
-          composed: true, bubbles: true,
-        }));
-    const mapReviewer = function(reviewer, opt_state) {
+      new CustomEvent('add', {
+        detail: {value: {account: reviewer2}},
+        composed: true,
+        bubbles: true,
+      })
+    );
+    const mapReviewer = function (reviewer, opt_state) {
       const result = {reviewer: reviewer._account_id};
       if (opt_state) {
         result.state = opt_state;
@@ -1130,22 +1213,32 @@ suite('gr-reply-dialog tests', () => {
     // Send and purge and verify moves, delete cc3.
     await element.send();
     expect(mutations).to.have.lengthOf(7);
-    expect(mutations[0]).to.deep.equal(mapReviewer(cc1,
-        ReviewerState.REVIEWER));
-    expect(mutations[1]).to.deep.equal(mapReviewer(cc2,
-        ReviewerState.REVIEWER));
-    expect(mutations[2]).to.deep.equal(mapReviewer(reviewer1,
-        ReviewerState.CC));
-    expect(mutations[3]).to.deep.equal(mapReviewer(reviewer2,
-        ReviewerState.CC));
+    expect(mutations[0]).to.deep.equal(
+      mapReviewer(cc1, ReviewerState.REVIEWER)
+    );
+    expect(mutations[1]).to.deep.equal(
+      mapReviewer(cc2, ReviewerState.REVIEWER)
+    );
+    expect(mutations[2]).to.deep.equal(
+      mapReviewer(reviewer1, ReviewerState.CC)
+    );
+    expect(mutations[3]).to.deep.equal(
+      mapReviewer(reviewer2, ReviewerState.CC)
+    );
 
     // 3 remove events stored
-    expect(mutations[4]).to.deep.equal({reviewer: 33, state:
-        ReviewerState.REMOVED});
-    expect(mutations[5]).to.deep.equal({reviewer: 35, state:
-        ReviewerState.REMOVED});
-    expect(mutations[6]).to.deep.equal({reviewer: 37, state:
-        ReviewerState.REMOVED});
+    expect(mutations[4]).to.deep.equal({
+      reviewer: 33,
+      state: ReviewerState.REMOVED,
+    });
+    expect(mutations[5]).to.deep.equal({
+      reviewer: 35,
+      state: ReviewerState.REMOVED,
+    });
+    expect(mutations[6]).to.deep.equal({
+      reviewer: 37,
+      state: ReviewerState.REMOVED,
+    });
   });
 
   test('emits cancel on esc key', () => {
@@ -1173,42 +1266,45 @@ suite('gr-reply-dialog tests', () => {
 
   test('_computeMessagePlaceholder', () => {
     assert.equal(
-        element._computeMessagePlaceholder(false),
-        'Say something nice...');
+      element._computeMessagePlaceholder(false),
+      'Say something nice...'
+    );
     assert.equal(
-        element._computeMessagePlaceholder(true),
-        'Add a note for your reviewers...');
+      element._computeMessagePlaceholder(true),
+      'Add a note for your reviewers...'
+    );
   });
 
   test('_computeSendButtonLabel', () => {
+    assert.equal(element._computeSendButtonLabel(false), 'Send');
     assert.equal(
-        element._computeSendButtonLabel(false),
-        'Send');
-    assert.equal(
-        element._computeSendButtonLabel(true),
-        'Send and Start review');
+      element._computeSendButtonLabel(true),
+      'Send and Start review'
+    );
   });
 
   test('_handle400Error reviewers and CCs', done => {
     const error1 = 'error 1';
     const error2 = 'error 2';
     const error3 = 'error 3';
-    const text = ')]}\'' + JSON.stringify({
-      reviewers: {
-        username1: {
-          input: 'username1',
-          error: error1,
+    const text =
+      ")]}'" +
+      JSON.stringify({
+        reviewers: {
+          username1: {
+            input: 'username1',
+            error: error1,
+          },
+          username2: {
+            input: 'username2',
+            error: error2,
+          },
+          username3: {
+            input: 'username3',
+            error: error3,
+          },
         },
-        username2: {
-          input: 'username2',
-          error: error2,
-        },
-        username3: {
-          input: 'username3',
-          error: error3,
-        },
-      },
-    });
+      });
     const listener = e => {
       e.detail.response.text().then(text => {
         assert.equal(text, [error1, error2, error3].join(', '));
@@ -1244,15 +1340,13 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('start review sets ready', () => {
-      MockInteractions.tap(element.shadowRoot
-          .querySelector('.send'));
+      MockInteractions.tap(element.shadowRoot.querySelector('.send'));
       flush();
       assert.isTrue(sendStub.calledWith(true, true));
     });
 
-    test('save review doesn\'t set ready', () => {
-      MockInteractions.tap(element.shadowRoot
-          .querySelector('.save'));
+    test("save review doesn't set ready", () => {
+      MockInteractions.tap(element.shadowRoot.querySelector('.save'));
       flush();
       assert.isTrue(sendStub.calledWith(true, false));
     });
@@ -1320,7 +1414,8 @@ suite('gr-reply-dialog tests', () => {
 
   test('_computeSendButtonDisabled_canBeStarted', () => {
     // Mock canBeStarted
-    assert.isFalse(element._computeSendButtonDisabled(
+    assert.isFalse(
+      element._computeSendButtonDisabled(
         /* canBeStarted= */ true,
         /* draftCommentThreads= */ [],
         /* text= */ '',
@@ -1331,12 +1426,14 @@ suite('gr-reply-dialog tests', () => {
         /* commentEditing= */ false,
         /* change= */ element.change,
         /* account= */ makeAccount()
-    ));
+      )
+    );
   });
 
   test('_computeSendButtonDisabled_allFalse', () => {
     // Mock everything false
-    assert.isTrue(element._computeSendButtonDisabled(
+    assert.isTrue(
+      element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ [],
         /* text= */ '',
@@ -1347,12 +1444,14 @@ suite('gr-reply-dialog tests', () => {
         /* commentEditing= */ false,
         /* change= */ element.change,
         /* account= */ makeAccount()
-    ));
+      )
+    );
   });
 
   test('_computeSendButtonDisabled_draftCommentsSend', () => {
     // Mock nonempty comment draft array, with sending comments.
-    assert.isFalse(element._computeSendButtonDisabled(
+    assert.isFalse(
+      element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ [{comments: [{__draft: true}]}],
         /* text= */ '',
@@ -1363,12 +1462,14 @@ suite('gr-reply-dialog tests', () => {
         /* commentEditing= */ false,
         /* change= */ element.change,
         /* account= */ makeAccount()
-    ));
+      )
+    );
   });
 
   test('_computeSendButtonDisabled_draftCommentsDoNotSend', () => {
     // Mock nonempty comment draft array, without sending comments.
-    assert.isTrue(element._computeSendButtonDisabled(
+    assert.isTrue(
+      element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ [{comments: [{__draft: true}]}],
         /* text= */ '',
@@ -1379,12 +1480,14 @@ suite('gr-reply-dialog tests', () => {
         /* commentEditing= */ false,
         /* change= */ element.change,
         /* account= */ makeAccount()
-    ));
+      )
+    );
   });
 
   test('_computeSendButtonDisabled_changeMessage', () => {
     // Mock nonempty change message.
-    assert.isFalse(element._computeSendButtonDisabled(
+    assert.isFalse(
+      element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ 'test',
@@ -1395,12 +1498,14 @@ suite('gr-reply-dialog tests', () => {
         /* commentEditing= */ false,
         /* change= */ element.change,
         /* account= */ makeAccount()
-    ));
+      )
+    );
   });
 
   test('_computeSendButtonDisabled_reviewersChanged', () => {
     // Mock reviewers mutated.
-    assert.isFalse(element._computeSendButtonDisabled(
+    assert.isFalse(
+      element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ '',
@@ -1411,12 +1516,14 @@ suite('gr-reply-dialog tests', () => {
         /* commentEditing= */ false,
         /* change= */ element.change,
         /* account= */ makeAccount()
-    ));
+      )
+    );
   });
 
   test('_computeSendButtonDisabled_labelsChanged', () => {
     // Mock labels changed.
-    assert.isFalse(element._computeSendButtonDisabled(
+    assert.isFalse(
+      element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ '',
@@ -1427,12 +1534,14 @@ suite('gr-reply-dialog tests', () => {
         /* commentEditing= */ false,
         /* change= */ element.change,
         /* account= */ makeAccount()
-    ));
+      )
+    );
   });
 
   test('_computeSendButtonDisabled_dialogDisabled', () => {
     // Whole dialog is disabled.
-    assert.isTrue(element._computeSendButtonDisabled(
+    assert.isTrue(
+      element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ '',
@@ -1443,7 +1552,8 @@ suite('gr-reply-dialog tests', () => {
         /* commentEditing= */ false,
         /* change= */ element.change,
         /* account= */ makeAccount()
-    ));
+      )
+    );
   });
 
   test('_computeSendButtonDisabled_existingVote', async () => {
@@ -1452,7 +1562,8 @@ suite('gr-reply-dialog tests', () => {
     await flush();
 
     // User has already voted.
-    assert.isFalse(element._computeSendButtonDisabled(
+    assert.isFalse(
+      element._computeSendButtonDisabled(
         /* canBeStarted= */ false,
         /* draftCommentThreads= */ {},
         /* text= */ '',
@@ -1463,7 +1574,8 @@ suite('gr-reply-dialog tests', () => {
         /* commentEditing= */ false,
         /* change= */ element.change,
         /* account= */ account
-    ));
+      )
+    );
   });
 
   test('_submit blocked when no mutations exist', async () => {
@@ -1472,17 +1584,15 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [];
     await flush();
 
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button.send'));
+    MockInteractions.tap(element.shadowRoot.querySelector('gr-button.send'));
     assert.isFalse(sendStub.called);
 
-    element.draftCommentThreads = [{comments: [
-      {__draft: true, path: 'test', line: 1, patch_set: 1},
-    ]}];
+    element.draftCommentThreads = [
+      {comments: [{__draft: true, path: 'test', line: 1, patch_set: 1}]},
+    ];
     await flush();
 
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button.send'));
+    MockInteractions.tap(element.shadowRoot.querySelector('gr-button.send'));
     assert.isTrue(sendStub.called);
   });
 
@@ -1507,4 +1617,3 @@ suite('gr-reply-dialog tests', () => {
     assert.equal(element.$.pluginMessage.textContent, 'foo');
   });
 });
-

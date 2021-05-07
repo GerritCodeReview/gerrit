@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18376367_5323d78b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-07T15:44:08Z",
+      "side": 1,
+      "message": "It turned out that the matching functions are untested at the moment because matching is done in the index. The fake index has the advantage that it tests all matching functions which is important for us, because we want to use them in composable submit requirements where we match changes locally, without calling the index.",
+      "revId": "848fb5f87eba49f01a82da4de2e0b18408650803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from 'lit-html';
+import {html} from 'lit';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {customElement, property} from 'lit-element';
+import {customElement, property} from 'lit/decorators';
 import {cssTemplate} from './gr-key-binding-display.css';
 import {sharedStyles} from '../../../styles/shared-styles';
 

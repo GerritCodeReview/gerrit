@@ -14,14 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from 'lit-html';
-import {
-  css,
-  customElement,
-  internalProperty,
-  property,
-  PropertyValues,
-} from 'lit-element';
+import {css, html, PropertyValues} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Action} from '../../api/checks';
 import {
@@ -64,11 +58,11 @@ export class GrChecksTab extends GrLitElement {
   @property()
   changeNum: NumericChangeId | undefined = undefined;
 
-  @internalProperty()
+  @state()
   selectedRuns: string[] = [];
 
   /** Maps checkName to selected attempt number. `undefined` means `latest`. */
-  @internalProperty()
+  @state()
   selectedAttempts: Map<string, number | undefined> = new Map<
     string,
     number | undefined

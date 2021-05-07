@@ -186,6 +186,31 @@ returned that describes the created account.
   }
 ----
 
+[[delete-account]]
+=== Delete Account
+--
+'DELETE /accounts/link:#username[\{username\}]'
+--
+
+Deletes an account. Only administrators are allowed to delete accounts.
+It is not allowed to delete the own account.
+
+Note, that this request does not delete all traces of the account, but
+will set the account to inactive and delete all external IDs linked to
+the account. Thereby the account becomes unusable and undiscoverable.
+However, the link:config-accounts.html#account-data-in-user-branch[user branch in All-Users.git]
+will remain.
+
+.Request
+----
+  DELETE /accounts/john HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[get-detail]]
 === Get Account Details
 --

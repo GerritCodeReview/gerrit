@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e95ccd5_c3e2c2f3",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-07T11:41:45Z",
+      "side": 1,
+      "message": "should we also a test to explicitly test the opposite case? I know that we implicitly test it in the other tests, but it might be good to have an explicit test only checking \"authenticate\" is invoke or not.\n\nWDYT?",
+      "range": {
+        "startLine": 151,
+        "startChar": 14,
+        "endLine": 151,
+        "endChar": 54
+      },
+      "revId": "c99ac832f68e878b19faac53c91da9a0c9f0e7bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

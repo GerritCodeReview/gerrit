@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "903580d0_e4d57d29",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-07T10:56:31Z",
+      "side": 1,
+      "message": "There is also a REVIEWER state. Maybe use that here?\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#reviewer-input",
+      "revId": "746923d0fbdea46fd5caacc9a0f2ff51c5f74bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10130c4d_91a5668d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-07T10:56:31Z",
+      "side": 1,
+      "message": "There is no difference between\n\n  this.$.reviewers\n\nand\n\n  this.$.ccs\n\nSo I don\u0027t think you have to check `if (ccsEl)`.",
+      "range": {
+        "startLine": 621,
+        "startChar": 8,
+        "endLine": 621,
+        "endChar": 13
+      },
+      "revId": "746923d0fbdea46fd5caacc9a0f2ff51c5f74bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "f07bc530f07d9cd7ed98d447bced2ecdbff228f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "febc9fcd_6e9c1785",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-07T10:59:40Z",
+      "side": 1,
+      "message": "Yes, maybe a bit nicer, but not as nice that I would spend even more time on it right now. :-) I am trying to detach and move to other things. So other refactorings will have to wait.",
+      "parentUuid": "a1e90fd6_e3c8e608",
+      "range": {
+        "startLine": 465,
+        "startChar": 4,
+        "endLine": 468,
+        "endChar": 22
+      },
+      "revId": "f07bc530f07d9cd7ed98d447bced2ecdbff228f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -181,6 +181,24 @@
       "parentUuid": "5e07db7c_bf4fb034",
       "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26bd16c6_329a8352",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-05-07T20:01:39Z",
+      "side": 1,
+      "message": "I am adding String.format(ssh -o UserKnownHostsFile\u003d/dev/null -o StrictHostKeyChecking\u003dno -i %s, identityPath) like GitRotocolV2IT to the process builder environment and it throws\n \nHost key verification failed.\njava.io.IOException: Host key verification failed.\n\nThe command itself looks like \nImmutableList.\u003cString\u003ebuilder()\n        .add(\"ssh\")\n        .add(\"-p\")\n        .add(String.valueOf(sshAddress.getPort()))\n        .add(\"admin@\" + sshAddress.getHostName())\n        .add(\"-T\")\n        .add(\"-o\")\n        .add(\"BatchMode\u003dyes\")\n        .build();",
+      "parentUuid": "185ffcd9_0fe60f84",
+      "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

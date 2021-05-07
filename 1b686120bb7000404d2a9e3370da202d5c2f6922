@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbcec05e_e907d1b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-07T09:41:18Z",
+      "side": 1,
+      "message": "Do we still need those?",
+      "revId": "1b686120bb7000404d2a9e3370da202d5c2f6922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ed15205_f3fc8e1a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-07T09:41:18Z",
+      "side": 1,
+      "message": "We are doing something very similar 4 times. Can this be extracted into a method that can be called four times? Or at least try to align the four sections that they are written in a more similar way.",
+      "range": {
+        "startLine": 610,
+        "startChar": 4,
+        "endLine": 644,
+        "endChar": 6
+      },
+      "revId": "1b686120bb7000404d2a9e3370da202d5c2f6922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64a6f15e_f5f91c15",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-07T09:41:18Z",
+      "side": 1,
+      "message": "Where is this return value used?",
+      "revId": "1b686120bb7000404d2a9e3370da202d5c2f6922",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

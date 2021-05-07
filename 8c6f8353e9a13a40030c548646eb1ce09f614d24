@@ -163,6 +163,24 @@
       "parentUuid": "c8781527_b109c5d2",
       "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "185ffcd9_0fe60f84",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T18:03:47Z",
+      "side": 1,
+      "message": "What do you mean with this? Have you checked: [1]? It should work, right?\n\n[1] javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+      "parentUuid": "5e07db7c_bf4fb034",
+      "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -67,6 +67,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
           "create-branch",
           "create-group",
           "create-project",
+          "delete-account",
           "index",
           "query",
           "receive-pack",

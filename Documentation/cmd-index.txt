@@ -130,6 +130,9 @@ link:cmd-create-group.html[gerrit create-group]::
 link:cmd-create-project.html[gerrit create-project]::
 	Create a new project and associated Git repository.
 
+link:cmd-delete-account.html[gerrit delete-account]::
+    Delete an account.
+
 link:cmd-flush-caches.html[gerrit flush-caches]::
 	Flush some/all server caches from memory.
 

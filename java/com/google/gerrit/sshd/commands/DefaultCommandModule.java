@@ -101,6 +101,7 @@ public class DefaultCommandModule extends CommandModule {
     listener().to(ShowCaches.StartupListener.class);
 
     command(gerrit, CreateAccountCommand.class);
+    command(gerrit, DeleteAccountCommand.class);
     command(gerrit, CreateGroupCommand.class);
     command(gerrit, CreateProjectCommand.class);
     command(gerrit, SetHeadCommand.class);

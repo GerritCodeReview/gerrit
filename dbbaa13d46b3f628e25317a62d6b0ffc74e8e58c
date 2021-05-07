@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d928d800_eb311011",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T00:18:20Z",
+      "side": 1,
+      "message": "This fails for me on Eclipse with:\nERROR com.google.gerrit.sshd.BaseCommand : Internal server error (user admin account 1000000) during gerrit query --format json --my-plugin--sample change:1\njava.lang.IllegalArgumentException: class com.google.gerrit.acceptance.AbstractPredicateTest$MyInfo declares multiple JSON fields named message\n\tat com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.getBoundFields(ReflectiveTypeAdapterFactory.java:172)\n\tat com.google.gson.internal.bind.ReflectiveTypeAdapterFactory.create(ReflectiveTypeAdapterFactory.java:102)\n\tat com.google.gson.Gson.getAdapter(Gson.java:458)\n\tat com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:56)\n\tat com.google.gson.internal.bind.CollectionTypeAdapterFactory$Adapter.write(CollectionTypeAdapterFactory.java:97)\n\tat com.google.gson.internal.bind.CollectionTypeAdapterFactory$Adapter.write(CollectionTypeAdapterFactory.java:61)\n\tat com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:69)\n\tat com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$1.write(ReflectiveTypeAdapterFactory.java:127)\n\tat com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.write(ReflectiveTypeAdapterFactory.java:245)\n\tat com.google.gson.Gson.toJson(Gson.java:704)\n\tat com.google.gson.Gson.toJson(Gson.java:683)\n\tat com.google.gson.Gson.toJson(Gson.java:638)\n\tat com.google.gson.Gson.toJson(Gson.java:618)\n\tat com.google.gerrit.server.query.change.OutputStreamQuery.show(OutputStreamQuery.java:375)\n\tat com.google.gerrit.server.query.change.OutputStreamQuery.query(OutputStreamQuery.java:218)\n\tat com.google.gerrit.sshd.commands.Query.run(Query.java:110)\n\tat com.google.gerrit.sshd.SshCommand.lambda$0(SshCommand.java:61)\n\tat com.google.gerrit.sshd.BaseCommand$TaskThunk.run(BaseCommand.java:488)\n\tat com.google.gerrit.server.logging.LoggingContextAwareRunnable.run(LoggingContextAwareRunnable.java:103)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)\n\tat com.google.gerrit.server.git.WorkQueue$Task.run(WorkQueue.java:612)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\n\n",
+      "revId": "dbbaa13d46b3f628e25317a62d6b0ffc74e8e58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2b7c8bf_0caa590d",

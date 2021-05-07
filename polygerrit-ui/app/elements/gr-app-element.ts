@@ -79,6 +79,7 @@ import {ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
+import {assertIsDefined} from '../utils/common-util';
 
 interface ErrorInfo {
   text: string;
@@ -94,6 +95,10 @@ export interface GrAppElement {
     mainHeader: GrMainHeader;
   };
 }
+
+type DomIf = PolymerElement & {
+  restamp: boolean;
+};
 
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
@@ -234,6 +239,12 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     });
     this.addEventListener('location-change', e =>
       this._handleLocationChange(e)
+    );
+    this.addEventListener(EventType.RECREATE_CHANGE_VIEW, () =>
+      this.handleRecreateChangeView()
+    );
+    this.addEventListener(EventType.RECREATE_DIFF_VIEW, () =>
+      this.handleRecreateDiffView()
     );
     document.addEventListener('gr-rpc-log', e => this._handleRpcLog(e));
     this.addEventListener('shortcut-triggered', e =>
@@ -458,6 +469,48 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
       (this._account && this._account._account_id) || null;
   }
 
+  /**
+   * Throws away the change view and re-creates it. The change view itself fires
+   * an event, if it wants to be re-created.
+   */
+  private handleRecreateChangeView() {
+    const domIf = this.root!.querySelector('#dom-if-change-view') as DomIf;
+    assertIsDefined(domIf, '<dom-if> for the view');
+    // The rendering of DomIf is debounced, so we are using two nested timeouts
+    // here to ensure that both changes are actually being rendered and are not
+    // conflicting with the normal _viewChanged() observer.
+    setTimeout(() => {
+      this._showChangeView = false;
+      domIf.restamp = true;
+      setTimeout(() => {
+        // This *should* be true, but it seems appropriate to check params.view.
+        this._showChangeView = this.params?.view === GerritView.CHANGE;
+        domIf.restamp = false;
+      }, 1);
+    }, 1);
+  }
+
+  /**
+   * Throws away the diff view and re-creates it. The diff view itself fires
+   * an event, if it wants to be re-created.
+   */
+  private handleRecreateDiffView() {
+    const domIf = this.root!.querySelector('#dom-if-diff-view') as DomIf;
+    assertIsDefined(domIf, '<dom-if> for the view');
+    // The rendering of DomIf is debounced, so we are using two nested timeouts
+    // here to ensure that both changes are actually being rendered and are not
+    // conflicting with the normal _viewChanged() observer.
+    setTimeout(() => {
+      this._showDiffView = false;
+      domIf.restamp = true;
+      setTimeout(() => {
+        // This *should* be true, but it seems appropriate to check params.view.
+        this._showDiffView = this.params?.view === GerritView.DIFF;
+        domIf.restamp = false;
+      }, 1);
+    }, 1);
+  }
+
   @observe('params.*')
   _viewChanged() {
     const view = this.params?.view;
@@ -471,8 +524,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     this._showAdminView =
       view === GerritView.ADMIN ||
       view === GerritView.GROUP ||
-      view === GerritView.REPO
-    ;
+      view === GerritView.REPO;
     this._showCLAView = view === GerritView.AGREEMENTS;
     this._showEditorView = view === GerritView.EDIT;
     const isPluginScreen = view === GerritView.PLUGIN_SCREEN;
@@ -481,7 +533,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     // because _showPluginScreen value does not change. To force restamp,
     // change _showPluginScreen value between true and false.
     if (isPluginScreen) {
-      setTimeout(() => this._showPluginScreen = true, 1);
+      setTimeout(() => (this._showPluginScreen = true), 1);
     }
     this._showDocumentationSearch = view === GerritView.DOCUMENTATION_SEARCH;
     if (

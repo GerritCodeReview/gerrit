@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {css} from 'lit-element';
+import {css} from 'lit';
 
 // Mark the file as a module. Otherwise typescript assumes this is a script
 // and $_documentContainer is a global variable.
@@ -42,7 +42,7 @@ export const checksStyles = css`
 $_documentContainer.innerHTML = `<dom-module id="gr-checks-styles">
   <template>
     <style>
-    ${checksStyles.cssText}
+    ${checksStyles}
     </style>
   </template>
 </dom-module>`;

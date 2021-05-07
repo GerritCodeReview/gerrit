@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2185220_74595876",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-07T07:36:33Z",
+      "side": 1,
+      "message": "Thanks for noticing this and making a fix in https://gerrit-review.googlesource.com/c/gerrit/+/305010",
+      "parentUuid": "d74b566b_d005fc8e",
+      "range": {
+        "startLine": 1461,
+        "startChar": 0,
+        "endLine": 1461,
+        "endChar": 47
+      },
+      "revId": "79ec493bad248c80f5400a5731ac790d555dc9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d839353f_29b7fc0d",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-03T19:08:22Z",
       "side": 1,
       "message": "Nit: Trailing blank.",
+      "range": {
+        "startLine": 1467,
+        "startChar": 24,
+        "endLine": 1467,
+        "endChar": 25
+      },
+      "revId": "79ec493bad248c80f5400a5731ac790d555dc9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64ede990_d013ba91",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1467,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-07T07:36:33Z",
+      "side": 1,
+      "message": "Ben fixed this in https://gerrit-review.googlesource.com/c/gerrit/+/304283",
+      "parentUuid": "d839353f_29b7fc0d",
       "range": {
         "startLine": 1467,
         "startChar": 24,

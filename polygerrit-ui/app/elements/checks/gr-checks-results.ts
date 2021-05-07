@@ -14,18 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html} from 'lit-html';
-import {classMap} from 'lit-html/directives/class-map';
-import {repeat} from 'lit-html/directives/repeat';
-import {
-  css,
-  customElement,
-  internalProperty,
-  property,
-  PropertyValues,
-  query,
-  TemplateResult,
-} from 'lit-element';
+import {classMap} from 'lit/directives/class-map';
+import {repeat} from 'lit/directives/repeat';
+import {css, html, PropertyValues, TemplateResult} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
 import {GrLitElement} from '../lit/gr-lit-element';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {
@@ -471,7 +463,7 @@ export class GrChecksResults extends GrLitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
-  @internalProperty()
+  @state()
   filterRegExp = new RegExp('');
 
   /** All runs. Shown should only the selected/filtered ones. */
@@ -511,7 +503,7 @@ export class GrChecksResults extends GrLitElement {
   >();
 
   /** Maintains the state of which result sections should show all results. */
-  @internalProperty()
+  @state()
   isShowAll: Map<Category, boolean> = new Map();
 
   /**

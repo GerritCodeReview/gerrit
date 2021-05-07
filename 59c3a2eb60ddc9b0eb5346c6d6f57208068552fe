@@ -51,6 +51,24 @@
       "parentUuid": "cdf6fec1_06e3d604",
       "revId": "59c3a2eb60ddc9b0eb5346c6d6f57208068552fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02ace377_8ed51e1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T18:17:54Z",
+      "side": 1,
+      "message": "Thanks, @Patrick. This is really appreciated to remove dependency on Lucene entirely. We also did that for ElasticSearch and that was really a good idea. I will try to help with the review.\n\n\u003e This will allow us to upgrade Lucene in the open-source project without requiring Google to upgrade internally first, so it can happen fast and at any time ;-)\n\nCool, also note, that due to the way org.apache.lucene:lucene-backward-codecs dependency work, we can only update one version (and cannot jump over releases). Moreover due to online reindex support to avoid zero-downtime upgrade we can only bump Lucene dependency in major Gerrit release.\n\nWe are currently on Lucene 6.x. That means, given that we missed (again) to update the Lucene version in 3.4, to bump to Lucene 8.x we would have to:\n\n* Bump Lucene to 7.x in upcoming gerrit release 3.5\n* Bump Lucene to 8.x in upcoming gerrit release 3.6",
+      "parentUuid": "6424b570_cc367ea5",
+      "revId": "59c3a2eb60ddc9b0eb5346c6d6f57208068552fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f09861c_2c05a780",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T11:26:18Z",
+      "side": 1,
+      "message": "Nit: 2021.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0eedead_9d29117f",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T11:26:18Z",
+      "side": 1,
+      "message": "Not really used, see below.",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86042580_4698db69",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T11:26:18Z",
+      "side": 1,
+      "message": "Import regularly, and just do Optional.of(...).",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 32
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d350b8d4_2a3b1461",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T11:26:18Z",
+      "side": 1,
+      "message": "For now this method is a no op and could be removed, here and in all other tests.",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 33
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c67334_85015d87",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T11:26:18Z",
+      "side": 1,
+      "message": "Same as with init(), is a no-op.",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4273e3b0_771548f6",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T11:26:18Z",
+      "side": 1,
+      "message": "Shouldn\u0027t GitBasicAuthPolicy.HTTP policy be used?\n\nRight now the call returns null: \n  GitBasicAuthPolicy gitBasicAuthPolicy \u003d authConfig.getGitBasicAuthPolicy();\n\nSo that this if branch is never tested:\n\n  if (gitBasicAuthPolicy \u003d\u003d GitBasicAuthPolicy.HTTP\n        || gitBasicAuthPolicy \u003d\u003d GitBasicAuthPolicy.HTTP_LDAP) {\n      if (PasswordVerifier.checkPassword(who.externalIds(), username, password)) {\n        return succeedAuthentication(who);\n      }\n    }\n\nOr add a dedicated test for GitBasicAuthPolicy: HTTP/HTTP_LDAP?",
+      "revId": "ea1084c9038573b4a94a11048ffa60cf31cd33c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

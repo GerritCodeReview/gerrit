@@ -14,17 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html, nothing} from 'lit-html';
-import {classMap} from 'lit-html/directives/class-map';
+import {classMap} from 'lit/directives/class-map';
 import './gr-hovercard-run';
-import {
-  css,
-  customElement,
-  internalProperty,
-  property,
-  PropertyValues,
-  query,
-} from 'lit-element';
+import {css, html, nothing, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Action, Link, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
@@ -326,7 +319,7 @@ export class GrChecksRuns extends GrLitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
-  @internalProperty()
+  @state()
   filterRegExp = new RegExp('');
 
   @property()

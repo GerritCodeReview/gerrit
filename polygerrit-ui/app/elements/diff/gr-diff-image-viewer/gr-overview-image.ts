@@ -14,17 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  css,
-  customElement,
-  html,
-  internalProperty,
-  LitElement,
-  property,
-  PropertyValues,
-  query,
-} from 'lit-element';
-import {StyleInfo, styleMap} from 'lit-html/directives/style-map';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {StyleInfo, styleMap} from 'lit/directives/style-map';
 import {ImageDiffAction} from '../../../api/diff';
 
 import {createEvent, Dimensions, fitToFrame, Point, Rect} from './util';
@@ -45,13 +37,13 @@ export class GrOverviewImage extends LitElement {
   @property({type: Object})
   frameRect: Rect = {origin: {x: 0, y: 0}, dimensions: {width: 0, height: 0}};
 
-  @internalProperty() protected contentStyle: StyleInfo = {};
+  @state() protected contentStyle: StyleInfo = {};
 
-  @internalProperty() protected contentTransformStyle: StyleInfo = {};
+  @state() protected contentTransformStyle: StyleInfo = {};
 
-  @internalProperty() protected frameStyle: StyleInfo = {};
+  @state() protected frameStyle: StyleInfo = {};
 
-  @internalProperty() protected dragging = false;
+  @state() protected dragging = false;
 
   @query('.content-box') protected contentBox!: HTMLDivElement;
 

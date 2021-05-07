@@ -211,7 +211,7 @@ suite('gr-diff-host tests', () => {
     assert.isTrue(cancelStub.called);
   });
 
-  test('reload() loads files weblinks', () => {
+  test('reload() loads files weblinks', async () => {
     element.change = createChange();
     const weblinksStub = sinon.stub(GerritNav, '_generateWeblinks')
         .returns({name: 'stubb', url: '#s'});
@@ -222,28 +222,40 @@ suite('gr-diff-host tests', () => {
     element.path = 'test-path';
     element.commitRange = {baseCommit: 'test-base', commit: 'test-commit'};
     element.patchRange = {};
-    return element.reload().then(() => {
-      assert.isTrue(weblinksStub.calledTwice);
-      assert.isTrue(weblinksStub.firstCall.calledWith({
-        commit: 'test-base',
-        file: 'test-path',
-        options: {
-          weblinks: undefined,
-        },
-        repo: 'test-project',
-        type: GerritNav.WeblinkType.FILE}));
-      assert.isTrue(weblinksStub.secondCall.calledWith({
-        commit: 'test-commit',
-        file: 'test-path',
-        options: {
-          weblinks: undefined,
-        },
-        repo: 'test-project',
-        type: GerritNav.WeblinkType.FILE}));
-      assert.deepEqual(element.filesWeblinks, {
-        meta_a: [{name: 'stubb', url: '#s'}],
-        meta_b: [{name: 'stubb', url: '#s'}],
-      });
+
+    await element.reload();
+
+    assert.equal(weblinksStub.callCount, 3);
+    assert.deepEqual(weblinksStub.firstCall.args[0], {
+      commit: 'test-base',
+      file: 'test-path',
+      options: {
+        weblinks: undefined,
+      },
+      repo: 'test-project',
+      type: GerritNav.WeblinkType.EDIT});
+    assert.deepEqual(element.editWeblinks, [{
+      name: 'stubb', url: '#s',
+    }]);
+    assert.deepEqual(weblinksStub.secondCall.args[0], {
+      commit: 'test-base',
+      file: 'test-path',
+      options: {
+        weblinks: undefined,
+      },
+      repo: 'test-project',
+      type: GerritNav.WeblinkType.FILE});
+    assert.deepEqual(weblinksStub.thirdCall.args[0], {
+      commit: 'test-commit',
+      file: 'test-path',
+      options: {
+        weblinks: undefined,
+      },
+      repo: 'test-project',
+      type: GerritNav.WeblinkType.FILE});
+    assert.deepEqual(element.filesWeblinks, {
+      meta_a: [{name: 'stubb', url: '#s'}],
+      meta_b: [{name: 'stubb', url: '#s'}],
     });
   });
 

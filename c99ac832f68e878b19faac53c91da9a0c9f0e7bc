@@ -22,6 +22,30 @@
       },
       "revId": "c99ac832f68e878b19faac53c91da9a0c9f0e7bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe962b54_a092387e",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-07T13:31:07Z",
+      "side": 1,
+      "message": "The test case is the one at L124: it should authenticate if not signed in.",
+      "parentUuid": "4e95ccd5_c3e2c2f3",
+      "range": {
+        "startLine": 151,
+        "startChar": 14,
+        "endLine": 151,
+        "endChar": 54
+      },
+      "revId": "c99ac832f68e878b19faac53c91da9a0c9f0e7bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -63,24 +63,24 @@ export const htmlTemplate = html`
     }
 
     /*
-      Context controls break up the table visually, so we set the right border
-      on individual sections to leave a gap for the divider.
-      */
+       Context controls break up the table visually, so we set the right border
+       on individual sections to leave a gap for the divider.
+       */
     .section {
       border-right: 1px solid var(--border-color);
     }
     .section.contextControl {
       /*
-       * Divider inside this section must not have border; we set borders on
-       * the padding rows below.
-       */
+        * Divider inside this section must not have border; we set borders on
+        * the padding rows below.
+        */
       border-right-width: 0;
     }
     /*
-     * Padding rows behind context controls. The diff is styled to be cut into
-     * two halves by the negative space of the divider on which the context
-     * control buttons are anchored.
-     */
+      * Padding rows behind context controls. The diff is styled to be cut into
+      * two halves by the negative space of the divider on which the context
+      * control buttons are anchored.
+      */
     .contextBackground {
       border-right: 1px solid var(--border-color);
     }
@@ -98,9 +98,9 @@ export const htmlTemplate = html`
       background-color: var(--diff-blank-background-color);
     }
     /*
-      The only way to focus this (clicking) will apply our own focus styling,
-      so this default styling is not needed and distracting.
-      */
+       The only way to focus this (clicking) will apply our own focus styling,
+       so this default styling is not needed and distracting.
+       */
     .lineNumButton:focus {
       outline: none;
     }
@@ -110,12 +110,12 @@ export const htmlTemplate = html`
       max-width: var(--image-viewer-max-width, 95vw);
       max-height: var(--image-viewer-max-height, 90vh);
       /*
-        Defined by paper-styles default-theme and used in various components.
-        background-color-secondary is a compromise between fairly light in
-        light theme (where we ideally would want background-color-primary) yet
-        slightly offset against the app background in dark mode, where drop
-        shadows e.g. around paper-card are almost invisible.
-        */
+         Defined by paper-styles default-theme and used in various components.
+         background-color-secondary is a compromise between fairly light in
+         light theme (where we ideally would want background-color-primary) yet
+         slightly offset against the app background in dark mode, where drop
+         shadows e.g. around paper-card are almost invisible.
+         */
       --primary-background-color: var(--background-color-secondary);
     }
     .image-diff .gr-diff {
@@ -147,11 +147,11 @@ export const htmlTemplate = html`
       background-color: var(--diff-blank-background-color);
     }
     /*
-      The file line, which has no contentText, add some margin before the first
-      comment. We cannot add padding the container because we only want it if
-      there is at least one comment thread, and the slotting makes :empty not
-      work as expected.
-     */
+       The file line, which has no contentText, add some margin before the first
+       comment. We cannot add padding the container because we only want it if
+       there is at least one comment thread, and the slotting makes :empty not
+       work as expected.
+      */
     .content.file slot:first-child::slotted(.comment-thread) {
       display: block;
       margin-top: var(--spacing-xs);
@@ -193,24 +193,24 @@ export const htmlTemplate = html`
     }
     .content {
       /* Set min width since setting width on table cells still
-           allows them to shrink. Do not set max width because
-           CJK (Chinese-Japanese-Korean) glyphs have variable width */
+            allows them to shrink. Do not set max width because
+            CJK (Chinese-Japanese-Korean) glyphs have variable width */
       min-width: var(--content-width, 80ch);
       width: var(--content-width, 80ch);
     }
     .content.add .contentText .intraline,
-      /* If there are no intraline info, consider everything changed */
-      .content.add.no-intraline-info .contentText,
-      .delta.total .content.add .contentText {
+       /* If there are no intraline info, consider everything changed */
+       .content.add.no-intraline-info .contentText,
+       .delta.total .content.add .contentText {
       background-color: var(--dark-add-highlight-color);
     }
     .content.add .contentText {
       background-color: var(--light-add-highlight-color);
     }
     .content.remove .contentText .intraline,
-      /* If there are no intraline info, consider everything changed */
-      .content.remove.no-intraline-info .contentText,
-      .delta.total .content.remove .contentText {
+       /* If there are no intraline info, consider everything changed */
+       .content.remove.no-intraline-info .contentText,
+       .delta.total .content.remove .contentText {
       background-color: var(--dark-remove-highlight-color);
     }
     .content.remove .contentText {
@@ -309,9 +309,9 @@ export const htmlTemplate = html`
     }
 
     /*
-     * Padding rows behind context controls. Styled as a continuation of the
-     * line gutters and code area.
-     */
+      * Padding rows behind context controls. Styled as a continuation of the
+      * line gutters and code area.
+      */
     .contextBackground > .contextLineNum {
       background-color: var(--diff-blank-background-color);
     }
@@ -320,9 +320,9 @@ export const htmlTemplate = html`
     }
     .contextBackground {
       /*
-       * One line of background behind the context expanders which they can
-       * render on top of, plus some padding.
-       */
+        * One line of background behind the context expanders which they can
+        * render on top of, plus some padding.
+        */
       height: calc(var(--line-height-normal) + var(--spacing-s));
     }
 
@@ -344,81 +344,6 @@ export const htmlTemplate = html`
       top: 0;
       left: 0;
     }
-    .contextControlButton {
-      background-color: var(--default-button-background-color);
-      font: var(--context-control-button-font, inherit);
-      /* All position is relative to container, so ignore sibling buttons. */
-      position: absolute;
-    }
-    .contextControlButton:first-child {
-      /* First button needs to claim width to display without text wrapping. */
-      position: relative;
-    }
-    .centeredButton {
-      /* Center over divider. */
-      top: 50%;
-      transform: translateY(-50%);
-      --gr-button: {
-        color: var(--diff-context-control-color);
-        border-style: solid;
-        border-color: var(--border-color);
-        border-top-width: 1px;
-        border-right-width: 1px;
-        border-bottom-width: 1px;
-        border-left-width: 1px;
-        border-top-left-radius: var(--border-radius);
-        border-top-right-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
-        border-bottom-left-radius: var(--border-radius);
-        padding: var(--spacing-s) var(--spacing-l);
-      }
-    }
-    .aboveBelowButtons {
-      display: flex;
-      flex-direction: column;
-      margin-left: var(--spacing-m);
-      position: relative;
-    }
-    .aboveBelowButtons:first-child {
-      margin-left: 0;
-    }
-    .aboveButton {
-      /* Display over preceding content / background placeholder. */
-      transform: translateY(-100%);
-      --gr-button: {
-        color: var(--diff-context-control-color);
-        border-style: solid;
-        border-color: var(--border-color);
-        border-top-width: 1px;
-        border-right-width: 1px;
-        border-bottom-width: 0;
-        border-left-width: 1px;
-        border-top-left-radius: var(--border-radius);
-        border-top-right-radius: var(--border-radius);
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-        padding: var(--spacing-xxs) var(--spacing-l);
-      }
-    }
-    .belowButton {
-      /* Display over following content / background placeholder. */
-      top: calc(100% + var(--divider-border));
-      --gr-button: {
-        color: var(--diff-context-control-color);
-        border-style: solid;
-        border-color: var(--border-color);
-        border-top-width: 0;
-        border-right-width: 1px;
-        border-bottom-width: 1px;
-        border-left-width: 1px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: var(--border-radius);
-        border-bottom-left-radius: var(--border-radius);
-        padding: var(--spacing-xxs) var(--spacing-l);
-      }
-    }
-
     .displayLine .diff-row.target-row td {
       box-shadow: inset 0 -1px var(--border-color);
     }
@@ -445,7 +370,7 @@ export const htmlTemplate = html`
       position: absolute;
     }
     /* Is defined after other background-colors, such that this
-         rule wins in case of same specificity. */
+          rule wins in case of same specificity. */
     .trailing-whitespace,
     .content .trailing-whitespace,
     .trailing-whitespace .intraline,

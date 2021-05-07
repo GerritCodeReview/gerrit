@@ -1,0 +1,32 @@
+= Gerrit Code Review - Repository Maintenance
+
+== Description
+
+Each project in Gerrit is stored in a bare Git repository. Gerrit uses
+the JGit library to access (read and write to) these Git repositories.
+As modifications are made to a project, Git repository maintenance will
+be needed or performance will eventually suffer. When using the Git
+command line tool to operate on a Git repository, it will run `git gc`
+every now and then on the repository to ensure that Git garbage
+collection is performed. However regular maintenance does not happen as
+a result of normal Gerrit operations, so this is something that Gerrit
+administrators need to plan for.
+
+Gerrit has a built-in feature which allows it to run Git garbage
+collection on repositories. This can be
+link:config-gerrit.html#gc[configured] to run on a regular basis, and/or
+this can be run manually with the link:cmd-gc.html[gerrit gc] ssh
+command, or with the link:rest-api-projects.html#run-gc[run-gc] REST API.
+Some administrators will opt to run `git gc` or `jgit gc` outside of
+Gerrit instead. There are many reasons this might be done, the main one
+likely being that when it is run in Gerrit it can be very resource
+intensive and scheduling an external job to run Git garbage collection
+allows administrators to finely tune the approach and resource usage of
+this maintenance.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

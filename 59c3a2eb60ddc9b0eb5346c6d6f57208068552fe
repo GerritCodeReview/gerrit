@@ -33,6 +33,24 @@
       "message": "I am working on this and am close to a solution. I\u0027ll follow up early next week :-)\n\nThanks for your patience!",
       "revId": "59c3a2eb60ddc9b0eb5346c6d6f57208068552fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6424b570_cc367ea5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-07T15:37:32Z",
+      "side": 1,
+      "message": "I saw that you also want to upgrade Lucene which would cause trouble for us (involving eng weeks of work to upgrade internally). I had some spare cycles this week and worked on a fake index implementation that we can use in integration tests: https://gerrit-review.googlesource.com/c/gerrit/+/305592\n\nThis will allow us to upgrade Lucene in the open-source project without requiring Google to upgrade internally first, so it can happen fast and at any time :-)\n\nThe implementation is really concise. The core logic is just 50 LOC, the rest is refactoring and boiler plate. The implementation of that fake uncovered quite a number of bugs in existing match implementations that aren\u0027t surfacing today because the match methods aren\u0027t called (the index is doing that work for us). I was also able to generalize the implementation in a bit making the change overall net-0 or even net-negative in terms of LOC added.\n\nI have a test import pending for this change but need to cook it for a bit longer. I hope I can get that done next week and then we can get this merged.\n\nI\u0027d be happy if you want to help getting the fake test index as part of the hackathon (reviewing changes mostly).",
+      "parentUuid": "cdf6fec1_06e3d604",
+      "revId": "59c3a2eb60ddc9b0eb5346c6d6f57208068552fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

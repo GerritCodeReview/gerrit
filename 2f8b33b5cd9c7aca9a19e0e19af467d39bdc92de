@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2476b8da_e9fb1d2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T07:29:14Z",
+      "side": 1,
+      "message": "Can you mention the prerequisite for that is that http.cookieFile: [1] and http.saveCookies: [2] are set, otherwise this change is a no-op. We also have not mentioned yet these option in documentation. Given that this is a serious performance issue, we should probably clarify this in the documentation?\n\n[1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-httpcookieFile\n[2] https://git-scm.com/docs/git-config#Documentation/git-config.txt-httpsaveCookies",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 29
+      },
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "727d32e4_7d41c6be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T07:29:14Z",
+      "side": 1,
+      "message": "Can you file a bug for that, this is pretty critical issue. Did it ever work at all? Or is it actually a new feature?",
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "385bdb79_176ec19a",
+        "filename": "java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T07:29:14Z",
+      "side": 1,
+      "message": "Why this condition was moved from outside if to else branch? Add explanation in the commit message?",
+      "range": {
+        "startLine": 81,
+        "startChar": 11,
+        "endLine": 81,
+        "endChar": 92
+      },
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "294e34c5_81cbcab0",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T07:29:14Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 187,
+        "startChar": 58,
+        "endLine": 187,
+        "endChar": 68
+      },
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7290e2ec_782cb823",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-07T07:29:14Z",
+      "side": 1,
+      "message": "Are we missing the right test here? That would only verify, that the cookie is written back to the client, isn\u0027t it?\n\nI would have expected that multiple requests are re-used with the same Cookie is and that there is no re-authentication handshake take place.",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 52
+      },
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -462,32 +462,27 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
   _viewChanged() {
     const view = this.params?.view;
     this.$.errorView.classList.remove('show');
-    this.set('_showChangeListView', view === GerritView.SEARCH);
-    this.set('_showDashboardView', view === GerritView.DASHBOARD);
-    this.set('_showChangeView', view === GerritView.CHANGE);
-    this.set('_showDiffView', view === GerritView.DIFF);
-    this.set('_showSettingsView', view === GerritView.SETTINGS);
+    this._showChangeListView = view === GerritView.SEARCH;
+    this._showDashboardView = view === GerritView.DASHBOARD;
+    this._showChangeView = view === GerritView.CHANGE;
+    this._showDiffView = view === GerritView.DIFF;
+    this._showSettingsView = view === GerritView.SETTINGS;
     // _showAdminView must be in sync with the gr-admin-view AdminViewParams type
-    this.set(
-      '_showAdminView',
+    this._showAdminView =
       view === GerritView.ADMIN ||
-        view === GerritView.GROUP ||
-        view === GerritView.REPO
-    );
-    this.set('_showCLAView', view === GerritView.AGREEMENTS);
-    this.set('_showEditorView', view === GerritView.EDIT);
+      view === GerritView.GROUP ||
+      view === GerritView.REPO;
+    this._showCLAView = view === GerritView.AGREEMENTS;
+    this._showEditorView = view === GerritView.EDIT;
     const isPluginScreen = view === GerritView.PLUGIN_SCREEN;
-    this.set('_showPluginScreen', false);
+    this._showPluginScreen = false;
     // Navigation within plugin screens does not restamp gr-endpoint-decorator
     // because _showPluginScreen value does not change. To force restamp,
     // change _showPluginScreen value between true and false.
     if (isPluginScreen) {
-      setTimeout(() => this.set('_showPluginScreen', true), 1);
+      setTimeout(() => (this._showPluginScreen = true), 1);
     }
-    this.set(
-      '_showDocumentationSearch',
-      view === GerritView.DOCUMENTATION_SEARCH
-    );
+    this._showDocumentationSearch = view === GerritView.DOCUMENTATION_SEARCH;
     if (
       this.params &&
       isAppElementJustRegisteredParams(this.params) &&
@@ -568,7 +563,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     if (pathname.startsWith('/c/') && Number(hash) > 0) {
       pathname += '@' + hash;
     }
-    this.set('_path', pathname);
+    this._path = pathname;
   }
 
   _updateLoginUrl() {
@@ -603,7 +598,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     const params = paramsRecord.base;
     const viewsToCheck = [GerritView.SEARCH, GerritView.DASHBOARD];
     if (params?.view && viewsToCheck.includes(params.view)) {
-      this.set('_lastSearchPage', location.pathname);
+      this._lastSearchPage = location.pathname;
     }
   }
 

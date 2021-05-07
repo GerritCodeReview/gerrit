@@ -27,16 +27,18 @@ import './gr-zoomed-image';
 
 import {
   css,
-  customElement,
   html,
-  internalProperty,
   LitElement,
-  property,
   PropertyValues,
+} from 'lit';
+import {
+  customElement,
+  property,
   query,
-} from 'lit-element';
-import {classMap} from 'lit-html/directives/class-map';
-import {StyleInfo, styleMap} from 'lit-html/directives/style-map';
+  state,
+} from 'lit/decorators';
+import {classMap} from 'lit/directives/class-map';
+import {StyleInfo, styleMap} from 'lit/directives/style-map';
 
 import {
   createEvent,
@@ -66,23 +68,23 @@ export class GrImageViewer extends LitElement {
   // URL for the image to use as revision.
   @property({type: String}) revisionUrl = '';
 
-  @internalProperty() protected baseSelected = true;
+  @state() protected baseSelected = true;
 
-  @internalProperty() protected scaledSelected = true;
+  @state() protected scaledSelected = true;
 
-  @internalProperty() protected followMouse = false;
+  @state() protected followMouse = false;
 
-  @internalProperty() protected scale = 1;
+  @state() protected scale = 1;
 
-  @internalProperty() protected checkerboardSelected = true;
+  @state() protected checkerboardSelected = true;
 
-  @internalProperty() protected backgroundColor = '';
+  @state() protected backgroundColor = '';
 
-  @internalProperty() protected automaticBlink = false;
+  @state() protected automaticBlink = false;
 
-  @internalProperty() protected automaticBlinkShown = false;
+  @state() protected automaticBlinkShown = false;
 
-  @internalProperty() protected zoomedImageStyle: StyleInfo = {};
+  @state() protected zoomedImageStyle: StyleInfo = {};
 
   @query('.imageArea') protected imageArea!: HTMLDivElement;
 
@@ -94,16 +96,16 @@ export class GrImageViewer extends LitElement {
 
   private imageSize: Dimensions = {width: 0, height: 0};
 
-  @internalProperty()
+  @state()
   protected magnifierSize: Dimensions = {width: 0, height: 0};
 
-  @internalProperty()
+  @state()
   protected magnifierFrame: Rect = {
     origin: {x: 0, y: 0},
     dimensions: {width: 0, height: 0},
   };
 
-  @internalProperty()
+  @state()
   protected overviewFrame: Rect = {
     origin: {x: 0, y: 0},
     dimensions: {width: 0, height: 0},
@@ -118,7 +120,7 @@ export class GrImageViewer extends LitElement {
     2,
   ];
 
-  @internalProperty() protected grabbing = false;
+  @state() protected grabbing = false;
 
   private ownsMouseDown = false;
 

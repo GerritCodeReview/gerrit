@@ -14,20 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {html, nothing} from 'lit-html';
 import './gr-related-change';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
-import {classMap} from 'lit-html/directives/class-map';
+import {classMap} from 'lit/directives/class-map';
 import {GrLitElement} from '../../lit/gr-lit-element';
+import {
+  css,
+  html,
+  nothing,
+  TemplateResult,
+} from 'lit';
 import {
   customElement,
   property,
-  css,
-  internalProperty,
-  TemplateResult,
-} from 'lit-element';
+  state,
+} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   SubmittedTogetherInfo,
@@ -76,22 +79,22 @@ export class GrRelatedChangesList extends GrLitElement {
   @property()
   mergeable?: boolean;
 
-  @internalProperty()
+  @state()
   submittedTogether?: SubmittedTogetherInfo = {
     changes: [],
     non_visible_changes: 0,
   };
 
-  @internalProperty()
+  @state()
   relatedChanges: RelatedChangeAndCommitInfo[] = [];
 
-  @internalProperty()
+  @state()
   conflictingChanges: ChangeInfo[] = [];
 
-  @internalProperty()
+  @state()
   cherryPickChanges: ChangeInfo[] = [];
 
-  @internalProperty()
+  @state()
   sameTopicChanges: ChangeInfo[] = [];
 
   private readonly restApiService = appContext.restApiService;

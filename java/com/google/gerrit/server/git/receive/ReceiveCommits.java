@@ -1531,6 +1531,14 @@ class ReceiveCommits {
     @Option(name = "--remove-private", usage = "remove privacy flag from updated change")
     boolean removePrivate;
 
+    /**
+     * The skip-validation option is defined to allow parsing it using the {@link #cmdLineParser}.
+     * However we do not allow this option for pushes to magic branches. This option is used to fail
+     * with a proper error message.
+     */
+    @Option(name = "--skip-validation", usage = "skips commit validation")
+    boolean skipValidation;
+
     @Option(
         name = "--wip",
         aliases = {"-work-in-progress"},
@@ -1812,6 +1820,14 @@ class ReceiveCommits {
           return;
         }
         ref = null; // never happens
+      }
+
+      if (magicBranch.skipValidation) {
+        reject(
+            cmd,
+            String.format(
+                "\"--%s\" option is only supported for direct push", PUSH_OPTION_SKIP_VALIDATION));
+        return;
       }
 
       if (magicBranch.topic != null && magicBranch.topic.length() > ChangeUtil.TOPIC_MAX_LENGTH) {

@@ -2823,6 +2823,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertErrorStatus("\"--unknown\" is not a valid option");
   }
 
+  @Test
+  public void pushForMagicBranchWithSkipValidationOptionIsNotAllowed() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of(PUSH_OPTION_SKIP_VALIDATION));
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("\"--skip-validation\" option is only supported for direct push");
+  }
+
   private DraftInput newDraft(String path, int line, String message) {
     DraftInput d = new DraftInput();
     d.path = path;

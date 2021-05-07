@@ -66,6 +66,9 @@ public abstract class Metadata {
   /** The cause of an error. */
   public abstract Optional<String> cause();
 
+  /** Side where the comment is written: <= 0 for parent, 1 for revision. */
+  public abstract Optional<Integer> commentSide();
+
   /** The SHA1 of a commit. */
   public abstract Optional<String> commit();
 
@@ -287,6 +290,8 @@ public abstract class Metadata {
     public abstract Builder changeIdType(@Nullable String changeIdType);
 
     public abstract Builder cause(@Nullable String cause);
+
+    public abstract Builder commentSide(int side);
 
     public abstract Builder commit(@Nullable String commit);
 

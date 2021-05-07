@@ -507,6 +507,10 @@ To accelerate builds, several caches are activated per default:
 * ~/.gerritcodereview/bazel-cache/repository
 * ~/.gerritcodereview/bazel-cache/cas
 
+The `downloaded-artifacts` cache can be relocated by setting the
+`GERRIT_CACHE_HOME` environment variable. The other two can be adjusted with
+`bazel build` options `--repository_cache` and `--disk_cache` respectively.
+
 Currently none of these caches have a maximum size limit. See
 link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue,role=external,window=_blank] for
 details. Users should watch the cache sizes and clean them manually if

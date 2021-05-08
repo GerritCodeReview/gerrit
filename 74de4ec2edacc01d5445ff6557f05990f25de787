@@ -16,6 +16,23 @@
       "message": "The API name is misleading because it doesn\u0027t remove the account.\nCan we find another name instead? (Forget account? Clear account? Anonymise?)",
       "revId": "74de4ec2edacc01d5445ff6557f05990f25de787",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ed88d15_cf08b2cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-08T07:43:19Z",
+      "side": 1,
+      "message": "We have already similar SSH command:\n\n  set-account --inactive\n  set-account --delete-ssh-key\n\nmay be just extend it with:\n\n  set-account --delete-external-id",
+      "revId": "74de4ec2edacc01d5445ff6557f05990f25de787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

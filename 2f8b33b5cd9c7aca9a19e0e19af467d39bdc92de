@@ -83,6 +83,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4cefbc7_9e808b9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T01:54:15Z",
+      "side": 1,
+      "message": "The issue has been raised and linked to the change.",
+      "parentUuid": "892b55d8_965ed008",
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "385bdb79_176ec19a",

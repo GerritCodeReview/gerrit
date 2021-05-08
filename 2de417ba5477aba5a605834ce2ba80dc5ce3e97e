@@ -33,6 +33,24 @@
       "message": "I am reluctant to accept this series on stable-3.4 branch. This new feature missed rc3 and would have to wait until next release. See \"Change Acceptance Policy for the Stable Branch\" section in 3.4 release plan: [1]:\n\n  Apr 26 Release 3.4.0-rc3\n\n[1] https://www.gerritcodereview.com/2021-03-16-gerrit-3.4-release-plan.html#change-acceptance-policy-for-the-stable-branch",
       "revId": "2de417ba5477aba5a605834ce2ba80dc5ce3e97e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ced5daba_e91bd12a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T10:34:19Z",
+      "side": 1,
+      "message": "We could change the plan and add two more RCs before release. I agree with you that the change is big and we are at just 7 days from the final release.",
+      "parentUuid": "b7d1d5b7_1b4e8cbb",
+      "revId": "2de417ba5477aba5a605834ce2ba80dc5ce3e97e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

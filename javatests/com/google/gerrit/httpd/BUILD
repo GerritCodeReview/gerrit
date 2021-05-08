@@ -4,6 +4,7 @@ junit_tests(
     name = "httpd_tests",
     srcs = glob(["**/*.java"]),
     deps = [
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/server",

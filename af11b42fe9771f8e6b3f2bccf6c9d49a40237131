@@ -76,6 +76,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee6c910e_9ce262eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T09:57:30Z",
+      "side": 1,
+      "message": "sure, good idea.",
+      "parentUuid": "5396582a_a34cc488",
+      "revId": "af11b42fe9771f8e6b3f2bccf6c9d49a40237131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8946871c_88b188a6",
@@ -89,6 +107,23 @@
       "writtenOn": "2021-05-08T01:56:02Z",
       "side": 1,
       "message": "@Davido @Ponch thanks for the reviews. Can you please re-check?",
+      "revId": "af11b42fe9771f8e6b3f2bccf6c9d49a40237131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1557d248_fab75273",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T09:57:30Z",
+      "side": 1,
+      "message": "cookies are not generated when you have an HTTP password authentication because you are not actually authenticated with realm.\n\nit would be a security issue having a session cookie valid also for interactive interaction if you are not actually authenticated with the realm (LDAP).\n\ndoes that make sense?",
       "revId": "af11b42fe9771f8e6b3f2bccf6c9d49a40237131",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

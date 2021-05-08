@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68975a28_c514ca54",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T00:44:19Z",
+      "side": 1,
+      "message": "We use the term \"Gerrit cluster\" but we aren\u0027t actually defining it.\n\nGerrit Cluster: a set of Gerrit processes sharing the same Server-Id and associated to the same set of repositories, accounts and groups.",
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad4dce9e_899d7c6e",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1
@@ -120,6 +137,76 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bffb67b6_15fc3985",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T00:44:19Z",
+      "side": 1,
+      "message": "I\u0027m not religious about it, I\u0027ll get used to it.",
+      "parentUuid": "3a328b0a_a89d8ba4",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfe1f391_3d0c4bef",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T00:44:19Z",
+      "side": 1,
+      "message": "one or more clusters",
+      "range": {
+        "startLine": 38,
+        "startChar": 22,
+        "endLine": 38,
+        "endChar": 34
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c838b230_52a5b0f0",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T00:44:19Z",
+      "side": 1,
+      "message": "This is already known as HA (high-availability) configuration.\nI wouldn\u0027t introduce yet another terminology which could be confusing.",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e931df1_bb626343",
@@ -138,6 +225,29 @@
         "startChar": 57,
         "endLine": 44,
         "endChar": 65
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba84bc14_394aba44",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T00:44:19Z",
+      "side": 1,
+      "message": "Gerrit multi-site is a terminology we have been using for a decade and isn\u0027t disrespectful: do we have a reason for changing it?",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 47,
+        "endChar": 23
       },
       "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -185,6 +295,53 @@
         "startChar": 10,
         "endLine": 57,
         "endChar": 17
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15bf266e_21fd9e2b",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T00:44:19Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "6f9af80d_ce0a4488",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 57,
+        "endChar": 17
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "887bf824_ef668db3",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T00:44:19Z",
+      "side": 1,
+      "message": "What does it mean \"as a primary\" in this context?\nDo we have a \"replica as a primary\" concept?",
+      "range": {
+        "startLine": 66,
+        "startChar": 17,
+        "endLine": 66,
+        "endChar": 29
       },
       "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "57145a40_6662a86a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T09:29:52Z",
+      "side": 1,
+      "message": "are you using LDAP authentication?",
+      "parentUuid": "008e3091_6fdadc56",
+      "revId": "af11b42fe9771f8e6b3f2bccf6c9d49a40237131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aed809a1_5c1bc757",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14

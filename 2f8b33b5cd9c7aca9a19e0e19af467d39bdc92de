@@ -130,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "786cc51f_8ca8f635",
+        "filename": "java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T01:29:58Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8e9f09c8_710491bc",
+      "range": {
+        "startLine": 81,
+        "startChar": 11,
+        "endLine": 81,
+        "endChar": 92
+      },
+      "revId": "2f8b33b5cd9c7aca9a19e0e19af467d39bdc92de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "294e34c5_81cbcab0",

@@ -33,6 +33,24 @@
       "message": "We have already similar SSH command:\n\n  set-account --inactive\n  set-account --delete-ssh-key\n\nmay be just extend it with:\n\n  set-account --delete-external-id",
       "revId": "74de4ec2edacc01d5445ff6557f05990f25de787",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34557731_3cac0263",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T10:37:02Z",
+      "side": 1,
+      "message": "The accounts plugin [1] actually does it already as a DELETE API, which is misleading (mea culpa). I agree with @davido\u0027s proposal as it makes more sense to me.\n\n[1] https://gerrit.googlesource.com/plugins/account/+/HEAD/src/main/resources/Documentation/rest-api-accounts.md",
+      "parentUuid": "7ed88d15_cf08b2cd",
+      "revId": "74de4ec2edacc01d5445ff6557f05990f25de787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

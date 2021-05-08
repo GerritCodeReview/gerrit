@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "677f94a9_42e9f5c5",
+        "filename": "javatests/com/google/gerrit/httpd/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T01:54:49Z",
+      "side": 1,
+      "message": "Is this really needed?",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "0e7740c0fc87fed8fe660657a16b2bce831d3db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

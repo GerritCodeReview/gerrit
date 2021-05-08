@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "008e3091_6fdadc56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-08T07:06:06Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem to work.\n\nI added logging in verify() method: [1]. I added this section to ~/.gitconfig:\n\n  [http]\n        cookiefile \u003d /home/davido/.gitcookies\n        saveCookie \u003d true\n\nI setup test site and try to clone with HTTP pwd:\n\n  $ git fetch http://admin:secret@localhost:8080/a/test_project_http_clone refs/changes/01/1/1 \u0026\u0026 git cherry-pick FETCH_HEAD\n\nI see this log output:\n\n  [2021-05-08T08:59:34.279+02:00] [HTTP-111] WARN  com.google.gerrit.httpd.ProjectBasicAuthFilter : Verifying Request: /a/test_project_http_clone/info/refs?service\u003dgit-upload-pack\n[2021-05-08T08:59:34.283+02:00] [HTTP-111] WARN  com.google.gerrit.httpd.ProjectBasicAuthFilter : Verifying Request: /a/test_project_http_clone/info/refs?service\u003dgit-upload-pack\n[2021-05-08T08:59:34.299+02:00] [HTTP-111] WARN  com.google.gerrit.httpd.ProjectBasicAuthFilter : Verifying Request: /a/test_project_http_clone/info/refs?service\u003dgit-upload-pack\n[2021-05-08T08:59:34.394+02:00] [HTTP-111] WARN  com.google.gerrit.httpd.ProjectBasicAuthFilter : Verifying Request: /a/test_project_http_clone/info/refs?service\u003dgit-upload-pack\n[2021-05-08T08:59:34.612+02:00] [HTTP-111] WARN  com.google.gerrit.httpd.ProjectBasicAuthFilter : Verifying Request: /a/test_project_http_clone/git-upload-pack?\n[2021-05-08T08:59:34.623+02:00] [HTTP-111] WARN  com.google.gerrit.httpd.ProjectBasicAuthFilter : Verifying Request: /a/test_project_http_clone/git-upload-pack?\n[2021-05-08T08:59:34.646+02:00] [HTTP-109] WARN  com.google.gerrit.httpd.ProjectBasicAuthFilter : Verifying Request: /a/test_project_http_clone/git-upload-pack?\n[2021-05-08T08:59:34.654+02:00] [HTTP-109] WARN  com.google.gerrit.httpd.ProjectBasicAuthFilter : Verifying Request: /a/test_project_http_clone/git-upload-pack?\n\nMy local git version is:\n\n  $ git version\n  git version 2.31.1\n\nWhy it doesn\u0027t work?\n\n[1] http://paste.openstack.org/show/805071",
+      "revId": "af11b42fe9771f8e6b3f2bccf6c9d49a40237131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aed809a1_5c1bc757",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14

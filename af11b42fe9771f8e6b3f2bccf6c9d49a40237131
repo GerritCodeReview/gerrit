@@ -128,6 +128,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f764b73_b600bd52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-08T09:58:14Z",
+      "side": 1,
+      "message": "i need to add one test for that scenario, so to make it an explicit requirement tested",
+      "parentUuid": "1557d248_fab75273",
+      "revId": "af11b42fe9771f8e6b3f2bccf6c9d49a40237131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "725df03c_99978af7",

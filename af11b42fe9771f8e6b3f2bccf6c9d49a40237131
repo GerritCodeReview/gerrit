@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b65020eb_fc14274d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-09T13:28:03Z",
+      "side": 1,
+      "message": "Added the note about HTTP vs. LDAP authentication and the extra test about it.",
+      "parentUuid": "57145a40_6662a86a",
+      "revId": "af11b42fe9771f8e6b3f2bccf6c9d49a40237131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aed809a1_5c1bc757",
@@ -49,6 +67,30 @@
       "writtenOn": "2021-05-08T06:48:10Z",
       "side": 1,
       "message": "Add this information to the documentation? My proposal would be to add it to Documentation/user-upload.txt, to \"HTTP/HTTPS\" section.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 4
+      },
+      "revId": "af11b42fe9771f8e6b3f2bccf6c9d49a40237131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f85de4fa_4577508b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-09T13:28:03Z",
+      "side": 1,
+      "message": "Good point, let me added it there.\n\nAlso, it\u0027s worth mentioning when the gitBasicAuthPolicy is set to LDAP or HTTP_LDAP.",
+      "parentUuid": "aed809a1_5c1bc757",
       "range": {
         "startLine": 18,
         "startChar": 0,

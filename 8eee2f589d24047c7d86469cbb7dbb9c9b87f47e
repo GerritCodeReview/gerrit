@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5626a7d0_250c9bf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-09T21:01:16Z",
+      "side": 1,
+      "message": "which JGit/Gerrit version(s) are you looking for ?",
+      "parentUuid": "d75ed9d9_a7573a62",
+      "revId": "8eee2f589d24047c7d86469cbb7dbb9c9b87f47e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7055d2c5_53c0da70",

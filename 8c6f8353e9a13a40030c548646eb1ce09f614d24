@@ -199,6 +199,24 @@
       "parentUuid": "185ffcd9_0fe60f84",
       "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33488f20_bf4577e6",
+        "filename": "resources/com/google/gerrit/sshd/NoShell_test.sh",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-05-10T14:50:02Z",
+      "side": 1,
+      "message": "It was my fault. You can discard my last comment. I added the IT test finally. The command had to be adjusted to add \"-o UserKnownHostsFile\u003d/dev/null -o StrictHostKeyChecking\u003dno\" directly in the builder instead of passing it as a process environment variable. Thank you for the clarification and the examples provided.",
+      "parentUuid": "26bd16c6_329a8352",
+      "revId": "8c6f8353e9a13a40030c548646eb1ce09f614d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

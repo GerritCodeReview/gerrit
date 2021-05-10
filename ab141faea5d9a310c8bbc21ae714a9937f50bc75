@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbf4bf9b_64564340",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T15:33:58Z",
+      "side": 1,
+      "message": "Nit: We usually import collectors statically.",
+      "range": {
+        "startLine": 386,
+        "startChar": 23,
+        "endLine": 386,
+        "endChar": 42
+      },
+      "revId": "ab141faea5d9a310c8bbc21ae714a9937f50bc75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2262d736_e5d53289",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T15:33:58Z",
+      "side": 1,
+      "message": "Collections.singletonList() as you did on line: 227?",
+      "range": {
+        "startLine": 391,
+        "startChar": 12,
+        "endLine": 391,
+        "endChar": 32
+      },
+      "revId": "ab141faea5d9a310c8bbc21ae714a9937f50bc75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

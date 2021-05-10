@@ -1,0 +1,855 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ad14c89_aab01585",
+        "filename": "java/com/google/gerrit/server/query/change/AddedPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "This is a no-op class and can be removed?",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1be5a93_236dc7d7",
+        "filename": "java/com/google/gerrit/server/query/change/AssigneePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused now and should be removed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a16adca_8b0fbdeb",
+        "filename": "java/com/google/gerrit/server/query/change/AttentionSetPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused and should be removed.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd2ca060_4f6f6b5a",
+        "filename": "java/com/google/gerrit/server/query/change/CherryPickOfChangePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "This class is a no-op now and can be removed?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 40
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf24c577_d4001471",
+        "filename": "java/com/google/gerrit/server/query/change/CherryPickOfPatchSetPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "This class is a no-op now and can be removed?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba2b9201_13adc460",
+        "filename": "java/com/google/gerrit/server/query/change/CherryPickOfPatchSetPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Missed to remove this as well?",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 3
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a9a28d5_263eea0d",
+        "filename": "java/com/google/gerrit/server/query/change/CommentByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused and can be removed?",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0a9235b_b5fc3ff1",
+        "filename": "java/com/google/gerrit/server/query/change/CommentByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 3
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b68975eb_c1c44f9b",
+        "filename": "java/com/google/gerrit/server/query/change/CommentPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused now and should be removed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 36
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cfb6c9c_23a50f5f",
+        "filename": "java/com/google/gerrit/server/query/change/DeletedPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Is a no-op class and could be removed?",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 29
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3a8d77c_6e911319",
+        "filename": "java/com/google/gerrit/server/query/change/DeltaPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Is a no-op class and could be removed?",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66f4b9c3_b337dcf4",
+        "filename": "java/com/google/gerrit/server/query/change/EditByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "This is now unused and should be removed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d7703c9_fac9637e",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Is this fixing a bug?",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5937582e_bf2eaf4b",
+        "filename": "java/com/google/gerrit/server/query/change/FuzzyHashtagPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused now and should be removed.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd6f2310_c52bd4da",
+        "filename": "java/com/google/gerrit/server/query/change/FuzzyTopicPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused now and should be removed.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa88981d_4124ef18",
+        "filename": "java/com/google/gerrit/server/query/change/GroupPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "It\u0027s now a no-op class now and can be removed?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d554732_91a64f94",
+        "filename": "java/com/google/gerrit/server/query/change/HasDraftByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused now and should be removed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 39
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4b4bcdd_493bf761",
+        "filename": "java/com/google/gerrit/server/query/change/HasStarsPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Other predicated classes don\u0027t have toString() method. Do we really need it here? I would rather prefer to make it consistent.",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87ab5017_daa8cd60",
+        "filename": "java/com/google/gerrit/server/query/change/IsReviewedPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused now and should be removed.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 32
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71c013b0_be7c129a",
+        "filename": "java/com/google/gerrit/server/query/change/IsUnresolvedPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Is a no-op class and can be removed?",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 34
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bcce23c_4e79dc1d",
+        "filename": "java/com/google/gerrit/server/query/change/LegacyChangeIdPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused now and should be removed.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2308e167_e4cc2f68",
+        "filename": "java/com/google/gerrit/server/query/change/LegacyChangeIdStrPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused now and should be removed.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2d93de2_630b10ea",
+        "filename": "java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused now and should be removed.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b54f111d_4318a2ea",
+        "filename": "java/com/google/gerrit/server/query/change/OwnerPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused and can be removed?",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a0de106_17257996",
+        "filename": "java/com/google/gerrit/server/query/change/OwnerPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 3
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ce272ae_befaecfd",
+        "filename": "java/com/google/gerrit/server/query/change/ProjectPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 0
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da2e2df3_f593ff20",
+        "filename": "java/com/google/gerrit/server/query/change/ProjectPrefixPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Is a no-op class now?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 35
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e474addf_885dd430",
+        "filename": "java/com/google/gerrit/server/query/change/RevertOfPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Is a no-op class now?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 30
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed1d9356_ad4b71e5",
+        "filename": "java/com/google/gerrit/server/query/change/ReviewerByEmailPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "This is unused now and should be removed.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 44
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99e6c29b_013374b4",
+        "filename": "java/com/google/gerrit/server/query/change/ReviewerByEmailPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 28
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6b37f44_1f45f593",
+        "filename": "java/com/google/gerrit/server/query/change/ReviewerByEmailPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eac3743_f12b29c7",
+        "filename": "java/com/google/gerrit/server/query/change/ReviewerPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused now and should be removed.",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 46
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72fdb484_c629ea50",
+        "filename": "java/com/google/gerrit/server/query/change/ReviewerPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64de83e6_bb1a38de",
+        "filename": "java/com/google/gerrit/server/query/change/ReviewerPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 3
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d38cd91e_b074c5a3",
+        "filename": "java/com/google/gerrit/server/query/change/StarPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "Both fields are unused now.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8f429f9_845f4ae3",
+        "filename": "java/com/google/gerrit/server/query/change/SubmittablePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "This is unused now and should be removed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fdc21d3_33a6448d",
+        "filename": "java/com/google/gerrit/server/query/change/TrackingIdPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 1,
+      "message": "This is a no-op class now and could be rmeoved.",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

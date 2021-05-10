@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7b291ca_d9b467c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-10T14:01:23Z",
+      "side": 1,
+      "message": "When you remove implemetation you should also remove documentation.\nAssignee is still (apart from UI) mentioned in these files:\nDocumentation/access-control.txt\nDocumentation/cmd-stream-events.txt\nDocumentation/concept-changes.txt\nDocumentation/config-mail.txt\nDocumentation/config-validation.txt\nDocumentation/dev-stars.txt\nDocumentation/rest-api-changes.txt\nDocumentation/rest-api-config.txt\nDocumentation/user-attention-set.txt\nDocumentation/user-notify.txt\nDocumentation/user-search.txt\njava/com/google/gerrit/server/index/change/ChangeField.java\njava/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java\njava/com/google/gerrit/server/query/change/ChangeQueryBuilder.java\nproto/cache.proto\nproto/entities.proto",
+      "revId": "574af59dd6c9a0101190632b2556593bac8cd8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32768f54_ee29bf7b",

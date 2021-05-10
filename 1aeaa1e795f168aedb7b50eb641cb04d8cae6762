@@ -16,6 +16,29 @@
       "message": "This first patchset it to show some more finding about the issue.",
       "revId": "1aeaa1e795f168aedb7b50eb641cb04d8cae6762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8f2063b_1a84f73c",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-10T20:25:14Z",
+      "side": 1,
+      "message": "Might be OOT for this ticket but I was wondering if it can be related somehow. I believe this was meant to be `Thread.interrupt()` ?",
+      "range": {
+        "startLine": 187,
+        "startChar": 17,
+        "endLine": 187,
+        "endChar": 28
+      },
+      "revId": "1aeaa1e795f168aedb7b50eb641cb04d8cae6762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

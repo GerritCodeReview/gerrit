@@ -1198,6 +1198,27 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickSetsReadyChangeOnNewPatchset() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
+
+    ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
+
+    cherry.setWorkInProgress();
+
+    cherry = orig.revision(r.getCommit().name()).cherryPick(in);
+
+    // needed to get more results in ChangeInfo
+    ChangeInfo secondCherryPickResult = gApi.changes().id(cherry.id()).get(ALL_REVISIONS);
+
+    assertThat(secondCherryPickResult.revisions).hasSize(2);
+    assertThat(secondCherryPickResult.workInProgress).isNull();
+  }
+
+  @Test
   public void canRebase() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");

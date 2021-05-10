@@ -36,6 +36,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountSshKey;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.restapi.account.AddSshKey;
 import com.google.gerrit.server.restapi.account.CreateEmail;
 import com.google.gerrit.server.restapi.account.DeleteActive;
 import com.google.gerrit.server.restapi.account.DeleteEmail;
+import com.google.gerrit.server.restapi.account.DeleteExternalIds;
 import com.google.gerrit.server.restapi.account.DeleteSshKey;
 import com.google.gerrit.server.restapi.account.GetEmails;
 import com.google.gerrit.server.restapi.account.GetSshKeys;
@@ -61,6 +63,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
@@ -122,9 +125,17 @@ final class SetAccountCommand extends SshCommand {
   @Option(name = "--generate-http-password", usage = "generate a new HTTP password for the account")
   private boolean generateHttpPassword;
 
+  @Option(
+      name = "--delete-external-id",
+      metaVar = "EXTERNALID",
+      usage = "external id to delete from the account")
+  private List<String> externalIdsToDelete = new ArrayList<>();
+
   @Inject private IdentifiedUser.GenericFactory genericUserFactory;
 
   @Inject private CreateEmail createEmail;
+
+  @Inject private DeleteExternalIds deleteExternalIds;
 
   @Inject private GetEmails getEmails;
 
@@ -149,6 +160,8 @@ final class SetAccountCommand extends SshCommand {
   @Inject private PermissionBackend permissionBackend;
 
   @Inject private Provider<CurrentUser> userProvider;
+
+  @Inject private ExternalIds externalIds;
 
   private AccountResource rsrc;
 
@@ -210,6 +223,9 @@ final class SetAccountCommand extends SshCommand {
           "--preferred-email and --delete-email options are mutually "
               + "exclusive for the same email address.");
     }
+    if (externalIdsToDelete.contains("ALL")) {
+      externalIdsToDelete = Collections.singletonList("ALL");
+    }
   }
 
   private void setAccount() throws Failure {
@@ -264,6 +280,10 @@ final class SetAccountCommand extends SshCommand {
       deleteSshKeys = readSshKey(deleteSshKeys);
       if (!deleteSshKeys.isEmpty()) {
         deleteSshKeys(deleteSshKeys);
+      }
+
+      for (String externalId : externalIdsToDelete) {
+        deleteExternalId(externalId);
       }
     } catch (RestApiException e) {
       throw die(e.getMessage());
@@ -354,5 +374,22 @@ final class SetAccountCommand extends SshCommand {
       }
     }
     return sshKeys;
+  }
+
+  private void deleteExternalId(String externalId)
+      throws IOException, RestApiException, ConfigInvalidException, PermissionBackendException {
+    List<String> ids;
+    if (externalId.equals("ALL")) {
+      ids =
+          externalIds.byAccount(rsrc.getUser().getAccountId()).stream()
+              .map(e -> e.key().get())
+              .collect(Collectors.toList());
+      if (ids.isEmpty()) {
+        throw new ResourceNotFoundException("Account has no external Ids");
+      }
+    } else {
+      ids = List.of(externalId);
+    }
+    deleteExternalIds.apply(rsrc, ids);
   }
 }

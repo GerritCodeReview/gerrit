@@ -14,7 +14,8 @@ _ssh_ -p <port> <host> _gerrit set-account_
   [--delete-ssh-key - | <KEY> | ALL]
   [--generate-http-password]
   [--http-password <PASSWORD>]
-  [--clear-http-password] <USER>
+  [--clear-http-password]
+  [--delete-external-id <EXTERNALID>] <USER>
 --
 
 == DESCRIPTION
@@ -105,6 +106,13 @@ This most likely requires double quoting the value, for example
 
 --clear-http-password::
     Clear the HTTP password for the user account.
+
+--delete-external-id::
+    Delete an external ID from a user's account if it exists.
+    If the external ID provided is 'ALL', all associated
+    external IDs are deleted from this account.
+    May be supplied more than once to remove multiple external
+    IDs from an account in a single command execution.
 
 == EXAMPLES
 Add an email and SSH key to `watcher`'s account:

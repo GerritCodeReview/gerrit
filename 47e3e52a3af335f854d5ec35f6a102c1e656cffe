@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c389ad5c_5831dbd7",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-10T15:00:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68975a28_c514ca54",
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad4dce9e_899d7c6e",
@@ -184,6 +202,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8265d35_20627f52",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-10T15:00:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfe1f391_3d0c4bef",
+      "range": {
+        "startLine": 38,
+        "startChar": 22,
+        "endLine": 38,
+        "endChar": 34
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c838b230_52a5b0f0",
@@ -197,6 +239,30 @@
       "writtenOn": "2021-05-08T00:44:19Z",
       "side": 1,
       "message": "This is already known as HA (high-availability) configuration.\nI wouldn\u0027t introduce yet another terminology which could be confusing.",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fd9c9e1_3e7d8193",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-10T15:00:38Z",
+      "side": 1,
+      "message": "HA itself isn\u0027t specific enough. Admins often want HA primaries and HA replicas and there are many ways to achieve HA (doesn\u0027t require shared storage, for example).\n\nI understand the desire to not confuse folks that are used to calling this just \"HA\" (same with multi-site below), which is why I tried to refer to those plugins in these sections. Do you have other ideas for how we can make this discoverable to folks expecting those names without claiming those are the only ways to provide HA/multi-site?",
+      "parentUuid": "c838b230_52a5b0f0",
       "range": {
         "startLine": 40,
         "startChar": 18,
@@ -230,6 +296,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff90e13d_e0b2f154",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-10T15:00:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e931df1_bb626343",
+      "range": {
+        "startLine": 44,
+        "startChar": 57,
+        "endLine": 44,
+        "endChar": 65
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba84bc14_394aba44",
@@ -243,6 +333,30 @@
       "writtenOn": "2021-05-08T00:44:19Z",
       "side": 1,
       "message": "Gerrit multi-site is a terminology we have been using for a decade and isn\u0027t disrespectful: do we have a reason for changing it?",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 47,
+        "endChar": 23
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72cc4df3_bd8fcb1e",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-10T15:00:38Z",
+      "side": 1,
+      "message": "Not trying to change it here, but am I trying to provide a more specific definition. Someone running primaries in one site and replicas in another has in the literal sense, a multi-site configuration. But I think when you talk about multi-site, you typically mean what I\u0027m describing here, where there are primaries with the same server-id and the same set of repos/changes in multiple sites.",
+      "parentUuid": "ba84bc14_394aba44",
       "range": {
         "startLine": 47,
         "startChar": 3,
@@ -337,6 +451,30 @@
       "writtenOn": "2021-05-08T00:44:19Z",
       "side": 1,
       "message": "What does it mean \"as a primary\" in this context?\nDo we have a \"replica as a primary\" concept?",
+      "range": {
+        "startLine": 66,
+        "startChar": 17,
+        "endLine": 66,
+        "endChar": 29
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5063a0d2_129197fe",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-10T15:00:38Z",
+      "side": 1,
+      "message": "Sorry, this is confusing, meant \"alongside a primary\" or \"sharing the same storage\".",
+      "parentUuid": "887bf824_ef668db3",
       "range": {
         "startLine": 66,
         "startChar": 17,

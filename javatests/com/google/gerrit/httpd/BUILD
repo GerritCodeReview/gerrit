@@ -18,6 +18,7 @@ junit_tests(
         "//lib:junit",
         "//lib:servlet-api-without-neverlink",
         "//lib:soy",
+        "//lib/bouncycastle:bcprov",
         "//lib/guice",
         "//lib/guice:guice-servlet",
         "//lib/mockito",

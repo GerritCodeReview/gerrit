@@ -12,6 +12,7 @@ java_library(
         "//lib:junit",
         "//lib/mockito",
     ],
+    runtime_deps = ["//java/com/google/gerrit/index/testing"],
     deps = [
         "//java/com/google/gerrit/acceptance/config",
         "//java/com/google/gerrit/acceptance/testsuite/project",

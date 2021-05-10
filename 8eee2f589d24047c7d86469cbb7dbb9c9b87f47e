@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "49f47348_587fb7bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-10T14:55:26Z",
+      "side": 1,
+      "message": "The oldest supported gerrit release gerrit 3.1 uses jgit 5.6, I can backport the patch to stable-5.6 and all newer stable branches and update the respective gerrit branches.\n\nIf you want it on even older versions I can backport it to older branches but won\u0027t create a maintenance release for such outdated jgit versions except, if you think this is necessary, gerrit 2.16 which uses jgit 5.1.15.",
+      "parentUuid": "f4b6b259_8c1af25a",
+      "revId": "8eee2f589d24047c7d86469cbb7dbb9c9b87f47e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7055d2c5_53c0da70",

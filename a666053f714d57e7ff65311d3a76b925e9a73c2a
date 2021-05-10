@@ -137,6 +137,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e0e8f24e_686b1d7e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-10T13:00:45Z",
+      "side": 1,
+      "message": "Can you add a comment like Hermann did in elements/diff/gr-diff-image-viewer/gr-image-viewer.ts?\n\n  // To pass CSS mixins for @apply to Polymer components, they need to be\n  // wrapped in a \u003ccustom-style\u003e.\n\nAnd then only put the styles that need --gr-button into the custom-style.",
+      "parentUuid": "2a07d1ae_6414da02",
+      "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a369c4d0_9abe454e",
         "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
         "patchSetId": 10

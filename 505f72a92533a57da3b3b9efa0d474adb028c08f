@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "684050a2_acb9cb6d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-10T13:00:45Z",
+      "side": 1,
+      "message": "Maybe make the assert explicit. We have a utility for that:\n\n  assertIsDefined(this.section, \u0027section\u0027);",
+      "range": {
+        "startLine": 289,
+        "startChar": 19,
+        "endLine": 289,
+        "endChar": 33
+      },
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "776240d7_db28f8b1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-10T13:00:45Z",
+      "side": 1,
+      "message": "assertIsDefined\n\nSee above.",
+      "range": {
+        "startLine": 377,
+        "startChar": 28,
+        "endLine": 377,
+        "endChar": 34
+      },
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59364ce1_17ce9cb3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-10T13:00:45Z",
+      "side": 1,
+      "message": "Maybe force the return value to be a boolean by adding !!.",
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5ec008a_0af2a8e2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls_test.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-10T13:00:45Z",
+      "side": 1,
+      "message": "New tests must be written in TypeScript. Sorry for missing this in the first review round.",
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54295ce0_9e7e9043",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls_test.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-10T13:00:45Z",
+      "side": 1,
+      "message": "2021",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -79,6 +79,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8d50686f_8a1eff60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-10T17:03:28Z",
+      "side": 1,
+      "message": "\u003e It would be easier to review for correctness if for example this started with a change that dealt with all fields of type LONG.\n\nOk, I can split up the change by field/predicate type.\n\n\u003e Unfortunately if the tests aren\u0027t merged before ...\n\nLet me look at testing once more tomorrow morning to give a qualified answer here :-)",
+      "parentUuid": "23436807_1506e413",
+      "revId": "445f071f4f08b2aed680fb1e32666dc4e910f02f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1dd9eb60_1425f3c4",
         "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
         "patchSetId": 1

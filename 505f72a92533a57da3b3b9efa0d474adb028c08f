@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e59eac71_99dd7324",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T14:06:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "684050a2_acb9cb6d",
+      "range": {
+        "startLine": 289,
+        "startChar": 19,
+        "endLine": 289,
+        "endChar": 33
+      },
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "776240d7_db28f8b1",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-10T13:00:45Z",
       "side": 1,
       "message": "assertIsDefined\n\nSee above.",
+      "range": {
+        "startLine": 377,
+        "startChar": 28,
+        "endLine": 377,
+        "endChar": 34
+      },
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "041e6302_5f03e711",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T14:06:29Z",
+      "side": 1,
+      "message": "as far as I could understand from assertIsDefined it doesn\u0027t return a non-nullable type for the input, but just checks it in runtime. Therefore I\u0027m using it before but still having to use this.diff!\n\nbtw.. a suggestion for the future would be to implement that in assertIsDefined - to return the original value (but typed-checked), then I would be able to do the following:\n\n```\n\nassertIsDefined(this.diff, \"diff\").meta_b.syntax_tree;\n\n```",
+      "parentUuid": "776240d7_db28f8b1",
       "range": {
         "startLine": 377,
         "startChar": 28,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f44fa584_fe561c4b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T14:06:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59364ce1_17ce9cb3",
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5ec008a_0af2a8e2",
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fb6f8b1_6a726302",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls_test.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T14:06:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5ec008a_0af2a8e2",
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54295ce0_9e7e9043",
@@ -94,6 +178,30 @@
       "writtenOn": "2021-05-10T13:00:45Z",
       "side": 1,
       "message": "2021",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cdd089a_f55ea9c4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls_test.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T14:06:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54295ce0_9e7e9043",
       "range": {
         "startLine": 3,
         "startChar": 17,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91585e76_a2d78db1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-10T14:56:28Z",
+      "side": 1,
+      "message": "I\u0027m not really sure I get why this is needed, can\u0027t the users just use the existing WebLink?",
+      "revId": "7f75fabd588f1e7a17d5822c6a172b55834fd6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

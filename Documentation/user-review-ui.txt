@@ -735,12 +735,12 @@ the Git web browser.
 image::images/gwt-user-review-ui-side-by-side-diff-screen-project-and-file.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-project-and-file.png"]
 
 [[side-by-side-mark-reviewed]]
-The checkbox in front of the project name and the file name allows the
+The checkbox in front of the file name allows the
 patch to be marked as reviewed. The link:#mark-reviewed[Mark Reviewed]
 diff preference allows to control whether the files should be
 automatically marked as reviewed when they are viewed.
 
-image::images/gwt-user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-reviewed.png"]
+image::images/user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-reviewed.png"]
 
 [[scrollbar]]
 The scrollbar shows patch diffs and inline comments as annotations.

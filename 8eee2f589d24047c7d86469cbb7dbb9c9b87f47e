@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c723a78_02dc6b6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-10T15:01:13Z",
+      "side": 1,
+      "message": "I think in general you can hit this if you try a PackedBatchRefUpdate with more refs than your ulimit allows open file handles.",
+      "parentUuid": "0fc85d24_a844a749",
+      "revId": "8eee2f589d24047c7d86469cbb7dbb9c9b87f47e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7055d2c5_53c0da70",

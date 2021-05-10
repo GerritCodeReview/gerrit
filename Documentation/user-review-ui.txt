@@ -1131,16 +1131,12 @@ If `true` is selected then line wrapping is enabled.
 
 Navigation within the review UI can be completely done by keys, and
 most actions can be controlled by keyboard shortcuts. Typing `?` opens
-a popup that shows a list of available keyboard shortcuts:
+a popup that shows a list of available keyboard shortcuts.
 
-- Change Screen
-+
-image::images/gwt-user-review-ui-change-screen-keyboard-shortcuts.png[width=800, link="images/gwt-user-review-ui-change-screen-keyboard-shortcuts.png"]
 
-- Side-by-Side Diff Screen
-+
-image::images/gwt-user-review-ui-side-by-side-diff-screen-keyboard-shortcuts.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-keyboard-shortcuts.png"]
-+
+image::images/user-review-ui-change-screen-keyboard-shortcuts.png[width=800, link="images/gwt-user-review-ui-change-screen-keyboard-shortcuts.png"]
+
+
 In addition, Vim-like commands can be used to link:#key-navigation[
 navigate] and link:#search[search] within a patch file.
 

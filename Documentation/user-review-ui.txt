@@ -911,28 +911,6 @@ level comment.
 
 image::images/gwt-user-review-ui-side-by-side-diff-screen-file-level-commented.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-file-level-commented.png"]
 
-[[search]]
-=== Search
-
-For searching within a patch file, a Vim-like search is supported.
-Typing `/` opens the search box. Typing in the search box immediately
-highlights matches in the patch file with a yellow background. Using
-JavaScript regular expressions in the search term is supported. The
-search is case insensitive. After confirming the search by `ENTER` one
-can navigate between the matches by `n` / `N` to go to the next /
-previous match. Skipped lines are automatically expanded if they
-contain a match and one navigates to it.
-
-For additional possibilities to search please check the
-link:http://www.vim.org/docs.php[Vim documentation,role=external,window=_blank]. There are other
-useful ways to search, e.g. while the cursor is on a word, pressing `*`
-or `#` searches for the next or previous occurrence of the word.
-
-Searching by `Ctrl-F` finds matches only in the visible area of the
-screen unless the link:#render[Render] diff preference is set to `Slow`.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-search.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-search.png"]
-
 [[diff-preferences]]
 === Diff Preferences
 

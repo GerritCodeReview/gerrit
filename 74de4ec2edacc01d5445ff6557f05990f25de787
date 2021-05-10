@@ -51,6 +51,24 @@
       "parentUuid": "7ed88d15_cf08b2cd",
       "revId": "74de4ec2edacc01d5445ff6557f05990f25de787",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be3e7e72_17faf5a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-10T11:24:09Z",
+      "side": 1,
+      "message": "I agree that this is the better solution at the moment, since it also allows to do everything this API endpoint does in a single command, and will implement it in a separate change, abandoning this and the the followup change.\nUsing `set-account` to make an account unusable however, also sounds unintuitive. But this is a topic of its own and account deletion in Gerrit core should have its own discussion.",
+      "parentUuid": "34557731_3cac0263",
+      "revId": "74de4ec2edacc01d5445ff6557f05990f25de787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

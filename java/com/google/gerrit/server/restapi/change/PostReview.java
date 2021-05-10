@@ -994,6 +994,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ctx.getWhen());
     }
 
+    /**
+     * Publishes draft and input comments. Input comments are those passed as input in the request
+     * body.
+     *
+     * @param ctx context for performing the change update.
+     * @param newRobotComments robot comments. Used only for validation in this method.
+     * @return true if any input comments where published.
+     */
     private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)
         throws CommentsRejectedException {
       Map<String, List<CommentInput>> inputComments = in.comments;
@@ -1001,28 +1009,64 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         inputComments = Collections.emptyMap();
       }
 
-      // HashMap instead of Collections.emptyMap() avoids warning about remove() on immutable
-      // object.
+      // Use HashMap to avoid warnings when calling remove() in resolveInputCommentsAndDrafts().
       Map<String, HumanComment> drafts = new HashMap<>();
-      // If there are inputComments we need the deduplication loop below, so we have to read (and
-      // publish) drafts here.
+
       if (!inputComments.isEmpty() || in.drafts != DraftHandling.KEEP) {
-        if (in.drafts == DraftHandling.PUBLISH_ALL_REVISIONS) {
-          drafts = changeDrafts(ctx);
-        } else {
-          drafts = patchSetDrafts(ctx);
-        }
+        drafts =
+            in.drafts == DraftHandling.PUBLISH_ALL_REVISIONS
+                ? changeDrafts(ctx)
+                : patchSetDrafts(ctx);
       }
 
-      // This will be populated with Comment-s created from inputComments.
-      List<HumanComment> toPublish = new ArrayList<>();
-
+      // Existing published comments
       Set<CommentSetEntry> existingComments =
           in.omitDuplicateComments ? readExistingComments(ctx) : Collections.emptySet();
 
-      // Deduplication:
-      // - Ignore drafts with the same ID as an inputComment here. These are deleted later.
-      // - Swallow comments that already exist.
+      // Input comments should be deduplicated from existing drafts
+      List<HumanComment> inputCommentsToPublish =
+          resolveInputCommentsAndDrafts(inputComments, existingComments, drafts, ctx);
+
+      switch (in.drafts) {
+        case PUBLISH:
+        case PUBLISH_ALL_REVISIONS:
+          validateComments(
+              ctx,
+              Streams.concat(
+                  drafts.values().stream(),
+                  inputCommentsToPublish.stream(),
+                  newRobotComments.stream()));
+          publishCommentUtil.publish(ctx, ctx.getUpdate(psId), drafts.values(), in.tag);
+          comments.addAll(drafts.values());
+          break;
+        case KEEP:
+          validateComments(
+              ctx, Streams.concat(inputCommentsToPublish.stream(), newRobotComments.stream()));
+          break;
+      }
+      commentsUtil.putHumanComments(
+          ctx.getUpdate(psId), HumanComment.Status.PUBLISHED, inputCommentsToPublish);
+      comments.addAll(inputCommentsToPublish);
+      return !inputCommentsToPublish.isEmpty();
+    }
+
+    /**
+     * Returns the subset of {@code inputComments} that do not have a matching comment (with same
+     * id) neither in {@code existingComments} nor in {@code drafts}.
+     *
+     * <p>Entries in {@code drafts} that have a matching entry in {@code inputComments} will be
+     * removed.
+     *
+     * @param inputComments new comments provided as {@link CommentInput} entries in the API.
+     * @param existingComments existing published comments in the database.
+     * @param drafts existing draft comments in the database. This map can be modified.
+     */
+    private List<HumanComment> resolveInputCommentsAndDrafts(
+        Map<String, List<CommentInput>> inputComments,
+        Set<CommentSetEntry> existingComments,
+        Map<String, HumanComment> drafts,
+        ChangeContext ctx) {
+      List<HumanComment> inputCommentsToPublish = new ArrayList<>();
       for (Map.Entry<String, List<CommentInput>> entry : inputComments.entrySet()) {
         String path = entry.getKey();
         for (CommentInput inputComment : entry.getValue()) {
@@ -1054,32 +1098,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           if (existingComments.contains(CommentSetEntry.create(comment))) {
             continue;
           }
-          toPublish.add(comment);
+          inputCommentsToPublish.add(comment);
         }
       }
-
-      CommentValidationContext commentValidationCtx =
-          CommentValidationContext.create(
-              ctx.getChange().getChangeId(), ctx.getChange().getProject().get());
-      switch (in.drafts) {
-        case PUBLISH:
-        case PUBLISH_ALL_REVISIONS:
-          validateComments(
-              commentValidationCtx,
-              Streams.concat(
-                  drafts.values().stream(), toPublish.stream(), newRobotComments.stream()));
-          publishCommentUtil.publish(ctx, ctx.getUpdate(psId), drafts.values(), in.tag);
-          comments.addAll(drafts.values());
-          break;
-        case KEEP:
-          validateComments(
-              commentValidationCtx, Stream.concat(toPublish.stream(), newRobotComments.stream()));
-          break;
-      }
-      ChangeUpdate changeUpdate = ctx.getUpdate(psId);
-      commentsUtil.putHumanComments(changeUpdate, HumanComment.Status.PUBLISHED, toPublish);
-      comments.addAll(toPublish);
-      return !toPublish.isEmpty();
+      return inputCommentsToPublish;
     }
 
     /**
@@ -1087,8 +1109,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
      * contract of {@link CommentValidator#validateComments(CommentValidationContext,
      * ImmutableList)}.
      */
-    private void validateComments(CommentValidationContext ctx, Stream<Comment> comments)
+    private void validateComments(ChangeContext ctx, Stream<? extends Comment> comments)
         throws CommentsRejectedException {
+      CommentValidationContext commentValidationCtx =
+          CommentValidationContext.create(
+              ctx.getChange().getChangeId(), ctx.getChange().getProject().get());
       String changeMessage = Strings.nullToEmpty(in.message).trim();
       ImmutableList<CommentForValidation> draftsForValidation =
           Stream.concat(
@@ -1111,7 +1136,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                           changeMessage.length())))
               .collect(toImmutableList());
       ImmutableList<CommentValidationFailure> draftValidationFailures =
-          PublishCommentUtil.findInvalidComments(ctx, commentValidators, draftsForValidation);
+          PublishCommentUtil.findInvalidComments(
+              commentValidationCtx, commentValidators, draftsForValidation);
       if (!draftValidationFailures.isEmpty()) {
         throw new CommentsRejectedException(draftValidationFailures);
       }

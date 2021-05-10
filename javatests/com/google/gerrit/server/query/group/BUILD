@@ -29,8 +29,7 @@ junit_tests(
     name = "lucene_query_test",
     size = "large",
     srcs = glob(
-        ["*.java"],
-        exclude = ABSTRACT_QUERY_TEST,
+        ["LuceneQueryGroupsTest.java"],
     ),
     visibility = ["//visibility:public"],
     deps = [
@@ -39,5 +38,22 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:jgit",
         "//lib/guice",
+    ],
+)
+
+junit_tests(
+    name = "fake_query_test",
+    size = "large",
+    srcs = glob(
+        ["FakeQueryGroupsTest.java"],
+    ),
+    visibility = ["//visibility:public"],
+    deps = [
+        ":abstract_query_tests",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//lib:jgit",
+        "//lib/guice",
+        "@truth//jar",
     ],
 )

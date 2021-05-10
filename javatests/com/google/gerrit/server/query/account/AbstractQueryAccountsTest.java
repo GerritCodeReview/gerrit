@@ -146,6 +146,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   protected abstract Injector createInjector();
 
+  protected void validateAssumptions() {}
+
   @Before
   public void setUpInjector() throws Exception {
     lifecycle = new LifecycleManager();
@@ -155,6 +157,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     lifecycle.start();
     initAfterLifecycleStart();
     setUpDatabase();
+    validateAssumptions();
   }
 
   @After

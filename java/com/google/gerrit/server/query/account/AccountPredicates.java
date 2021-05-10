@@ -144,6 +144,11 @@ public class AccountPredicates {
 
     @Override
     public boolean match(AccountState object) {
+      // TODO(hiesel): Remove this. This was just added so that we have a minimal working
+      // implementation.
+      if ("EXACT".equals(getField().getType().getName())) {
+        getValue().equals(getField().get(object));
+      }
       return true;
     }
 

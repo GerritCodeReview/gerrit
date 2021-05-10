@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95d4a854_2fc1a4de",
+        "filename": "java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-10T08:01:23Z",
+      "side": 1,
+      "message": "nit: Call this user1 to match the other methods.",
+      "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c62f6e5f_2cc96ead",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-10T08:01:23Z",
+      "side": 1,
+      "message": "Could you add a comment here to describe when this method is to be used instead of the other two?",
+      "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b5c6d4e_0dae81d1",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesCommitIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-10T08:01:23Z",
+      "side": 1,
+      "message": "Nice! Would it make sense to make this a base class (extending AbstractDaemonTest) instead of a derived class so we can derive other tests from it? Like AttentionSetIT. That way we also wouldn\u0027t be running the test twice.",
+      "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12427a77_6962e9c9",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesCommitIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-10T08:01:23Z",
+      "side": 1,
+      "message": "nit: inline",
+      "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

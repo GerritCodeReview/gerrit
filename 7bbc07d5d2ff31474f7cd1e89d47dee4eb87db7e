@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36b2df24_973bc738",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T07:28:02Z",
+      "side": 1,
+      "message": "Nit: embed in ticks: `http.cookieFile`.",
+      "range": {
+        "startLine": 588,
+        "startChar": 14,
+        "endLine": 588,
+        "endChar": 29
+      },
+      "revId": "7bbc07d5d2ff31474f7cd1e89d47dee4eb87db7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "935ec725_e754efa1",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T07:28:02Z",
+      "side": 1,
+      "message": "Nit: embed in ticks: `http.cookieFile`.",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "7bbc07d5d2ff31474f7cd1e89d47dee4eb87db7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

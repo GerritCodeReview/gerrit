@@ -20,7 +20,8 @@ import com.google.gerrit.common.Nullable;
 /**
  * Index types supported by the secondary index.
  *
- * <p>The explicitly known index types are Lucene (the default) and Elasticsearch.
+ * <p>The explicitly known index types are Lucene (the default), Elasticsearch and a fake index used
+ * in tests.
  *
  * <p>The third supported index type is any other type String value, deemed as custom. This is for
  * configuring index types that are internal or not to be disclosed. Supporting custom index types
@@ -29,6 +30,7 @@ import com.google.gerrit.common.Nullable;
 public class IndexType {
   private static final String LUCENE = "lucene";
   private static final String ELASTICSEARCH = "elasticsearch";
+  private static final String FAKE = "fake";
 
   private final String type;
 
@@ -41,7 +43,7 @@ public class IndexType {
   }
 
   public static ImmutableSet<String> getKnownTypes() {
-    return ImmutableSet.of(LUCENE, ELASTICSEARCH);
+    return ImmutableSet.of(LUCENE, ELASTICSEARCH, FAKE);
   }
 
   public boolean isLucene() {
@@ -50,6 +52,10 @@ public class IndexType {
 
   public boolean isElasticsearch() {
     return type.equals(ELASTICSEARCH);
+  }
+
+  public boolean isFake() {
+    return type.equals(FAKE);
   }
 
   @Override

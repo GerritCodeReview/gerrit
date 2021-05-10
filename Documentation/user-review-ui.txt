@@ -899,17 +899,10 @@ image::images/gwt-user-review-ui-side-by-side-diff-screen-commented.png[width=80
 [[file-level-comments]]
 === File Level Comments
 
-Comments that apply to a whole file can be added on file level.
+File level comments are added by clicking the 'File' header at the top
+of the file.
 
-File level comments are added by clicking on the comment icon in the
-header above the file.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-file-level-comment.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-file-level-comment.png"]
-
-Clicking on the comment icon opens a comment box for typing the file
-level comment.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-file-level-commented.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-file-level-commented.png"]
+image::images/user-review-ui-side-by-side-diff-screen-file-level-comment.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-file-level-comment.png"]
 
 [[diff-preferences]]
 === Diff Preferences

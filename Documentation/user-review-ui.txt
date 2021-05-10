@@ -750,14 +750,6 @@ navigate to the corresponding line in the patch.
 
 image::images/gwt-user-review-ui-side-by-side-diff-screen-scrollbar.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-scrollbar.png"]
 
-[[gaps]]
-A gap between lines in the file content that is caused by aligning the
-left and right side or by displaying inline comments is shown as a
-vertical red bar in the line number column. This prevents a gap from
-being mistaken for blank lines in the file
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-red-bar.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-red-bar.png"]
-
 [[patch-set-selection]]
 In the header, on each side, the list of patch sets is shown. Clicking
 on a patch set changes the selection for the patch set comparison and

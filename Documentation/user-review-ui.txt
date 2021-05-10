@@ -12,7 +12,7 @@ different functions and UI elements.
 The change screen shows the details of a single change and provides
 various actions on it.
 
-image::images/user-review-ui-change-screen.png[width=800, link="images/user-review-ui-change-screen.png"]
+image::images/gwt-user-review-ui-change-screen.png[width=800, link="images/gwt-user-review-ui-change-screen.png"]
 
 [[commit-message]]
 === Commit Message Block
@@ -21,14 +21,14 @@ The focus of the change screen is on the commit message since this is
 the most important information about a change. The numeric change ID
 and the change status are displayed right above the commit message.
 
-image::images/user-review-ui-change-screen-commit-message.png[width=800, link="images/user-review-ui-change-screen-commit-message.png"]
+image::images/gwt-user-review-ui-change-screen-commit-message.png[width=800, link="images/gwt-user-review-ui-change-screen-commit-message.png"]
 
 [[permalink]]
 The numeric change ID is a link to the change and clicking on it
 refreshes the change screen. By copying the link location you can get
 the permalink of the change.
 
-image::images/user-review-ui-change-screen-permalink.png[width=800, link="images/user-review-ui-change-screen-permalink.png"]
+image::images/gwt-user-review-ui-change-screen-permalink.png[width=800, link="images/gwt-user-review-ui-change-screen-permalink.png"]
 
 [[change-status]]
 The change status shows the state of the change:
@@ -79,11 +79,11 @@ into the clipboard.
 If a Git web browser, such as gitweb or Gitiles, is configured, there
 is also a link to the commit in the Git web browser.
 
-image::images/user-review-ui-change-screen-commit-info.png[width=800, link="images/user-review-ui-change-screen-commit-info.png"]
+image::images/gwt-user-review-ui-change-screen-commit-info.png[width=800, link="images/gwt-user-review-ui-change-screen-commit-info.png"]
 
 If a merge commit is viewed this is highlighted by an icon.
 
-image::images/user-review-ui-change-screen-commit-info-merge-commit.png[width=800, link="images/user-review-ui-change-screen-commit-info-merge-commit.png"]
+image::images/gwt-user-review-ui-change-screen-commit-info-merge-commit.png[width=800, link="images/gwt-user-review-ui-change-screen-commit-info-merge-commit.png"]
 
 [[change-info]]
 === Change Info Block
@@ -91,14 +91,14 @@ image::images/user-review-ui-change-screen-commit-info-merge-commit.png[width=80
 The change info block contains detailed information about the change
 and offers actions on the change.
 
-image::images/user-review-ui-change-screen-change-info.png[width=800, link="images/user-review-ui-change-screen-change-info.png"]
+image::images/gwt-user-review-ui-change-screen-change-info.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info.png"]
 
 - [[change-owner]]Change Owner:
 +
 The owner of the change is displayed as a link to a list of the owner's
 changes that have the same status as the currently viewed change.
 +
-image::images/user-review-ui-change-screen-change-info-owner.png[width=800, link="images/user-review-ui-change-screen-change-info-owner.png"]
+image::images/gwt-user-review-ui-change-screen-change-info-owner.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-owner.png"]
 
 - [[reviewers]]Reviewers:
 +
@@ -126,7 +126,7 @@ Removing reviewers is protected by permissions:
    and Gerrit administrators may remove anyone.
 
 +
-image::images/user-review-ui-change-screen-change-info-reviewers.png[width=800, link="images/user-review-ui-change-screen-change-info-reviewers.png"]
+image::images/gwt-user-review-ui-change-screen-change-info-reviewers.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-reviewers.png"]
 
 - [[project-branch-topic]]Project / Branch / Topic:
 +
@@ -148,7 +148,7 @@ link:access-control.html#category_edit_topic_name[Edit Topic Name]
 access right. To be able to set a topic on a closed change, the
 `Edit Topic Name` must be assigned with the `force` flag.
 +
-image::images/user-review-ui-change-screen-change-info-project-branch-topic.png[width=800, link="images/user-review-ui-change-screen-change-info-project-branch-topic.png"]
+image::images/gwt-user-review-ui-change-screen-change-info-project-branch-topic.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-project-branch-topic.png"]
 
 - [[submit-strategy]]Submit Strategy:
 +
@@ -156,16 +156,16 @@ The link:project-setup.html#submit_type[submit strategy] that will be
 used to submit the change. The submit strategy is only displayed for
 open changes.
 +
-image::images/user-review-ui-change-screen-change-info-submit-strategy.png[width=800, link="images/user-review-ui-change-screen-change-info-submit-strategy.png"]
+image::images/gwt-user-review-ui-change-screen-change-info-submit-strategy.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-submit-strategy.png"]
 +
 If a change cannot be merged due to path conflicts this is highlighted
 by a bold red `Cannot Merge` label.
 +
-image::images/user-review-ui-change-screen-change-info-cannot-merge.png[width=800, link="images/user-review-ui-change-screen-change-info-cannot-merge.png"]
+image::images/gwt-user-review-ui-change-screen-change-info-cannot-merge.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-cannot-merge.png"]
 
 - [[update-time]]Time of Last Update:
 +
-image::images/user-review-ui-change-screen-change-info-last-update.png[width=800, link="images/user-review-ui-change-screen-change-info-last-update.png"]
+image::images/gwt-user-review-ui-change-screen-change-info-last-update.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-last-update.png"]
 
 - [[actions]]Actions:
 +
@@ -266,13 +266,13 @@ or if they are an administrator.
 ** [[plugin-actions]]Further actions may be available if plugins are installed.
 
 +
-image::images/user-review-ui-change-screen-change-info-actions.png[width=800, link="images/user-review-ui-change-screen-change-info-actions.png"]
+image::images/gwt-user-review-ui-change-screen-change-info-actions.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-actions.png"]
 
 - [[labels]]Labels & Votes:
 +
 Approving votes are colored green; veto votes are colored red.
 +
-image::images/user-review-ui-change-screen-change-info-labels.png[width=800, link="images/user-review-ui-change-screen-change-info-labels.png"]
+image::images/gwt-user-review-ui-change-screen-change-info-labels.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-labels.png"]
 
 [[files]]
 === File List
@@ -280,7 +280,7 @@ image::images/user-review-ui-change-screen-change-info-labels.png[width=800, lin
 The file list shows the files that are modified in the currently viewed
 patch set.
 
-image::images/user-review-ui-change-screen-file-list.png[width=800, link="images/user-review-ui-change-screen-file-list.png"]
+image::images/gwt-user-review-ui-change-screen-file-list.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list.png"]
 
 [[magic-files]]
 In addition to the modified files the file list contains magic files
@@ -302,7 +302,7 @@ branch by submitting the merge commit.
 [[change-screen-mark-reviewed]]
 The checkboxes in front of the file names allow files to be marked as reviewed.
 
-image::images/user-review-ui-change-screen-file-list-mark-as-reviewed.png[width=800, link="images/user-review-ui-change-screen-file-list-mark-as-reviewed.png"]
+image::images/gwt-user-review-ui-change-screen-file-list-mark-as-reviewed.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-mark-as-reviewed.png"]
 
 [[modification-type]]
 The type of a file modification is indicated by the character in front
@@ -342,18 +342,18 @@ The file is rewritten. The status `W` (Rewritten) is returned instead of `M`
 (Modified) if the majority of the lines have been changed so that the new file
 content has a very low similarity with the old file content.
 
-image::images/user-review-ui-change-screen-file-list-modification-type.png[width=800, link="images/user-review-ui-change-screen-file-list-modification-type.png"]
+image::images/gwt-user-review-ui-change-screen-file-list-modification-type.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-modification-type.png"]
 
 [[rename-or-copy]]
 If a file is renamed or copied, the name of the original file is
 displayed in gray below the file name.
 
-image::images/user-review-ui-change-screen-file-list-rename.png[width=800, link="images/user-review-ui-change-screen-file-list-rename.png"]
+image::images/gwt-user-review-ui-change-screen-file-list-rename.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-rename.png"]
 
 [[repeating-path-segments]]
 Repeating path segments are grayed out.
 
-image::images/user-review-ui-change-screen-file-list-repeating-paths.png[width=800, link="images/user-review-ui-change-screen-file-list-repeating-paths.png"]
+image::images/gwt-user-review-ui-change-screen-file-list-repeating-paths.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-repeating-paths.png"]
 
 [[inline-comments-column]]
 Inline comments on a file are shown in the `Comments` column.
@@ -364,7 +364,7 @@ user but not yet published, are highlighted in red.
 New comments from other users, that were published after the current
 user last reviewed this change, are highlighted in bold.
 
-image::images/user-review-ui-change-screen-file-list-comments.png[width=800, link="images/user-review-ui-change-screen-file-list-comments.png"]
+image::images/gwt-user-review-ui-change-screen-file-list-comments.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-comments.png"]
 
 [[size]]
 The size of the modifications in the files can be seen in the `Size` column. The
@@ -387,7 +387,7 @@ shows the number of inserted and deleted lines. For new files, the column only
 shows the total number of lines in the new file. No size is shown for binary
 files and deleted files.
 
-image::images/user-review-ui-change-screen-file-list-size.png[width=800, link="images/user-review-ui-change-screen-file-list-size.png"]
+image::images/gwt-user-review-ui-change-screen-file-list-size.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-size.png"]
 
 [[diff-against]]
 In the header of the file list, the `Diff Against` selection can be
@@ -399,7 +399,7 @@ set of this change. The file list is updated accordingly.
 The file list header also provides an `Open All` button that opens the
 diff views for all files in the file list.
 
-image::images/user-review-ui-change-screen-file-list-header.png[width=800, link="images/user-review-ui-change-screen-file-list-header.png"]
+image::images/gwt-user-review-ui-change-screen-file-list-header.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-header.png"]
 
 [[patch-sets]]
 === Patch Sets
@@ -414,11 +414,11 @@ If a non-current patch set is viewed this is indicated by the
 link:#not-current[Not Current] change state. Please note that some
 operations are only available on the current patch set.
 
-image::images/user-review-ui-change-screen-patch-sets.png[width=800, link="images/user-review-ui-change-screen-patch-sets.png"]
+image::images/gwt-user-review-ui-change-screen-patch-sets.png[width=800, link="images/gwt-user-review-ui-change-screen-patch-sets.png"]
 
 Another indication is a highlighted drop-down label.
 
-image::images/user-review-ui-change-screen-not-current.png[width=800, link="images/user-review-ui-change-screen-not-current.png"]
+image::images/gwt-user-review-ui-change-screen-not-current.png[width=800, link="images/gwt-user-review-ui-change-screen-not-current.png"]
 
 [[patch-set-drop-down]]
 The patch set drop-down list shows the list of patch sets and allows to
@@ -427,7 +427,7 @@ that the current patch set is always on top.
 
 Draft patch sets are marked with `DRAFT`.
 
-image::images/user-review-ui-change-screen-patch-set-list.png[width=800, link="images/user-review-ui-change-screen-patch-set-list.png"]
+image::images/gwt-user-review-ui-change-screen-patch-set-list.png[width=800, link="images/gwt-user-review-ui-change-screen-patch-set-list.png"]
 
 [[download]]
 === Download
@@ -435,7 +435,7 @@ image::images/user-review-ui-change-screen-patch-set-list.png[width=800, link="i
 The `Download` drop-down panel in the change header offers commands and
 links for downloading the currently viewed patch set.
 
-image::images/user-review-ui-change-screen-download-commands.png[width=800, link="images/user-review-ui-change-screen-download-commands.png"]
+image::images/gwt-user-review-ui-change-screen-download-commands.png[width=800, link="images/gwt-user-review-ui-change-screen-download-commands.png"]
 
 The available download commands depend on the installed Gerrit plugins.
 The most popular plugin for download commands, the
@@ -462,7 +462,7 @@ of the currently viewed patch set. The archive is offered in several
 formats (e.g. tar and tbz2); which formats are available depends on the
 configuration of the server.
 
-image::images/user-review-ui-change-screen-download-commands-list.png[width=800, link="images/user-review-ui-change-screen-download-commands-list.png"]
+image::images/gwt-user-review-ui-change-screen-download-commands-list.png[width=800, link="images/gwt-user-review-ui-change-screen-download-commands-list.png"]
 
 [[included-in]]
 === Included In
@@ -470,14 +470,14 @@ image::images/user-review-ui-change-screen-download-commands-list.png[width=800,
 For merged changes the `Included In` drop-down panel is available in
 the change header.
 
-image::images/user-review-ui-change-screen-included-in.png[width=800, link="images/user-review-ui-change-screen-included-in.png"]
+image::images/gwt-user-review-ui-change-screen-included-in.png[width=800, link="images/gwt-user-review-ui-change-screen-included-in.png"]
 
 The `Included In` drop-down panel shows the branches and tags in which
 the change is included. E.g. if a change fixes a bug, this allows to
 quickly see in which released versions the bug-fix is contained
 (assuming that every release is tagged).
 
-image::images/user-review-ui-change-screen-included-in-list.png[width=800, link="images/user-review-ui-change-screen-included-in-list.png"]
+image::images/gwt-user-review-ui-change-screen-included-in-list.png[width=800, link="images/gwt-user-review-ui-change-screen-included-in-list.png"]
 
 [[star]]
 === Star Change
@@ -485,7 +485,7 @@ image::images/user-review-ui-change-screen-included-in-list.png[width=800, link=
 The star icon in the change header allows to mark the change as a
 favorite. Clicking on the star icon again, unstars the change.
 
-image::images/user-review-ui-change-screen-star.png[width=800, link="images/user-review-ui-change-screen-star.png"]
+image::images/gwt-user-review-ui-change-screen-star.png[width=800, link="images/gwt-user-review-ui-change-screen-star.png"]
 
 Starring a change turns on email notifications for this change.
 
@@ -520,7 +520,7 @@ change are descendants; changes below the current change are ancestors.
 For merged changes this tab is only shown if there are open
 descendants.
 +
-image::images/user-review-ui-change-screen-related-changes.png[width=800, link="images/user-review-ui-change-screen-related-changes.png"]
+image::images/gwt-user-review-ui-change-screen-related-changes.png[width=800, link="images/gwt-user-review-ui-change-screen-related-changes.png"]
 +
 Related changes may be decorated with an icon to signify dependencies
 on outdated patch sets, or commits that are not associated to changes
@@ -567,7 +567,7 @@ When the commit is abandoned, its subject line will be striked
 through.
 
 +
-image::images/user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/user-review-ui-change-screen-related-changes-indicators.png"]
+image::images/gwt-user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/gwt-user-review-ui-change-screen-related-changes-indicators.png"]
 
 - [[conflicts-with]]`Conflicts With`:
 +
@@ -579,14 +579,14 @@ If this change is merged, its conflicting changes will have merge
 conflicts and must be rebased. The rebase of the other changes with the
 conflict resolution must then be done manually.
 +
-image::images/user-review-ui-change-screen-conflicts-with.png[width=800, link="images/user-review-ui-change-screen-conflicts-with.png"]
+image::images/gwt-user-review-ui-change-screen-conflicts-with.png[width=800, link="images/gwt-user-review-ui-change-screen-conflicts-with.png"]
 
 - [[same-topic]]`Same Topic`:
 +
 This tab page shows changes that have the same topic as the current
 change. Only open changes are included in the list.
 +
-image::images/user-review-ui-change-screen-same-topic.png[width=800, link="images/user-review-ui-change-screen-same-topic.png"]
+image::images/gwt-user-review-ui-change-screen-same-topic.png[width=800, link="images/gwt-user-review-ui-change-screen-same-topic.png"]
 
 - [[submitted-together]]`Submitted Together`:
 +
@@ -609,7 +609,7 @@ Abandoned changes are filtered out.
 For each change in this list the destination branch is shown as a
 prefix in front of the change subject.
 +
-image::images/user-review-ui-change-screen-cherry-picks.png[width=800, link="images/user-review-ui-change-screen-cherry-picks.png"]
+image::images/gwt-user-review-ui-change-screen-cherry-picks.png[width=800, link="images/gwt-user-review-ui-change-screen-cherry-picks.png"]
 
 If there are no related changes for a tab, the tab is not displayed.
 
@@ -620,7 +620,7 @@ The `Reply...` button in the change header allows to reply to the
 currently viewed patch set; one can add a summary comment, publish
 inline draft comments, and vote on the labels.
 
-image::images/user-review-ui-change-screen-reply.png[width=800, link="images/user-review-ui-change-screen-reply.png"]
+image::images/gwt-user-review-ui-change-screen-reply.png[width=800, link="images/gwt-user-review-ui-change-screen-reply.png"]
 
 Clicking on the `Reply...` button opens a popup panel.
 
@@ -646,7 +646,7 @@ comment needs to be edited.
 
 The `Post` button publishes the comments and the votes.
 
-image::images/user-review-ui-change-screen-replying.png[width=800, link="images/user-review-ui-change-screen-replying.png"]
+image::images/gwt-user-review-ui-change-screen-replying.png[width=800, link="images/gwt-user-review-ui-change-screen-replying.png"]
 
 [[quick-approve]]
 If a user can approve a label that is still required, a quick approve
@@ -665,7 +665,7 @@ Using the quick approve button also publishes all inline draft
 comments; a summary comment is only added if the reply popup panel is
 open when the quick approve button is clicked.
 
-image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="images/user-review-ui-change-screen-quick-approve.png"]
+image::images/gwt-user-review-ui-change-screen-quick-approve.png[width=800, link="images/gwt-user-review-ui-change-screen-quick-approve.png"]
 
 [[history]]
 === History
@@ -679,7 +679,7 @@ done.
 Messages with new comments from other users, that were published after
 the current user last reviewed this change, are automatically expanded.
 
-image::images/user-review-ui-change-screen-history.png[width=800, link="images/user-review-ui-change-screen-history.png"]
+image::images/gwt-user-review-ui-change-screen-history.png[width=800, link="images/gwt-user-review-ui-change-screen-history.png"]
 
 [[reply-to-message]]
 It is possible to directly reply to a change message by clicking on the
@@ -690,13 +690,13 @@ inline. Lines starting with "> " will be rendered as a block quote.
 Please note that for a correct rendering it is important to leave a blank
 line between a quoted block and the reply to it.
 
-image::images/user-review-ui-change-screen-reply-to-comment.png[width=800, link="images/user-review-ui-change-screen-reply-to-comment.png"]
+image::images/gwt-user-review-ui-change-screen-reply-to-comment.png[width=800, link="images/gwt-user-review-ui-change-screen-reply-to-comment.png"]
 
 [[inline-comments-in-history]]
 Inline comments are directly displayed in the change history and there
 are links to navigate to the inline comments.
 
-image::images/user-review-ui-change-screen-inline-comments.png[width=800, link="images/user-review-ui-change-screen-inline-comments.png"]
+image::images/gwt-user-review-ui-change-screen-inline-comments.png[width=800, link="images/gwt-user-review-ui-change-screen-inline-comments.png"]
 
 [[expand-all]]
 The `Expand All` button expands all messages; the `Collapse All` button
@@ -713,7 +713,7 @@ The polling frequency depends on the server configuration; by default
 it is 30 seconds. Polling may also be completely disabled by the
 administrator.
 
-image::images/user-review-ui-change-screen-change-update.png[width=800, link="images/user-review-ui-change-screen-change-update.png"]
+image::images/gwt-user-review-ui-change-screen-change-update.png[width=800, link="images/gwt-user-review-ui-change-screen-change-update.png"]
 
 [[plugin-extensions]]
 === Plugin Extensions
@@ -722,7 +722,7 @@ Gerrit plugins may extend the change screen; they can add buttons for
 additional actions to the change info block and display arbitrary UI
 controls below the change info block.
 
-image::images/user-review-ui-change-screen-plugin-extensions.png[width=800, link="images/user-review-ui-change-screen-plugin-extensions.png"]
+image::images/gwt-user-review-ui-change-screen-plugin-extensions.png[width=800, link="images/gwt-user-review-ui-change-screen-plugin-extensions.png"]
 
 [[side-by-side]]
 == Side-by-Side Diff Screen
@@ -733,7 +733,7 @@ displayed on the right side of the screen.
 
 This screen allows to review a patch and to comment on it.
 
-image::images/user-review-ui-side-by-side-diff-screen.png[width=800, link="images/user-review-ui-side-by-side-diff-screen.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen.png"]
 
 [[side-by-side-header]]
 In the screen header the project name and the name of the viewed patch
@@ -743,7 +743,7 @@ If a Git web browser is configured on the server, the project name and
 the file path are displayed as links to the project and the folder in
 the Git web browser.
 
-image::images/user-review-ui-side-by-side-diff-screen-project-and-file.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-project-and-file.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-project-and-file.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-project-and-file.png"]
 
 [[side-by-side-mark-reviewed]]
 The checkbox in front of the project name and the file name allows the
@@ -751,7 +751,7 @@ patch to be marked as reviewed. The link:#mark-reviewed[Mark Reviewed]
 diff preference allows to control whether the files should be
 automatically marked as reviewed when they are viewed.
 
-image::images/user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-reviewed.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-reviewed.png"]
 
 [[scrollbar]]
 The scrollbar shows patch diffs and inline comments as annotations.
@@ -759,7 +759,7 @@ This provides a good overview of the lines in the patch that are
 relevant for reviewing. By clicking on an annotation one can quickly
 navigate to the corresponding line in the patch.
 
-image::images/user-review-ui-side-by-side-diff-screen-scrollbar.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-scrollbar.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-scrollbar.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-scrollbar.png"]
 
 [[gaps]]
 A gap between lines in the file content that is caused by aligning the
@@ -767,7 +767,7 @@ left and right side or by displaying inline comments is shown as a
 vertical red bar in the line number column. This prevents a gap from
 being mistaken for blank lines in the file
 
-image::images/user-review-ui-side-by-side-diff-screen-red-bar.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-red-bar.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-red-bar.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-red-bar.png"]
 
 [[patch-set-selection]]
 In the header, on each side, the list of patch sets is shown. Clicking
@@ -787,7 +787,7 @@ diff against its base; reviewers that have reviewed an old patch
 version before, may see what has changed since that version by
 comparing the old patch against the current patch.
 
-image::images/user-review-ui-side-by-side-diff-screen-patch-sets.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-patch-sets.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-patch-sets.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-patch-sets.png"]
 
 [[download-file]]
 The download icon next to the patch set list allows to download the
@@ -798,14 +798,14 @@ download file is a zip archive that contains the patch file.
 If the compared patches are identical, this is highlighted by a red
 `No Differences` label in the screen header.
 
-image::images/user-review-ui-side-by-side-diff-screen-no-differences.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-no-differences.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-no-differences.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-no-differences.png"]
 
 [[side-by-side-rename]]
 If a file was renamed, the old and new file paths are shown in the
 header together with a similarity index that shows how much of the file
 content is unmodified.
 
-image::images/user-review-ui-side-by-side-diff-screen-rename.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-rename.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-rename.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-rename.png"]
 
 [[navigation]]
 For navigating between the patches in a patch set there are navigation
@@ -814,7 +814,7 @@ navigates to the previous patch; the right arrow button navigates to
 the next patch. The arrow up button leads back to the change screen. In
 all cases the selection for the patch set comparison is kept.
 
-image::images/user-review-ui-side-by-side-diff-screen-navigation.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-navigation.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-navigation.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-navigation.png"]
 
 [[inline-comments]]
 === Inline Comments
@@ -840,7 +840,7 @@ certain inline comments.
 If the diff preference link:#expand-all-comments[Expand All Comments]
 is set to `Expand`, all inline comments will be automatically expanded.
 
-image::images/user-review-ui-side-by-side-diff-screen-inline-comments.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-inline-comments.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-inline-comments.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-inline-comments.png"]
 
 [[comment]]
 In the header of the comment box, the name of the comment author and
@@ -849,7 +849,7 @@ the server, the avatar image of the comment author is displayed in the
 top left corner. Below the actual comment there are buttons to reply to
 the comment.
 
-image::images/user-review-ui-side-by-side-diff-screen-comment-box.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-box.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-comment-box.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-comment-box.png"]
 
 [[reply-inline-comment]]
 Clicking on the `Reply` button opens an editor to type the reply.
@@ -868,7 +868,7 @@ draft comment.
 
 Clicking on the `Discard` button deletes the inline draft comment.
 
-image::images/user-review-ui-side-by-side-diff-screen-comment-reply.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-reply.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-comment-reply.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-comment-reply.png"]
 
 [[draft-inline-comment]]
 Draft comments are marked by the text "Draft" in the header in the
@@ -877,14 +877,14 @@ place of the comment author.
 A draft comment can be edited by clicking on the `Edit` button, or
 deleted by clicking on the `Discard` button.
 
-image::images/user-review-ui-side-by-side-diff-screen-comment-edit.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-edit.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-comment-edit.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-comment-edit.png"]
 
 [[done]]
 Clicking on the `Done` button is a quick way to reply with "Done" to a
 comment. This is used to mark a comment as addressed by a follow-up
 patch set.
 
-image::images/user-review-ui-side-by-side-diff-screen-replied-done.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-replied-done.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-replied-done.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-replied-done.png"]
 
 [[add-inline-comment]]
 To add a new inline comment there are several possibilities:
@@ -910,7 +910,7 @@ frequently used methods are:
 ** press 'V' + arrow keys (or 'j', 'k') to select a code block line-wise
 ** type 'bvw' to select a word
 
-image::images/user-review-ui-side-by-side-diff-screen-comment.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-comment.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-comment.png"]
 
 For typing the new comment, a new comment box is shown under the code
 that is commented.
@@ -921,7 +921,7 @@ by link:#reply[replying] to the change.
 
 Clicking on the `Discard` button deletes the new comment.
 
-image::images/user-review-ui-side-by-side-diff-screen-commented.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-commented.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-commented.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-commented.png"]
 
 [[file-level-comments]]
 === File Level Comments
@@ -931,12 +931,12 @@ Comments that apply to a whole file can be added on file level.
 File level comments are added by clicking on the comment icon in the
 header above the file.
 
-image::images/user-review-ui-side-by-side-diff-screen-file-level-comment.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-file-level-comment.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-file-level-comment.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-file-level-comment.png"]
 
 Clicking on the comment icon opens a comment box for typing the file
 level comment.
 
-image::images/user-review-ui-side-by-side-diff-screen-file-level-commented.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-file-level-commented.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-file-level-commented.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-file-level-commented.png"]
 
 [[search]]
 === Search
@@ -958,7 +958,7 @@ or `#` searches for the next or previous occurrence of the word.
 Searching by `Ctrl-F` finds matches only in the visible area of the
 screen unless the link:#render[Render] diff preference is set to `Slow`.
 
-image::images/user-review-ui-side-by-side-diff-screen-search.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-search.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-search.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-search.png"]
 
 [[key-navigation]]
 === Key Navigation
@@ -981,7 +981,7 @@ rendered. Users can configure their preferences in the diff
 preferences. The diff preferences can be accessed by clicking on the
 settings icon in the screen header.
 
-image::images/user-review-ui-side-by-side-diff-screen-preferences.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-preferences.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png"]
 
 The diff preferences popup allows to change the diff preferences.
 By clicking on the `Save` button changes to the diff preferences are
@@ -990,7 +990,7 @@ diff preferences to the current screen, but they are discarded when the
 screen is refreshed. The `Save` button is only available if the user is
 signed in.
 
-image::images/user-review-ui-side-by-side-diff-screen-preferences-popup.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-preferences-popup.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-preferences-popup.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences-popup.png"]
 
 The following diff preferences can be configured:
 
@@ -1000,7 +1000,7 @@ Controls the theme that is used to render the file content.
 +
 E.g. users could choose to work with a dark theme.
 +
-image::images/user-review-ui-side-by-side-diff-screen-dark-theme.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-dark-theme.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-dark-theme.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-dark-theme.png"]
 
 - [[ignore-whitespace]]`Ignore Whitespace`:
 +
@@ -1032,7 +1032,7 @@ Sets the preferred line length. At this position a vertical dashed line
 is displayed so that one can easily detect lines the exceed the
 preferred line length.
 +
-image::images/user-review-ui-side-by-side-diff-screen-column.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-column.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-column.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-column.png"]
 
 - [[lines-of-context]]`Lines Of Context`:
 +
@@ -1049,13 +1049,7 @@ block of skipped lines.
 If many lines are skipped there are additional links to expand the
 context by ten lines before and after the skipped block.
 +
-image::images/user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png"]
-
-- [[intraline-difference]]`Intraline Difference`:
-+
-Controls whether intraline differences should be highlighted.
-+
-image::images/user-review-ui-side-by-side-diff-screen-intraline-difference.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-intraline-difference.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png"]
 
 - [[syntax-highlighting]]`Syntax Highlighting`:
 +
@@ -1065,7 +1059,7 @@ The language for the syntax highlighting is automatically detected from
 the file extension. The language can also be set manually by selecting
 it from the `Language` drop-down list.
 +
-image::images/user-review-ui-side-by-side-diff-screen-syntax-coloring.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-syntax-coloring.png"]
+image::images/gwt-user-review-ui-side-by-side-diff-screen-syntax-coloring.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-syntax-coloring.png"]
 
 - [[whitespace-errors]]`Whitespace Errors`:
 +
@@ -1138,44 +1132,14 @@ If `true` is selected then line wrapping is enabled.
 
 Navigation within the review UI can be completely done by keys, and
 most actions can be controlled by keyboard shortcuts. Typing `?` opens
-a popup that shows a list of available keyboard shortcuts:
+a popup that shows a list of available keyboard shortcuts.
 
-- Change Screen
-+
-image::images/user-review-ui-change-screen-keyboard-shortcuts.png[width=800, link="images/user-review-ui-change-screen-keyboard-shortcuts.png"]
 
-- Side-by-Side Diff Screen
-+
-image::images/user-review-ui-side-by-side-diff-screen-keyboard-shortcuts.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-keyboard-shortcuts.png"]
-+
+image::images/user-review-ui-change-screen-keyboard-shortcuts.png[width=800, link="images/gwt-user-review-ui-change-screen-keyboard-shortcuts.png"]
+
+
 In addition, Vim-like commands can be used to link:#key-navigation[
 navigate] and link:#search[search] within a patch file.
-
-[[new-vs-old]]
-== New Review UI vs. Old Review UI
-
-There are some important conceptual differences between the old and
-new review UIs:
-
-- The old change screen directly shows all patch sets of the change.
-  With the new change screen only a single patch set is displayed;
-  users can switch between the patch sets by choosing another patch
-  set from the link:#patch-sets[Patch Sets] drop down panel in the
-  screen header.
-- On the old side-by-side diff screen, new comments are inserted by
-  double-clicking on a line. With the new side-by-side diff screen
-  double-click is used to select a word for commenting on it; there
-  are link:#add-inline-comment[several ways to insert new comments],
-  e.g. by selecting a code block and clicking on the popup comment
-  icon.
-
-[[limitations]]
-Limitations of the new review UI:
-
-- The new side-by-side diff screen cannot render images.
-
-- The new side-by-side diff screen isn't able to highlight line
-  endings.
 
 GERRIT
 ------

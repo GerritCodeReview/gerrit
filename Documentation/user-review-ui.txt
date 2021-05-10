@@ -654,7 +654,7 @@ Using the quick approve button also publishes all inline draft
 comments; a summary comment is only added if the reply popup panel is
 open when the quick approve button is clicked.
 
-image::images/gwt-user-review-ui-change-screen-quick-approve.png[width=800, link="images/gwt-user-review-ui-change-screen-quick-approve.png"]
+image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="images/gwt-user-review-ui-change-screen-quick-approve.png"]
 
 [[history]]
 === History

@@ -163,10 +163,6 @@ by a bold red `Cannot Merge` label.
 +
 image::images/gwt-user-review-ui-change-screen-change-info-cannot-merge.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-cannot-merge.png"]
 
-- [[update-time]]Time of Last Update:
-+
-image::images/gwt-user-review-ui-change-screen-change-info-last-update.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-last-update.png"]
-
 - [[actions]]Actions:
 +
 Depending on the change state and the permissions of the user, different

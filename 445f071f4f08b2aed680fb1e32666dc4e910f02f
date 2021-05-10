@@ -61,6 +61,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23436807_1506e413",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-10T16:42:33Z",
+      "side": 1,
+      "message": "\u003e \u003e This change seems to fundamentally change how many of the \"matches\" work, it would be a lot easier to review if similar alterations were split out into separate changes.\n\u003e \n\u003e I don\u0027t think it does.\n\nI can\u0027t tell because too much is going on, i.e. I can\u0027t directly follow how changes at the lower level such as IndexPredicate are supposed to support all the other predicates. That is because the change to the IndexRedicate seems to attempts to do it all at once. It would be easier to review for correctness if for example this started with a change that dealt with all fields of type LONG. Then a reviewer could see which other predicate changes were related to that and they could try to follow them to understand if it is doing the same thing before and after this change. Currently there is no easy way for me to tell which Predicates correspond to which field types in the IndexPredicate, so I can\u0027t evaluate the impact of the change without potentially downloading it and breaking it myself into smaller changes.\n\n\u003e \u003e Are there unit tests to test all these matches to ensure that these changes don\u0027t break them?\n\u003e \n\u003e This logic is untested today AFICT. Id3c1d3d (later change in this series) adds a Fake index. That uses only #match functions and runs Query{Changes,Accounts,Projects,Groups} tests. So any operator so all predicates that have a test there (and that\u0027s all predicates, otherwise, it would be an oversight - code coverage analysis can tell) is tested with that change.\n\nUnfortunately if the tests aren\u0027t merged before to verify that they are correct (by testing the against them current code base), then this doesn\u0027t really help verify this change, it only helps codify this change as the behavior to be expected from here forward. If this change is buggy then it becomes twice as hard to fix since someone would have to figure out how fix this change and how to fix the test.",
+      "parentUuid": "67b5edd4_958d429d",
+      "revId": "445f071f4f08b2aed680fb1e32666dc4e910f02f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1dd9eb60_1425f3c4",
         "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
         "patchSetId": 1

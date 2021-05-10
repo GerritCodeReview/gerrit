@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f650f15_0fa10115",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-10T17:06:53Z",
+      "side": 1,
+      "message": "I wanted to link to the daemon here to make sure people get the connection (and because I do it below for replicas too). I did add the text around write operations.",
+      "parentUuid": "0c7b6830_408e2222",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "5df6dfcf71a9042e031fc4a74336217b7388071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6d57dd2_86cafcbd",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-10T15:52:26Z",
       "side": 1,
       "message": "only git read-only requests, no REST, no WebUI, no search",
+      "range": {
+        "startLine": 74,
+        "startChar": 28,
+        "endLine": 74,
+        "endChar": 43
+      },
+      "revId": "5df6dfcf71a9042e031fc4a74336217b7388071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "599e03f3_a4f3cc90",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-10T17:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6d57dd2_86cafcbd",
       "range": {
         "startLine": 74,
         "startChar": 28,

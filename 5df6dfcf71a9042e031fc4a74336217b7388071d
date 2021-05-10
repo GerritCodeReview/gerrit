@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c7b6830_408e2222",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-10T15:55:21Z",
+      "side": 1,
+      "message": "Isn\u0027t a more adequate and precise statement:\n\"A Gerrit primary is a Gerrit process that permits write operations by clients.\"",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "5df6dfcf71a9042e031fc4a74336217b7388071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6d57dd2_86cafcbd",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 2

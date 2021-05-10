@@ -161,7 +161,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public void addCookie(Cookie cookie) {
-    throw new UnsupportedOperationException();
+    addHeader("Set-Cookie", cookie.getName() + "=" + cookie.getValue());
   }
 
   @Override

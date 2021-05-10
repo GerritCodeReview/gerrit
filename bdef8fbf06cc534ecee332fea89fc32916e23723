@@ -69,6 +69,24 @@
       "parentUuid": "403680df_b4f2c0fe",
       "revId": "bdef8fbf06cc534ecee332fea89fc32916e23723",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76e2a6f6_25f46bb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-10T16:39:26Z",
+      "side": 1,
+      "message": "I suppose they have an incompatibility between google internal and their external build, and wonky things happen with their google3 import process if EP starts using JUnit 4.13 features in their source code.",
+      "parentUuid": "b4d04739_e365b754",
+      "revId": "bdef8fbf06cc534ecee332fea89fc32916e23723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -76,29 +76,27 @@ public abstract class CacheBasedWebSession implements WebSession {
     this.identified = identified;
     this.byIdCache = byIdCache;
 
-    if (request.getRequestURI() == null || !GitSmartHttpTools.isGitClient(request)) {
-      String cookie = readCookie(request);
-      if (cookie != null) {
-        authFromCookie(cookie);
-      } else {
-        String token;
-        try {
-          token = ParameterParser.getQueryParams(request).accessToken();
-        } catch (BadRequestException e) {
-          token = null;
-        }
-        if (token != null) {
-          authFromQueryParameter(token);
-        }
+    String cookie = readCookie(request);
+    if (cookie != null) {
+      authFromCookie(cookie);
+    } else if (request.getRequestURI() == null || !GitSmartHttpTools.isGitClient(request)) {
+      String token;
+      try {
+        token = ParameterParser.getQueryParams(request).accessToken();
+      } catch (BadRequestException e) {
+        token = null;
       }
-      if (val != null && !checkAccountStatus(val.getAccountId())) {
-        val = null;
-        okPaths.clear();
+      if (token != null) {
+        authFromQueryParameter(token);
       }
-      if (val != null && val.needsCookieRefresh()) {
-        // Session is more than half old; update cache entry with new expiration date.
-        val = manager.createVal(key, val);
-      }
+    }
+    if (val != null && !checkAccountStatus(val.getAccountId())) {
+      val = null;
+      okPaths.clear();
+    }
+    if (val != null && val.needsCookieRefresh()) {
+      // Session is more than half old; update cache entry with new expiration date.
+      val = manager.createVal(key, val);
     }
   }
 

@@ -1735,19 +1735,6 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('_paramsChanged sets in projectLookup', () => {
-      sinon.stub(element, '_initLineOfInterestAndCursor');
-      const setStub = stubRestApi('setInProjectLookup');
-      element._paramsChanged({
-        view: GerritNav.View.DIFF,
-        changeNum: 101,
-        project: 'test-project',
-        path: '',
-      });
-      assert.isTrue(setStub.calledOnce);
-      assert.isTrue(setStub.calledWith(101, 'test-project'));
-    });
-
     test('shift+m navigates to next unreviewed file', () => {
       element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
       element._reviewedFiles = new Set(['file1', 'file2']);

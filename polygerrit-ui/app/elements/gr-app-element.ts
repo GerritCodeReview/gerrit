@@ -67,18 +67,19 @@ import {GrMainHeader} from './core/gr-main-header/gr-main-header';
 import {GrSettingsView} from './settings/gr-settings-view/gr-settings-view';
 import {
   CustomKeyboardEvent,
+  DialogChangeEventDetail,
+  EventType,
   LocationChangeEvent,
   PageErrorEventDetail,
   RpcLogEvent,
   ShortcutTriggeredEvent,
   TitleChangeEventDetail,
-  DialogChangeEventDetail,
-  EventType,
 } from '../types/events';
 import {ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
+import {assertIsDefined} from '../utils/common-util';
 
 interface ErrorInfo {
   text: string;
@@ -94,6 +95,10 @@ export interface GrAppElement {
     mainHeader: GrMainHeader;
   };
 }
+
+type DomIf = PolymerElement & {
+  restamp: boolean;
+};
 
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
@@ -234,6 +239,12 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     });
     this.addEventListener('location-change', e =>
       this._handleLocationChange(e)
+    );
+    this.addEventListener(EventType.RECREATE_CHANGE_VIEW, () =>
+      this.handleRecreateView(GerritView.CHANGE)
+    );
+    this.addEventListener(EventType.RECREATE_DIFF_VIEW, () =>
+      this.handleRecreateView(GerritView.DIFF)
     );
     document.addEventListener('gr-rpc-log', e => this._handleRpcLog(e));
     this.addEventListener('shortcut-triggered', e =>
@@ -458,35 +469,58 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
       (this._account && this._account._account_id) || null;
   }
 
-  @observe('params.view')
-  _viewChanged(view?: GerritView) {
+  /**
+   * Throws away the view and re-creates it. The view itself fires an event, if
+   * it wants to be re-created.
+   */
+  private handleRecreateView(view: GerritView.DIFF | GerritView.CHANGE) {
+    const isDiff = view === GerritView.DIFF;
+    const domId = isDiff ? '#dom-if-diff-view' : '#dom-if-change-view';
+    const domIf = this.root!.querySelector(domId) as DomIf;
+    assertIsDefined(domIf, '<dom-if> for the view');
+    // The rendering of DomIf is debounced, so just changing _show...View and
+    // restamp properties back and forth won't work. That is why we are using
+    // timeouts.
+    // The first timeout is needed, because the _viewChanged() observer also
+    // affects _show...View and would change _show...View=false directly back to
+    // _show...View=true.
+    setTimeout(() => {
+      this._showChangeView = false;
+      this._showDiffView = false;
+      domIf.restamp = true;
+      setTimeout(() => {
+        this._showChangeView = this.params?.view === GerritView.CHANGE;
+        this._showDiffView = this.params?.view === GerritView.DIFF;
+        domIf.restamp = false;
+      }, 1);
+    }, 1);
+  }
+
+  @observe('params.*')
+  _viewChanged() {
+    const view = this.params?.view;
     this.$.errorView.classList.remove('show');
-    this.set('_showChangeListView', view === GerritView.SEARCH);
-    this.set('_showDashboardView', view === GerritView.DASHBOARD);
-    this.set('_showChangeView', view === GerritView.CHANGE);
-    this.set('_showDiffView', view === GerritView.DIFF);
-    this.set('_showSettingsView', view === GerritView.SETTINGS);
+    this._showChangeListView = view === GerritView.SEARCH;
+    this._showDashboardView = view === GerritView.DASHBOARD;
+    this._showChangeView = view === GerritView.CHANGE;
+    this._showDiffView = view === GerritView.DIFF;
+    this._showSettingsView = view === GerritView.SETTINGS;
     // _showAdminView must be in sync with the gr-admin-view AdminViewParams type
-    this.set(
-      '_showAdminView',
+    this._showAdminView =
       view === GerritView.ADMIN ||
-        view === GerritView.GROUP ||
-        view === GerritView.REPO
-    );
-    this.set('_showCLAView', view === GerritView.AGREEMENTS);
-    this.set('_showEditorView', view === GerritView.EDIT);
+      view === GerritView.GROUP ||
+      view === GerritView.REPO;
+    this._showCLAView = view === GerritView.AGREEMENTS;
+    this._showEditorView = view === GerritView.EDIT;
     const isPluginScreen = view === GerritView.PLUGIN_SCREEN;
-    this.set('_showPluginScreen', false);
+    this._showPluginScreen = false;
     // Navigation within plugin screens does not restamp gr-endpoint-decorator
     // because _showPluginScreen value does not change. To force restamp,
     // change _showPluginScreen value between true and false.
     if (isPluginScreen) {
-      setTimeout(() => this.set('_showPluginScreen', true), 1);
+      setTimeout(() => (this._showPluginScreen = true), 1);
     }
-    this.set(
-      '_showDocumentationSearch',
-      view === GerritView.DOCUMENTATION_SEARCH
-    );
+    this._showDocumentationSearch = view === GerritView.DOCUMENTATION_SEARCH;
     if (
       this.params &&
       isAppElementJustRegisteredParams(this.params) &&
@@ -567,7 +601,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     if (pathname.startsWith('/c/') && Number(hash) > 0) {
       pathname += '@' + hash;
     }
-    this.set('_path', pathname);
+    this._path = pathname;
   }
 
   _updateLoginUrl() {
@@ -602,7 +636,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     const params = paramsRecord.base;
     const viewsToCheck = [GerritView.SEARCH, GerritView.DASHBOARD];
     if (params?.view && viewsToCheck.includes(params.view)) {
-      this.set('_lastSearchPage', location.pathname);
+      this._lastSearchPage = location.pathname;
     }
   }
 

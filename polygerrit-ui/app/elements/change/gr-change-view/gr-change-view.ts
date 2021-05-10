@@ -1220,6 +1220,14 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       return;
     }
 
+    // Everything in the change view is tied to the change. It seems better to
+    // force the re-creation of the change view when the change number changes.
+    const changeChanged = this._changeNum !== value.changeNum;
+    if (this._changeNum !== undefined && changeChanged) {
+      fireEvent(this, EventType.RECREATE_CHANGE_VIEW);
+      return;
+    }
+
     if (value.changeNum && value.project) {
       this.restApiService.setInProjectLookup(value.changeNum, value.project);
     }
@@ -1230,7 +1238,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       value.basePatchNum !== undefined &&
       (this._patchRange.patchNum !== value.patchNum ||
         this._patchRange.basePatchNum !== value.basePatchNum);
-    const changeChanged = this._changeNum !== value.changeNum;
 
     let rightPatchNumChanged =
       this._patchRange &&

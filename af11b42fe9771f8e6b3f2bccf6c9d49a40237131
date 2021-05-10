@@ -326,6 +326,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ce63437_280558a1",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T07:28:02Z",
+      "side": 1,
+      "message": "Have you checked why the test is failing on master?\n\nI added this diff: [1] and then the failure was:\n\nThere was 1 failure:\n1) shouldNotReauthenticateIfAlreadySignedIn(com.google.gerrit.httpd.ProjectBasicAuthFilterTest)\nWanted but not invoked:\nchain.doFilter(\n    com.google.gerrit.util.http.testutil.FakeHttpServletRequest@2954b5ea,\n    \u003cany\u003e\n);\n-\u003e at com.google.gerrit.httpd.ProjectBasicAuthFilterTest.shouldNotReauthenticateIfAlreadySignedIn(ProjectBasicAuthFilterTest.java:220)\nActually, there were zero interactions with this mock.\n\n\tat com.google.gerrit.httpd.ProjectBasicAuthFilterTest.shouldNotReauthenticateIfAlreadySignedIn(ProjectBasicAuthFilterTest.java:220)\n\n[1] http://paste.openstack.org/show/805148",
+      "parentUuid": "21c7d8a7_4cae498b",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 43
+      },
+      "revId": "af11b42fe9771f8e6b3f2bccf6c9d49a40237131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8420f5b9_7ff37e85",
         "filename": "javatests/com/google/gerrit/util/http/testutil/FakeHttpServletRequest.java",
         "patchSetId": 14

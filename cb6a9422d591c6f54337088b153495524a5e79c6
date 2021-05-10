@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f2e5a9c_68703b85",
+        "filename": "java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T18:38:19Z",
+      "side": 0,
+      "message": "If we removed these methods and unused ChangeIndex attribute, then what is the class is for? Can\u0027t we just remove it and all other predicates classes entirely?\n\nThe only usage is:\n\n  @Operator\n  public Predicate\u003cChangeData\u003e message(String text) {\n    return new MessagePredicate(args.index, text);\n  }\n\nThe first simplification to address unused changeIndex attribute would be:\n\n  @Operator\n  public Predicate\u003cChangeData\u003e message(String text) {\n    return new MessagePredicate(text);\n  }\n\nbut the next natural change would be to kill now all no-op Predicate classes, and just use the ChangeIndexPredicate class:\n\n  @Operator\n  public Predicate\u003cChangeData\u003e message(String text) {\n    return new ChangeIndexPredicate(ChangeField.COMMIT_MESSAGE, text);\n  }",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "cb6a9422d591c6f54337088b153495524a5e79c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

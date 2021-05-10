@@ -1144,32 +1144,6 @@ image::images/gwt-user-review-ui-side-by-side-diff-screen-keyboard-shortcuts.png
 In addition, Vim-like commands can be used to link:#key-navigation[
 navigate] and link:#search[search] within a patch file.
 
-[[new-vs-old]]
-== New Review UI vs. Old Review UI
-
-There are some important conceptual differences between the old and
-new review UIs:
-
-- The old change screen directly shows all patch sets of the change.
-  With the new change screen only a single patch set is displayed;
-  users can switch between the patch sets by choosing another patch
-  set from the link:#patch-sets[Patch Sets] drop down panel in the
-  screen header.
-- On the old side-by-side diff screen, new comments are inserted by
-  double-clicking on a line. With the new side-by-side diff screen
-  double-click is used to select a word for commenting on it; there
-  are link:#add-inline-comment[several ways to insert new comments],
-  e.g. by selecting a code block and clicking on the popup comment
-  icon.
-
-[[limitations]]
-Limitations of the new review UI:
-
-- The new side-by-side diff screen cannot render images.
-
-- The new side-by-side diff screen isn't able to highlight line
-  endings.
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

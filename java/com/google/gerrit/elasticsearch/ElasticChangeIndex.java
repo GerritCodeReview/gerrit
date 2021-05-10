@@ -14,55 +14,35 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
-import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
-import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
-import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.ReviewerByEmailSet;
-import com.google.gerrit.server.ReviewerSet;
-import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.lib.Config;
@@ -190,242 +170,12 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         changeDataFactory.create(
             parseProtoFrom(decodeBase64(c.getAsString()), ChangeProtoConverter.INSTANCE));
 
-    // Any decoding that is done here must also be done in {@link LuceneChangeIndex}.
-
-    // Patch sets.
-    cd.setPatchSets(
-        decodeProtos(source, ChangeField.PATCH_SET.getName(), PatchSetProtoConverter.INSTANCE));
-
-    // Approvals.
-    if (source.get(ChangeField.APPROVAL.getName()) != null) {
-      cd.setCurrentApprovals(
-          decodeProtos(
-              source, ChangeField.APPROVAL.getName(), PatchSetApprovalProtoConverter.INSTANCE));
-    } else if (fields.contains(ChangeField.APPROVAL.getName())) {
-      cd.setCurrentApprovals(Collections.emptyList());
-    }
-
-    // Added & Deleted.
-    JsonElement addedElement = source.get(ChangeField.ADDED.getName());
-    JsonElement deletedElement = source.get(ChangeField.DELETED.getName());
-    if (addedElement != null && deletedElement != null) {
-      // Changed lines.
-      int added = addedElement.getAsInt();
-      int deleted = deletedElement.getAsInt();
-      cd.setChangedLines(added, deleted);
-    }
-
-    // Star.
-    JsonElement starredElement = source.get(ChangeField.STAR.getName());
-    if (starredElement != null) {
-      ListMultimap<Account.Id, String> stars = MultimapBuilder.hashKeys().arrayListValues().build();
-      JsonArray starBy = starredElement.getAsJsonArray();
-      if (starBy.size() > 0) {
-        for (int i = 0; i < starBy.size(); i++) {
-          String[] indexableFields = starBy.get(i).getAsString().split(":");
-          Optional<Account.Id> id = Account.Id.tryParse(indexableFields[0]);
-          if (id.isPresent()) {
-            stars.put(id.get(), indexableFields[1]);
-          }
-        }
+    for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+      if (fields.contains(field.getName()) && source.get(field.getName()) != null) {
+        field.setIfPossible(cd, new ElasticStoredValue(source.get(field.getName())));
       }
-      cd.setStars(stars);
-    }
-
-    // Mergeable.
-    JsonElement mergeableElement = source.get(ChangeField.MERGEABLE.getName());
-    if (mergeableElement != null && !skipFields.contains(ChangeField.MERGEABLE.getName())) {
-      String mergeable = mergeableElement.getAsString();
-      if ("1".equals(mergeable)) {
-        cd.setMergeable(true);
-      } else if ("0".equals(mergeable)) {
-        cd.setMergeable(false);
-      }
-    }
-
-    // Reviewed-by.
-    if (source.get(ChangeField.REVIEWEDBY.getName()) != null) {
-      JsonArray reviewedBy = source.get(ChangeField.REVIEWEDBY.getName()).getAsJsonArray();
-      if (reviewedBy.size() > 0) {
-        Set<Account.Id> accounts = Sets.newHashSetWithExpectedSize(reviewedBy.size());
-        for (int i = 0; i < reviewedBy.size(); i++) {
-          int aId = reviewedBy.get(i).getAsInt();
-          if (reviewedBy.size() == 1 && aId == ChangeField.NOT_REVIEWED) {
-            break;
-          }
-          accounts.add(Account.id(aId));
-        }
-        cd.setReviewedBy(accounts);
-      }
-    } else if (fields.contains(ChangeField.REVIEWEDBY.getName())) {
-      cd.setReviewedBy(Collections.emptySet());
-    }
-
-    // Hashtag.
-    if (source.get(ChangeField.HASHTAG.getName()) != null) {
-      JsonArray hashtagArray = source.get(ChangeField.HASHTAG.getName()).getAsJsonArray();
-      if (hashtagArray.size() > 0) {
-        Set<String> hashtags = Sets.newHashSetWithExpectedSize(hashtagArray.size());
-        for (int i = 0; i < hashtagArray.size(); i++) {
-          hashtags.add(hashtagArray.get(i).getAsString());
-        }
-        cd.setHashtags(hashtags);
-      }
-    } else if (fields.contains(ChangeField.HASHTAG.getName())) {
-      cd.setHashtags(Collections.emptySet());
-    }
-
-    // Star.
-    if (source.get(ChangeField.STAR.getName()) != null) {
-      JsonArray starArray = source.get(ChangeField.STAR.getName()).getAsJsonArray();
-      if (starArray.size() > 0) {
-        ListMultimap<Account.Id, String> stars =
-            MultimapBuilder.hashKeys().arrayListValues().build();
-        for (int i = 0; i < starArray.size(); i++) {
-          StarredChangesUtil.StarField starField =
-              StarredChangesUtil.StarField.parse(starArray.get(i).getAsString());
-          stars.put(starField.accountId(), starField.label());
-        }
-        cd.setStars(stars);
-      }
-    } else if (fields.contains(ChangeField.STAR.getName())) {
-      cd.setStars(ImmutableListMultimap.of());
-    }
-
-    // Reviewer.
-    if (source.get(ChangeField.REVIEWER.getName()) != null) {
-      cd.setReviewers(
-          ChangeField.parseReviewerFieldValues(
-              cd.getId(),
-              FluentIterable.from(source.get(ChangeField.REVIEWER.getName()).getAsJsonArray())
-                  .transform(JsonElement::getAsString)));
-    } else if (fields.contains(ChangeField.REVIEWER.getName())) {
-      cd.setReviewers(ReviewerSet.empty());
-    }
-
-    // Reviewer-by-email.
-    if (source.get(ChangeField.REVIEWER_BY_EMAIL.getName()) != null) {
-      cd.setReviewersByEmail(
-          ChangeField.parseReviewerByEmailFieldValues(
-              cd.getId(),
-              FluentIterable.from(
-                      source.get(ChangeField.REVIEWER_BY_EMAIL.getName()).getAsJsonArray())
-                  .transform(JsonElement::getAsString)));
-    } else if (fields.contains(ChangeField.REVIEWER_BY_EMAIL.getName())) {
-      cd.setReviewersByEmail(ReviewerByEmailSet.empty());
-    }
-
-    // Pending-reviewer.
-    if (source.get(ChangeField.PENDING_REVIEWER.getName()) != null) {
-      cd.setPendingReviewers(
-          ChangeField.parseReviewerFieldValues(
-              cd.getId(),
-              FluentIterable.from(
-                      source.get(ChangeField.PENDING_REVIEWER.getName()).getAsJsonArray())
-                  .transform(JsonElement::getAsString)));
-    } else if (fields.contains(ChangeField.PENDING_REVIEWER.getName())) {
-      cd.setPendingReviewers(ReviewerSet.empty());
-    }
-
-    // Pending-reviewer-by-email.
-    if (source.get(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName()) != null) {
-      cd.setPendingReviewersByEmail(
-          ChangeField.parseReviewerByEmailFieldValues(
-              cd.getId(),
-              FluentIterable.from(
-                      source.get(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName()).getAsJsonArray())
-                  .transform(JsonElement::getAsString)));
-    } else if (fields.contains(ChangeField.PENDING_REVIEWER_BY_EMAIL.getName())) {
-      cd.setPendingReviewersByEmail(ReviewerByEmailSet.empty());
-    }
-
-    // Stored-submit-record-strict.
-    decodeSubmitRecords(
-        source,
-        ChangeField.STORED_SUBMIT_RECORD_STRICT.getName(),
-        ChangeField.SUBMIT_RULE_OPTIONS_STRICT,
-        cd);
-
-    // Stored-submit-record-lenient.
-    decodeSubmitRecords(
-        source,
-        ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName(),
-        ChangeField.SUBMIT_RULE_OPTIONS_LENIENT,
-        cd);
-
-    // Ref-state.
-    if (fields.contains(ChangeField.REF_STATE.getName())) {
-      cd.setRefStates(RefState.parseStates(getByteArray(source, ChangeField.REF_STATE.getName())));
-    }
-
-    // Ref-state-pattern.
-    if (fields.contains(ChangeField.REF_STATE_PATTERN.getName())) {
-      cd.setRefStatePatterns(getByteArray(source, ChangeField.REF_STATE_PATTERN.getName()));
-    }
-
-    // Unresolved-comment-count.
-    decodeUnresolvedCommentCount(source, ChangeField.UNRESOLVED_COMMENT_COUNT.getName(), cd);
-
-    // Attention set.
-    if (fields.contains(ChangeField.ATTENTION_SET_FULL.getName())) {
-      ChangeField.parseAttentionSet(
-          FluentIterable.from(source.getAsJsonArray(ChangeField.ATTENTION_SET_FULL.getName()))
-              .transform(ElasticChangeIndex::decodeBase64JsonElement)
-              .toSet(),
-          cd);
-    }
-
-    if (fields.contains(ChangeField.MERGED_ON.getName())) {
-      decodeMergedOn(source, cd);
     }
 
     return cd;
-  }
-
-  private Iterable<byte[]> getByteArray(JsonObject source, String name) {
-    JsonElement element = source.get(name);
-    return element != null
-        ? Iterables.transform(element.getAsJsonArray(), e -> decodeBase64(e.getAsString()))
-        : Collections.emptyList();
-  }
-
-  private void decodeSubmitRecords(
-      JsonObject doc, String fieldName, SubmitRuleOptions opts, ChangeData out) {
-    JsonArray records = doc.getAsJsonArray(fieldName);
-    if (records == null) {
-      return;
-    }
-    ChangeField.parseSubmitRecords(
-        FluentIterable.from(records)
-            .transform(ElasticChangeIndex::decodeBase64JsonElement)
-            .toList(),
-        opts,
-        out);
-  }
-
-  private static String decodeBase64JsonElement(JsonElement input) {
-    return new String(decodeBase64(input.getAsString()), UTF_8);
-  }
-
-  private void decodeUnresolvedCommentCount(JsonObject doc, String fieldName, ChangeData out) {
-    JsonElement count = doc.get(fieldName);
-    if (count == null) {
-      return;
-    }
-    out.setUnresolvedCommentCount(count.getAsInt());
-  }
-
-  private void decodeMergedOn(JsonObject doc, ChangeData out) {
-    JsonElement mergedOnField = doc.get(ChangeField.MERGED_ON.getName());
-
-    Timestamp mergedOn = null;
-    if (mergedOnField != null) {
-      // Parse from ElasticMapping.TIMESTAMP_FIELD_FORMAT.
-      // We currently use built-in ISO-based dateOptionalTime.
-      // https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-date-format.html#built-in-date-formats
-      DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_INSTANT;
-      mergedOn = Timestamp.from(Instant.from(isoFormatter.parse(mergedOnField.getAsString())));
-    }
-    out.setMergedOn(mergedOn);
   }
 }

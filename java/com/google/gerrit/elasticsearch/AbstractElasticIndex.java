@@ -90,7 +90,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String SEARCH = "_search";
   protected static final String SETTINGS = "settings";
 
-  protected static byte[] decodeBase64(String base64String) {
+  static byte[] decodeBase64(String base64String) {
     return BaseEncoding.base64().decode(base64String);
   }
 

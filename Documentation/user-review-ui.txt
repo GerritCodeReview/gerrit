@@ -742,14 +742,6 @@ automatically marked as reviewed when they are viewed.
 
 image::images/user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-reviewed.png"]
 
-[[scrollbar]]
-The scrollbar shows patch diffs and inline comments as annotations.
-This provides a good overview of the lines in the patch that are
-relevant for reviewing. By clicking on an annotation one can quickly
-navigate to the corresponding line in the patch.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-scrollbar.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-scrollbar.png"]
-
 [[patch-set-selection]]
 In the header, on each side, the list of patch sets is shown. Clicking
 on a patch set changes the selection for the patch set comparison and

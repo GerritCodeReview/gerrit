@@ -428,6 +428,11 @@ public class AccountsUpdate {
    * Updates multiple different accounts atomically. This will only store a single new value (aka
    * set of all external IDs of the host) in the external ID cache, which is important for storage
    * economy. All {@code updates} must be for different accounts.
+   *
+   * <p>NOTE on error handling: Since updates are executed in multiple stages, with some stages
+   * resulting from the union of all individual updates, we cannot point to the update that caused
+   * the error. Callers should be aware that a single "update of death" (or a set of updates that
+   * together have this property) will always prevent the entire batch from being executed.
    */
   public ImmutableList<Optional<AccountState>> updateBatch(List<UpdateArguments> updates)
       throws IOException, ConfigInvalidException {

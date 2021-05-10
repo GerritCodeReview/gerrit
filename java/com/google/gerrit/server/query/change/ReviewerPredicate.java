@@ -47,14 +47,4 @@ public class ReviewerPredicate extends ChangeIndexPredicate {
   protected Account.Id getAccountId() {
     return id;
   }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    return cd.reviewers().asTable().get(state, id) != null;
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

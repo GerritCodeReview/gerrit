@@ -34,26 +34,10 @@ public class CommitPredicate extends ChangeIndexPredicate {
     super(commitField(id), id);
   }
 
-  @Override
-  public boolean match(ChangeData object) {
-    String id = getValue().toLowerCase();
-    for (PatchSet p : object.patchSets()) {
-      if (equals(p, id)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   protected boolean equals(PatchSet p, String id) {
     if (getField() == EXACT_COMMIT) {
       return p.commitId().name().equals(id);
     }
     return matchesAbbreviation(p.commitId(), id);
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

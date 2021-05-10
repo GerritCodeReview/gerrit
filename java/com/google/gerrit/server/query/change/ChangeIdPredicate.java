@@ -14,31 +14,11 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 
 /** Predicate over Change-Id strings (aka Change.Key). */
 public class ChangeIdPredicate extends ChangeIndexPredicate {
   public ChangeIdPredicate(String id) {
     super(ChangeField.ID, ChangeQueryBuilder.FIELD_CHANGE, id);
-  }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    Change change = cd.change();
-    if (change == null) {
-      return false;
-    }
-
-    String key = change.getKey().get();
-    if (key.equals(getValue()) || key.startsWith(getValue())) {
-      return true;
-    }
-    return false;
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

@@ -108,7 +108,15 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       return false;
     }
 
-    if (account != null && !account.equals(approver)) {
+    if (account != null
+        && !account.equals(approver)
+        && !account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)) {
+      return false;
+    }
+
+    if (account != null
+        && account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
+        && !cd.change().getOwner().equals(approver)) {
       return false;
     }
 

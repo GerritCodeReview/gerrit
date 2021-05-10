@@ -21,9 +21,4 @@ public class DeletedPredicate extends IntegerRangeChangePredicate {
   public DeletedPredicate(String value) throws QueryParseException {
     super(ChangeField.DELETED, value);
   }
-
-  @Override
-  protected Integer getValueInt(ChangeData changeData) {
-    return ChangeField.DELETED.get(changeData);
-  }
 }

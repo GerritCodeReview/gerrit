@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 
@@ -23,23 +22,5 @@ public class ExactHashtagPredicate extends ChangeIndexPredicate {
     // Use toLowerCase without locale to match behavior in ChangeField.
     // TODO(dborowitz): Change both.
     super(ChangeField.HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
-  }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    if (Strings.isNullOrEmpty(getValue())) {
-      return cd.hashtags().isEmpty();
-    }
-    for (String hashtag : cd.hashtags()) {
-      if (hashtag.equalsIgnoreCase(getValue())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

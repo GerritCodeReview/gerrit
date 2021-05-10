@@ -14,28 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 
 public class SubmissionIdPredicate extends ChangeIndexPredicate {
   public SubmissionIdPredicate(String changeSet) {
     super(ChangeField.SUBMISSIONID, changeSet);
-  }
-
-  @Override
-  public boolean match(ChangeData object) {
-    Change change = object.change();
-    if (change == null) {
-      return false;
-    }
-    if (change.getSubmissionId() == null) {
-      return false;
-    }
-    return getValue().equals(change.getSubmissionId());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

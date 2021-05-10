@@ -25,9 +25,4 @@ public class IsUnresolvedPredicate extends IntegerRangeChangePredicate {
   public IsUnresolvedPredicate(String value) throws QueryParseException {
     super(ChangeField.UNRESOLVED_COMMENT_COUNT, value);
   }
-
-  @Override
-  protected Integer getValueInt(ChangeData changeData) {
-    return ChangeField.UNRESOLVED_COMMENT_COUNT.get(changeData);
-  }
 }

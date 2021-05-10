@@ -18,6 +18,7 @@ import static com.google.gerrit.server.config.ConfigUtil.getTimeUnit;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -64,6 +65,7 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 public class ProjectQoSFilter implements Filter {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String ATT_SPACE = ProjectQoSFilter.class.getName() + "/";
   private static final String TASK = ATT_SPACE + "TASK";
 
@@ -219,7 +221,12 @@ public class ProjectQoSFilter implements Filter {
     }
 
     @Override
-    public void onComplete(AsyncEvent event) throws IOException {}
+    public void onComplete(AsyncEvent event) throws IOException {
+      if (!future.isDone()) {
+        logger.atSevere().log("Event is completed, but future is not done, cancelling it");
+        future.cancel(true);
+      }
+    }
 
     @Override
     public void onTimeout(AsyncEvent event) throws IOException {

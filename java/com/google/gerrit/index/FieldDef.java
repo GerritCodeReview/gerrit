@@ -196,13 +196,6 @@ public final class FieldDef<I, T> {
     }
   }
 
-  /** Copy field from one object to another. */
-  public void copyField(I from, I to) {
-    if (setter != null) {
-      setter.set(to, get(from));
-    }
-  }
-
   /** @return whether the field is repeatable. */
   public boolean isRepeatable() {
     return repeatable;

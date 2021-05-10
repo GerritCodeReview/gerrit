@@ -118,17 +118,6 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public boolean match(ChangeData object) {
-    Change change = object.change();
-    return change != null && Objects.equals(status, change.getStatus());
-  }
-
-  @Override
-  public int getCost() {
-    return 0;
-  }
-
-  @Override
   public int hashCode() {
     return Objects.hashCode(status);
   }

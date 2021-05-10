@@ -20,17 +20,4 @@ public class CherryPickOfChangePredicate extends ChangeIndexPredicate {
   public CherryPickOfChangePredicate(String cherryPickOfChange) {
     super(ChangeField.CHERRY_PICK_OF_CHANGE, cherryPickOfChange);
   }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    if (cd.change().getCherryPickOf() == null) {
-      return false;
-    }
-    return Integer.toString(cd.change().getCherryPickOf().changeId().get()).equals(value);
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

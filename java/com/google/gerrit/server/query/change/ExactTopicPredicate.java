@@ -16,24 +16,8 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_TOPIC;
 
-import com.google.gerrit.entities.Change;
-
 public class ExactTopicPredicate extends ChangeIndexPredicate {
   public ExactTopicPredicate(String topic) {
     super(EXACT_TOPIC, topic);
-  }
-
-  @Override
-  public boolean match(ChangeData object) {
-    Change change = object.change();
-    if (change == null) {
-      return false;
-    }
-    return getValue().equals(change.getTopic());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
   }
 }

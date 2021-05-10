@@ -16,6 +16,116 @@
       "message": "I\u0027m not really sure I get why this is needed, can\u0027t the users just use the existing WebLink?",
       "revId": "7f75fabd588f1e7a17d5822c6a172b55834fd6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd107b83_d58100d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-10T15:05:34Z",
+      "side": 1,
+      "message": "Ah, I get it. See my other resolved comment.",
+      "parentUuid": "91585e76_a2d78db1",
+      "revId": "7f75fabd588f1e7a17d5822c6a172b55834fd6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12cd9b9e_bf7578f6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6926,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-10T15:05:34Z",
+      "side": 1,
+      "message": "can you clarify this to talk about patch-set web links?",
+      "range": {
+        "startLine": 6924,
+        "startChar": 0,
+        "endLine": 6926,
+        "endChar": 0
+      },
+      "revId": "7f75fabd588f1e7a17d5822c6a172b55834fd6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cb9ff75_722fc6ba",
+        "filename": "java/com/google/gerrit/extensions/common/CommitInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-10T15:05:34Z",
+      "side": 1,
+      "message": "actually, maybe my previous comment refers to getting those weblinks from \"webLinks\" rather than a separate resolveConflictsWebLinks, and then everything else is ok.\n\nBut looking into this deeper, these \"webLinks\" are really just patchSetWebLinks, so the name is just bad (and we can\u0027t fix it).",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 51
+      },
+      "revId": "7f75fabd588f1e7a17d5822c6a172b55834fd6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2089855b_3cb811db",
+        "filename": "java/com/google/gerrit/extensions/webui/ResolveConflictsWebLink.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-10T15:05:34Z",
+      "side": 1,
+      "message": "omit",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 8
+      },
+      "revId": "7f75fabd588f1e7a17d5822c6a172b55834fd6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ae0401c_5a264b8d",
+        "filename": "java/com/google/gerrit/extensions/webui/ResolveConflictsWebLink.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-10T15:05:34Z",
+      "side": 1,
+      "message": "{@code null}",
+      "range": {
+        "startLine": 37,
+        "startChar": 70,
+        "endLine": 37,
+        "endChar": 74
+      },
+      "revId": "7f75fabd588f1e7a17d5822c6a172b55834fd6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

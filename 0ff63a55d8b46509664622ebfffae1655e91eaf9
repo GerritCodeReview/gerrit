@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "169b3736_57bd5c7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T15:33:52Z",
+      "side": 1,
+      "message": "Nit: we usually use abbreviated change-id: I1a0b510405c to linkify changes.",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "0ff63a55d8b46509664622ebfffae1655e91eaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698c4755_7a4b2cfe",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-10T15:33:52Z",
+      "side": 1,
+      "message": "Would it make sense also allow it for user with this ACL: access-control.html#capability_administrateServer[Administrate Server] ?",
+      "range": {
+        "startLine": 107,
+        "startChar": 48,
+        "endLine": 107,
+        "endChar": 84
+      },
+      "revId": "0ff63a55d8b46509664622ebfffae1655e91eaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -17,6 +17,7 @@ package com.google.gerrit.util.http.testutil;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -257,7 +258,15 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public Cookie[] getCookies() {
-    return new Cookie[0];
+    return Splitter.on(";").splitToList(Strings.nullToEmpty(getHeader("Cookie"))).stream()
+        .filter(s -> !s.isEmpty())
+        .map(
+            (String cookieValue) -> {
+              String[] kv = cookieValue.split("=");
+              return new Cookie(kv[0], kv[1]);
+            })
+        .collect(toList())
+        .toArray(new Cookie[0]);
   }
 
   @Override

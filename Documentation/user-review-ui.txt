@@ -919,7 +919,7 @@ rendered. Users can configure their preferences in the diff
 preferences. The diff preferences can be accessed by clicking on the
 settings icon in the screen header.
 
-image::images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png"]
+image::images/user-review-ui-side-by-side-diff-screen-preferences.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png"]
 
 The diff preferences popup allows to change the diff preferences.
 By clicking on the `Save` button changes to the diff preferences are

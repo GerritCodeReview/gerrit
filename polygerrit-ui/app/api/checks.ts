@@ -298,6 +298,11 @@ export declare interface CheckResult {
   externalId?: string;
 
   /**
+   * SUCCESS: Indicates that some build, test or check is passing. A COMPLETED
+   *          run without results will also be treated as "passing" and will get
+   *          an artificial SUCCESS result. But you can also make this explicit,
+   *          which also allows one run to have multiple "passing" results,
+   *          maybe along with results of other categories.
    * INFO:    The user will typically not bother to look into this category,
    *          only for looking up something that they are searching for. Can be
    *          used for reporting secondary metrics and analysis, or a wider
@@ -383,6 +388,7 @@ export declare interface CheckResult {
 }
 
 export enum Category {
+  SUCCESS = 'SUCCESS',
   INFO = 'INFO',
   WARNING = 'WARNING',
   ERROR = 'ERROR',

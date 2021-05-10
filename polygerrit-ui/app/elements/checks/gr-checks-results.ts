@@ -39,17 +39,15 @@ import {
 import {sharedStyles} from '../../styles/shared-styles';
 import {
   allActions$,
-  checksPatchsetNumber$,
-  someProvidersAreLoading$,
-  RunResult,
-  CheckRun,
   allLinks$,
+  CheckRun,
+  checksPatchsetNumber$,
+  RunResult,
+  someProvidersAreLoading$,
 } from '../../services/checks/checks-model';
 import {
   allResults,
   fireActionTriggered,
-  hasCompletedWithoutResults,
-  hasResultsOf,
   iconForCategory,
   iconForLink,
   tooltipForLink,
@@ -462,11 +460,11 @@ class GrResultExpanded extends GrLitElement {
   }
 }
 
-const SHOW_ALL_THRESHOLDS: Map<Category | 'SUCCESS', number> = new Map();
+const SHOW_ALL_THRESHOLDS: Map<Category, number> = new Map();
 SHOW_ALL_THRESHOLDS.set(Category.ERROR, 20);
 SHOW_ALL_THRESHOLDS.set(Category.WARNING, 10);
 SHOW_ALL_THRESHOLDS.set(Category.INFO, 5);
-SHOW_ALL_THRESHOLDS.set('SUCCESS', 5);
+SHOW_ALL_THRESHOLDS.set(Category.SUCCESS, 5);
 
 @customElement('gr-checks-results')
 export class GrChecksResults extends GrLitElement {
@@ -514,21 +512,21 @@ export class GrChecksResults extends GrLitElement {
 
   /** Maintains the state of which result sections should show all results. */
   @internalProperty()
-  isShowAll: Map<Category | 'SUCCESS', boolean> = new Map();
+  isShowAll: Map<Category, boolean> = new Map();
 
   /**
    * This is the current state of whether a section is expanded or not. As long
    * as isSectionExpandedByUser is false this will be computed by a default rule
    * on every render.
    */
-  private isSectionExpanded = new Map<Category | 'SUCCESS', boolean>();
+  private isSectionExpanded = new Map<Category, boolean>();
 
   /**
    * Keeps track of whether the user intentionally changed the expansion state.
    * Once this is true the default rule for showing a section expanded or not
    * is not applied anymore.
    */
-  private isSectionExpandedByUser = new Map<Category | 'SUCCESS', boolean>();
+  private isSectionExpandedByUser = new Map<Category, boolean>();
 
   private readonly checksService = appContext.checksService;
 
@@ -732,7 +730,8 @@ export class GrChecksResults extends GrLitElement {
       <div class="body">
         ${this.renderSection(Category.ERROR)}
         ${this.renderSection(Category.WARNING)}
-        ${this.renderSection(Category.INFO)} ${this.renderSection('SUCCESS')}
+        ${this.renderSection(Category.INFO)}
+        ${this.renderSection(Category.SUCCESS)}
       </div>
     `;
   }
@@ -859,16 +858,11 @@ export class GrChecksResults extends GrLitElement {
     this.filterRegExp = new RegExp(this.filterInput.value, 'i');
   }
 
-  renderSection(category: Category | 'SUCCESS') {
+  renderSection(category: Category) {
     const catString = category.toString().toLowerCase();
-    let allRuns = this.runs.filter(run =>
+    const allRuns = this.runs.filter(run =>
       isAttemptSelected(this.selectedAttempts, run)
     );
-    if (category === 'SUCCESS') {
-      allRuns = allRuns.filter(hasCompletedWithoutResults);
-    } else {
-      allRuns = allRuns.filter(r => hasResultsOf(r, category));
-    }
     const all = allRuns.reduce(
       (results: RunResult[], run) => [
         ...results,
@@ -928,7 +922,7 @@ export class GrChecksResults extends GrLitElement {
   }
 
   renderShowAllButton(
-    category: Category | 'SUCCESS',
+    category: Category,
     isShowAll: boolean,
     showAllThreshold: number,
     resultCount: number
@@ -947,7 +941,7 @@ export class GrChecksResults extends GrLitElement {
     `;
   }
 
-  toggleShowAll(category: Category | 'SUCCESS') {
+  toggleShowAll(category: Category) {
     const current = this.isShowAll.get(category) ?? false;
     this.isShowAll.set(category, !current);
     this.requestUpdate();
@@ -1011,7 +1005,7 @@ export class GrChecksResults extends GrLitElement {
     return html`(${filtered.length} of ${all.length})`;
   }
 
-  toggleExpanded(category: Category | 'SUCCESS') {
+  toggleExpanded(category: Category) {
     const expanded = this.isSectionExpanded.get(category);
     assertIsDefined(expanded, 'expanded must have been set in initial render');
     this.isSectionExpanded.set(category, !expanded);
@@ -1019,8 +1013,11 @@ export class GrChecksResults extends GrLitElement {
     this.requestUpdate();
   }
 
-  computeRunResults(category: Category | 'SUCCESS', run: CheckRun) {
-    if (category === 'SUCCESS') return [this.computeSuccessfulRunResult(run)];
+  computeRunResults(category: Category, run: CheckRun) {
+    const noResults = (run.results ?? []).length === 0;
+    if (noResults && category === Category.SUCCESS) {
+      return [this.computeSuccessfulRunResult(run)];
+    }
     return (
       run.results
         ?.filter(result => result.category === category)
@@ -1033,7 +1030,7 @@ export class GrChecksResults extends GrLitElement {
   computeSuccessfulRunResult(run: CheckRun): RunResult {
     const adaptedRun: RunResult = {
       internalResultId: run.internalRunId + '-0',
-      category: Category.INFO, // will not be used, but is required
+      category: Category.SUCCESS,
       summary: run.statusDescription ?? '',
       ...run,
     };

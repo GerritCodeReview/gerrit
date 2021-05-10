@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "729cc249_91e4931e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T12:45:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48bd8805_ad185c3e",
+      "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "019d62ed_b0321378",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-05-10T08:52:56Z",
       "side": 1,
       "message": "The ! makes me a bit uneasy. If possible and if not creating too much trouble, then try to avoid them.\n\nFor context groups you can just initialize with [].",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 58
+      },
+      "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83f09afc_09e60315",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T12:45:17Z",
+      "side": 1,
+      "message": "I tried to move them to whenever I expect them to be filled in for sure (after validation).",
+      "parentUuid": "019d62ed_b0321378",
       "range": {
         "startLine": 59,
         "startChar": 2,
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a07d1ae_6414da02",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T12:45:17Z",
+      "side": 1,
+      "message": "I need them to be inside a custom-style so that style shim (https://polymer-library.polymer-project.org/2.0/api/elements/Polymer.CustomStyle) can work. An example is what I\u0027m doing with gr-diff-button:\n\n```\n --gr-button: {\n            color: var(--diff-context-control-color);\n            border-style: solid;\n            border-color: var(--border-color);\n            border-top-width: 0;\n\n```\n\nThis doesn\u0027t work in regular style. There is also a discussion about it in this youtube video: https://www.youtube.com/watch?v\u003dtJ5vDFmO-b4\n\nI could, however try to move the other way around: the `:host{` styles into customStyles if you prefer.",
+      "parentUuid": "e63def30_3ff9ee27",
+      "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a369c4d0_9abe454e",
@@ -88,6 +148,24 @@
       "writtenOn": "2021-05-10T08:52:56Z",
       "side": 1,
       "message": "Maybe just a method instead of a getter? Same for the other 3 getters.",
+      "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "696af623_08b31526",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T12:45:17Z",
+      "side": 1,
+      "message": "Ok. I replaced it then to a regular method, but not naming it with \"get\" before - it depends on how you want methods to look like:\n1. get compositeValue()\n2. compositeValue()\n3. getCompositeValue()",
+      "parentUuid": "a369c4d0_9abe454e",
       "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -109,6 +187,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc0356bd_eaa8f7d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T12:45:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8a2adc8_68904c90",
+      "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fcfb6e2_03676f46",
@@ -122,6 +218,24 @@
       "writtenOn": "2021-05-10T08:52:56Z",
       "side": 1,
       "message": "Maybe extract a method.",
+      "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91d12a1a_2d60ba3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T12:45:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fcfb6e2_03676f46",
       "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -143,6 +257,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9533d4b2_de4062f7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T12:45:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e36d9382_bc6e83eb",
+      "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34291e88_e7f3564c",
@@ -156,6 +288,24 @@
       "writtenOn": "2021-05-10T08:52:56Z",
       "side": 1,
       "message": "formatting accident",
+      "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "862b6add_0e66266a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-10T12:45:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34291e88_e7f3564c",
       "revId": "a666053f714d57e7ff65311d3a76b925e9a73c2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -43,6 +43,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67b5edd4_958d429d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-10T16:10:41Z",
+      "side": 1,
+      "message": "\u003e This change seems to fundamentally change how many of the \"matches\" work, it would be a lot easier to review if similar alterations were split out into separate changes.\n\nI don\u0027t think it does. It really just performs the same matching in the predicate that the index backend already performs today. Do you have specific concerns with a predicate where we can discuss that in more detail?\n\n\u003e Are there unit tests to test all these matches to ensure that these changes don\u0027t break them?\n\nThis logic is untested today AFICT. Id3c1d3d (later change in this series) adds a Fake index. That uses only #match functions and runs Query{Changes,Accounts,Projects,Groups} tests. So any operator so all predicates that have a test there (and that\u0027s all predicates, otherwise, it would be an oversight - code coverage analysis can tell) is tested with that change.\n\nI am happy to merge this change in lockstep with Id3c1d3d to ensure we have good coverage.",
+      "parentUuid": "b13ec1e4_16ab9633",
+      "revId": "445f071f4f08b2aed680fb1e32666dc4e910f02f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1dd9eb60_1425f3c4",
         "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
         "patchSetId": 1

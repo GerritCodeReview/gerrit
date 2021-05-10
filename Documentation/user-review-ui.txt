@@ -973,10 +973,7 @@ image::images/user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[w
 Controls whether syntax highlighting should be enabled.
 +
 The language for the syntax highlighting is automatically detected from
-the file extension. The language can also be set manually by selecting
-it from the `Language` drop-down list.
-+
-image::images/gwt-user-review-ui-side-by-side-diff-screen-syntax-coloring.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-syntax-coloring.png"]
+the file extension.
 
 - [[whitespace-errors]]`Whitespace Errors`:
 +

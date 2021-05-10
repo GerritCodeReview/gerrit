@@ -471,6 +471,26 @@ public class ChangeData {
     changedLines = Optional.of(new ChangedLines(insertions, deletions));
   }
 
+  public void setLinesInserted(int insertions) {
+    changedLines =
+        Optional.of(
+            new ChangedLines(
+                insertions,
+                changedLines != null && changedLines.isPresent()
+                    ? changedLines.get().deletions
+                    : -1));
+  }
+
+  public void setLinesDeleted(int deletions) {
+    changedLines =
+        Optional.of(
+            new ChangedLines(
+                changedLines != null && changedLines.isPresent()
+                    ? changedLines.get().insertions
+                    : -1,
+                deletions));
+  }
+
   public void setNoChangedLines() {
     changedLines = Optional.empty();
   }

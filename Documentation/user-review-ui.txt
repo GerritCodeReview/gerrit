@@ -1044,12 +1044,6 @@ context by ten lines before and after the skipped block.
 +
 image::images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png"]
 
-- [[intraline-difference]]`Intraline Difference`:
-+
-Controls whether intraline differences should be highlighted.
-+
-image::images/gwt-user-review-ui-side-by-side-diff-screen-intraline-difference.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-intraline-difference.png"]
-
 - [[syntax-highlighting]]`Syntax Highlighting`:
 +
 Controls whether syntax highlighting should be enabled.

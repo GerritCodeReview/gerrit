@@ -242,6 +242,8 @@ public class InMemoryModule extends FactoryModule {
       install(luceneIndexModule());
     } else if (indexType.isElasticsearch()) {
       install(elasticIndexModule());
+    } else if (indexType.isFake()) {
+      install(fakeIndexModule());
     }
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
@@ -315,6 +317,10 @@ public class InMemoryModule extends FactoryModule {
 
   private Module elasticIndexModule() {
     return indexModule("com.google.gerrit.elasticsearch.ElasticIndexModule");
+  }
+
+  private Module fakeIndexModule() {
+    return indexModule("com.google.gerrit.index.testing.FakeIndexModule");
   }
 
   private Module indexModule(String moduleClassName) {

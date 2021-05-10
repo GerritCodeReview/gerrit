@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4d4c3c4_f134f47f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-10T17:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b2df24_973bc738",
+      "range": {
+        "startLine": 588,
+        "startChar": 14,
+        "endLine": 588,
+        "endChar": 29
+      },
+      "revId": "7bbc07d5d2ff31474f7cd1e89d47dee4eb87db7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "935ec725_e754efa1",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-10T07:28:02Z",
       "side": 1,
       "message": "Nit: embed in ticks: `http.cookieFile`.",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "7bbc07d5d2ff31474f7cd1e89d47dee4eb87db7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dc7444d_72a81580",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-10T17:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "935ec725_e754efa1",
       "range": {
         "startLine": 33,
         "startChar": 14,

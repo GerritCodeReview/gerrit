@@ -348,6 +348,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d70642b9_a1a9be68",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-10T17:33:43Z",
+      "side": 1,
+      "message": "It fails on master because the latest stable-3.4 isn\u0027t merged yet with master.\nIf you apply all the merges up to master consistently (I just did it locally) it works as expected.",
+      "parentUuid": "3ce63437_280558a1",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 43
+      },
+      "revId": "af11b42fe9771f8e6b3f2bccf6c9d49a40237131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8420f5b9_7ff37e85",

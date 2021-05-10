@@ -10,6 +10,7 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//javatests/com/google/gerrit/util/http/testutil",
+        "//lib/bouncycastle:bcprov",
         "//lib:gson",
         "//lib:guava",
         "//lib:jgit",

@@ -953,19 +953,6 @@ screen unless the link:#render[Render] diff preference is set to `Slow`.
 
 image::images/gwt-user-review-ui-side-by-side-diff-screen-search.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-search.png"]
 
-[[key-navigation]]
-=== Key Navigation
-
-Vim-like commands can be used to navigate within a patch file:
-
-- `h` / `j` / `k` / `l` moves the cursor left / down / up / right
-- `0` / `$` moves the cursor to the start / end of the line
-- `gg` / `G` moves to cursor to the start / end of the file
-- `Ctrl-D` / `Ctrl-U` scrolls downwards / upwards
-
-Please check the link:http://www.vim.org/docs.php[Vim documentation,role=external,window=_blank]
-for further information.
-
 [[diff-preferences]]
 === Diff Preferences
 

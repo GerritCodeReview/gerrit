@@ -919,26 +919,9 @@ rendered. Users can configure their preferences in the diff
 preferences. The diff preferences can be accessed by clicking on the
 settings icon in the screen header.
 
-image::images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png"]
-
-The diff preferences popup allows to change the diff preferences.
-By clicking on the `Save` button changes to the diff preferences are
-saved permanently. Clicking on the `Apply` button applies the new
-diff preferences to the current screen, but they are discarded when the
-screen is refreshed. The `Save` button is only available if the user is
-signed in.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-preferences-popup.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences-popup.png"]
+image::images/user-review-ui-side-by-side-diff-screen-preferences.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png"]
 
 The following diff preferences can be configured:
-
-- [[theme]]`Theme`:
-+
-Controls the theme that is used to render the file content.
-+
-E.g. users could choose to work with a dark theme.
-+
-image::images/gwt-user-review-ui-side-by-side-diff-screen-dark-theme.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-dark-theme.png"]
 
 - [[ignore-whitespace]]`Ignore Whitespace`:
 +
@@ -948,11 +931,11 @@ Controls whether differences in whitespace should be ignored or not.
 +
 All differences in whitespace are highlighted.
 +
-** `At Line End`:
+** `Trailing`:
 +
 Whitespace differences at the end of lines are ignored.
 +
-** `Leading, At Line End`:
+** `Leading, Trailing`:
 +
 Whitespace differences at the beginning and end of lines are ignored.
 +
@@ -966,11 +949,7 @@ Controls how many spaces should be displayed for a tab.
 
 - [[columns]]`Columns`:
 +
-Sets the preferred line length. At this position a vertical dashed line
-is displayed so that one can easily detect lines the exceed the
-preferred line length.
-+
-image::images/gwt-user-review-ui-side-by-side-diff-screen-column.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-column.png"]
+Sets the preferred line length. At this position, lines are wrapped.
 
 - [[lines-of-context]]`Lines Of Context`:
 +
@@ -987,7 +966,7 @@ block of skipped lines.
 If many lines are skipped there are additional links to expand the
 context by ten lines before and after the skipped block.
 +
-image::images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png"]
+image::images/user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png"]
 
 - [[syntax-highlighting]]`Syntax Highlighting`:
 +

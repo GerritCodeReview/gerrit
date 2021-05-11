@@ -1,4 +1,5 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 GUAVA_VERSION = "30.1-jre"
 
@@ -35,18 +36,24 @@ def declare_nongoogle_deps():
         sha1 = "cb2f351bf4463751201f43bb99865235d5ba07ca",
     )
 
-    SSHD_VERS = "2.6.0"
+    SSHD_VERS = "2.7.0"
 
-    maven_jar(
+    java_import_external(
         name = "sshd-osgi",
-        artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
-        sha1 = "40e365bb799e1bff3d31dc858b1e59a93c123f29",
+        jar_sha256 = "17195d9df825d8c04286df1e2184f1e830bd8e9b5b7f788cb567eb3de65275d5",
+        jar_urls = [
+            "https://repository.apache.org/content/repositories/orgapachemina-1057/org/apache/sshd/sshd-osgi/2.7.0/sshd-osgi-2.7.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
-    maven_jar(
+    java_import_external(
         name = "sshd-sftp",
-        artifact = "org.apache.sshd:sshd-sftp:" + SSHD_VERS,
-        sha1 = "6eddfe8fdf59a3d9a49151e4177f8c1bebeb30c9",
+        jar_sha256 = "90692aaedbc6a1d7f5e61a03d811dd0cc6058b424a86e82d96843e2f5287b70c",
+        jar_urls = [
+            "https://repository.apache.org/content/repositories/orgapachemina-1057/org/apache/sshd/sshd-sftp/2.7.0/sshd-sftp-2.7.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     maven_jar(
@@ -61,10 +68,13 @@ def declare_nongoogle_deps():
         sha1 = "e1a317689ecd438f54e863747e832f741ef8e092",
     )
 
-    maven_jar(
+    java_import_external(
         name = "sshd-mina",
-        artifact = "org.apache.sshd:sshd-mina:" + SSHD_VERS,
-        sha1 = "d22138ba75dee95e2123f0e53a9c514b2a766da9",
+        jar_sha256 = "618795708aad439804b5d6c5e2237199fa0f827661522b6e5d74489566a3b462",
+        jar_urls = [
+            "https://repository.apache.org/content/repositories/orgapachemina-1057/org/apache/sshd/sshd-mina/2.7.0/sshd-mina-2.7.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     # elasticsearch-rest-client explicitly depends on this version

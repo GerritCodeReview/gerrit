@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "326760c3_c4e4f4f6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-11T12:19:34Z",
+      "side": 1,
+      "message": "Adding handling for blame and unified diff.\n\nJust using colspan\u003d3 now. That means that the controls are rendered slightly more to the right, which I actually find nicer.",
+      "parentUuid": "90bbda74_0c283206",
+      "range": {
+        "startLine": 379,
+        "startChar": 33,
+        "endLine": 379,
+        "endChar": 36
+      },
+      "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb2fe1c4_738d275a",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21470ec7_08845294",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-11T12:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb2fe1c4_738d275a",
+      "range": {
+        "startLine": 339,
+        "startChar": 15,
+        "endLine": 339,
+        "endChar": 19
+      },
+      "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3d05d6d_be12eb44",
@@ -77,6 +125,30 @@
       "writtenOn": "2021-05-11T09:09:38Z",
       "side": 1,
       "message": "Given that these need to be pixel-perfect, they should probably be a calc() involving --divider-height and --divider-border, otherwise this seems prone to break. Also below.",
+      "range": {
+        "startLine": 343,
+        "startChar": 6,
+        "endLine": 344,
+        "endChar": 27
+      },
+      "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b2ace6c_b46b455d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-11T12:19:34Z",
+      "side": 1,
+      "message": "Done.\n\nI have introduced another \u003cdiv\u003e container such that we have\n\n  td\n    div (vertical flex with margins and height calc)\n      div (horizontal centered flex)\n        div (button container, also vertical flex)",
+      "parentUuid": "f3d05d6d_be12eb44",
       "range": {
         "startLine": 343,
         "startChar": 6,

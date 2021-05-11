@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitTypeRecord;
@@ -170,7 +171,8 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     return str.type;
   }
 
-  private ChangeSet byCommitsOnBranchNotMerged(
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public ChangeSet byCommitsOnBranchNotMerged(
       OpenRepo or,
       BranchNameKey branch,
       Set<String> visibleHashes,
@@ -212,7 +214,8 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
     return result;
   }
 
-  private Set<String> walkChangesByHashes(
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public Set<String> walkChangesByHashes(
       Collection<RevCommit> sourceCommits, Set<String> ignoreHashes, OpenRepo or, BranchNameKey b)
       throws IOException {
     Set<String> destHashes = new HashSet<>();

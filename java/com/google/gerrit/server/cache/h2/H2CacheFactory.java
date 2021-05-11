@@ -21,7 +21,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.cache.PersistentCacheBaseFactory;
 import com.google.gerrit.server.cache.PersistentCacheDef;
@@ -132,34 +131,32 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
 
   @SuppressWarnings({"unchecked"})
   @Override
-  public <K, V> Cache<K, V> buildImpl(
-      PersistentCacheDef<K, V> in, long limit, CacheBackend backend) {
+  public <K, V> Cache<K, V> buildImpl(PersistentCacheDef<K, V> in, long limit) {
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
     SqlStore<K, V> store = newSqlStore(def, limit);
     H2CacheImpl<K, V> cache =
         new H2CacheImpl<>(
-            executor,
-            store,
-            def.keyType(),
-            (Cache<K, ValueHolder<V>>) memCacheFactory.build(def, backend));
+            executor, store, def.keyType(), (Cache<K, ValueHolder<V>>) memCacheFactory.build(def));
     synchronized (caches) {
       caches.add(cache);
     }
     return cache;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked"})
   @Override
   public <K, V> LoadingCache<K, V> buildImpl(
-      PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, long limit, CacheBackend backend) {
+      PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, long limit) {
+    if (cacheDir == null || limit <= 0) {
+      return memCacheFactory.build(in, loader);
+    }
+
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
     SqlStore<K, V> store = newSqlStore(def, limit);
     Cache<K, ValueHolder<V>> mem =
         (Cache<K, ValueHolder<V>>)
             memCacheFactory.build(
-                def,
-                (CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader),
-                backend);
+                def, (CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
     H2CacheImpl<K, V> cache = new H2CacheImpl<>(executor, store, def.keyType(), mem);
     synchronized (caches) {
       caches.add(cache);

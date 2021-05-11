@@ -57,15 +57,13 @@ public class PersistentCacheFactoryIT extends AbstractDaemonTest {
     }
 
     @Override
-    public <K, V> com.google.common.cache.Cache<K, V> build(
-        PersistentCacheDef<K, V> def, CacheBackend backend) {
-      return memoryCacheFactory.build(def, backend);
+    public <K, V> com.google.common.cache.Cache<K, V> build(PersistentCacheDef<K, V> def) {
+      return memoryCacheFactory.build(def);
     }
 
     @Override
-    public <K, V> LoadingCache<K, V> build(
-        PersistentCacheDef<K, V> def, CacheLoader<K, V> loader, CacheBackend backend) {
-      return memoryCacheFactory.build(def, loader, backend);
+    public <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> def, CacheLoader<K, V> loader) {
+      return memoryCacheFactory.build(def, loader);
     }
 
     @Override

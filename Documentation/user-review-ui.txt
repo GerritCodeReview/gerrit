@@ -306,8 +306,6 @@ quickly see in which released versions the bug-fix is contained
 The star icon in the change header allows to mark the change as a
 favorite. Clicking on the star icon again, unstars the change.
 
-image::images/gwt-user-review-ui-change-screen-star.png[width=800, link="images/gwt-user-review-ui-change-screen-star.png"]
-
 Starring a change turns on email notifications for this change.
 
 Starred changed are listed under `My` > `Starred Changes`.

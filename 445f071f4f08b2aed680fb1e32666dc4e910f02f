@@ -97,6 +97,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05271ddb_98b3dd98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-11T07:13:15Z",
+      "side": 1,
+      "message": "A lot to parse here so bare with me if I\u0027m mistaken.\nRegarding consistent \"match\" functionality:\nFWICT f.i. AUTHOR/COMMITTER is of type FULL_TEXT and before this change [1] they were split on (among other things) \u0027@\u0027 which they aren\u0027t in this change.\nMoreover the entire email was among also matched against previously but I cannot see that it is in this change.\n\nFor email sven.selberg@company.com the predicate would try to match one of:\nBefore:\n[\"sven.selberg@company.com\", \"sven.selberg\", \"company.com\", \"sven\", \"selberg\", \"company\", \"com\"]\nWith this change:\n[\"sven\", \"selberg@company\", \"com\"]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/305762/2/java/com/google/gerrit/index/SchemaUtil.java#105",
+      "parentUuid": "8d50686f_8a1eff60",
+      "revId": "445f071f4f08b2aed680fb1e32666dc4e910f02f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1dd9eb60_1425f3c4",
         "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
         "patchSetId": 1

@@ -25,16 +25,7 @@ public class ChangeIdPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData cd) {
-    Change change = cd.change();
-    if (change == null) {
-      return false;
-    }
-
-    String key = change.getKey().get();
-    if (key.equals(getValue()) || key.startsWith(getValue())) {
-      return true;
-    }
-    return false;
+    throw new IllegalStateException("not implemented");
   }
 
   @Override

@@ -29,7 +29,7 @@ public class LegacyChangeIdStrPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) {
-    return id.equals(object.getId());
+    throw new IllegalStateException("not implemented");
   }
 
   @Override

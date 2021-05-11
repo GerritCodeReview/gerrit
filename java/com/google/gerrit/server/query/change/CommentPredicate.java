@@ -32,24 +32,25 @@ public class CommentPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) {
-    try {
-      Change.Id id = object.getId();
-      Predicate<ChangeData> p =
-          Predicate.and(
-              index.getSchema().useLegacyNumericFields()
-                  ? new LegacyChangeIdPredicate(id)
-                  : new LegacyChangeIdStrPredicate(id),
-              this);
-      for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {
-        if (cData.getId().equals(id)) {
-          return true;
-        }
-      }
-    } catch (QueryParseException e) {
-      throw new StorageException(e);
-    }
-
-    return false;
+    throw new IllegalStateException("not implemented");
+//    try {
+//      Change.Id id = object.getId();
+//      Predicate<ChangeData> p =
+//          Predicate.and(
+//              index.getSchema().useLegacyNumericFields()
+//                  ? new LegacyChangeIdPredicate(id)
+//                  : new LegacyChangeIdStrPredicate(id),
+//              this);
+//      for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {
+//        if (cData.getId().equals(id)) {
+//          return true;
+//        }
+//      }
+//    } catch (QueryParseException e) {
+//      throw new StorageException(e);
+//    }
+//
+//    return false;
   }
 
   @Override

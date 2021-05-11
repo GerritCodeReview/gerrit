@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fc0b599_190c0a9c",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-11T17:25:19Z",
+      "side": 1,
+      "message": "Sorry for complicating these regexs. Some of the lit dependencies had multiple imports/exports on a single line after compiling to .js. These regex\u0027s previously relied on having one per line (line markers ^$, wildcards that would match past the end of the import .*) and so they needed to be adjusted. Maybe we could just split on semi-colons instead..",
+      "range": {
+        "startLine": 187,
+        "startChar": 23,
+        "endLine": 187,
+        "endChar": 29
+      },
+      "revId": "1676349b5e8469a312ecbfa784ea51b00a9a0390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

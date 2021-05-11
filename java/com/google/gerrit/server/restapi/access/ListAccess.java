@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.access;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.restapi.Response;
@@ -53,6 +54,10 @@ public class ListAccess implements RestReadView<TopLevelResource> {
       throws Exception {
     Map<String, ProjectAccessInfo> access = new TreeMap<>();
     for (String p : projects) {
+      if (Strings.nullToEmpty(p).isEmpty()) {
+        continue;
+      }
+
       access.put(p, getAccess.apply(Project.nameKey(p)));
     }
     return Response.ok(access);

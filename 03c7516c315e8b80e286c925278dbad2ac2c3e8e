@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t this maven_jar be removed?",
       "revId": "03c7516c315e8b80e286c925278dbad2ac2c3e8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ade23ed_5c3636b1",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T20:50:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a5abe38_48c835d4",
+      "revId": "03c7516c315e8b80e286c925278dbad2ac2c3e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

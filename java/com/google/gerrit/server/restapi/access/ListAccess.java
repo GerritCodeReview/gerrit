@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.restapi.access;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.base.Strings;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.restapi.Response;
@@ -52,7 +55,10 @@ public class ListAccess implements RestReadView<TopLevelResource> {
   public Response<Map<String, ProjectAccessInfo>> apply(TopLevelResource resource)
       throws Exception {
     Map<String, ProjectAccessInfo> access = new TreeMap<>();
-    for (String p : projects) {
+    for (String p :
+        projects.stream()
+            .filter(project -> !Strings.nullToEmpty(project).isEmpty())
+            .collect(toImmutableList())) {
       access.put(p, getAccess.apply(Project.nameKey(p)));
     }
     return Response.ok(access);

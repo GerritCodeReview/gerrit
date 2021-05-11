@@ -38,8 +38,11 @@ public class AccessIT extends AbstractDaemonTest {
   @Test
   public void listAccessWithoutSpecifyingAnEmptyProjectName() throws Exception {
     RestResponse r = adminRestSession.get("/access/?p=");
-    r.assertNotFound();
-    assertThat(r.getEntityContent()).isEqualTo("Not Found");
+    r.assertOK();
+    Map<String, ProjectAccessInfo> infoByProject =
+        newGson()
+            .fromJson(r.getReader(), new TypeToken<Map<String, ProjectAccessInfo>>() {}.getType());
+    assertThat(infoByProject).isEmpty();
   }
 
   @Test

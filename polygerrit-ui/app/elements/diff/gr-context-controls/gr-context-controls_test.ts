@@ -140,7 +140,10 @@ suite('gr-context-control tests', () => {
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
     assert.equal(blockExpansionButtons.length, 1);
-    assert.equal(blockExpansionButtons[0].textContent!.trim(), '+Block');
+    assert.equal(
+      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
       'belowButton'
@@ -170,8 +173,14 @@ suite('gr-context-control tests', () => {
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 2);
     assert.equal(blockExpansionButtons.length, 2);
-    assert.equal(blockExpansionButtons[0].textContent!.trim(), '+Block');
-    assert.equal(blockExpansionButtons[1].textContent!.trim(), '+Block');
+    assert.equal(
+      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
+    assert.equal(
+      blockExpansionButtons[1].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
       'aboveButton'
@@ -203,7 +212,10 @@ suite('gr-context-control tests', () => {
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
     assert.equal(blockExpansionButtons.length, 1);
-    assert.equal(blockExpansionButtons[0].textContent!.trim(), '+Block');
+    assert.equal(
+      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
       'aboveButton'

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3811c3bb_71037028",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-05-11T13:55:35Z",
+      "side": 1,
+      "message": "Also works for me on safari.",
+      "revId": "40ad4d11af8fbbc6535b1dbc691df6d6b8122589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "112f5fa9_45a817ac",

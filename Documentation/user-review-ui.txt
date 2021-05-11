@@ -291,17 +291,14 @@ configuration of the server.
 [[included-in]]
 === Included In
 
-For merged changes the `Included In` drop-down panel is available in
-the change header.
+For merged changes the `Included In` drop-down panel is available
+through the overflow menu at the top. It shows the branches and tags
+in which the change is included. E.g. if a change fixes a bug, this
+shows which released versions contain the bug-fix (assuming that every
+release is tagged).
 
-image::images/gwt-user-review-ui-change-screen-included-in.png[width=800, link="images/gwt-user-review-ui-change-screen-included-in.png"]
+image::images/user-review-ui-change-screen-included-in.png[width=800, link="images/user-review-ui-change-screen-included-in.png"]
 
-The `Included In` drop-down panel shows the branches and tags in which
-the change is included. E.g. if a change fixes a bug, this allows to
-quickly see in which released versions the bug-fix is contained
-(assuming that every release is tagged).
-
-image::images/gwt-user-review-ui-change-screen-included-in-list.png[width=800, link="images/gwt-user-review-ui-change-screen-included-in-list.png"]
 
 [[star]]
 === Star Change

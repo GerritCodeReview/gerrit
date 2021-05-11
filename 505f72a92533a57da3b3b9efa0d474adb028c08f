@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ed70686_8b04bfa6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-11T12:27:55Z",
+      "side": 1,
+      "message": "The function does have a `asserts val is NonNullable\u003cT\u003e`:\n\n  export function assertIsDefined\u003cT\u003e(\n    val: T,\n    variableName \u003d \u0027variable\u0027\n  ): asserts val is NonNullable\u003cT\u003e {\n\nSo the ! after this.diff should not be required.",
+      "parentUuid": "041e6302_5f03e711",
+      "range": {
+        "startLine": 377,
+        "startChar": 28,
+        "endLine": 377,
+        "endChar": 34
+      },
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "59364ce1_17ce9cb3",
         "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
         "patchSetId": 12

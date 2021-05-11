@@ -45,33 +45,31 @@ public abstract class PersistentCacheBaseFactory implements PersistentCacheFacto
     this.config = config;
   }
 
-  protected abstract <K, V> Cache<K, V> buildImpl(
-      PersistentCacheDef<K, V> in, long diskLimit, CacheBackend backend);
+  protected abstract <K, V> Cache<K, V> buildImpl(PersistentCacheDef<K, V> in, long diskLimit);
 
   protected abstract <K, V> LoadingCache<K, V> buildImpl(
-      PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, long diskLimit, CacheBackend backend);
+      PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, long diskLimit);
 
   @Override
-  public <K, V> Cache<K, V> build(PersistentCacheDef<K, V> in, CacheBackend backend) {
+  public <K, V> Cache<K, V> build(PersistentCacheDef<K, V> in) {
     long limit = getDiskLimit(in);
 
     if (isInMemoryCache(limit)) {
-      return memCacheFactory.build(in, backend);
+      return memCacheFactory.build(in);
     }
 
-    return buildImpl(in, limit, backend);
+    return buildImpl(in, limit);
   }
 
   @Override
-  public <K, V> LoadingCache<K, V> build(
-      PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, CacheBackend backend) {
+  public <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> in, CacheLoader<K, V> loader) {
     long limit = getDiskLimit(in);
 
     if (isInMemoryCache(limit)) {
-      return memCacheFactory.build(in, loader, backend);
+      return memCacheFactory.build(in, loader);
     }
 
-    return buildImpl(in, loader, limit, backend);
+    return buildImpl(in, loader, limit);
   }
 
   private <K, V> long getDiskLimit(PersistentCacheDef<K, V> in) {

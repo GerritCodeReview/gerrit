@@ -19,10 +19,9 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 public interface PersistentCacheFactory {
-  <K, V> Cache<K, V> build(PersistentCacheDef<K, V> def, CacheBackend backend);
+  <K, V> Cache<K, V> build(PersistentCacheDef<K, V> def);
 
-  <K, V> LoadingCache<K, V> build(
-      PersistentCacheDef<K, V> def, CacheLoader<K, V> loader, CacheBackend backend);
+  <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> def, CacheLoader<K, V> loader);
 
   void onStop(String plugin);
 }

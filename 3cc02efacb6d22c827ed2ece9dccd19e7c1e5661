@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed18eee6_48fa67d4",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T19:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "351319a4_1818c1bd",
+      "revId": "3cc02efacb6d22c827ed2ece9dccd19e7c1e5661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79a4d609_e8ff47ce",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e286e84_218a3e3f",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T19:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79a4d609_e8ff47ce",
+      "range": {
+        "startLine": 49,
+        "startChar": 50,
+        "endLine": 49,
+        "endChar": 53
+      },
+      "revId": "3cc02efacb6d22c827ed2ece9dccd19e7c1e5661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f964ccd_6de576b1",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-05-11T13:50:18Z",
       "side": 1,
       "message": "s/collestion/collection/",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 18
+      },
+      "revId": "3cc02efacb6d22c827ed2ece9dccd19e7c1e5661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec1147d1_af712efc",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T19:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f964ccd_6de576b1",
       "range": {
         "startLine": 60,
         "startChar": 8,

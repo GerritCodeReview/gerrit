@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "384f7e71_1713996a",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-11T14:17:10Z",
+      "side": 1,
+      "message": "Since we still use Project in a lot of places, maybe write this as: \"Repository (Project) Maintenance\" ?",
+      "range": {
+        "startLine": 78,
+        "startChar": 35,
+        "endLine": 78,
+        "endChar": 45
+      },
+      "revId": "d52b8f86762b5871971cbe4d62032e7664ef76f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d004fb7_383b2cab",
         "filename": "Documentation/repository-maintenance.txt",
         "patchSetId": 2
@@ -37,6 +60,29 @@
       "writtenOn": "2021-05-11T13:58:34Z",
       "side": 1,
       "message": "s/conifgured/configured/",
+      "revId": "d52b8f86762b5871971cbe4d62032e7664ef76f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2a3cfb6_e75651c8",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-11T14:17:10Z",
+      "side": 1,
+      "message": "There\u0027s also a REST API: https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#run-gc",
+      "range": {
+        "startLine": 18,
+        "startChar": 62,
+        "endLine": 19,
+        "endChar": 7
+      },
       "revId": "d52b8f86762b5871971cbe4d62032e7664ef76f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

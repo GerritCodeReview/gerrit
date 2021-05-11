@@ -203,17 +203,17 @@ suite('gr-reply-dialog tests', () => {
   });
 
   function checkComputeAttention(status, userId, reviewerIds, ownerId,
-      attSetIds, replyToIds, expectedIds, uploaderId, hasDraft,
+      attSetIds, replyToIds, expectedIds, uploaderId, hasDraft = true,
       includeComments = true) {
     const user = {_account_id: userId};
     const reviewers = {base: reviewerIds.map(id => {
       return {_account_id: id};
     })};
-    const draftThreads = [
-      {comments: []},
-    ];
+    let draftThreads = [];
     if (hasDraft) {
-      draftThreads[0].comments.push({__draft: true, unresolved: true});
+      draftThreads = [
+        {comments: [{__draft: true, unresolved: true}]},
+      ];
     }
     replyToIds.forEach(id => draftThreads[0].comments.push({
       author: {_account_id: id},
@@ -240,7 +240,6 @@ suite('gr-reply-dialog tests', () => {
   }
 
   test('computeNewAttention NEW', () => {
-    checkComputeAttention('NEW', null, [], 999, [], [], [999]);
     checkComputeAttention('NEW', 1, [], 999, [], [], [999]);
     checkComputeAttention('NEW', 1, [], 999, [1], [], [999]);
     checkComputeAttention('NEW', 1, [22], 999, [], [], [999]);
@@ -264,14 +263,14 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('computeNewAttention MERGED', () => {
-    checkComputeAttention('MERGED', null, [], 999, [], [], []);
-    checkComputeAttention('MERGED', 1, [], 999, [], [], []);
-    checkComputeAttention('MERGED', 1, [], 999, [], [], [999], undefined, true);
+    checkComputeAttention('MERGED', 1, [], 999, [], [], [], undefined, false);
+    checkComputeAttention('MERGED', 1, [], 999, [], [], [999], undefined);
     checkComputeAttention(
         'MERGED', 1, [], 999, [], [], [], undefined, true, false);
-    checkComputeAttention('MERGED', 1, [], 999, [1], [], []);
-    checkComputeAttention('MERGED', 1, [22], 999, [], [], []);
-    checkComputeAttention('MERGED', 1, [22], 999, [22], [], [22]);
+    checkComputeAttention('MERGED', 1, [], 999, [1], [], [], undefined, false);
+    checkComputeAttention('MERGED', 1, [22], 999, [], [], [], undefined, false);
+    checkComputeAttention('MERGED', 1, [22], 999, [22], [], [22], undefined,
+        false);
     checkComputeAttention('MERGED', 1, [22], 999, [], [22], []);
     checkComputeAttention('MERGED', 1, [22, 33], 999, [33], [22], [33]);
     checkComputeAttention('MERGED', 1, [], 1, [], [], []);

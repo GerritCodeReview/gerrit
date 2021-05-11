@@ -3,8 +3,13 @@
 
 Reviewing changes is an important task and the Gerrit Web UI provides
 many functionalities to make the review process comfortable and
-efficient. This is a guide through the review UI that explains the
-different functions and UI elements.
+efficient.
+
+The UI has three different main views,
+
+** The dashboard, which shows all changes that are relevant to you
+** The change screen, which shows the change with all its metadata
+** The diff view, which shows changes to a single file
 
 [[change-screen]]
 == Change Screen
@@ -12,43 +17,29 @@ different functions and UI elements.
 The change screen shows the details of a single change and provides
 various actions on it.
 
-image::images/gwt-user-review-ui-change-screen.png[width=800, link="images/gwt-user-review-ui-change-screen.png"]
+image::images/user-review-ui-change-screen.png[width=800, link="images/user-review-ui-change-screen.png"]
 
-[[commit-message]]
-=== Commit Message Block
+Here are the main areas of the screen
 
-The focus of the change screen is on the commit message since this is
-the most important information about a change. The numeric change ID
-and the change status are displayed right above the commit message.
+image::images/user-review-ui-change-screen-annotated.png[width=800, link="images/user-review-ui-change-screen-annotated.png"]
 
-image::images/gwt-user-review-ui-change-screen-commit-message.png[width=800, link="images/gwt-user-review-ui-change-screen-commit-message.png"]
 
-[[permalink]]
-The numeric change ID is a link to the change and clicking on it
-refreshes the change screen. By copying the link location you can get
-the permalink of the change.
+=== Top info
 
-image::images/gwt-user-review-ui-change-screen-permalink.png[width=800, link="images/gwt-user-review-ui-change-screen-permalink.png"]
+Top left, you find the status of the change, and a permalink.
+
+image::images/user-review-ui-change-screen-topleft.png[width=400, link="images/user-review-ui-change-screen-topleft.png"]
 
 [[change-status]]
 The change status shows the state of the change:
 
-- [[needs]]`Needs <label>`:
+- [[active]]`Active`:
 +
-The change is in review and an approval on the shown label is still
-required to make the change submittable.
+The change is under active review.
 
-- [[not]]`Not <label>`:
+- [[not-current]]`Merge Conflict`:
 +
-The change is in review and a veto vote on the shown label is
-preventing the submit.
-
-- [[not-current]]`Not Current`:
-+
-The currently viewed patch set is outdated.
-+
-Please note that some operations, like voting, are not available on
-outdated patch sets, but only on the current patch set.
+The change can't be merged due to conflicts.
 
 - [[ready-to-submit]]`Ready to Submit`:
 +
@@ -62,45 +53,21 @@ The change was successfully merged into the destination branch.
 +
 The change was abandoned.
 
-[[commit-info]]
-=== Commit Info Block
-
-The commit info block shows information about the commit of the
-currently viewed patch set.
-
-It displays the author and the committer as links to a list of this
-person's changes that have the same status as the currently viewed
-change.
-
-The commit ID, the parent commit(s) and the link:user-changeid.html[Change-Id] are
-displayed with a copy-to-clipboard icon that allows the ID to be copied
-into the clipboard.
-
-If a Git web browser, such as gitweb or Gitiles, is configured, there
-is also a link to the commit in the Git web browser.
-
-image::images/gwt-user-review-ui-change-screen-commit-info.png[width=800, link="images/gwt-user-review-ui-change-screen-commit-info.png"]
-
-If a merge commit is viewed this is highlighted by an icon.
-
-image::images/gwt-user-review-ui-change-screen-commit-info-merge-commit.png[width=800, link="images/gwt-user-review-ui-change-screen-commit-info-merge-commit.png"]
 
 [[change-info]]
-=== Change Info Block
+=== Change metadata
 
-The change info block contains detailed information about the change
+The change metadata block contains detailed information about the change
 and offers actions on the change.
-
-image::images/gwt-user-review-ui-change-screen-change-info.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info.png"]
 
 - [[reviewers]]Reviewers:
 +
-The reviewers of the change are displayed as chip tokens.
+The reviewers of the change are displayed as chips.
 +
 For each reviewer there is a tooltip that shows on which labels the
 reviewer is allowed to vote.
 +
-New reviewers can be added by clicking on the `Add...` button. Typing
+New reviewers can be added by clicking on the pencil icon. Typing
 into the pop-up text field activates auto completion of user and group
 names.
 +
@@ -119,7 +86,7 @@ Removing reviewers is protected by permissions:
    and Gerrit administrators may remove anyone.
 
 +
-image::images/gwt-user-review-ui-change-screen-change-info-reviewers.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-reviewers.png"]
+image::images/user-review-ui-change-screen-info-reviewers.png[width=600, link="images/user-review-ui-change-screen-reviewers.png"]
 
 - [[project-branch-topic]]Project / Branch / Topic:
 +
@@ -127,9 +94,6 @@ The name of the project for which the change was done is displayed as a
 link to the link:user-dashboards.html#project-default-dashboard[default
 dashboard] of the project. If no default dashboard is defined, the link
 opens a list of open changes on the project.
-+
-Clicking on the settings icon on the right side navigates to the
-project administration screen.
 +
 The name of the destination branch is displayed as a link to a list
 with all changes on this branch that have the same status as the
@@ -140,21 +104,12 @@ By clicking on the edit icon the topic can be set. This requires the
 link:access-control.html#category_edit_topic_name[Edit Topic Name]
 access right. To be able to set a topic on a closed change, the
 `Edit Topic Name` must be assigned with the `force` flag.
-+
-image::images/gwt-user-review-ui-change-screen-change-info-project-branch-topic.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-project-branch-topic.png"]
 
 - [[submit-strategy]]Submit Strategy:
 +
 The link:project-setup.html#submit_type[submit strategy] that will be
 used to submit the change. The submit strategy is only displayed for
 open changes.
-+
-image::images/gwt-user-review-ui-change-screen-change-info-submit-strategy.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-submit-strategy.png"]
-+
-If a change cannot be merged due to path conflicts this is highlighted
-by a bold red `Cannot Merge` label.
-+
-image::images/gwt-user-review-ui-change-screen-change-info-cannot-merge.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-cannot-merge.png"]
 
 - [[actions]]Actions:
 +

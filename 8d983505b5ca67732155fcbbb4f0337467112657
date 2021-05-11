@@ -39,6 +39,30 @@
       },
       "revId": "8d983505b5ca67732155fcbbb4f0337467112657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4ef8768_a880a96b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-11T12:19:34Z",
+      "side": 1,
+      "message": "That might be clearer, but not correct. :-D\n\nAdded a comment that actually want to cover \"!showAbove \u0026\u0026 !showBelow\" here, as well.",
+      "parentUuid": "ab18df72_14ee8773",
+      "range": {
+        "startLine": 370,
+        "startChar": 4,
+        "endLine": 376,
+        "endChar": 5
+      },
+      "revId": "8d983505b5ca67732155fcbbb4f0337467112657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

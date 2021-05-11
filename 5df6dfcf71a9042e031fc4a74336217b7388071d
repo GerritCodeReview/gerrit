@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8de235d4_b4237167",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-11T13:52:23Z",
+      "side": 1,
+      "message": "FYI I had no objection to the link, I was just to lazy to add it in my comment 😊",
+      "parentUuid": "9f650f15_0fa10115",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "5df6dfcf71a9042e031fc4a74336217b7388071d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6d57dd2_86cafcbd",

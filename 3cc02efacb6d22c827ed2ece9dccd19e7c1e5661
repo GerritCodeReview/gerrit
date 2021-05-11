@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79a4d609_e8ff47ce",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-05-11T13:50:18Z",
+      "side": 1,
+      "message": "s/of/or/",
+      "range": {
+        "startLine": 49,
+        "startChar": 50,
+        "endLine": 49,
+        "endChar": 53
+      },
+      "revId": "3cc02efacb6d22c827ed2ece9dccd19e7c1e5661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f964ccd_6de576b1",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-05-11T13:50:18Z",
+      "side": 1,
+      "message": "s/collestion/collection/",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 18
+      },
+      "revId": "3cc02efacb6d22c827ed2ece9dccd19e7c1e5661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

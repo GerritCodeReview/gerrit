@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab18df72_14ee8773",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-05-11T10:37:26Z",
+      "side": 1,
+      "message": "Nit: I think this reads slightly cleaner as:\n\nif (showAbove \u0026\u0026 showBelow) {\n  row.classList.add(\u0027showBoth\u0027);\n} else {\n  if (showAbove) row.classList.add(\u0027showAboveOnly\u0027);\n  if (showBelow) row.classList.add(\u0027showBelowOnly\u0027);\n}",
+      "range": {
+        "startLine": 370,
+        "startChar": 4,
+        "endLine": 376,
+        "endChar": 5
+      },
+      "revId": "8d983505b5ca67732155fcbbb4f0337467112657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

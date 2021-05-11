@@ -41,6 +41,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d53bc32_9fbb6ed9",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8ab0bd5_5870f697",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4785a7f7_65cd1683",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46d59530_cc2e4d78",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 4
+      },
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6cfd74a_43cfc39d",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-05-11T14:29:58Z",
       "side": 1,
       "message": "s#objects/packs#objects/pack#",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4ca2b39_86a9d60b",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6cfd74a_43cfc39d",
       "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa1edadd_c9326e8e",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "752b246a_8c0ba126",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ee3d1c8_0580c28d",
@@ -88,6 +166,24 @@
       "writtenOn": "2021-05-11T14:29:58Z",
       "side": 1,
       "message": "s#object/packs#objects/pack#",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02b2688f_478f32d7",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ee3d1c8_0580c28d",
       "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -132,6 +228,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74b75d33_3fc1fa22",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cab9716_dbbf6ad0",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "194f3777_cf8c4221",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c63c73a_c3a93ad8",
+      "range": {
+        "startLine": 93,
+        "startChar": 19,
+        "endLine": 93,
+        "endChar": 21
+      },
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d144541_b863818a",
@@ -145,6 +283,24 @@
       "writtenOn": "2021-05-11T14:29:58Z",
       "side": 1,
       "message": "AFAIR also JGit gc is loosening unreachable objects since [1]\nexcept if gc.pruneExpire is set to LONG.MAX_VALUE in ms since the epoch [2].\nLooks like we should add an option for switching this off.\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/89455\n[2] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java#330",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "513cf144_dbcdd59c",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "Ugh, that is a misfeature I wish JGit had not copied from git. I agree that it would be great to add that to JGit. Do you think this sentence should stay as is for now? If not, what do you think it should say instead?",
+      "parentUuid": "2d144541_b863818a",
       "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -166,6 +322,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c1d4122_9c0664c6",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59aaba13_6ca50f41",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7b5e788_9d242d7f",
@@ -183,6 +357,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6fd9abc_758b35f1",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "I was thinking about it, we kinda hacked it into our git-repack script. If I do, I will update this doc in that change.",
+      "parentUuid": "d7b5e788_9d242d7f",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c243646b_d6bcd008",
@@ -196,6 +388,30 @@
       "writtenOn": "2021-05-11T14:01:41Z",
       "side": 1,
       "message": "extra \u0027the\u0027",
+      "range": {
+        "startLine": 107,
+        "startChar": 31,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a4fa2dd_b3c05411",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T20:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c243646b_d6bcd008",
       "range": {
         "startLine": 107,
         "startChar": 31,

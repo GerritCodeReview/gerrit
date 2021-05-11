@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ba8a34f_bf445f24",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T19:43:07Z",
+      "side": 1,
+      "message": "I specifically wanted to highlight the idea of a repository from a git perspective instead of a Gerrit project. i.e. it is the git repo that needs maintenance versus Gerrit maintenance (ACLs, branches, changes...)",
+      "parentUuid": "384f7e71_1713996a",
+      "range": {
+        "startLine": 78,
+        "startChar": 35,
+        "endLine": 78,
+        "endChar": 45
+      },
+      "revId": "d52b8f86762b5871971cbe4d62032e7664ef76f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d004fb7_383b2cab",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-11T13:53:55Z",
       "side": 1,
       "message": "Consider naming it \u0027JGit\u0027 as in [1].\nI have also noticed that in the latter changes it is called \u0027Jgit\u0027 - would probably make sense to unify it to whichever version you want ;)\n\n[1] https://www.eclipse.org/jgit/",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 8
+      },
+      "revId": "d52b8f86762b5871971cbe4d62032e7664ef76f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6442a6aa_a52980f4",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T19:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d004fb7_383b2cab",
       "range": {
         "startLine": 6,
         "startChar": 4,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84e8fd87_09057ba3",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T19:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f3df230_31ae54f2",
+      "revId": "d52b8f86762b5871971cbe4d62032e7664ef76f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2a3cfb6_e75651c8",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-05-11T14:17:10Z",
       "side": 1,
       "message": "There\u0027s also a REST API: https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#run-gc",
+      "range": {
+        "startLine": 18,
+        "startChar": 62,
+        "endLine": 19,
+        "endChar": 7
+      },
+      "revId": "d52b8f86762b5871971cbe4d62032e7664ef76f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19f05ba8_28cb5613",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T19:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2a3cfb6_e75651c8",
       "range": {
         "startLine": 18,
         "startChar": 62,

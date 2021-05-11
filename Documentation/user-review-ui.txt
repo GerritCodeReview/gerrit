@@ -225,7 +225,7 @@ image::images/user-review-ui-change-screen-change-info-labels.png[width=400, lin
 The file list shows the files that are modified in the currently viewed
 patch set.
 
-image::images/gwt-user-review-ui-change-screen-file-list.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list.png"]
+image::images/user-review-ui-change-screen-file-list.png[width=800, link="images/user-review-ui-change-screen-file-list.png"]
 
 [[magic-files]]
 In addition to the modified files the file list contains magic files
@@ -243,101 +243,6 @@ information and the committer information.
 +
 The list of commits that are being integrated into the destination
 branch by submitting the merge commit.
-
-[[change-screen-mark-reviewed]]
-The checkboxes in front of the file names allow files to be marked as reviewed.
-
-image::images/gwt-user-review-ui-change-screen-file-list-mark-as-reviewed.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-mark-as-reviewed.png"]
-
-[[modification-type]]
-The type of a file modification is indicated by the character in front
-of the file name:
-
-- `M` or 'no character' (Modified):
-+
-The file existed before this change and is modified.
-
-- `A` (Added):
-+
-The file is newly added.
-
-- `D` (Deleted):
-+
-The file is deleted.
-
-- `R` (Renamed):
-+
-The file is renamed.
-
-- `C` (Copied):
-+
-The file is new and is copied from an existing file.
-
-- `U` (Unchanged):
-+
-The file is unchanged and has the same content. Unchanged files only
-appear in the file list if 2 patch sets are compared and the file has
-comments on at least one of the sides. Otherwise unchanged files are
-filtered out.
-
-image::images/gwt-user-review-ui-change-screen-file-list-modification-type.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-modification-type.png"]
-
-[[rename-or-copy]]
-If a file is renamed or copied, the name of the original file is
-displayed in gray below the file name.
-
-image::images/gwt-user-review-ui-change-screen-file-list-rename.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-rename.png"]
-
-[[repeating-path-segments]]
-Repeating path segments are grayed out.
-
-image::images/gwt-user-review-ui-change-screen-file-list-repeating-paths.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-repeating-paths.png"]
-
-[[inline-comments-column]]
-Inline comments on a file are shown in the `Comments` column.
-
-Draft comments, i.e. comments that have been written by the current
-user but not yet published, are highlighted in red.
-
-New comments from other users, that were published after the current
-user last reviewed this change, are highlighted in bold.
-
-image::images/gwt-user-review-ui-change-screen-file-list-comments.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-comments.png"]
-
-[[size]]
-The size of the modifications in the files can be seen in the `Size` column. The
-footer row shows the total size of the change.
-
-The size information is useful to easily spot the files that contain
-the most modifications; these files are likely to be the most relevant
-files for this change. The total change size gives an estimate of how
-long a review of this change may take.
-
-When the "Show Change Sizes As Colored Bars" user preference is enabled, the
-`Size` column shows the sum of inserted and deleted lines as one number.  In
-addition, the change size is shown as a bar. The size of the bar indicates the
-amount of changed lines, and its coloring shows the proportion of insertions
-(green) to deletions (red).
-
-When the "Show Change Sizes As Colored Bars" user preference is disabled, the
-colored bar is not shown.  For added and renamed files, the `Size` column
-shows the number of inserted and deleted lines. For new files, the column only
-shows the total number of lines in the new file. No size is shown for binary
-files and deleted files.
-
-image::images/gwt-user-review-ui-change-screen-file-list-size.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-size.png"]
-
-[[diff-against]]
-In the header of the file list, the `Diff Against` selection can be
-changed. This selection allows one to choose if the currently viewed
-patch set should be compared against its base or against another patch
-set of this change. The file list is updated accordingly.
-
-[[open-all]]
-The file list header also provides an `Open All` button that opens the
-diff views for all files in the file list.
-
-image::images/gwt-user-review-ui-change-screen-file-list-header.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-header.png"]
 
 [[patch-sets]]
 === Patch Sets

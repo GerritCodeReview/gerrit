@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b396e00e_a1fd883b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-11T18:56:18Z",
+      "side": 1,
+      "message": "Hey Ben, that should be the beginning of iteration 2. Here we try to show the whole syntax path for the block that\u0027s about to extended as tooltips for \"+Block\" buttons",
+      "revId": "350b9a2465d7b01de0e221797a008cad277ac5a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

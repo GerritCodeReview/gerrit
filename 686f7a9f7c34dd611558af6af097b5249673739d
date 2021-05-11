@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a04cb826_1c361057",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-11T23:03:30Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "range": {
+        "startLine": 35,
+        "startChar": 69,
+        "endLine": 35,
+        "endChar": 70
+      },
+      "revId": "686f7a9f7c34dd611558af6af097b5249673739d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

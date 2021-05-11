@@ -102,7 +102,7 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
 import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
-import {Constructor} from '../../utils/common-util';
+import {check, Constructor} from '../../utils/common-util';
 import {getKeyboardEvent, isModifierPressed} from '../../utils/dom-util';
 import {
   CustomKeyboardEvent,
@@ -788,6 +788,12 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
 
       private readonly restApiService = appContext.restApiService;
 
+      /** Used to disable shortcuts when the element is not visible. */
+      private observer?: IntersectionObserver;
+
+      /** Are shortcuts currently enabled? True only when element is visible. */
+      private bindingsEnabled = false;
+
       modifierPressed(event: CustomKeyboardEvent) {
         /* We are checking for g/v as modifiers pressed. There are cases such as
          * pressing v and then /, where we want the handler for / to be triggered.
@@ -902,15 +908,31 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       /** @override */
       connectedCallback() {
         super.connectedCallback();
-
         this.restApiService.getPreferences().then(prefs => {
           if (prefs?.disable_keyboard_shortcuts) {
             this._disableKeyboardShortcuts = true;
           }
         });
+        this.enableBindings();
+      }
 
+      /** @override */
+      disconnectedCallback() {
+        if (this.observer) this.observer.unobserve(this);
+        this.disableBindings();
+        super.disconnectedCallback();
+      }
+
+      /**
+       * Enables all the shortcuts returned by keyboardShortcuts().
+       * This is a private method being called when the element becomes
+       * connected or visible.
+       */
+      private enableBindings() {
+        if (this.bindingsEnabled) return;
+        this.bindingsEnabled = true;
         const shortcuts = shortcutManager.attachHost(this);
-        if (!shortcuts) {
+        if (!shortcuts || Object.keys(shortcuts).length === 0) {
           return;
         }
 
@@ -939,14 +961,31 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
             this.addOwnKeyBinding(key, '_handleVAction');
           });
         }
+
+        if (this.observer) return;
+        this.observer = new IntersectionObserver((entries) => {
+          check(entries.length === 1, 'Expected one observer entry.');
+          const isVisible = entries[0].isIntersecting;
+          if (isVisible) {
+            this.enableBindings();
+          } else {
+            this.disableBindings();
+          }
+        });
+        this.observer.observe(this);
       }
 
-      /** @override */
-      disconnectedCallback() {
+      /**
+       * Disables all the shortcuts returned by keyboardShortcuts().
+       * This is a private method being called when the element becomes
+       * disconnected or invisible.
+       */
+      private disableBindings() {
+        if (!this.bindingsEnabled) return;
+        this.bindingsEnabled = false;
         if (shortcutManager.detachHost(this)) {
           this.removeOwnKeyBindings();
         }
-        super.disconnectedCallback();
       }
 
       keyboardShortcuts() {

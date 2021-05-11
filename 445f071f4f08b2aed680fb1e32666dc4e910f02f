@@ -133,6 +133,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9794db3b_f8b4b675",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-11T07:28:00Z",
+      "side": 1,
+      "message": "That means that we can address Sven\u0027s comment in a single change where it\u0027s easier to see what is going on. Thanks for the careful look, Sven!",
+      "parentUuid": "af8171d4_61bffed7",
+      "revId": "445f071f4f08b2aed680fb1e32666dc4e910f02f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1dd9eb60_1425f3c4",
         "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
         "patchSetId": 1

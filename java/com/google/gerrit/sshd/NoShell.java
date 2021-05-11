@@ -29,10 +29,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
-import org.apache.sshd.server.SessionAware;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.session.ServerSession;
+import org.apache.sshd.server.session.ServerSessionAware;
 import org.apache.sshd.server.shell.ShellFactory;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.SystemReader;
@@ -56,7 +56,7 @@ class NoShell implements ShellFactory {
     return shell.get();
   }
 
-  static class SendMessage implements Command, SessionAware {
+  static class SendMessage implements Command, ServerSessionAware {
     private final Provider<MessageFactory> messageFactory;
     private final SshScope sshScope;
 

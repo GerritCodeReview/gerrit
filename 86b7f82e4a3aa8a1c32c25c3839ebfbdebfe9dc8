@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9bbd577_ed4a235b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-05-11T14:25:02Z",
+      "side": 1,
+      "message": "You have to first set an email before setting it to preferred. Thus the field was useless for new time users. In GWTUI we only had full name/username/ssh fields.",
+      "parentUuid": "0d2d6770_d63252e9",
+      "revId": "86b7f82e4a3aa8a1c32c25c3839ebfbdebfe9dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a0eb1a71_068f5934",

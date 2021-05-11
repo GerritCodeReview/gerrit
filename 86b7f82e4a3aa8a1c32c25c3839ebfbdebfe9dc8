@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ebc0e89_cba12924",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T14:21:03Z",
+      "side": 1,
+      "message": "Move this fix to stable-3.4 branch?",
+      "revId": "86b7f82e4a3aa8a1c32c25c3839ebfbdebfe9dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d2d6770_d63252e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T14:21:03Z",
+      "side": 1,
+      "message": "I also confused about the commit message in offending change 304133:\n\n  We also remove \"preferred email\" selection box because\n  by the time a new user hits the registration dialog,\n  they do not have an email set. Making this box useless.\n\nHow that?! If I log in/log out on gerrit-review, I am presented this dialog, and am missing preferred email. Should we revert this part, or what am I missing?",
+      "revId": "86b7f82e4a3aa8a1c32c25c3839ebfbdebfe9dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0eb1a71_068f5934",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T14:21:03Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "86b7f82e4a3aa8a1c32c25c3839ebfbdebfe9dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c79dfa5_0bbf3e3a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T14:21:03Z",
+      "side": 1,
+      "message": "Why Polymer 2? It\u0027s removed, not?",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 37
+      },
+      "revId": "86b7f82e4a3aa8a1c32c25c3839ebfbdebfe9dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

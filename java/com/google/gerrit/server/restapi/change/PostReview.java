@@ -106,11 +106,11 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -235,13 +235,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   @Override
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
-          ConfigInvalidException, PatchListNotAvailableException {
+          ConfigInvalidException, DiffNotAvailableException {
     return apply(revision, input, TimeUtil.nowTs());
   }
 
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
-          ConfigInvalidException, PatchListNotAvailableException {
+          ConfigInvalidException, DiffNotAvailableException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
@@ -628,7 +628,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   private <T extends com.google.gerrit.extensions.client.Comment> void checkComments(
       RevisionResource revision, Map<String, List<T>> commentsPerPath)
-      throws BadRequestException, PatchListNotAvailableException {
+      throws BadRequestException, DiffNotAvailableException {
     logger.atFine().log("checking comments");
     Set<String> revisionFilePaths = getAffectedFilePaths(revision);
     for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
@@ -648,7 +648,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private Set<String> getAffectedFilePaths(RevisionResource revision)
-      throws PatchListNotAvailableException {
+      throws DiffNotAvailableException {
     ObjectId newId = revision.getPatchSet().commitId();
     DiffSummaryKey key =
         DiffSummaryKey.fromPatchListKey(
@@ -702,7 +702,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   private void checkRobotComments(
       RevisionResource revision, Map<String, List<RobotCommentInput>> in)
-      throws BadRequestException, PatchListNotAvailableException {
+      throws BadRequestException, DiffNotAvailableException {
     logger.atFine().log("checking robot comments");
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
       String commentPath = e.getKey();

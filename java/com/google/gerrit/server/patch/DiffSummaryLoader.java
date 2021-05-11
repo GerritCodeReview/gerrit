@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 public class DiffSummaryLoader implements Callable<DiffSummary> {
@@ -27,47 +28,48 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
     DiffSummaryLoader create(DiffSummaryKey key, Project.NameKey project);
   }
 
-  private final PatchListCache patchListCache;
+  private final DiffOperations diffOperations;
   private final DiffSummaryKey key;
   private final Project.NameKey project;
 
   @Inject
-  DiffSummaryLoader(PatchListCache plc, @Assisted DiffSummaryKey k, @Assisted Project.NameKey p) {
-    patchListCache = plc;
+  DiffSummaryLoader(
+      DiffOperations diffOps, @Assisted DiffSummaryKey k, @Assisted Project.NameKey p) {
+    diffOperations = diffOps;
     key = k;
     project = p;
   }
 
   @Override
   public DiffSummary call() throws Exception {
-    PatchList patchList = patchListCache.get(key.toPatchListKey(), project);
-    return toDiffSummary(patchList);
+    return toDiffSummary(
+        diffOperations.listModifiedFiles(
+            project, key.toPatchListKey().getOldId(), key.toPatchListKey().getNewId()));
   }
 
-  private DiffSummary toDiffSummary(PatchList patchList) {
-    List<String> r = new ArrayList<>(patchList.getPatches().size());
-    for (PatchListEntry e : patchList.getPatches()) {
-      if (Patch.isMagic(e.getNewName())) {
-        continue;
-      }
-      switch (e.getChangeType()) {
+  private DiffSummary toDiffSummary(Map<String, FileDiffOutput> fileDiffs) {
+    List<String> r = new ArrayList<>(fileDiffs.size());
+    int linesInserted = 0;
+    int linesDeleted = 0;
+    for (String path : fileDiffs.keySet()) {
+      FileDiffOutput fileDiff = fileDiffs.get(path);
+      linesInserted += fileDiff.insertions() > 0 ? fileDiff.insertions() : 0;
+      linesDeleted += fileDiff.deletions() > 0 ? fileDiff.deletions() : 0;
+      switch (fileDiff.changeType()) {
         case ADDED:
         case MODIFIED:
         case DELETED:
         case COPIED:
         case REWRITE:
-          r.add(e.getNewName());
+          r.add(fileDiff.newPath().get());
           break;
 
         case RENAMED:
-          r.add(e.getOldName());
-          r.add(e.getNewName());
+          r.add(fileDiff.oldPath().get());
+          r.add(fileDiff.newPath().get());
           break;
       }
     }
-    return new DiffSummary(
-        r.stream().sorted().toArray(String[]::new),
-        patchList.getInsertions(),
-        patchList.getDeletions());
+    return new DiffSummary(r.stream().sorted().toArray(String[]::new), linesInserted, linesDeleted);
   }
 }

@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7f55b49_668bcb74",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-11T13:20:19Z",
+      "side": 1,
+      "message": "Ok. I had the impression from my VSCode it wouldn\u0027t compile since it\u0027s an attribute and not a direct variable (e.g. could have been changed directly in the object). However I can check properly - Adding this change into the furthest CL of the chain so we unblock this one (https://gerrit-review.googlesource.com/c/gerrit/+/305942/4/polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts#394)",
+      "parentUuid": "2ed70686_8b04bfa6",
+      "range": {
+        "startLine": 377,
+        "startChar": 28,
+        "endLine": 377,
+        "endChar": 34
+      },
+      "revId": "505f72a92533a57da3b3b9efa0d474adb028c08f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59364ce1_17ce9cb3",

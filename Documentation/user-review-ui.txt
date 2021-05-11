@@ -341,29 +341,27 @@ change are descendants; changes below the current change are ancestors.
 For merged changes this tab is only shown if there are open
 descendants.
 +
-image::images/gwt-user-review-ui-change-screen-related-changes.png[width=800, link="images/gwt-user-review-ui-change-screen-related-changes.png"]
-+
-Related changes may be decorated with an icon to signify dependencies
+Related changes may be annotated with dependencies
 on outdated patch sets, or commits that are not associated to changes
 under review:
 +
-** [[outdated]]Orange Dot:
+** [[not-current]]Not current:
 +
 The selected patch set of the change is outdated; it is not the current
 patch set of the change.
 +
-If an ancestor change is marked with an orange dot it means that the
+It means that the
 currently viewed patch set depends on a outdated patch set of the
 ancestor change. This is because a new patch set for the ancestor
 change was uploaded in the meantime and as result the currently viewed
 patch set now needs to be rebased.
 +
-If a descendant change is marked with an orange dot it means that an
+If a descendant change is marked "not current" it means that an
 old patch set of the descendant change depends on the currently viewed
 patch set. It may be that the descendant was rebased in the meantime
 and with the new patch set this dependency was removed.
 
-** [[indirect-descendant]]Green Tilde:
+** [[indirect-descendant]]Indirect descendant:
 +
 The selected patch set of the change is an indirect descendant of the
 currently viewed patch set; it has a dependency to another patch set of
@@ -372,7 +370,7 @@ this change and the descendant change now needs to be rebased. Please
 note that following the link to an indirect descendant change may
 result in a completely different related changes listing.
 
-** [[closed-ancestor]]Black Dot:
+** [[closed-ancestor]]Closed ancestor:
 +
 Indicates a closed ancestor, e.g. the commit was directly pushed into
 the repository bypassing code review, or the ancestor change was
@@ -382,36 +380,21 @@ the commit was done on `branch-a`, but was then pushed to
 `refs/for/branch-b`.
 A black dot is also present if the change was abandoned.
 
-** [[closed-ancestor-abandoned]]Strikethrough Subject:
-+
-When the commit is abandoned, its subject line will be striked
-through.
-
-+
-image::images/gwt-user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/gwt-user-review-ui-change-screen-related-changes-indicators.png"]
+** [[closed-ancestor-abandoned]]Abandoned:
 
 - [[conflicts-with]]`Conflicts With`:
 +
-This tab page shows changes that conflict with the current change.
+This section shows changes that conflict with the current change.
 Non-mergeable changes are filtered out; only conflicting changes that
 are mergeable are shown.
 +
 If this change is merged, its conflicting changes will have merge
 conflicts and must be rebased. The rebase of the other changes with the
 conflict resolution must then be done manually.
-+
-image::images/gwt-user-review-ui-change-screen-conflicts-with.png[width=800, link="images/gwt-user-review-ui-change-screen-conflicts-with.png"]
-
-- [[same-topic]]`Same Topic`:
-+
-This tab page shows changes that have the same topic as the current
-change. Only open changes are included in the list.
-+
-image::images/gwt-user-review-ui-change-screen-same-topic.png[width=800, link="images/gwt-user-review-ui-change-screen-same-topic.png"]
 
 - [[submitted-together]]`Submitted Together`:
 +
-This tab page shows changes that will be submitted together with the
+This section shows changes that will be submitted together with the
 currently viewed change, when clicking the submit button. It includes
 ancestors of the current patch set.
 +
@@ -422,7 +405,7 @@ same topic are included in the list.
 
 - [[cherry-picks]]`Cherry-Picks`:
 +
-This tab page shows changes with the same link:user-changeid.html[
+This section shows changes with the same link:user-changeid.html[
 Change-Id] for the current project.
 +
 Abandoned changes are filtered out.
@@ -430,7 +413,6 @@ Abandoned changes are filtered out.
 For each change in this list the destination branch is shown as a
 prefix in front of the change subject.
 +
-image::images/gwt-user-review-ui-change-screen-cherry-picks.png[width=800, link="images/gwt-user-review-ui-change-screen-cherry-picks.png"]
 
 If there are no related changes for a tab, the tab is not displayed.
 

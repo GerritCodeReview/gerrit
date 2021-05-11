@@ -16,6 +16,75 @@
       "message": "@Ponch, @Tony, can you give it a try?",
       "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90bbda74_0c283206",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-05-11T09:09:38Z",
+      "side": 1,
+      "message": "This appears to push out the right border of the diff, making it invisible. It works when I change it to 4, so I think it might have to depend on whether blame is shown or not?",
+      "range": {
+        "startLine": 379,
+        "startChar": 33,
+        "endLine": 379,
+        "endChar": 36
+      },
+      "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb2fe1c4_738d275a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-05-11T09:09:38Z",
+      "side": 1,
+      "message": "The common lines button is 26 pixels, this currently looks skewed when only e.g. \"+7 common lines\" is present and no \"+10\" above and below.",
+      "range": {
+        "startLine": 339,
+        "startChar": 15,
+        "endLine": 339,
+        "endChar": 19
+      },
+      "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3d05d6d_be12eb44",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-05-11T09:09:38Z",
+      "side": 1,
+      "message": "Given that these need to be pixel-perfect, they should probably be a calc() involving --divider-height and --divider-border, otherwise this seems prone to break. Also below.",
+      "range": {
+        "startLine": 343,
+        "startChar": 6,
+        "endLine": 344,
+        "endChar": 27
+      },
+      "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

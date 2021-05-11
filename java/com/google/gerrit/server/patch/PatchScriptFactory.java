@@ -26,7 +26,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
@@ -34,7 +33,6 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -56,17 +54,11 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
@@ -118,8 +110,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PatchSetUtil psUtil;
   private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
-  private final Metrics metrics;
-  private final ExecutorService executor;
 
   private final String fileName;
   @Nullable private final PatchSet.Id psa;
@@ -137,8 +127,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private ChangeNotes notes;
 
-  private final boolean runNewDiffCache;
-
   @AssistedInject
   PatchScriptFactory(
       GitRepositoryManager grm,
@@ -149,9 +137,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       DiffOperations diffOperations,
-      Metrics metrics,
-      @DiffExecutor ExecutorService executor,
-      @GerritServerConfig Config cfg,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
@@ -167,8 +152,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.diffOperations = diffOperations;
-    this.metrics = metrics;
-    this.executor = executor;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -176,8 +159,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.psb = patchSetB;
     this.diffPrefs = diffPrefs;
     this.currentUser = currentUser;
-
-    this.runNewDiffCache = cfg.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
 
     changeId = patchSetB.changeId();
   }
@@ -192,9 +173,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       DiffOperations diffOperations,
-      Metrics metrics,
-      @DiffExecutor ExecutorService executor,
-      @GerritServerConfig Config cfg,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted int parentNum,
@@ -210,8 +188,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.diffOperations = diffOperations;
-    this.metrics = metrics;
-    this.executor = executor;
 
     this.fileName = fileName;
     this.psa = null;
@@ -219,8 +195,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.psb = patchSetB;
     this.diffPrefs = diffPrefs;
     this.currentUser = currentUser;
-
-    this.runNewDiffCache = cfg.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
 
     changeId = patchSetB.changeId();
     checkArgument(parentNum >= 0, "parentNum must be >= 0");
@@ -259,17 +233,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           }
           bId = edit.get().getEditCommit();
         }
-        if (runNewDiffCache) {
-          PatchScript patchScript = getPatchScriptWithNewDiffCache(git, aId, bId);
-          // TODO(ghareeb): remove the async run. This is temporarily used to keep sanity checking
-          // the results while rolling out the new diff cache.
-          runOldDiffCacheAsyncAndExportMetrics(git, aId, bId, patchScript);
-          return patchScript;
-        } else {
-          return getPatchScriptWithOldDiffCache(git, aId, bId);
-        }
-      } catch (PatchListNotAvailableException e) {
-        throw new NoSuchChangeException(changeId, e);
+        return getPatchScriptWithNewDiffCache(git, aId, bId);
       } catch (DiffNotAvailableException e) {
         throw new StorageException(e);
       } catch (IOException e) {
@@ -287,41 +251,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private void runOldDiffCacheAsyncAndExportMetrics(
-      Repository git, ObjectId aId, ObjectId bId, PatchScript expected) {
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError =
-        executor.submit(
-            () -> {
-              try {
-                PatchScript patchScript = getPatchScriptWithOldDiffCache(git, aId, bId);
-                if (areEqualPatchscripts(patchScript, expected)) {
-                  metrics.diffs.increment(Metrics.MATCH);
-                } else {
-                  metrics.diffs.increment(Metrics.MISMATCH);
-                  logger.atWarning().atMostEvery(10, TimeUnit.SECONDS).log(
-                      "Mismatching diff for change %s, old commit ID: %s, new commit ID: %s, file name: %s.",
-                      changeId.toString(), aId, bId, fileName);
-                }
-              } catch (PatchListNotAvailableException | IOException e) {
-                metrics.diffs.increment(Metrics.ERROR);
-                logger.atSevere().atMostEvery(10, TimeUnit.SECONDS).log(
-                    String.format(
-                            "Error computing new diff for change %s, old commit ID: %s, new commit ID: %s.\n",
-                            changeId.toString(), aId, bId)
-                        + ExceptionUtils.getStackTrace(e));
-              }
-            });
-  }
-
-  private PatchScript getPatchScriptWithOldDiffCache(Repository git, ObjectId aId, ObjectId bId)
-      throws IOException, PatchListNotAvailableException {
-    PatchScriptBuilder patchScriptBuilder = newBuilder();
-    PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));
-    PatchListEntry content = list.get(fileName);
-    return patchScriptBuilder.toPatchScriptOld(git, list, content);
-  }
-
   private PatchScript getPatchScriptWithNewDiffCache(Repository git, ObjectId aId, ObjectId bId)
       throws IOException, DiffNotAvailableException {
     FileDiffOutput fileDiffOutput =
@@ -335,61 +264,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
             : diffOperations.getModifiedFile(
                 notes.getProjectName(), aId, bId, fileName, diffPrefs.ignoreWhitespace);
     return newBuilder().toPatchScriptNew(git, fileDiffOutput);
-  }
-
-  /**
-   * The comparison is not exhaustive but is using the most important fields. Comparing all fields
-   * will require some work in {@link PatchScript} to, e.g., convert it to autovalue. This
-   * comparison method shall give a strong signal that both patchscripts are almost identical.
-   */
-  private static boolean areEqualPatchscripts(PatchScript ps1, PatchScript ps2) {
-    boolean equal = true;
-    if (!ps1.getChangeType().equals(ps2.getChangeType())) {
-      equal = false;
-      logger.atWarning().log(
-          "Mismatching change type: old = %s, new = %s.", ps1.getChangeType(), ps2.getChangeType());
-    }
-    if (!ps1.getPatchHeader().equals(ps2.getPatchHeader())) {
-      equal = false;
-      logger.atWarning().log(
-          "Mismatching patch header: old = %s, new = %s.",
-          ps1.getPatchHeader(), ps2.getPatchHeader());
-    }
-    if (!Objects.equals(ps1.getOldName(), ps2.getOldName())) {
-      equal = false;
-      logger.atWarning().log(
-          "Mismatching old name: old = %s, new = %s.", ps1.getOldName(), ps2.getOldName());
-    }
-    if (!Objects.equals(ps1.getNewName(), ps2.getNewName())) {
-      equal = false;
-      logger.atWarning().log(
-          "Mismatching new name: old = %s, new = %s.", ps1.getNewName(), ps2.getNewName());
-    }
-    if (!ps1.getEdits().containsAll(ps2.getEdits())) {
-      equal = false;
-      logger.atWarning().log(
-          "Mismatching edits: old = %s, new = %s.", ps1.getEdits(), ps2.getEdits());
-    }
-    if (!ps2.getEdits().containsAll(ps1.getEdits())) {
-      equal = false;
-      logger.atWarning().log(
-          "Mismatching edits: old = %s, new = %s.", ps1.getEdits(), ps2.getEdits());
-    }
-    if (!ps1.getEditsDueToRebase().equals(ps2.getEditsDueToRebase())) {
-      equal = false;
-      logger.atWarning().log(
-          "Mismatching edits due to rebase: old = %s, new = %s.",
-          ps1.getEditsDueToRebase(), ps2.getEditsDueToRebase());
-    }
-    if (!ps1.getA().equals(ps2.getA())) {
-      equal = false;
-      logger.atWarning().log("Mismatching sparse file content in old commit.");
-    }
-    if (!ps1.getB().equals(ps2.getB())) {
-      equal = false;
-      logger.atWarning().log("Mismatching sparse file content in new commit.");
-    }
-    return equal;
   }
 
   private Optional<ObjectId> getAId() {
@@ -407,17 +281,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       return Optional.empty();
     }
     return Optional.of(getCommitId(psb));
-  }
-
-  private PatchListKey keyFor(ObjectId aId, ObjectId bId, Whitespace whitespace) {
-    if (parentNum < 0) {
-      return PatchListKey.againstCommit(aId, bId, whitespace);
-    }
-    return PatchListKey.againstParentNum(parentNum + 1, bId, whitespace);
-  }
-
-  private PatchList listFor(PatchListKey key) throws PatchListNotAvailableException {
-    return patchListCache.get(key, notes.getProjectName());
   }
 
   private PatchScriptBuilder newBuilder() {

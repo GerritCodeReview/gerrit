@@ -260,7 +260,7 @@ image::images/user-review-ui-change-screen-patch-sets.png[width=487, link="image
 The `Download` drop-down panel in the change header offers commands and
 links for downloading the currently viewed patch set.
 
-image::images/gwt-user-review-ui-change-screen-download-commands.png[width=800, link="images/gwt-user-review-ui-change-screen-download-commands.png"]
+image::images/user-review-ui-change-screen-download-commands.png[width=800, link="images/user-review-ui-change-screen-download-commands.png"]
 
 The available download commands depend on the installed Gerrit plugins.
 The most popular plugin for download commands, the
@@ -286,8 +286,6 @@ The `Archive` links allow one to download an archive with the contents
 of the currently viewed patch set. The archive is offered in several
 formats (e.g. tar and tbz2); which formats are available depends on the
 configuration of the server.
-
-image::images/gwt-user-review-ui-change-screen-download-commands-list.png[width=800, link="images/gwt-user-review-ui-change-screen-download-commands-list.png"]
 
 [[included-in]]
 === Included In

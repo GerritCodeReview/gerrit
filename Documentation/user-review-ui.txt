@@ -215,9 +215,9 @@ image::images/user-review-ui-change-screen-change-info-actions.png[width=600, li
 
 - [[labels]]Labels & Votes:
 +
-Approving votes are colored green; veto votes are colored red.
+Approving votes are colored green; negative votes are colored red.
 +
-image::images/gwt-user-review-ui-change-screen-change-info-labels.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-labels.png"]
+image::images/user-review-ui-change-screen-change-info-labels.png[width=400, link="images/user-review-ui-change-screen-change-info-labels.png"]
 
 [[files]]
 === File List

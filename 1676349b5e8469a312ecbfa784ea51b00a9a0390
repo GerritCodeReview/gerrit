@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bab715f9_ee0fa245",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-11T17:28:48Z",
+      "side": 1,
+      "message": "Tests are failing due to old chrome version on the CI. Version update change is here: https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/305980",
+      "revId": "1676349b5e8469a312ecbfa784ea51b00a9a0390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fc0b599_190c0a9c",

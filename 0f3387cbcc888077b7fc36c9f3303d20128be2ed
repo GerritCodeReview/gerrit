@@ -26,6 +26,74 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8ab0bd5_5870f697",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-11T14:29:58Z",
+      "side": 1,
+      "message": "s/Jgit/JGit/",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6cfd74a_43cfc39d",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-11T14:29:58Z",
+      "side": 1,
+      "message": "s#objects/packs#objects/pack#",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "752b246a_8c0ba126",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-11T14:29:58Z",
+      "side": 1,
+      "message": "s/dissapear/disappear/",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ee3d1c8_0580c28d",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-11T14:29:58Z",
+      "side": 1,
+      "message": "s#object/packs#objects/pack#",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c63c73a_c3a93ad8",
         "filename": "Documentation/repository-maintenance.txt",
         "patchSetId": 2
@@ -43,6 +111,74 @@
         "endLine": 93,
         "endChar": 21
       },
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cab9716_dbbf6ad0",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-11T14:29:58Z",
+      "side": 1,
+      "message": "this sentence seems broken",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d144541_b863818a",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-11T14:29:58Z",
+      "side": 1,
+      "message": "AFAIR also JGit gc is loosening unreachable objects since [1]\nexcept if gc.pruneExpire is set to LONG.MAX_VALUE in ms since the epoch [2].\nLooks like we should add an option for switching this off.\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/89455\n[2] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java#330",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59aaba13_6ca50f41",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-11T14:29:58Z",
+      "side": 1,
+      "message": "which option can be used to prevent loosening of unreferenced objects ?",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7b5e788_9d242d7f",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-11T14:29:58Z",
+      "side": 1,
+      "message": "do you plan to contribute such a script under contrib/ ?",
       "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

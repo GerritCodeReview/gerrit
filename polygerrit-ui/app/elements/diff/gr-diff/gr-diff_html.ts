@@ -318,38 +318,64 @@ export const htmlTemplate = html`
       height: calc(var(--line-height-normal) + var(--spacing-s));
     }
 
-    .contextDivider {
-      height: var(--divider-height);
-      /* Create a positioning context. */
-      transform: translateX(0px);
+    .dividerCell {
+      vertical-align: top;
     }
-    .contextDivider.collapsed {
-      /* Hide divider gap, but still show child elements (expansion buttons). */
+    .dividerRow.showBoth .dividerCell {
+      height: var(--divider-height);
+    }
+    .dividerRow.showAboveOnly .dividerCell,
+    .dividerRow.showBelowOnly .dividerCell {
       height: 0;
     }
-    .dividerCell {
-      width: 100%;
-      height: 100%;
+
+    .verticalFlex {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .dividerRow.showBoth .verticalFlex {
+      justify-content: center;
+      margin-top: calc(0px - var(--line-height-normal) - var(--spacing-s));
+      margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));
+      height: calc(
+        2 * var(--line-height-normal) + 2 * var(--spacing-s) +
+          var(--divider-height) - 1px
+      );
+    }
+    .dividerRow.showAboveOnly .verticalFlex {
+      justify-content: flex-end;
+      /* margin-top has to make room for height+1px. */
+      margin-top: calc(-1px - var(--line-height-normal) - var(--spacing-s));
+      height: calc(var(--line-height-normal) + var(--spacing-s));
+    }
+    .dividerRow.showBelowOnly .verticalFlex {
+      justify-content: flex-start;
+      /* This just pushes the container down 1 pixel as to render below the
+         1px border-top of the padding row below. The same could be achieved
+         by position:relative; top:1px.*/
+      margin-top: 1px;
+      margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));
+    }
+
+    .horizontalFlex {
       display: flex;
       justify-content: center;
-      position: absolute;
-      top: 0;
-      left: 0;
+    }
+    .dividerRow.showBoth .horizontalFlex {
+      align-items: center;
+    }
+    .dividerRow.showAboveOnly .horizontalFlex {
+      align-items: end;
+    }
+    .dividerRow.showBelowOnly .horizontalFlex {
+      align-items: start;
     }
     .contextControlButton {
       background-color: var(--default-button-background-color);
       font: var(--context-control-button-font, inherit);
-      /* All position is relative to container, so ignore sibling buttons. */
-      position: absolute;
-    }
-    .contextControlButton:first-child {
-      /* First button needs to claim width to display without text wrapping. */
-      position: relative;
     }
     .centeredButton {
-      /* Center over divider. */
-      top: 50%;
-      transform: translateY(-50%);
       --gr-button: {
         color: var(--diff-context-control-color);
         border-style: solid;
@@ -368,15 +394,17 @@ export const htmlTemplate = html`
     .aboveBelowButtons {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       margin-left: var(--spacing-m);
-      position: relative;
     }
     .aboveBelowButtons:first-child {
       margin-left: 0;
     }
+    .dividerRow.showBoth .aboveButton {
+      /* The size of the gap between the above and below button. */
+      margin-bottom: calc(var(--divider-height) + 1px);
+    }
     .aboveButton {
-      /* Display over preceding content / background placeholder. */
-      transform: translateY(-100%);
       --gr-button: {
         color: var(--diff-context-control-color);
         border-style: solid;
@@ -393,8 +421,6 @@ export const htmlTemplate = html`
       }
     }
     .belowButton {
-      /* Display over following content / background placeholder. */
-      top: calc(100% + var(--divider-border));
       --gr-button: {
         color: var(--diff-context-control-color);
         border-style: solid;

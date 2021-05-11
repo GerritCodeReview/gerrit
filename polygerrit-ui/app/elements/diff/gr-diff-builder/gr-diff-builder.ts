@@ -345,7 +345,8 @@ export abstract class GrDiffBuilder {
         contextGroups,
         showAbove,
         showBelow,
-        numLines
+        numLines,
+        viewMode
       )
     );
     if (showBelow) {
@@ -364,19 +365,36 @@ export abstract class GrDiffBuilder {
     contextGroups: GrDiffGroup[],
     showAbove: boolean,
     showBelow: boolean,
-    numLines: number
+    numLines: number,
+    viewMode: DiffViewMode
   ): HTMLElement {
-    const row = this._createElement('tr', 'contextDivider');
-    if (!(showAbove && showBelow)) {
-      row.classList.add('collapsed');
+    const row = this._createElement('tr', 'dividerRow');
+    if (showAbove && !showBelow) {
+      row.classList.add('showAboveOnly');
+    } else if (!showAbove && showBelow) {
+      row.classList.add('showBelowOnly');
+    } else {
+      // Note that !showAbove && !showBelow also intentionally creates
+      // "showBoth". This means the file is completely collapsed, which is
+      // unusual, but at least happens in one test.
+      row.classList.add('showBoth');
     }
 
-    const element = this._createElement('td', 'dividerCell');
-    row.appendChild(element);
+    row.appendChild(this._createBlameCell(0));
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.appendChild(this._createElement('td'));
+    }
+
+    const cell = this._createElement('td', 'dividerCell');
+    cell.setAttribute('colspan', '3');
+    row.appendChild(cell);
+    const verticalFlex = this._createElement('div', 'verticalFlex');
+    cell.appendChild(verticalFlex);
+    const horizontalFlex = this._createElement('div', 'horizontalFlex');
+    verticalFlex.appendChild(horizontalFlex);
 
     const showAllContainer = this._createElement('div', 'aboveBelowButtons');
-    element.appendChild(showAllContainer);
-
+    horizontalFlex.appendChild(showAllContainer);
     const showAllButton = this._createContextButton(
       ContextButtonType.ALL,
       section,
@@ -415,7 +433,7 @@ export abstract class GrDiffBuilder {
           )
         );
       }
-      element.appendChild(container);
+      horizontalFlex.appendChild(container);
     }
 
     return row;

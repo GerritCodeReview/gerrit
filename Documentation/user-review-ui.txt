@@ -113,6 +113,7 @@ open changes.
 
 - [[actions]]Actions:
 +
+Actions buttons are at the top, and in the overflow menu.
 Depending on the change state and the permissions of the user, different
 actions are available on the change:
 
@@ -210,7 +211,7 @@ or if they are an administrator.
 ** [[plugin-actions]]Further actions may be available if plugins are installed.
 
 +
-image::images/gwt-user-review-ui-change-screen-change-info-actions.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-actions.png"]
+image::images/user-review-ui-change-screen-change-info-actions.png[width=600, link="images/user-review-ui-change-screen-change-info-actions.png"]
 
 - [[labels]]Labels & Votes:
 +

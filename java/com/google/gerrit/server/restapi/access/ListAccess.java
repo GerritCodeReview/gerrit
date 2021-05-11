@@ -19,9 +19,14 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.project.GetAccess;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -44,10 +49,15 @@ public class ListAccess implements RestReadView<TopLevelResource> {
       usage = "projects for which the access rights should be returned")
   private List<String> projects = new ArrayList<>();
 
+  private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
   private final GetAccess getAccess;
 
   @Inject
-  public ListAccess(GetAccess getAccess) {
+  public ListAccess(
+      PermissionBackend permissionBackend, ProjectCache projectCache, GetAccess getAccess) {
+    this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
     this.getAccess = getAccess;
   }
 
@@ -59,7 +69,19 @@ public class ListAccess implements RestReadView<TopLevelResource> {
         projects.stream()
             .filter(project -> !Strings.nullToEmpty(project).isEmpty())
             .collect(toImmutableList())) {
-      access.put(p, getAccess.apply(Project.nameKey(p)));
+      Project.NameKey projectName = Project.nameKey(p);
+
+      if (!projectCache.get(projectName).isPresent()) {
+        throw new ResourceNotFoundException(projectName.get());
+      }
+
+      try {
+        permissionBackend.currentUser().project(projectName).check(ProjectPermission.ACCESS);
+      } catch (AuthException e) {
+        throw new ResourceNotFoundException(projectName.get(), e);
+      }
+
+      access.put(p, getAccess.apply(projectName));
     }
     return Response.ok(access);
   }

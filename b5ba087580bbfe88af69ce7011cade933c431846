@@ -34,6 +34,24 @@
       "parentUuid": "c9737288_e6b654f8",
       "revId": "b5ba087580bbfe88af69ce7011cade933c431846",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74bd1485_5b0e83e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-05-11T13:11:07Z",
+      "side": 1,
+      "message": "Looking good for me on Safari (on laptop) in local testing.",
+      "parentUuid": "b8754066_f066ac8d",
+      "revId": "b5ba087580bbfe88af69ce7011cade933c431846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

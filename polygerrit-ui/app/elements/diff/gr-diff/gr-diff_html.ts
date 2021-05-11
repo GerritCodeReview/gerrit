@@ -318,38 +318,47 @@ export const htmlTemplate = html`
       height: calc(var(--line-height-normal) + var(--spacing-s));
     }
 
-    .contextDivider {
-      height: var(--divider-height);
-      /* Create a positioning context. */
-      transform: translateX(0px);
+    .dividerCell {
+      vertical-align: top;
     }
-    .contextDivider.collapsed {
-      /* Hide divider gap, but still show child elements (expansion buttons). */
+    .dividerRow.showBoth .dividerCell {
+      height: var(--divider-height);
+    }
+    .dividerRow.showAboveOnly .dividerCell,
+    .dividerRow.showBelowOnly .dividerCell {
       height: 0;
     }
-    .dividerCell {
-      width: 100%;
-      height: 100%;
+    .dividerCellContainer {
       display: flex;
       justify-content: center;
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: relative;
+    }
+    .dividerRow.showBoth .dividerCellContainer {
+      align-items: center;
+      /* We need to create enough negative margin such that the two buttons
+         (each 19px height plus margin) fit into the 4px row.
+         We set an exact height and use 50% of it for the top margin, such that
+         the widget overall is vertically centered over the row. */
+      margin-top: calc(1px - (44px / 2));
+      margin-bottom: -25px;
+      height: 44px;
+    }
+    .dividerRow.showAboveOnly .dividerCellContainer {
+      align-items: end;
+      margin-top: -20px;
+    }
+    .dividerRow.showBelowOnly .dividerCellContainer {
+      align-items: start;
+      /* This just pushes the container down 1 pixel as to render below the
+         1px border-top of the padding row below. */
+      margin-top: 1px;
+      margin-bottom: -20px;
     }
     .contextControlButton {
       background-color: var(--default-button-background-color);
       font: var(--context-control-button-font, inherit);
-      /* All position is relative to container, so ignore sibling buttons. */
-      position: absolute;
-    }
-    .contextControlButton:first-child {
-      /* First button needs to claim width to display without text wrapping. */
-      position: relative;
     }
     .centeredButton {
-      /* Center over divider. */
-      top: 50%;
-      transform: translateY(-50%);
       --gr-button: {
         color: var(--diff-context-control-color);
         border-style: solid;
@@ -368,15 +377,17 @@ export const htmlTemplate = html`
     .aboveBelowButtons {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       margin-left: var(--spacing-m);
-      position: relative;
     }
     .aboveBelowButtons:first-child {
       margin-left: 0;
     }
+    .dividerRow.showBoth .aboveButton {
+      /* The size of the gap between the above and below button. */
+      margin-bottom: calc(var(--divider-height) + 1px);
+    }
     .aboveButton {
-      /* Display over preceding content / background placeholder. */
-      transform: translateY(-100%);
       --gr-button: {
         color: var(--diff-context-control-color);
         border-style: solid;
@@ -393,8 +404,6 @@ export const htmlTemplate = html`
       }
     }
     .belowButton {
-      /* Display over following content / background placeholder. */
-      top: calc(100% + var(--divider-border));
       --gr-button: {
         color: var(--diff-context-control-color);
         border-style: solid;

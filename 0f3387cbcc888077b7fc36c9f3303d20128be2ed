@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46d59530_cc2e4d78",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-05-11T14:01:41Z",
+      "side": 1,
+      "message": "As I have mentioned in the first of the series consider renaming it to \u0027JGit\u0027 as written in [1] (also down the change - I will not repeat the same comment again ;))\n\n[1] https://www.eclipse.org/jgit/",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 4
+      },
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c63c73a_c3a93ad8",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-05-11T14:01:41Z",
+      "side": 1,
+      "message": "s/is/in/?",
+      "range": {
+        "startLine": 93,
+        "startChar": 19,
+        "endLine": 93,
+        "endChar": 21
+      },
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c243646b_d6bcd008",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-05-11T14:01:41Z",
+      "side": 1,
+      "message": "extra \u0027the\u0027",
+      "range": {
+        "startLine": 107,
+        "startChar": 31,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

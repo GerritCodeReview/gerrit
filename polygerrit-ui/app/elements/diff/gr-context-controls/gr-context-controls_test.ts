@@ -140,7 +140,10 @@ suite('gr-context-control tests', () => {
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
     assert.equal(blockExpansionButtons.length, 1);
-    assert.equal(blockExpansionButtons[0].textContent!.trim(), '+Block');
+    assert.equal(
+      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
       'belowButton'
@@ -170,8 +173,14 @@ suite('gr-context-control tests', () => {
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 2);
     assert.equal(blockExpansionButtons.length, 2);
-    assert.equal(blockExpansionButtons[0].textContent!.trim(), '+Block');
-    assert.equal(blockExpansionButtons[1].textContent!.trim(), '+Block');
+    assert.equal(
+      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
+    assert.equal(
+      blockExpansionButtons[1].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
       'aboveButton'
@@ -203,10 +212,147 @@ suite('gr-context-control tests', () => {
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
     assert.equal(blockExpansionButtons.length, 1);
-    assert.equal(blockExpansionButtons[0].textContent!.trim(), '+Block');
+    assert.equal(
+      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
       'aboveButton'
+    );
+  });
+
+  test('block expansion tooltip shows single syntax block', async () => {
+    element.renderPreferences!.use_block_expansion = true;
+    element.diff!.meta_b = ({
+      syntax_tree: [
+        {
+          name: 'aSpecificFunction',
+          range: {start_line: 1, start_column: 0, end_line: 30, end_column: 0},
+          children: [],
+        },
+        {
+          name: 'anotherFunction',
+          range: {start_line: 31, start_column: 0, end_line: 50, end_column: 0},
+          children: [],
+        },
+      ],
+    } as any) as DiffFileMetaInfo;
+
+    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.showAbove = true;
+    element.showBelow = true;
+    await flush();
+
+    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
+      '.blockExpansion gr-button'
+    );
+    assert.equal(
+      blockExpansionButtons[0]
+        .querySelector('.breadcrumbTooltip')!
+        .textContent?.trim(),
+      'aSpecificFunction'
+    );
+  });
+
+  test('block expansion tooltip shows composed syntax blocks as breadcrumbs', async () => {
+    element.renderPreferences!.use_block_expansion = true;
+    element.diff!.meta_b = ({
+      syntax_tree: [
+        {
+          name: 'aSpecificNamespace',
+          range: {start_line: 1, start_column: 0, end_line: 200, end_column: 0},
+          children: [
+            {
+              name: 'MyClass',
+              range: {
+                start_line: 2,
+                start_column: 0,
+                end_line: 100,
+                end_column: 0,
+              },
+              children: [
+                {
+                  name: 'aMethod',
+                  range: {
+                    start_line: 5,
+                    start_column: 0,
+                    end_line: 80,
+                    end_column: 0,
+                  },
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    } as any) as DiffFileMetaInfo;
+
+    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.showAbove = true;
+    element.showBelow = true;
+    await flush();
+
+    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
+      '.blockExpansion gr-button'
+    );
+    assert.equal(
+      blockExpansionButtons[0]
+        .querySelector('.breadcrumbTooltip')!
+        .textContent?.trim(),
+      'aSpecificNamespace > MyClass > aMethod'
+    );
+  });
+
+  test('syntax breadcrumb tooltip contain all common lines for empty syntax paths', async () => {
+    element.renderPreferences!.use_block_expansion = true;
+    element.diff!.meta_b = ({
+      syntax_tree: [
+        {
+          name: 'aSpecificNamespace',
+          range: {start_line: 1, start_column: 0, end_line: 30, end_column: 0},
+          children: [],
+        },
+      ],
+    } as any) as DiffFileMetaInfo;
+
+    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.showAbove = true;
+    element.showBelow = true;
+    await flush();
+
+    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
+      '.blockExpansion gr-button'
+    );
+    assert.equal(
+      blockExpansionButtons[0]
+        .querySelector('.breadcrumbTooltip')!
+        .textContent?.trim(),
+      'aSpecificNamespace'
+    );
+  });
+
+  test('syntax breadcrumb tooltip contain all common lines for empty syntax paths', async () => {
+    element.renderPreferences!.use_block_expansion = true;
+    element.diff!.meta_b = ({
+      syntax_tree: [],
+    } as any) as DiffFileMetaInfo;
+
+    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.showAbove = true;
+    element.showBelow = true;
+    await flush();
+
+    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
+      '.blockExpansion gr-button'
+    );
+    // querySelector('.breadcrumbTooltip')!.textContent!.trim()
+    assert.equal(
+      blockExpansionButtons[0]
+        .querySelector('.breadcrumbTooltip')!
+        .textContent?.trim(),
+      '20 common lines'
     );
   });
 });

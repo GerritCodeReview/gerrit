@@ -186,4 +186,25 @@ suite('gr-registration-dialog tests', () => {
       )
     );
   });
+
+  test('_computeUsernameEditable', () => {
+    assert.isTrue(
+      element._computeUsernameEditable({
+        ...createServerInfo(),
+        auth: {
+          auth_type: AuthType.HTTP,
+          editable_account_fields: [EditableAccountField.USER_NAME],
+        },
+      })
+    );
+    assert.isFalse(
+      element._computeUsernameMutable({
+        ...createServerInfo(),
+        auth: {
+          auth_type: AuthType.HTTP,
+          editable_account_fields: [],
+        },
+      })
+    );
+  });
 });

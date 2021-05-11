@@ -128,10 +128,17 @@ export class GrRegistrationDialog extends PolymerElement {
     }
 
     // Username may not be changed once it is set.
-    return (
-      config.auth.editable_account_fields.includes(
-        EditableAccountField.USER_NAME
-      ) && !username
+    return this._computeUsernameEditable(config) && !username;
+  }
+
+  _computeUsernameEditable(config?: ServerInfo) {
+    // Polymer 2: check for undefined
+    if (config === undefined) {
+      return false;
+    }
+
+    return config.auth.editable_account_fields.includes(
+      EditableAccountField.USER_NAME
     );
   }
 

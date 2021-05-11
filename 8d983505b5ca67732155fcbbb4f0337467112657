@@ -63,6 +63,30 @@
       },
       "revId": "8d983505b5ca67732155fcbbb4f0337467112657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d845dc2_67cc5d3a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-05-11T13:11:07Z",
+      "side": 1,
+      "message": "Ah, I missed that (still had your earlier assertion in mind). Makes sense.",
+      "parentUuid": "f4ef8768_a880a96b",
+      "range": {
+        "startLine": 370,
+        "startChar": 4,
+        "endLine": 376,
+        "endChar": 5
+      },
+      "revId": "8d983505b5ca67732155fcbbb4f0337467112657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

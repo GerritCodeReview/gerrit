@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "112f5fa9_45a817ac",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-05-11T13:11:07Z",
+      "side": 1,
+      "message": "This seems to work the same with\n\nposition: relative;\ntop: calc(-1px - 100%);\n\nWhich seems simpler and removes the need to repeat the height calculation for .contextBackground here. Not a strong opinion, just pointing it out. (I haven\u0027t tested it in Safari, only locally in Chrome.)",
+      "range": {
+        "startLine": 347,
+        "startChar": 6,
+        "endLine": 350,
+        "endChar": 65
+      },
+      "revId": "40ad4d11af8fbbc6535b1dbc691df6d6b8122589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "380b8db6_13406876",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-05-11T13:11:07Z",
+      "side": 1,
+      "message": "Is this needed? When I turn it off in the Dev Tools, it doesn\u0027t seem to make a difference (in Chrome).",
+      "revId": "40ad4d11af8fbbc6535b1dbc691df6d6b8122589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec751e6a_933376f8",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-11T13:52:23Z",
+      "side": 1,
+      "message": "nit: \u003d\u003d\u003d\nWhatever we decide to call it this is a variant of multi-site primaries right?",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 2
+      },
+      "revId": "e59c3e4b037d1442b0afa9cc9222b690802257bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

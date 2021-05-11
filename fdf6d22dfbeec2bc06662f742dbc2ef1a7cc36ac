@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3964972f_8ce5024f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-11T14:13:55Z",
+      "side": 1,
+      "message": "Not trying to overrule any of the unsolved comments, just to mark that I\u0027m fine with the current state.",
+      "revId": "fdf6d22dfbeec2bc06662f742dbc2ef1a7cc36ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

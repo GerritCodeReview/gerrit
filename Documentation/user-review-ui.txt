@@ -93,13 +93,6 @@ and offers actions on the change.
 
 image::images/gwt-user-review-ui-change-screen-change-info.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info.png"]
 
-- [[change-owner]]Change Owner:
-+
-The owner of the change is displayed as a link to a list of the owner's
-changes that have the same status as the currently viewed change.
-+
-image::images/gwt-user-review-ui-change-screen-change-info-owner.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-owner.png"]
-
 - [[reviewers]]Reviewers:
 +
 The reviewers of the change are displayed as chip tokens.

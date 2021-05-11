@@ -288,6 +288,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ba5e00_169f0b91",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T23:43:25Z",
+      "side": 1,
+      "message": "Done for real now! Sorry.",
+      "parentUuid": "637cd6d1_7c8bea2e",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d144541_b863818a",
@@ -337,6 +355,24 @@
       "side": 1,
       "message": "AFAIK unreachable objects are loosened to enable tracking their timestamp individually so that they can be purged when the interval configured by pruneExpire has passed since an object (versioned file) became unreachable. I think that\u0027s mostly useful in a repository having a working tree where developers hack around all the time and the prune interval is a valuable safety net (default prune interval is 2 weeks) in case they deleted something they might want to get back later.\n\nThis sentence shouldn\u0027t make a distinction between jgit and git gc since they both loosen unreachable objects. JGit does this since 4.10.",
       "parentUuid": "513cf144_dbcdd59c",
+      "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "087f35db_da6ed469",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-11T23:43:25Z",
+      "side": 1,
+      "message": "Generally in repositories where someone is creating new objects they are created as loose objects in the first place. If they are unreferenced (because perhaps a new commit is being created and they are not referenced yet), then they shouldn\u0027t get put into a pack. So I don\u0027t really see this as a valuable strategy.\n\nDone.",
+      "parentUuid": "6551b195_755f4c78",
       "revId": "0f3387cbcc888077b7fc36c9f3303d20128be2ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

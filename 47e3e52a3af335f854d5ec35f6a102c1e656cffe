@@ -299,6 +299,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f3ea88b_d4fa124c",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-11T14:09:18Z",
+      "side": 1,
+      "message": "I don\u0027t really want to get into detailing why someone should use a specific configuration. I agree that\u0027s good content to have somewhere, but probably not in a glossary. I\u0027m open to being convinced it does belong here though if you want to make a case for it.",
+      "parentUuid": "f2a35d23_f94f0fda",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1
@@ -405,6 +429,30 @@
       "side": 1,
       "message": "I think \"Single cluster multi primary...\" above is a good terse description of that setup and I feel that the corresponding \"Multiple clusters multi primary\" would be  equally descriptive for this setup.\nI agree with Nasser, \"Gerrit multi-site\" could very well be interpreted as 1 primary n replicas setup.",
       "parentUuid": "72cc4df3_bd8fcb1e",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 47,
+        "endChar": 23
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93c890f4_c00e8b17",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-11T14:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "379c3ef8_18dd7a93",
       "range": {
         "startLine": 47,
         "startChar": 3,

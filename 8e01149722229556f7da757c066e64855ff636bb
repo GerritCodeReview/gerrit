@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c36c9b50_12776f39",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T09:22:24Z",
+      "side": 1,
+      "message": "Is this still needed or should the old cache binding be removed later?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 41
+      },
+      "revId": "8e01149722229556f7da757c066e64855ff636bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

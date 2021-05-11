@@ -69,6 +69,24 @@
       "parentUuid": "6424b570_cc367ea5",
       "revId": "59c3a2eb60ddc9b0eb5346c6d6f57208068552fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f987dc4_97954058",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-11T10:39:16Z",
+      "side": 1,
+      "message": "\u003e We are currently on Lucene 6.x. That means, given that we missed (again) to update the Lucene version in 3.4, \n\nFWIW, I don\u0027t think we have a rule that we can only have 2 releases per year. We could do 3.5 / 3.6 on an accelerated schedule to get up to date more quickly.",
+      "parentUuid": "02ace377_8ed51e1b",
+      "revId": "59c3a2eb60ddc9b0eb5346c6d6f57208068552fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afac1988_09c1e38b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-05-11T14:26:47Z",
+      "side": 1,
+      "message": "Moved, thanks, done.",
+      "parentUuid": "9ebc0e89_cba12924",
+      "revId": "86b7f82e4a3aa8a1c32c25c3839ebfbdebfe9dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d2d6770_d63252e9",
@@ -83,6 +101,30 @@
       "writtenOn": "2021-05-11T14:21:03Z",
       "side": 1,
       "message": "Why Polymer 2? It\u0027s removed, not?",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 37
+      },
+      "revId": "86b7f82e4a3aa8a1c32c25c3839ebfbdebfe9dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78d7e640_9f068984",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-05-11T14:26:47Z",
+      "side": 1,
+      "message": "Removed and changed slightly. Thanks!",
+      "parentUuid": "2c79dfa5_0bbf3e3a",
       "range": {
         "startLine": 135,
         "startChar": 4,

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "713f0a51_24b96c70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-05-11T13:40:19Z",
+      "side": 1,
+      "message": "But I\u0027m quite new to the subject and could have missed sth obvious 😄",
+      "revId": "71f8b3e4f58bfb3125e75ecaf620bc5cd290ff9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9db9cdd_41917700",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-05-11T13:40:19Z",
+      "side": 1,
+      "message": "setLinesDeleted?",
+      "range": {
+        "startLine": 774,
+        "startChar": 32,
+        "endLine": 774,
+        "endChar": 49
+      },
+      "revId": "71f8b3e4f58bfb3125e75ecaf620bc5cd290ff9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

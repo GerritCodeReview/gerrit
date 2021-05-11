@@ -22,6 +22,30 @@
       },
       "revId": "acdbafdd25348c31795b7bca2f71aa07ae2e8bff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "199aef00_16365f33",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-11T16:18:56Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "ad46fb5f_ebf3eaf6",
+      "range": {
+        "startLine": 965,
+        "startChar": 0,
+        "endLine": 976,
+        "endChar": 0
+      },
+      "revId": "acdbafdd25348c31795b7bca2f71aa07ae2e8bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

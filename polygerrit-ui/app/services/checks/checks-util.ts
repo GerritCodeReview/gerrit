@@ -79,10 +79,11 @@ export function worstCategory(run: CheckRun) {
   if (hasResultsOf(run, Category.ERROR)) return Category.ERROR;
   if (hasResultsOf(run, Category.WARNING)) return Category.WARNING;
   if (hasResultsOf(run, Category.INFO)) return Category.INFO;
+  if (hasResultsOf(run, Category.SUCCESS)) return Category.SUCCESS;
   return undefined;
 }
 
-export function iconForCategory(category: Category | 'SUCCESS') {
+export function iconForCategory(category: Category) {
   switch (category) {
     case Category.ERROR:
       return 'error';
@@ -90,7 +91,7 @@ export function iconForCategory(category: Category | 'SUCCESS') {
       return 'info-outline';
     case Category.WARNING:
       return 'warning';
-    case 'SUCCESS':
+    case Category.SUCCESS:
       return 'check-circle-outline';
     default:
       assertNever(category, `Unsupported category: ${category}`);
@@ -210,12 +211,14 @@ export function compareByWorstCategory(a: CheckRun, b: CheckRun) {
 export function level(cat?: Category) {
   if (!cat) return -1;
   switch (cat) {
-    case Category.INFO:
+    case Category.SUCCESS:
       return 0;
-    case Category.WARNING:
+    case Category.INFO:
       return 1;
-    case Category.ERROR:
+    case Category.WARNING:
       return 2;
+    case Category.ERROR:
+      return 3;
   }
 }
 

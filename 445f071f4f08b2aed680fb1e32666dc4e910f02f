@@ -115,6 +115,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af8171d4_61bffed7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-11T07:25:17Z",
+      "side": 1,
+      "message": "I thought about testing and how we can split this change up further over night.\n\nWhat do you think about this:\n\nWe split this change into (1) a change that just implements #match in IndexPredicate according to the index spec. (2) One change per predicate that we remove/migrate towards using (1) instead of one-off matching logic.\n\nIn between (1) and (2) we put the fake index implementation from Id3c1d3d. That means that we have tested the current, per-predicate matching logic and the removal of it explicitly.\n\nWDYT?\n\nI am in favor of David\u0027s idea of removing boilerplate Predicate classes and moving them into ChangeQueryBuilder, InternalChangeQuery or ChangePredicates.",
+      "parentUuid": "05271ddb_98b3dd98",
+      "revId": "445f071f4f08b2aed680fb1e32666dc4e910f02f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1dd9eb60_1425f3c4",
         "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
         "patchSetId": 1

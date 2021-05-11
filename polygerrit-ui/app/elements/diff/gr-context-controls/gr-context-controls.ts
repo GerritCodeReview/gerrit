@@ -22,6 +22,7 @@ import '@polymer/paper-fab/paper-fab';
 import '@polymer/paper-icon-button/paper-icon-button';
 import '@polymer/paper-item/paper-item';
 import '@polymer/paper-listbox/paper-listbox';
+import '@polymer/paper-tooltip/paper-tooltip.js';
 
 import '../../shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';
@@ -43,23 +44,26 @@ const PARTIAL_CONTEXT_AMOUNT = 10;
 /**
  * Traverses a hierarchical structure of syntax blocks and
  * finds the most local/nested block that can be associated line.
- * It finds the closest block that contains the whole line.
+ * It finds the closest block that contains the whole line and 
+ * returns the whole path from the syntax layer (blocks) sent as parameter
+ * to the most nested block - the complete path from the top to bottom layer of
+ * a syntax tree. Example: [myNamepace, MyClass, myMethod1, aLocalFunctionInsideMethod1]
  *
  * @param lineNum line number for the targeted line.
  * @param blocks Blocks for a specific syntax level in the file (to allow recursive calls)
- * @returns
  */
-function findMostNestedContainingBlock(
+function findOutlineTreePathForLine(
   lineNum: number,
   blocks?: SyntaxBlock[]
-): SyntaxBlock | undefined {
+): SyntaxBlock[]{
   const containingBlock = blocks?.find(
     ({range}) => range.start_line < lineNum && range.end_line > lineNum
   );
-  const containingChildBlock = containingBlock
-    ? findMostNestedContainingBlock(lineNum, containingBlock?.children)
-    : undefined;
-  return containingChildBlock || containingBlock;
+  if(containingBlock){
+    const innerPathInChild = findOutlineTreePathForLine(lineNum, containingBlock?.children);
+    return [containingBlock].concat(innerPathInChild);
+  }  
+  return [];
 }
 
 @customElement('gr-context-controls')
@@ -194,7 +198,7 @@ export class GrContextControls extends LitElement {
   /**
    * Creates a specific expansion button (e.g. +X common lines, +10, +Block).
    */
-  private createContextButton(type: ContextButtonType, linesToExpand: number) {
+  private createContextButton(type: ContextButtonType, linesToExpand: number, tooltipText?: string) {
     let text = '';
     let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
     let ariaLabel = '';
@@ -256,7 +260,8 @@ export class GrContextControls extends LitElement {
       type,
       groups
     );
-
+    
+    const tooltip = tooltipText ?? html `<paper-tooltip offset="5">${tooltipText}</paper-tooltip>`
     const button = html` <gr-button
       class="${classes}"
       link="true"
@@ -265,6 +270,7 @@ export class GrContextControls extends LitElement {
       @click="${expandHandler}"
     >
       <span class="showContext">${text}</span>
+      ${tooltip}
     </gr-button>`;
     return button;
   }
@@ -385,13 +391,17 @@ export class GrContextControls extends LitElement {
   ) {
     assertIsDefined(this.diff, 'diff');
     const syntaxTree = this.diff!.meta_b.syntax_tree;
-    const containingBlock = findMostNestedContainingBlock(
+    const outlineSyntaxPath = findOutlineTreePathForLine(
       referenceLine,
       syntaxTree
     );
     let linesToExpand = numLines;
-    if (containingBlock) {
-      const {range} = containingBlock;
+    let tooltipText;
+    if (outlineSyntaxPath.length) {
+      const {range} = outlineSyntaxPath[outlineSyntaxPath.length - 1];
+      // Create breadcrumb string: 
+      // myNamepace > MyClass > myMethod1 > aLocalFunctionInsideMethod1 > (anonymous)
+      tooltipText = outlineSyntaxPath.map(b => b.name || '(anonymous)').join(' > ')
       const targetLine =
         buttonType === ContextButtonType.BLOCK_ABOVE
           ? range.end_line
@@ -401,7 +411,7 @@ export class GrContextControls extends LitElement {
         linesToExpand = distanceToTargetLine;
       }
     }
-    return this.createContextButton(buttonType, linesToExpand);
+    return this.createContextButton(buttonType, linesToExpand, tooltipText);
   }
 
   private contextRange() {

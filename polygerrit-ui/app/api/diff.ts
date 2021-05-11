@@ -303,12 +303,8 @@ export declare interface DiffContextExpandedExternalDetail {
 }
 
 export declare type ImageDiffAction =
-  | {
-      type: 'overview-image-clicked';
-    }
-  | {
-      type: 'overview-frame-dragged';
-    }
+  | {type: 'overview-image-clicked'}
+  | {type: 'overview-frame-dragged'}
   | {type: 'magnifier-clicked'}
   | {type: 'magnifier-dragged'}
   | {type: 'version-switcher-clicked'; button: 'base' | 'revision' | 'switch'}

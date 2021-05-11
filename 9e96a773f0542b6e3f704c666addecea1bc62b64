@@ -16,6 +16,24 @@
       "message": "should this be on our main branch as well?",
       "revId": "9e96a773f0542b6e3f704c666addecea1bc62b64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb579147_4863b396",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-11T13:13:25Z",
+      "side": 1,
+      "message": "we merge stable branches forward to master, so this happens automatically.",
+      "parentUuid": "90e6f5ae_50189d72",
+      "revId": "9e96a773f0542b6e3f704c666addecea1bc62b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

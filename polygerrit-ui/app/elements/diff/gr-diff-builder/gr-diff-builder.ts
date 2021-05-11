@@ -366,16 +366,22 @@ export abstract class GrDiffBuilder {
     showBelow: boolean,
     numLines: number
   ): HTMLElement {
-    const row = this._createElement('tr', 'contextDivider');
-    if (!(showAbove && showBelow)) {
-      row.classList.add('collapsed');
+    const row = this._createElement('tr', 'dividerRow');
+    if (showAbove && !showBelow) {
+      row.classList.add('showAboveOnly');
+    } else if (!showAbove && showBelow) {
+      row.classList.add('showBelowOnly');
+    } else {
+      row.classList.add('showBoth');
     }
 
-    const element = this._createElement('td', 'dividerCell');
-    row.appendChild(element);
-
+    const cell = this._createElement('td', 'dividerCell');
+    cell.setAttribute('colspan', '5');
+    row.appendChild(cell);
+    const cellContainer = this._createElement('div', 'dividerCellContainer');
+    cell.appendChild(cellContainer);
     const showAllContainer = this._createElement('div', 'aboveBelowButtons');
-    element.appendChild(showAllContainer);
+    cellContainer.appendChild(showAllContainer);
 
     const showAllButton = this._createContextButton(
       ContextButtonType.ALL,
@@ -415,7 +421,7 @@ export abstract class GrDiffBuilder {
           )
         );
       }
-      element.appendChild(container);
+      cellContainer.appendChild(container);
     }
 
     return row;

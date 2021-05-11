@@ -122,16 +122,13 @@ export class GrRegistrationDialog extends PolymerElement {
   }
 
   _computeUsernameMutable(config?: ServerInfo, username?: string) {
-    // Polymer 2: check for undefined
-    if (config === undefined) {
-      return false;
-    }
-
     // Username may not be changed once it is set.
-    return (
-      config.auth.editable_account_fields.includes(
-        EditableAccountField.USER_NAME
-      ) && !username
+    return this._computeUsernameEditable(config) && !username;
+  }
+
+  _computeUsernameEditable(config?: ServerInfo): boolean {
+    return !!config?.auth.editable_account_fields.includes(
+      EditableAccountField.USER_NAME
     );
   }
 
@@ -168,7 +165,9 @@ export class GrRegistrationDialog extends PolymerElement {
   }
 
   _computeSaveDisabled(name?: string, username?: string, saving?: boolean) {
-    return saving || (!name && !username);
+    return saving || this._computeUsernameEditable(this._serverConfig)
+      ? !name && !username
+      : !name;
   }
 
   @observe('_loading')

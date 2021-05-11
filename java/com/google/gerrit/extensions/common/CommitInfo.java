@@ -29,6 +29,7 @@ public class CommitInfo {
   public String subject;
   public String message;
   public List<WebLinkInfo> webLinks;
+  public List<WebLinkInfo> resolveConflictsWebLinks;
 
   @Override
   public boolean equals(Object o) {
@@ -42,12 +43,14 @@ public class CommitInfo {
         && Objects.equals(committer, c.committer)
         && Objects.equals(subject, c.subject)
         && Objects.equals(message, c.message)
-        && Objects.equals(webLinks, c.webLinks);
+        && Objects.equals(webLinks, c.webLinks)
+        && Objects.equals(resolveConflictsWebLinks, c.resolveConflictsWebLinks);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(commit, parents, author, committer, subject, message, webLinks);
+    return Objects.hash(
+        commit, parents, author, committer, subject, message, webLinks, resolveConflictsWebLinks);
   }
 
   @Override
@@ -63,6 +66,9 @@ public class CommitInfo {
         .add("message", message);
     if (webLinks != null) {
       helper.add("webLinks", webLinks);
+    }
+    if (resolveConflictsWebLinks != null) {
+      helper.add("resolveConflictsWebLinks", resolveConflictsWebLinks);
     }
     return helper.toString();
   }

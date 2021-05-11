@@ -17,15 +17,11 @@ package com.google.gerrit.server.patch;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
-import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.patch.filediff.PatchListLoader;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -38,7 +34,8 @@ import org.eclipse.jgit.lib.ObjectId;
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
-  public static final String FILE_NAME = "diff";
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   static final String INTRA_NAME = "diff_intraline";
   static final String DIFF_SUMMARY = "diff_summary";
 
@@ -46,13 +43,6 @@ public class PatchListCacheImpl implements PatchListCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        factory(PatchListLoader.Factory.class);
-        // TODO(davido): Switch off using legacy cache backend, after fixing PatchListLoader
-        // to be recursion free.
-        persist(FILE_NAME, PatchListKey.class, PatchList.class, CacheBackend.GUAVA)
-            .maximumWeight(10 << 20)
-            .weigher(PatchListWeigher.class);
-
         factory(IntraLineLoader.Factory.class);
         persist(INTRA_NAME, IntraLineDiffKey.class, IntraLineDiff.class)
             .maximumWeight(10 << 20)
@@ -70,79 +60,27 @@ public class PatchListCacheImpl implements PatchListCache {
     };
   }
 
-  private final Cache<PatchListKey, PatchList> fileCache;
   private final Cache<IntraLineDiffKey, IntraLineDiff> intraCache;
   private final Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
-  private final PatchListLoader.Factory fileLoaderFactory;
   private final IntraLineLoader.Factory intraLoaderFactory;
   private final DiffSummaryLoader.Factory diffSummaryLoaderFactory;
   private final boolean computeIntraline;
 
   @Inject
   PatchListCacheImpl(
-      @Named(FILE_NAME) Cache<PatchListKey, PatchList> fileCache,
       @Named(INTRA_NAME) Cache<IntraLineDiffKey, IntraLineDiff> intraCache,
       @Named(DIFF_SUMMARY) Cache<DiffSummaryKey, DiffSummary> diffSummaryCache,
-      PatchListLoader.Factory fileLoaderFactory,
       IntraLineLoader.Factory intraLoaderFactory,
       DiffSummaryLoader.Factory diffSummaryLoaderFactory,
       @GerritServerConfig Config cfg) {
-    this.fileCache = fileCache;
     this.intraCache = intraCache;
     this.diffSummaryCache = diffSummaryCache;
-    this.fileLoaderFactory = fileLoaderFactory;
     this.intraLoaderFactory = intraLoaderFactory;
     this.diffSummaryLoaderFactory = diffSummaryLoaderFactory;
 
     this.computeIntraline =
         cfg.getBoolean(
             "cache", INTRA_NAME, "enabled", cfg.getBoolean("cache", "diff", "intraline", true));
-  }
-
-  @Override
-  public PatchList get(PatchListKey key, Project.NameKey project)
-      throws PatchListNotAvailableException {
-    try {
-      PatchList pl = fileCache.get(key, fileLoaderFactory.create(key, project));
-      if (pl instanceof LargeObjectTombstone) {
-        throw new PatchListObjectTooLargeException(
-            "Error computing " + key + ". Previous attempt failed with LargeObjectException");
-      }
-      return pl;
-    } catch (ExecutionException e) {
-      PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
-      throw new PatchListNotAvailableException(e);
-    } catch (UncheckedExecutionException e) {
-      if (e.getCause() instanceof LargeObjectException) {
-        // Cache negative result so we don't need to redo expensive computations that would yield
-        // the same result.
-        fileCache.put(key, new LargeObjectTombstone());
-        PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
-        throw new PatchListNotAvailableException(e);
-      }
-      throw e;
-    }
-  }
-
-  @Override
-  public PatchList get(Change change, PatchSet patchSet) throws PatchListNotAvailableException {
-    return get(change, patchSet, null);
-  }
-
-  @Override
-  public ObjectId getOldId(Change change, PatchSet patchSet, Integer parentNum)
-      throws PatchListNotAvailableException {
-    return get(change, patchSet, parentNum).getOldId();
-  }
-
-  private PatchList get(Change change, PatchSet patchSet, Integer parentNum)
-      throws PatchListNotAvailableException {
-    Project.NameKey project = change.getProject();
-    ObjectId b = patchSet.commitId();
-    if (parentNum != null) {
-      return get(PatchListKey.againstParentNum(parentNum, b, Whitespace.IGNORE_NONE), project);
-    }
-    return get(PatchListKey.againstDefaultBase(b, Whitespace.IGNORE_NONE), project);
   }
 
   @Override
@@ -160,16 +98,16 @@ public class PatchListCacheImpl implements PatchListCache {
 
   @Override
   public DiffSummary getDiffSummary(DiffSummaryKey key, Project.NameKey project)
-      throws PatchListNotAvailableException {
+      throws DiffNotAvailableException {
     try {
       return diffSummaryCache.get(key, diffSummaryLoaderFactory.create(key, project));
     } catch (ExecutionException e) {
-      PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
-      throw new PatchListNotAvailableException(e);
+      logger.atWarning().withCause(e).log("Error computing %s", key);
+      throw new DiffNotAvailableException(e);
     } catch (UncheckedExecutionException e) {
       if (e.getCause() instanceof LargeObjectException) {
-        PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
-        throw new PatchListNotAvailableException(e);
+        logger.atWarning().withCause(e).log("Error computing %s", key);
+        throw new DiffNotAvailableException(e);
       }
       throw e;
     }

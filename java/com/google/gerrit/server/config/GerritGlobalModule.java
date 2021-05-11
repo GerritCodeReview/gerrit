@@ -267,7 +267,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new IgnoreSelfApprovalRule.Module());
     install(new ReceiveCommitsModule());
     install(new SshAddressesModule());
-    install(new FileInfoJsonModule(cfg));
+    install(new FileInfoJsonModule());
     install(ThreadLocalRequestContext.module());
 
     factory(CapabilityCollection.Factory.class);

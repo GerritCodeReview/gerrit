@@ -23,7 +23,7 @@ import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {DiffFileMetaInfo, DiffInfo} from '../../../api/diff';
+import {DiffFileMetaInfo, DiffInfo, SyntaxBlock} from '../../../api/diff';
 
 const blankFixture = fixtureFromElement('div');
 
@@ -56,6 +56,7 @@ suite('gr-context-control tests', () => {
 
   test('no +10 buttons for 10 or less lines', async () => {
     element.contextGroups = createContextGroups({count: 10});
+
     await flush();
 
     const buttons = element.shadowRoot!.querySelectorAll(
@@ -68,6 +69,7 @@ suite('gr-context-control tests', () => {
   test('context control at the top', async () => {
     element.contextGroups = createContextGroups({offset: 0, count: 20});
     element.showBelow = true;
+
     await flush();
 
     const buttons = element.shadowRoot!.querySelectorAll(
@@ -86,6 +88,7 @@ suite('gr-context-control tests', () => {
     element.contextGroups = createContextGroups({offset: 10, count: 20});
     element.showAbove = true;
     element.showBelow = true;
+
     await flush();
 
     const buttons = element.shadowRoot!.querySelectorAll(
@@ -105,6 +108,7 @@ suite('gr-context-control tests', () => {
   test('context control at the bottom', async () => {
     element.contextGroups = createContextGroups({offset: 30, count: 20});
     element.showAbove = true;
+
     await flush();
 
     const buttons = element.shadowRoot!.querySelectorAll(
@@ -119,13 +123,18 @@ suite('gr-context-control tests', () => {
     assert.include([...buttons[1].classList.values()], 'aboveButton');
   });
 
-  test('context control with block expansion at the top', async () => {
+  function prepareForBlockExpansion(syntaxTree: SyntaxBlock[]) {
     element.renderPreferences!.use_block_expansion = true;
     element.diff!.meta_b = ({
-      syntax_tree: [],
+      syntax_tree: syntaxTree,
     } as any) as DiffFileMetaInfo;
+  }
+
+  test('context control with block expansion at the top', async () => {
+    prepareForBlockExpansion([]);
     element.contextGroups = createContextGroups({offset: 0, count: 20});
     element.showBelow = true;
+
     await flush();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
@@ -140,7 +149,10 @@ suite('gr-context-control tests', () => {
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
     assert.equal(blockExpansionButtons.length, 1);
-    assert.equal(blockExpansionButtons[0].textContent!.trim(), '+Block');
+    assert.equal(
+      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
       'belowButton'
@@ -148,14 +160,11 @@ suite('gr-context-control tests', () => {
   });
 
   test('context control with block expansion in the middle', async () => {
-    element.renderPreferences!.use_block_expansion = true;
-    element.diff!.meta_b = ({
-      syntax_tree: [],
-    } as any) as DiffFileMetaInfo;
-
+    prepareForBlockExpansion([]);
     element.contextGroups = createContextGroups({offset: 10, count: 20});
     element.showAbove = true;
     element.showBelow = true;
+
     await flush();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
@@ -170,8 +179,14 @@ suite('gr-context-control tests', () => {
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 2);
     assert.equal(blockExpansionButtons.length, 2);
-    assert.equal(blockExpansionButtons[0].textContent!.trim(), '+Block');
-    assert.equal(blockExpansionButtons[1].textContent!.trim(), '+Block');
+    assert.equal(
+      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
+    assert.equal(
+      blockExpansionButtons[1].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
       'aboveButton'
@@ -183,12 +198,10 @@ suite('gr-context-control tests', () => {
   });
 
   test('context control with block expansion at the bottom', async () => {
-    element.renderPreferences!.use_block_expansion = true;
-    element.diff!.meta_b = ({
-      syntax_tree: [],
-    } as any) as DiffFileMetaInfo;
+    prepareForBlockExpansion([]);
     element.contextGroups = createContextGroups({offset: 30, count: 20});
     element.showAbove = true;
+
     await flush();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
@@ -203,10 +216,162 @@ suite('gr-context-control tests', () => {
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
     assert.equal(blockExpansionButtons.length, 1);
-    assert.equal(blockExpansionButtons[0].textContent!.trim(), '+Block');
+    assert.equal(
+      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      '+Block'
+    );
     assert.include(
       [...blockExpansionButtons[0].classList.values()],
       'aboveButton'
+    );
+  });
+
+  test('+ Block tooltip tooltip shows syntax block containing the target lines above and below', async () => {
+    prepareForBlockExpansion([
+      {
+        name: 'aSpecificFunction',
+        range: {start_line: 1, start_column: 0, end_line: 25, end_column: 0},
+        children: [],
+      },
+      {
+        name: 'anotherFunction',
+        range: {start_line: 26, start_column: 0, end_line: 50, end_column: 0},
+        children: [],
+      },
+    ]);
+    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.showAbove = true;
+    element.showBelow = true;
+
+    await flush();
+
+    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
+      '.blockExpansion gr-button'
+    );
+    assert.equal(
+      blockExpansionButtons[0]
+        .querySelector('.breadcrumbTooltip')!
+        .textContent?.trim(),
+      'aSpecificFunction'
+    );
+    assert.equal(
+      blockExpansionButtons[1]
+        .querySelector('.breadcrumbTooltip')!
+        .textContent?.trim(),
+      'anotherFunction'
+    );
+  });
+
+  test('+Block tooltip shows nested syntax blocks as breadcrumbs', async () => {
+    prepareForBlockExpansion([
+      {
+        name: 'aSpecificNamespace',
+        range: {start_line: 1, start_column: 0, end_line: 200, end_column: 0},
+        children: [
+          {
+            name: 'MyClass',
+            range: {
+              start_line: 2,
+              start_column: 0,
+              end_line: 100,
+              end_column: 0,
+            },
+            children: [
+              {
+                name: 'aMethod',
+                range: {
+                  start_line: 5,
+                  start_column: 0,
+                  end_line: 80,
+                  end_column: 0,
+                },
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+    ]);
+    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.showAbove = true;
+    element.showBelow = true;
+
+    await flush();
+
+    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
+      '.blockExpansion gr-button'
+    );
+    assert.equal(
+      blockExpansionButtons[0]
+        .querySelector('.breadcrumbTooltip')!
+        .textContent?.trim(),
+      'aSpecificNamespace > MyClass > aMethod'
+    );
+  });
+
+  test('+Block tooltip shows (anonymous) for empty blocks', async () => {
+    prepareForBlockExpansion([
+      {
+        name: 'aSpecificNamespace',
+        range: {start_line: 1, start_column: 0, end_line: 200, end_column: 0},
+        children: [
+          {
+            name: '',
+            range: {
+              start_line: 2,
+              start_column: 0,
+              end_line: 100,
+              end_column: 0,
+            },
+            children: [
+              {
+                name: 'aMethod',
+                range: {
+                  start_line: 5,
+                  start_column: 0,
+                  end_line: 80,
+                  end_column: 0,
+                },
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+    ]);
+    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.showAbove = true;
+    element.showBelow = true;
+    await flush();
+
+    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
+      '.blockExpansion gr-button'
+    );
+    assert.equal(
+      blockExpansionButtons[0]
+        .querySelector('.breadcrumbTooltip')!
+        .textContent?.trim(),
+      'aSpecificNamespace > (anonymous) > aMethod'
+    );
+  });
+
+  test('+Block tooltip shows "all common lines" for empty syntax tree', async () => {
+    prepareForBlockExpansion([]);
+
+    element.contextGroups = createContextGroups({offset: 10, count: 20});
+    element.showAbove = true;
+    element.showBelow = true;
+    await flush();
+
+    const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
+      '.blockExpansion gr-button'
+    );
+    // querySelector('.breadcrumbTooltip')!.textContent!.trim()
+    assert.equal(
+      blockExpansionButtons[0]
+        .querySelector('.breadcrumbTooltip')!
+        .textContent?.trim(),
+      '20 common lines'
     );
   });
 });

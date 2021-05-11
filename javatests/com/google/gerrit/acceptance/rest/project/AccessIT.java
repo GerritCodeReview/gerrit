@@ -15,15 +15,21 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
 import java.util.Map;
 import org.junit.Test;
 
 public class AccessIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void listAccessWithoutSpecifyingProject() throws Exception {
@@ -50,6 +56,19 @@ public class AccessIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.get("/access/?project=non-existing");
     r.assertNotFound();
     assertThat(r.getEntityContent()).isEqualTo("non-existing");
+  }
+
+  @Test
+  public void listAccessForNonVisibleProject() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    RestResponse r = userRestSession.get("/access/?project=" + project.get());
+    r.assertNotFound();
+    assertThat(r.getEntityContent()).isEqualTo(project.get());
   }
 
   @Test

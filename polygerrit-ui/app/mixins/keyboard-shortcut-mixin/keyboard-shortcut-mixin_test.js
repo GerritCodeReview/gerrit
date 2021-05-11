@@ -181,13 +181,7 @@ suite('keyboard-shortcut-mixin tests', () => {
             mapToObject(mgr.activeShortcutsBySection()),
             {});
 
-        mgr.attachHost({
-          keyboardShortcuts() {
-            return {
-              [Shortcut.NEXT_FILE]: null,
-            };
-          },
-        });
+        mgr.attachHost({}, new Map([[Shortcut.NEXT_FILE, null]]));
         assert.deepEqual(
             mapToObject(mgr.activeShortcutsBySection()),
             {
@@ -196,13 +190,7 @@ suite('keyboard-shortcut-mixin tests', () => {
               ],
             });
 
-        mgr.attachHost({
-          keyboardShortcuts() {
-            return {
-              [Shortcut.NEXT_LINE]: null,
-            };
-          },
-        });
+        mgr.attachHost({}, new Map([[Shortcut.NEXT_LINE, null]]));
         assert.deepEqual(
             mapToObject(mgr.activeShortcutsBySection()),
             {
@@ -214,14 +202,10 @@ suite('keyboard-shortcut-mixin tests', () => {
               ],
             });
 
-        mgr.attachHost({
-          keyboardShortcuts() {
-            return {
-              [Shortcut.SEARCH]: null,
-              [Shortcut.GO_TO_OPENED_CHANGES]: null,
-            };
-          },
-        });
+        mgr.attachHost({}, new Map([
+          [Shortcut.SEARCH, null],
+          [Shortcut.GO_TO_OPENED_CHANGES, null],
+        ]));
         assert.deepEqual(
             mapToObject(mgr.activeShortcutsBySection()),
             {
@@ -254,17 +238,13 @@ suite('keyboard-shortcut-mixin tests', () => {
 
         assert.deepEqual(mapToObject(mgr.directoryView()), {});
 
-        mgr.attachHost({
-          keyboardShortcuts() {
-            return {
-              [Shortcut.GO_TO_OPENED_CHANGES]: null,
-              [Shortcut.NEXT_FILE]: null,
-              [Shortcut.NEXT_LINE]: null,
-              [Shortcut.SAVE_COMMENT]: null,
-              [Shortcut.SEARCH]: null,
-            };
-          },
-        });
+        mgr.attachHost({}, new Map([
+          [Shortcut.GO_TO_OPENED_CHANGES, null],
+          [Shortcut.NEXT_FILE, null],
+          [Shortcut.NEXT_LINE, null],
+          [Shortcut.SAVE_COMMENT, null],
+          [Shortcut.SEARCH, null],
+        ]));
         assert.deepEqual(
             mapToObject(mgr.directoryView()),
             {

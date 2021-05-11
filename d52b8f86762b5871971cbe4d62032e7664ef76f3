@@ -22,6 +22,23 @@
       },
       "revId": "d52b8f86762b5871971cbe4d62032e7664ef76f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f3df230_31ae54f2",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-11T13:58:34Z",
+      "side": 1,
+      "message": "s/conifgured/configured/",
+      "revId": "d52b8f86762b5871971cbe4d62032e7664ef76f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

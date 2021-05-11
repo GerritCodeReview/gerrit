@@ -22,6 +22,121 @@
       },
       "revId": "b2fd7687808c25b254963e867ec4ccb70e503102",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "942163fa_557522bd",
+        "filename": "javatests/com/google/gerrit/integration/git/NoShellIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T21:46:35Z",
+      "side": 1,
+      "message": "Wrong package: this is not git related. Move it to ssh integration package:\n\n  javatests/com/google/gerrit/integration/ssh",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 42
+      },
+      "revId": "b2fd7687808c25b254963e867ec4ccb70e503102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f19abd9_d40f5c67",
+        "filename": "javatests/com/google/gerrit/integration/git/NoShellIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T21:46:35Z",
+      "side": 1,
+      "message": "Not used and should be removed? This test does nothing with git.",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 72
+      },
+      "revId": "b2fd7687808c25b254963e867ec4ccb70e503102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5151b48b_76b0750e",
+        "filename": "javatests/com/google/gerrit/integration/git/NoShellIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T21:46:35Z",
+      "side": 1,
+      "message": "Just inline the content of the method:\n\n  IOException thrown \u003d assertThrows(IOException.class, () -\u003e execute(cmd()));\n  assertThat(thrown)\n      .hasMessageThat()\n      .contains(\"Hi Administrator, you have successfully connected over SSH.\");",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 30
+      },
+      "revId": "b2fd7687808c25b254963e867ec4ccb70e503102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee51a8c_bbf5b2b7",
+        "filename": "javatests/com/google/gerrit/integration/git/NoShellIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T21:46:35Z",
+      "side": 1,
+      "message": "We should check the content of the exception, see my suggestion above.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 70
+      },
+      "revId": "b2fd7687808c25b254963e867ec4ccb70e503102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3ad891a_78fafb97",
+        "filename": "javatests/com/google/gerrit/integration/git/NoShellIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-11T21:46:35Z",
+      "side": 1,
+      "message": "I ended up with this command:\n\n  private ImmutableList\u003cString\u003e cmd() {\n    return ImmutableList.\u003cString\u003ebuilder()\n        .add(\"ssh\")\n        .add(\"-tt\")\n        .add(\"-o\")\n        .add(\"StrictHostKeyChecking\u003dno\")\n        .add(\"-o\")\n        .add(\"UserKnownHostsFile\u003d/dev/null\")\n        .add(\"-p\")\n        .add(String.valueOf(sshAddress.getPort()))\n        .add(\"admin@\" + sshAddress.getHostName())\n        .add(\"-i\")\n        .add(identityPath)\n        .build();\n  }",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 0
+      },
+      "revId": "b2fd7687808c25b254963e867ec4ccb70e503102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

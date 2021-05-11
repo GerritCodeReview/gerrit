@@ -53,6 +53,13 @@ The change was successfully merged into the destination branch.
 +
 The change was abandoned.
 
+[[star]]
+=== Star Change
+
+Clicking the star icon marks the change as a favorite: it turns on
+email notifications for this change, and the change is added to the
+list under `Your` > `Starred Changes`. They can be queried by the
+link:user-search.html#is[is:starred] search operator.
 
 [[change-info]]
 === Change metadata
@@ -299,19 +306,6 @@ release is tagged).
 image::images/user-review-ui-change-screen-included-in.png[width=800, link="images/user-review-ui-change-screen-included-in.png"]
 
 
-[[star]]
-=== Star Change
-
-The star icon in the change header allows to mark the change as a
-favorite. Clicking on the star icon again, unstars the change.
-
-image::images/gwt-user-review-ui-change-screen-star.png[width=800, link="images/gwt-user-review-ui-change-screen-star.png"]
-
-Starring a change turns on email notifications for this change.
-
-Starred changed are listed under `My` > `Starred Changes`.
-and can be queried by the link:user-search.html#is[is:starred] search
-operator.
 
 [[related-changes]]
 === Related Changes

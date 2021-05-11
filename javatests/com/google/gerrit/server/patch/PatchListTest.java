@@ -19,11 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.server.patch.PatchList.ChangeTypeCmp;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
@@ -78,20 +73,20 @@ public class PatchListTest {
     assertThat(changeTypeOrder).containsExactlyElementsIn(allTypes).inOrder();
   }
 
-  @Test
-  public void largeObjectTombstoneCanBeSerializedAndDeserialized() throws Exception {
-    // Serialize
-    byte[] serializedObject;
-    try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream objectStream = new ObjectOutputStream(baos)) {
-      objectStream.writeObject(new PatchListCacheImpl.LargeObjectTombstone());
-      serializedObject = baos.toByteArray();
-      assertThat(serializedObject).isNotNull();
-    }
-    // Deserialize
-    try (InputStream is = new ByteArrayInputStream(serializedObject);
-        ObjectInputStream ois = new ObjectInputStream(is)) {
-      assertThat(ois.readObject()).isInstanceOf(PatchListCacheImpl.LargeObjectTombstone.class);
-    }
-  }
+  //  @Test
+  //  public void largeObjectTombstoneCanBeSerializedAndDeserialized() throws Exception {
+  //    // Serialize
+  //    byte[] serializedObject;
+  //    try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+  //        ObjectOutputStream objectStream = new ObjectOutputStream(baos)) {
+  //      objectStream.writeObject(new PatchListCacheImpl.LargeObjectTombstone());
+  //      serializedObject = baos.toByteArray();
+  //      assertThat(serializedObject).isNotNull();
+  //    }
+  //    // Deserialize
+  //    try (InputStream is = new ByteArrayInputStream(serializedObject);
+  //        ObjectInputStream ois = new ObjectInputStream(is)) {
+  //      assertThat(ois.readObject()).isInstanceOf(PatchListCacheImpl.LargeObjectTombstone.class);
+  //    }
+  //  }
 }

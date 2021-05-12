@@ -23,6 +23,8 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import java.util.Map;
@@ -79,5 +81,21 @@ public class AccessIT extends AbstractDaemonTest {
         newGson()
             .fromJson(r.getReader(), new TypeToken<Map<String, ProjectAccessInfo>>() {}.getType());
     assertThat(infoByProject.keySet()).containsExactly(project.get());
+  }
+
+  @Test
+  public void listAccess_withUrlEncodedProjectName() throws Exception {
+    String fooBarBazProjectName = name("foo/bar/baz");
+    ProjectInput in = new ProjectInput();
+    in.name = fooBarBazProjectName;
+    gApi.projects().create(in);
+
+    RestResponse r =
+        adminRestSession.get("/access/?project=" + IdString.fromDecoded(fooBarBazProjectName));
+    r.assertOK();
+    Map<String, ProjectAccessInfo> infoByProject =
+        newGson()
+            .fromJson(r.getReader(), new TypeToken<Map<String, ProjectAccessInfo>>() {}.getType());
+    assertThat(infoByProject.keySet()).containsExactly(fooBarBazProjectName);
   }
 }

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21b52949_31afaf9c",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-12T23:15:02Z",
+      "side": 1,
+      "message": "Do we want to also warn of the dangers to remove ALL external ids for an account?\nWhat about:\n- groups that the account is member of\n- ACLs associated to that account directly (e.g. through singleusergroup plugin)\n- Reviews for that account.",
+      "range": {
+        "startLine": 112,
+        "startChar": 42,
+        "endLine": 113,
+        "endChar": 47
+      },
+      "revId": "ab141faea5d9a310c8bbc21ae714a9937f50bc75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dbf4bf9b_64564340",
         "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 1

@@ -223,3 +223,13 @@ export function listenOnce(el: EventTarget, eventType: string) {
     registerTestCleanup(removeEventListener);
   });
 }
+
+export async function tickAndFlush(
+  clock: sinon.SinonFakeTimers,
+  repetitions: number
+) {
+  for (let i = 1; i <= repetitions; i++) {
+    clock.tick(1000);
+    await flush();
+  }
+}

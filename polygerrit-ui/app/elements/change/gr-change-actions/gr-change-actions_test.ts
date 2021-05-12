@@ -34,6 +34,7 @@ import {
   queryAll,
   queryAndAssert,
   stubRestApi,
+  tickAndFlush,
 } from '../../../test/test-utils';
 import {assertUIActionInfo, GrChangeActions} from './gr-change-actions';
 import {
@@ -2105,19 +2106,14 @@ suite('gr-change-actions tests', () => {
           }
         };
 
-        const tickAndFlush = async (repetitions: number) => {
-          for (let i = 1; i <= repetitions; i++) {
-            clock.tick(1000);
-            await flush();
-          }
-        };
-
         test('succeed', async () => {
           stubRestApi('getChange').callsFake(makeGetChange(5));
           const promise = element._waitForChangeReachable(
             123 as NumericChangeId
           );
-          tickAndFlush(5);
+          // 5 is necessary to ensure attemptsRemaining becomes 0 and promise
+          // resolves
+          await tickAndFlush(clock, 5);
           const success = await promise;
           assert.isTrue(success);
         });
@@ -2127,7 +2123,7 @@ suite('gr-change-actions tests', () => {
           const promise = element._waitForChangeReachable(
             123 as NumericChangeId
           );
-          tickAndFlush(6);
+          await tickAndFlush(clock, 1);
           const success = await promise;
           assert.isFalse(success);
         });

@@ -7787,6 +7787,13 @@ except `PUBLISH_ALL_REVISIONS` operate only on drafts for a single revision. +
 Only `KEEP` is allowed when used in conjunction with `on_behalf_of`. +
 If not set, the default is `KEEP`. If `on_behalf_of` is set, then no other value
 besides `KEEP` is allowed.
+|`draft_ids_to_publish`                |optional|
+List of draft IDs to be published. The draft IDs should belong to the current
+user and be valid. If `drafts` is set to `PUBLISH`, then draft IDs should
+contain drafts for the same revision that is requested for review. If `drafts`
+is set to `KEEP`, then `draft_ids_to_publish` will be ignored and no draft
+comments will be published. +
+If not set, the default is to publish all drafts according to the `drafts` field.
 |`notify`                              |optional|
 Notify handling that defines to whom email notifications should be sent
 after the review is stored. +

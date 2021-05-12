@@ -33,6 +33,47 @@
       "message": "Some thoughts:\n- Is the new diff cache ready yet? IIUC we\u0027re still evaluating.\n- Don\u0027t we have a config option for switching between old and new cache?\n- If the switch causes issues (e.g. performance), how can we quickly revert?",
       "revId": "b2ea58b67fbdb5350e89fb5fb6b587297b4bd982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c044d022_0fed8cb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-12T04:42:04Z",
+      "side": 1,
+      "message": "To find  out if we have the issues, we need a complete series that is killing the old cache and switching away from old cache entirely. Also see issue 11900 linked to the follow-up change: We need a complete series to kill the last Guava based cache, revert change 245012 and switch to using Ben Manes Caffeine cache backend for all caches.",
+      "parentUuid": "e548892f_a3e0ff2a",
+      "revId": "b2ea58b67fbdb5350e89fb5fb6b587297b4bd982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "358cd689_7161f921",
+        "filename": "java/com/google/gerrit/server/patch/DiffSummaryLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-12T04:42:04Z",
+      "side": 1,
+      "message": "The tests are failing here:\n\n  Caused by: java.lang.NullPointerException: Null baseCommit\n\tat com.google.gerrit.server.patch.AutoValue_DiffOperationsImpl_DiffParameters$Builder.baseCommit(AutoValue_DiffOperationsImpl_DiffParameters.java:145)\n\tat com.google.gerrit.server.patch.DiffOperationsImpl.listModifiedFiles(DiffOperationsImpl.java:133)\n\tat com.google.gerrit.server.patch.DiffSummaryLoader.call(DiffSummaryLoader.java:46)\n\tat com.google.gerrit.server.patch.DiffSummaryLoader.call(DiffSummaryLoader.java:26)\n\tat com.github.benmanes.caffeine.guava.CaffeinatedGuavaCache.lambda$get$0(CaffeinatedGuavaCache.java:69)",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 87
+      },
+      "revId": "b2ea58b67fbdb5350e89fb5fb6b587297b4bd982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

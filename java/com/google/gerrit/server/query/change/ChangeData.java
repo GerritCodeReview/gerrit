@@ -321,7 +321,11 @@ public class ChangeData {
   private Set<String> hashtags;
   private Map<Account.Id, Ref> editsByUser;
   private Set<Account.Id> reviewedBy;
-  private Map<Account.Id, Ref> draftsByUser;
+  /**
+   * Map from {@link Account.Id} to the tip of the draft comments ref for this change and the user.
+   */
+  private Map<Account.Id, ObjectId> draftsByUser;
+
   private ImmutableListMultimap<Account.Id, String> stars;
   private StarsOf starsOf;
   private ImmutableMap<Account.Id, StarRef> starRefs;
@@ -1049,34 +1053,6 @@ public class ChangeData {
     return draftRefs().keySet();
   }
 
-  public Map<Account.Id, Ref> draftRefs() {
-    if (draftsByUser == null) {
-      if (!lazyload()) {
-        return Collections.emptyMap();
-      }
-      Change c = change();
-      if (c == null) {
-        return Collections.emptyMap();
-      }
-
-      draftsByUser = new HashMap<>();
-      for (Ref ref : commentsUtil.getDraftRefs(notes.getChangeId())) {
-        Account.Id account = Account.Id.fromRefSuffix(ref.getName());
-        if (account != null
-            // Double-check that any drafts exist for this user after
-            // filtering out zombies. If some but not all drafts in the ref
-            // were zombies, the returned Ref still includes those zombies;
-            // this is suboptimal, but is ok for the purposes of
-            // draftsByUser(), and easier than trying to rebuild the change at
-            // this point.
-            && !notes().getDraftComments(account, ref).isEmpty()) {
-          draftsByUser.put(account, ref);
-        }
-      }
-    }
-    return draftsByUser;
-  }
-
   public boolean isReviewedBy(Account.Id accountId) {
     Collection<String> stars = stars(accountId);
 
@@ -1240,7 +1216,14 @@ public class ChangeData {
       notes().getRobotComments(); // Force loading robot comments.
       RobotCommentNotes robotNotes = notes().getRobotCommentNotes();
       result.put(project, RefState.create(robotNotes.getRefName(), robotNotes.getMetaId()));
-      draftRefs().values().forEach(r -> result.put(allUsersName, RefState.of(r)));
+      draftRefs()
+          .entrySet()
+          .forEach(
+              r ->
+                  result.put(
+                      allUsersName,
+                      RefState.create(
+                          RefNames.refsDraftComments(getId(), r.getKey()), r.getValue())));
 
       refStates = result.build();
     }
@@ -1256,6 +1239,18 @@ public class ChangeData {
 
   public void setRefStates(ImmutableSetMultimap<Project.NameKey, RefState> refStates) {
     this.refStates = refStates;
+    if (draftsByUser == null) {
+      // Recover draft refs as well. Draft comments are represented as refs in the repository.
+      // ChangeData exposes #draftsByUser which just provides a Set of Account.Ids of users who
+      // have drafts comments on this change. Recovering this list from RefStates makes it
+      // available even on ChangeData instances retrieved from the index.
+      draftsByUser = new HashMap<>();
+      if (refStates.containsKey(allUsersName)) {
+        refStates.get(allUsersName).stream()
+            .filter(r -> RefNames.isRefsDraftsComments(r.ref()))
+            .forEach(r -> draftsByUser.put(Account.Id.fromRef(r.ref()), r.id()));
+      }
+    }
   }
 
   public ImmutableList<byte[]> getRefStatePatterns() {
@@ -1286,5 +1281,33 @@ public class ChangeData {
     public abstract Account.Id accountId();
 
     public abstract ImmutableSortedSet<String> stars();
+  }
+
+  private Map<Account.Id, ObjectId> draftRefs() {
+    if (draftsByUser == null) {
+      if (!lazyload()) {
+        return Collections.emptyMap();
+      }
+      Change c = change();
+      if (c == null) {
+        return Collections.emptyMap();
+      }
+
+      draftsByUser = new HashMap<>();
+      for (Ref ref : commentsUtil.getDraftRefs(notes.getChangeId())) {
+        Account.Id account = Account.Id.fromRefSuffix(ref.getName());
+        if (account != null
+            // Double-check that any drafts exist for this user after
+            // filtering out zombies. If some but not all drafts in the ref
+            // were zombies, the returned Ref still includes those zombies;
+            // this is suboptimal, but is ok for the purposes of
+            // draftsByUser(), and easier than trying to rebuild the change at
+            // this point.
+            && !notes().getDraftComments(account, ref).isEmpty()) {
+          draftsByUser.put(account, ref.getObjectId());
+        }
+      }
+    }
+    return draftsByUser;
   }
 }

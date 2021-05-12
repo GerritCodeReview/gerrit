@@ -102,7 +102,7 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
 import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
-import {Constructor} from '../../utils/common-util';
+import {check, Constructor} from '../../utils/common-util';
 import {getKeyboardEvent, isModifierPressed} from '../../utils/dom-util';
 import {
   CustomKeyboardEvent,
@@ -221,11 +221,6 @@ export type SectionView = Array<{binding: string[][]; text: string}>;
 export type ShortcutListener = (
   viewMap?: Map<ShortcutSection, SectionView>
 ) => void;
-
-interface ShortcutEnabledElement extends PolymerElement {
-  // TODO: should replace with Map so we can have proper type here
-  keyboardShortcuts(): {[shortcut: string]: string};
-}
 
 interface ShortcutHelpItem {
   shortcut: Shortcut;
@@ -558,14 +553,9 @@ export class ShortcutManager {
     return this.bindings.get(shortcut);
   }
 
-  attachHost(host: PolymerElement | ShortcutEnabledElement) {
-    if (!('keyboardShortcuts' in host)) {
-      return;
-    }
-    const shortcuts = host.keyboardShortcuts();
-    this.activeHosts.set(host, new Map(Object.entries(shortcuts)));
+  attachHost(host: PolymerElement, shortcuts: Map<string, string>) {
+    this.activeHosts.set(host, shortcuts);
     this.notifyListeners();
-    return shortcuts;
   }
 
   detachHost(host: PolymerElement) {
@@ -788,6 +778,12 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
 
       private readonly restApiService = appContext.restApiService;
 
+      /** Used to disable shortcuts when the element is not visible. */
+      private observer?: IntersectionObserver;
+
+      /** Are shortcuts currently enabled? True only when element is visible. */
+      private bindingsEnabled = false;
+
       modifierPressed(event: CustomKeyboardEvent) {
         /* We are checking for g/v as modifiers pressed. There are cases such as
          * pressing v and then /, where we want the handler for / to be triggered.
@@ -902,21 +898,62 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       /** @override */
       connectedCallback() {
         super.connectedCallback();
-
         this.restApiService.getPreferences().then(prefs => {
           if (prefs?.disable_keyboard_shortcuts) {
             this._disableKeyboardShortcuts = true;
           }
         });
+        this.createVisibilityObserver();
+        this.enableBindings();
+      }
 
-        const shortcuts = shortcutManager.attachHost(this);
-        if (!shortcuts) {
-          return;
-        }
+      /** @override */
+      disconnectedCallback() {
+        this.destroyVisibilityObserver();
+        this.disableBindings();
+        super.disconnectedCallback();
+      }
 
-        for (const key of Object.keys(shortcuts)) {
-          // TODO(TS): not needed if convert shortcuts to Map
-          this._addOwnKeyBindings(key as Shortcut, shortcuts[key]);
+      /**
+       * Creates an intersection observer that enables bindings when the
+       * element is visible and disables them when the element is hidden.
+       */
+      private createVisibilityObserver() {
+        if (!this.hasKeyboardShortcuts()) return;
+        if (this.observer) return;
+        this.observer = new IntersectionObserver(entries => {
+          check(entries.length === 1, 'Expected one observer entry.');
+          const isVisible = entries[0].isIntersecting;
+          if (isVisible) {
+            this.enableBindings();
+          } else {
+            this.disableBindings();
+          }
+        });
+        this.observer.observe(this);
+      }
+
+      private destroyVisibilityObserver() {
+        if (this.observer) this.observer.unobserve(this);
+      }
+
+      /**
+       * Enables all the shortcuts returned by keyboardShortcuts().
+       * This is a private method being called when the element becomes
+       * connected or visible.
+       */
+      private enableBindings() {
+        if (!this.hasKeyboardShortcuts()) return;
+        if (this.bindingsEnabled) return;
+        this.bindingsEnabled = true;
+
+        const shortcuts = new Map<string, string>(
+          Object.entries(this.keyboardShortcuts())
+        );
+        shortcutManager.attachHost(this, shortcuts);
+
+        for (const [key, value] of shortcuts.entries()) {
+          this._addOwnKeyBindings(key as Shortcut, value);
         }
 
         // each component that uses this behaviour must be aware if go key is
@@ -941,12 +978,21 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         }
       }
 
-      /** @override */
-      disconnectedCallback() {
+      /**
+       * Disables all the shortcuts returned by keyboardShortcuts().
+       * This is a private method being called when the element becomes
+       * disconnected or invisible.
+       */
+      private disableBindings() {
+        if (!this.bindingsEnabled) return;
+        this.bindingsEnabled = false;
         if (shortcutManager.detachHost(this)) {
           this.removeOwnKeyBindings();
         }
-        super.disconnectedCallback();
+      }
+
+      private hasKeyboardShortcuts() {
+        return Object.entries(this.keyboardShortcuts()).length > 0;
       }
 
       keyboardShortcuts() {

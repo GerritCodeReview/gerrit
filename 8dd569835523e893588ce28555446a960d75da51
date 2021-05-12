@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "684e0a10_cdfee887",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-12T18:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb992668_ec6aa422",
+      "range": {
+        "startLine": 302,
+        "startChar": 63,
+        "endLine": 302,
+        "endChar": 73
+      },
+      "revId": "8dd569835523e893588ce28555446a960d75da51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b3ec954_ca8a5945",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d146dafe_7d2f53c5",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-12T18:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b3ec954_ca8a5945",
+      "range": {
+        "startLine": 303,
+        "startChar": 70,
+        "endLine": 303,
+        "endChar": 72
+      },
+      "revId": "8dd569835523e893588ce28555446a960d75da51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f588063c_ff75679b",
@@ -60,6 +108,30 @@
       "writtenOn": "2020-11-28T10:11:48Z",
       "side": 1,
       "message": "CI maintainer, because release manager might not be the one who maintains the CI.",
+      "range": {
+        "startLine": 303,
+        "startChar": 71,
+        "endLine": 304,
+        "endChar": 15
+      },
+      "revId": "8dd569835523e893588ce28555446a960d75da51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52326098_c86d91ee",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-12T18:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f588063c_ff75679b",
       "range": {
         "startLine": 303,
         "startChar": 71,

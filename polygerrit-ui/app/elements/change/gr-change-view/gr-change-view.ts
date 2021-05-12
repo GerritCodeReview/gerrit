@@ -1252,9 +1252,13 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this.$.fileList.collapseAllDiffs();
     this._patchRange = patchRange;
 
+    const patchKnown =
+      !patchRange.patchNum ||
+      (this._allPatchSets ?? []).some(ps => ps.num === patchRange.patchNum);
+
     // If the change has already been loaded and the parameter change is only
     // in the patch range, then don't do a full reload.
-    if (!changeChanged && patchChanged) {
+    if (!changeChanged && patchChanged && patchKnown) {
       if (!patchRange.patchNum) {
         patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
         rightPatchNumChanged = true;

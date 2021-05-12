@@ -1633,6 +1633,13 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadStub.calledOnce);
 
     element._initialLoadComplete = true;
+    element._change = {
+      ...createChangeViewChange(),
+      revisions: {
+        rev1: createRevision(1),
+        rev2: createRevision(2),
+      },
+    };
 
     value.basePatchNum = 1 as BasePatchSetNum;
     value.patchNum = 2 as RevisionPatchSetNum;
@@ -1661,6 +1668,13 @@ suite('gr-change-view tests', () => {
     element._paramsChanged(value);
 
     element._initialLoadComplete = true;
+    element._change = {
+      ...createChangeViewChange(),
+      revisions: {
+        rev1: createRevision(1),
+        rev2: createRevision(2),
+      },
+    };
 
     value.basePatchNum = 1 as BasePatchSetNum;
     value.patchNum = 2 as RevisionPatchSetNum;

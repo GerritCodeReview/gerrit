@@ -16,6 +16,24 @@
       "message": "This should probably mention some actions are available from the change screen directly and others are nested within the top right dropdown?",
       "revId": "91f50dbfeae24df320550776b25958f3b6f25636",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96b7f714_e936bb67",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T17:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d721c2ca_3f487e94",
+      "revId": "91f50dbfeae24df320550776b25958f3b6f25636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

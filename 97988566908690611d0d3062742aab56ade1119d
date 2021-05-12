@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d90c5cc6_b19de059",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-12T14:45:44Z",
+      "side": 1,
+      "message": "I forgot to position the tooltips for buttons above the section to be positioned above instead of below (this makes the outline show up behind the button below)",
+      "revId": "97988566908690611d0d3062742aab56ade1119d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

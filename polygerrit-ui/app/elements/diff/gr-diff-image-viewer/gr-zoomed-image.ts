@@ -18,10 +18,10 @@ import {
   css,
   customElement,
   html,
-  internalProperty,
   LitElement,
   property,
   PropertyValues,
+  state,
 } from 'lit-element';
 import {StyleInfo, styleMap} from 'lit-html/directives/style-map';
 import {Rect} from './util';
@@ -41,7 +41,7 @@ export class GrZoomedImage extends LitElement {
   @property({type: Object})
   frameRect: Rect = {origin: {x: 0, y: 0}, dimensions: {width: 0, height: 0}};
 
-  @internalProperty() protected imageStyles: StyleInfo = {};
+  @state() protected imageStyles: StyleInfo = {};
 
   static styles = css`
     :host {

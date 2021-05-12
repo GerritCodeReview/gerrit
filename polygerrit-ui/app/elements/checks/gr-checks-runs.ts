@@ -20,10 +20,10 @@ import './gr-hovercard-run';
 import {
   css,
   customElement,
-  internalProperty,
   property,
   PropertyValues,
   query,
+  state,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {Action, Link, RunStatus} from '../../api/checks';
@@ -326,7 +326,7 @@ export class GrChecksRuns extends GrLitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
-  @internalProperty()
+  @state()
   filterRegExp = new RegExp('');
 
   @property()

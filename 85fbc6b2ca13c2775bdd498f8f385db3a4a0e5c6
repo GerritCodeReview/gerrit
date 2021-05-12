@@ -205,6 +205,30 @@
       },
       "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d42bfbf5_014ff206",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-05-12T12:34:12Z",
+      "side": 1,
+      "message": "It still sounds to me like in that case horizontal flex (with align-items: center for showBoth, align-items: flex-end for showAboveOnly, and align-items: flex-start for showBelowOnly) with the margins and height calc from vertical flex might be enough, and you could drop vertical flex, but I am probably missing something.",
+      "parentUuid": "24dfe12d_7b4d2155",
+      "range": {
+        "startLine": 343,
+        "startChar": 6,
+        "endLine": 344,
+        "endChar": 27
+      },
+      "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

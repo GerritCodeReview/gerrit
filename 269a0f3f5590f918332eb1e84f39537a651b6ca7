@@ -33,6 +33,23 @@
       "message": "Just to let you know that I removed the bower toolchain on gerrit@HEAD.",
       "revId": "269a0f3f5590f918332eb1e84f39537a651b6ca7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dd5195b_1ab4719a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-12T21:01:15Z",
+      "side": 1,
+      "message": "Thank you for the lightning fast review!",
+      "revId": "269a0f3f5590f918332eb1e84f39537a651b6ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

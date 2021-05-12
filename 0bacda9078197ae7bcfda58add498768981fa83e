@@ -16,6 +16,24 @@
       "message": "May be wait for change 303182?",
       "revId": "0bacda9078197ae7bcfda58add498768981fa83e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f2a5cd3_d6a3a493",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-12T18:35:20Z",
+      "side": 1,
+      "message": "\u003e May be wait for change 303182?\n\nThe latter has that pending comment which could delay it a bit.",
+      "parentUuid": "ecd23afa_d125de16",
+      "revId": "0bacda9078197ae7bcfda58add498768981fa83e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

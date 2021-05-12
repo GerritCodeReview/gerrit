@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d4990c9_00eca423",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-12T09:10:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04993d3e_f3b3c1fe",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1401a5fd_f0c6254f",
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "946ac736_9f4a462d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-12T09:10:04Z",
+      "side": 1,
+      "message": "sinon.stub(element.$.labelScores) was unhappy with the replacement so I let that be and replaced the others.",
+      "parentUuid": "1401a5fd_f0c6254f",
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19750329_3afc779d",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
         "patchSetId": 12
@@ -54,6 +96,30 @@
       "writtenOn": "2021-05-12T07:37:15Z",
       "side": 1,
       "message": "I think the correct type to use here is:\n\n  (input?: ReviewInput) \u003d\u003e ReviewResult | undefined",
+      "range": {
+        "startLine": 164,
+        "startChar": 48,
+        "endLine": 164,
+        "endChar": 55
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a2b4043_c07a5017",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-12T09:10:04Z",
+      "side": 1,
+      "message": "TS wasn\u0027t happy with the return value but it was happy with\n\n (input: ReviewInput) \u003d\u003e void",
+      "parentUuid": "19750329_3afc779d",
       "range": {
         "startLine": 164,
         "startChar": 48,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2da69da2_0aa28833",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-12T09:10:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3873d689_7be188f2",
+      "range": {
+        "startLine": 314,
+        "startChar": 6,
+        "endLine": 317,
+        "endChar": 8
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fd7d49c_9cc04377",
@@ -100,6 +190,24 @@
       "writtenOn": "2021-05-12T07:37:15Z",
       "side": 1,
       "message": "Replace all remaining 6 usages of querySelector by queryAndAssert.",
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57ddb510_a1fc8af7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-12T09:10:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fd7d49c_9cc04377",
       "revId": "69de821a51032b51f51235579c2094ff04501501",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -140,6 +248,48 @@
       "writtenOn": "2021-05-12T07:37:15Z",
       "side": 1,
       "message": "Ticking and flushing 1000 times??? 😮",
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c321a97f_7c7cd68a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-12T09:10:04Z",
+      "side": 1,
+      "message": "Internally tickAndFlush() is calling await flush() otherwise I would assume the test would fail( the test does fail with simple flush() ).",
+      "parentUuid": "fe4e0ff4_48b858db",
+      "range": {
+        "startLine": 1279,
+        "startChar": 4,
+        "endLine": 1279,
+        "endChar": 16
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f988d7f2_a1442142",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-12T09:10:04Z",
+      "side": 1,
+      "message": "Replaced with 1.\nI mistakenly thought this was ms.",
+      "parentUuid": "16946f5a_a2d668b1",
       "revId": "69de821a51032b51f51235579c2094ff04501501",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

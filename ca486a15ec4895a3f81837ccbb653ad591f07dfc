@@ -16,6 +16,24 @@
       "message": "duplicate \"the the\"",
       "revId": "ca486a15ec4895a3f81837ccbb653ad591f07dfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a0aef68_5605c55b",
+        "filename": "Documentation/repository-maintenance.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-12T15:14:27Z",
+      "side": 1,
+      "message": "Done. Sorry I keep struggling with inline editing, when you are editing you can no longer see the change comments. :(",
+      "parentUuid": "9f19d5f0_30895723",
+      "revId": "ca486a15ec4895a3f81837ccbb653ad591f07dfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

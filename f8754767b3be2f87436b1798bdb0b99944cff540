@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43f03c62_8be67027",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-12T10:59:22Z",
+      "side": 1,
+      "message": "Hi David, thanks a lot for making this change. Overall looks good to me.\n\nThe series took me long time, but as I mentioned in https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11900, I was doing thorough testing and encountered mismatches in diffs (using the comparison code that you removed) that was a bit unjustified for me and took time to debug.\n\nI left minor comments and have a TODO for myself (handle diffs of root commits).\n\n-1 until I get the mismatches sorted out.\n",
+      "revId": "f8754767b3be2f87436b1798bdb0b99944cff540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7662056_2831d680",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-12T10:59:22Z",
+      "side": 1,
+      "message": "Please rename to FileInfoJsonImpl. There is no notion of old/new anymore.",
+      "range": {
+        "startLine": 22,
+        "startChar": 32,
+        "endLine": 22,
+        "endChar": 51
+      },
+      "revId": "f8754767b3be2f87436b1798bdb0b99944cff540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f438e434_0c20291a",
+        "filename": "java/com/google/gerrit/server/patch/DiffSummaryLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-12T10:59:22Z",
+      "side": 1,
+      "message": "PatchListEntry#getOldName and #getNewName return different results than what DiffOperations returns. To preserve the behaviour, you need to adapt the paths to the old representation like in https://gerrit-review.googlesource.com/c/gerrit/+/300005.",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 34
+      },
+      "revId": "f8754767b3be2f87436b1798bdb0b99944cff540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42f70aae_0c0c9c0f",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-12T10:59:22Z",
+      "side": 1,
+      "message": "Please rename to getPatchScript, or computePatchScript. There shouldn\u0027t be a notion of old/new anymore.",
+      "range": {
+        "startLine": 236,
+        "startChar": 15,
+        "endLine": 236,
+        "endChar": 45
+      },
+      "revId": "f8754767b3be2f87436b1798bdb0b99944cff540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fd893f3_59dce0a0",
+        "filename": "javatests/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-12T10:59:22Z",
+      "side": 1,
+      "message": "Should we better @ignore that test and add a TODO? Commenting it out seems to tell there is a reason why it is not deleted.",
+      "range": {
+        "startLine": 76,
+        "startChar": 7,
+        "endLine": 76,
+        "endChar": 11
+      },
+      "revId": "f8754767b3be2f87436b1798bdb0b99944cff540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -74,6 +74,30 @@
       },
       "revId": "b2ea58b67fbdb5350e89fb5fb6b587297b4bd982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee3fc3b3_7c485008",
+        "filename": "java/com/google/gerrit/server/patch/DiffSummaryLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-12T10:59:22Z",
+      "side": 1,
+      "message": "Yes, I have a TODO to handle this case.\n\nhttps://gerrit.googlesource.com/gerrit/+/f9e137eaa2cadde5da5a285c842481765dee2bc1/javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java#130",
+      "parentUuid": "358cd689_7161f921",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 87
+      },
+      "revId": "b2ea58b67fbdb5350e89fb5fb6b587297b4bd982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

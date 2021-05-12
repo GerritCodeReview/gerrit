@@ -33,7 +33,8 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
     INACTIVE_ACCOUNT,
     UNKNOWN_ACCOUNT,
     INTERNAL_EXCEPTION,
-    COMMENT_REJECTED
+    COMMENT_REJECTED,
+    CHANGE_NOT_FOUND
   }
 
   public interface Factory {

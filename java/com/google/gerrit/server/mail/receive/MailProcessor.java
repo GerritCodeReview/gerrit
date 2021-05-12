@@ -233,6 +233,10 @@ public class MailProcessor {
     try (ManualRequestContext ctx = oneOffRequestContext.openAs(sender)) {
       List<ChangeData> changeDataList =
           queryProvider.get().byLegacyChangeId(Change.id(metadata.changeNumber));
+      if (changeDataList.isEmpty()) {
+        sendRejectionEmail(message, InboundEmailRejectionSender.Error.CHANGE_NOT_FOUND);
+        return;
+      }
       if (changeDataList.size() != 1) {
         logger.atSevere().log(
             "Message %s references unique change %s,"

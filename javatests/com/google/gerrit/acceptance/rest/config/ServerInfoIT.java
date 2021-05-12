@@ -175,8 +175,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.updateDelay).isEqualTo(300);
     assertThat(i.change.disablePrivateChanges).isNull();
     assertThat(i.change.submitWholeTopic).isNull();
-    assertThat(i.change.mergeabilityComputationBehavior)
-        .isEqualTo("API_REF_UPDATED_AND_CHANGE_REINDEX");
+    assertThat(i.change.mergeabilityComputationBehavior).isEqualTo("NEVER");
 
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");

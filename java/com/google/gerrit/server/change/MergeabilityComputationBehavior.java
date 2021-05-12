@@ -40,10 +40,7 @@ public enum MergeabilityComputationBehavior {
   /** Returns a {@link MergeabilityComputationBehavior} constructed from a Gerrit server config. */
   public static MergeabilityComputationBehavior fromConfig(Config cfg) {
     return cfg.getEnum(
-        "change",
-        null,
-        "mergeabilityComputationBehavior",
-        MergeabilityComputationBehavior.API_REF_UPDATED_AND_CHANGE_REINDEX);
+        "change", null, "mergeabilityComputationBehavior", MergeabilityComputationBehavior.NEVER);
   }
 
   /** Whether {@code mergeable} should be included in the change API. */

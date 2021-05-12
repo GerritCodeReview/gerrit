@@ -1905,7 +1905,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("-added:<=4");
 
     assertQuery("added:3", change1);
-    assertQuery("-(added:<3 OR added>3)", change1);
+    assertQuery("-(added:<3 OR added:>3)", change1);
 
     assertQuery("added:>2", change1);
     assertQuery("-added:<=2", change1);
@@ -1923,7 +1923,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("-deleted:<=3");
 
     assertQuery("deleted:2", change2);
-    assertQuery("-(deleted:<2 OR deleted>2)", change2);
+    assertQuery("-(deleted:<2 OR deleted:>2)", change2);
 
     assertQuery("deleted:>1", change2);
     assertQuery("-deleted:<=1", change2);

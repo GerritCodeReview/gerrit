@@ -46,14 +46,6 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @Ignore
   @Test
   @Override
-  public void bySize() throws Exception {
-    // TODO(hiesel): Fix bug in predicate and remove @Ignore.
-    super.bySize();
-  }
-
-  @Ignore
-  @Test
-  @Override
   public void byDraftBy() throws Exception {
     // TODO(hiesel): Fix NPE in ChangeData#draftRefs
     super.byDraftBy();

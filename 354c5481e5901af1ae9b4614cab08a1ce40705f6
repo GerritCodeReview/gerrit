@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "63a4cd29_56ca2ad3",
+        "filename": "javatests/com/google/gerrit/integration/ssh/NoShellIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-05-12T12:19:07Z",
+      "side": 1,
+      "message": "I think that there is a misunderstanding. The timeout tests whether the command is actually done and the terminal is returned to the user or not. The terminal wasn\u0027t returned to the user before the change. I think, it can be an additional test case because I think this test can be renamed to verifyEstablishedConnection. What do you think?",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "354c5481e5901af1ae9b4614cab08a1ce40705f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37001f12_d6db45a1",
         "filename": "javatests/com/google/gerrit/integration/ssh/NoShellIT.java",
         "patchSetId": 19

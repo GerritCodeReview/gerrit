@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d9388d35_f7681805",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-12T23:59:25Z",
+      "side": 1,
+      "message": "Those are HumanComments and not PatchSetComments though.",
+      "parentUuid": "7df2935a_d783ecc8",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 136,
+        "endChar": 31
+      },
+      "revId": "33c85d204be750b29f470a502137c74a4a9e1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "070e031b_23e9a1f6",
         "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
         "patchSetId": 7
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "474e6bcd_36079895",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-12T23:59:25Z",
+      "side": 1,
+      "message": "The idea behind this change is removing the legacy workaround which is tech debt.\nAlso, exposing the full payload of the review allows to have more context in the CI/CD pipeline and make more intelligent choices and actions.",
+      "parentUuid": "070e031b_23e9a1f6",
+      "range": {
+        "startLine": 392,
+        "startChar": 6,
+        "endLine": 392,
+        "endChar": 56
+      },
+      "revId": "33c85d204be750b29f470a502137c74a4a9e1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "531945ba_bbb88847",
         "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 7
@@ -60,6 +108,30 @@
       "writtenOn": "2020-12-30T07:16:56Z",
       "side": 1,
       "message": "We are missing the patch set comments here, that can also be provided per mail. On line 339 comments are gathered and saved on line 347.",
+      "range": {
+        "startLine": 387,
+        "startChar": 10,
+        "endLine": 387,
+        "endChar": 32
+      },
+      "revId": "33c85d204be750b29f470a502137c74a4a9e1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92b29fd1_74545cc5",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-12T23:59:25Z",
+      "side": 1,
+      "message": "Those at L374 are HumanComments and not PatchSetComments though.",
+      "parentUuid": "531945ba_bbb88847",
       "range": {
         "startLine": 387,
         "startChar": 10,

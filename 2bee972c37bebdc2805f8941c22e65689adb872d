@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a842cf30_7967671b",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T13:55:05Z",
+      "side": 1,
+      "message": "this looks fishy; Should this be removed here? (maybe a TODO for a follow up change?)",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42227929_210c1477",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T13:55:05Z",
+      "side": 1,
+      "message": "Comparator",
+      "range": {
+        "startLine": 163,
+        "startChar": 6,
+        "endLine": 163,
+        "endChar": 16
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76a6e53c_b514d082",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T13:55:05Z",
+      "side": 1,
+      "message": "I\u0027m suprised: is this left to the index implementation to decide? Or is this something that has to be synchronized across implementations?",
+      "range": {
+        "startLine": 193,
+        "startChar": 37,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

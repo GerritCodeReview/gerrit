@@ -33,6 +33,24 @@
       "message": "not yet resolved",
       "revId": "340825282b1f8432288b6dc8e273236fd2c28d96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e446cfe7_23ca2050",
+        "filename": "modules/jgit",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-12T07:37:22Z",
+      "side": 1,
+      "message": "weird.. I could swear I also reverted that.",
+      "parentUuid": "534a6a58_f66bbc1d",
+      "revId": "340825282b1f8432288b6dc8e273236fd2c28d96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

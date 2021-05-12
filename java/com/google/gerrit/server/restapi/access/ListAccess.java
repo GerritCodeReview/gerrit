@@ -66,14 +66,14 @@ public class ListAccess implements RestReadView<TopLevelResource> {
   public Response<Map<String, ProjectAccessInfo>> apply(TopLevelResource resource)
       throws Exception {
     Map<String, ProjectAccessInfo> access = new TreeMap<>();
-    for (String p :
+    for (Project.NameKey projectName :
         projects.stream()
             .filter(project -> !Strings.nullToEmpty(project).isEmpty())
             .map(IdString::fromUrl)
             .map(IdString::get)
+            .map(String::trim)
+            .map(Project::nameKey)
             .collect(toImmutableList())) {
-      Project.NameKey projectName = Project.nameKey(p);
-
       if (!projectCache.get(projectName).isPresent()) {
         throw new ResourceNotFoundException(projectName.get());
       }
@@ -84,7 +84,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
         throw new ResourceNotFoundException(projectName.get(), e);
       }
 
-      access.put(p, getAccess.apply(projectName));
+      access.put(projectName.get(), getAccess.apply(projectName));
     }
     return Response.ok(access);
   }

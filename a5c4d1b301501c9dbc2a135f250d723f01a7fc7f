@@ -69,6 +69,46 @@
       "parentUuid": "a9eeaa82_6248a8c7",
       "revId": "a5c4d1b301501c9dbc2a135f250d723f01a7fc7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dee18b21_5e31048f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T07:14:06Z",
+      "side": 1,
+      "message": "Maybe `Block` instead of `Outline`.",
+      "range": {
+        "startLine": 55,
+        "startChar": 9,
+        "endLine": 55,
+        "endChar": 35
+      },
+      "revId": "a5c4d1b301501c9dbc2a135f250d723f01a7fc7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be0565a5_1baa9cfd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T07:14:06Z",
+      "side": 1,
+      "message": "Maybe\n\n  if (!containingBlock) return [];",
+      "revId": "a5c4d1b301501c9dbc2a135f250d723f01a7fc7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

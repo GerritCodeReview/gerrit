@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34412e79_f30705c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2021-05-12T19:17:25Z",
+      "side": 1,
+      "message": "Same feature I have done in tools/download_file.py ( https://gerrit-review.googlesource.com/c/gerrit/+/305127 ) which affects download_bower as well.\n\nI haven\u0027t caught the bower script since I was grepping for \u0027~/.gerritcodereview`, this time looking for downloaded-artifacts those are the only scripts referring the path.\n\nThat fixed the build on our CI (which runs as nobody with no HOME dir set) and I had our Gerrit plugins automatized :]\n\n",
+      "revId": "269a0f3f5590f918332eb1e84f39537a651b6ca7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

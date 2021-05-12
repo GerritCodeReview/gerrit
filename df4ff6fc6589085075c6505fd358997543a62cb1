@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82e090f7_e5cdf64f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T13:46:27Z",
+      "side": 1,
+      "message": "what was the bug?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 0
+      },
+      "revId": "df4ff6fc6589085075c6505fd358997543a62cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d0b5112_a965ed94",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

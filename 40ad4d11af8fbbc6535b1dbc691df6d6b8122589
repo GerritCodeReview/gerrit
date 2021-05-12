@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c7dce44_36900615",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T11:54:27Z",
+      "side": 1,
+      "message": "That would be an alternative. I cannot really see that one is better than the other. I would thus prefer to keep as is. Also this approach is a bit more consistent with the other two cases.",
+      "parentUuid": "112f5fa9_45a817ac",
+      "range": {
+        "startLine": 347,
+        "startChar": 6,
+        "endLine": 350,
+        "endChar": 65
+      },
+      "revId": "40ad4d11af8fbbc6535b1dbc691df6d6b8122589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "380b8db6_13406876",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-05-11T13:11:07Z",
       "side": 1,
       "message": "Is this needed? When I turn it off in the Dev Tools, it doesn\u0027t seem to make a difference (in Chrome).",
+      "revId": "40ad4d11af8fbbc6535b1dbc691df6d6b8122589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d9c7b77_c0ad29a4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T11:54:27Z",
+      "side": 1,
+      "message": "It is not needed, because it is the default, but I like having it here for consistency/symmetry reasons.",
+      "parentUuid": "380b8db6_13406876",
       "revId": "40ad4d11af8fbbc6535b1dbc691df6d6b8122589",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

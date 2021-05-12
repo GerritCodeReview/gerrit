@@ -181,6 +181,30 @@
       },
       "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24dfe12d_7b4d2155",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T11:54:27Z",
+      "side": 1,
+      "message": "I think it is needed. Each of the \"aboveBelowButtons\" blocks needs to be shown horizontally next to each other. Those are organized by the horizontal flex.",
+      "parentUuid": "2ef9ba41_8b4e1cef",
+      "range": {
+        "startLine": 343,
+        "startChar": 6,
+        "endLine": 344,
+        "endChar": 27
+      },
+      "revId": "85fbc6b2ca13c2775bdd498f8f385db3a4a0e5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

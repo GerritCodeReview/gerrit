@@ -276,6 +276,38 @@ public class MailProcessorIT extends AbstractMailIT {
   }
 
   @Test
+  public void sendNotificationOnChangeNotFound() throws Exception {
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(
+                gApi.changes().id(changeId).get().updated.toInstant(), ZoneId.of("UTC")));
+
+    // Delete the change so that it's not found.
+    gApi.changes().id(changeId).delete();
+
+    // Build Message
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null);
+    MailMessage.Builder b =
+        messageBuilderWithDefaultFields()
+            .from(user.getNameEmail())
+            .textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    sender.clear();
+    mailProcessor.process(b.build());
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body())
+        .contains(
+            "Gerrit Code Review was unable to process your email because the change was not"
+                + " found.\nMaybe the change got deleted?");
+    assertThat(message.headers()).containsKey("Subject");
+  }
+
+  @Test
   public void validateChangeMessage_rejected() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();

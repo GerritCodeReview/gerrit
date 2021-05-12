@@ -65,6 +65,13 @@ import * as noReplyFooter from 'com/google/gerrit/server/mail/NoReplyFooter.soy'
   {call InboundEmailRejectionFooter /}
 {/template}
 
+{template InboundEmailRejection_CHANGE_NOT_FOUND kind="text"}
+  Gerrit Code Review was unable to process your email because the change was not found.
+  {\n}
+  Maybe the change got deleted?
+  {call InboundEmailRejectionFooter /}
+{/template}
+
 {template InboundEmailRejection_COMMENT_REJECTED kind="text"}
   Gerrit Code Review rejected one or more comments because they did not pass validation, or
   because the maximum number of comments per change would be exceeded.

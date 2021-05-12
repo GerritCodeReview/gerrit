@@ -82,6 +82,16 @@ import * as noReplyFooterHtml from 'com/google/gerrit/server/mail/NoReplyFooterH
   {call InboundEmailRejectionFooterHtml /}
 {/template}
 
+{template InboundEmailRejectionHtml_CHANGE_NOT_FOUND}
+  <p>
+    Gerrit Code Review was unable to process your email because the change was not found.
+  </p>
+  <p>
+    Maybe the change got deleted?
+  <p>
+  {call InboundEmailRejectionFooterHtml /}
+{/template}
+
 {template InboundEmailRejectionHtml_COMMENT_REJECTED}
   <p>
     Gerrit Code Review rejected one or more comments because they did not pass validation, or

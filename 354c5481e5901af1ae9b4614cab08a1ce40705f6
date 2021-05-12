@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37001f12_d6db45a1",
+        "filename": "javatests/com/google/gerrit/integration/ssh/NoShellIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-05-12T00:44:01Z",
+      "side": 1,
+      "message": "I didn\u0027t add this message because I think the main test is in the timeout. Before the change, the command didn\u0027t return the terminal and would have timed out in the process. The change fixes this behavior and the terminal is returned. Before this change, the message also was displayed in the terminal.",
+      "range": {
+        "startLine": 50,
+        "startChar": 5,
+        "endLine": 52,
+        "endChar": 83
+      },
+      "revId": "354c5481e5901af1ae9b4614cab08a1ce40705f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

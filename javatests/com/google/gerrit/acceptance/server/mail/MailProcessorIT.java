@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
@@ -28,7 +30,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -44,6 +48,7 @@ import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.mail.receive.MailProcessor;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
@@ -61,6 +66,7 @@ public class MailProcessorIT extends AbstractMailIT {
   @Inject private MailProcessor mailProcessor;
   @Inject private AccountOperations accountOperations;
   @Inject private TestCommentHelper testCommentHelper;
+  @Inject private ProjectOperations projectOperations;
 
   private static final CommentValidator mockCommentValidator = mock(CommentValidator.class);
 
@@ -276,6 +282,69 @@ public class MailProcessorIT extends AbstractMailIT {
   }
 
   @Test
+  public void sendNotificationOnProjectNotFound() throws Exception {
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(TimeUtil.now(), ZoneId.of("UTC")));
+
+    String changeUrl = canonicalWebUrl.get() + "c/non-existing-project/+/123";
+
+    // Build Message
+    String txt = newPlaintextBody(changeUrl + "/1", "Test Message", null, null);
+    MailMessage.Builder b =
+        messageBuilderWithDefaultFields()
+            .from(user.getNameEmail())
+            .textContent(txt + textFooterForChange(123, ts));
+
+    sender.clear();
+    mailProcessor.process(b.build());
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body())
+        .contains(
+            "Gerrit Code Review was unable to process your email because the change was not"
+                + " found.");
+    assertThat(message.headers()).containsKey("Subject");
+  }
+
+  @Test
+  public void sendNotificationOnProjectNotVisible() throws Exception {
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(
+                gApi.changes().id(changeId).get().updated.toInstant(), ZoneId.of("UTC")));
+
+    // Block read permissions on the project.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    // Build Message
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null);
+    MailMessage.Builder b =
+        messageBuilderWithDefaultFields()
+            .from(user.getNameEmail())
+            .textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    sender.clear();
+    mailProcessor.process(b.build());
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body())
+        .contains(
+            "Gerrit Code Review was unable to process your email because the change was not"
+                + " found.");
+    assertThat(message.headers()).containsKey("Subject");
+  }
+
+  @Test
   public void sendNotificationOnChangeNotFound() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
@@ -303,7 +372,39 @@ public class MailProcessorIT extends AbstractMailIT {
     assertThat(message.body())
         .contains(
             "Gerrit Code Review was unable to process your email because the change was not"
-                + " found.\nMaybe the change got deleted?");
+                + " found.");
+    assertThat(message.headers()).containsKey("Subject");
+  }
+
+  @Test
+  public void sendNotificationOnChangeNotVisible() throws Exception {
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(
+                gApi.changes().id(changeId).get().updated.toInstant(), ZoneId.of("UTC")));
+
+    // Make change private so that it's no visible to user.
+    gApi.changes().id(changeId).setPrivate(true);
+
+    // Build Message
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null);
+    MailMessage.Builder b =
+        messageBuilderWithDefaultFields()
+            .from(user.getNameEmail())
+            .textContent(txt + textFooterForChange(changeInfo._number, ts));
+
+    sender.clear();
+    mailProcessor.process(b.build());
+
+    assertNotifyTo(user);
+    Message message = sender.nextMessage();
+    assertThat(message.body())
+        .contains(
+            "Gerrit Code Review was unable to process your email because the change was not"
+                + " found.");
     assertThat(message.headers()).containsKey("Subject");
   }
 

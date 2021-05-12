@@ -46,22 +46,6 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @Ignore
   @Test
   @Override
-  public void byDraftBy() throws Exception {
-    // TODO(hiesel): Fix NPE in ChangeData#draftRefs
-    super.byDraftBy();
-  }
-
-  @Ignore
-  @Test
-  @Override
-  public void byDraftByExcludesZombieDrafts() throws Exception {
-    // TODO(hiesel): Fix NPE in ChangeData#draftRefs
-    super.byDraftByExcludesZombieDrafts();
-  }
-
-  @Ignore
-  @Test
-  @Override
   public void byMergedBefore() throws Exception {
     // TODO(hiesel): Used predicate is not a matchable. Fix.
     super.byMergedBefore();
@@ -105,14 +89,6 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   public void byAge() throws Exception {
     // TODO(hiesel): Existing #match function uses the index causing a StackOverflowError. Fix.
     super.byAge();
-  }
-
-  @Ignore
-  @Test
-  @Override
-  public void dashboardHasUnpublishedDrafts() throws Exception {
-    // TODO(hiesel): Fix NPE in ChangeData#draftRefs
-    super.dashboardHasUnpublishedDrafts();
   }
 
   @Ignore

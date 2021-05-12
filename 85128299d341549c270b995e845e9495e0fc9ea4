@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c445d2d7_6adfd0bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T07:55:53Z",
+      "side": 1,
+      "message": "very nice; I love seeing the deleted code :) \n\nthis will need an import fixup, I guess?",
+      "revId": "85128299d341549c270b995e845e9495e0fc9ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d29a379_2c3d93e3",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T07:55:53Z",
+      "side": 1,
+      "message": "that\u0027s weird. Shouldn\u0027t it return a bool so the caller can do something else if needed?",
+      "range": {
+        "startLine": 172,
+        "startChar": 95,
+        "endLine": 173,
+        "endChar": 41
+      },
+      "revId": "85128299d341549c270b995e845e9495e0fc9ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18f1fee9_e44f9716",
+        "filename": "java/com/google/gerrit/index/StoredField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T07:55:53Z",
+      "side": 1,
+      "message": "don\u0027t fields usually have name too? Is this a StoredFieldValue ?",
+      "range": {
+        "startLine": 23,
+        "startChar": 17,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "85128299d341549c270b995e845e9495e0fc9ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b30e1f0_be331cd2",
+        "filename": "java/com/google/gerrit/lucene/LuceneStoredField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T07:55:53Z",
+      "side": 1,
+      "message": "maybe obvious to you, but could use a comment why this is a list rather than single instance.",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 36
+      },
+      "revId": "85128299d341549c270b995e845e9495e0fc9ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

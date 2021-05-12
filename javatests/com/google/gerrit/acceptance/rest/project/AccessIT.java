@@ -98,4 +98,15 @@ public class AccessIT extends AbstractDaemonTest {
             .fromJson(r.getReader(), new TypeToken<Map<String, ProjectAccessInfo>>() {}.getType());
     assertThat(infoByProject.keySet()).containsExactly(fooBarBazProjectName);
   }
+
+  @Test
+  public void listAccess_projectNameAreTrimmed() throws Exception {
+    RestResponse r =
+        adminRestSession.get("/access/?project=" + IdString.fromDecoded(" " + project.get() + " "));
+    r.assertOK();
+    Map<String, ProjectAccessInfo> infoByProject =
+        newGson()
+            .fromJson(r.getReader(), new TypeToken<Map<String, ProjectAccessInfo>>() {}.getType());
+    assertThat(infoByProject.keySet()).containsExactly(project.get());
+  }
 }

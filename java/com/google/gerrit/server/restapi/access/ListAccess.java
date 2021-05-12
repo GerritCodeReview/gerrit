@@ -69,7 +69,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
         continue;
       }
 
-      Project.NameKey projectName = Project.nameKey(IdString.fromUrl(p).get());
+      Project.NameKey projectName = Project.nameKey(IdString.fromUrl(p).get().trim());
 
       if (!projectCache.get(projectName).isPresent()) {
         throw new ResourceNotFoundException(projectName.get());
@@ -81,7 +81,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
         throw new ResourceNotFoundException(projectName.get(), e);
       }
 
-      access.put(p, getAccess.apply(projectName));
+      access.put(projectName.get(), getAccess.apply(projectName));
     }
     return Response.ok(access);
   }

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "997e359b_e88eb8eb",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-05-12T13:58:47Z",
+      "side": 1,
+      "message": "@Ben do you know how i can get this function to work within the tests? it\u0027s currently failing with \"TypeError: Cannot read property \u0027_computeUsernameEditable\u0027 of undefined\"",
+      "range": {
+        "startLine": 168,
+        "startChar": 26,
+        "endLine": 168,
+        "endChar": 50
+      },
+      "revId": "36c51e173f836fb3d315ce3b31a97c6fa31d172f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39b54414_234940b4",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
         "patchSetId": 9

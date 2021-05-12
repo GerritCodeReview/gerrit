@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eb7ce94_e922091c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-12T17:53:36Z",
+      "side": 1,
+      "message": "I believe we also need a note in the release notes, under the *breaking changes* section.",
+      "revId": "8aaace1668e22258307affed29e08a8aa362fc8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

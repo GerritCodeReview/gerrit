@@ -745,16 +745,20 @@ export class GrImageViewer extends LitElement {
   }
 
   mouseupMagnifier(event: MouseEvent) {
+    if (!this.ownsMouseDown) return;
+    this.grabbing = false;
+    this.ownsMouseDown = false;
     const offsetX = event.clientX - this.pointerOnDown.x;
     const offsetY = event.clientY - this.pointerOnDown.y;
     const distance = Math.max(Math.abs(offsetX), Math.abs(offsetY));
     // Consider very short drags as clicks. These tend to happen more often on
     // external mice.
-    if (this.ownsMouseDown && distance < DRAG_DEAD_ZONE_PIXELS) {
+    if (distance < DRAG_DEAD_ZONE_PIXELS) {
       this.toggleImage();
+      this.dispatchEvent(createEvent({type: 'magnifier-clicked'}));
+    } else {
+      this.dispatchEvent(createEvent({type: 'magnifier-dragged'}));
     }
-    this.grabbing = false;
-    this.ownsMouseDown = false;
   }
 
   mousemoveMagnifier(event: MouseEvent) {
@@ -793,8 +797,10 @@ export class GrImageViewer extends LitElement {
   }
 
   mouseleaveMagnifier() {
+    if (!this.ownsMouseDown) return;
     this.grabbing = false;
     this.ownsMouseDown = false;
+    this.dispatchEvent(createEvent({type: 'magnifier-dragged'}));
   }
 
   dragstartMagnifier(event: DragEvent) {

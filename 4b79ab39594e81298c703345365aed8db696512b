@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3e6e9e38_5e3b0484",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-12T16:01:47Z",
+      "side": 1,
+      "message": "This image is great, but doesn\u0027t label the \"tabs\" (Files, Comments, Checks, etc). Could you add that?",
+      "revId": "4b79ab39594e81298c703345365aed8db696512b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9685eb57_88498eb8",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 2
@@ -20,6 +37,46 @@
         "endLine": 27,
         "endChar": 18
       },
+      "revId": "4b79ab39594e81298c703345365aed8db696512b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a9df1a6_fb49e89d",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-12T16:01:47Z",
+      "side": 1,
+      "message": "nit: the UI has this letter capitalized \"Merge Conflict\"",
+      "range": {
+        "startLine": 41,
+        "startChar": 24,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "4b79ab39594e81298c703345365aed8db696512b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdc740e0_b6c4193f",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-12T16:01:47Z",
+      "side": 1,
+      "message": "This includes some detail about attention set, should that be mentioned here?",
       "revId": "4b79ab39594e81298c703345365aed8db696512b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

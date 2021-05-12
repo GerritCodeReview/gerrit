@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9685eb57_88498eb8",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-12T15:26:58Z",
+      "side": 1,
+      "message": "This \"anchor\" doesn\u0027t feel relevant anymore, and there doesn\u0027t seem to be anything that links to it.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "4b79ab39594e81298c703345365aed8db696512b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

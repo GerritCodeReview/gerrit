@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "612a9790_aa6eb6ce",
+        "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T13:54:04Z",
+      "side": 1,
+      "message": "if all predicates are matchable, do we still need the matchable interface?",
+      "range": {
+        "startLine": 27,
+        "startChar": 80,
+        "endLine": 27,
+        "endChar": 89
+      },
+      "revId": "5de223e428345b3f7c3a0b38fe97365998de2f5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ad14c89_aab01585",
         "filename": "java/com/google/gerrit/server/query/change/AddedPredicate.java",
         "patchSetId": 2

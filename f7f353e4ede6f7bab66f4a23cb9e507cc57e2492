@@ -16,6 +16,24 @@
       "message": "Drop this last line of the comment block?",
       "revId": "f7f353e4ede6f7bab66f4a23cb9e507cc57e2492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d79a6af3_9177fc0e",
+        "filename": "java/com/google/gerrit/server/patch/FilePathAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-12T11:31:43Z",
+      "side": 1,
+      "message": "Done. I copied it from DiffUtil.java.",
+      "parentUuid": "4a223cc6_2b1ceb6d",
+      "revId": "f7f353e4ede6f7bab66f4a23cb9e507cc57e2492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

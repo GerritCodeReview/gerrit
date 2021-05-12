@@ -83,6 +83,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11ab1e71_bcb87ef1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T10:39:58Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "946ac736_9f4a462d",
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19750329_3afc779d",
@@ -120,6 +138,30 @@
       "side": 1,
       "message": "TS wasn\u0027t happy with the return value but it was happy with\n\n (input: ReviewInput) \u003d\u003e void",
       "parentUuid": "19750329_3afc779d",
+      "range": {
+        "startLine": 164,
+        "startChar": 48,
+        "endLine": 164,
+        "endChar": 55
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "662fbabc_2360b32b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T10:39:58Z",
+      "side": 1,
+      "message": "What is the compiler complaining about?",
+      "parentUuid": "9a2b4043_c07a5017",
       "range": {
         "startLine": 164,
         "startChar": 48,
@@ -290,6 +332,48 @@
       "side": 1,
       "message": "Replaced with 1.\nI mistakenly thought this was ms.",
       "parentUuid": "16946f5a_a2d668b1",
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48d580f4_facbc331",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T10:39:58Z",
+      "side": 1,
+      "message": "It is calling await internally, but that does not mean that the execution is awaited here.",
+      "parentUuid": "c321a97f_7c7cd68a",
+      "range": {
+        "startLine": 1279,
+        "startChar": 4,
+        "endLine": 1279,
+        "endChar": 16
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "043e18e5_19a72024",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T10:39:58Z",
+      "side": 1,
+      "message": "If you just call this function with `1`, then what is the point of the `repetitions` parameter?",
+      "parentUuid": "f988d7f2_a1442142",
       "revId": "69de821a51032b51f51235579c2094ff04501501",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3df8572b_718cfd4f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-12T12:12:31Z",
+      "side": 1,
+      "message": "when will patchRange.patchNum not be set?",
+      "range": {
+        "startLine": 1256,
+        "startChar": 6,
+        "endLine": 1256,
+        "endChar": 26
+      },
+      "revId": "d03b9b1958aa25107f365b6dc69c5d62a6078e09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

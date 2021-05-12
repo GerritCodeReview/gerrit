@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04993d3e_f3b3c1fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T07:37:15Z",
+      "side": 1,
+      "message": "test",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1401a5fd_f0c6254f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T07:37:15Z",
+      "side": 1,
+      "message": "Replace all usages of `element.$` by `queryAndAsssert()`.",
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19750329_3afc779d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T07:37:15Z",
+      "side": 1,
+      "message": "I think the correct type to use here is:\n\n  (input?: ReviewInput) \u003d\u003e ReviewResult | undefined",
+      "range": {
+        "startLine": 164,
+        "startChar": 48,
+        "endLine": 164,
+        "endChar": 55
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3873d689_7be188f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T07:37:15Z",
+      "side": 1,
+      "message": "Maybe extract this into a constant and re-use?",
+      "range": {
+        "startLine": 314,
+        "startChar": 6,
+        "endLine": 317,
+        "endChar": 8
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fd7d49c_9cc04377",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T07:37:15Z",
+      "side": 1,
+      "message": "Replace all remaining 6 usages of querySelector by queryAndAssert.",
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe4e0ff4_48b858db",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T07:37:15Z",
+      "side": 1,
+      "message": "Don\u0027t you have to await this? Otherwise the call returns immediately?",
+      "range": {
+        "startLine": 1279,
+        "startChar": 4,
+        "endLine": 1279,
+        "endChar": 16
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16946f5a_a2d668b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T07:37:15Z",
+      "side": 1,
+      "message": "Ticking and flushing 1000 times??? 😮",
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

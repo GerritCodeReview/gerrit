@@ -296,11 +296,11 @@ public class GitOverHttpServlet extends GitServlet {
 
         try {
           permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
-        } catch (AuthException e) {
+        } catch (AuthException unused) {
           if (user instanceof AnonymousUser) {
             throw new ServiceNotAuthorizedException();
           }
-          throw new ServiceNotEnabledException(e.getMessage());
+          throw new RepositoryNotFoundException(nameKey.get());
         }
 
         return manager.openRepository(nameKey);

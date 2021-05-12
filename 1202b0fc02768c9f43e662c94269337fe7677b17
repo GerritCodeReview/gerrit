@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a5d9293_d3167708",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-12T13:16:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34db5488_fc959d3f",
+      "revId": "1202b0fc02768c9f43e662c94269337fe7677b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "969ac140_f03cd9c9",
@@ -49,6 +67,30 @@
       "writtenOn": "2021-04-19T17:28:56Z",
       "side": 1,
       "message": "This fix could extract this preceding constant to reuse it right below. Doing so would make the small logic below more consistent with this check.",
+      "range": {
+        "startLine": 480,
+        "startChar": 35,
+        "endLine": 480,
+        "endChar": 59
+      },
+      "revId": "1202b0fc02768c9f43e662c94269337fe7677b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8857610e_d40ab1b8",
+        "filename": "java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-12T13:16:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "969ac140_f03cd9c9",
       "range": {
         "startLine": 480,
         "startChar": 35,

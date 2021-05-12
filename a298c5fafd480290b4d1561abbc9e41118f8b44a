@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a1088c6_68ca6a65",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T13:11:53Z",
+      "side": 1,
+      "message": "The repetitions are very specific to this one test above. Do we really want to have that in a utility?\n\nAnd without the repetitions this is basically wrapping\n\n  clock.tick(1000);\n  await flush();\n\ninto a utility function, which I find questionable. Especially because you might forget to await the tickAndFlush().",
+      "revId": "a298c5fafd480290b4d1561abbc9e41118f8b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

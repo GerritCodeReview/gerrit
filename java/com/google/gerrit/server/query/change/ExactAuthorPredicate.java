@@ -29,9 +29,4 @@ public class ExactAuthorPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData object) {
     return ChangeField.getAuthorNameAndEmail(object).contains(getValue());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

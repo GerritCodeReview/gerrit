@@ -35,9 +35,4 @@ public class EqualsFilePredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData object) {
     return ChangeField.getFileParts(object).contains(value);
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

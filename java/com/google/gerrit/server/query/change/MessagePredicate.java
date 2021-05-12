@@ -50,9 +50,4 @@ public class MessagePredicate extends ChangeIndexPredicate {
 
     return false;
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

@@ -29,9 +29,4 @@ public class ExactCommitterPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData object) {
     return ChangeField.getCommitterNameAndEmail(object).contains(getValue());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

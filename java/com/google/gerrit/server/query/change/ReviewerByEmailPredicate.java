@@ -45,9 +45,4 @@ class ReviewerByEmailPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData cd) {
     return cd.reviewersByEmail().asTable().get(state, adr) != null;
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

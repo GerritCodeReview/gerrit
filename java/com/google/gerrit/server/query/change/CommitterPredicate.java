@@ -28,9 +28,4 @@ public class CommitterPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData object) {
     return ChangeField.getCommitterParts(object).contains(getValue().toLowerCase());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

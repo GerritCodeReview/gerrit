@@ -33,9 +33,4 @@ public class GroupPredicate extends ChangeIndexPredicate {
     }
     return false;
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

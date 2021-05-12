@@ -52,9 +52,4 @@ public class ReviewerPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData cd) {
     return cd.reviewers().asTable().get(state, id) != null;
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

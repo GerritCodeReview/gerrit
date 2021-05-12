@@ -30,9 +30,4 @@ public class RefPredicate extends ChangeIndexPredicate {
     }
     return getValue().equals(change.getDest().branch());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

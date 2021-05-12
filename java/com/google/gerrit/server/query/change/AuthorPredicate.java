@@ -28,9 +28,4 @@ public class AuthorPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData object) {
     return ChangeField.getAuthorParts(object).contains(getValue().toLowerCase());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

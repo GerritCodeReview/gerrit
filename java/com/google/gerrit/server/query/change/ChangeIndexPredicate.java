@@ -41,4 +41,9 @@ public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
   protected ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String name, String value) {
     super(def, name, value);
   }
+
+  @Override
+  public int getCost() {
+    return 1;
+  }
 }

@@ -124,11 +124,6 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public int getCost() {
-    return 0;
-  }
-
-  @Override
   public int hashCode() {
     return Objects.hashCode(status);
   }

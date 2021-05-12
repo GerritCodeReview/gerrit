@@ -35,9 +35,4 @@ public class OwnerPredicate extends ChangeIndexPredicate {
     Change change = object.change();
     return change != null && id.equals(change.getOwner());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

@@ -20,10 +20,10 @@ import {repeat} from 'lit-html/directives/repeat';
 import {
   css,
   customElement,
-  internalProperty,
   property,
   PropertyValues,
   query,
+  state,
   TemplateResult,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
@@ -471,7 +471,7 @@ export class GrChecksResults extends GrLitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
-  @internalProperty()
+  @state()
   filterRegExp = new RegExp('');
 
   /** All runs. Shown should only the selected/filtered ones. */
@@ -511,7 +511,7 @@ export class GrChecksResults extends GrLitElement {
   >();
 
   /** Maintains the state of which result sections should show all results. */
-  @internalProperty()
+  @state()
   isShowAll: Map<Category, boolean> = new Map();
 
   /**

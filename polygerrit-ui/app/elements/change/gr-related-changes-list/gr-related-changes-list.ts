@@ -21,13 +21,7 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import {classMap} from 'lit-html/directives/class-map';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {
-  customElement,
-  property,
-  css,
-  internalProperty,
-  TemplateResult,
-} from 'lit-element';
+import {customElement, property, css, state, TemplateResult} from 'lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   SubmittedTogetherInfo,
@@ -76,22 +70,22 @@ export class GrRelatedChangesList extends GrLitElement {
   @property()
   mergeable?: boolean;
 
-  @internalProperty()
+  @state()
   submittedTogether?: SubmittedTogetherInfo = {
     changes: [],
     non_visible_changes: 0,
   };
 
-  @internalProperty()
+  @state()
   relatedChanges: RelatedChangeAndCommitInfo[] = [];
 
-  @internalProperty()
+  @state()
   conflictingChanges: ChangeInfo[] = [];
 
-  @internalProperty()
+  @state()
   cherryPickChanges: ChangeInfo[] = [];
 
-  @internalProperty()
+  @state()
   sameTopicChanges: ChangeInfo[] = [];
 
   private readonly restApiService = appContext.restApiService;

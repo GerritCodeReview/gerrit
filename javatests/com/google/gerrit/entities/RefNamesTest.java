@@ -99,6 +99,14 @@ public class RefNamesTest {
   }
 
   @Test
+  public void accountIdFromDraftCommentRef() throws Exception {
+    assertThat(
+            RefNames.accountIdFromDraftCommentRef(
+                RefNames.refsDraftComments(changeId, Account.id(123))))
+        .isEqualTo(Account.id(123));
+  }
+
+  @Test
   public void refsStarredChanges() throws Exception {
     assertThat(RefNames.refsStarredChanges(changeId, accountId))
         .isEqualTo("refs/starred-changes/73/67473/1011123");

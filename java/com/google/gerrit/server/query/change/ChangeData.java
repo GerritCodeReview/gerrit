@@ -321,7 +321,11 @@ public class ChangeData {
   private Set<String> hashtags;
   private Map<Account.Id, Ref> editsByUser;
   private Set<Account.Id> reviewedBy;
-  private Map<Account.Id, Ref> draftsByUser;
+  /**
+   * Map from {@link Account.Id} to the tip of the draft comments ref for this change and the user.
+   */
+  private Map<Account.Id, ObjectId> draftsByUser;
+
   private ImmutableListMultimap<Account.Id, String> stars;
   private StarsOf starsOf;
   private ImmutableMap<Account.Id, StarRef> starRefs;
@@ -1049,7 +1053,7 @@ public class ChangeData {
     return draftRefs().keySet();
   }
 
-  public Map<Account.Id, Ref> draftRefs() {
+  public Map<Account.Id, ObjectId> draftRefs() {
     if (draftsByUser == null) {
       if (!lazyload()) {
         return Collections.emptyMap();
@@ -1070,7 +1074,7 @@ public class ChangeData {
             // draftsByUser(), and easier than trying to rebuild the change at
             // this point.
             && !notes().getDraftComments(account, ref).isEmpty()) {
-          draftsByUser.put(account, ref);
+          draftsByUser.put(account, ref.getObjectId());
         }
       }
     }
@@ -1240,7 +1244,14 @@ public class ChangeData {
       notes().getRobotComments(); // Force loading robot comments.
       RobotCommentNotes robotNotes = notes().getRobotCommentNotes();
       result.put(project, RefState.create(robotNotes.getRefName(), robotNotes.getMetaId()));
-      draftRefs().values().forEach(r -> result.put(allUsersName, RefState.of(r)));
+      draftRefs()
+          .entrySet()
+          .forEach(
+              r ->
+                  result.put(
+                      allUsersName,
+                      RefState.create(
+                          RefNames.refsDraftComments(getId(), r.getKey()), r.getValue())));
 
       refStates = result.build();
     }
@@ -1256,6 +1267,15 @@ public class ChangeData {
 
   public void setRefStates(ImmutableSetMultimap<Project.NameKey, RefState> refStates) {
     this.refStates = refStates;
+    if (draftsByUser == null) {
+      // Recover draft refs as well
+      draftsByUser = new HashMap<>();
+      if (refStates.containsKey(allUsersName)) {
+        refStates.get(allUsersName).stream()
+            .filter(r -> RefNames.isRefsDraftsComments(r.ref()))
+            .forEach(r -> draftsByUser.put(RefNames.accountIdFromDraftCommentRef(r.ref()), r.id()));
+      }
+    }
   }
 
   public ImmutableList<byte[]> getRefStatePatterns() {

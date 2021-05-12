@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.UsedAt;
 
 /** Constants and utilities for Gerrit-specific ref names. */
@@ -195,6 +196,10 @@ public class RefNames {
 
   public static String refsDraftComments(Change.Id changeId, Account.Id accountId) {
     return buildRefsPrefix(REFS_DRAFT_COMMENTS, changeId.get()).append(accountId.get()).toString();
+  }
+
+  public static Account.Id accountIdFromDraftCommentRef(String refName) {
+    return Account.id(Ints.tryParse(refName.substring(refName.lastIndexOf('/') + 1)));
   }
 
   public static String refsDraftCommentsPrefix(Change.Id changeId) {

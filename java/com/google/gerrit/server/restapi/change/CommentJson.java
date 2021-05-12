@@ -190,7 +190,7 @@ public class CommentJson {
       return CommentContextKey.builder()
           .project(project)
           .changeId(changeId)
-          .id(r.id)
+          .id(Url.decode(r.id)) // We reverse the encoding done while filling comment info
           .path(r.path)
           .patchset(r.patchSet)
           .contextPadding(contextPadding)

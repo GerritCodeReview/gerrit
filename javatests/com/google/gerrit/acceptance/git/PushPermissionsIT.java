@@ -103,7 +103,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
     assertThat(r)
         .hasMessages(
             "error: branch refs/heads/master:",
-            "To push into this reference you need 'Push' rights.",
+            "Push to refs/for/master to create a review, or get 'Push' rights to update the branch.",
             "User: admin",
             "Contact an administrator to fix the permissions");
     assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
@@ -183,7 +183,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
             "You need 'Delete Reference' rights or 'Push' rights with the ",
             "'Force Push' flag set to delete references.",
             "error: branch refs/heads/master:",
-            "To push into this reference you need 'Push' rights.",
+            "Push to refs/for/master to create a review, or get 'Push' rights to update the branch.",
             "User: admin",
             "Contact an administrator to fix the permissions");
   }

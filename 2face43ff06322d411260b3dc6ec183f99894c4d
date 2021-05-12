@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b183716_f60b8c45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T13:43:20Z",
+      "side": 1,
+      "message": "this potentially changes behavior. Can you comment on why that is OK in this case?",
+      "range": {
+        "startLine": 15,
+        "startChar": 35,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "2face43ff06322d411260b3dc6ec183f99894c4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

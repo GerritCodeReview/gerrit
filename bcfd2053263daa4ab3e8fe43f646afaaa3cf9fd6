@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d65d4ea3_94527b92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-12T16:56:35Z",
+      "side": 1,
+      "message": "This change attempts to solve online migration for username case sensitivity. Since the change of case sensitivity is not per se a schema migration, we can\u0027t use the migration feature for notedb, especially this changes upon a configuration change and not during an update. This REST API basically creates the commit with the migrated note IDs and then switches the config. This currently has two issues.\n- In principle, there is still room for a race condition that can happen between committing and changing the configuration.\n- The configuration is used in Gerrit via the AuthConfig object. This object is not updated, when reloading the Gerrit config, so the configuration change is not registered in those places and users with migrated accounts (having uppercase letters in their username) will not be able to authenticate until Gerrit restarted\n\nComments on those issues would be very welcome!",
+      "revId": "bcfd2053263daa4ab3e8fe43f646afaaa3cf9fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

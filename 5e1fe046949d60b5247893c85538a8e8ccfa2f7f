@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6600426_060a0cb8",
+        "filename": "java/com/google/gerrit/entities/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-12T22:43:53Z",
+      "side": 1,
+      "message": "Line 85 implies Account.Id#fromRef() already does this for you?",
+      "range": {
+        "startLine": 201,
+        "startChar": 27,
+        "endLine": 201,
+        "endChar": 55
+      },
+      "revId": "5e1fe046949d60b5247893c85538a8e8ccfa2f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d47a35b8_20b7b6a4",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1271,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-12T22:43:53Z",
+      "side": 1,
+      "message": "Why do you need to add this? I admit I haven\u0027t really investigated how/where/why setRefStates is used, so maybe it\u0027s obvious if I go look at that?",
+      "range": {
+        "startLine": 1271,
+        "startChar": 6,
+        "endLine": 1271,
+        "endChar": 35
+      },
+      "revId": "5e1fe046949d60b5247893c85538a8e8ccfa2f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

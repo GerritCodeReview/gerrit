@@ -16,6 +16,24 @@
       "message": "Why did we not see this in tests and how can we add coverage for it?",
       "revId": "5f36047c1e3b87486a3b2c83413dd65a28469c2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3cc6a06_eae27523",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-12T10:34:24Z",
+      "side": 1,
+      "message": "This bug isn\u0027t directly related to comment context implementation; we were occasionally requesting it with wrong keys.\n\nTo test that end to end (from CommentContextIT), we need to have control over the generation of UUIDs (done in ChangeUtil). We don\u0027t have control over that and we\u0027ll need to override Guice bindings in tests, which I\u0027m not sure we can do with current tests setup. However I think that\u0027ll be overly complicated for this rather simple change and not needed here. WDYT?\n\nNote: this bug appeared with old changes only where we used to have a different algorithm for uuid generation (that algorithm contained characters that change when URL encoded). We seem to have changed that implementation couple of years ago and the issue doesn\u0027t happen with recent changes.",
+      "parentUuid": "8a3d2de8_01848a8d",
+      "revId": "5f36047c1e3b87486a3b2c83413dd65a28469c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

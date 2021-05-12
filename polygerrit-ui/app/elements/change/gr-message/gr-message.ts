@@ -184,7 +184,7 @@ export class GrMessage extends PolymerElement {
     type: String,
     computed:
       '_computeMessageContentExpanded(message.message,' +
-      ' message.accountsInMessage,' +
+      ' message.accounts_in_message,' +
       ' message.tag)',
   })
   _messageContentExpanded = '';
@@ -193,7 +193,7 @@ export class GrMessage extends PolymerElement {
     type: String,
     computed:
       '_computeMessageContentCollapsed(message.message,' +
-      ' message.accountsInMessage,' +
+      ' message.accounts_in_message,' +
       ' message.tag,' +
       ' message.commentThreads)',
   })

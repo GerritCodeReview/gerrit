@@ -266,6 +266,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       input.comments = cleanUpComments(input.comments);
       checkComments(revision, input.comments);
     }
+    if (input.draftIdsToPublish != null) {
+      checkDraftIds(revision, input.draftIdsToPublish, input.drafts);
+    }
     if (input.robotComments != null) {
       input.robotComments = cleanUpComments(input.robotComments);
       checkRobotComments(revision, input.robotComments);
@@ -644,6 +647,41 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         ensureValidPatchsetLevelComment(path, comment);
         ensureValidInReplyTo(revision.getNotes(), comment.inReplyTo);
       }
+    }
+  }
+
+  /**
+   * Asserts that the draft IDs to publish are valid, i.e. they exist and belong to the current
+   * user. If the {@code draftHandling} parameter is equal to {@link DraftHandling#PUBLISH}, then
+   * draft IDs should all correspond to the target revision, otherwise we throw a
+   * BadRequestException.
+   */
+  private void checkDraftIds(
+      RevisionResource resource, List<String> draftIds, DraftHandling draftHandling)
+      throws BadRequestException {
+    Map<String, HumanComment> draftsByUuid =
+        commentsUtil.draftByChangeAuthor(resource.getNotes(), resource.getUser().getAccountId())
+            .stream()
+            .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
+    List<String> nonExistingDraftIds =
+        draftIds.stream().filter(id -> !draftsByUuid.containsKey(id)).collect(toList());
+    if (!nonExistingDraftIds.isEmpty()) {
+      throw new BadRequestException("Non-existing draft IDs: " + nonExistingDraftIds);
+    }
+    if (draftHandling == DraftHandling.PUBLISH_ALL_REVISIONS
+        || draftHandling == DraftHandling.KEEP) {
+      return;
+    }
+    List<String> draftsForOtherRevisions =
+        draftIds.stream()
+            .filter(id -> draftsByUuid.get(id).key.patchSetId != resource.getPatchSet().number())
+            .collect(toList());
+    if (!draftsForOtherRevisions.isEmpty()) {
+      throw new BadRequestException(
+          String.format(
+              "Draft comments for other revisions cannot be published when DraftHandling = PUBLISH."
+                  + " (draft IDs: %s)",
+              draftsForOtherRevisions));
     }
   }
 
@@ -1030,13 +1068,20 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       switch (in.drafts) {
         case PUBLISH:
         case PUBLISH_ALL_REVISIONS:
+          Collection<HumanComment> filteredDrafts =
+              in.draftIdsToPublish == null
+                  ? drafts.values()
+                  : drafts.values().stream()
+                      .filter(draft -> in.draftIdsToPublish.contains(draft.key.uuid))
+                      .collect(Collectors.toList());
+
           validateComments(
               ctx,
               Streams.concat(
                   drafts.values().stream(),
                   inputCommentsToPublish.stream(),
                   newRobotComments.stream()));
-          publishCommentUtil.publish(ctx, ctx.getUpdate(psId), drafts.values(), in.tag);
+          publishCommentUtil.publish(ctx, ctx.getUpdate(psId), filteredDrafts, in.tag);
           comments.addAll(drafts.values());
           break;
         case KEEP:

@@ -1270,6 +1270,224 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void publishPartialDraftsAllRevisions() throws Exception {
+    pushFactory
+        .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "initial content\n")
+        .to("refs/heads/master");
+
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "File content in PS1\n")
+            .to("refs/for/master");
+
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                SUBJECT,
+                FILE_NAME,
+                "File content in PS2\n",
+                r1.getChangeId())
+            .to("refs/for/master");
+
+    CommentInfo draftOnePs1 =
+        addDraft(
+            r1.getChangeId(),
+            r1.getCommit().getName(),
+            CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 10), "comment 1"));
+
+    CommentInfo draftTwoPs1 =
+        addDraft(
+            r1.getChangeId(),
+            r1.getCommit().getName(),
+            CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 15), "comment 2"));
+
+    CommentInfo draftThreePs2 =
+        addDraft(
+            r1.getChangeId(),
+            r2.getCommit().getName(),
+            CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(3, 12), "comment 3"));
+
+    ReviewInput reviewInput =
+        createReviewInput(
+            DraftHandling.PUBLISH_ALL_REVISIONS,
+            "review message",
+            /* draftIdsToPublish= */ ImmutableList.of(draftOnePs1.id, draftThreePs2.id));
+    gApi.changes().id(r1.getChangeId()).current().review(reviewInput);
+
+    assertThat(
+            gApi.changes().id(r1.getChangeId()).commentsRequest().getAsList().stream()
+                .map(c -> c.id))
+        .containsExactly(draftOnePs1.id, draftThreePs2.id);
+
+    assertThat(
+            gApi.changes().id(r1.getChangeId()).draftsRequest().getAsList().stream().map(c -> c.id))
+        .containsExactly(draftTwoPs1.id);
+  }
+
+  @Test
+  public void publishPartialDrafts_whenDraftHandlingIsKeep_DoesNotPublishDrafts() throws Exception {
+    pushFactory
+        .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "initial content\n")
+        .to("refs/heads/master");
+
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "File content in PS1\n")
+            .to("refs/for/master");
+
+    CommentInfo draftPs1 =
+        addDraft(
+            r1.getChangeId(),
+            r1.getCommit().getName(),
+            CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 10), "comment 1"));
+
+    ReviewInput reviewInput =
+        createReviewInput(
+            DraftHandling.KEEP,
+            "review message",
+            /* draftIdsToPublish= */ ImmutableList.of(draftPs1.id));
+
+    gApi.changes().id(r1.getChangeId()).current().review(reviewInput);
+
+    assertThat(gApi.changes().id(r1.getChangeId()).commentsRequest().getAsList()).isEmpty();
+    assertThat(
+            gApi.changes().id(r1.getChangeId()).draftsRequest().getAsList().stream().map(c -> c.id))
+        .containsExactly(draftPs1.id);
+  }
+
+  @Test
+  public void publishPartialDrafts_whenDraftHandlingIsPublish_IsNotAllowedForOtherRevisions()
+      throws Exception {
+    pushFactory
+        .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "initial content\n")
+        .to("refs/heads/master");
+
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "File content in PS1\n")
+            .to("refs/for/master");
+
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                SUBJECT,
+                FILE_NAME,
+                "File content in PS2\n",
+                r1.getChangeId())
+            .to("refs/for/master");
+
+    CommentInfo draftPs1 =
+        addDraft(
+            r1.getChangeId(),
+            r1.getCommit().getName(),
+            CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 10), "comment 1"));
+
+    CommentInfo draftPs2 =
+        addDraft(
+            r1.getChangeId(),
+            r2.getCommit().getName(),
+            CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(3, 12), "comment 3"));
+
+    ReviewInput reviewInput =
+        createReviewInput(
+            DraftHandling.PUBLISH,
+            "review message",
+            /* draftIdsToPublish= */ ImmutableList.of(draftPs1.id));
+
+    // Request to publish draft of PS1, while sending review for PS2 with DraftHandling=PUBLISH
+    Exception error =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(r1.getChangeId()).current().review(reviewInput));
+    assertThat(error)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Draft comments for other revisions cannot be published when DraftHandling = PUBLISH."
+                    + " (draft IDs: [%s])",
+                draftPs1.id));
+  }
+
+  @Test
+  public void publishPartialDraftsWithInvalidDraftIdsIsNotAllowed() throws Exception {
+    pushFactory
+        .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "initial content\n")
+        .to("refs/heads/master");
+
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "File content in PS1\n")
+            .to("refs/for/master");
+
+    addDraft(
+        r1.getChangeId(),
+        r1.getCommit().getName(),
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 10), "comment 1"));
+
+    ReviewInput reviewInput =
+        createReviewInput(
+            DraftHandling.PUBLISH_ALL_REVISIONS,
+            "review message",
+            /* draftIdsToPublish= */ ImmutableList.of("1234"));
+
+    Exception error =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(r1.getChangeId()).current().review(reviewInput));
+    assertThat(error).hasMessageThat().isEqualTo("Non-existing draft IDs: [1234]");
+  }
+
+  @Test
+  public void publishPartialDraftsForAnotherUserIsNotAllowed() throws Exception {
+    pushFactory
+        .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "initial content\n")
+        .to("refs/heads/master");
+
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "File content in PS1\n")
+            .to("refs/for/master");
+
+    // Add drafts with user scope
+    requestScopeOperations.setApiUser(accountCreator.user().id());
+    CommentInfo draft =
+        addDraft(
+            r1.getChangeId(),
+            r1.getCommit().getName(),
+            CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 10), "comment 1"));
+
+    ReviewInput reviewInput =
+        createReviewInput(
+            DraftHandling.PUBLISH_ALL_REVISIONS,
+            "review message",
+            /* draftIdsToPublish= */ ImmutableList.of(draft.id));
+
+    // Try to publish the drafts using user2 scope
+    requestScopeOperations.setApiUser(accountCreator.user2().id());
+    Exception error =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(r1.getChangeId()).current().review(reviewInput));
+    assertThat(error)
+        .hasMessageThat()
+        .isEqualTo(String.format("Non-existing draft IDs: [%s]", draft.id));
+
+    // Request will succeed if done by user
+    requestScopeOperations.setApiUser(accountCreator.user().id());
+    gApi.changes().id(r1.getChangeId()).current().review(reviewInput);
+    assertThat(
+            gApi.changes().id(r1.getChangeId()).commentsRequest().getAsList().stream()
+                .map(c -> c.id))
+        .containsExactly(draft.id);
+
+    assertThat(gApi.changes().id(r1.getChangeId()).draftsRequest().getAsList()).isEmpty();
+  }
+
+  @Test
   public void commentTags() throws Exception {
     PushOneCommit.Result r = createChange();
 
@@ -1788,5 +2006,14 @@ public class CommentsIT extends AbstractDaemonTest {
     to.message = from.message;
     to.range = from.range;
     to.inReplyTo = from.inReplyTo;
+  }
+
+  private ReviewInput createReviewInput(
+      DraftHandling handling, String message, List<String> draftIdsToPublish) {
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = handling;
+    reviewInput.message = message;
+    reviewInput.draftIdsToPublish = draftIdsToPublish;
+    return reviewInput;
   }
 }

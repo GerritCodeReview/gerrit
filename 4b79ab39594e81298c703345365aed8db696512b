@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b57b19b_f18f6b08",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-12T17:17:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d4d94bb_f360f756",
+      "revId": "4b79ab39594e81298c703345365aed8db696512b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9685eb57_88498eb8",
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "see above.",
       "parentUuid": "bdc740e0_b6c4193f",
+      "revId": "4b79ab39594e81298c703345365aed8db696512b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1358b89_f116f49d",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-12T17:17:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "de78fa7a_4f4a1ced",
       "revId": "4b79ab39594e81298c703345365aed8db696512b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -142,14 +142,6 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @Ignore
   @Test
   @Override
-  public void byLabel() throws Exception {
-    // TODO(hiesel): Fix bug in predicate and remove @Ignore.
-    super.byLabel();
-  }
-
-  @Ignore
-  @Test
-  @Override
   public void byTopic() throws Exception {
     // TODO(hiesel): Existing #match function uses the index causing a StackOverflowError. Fix.
     super.byTopic();

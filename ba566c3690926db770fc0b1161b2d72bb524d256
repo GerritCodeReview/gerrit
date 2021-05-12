@@ -16,6 +16,24 @@
       "message": "Could this be use to probe for project existence (change number existence would be fine IMO)?",
       "revId": "ba566c3690926db770fc0b1161b2d72bb524d256",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a861ec57_2d049342",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-12T14:01:34Z",
+      "side": 1,
+      "message": "Good point. You could do this, but regardless of this change. Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/306212",
+      "parentUuid": "8f3f9869_bbf29181",
+      "revId": "ba566c3690926db770fc0b1161b2d72bb524d256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

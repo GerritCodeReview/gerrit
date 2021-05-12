@@ -46,6 +46,9 @@ public class ReviewInput {
    */
   public DraftHandling drafts;
 
+  /** A list of draft IDs that should be published. */
+  public List<String> draftIdsToPublish;
+
   /** Who to send email notifications to after review is stored. */
   public NotifyHandling notify;
 

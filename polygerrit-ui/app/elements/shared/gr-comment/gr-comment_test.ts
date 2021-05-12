@@ -27,6 +27,7 @@ import {
   spyStorage,
   query,
   isVisible,
+  tickAndFlush,
 } from '../../../test/test-utils';
 import {
   AccountId,
@@ -1054,23 +1055,17 @@ suite('gr-comment tests', () => {
       pressAndReleaseKeyOn(element.textarea!.$.textarea.textarea, 83, 'ctrl'); // 'ctrl + s'
     });
 
-    test('draft saving/editing', done => {
+    test('draft saving/editing', async () => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
 
       const clock: SinonFakeTimers = sinon.useFakeTimers();
-      const tickAndFlush = async (repetitions: number) => {
-        for (let i = 1; i <= repetitions; i++) {
-          clock.tick(1000);
-          await flush();
-        }
-      };
 
       element.draft = true;
       flush();
       tap(queryAndAssert(element, '.edit'));
-      tickAndFlush(1);
+      await tickAndFlush(clock, 1);
       element._messageText = 'good news, everyone!';
-      tickAndFlush(1);
+      await tickAndFlush(clock, 1);
       assert.equal(dispatchEventStub.lastCall.args[0].type, 'comment-update');
       assert.isTrue(dispatchEventStub.calledTwice);
 
@@ -1085,57 +1080,53 @@ suite('gr-comment tests', () => {
         'Element should be disabled when creating draft.'
       );
 
-      element
-        ._xhrPromise!.then(draft => {
-          const evt = dispatchEventStub.lastCall.args[0] as CustomEvent<{
-            comment: DraftInfo;
-          }>;
-          assert.equal(evt.type, 'comment-save');
+      let draft = await element._xhrPromise;
 
-          const expectedDetail = {
-            comment: {
-              ...createComment(),
-              __draft: true,
-              __draftID: 'temp_draft_id',
-              id: 'baf0414d_40572e03' as UrlEncodedCommentId,
-              line: 5,
-              message: 'saved!',
-              path: '/path/to/file',
-              updated: '2015-12-08 21:52:36.177000000' as Timestamp,
-            },
-            patchNum: 1 as PatchSetNum,
-          };
+      const evt = dispatchEventStub.lastCall.args[0] as CustomEvent<{
+        comment: DraftInfo;
+      }>;
+      assert.equal(evt.type, 'comment-save');
 
-          assert.deepEqual(evt.detail, expectedDetail);
-          assert.isFalse(
-            element.disabled,
-            'Element should be enabled when done creating draft.'
-          );
-          assert.equal(draft.message, 'saved!');
-          assert.isFalse(element.editing);
-        })
-        .then(() => {
-          tap(queryAndAssert(element, '.edit'));
-          element._messageText =
-            'You’ll be delivering a package to Chapek 9, ' +
-            'a world where humans are killed on sight.';
-          tap(queryAndAssert(element, '.save'));
-          assert.isTrue(
-            element.disabled,
-            'Element should be disabled when updating draft.'
-          );
+      const expectedDetail = {
+        comment: {
+          ...createComment(),
+          __draft: true,
+          __draftID: 'temp_draft_id',
+          id: 'baf0414d_40572e03' as UrlEncodedCommentId,
+          line: 5,
+          message: 'saved!',
+          path: '/path/to/file',
+          updated: '2015-12-08 21:52:36.177000000' as Timestamp,
+        },
+        patchNum: 1 as PatchSetNum,
+      };
 
-          element._xhrPromise!.then(draft => {
-            assert.isFalse(
-              element.disabled,
-              'Element should be enabled when done updating draft.'
-            );
-            assert.equal(draft.message, 'saved!');
-            assert.isFalse(element.editing);
-            dispatchEventStub.restore();
-            done();
-          });
-        });
+      assert.deepEqual(evt.detail, expectedDetail);
+      assert.isFalse(
+        element.disabled,
+        'Element should be enabled when done creating draft.'
+      );
+      assert.equal(draft.message, 'saved!');
+      assert.isFalse(element.editing);
+
+      tap(queryAndAssert(element, '.edit'));
+      element._messageText =
+        'You’ll be delivering a package to Chapek 9, ' +
+        'a world where humans are killed on sight.';
+      tap(queryAndAssert(element, '.save'));
+      assert.isTrue(
+        element.disabled,
+        'Element should be disabled when updating draft.'
+      );
+
+      draft = await element._xhrPromise!;
+      assert.isFalse(
+        element.disabled,
+        'Element should be enabled when done updating draft.'
+      );
+      assert.equal(draft.message, 'saved!');
+      assert.isFalse(element.editing);
+      dispatchEventStub.restore();
     });
 
     test('draft prevent save when disabled', () => {
@@ -1228,20 +1219,14 @@ suite('gr-comment tests', () => {
       });
     });
 
-    test('cancelling an unsaved draft discards, persists in storage', () => {
+    test('cancelling an unsaved draft discards, persists in storage', async () => {
       const clock: SinonFakeTimers = sinon.useFakeTimers();
-      const tickAndFlush = async (repetitions: number) => {
-        for (let i = 1; i <= repetitions; i++) {
-          clock.tick(1000);
-          await flush();
-        }
-      };
       const discardSpy = sinon.spy(element, '_fireDiscard');
       const storeStub = stubStorage('setDraftComment');
       const eraseStub = stubStorage('eraseDraftComment');
       element.comment!.id = undefined; // set id undefined for draft
       element._messageText = 'test text';
-      tickAndFlush(1);
+      await tickAndFlush(clock, 1);
 
       assert.isTrue(storeStub.called);
       assert.equal(storeStub.lastCall.args[1], 'test text');

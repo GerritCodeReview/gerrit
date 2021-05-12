@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3957c09_e476d1cf",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T07:42:26Z",
+      "side": 1,
+      "message": "Better:\n\n  return (\n    !!config?.auth.editable_account_fields.includes(\n      EditableAccountField.USER_NAME\n    )\n  );\n\nMaybe also explicitly say that the method returns a boolean. Then the compiler will tell you that you have to make the change that I suggest.",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 6
+      },
+      "revId": "512f369fa99628d8419eaab47bbadb4f7b817da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

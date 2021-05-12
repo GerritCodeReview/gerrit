@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e44960d2_b6c9648e",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-12T12:03:22Z",
+      "side": 1,
+      "message": "I\u0027m leaving all the parameter/localvar names in camel case. Let me know if our best practice is otherwise.",
+      "range": {
+        "startLine": 187,
+        "startChar": 16,
+        "endLine": 187,
+        "endChar": 35
+      },
+      "revId": "abb133500844dfebfcd1ab07e354a003b2f51829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

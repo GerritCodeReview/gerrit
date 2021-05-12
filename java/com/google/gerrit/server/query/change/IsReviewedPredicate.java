@@ -51,9 +51,4 @@ public class IsReviewedPredicate extends ChangeIndexPredicate {
     Set<Account.Id> reviewedBy = cd.reviewedBy();
     return !reviewedBy.isEmpty() ? reviewedBy.contains(id) : id.equals(NOT_REVIEWED);
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

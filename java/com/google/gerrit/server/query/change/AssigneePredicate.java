@@ -33,9 +33,4 @@ public class AssigneePredicate extends ChangeIndexPredicate {
     }
     return id.equals(object.change().getAssignee());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

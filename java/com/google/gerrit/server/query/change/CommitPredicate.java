@@ -51,9 +51,4 @@ public class CommitPredicate extends ChangeIndexPredicate {
     }
     return matchesAbbreviation(p.commitId(), id);
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

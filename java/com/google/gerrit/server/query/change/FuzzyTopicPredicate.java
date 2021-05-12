@@ -54,9 +54,4 @@ public class FuzzyTopicPredicate extends ChangeIndexPredicate {
       throw new StorageException(e);
     }
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

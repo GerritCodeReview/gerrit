@@ -25,9 +25,4 @@ public class TrackingIdPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData cd) {
     return cd.trackingFooters().containsValue(getValue());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

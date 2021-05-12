@@ -36,9 +36,4 @@ public class FileExtensionListPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData cd) {
     return ChangeField.getAllExtensionsAsList(cd).equals(value);
   }
-
-  @Override
-  public int getCost() {
-    return 0;
-  }
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a41d4940_e1b3f8b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T08:36:30Z",
+      "side": 1,
+      "message": "It is possible, but such a test would be involved, because it needs to navigate back and forth between pages, so it would be a larger integration test. I have added an item to the frontend team\u0027s FIXIT list. We are fixing such issues once a quarter. Maybe we get to that in our June FIXIT.",
+      "parentUuid": "9226e809_56bfaeb0",
+      "revId": "acdbafdd25348c31795b7bca2f71aa07ae2e8bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69503fda_a18712df",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-05-11T18:48:40Z",
       "side": 1,
       "message": "Why this condition is needed as a part of this changed?",
+      "range": {
+        "startLine": 935,
+        "startChar": 23,
+        "endLine": 935,
+        "endChar": 61
+      },
+      "revId": "acdbafdd25348c31795b7bca2f71aa07ae2e8bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a827485_31cf32b6",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T08:36:30Z",
+      "side": 1,
+      "message": "This was an innocent bug that needed to be fixed in this change, because we now have to make sure whether an element actually has any keyboardShortcuts() defined. If not, then we don\u0027t want to create an intersection observer. And generally all the `enableBindings` code is obsolete, if keyboardShortcuts() is empty.",
+      "parentUuid": "69503fda_a18712df",
       "range": {
         "startLine": 935,
         "startChar": 23,
@@ -78,6 +120,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "ad46fb5f_ebf3eaf6",
+      "range": {
+        "startLine": 965,
+        "startChar": 0,
+        "endLine": 976,
+        "endChar": 0
+      },
+      "revId": "acdbafdd25348c31795b7bca2f71aa07ae2e8bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bad068e0_86781878",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-12T08:36:30Z",
+      "side": 1,
+      "message": "We want to only create the observer, if there are keyboard shortcuts. And we do want to create/destroy the observer when connected/disconnected. Refactored a bit. Hope this is clearer now. PTAL.",
+      "parentUuid": "199aef00_16365f33",
       "range": {
         "startLine": 965,
         "startChar": 0,

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49f88801_87201a85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-05-12T14:50:05Z",
+      "side": 1,
+      "message": "From an accessibility perspective, the current text color for size (#202124 in light theme and #e8eaed in dark theme) is meeting WCAG AA for text. https://webaim.org/resources/contrastchecker/ \n\nAlso the meaning is clearly stated in the text: XS, S, M...",
+      "parentUuid": "ce50a131_7da04e58",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ea61e30_e350a940",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bdf8b1d2_86c8dec4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-05-12T14:50:05Z",
+      "side": 1,
+      "message": "The colors are attention grabbing and defeats the purpose of glanceability of different label size, especially when considering the labels vote https://i.imgur.com/8IP54Kz.png",
+      "parentUuid": "3ea61e30_e350a940",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef0a5ab5_2a9dd868",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
         "patchSetId": 4
@@ -60,6 +108,24 @@
       "writtenOn": "2021-05-10T12:44:30Z",
       "side": 1,
       "message": "We don\u0027t use text-shadow anywhere in the UI. I think it would be great to stick to one design language.",
+      "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1a5522a_facbac68",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-05-12T14:50:05Z",
+      "side": 1,
+      "message": "I agree, the text shadow is also not aligning with the design language we are aligning with is Material https://material.io/components",
+      "parentUuid": "ef0a5ab5_2a9dd868",
       "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

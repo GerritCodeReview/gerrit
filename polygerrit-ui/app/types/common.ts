@@ -529,7 +529,7 @@ export interface ChangeMessageInfo {
   real_author?: AccountInfo;
   date: Timestamp;
   message: string;
-  accountsInMessage?: AccountInfo[];
+  accounts_in_message?: AccountInfo[];
   tag?: ReviewInputTag;
   _revision_number?: PatchSetNum;
 }

@@ -366,12 +366,21 @@ suite('gr-context-control tests', () => {
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
       '.blockExpansion gr-button'
     );
-    // querySelector('.breadcrumbTooltip')!.textContent!.trim()
+    const tooltipAbove = blockExpansionButtons[0].querySelector(
+      'paper-tooltip'
+    )!;
+    const tooltipBelow = blockExpansionButtons[1].querySelector(
+      'paper-tooltip'
+    )!;
     assert.equal(
-      blockExpansionButtons[0]
-        .querySelector('.breadcrumbTooltip')!
-        .textContent?.trim(),
+      tooltipAbove.querySelector('.breadcrumbTooltip')!.textContent?.trim(),
       '20 common lines'
     );
+    assert.equal(
+      tooltipBelow.querySelector('.breadcrumbTooltip')!.textContent?.trim(),
+      '20 common lines'
+    );
+    assert.equal(tooltipAbove!.getAttribute('position'), 'top');
+    assert.equal(tooltipBelow!.getAttribute('position'), 'bottom');
   });
 });

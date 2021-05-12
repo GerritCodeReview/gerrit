@@ -29,7 +29,14 @@ import {pluralize} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
 import {DiffInfo} from '../../../types/diff';
 import {assertIsDefined} from '../../../utils/common-util';
-import {css, customElement, html, LitElement, property} from 'lit-element';
+import {
+  css,
+  customElement,
+  html,
+  LitElement,
+  property,
+  TemplateResult,
+} from 'lit-element';
 
 import {
   ContextButtonType,
@@ -205,7 +212,7 @@ export class GrContextControls extends LitElement {
   private createContextButton(
     type: ContextButtonType,
     linesToExpand: number,
-    tooltipText?: string
+    tooltip?: TemplateResult
   ) {
     let text = '';
     let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
@@ -269,11 +276,6 @@ export class GrContextControls extends LitElement {
       groups
     );
 
-    const tooltip = tooltipText
-      ? html`<paper-tooltip offset="10"
-          ><div class="breadcrumbTooltip">${tooltipText}</div></paper-tooltip
-        >`
-      : undefined;
     const button = html` <gr-button
       class="${classes}"
       link="true"
@@ -396,6 +398,24 @@ export class GrContextControls extends LitElement {
     return undefined;
   }
 
+  private createBlockButtonTooltip(
+    buttonType: ContextButtonType,
+    syntaxPath: SyntaxBlock[],
+    linesToExpand: number
+  ) {
+    // Create breadcrumb string:
+    // myNamepace > MyClass > myMethod1 > aLocalFunctionInsideMethod1 > (anonymous)
+    const tooltipText = syntaxPath.length
+      ? syntaxPath.map(b => b.name || '(anonymous)').join(' > ')
+      : `${linesToExpand} common lines`;
+
+    const position =
+      buttonType === ContextButtonType.BLOCK_ABOVE ? 'top' : 'bottom';
+    return html`<paper-tooltip offset="10" position="${position}"
+      ><div class="breadcrumbTooltip">${tooltipText}</div></paper-tooltip
+    >`;
+  }
+
   private createBlockButton(
     buttonType: ContextButtonType,
     numLines: number,
@@ -408,14 +428,8 @@ export class GrContextControls extends LitElement {
       syntaxTree
     );
     let linesToExpand = numLines;
-    let tooltipText = `${linesToExpand} common lines`;
     if (outlineSyntaxPath.length) {
       const {range} = outlineSyntaxPath[outlineSyntaxPath.length - 1];
-      // Create breadcrumb string:
-      // myNamepace > MyClass > myMethod1 > aLocalFunctionInsideMethod1 > (anonymous)
-      tooltipText = outlineSyntaxPath
-        .map(b => b.name || '(anonymous)')
-        .join(' > ');
       const targetLine =
         buttonType === ContextButtonType.BLOCK_ABOVE
           ? range.end_line
@@ -425,7 +439,12 @@ export class GrContextControls extends LitElement {
         linesToExpand = distanceToTargetLine;
       }
     }
-    return this.createContextButton(buttonType, linesToExpand, tooltipText);
+    const tooltip = this.createBlockButtonTooltip(
+      buttonType,
+      outlineSyntaxPath,
+      linesToExpand
+    );
+    return this.createContextButton(buttonType, linesToExpand, tooltip);
   }
 
   private contextRange() {

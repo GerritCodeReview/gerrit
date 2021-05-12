@@ -323,6 +323,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1c501aa_a6393eb6",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-12T23:10:26Z",
+      "side": 1,
+      "message": "I agree that HA is a generic term, but also \u0027primary\u0027 and \u0027replica\u0027 are generic as well. I believe the purpose is to define \"terms\" that we use in Gerrit and associate them with a meaning in the Gerrit context.\n\nGerrit is full of \u0027generic\u0027 terms that we use in a specific meaning.\n(\u0027change\u0027 is a generic term, but we use it in Gerrit to indicate a patch uploaded for review targeting a specific branch)",
+      "parentUuid": "7f3ea88b_d4fa124c",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

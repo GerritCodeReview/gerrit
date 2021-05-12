@@ -34,6 +34,24 @@
       "parentUuid": "8a3d2de8_01848a8d",
       "revId": "5f36047c1e3b87486a3b2c83413dd65a28469c2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecc3c83b_271fa6fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-12T12:22:45Z",
+      "side": 1,
+      "message": "\u003e Note: this bug appeared with old changes only where we used to have a different algorithm for uuid generation\n\nThanks for the context. Seems OK as-is then.",
+      "parentUuid": "a3cc6a06_eae27523",
+      "revId": "5f36047c1e3b87486a3b2c83413dd65a28469c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

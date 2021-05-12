@@ -28,9 +28,4 @@ public class RevertOfPredicate extends ChangeIndexPredicate {
     }
     return cd.change().getRevertOf().toString().equals(value);
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

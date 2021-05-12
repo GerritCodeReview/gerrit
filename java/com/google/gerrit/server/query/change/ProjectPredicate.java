@@ -37,9 +37,4 @@ public class ProjectPredicate extends ChangeIndexPredicate {
     Project.NameKey p = change.getDest().project();
     return p.equals(getValueKey());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

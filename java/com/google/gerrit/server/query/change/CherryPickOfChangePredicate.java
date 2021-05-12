@@ -28,9 +28,4 @@ public class CherryPickOfChangePredicate extends ChangeIndexPredicate {
     }
     return Integer.toString(cd.change().getCherryPickOf().changeId().get()).equals(value);
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

@@ -27,9 +27,4 @@ public class ProjectPrefixPredicate extends ChangeIndexPredicate {
     Change c = object.change();
     return c != null && c.getDest().project().get().startsWith(getValue());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

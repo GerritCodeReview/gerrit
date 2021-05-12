@@ -30,9 +30,4 @@ public class SubmittablePredicate extends ChangeIndexPredicate {
     return cd.submitRecords(ChangeField.SUBMIT_RULE_OPTIONS_STRICT).stream()
         .anyMatch(r -> r.status == status);
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

@@ -29,9 +29,4 @@ public class HasDraftByPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData cd) {
     return cd.draftsByUser().contains(accountId);
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

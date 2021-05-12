@@ -68,7 +68,8 @@ import * as noReplyFooter from 'com/google/gerrit/server/mail/NoReplyFooter.soy'
 {template InboundEmailRejection_CHANGE_NOT_FOUND kind="text"}
   Gerrit Code Review was unable to process your email because the change was not found.
   {\n}
-  Maybe the change got deleted?
+  Maybe the project doesn't exist or is not visible? Maybe the change is not visible or got
+  deleted?
   {call InboundEmailRejectionFooter /}
 {/template}
 

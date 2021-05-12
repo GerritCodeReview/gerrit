@@ -232,7 +232,10 @@ public class MailProcessor {
       throws UpdateException, RestApiException {
     try (ManualRequestContext ctx = oneOffRequestContext.openAs(sender)) {
       List<ChangeData> changeDataList =
-          queryProvider.get().byLegacyChangeId(Change.id(metadata.changeNumber));
+          queryProvider
+              .get()
+              .enforceVisibility(true)
+              .byLegacyChangeId(Change.id(metadata.changeNumber));
       if (changeDataList.isEmpty()) {
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.CHANGE_NOT_FOUND);
         return;

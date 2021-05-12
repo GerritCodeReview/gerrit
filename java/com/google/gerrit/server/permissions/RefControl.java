@@ -523,7 +523,10 @@ class RefControl {
                       + "who also have 'Push' rights on "
                       + RefNames.REFS_CONFIG);
             } else {
-              pde.setAdvice("To push into this reference you need 'Push' rights.");
+              pde.setAdvice(
+                  "Push to refs/for/"
+                      + RefNames.shortName(refName)
+                      + " to create a review, or get 'Push' rights to update the branch.");
             }
             break;
           case DELETE:

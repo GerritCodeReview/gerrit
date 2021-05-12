@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d4d94bb_f360f756",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T17:14:17Z",
+      "side": 1,
+      "message": "could we do it in a different section? Comments/checks/etc. postdates this doc by a lot, so we\u0027d have to write new sections. I first want to get the description of the existing stuff correct.",
+      "parentUuid": "3e6e9e38_5e3b0484",
+      "revId": "4b79ab39594e81298c703345365aed8db696512b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9685eb57_88498eb8",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 2
@@ -64,6 +82,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2987cc9_eb3bc222",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T17:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a9df1a6_fb49e89d",
+      "range": {
+        "startLine": 41,
+        "startChar": 24,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "4b79ab39594e81298c703345365aed8db696512b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdc740e0_b6c4193f",
@@ -77,6 +119,24 @@
       "writtenOn": "2021-05-12T16:01:47Z",
       "side": 1,
       "message": "This includes some detail about attention set, should that be mentioned here?",
+      "revId": "4b79ab39594e81298c703345365aed8db696512b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de78fa7a_4f4a1ced",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-12T17:14:17Z",
+      "side": 1,
+      "message": "see above.",
+      "parentUuid": "bdc740e0_b6c4193f",
       "revId": "4b79ab39594e81298c703345365aed8db696512b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

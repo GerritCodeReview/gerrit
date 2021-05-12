@@ -33,6 +33,23 @@
       "message": "The E2E tests with Gatling give a 100% success rate:\nhttps://gerrit-ci.gerritforge.com/job/gatling-gerrit-test/361/console",
       "revId": "60c62f17e364221870d9944b406fb507069f74c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c085d01_4847c05a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2021-05-12T06:05:43Z",
+      "side": 1,
+      "message": "That\u0027s great. Thanks a lot for the check; I\u0027ll give that sshd release a \"go\" from my/our side then.",
+      "revId": "60c62f17e364221870d9944b406fb507069f74c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

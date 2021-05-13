@@ -165,6 +165,33 @@ export const htmlTemplate = html`
     .image-diff .content {
       background-color: var(--diff-blank-background-color);
     }
+
+    .lineNumTooltipContainer {
+      position: relative;
+      display: inline-block;
+    }
+
+    .lineNumTooltipContainer .lineNumTooltip {
+      visibility: hidden;
+      width: 120px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+
+      top: 0;
+      left: 110%;
+
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+    }
+
+    .lineNumTooltipContainer:hover .lineNumTooltip {
+      visibility: visible;
+    }
+
     .full-width {
       width: 100%;
     }

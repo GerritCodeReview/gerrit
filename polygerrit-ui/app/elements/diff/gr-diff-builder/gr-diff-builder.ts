@@ -417,8 +417,35 @@ export abstract class GrDiffBuilder {
         return td;
       }
 
+      const div = this._createElement('div');
+      div.classList.add('lineNumTooltipContainer')
       const button = this._createElement('button');
+
+      // const tooltip = this._createElement('paper-tooltip');
+      // tooltip.setAttribute('offset','10');
+      // tooltip.setAttribute('position','right');
+      // tooltip.innerText = 'Tooltip text';
+      // button.addEventListener('mouseenter',() => {
+
+      //   // tooltip.setAttribute('manualMode','true');
+      //   button.appendChild(tooltip);
+      //   setTimeout(() => {
+      //     debugger;
+      //     tooltip.updatePosition();
+      //   }, 1500);
+      // });
+      // button.addEventListener('mouseleave',() => {
+      //   button.removeChild(tooltip);
+      // });
+
+      const tooltip = this._createElementWithText('span', "A tooltip");
+      tooltip.classList.add("lineNumTooltip");
+
+      // div.appendChild(button);
+      // div.appendChild(tooltip);
+      td.classList.add('lineNumTooltipContainer')
       td.appendChild(button);
+      td.append(tooltip);
       button.tabIndex = -1;
       button.classList.add('lineNumButton');
       button.classList.add(side);

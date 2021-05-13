@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+
+ import '@polymer/paper-tooltip/paper-tooltip';
 import {GrDiffBuilder} from './gr-diff-builder';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -123,6 +125,14 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     side: Side
   ) {
     const lineNumberEl = this._createLineEl(line, lineNumber, line.type, side);
+    const tooltip = document.createElement('paper-tooltip');
+    tooltip.setAttribute('offset','10');
+    tooltip.setAttribute('position','right');
+    tooltip.innerText = 'Tooltip text';
+    // <paper-tooltip offset="10" position="${position}"
+    //   ><div class="breadcrumbTooltip">${tooltipText}</div></paper-tooltip
+    // >
+    lineNumberEl.appendChild(tooltip);
     row.appendChild(lineNumberEl);
     row.appendChild(this._createTextEl(lineNumberEl, line, side));
   }

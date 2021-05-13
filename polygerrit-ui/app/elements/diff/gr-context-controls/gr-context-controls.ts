@@ -22,7 +22,7 @@ import '@polymer/paper-fab/paper-fab';
 import '@polymer/paper-icon-button/paper-icon-button';
 import '@polymer/paper-item/paper-item';
 import '@polymer/paper-listbox/paper-listbox';
-import '@polymer/paper-tooltip/paper-tooltip.js';
+import '@polymer/paper-tooltip/paper-tooltip';
 
 import '../../shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';

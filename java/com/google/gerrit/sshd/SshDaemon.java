@@ -161,7 +161,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       SshLog sshLog,
       @SshListenAddresses List<SocketAddress> listen,
       @SshAdvertisedAddresses List<String> advertised,
-      MetricMaker metricMaker) {
+      MetricMaker metricMaker,
+      LogMaxConnectionsPerUserExceeded logMaxConnectionsPerUserExceeded) {
     setPort(IANA_SSH_PORT /* never used */);
 
     this.cfg = cfg;
@@ -241,6 +242,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setKeyPairProvider(hostKeyProvider);
     setCommandFactory(commandFactory);
     setShellFactory(noShell);
+    setSessionDisconnectHandler(logMaxConnectionsPerUserExceeded);
 
     final AtomicInteger connected = new AtomicInteger();
     metricMaker.newCallbackMetric(

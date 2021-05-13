@@ -16,6 +16,23 @@
       "message": "something nice",
       "revId": "1a9187102f85a3b854d60c3c9c16acb4c6719919",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e0ce146_91b6c971",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1136445
+      },
+      "writtenOn": "2021-05-13T02:34:07Z",
+      "side": 1,
+      "message": "305502: Allow GerritAccount Cookie authentication for Git/HTTP | https://gerrit-review.googlesource.com/c/gerrit/+/305502",
+      "revId": "1a9187102f85a3b854d60c3c9c16acb4c6719919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

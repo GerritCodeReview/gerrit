@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36d12d69_2911c96a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-05-13T18:44:29Z",
+      "side": 1,
+      "message": "Resolved.",
+      "parentUuid": "997e359b_e88eb8eb",
+      "range": {
+        "startLine": 168,
+        "startChar": 26,
+        "endLine": 168,
+        "endChar": 50
+      },
+      "revId": "36c51e173f836fb3d315ce3b31a97c6fa31d172f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39b54414_234940b4",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-12T13:08:09Z",
       "side": 1,
       "message": "The operator precedence here is not obvious to me. Can you add parentheses to make it more clear?",
+      "range": {
+        "startLine": 168,
+        "startChar": 11,
+        "endLine": 170,
+        "endChar": 14
+      },
+      "revId": "36c51e173f836fb3d315ce3b31a97c6fa31d172f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f9855f9_15bf6869",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-05-13T18:44:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "39b54414_234940b4",
       "range": {
         "startLine": 168,
         "startChar": 11,

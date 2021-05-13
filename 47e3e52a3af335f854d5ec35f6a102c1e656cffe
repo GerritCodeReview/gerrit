@@ -347,6 +347,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78ddcd74_b33ca16c",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-13T23:32:11Z",
+      "side": 1,
+      "message": "\u003e I agree that HA is a generic term, but also \u0027primary\u0027 and \u0027replica\u0027 are generic as well. I believe the purpose is to define \"terms\" that we use in Gerrit and associate them with a meaning in the Gerrit context.\n\nI mean there are different kinds of HA, even within the scope of Gerrit. For example, HA can apply to primaries or replicas. For that reason, labeling this one configuration as \"the HA configuration\", feel wrong to me.",
+      "parentUuid": "a1c501aa_a6393eb6",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

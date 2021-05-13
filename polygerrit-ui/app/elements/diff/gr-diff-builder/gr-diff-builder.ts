@@ -19,6 +19,7 @@ import {
   DiffContextExpandedExternalDetail,
   MovedLinkClickedEventDetail,
   RenderPreferences,
+  SyntaxBlock,
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
@@ -30,6 +31,8 @@ import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
+import {from, of, fromEvent, EMPTY, merge} from 'rxjs';
+import {switchMap, delay, takeUntil, mapTo} from 'rxjs/operators';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -65,6 +68,22 @@ declare global {
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }
+}
+
+
+function findBlockTreePathForLine(
+  lineNum: number,
+  blocks?: SyntaxBlock[]
+): SyntaxBlock[] {
+  const containingBlock = blocks?.find(
+    ({range}) => range.start_line < lineNum && range.end_line > lineNum
+  );
+  if (!containingBlock) return [];
+  const innerPathInChild = findBlockTreePathForLine(
+    lineNum,
+    containingBlock?.children
+  );
+  return [containingBlock].concat(innerPathInChild);
 }
 
 export abstract class GrDiffBuilder {
@@ -416,9 +435,38 @@ export abstract class GrDiffBuilder {
       ) {
         return td;
       }
-
       const button = this._createElement('button');
       td.appendChild(button);
+
+      this._renderPrefs!.show_syntax_path_for_line_numbers = true;
+      if(number !== 'FILE' && this._renderPrefs?.show_syntax_path_for_line_numbers){
+        const metadata = side === Side.LEFT ? this._diff.meta_a : this._diff.meta_b;
+        const syntaxTree = metadata.syntax_tree;
+        const tooltip = this._createElementWithText('span', "...");
+
+        const mouseEnter$ = fromEvent(button, 'mouseenter').pipe(mapTo(true));
+        const mouseLeave$ = fromEvent(button, 'mouseleave').pipe(mapTo(false));
+
+        merge(mouseEnter$, mouseLeave$)
+          .pipe(
+             switchMap(hover => {
+               if (!hover) { return EMPTY; }
+               return of('mouse is over element').pipe(delay(200))
+             })
+          )
+          .subscribe(() => {
+            const syntaxPath = findBlockTreePathForLine(
+              number,
+              syntaxTree
+            );
+            const breadcrumbs = syntaxPath.map(b => b.name || '(anonymous)').join(' > ');
+            tooltip.innerText = breadcrumbs;
+          });
+        tooltip.classList.add("lineNumTooltip");
+        td.classList.add('lineNumTooltipContainer')
+        td.append(tooltip);
+      }
+
       button.tabIndex = -1;
       button.classList.add('lineNumButton');
       button.classList.add(side);

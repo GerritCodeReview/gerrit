@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+
 import {GrDiffBuilder} from './gr-diff-builder';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';

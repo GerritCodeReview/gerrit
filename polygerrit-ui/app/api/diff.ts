@@ -214,6 +214,7 @@ export declare interface RenderPreferences {
   show_file_comment_button?: boolean;
   hide_line_length_indicator?: boolean;
   use_block_expansion?: boolean;
+  show_syntax_path_for_line_numbers?: boolean;
 }
 
 /**

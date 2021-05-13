@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ff237da_d5924a56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-05-13T14:56:27Z",
+      "side": 1,
+      "message": "i had no clue what that\u0027s supposed to mean before reading into the diff. \"allow selective publication of draft comments\" or something like that, i think?",
+      "revId": "7e59baf0b05bde53f03afca2e13579ddfbb2e282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

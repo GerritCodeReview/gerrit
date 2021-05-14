@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42d9a8ea_866a1266",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-14T14:11:39Z",
+      "side": 1,
+      "message": "Btw. how does it behave with following:\n\n1, comments chips \u003d drafts (1)\n2, draft is resolved\n3, user clicks on draft comment chip\n\nExpecting - show drafts\nActually with this code I can image that it will show all comments. \n\n\n",
+      "revId": "827f6fa199fc7c23c75bf18e1e63496258b49657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dc3c4bc_b8b58f71",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-14T14:11:39Z",
+      "side": 1,
+      "message": "Either rename to hasUnresolvedThreads or\n\n```\nconst unresolvedComments \u003d (this._commentThreads ?? []).filter(thread \u003d\u003e isUnresolved(thread));\n\nif (unresolvedComment.length \u003e 0) this.unresolvedOnly \u003d true;\n```",
+      "range": {
+        "startLine": 802,
+        "startChar": 12,
+        "endLine": 802,
+        "endChar": 29
+      },
+      "revId": "827f6fa199fc7c23c75bf18e1e63496258b49657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1075,6 +1075,11 @@ suite('gr-reply-dialog tests', () => {
     element._reviewers = [reviewer1, reviewer2];
     element._ccs = [cc1, cc2, cc3];
 
+    element.change.reviewers = {
+      [ReviewerState.CC]: [],
+      [ReviewerState.REVIEWER]: [{_account_id: 33}],
+    };
+
     const mutations = [];
 
     stubSaveReview(review => mutations.push(...review.reviewers));
@@ -1128,7 +1133,7 @@ suite('gr-reply-dialog tests', () => {
 
     // Send and purge and verify moves, delete cc3.
     await element.send();
-    expect(mutations).to.have.lengthOf(7);
+    expect(mutations).to.have.lengthOf(5);
     expect(mutations[0]).to.deep.equal(mapReviewer(cc1,
         ReviewerState.REVIEWER));
     expect(mutations[1]).to.deep.equal(mapReviewer(cc2,
@@ -1138,12 +1143,8 @@ suite('gr-reply-dialog tests', () => {
     expect(mutations[3]).to.deep.equal(mapReviewer(reviewer2,
         ReviewerState.CC));
 
-    // 3 remove events stored
+    // Only 1 account was initially part of the change
     expect(mutations[4]).to.deep.equal({reviewer: 33, state:
-        ReviewerState.REMOVED});
-    expect(mutations[5]).to.deep.equal({reviewer: 35, state:
-        ReviewerState.REMOVED});
-    expect(mutations[6]).to.deep.equal({reviewer: 37, state:
         ReviewerState.REMOVED});
   });
 

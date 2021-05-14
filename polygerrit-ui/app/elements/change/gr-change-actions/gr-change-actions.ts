@@ -269,12 +269,11 @@ const EDIT_ACTIONS: Set<string> = new Set([
 const AWAIT_CHANGE_ATTEMPTS = 5;
 const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
-// TODO: Remove these once we are sure that the backend does not support/send
-// them anymore.
-const SKIP_ACTION_KEYS: string[] = [
-  ChangeActions.REVIEWED,
-  ChangeActions.UNREVIEWED,
-];
+/* Revert submission is skipped as the normal revert dialog will now show
+the user a choice between reverting single change or an entire submission.
+Hence, a second button is not needed.
+*/
+const SKIP_ACTION_KEYS = [ChangeActions.REVERT_SUBMISSION];
 
 export function assertUIActionInfo(action?: ActionInfo): UIActionInfo {
   // TODO(TS): Remove this function. The gr-change-actions adds properties
@@ -1947,7 +1946,7 @@ export class GrChangeActions
   }
 
   _shouldSkipAction(action: UIActionInfo) {
-    return SKIP_ACTION_KEYS.includes(action.__key);
+    return SKIP_ACTION_KEYS.includes(action.__key as ChangeActions);
   }
 
   _computeTopLevelActions(

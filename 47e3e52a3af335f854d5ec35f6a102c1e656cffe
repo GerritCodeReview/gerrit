@@ -467,6 +467,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ab66133_3e01de9e",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-14T23:53:33Z",
+      "side": 1,
+      "message": "\u003e A well defined term would transcend versions. \n\nThe purpose of the glossary is to help our reader to understand the \"meaning\" we associate to the words in the Gerrit Code Review project. If you look at the history of the project in the past 12 years, we have indeed used different terms for different versions.\n\nWe have to keep this glossary maintained across versions so that the reader can understand the rest of the documentation.\n\nSome examples:\n- The term \"project\" was used initially and then changed. to \"repository\"\n- The term \"slave\" was used initially and then changed to \"replica\"\n\nOlder versions of the Gerrit documentation have the term \"slave\" but newer versions have the term \"replica\".\n\nHope that clarifies my comment.",
+      "parentUuid": "e4f87401_d435d265",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

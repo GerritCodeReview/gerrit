@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba9e0482_c7f6f60f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-14T12:42:00Z",
+      "side": 1,
+      "message": "Yeah, compiler was complaining, I think because it\u0027s inside the filter() function and hence does not know assertIsDefined was called.",
+      "parentUuid": "9c83a787_0423618a",
+      "range": {
+        "startLine": 607,
+        "startChar": 68,
+        "endLine": 607,
+        "endChar": 69
+      },
+      "revId": "f3b9b014af46b4205df8272d0062c75973a53012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e12b9bdb_f0c5abe9",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
         "patchSetId": 6
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-14T12:36:47Z",
       "side": 1,
       "message": "I would rename this as `isReviewerOrCC`",
+      "range": {
+        "startLine": 611,
+        "startChar": 40,
+        "endLine": 611,
+        "endChar": 50
+      },
+      "revId": "f3b9b014af46b4205df8272d0062c75973a53012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e04f4906_534d499f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-14T12:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e12b9bdb_f0c5abe9",
       "range": {
         "startLine": 611,
         "startChar": 40,

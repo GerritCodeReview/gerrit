@@ -32,10 +32,10 @@ export const htmlTemplate = html`
     }
     .revertSubmissionLayout {
       display: flex;
+      align-items: center;
     }
     .label {
       margin-left: var(--spacing-m);
-      margin-bottom: var(--spacing-m);
     }
     iron-autogrow-textarea {
       font-family: var(--monospace-font-family);
@@ -46,6 +46,9 @@ export const htmlTemplate = html`
     .error {
       color: var(--error-text-color);
       margin-bottom: var(--spacing-m);
+    }
+    label[for='messageInput'] {
+      margin-top: var(--spacing-m);
     }
   </style>
   <gr-dialog

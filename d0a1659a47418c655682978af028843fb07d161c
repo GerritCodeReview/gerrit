@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3d4c2b9_1ff0efbe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-14T07:05:24Z",
+      "side": 1,
+      "message": "I am fine with the change, but I let David decide the +2 and whether he wants the change in stable-3.4.",
+      "revId": "d0a1659a47418c655682978af028843fb07d161c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

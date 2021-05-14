@@ -18,18 +18,46 @@
 import {
   AccountId,
   AccountInfo,
+  ChangeInfo,
   EmailAddress,
+  GroupId,
   GroupInfo,
   isAccount,
   isGroup,
+  ReviewerInput,
 } from '../types/common';
-import {AccountTag} from '../constants/constants';
+import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever} from './common-util';
+import {AccountAddition} from '../elements/shared/gr-account-list/gr-account-list';
 
 export function accountKey(account: AccountInfo): AccountId | EmailAddress {
   if (account._account_id) return account._account_id;
   if (account.email) return account.email;
   throw new Error('Account has neither _account_id nor email.');
+}
+
+export function mapReviewer(addition: AccountAddition): ReviewerInput {
+  if (addition.account) {
+    return {reviewer: accountKey(addition.account)};
+  }
+  if (addition.group) {
+    const reviewer = decodeURIComponent(addition.group.id) as GroupId;
+    const confirmed = addition.group.confirmed;
+    return {reviewer, confirmed};
+  }
+  throw new Error('Reviewer must be either an account or a group.');
+}
+
+export function isReviewer(
+  change: ChangeInfo,
+  reviewerAddition: AccountAddition
+): boolean {
+  const reviewers = [
+    ...(change.reviewers[ReviewerState.CC] ?? []),
+    ...(change.reviewers[ReviewerState.REVIEWER] ?? []),
+  ];
+  const reviewer = mapReviewer(reviewerAddition);
+  return reviewers.some(r => accountOrGroupKey(r) === reviewer.reviewer);
 }
 
 export function isServiceUser(account?: AccountInfo): boolean {

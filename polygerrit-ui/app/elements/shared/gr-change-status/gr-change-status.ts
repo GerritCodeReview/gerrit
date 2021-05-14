@@ -15,11 +15,15 @@
  * limitations under the License.
  */
 import '../gr-tooltip-content/gr-tooltip-content';
+import '../gr-icons/gr-icons';
 import '../../../styles/shared-styles';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-status_html';
 import {customElement, property} from '@polymer/decorators';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GeneratedWebLink,
+  GerritNav,
+} from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 
@@ -68,6 +72,9 @@ class GrChangeStatus extends PolymerElement {
   @property({type: Object})
   revertedChange?: ChangeInfo;
 
+  @property({type: Object})
+  resolveWeblinks?: GeneratedWebLink[] = [];
+
   _computeStatusString(status: ChangeStates) {
     if (status === ChangeStates.WIP && !this.flat) {
       return 'Work in Progress';
@@ -79,14 +86,42 @@ class GrChangeStatus extends PolymerElement {
     return str ? str.toLowerCase().replace(/\s/g, '-') : '';
   }
 
-  hasStatusLink(revertedChange?: ChangeInfo) {
-    return revertedChange !== undefined;
+  hasStatusLink(
+    revertedChange?: ChangeInfo,
+    resolveWeblinks?: GeneratedWebLink[],
+    status?: ChangeStates
+  ) {
+    return (
+      revertedChange !== undefined ||
+      (status === ChangeStates.MERGE_CONFLICT &&
+        resolveWeblinks &&
+        resolveWeblinks.length > 0)
+    );
   }
 
-  getStatusLink(revertedChange?: ChangeInfo) {
+  getStatusLink(
+    revertedChange?: ChangeInfo,
+    resolveWeblinks?: GeneratedWebLink[],
+    status?: ChangeStates
+  ) {
+    if (revertedChange) {
+      return GerritNav.getUrlForSearchQuery(`${revertedChange._number}`);
+    }
+    if (
+      status === ChangeStates.MERGE_CONFLICT &&
+      resolveWeblinks &&
+      resolveWeblinks.length > 0
+    ) {
+      return resolveWeblinks[0].url;
+    }
+    return undefined;
+  }
+
+  showResolveIcon(status?: ChangeStates, resolveWeblinks?: GeneratedWebLink[]) {
     return (
-      revertedChange &&
-      GerritNav.getUrlForSearchQuery(`${revertedChange._number}`)
+      status === ChangeStates.MERGE_CONFLICT &&
+      resolveWeblinks &&
+      resolveWeblinks.length > 0
     );
   }
 

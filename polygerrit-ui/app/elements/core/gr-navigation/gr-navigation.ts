@@ -357,6 +357,12 @@ export interface GenerateWebLinksPatchsetParameters {
   commit?: CommitId;
   options?: GenerateWebLinksOptions;
 }
+export interface GenerateWebLinksResolveConflictsParameters {
+  type: WeblinkType.RESOLVE_CONFLICTS;
+  repo: RepoName;
+  commit?: CommitId;
+  options?: GenerateWebLinksOptions;
+}
 export interface GenerateWebLinksEditParameters {
   type: WeblinkType.EDIT;
   repo: RepoName;
@@ -380,6 +386,7 @@ export interface GenerateWebLinksChangeParameters {
 
 export type GenerateWebLinksParameters =
   | GenerateWebLinksPatchsetParameters
+  | GenerateWebLinksResolveConflictsParameters
   | GenerateWebLinksEditParameters
   | GenerateWebLinksFileParameters
   | GenerateWebLinksChangeParameters;
@@ -423,6 +430,7 @@ export enum WeblinkType {
   EDIT = 'edit',
   FILE = 'file',
   PATCHSET = 'patchset',
+  RESOLVE_CONFLICTS = 'resolve-conflicts',
 }
 
 // TODO(dmfilippov) Convert to class, extract consts, give better name and
@@ -955,6 +963,22 @@ export const GerritNav = {
     } else {
       return result;
     }
+  },
+
+  getResolveConflictsWeblinks(
+    repo: RepoName,
+    commit?: CommitId,
+    options?: GenerateWebLinksOptions
+  ): GeneratedWebLink[] {
+    const params: GenerateWebLinksResolveConflictsParameters = {
+      type: WeblinkType.RESOLVE_CONFLICTS,
+      repo,
+      commit,
+    };
+    if (options) {
+      params.options = options;
+    }
+    return ([] as GeneratedWebLink[]).concat(this._generateWeblinks(params));
   },
 
   getChangeWeblinks(

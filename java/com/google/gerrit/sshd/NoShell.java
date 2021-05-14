@@ -27,10 +27,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.apache.sshd.common.io.IoInputStream;
+import org.apache.sshd.common.io.IoOutputStream;
+import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.SessionAware;
 import org.apache.sshd.server.channel.ChannelSession;
+import org.apache.sshd.server.command.AsyncCommand;
 import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.shell.ShellFactory;
@@ -56,13 +60,19 @@ class NoShell implements ShellFactory {
     return shell.get();
   }
 
-  static class SendMessage implements Command, SessionAware {
+  /**
+   * When AsyncCommand is implemented by a command as below, the usual blocking streams aren't set.
+   *
+   * @see org.apache.sshd.server.command.AsyncCommand
+   */
+  static class SendMessage implements AsyncCommand, SessionAware {
     private final Provider<MessageFactory> messageFactory;
     private final SshScope sshScope;
 
-    private InputStream in;
-    private OutputStream out;
-    private OutputStream err;
+    private IoInputStream in;
+    private IoOutputStream out;
+    private IoOutputStream err;
+
     private ExitCallback exit;
     private Context context;
 
@@ -73,18 +83,33 @@ class NoShell implements ShellFactory {
     }
 
     @Override
-    public void setInputStream(InputStream in) {
+    public void setIoInputStream(IoInputStream in) {
       this.in = in;
     }
 
     @Override
-    public void setOutputStream(OutputStream out) {
+    public void setIoOutputStream(IoOutputStream out) {
       this.out = out;
     }
 
     @Override
-    public void setErrorStream(OutputStream err) {
+    public void setIoErrorStream(IoOutputStream err) {
       this.err = err;
+    }
+
+    @Override
+    public void setInputStream(InputStream in) {
+      // ignored
+    }
+
+    @Override
+    public void setOutputStream(OutputStream out) {
+      // ignore
+    }
+
+    @Override
+    public void setErrorStream(OutputStream err) {
+      // ignore
     }
 
     @Override
@@ -107,8 +132,7 @@ class NoShell implements ShellFactory {
       } finally {
         sshScope.set(old);
       }
-      err.write(Constants.encode(message));
-      err.flush();
+      err.writePacket(new ByteArrayBuffer(Constants.encode(message)));
 
       in.close();
       out.close();

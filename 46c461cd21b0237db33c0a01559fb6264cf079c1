@@ -33,6 +33,23 @@
       "message": "Looks good, based on the diff with patch set 3.\n\nThank you for the follow up!",
       "revId": "46c461cd21b0237db33c0a01559fb6264cf079c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d196241_acfadf45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-14T01:01:02Z",
+      "side": 1,
+      "message": "Removing myself as reviewer because of lack of bandwidth to review thoroughly this massive change :-(\nI trust Saša on this.",
+      "revId": "46c461cd21b0237db33c0a01559fb6264cf079c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

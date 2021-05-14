@@ -40,7 +40,6 @@ export const htmlTemplate = html`
       margin-right: var(--spacing-l);
     }
     gr-change-status {
-      display: initial;
       margin-left: var(--spacing-s);
     }
     gr-change-status:first-child {
@@ -324,8 +323,8 @@ export const htmlTemplate = html`
               <gr-change-status
                 change="[[_change]]"
                 reverted-change="[[revertedChange]]"
-                max-width="100"
                 status="[[status]]"
+                resolve-weblinks="[[resolveWeblinks]]"
               ></gr-change-status>
             </template>
           </div>

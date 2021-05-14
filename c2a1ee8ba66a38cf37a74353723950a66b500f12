@@ -16,6 +16,24 @@
       "message": "Maybe instead change these two lines to:\n\n  addToReviewInput(this.$.reviewers.removals().filter(isReviewer), ReviewerState.REMOVED);\n  addToReviewInput(this.$.ccs.removals().filter(isCC), ReviewerState.REMOVED);\n\nWith isReviewer being a utility somewhere?",
       "revId": "c2a1ee8ba66a38cf37a74353723950a66b500f12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afcf9fa1_cd0e0dcc",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-14T11:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc73d492_3c1f5aed",
+      "revId": "c2a1ee8ba66a38cf37a74353723950a66b500f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

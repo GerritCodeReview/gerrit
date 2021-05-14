@@ -22,6 +22,30 @@
       },
       "revId": "a9394a359584e538ec5b637d5eb72e44079fda59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c5c080c_d9f4d568",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-14T12:42:00Z",
+      "side": 0,
+      "message": "Line 1131 is checking length and then we check each entry so I think that should be enough?\nThis test is indeed checking that 35 and 37 since they are not added on #1080 are not part of the ReviewerInput.\n\nexpect(mutations).to.have.lengthOf(5);",
+      "parentUuid": "a45ae3d1_f9059f1b",
+      "range": {
+        "startLine": 1144,
+        "startChar": 4,
+        "endLine": 1147,
+        "endChar": 32
+      },
+      "revId": "a9394a359584e538ec5b637d5eb72e44079fda59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

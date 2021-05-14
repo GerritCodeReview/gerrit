@@ -443,6 +443,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4f87401_d435d265",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-14T01:31:57Z",
+      "side": 1,
+      "message": "\u003e I believe you would need the HA plugin once you would land on any release closer to master.\n\nI think this proves my point, what we currently have is not HA/primary, yet it is MP Shared Storage. You seem to be arguing that we should only have version bound terms in here, that doesn\u0027t make sense to me. A well defined term would transcend versions. \n\nThe point is that MP Shared Storage is a broader term than HA, it includes gerrit-review, Qualcomm\u0027s setup, and anyone else\u0027s setup that happens to have multiple primaries and uses a shared storage system, whether it uses the HA plugins or not. You are welcome to add a term for HA if you would like a term that covers that setup only, however that does not appear to be what Nasser is defining here. His definition says \"These configurations CAN use the\" HA plugins, it does not say \"MUST use\".",
+      "parentUuid": "05e4b4ac_d224c53d",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

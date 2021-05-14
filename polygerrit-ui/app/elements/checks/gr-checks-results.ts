@@ -874,7 +874,8 @@ export class GrChecksResults extends GrLitElement {
     const filtered = selected.filter(
       result =>
         this.filterRegExp.test(result.checkName) ||
-        this.filterRegExp.test(result.summary)
+        this.filterRegExp.test(result.summary) ||
+        this.filterRegExp.test(result.message ?? '')
     );
     let expanded = this.isSectionExpanded.get(category);
     const expandedByUser = this.isSectionExpandedByUser.get(category) ?? false;

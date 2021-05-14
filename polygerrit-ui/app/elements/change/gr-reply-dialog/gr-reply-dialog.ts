@@ -40,8 +40,9 @@ import {
 } from '../../../constants/constants';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
-  accountKey,
   accountOrGroupKey,
+  isReviewerOrCC,
+  mapReviewer,
   removeServiceUsers,
 } from '../../../utils/account-util';
 import {getDisplayName} from '../../../utils/display-name-util';
@@ -74,7 +75,6 @@ import {
   ParsedJSON,
   PatchSetNum,
   ProjectInfo,
-  ReviewerInput,
   Reviewers,
   ReviewInput,
   ReviewResult,
@@ -542,18 +542,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
-  _mapReviewer(addition: AccountAddition): ReviewerInput {
-    if (addition.account) {
-      return {reviewer: accountKey(addition.account)};
-    }
-    if (addition.group) {
-      const reviewer = decodeURIComponent(addition.group.id) as GroupId;
-      const confirmed = addition.group.confirmed;
-      return {reviewer, confirmed};
-    }
-    throw new Error('Reviewer must be either an account or a group.');
-  }
-
   send(includeComments: boolean, startReview: boolean) {
     this.reporting.time(Timing.SEND_REPLY);
     const labels = this.$.labelScores.getLabelValues();
@@ -606,16 +594,23 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
       state?: ReviewerState
     ) => {
       additions.forEach(addition => {
-        const reviewer = this._mapReviewer(addition);
+        const reviewer = mapReviewer(addition);
         if (state) reviewer.state = state;
         reviewInput.reviewers?.push(reviewer);
       });
     };
     reviewInput.reviewers = [];
+    assertIsDefined(this.change, 'change');
     addToReviewInput(this.$.reviewers.additions(), ReviewerState.REVIEWER);
     addToReviewInput(this.$.ccs.additions(), ReviewerState.CC);
-    addToReviewInput(this.$.reviewers.removals(), ReviewerState.REMOVED);
-    addToReviewInput(this.$.ccs.removals(), ReviewerState.REMOVED);
+    addToReviewInput(
+      this.$.reviewers.removals().filter(r => isReviewerOrCC(this.change!, r)),
+      ReviewerState.REMOVED
+    );
+    addToReviewInput(
+      this.$.ccs.removals().filter(r => isReviewerOrCC(this.change!, r)),
+      ReviewerState.REMOVED
+    );
 
     this.disabled = true;
 

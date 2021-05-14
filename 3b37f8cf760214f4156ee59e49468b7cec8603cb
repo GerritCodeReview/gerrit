@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78a91571_725739d6",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-14T12:24:44Z",
+      "side": 1,
+      "message": "Explicitly declare the return type to be consistent with isServiceUser(), isSelf() \nmethods below:\n\n  : boolean",
+      "revId": "3b37f8cf760214f4156ee59e49468b7cec8603cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

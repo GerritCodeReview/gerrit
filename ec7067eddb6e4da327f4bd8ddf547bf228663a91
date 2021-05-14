@@ -95,6 +95,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21482a7f_184f0080",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-14T07:09:19Z",
+      "side": 1,
+      "message": "I am sorry to turn down this contribution. :-(\n\nBut I think we don\u0027t fully understand what the actual issue is, so we cannot provide an alternative solution.",
+      "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef0a5ab5_2a9dd868",

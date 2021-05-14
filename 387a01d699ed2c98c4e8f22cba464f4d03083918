@@ -16,6 +16,24 @@
       "message": "LGTM I think it can be submitted",
       "revId": "387a01d699ed2c98c4e8f22cba464f4d03083918",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5300f605_f851d1d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-14T11:51:52Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "b616b4cf_787f3c89",
+      "revId": "387a01d699ed2c98c4e8f22cba464f4d03083918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

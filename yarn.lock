@@ -500,20 +500,20 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@bazel/rollup@^3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-3.4.0.tgz#cdecb2b90535ef51fb3d56cc8bc19996918bac1a"
-  integrity sha512-QKnttbYyEQjRbWrOlkH2JuDnSww+9K7Ppil91zBTtr/qYTGW9XO0v7Ft3cs30s2NIWSGIuKj9/N5as+Uyratrw==
+"@bazel/rollup@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-3.5.0.tgz#3de2db08cbc62c3cffbbabaa4517ec250cf6419a"
+  integrity sha512-sFPqbzSbIn6h66uuZdXgK5oitSmEGtnDPfL3TwTS4ZWy75SpYvk9X1TFGlvkralEkVnFfdH15sq80/1t+YgQow==
 
-"@bazel/terser@^3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@bazel/terser/-/terser-3.4.0.tgz#9a25892977f00974e4195ff6cbe71ec0313a77d5"
-  integrity sha512-E26ijh44aXIXcg3EQEZcL2nkGlWZtMka0gwmYo9bDRyGt6rCRhFuSBC0mz9YCifUhKuACKWXLHPz9wvh1CDkEA==
+"@bazel/terser@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@bazel/terser/-/terser-3.5.0.tgz#4b1c3a3b781e65547694aa05bc600c251e4d8c0b"
+  integrity sha512-dpWHn1Iu+w0uA/kvPb0pP+4Io0PrVuzCCbVg2Ow4uRt/gTFKQJJWp4EiTitEZlPA2dHlW7PHThAb93lGo2c8qA==
 
-"@bazel/typescript@^3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-3.4.0.tgz#031d989682ff8605ed8745f31448c2f76a1b653a"
-  integrity sha512-XlWrlQnsdQHTwsliUAf4mySHOgqRY2S57LKG2rKRjm+a015Lzlmxo6jRQaxjr68UmuhmlklRw0WfCFxdR81AvQ==
+"@bazel/typescript@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-3.5.0.tgz#605493f4f0a5297df8a7fcccb86a1a80ea2090bb"
+  integrity sha512-BtGFp4nYFkQTmnONCzomk7dkmOwaINBL3piq+lykBlcc6UxLe9iCAnZpOyPypB1ReN3k3SRNAa53x6oGScQxMg==
   dependencies:
     protobufjs "6.8.8"
     semver "5.6.0"

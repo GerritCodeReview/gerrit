@@ -59,9 +59,6 @@ export const htmlTemplate = html`
     input {
       width: 20em;
     }
-    section.hide {
-      display: none;
-    }
   </style>
   <div class="container gr-form-styles">
     <header>Please confirm your contact information</header>
@@ -75,36 +72,36 @@ export const htmlTemplate = html`
       </p>
       <hr />
       <section>
-        <div class="title">Full Name</div>
-        <iron-input bind-value="{{_account.name}}">
-          <input
-            is="iron-input"
-            id="name"
-            bind-value="{{_account.name}}"
-            disabled="[[_saving]]"
-          />
-        </iron-input>
+        <span class="title">Full Name</span>
+        <span class="value">
+          <iron-input bind-value="{{_account.name}}">
+            <input
+              is="iron-input"
+              id="name"
+              bind-value="{{_account.name}}"
+              disabled="[[_saving]]"
+            />
+          </iron-input>
+        </span>
       </section>
-      <section class$="[[_computeUsernameClass(_usernameMutable)]]">
-        <div class="title">Username</div>
-        <iron-input bind-value="{{_account.username}}">
-          <input
-            is="iron-input"
-            id="username"
-            bind-value="{{_account.username}}"
-            disabled="[[_saving]]"
-          />
-        </iron-input>
-      </section>
-      <section>
-        <div class="title">Preferred Email</div>
-        <select id="email" disabled="[[_saving]]">
-          <option value="[[_account.email]]">[[_account.email]]</option>
-          <template is="dom-repeat" items="[[_account.secondary_emails]]">
-            <option value="[[item]]">[[item]]</option>
-          </template>
-        </select>
-      </section>
+      <template is="dom-if" if="[[_computeUsernameEditable(_serverConfig)]]">
+        <section>
+          <span class="title">Username</span>
+          <span hidden$="[[_usernameMutable]]" class="value"
+            >[[_username]]</span
+          >
+          <span hidden$="[[!_usernameMutable]]" class="value">
+            <iron-input bind-value="{{_username}}">
+              <input
+                is="iron-input"
+                id="username"
+                bind-value="{{_username}}"
+                disabled="[[_saving]]"
+              />
+            </iron-input>
+          </span>
+        </section>
+      </template>
       <hr />
       <p>
         More configuration options for Gerrit may be found in the
@@ -123,7 +120,7 @@ export const htmlTemplate = html`
         id="saveButton"
         primary=""
         link=""
-        disabled="[[_computeSaveDisabled(_account.name, _account.email, _saving)]]"
+        disabled="[[_computeSaveDisabled(_account.name, _username, _saving)]]"
         on-click="_handleSave"
         >Save</gr-button
       >

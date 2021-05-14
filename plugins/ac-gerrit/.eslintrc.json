@@ -1,0 +1,167 @@
+{
+  "extends": ["eslint:recommended", "google"],
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "__dirname": false,
+    "app": false,
+    "page": false,
+    "Polymer": false,
+    "process": false,
+    "require": false,
+    "Gerrit": false,
+    "Promise": false,
+    "assert": false,
+    "test": false,
+    "flushAsynchronousOperations": false
+  },
+  "rules": {
+    "arrow-parens": ["error", "as-needed"],
+    "block-spacing": ["error", "always"],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "camelcase": "off",
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "never"
+    }],
+    "curly": "off",
+    "eol-last": "off",
+    "indent": ["error", 2, {
+      "MemberExpression": 2,
+      "FunctionDeclaration": {"body": 1, "parameters": 2},
+      "FunctionExpression": {"body": 1, "parameters": 2},
+      "CallExpression": {"arguments": 2 },
+      "ArrayExpression": 1,
+      "ObjectExpression": 1,
+      "SwitchCase": 1
+    }],
+    "keyword-spacing": ["error", { "after": true, "before": true }],
+    "lines-between-class-members": ["error", "always"],
+    "max-len": [
+      "error",
+      130,
+      2,
+      {
+        "ignoreComments": true,
+        "ignorePattern": "^import .*;$"
+      }
+    ],
+    "new-cap": ["error", { "capIsNewExceptions": ["Polymer", "LegacyElementMixin", "GestureEventListeners", "LegacyDataMixin"] }],
+    "no-console": "off",
+    "no-multiple-empty-lines": [ "error", { "max": 1 } ],
+    "no-prototype-builtins": "off",
+    "no-redeclare": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ExpressionStatement > CallExpression > MemberExpression[object.name='test'][property.name='only']",
+        "message": "Remove test.only."
+      },
+      {
+        "selector": "ExpressionStatement > CallExpression > MemberExpression[object.name='suite'][property.name='only']",
+        "message": "Remove suite.only."
+      }
+    ],
+    "no-undef": "off",
+    "no-useless-escape": "off",
+    "no-var": "error",
+    "object-curly-spacing": ["error", "always"],
+    "object-shorthand": ["error", "always"],
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "class",
+        "next": "*"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "class"
+      }
+    ],
+    "prefer-arrow-callback": "error",
+    "prefer-const": "error",
+    "prefer-spread": "error",
+    "quote-props": ["error", "consistent-as-needed"],
+    "semi": [2, "always"],
+    "template-curly-spacing": "error",
+    "valid-jsdoc": "off",
+
+    "require-jsdoc": 0,
+    "jsdoc/check-alignment": 2,
+    "jsdoc/check-examples": 0,
+    "jsdoc/check-indentation": 0,
+    "jsdoc/check-param-names": 0,
+    "jsdoc/check-syntax": 0,
+    "jsdoc/check-tag-names": 0,
+    "jsdoc/check-types": 0,
+    "jsdoc/implements-on-classes": 2,
+    "jsdoc/match-description": 0,
+    "jsdoc/newline-after-description": 2,
+    "jsdoc/no-types": 0,
+    "jsdoc/no-undefined-types": 0,
+    "jsdoc/require-description": 0,
+    "jsdoc/require-description-complete-sentence": 0,
+    "jsdoc/require-example": 0,
+    "jsdoc/require-hyphen-before-param-description": 0,
+    "jsdoc/require-jsdoc": 0,
+    "jsdoc/require-param": 0,
+    "jsdoc/require-param-description": 0,
+    "jsdoc/require-param-name": 2,
+    "jsdoc/require-param-type": 2,
+    "jsdoc/require-returns": 0,
+    "jsdoc/require-returns-check": 0,
+    "jsdoc/require-returns-description": 0,
+    "jsdoc/require-returns-type": 2,
+    "jsdoc/valid-types": 2,
+    "jsdoc/require-file-overview": ["error", {
+      "tags": {
+        "license": {
+          "mustExist": true,
+          "preventDuplicates": true
+        }
+      }
+    }],
+    "import/named": 2,
+    "import/no-unresolved": 2,
+    "import/no-self-import": 2,
+    // The no-cycle rule is slow, because it doesn't cache dependencies.
+    // Disable it.
+    "import/no-cycle": 0,
+    "import/no-useless-path-segments": 2,
+    "import/no-unused-modules": 2,
+    "import/no-default-export": 2
+  },
+  "plugins": [
+    "html",
+    "jsdoc",
+    "import"
+  ],
+  "settings": {
+    "html/report-bad-indent": "error"
+  },
+  "overrides": [
+    {
+      "files": ["*_html.js", "*-styles.js", "externs.js"],
+      "rules": {
+        "max-len": "off"
+      }
+    },
+    {
+      "files": ["*.html"],
+      "rules": {
+        "jsdoc/require-file-overview": "off"
+      }
+    }
+  ]
+}

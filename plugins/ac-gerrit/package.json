@@ -1,0 +1,13 @@
+{
+  "name": "ac-gerrit",
+  "description": "AudioCodes Gerrit plugin",
+  "browser": true,
+  "scripts": {
+    "safe_bazelisk": "if which bazelisk >/dev/null; then bazel_bin=bazelisk; else bazel_bin=bazel; fi && $bazel_bin",
+    "eslint": "npm run safe_bazelisk test :lint_test",
+    "eslintfix": "npm run safe_bazelisk run :lint_bin -- -- --fix $(pwd)"
+  },
+  "devDependencies": {},
+  "license": "Apache-2.0",
+  "private": true
+}

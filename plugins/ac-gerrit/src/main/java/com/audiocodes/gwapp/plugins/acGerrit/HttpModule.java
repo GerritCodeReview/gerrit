@@ -9,6 +9,6 @@ public class HttpModule extends HttpPluginModule {
   @Override
   protected void configureServlets() {
     DynamicSet.bind(binder(), WebUiPlugin.class)
-        .toInstance(new JavaScriptPlugin("ac-polygerrit.nocache.html"));
+        .toInstance(new JavaScriptPlugin("ac-polygerrit.js"));
   }
 }

@@ -112,7 +112,6 @@ public class Submit
 
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
-  private final ChangeData.Factory changeDataFactory;
   private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
   private final AccountResolver accountResolver;
@@ -131,7 +130,6 @@ public class Submit
   Submit(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      ChangeData.Factory changeDataFactory,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeSuperSet> mergeSuperSet,
       AccountResolver accountResolver,
@@ -141,7 +139,6 @@ public class Submit
       ProjectCache projectCache) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
-    this.changeDataFactory = changeDataFactory;
     this.mergeOpProvider = mergeOpProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.accountResolver = accountResolver;

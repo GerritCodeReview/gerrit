@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fba4065d_196ed26f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-14T12:58:31Z",
+      "side": 1,
+      "message": "So you can do following:\n```\nassertIsDefined(this.change, \u0027change\u0027);\n    const change \u003d this.change;\n    addToReviewInput(this.$.reviewers.additions(), ReviewerState.REVIEWER);\n    addToReviewInput(this.$.ccs.additions(), ReviewerState.CC);\n    addToReviewInput(\n      this.$.reviewers.removals().filter(r \u003d\u003e isReviewerOrCC(change, r)),\n      ReviewerState.REMOVED\n    );\n    addToReviewInput(\n      this.$.ccs.removals().filter(r \u003d\u003e isReviewerOrCC(change, r)),\n      ReviewerState.REMOVED\n    );\n\n```",
+      "parentUuid": "ba9e0482_c7f6f60f",
+      "range": {
+        "startLine": 607,
+        "startChar": 68,
+        "endLine": 607,
+        "endChar": 69
+      },
+      "revId": "f3b9b014af46b4205df8272d0062c75973a53012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e12b9bdb_f0c5abe9",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
         "patchSetId": 6

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.ChangePermission.REVERT;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -40,6 +41,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -64,6 +66,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.CherryPickChange.Result;
@@ -98,7 +101,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class RevertSubmission implements RestModifyView<ChangeResource, RevertInput> {
+public class RevertSubmission
+    implements RestModifyView<ChangeResource, RevertInput>, UiAction<ChangeResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<InternalChangeQuery> queryProvider;
@@ -511,6 +515,35 @@ public class RevertSubmission implements RestModifyView<ChangeResource, RevertIn
         revWalk.markUninteresting(revCommit.getParent(i));
       }
     }
+  }
+
+  @Override
+  public Description getDescription(ChangeResource rsrc) {
+    Change change = rsrc.getChange();
+    boolean projectStatePermitsWrite = false;
+    try {
+      projectStatePermitsWrite =
+          projectCache.get(rsrc.getProject()).map(ProjectState::statePermitsWrite).orElse(false);
+    } catch (StorageException e) {
+      logger.atSevere().withCause(e).log(
+          "Failed to check if project state permits write: %s", rsrc.getProject());
+    }
+    return new UiAction.Description()
+        .setLabel("Revert submission")
+        .setTitle(
+            "Revert this change and all changes that have been submitted together with this change")
+        .setVisible(
+            and(
+                and(
+                    change.isMerged()
+                        && change.getSubmissionId() != null
+                        && isChangePartOfSubmission(change.getSubmissionId())
+                        && projectStatePermitsWrite,
+                    permissionBackend
+                        .user(rsrc.getUser())
+                        .ref(change.getDest())
+                        .testCond(CREATE_CHANGE)),
+                permissionBackend.user(rsrc.getUser()).change(rsrc.getNotes()).testCond(REVERT)));
   }
 
   /**

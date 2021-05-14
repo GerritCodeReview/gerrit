@@ -62,12 +62,26 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void mergedChangeActionHasRevert() throws Exception {
+  public void changeActionOneMergedChangeHasOnlyNormalRevert() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     gApi.changes().id(changeId).current().submit();
     Map<String, ActionInfo> actions = getChangeActions(changeId);
     assertThat(actions).containsKey("revert");
+    assertThat(actions).doesNotContainKey("revert_submission");
+  }
+
+  @Test
+  public void changeActionTwoMergedChangesHaveReverts() throws Exception {
+    String changeId1 = createChangeWithTopic().getChangeId();
+    String changeId2 = createChangeWithTopic().getChangeId();
+    gApi.changes().id(changeId1).current().review(ReviewInput.approve());
+    gApi.changes().id(changeId2).current().review(ReviewInput.approve());
+    gApi.changes().id(changeId2).current().submit();
+    Map<String, ActionInfo> actions1 = getChangeActions(changeId1);
+    assertThatMap(actions1).keys().containsAtLeast("revert", "revert_submission");
+    Map<String, ActionInfo> actions2 = getChangeActions(changeId2);
+    assertThatMap(actions2).keys().containsAtLeast("revert", "revert_submission");
   }
 
   @Test

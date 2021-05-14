@@ -87,13 +87,34 @@ export class GrChecksRun extends GrLitElement {
         }
         .attempt {
           display: inline-block;
-          background-color: var(--tag-gray);
-          border-radius: var(--line-height-normal);
           height: var(--line-height-normal);
           width: var(--line-height-normal);
-          text-align: center;
           vertical-align: top;
           font-size: var(--font-size-small);
+          position: relative;
+        }
+        .attempt .box {
+          color: #aaa;
+          display: block;
+          margin-left: 2px;
+          margin-bottom: 2px;
+          height: calc(var(--line-height-normal) - 2px);
+          line-height: calc(var(--line-height-normal) - 2px);
+          border: 1px solid #aaa;
+          border-radius: 2px;
+          padding: 0 var(--spacing-s);
+        }
+        .attempt .angle {
+          display: block;
+          position: absolute;
+          top: 2px;
+          color: transparent;
+          height: calc(var(--line-height-normal) - 2px);
+          border-left: 1px solid #aaa;
+          border-bottom: 1px solid #aaa;
+          border-radius: 2px;
+          /* 1px for the border of the .box div. */
+          padding: 0 calc(var(--spacing-s) + 1px);
         }
         .chip.error {
           border-left: var(--thick-border) solid var(--error-foreground);
@@ -233,9 +254,10 @@ export class GrChecksRun extends GrLitElement {
           <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
-          <span class="attempt" ?hidden="${this.run.isSingleAttempt}"
-            >${this.run.attempt}</span
-          >
+          <span class="attempt" ?hidden="${this.run.isSingleAttempt}">
+            <div class="box">${this.run.attempt}</div>
+            <div class="angle">${this.run.attempt}</div>
+          </span>
         </div>
         <div class="right">
           ${action

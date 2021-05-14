@@ -419,6 +419,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05e4b4ac_d224c53d",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-14T00:49:39Z",
+      "side": 1,
+      "message": "\u003e HA/Primary is not suitable to describe what Nasser is trying to describe because \u003e I would not use the term HA/Primary to describe the setup that Qualcomm currently has.\n\nI believe this change is for master, whilst your setup is on Gerrit v2.7/Fork that doesn\u0027t have any Lucene indexing. I believe you would need the HA plugin once you would land on any release closer to master.\n\n\u003e Yes, our setup does provide some HA, but not using the HA plugins, and HA describes only one of the intents of our setup, it does not describe the other major intent which is scalability.\n\u003e If we are defining specific terms it helps to ensure they are accurate and understandable, not just the term that has been used in the past by some.\n\nYou can achieve scalability with the HA plugin on Gerrit v3.3. onwards: all nodes can serve read/writes concurrently. HA doesn\u0027t necessarily mean \"active/passive\" and not necessarily just two nodes.\n\nOnce you have defined the Qualcomm architecture for Gerrit (v3.4 or later) we can follow-up on this change and create a definition for it. It would be misleading to have here a glossary for something that exists only in Gerrit v2.7 (EOL).",
+      "parentUuid": "43fddbd3_5ef903bf",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

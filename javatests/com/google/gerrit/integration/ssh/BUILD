@@ -5,3 +5,9 @@ acceptance_tests(
     group = "peer-keys-auth",
     labels = ["ssh"],
 )
+
+acceptance_tests(
+    srcs = ["NoShellIT.java"],
+    group = "no-shell",
+    labels = ["ssh"],
+)

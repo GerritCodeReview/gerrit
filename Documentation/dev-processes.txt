@@ -296,13 +296,31 @@ The change that fixes the security vulnerability should contain an integration
 test that verifies that the security vulnerability is no longer present.
 +
 Review and approval of the security fixes must be done by the Gerrit
-maintainers. Verifications must be done manually since the Gerrit CI doesn't
-build and test changes of the `gerrit-security-fixes` repository (and it
-shouldn't because everything on the CI server is public which would break
-the embargo).
+maintainers.
 +
 Once a security fix is ready and submitted, it should be cherry-picked to all
 branches that should be fixed.
+
+. CI validation of the security fix:
++
+The validation of the security fixes does not happen on the regular Gerrit CI,
+because it would compromise the confidentiality of the fix and therefore break
+the embargo.
++
+The release manager maintains a private branch on the
+link:https://gerrit-review.googlesource.com/admin/repos/gerrit-ci-scripts[gerrit-ci-scripts,role=external,window=_blank] repository
+which contains a special build pipeline with special visibility restrictions.
++
+The validation process provides feedback, in terms of Code-Style, Verification
+and Checks, to the incoming security changes. The links associated
+with the build logs are exposed over the Internet but their access limited
+to only those who are actively participating in the development and review of
+the security fix.
++
+The maintainers that are willing to access the links to the CI logs need
+to request a time-limited (maximum 30 days) nominal X.509 certificate from a
+CI maintainer, which allows to access the build logs and analyze failures.
+The release manager may help obtaining that certificate from CI maintainers.
 
 . Creation of fixed releases and announcement of the security vulnerability:
 +

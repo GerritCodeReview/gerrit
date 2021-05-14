@@ -34,6 +34,24 @@
       "parentUuid": "7a1088c6_68ca6a65",
       "revId": "a298c5fafd480290b4d1561abbc9e41118f8b44a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cc58dd5_8035d3a6",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-14T07:17:19Z",
+      "side": 1,
+      "message": "So you are proposing to create a utility function for these two lines of code?\n\n  clock.tick(1000);\n  await flush();",
+      "parentUuid": "e7e7b875_771e4261",
+      "revId": "a298c5fafd480290b4d1561abbc9e41118f8b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

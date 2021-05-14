@@ -37,6 +37,7 @@ import {
   GenerateWebLinksFileParameters,
   GenerateWebLinksParameters,
   GenerateWebLinksPatchsetParameters,
+  GenerateWebLinksResolveConflictsParameters,
   GerritNav,
   GroupDetailView,
   isGenerateUrlDiffViewParameters,
@@ -391,6 +392,8 @@ export class GrRouter extends PolymerElement {
         return this._getChangeWeblinks(params);
       case WeblinkType.PATCHSET:
         return this._getPatchSetWeblink(params);
+      case WeblinkType.RESOLVE_CONFLICTS:
+        return this._getResolveConflictsWeblinks(params);
       default:
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         assertNever(params, `Unsupported weblink ${(params as any).type}!`);
@@ -409,6 +412,12 @@ export class GrRouter extends PolymerElement {
     } else {
       return {name, url: weblink.url};
     }
+  }
+
+  _getResolveConflictsWeblinks(
+    params: GenerateWebLinksResolveConflictsParameters
+  ): GeneratedWebLink[] {
+    return params.options?.weblinks || [];
   }
 
   _firstCodeBrowserWeblink(weblinks: GeneratedWebLink[]) {

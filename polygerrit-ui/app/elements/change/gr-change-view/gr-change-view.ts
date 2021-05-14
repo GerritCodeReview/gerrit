@@ -52,7 +52,10 @@ import {
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
 import {windowLocationReload} from '../../../utils/dom-util';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {
+  GeneratedWebLink,
+  GerritNav,
+} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
@@ -521,6 +524,12 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: Object})
   revertedChange?: ChangeInfo;
+
+  @property({
+    type: Array,
+    computed: '_computeResolveWeblinks(_change, _commitInfo, _serverConfig)',
+  })
+  resolveWeblinks?: GeneratedWebLink[];
 
   restApiService = appContext.restApiService;
 
@@ -2285,6 +2294,24 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
           this._mergeable = mergableInfo.mergeable;
         }
       });
+  }
+
+  _computeResolveWeblinks(
+    change?: ChangeInfo,
+    commitInfo?: CommitInfo,
+    config?: ServerInfo
+  ) {
+    if (!change || !commitInfo || !config) {
+      return [];
+    }
+    return GerritNav.getResolveConflictsWeblinks(
+      change.project,
+      commitInfo.commit,
+      {
+        weblinks: commitInfo.resolve_conflicts_web_links,
+        config,
+      }
+    );
   }
 
   _computeCanStartReview(change: ChangeInfo) {

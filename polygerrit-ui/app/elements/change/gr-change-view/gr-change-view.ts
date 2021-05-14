@@ -503,6 +503,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   _activeTabs: string[] = [PrimaryTab.FILES, SecondaryTab.CHANGE_LOG];
 
   @property({type: Boolean})
+  unresolvedOnly = false;
+
+  @property({type: Boolean})
   _showAllRobotComments = false;
 
   @property({type: Boolean})
@@ -819,6 +822,15 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       if (tabName) break;
       target = target?.parentElement as HTMLElement | null;
     } while (target);
+
+    if (tabName === PrimaryTab.COMMENT_THREADS) {
+      // Show unresolved threads by default only if they are present
+      const hasUnresolvedThreads =
+        (this._commentThreads ?? []).filter(thread => isUnresolved(thread))
+          .length > 0;
+      if (hasUnresolvedThreads) this.unresolvedOnly = true;
+    }
+
     this.reporting.reportInteraction('show-tab', {
       tabName,
       src: 'paper-tab-click',
@@ -898,13 +910,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }
 
     return false;
-  }
-
-  _computeShowUnresolved(threads?: CommentThread[]) {
-    // If all threads are resolved and the Comments Tab is opened then show
-    // all threads instead
-    if (!threads?.length) return true;
-    return threads.filter(thread => isUnresolved(thread)).length > 0;
   }
 
   _robotCommentCountPerPatchSet(threads: CommentThread[]) {

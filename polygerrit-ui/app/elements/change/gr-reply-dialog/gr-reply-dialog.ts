@@ -607,6 +607,17 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     ) => {
       additions.forEach(addition => {
         const reviewer = this._mapReviewer(addition);
+        if (state === ReviewerState.REMOVED) {
+          const reviewers = [
+            ...(this.change?.reviewers[ReviewerState.CC] ?? []),
+            ...(this.change?.reviewers[ReviewerState.REVIEWER] ?? []),
+          ];
+          if (
+            !reviewers.some(r => accountOrGroupKey(r) === reviewer.reviewer)
+          ) {
+            return;
+          }
+        }
         if (state) reviewer.state = state;
         reviewInput.reviewers?.push(reviewer);
       });

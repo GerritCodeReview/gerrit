@@ -395,6 +395,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43fddbd3_5ef903bf",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2021-05-14T00:23:23Z",
+      "side": 1,
+      "message": "HA/Primary is not suitable to describe what Nasser is trying to describe because I would not use the term HA/Primary to describe the setup that Qualcomm currently has. Yes, our setup does provide some HA, but not using the HA plugins, and HA describes only one of the intents of our setup, it does not describe the other major intent which is scalability. If we are defining specific terms it helps to ensure they are accurate and understandable, not just the term that has been used in the past by some.",
+      "parentUuid": "cc95f6e2_1e563987",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

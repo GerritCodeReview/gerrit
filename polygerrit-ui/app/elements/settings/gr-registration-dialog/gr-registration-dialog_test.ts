@@ -137,53 +137,28 @@ suite('gr-registration-dialog tests', () => {
   });
 
   test('_computeUsernameMutable', () => {
+    assert.isTrue(element._computeUsernameMutable(undefined));
+    assert.isFalse(element._computeUsernameMutable('abc'));
+  });
+
+  test('_computeUsernameEditable', () => {
     assert.isTrue(
-      element._computeUsernameMutable(
-        {
-          ...createServerInfo(),
-          auth: {
-            auth_type: AuthType.HTTP,
-            editable_account_fields: [EditableAccountField.USER_NAME],
-          },
+      element._computeUsernameEditable({
+        ...createServerInfo(),
+        auth: {
+          auth_type: AuthType.HTTP,
+          editable_account_fields: [EditableAccountField.USER_NAME],
         },
-        undefined
-      )
+      })
     );
     assert.isFalse(
-      element._computeUsernameMutable(
-        {
-          ...createServerInfo(),
-          auth: {
-            auth_type: AuthType.HTTP,
-            editable_account_fields: [EditableAccountField.USER_NAME],
-          },
+      element._computeUsernameEditable({
+        ...createServerInfo(),
+        auth: {
+          auth_type: AuthType.HTTP,
+          editable_account_fields: [],
         },
-        'abc'
-      )
-    );
-    assert.isFalse(
-      element._computeUsernameMutable(
-        {
-          ...createServerInfo(),
-          auth: {
-            auth_type: AuthType.HTTP,
-            editable_account_fields: [],
-          },
-        },
-        undefined
-      )
-    );
-    assert.isFalse(
-      element._computeUsernameMutable(
-        {
-          ...createServerInfo(),
-          auth: {
-            auth_type: AuthType.HTTP,
-            editable_account_fields: [],
-          },
-        },
-        'abc'
-      )
+      })
     );
   });
 });

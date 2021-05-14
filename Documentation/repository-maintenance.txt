@@ -1,0 +1,116 @@
+= Gerrit Code Review - Repository Maintenance
+
+== Description
+
+Each project in Gerrit is stored in a bare Git repository. Gerrit uses
+the JGit library to access (read and write to) these Git repositories.
+As modifications are made to a project, Git repository maintenance will
+be needed or performance will eventually suffer. When using the Git
+command line tool to operate on a Git repository, it will run `git gc`
+every now and then on the repository to ensure that Git garbage
+collection is performed. However regular maintenance does not happen as
+a result of normal Gerrit operations, so this is something that Gerrit
+administrators need to plan for.
+
+Gerrit has a built-in feature which allows it to run Git garbage
+collection on repositories. This can be
+link:config-gerrit.html#gc[configured] to run on a regular basis, and/or
+this can be run manually with the link:cmd-gc.html[gerrit gc] ssh
+command, or with the link:rest-api-projects.html#run-gc[run-gc] REST API.
+Some administrators will opt to run `git gc` or `jgit gc` outside of
+Gerrit instead. There are many reasons this might be done, the main one
+likely being that when it is run in Gerrit it can be very resource
+intensive and scheduling an external job to run Git garbage collection
+allows administrators to finely tune the approach and resource usage of
+this maintenance.
+
+== Git Garbage Collection Impacts
+
+Unlike a typical server database, access to Git repositories is not
+marshalled through a single process or a set of inter communicating
+processes. Unfortuntatlely the design of the on-disk layout of a Git
+repository does not allow for 100% race free operations when accessed by
+multiple actors concurrently. These design shortcomings are more likely
+to impact the operations of busy repositories since racy conditions are
+more likely to occur when there are more concurrent operations. Since
+most Gerrit servers are expected to run without interruptions, Git
+garbage collection likely needs to be run during normal operational hours.
+When it runs, it adds to the concurrency of the overall accesses. Given
+that many of the operations in garbage collection involve deleting files
+and directories, it has a higher chance of impacting other ongoing
+operations than most other operations.
+
+=== Interrupted Operations
+
+When Git garbage collection deletes a file or directory that is
+currently in use by an ongoing operation, it can cause that operation to
+fail. These sorts of failures are often single shot failures, i.e. the
+operation will succeed if tried again. An example of such a failure is
+when a pack file is deleted while Gerrit is sending an object in the
+file over the network to a user performing a clone or fetch. Usually
+pack files are only deleted when the referenced objects in them have
+been repacked and thus copied to a new pack file. So performing the same
+operation again after the fetch will likely send the same object from
+the new pack instead of the deleted one, and the operation will succeed.
+
+=== Data Loss
+
+It is possible for data loss to occur when Git garbage collection runs.
+This is very rare, but it can happen. This can happen when an object is
+believed to be unreferenced when object repacking is running, and then
+garbage collection deletes it. This can happen because even though an
+object may indeed be unreferenced when object repacking begins and
+reachability of all objects is determined, it can become referenced by
+another concurrent operation after this unreferenced determination but
+before it gets deleted. When this happens, a new reference can be
+created which points to a now missing object, and this will result in a
+loss.
+
+== Reducing Git Garbage Collection Impacts
+
+JGit has a `preserved` directory feature which is intended to reduce
+some of the impacts of Git garbage collection, and Gerrit can take
+advantage of the feature too. The `preserved` directory is a
+subdirectory of a repository's `objects/pack` directory where JGit will
+move pack files that it would normally delete when `jgit gc` is invoked
+with the `--preserve-oldpacks` option. It will later delete these files
+the next time that `jgit gc` is run if it is invoked with the
+`--prune-preserved` option. Using these flags together on every `jgit gc`
+invocation means that packfiles will get an extended lifetime by one
+full garbage collection cycle. Since an atomic move is used to move these
+files, any open references to them will continue to work, even on NFS. On
+a busy repository, preserving pack files can make operations much more
+reliable, and interrupted operations should almost entirely disappear.
+
+Moving files to the `preserved` directory also has the ability to reduce
+data loss. If JGit cannot find an object it needs in its current object
+DB, it will look into the `preserved` directory as a last resort. If it
+finds the object in a pack file there, it will restore the
+slated-to-be-deleted pack file back to the original `objects/pack`
+directory effectively "undeleting" it and making all the objects in it
+available again. When this happens, data loss is prevented.
+
+One advantage of restoring preserved packfiles in this way when an
+object is referenced in them, is that it makes loosening unreferenced
+objects during Git garbage collection, which is a potentially expensive,
+wasteful, and performance impacting operation, no longer desirable. It
+is recommended that if you use Git for garbage collection, that you use
+the `-a` option to `git repack` instead of the `-A` option to no longer
+perform this loosening.
+
+When Git is used for garbage collection instead of JGit, it is fairly
+easy to wrap `git gc` or `git repack` with a small script which has a
+`--prune-preserved` option which behaves as mentioned above by deleting
+any pack files currently in the preserved directory, and also has a
+`--preserve-oldpacks` option which then hardlinks all the currently
+existing pack files from the `objects/pack` directory into the
+`preserved` directory right before calling the real Git command. This
+approach will then behave similarly to `jgit gc` with respect to
+preserving pack files.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

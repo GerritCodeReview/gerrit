@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c83a787_0423618a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-14T12:36:47Z",
+      "side": 1,
+      "message": "Is really `!` needed? `assertIsDefined(this.change, \u0027change\u0027);` is not enough?",
+      "range": {
+        "startLine": 607,
+        "startChar": 68,
+        "endLine": 607,
+        "endChar": 69
+      },
+      "revId": "f3b9b014af46b4205df8272d0062c75973a53012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e12b9bdb_f0c5abe9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-14T12:36:47Z",
+      "side": 1,
+      "message": "I would rename this as `isReviewerOrCC`",
+      "range": {
+        "startLine": 611,
+        "startChar": 40,
+        "endLine": 611,
+        "endChar": 50
+      },
+      "revId": "f3b9b014af46b4205df8272d0062c75973a53012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

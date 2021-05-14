@@ -1447,9 +1447,11 @@ export class GrChangeActions
         );
         break;
       case RevertType.REVERT_SUBMISSION:
+        // TODO(dhruvsri): replace with this.actions.revert_submission once
+        // BE starts sending it again
         this._fireAction(
           '/revert_submission',
-          assertUIActionInfo(this.actions.revert_submission),
+          {__key: 'revert_submission', method: HttpMethod.POST} as UIActionInfo,
           false,
           {message}
         );

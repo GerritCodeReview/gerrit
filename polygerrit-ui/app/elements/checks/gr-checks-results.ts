@@ -27,6 +27,7 @@ import {
   TemplateResult,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
+import './gr-checks-attempt';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {
   Action,
@@ -112,16 +113,6 @@ class GrResultRow extends GrLitElement {
           width: 165px;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
-        .nameCol .attempt {
-          display: inline-block;
-          background-color: var(--tag-gray);
-          border-radius: var(--line-height-normal);
-          height: var(--line-height-normal);
-          width: var(--line-height-normal);
-          text-align: center;
-          vertical-align: top;
-          font-size: var(--font-size-small);
         }
         .summaryCol {
           /* Forces this column to get the remaining space that is left over by
@@ -263,9 +254,7 @@ class GrResultRow extends GrLitElement {
         <td class="nameCol" @click="${this.toggleExpanded}">
           <div>
             <span>${this.result.checkName}</span>
-            <span class="attempt" ?hidden="${this.result.isSingleAttempt}"
-              >${this.result.attempt}</span
-            >
+            <gr-checks-attempt .run="${this.result}"></gr-checks-attempt>
           </div>
         </td>
         <td class="summaryCol">

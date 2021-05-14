@@ -71,7 +71,7 @@ export const htmlTemplate = html`
       background-color: transparent;
       padding: 0;
     }
-    :host(:not([flat])) .chip {
+    :host(:not([flat])) .chip, .icon {
       color: var(--status-text-color);
     }
   </style>
@@ -81,10 +81,18 @@ export const htmlTemplate = html`
     title="[[tooltipText]]"
     max-width="40em"
   >
-    <template is="dom-if" if="[[!!hasStatusLink(revertedChange)]]">
-      <a class="status-link" href="[[getStatusLink(revertedChange)]]">
+    <template
+      is="dom-if"
+      if="[[!!hasStatusLink(revertedChange, resolveWeblinks, status)]]">
+      <a class="status-link"
+         href="[[getStatusLink(revertedChange, resolveWeblinks, status)]]">
         <div class="chip" aria-label$="Label: [[status]]">
           [[_computeStatusString(status)]]
+          <iron-icon
+            class="icon"
+            icon="gr-icons:edit"
+            hidden$="[[!showResolveIcon(status, resolveWeblinks)]]">
+          </iron-icon>
         </div>
       </a>
     </template>
@@ -94,4 +102,5 @@ export const htmlTemplate = html`
       </div>
     </template>
   </gr-tooltip-content>
+</span>
 `;

@@ -274,6 +274,7 @@ const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 const SKIP_ACTION_KEYS: string[] = [
   ChangeActions.REVIEWED,
   ChangeActions.UNREVIEWED,
+  ChangeActions.REVERT_SUBMISSION
 ];
 
 export function assertUIActionInfo(action?: ActionInfo): UIActionInfo {

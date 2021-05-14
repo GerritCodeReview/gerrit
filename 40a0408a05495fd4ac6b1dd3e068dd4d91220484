@@ -16,6 +16,29 @@
       "message": "LGTM",
       "revId": "40a0408a05495fd4ac6b1dd3e068dd4d91220484",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2210b36e_f9770c1e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-attempt.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-14T10:14:07Z",
+      "side": 1,
+      "message": "I would cleaned up this to common and uncommon parts:\n\n```\n.attempt .box, .attempt .angle {\ndisplay: block; // btw is this needed for div?\nbox-sizing: border-box;\nheight: calc(var(--line-height-normal) - 2px);\nborder-radius: 2px;\n}\n\n.attempt .box {\n...\n}\n```",
+      "range": {
+        "startLine": 37,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 9
+      },
+      "revId": "40a0408a05495fd4ac6b1dd3e068dd4d91220484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

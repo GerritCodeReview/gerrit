@@ -67,6 +67,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   private String contextPath;
   private String servletPath;
   private String path;
+  private String method;
 
   public FakeHttpServletRequest() {
     this("gerrit.example.com", 80, "", SERVLET_PATH);
@@ -81,6 +82,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
     attributes = Maps.newConcurrentMap();
     parameters = LinkedListMultimap.create();
     headers = LinkedListMultimap.create();
+    method = "GET";
   }
 
   @Override
@@ -105,6 +107,11 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public String getContentType() {
+    List<String> contentType = headers.get("Content-Type");
+    if (contentType != null && !contentType.isEmpty()) {
+      return contentType.get(0);
+    }
+
     return null;
   }
 
@@ -297,7 +304,11 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public String getMethod() {
-    return "GET";
+    return method;
+  }
+
+  public void setMethod(String method) {
+    this.method = method;
   }
 
   @Override

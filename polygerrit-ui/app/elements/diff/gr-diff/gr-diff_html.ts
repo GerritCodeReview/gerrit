@@ -326,23 +326,58 @@ export const htmlTemplate = html`
       height: calc(var(--line-height-normal) + var(--spacing-s));
     }
 
-    .contextDivider {
-      height: var(--divider-height);
-      /* Create a positioning context. */
-      transform: translateX(0px);
+    .dividerCell {
+      vertical-align: top;
     }
-    .contextDivider.collapsed {
-      /* Hide divider gap, but still show child elements (expansion buttons). */
+    .dividerRow.showBoth .dividerCell {
+      height: var(--divider-height);
+    }
+    .dividerRow.showAboveOnly .dividerCell,
+    .dividerRow.showBelowOnly .dividerCell {
       height: 0;
     }
-    .dividerCell {
-      width: 100%;
-      height: 100%;
+
+    .verticalFlex {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .dividerRow.showBoth .verticalFlex {
+      justify-content: center;
+      margin-top: calc(0px - var(--line-height-normal) - var(--spacing-s));
+      margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));
+      height: calc(
+        2 * var(--line-height-normal) + 2 * var(--spacing-s) +
+          var(--divider-height) - 1px
+      );
+    }
+    .dividerRow.showAboveOnly .verticalFlex {
+      justify-content: flex-end;
+      /* margin-top has to make room for height+1px. */
+      margin-top: calc(-1px - var(--line-height-normal) - var(--spacing-s));
+      height: calc(var(--line-height-normal) + var(--spacing-s));
+    }
+    .dividerRow.showBelowOnly .verticalFlex {
+      justify-content: flex-start;
+      /* This just pushes the container down 1 pixel as to render below the
+         1px border-top of the padding row below. The same could be achieved
+         by position:relative; top:1px.*/
+      margin-top: 1px;
+      margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));
+    }
+
+    .horizontalFlex {
       display: flex;
       justify-content: center;
-      position: absolute;
-      top: 0;
-      left: 0;
+    }
+    .dividerRow.showBoth .horizontalFlex {
+      align-items: center;
+    }
+    .dividerRow.showAboveOnly .horizontalFlex {
+      align-items: end;
+    }
+    .dividerRow.showBelowOnly .horizontalFlex {
+      align-items: start;
     }
     .displayLine .diff-row.target-row td {
       box-shadow: inset 0 -1px var(--border-color);

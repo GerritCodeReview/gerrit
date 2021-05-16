@@ -52,6 +52,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import org.eclipse.jgit.http.server.GitSmartHttpTools;
 
 /**
  * Authenticates the current user by HTTP basic authentication.
@@ -100,9 +101,28 @@ class ProjectBasicAuthFilter implements Filter {
     HttpServletRequest req = (HttpServletRequest) request;
     Response rsp = new Response((HttpServletResponse) response);
 
-    if (session.get().isSignedIn() || verify(req, rsp)) {
+    if (isSignedInForRequest(req) || verify(req, rsp)) {
       chain.doFilter(req, rsp);
     }
+  }
+
+  private boolean isSignedInForRequest(HttpServletRequest req) {
+    WebSession currentSession = session.get();
+    boolean isGitRequest = req.getRequestURI() != null && GitSmartHttpTools.isGitClient(req);
+    boolean isRead = "GET".equals(req.getMethod()) || "HEAD".equals(req.getMethod());
+    boolean isAlreadySignedIn = currentSession.isSignedIn();
+    boolean isSignedInForRequest =
+        isAlreadySignedIn
+            && (isGitRequest || isRead || currentSession.isAccessPathOk(AccessPath.REST_API));
+    logger.atFine().log(
+        "HTTP:%s %s signedIn=%s (isAlreadySignedIn=%s, isGitRequest=%s, isRead=%s)",
+        req.getMethod(),
+        req.getRequestURI(),
+        isSignedInForRequest,
+        isAlreadySignedIn,
+        isGitRequest,
+        isRead);
+    return isSignedInForRequest;
   }
 
   private boolean verify(HttpServletRequest req, Response rsp) throws IOException {
@@ -145,6 +165,9 @@ class ProjectBasicAuthFilter implements Filter {
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
         || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
       if (PasswordVerifier.checkPassword(who.externalIds(), username, password)) {
+        logger.atFine().log(
+            "HTTP:%s %s username/password authentication succeeded",
+            req.getMethod(), req.getRequestURI());
         return succeedAuthentication(who, null);
       }
     }
@@ -159,6 +182,8 @@ class ProjectBasicAuthFilter implements Filter {
     try {
       AuthResult whoAuthResult = accountManager.authenticate(whoAuth);
       setUserIdentified(whoAuthResult.getAccountId(), whoAuthResult);
+      logger.atFine().log(
+          "HTTP:%s %s Realm authentication succeeded", req.getMethod(), req.getRequestURI());
       return true;
     } catch (NoSuchUserException e) {
       if (PasswordVerifier.checkPassword(who.externalIds(), username, password)) {

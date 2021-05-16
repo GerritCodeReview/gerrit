@@ -153,7 +153,14 @@ export const htmlTemplate = html`
     <section
       class$="[[_computeDisplayState(_showAllSections, change, _SECTION.UPDATED)]]"
     >
-      <span class="title">Updated</span>
+      <span class="title">
+        <gr-tooltip-content
+          has-tooltip=""
+          title="Last update of (meta)data for this change."
+        >
+          Updated
+        </gr-tooltip-content>
+      </span>
       <span class="value">
         <gr-date-formatter
           has-tooltip=""

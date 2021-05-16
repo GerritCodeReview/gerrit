@@ -344,13 +344,22 @@ export abstract class GrDiffBuilder {
     showAbove: boolean,
     showBelow: boolean
   ): HTMLElement {
-    const row = this._createElement('tr', 'contextDivider');
-    if (!(showAbove && showBelow)) {
-      row.classList.add('collapsed');
+    const row = this._createElement('tr', 'dividerRow');
+    if (showAbove && !showBelow) {
+      row.classList.add('showAboveOnly');
+    } else if (!showAbove && showBelow) {
+      row.classList.add('showBelowOnly');
+    } else {
+      // Note that !showAbove && !showBelow also intentionally creates
+      // "showBoth". This means the file is completely collapsed, which is
+      // unusual, but at least happens in one test.
+      row.classList.add('showBoth');
     }
 
-    const element = this._createElement('td', 'dividerCell');
-    row.appendChild(element);
+    row.appendChild(this._createBlameCell(0));
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.appendChild(this._createElement('td'));
+    }
 
     const contextControls = this._createElement(
       'gr-context-controls'

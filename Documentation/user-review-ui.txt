@@ -93,13 +93,6 @@ and offers actions on the change.
 
 image::images/gwt-user-review-ui-change-screen-change-info.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info.png"]
 
-- [[change-owner]]Change Owner:
-+
-The owner of the change is displayed as a link to a list of the owner's
-changes that have the same status as the currently viewed change.
-+
-image::images/gwt-user-review-ui-change-screen-change-info-owner.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-owner.png"]
-
 - [[reviewers]]Reviewers:
 +
 The reviewers of the change are displayed as chip tokens.
@@ -162,10 +155,6 @@ If a change cannot be merged due to path conflicts this is highlighted
 by a bold red `Cannot Merge` label.
 +
 image::images/gwt-user-review-ui-change-screen-change-info-cannot-merge.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-cannot-merge.png"]
-
-- [[update-time]]Time of Last Update:
-+
-image::images/gwt-user-review-ui-change-screen-change-info-last-update.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-last-update.png"]
 
 - [[actions]]Actions:
 +
@@ -665,7 +654,7 @@ Using the quick approve button also publishes all inline draft
 comments; a summary comment is only added if the reply popup panel is
 open when the quick approve button is clicked.
 
-image::images/gwt-user-review-ui-change-screen-quick-approve.png[width=800, link="images/gwt-user-review-ui-change-screen-quick-approve.png"]
+image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="images/gwt-user-review-ui-change-screen-quick-approve.png"]
 
 [[history]]
 === History
@@ -746,28 +735,12 @@ the Git web browser.
 image::images/gwt-user-review-ui-side-by-side-diff-screen-project-and-file.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-project-and-file.png"]
 
 [[side-by-side-mark-reviewed]]
-The checkbox in front of the project name and the file name allows the
+The checkbox in front of the file name allows the
 patch to be marked as reviewed. The link:#mark-reviewed[Mark Reviewed]
 diff preference allows to control whether the files should be
 automatically marked as reviewed when they are viewed.
 
-image::images/gwt-user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-reviewed.png"]
-
-[[scrollbar]]
-The scrollbar shows patch diffs and inline comments as annotations.
-This provides a good overview of the lines in the patch that are
-relevant for reviewing. By clicking on an annotation one can quickly
-navigate to the corresponding line in the patch.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-scrollbar.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-scrollbar.png"]
-
-[[gaps]]
-A gap between lines in the file content that is caused by aligning the
-left and right side or by displaying inline comments is shown as a
-vertical red bar in the line number column. This prevents a gap from
-being mistaken for blank lines in the file
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-red-bar.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-red-bar.png"]
+image::images/user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-reviewed.png"]
 
 [[patch-set-selection]]
 In the header, on each side, the list of patch sets is shown. Clicking
@@ -926,52 +899,10 @@ image::images/gwt-user-review-ui-side-by-side-diff-screen-commented.png[width=80
 [[file-level-comments]]
 === File Level Comments
 
-Comments that apply to a whole file can be added on file level.
+File level comments are added by clicking the 'File' header at the top
+of the file.
 
-File level comments are added by clicking on the comment icon in the
-header above the file.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-file-level-comment.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-file-level-comment.png"]
-
-Clicking on the comment icon opens a comment box for typing the file
-level comment.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-file-level-commented.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-file-level-commented.png"]
-
-[[search]]
-=== Search
-
-For searching within a patch file, a Vim-like search is supported.
-Typing `/` opens the search box. Typing in the search box immediately
-highlights matches in the patch file with a yellow background. Using
-JavaScript regular expressions in the search term is supported. The
-search is case insensitive. After confirming the search by `ENTER` one
-can navigate between the matches by `n` / `N` to go to the next /
-previous match. Skipped lines are automatically expanded if they
-contain a match and one navigates to it.
-
-For additional possibilities to search please check the
-link:http://www.vim.org/docs.php[Vim documentation,role=external,window=_blank]. There are other
-useful ways to search, e.g. while the cursor is on a word, pressing `*`
-or `#` searches for the next or previous occurrence of the word.
-
-Searching by `Ctrl-F` finds matches only in the visible area of the
-screen unless the link:#render[Render] diff preference is set to `Slow`.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-search.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-search.png"]
-
-[[key-navigation]]
-=== Key Navigation
-
-Vim-like commands can be used to navigate within a patch file:
-
-- `h` / `j` / `k` / `l` moves the cursor left / down / up / right
-- `0` / `$` moves the cursor to the start / end of the line
-- `gg` / `G` moves to cursor to the start / end of the file
-- `Ctrl-D` / `Ctrl-U` scrolls downwards / upwards
-
-Please check the link:http://www.vim.org/docs.php[Vim documentation,role=external,window=_blank]
-for further information.
+image::images/user-review-ui-side-by-side-diff-screen-file-level-comment.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-file-level-comment.png"]
 
 [[diff-preferences]]
 === Diff Preferences
@@ -981,26 +912,9 @@ rendered. Users can configure their preferences in the diff
 preferences. The diff preferences can be accessed by clicking on the
 settings icon in the screen header.
 
-image::images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png"]
-
-The diff preferences popup allows to change the diff preferences.
-By clicking on the `Save` button changes to the diff preferences are
-saved permanently. Clicking on the `Apply` button applies the new
-diff preferences to the current screen, but they are discarded when the
-screen is refreshed. The `Save` button is only available if the user is
-signed in.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-preferences-popup.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences-popup.png"]
+image::images/user-review-ui-side-by-side-diff-screen-preferences.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-preferences.png"]
 
 The following diff preferences can be configured:
-
-- [[theme]]`Theme`:
-+
-Controls the theme that is used to render the file content.
-+
-E.g. users could choose to work with a dark theme.
-+
-image::images/gwt-user-review-ui-side-by-side-diff-screen-dark-theme.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-dark-theme.png"]
 
 - [[ignore-whitespace]]`Ignore Whitespace`:
 +
@@ -1010,11 +924,11 @@ Controls whether differences in whitespace should be ignored or not.
 +
 All differences in whitespace are highlighted.
 +
-** `At Line End`:
+** `Trailing`:
 +
 Whitespace differences at the end of lines are ignored.
 +
-** `Leading, At Line End`:
+** `Leading, Trailing`:
 +
 Whitespace differences at the beginning and end of lines are ignored.
 +
@@ -1028,11 +942,7 @@ Controls how many spaces should be displayed for a tab.
 
 - [[columns]]`Columns`:
 +
-Sets the preferred line length. At this position a vertical dashed line
-is displayed so that one can easily detect lines the exceed the
-preferred line length.
-+
-image::images/gwt-user-review-ui-side-by-side-diff-screen-column.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-column.png"]
+Sets the preferred line length. At this position, lines are wrapped.
 
 - [[lines-of-context]]`Lines Of Context`:
 +
@@ -1049,83 +959,27 @@ block of skipped lines.
 If many lines are skipped there are additional links to expand the
 context by ten lines before and after the skipped block.
 +
-image::images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png"]
+image::images/user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png"]
 
 - [[syntax-highlighting]]`Syntax Highlighting`:
 +
 Controls whether syntax highlighting should be enabled.
 +
 The language for the syntax highlighting is automatically detected from
-the file extension. The language can also be set manually by selecting
-it from the `Language` drop-down list.
-+
-image::images/gwt-user-review-ui-side-by-side-diff-screen-syntax-coloring.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-syntax-coloring.png"]
+the file extension.
 
-- [[whitespace-errors]]`Whitespace Errors`:
+- [[whitespace-errors]]`Show trailing whitespace`:
 +
-Controls whether whitespace errors are highlighted.
+Controls whether trailing whitespace is highlighted.
 
 - [[show-tabs]]`Show Tabs`:
 +
 Controls whether tabs are highlighted.
 
-- [[line-numbers]]`Line Numbers`:
-+
-Controls whether line numbers are shown.
-
-- [[empty-pane]]`Empty Pane`:
-+
-Controls whether empty panes are shown or not. The Left pane is empty when a
-file was added; the right pane is empty when a file was deleted.
-
-- [[left-side]]`Left Side`:
-+
-Controls whether the left side is shown. This preference is not
-persistent and is ignored by the `Save` button. Every time a
-patch diff is opened, this preference is reset to `Show`.
-
-- [[top-menu]]`Top Menu`:
-+
-Controls whether the top menu is shown.
-
-- [[auto-hide-diff-table-header]]`Auto Hide Diff Table Header`:
-+
-Controls whether the diff table header should be automatically hidden
-when scrolling down more than half of a page.
-
 - [[mark-reviewed]]`Mark Reviewed`:
 +
 Controls whether the files of the patch set should be automatically
 marked as reviewed when they are viewed.
-
-- [[expand-all-comments]]`Expand All Comments`:
-+
-Controls whether all comments should be automatically expanded.
-
-- [[render]]`Render`:
-+
-Controls how patch files that exceed the screen size are rendered.
-+
-If `Fast` is selected file contents which are outside of the visible
-area are not attached to the browser's DOM tree. This makes the
-rendering fast, but searching by `Ctrl+F` only finds content which is
-in the visible area.
-+
-If `Slow` is selected all file contents are attached to the browser's
-DOM tree, which makes the rendering slow for large files. The advantage
-of this setting is that `Ctrl+F` can be used to search in the complete
-file.
-+
-Large files that exceed 4000 lines will not be fully rendered.
-
-- [[line-wrapping]]`Line Wrapping`:
-+
-Controls whether to enable line wrapping or not.
-+
-If `false` is selected then line wrapping is disabled.
-This is the default option.
-+
-If `true` is selected then line wrapping is enabled.
 
 [[keyboard-shortcuts]]
 == Keyboard Shortcuts

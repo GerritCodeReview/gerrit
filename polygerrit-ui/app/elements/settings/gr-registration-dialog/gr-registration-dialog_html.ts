@@ -98,6 +98,24 @@ export const htmlTemplate = html`
           </iron-input>
         </span>
       </section>
+      <template is="dom-if" if="[[_computeUsernameEditable(_serverConfig)]]">
+        <section>
+          <span class="title">Username</span>
+          <span hidden$="[[_usernameMutable]]" class="value"
+            >[[_username]]</span
+          >
+          <span hidden$="[[!_usernameMutable]]" class="value">
+            <iron-input bind-value="{{_username}}">
+              <input
+                is="iron-input"
+                id="username"
+                bind-value="{{_username}}"
+                disabled="[[_saving]]"
+              />
+            </iron-input>
+          </span>
+        </section>
+      </template>
       <hr />
       <p>
         More configuration options for Gerrit may be found in the

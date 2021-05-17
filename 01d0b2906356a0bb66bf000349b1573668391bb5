@@ -70,6 +70,30 @@
       },
       "revId": "01d0b2906356a0bb66bf000349b1573668391bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95819932_a72ea38e",
+        "filename": "javatests/com/google/gerrit/integration/ssh/NoShellIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-17T17:42:10Z",
+      "side": 0,
+      "message": "By just raising the patience the test isn\u0027t flaky anymore: shall we raise it instead to 60s?",
+      "parentUuid": "bbaa9495_9ad934ed",
+      "range": {
+        "startLine": 44,
+        "startChar": 7,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "01d0b2906356a0bb66bf000349b1573668391bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

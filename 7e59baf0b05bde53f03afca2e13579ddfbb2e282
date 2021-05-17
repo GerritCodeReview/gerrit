@@ -16,6 +16,24 @@
       "message": "i had no clue what that\u0027s supposed to mean before reading into the diff. \"allow selective publication of draft comments\" or something like that, i think?",
       "revId": "7e59baf0b05bde53f03afca2e13579ddfbb2e282",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb42a3d_927a0c7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-17T08:00:47Z",
+      "side": 1,
+      "message": "Yes, description was a bit unclear. Done.",
+      "parentUuid": "6ff237da_d5924a56",
+      "revId": "7e59baf0b05bde53f03afca2e13579ddfbb2e282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

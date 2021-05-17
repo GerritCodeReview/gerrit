@@ -23,6 +23,8 @@ import '@polymer/paper-icon-button/paper-icon-button';
 import '@polymer/paper-item/paper-item';
 import '@polymer/paper-listbox/paper-listbox';
 import '@polymer/paper-tooltip/paper-tooltip.js';
+import {of, EMPTY, Subject} from 'rxjs';
+import {switchMap, delay, takeUntil} from 'rxjs/operators';
 
 import '../../shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';
@@ -40,11 +42,18 @@ import {
 
 import {
   ContextButtonType,
+  DiffContextButtonHoveredDetail,
   RenderPreferences,
   SyntaxBlock,
 } from '../../../api/diff';
 
 import {GrDiffGroup, hideInContextControl} from '../gr-diff/gr-diff-group';
+
+declare global {
+  interface HTMLElementEventMap {
+    'diff-context-button-hovered': CustomEvent<DiffContextButtonHoveredDetail>;
+  }
+}
 
 const PARTIAL_CONTEXT_AMOUNT = 10;
 
@@ -87,6 +96,14 @@ export class GrContextControls extends LitElement {
   @property({type: Boolean}) showAbove = false;
 
   @property({type: Boolean}) showBelow = false;
+
+  private expandButtonsHover = new Subject<{
+    eventType: 'enter' | 'leave';
+    buttonType: ContextButtonType;
+    linesToExpand: number;
+  }>();
+
+  private disconnected$ = new Subject();
 
   static styles = css`
     :host {
@@ -193,6 +210,36 @@ export class GrContextControls extends LitElement {
     </custom-style>
   `;
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.setupButtonHoverHandler();
+  }
+
+  disconnectedCallback() {
+    this.disconnected$.next();
+  }
+
+  setupButtonHoverHandler() {
+    this.expandButtonsHover
+      .pipe(
+        switchMap(e => {
+          if (e.eventType === 'leave') {
+            // cancel any previous delay
+            // for mouse enter
+            return EMPTY;
+          }
+          return of(e).pipe(delay(500));
+        }),
+        takeUntil(this.disconnected$)
+      )
+      .subscribe(({buttonType, linesToExpand}) => {
+        fire(this, 'diff-context-button-hovered', {
+          buttonType,
+          linesToExpand,
+        });
+      });
+  }
+
   private numLines() {
     const {leftStart, leftEnd} = this.contextRange();
     return leftEnd - leftStart + 1;
@@ -276,12 +323,22 @@ export class GrContextControls extends LitElement {
       groups
     );
 
+    const mouseHander = (eventType: 'enter' | 'leave') => {
+      this.expandButtonsHover.next({
+        eventType,
+        buttonType: type,
+        linesToExpand,
+      });
+    };
+
     const button = html` <gr-button
       class="${classes}"
       link="true"
       no-uppercase="true"
       aria-label="${ariaLabel}"
       @click="${expandHandler}"
+      @mouseenter="${() => mouseHander('enter')}"
+      @mouseleave="${() => mouseHander('leave')}"
     >
       <span class="showContext">${text}</span>
       ${tooltip}

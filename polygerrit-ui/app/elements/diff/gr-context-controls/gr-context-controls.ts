@@ -110,6 +110,12 @@ export class GrContextControls extends LitElement {
       /* Center over divider. */
       top: 50%;
       transform: translateY(-50%);
+      --gr-button-color: var(--diff-context-control-color);
+      --gr-button-border: solid var(--border-color);
+      --gr-button-border-width: 1px 1px 1px 1px;
+      --gr-button-border-radius: var(--border-radius) var(--border-radius)
+        var(--border-radius) var(--border-radius);
+      --gr-button-padding: var(--spacing-s) var(--spacing-l);
     }
     .aboveBelowButtons {
       display: flex;
@@ -124,73 +130,42 @@ export class GrContextControls extends LitElement {
     .aboveButton {
       /* Display over preceding content / background placeholder. */
       transform: translateY(-100%);
+
+      --gr-button-color: var(--diff-context-control-color);
+      --gr-button-border: solid var(--border-color);
+      --gr-button-border-width: 1px 1px 0px 1px;
+      --gr-button-border-radius: var(--border-radius) var(--border-radius) 0 0;
+      --gr-button-padding: var(--spacing-xxs) var(--spacing-l);
     }
     .belowButton {
       top: calc(100% + var(--divider-border));
+
+      --gr-button-color: var(--diff-context-control-color);
+      --gr-button-border: solid var(--border-color);
+      --gr-button-border-width: 0 1px 1px 1px;
+      --gr-button-border-radius: 0 0 var(--border-radius) var(--border-radius);
+      --gr-button-padding: var(--spacing-xxs) var(--spacing-l);
     }
     .breadcrumbTooltip {
       white-space: nowrap;
     }
-  `;
 
-  // To pass CSS mixins for @apply to Polymer components, they need to be
-  // wrapped in a <custom-style>.
-  static customStyles = html`
-    <custom-style>
-      <style>
-        .centeredButton {
-          --gr-button: {
-            color: var(--diff-context-control-color);
-            border-style: solid;
-            border-color: var(--border-color);
-            border-top-width: 1px;
-            border-right-width: 1px;
-            border-bottom-width: 1px;
-            border-left-width: 1px;
+    paper-button {
+      text-transform: none;
+      align-items: center;
+      background-color: var(--background-color);
+      font-family: inherit;
+      margin: var(--margin, 0);
+      min-width: var(--border, 0);
+    }
 
-            border-top-left-radius: var(--border-radius);
-            border-top-right-radius: var(--border-radius);
-            border-bottom-right-radius: var(--border-radius);
-            border-bottom-left-radius: var(--border-radius);
-            padding: var(--spacing-s) var(--spacing-l);
-          }
-        }
-        .aboveButton {
-          --gr-button: {
-            color: var(--diff-context-control-color);
-            border-style: solid;
-            border-color: var(--border-color);
-            border-top-width: 1px;
-            border-right-width: 1px;
-            border-bottom-width: 0;
-            border-left-width: 1px;
-
-            border-top-left-radius: var(--border-radius);
-            border-top-right-radius: var(--border-radius);
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: var(--border-radius);
-            padding: var(--spacing-xxs) var(--spacing-l);
-          }
-        }
-        .belowButton {
-          --gr-button: {
-            color: var(--diff-context-control-color);
-            border-style: solid;
-            border-color: var(--border-color);
-            border-top-width: 0;
-            border-right-width: 1px;
-            border-bottom-width: 1px;
-            border-left-width: 1px;
-
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: var(--border-radius);
-            border-bottom-left-radius: var(--border-radius);
-            padding: var(--spacing-xxs) var(--spacing-l);
-          }
-        }
-      </style>
-    </custom-style>
+    paper-button {
+      border: var(--gr-button-border);
+      border-width: var(--gr-button-border-width);
+      border-radius: var(--gr-button-border-radius);
+      color: var(--gr-button-color);
+      padding: var(--gr-button-padding);
+    }
   `;
 
   private numLines() {
@@ -275,17 +250,14 @@ export class GrContextControls extends LitElement {
       type,
       groups
     );
-
-    const button = html` <gr-button
+    const button = html` <paper-button
       class="${classes}"
-      link="true"
-      no-uppercase="true"
       aria-label="${ariaLabel}"
       @click="${expandHandler}"
     >
       <span class="showContext">${text}</span>
       ${tooltip}
-    </gr-button>`;
+    </paper-button>`;
     return button;
   }
 
@@ -468,7 +440,7 @@ export class GrContextControls extends LitElement {
       return html`<p>invalid properties</p>`;
     }
     return html`
-      ${GrContextControls.customStyles} ${this.createExpandAllButtonContainer()}
+      ${this.createExpandAllButtonContainer()}
       ${this.createPartialExpansionButtons()}
       ${this.createBlockExpansionButtons()}
     `;

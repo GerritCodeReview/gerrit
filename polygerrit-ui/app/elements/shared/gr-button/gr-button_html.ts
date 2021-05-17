@@ -53,10 +53,10 @@ export const htmlTemplate = html`
       font: inherit;
       text-transform: uppercase;
       outline-width: 0;
-      border-top-left-radius: var(--border-radius);
-      border-top-right-radius: var(--border-radius);
-      border-bottom-right-radius: var(--border-radius);
-      border-bottom-left-radius: var(--border-radius);
+      border: var(--gr-button-border, var(--border-radius));
+      border-width: var(--gr-button-border-width);
+      border-radius: var(--gr-button-border-radius);
+
       -moz-user-select: none;
       -ms-user-select: none;
       -webkit-user-select: none;
@@ -74,13 +74,13 @@ export const htmlTemplate = html`
       -webkit-font-smoothing: initial;
       align-items: center;
       background-color: var(--background-color);
-      color: var(--text-color);
+      color: var(--gr-button-color, var(--text-color));
       display: flex;
       font-family: inherit;
       justify-content: center;
       margin: var(--margin, 0);
       min-width: var(--border, 0);
-      padding: var(--padding, 4px 8px);
+      padding: var(--gr-button-padding, var(--padding, 4px 8px));
       @apply --gr-button;
     }
     /* https://github.com/PolymerElements/paper-button/blob/2.x/paper-button.html */

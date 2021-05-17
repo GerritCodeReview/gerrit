@@ -228,6 +228,24 @@
       "parentUuid": "864f7269_264d882e",
       "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29e4826c_7dbb49b7",
+        "filename": "java/com/google/gerrit/httpd/UserAgentUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T13:07:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5367af0b_410e5909",
+      "revId": "83de4b90445f319435fa0fb0c7ae3b743139375b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

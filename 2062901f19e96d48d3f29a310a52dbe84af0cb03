@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8210c7a8_710bb3dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-17T17:26:35Z",
+      "side": 1,
+      "message": "Works E2E with the following projects:\n\nc/cproject\np/project\nfonts/fontsproject\nq/qproject\nx/myproject\n\nGiving a +1 waiting for @Davido to confirm",
+      "revId": "2062901f19e96d48d3f29a310a52dbe84af0cb03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

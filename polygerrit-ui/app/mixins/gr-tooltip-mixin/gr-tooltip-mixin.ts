@@ -76,21 +76,21 @@ export const TooltipMixin = dedupingMixin(
       private readonly showHandler: () => void;
 
       // Handler for hiding the tooltip, will be attached to certain events
-      private readonly hideHandler: () => void;
+      private readonly hideHandler: (e: Event) => void;
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
       constructor(..._: any[]) {
         super();
         this.windowScrollHandler = () => this._handleWindowScroll();
         this.showHandler = () => this._handleShowTooltip();
-        this.hideHandler = () => this._handleHideTooltip();
+        this.hideHandler = (e: Event | undefined) => this._handleHideTooltip(e);
       }
 
       /** @override */
       disconnectedCallback() {
         // NOTE: if you define your own `detached` in your component
         // then this won't take affect (as its not a class yet)
-        this._handleHideTooltip();
+        this._handleHideTooltip(undefined);
         if (this.mouseenterHandler) {
           this.removeEventListener('mouseenter', this.mouseenterHandler);
         }
@@ -153,13 +153,22 @@ export const TooltipMixin = dedupingMixin(
         window.addEventListener('scroll', this.windowScrollHandler);
         this.addEventListener('mouseleave', this.hideHandler);
         this.addEventListener('click', this.hideHandler);
+        tooltip.addEventListener('mouseleave', this.hideHandler);
       }
 
-      _handleHideTooltip() {
+      _handleHideTooltip(e: Event | undefined) {
         if (this._isTouchDevice) {
           return;
         }
         if (!this.hasAttribute('title') || !this._titleText) {
+          return;
+        }
+        // Do not hide if mouse left this or this._tooltip and came to this or
+        // this._tooltip
+        if (
+          (e as MouseEvent)?.relatedTarget === this._tooltip ||
+          (e as MouseEvent)?.relatedTarget === this
+        ) {
           return;
         }
 
@@ -167,6 +176,7 @@ export const TooltipMixin = dedupingMixin(
         this.removeEventListener('mouseleave', this.hideHandler);
         this.removeEventListener('click', this.hideHandler);
         this.setAttribute('title', this._titleText);
+        this._tooltip?.removeEventListener('mouseleave', this.hideHandler);
 
         if (this._tooltip?.parentNode) {
           this._tooltip.parentNode.removeChild(this._tooltip);

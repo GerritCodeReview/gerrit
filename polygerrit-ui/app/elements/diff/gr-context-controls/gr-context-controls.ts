@@ -90,43 +90,58 @@ export class GrContextControls extends LitElement {
 
   static styles = css`
     :host {
-      display: flex;
       width: 100%;
       height: 100%;
-      justify-content: center;
-      position: absolute;
     }
+
+    .verticalFlex {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .verticalFlex.showBoth  {
+      justify-content: center;
+    }
+    .verticalFlex.showAboveOnly {
+      justify-content: flex-end;
+    }
+    .verticalFlex.showBelowOnly {
+      justify-content: flex-start;
+    }
+
+    .horizontalFlex {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .showBoth .horizontalFlex {
+      align-items: center;
+    }
+    .showAboveOnly .horizontalFlex {
+      align-items: end;
+    }
+    .showBelowOnly .horizontalFlex {
+      align-items: start;
+    }
+
     .contextControlButton {
       background-color: var(--default-button-background-color);
       font: var(--context-control-button-font, inherit);
-      /* All position is relative to container, so ignore sibling buttons. */
-      position: absolute;
     }
-    .contextControlButton:first-child {
-      /* First button needs to claim width to display without text wrapping. */
-      position: relative;
-    }
-    .centeredButton {
-      /* Center over divider. */
-      top: 50%;
-      transform: translateY(-50%);
-    }
+    
     .aboveBelowButtons {
       display: flex;
       flex-direction: column;
       margin-left: var(--spacing-m);
-      position: relative;
+      justify-content: center;
     }
     .aboveBelowButtons:first-child {
       margin-left: 0;
     }
-
-    .aboveButton {
-      /* Display over preceding content / background placeholder. */
-      transform: translateY(-100%);
-    }
-    .belowButton {
-      top: calc(100% + var(--divider-border));
+    .showBoth .aboveButton {
+      /* The size of the gap between the above and below button. */
+      margin-bottom: calc(var(--divider-height) + 1px);
     }
     .breadcrumbTooltip {
       white-space: nowrap;
@@ -462,15 +477,33 @@ export class GrContextControls extends LitElement {
     return !!(this.diff && this.section && this.contextGroups?.length);
   }
 
+  private rootClasses(){
+    if (this.showAbove && !this.showBelow) {
+      return 'showAboveOnly';
+    } else if (!this.showAbove && this.showBelow) {
+      return 'showBelowOnly';
+    } else {
+      // Note that !showAbove && !showBelow also intentionally creates
+      // "showBoth". This means the file is completely collapsed, which is
+      // unusual, but at least happens in one test.
+      return 'showBoth';
+    }
+  }
+
   render() {
     if (!this.hasValidProperties()) {
       console.error('Invalid properties for gr-context-controls!');
       return html`<p>invalid properties</p>`;
     }
+
     return html`
-      ${GrContextControls.customStyles} ${this.createExpandAllButtonContainer()}
-      ${this.createPartialExpansionButtons()}
-      ${this.createBlockExpansionButtons()}
+      <div class="verticalFlex ${this.rootClasses()}">
+        <div class="horizontalFlex">
+          ${GrContextControls.customStyles} ${this.createExpandAllButtonContainer()}
+          ${this.createPartialExpansionButtons()}
+          ${this.createBlockExpansionButtons()}
+        </div>
+      </div>
     `;
   }
 }

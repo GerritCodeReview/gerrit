@@ -22,6 +22,30 @@
       },
       "revId": "887763982e8a80035c7113637ba66521e5db9ff8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b722c527_ed9b85a0",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-17T21:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "940b8bcf_1a8770a5",
+      "range": {
+        "startLine": 477,
+        "startChar": 0,
+        "endLine": 477,
+        "endChar": 51
+      },
+      "revId": "887763982e8a80035c7113637ba66521e5db9ff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

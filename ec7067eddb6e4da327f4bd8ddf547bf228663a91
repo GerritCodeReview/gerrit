@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a19beeec_5411a8ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2021-05-17T15:01:10Z",
+      "side": 1,
+      "message": "I agree, together with many label votes the glanceability becomes worse. Do you think it can be remedied by using another set of colors or using a different style for the label sizes?",
+      "parentUuid": "bdf8b1d2_86c8dec4",
+      "range": {
+        "startLine": 10,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "21482a7f_184f0080",
@@ -108,6 +132,24 @@
       "writtenOn": "2021-05-14T07:09:19Z",
       "side": 1,
       "message": "I am sorry to turn down this contribution. :-(\n\nBut I think we don\u0027t fully understand what the actual issue is, so we cannot provide an alternative solution.",
+      "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c2ba733_b341095d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2021-05-17T15:01:10Z",
+      "side": 1,
+      "message": "The issue is that it can be hard to differentiate between different size-labels at a glance in a long list of changes(between XL and XS in particular). At our end we received this issue around the same time we upgraded to a Gerrit version that removed the old UI completely. That UI used different-sized colored bars instead which made big changes stand out.\n\nDo you think I could get this accepted if I used a different set of colors?",
+      "parentUuid": "21482a7f_184f0080",
       "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -147,6 +189,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2204fce8_172e045a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2021-05-17T15:01:10Z",
+      "side": 1,
+      "message": "I can remove the shadow. It was used because the yellow M did not look good on the white background.",
+      "parentUuid": "f1a5522a_facbac68",
+      "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfd4ff89_3c84d100",
@@ -160,6 +220,30 @@
       "writtenOn": "2021-05-10T12:44:30Z",
       "side": 1,
       "message": "All colors must be chosen from css variables defined in the app-theme file.",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 5
+      },
+      "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42b92b92_2e014507",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2021-05-17T15:01:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dfd4ff89_3c84d100",
       "range": {
         "startLine": 130,
         "startChar": 4,

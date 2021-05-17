@@ -93,6 +93,30 @@
       },
       "revId": "0ff63a55d8b46509664622ebfffae1655e91eaf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af4ecec2_5258fc20",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T09:57:10Z",
+      "side": 1,
+      "message": "Apologize, I posted a wrong link, I meant:\n\n  control.html#capability_maintainServer[Maintain Server].\n\nWit this description:\n\n  Allow basic, constrained server maintenance tasks, such as flushing caches and\nreindexing changes.\n\nJustification: On huge gerrit sites (OpenStack) there are only very few gerrit admins (a group of 3-4 people?), while the Maintain Server group could be much bigger (and that\u0027s why it was added in the first place).",
+      "parentUuid": "b1bcea9c_e73c8c64",
+      "range": {
+        "startLine": 107,
+        "startChar": 48,
+        "endLine": 107,
+        "endChar": 84
+      },
+      "revId": "0ff63a55d8b46509664622ebfffae1655e91eaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

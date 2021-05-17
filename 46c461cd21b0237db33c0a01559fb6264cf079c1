@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce02025e_56b67f78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T10:40:41Z",
+      "side": 1,
+      "message": "Before this change we had ldap.localUsernameToLowerCase. After this change we would have auth.userNameCaseInsensitive in addition.\n\nInstead of adding yet another configuration option, and increasing the confusion, have you considered:\n\n* Remove existing ldap.localUsernameToLowerCase configuration option\n* Bump schema number and provide migration to lowcase usernames\n\nThis would be much less invasive change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "46c461cd21b0237db33c0a01559fb6264cf079c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d945e356_9a498c77",

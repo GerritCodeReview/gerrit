@@ -87,6 +87,24 @@
       "parentUuid": "4a709a2a_a2d4c20f",
       "revId": "b739f25990cd93b46a1dafcaafa1e814550dd354",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d25273c0_478e1872",
+        "filename": "java/com/google/gerrit/httpd/UserAgentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T13:07:22Z",
+      "side": 1,
+      "message": "I switched to using:\n\n  GitSmartHttpTools.isGitClient(httpRequest)",
+      "parentUuid": "22c86635_05321ab4",
+      "revId": "b739f25990cd93b46a1dafcaafa1e814550dd354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -372,6 +372,9 @@ export class GrDashboardView extends PolymerElement {
       e.detail.change._number,
       e.detail.starred
     );
+    if (e.detail.starred) {
+      this.reporting.reportInteraction('change-starred-from-dashboard');
+    }
     // When a change is updated the same change may appear elsewhere in the
     // dashboard (but is not the same object), so we must update other
     // occurrences of the same change.

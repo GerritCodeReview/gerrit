@@ -55,7 +55,7 @@ import {
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
-import {fireAttemptSelected, fireRunSelected} from './gr-checks-util';
+import {fireAttemptSelected, fireRunSelected, fireRunSelectionReset} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {charsOnly} from '../../utils/string-util';
 
@@ -350,6 +350,10 @@ export class GrChecksRuns extends GrLitElement {
           padding: var(--spacing-l) var(--spacing-xl) var(--spacing-xl)
             var(--spacing-xl);
         }
+        .title {
+          display: flex;
+          justify-content: space-between;
+        }
         .expandIcon {
           width: var(--line-height-h3);
           height: var(--line-height-h3);
@@ -410,7 +414,18 @@ export class GrChecksRuns extends GrLitElement {
 
   render() {
     return html`
-      <h2 class="heading-2">Runs</h2>
+      <h2 class="title">
+        <div class="heading-2">Runs</div>
+        <div class="font-normal">
+          <gr-button
+            class="action"
+            ?hidden="${this.selectedRuns.length < 2}"
+            link
+            @click="${() => fireRunSelectionReset(this)}"
+            >Unselect All</gr-button
+          >
+        </div>
+      </h2>
       <input
         id="filterInput"
         type="text"

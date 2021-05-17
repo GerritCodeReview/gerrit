@@ -20,8 +20,6 @@ import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -42,22 +40,13 @@ public class GerritServerConfigModule extends AbstractModule {
   }
 
   private static String getSecureStoreFromGerritConfig(Path sitePath) {
-    AbstractModule m =
-        new AbstractModule() {
-          @Override
-          protected void configure() {
-            bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
-            bind(SitePaths.class);
-          }
-        };
-    Injector injector = Guice.createInjector(m);
-    SitePaths site = injector.getInstance(SitePaths.class);
-    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
-    if (!cfg.getFile().exists()) {
-      return DefaultSecureStore.class.getName();
-    }
-
     try {
+      SitePaths site = new SitePaths(sitePath);
+      FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
+      if (!cfg.getFile().exists()) {
+        return DefaultSecureStore.class.getName();
+      }
+
       cfg.load();
       String className = cfg.getString("gerrit", null, "secureStoreClass");
       return nullToDefault(className);

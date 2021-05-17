@@ -165,8 +165,8 @@ class GrResultRow extends GrLitElement {
         tr.collapsed td .summary-cell .actions {
           display: none;
         }
-        tr.collapsed:hover .summary-cell .tags,
-        tr.collapsed:hover .summary-cell .label {
+        tr.collapsed:hover .summary-cell .hoverHide.tags,
+        tr.collapsed:hover .summary-cell .hoverHide.label {
           display: none;
         }
         td .summary-cell .tags .tag {
@@ -264,7 +264,7 @@ class GrResultRow extends GrLitElement {
             <div class="message" @click="${this.toggleExpanded}">
               ${this.isExpanded ? '' : this.result.message}
             </div>
-            <div class="tags">
+            <div class="tags ${this.hasLinksOrActions() ? 'hoverHide' : ''}">
               ${(this.result.tags ?? []).map(t => this.renderTag(t))}
             </div>
             ${this.renderLabel()} ${this.renderLinks()} ${this.renderActions()}
@@ -292,6 +292,12 @@ class GrResultRow extends GrLitElement {
         </td>
       </tr>
     `;
+  }
+
+  private hasLinksOrActions() {
+    const linkCount = this.result?.links?.length ?? 0;
+    const actionCount = this.result?.actions?.length ?? 0;
+    return linkCount > 1 || actionCount > 0;
   }
 
   private renderExpanded() {
@@ -323,7 +329,11 @@ class GrResultRow extends GrLitElement {
   renderLabel() {
     const label = this.result?.labelName;
     if (!label) return;
-    return html`<div class="label">${label}</div>`;
+    return html`
+      <div class="label ${this.hasLinksOrActions() ? 'hoverHide' : ''}">
+        ${label}
+      </div>
+    `;
   }
 
   renderLinks() {

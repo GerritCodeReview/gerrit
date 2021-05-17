@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a92f3727_8c96068c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-17T07:12:37Z",
+      "side": 1,
+      "message": "Good point.\nYou are right.\nI moved the logic to paperTabClick which only triggers when user explicitly clicks the Comments Tab instead of the paperTabChanged handler which was triggered when chips were clicked.",
+      "parentUuid": "42d9a8ea_866a1266",
+      "revId": "827f6fa199fc7c23c75bf18e1e63496258b49657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7dc3c4bc_b8b58f71",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-05-14T14:11:39Z",
       "side": 1,
       "message": "Either rename to hasUnresolvedThreads or\n\n```\nconst unresolvedComments \u003d (this._commentThreads ?? []).filter(thread \u003d\u003e isUnresolved(thread));\n\nif (unresolvedComment.length \u003e 0) this.unresolvedOnly \u003d true;\n```",
+      "range": {
+        "startLine": 802,
+        "startChar": 12,
+        "endLine": 802,
+        "endChar": 29
+      },
+      "revId": "827f6fa199fc7c23c75bf18e1e63496258b49657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccb59930_915ccd27",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-17T07:12:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dc3c4bc_b8b58f71",
       "range": {
         "startLine": 802,
         "startChar": 12,

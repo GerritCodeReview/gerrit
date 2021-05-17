@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f602945_7a35faad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-17T11:08:16Z",
+      "side": 1,
+      "message": "Removing myself from the attention set here and on the other change until we have the devious dark launch deviations sorted out...",
+      "revId": "58792de0a8791c0d677d7494fac38d5e9d9a94be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

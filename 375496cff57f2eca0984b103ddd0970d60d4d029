@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35139bf4_4cd93a63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T11:56:46Z",
+      "side": 1,
+      "message": "@Dhruv, @Dmitrii, could you have a look into resolving the conflicts? If it\u0027s too much work, then we should just abandon it.",
+      "revId": "375496cff57f2eca0984b103ddd0970d60d4d029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

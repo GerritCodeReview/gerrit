@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83ee9ba7_5ce9b92a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-17T08:46:38Z",
+      "side": 1,
+      "message": "I think this should be abandoned in favor of the cherry-pick to master\nhttps://gerrit-review.googlesource.com/c/gerrit/+/305970/4",
+      "revId": "ab141faea5d9a310c8bbc21ae714a9937f50bc75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21b52949_31afaf9c",
@@ -14,6 +31,30 @@
       "writtenOn": "2021-05-12T23:15:02Z",
       "side": 1,
       "message": "Do we want to also warn of the dangers to remove ALL external ids for an account?\nWhat about:\n- groups that the account is member of\n- ACLs associated to that account directly (e.g. through singleusergroup plugin)\n- Reviews for that account.",
+      "range": {
+        "startLine": 112,
+        "startChar": 42,
+        "endLine": 113,
+        "endChar": 47
+      },
+      "revId": "ab141faea5d9a310c8bbc21ae714a9937f50bc75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "280b4482_a6ecf20e",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-17T08:46:38Z",
+      "side": 1,
+      "message": "copied comment to https://gerrit-review.googlesource.com/c/gerrit/+/305970/4/Documentation/cmd-set-account.txt",
+      "parentUuid": "21b52949_31afaf9c",
       "range": {
         "startLine": 112,
         "startChar": 42,
@@ -47,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3e019a9_81964e75",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-17T08:46:38Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/305970/4/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+      "parentUuid": "dbf4bf9b_64564340",
+      "range": {
+        "startLine": 386,
+        "startChar": 23,
+        "endLine": 386,
+        "endChar": 42
+      },
+      "revId": "ab141faea5d9a310c8bbc21ae714a9937f50bc75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2262d736_e5d53289",
@@ -60,6 +125,30 @@
       "writtenOn": "2021-05-10T15:33:58Z",
       "side": 1,
       "message": "Collections.singletonList() as you did on line: 227?",
+      "range": {
+        "startLine": 391,
+        "startChar": 12,
+        "endLine": 391,
+        "endChar": 32
+      },
+      "revId": "ab141faea5d9a310c8bbc21ae714a9937f50bc75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "661cb718_2b4a0d3f",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-17T08:46:38Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/305970/4/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+      "parentUuid": "2262d736_e5d53289",
       "range": {
         "startLine": 391,
         "startChar": 12,

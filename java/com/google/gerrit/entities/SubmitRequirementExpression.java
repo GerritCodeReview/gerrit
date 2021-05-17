@@ -45,5 +45,5 @@ public abstract class SubmitRequirementExpression {
   }
 
   /** Returns the underlying String representing this {@link SubmitRequirementExpression}. */
-  public abstract String expression();
+  public abstract String expressionString();
 }

@@ -117,6 +117,30 @@
       },
       "revId": "0ff63a55d8b46509664622ebfffae1655e91eaf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8a53623_adeb1831",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-17T21:14:29Z",
+      "side": 1,
+      "message": "now done in I61f52486e1b91, though users having \u0027Maintain Server\u0027 need in addition \u0027Modify Account\u0027, see [1]\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java#176",
+      "parentUuid": "af4ecec2_5258fc20",
+      "range": {
+        "startLine": 107,
+        "startChar": 48,
+        "endLine": 107,
+        "endChar": 84
+      },
+      "revId": "0ff63a55d8b46509664622ebfffae1655e91eaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

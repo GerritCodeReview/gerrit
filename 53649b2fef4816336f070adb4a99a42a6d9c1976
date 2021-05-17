@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9fd8cac_0f6c103a",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-17T12:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1702c8a_2dd32b1f",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 28
+      },
+      "revId": "53649b2fef4816336f070adb4a99a42a6d9c1976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7de8629a_62640a93",
@@ -71,6 +95,30 @@
       "writtenOn": "2021-05-17T10:24:36Z",
       "side": 1,
       "message": "isSignedInForGitRequest",
+      "range": {
+        "startLine": 109,
+        "startChar": 18,
+        "endLine": 109,
+        "endChar": 38
+      },
+      "revId": "53649b2fef4816336f070adb4a99a42a6d9c1976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a127526_caab234f",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-17T12:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7de8629a_62640a93",
       "range": {
         "startLine": 109,
         "startChar": 18,
@@ -104,6 +152,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aa305b2_0af73f62",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-17T12:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27e1380d_bdb26353",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 85
+      },
+      "revId": "53649b2fef4816336f070adb4a99a42a6d9c1976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bcf73fda_2738f8a9",
@@ -117,6 +189,30 @@
       "writtenOn": "2021-05-17T10:24:36Z",
       "side": 1,
       "message": "This should just be:\n\n  boolean isSignedInForRequest \u003d isAlreadySignedIn \u0026\u0026 isGitRequest;",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 94
+      },
+      "revId": "53649b2fef4816336f070adb4a99a42a6d9c1976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb9af6fe_9ec91d5f",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-17T12:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcf73fda_2738f8a9",
       "range": {
         "startLine": 114,
         "startChar": 4,

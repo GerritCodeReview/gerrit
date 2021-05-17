@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54ad5253_c4a4e7d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T13:13:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2db80602_57b08a27",
+      "range": {
+        "startLine": 21,
+        "startChar": 34,
+        "endLine": 21,
+        "endChar": 37
+      },
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "769967e3_2c97f393",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-11-25T20:19:44Z",
       "side": 1,
       "message": "all git agents",
+      "range": {
+        "startLine": 22,
+        "startChar": 11,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66119628_05bad0f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T13:13:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "769967e3_2c97f393",
       "range": {
         "startLine": 22,
         "startChar": 11,
@@ -223,6 +271,54 @@
       "side": 1,
       "message": "Ack, at the end of the day the list of Git clients is limited :-)",
       "parentUuid": "556f58b2_4fba8684",
+      "range": {
+        "startLine": 376,
+        "startChar": 11,
+        "endLine": 376,
+        "endChar": 21
+      },
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69d63adf_92286e19",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T13:13:52Z",
+      "side": 1,
+      "message": "Not applicable any more.",
+      "parentUuid": "49b82e4c_b5658d0e",
+      "range": {
+        "startLine": 376,
+        "startChar": 11,
+        "endLine": 376,
+        "endChar": 21
+      },
+      "revId": "3bace7d9f51994792e6d029344e0791ea8db3ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f54168c3_bd1742a2",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T13:13:52Z",
+      "side": 1,
+      "message": "Not applicable any more.",
+      "parentUuid": "49b82e4c_b5658d0e",
       "range": {
         "startLine": 376,
         "startChar": 11,

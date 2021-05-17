@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73502d28_248c0574",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-17T17:43:09Z",
+      "side": 1,
+      "message": "Hi Ben. This is about that problem with ShadyCSS we mentioned.",
+      "revId": "571da9f5b1ffb1e7e35e14c34e5866742f75a2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

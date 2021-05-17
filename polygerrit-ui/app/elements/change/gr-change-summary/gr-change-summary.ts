@@ -326,6 +326,10 @@ export class GrChangeSummary extends GrLitElement {
         .zeroState {
           color: var(--primary-text-color);
         }
+        .loading.zeroState {
+          color: var(--deemphasized-text-color);
+          margin-right: var(--spacing-m);
+        }
         div.error {
           background-color: var(--error-background);
           display: flex;
@@ -362,6 +366,16 @@ export class GrChangeSummary extends GrLitElement {
           vertical-align: top;
           margin-right: var(--spacing-xs);
         }
+        /* The basics of .loadingSpin are defined in shared styles. */
+        .loadingSpin {
+          width: calc(var(--line-height-normal) - 2px);
+          height: calc(var(--line-height-normal) - 2px);
+          display: inline-block;
+          vertical-align: top;
+          position: relative;
+          /* Making up for the 2px reduced height above. */
+          top: 1px;
+        }
       `,
     ];
   }
@@ -394,8 +408,8 @@ export class GrChangeSummary extends GrLitElement {
   renderChecksZeroState() {
     if (this.errorMessage || this.loginCallback) return;
     if (this.runs.some(isRunningOrHasCompleted)) return;
-    const msg = this.someProvidersAreLoading ? 'Loading...' : 'No results';
-    return html`<div class="loading zeroState">${msg}</div>`;
+    const msg = this.someProvidersAreLoading ? 'Loading results' : 'No results';
+    return html`<span class="loading zeroState">${msg}</span>`;
   }
 
   renderChecksChipForCategory(category: Category) {
@@ -513,6 +527,10 @@ export class GrChangeSummary extends GrLitElement {
                 RunStatus.COMPLETED,
                 hasCompletedWithoutResults
               )}${this.renderChecksChipForStatus(RunStatus.RUNNING, isRunning)}
+              <span
+                class="loadingSpin"
+                ?hidden="${!this.someProvidersAreLoading}"
+              ></span>
             </td>
           </tr>
           <tr>

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eab086d_3b068ee3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7790,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-17T09:52:54Z",
+      "side": 1,
+      "message": "draft_ids_to_publish",
+      "range": {
+        "startLine": 7790,
+        "startChar": 2,
+        "endLine": 7790,
+        "endChar": 19
+      },
+      "revId": "64be16654d692b6adba1b0862afc74927ff8caf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f924727c_523770e6",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-17T09:52:54Z",
+      "side": 1,
+      "message": "so there is no effect if the strategy is \"KEEP\"?\nI think we should think about this further: Either throw an error or disregard the \"keep\" and publish the drafts anyway.",
+      "range": {
+        "startLine": 1086,
+        "startChar": 0,
+        "endLine": 1086,
+        "endChar": 18
+      },
+      "revId": "64be16654d692b6adba1b0862afc74927ff8caf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69338ecf_2e1bd382",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1271,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-17T09:52:54Z",
+      "side": 1,
+      "message": "please add a test with draft handling \u003d keep",
+      "range": {
+        "startLine": 1271,
+        "startChar": 0,
+        "endLine": 1271,
+        "endChar": 0
+      },
+      "revId": "64be16654d692b6adba1b0862afc74927ff8caf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

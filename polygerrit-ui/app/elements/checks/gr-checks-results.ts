@@ -60,8 +60,8 @@ import {
 } from '../../utils/common-util';
 import {toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
-import {charsOnly, pluralize} from '../../utils/string-util';
-import {fireRunSelectionReset, isAttemptSelected} from './gr-checks-util';
+import {charsOnly} from '../../utils/string-util';
+import {isAttemptSelected} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {ConfigInfo, PatchSetNumber} from '../../types/common';
 import {latestPatchNum$} from '../../services/change/change-model';
@@ -588,12 +588,6 @@ export class GrChecksResults extends GrLitElement {
         .filterDiv .selection {
           padding: var(--spacing-s) var(--spacing-m);
         }
-        .filterDiv iron-icon.filter {
-          color: var(--selected-foreground);
-        }
-        .filterDiv gr-button.reset {
-          margin: calc(0px - var(--spacing-s)) var(--spacing-l);
-        }
         .categoryHeader {
           margin-top: var(--spacing-l);
           margin-left: var(--spacing-l);
@@ -820,26 +814,8 @@ export class GrChecksResults extends GrLitElement {
           placeholder="Filter results by regular expression"
           @input="${this.onInput}"
         />
-        <div class="selection">${this.renderSelectionFilter()}</div>
       </div>
     `;
-  }
-
-  renderSelectionFilter() {
-    const count = this.selectedRuns.length;
-    if (count === 0) return;
-    return html`
-      <iron-icon class="filter" icon="gr-icons:filter"></iron-icon>
-      <span>Filtered by ${pluralize(count, 'run')}</span>
-      <gr-button link class="reset" @click="${this.handleClick}"
-        >Reset View</gr-button
-      >
-    `;
-  }
-
-  handleClick() {
-    this.filterRegExp = new RegExp('');
-    fireRunSelectionReset(this);
   }
 
   onInput() {

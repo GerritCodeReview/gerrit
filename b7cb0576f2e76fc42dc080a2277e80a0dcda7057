@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f74ec6c_eb6a695f",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T21:45:09Z",
+      "side": 1,
+      "message": "This anchor already exists in this file, see line: 40:\n\n  - [[not-current]]`Merge Conflict`:\n\nNow there is this warning in the build:\n\n  May 17, 2021 11:37:39 PM \u003cscript\u003e convertFile\nWARNING: user-review-ui.txt.searchfree_htmlonly_expn: line 341: id assigned to anchor already in use: not-current\nINFO: From Rendering asciidoctor files for html_htmlonly:\nMay 17, 2021 11:37:40 PM \u003cscript\u003e convertFile\nWARNING: user-review-ui.txt.html_htmlonly_expn: line 341: id assigned to anchor already in use: not-current\nINFO: Elapsed time: 25.626s, Critical Path: 24.71s\nINFO: 143 processes: 1 internal, 142 linux-sandbox.\nINFO: Build completed successfully, 143 total actions",
+      "range": {
+        "startLine": 347,
+        "startChar": 3,
+        "endLine": 347,
+        "endChar": 30
+      },
+      "revId": "b7cb0576f2e76fc42dc080a2277e80a0dcda7057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

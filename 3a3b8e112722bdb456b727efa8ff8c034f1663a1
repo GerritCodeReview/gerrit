@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6676dec6_c049d468",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-17T08:55:41Z",
+      "side": 1,
+      "message": "This is still WIP, but I would appreciate early feedback/ any suggestions how to split this change or split the work item into smaller chunks.\n\nMy idea was to add cases one by one, with proper testing, and run dry-run to make sure results are as expected, then run an actual implementation, when we are confident all/most cases are covered.\n\nWDYT?",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

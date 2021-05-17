@@ -123,6 +123,25 @@ export class GrContextControls extends LitElement {
       /* First button needs to claim width to display without text wrapping. */
       position: relative;
     }
+
+    paper-button {
+      text-transform: none;
+      align-items: center;
+      background-color: var(--background-color);
+      font-family: inherit;
+      margin: var(--margin, 0);
+      min-width: var(--border, 0);
+      color: var(--diff-context-control-color);
+      border: solid var(--border-color);
+      border-width: 1px;
+      border-radius: var(--border-radius);
+      padding: var(--spacing-s) var(--spacing-l);
+    }
+
+    paper-button:hover {
+      background: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12));
+    }
+
     .centeredButton {
       /* Center over divider. */
       top: 50%;
@@ -141,73 +160,21 @@ export class GrContextControls extends LitElement {
     .aboveButton {
       /* Display over preceding content / background placeholder. */
       transform: translateY(-100%);
+      border-bottom-width: 1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      padding: var(--spacing-xxs) var(--spacing-l);
     }
     .belowButton {
       top: calc(100% + var(--divider-border));
+      border-top-width: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      padding: var(--spacing-xxs) var(--spacing-l);
     }
     .breadcrumbTooltip {
       white-space: nowrap;
     }
-  `;
-
-  // To pass CSS mixins for @apply to Polymer components, they need to be
-  // wrapped in a <custom-style>.
-  static customStyles = html`
-    <custom-style>
-      <style>
-        .centeredButton {
-          --gr-button: {
-            color: var(--diff-context-control-color);
-            border-style: solid;
-            border-color: var(--border-color);
-            border-top-width: 1px;
-            border-right-width: 1px;
-            border-bottom-width: 1px;
-            border-left-width: 1px;
-
-            border-top-left-radius: var(--border-radius);
-            border-top-right-radius: var(--border-radius);
-            border-bottom-right-radius: var(--border-radius);
-            border-bottom-left-radius: var(--border-radius);
-            padding: var(--spacing-s) var(--spacing-l);
-          }
-        }
-        .aboveButton {
-          --gr-button: {
-            color: var(--diff-context-control-color);
-            border-style: solid;
-            border-color: var(--border-color);
-            border-top-width: 1px;
-            border-right-width: 1px;
-            border-bottom-width: 0;
-            border-left-width: 1px;
-
-            border-top-left-radius: var(--border-radius);
-            border-top-right-radius: var(--border-radius);
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: var(--border-radius);
-            padding: var(--spacing-xxs) var(--spacing-l);
-          }
-        }
-        .belowButton {
-          --gr-button: {
-            color: var(--diff-context-control-color);
-            border-style: solid;
-            border-color: var(--border-color);
-            border-top-width: 0;
-            border-right-width: 1px;
-            border-bottom-width: 1px;
-            border-left-width: 1px;
-
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: var(--border-radius);
-            border-bottom-left-radius: var(--border-radius);
-            padding: var(--spacing-xxs) var(--spacing-l);
-          }
-        }
-      </style>
-    </custom-style>
   `;
 
   connectedCallback() {
@@ -323,7 +290,7 @@ export class GrContextControls extends LitElement {
       groups
     );
 
-    const mouseHander = (eventType: 'enter' | 'leave') => {
+    const mouseHandler = (eventType: 'enter' | 'leave') => {
       this.expandButtonsHover.next({
         eventType,
         buttonType: type,
@@ -331,18 +298,16 @@ export class GrContextControls extends LitElement {
       });
     };
 
-    const button = html` <gr-button
+    const button = html` <paper-button
       class="${classes}"
-      link="true"
-      no-uppercase="true"
       aria-label="${ariaLabel}"
       @click="${expandHandler}"
-      @mouseenter="${() => mouseHander('enter')}"
-      @mouseleave="${() => mouseHander('leave')}"
+      @mouseenter="${() => mouseHandler('enter')}"
+      @mouseleave="${() => mouseHandler('leave')}"
     >
       <span class="showContext">${text}</span>
       ${tooltip}
-    </gr-button>`;
+    </paper-button>`;
     return button;
   }
 
@@ -525,7 +490,7 @@ export class GrContextControls extends LitElement {
       return html`<p>invalid properties</p>`;
     }
     return html`
-      ${GrContextControls.customStyles} ${this.createExpandAllButtonContainer()}
+      ${this.createExpandAllButtonContainer()}
       ${this.createPartialExpansionButtons()}
       ${this.createBlockExpansionButtons()}
     `;

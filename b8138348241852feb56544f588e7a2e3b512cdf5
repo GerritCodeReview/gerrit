@@ -33,6 +33,24 @@
       "message": "Is this correct?\n\nOld was: name + \"-bundle.js\",\nbut now it is: name + \"-bundle\"\n\nlooks like the \".js\" got dropped?",
       "revId": "b8138348241852feb56544f588e7a2e3b512cdf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ede07e_886caa05",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-17T15:04:48Z",
+      "side": 1,
+      "message": "Yes, it\u0027s correct. We\u0027re referring to the output of the \u0027bundle\u0027 rule. Previously we referred to it by knowing exactly what name it produced, but now we refer to it by the rule name, which means we don\u0027t need to know the exact file output name.",
+      "parentUuid": "d65ebc6c_bcb775f2",
+      "revId": "b8138348241852feb56544f588e7a2e3b512cdf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -530,3 +530,4 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
             "zip -Drq $$ROOT/$@ -g .",
         ]),
     )
+

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f5b8fe7_4e553dd9",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-17T08:47:03Z",
+      "side": 1,
+      "message": "copied Luca\u0027s comment from https://gerrit-review.googlesource.com/c/gerrit/+/305802/1/Documentation/cmd-set-account.txt to this cherry-pick:\n\nDo we want to also warn of the dangers to remove ALL external ids for an account?\nWhat about:\n\ngroups that the account is member of\nACLs associated to that account directly (e.g. through singleusergroup plugin)\nReviews for that account.",
+      "range": {
+        "startLine": 112,
+        "startChar": 42,
+        "endLine": 113,
+        "endChar": 46
+      },
+      "revId": "ed6982e67e580646e8d02cf52aa6e981a61e10c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

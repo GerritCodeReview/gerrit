@@ -22,6 +22,30 @@
       },
       "revId": "01d0b2906356a0bb66bf000349b1573668391bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6556a28_e52c88d4",
+        "filename": "javatests/com/google/gerrit/integration/ssh/NoShellIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-17T17:36:57Z",
+      "side": 0,
+      "message": "I\u0027ve reproduced the issue:\n\nThere was 1 failure:\n1) verifyCommandsIsClosed(com.google.gerrit.integration.ssh.NoShellIT)\norg.junit.runners.model.TestTimedOutException: test timed out after 30000 milliseconds\n\tat java.base@11.0.8/java.io.FileInputStream.readBytes(Native Method)\n\tat java.base@11.0.8/java.io.FileInputStream.read(FileInputStream.java:279)\n\tat java.base@11.0.8/java.io.BufferedInputStream.read1(BufferedInputStream.java:290)\n\tat java.base@11.0.8/java.io.BufferedInputStream.read(BufferedInputStream.java:351)\n\tat app//com.google.common.io.ByteStreams.toByteArrayInternal(ByteStreams.java:180)\n\tat app//com.google.common.io.ByteStreams.toByteArray(ByteStreams.java:220)",
+      "parentUuid": "ebb8d8cb_5c6ec001",
+      "range": {
+        "startLine": 44,
+        "startChar": 7,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "01d0b2906356a0bb66bf000349b1573668391bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

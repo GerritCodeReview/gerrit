@@ -41,7 +41,7 @@ public class NoShellIT extends StandaloneSiteTest {
 
   private String identityPath;
 
-  @Test(timeout = 30000)
+  @Test(timeout = 60000)
   public void verifyCommandsIsClosed() throws Exception {
     try (ServerContext ctx = startServer()) {
       setUpTestHarness(ctx);

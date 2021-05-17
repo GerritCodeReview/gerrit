@@ -530,3 +530,60 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
             "zip -Drq $$ROOT/$@ -g .",
         ]),
     )
+
+def gerrit_js_bundle(name, srcs, entry_point):
+    """Produces a Gerrit JavaScript bundle archive.
+
+    This rule bundles and minifies the javascript files of a frontend plugin and
+    produces a file archive.
+    Output of this rule is an archive with "${name}.jar" with specific layout for
+    Gerrit frontend plugins. That archive should be provided to gerrit_plugin
+    rule as resource_jars attribute.
+
+    Args:
+      name: Rule name.
+      srcs: Plugin sources.
+      entry_point: Plugin entry_point.
+    """
+
+    bundle = name + "-bundle"
+    minified = name + ".min"
+    main = name + ".js"
+
+    rollup_bundle(
+        name = bundle,
+        srcs = srcs,
+        entry_point = entry_point,
+        format = "iife",
+        rollup_bin = "//tools/node_tools:rollup-bin",
+        sourcemap = "hidden",
+        deps = [
+            "@tools_npm//rollup-plugin-node-resolve",
+        ],
+    )
+
+    terser_minified(
+        name = minified,
+        sourcemap = False,
+        src = bundle,
+    )
+
+    native.genrule(
+        name = name + "_rename_js",
+        srcs = [minified],
+        outs = [main],
+        cmd = "cp $< $@",
+        output_to_bindir = True,
+    )
+
+    genrule2(
+        name = name,
+        srcs = [main],
+        outs = [name + ".jar"],
+        cmd = " && ".join([
+            "mkdir $$TMP/static",
+            "cp $(SRCS) $$TMP/static",
+            "cd $$TMP",
+            "zip -Drq $$ROOT/$@ -g .",
+        ]),
+    )

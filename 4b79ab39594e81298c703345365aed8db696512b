@@ -103,6 +103,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54066baa_12adb9e1",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-17T06:44:09Z",
+      "side": 1,
+      "message": "Your change change removed all commit-message related information under this anchor.\nI don\u0027t share your definition of breakage.\nIf the anchor is removed any incoming links would still link to this page, keeping the anchor would link to a specific line of this page that contains no commit-message related information.",
+      "parentUuid": "332f2bcf_76dd3758",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "4b79ab39594e81298c703345365aed8db696512b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a9df1a6_fb49e89d",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 2

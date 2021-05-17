@@ -17,7 +17,7 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
-  <style>
+  <style include="gr-spinner-styles">
     /* general styles for all buttons */
     :host {
       --background-color: var(

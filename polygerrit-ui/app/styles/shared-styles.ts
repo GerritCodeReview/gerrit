@@ -270,6 +270,10 @@ export const sharedStyles = css`
     z-index: -1000;
   }
 
+  /**
+   * TODO: Remove these rules and change (plugin) users to rely on
+   * gr-spinner-styles directly.
+   */
   /** BEGIN: loading spiner */
   .loadingSpin {
     border: 2px solid var(--disabled-button-background-color);

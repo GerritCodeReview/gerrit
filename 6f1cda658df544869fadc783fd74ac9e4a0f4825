@@ -33,6 +33,23 @@
       "message": "thanks, and what Ben said.",
       "revId": "6f1cda658df544869fadc783fd74ac9e4a0f4825",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75d3f79f_834f0ae2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T08:28:49Z",
+      "side": 1,
+      "message": "Can this be submitted now?",
+      "revId": "6f1cda658df544869fadc783fd74ac9e4a0f4825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

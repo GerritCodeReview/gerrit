@@ -94,6 +94,30 @@
       },
       "revId": "01d0b2906356a0bb66bf000349b1573668391bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfc487f2_8ac11d53",
+        "filename": "javatests/com/google/gerrit/integration/ssh/NoShellIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T17:54:57Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "95819932_a72ea38e",
+      "range": {
+        "startLine": 44,
+        "startChar": 7,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "01d0b2906356a0bb66bf000349b1573668391bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

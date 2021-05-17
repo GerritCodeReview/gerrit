@@ -16,6 +16,23 @@
       "message": "Manually verified, and it works. Without this change:\n\n  $ git clone http://localhost:8080/x/myproject2 myproject\n  Cloning into \u0027myproject\u0027...\n  fatal: http://192.168.178.86:8080/x/myproject2/info/refs not valid: is this a git repository?\n\nWith this change:\n\n  $ git clone http://localhost:8080/x/myproject2 myproject\n  Cloning into \u0027myproject\u0027...\n  remote: Counting objects: 2, done\n  remote: Finding sources: 100% (2/2)\n  Receiving objects: 100% (2/2), 207 bytes | 207.00 KiB/s, done.\n  remote: Total 2 (delta 0), reused 0 (delta 0)",
       "revId": "b1f4115304a3820be434a6201da57e4508862f82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b04cbac_46d7a4b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-17T18:13:25Z",
+      "side": 1,
+      "message": "Thanks, @DavidO for the confirming it.",
+      "revId": "b1f4115304a3820be434a6201da57e4508862f82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

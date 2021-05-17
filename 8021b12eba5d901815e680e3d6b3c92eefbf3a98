@@ -33,6 +33,24 @@
       "message": "Also cherry-pick the improvements for gerrit_js_bundle rule, implemented in change 304804?",
       "revId": "8021b12eba5d901815e680e3d6b3c92eefbf3a98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e43a6e0_c96cca2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-17T15:01:42Z",
+      "side": 1,
+      "message": "Done, thanks for remembering that!",
+      "parentUuid": "8aed4ae2_afde1277",
+      "revId": "8021b12eba5d901815e680e3d6b3c92eefbf3a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

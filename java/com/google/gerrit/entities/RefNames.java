@@ -262,6 +262,10 @@ public class RefNames {
     return refsEditPrefix(accountId, changeId) + psId.get();
   }
 
+  public static Account.Id accountIdFromEditRef(String refName) {
+    return Account.id(Ints.tryParse(refName.substring(refName.lastIndexOf('/') + 1)));
+  }
+
   /**
    * Returns reference prefix for this change edit with sharded user and change number:
    * refs/users/UU/UUUU/edit-CCCC/.

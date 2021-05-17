@@ -136,6 +136,12 @@ public class RefNamesTest {
   }
 
   @Test
+  public void accountIdFromEditRef() throws Exception {
+    assertThat(RefNames.accountIdFromEditRef(RefNames.refsEdit(Account.id(123), changeId, psId)))
+        .isEqualTo(Account.id(123));
+  }
+
+  @Test
   public void isRefsUsers() throws Exception {
     assertThat(RefNames.isRefsUsers("refs/users/23/1011123")).isTrue();
     assertThat(RefNames.isRefsUsers("refs/users/default")).isTrue();

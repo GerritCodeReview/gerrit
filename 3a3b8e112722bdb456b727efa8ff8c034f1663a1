@@ -16,6 +16,125 @@
       "message": "This is still WIP, but I would appreciate early feedback/ any suggestions how to split this change or split the work item into smaller chunks.\n\nMy idea was to add cases one by one, with proper testing, and run dry-run to make sure results are as expected, then run an actual implementation, when we are confident all/most cases are covered.\n\nWDYT?",
       "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a5281c3_3d0e8a76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-17T17:12:30Z",
+      "side": 1,
+      "message": "LGTM from a high level. I don\u0027t think it needs to be split up.\n\nThe main question is whether I should stop the Flume rollout to not break your verification.",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "465aaf9f_0ee7c7bc",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-17T17:12:30Z",
+      "side": 1,
+      "message": "Why is this necessary? Shouldn\u0027t the project cache be unaffected?",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6fb22c7_95138cda",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-17T17:12:30Z",
+      "side": 1,
+      "message": "Not extending NoteDbRewriter warrants a comment here.",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "089eaa21_78930b06",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-17T17:12:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this preclude applying the fix? I assume the next step would be for a human to investigate this change?",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01455590_33f363ed",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-17T17:12:30Z",
+      "side": 1,
+      "message": "I like the idea of verification, but I\u0027m not sure we\u0027d be able to rely on this. Users can change/remove their name and preferred email. In fact, Wipeout has already started that :-| Should I maybe hold off on rolling it out further? (Current status: 100% gerrit, 1% chromium)\n\nWDYT about searching for regular expressions that match names followed by email addresses? Or is there no suitable pattern to the occurrences?",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "094e5109_ecaeac8e",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-17T17:12:30Z",
+      "side": 1,
+      "message": "Is it OK to change the sha1-s of the affected commits and their children? Are there dependencies on that outside of Gerrit?",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8fdaa4_4cb05c8d",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-17T17:12:30Z",
+      "side": 1,
+      "message": "It seems safer to initialize this to false.",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

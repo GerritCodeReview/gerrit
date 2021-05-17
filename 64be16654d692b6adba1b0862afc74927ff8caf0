@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6419ec06_eea3650f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7790,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-17T11:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3eab086d_3b068ee3",
+      "range": {
+        "startLine": 7790,
+        "startChar": 2,
+        "endLine": 7790,
+        "endChar": 19
+      },
+      "revId": "64be16654d692b6adba1b0862afc74927ff8caf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f924727c_523770e6",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c60e8f7_756ef90e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-17T11:30:13Z",
+      "side": 1,
+      "message": "mmm, yes right now the behaviour is not to publish any drafts if strategy\u003dKEEP.\n\nI prefer to keep the behaviour that way; We can either skip silently, or throw an exception. I prefer to skip silently. I added a clarification sentence about that in the documentation.\n\nPlease LMK if you prefer otherwise.",
+      "parentUuid": "f924727c_523770e6",
+      "range": {
+        "startLine": 1086,
+        "startChar": 0,
+        "endLine": 1086,
+        "endChar": 18
+      },
+      "revId": "64be16654d692b6adba1b0862afc74927ff8caf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69338ecf_2e1bd382",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-05-17T09:52:54Z",
       "side": 1,
       "message": "please add a test with draft handling \u003d keep",
+      "range": {
+        "startLine": 1271,
+        "startChar": 0,
+        "endLine": 1271,
+        "endChar": 0
+      },
+      "revId": "64be16654d692b6adba1b0862afc74927ff8caf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01e620d3_72bf0dae",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1271,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-17T11:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69338ecf_2e1bd382",
       "range": {
         "startLine": 1271,
         "startChar": 0,

@@ -141,6 +141,30 @@
       },
       "revId": "0ff63a55d8b46509664622ebfffae1655e91eaf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e22109c7_6d7a9ff8",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteExternalIds.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-17T21:15:28Z",
+      "side": 1,
+      "message": "if you have more comments on this please move them to I61f52486e1b91 since this change was cherry-picked to master and this change should be abandoned.",
+      "parentUuid": "b8a53623_adeb1831",
+      "range": {
+        "startLine": 107,
+        "startChar": 48,
+        "endLine": 107,
+        "endChar": 84
+      },
+      "revId": "0ff63a55d8b46509664622ebfffae1655e91eaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

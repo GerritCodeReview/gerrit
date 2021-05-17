@@ -16,6 +16,115 @@
       "message": "Verified E2E with Python scripting performing HTTP GET and POST within the same session.",
       "revId": "53649b2fef4816336f070adb4a99a42a6d9c1976",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b277b12_c839da38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T10:24:36Z",
+      "side": 1,
+      "message": "Thanks for tracking this down and proposing the fix. I would rather prefer a less invasive fix on very stable branches and would defer the optimization to gerrit@HEAD.",
+      "revId": "53649b2fef4816336f070adb4a99a42a6d9c1976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1702c8a_2dd32b1f",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T10:24:36Z",
+      "side": 1,
+      "message": "isSignedInForGitRequest ?",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 28
+      },
+      "revId": "53649b2fef4816336f070adb4a99a42a6d9c1976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7de8629a_62640a93",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T10:24:36Z",
+      "side": 1,
+      "message": "isSignedInForGitRequest",
+      "range": {
+        "startLine": 109,
+        "startChar": 18,
+        "endLine": 109,
+        "endChar": 38
+      },
+      "revId": "53649b2fef4816336f070adb4a99a42a6d9c1976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27e1380d_bdb26353",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T10:24:36Z",
+      "side": 1,
+      "message": "I would rather not handle HTTP requests differently depending on HTTP method GET/HEAD/POST/PUT/DELETE, on very stable branches: 3.1.x/3.2.x/3.3.x/3.4.0. Also note that this is the last fix release before 3.1.x release line is discontinued.\n\nMy proposal would be to just handle Git requests differently, and route all non git requests through full authentication, as it was the case before the breaking change  I2a56197ee0. After the fix we should have enough time to implement and test this optimization on Gerrit@HEAD.",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 85
+      },
+      "revId": "53649b2fef4816336f070adb4a99a42a6d9c1976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcf73fda_2738f8a9",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-17T10:24:36Z",
+      "side": 1,
+      "message": "This should just be:\n\n  boolean isSignedInForRequest \u003d isAlreadySignedIn \u0026\u0026 isGitRequest;",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 94
+      },
+      "revId": "53649b2fef4816336f070adb4a99a42a6d9c1976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

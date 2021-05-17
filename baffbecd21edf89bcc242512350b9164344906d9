@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c184f7b_7e2230e2",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-17T18:17:14Z",
+      "side": 1,
+      "message": "Is there css for .action ?",
+      "range": {
+        "startLine": 425,
+        "startChar": 19,
+        "endLine": 425,
+        "endChar": 25
+      },
+      "revId": "baffbecd21edf89bcc242512350b9164344906d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "503a45e5_8da37dfa",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-17T18:17:14Z",
+      "side": 1,
+      "message": "A11y: I am just curious what will happen when you tab (tab navigation) to unselect all and then you press space. Will user lose focus?",
+      "range": {
+        "startLine": 429,
+        "startChar": 13,
+        "endLine": 429,
+        "endChar": 25
+      },
+      "revId": "baffbecd21edf89bcc242512350b9164344906d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

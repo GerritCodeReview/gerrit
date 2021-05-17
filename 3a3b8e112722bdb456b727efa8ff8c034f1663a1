@@ -71,6 +71,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15fe33f0_b798a238",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-17T17:14:39Z",
+      "side": 1,
+      "message": "Wouldn\u0027t we also want to see the actual output to make sure it is sane? That might be large though. But I don\u0027t see how we can have sufficient confidence otherwise.",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "089eaa21_78930b06",
         "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
         "patchSetId": 8

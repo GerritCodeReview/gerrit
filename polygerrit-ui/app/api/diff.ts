@@ -302,6 +302,15 @@ export declare interface DiffContextExpandedExternalDetail {
   buttonType: ContextButtonType;
 }
 
+/**
+ * Details to be externally accessed when hovering context
+ * expansion buttons
+ */
+export declare interface DiffContextButtonHoveredDetail {
+  linesToExpand: number;
+  buttonType: ContextButtonType;
+}
+
 export declare type ImageDiffAction =
   | {type: 'overview-image-clicked'}
   | {type: 'overview-frame-dragged'}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c610c3f9_a3f1c1a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-17T15:15:48Z",
+      "side": 1,
+      "message": "Option ldap.localUsernameToLowerCase only affects ldap users. I agree it looks like this option could be removed in favour of auth.userNameCaseInsensitive which affects all usernames in the same way.\n\nIf we introduce this new feature not as an option but as a migration from case-sensitive to case-insensitive we would force sites having duplicate usernames only differing in capitalization to remove these duplicates before the migration can be run. If a site has many duplicates this might be a lot of work since all the victims of such a cleanup have to create a new user and reconfigure their clients to use that new user.",
+      "parentUuid": "ce02025e_56b67f78",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "46c461cd21b0237db33c0a01559fb6264cf079c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d945e356_9a498c77",

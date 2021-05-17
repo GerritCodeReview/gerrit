@@ -2527,6 +2527,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   _handleToggleStar(e: CustomEvent<{change: ChangeInfo; starred: boolean}>) {
     if (e.detail.starred) {
+      this.reporting.reportInteraction('change-starred-from-change-view');
       this.lastStarredTimestamp = Date.now();
     } else {
       if (

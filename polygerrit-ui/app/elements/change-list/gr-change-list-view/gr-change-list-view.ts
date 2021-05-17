@@ -108,6 +108,8 @@ export class GrChangeListView extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
+  private reporting = appContext.reportingService;
+
   constructor() {
     super();
     this.addEventListener('next-page', () => this._handleNextPage());
@@ -272,6 +274,9 @@ export class GrChangeListView extends PolymerElement {
   }
 
   _handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
+    if (e.detail.starred) {
+      this.reporting.reportInteraction('change-starred-from-change-list');
+    }
     this.restApiService.saveChangeStarred(
       e.detail.change._number,
       e.detail.starred

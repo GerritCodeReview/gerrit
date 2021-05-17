@@ -466,6 +466,21 @@ SHOW_ALL_THRESHOLDS.set(Category.WARNING, 10);
 SHOW_ALL_THRESHOLDS.set(Category.INFO, 5);
 SHOW_ALL_THRESHOLDS.set(Category.SUCCESS, 5);
 
+const CATEGORY_TOOLTIPS: Map<Category, string> = new Map();
+CATEGORY_TOOLTIPS.set(Category.ERROR, 'Must be fixed and is blocking submit');
+CATEGORY_TOOLTIPS.set(
+  Category.WARNING,
+  'Should be checked but is not blocking submit'
+);
+CATEGORY_TOOLTIPS.set(
+  Category.INFO,
+  'Does not have to be checked, for your information only'
+);
+CATEGORY_TOOLTIPS.set(
+  Category.SUCCESS,
+  'Successful runs without results and individual successful results'
+);
+
 @customElement('gr-checks-results')
 export class GrChecksResults extends GrLitElement {
   @query('#filterInput')
@@ -617,6 +632,9 @@ export class GrChecksResults extends GrLitElement {
           width: var(--line-height-h3);
           height: var(--line-height-h3);
           margin-right: var(--spacing-s);
+        }
+        .categoryHeader .statusIconWrapper {
+          display: inline-block;
         }
         .categoryHeader .statusIcon {
           position: relative;
@@ -902,11 +920,16 @@ export class GrChecksResults extends GrLitElement {
           @click="${() => this.toggleExpanded(category)}"
         >
           <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
-          <iron-icon
-            icon="gr-icons:${iconForCategory(category)}"
-            class="statusIcon ${catString}"
-          ></iron-icon>
-          <span class="title">${catString}</span>
+          <div class="statusIconWrapper">
+            <iron-icon
+              icon="gr-icons:${iconForCategory(category)}"
+              class="statusIcon ${catString}"
+            ></iron-icon>
+            <span class="title">${catString}</span>
+            <paper-tooltip offset="5"
+              >${CATEGORY_TOOLTIPS.get(category)}</paper-tooltip
+            >
+          </div>
           <span class="count"
             >${this.renderCount(all, selected, filtered)}</span
           >

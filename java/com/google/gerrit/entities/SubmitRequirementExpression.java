@@ -19,12 +19,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
 
-/**
- * Describe a applicability, blocking or override expression of a {@link SubmitRequirement}.
- *
- * <p>TODO: Store the tree representation of the parsed expression internally and throw an exception
- * upon creation if the expression syntax is invalid.
- */
+/** Describe a applicability, blocking or override expression of a {@link SubmitRequirement}. */
 @AutoValue
 public abstract class SubmitRequirementExpression {
 

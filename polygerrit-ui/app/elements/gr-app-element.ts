@@ -72,7 +72,6 @@ import {
   LocationChangeEvent,
   PageErrorEventDetail,
   RpcLogEvent,
-  ShortcutTriggeredEvent,
   TitleChangeEventDetail,
 } from '../types/events';
 import {ViewState} from '../types/types';
@@ -247,9 +246,6 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
       this.handleRecreateView(GerritView.DIFF)
     );
     document.addEventListener('gr-rpc-log', e => this._handleRpcLog(e));
-    this.addEventListener('shortcut-triggered', e =>
-      this._handleShortcutTriggered(e)
-    );
   }
 
   /** @override */
@@ -542,23 +538,6 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     // To fix bug announce read after each new view, we reset announce with
     // empty space
     fireIronAnnounce(this, ' ');
-  }
-
-  _handleShortcutTriggered(event: ShortcutTriggeredEvent) {
-    const {event: e, goKey, vKey} = event.detail;
-    // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
-    let key = `${((e as unknown) as KeyboardEvent).key}:${e.type}`;
-    if (goKey) key = 'g+' + key;
-    if (vKey) key = 'v+' + key;
-    if (e.shiftKey) key = 'shift+' + key;
-    if (e.ctrlKey) key = 'ctrl+' + key;
-    if (e.metaKey) key = 'meta+' + key;
-    if (e.altKey) key = 'alt+' + key;
-    const path = event.composedPath();
-    this.reporting.reportInteraction('shortcut-triggered', {
-      key,
-      from: (path && path[0] && (path[0] as Element).nodeName) ?? 'unknown',
-    });
   }
 
   _handlePageError(e: CustomEvent<PageErrorEventDetail>) {

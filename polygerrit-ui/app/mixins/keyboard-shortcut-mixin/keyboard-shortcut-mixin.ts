@@ -104,10 +104,7 @@ import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
 import {check, Constructor} from '../../utils/common-util';
 import {getKeyboardEvent, isModifierPressed} from '../../utils/dom-util';
-import {
-  CustomKeyboardEvent,
-  ShortcutTriggeredEventDetail,
-} from '../../types/events';
+import {CustomKeyboardEvent} from '../../types/events';
 import {appContext} from '../../services/app-context';
 
 /** Enum for all special shortcuts */
@@ -778,6 +775,8 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
 
       private readonly restApiService = appContext.restApiService;
 
+      private reporting = appContext.reportingService;
+
       /** Used to disable shortcuts when the element is not visible. */
       private observer?: IntersectionObserver;
 
@@ -820,18 +819,20 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
             return true;
           }
         }
-        const detail: ShortcutTriggeredEventDetail = {
-          event: e,
-          goKey: this._inGoKeyMode(),
-          vKey: this.inVKeyMode(),
-        };
-        this.dispatchEvent(
-          new CustomEvent('shortcut-triggered', {
-            detail,
-            composed: true,
-            bubbles: true,
-          })
-        );
+
+        // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
+        let key = `${((e as unknown) as KeyboardEvent).key}:${e.type}`;
+        if (this._inGoKeyMode()) key = 'g+' + key;
+        if (this.inVKeyMode()) key = 'v+' + key;
+        if (e.shiftKey) key = 'shift+' + key;
+        if (e.ctrlKey) key = 'ctrl+' + key;
+        if (e.metaKey) key = 'meta+' + key;
+        if (e.altKey) key = 'alt+' + key;
+        const path = e.composedPath();
+        this.reporting.reportInteraction('shortcut-triggered', {
+          key,
+          from: (path && path[0] && (path[0] as Element).nodeName) ?? 'unknown',
+        });
         return false;
       }
 

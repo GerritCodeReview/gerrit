@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateResult;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -24,6 +26,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.Optional;
 
 /** Evaluates submit requirements for different change data. */
 @Singleton
@@ -45,6 +48,28 @@ public class SubmitRequirementsEvaluator {
   public void validateExpression(SubmitRequirementExpression expression)
       throws QueryParseException {
     changeQueryBuilderProvider.get().parse(expression.expressionString());
+  }
+
+  /** Evaluate a {@link SubmitRequirement} on a given {@link ChangeData}. */
+  public SubmitRequirementResult evaluate(SubmitRequirement sr, ChangeData cd) {
+    SubmitRequirementExpressionResult blockingResult =
+        evaluateExpression(sr.blockingExpression(), cd);
+
+    Optional<SubmitRequirementExpressionResult> applicabilityResult =
+        sr.applicabilityExpression().isPresent()
+            ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
+            : Optional.empty();
+
+    Optional<SubmitRequirementExpressionResult> overrideResult =
+        sr.overrideExpression().isPresent()
+            ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
+            : Optional.empty();
+
+    return SubmitRequirementResult.builder()
+        .blockingExpressionResult(blockingResult)
+        .applicabilityExpressionResult(applicabilityResult)
+        .overrideExpressionResult(overrideResult)
+        .build();
   }
 
   /** Evaluate a {@link SubmitRequirementExpression} using change data. */

@@ -15,17 +15,30 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 
+import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
+import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,14 +46,18 @@ import org.junit.Test;
 @NoHttpd
 public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Inject SubmitRequirementsEvaluator evaluator;
+  @Inject private ProjectOperations projectOperations;
+  @Inject private Provider<InternalChangeQuery> changeQueryProvider;
 
   private ChangeData changeData;
+  private String changeId;
 
   @Before
   public void setUp() throws Exception {
     PushOneCommit.Result pushResult =
         createChange(testRepo, "refs/heads/master", "Fix a bug", "file.txt", "content", "topic");
     changeData = pushResult.getChange();
+    changeId = pushResult.getChangeId();
   }
 
   @Test
@@ -104,5 +121,141 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
                 .predicateString(String.format("ref:refs/heads/foo"))
                 .status(false)
                 .build());
+  }
+
+  @Test
+  public void submitRequirementIsNotApplicable_whenApplicabilityExpressionIsFalse()
+      throws Exception {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:non-existent-project",
+            /* blockingExpr= */ "message:\"Fix bug\"",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.NOT_APPLICABLE);
+  }
+
+  @Test
+  public void submitRequirementIsSatisfied_whenBlockingExpressionIsTrue() throws Exception {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /* blockingExpr= */ "message:\"Fix a bug\"",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+  }
+
+  @Test
+  public void submitRequirementIsUnsatisfied_whenBlockingExpressionIsFalse() throws Exception {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /* blockingExpr= */ "label:\"code-review=+2\"",
+            /* overrideExpr= */ "");
+
+    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.UNSATISFIED);
+  }
+
+  @Test
+  public void submitRequirementIsOverridden_whenOverrideExpressionIsTrue() throws Exception {
+    addLabel("build-cop-override");
+    voteLabel(changeId, "build-cop-override", 1);
+
+    // Reload change data after applying the vote
+    changeData =
+        changeQueryProvider.get().byLegacyChangeId(changeData.getId()).stream()
+            .collect(MoreCollectors.onlyElement());
+
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /* blockingExpr= */ "label:\"code-review=+2\"",
+            /* overrideExpr= */ "label:\"build-cop-override=+1\"");
+
+    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.OVERRIDDEN);
+  }
+
+  @Test
+  public void submitRequirementIsError_whenApplicabilityExpressionHasInvalidSyntax()
+      throws Exception {
+    addLabel("build-cop-override");
+
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "invalid_field:invalid_value",
+            /* blockingExpr= */ "label:\"code-review=+2\"",
+            /* overrideExpr= */ "label:\"build-cop-override=+1\"");
+
+    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
+    assertThat(result.applicabilityExpressionResult().get().errorMessage().get())
+        .isEqualTo("Unsupported operator invalid_field:invalid_value");
+  }
+
+  @Test
+  public void submitRequirementIsError_whenBlockingExpressionHasInvalidSyntax() throws Exception {
+    addLabel("build-cop-override");
+
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /* blockingExpr= */ "invalid_field:invalid_value",
+            /* overrideExpr= */ "label:\"build-cop-override=+1\"");
+
+    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
+    assertThat(result.blockingExpressionResult().errorMessage().get())
+        .isEqualTo("Unsupported operator invalid_field:invalid_value");
+  }
+
+  @Test
+  public void submitRequirementIsError_whenOverrideExpressionHasInvalidSyntax() throws Exception {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ "project:" + project.get(),
+            /* blockingExpr= */ "label:\"code-review=+2\"",
+            /* overrideExpr= */ "invalid_field:invalid_value");
+
+    SubmitRequirementResult result = evaluator.evaluate(sr, changeData);
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
+    assertThat(result.overrideExpressionResult().get().errorMessage().get())
+        .isEqualTo("Unsupported operator invalid_field:invalid_value");
+  }
+
+  private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
+    gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
+  }
+
+  private void addLabel(String labelName) throws Exception {
+    configLabel(
+        project,
+        labelName,
+        LabelFunction.NO_OP,
+        value(1, "ok"),
+        value(0, "No score"),
+        value(-1, "Needs work"));
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(labelName).ref("refs/heads/master").group(REGISTERED_USERS).range(-1, +1))
+        .update();
+  }
+
+  private SubmitRequirement createSubmitRequirement(
+      @Nullable String applicabilityExpr, String blockingExpr, @Nullable String overrideExpr) {
+    return SubmitRequirement.builder()
+        .setName("sr-name")
+        .setDescription(Optional.of("sr-description"))
+        .setApplicabilityExpression(SubmitRequirementExpression.of(applicabilityExpr))
+        .setBlockingExpression(SubmitRequirementExpression.create(blockingExpr))
+        .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
+        .setAllowOverrideInChildProjects(false)
+        .build();
   }
 }

@@ -43,6 +43,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperationsImpl;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.util.ReplicaUtil;
@@ -399,6 +401,15 @@ public class GerritServer implements AutoCloseable {
       daemon.addAdditionalSshModuleForTesting(testSshModule);
     }
     daemon.setEnableSshd(desc.useSsh());
+    daemon.addAdditionalSysModuleForTesting(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(CommitValidationListener.class)
+                .annotatedWith(Exports.named("object-visibility-listener"))
+                .to(GitObjectVisibilityChecker.class);
+          }
+        });
 
     if (desc.memory()) {
       checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");

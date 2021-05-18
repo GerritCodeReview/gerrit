@@ -194,6 +194,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
               sourceCommit,
               author,
               ObjectId.fromString(change.getKey().get().substring(1)));
+      oi.flush();
 
       PatchSet.Id nextPsId = ChangeUtil.nextPatchSetId(ps.id());
       PatchSetInserter psInserter =

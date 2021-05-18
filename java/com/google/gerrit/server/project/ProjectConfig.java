@@ -1694,19 +1694,19 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               SUBMIT_REQUIREMENT,
               name,
               KEY_SR_APPLICABILITY_EXPRESSION,
-              sr.applicabilityExpression().get().expression());
+              sr.applicabilityExpression().get().expressionString());
         }
         rc.setString(
             SUBMIT_REQUIREMENT,
             name,
             KEY_SR_BLOCKING_EXPRESSION,
-            sr.blockingExpression().expression());
+            sr.blockingExpression().expressionString());
         if (sr.overrideExpression().isPresent()) {
           rc.setString(
               SUBMIT_REQUIREMENT,
               name,
               KEY_SR_OVERRIDE_EXPRESSION,
-              sr.overrideExpression().get().expression());
+              sr.overrideExpression().get().expressionString());
         }
         rc.setBoolean(
             SUBMIT_REQUIREMENT,

@@ -255,6 +255,7 @@ class GrResultRow extends GrLitElement {
           <div>
             <span>${this.result.checkName}</span>
             <gr-checks-attempt .run="${this.result}"></gr-checks-attempt>
+            <gr-hovercard-run .run="${this.result}"></gr-hovercard-run>
           </div>
         </td>
         <td class="summaryCol">

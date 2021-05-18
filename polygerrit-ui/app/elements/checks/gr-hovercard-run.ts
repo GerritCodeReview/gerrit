@@ -19,6 +19,7 @@ import {hovercardBehaviorMixin} from '../shared/gr-hovercard/gr-hovercard-behavi
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-run_html';
 import {customElement, property} from '@polymer/decorators';
+import './gr-checks-action';
 import {CheckRun} from '../../services/checks/checks-model';
 import {
   iconForCategory,

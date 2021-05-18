@@ -257,19 +257,20 @@ export const fakeRun0: CheckRun = {
           name: 'Ignore',
           tooltip: 'Ignore this result',
           primary: true,
-          callback: () => undefined,
+          callback: () => Promise.resolve({message: 'fake "ignore" triggered'}),
         },
         {
           name: 'Flag',
           tooltip: 'Flag this result as not useful',
           primary: true,
-          callback: () => undefined,
+          disabled: true,
+          callback: () => Promise.resolve({message: 'flag "flag" triggered'}),
         },
         {
           name: 'Upload',
           tooltip: 'Upload the result to the super cloud.',
           primary: false,
-          callback: () => undefined,
+          callback: () => Promise.resolve({message: 'fake "upload" triggered'}),
         },
       ],
       tags: [{name: 'INTERRUPTED'}, {name: 'WINDOWS'}],
@@ -334,17 +335,18 @@ export const fakeRun2: CheckRun = {
       name: 'Re-Run',
       tooltip: 'More powerful run than before',
       primary: true,
-      callback: () => undefined,
+      callback: () => Promise.resolve({message: 'fake "re-run" triggered'}),
     },
     {
       name: 'Monetize',
       primary: true,
-      callback: () => undefined,
+      disabled: true,
+      callback: () => Promise.resolve({message: 'fake "monetize" triggered'}),
     },
     {
       name: 'Delete',
       primary: true,
-      callback: () => undefined,
+      callback: () => Promise.resolve({message: 'fake "delete" triggered'}),
     },
   ],
   results: [
@@ -446,29 +448,22 @@ export const fakeActions: Action[] = [
   {
     name: 'Fake Action 1',
     primary: false,
+    disabled: true,
     tooltip: 'Tooltip for Fake Action 1',
-    callback: () => {
-      console.warn('fake action 1 triggered');
-      return undefined;
-    },
+    callback: () => Promise.resolve({message: 'fake action 1 triggered'}),
   },
   {
     name: 'Fake Action 2',
     primary: false,
+    disabled: true,
     tooltip: 'Tooltip for Fake Action 2',
-    callback: () => {
-      console.warn('fake action 2 triggered');
-      return undefined;
-    },
+    callback: () => Promise.resolve({message: 'fake action 2 triggered'}),
   },
   {
     name: 'Fake Action 3',
     primary: false,
     tooltip: 'Tooltip for Fake Action 3',
-    callback: () => {
-      console.warn('fake action 3 triggered');
-      return undefined;
-    },
+    callback: () => Promise.resolve({message: 'fake action 3 triggered'}),
   },
 ];
 

@@ -130,7 +130,7 @@ export function primaryActionName(status: RunStatus) {
 
 export function primaryRunAction(run: CheckRun): Action | undefined {
   return runActions(run).filter(
-    action => action.name === primaryActionName(run.status)
+    action => !action.disabled && action.name === primaryActionName(run.status)
   )[0];
 }
 

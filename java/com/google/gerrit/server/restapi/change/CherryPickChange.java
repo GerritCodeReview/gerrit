@@ -328,6 +328,7 @@ public class CherryPickChange {
                 input.parent - 1,
                 input.allowEmpty,
                 input.allowConflicts);
+        oi.flush();
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
         throw new IntegrationConflictException("Cherry pick failed: " + e.getMessage(), e);
       }

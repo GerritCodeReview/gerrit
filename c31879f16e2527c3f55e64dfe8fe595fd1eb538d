@@ -51,6 +51,24 @@
       "parentUuid": "e97b631e_120e2580",
       "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a0a6653_9677c24f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-18T09:24:35Z",
+      "side": 1,
+      "message": "\u003e We could do it as a python test and have a dependency on gerrit.war. We have it already for prolog tests and plugin-manager plugin. But, probably a less intrusive \napproach would be to back port this test to Java test.\n\nWe already have a Java test covering that scenario: here the point is having a real E2E test that validates that Gerrit API can be called by Python.\n\n\u003e We could simulate Cookie-Management with regular Java client (httpclient), can\u0027t we?\n\nThat won\u0027t be E2E though.\n\n\u003e Also, starting from yesterday 3.1 is EOL, move it to stable-3.2?\n\n+1",
+      "parentUuid": "95a986f2_d03ce3dc",
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

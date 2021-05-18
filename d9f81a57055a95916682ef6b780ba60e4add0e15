@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6e938dc_1d50d24a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-18T09:54:51Z",
+      "side": 1,
+      "message": "I forgot that in https://gerrit-review.googlesource.com/c/gerrit/+/306744/13/polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+      "revId": "d9f81a57055a95916682ef6b780ba60e4add0e15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

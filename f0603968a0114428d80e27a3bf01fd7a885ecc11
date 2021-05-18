@@ -16,6 +16,24 @@
       "message": "Combine with above.",
       "revId": "f0603968a0114428d80e27a3bf01fd7a885ecc11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da7bfacb_f8ba09f3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-18T07:16:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c195117d_9845cf07",
+      "revId": "f0603968a0114428d80e27a3bf01fd7a885ecc11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

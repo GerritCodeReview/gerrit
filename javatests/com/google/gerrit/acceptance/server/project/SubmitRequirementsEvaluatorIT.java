@@ -104,7 +104,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:non-existent-project",
-            /* blockingExpr= */ "message:\"Fix bug\"",
+            /* submittabilityExpr= */ "message:\"Fix bug\"",
             /* overrideExpr= */ "");
 
     ChangeData cd = getChangeData(changeInfo._number);
@@ -114,13 +114,13 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitRequirementIsSatisfied_WhenBlockingExpressionIsTrue() throws Exception {
+  public void submitRequirementIsSatisfied_WhenSubmittabilityExpressionIsTrue() throws Exception {
     ChangeInfo changeInfo = createChange("refs/heads/master", "Fix bug 23");
 
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* blockingExpr= */ "message:\"Fix bug\"",
+            /* submittabilityExpr= */ "message:\"Fix bug\"",
             /* overrideExpr= */ "");
 
     ChangeData cd = getChangeData(changeInfo._number);
@@ -130,13 +130,14 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitRequirementIsUnsatisfied_WhenBlockingExpressionIsFalse() throws Exception {
+  public void submitRequirementIsUnsatisfied_WhenSubmittabilityExpressionIsFalse()
+      throws Exception {
     ChangeInfo changeInfo = createChange("refs/heads/master", "Fix bug 23");
 
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* blockingExpr= */ "label:\"code-review=+2\"",
+            /* submittabilityExpr= */ "label:\"code-review=+2\"",
             /* overrideExpr= */ "");
 
     ChangeData cd = getChangeData(changeInfo._number);
@@ -155,7 +156,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* blockingExpr= */ "label:\"code-review=+2\"",
+            /* submittabilityExpr= */ "label:\"code-review=+2\"",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
     ChangeData cd = getChangeData(changeInfo._number);
@@ -193,12 +194,12 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   private SubmitRequirement createSubmitRequirement(
-      @Nullable String applicability, String blocking, @Nullable String override) {
+      @Nullable String applicability, String submittability, @Nullable String override) {
     return SubmitRequirement.builder()
         .setName("sr-name")
         .setDescription(Optional.of("sr-description"))
         .setApplicabilityExpression(SubmitRequirementExpression.of(applicability))
-        .setBlockingExpression(SubmitRequirementExpression.create(blocking))
+        .setSubmittabilityExpression(SubmitRequirementExpression.create(submittability))
         .setOverrideExpression(SubmitRequirementExpression.of(override))
         .setAllowOverrideInChildProjects(false)
         .build();

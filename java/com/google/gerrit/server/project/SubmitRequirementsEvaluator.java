@@ -53,13 +53,13 @@ public class SubmitRequirementsEvaluator {
    * Evaluates a {@link SubmitRequirement} on a given {@link ChangeData}.
    *
    * @throws QueryParseException Any of the {@link SubmitRequirement#applicabilityExpression()},
-   *     {@link SubmitRequirement#blockingExpression()} or {@link
+   *     {@link SubmitRequirement#submittabilityExpression()} or {@link
    *     SubmitRequirement#overrideExpression()} contain invalid syntax and cannot be parsed.
    */
   public SubmitRequirementResult evaluate(SubmitRequirement sr, ChangeData cd)
       throws QueryParseException {
-    Optional<SubmitRequirementExpressionResult> blockingResult =
-        evaluateExpression(Optional.of(sr.blockingExpression()), cd);
+    Optional<SubmitRequirementExpressionResult> submittabilityResult =
+        evaluateExpression(Optional.of(sr.submittabilityExpression()), cd);
 
     Optional<SubmitRequirementExpressionResult> applicabilityResult =
         evaluateExpression(sr.applicabilityExpression(), cd);
@@ -69,7 +69,7 @@ public class SubmitRequirementsEvaluator {
 
     SubmitRequirementResult.Builder result =
         SubmitRequirementResult.builder()
-            .blockingExpressionResult(blockingResult.get())
+            .submittabilityExpressionResult(submittabilityResult.get())
             .applicabilityExpressionResult(applicabilityResult)
             .overrideExpressionResult(overrideResult);
 
@@ -77,7 +77,7 @@ public class SubmitRequirementsEvaluator {
       result.status(SubmitRequirementResult.Status.NOT_APPLICABLE);
     } else if (overrideResult.isPresent() && overrideResult.get().status() == true) {
       result.status(SubmitRequirementResult.Status.OVERRIDDEN);
-    } else if (blockingResult.get().status() == true) {
+    } else if (submittabilityResult.get().status() == true) {
       result.status(SubmitRequirementResult.Status.SATISFIED);
     } else {
       result.status(SubmitRequirementResult.Status.UNSATISFIED);

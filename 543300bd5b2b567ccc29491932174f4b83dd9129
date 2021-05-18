@@ -46,6 +46,30 @@
       },
       "revId": "543300bd5b2b567ccc29491932174f4b83dd9129",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9064038_d682eb30",
+        "filename": "polygerrit-ui/app/styles/gr-spinner-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-18T09:14:49Z",
+      "side": 1,
+      "message": "I have added usages and a TODO. The problem is that 3 plugins are using `.loadingSpin`. :-/ So this needs more time to clean up.",
+      "parentUuid": "24798495_ed986dbc",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "543300bd5b2b567ccc29491932174f4b83dd9129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

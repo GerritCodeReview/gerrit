@@ -67,6 +67,7 @@ import {ConfigInfo, PatchSetNumber} from '../../types/common';
 import {latestPatchNum$} from '../../services/change/change-model';
 import {appContext} from '../../services/app-context';
 import {repoConfig$} from '../../services/config/config-model';
+import {spinnerStyles} from '../../styles/gr-spinner-styles';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -558,6 +559,7 @@ export class GrChecksResults extends GrLitElement {
   static get styles() {
     return [
       sharedStyles,
+      spinnerStyles,
       css`
         :host {
           display: block;
@@ -580,6 +582,22 @@ export class GrChecksResults extends GrLitElement {
           border: 1px solid var(--border-color);
           border-radius: var(--border-radius);
           padding: 0 var(--spacing-m);
+        }
+        .headerTopRow h2 {
+          display: inline-block;
+        }
+        .headerTopRow .loading {
+          display: inline-block;
+          margin-left: var(--spacing-m);
+          color: var(--deemphasized-text-color);
+        }
+        /* The basics of .loadingSpin are defined in shared styles. */
+        .headerTopRow .loadingSpin {
+          display: inline-block;
+          margin-left: var(--spacing-s);
+          width: 18px;
+          height: 18px;
+          vertical-align: top;
         }
         .headerBottomRow {
           margin-top: var(--spacing-s);
@@ -723,9 +741,10 @@ export class GrChecksResults extends GrLitElement {
         <div class="headerTopRow">
           <div class="left">
             <h2 class="heading-2">Results</h2>
-          </div>
-          <div class="middle">
-            <span ?hidden="${!this.someProvidersAreLoading}">Loading...</span>
+            <div class="loading" ?hidden="${!this.someProvidersAreLoading}">
+              <span>Loading results </span>
+              <span class="loadingSpin"></span>
+            </div>
           </div>
           <div class="right">
             <gr-dropdown-list

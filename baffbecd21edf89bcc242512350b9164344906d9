@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca14b1e_2233451b",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-18T09:01:19Z",
+      "side": 1,
+      "message": "Removed the `action` class here.",
+      "parentUuid": "6c184f7b_7e2230e2",
+      "range": {
+        "startLine": 425,
+        "startChar": 19,
+        "endLine": 425,
+        "endChar": 25
+      },
+      "revId": "baffbecd21edf89bcc242512350b9164344906d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "503a45e5_8da37dfa",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-17T18:17:14Z",
       "side": 1,
       "message": "A11y: I am just curious what will happen when you tab (tab navigation) to unselect all and then you press space. Will user lose focus?",
+      "range": {
+        "startLine": 429,
+        "startChar": 13,
+        "endLine": 429,
+        "endChar": 25
+      },
+      "revId": "baffbecd21edf89bcc242512350b9164344906d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "824a106e_7d8efa12",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-18T09:01:19Z",
+      "side": 1,
+      "message": "Yes, but then pressing tab finds the next focusable element after the UNSELECT button. I think that is fine.",
+      "parentUuid": "503a45e5_8da37dfa",
       "range": {
         "startLine": 429,
         "startChar": 13,

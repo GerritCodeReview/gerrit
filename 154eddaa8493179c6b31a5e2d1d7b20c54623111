@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da69912d_74235a8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-18T10:10:52Z",
+      "side": 1,
+      "message": "Looks good to me. Left minor comments.",
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d3c2943_fc2e4b6d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2840,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-18T10:10:52Z",
+      "side": 1,
+      "message": "Could be removed (for consistency with other headers, e.g. Quota Enforcer).",
+      "range": {
+        "startLine": 2840,
+        "startChar": 19,
+        "endLine": 2840,
+        "endChar": 26
+      },
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fcc3e66_e7495166",
+        "filename": "java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-18T10:10:52Z",
+      "side": 1,
+      "message": "Parameters LGTM. Tried to come up with use cases that can\u0027t be implemented using these parameters, but plugins should be able to inject any gerrit core classes and retrieve change data, etc...",
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3537124_77f0d964",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-18T10:10:52Z",
+      "side": 1,
+      "message": "[optional]: code is self explanatory. I\u0027d remove this comment.",
+      "range": {
+        "startLine": 395,
+        "startChar": 10,
+        "endLine": 395,
+        "endChar": 42
+      },
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

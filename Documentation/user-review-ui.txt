@@ -3,8 +3,13 @@
 
 Reviewing changes is an important task and the Gerrit Web UI provides
 many functionalities to make the review process comfortable and
-efficient. This is a guide through the review UI that explains the
-different functions and UI elements.
+efficient.
+
+The UI has three different main views,
+
+** The dashboard, which shows all changes that are relevant to you
+** The change screen, which shows the change with all its metadata
+** The diff view, which shows changes to a single file
 
 [[change-screen]]
 == Change Screen
@@ -12,43 +17,29 @@ different functions and UI elements.
 The change screen shows the details of a single change and provides
 various actions on it.
 
-image::images/gwt-user-review-ui-change-screen.png[width=800, link="images/gwt-user-review-ui-change-screen.png"]
+image::images/user-review-ui-change-screen.png[width=800, link="images/user-review-ui-change-screen.png"]
 
-[[commit-message]]
-=== Commit Message Block
+Here are the main areas of the screen
 
-The focus of the change screen is on the commit message since this is
-the most important information about a change. The numeric change ID
-and the change status are displayed right above the commit message.
+image::images/user-review-ui-change-screen-annotated.png[width=800, link="images/user-review-ui-change-screen-annotated.png"]
 
-image::images/gwt-user-review-ui-change-screen-commit-message.png[width=800, link="images/gwt-user-review-ui-change-screen-commit-message.png"]
 
-[[permalink]]
-The numeric change ID is a link to the change and clicking on it
-refreshes the change screen. By copying the link location you can get
-the permalink of the change.
+=== Top info
 
-image::images/gwt-user-review-ui-change-screen-permalink.png[width=800, link="images/gwt-user-review-ui-change-screen-permalink.png"]
+Top left, you find the status of the change, and a permalink.
+
+image::images/user-review-ui-change-screen-topleft.png[width=400, link="images/user-review-ui-change-screen-topleft.png"]
 
 [[change-status]]
 The change status shows the state of the change:
 
-- [[needs]]`Needs <label>`:
+- [[active]]`Active`:
 +
-The change is in review and an approval on the shown label is still
-required to make the change submittable.
+The change is under active review.
 
-- [[not]]`Not <label>`:
+- [[not-current]]`Merge Conflict`:
 +
-The change is in review and a veto vote on the shown label is
-preventing the submit.
-
-- [[not-current]]`Not Current`:
-+
-The currently viewed patch set is outdated.
-+
-Please note that some operations, like voting, are not available on
-outdated patch sets, but only on the current patch set.
+The change can't be merged due to conflicts.
 
 - [[ready-to-submit]]`Ready to Submit`:
 +
@@ -62,45 +53,28 @@ The change was successfully merged into the destination branch.
 +
 The change was abandoned.
 
-[[commit-info]]
-=== Commit Info Block
+[[star]]
+=== Star Change
 
-The commit info block shows information about the commit of the
-currently viewed patch set.
-
-It displays the author and the committer as links to a list of this
-person's changes that have the same status as the currently viewed
-change.
-
-The commit ID, the parent commit(s) and the link:user-changeid.html[Change-Id] are
-displayed with a copy-to-clipboard icon that allows the ID to be copied
-into the clipboard.
-
-If a Git web browser, such as gitweb or Gitiles, is configured, there
-is also a link to the commit in the Git web browser.
-
-image::images/gwt-user-review-ui-change-screen-commit-info.png[width=800, link="images/gwt-user-review-ui-change-screen-commit-info.png"]
-
-If a merge commit is viewed this is highlighted by an icon.
-
-image::images/gwt-user-review-ui-change-screen-commit-info-merge-commit.png[width=800, link="images/gwt-user-review-ui-change-screen-commit-info-merge-commit.png"]
+Clicking the star icon marks the change as a favorite: it turns on
+email notifications for this change, and the change is added to the
+list under `Your` > `Starred Changes`. They can be queried by the
+link:user-search.html#is[is:starred] search operator.
 
 [[change-info]]
-=== Change Info Block
+=== Change metadata
 
-The change info block contains detailed information about the change
+The change metadata block contains detailed information about the change
 and offers actions on the change.
-
-image::images/gwt-user-review-ui-change-screen-change-info.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info.png"]
 
 - [[reviewers]]Reviewers:
 +
-The reviewers of the change are displayed as chip tokens.
+The reviewers of the change are displayed as chips.
 +
 For each reviewer there is a tooltip that shows on which labels the
 reviewer is allowed to vote.
 +
-New reviewers can be added by clicking on the `Add...` button. Typing
+New reviewers can be added by clicking on the pencil icon. Typing
 into the pop-up text field activates auto completion of user and group
 names.
 +
@@ -119,7 +93,7 @@ Removing reviewers is protected by permissions:
    and Gerrit administrators may remove anyone.
 
 +
-image::images/gwt-user-review-ui-change-screen-change-info-reviewers.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-reviewers.png"]
+image::images/user-review-ui-change-screen-info-reviewers.png[width=600, link="images/user-review-ui-change-screen-reviewers.png"]
 
 - [[project-branch-topic]]Project / Branch / Topic:
 +
@@ -127,9 +101,6 @@ The name of the project for which the change was done is displayed as a
 link to the link:user-dashboards.html#project-default-dashboard[default
 dashboard] of the project. If no default dashboard is defined, the link
 opens a list of open changes on the project.
-+
-Clicking on the settings icon on the right side navigates to the
-project administration screen.
 +
 The name of the destination branch is displayed as a link to a list
 with all changes on this branch that have the same status as the
@@ -140,24 +111,16 @@ By clicking on the edit icon the topic can be set. This requires the
 link:access-control.html#category_edit_topic_name[Edit Topic Name]
 access right. To be able to set a topic on a closed change, the
 `Edit Topic Name` must be assigned with the `force` flag.
-+
-image::images/gwt-user-review-ui-change-screen-change-info-project-branch-topic.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-project-branch-topic.png"]
 
 - [[submit-strategy]]Submit Strategy:
 +
 The link:project-setup.html#submit_type[submit strategy] that will be
 used to submit the change. The submit strategy is only displayed for
 open changes.
-+
-image::images/gwt-user-review-ui-change-screen-change-info-submit-strategy.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-submit-strategy.png"]
-+
-If a change cannot be merged due to path conflicts this is highlighted
-by a bold red `Cannot Merge` label.
-+
-image::images/gwt-user-review-ui-change-screen-change-info-cannot-merge.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-cannot-merge.png"]
 
 - [[actions]]Actions:
 +
+Actions buttons are at the top, and in the overflow menu.
 Depending on the change state and the permissions of the user, different
 actions are available on the change:
 
@@ -255,13 +218,13 @@ or if they are an administrator.
 ** [[plugin-actions]]Further actions may be available if plugins are installed.
 
 +
-image::images/gwt-user-review-ui-change-screen-change-info-actions.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-actions.png"]
+image::images/user-review-ui-change-screen-change-info-actions.png[width=600, link="images/user-review-ui-change-screen-change-info-actions.png"]
 
 - [[labels]]Labels & Votes:
 +
-Approving votes are colored green; veto votes are colored red.
+Approving votes are colored green; negative votes are colored red.
 +
-image::images/gwt-user-review-ui-change-screen-change-info-labels.png[width=800, link="images/gwt-user-review-ui-change-screen-change-info-labels.png"]
+image::images/user-review-ui-change-screen-change-info-labels.png[width=400, link="images/user-review-ui-change-screen-change-info-labels.png"]
 
 [[files]]
 === File List
@@ -269,7 +232,7 @@ image::images/gwt-user-review-ui-change-screen-change-info-labels.png[width=800,
 The file list shows the files that are modified in the currently viewed
 patch set.
 
-image::images/gwt-user-review-ui-change-screen-file-list.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list.png"]
+image::images/user-review-ui-change-screen-file-list.png[width=800, link="images/user-review-ui-change-screen-file-list.png"]
 
 [[magic-files]]
 In addition to the modified files the file list contains magic files
@@ -288,135 +251,16 @@ information and the committer information.
 The list of commits that are being integrated into the destination
 branch by submitting the merge commit.
 
-[[change-screen-mark-reviewed]]
-The checkboxes in front of the file names allow files to be marked as reviewed.
-
-image::images/gwt-user-review-ui-change-screen-file-list-mark-as-reviewed.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-mark-as-reviewed.png"]
-
-[[modification-type]]
-The type of a file modification is indicated by the character in front
-of the file name:
-
-- `M` or 'no character' (Modified):
-+
-The file existed before this change and is modified.
-
-- `A` (Added):
-+
-The file is newly added.
-
-- `D` (Deleted):
-+
-The file is deleted.
-
-- `R` (Renamed):
-+
-The file is renamed.
-
-- `C` (Copied):
-+
-The file is new and is copied from an existing file.
-
-- `U` (Unchanged):
-+
-The file is unchanged and has the same content. Unchanged files only
-appear in the file list if 2 patch sets are compared and the file has
-comments on at least one of the sides. Otherwise unchanged files are
-filtered out.
-
-
-- `W` (Rewritten):
-+
-The file is rewritten. The status `W` (Rewritten) is returned instead of `M`
-(Modified) if the majority of the lines have been changed so that the new file
-content has a very low similarity with the old file content.
-
-image::images/gwt-user-review-ui-change-screen-file-list-modification-type.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-modification-type.png"]
-
-[[rename-or-copy]]
-If a file is renamed or copied, the name of the original file is
-displayed in gray below the file name.
-
-image::images/gwt-user-review-ui-change-screen-file-list-rename.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-rename.png"]
-
-[[repeating-path-segments]]
-Repeating path segments are grayed out.
-
-image::images/gwt-user-review-ui-change-screen-file-list-repeating-paths.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-repeating-paths.png"]
-
-[[inline-comments-column]]
-Inline comments on a file are shown in the `Comments` column.
-
-Draft comments, i.e. comments that have been written by the current
-user but not yet published, are highlighted in red.
-
-New comments from other users, that were published after the current
-user last reviewed this change, are highlighted in bold.
-
-image::images/gwt-user-review-ui-change-screen-file-list-comments.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-comments.png"]
-
-[[size]]
-The size of the modifications in the files can be seen in the `Size` column. The
-footer row shows the total size of the change.
-
-The size information is useful to easily spot the files that contain
-the most modifications; these files are likely to be the most relevant
-files for this change. The total change size gives an estimate of how
-long a review of this change may take.
-
-When the "Show Change Sizes As Colored Bars" user preference is enabled, the
-`Size` column shows the sum of inserted and deleted lines as one number.  In
-addition, the change size is shown as a bar. The size of the bar indicates the
-amount of changed lines, and its coloring shows the proportion of insertions
-(green) to deletions (red).
-
-When the "Show Change Sizes As Colored Bars" user preference is disabled, the
-colored bar is not shown.  For added and renamed files, the `Size` column
-shows the number of inserted and deleted lines. For new files, the column only
-shows the total number of lines in the new file. No size is shown for binary
-files and deleted files.
-
-image::images/gwt-user-review-ui-change-screen-file-list-size.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-size.png"]
-
-[[diff-against]]
-In the header of the file list, the `Diff Against` selection can be
-changed. This selection allows one to choose if the currently viewed
-patch set should be compared against its base or against another patch
-set of this change. The file list is updated accordingly.
-
-[[open-all]]
-The file list header also provides an `Open All` button that opens the
-diff views for all files in the file list.
-
-image::images/gwt-user-review-ui-change-screen-file-list-header.png[width=800, link="images/gwt-user-review-ui-change-screen-file-list-header.png"]
 
 [[patch-sets]]
 === Patch Sets
 
 The change screen only presents one patch set at a time. Which patch
 set is currently viewed can be seen from the `Patch Sets` drop-down
-panel in the change header. It shows the number of the currently viewed
-patch set and the total number of patch sets, in the form: "current
-patch set/number of patch sets".
+panel in the change header.
 
-If a non-current patch set is viewed this is indicated by the
-link:#not-current[Not Current] change state. Please note that some
-operations are only available on the current patch set.
+image::images/user-review-ui-change-screen-patch-sets.png[width=487, link="images/user-review-ui-change-screen-patch-sets.png"]
 
-image::images/gwt-user-review-ui-change-screen-patch-sets.png[width=800, link="images/gwt-user-review-ui-change-screen-patch-sets.png"]
-
-Another indication is a highlighted drop-down label.
-
-image::images/gwt-user-review-ui-change-screen-not-current.png[width=800, link="images/gwt-user-review-ui-change-screen-not-current.png"]
-
-[[patch-set-drop-down]]
-The patch set drop-down list shows the list of patch sets and allows to
-switch between them. The patch sets are sorted in descending order so
-that the current patch set is always on top.
-
-Draft patch sets are marked with `DRAFT`.
-
-image::images/gwt-user-review-ui-change-screen-patch-set-list.png[width=800, link="images/gwt-user-review-ui-change-screen-patch-set-list.png"]
 
 [[download]]
 === Download
@@ -424,7 +268,7 @@ image::images/gwt-user-review-ui-change-screen-patch-set-list.png[width=800, lin
 The `Download` drop-down panel in the change header offers commands and
 links for downloading the currently viewed patch set.
 
-image::images/gwt-user-review-ui-change-screen-download-commands.png[width=800, link="images/gwt-user-review-ui-change-screen-download-commands.png"]
+image::images/user-review-ui-change-screen-download-commands.png[width=800, link="images/user-review-ui-change-screen-download-commands.png"]
 
 The available download commands depend on the installed Gerrit plugins.
 The most popular plugin for download commands, the
@@ -451,36 +295,18 @@ of the currently viewed patch set. The archive is offered in several
 formats (e.g. tar and tbz2); which formats are available depends on the
 configuration of the server.
 
-image::images/gwt-user-review-ui-change-screen-download-commands-list.png[width=800, link="images/gwt-user-review-ui-change-screen-download-commands-list.png"]
-
 [[included-in]]
 === Included In
 
-For merged changes the `Included In` drop-down panel is available in
-the change header.
+For merged changes the `Included In` drop-down panel is available
+through the overflow menu at the top. It shows the branches and tags
+in which the change is included. E.g. if a change fixes a bug, this
+shows which released versions contain the bug-fix (assuming that every
+release is tagged).
 
-image::images/gwt-user-review-ui-change-screen-included-in.png[width=800, link="images/gwt-user-review-ui-change-screen-included-in.png"]
+image::images/user-review-ui-change-screen-included-in.png[width=800, link="images/user-review-ui-change-screen-included-in.png"]
 
-The `Included In` drop-down panel shows the branches and tags in which
-the change is included. E.g. if a change fixes a bug, this allows to
-quickly see in which released versions the bug-fix is contained
-(assuming that every release is tagged).
 
-image::images/gwt-user-review-ui-change-screen-included-in-list.png[width=800, link="images/gwt-user-review-ui-change-screen-included-in-list.png"]
-
-[[star]]
-=== Star Change
-
-The star icon in the change header allows to mark the change as a
-favorite. Clicking on the star icon again, unstars the change.
-
-image::images/gwt-user-review-ui-change-screen-star.png[width=800, link="images/gwt-user-review-ui-change-screen-star.png"]
-
-Starring a change turns on email notifications for this change.
-
-Starred changed are listed under `My` > `Starred Changes`.
-and can be queried by the link:user-search.html#is[is:starred] search
-operator.
 
 [[related-changes]]
 === Related Changes
@@ -509,29 +335,27 @@ change are descendants; changes below the current change are ancestors.
 For merged changes this tab is only shown if there are open
 descendants.
 +
-image::images/gwt-user-review-ui-change-screen-related-changes.png[width=800, link="images/gwt-user-review-ui-change-screen-related-changes.png"]
-+
-Related changes may be decorated with an icon to signify dependencies
+Related changes may be annotated with dependencies
 on outdated patch sets, or commits that are not associated to changes
 under review:
 +
-** [[outdated]]Orange Dot:
+** [[not-current]]Not current:
 +
 The selected patch set of the change is outdated; it is not the current
 patch set of the change.
 +
-If an ancestor change is marked with an orange dot it means that the
+It means that the
 currently viewed patch set depends on a outdated patch set of the
 ancestor change. This is because a new patch set for the ancestor
 change was uploaded in the meantime and as result the currently viewed
 patch set now needs to be rebased.
 +
-If a descendant change is marked with an orange dot it means that an
+If a descendant change is marked "not current" it means that an
 old patch set of the descendant change depends on the currently viewed
 patch set. It may be that the descendant was rebased in the meantime
 and with the new patch set this dependency was removed.
 
-** [[indirect-descendant]]Green Tilde:
+** [[indirect-descendant]]Indirect descendant:
 +
 The selected patch set of the change is an indirect descendant of the
 currently viewed patch set; it has a dependency to another patch set of
@@ -540,7 +364,7 @@ this change and the descendant change now needs to be rebased. Please
 note that following the link to an indirect descendant change may
 result in a completely different related changes listing.
 
-** [[closed-ancestor]]Black Dot:
+** [[closed-ancestor]]Closed ancestor:
 +
 Indicates a closed ancestor, e.g. the commit was directly pushed into
 the repository bypassing code review, or the ancestor change was
@@ -548,38 +372,24 @@ reviewed and submitted on another branch. The latter may indicate that
 the user has accidentally pushed the commit to the wrong branch, e.g.
 the commit was done on `branch-a`, but was then pushed to
 `refs/for/branch-b`.
-A black dot is also present if the change was abandoned.
 
-** [[closed-ancestor-abandoned]]Strikethrough Subject:
+** [[closed-ancestor-abandoned]]Abandoned:
 +
-When the commit is abandoned, its subject line will be striked
-through.
-
-+
-image::images/gwt-user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/gwt-user-review-ui-change-screen-related-changes-indicators.png"]
+Indicates an abandoned change.
 
 - [[conflicts-with]]`Conflicts With`:
 +
-This tab page shows changes that conflict with the current change.
+This section shows changes that conflict with the current change.
 Non-mergeable changes are filtered out; only conflicting changes that
 are mergeable are shown.
 +
 If this change is merged, its conflicting changes will have merge
 conflicts and must be rebased. The rebase of the other changes with the
 conflict resolution must then be done manually.
-+
-image::images/gwt-user-review-ui-change-screen-conflicts-with.png[width=800, link="images/gwt-user-review-ui-change-screen-conflicts-with.png"]
-
-- [[same-topic]]`Same Topic`:
-+
-This tab page shows changes that have the same topic as the current
-change. Only open changes are included in the list.
-+
-image::images/gwt-user-review-ui-change-screen-same-topic.png[width=800, link="images/gwt-user-review-ui-change-screen-same-topic.png"]
 
 - [[submitted-together]]`Submitted Together`:
 +
-This tab page shows changes that will be submitted together with the
+This section shows changes that will be submitted together with the
 currently viewed change, when clicking the submit button. It includes
 ancestors of the current patch set.
 +
@@ -590,7 +400,7 @@ same topic are included in the list.
 
 - [[cherry-picks]]`Cherry-Picks`:
 +
-This tab page shows changes with the same link:user-changeid.html[
+This section shows changes with the same link:user-changeid.html[
 Change-Id] for the current project.
 +
 Abandoned changes are filtered out.
@@ -598,7 +408,6 @@ Abandoned changes are filtered out.
 For each change in this list the destination branch is shown as a
 prefix in front of the change subject.
 +
-image::images/gwt-user-review-ui-change-screen-cherry-picks.png[width=800, link="images/gwt-user-review-ui-change-screen-cherry-picks.png"]
 
 If there are no related changes for a tab, the tab is not displayed.
 

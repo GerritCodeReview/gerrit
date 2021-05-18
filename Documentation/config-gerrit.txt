@@ -1407,7 +1407,7 @@ This config can have the following states:
   query operator. Gerrit does not serve `mergeable` in
   link:rest-api-changes.html#change-info[ChangeInfo].
 
-Default is `REF_UPDATED_AND_CHANGE_REINDEX`.
+Default is `NEVER`.
 
 [[change.move]]change.move::
 +

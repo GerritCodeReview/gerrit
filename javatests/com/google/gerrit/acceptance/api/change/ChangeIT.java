@@ -245,7 +245,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     assertThat(c.subject).isEqualTo("test commit");
     assertThat(c.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
-    assertThat(c.mergeable).isTrue();
+    assertThat(c.mergeable).isNull();
     assertThat(c.changeId).isEqualTo(r.getChangeId());
     assertThat(c.created).isEqualTo(c.updated);
     assertThat(c._number).isEqualTo(r.getChange().getId().get());

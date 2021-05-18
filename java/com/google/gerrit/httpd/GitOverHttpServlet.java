@@ -300,7 +300,7 @@ public class GitOverHttpServlet extends GitServlet {
           if (user instanceof AnonymousUser) {
             throw new ServiceNotAuthorizedException();
           }
-          throw new ServiceNotEnabledException(e.getMessage());
+          throw new RepositoryNotFoundException(nameKey.get(), e);
         }
 
         return manager.openRepository(nameKey);

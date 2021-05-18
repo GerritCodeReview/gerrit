@@ -66,7 +66,9 @@ import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {MovedLinkClickedEvent} from '../../../types/events';
 // TODO(davido): See: https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
 // @ts-ignore
-import * as shadow from 'shadow-selection-polyfill/shadow.js';
+// import * as shadow from 'shadow-selection-polyfill/shadow.js';
+// @ts-ignore
+import {getContentEditableRange} from './ContentEditableSelection.js';
 
 import {
   CreateCommentEventDetail as CreateCommentEventDetailApi,
@@ -226,6 +228,9 @@ export class GrDiff extends PolymerElement {
   @property({type: Object})
   revisionImage?: ImageInfo;
 
+  @property({type: Boolean})
+  _isContentEditable = isSafari();
+
   /**
    * Whether the safety check for large diffs when whole-file is set has
    * been bypassed. If the value is null, then the safety has not been
@@ -336,13 +341,13 @@ export class GrDiff extends PolymerElement {
   _enableSelectionObserver(loggedIn: boolean, isAttached: boolean) {
     if (loggedIn && isAttached) {
       document.addEventListener(
-        '-shadow-selectionchange',
+        'selectionchange',
         this.handleSelectionChange
       );
       document.addEventListener('mouseup', this.handleMouseUp);
     } else {
       document.removeEventListener(
-        '-shadow-selectionchange',
+        'selectionchange',
         this.handleSelectionChange
       );
       document.removeEventListener('mouseup', this.handleMouseUp);
@@ -374,7 +379,7 @@ export class GrDiff extends PolymerElement {
     return this.root instanceof ShadowRoot && this.root.getSelection
       ? this.root.getSelection()
       : isSafari()
-      ? shadow.getRange(this.root)
+      ? getContentEditableRange()
       : document.getSelection();
   }
 

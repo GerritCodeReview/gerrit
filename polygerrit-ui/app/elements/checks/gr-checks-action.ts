@@ -56,7 +56,7 @@ export class GrChecksAction extends GrLitElement {
         link
         ?disabled="${this.action.disabled}"
         class="action"
-        @click="${this.handleClick}"
+        @click="${(e: Event) => this.handleClick(e)}"
       >
         ${this.action.name}
         <paper-tooltip ?hidden="${!this.action.tooltip}" offset="5"
@@ -66,7 +66,8 @@ export class GrChecksAction extends GrLitElement {
     `;
   }
 
-  handleClick() {
+  handleClick(e: Event) {
+    e.stopPropagation();
     fireActionTriggered(this.eventTarget ?? this, this.action);
   }
 }

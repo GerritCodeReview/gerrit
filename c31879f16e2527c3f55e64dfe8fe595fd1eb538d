@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e705c6b5_16f9659d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-18T09:06:31Z",
+      "side": 1,
+      "message": "I am missing a DELETE and HEAD REST-API and then I should be done.\n\nP.S. This isn\u0027t for testing Gerrit APIs but rather how they interoperate with Python, which we had accidentally broken recently.",
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

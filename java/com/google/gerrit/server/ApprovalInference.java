@@ -42,6 +42,8 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -68,17 +70,20 @@ public class ApprovalInference {
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
   private final PatchListCache patchListCache;
+  private final PluginSetContext<ApprovalCopier> approvalCopierPlugins;
 
   @Inject
   ApprovalInference(
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
-      PatchListCache patchListCache) {
+      PatchListCache patchListCache,
+      PluginSetContext<ApprovalCopier> approvalCopierPlugins) {
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.patchListCache = patchListCache;
+    this.approvalCopierPlugins = approvalCopierPlugins;
   }
 
   /**
@@ -380,10 +385,18 @@ public class ApprovalInference {
       if (patchList == null && type != null && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
         patchList = getPatchList(project, ps, priorPatchSet);
       }
-      if (!canCopy(project, psa, ps.id(), kind, type, patchList)) {
+      if (canCopy(project, psa, ps.id(), kind, type, patchList)) {
+        // Copy because core config says so
+        resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
         continue;
       }
-      resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
+      for (PluginSetEntryContext<ApprovalCopier> c : approvalCopierPlugins) {
+        if (c.call(ac -> ac.shouldCopyApproval(project.getNameKey(), psa, psId))) {
+          // Copy because a plugin says so
+          resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
+          break;
+        }
+      }
     }
     return resultByUser.values();
   }

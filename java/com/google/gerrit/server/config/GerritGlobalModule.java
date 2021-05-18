@@ -77,6 +77,7 @@ import com.google.gerrit.extensions.webui.TagWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
@@ -413,6 +414,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicItem.itemOf(binder(), ProjectNameLockManager.class);
     DynamicSet.setOf(binder(), SubmitRule.class);
     DynamicSet.setOf(binder(), QuotaEnforcer.class);
+    DynamicSet.setOf(binder(), ApprovalCopier.class);
     DynamicSet.setOf(binder(), PerformanceLogger.class);
     DynamicSet.setOf(binder(), RequestListener.class);
     DynamicSet.bind(binder(), RequestListener.class).to(TraceRequestListener.class);

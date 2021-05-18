@@ -2836,6 +2836,29 @@ class ApiQpsEnforcer implements QuotaEnforcer {
 }
 ----
 
+[[approval-copier]]
+== Approval Copier Plugins
+
+Gerrit provides an extension point that enables Plugins to copy approvals from one
+patch set to another based on the plugin's custom logic.
+
+This is helpful when Gerrit's default config options (such as copyIfNoCodeChange)
+are not sufficiently covering the target use case.
+
+[source, java]
+----
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.mail.MailMessage;
+
+public class MyPlugin implements ApprovalCopier {
+  public boolean shouldCopyApproval(
+        Project.NameKey project, PatchSetApproval patchSetApproval, PatchSet.Id newPatchSet
+    // Implement your copy logic here
+    return true;
+  }
+}
+----
+
 [[performance-logger]]
 == Performance Logger
 

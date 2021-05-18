@@ -673,6 +673,7 @@ export const htmlTemplate = html`
             id="diffTable"
             class$="[[_diffTableClass]]"
             role="presentation"
+            contenteditable$="[[_isContentEditable]]"
           ></table>
 
           <template

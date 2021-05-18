@@ -161,7 +161,7 @@ export class GrContextControls extends LitElement {
     .aboveButton {
       /* Display over preceding content / background placeholder. */
       transform: translateY(-100%);
-      border-bottom-width: 1px;
+      border-bottom-width: 0;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       padding: var(--spacing-xxs) var(--spacing-l);

@@ -53,7 +53,7 @@ public class SubmitRequirementsEvaluator {
   /** Evaluate a {@link SubmitRequirement} on a given {@link ChangeData}. */
   public SubmitRequirementResult evaluate(SubmitRequirement sr, ChangeData cd) {
     SubmitRequirementExpressionResult blockingResult =
-        evaluateExpression(sr.blockingExpression(), cd);
+        evaluateExpression(sr.submittabilityExpression(), cd);
 
     Optional<SubmitRequirementExpressionResult> applicabilityResult =
         sr.applicabilityExpression().isPresent()
@@ -66,7 +66,7 @@ public class SubmitRequirementsEvaluator {
             : Optional.empty();
 
     return SubmitRequirementResult.builder()
-        .blockingExpressionResult(blockingResult)
+        .submittabilityExpressionResult(blockingResult)
         .applicabilityExpressionResult(applicabilityResult)
         .overrideExpressionResult(overrideResult)
         .build();

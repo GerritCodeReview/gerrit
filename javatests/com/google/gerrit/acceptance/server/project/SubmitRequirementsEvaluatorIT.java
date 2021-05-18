@@ -117,8 +117,6 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     assertThat(result.getFailingAtoms())
         .containsExactly(
             PredicateResult.builder()
-                // TODO(ghareeb): querying "branch:" creates a RefPredicate. Fix names so that they
-                // match
                 .predicateString(String.format("ref:refs/heads/foo"))
                 .status(false)
                 .build());
@@ -132,7 +130,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:non-existent-project",
-            /* blockingExpr= */ "message:\"Fix bug\"",
+            /* submittabilityExpr= */ "message:\"Fix bug\"",
             /* overrideExpr= */ "");
 
     ChangeData cd = getChangeData(changeInfo._number);
@@ -142,13 +140,13 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitRequirementIsSatisfied_WhenBlockingExpressionIsTrue() throws Exception {
+  public void submitRequirementIsSatisfied_WhenSubmittabilityExpressionIsTrue() throws Exception {
     ChangeInfo changeInfo = createChange("refs/heads/master", "Fix bug 23");
 
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* blockingExpr= */ "message:\"Fix bug\"",
+            /* submittabilityExpr= */ "message:\"Fix bug\"",
             /* overrideExpr= */ "");
 
     ChangeData cd = getChangeData(changeInfo._number);
@@ -158,13 +156,14 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitRequirementIsUnsatisfied_WhenBlockingExpressionIsFalse() throws Exception {
+  public void submitRequirementIsUnsatisfied_WhenSubmittabilityExpressionIsFalse()
+      throws Exception {
     ChangeInfo changeInfo = createChange("refs/heads/master", "Fix bug 23");
 
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* blockingExpr= */ "label:\"code-review=+2\"",
+            /* submittabilityExpr= */ "label:\"code-review=+2\"",
             /* overrideExpr= */ "");
 
     ChangeData cd = getChangeData(changeInfo._number);
@@ -183,7 +182,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* blockingExpr= */ "label:\"code-review=+2\"",
+            /* submittabilityExpr= */ "label:\"code-review=+2\"",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
     ChangeData cd = getChangeData(changeInfo._number);
@@ -203,7 +202,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "invalid_field:invalid_value",
-            /* blockingExpr= */ "label:\"code-review=+2\"",
+            /* submittabilityExpr= */ "label:\"code-review=+2\"",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
     ChangeData cd = getChangeData(changeInfo._number);
@@ -215,7 +214,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitRequirementIsError_WhenBlockingExpressionHasInvalidSyntax() throws Exception {
+  public void submitRequirementIsError_WhenSubmittabilityExpressionHasInvalidSyntax()
+      throws Exception {
     addLabel("build-cop-override");
     ChangeInfo changeInfo = createChange("refs/heads/master", "Fix bug 23");
 
@@ -224,14 +224,14 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* blockingExpr= */ "invalid_field:invalid_value",
+            /* submittabilityExpr= */ "invalid_field:invalid_value",
             /* overrideExpr= */ "label:\"build-cop-override=+1\"");
 
     ChangeData cd = getChangeData(changeInfo._number);
 
     SubmitRequirementResult result = evaluator.evaluate(sr, cd);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
-    assertThat(result.blockingExpressionResult().errorMessage().get())
+    assertThat(result.submittabilityExpressionResult().errorMessage().get())
         .isEqualTo("Unsupported operator invalid_field:invalid_value");
   }
 
@@ -245,7 +245,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* blockingExpr= */ "label:\"code-review=+2\"",
+            /* submittabilityExpr= */ "label:\"code-review=+2\"",
             /* overrideExpr= */ "invalid_field:invalid_value");
 
     ChangeData cd = getChangeData(changeInfo._number);
@@ -285,12 +285,14 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   private SubmitRequirement createSubmitRequirement(
-      @Nullable String applicabilityExpr, String blockingExpr, @Nullable String overrideExpr) {
+      @Nullable String applicabilityExpr,
+      String submittabilityExpr,
+      @Nullable String overrideExpr) {
     return SubmitRequirement.builder()
         .setName("sr-name")
         .setDescription(Optional.of("sr-description"))
         .setApplicabilityExpression(SubmitRequirementExpression.of(applicabilityExpr))
-        .setBlockingExpression(SubmitRequirementExpression.create(blockingExpr))
+        .setSubmittabilityExpression(SubmitRequirementExpression.create(submittabilityExpr))
         .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
         .setAllowOverrideInChildProjects(false)
         .build();

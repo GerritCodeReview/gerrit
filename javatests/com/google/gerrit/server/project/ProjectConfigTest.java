@@ -212,11 +212,11 @@ public class ProjectConfigTest {
                 "[submitRequirement \"Code-review\"]\n"
                     + "  description =  At least one Code Review +2\n"
                     + "  applicabilityExpression = branch(refs/heads/master)\n"
-                    + "  blockingExpression = label(code-review, +2)\n"
+                    + "  submittabilityExpression = label(code-review, +2)\n"
                     + "[submitRequirement \"api-review\"]\n"
                     + "  description =  Additional review required for API modifications\n"
                     + "  applicabilityExpression = commit_filepath_contains(\\\"/api/.*\\\")\n"
-                    + "  blockingExpression = label(api-review, +2)\n"
+                    + "  submittabilityExpression = label(api-review, +2)\n"
                     + "  overrideExpression = label(build-cop-override, +1)\n"
                     + "  canOverrideInChildProjects = true\n")
             .create();
@@ -231,7 +231,8 @@ public class ProjectConfigTest {
                 .setDescription(Optional.of("At least one Code Review +2"))
                 .setApplicabilityExpression(
                     SubmitRequirementExpression.of("branch(refs/heads/master)"))
-                .setBlockingExpression(SubmitRequirementExpression.create("label(code-review, +2)"))
+                .setSubmittabilityExpression(
+                    SubmitRequirementExpression.create("label(code-review, +2)"))
                 .setOverrideExpression(Optional.empty())
                 .setAllowOverrideInChildProjects(false)
                 .build(),
@@ -241,7 +242,8 @@ public class ProjectConfigTest {
                 .setDescription(Optional.of("Additional review required for API modifications"))
                 .setApplicabilityExpression(
                     SubmitRequirementExpression.of("commit_filepath_contains(\"/api/.*\")"))
-                .setBlockingExpression(SubmitRequirementExpression.create("label(api-review, +2)"))
+                .setSubmittabilityExpression(
+                    SubmitRequirementExpression.create("label(api-review, +2)"))
                 .setOverrideExpression(
                     SubmitRequirementExpression.of("label(build-cop-override, +1)"))
                 .setAllowOverrideInChildProjects(true)
@@ -256,7 +258,7 @@ public class ProjectConfigTest {
             .add(
                 "project.config",
                 "[submitRequirement \"code-review\"]\n"
-                    + "  blockingExpression = label(code-review, +2)\n")
+                    + "  submittabilityExpression = label(code-review, +2)\n")
             .create();
 
     ProjectConfig cfg = read(rev);
@@ -266,7 +268,8 @@ public class ProjectConfigTest {
             "code-review",
             SubmitRequirement.builder()
                 .setName("code-review")
-                .setBlockingExpression(SubmitRequirementExpression.create("label(code-review, +2)"))
+                .setSubmittabilityExpression(
+                    SubmitRequirementExpression.create("label(code-review, +2)"))
                 .setAllowOverrideInChildProjects(false)
                 .build());
   }
@@ -280,10 +283,10 @@ public class ProjectConfigTest {
                 "project.config",
                 "[submitRequirement \"code-review\"]\n"
                     + "  description = At least one Code Review +2\n"
-                    + "  blockingExpression = label(code-review, +2)\n"
+                    + "  submittabilityExpression = label(code-review, +2)\n"
                     + "[submitRequirement \"Code-Review\"]\n"
                     + "  description = Another code review label\n"
-                    + "  blockingExpression = label(code-review, +2)\n"
+                    + "  submittabilityExpression = label(code-review, +2)\n"
                     + "  canOverrideInChildProjects = true\n")
             .create();
 
@@ -295,7 +298,8 @@ public class ProjectConfigTest {
             SubmitRequirement.builder()
                 .setName("code-review")
                 .setDescription(Optional.of("At least one Code Review +2"))
-                .setBlockingExpression(SubmitRequirementExpression.create("label(code-review, +2)"))
+                .setSubmittabilityExpression(
+                    SubmitRequirementExpression.create("label(code-review, +2)"))
                 .setAllowOverrideInChildProjects(false)
                 .build());
     assertThat(cfg.getValidationErrors()).hasSize(1);
@@ -307,7 +311,7 @@ public class ProjectConfigTest {
   }
 
   @Test
-  public void readSubmitRequirementNoBlockingExpression() throws Exception {
+  public void readSubmitRequirementNoSubmittabilityExpression() throws Exception {
     RevCommit rev =
         tr.commit()
             .add("groups", group(developers))
@@ -323,7 +327,7 @@ public class ProjectConfigTest {
     assertThat(cfg.getValidationErrors()).hasSize(1);
     assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
         .isEqualTo(
-            "project.config: Submit requirement \"code-review\" does not define a blocking expression."
+            "project.config: Submit requirement \"code-review\" does not define a submittability expression."
                 + " Skipping this requirement.");
   }
 
@@ -942,7 +946,7 @@ public class ProjectConfigTest {
                 "[submitRequirement \"code-review\"]\n"
                     + "  description =  At least one Code Review +2\n"
                     + "  applicabilityExpression = branch(refs/heads/master)\n"
-                    + "  blockingExpression = label(code-review, +2)\n"
+                    + "  submittabilityExpression = label(code-review, +2)\n"
                     + "[notify \"name\"]\n"
                     + "  email = example@example.com\n")
             .create();

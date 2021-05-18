@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c195117d_9845cf07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-18T07:09:21Z",
+      "side": 1,
+      "message": "Combine with above.",
+      "revId": "f0603968a0114428d80e27a3bf01fd7a885ecc11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

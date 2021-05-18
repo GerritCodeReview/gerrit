@@ -40,10 +40,10 @@ public class SubmitRequirementSerializer {
         .setName(submitRequirement.name())
         .setDescription(submitRequirement.description().orElse(""))
         .setApplicabilityExpression(
-            submitRequirement.applicabilityExpression().orElse(emptyExpression).expression())
-        .setBlockingExpression(submitRequirement.blockingExpression().expression())
+            submitRequirement.applicabilityExpression().orElse(emptyExpression).expressionString())
+        .setBlockingExpression(submitRequirement.blockingExpression().expressionString())
         .setOverrideExpression(
-            submitRequirement.overrideExpression().orElse(emptyExpression).expression())
+            submitRequirement.overrideExpression().orElse(emptyExpression).expressionString())
         .setAllowOverrideInChildProjects(submitRequirement.allowOverrideInChildProjects())
         .build();
   }

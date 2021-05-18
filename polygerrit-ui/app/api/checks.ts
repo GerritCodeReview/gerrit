@@ -231,7 +231,16 @@ export declare interface Action {
    * primary actions might be rendered as buttons versus just menu entries in
    * an overflow menu.
    */
-  primary: boolean;
+  primary?: boolean;
+  /**
+   * Renders the action button in a disabled state. That can be useful for
+   * actions that are present most of the time, but sometimes don't apply. Then
+   * a grayed out button with a tooltip makes it easier for the user to
+   * understand why an expected action is not available. The tooltip should then
+   * contain a message about why the disabled state was set, not just about what
+   * the action would normally do.
+   */
+  disabled?: boolean;
   callback: ActionCallback;
 }
 

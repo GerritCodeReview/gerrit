@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d147c72_0bae7859",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-18T11:29:01Z",
+      "side": 1,
+      "message": "I added davido\u0027s proposal of making case insensitive username handling mandatory to the design doc: https://gerrit-review.googlesource.com/c/homepage/+/300825\n\nLet\u0027s discuss which solution to take there.",
+      "parentUuid": "c610c3f9_a3f1c1a3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "46c461cd21b0237db33c0a01559fb6264cf079c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d945e356_9a498c77",

@@ -22,6 +22,30 @@
       },
       "revId": "543300bd5b2b567ccc29491932174f4b83dd9129",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24798495_ed986dbc",
+        "filename": "polygerrit-ui/app/styles/gr-spinner-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-05-18T07:15:33Z",
+      "side": 1,
+      "message": "It is also used for the Code Owners plugin when loading the Owners suggestions.",
+      "parentUuid": "3db79963_5dd68486",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "543300bd5b2b567ccc29491932174f4b83dd9129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

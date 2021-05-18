@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcb2010a_fb42362e",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-18T09:06:14Z",
+      "side": 1,
+      "message": "From is now broken, it\u0027s always unknown.",
+      "range": {
+        "startLine": 834,
+        "startChar": 16,
+        "endLine": 834,
+        "endChar": 79
+      },
+      "revId": "c95c766900fcdffa62700fc4d331fb1f1c0b2c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

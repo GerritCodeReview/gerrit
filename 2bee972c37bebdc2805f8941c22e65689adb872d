@@ -68,6 +68,29 @@
       },
       "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9cc5907_d4af1691",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-18T11:45:17Z",
+      "side": 1,
+      "message": "Hi Patrick, I\u0027m planning to work onto fix few of the predicates. To avoid the duplication of work, can you kindly let me know if you are working on \"reviewerAndCcByEmail\" ..? or I can pick some other predicate/test if you are already working on this one..?",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 34
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

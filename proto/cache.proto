@@ -474,7 +474,7 @@ message SubmitRequirementProto {
   string name = 1;
   string description = 2;
   string applicability_expression = 3;
-  string blocking_expression = 4;
+  string submittability_expression = 4;
   string override_expression = 5;
   bool allow_override_in_child_projects = 6;
 }

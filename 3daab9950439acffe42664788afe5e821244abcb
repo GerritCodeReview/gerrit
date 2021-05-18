@@ -16,6 +16,24 @@
       "message": "I think Ben fixed this in https://gerrit-review.googlesource.com/c/gerrit/+/305876, can this be closed?",
       "revId": "3daab9950439acffe42664788afe5e821244abcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b928d592_e90c1a52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-05-18T13:19:32Z",
+      "side": 1,
+      "message": "Yup, forgot to abandon this. thanks!",
+      "parentUuid": "416c9c0d_979edda9",
+      "revId": "3daab9950439acffe42664788afe5e821244abcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

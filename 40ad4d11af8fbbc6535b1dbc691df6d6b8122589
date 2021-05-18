@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "690bedc6_a8163283",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-05-18T13:22:15Z",
+      "side": 1,
+      "message": "Doesn\u0027t look like this merged up correctly?\n\nI don\u0027t see the change at https://github.com/GerritCodeReview/gerrit/commits/master/polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+      "revId": "40ad4d11af8fbbc6535b1dbc691df6d6b8122589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1cead32_76f0abaf",

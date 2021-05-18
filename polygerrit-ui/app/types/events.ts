@@ -63,7 +63,6 @@ declare global {
     'reload': ReloadEvent;
     /* prettier-ignore */
     'reply': ReplyEvent;
-    'shortcut-triggered': ShortcutTriggeredEvent;
     'show-alert': ShowAlertEvent;
     'show-error': ShowErrorEvent;
     'show-primary-tab': SwitchTabEvent;
@@ -166,13 +165,6 @@ export interface ServerErrorEventDetail {
   response: Response;
 }
 export type ServerErrorEvent = CustomEvent<ServerErrorEventDetail>;
-
-export interface ShortcutTriggeredEventDetail {
-  event: CustomKeyboardEvent;
-  goKey: boolean;
-  vKey: boolean;
-}
-export type ShortcutTriggeredEvent = CustomEvent<ShortcutTriggeredEventDetail>;
 
 export interface ShowAlertEventDetail {
   message: string;

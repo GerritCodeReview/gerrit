@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "416c9c0d_979edda9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-05-18T08:02:26Z",
+      "side": 1,
+      "message": "I think Ben fixed this in https://gerrit-review.googlesource.com/c/gerrit/+/305876, can this be closed?",
+      "revId": "3daab9950439acffe42664788afe5e821244abcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

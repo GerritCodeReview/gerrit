@@ -22,6 +22,30 @@
       },
       "revId": "b7cb0576f2e76fc42dc080a2277e80a0dcda7057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1090abe_6f9f144b",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-18T09:34:53Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/306910",
+      "parentUuid": "5f74ec6c_eb6a695f",
+      "range": {
+        "startLine": 347,
+        "startChar": 3,
+        "endLine": 347,
+        "endChar": 30
+      },
+      "revId": "b7cb0576f2e76fc42dc080a2277e80a0dcda7057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -27,6 +27,7 @@ import {
   TemplateResult,
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
+import './gr-checks-action';
 import './gr-checks-attempt';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {
@@ -53,11 +54,7 @@ import {
   iconForLink,
   tooltipForLink,
 } from '../../services/checks/checks-util';
-import {
-  assertIsDefined,
-  check,
-  checkRequiredProperty,
-} from '../../utils/common-util';
+import {assertIsDefined, check} from '../../utils/common-util';
 import {toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
@@ -363,6 +360,9 @@ class GrResultRow extends GrLitElement {
     const overflowItems = actions.slice(2).map(action => {
       return {...action, id: action.name};
     });
+    const disabledItems = overflowItems
+      .filter(action => action.disabled)
+      .map(action => action.id);
     return html`<div class="actions">
       ${this.renderAction(actions[0])} ${this.renderAction(actions[1])}
       <gr-dropdown
@@ -375,6 +375,7 @@ class GrResultRow extends GrLitElement {
           toggleClass(this, 'dropdown-open', e.detail.value)}"
         ?hidden="${overflowItems.length === 0}"
         .items="${overflowItems}"
+        .disabledIds="${disabledItems}"
       >
         <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
         </iron-icon>
@@ -790,6 +791,9 @@ export class GrChecksResults extends GrLitElement {
     const overflowItems = this.actions.slice(2).map(action => {
       return {...action, id: action.name};
     });
+    const disabledItems = overflowItems
+      .filter(action => action.disabled)
+      .map(action => action.id);
     return html`
       ${this.renderAction(this.actions[0])}
       ${this.renderAction(this.actions[1])}
@@ -801,6 +805,7 @@ export class GrChecksResults extends GrLitElement {
         @tap-item="${this.handleAction}"
         ?hidden="${overflowItems.length === 0}"
         .items="${overflowItems}"
+        .disabledIds="${disabledItems}"
       >
         <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
         </iron-icon>
@@ -1076,53 +1081,10 @@ export class GrChecksResults extends GrLitElement {
   }
 }
 
-@customElement('gr-checks-action')
-export class GrChecksAction extends GrLitElement {
-  @property()
-  action!: Action;
-
-  connectedCallback() {
-    super.connectedCallback();
-    checkRequiredProperty(this.action, 'action');
-  }
-
-  static get styles() {
-    return [
-      css`
-        :host {
-          display: inline-block;
-        }
-        gr-button {
-          --padding: var(--spacing-s) var(--spacing-m);
-        }
-        gr-button paper-tooltip {
-          text-transform: none;
-        }
-      `,
-    ];
-  }
-
-  render() {
-    return html`
-      <gr-button link class="action" @click="${this.handleClick}">
-        ${this.action.name}
-        <paper-tooltip ?hidden="${!this.action.tooltip}" offset="5"
-          >${this.action.tooltip}</paper-tooltip
-        >
-      </gr-button>
-    `;
-  }
-
-  handleClick() {
-    fireActionTriggered(this, this.action);
-  }
-}
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-result-row': GrResultRow;
     'gr-result-expanded': GrResultExpanded;
     'gr-checks-results': GrChecksResults;
-    'gr-checks-action': GrChecksAction;
   }
 }

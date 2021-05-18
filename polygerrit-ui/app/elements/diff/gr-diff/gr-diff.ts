@@ -66,7 +66,9 @@ import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {MovedLinkClickedEvent} from '../../../types/events';
 // TODO(davido): See: https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
 // @ts-ignore
-import * as shadow from 'shadow-selection-polyfill/shadow.js';
+// import * as shadow from 'shadow-selection-polyfill/shadow.js';
+// @ts-ignore
+import * as contentEditableSelection from './ContentEditableSelection.js';
 
 import {
   CreateCommentEventDetail as CreateCommentEventDetailApi,
@@ -374,7 +376,7 @@ export class GrDiff extends PolymerElement {
     return this.root instanceof ShadowRoot && this.root.getSelection
       ? this.root.getSelection()
       : isSafari()
-      ? shadow.getRange(this.root)
+      ? contentEditableSelection.getRange()
       : document.getSelection();
   }
 

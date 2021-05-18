@@ -129,7 +129,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_SR_NAME = "name";
   public static final String KEY_SR_DESCRIPTION = "description";
   public static final String KEY_SR_APPLICABILITY_EXPRESSION = "applicabilityExpression";
-  public static final String KEY_SR_BLOCKING_EXPRESSION = "blockingExpression";
+  public static final String KEY_SR_SUBMITTABILITY_EXPRESSION = "submittabilityExpression";
   public static final String KEY_SR_OVERRIDE_EXPRESSION = "overrideExpression";
   public static final String KEY_SR_OVERRIDE_IN_CHILD_PROJECTS = "canOverrideInChildProjects";
 
@@ -984,7 +984,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       lowerNames.put(lower, name);
       String description = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_DESCRIPTION);
       String appExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_APPLICABILITY_EXPRESSION);
-      String blockExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_BLOCKING_EXPRESSION);
+      String blockExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
       String overrideExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_EXPRESSION);
       boolean canInherit =
           rc.getBoolean(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS, false);
@@ -994,7 +994,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             ValidationError.create(
                 PROJECT_CONFIG,
                 (String.format(
-                    "Submit requirement \"%s\" does not define a blocking expression."
+                    "Submit requirement \"%s\" does not define a submittability expression."
                         + " Skipping this requirement.",
                     name))));
         continue;
@@ -1008,7 +1008,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               .setName(name)
               .setDescription(Optional.ofNullable(description))
               .setApplicabilityExpression(SubmitRequirementExpression.of(appExpr))
-              .setBlockingExpression(SubmitRequirementExpression.create(blockExpr))
+              .setSubmittabilityExpression(SubmitRequirementExpression.create(blockExpr))
               .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
               .setAllowOverrideInChildProjects(canInherit)
               .build();
@@ -1699,8 +1699,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         rc.setString(
             SUBMIT_REQUIREMENT,
             name,
-            KEY_SR_BLOCKING_EXPRESSION,
-            sr.blockingExpression().expressionString());
+            KEY_SR_SUBMITTABILITY_EXPRESSION,
+            sr.submittabilityExpression().expressionString());
         if (sr.overrideExpression().isPresent()) {
           rc.setString(
               SUBMIT_REQUIREMENT,

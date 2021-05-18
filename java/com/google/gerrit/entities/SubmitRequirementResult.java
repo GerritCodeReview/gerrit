@@ -25,15 +25,17 @@ public abstract class SubmitRequirementResult {
   /** Result of evaluating a {@link SubmitRequirement#applicabilityExpression()} on a change. */
   public abstract Optional<SubmitRequirementExpressionResult> applicabilityExpressionResult();
 
-  /** Result of evaluating a {@link SubmitRequirement#blockingExpression()} ()} on a change. */
-  public abstract SubmitRequirementExpressionResult blockingExpressionResult();
+  /**
+   * Result of evaluating a {@link SubmitRequirement#submittabilityExpression()} ()} on a change.
+   */
+  public abstract SubmitRequirementExpressionResult submittabilityExpressionResult();
 
   /** Result of evaluating a {@link SubmitRequirement#overrideExpression()} ()} on a change. */
   public abstract Optional<SubmitRequirementExpressionResult> overrideExpressionResult();
 
   @Memoized
   public Status status() {
-    if (assertError(blockingExpressionResult())
+    if (assertError(submittabilityExpressionResult())
         || assertError(applicabilityExpressionResult())
         || assertError(overrideExpressionResult())) {
       return Status.ERROR;
@@ -41,7 +43,7 @@ public abstract class SubmitRequirementResult {
       return Status.NOT_APPLICABLE;
     } else if (assertPass(overrideExpressionResult())) {
       return Status.OVERRIDDEN;
-    } else if (assertPass(blockingExpressionResult())) {
+    } else if (assertPass(submittabilityExpressionResult())) {
       return Status.SATISFIED;
     } else {
       return Status.UNSATISFIED;
@@ -58,7 +60,7 @@ public abstract class SubmitRequirementResult {
 
     /**
      * Submit requirement is not satisfied. Happens when {@link
-     * SubmitRequirement#blockingExpression()} evaluates to false.
+     * SubmitRequirement#submittabilityExpression()} evaluates to false.
      */
     UNSATISFIED,
 
@@ -87,7 +89,7 @@ public abstract class SubmitRequirementResult {
     public abstract Builder applicabilityExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);
 
-    public abstract Builder blockingExpressionResult(SubmitRequirementExpressionResult value);
+    public abstract Builder submittabilityExpressionResult(SubmitRequirementExpressionResult value);
 
     public abstract Builder overrideExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);

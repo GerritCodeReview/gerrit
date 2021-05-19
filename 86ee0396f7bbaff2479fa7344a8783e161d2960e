@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3e58242_c4e8bd81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-19T12:23:20Z",
+      "side": 1,
+      "message": "Without addressing these two issues the POC does not really help, or does it?",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "232ce94f_cea45d16",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -37,6 +60,40 @@
       "writtenOn": "2021-05-19T11:17:52Z",
       "side": 1,
       "message": "Thanks, @Tony, this looks promising, has reduced scope (only affects Safari) and is also a non invasive change.\n\nMay be target this change to stable-3.3 branch?\n\nPG test failure is related?\n\n  FAILED TESTS:\n  gr-diff tests\n    selectionchange event handling\n      ��� enabled if logged in\n        HeadlessChrome 69.0.3497 (Linux 0.0.0)\n      AssertionError: expected false to be true\n\n      + expected - actual\n\n      -false\n      +true",
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5c42d44_6612ebc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-19T12:23:20Z",
+      "side": 1,
+      "message": "Thanks for investigating this!",
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9e4e4f1_f8ae80c5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/ContentEditableSelection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-19T12:23:20Z",
+      "side": 1,
+      "message": "Gerrit is TypeScript only. Please convert from js to ts.\n\nAlso don\u0027t use CamelCasing, but\n\n  content-editable-selection.ts\n\nAnd consider moving this to the utils/ directory. Maybe merge into dom-util even? Or a separate selection-util?",
       "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -89,6 +146,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7bd6dddd_09506424",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/ContentEditableSelection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-19T12:23:20Z",
+      "side": 1,
+      "message": "Why do you maintain an array when you always just have one element in it?",
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bcf8a17_ec108be7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/ContentEditableSelection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-19T12:23:20Z",
+      "side": 1,
+      "message": "There is a `findActiveElement` util function for that.",
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2144eab_5033a7c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/ContentEditableSelection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-19T12:23:20Z",
+      "side": 1,
+      "message": "Add a comment.",
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "50c6676a_83bd4fb0",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
         "patchSetId": 3
@@ -112,6 +220,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "efda27c8_e65bb39e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-19T12:23:20Z",
+      "side": 1,
+      "message": "Why ts-ignore?",
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a40bd030_250644d2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-19T12:23:20Z",
+      "side": 1,
+      "message": "import {getRange}\n\nshould be sufficient",
+      "range": {
+        "startLine": 71,
+        "startChar": 1,
+        "endLine": 71,
+        "endChar": 8
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7525eb81_a11fafda",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-19T12:23:20Z",
+      "side": 1,
+      "message": "Maybe move this entire method into a utility file.",
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5aa6085e_1883e719",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
         "patchSetId": 3
@@ -123,6 +288,30 @@
       "writtenOn": "2021-05-19T11:17:52Z",
       "side": 1,
       "message": "Can this be done conditionally only for Safari browser, so that it\u0027s a no-op on Chrome and FF? May be:\n\n  contenteditable\u003d[[_isSafari]]",
+      "range": {
+        "startLine": 676,
+        "startChar": 12,
+        "endLine": 676,
+        "endChar": 34
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eeb5f49c_fb0f42d6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-19T12:23:20Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "5aa6085e_1883e719",
       "range": {
         "startLine": 676,
         "startChar": 12,

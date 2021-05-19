@@ -25,7 +25,10 @@ import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 
 import '../gr-context-controls/gr-context-controls';
-import {GrContextControls} from '../gr-context-controls/gr-context-controls';
+import {
+  GrContextControls,
+  GrContextControlsShowConfig,
+} from '../gr-context-controls/gr-context-controls';
 import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffViewMode, Side} from '../../../constants/constants';
@@ -324,7 +327,8 @@ export abstract class GrDiffBuilder {
         section,
         contextGroups,
         showAbove,
-        showBelow
+        showBelow,
+        viewMode
       )
     );
     if (showBelow) {
@@ -342,15 +346,31 @@ export abstract class GrDiffBuilder {
     section: HTMLElement,
     contextGroups: GrDiffGroup[],
     showAbove: boolean,
-    showBelow: boolean
+    showBelow: boolean,
+    viewMode: DiffViewMode
   ): HTMLElement {
-    const row = this._createElement('tr', 'contextDivider');
-    if (!(showAbove && showBelow)) {
-      row.classList.add('collapsed');
+    const row = this._createElement('tr', 'dividerRow');
+    let showConfig: GrContextControlsShowConfig;
+    if (showAbove && !showBelow) {
+      showConfig = 'above';
+    } else if (!showAbove && showBelow) {
+      showConfig = 'below';
+    } else {
+      // Note that !showAbove && !showBelow also intentionally creates
+      // "show-both". This means the file is completely collapsed, which is
+      // unusual, but at least happens in one test.
+      showConfig = 'both';
+    }
+    row.classList.add(`show-${showConfig}`);
+
+    row.appendChild(this._createBlameCell(0));
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.appendChild(this._createElement('td'));
     }
 
-    const element = this._createElement('td', 'dividerCell');
-    row.appendChild(element);
+    const cell = this._createElement('td', 'dividerCell');
+    cell.setAttribute('colspan', '3');
+    row.appendChild(cell);
 
     const contextControls = this._createElement(
       'gr-context-controls'
@@ -359,9 +379,8 @@ export abstract class GrDiffBuilder {
     contextControls.renderPreferences = this._renderPrefs;
     contextControls.section = section;
     contextControls.contextGroups = contextGroups;
-    contextControls.showAbove = showAbove;
-    contextControls.showBelow = showBelow;
-    element.appendChild(contextControls);
+    contextControls.setAttribute('showConfig', showConfig);
+    cell.appendChild(contextControls);
     return row;
   }
 

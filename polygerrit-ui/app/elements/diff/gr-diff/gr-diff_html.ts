@@ -326,24 +326,17 @@ export const htmlTemplate = html`
       height: calc(var(--line-height-normal) + var(--spacing-s));
     }
 
-    .contextDivider {
-      height: var(--divider-height);
-      /* Create a positioning context. */
-      transform: translateX(0px);
+    .dividerCell {
+      vertical-align: top;
     }
-    .contextDivider.collapsed {
-      /* Hide divider gap, but still show child elements (expansion buttons). */
+    .dividerRow.show-both .dividerCell {
+      height: var(--divider-height);
+    }
+    .dividerRow.show-above .dividerCell,
+    .dividerRow.show-above .dividerCell {
       height: 0;
     }
-    .dividerCell {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
+
     .displayLine .diff-row.target-row td {
       box-shadow: inset 0 -1px var(--border-color);
     }

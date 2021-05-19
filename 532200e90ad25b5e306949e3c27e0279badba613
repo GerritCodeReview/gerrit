@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2948c011_8b65a692",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T09:56:12Z",
+      "side": 1,
+      "message": "Nit: Should be lower-case here too :) \n\nSame below.",
+      "range": {
+        "startLine": 1330,
+        "startChar": 59,
+        "endLine": 1330,
+        "endChar": 60
+      },
+      "revId": "532200e90ad25b5e306949e3c27e0279badba613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

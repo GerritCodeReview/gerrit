@@ -23,10 +23,12 @@ import {
   GeneratedWebLink,
 } from '../../core/gr-navigation/gr-navigation';
 import {
+  anyLineTooLong,
   getLine,
   getRange,
   getSide,
   rangesEqual,
+  SYNTAX_MAX_LINE_LENGTH,
 } from '../gr-diff/gr-diff-utils';
 import {appContext} from '../../../services/app-context';
 import {
@@ -94,10 +96,6 @@ const EVENT_NONZERO_REBASE = 'rebase-percent-nonzero';
 
 // Disable syntax highlighting if the overall diff is too large.
 const SYNTAX_MAX_DIFF_LENGTH = 20000;
-
-// If any line of the diff is more than the character limit, then disable
-// syntax highlighting for the entire file.
-const SYNTAX_MAX_LINE_LENGTH = 500;
 
 // 120 lines is good enough threshold for full-sized window viewport
 const NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT = 120;
@@ -1030,7 +1028,7 @@ export class GrDiffHost extends PolymerElement {
     if (!preferenceChangeRecord?.base?.syntax_highlighting || !diff) {
       return false;
     }
-    if (this._anyLineTooLong(diff)) {
+    if (anyLineTooLong(diff)) {
       fireAlert(
         this,
         `Files with line longer than ${SYNTAX_MAX_LINE_LENGTH} characters` +
@@ -1047,20 +1045,6 @@ export class GrDiffHost extends PolymerElement {
       return false;
     }
     return true;
-  }
-
-  /**
-   * @return whether any of the lines in diff are longer
-   * than SYNTAX_MAX_LINE_LENGTH.
-   */
-  _anyLineTooLong(diff?: DiffInfo) {
-    if (!diff) return false;
-    return diff.content.some(section => {
-      const lines = section.ab
-        ? section.ab
-        : (section.a || []).concat(section.b || []);
-      return lines.some(line => line.length >= SYNTAX_MAX_LINE_LENGTH);
-    });
   }
 
   _listenToViewportRender() {

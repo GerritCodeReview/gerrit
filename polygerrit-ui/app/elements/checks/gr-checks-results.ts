@@ -17,44 +17,15 @@
 import {html} from 'lit-html';
 import {classMap} from 'lit-html/directives/class-map';
 import {repeat} from 'lit-html/directives/repeat';
-import {
-  css,
-  customElement,
-  property,
-  PropertyValues,
-  query,
-  state,
-  TemplateResult,
-} from 'lit-element';
+import {css, customElement, property, PropertyValues, query, state, TemplateResult,} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import './gr-checks-action';
 import './gr-checks-attempt';
 import '@polymer/paper-tooltip/paper-tooltip';
-import {
-  Action,
-  Category,
-  Link,
-  LinkIcon,
-  RunStatus,
-  Tag,
-} from '../../api/checks';
+import {Action, Category, Link, LinkIcon, RunStatus, Tag,} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
-import {
-  allActions$,
-  allLinks$,
-  CheckRun,
-  checksPatchsetNumber$,
-  RunResult,
-  someProvidersAreLoading$,
-} from '../../services/checks/checks-model';
-import {
-  allResults,
-  fireActionTriggered,
-  iconForCategory,
-  iconForLink,
-  primaryRunAction,
-  tooltipForLink,
-} from '../../services/checks/checks-util';
+import {allActions$, allLinks$, CheckRun, checksPatchsetNumber$, RunResult, someProvidersAreLoading$,} from '../../services/checks/checks-model';
+import {allResults, fireActionTriggered, hasCompletedWithoutResults, iconForCategory, iconForLink, primaryRunAction, tooltipForLink,} from '../../services/checks/checks-util';
 import {assertIsDefined, check} from '../../utils/common-util';
 import {toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
@@ -1069,8 +1040,7 @@ export class GrChecksResults extends GrLitElement {
   }
 
   computeRunResults(category: Category, run: CheckRun) {
-    const noResults = (run.results ?? []).length === 0;
-    if (noResults && category === Category.SUCCESS) {
+    if (category === Category.SUCCESS && hasCompletedWithoutResults(run)) {
       return [this.computeSuccessfulRunResult(run)];
     }
     return (

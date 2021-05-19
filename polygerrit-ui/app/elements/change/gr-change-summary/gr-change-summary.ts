@@ -19,36 +19,13 @@ import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
-import {
-  CheckResult,
-  CheckRun,
-  aPluginHasRegistered$,
-  someProvidersAreLoading$,
-  allRunsLatest$,
-  errorMessage$,
-  loginCallback$,
-} from '../../../services/checks/checks-model';
+import {allRunsLatest$, aPluginHasRegistered$, CheckResult, CheckRun, errorMessage$, loginCallback$, someProvidersAreLoading$,} from '../../../services/checks/checks-model';
 import {Category, Link, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
-import {
-  getResultsOf,
-  hasCompletedWithoutResults,
-  hasResultsOf,
-  iconForCategory,
-  iconForStatus,
-  isRunning,
-  isRunningOrHasCompleted,
-} from '../../../services/checks/checks-util';
+import {getResultsOf, hasCompletedWithoutResults, hasResultsOf, iconForCategory, iconForStatus, isRunning, isRunningOrHasCompleted,} from '../../../services/checks/checks-util';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {
-  CommentThread,
-  isResolved,
-  isUnresolved,
-  getFirstComment,
-  isRobotThread,
-  hasHumanReply,
-} from '../../../utils/comment-util';
+import {CommentThread, getFirstComment, hasHumanReply, isResolved, isRobotThread, isUnresolved,} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {AccountInfo} from '../../../types/common';
 import {notUndefined} from '../../../types/types';
@@ -417,7 +394,10 @@ export class GrChangeSummary extends GrLitElement {
   renderChecksChipForCategory(category: Category) {
     if (this.errorMessage || this.loginCallback) return;
     const icon = iconForCategory(category);
-    const runs = this.runs.filter(run => hasResultsOf(run, category));
+    const runs = this.runs.filter(run => {
+      if (hasResultsOf(run, category)) return true;
+      return category === Category.SUCCESS && hasCompletedWithoutResults(run);
+    });
     const count = (run: CheckRun) => getResultsOf(run, category);
     return this.renderChecksChip(icon, runs, category, count);
   }
@@ -525,9 +505,8 @@ export class GrChangeSummary extends GrLitElement {
                 Category.WARNING
               )}${this.renderChecksChipForCategory(
                 Category.INFO
-              )}${this.renderChecksChipForStatus(
-                RunStatus.COMPLETED,
-                hasCompletedWithoutResults
+              )}${this.renderChecksChipForCategory(
+                Category.SUCCESS
               )}${this.renderChecksChipForStatus(RunStatus.RUNNING, isRunning)}
               <span
                 class="loadingSpin"

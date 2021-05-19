@@ -587,6 +587,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9c3ec2d2_0d606be5",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-19T23:40:17Z",
+      "side": 1,
+      "message": "\u003e My comment is still the same: \"Single cluster multi-primary with shared storage\" isn\u0027t a term we use in Gerrit at the moment.\n\nAgreed. That\u0027s why I\u0027m adding it. So we can all talk about the same thing with the same words 😊\n\n\u003e I believe it would be best to have a glossary that represent what we have today and, as a follow-up, propose new terms we want to introduce.\n\nMartin and I have made it clear that we do not believe that there is a current term used in Gerrit that accurately represents what I\u0027ve written here and we have provided examples to demonstrate that. Because of that, unless you think the content in PS4 is inaccurate, I would like to submit this change.",
+      "parentUuid": "348d3d80_606c5bf5",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

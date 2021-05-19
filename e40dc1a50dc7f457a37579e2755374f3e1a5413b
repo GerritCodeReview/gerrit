@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5974ab7f_5434612a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T12:32:12Z",
+      "side": 1,
+      "message": "I see, that this and the frontend changes are merged, but I\u0027m still seeing non-replaced template string. Consider change 255373.\n\nI still see this message issued by DeleteVote operation:\n\n  Edwin Kempin Removed Code-Review-2 by \u003cGERRIT_ACCOUNT_1030912\u003e\n\nLater I see this message issued by DeleteReviewer operation:\n\n  Removed from reviewer: Alice Kober-Sotzek",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 77
+      },
+      "revId": "e40dc1a50dc7f457a37579e2755374f3e1a5413b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a96b6be4_5e473ff7",
@@ -14,6 +37,29 @@
       "writtenOn": "2021-05-06T13:42:33Z",
       "side": 1,
       "message": "Diff to PS11 seems fine",
+      "revId": "e40dc1a50dc7f457a37579e2755374f3e1a5413b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d332dcd9_7a463238",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVote.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T12:32:12Z",
+      "side": 1,
+      "message": "Remove this now unused parameter as well. I\u0027m getting this warning:\n\n  The value of the parameter userFactory is not used",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 48
+      },
       "revId": "e40dc1a50dc7f457a37579e2755374f3e1a5413b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -107,7 +107,7 @@ public class WebLinks {
 
   /**
    * @param project Project name.
-   * @param revision SHA1 of commit.
+   * @param commit SHA1 of commit.
    * @param commitMessage the commit message of the commit.
    * @param branchName branch of the commit.
    * @return Links for resolving comflicts.

@@ -45,6 +45,23 @@
       },
       "revId": "df4ff6fc6589085075c6505fd358997543a62cb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47669663_8c4b91cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-19T09:56:45Z",
+      "side": 1,
+      "message": "This bug was introduced in below change. Bug is part of codebase since stable-2.14\n\nI56ff6b1416f0 Label-predicate: Add support for change owner votes",
+      "revId": "df4ff6fc6589085075c6505fd358997543a62cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

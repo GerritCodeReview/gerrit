@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "54e4704a_89ac6dce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T13:16:22Z",
+      "side": 1,
+      "message": "It was caching issue. I checked in Firefox and it worked. After it I hit Ctrl-R multiple time in Chrome, and after 2-3 attempts, it works as expected now. Thanks for clarifying.",
+      "parentUuid": "9d424d44_eba2fe78",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 77
+      },
+      "revId": "e40dc1a50dc7f457a37579e2755374f3e1a5413b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a96b6be4_5e473ff7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 14

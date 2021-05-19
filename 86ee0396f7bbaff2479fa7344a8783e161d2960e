@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "232ce94f_cea45d16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T11:17:52Z",
+      "side": 1,
+      "message": "This would be optional. right now, the shadow-selection-polyfill also doesn\u0027t provide types, see my feature request: [1].\n\n[1] https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 15
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8ed3d8c_768c4ff3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T11:17:52Z",
+      "side": 1,
+      "message": "Thanks, @Tony, this looks promising, has reduced scope (only affects Safari) and is also a non invasive change.\n\nMay be target this change to stable-3.3 branch?\n\nPG test failure is related?\n\n  FAILED TESTS:\n  gr-diff tests\n    selectionchange event handling\n      ��� enabled if logged in\n        HeadlessChrome 69.0.3497 (Linux 0.0.0)\n      AssertionError: expected false to be true\n\n      + expected - actual\n\n      -false\n      +true",
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef87aaad_7593517a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/ContentEditableSelection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T11:17:52Z",
+      "side": 1,
+      "message": "2021?",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4134df9b_85d2656d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/ContentEditableSelection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T11:17:52Z",
+      "side": 1,
+      "message": "Why this is needed? Shouldn\u0027t FF support getSelection()?",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50c6676a_83bd4fb0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T11:17:52Z",
+      "side": 1,
+      "message": "Remove it? Instead of commenting out? Also remove the polyfill dependency in polygerrit-ui/app/package.json file:\n\n  \"shadow-selection-polyfill\": \"^1.1.0\"\n\nNote, that if you remove it, you need to build :release to adapt polygerrit-ui/app/yarn.lock.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 65
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aa6085e_1883e719",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T11:17:52Z",
+      "side": 1,
+      "message": "Can this be done conditionally only for Safari browser, so that it\u0027s a no-op on Chrome and FF? May be:\n\n  contenteditable\u003d[[_isSafari]]",
+      "range": {
+        "startLine": 676,
+        "startChar": 12,
+        "endLine": 676,
+        "endChar": 34
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

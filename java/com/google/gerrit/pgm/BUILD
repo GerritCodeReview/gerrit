@@ -1,12 +1,26 @@
 load("@rules_java//java:defs.bzl", "java_library")
 
+java_binary(
+    name = "Vis",
+    srcs = ["Vis.java"],
+    deps = [
+        ":pgm",
+        "//lib/guice",
+        "//lib/guice:guice-grapher",
+    ],
+)
+
 java_library(
     name = "pgm",
-    srcs = glob(["**/*.java"]),
+    srcs = glob(
+        ["**/*.java"],
+        exclude = ["Vis.java"],
+    ),
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/pgm"],
     visibility = ["//visibility:public"],
     deps = [
+        "//:dagger",
         "//java/com/google/gerrit/auth",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",

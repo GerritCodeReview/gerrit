@@ -40,7 +40,9 @@ default_java_toolchain(
     bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
     forcibly_disable_header_compilation = False,
     genclass = ["@bazel_tools//tools/jdk:genclass"],
-    header_compiler = ["@bazel_tools//tools/jdk:turbine"],
+    # https://github.com/bazelbuild/bazel/issues/8585
+    # https://github.com/bazelbuild/bazel/commit/10ffddb13ac070f2c6b9d64cb927ab3b659c0b72
+    header_compiler = ["@bazel_tools//tools/jdk:turbine_direct"],
     header_compiler_direct = ["@bazel_tools//tools/jdk:turbine_direct"],
     ijar = ["@bazel_tools//tools/jdk:ijar"],
     javabuilder = ["@bazel_tools//tools/jdk:javabuilder"],

@@ -15,8 +15,9 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.Iterables;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import com.google.inject.ProvisionException;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -77,7 +78,7 @@ public final class SitePaths {
   public final boolean isNew;
 
   @Inject
-  public SitePaths(@SitePath Path sitePath) throws IOException {
+  public SitePaths(@SitePath Path sitePath) {
     site_path = sitePath;
     Path p = sitePath;
 
@@ -128,6 +129,8 @@ public final class SitePaths {
       isNew = Iterables.isEmpty(files);
     } catch (NoSuchFileException e) {
       isNew = true;
+    } catch (IOException e) {
+      throw new ProvisionException("Can't create SitePaths", e);
     }
     this.isNew = isNew;
   }

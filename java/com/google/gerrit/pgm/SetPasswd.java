@@ -17,7 +17,7 @@ package com.google.gerrit.pgm;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.pgm.init.api.Section.Factory;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class SetPasswd {
 

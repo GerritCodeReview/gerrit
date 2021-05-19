@@ -37,6 +37,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":constants",
+        "//:dagger",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",

@@ -17,6 +17,8 @@ package com.google.gerrit.pgm.init.api;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.securestore.SecureStore;
+import dagger.assisted.AssistedFactory;
+import dagger.assisted.AssistedInject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.nio.file.Path;
@@ -29,8 +31,9 @@ import java.util.Set;
 
 /** Helper to edit a section of the configuration files. */
 public class Section {
+  @AssistedFactory
   public interface Factory {
-    Section get(@Assisted("section") String section, @Assisted("subsection") String subsection);
+    Section get(@dagger.assisted.Assisted("section") @Assisted("section") String section, @dagger.assisted.Assisted("subsection") @Assisted("subsection") String subsection);
   }
 
   private final InitFlags flags;
@@ -39,15 +42,15 @@ public class Section {
   private final String section;
   private final String subsection;
   private final SecureStore secureStore;
-
+  @AssistedInject
   @Inject
   public Section(
       final InitFlags flags,
       final SitePaths site,
       final SecureStore secureStore,
       final ConsoleUI ui,
-      @Assisted("section") final String section,
-      @Assisted("subsection") @Nullable final String subsection) {
+      @dagger.assisted.Assisted("section") @Assisted("section") final String section,
+      @dagger.assisted.Assisted("subsection") @Assisted("subsection") @Nullable final String subsection) {
     this.flags = flags;
     this.site = site;
     this.ui = ui;

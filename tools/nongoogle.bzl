@@ -167,6 +167,12 @@ def declare_nongoogle_deps():
         sha1 = "f527009d51f172a2e6937bfb55fcb827e2e2386b",
     )
 
+    maven_jar(
+        name = "guice-grapher",
+        artifact = "com.google.inject.extensions:guice-grapher:" + GUICE_VERS,
+        sha1 = "dbb3bb1fab92e24229cf72ba558897a490cdb3a4",
+    )
+
     # Keep this version of Soy synchronized with the version used in Gitiles.
     maven_jar(
         name = "soy",

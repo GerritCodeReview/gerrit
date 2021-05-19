@@ -35,6 +35,13 @@ java_library(
 )
 
 java_library(
+    name = "guice-grapher",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@guice-grapher//jar"],
+)
+
+java_library(
     name = "aopalliance",
     data = ["//lib:LICENSE-PublicDomain"],
     exports = ["@aopalliance//jar"],

@@ -17,8 +17,9 @@ package com.google.gerrit.pgm.init.api;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.securestore.SecureStore;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.inject.ProvisionException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -57,12 +58,15 @@ public class InitFlags {
       final SitePaths site,
       final SecureStore secureStore,
       @InstallPlugins final List<String> installPlugins,
-      @InstallAllPlugins final Boolean installAllPlugins)
-      throws IOException, ConfigInvalidException {
+      @InstallAllPlugins final Boolean installAllPlugins) {
     sec = secureStore;
     this.installPlugins = installPlugins;
     this.installAllPlugins = installAllPlugins;
     cfg = new FileBasedConfig(site.gerrit_config.toFile(), FS.DETECTED);
-    cfg.load();
+    try {
+      cfg.load();
+    } catch (IOException | ConfigInvalidException e) {
+      throw new ProvisionException("Can't create InitFlags", e);
+    }
   }
 }

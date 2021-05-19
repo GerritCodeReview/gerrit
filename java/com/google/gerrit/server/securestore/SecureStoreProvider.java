@@ -19,14 +19,25 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
+import com.google.inject.Guice;
+import dagger.Provides;
+import javax.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import java.nio.file.Path;
 
 @Singleton
 public class SecureStoreProvider implements Provider<SecureStore> {
+  @dagger.Module
+  public static class Module {
+    @Singleton
+    @Provides
+    public SecureStore getSecureStore(SecureStoreProvider provider) {
+      return provider.get();
+    }
+
+  }
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Path libdir;
@@ -34,9 +45,8 @@ public class SecureStoreProvider implements Provider<SecureStore> {
   private final String className;
 
   @Inject
-  protected SecureStoreProvider(
-      Injector injector, SitePaths sitePaths, @Nullable @SecureStoreClassName String className) {
-    this.injector = injector;
+  protected SecureStoreProvider(SitePaths sitePaths, @Nullable @SecureStoreClassName String className) {
+    this.injector = Guice.createInjector();
     this.libdir = sitePaths.lib_dir;
     this.className = className;
   }
@@ -61,4 +71,6 @@ public class SecureStoreProvider implements Provider<SecureStore> {
       throw new RuntimeException(msg, e);
     }
   }
+
+
 }

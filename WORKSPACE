@@ -70,6 +70,43 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/3.4.0/rules_nodejs-3.4.0.tar.gz"],
 )
 
+# Maven install
+RULES_JVM_EXTERNAL_TAG = "4.0"
+
+RULES_JVM_EXTERNAL_SHA = "31701ad93dbfe544d597dbe62c9a1fdd76d81d8a9150c2bf1ecf928ecdf97169"
+
+http_archive(
+    name = "rules_jvm_external",
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
+)
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+# Dagger
+
+DAGGER_TAG = "2.35.1"
+
+DAGGER_SHA = "2df0a3c1cb84607fbee1399c839286eb445749c2f77320f2520d122c63f8171c"
+
+http_archive(
+    name = "dagger",
+    sha256 = DAGGER_SHA,
+    strip_prefix = "dagger-dagger-%s" % DAGGER_TAG,
+    urls = ["https://github.com/google/dagger/archive/dagger-%s.zip" % DAGGER_TAG],
+)
+
+load("@dagger//:workspace_defs.bzl", "DAGGER_ARTIFACTS", "DAGGER_REPOSITORIES")
+load("@dagger//:build_defs.bzl", "POM_VERSION")
+
+maven_install(
+    artifacts = DAGGER_ARTIFACTS,
+    repositories = DAGGER_REPOSITORIES,
+)
+
+# _DAGGER_VERSION = POM_VERSION
+
 # Golang support for PolyGerrit local dev server.
 http_archive(
     name = "io_bazel_rules_go",
@@ -993,3 +1030,26 @@ maven_jar(
     artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
     sha1 = "6b778a270b7529fcb9b7a6f62f3ae9d38544ce2f",
 )
+
+# Dagger artifacts
+# TODO (dmfilippov): reimplement according to https://github.com/google/dagger
+#
+#maven_jar(
+#    name = "dagger",
+#    artifact = "com.google.dagger:dagger:" + _DAGGER_VERSION,
+#)
+#
+#maven_jar(
+#    name = "dagger-compiler",
+#    artifact = "com.google.dagger:dagger-compiler:" + _DAGGER_VERSION,
+#)
+#
+#maven_jar(
+#    name = "dagger-producers",
+#    artifact = "com.google.dagger:dagger-producers:" + _DAGGER_VERSION,
+#)
+#
+#maven_jar(
+#    name = "dagger-spi",
+#    artifact = "com.google.dagger:dagger-spi:" + _DAGGER_VERSION,
+#)

@@ -24,14 +24,18 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
+import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
+import dagger.BindsInstance;
+import dagger.Component;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Singleton;
 import org.kohsuke.args4j.Argument;
 
 public class Passwd extends SiteProgram {
@@ -61,12 +65,39 @@ public class Passwd extends SiteProgram {
   @Override
   public int run() throws Exception {
     init();
-    SetPasswd setPasswd = getSysInjector().getInstance(SetPasswd.class);
+    SetPasswd setPasswd = getSysInjector().getSetPasswdClass();
     setPasswd.run(section, key, password);
     return 0;
   }
 
-  private Injector getSysInjector() {
+  public SysInjector getSysInjector() {
+    // List<Module> modules = new ArrayList<>();
+    // modules.add(
+    //     new FactoryModule() {
+    //       @Override
+    //       protected void configure() {
+    //         bind(Path.class).annotatedWith(SitePath.class).toInstance(getSitePath());
+    //         bind(ConsoleUI.class).toInstance(ConsoleUI.getInstance(password != null));
+    //         factory(Section.Factory.class);
+    //         bind(Boolean.class).annotatedWith(InstallAllPlugins.class).toInstance(Boolean.FALSE);
+    //         bind(new TypeLiteral<List<String>>() {})
+    //             .annotatedWith(InstallPlugins.class)
+    //             .toInstance(new ArrayList<>());
+    //         bind(String.class)
+    //             .annotatedWith(SecureStoreClassName.class)
+    //             .toProvider(Providers.of(getConfiguredSecureStoreClass()));
+    //       }
+    //     });
+    // modules.add(new GerritServerConfigModule());
+    // return Guice.createInjector(modules);
+    // DaggerPasswd_SysInjector.builder()
+    //     .sitePath(getSitePath())
+    //     .consoleU
+    // ;
+    return null;
+  }
+
+  public Injector getSysInjectorOld() {
     List<Module> modules = new ArrayList<>();
     modules.add(
         new FactoryModule() {
@@ -86,5 +117,21 @@ public class Passwd extends SiteProgram {
         });
     modules.add(new GerritServerConfigModule());
     return Guice.createInjector(modules);
+  }
+
+  @Component(modules = {SecureStoreProvider.Module.class})
+  @Singleton
+  interface SysInjector {
+    SetPasswd getSetPasswdClass();
+    @Component.Builder
+    interface Builder {
+      SysInjector build();
+      @BindsInstance Builder sitePath(@SitePath Path sitePath);
+      @BindsInstance Builder consoleUI(ConsoleUI consoleUI);
+      @BindsInstance Builder installAllPlugins(@InstallAllPlugins boolean installAllPlugins);
+      @BindsInstance Builder installPlugins(@InstallPlugins List<String> plugins);
+      @BindsInstance Builder secureStoreClassName(@SecureStoreClassName String className);
+
+    }
   }
 }

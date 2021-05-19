@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "576bc72e_e307db0b",
+        "filename": "java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T11:50:16Z",
+      "side": 1,
+      "message": "This parameter is not used. I\u0027m getting this warning in the Eclipse IDE:\n\n  Javadoc: Parameter revision is not declared",
+      "range": {
+        "startLine": 110,
+        "startChar": 3,
+        "endLine": 110,
+        "endChar": 36
+      },
+      "revId": "df69edbbf81960358efcd7e3f83af00419547799",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

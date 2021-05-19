@@ -96,6 +96,10 @@ public class PatchSetTest {
   public void parseId() {
     assertThat(PatchSet.Id.parse("1,2")).isEqualTo(PatchSet.id(Change.id(1), 2));
     assertThat(PatchSet.Id.parse("01,02")).isEqualTo(PatchSet.id(Change.id(1), 2));
+    Change.Id cId = Change.id(321);
+    assertThat(
+            PatchSet.Id.fromEditRef(RefNames.refsEdit(Account.id(123), cId, PatchSet.id(cId, 6))))
+        .isEqualTo(PatchSet.id(cId, 6));
     assertInvalidId(null);
     assertInvalidId("");
     assertInvalidId("1");

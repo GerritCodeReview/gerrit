@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82ba434d_7cb7e808",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-19T09:54:32Z",
+      "side": 1,
+      "message": "Yeah makes sense. Done.",
+      "parentUuid": "b51de012_ce4f4466",
+      "range": {
+        "startLine": 669,
+        "startChar": 37,
+        "endLine": 669,
+        "endChar": 44
+      },
+      "revId": "2c88fa6c3a5ad295592f568a23ee334b90bb44a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1d063ad_dc662679",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d759ac23_7a7638d8",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-19T09:54:32Z",
+      "side": 1,
+      "message": "Your sentence is better than mine. Thanks for suggesting.\nDone.",
+      "parentUuid": "e1d063ad_dc662679",
+      "range": {
+        "startLine": 681,
+        "startChar": 9,
+        "endLine": 683,
+        "endChar": 89
+      },
+      "revId": "2c88fa6c3a5ad295592f568a23ee334b90bb44a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1af6a62c_fd4e0989",
@@ -77,6 +125,24 @@
       "writtenOn": "2021-05-19T07:19:36Z",
       "side": 1,
       "message": "The naming convention for JUnit tests is to use lowerCamelCase for each component in the method name that is separated by an underscore [1]. So this should be:\n\n  publishPartialDrafts_whenDraftHandlingIsKeep_doesNotPublishDrafts\n\nSame for the tests below.\n\n[1] https://engdoc.corp.google.com/eng/doc/devguide/java/style/index.md?cl\u003dhead#s5.2.3-method-names",
+      "revId": "2c88fa6c3a5ad295592f568a23ee334b90bb44a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3d20fb5_c6ea0089",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-19T09:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af6a62c_fd4e0989",
       "revId": "2c88fa6c3a5ad295592f568a23ee334b90bb44a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

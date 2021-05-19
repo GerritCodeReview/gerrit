@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7140a77_7cc75aa6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T07:19:36Z",
+      "side": 1,
+      "message": "Nice feature!",
+      "revId": "2c88fa6c3a5ad295592f568a23ee334b90bb44a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b51de012_ce4f4466",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T07:19:36Z",
+      "side": 1,
+      "message": "[optional] Maybe better \"Non-existing\" or something similar?\nWe rather use the term \"invalid\" if an ID is syntactically incorrect, e.g. has a wrong format or contains invalid characters. In this case the ID seems to be valid, but only the user has no such draft comment.",
+      "range": {
+        "startLine": 669,
+        "startChar": 37,
+        "endLine": 669,
+        "endChar": 44
+      },
+      "revId": "2c88fa6c3a5ad295592f568a23ee334b90bb44a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1d063ad_dc662679",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T07:19:36Z",
+      "side": 1,
+      "message": "Can we improve the wording of this message so that it gets a proper sentence?\nE.g.: \"Draft comments for other revisions cannot be published when DraftHandling \u003d PUBLISH (draft IDs: \u003cdraft-IDs\u003e)\"",
+      "range": {
+        "startLine": 681,
+        "startChar": 9,
+        "endLine": 683,
+        "endChar": 89
+      },
+      "revId": "2c88fa6c3a5ad295592f568a23ee334b90bb44a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1af6a62c_fd4e0989",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T07:19:36Z",
+      "side": 1,
+      "message": "The naming convention for JUnit tests is to use lowerCamelCase for each component in the method name that is separated by an underscore [1]. So this should be:\n\n  publishPartialDrafts_whenDraftHandlingIsKeep_doesNotPublishDrafts\n\nSame for the tests below.\n\n[1] https://engdoc.corp.google.com/eng/doc/devguide/java/style/index.md?cl\u003dhead#s5.2.3-method-names",
+      "revId": "2c88fa6c3a5ad295592f568a23ee334b90bb44a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

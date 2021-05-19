@@ -90,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c07bc655_af5388e8",
+        "filename": "java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-19T21:53:02Z",
+      "side": 1,
+      "message": "Ok, can we improve that wording here then?",
+      "parentUuid": "8c33cde5_045b7c98",
+      "range": {
+        "startLine": 23,
+        "startChar": 52,
+        "endLine": 23,
+        "endChar": 57
+      },
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14e99361_4b705b83",
         "filename": "java/com/google/gerrit/server/ApprovalCopier.java",
         "patchSetId": 1

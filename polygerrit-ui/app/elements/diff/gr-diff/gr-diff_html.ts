@@ -326,24 +326,48 @@ export const htmlTemplate = html`
       height: calc(var(--line-height-normal) + var(--spacing-s));
     }
 
-    .contextDivider {
-      height: var(--divider-height);
-      /* Create a positioning context. */
-      transform: translateX(0px);
+    .dividerCell {
+      vertical-align: top;
     }
-    .contextDivider.collapsed {
-      /* Hide divider gap, but still show child elements (expansion buttons). */
+    .dividerRow.showBoth .dividerCell {
+      height: var(--divider-height);
+    }
+    .dividerRow.showAboveOnly .dividerCell,
+    .dividerRow.showBelowOnly .dividerCell {
       height: 0;
     }
-    .dividerCell {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      position: absolute;
-      top: 0;
-      left: 0;
+
+    .dividerRow.showBoth{
+      --gr-context-controls-justify-content: center;
+      --gr-context-controls-margin-top: calc(0px - var(--line-height-normal) - var(--spacing-s));
+      --gr-context-controls-margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));
+      --gr-context-controls-height: calc(
+        2 * var(--line-height-normal) + 2 * var(--spacing-s) +
+          var(--divider-height) - 1px
+      );
     }
+    .dividerRow.showAboveOnly{
+      --gr-context-controls-justify-content: flex-end;
+      --gr-context-controls-margin-top: calc(-1px - var(--line-height-normal) - var(--spacing-s));
+      /*--gr-context-controls-margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));*/
+      --gr-context-controls-height: calc(var(--line-height-normal) + var(--spacing-s));
+    }
+    .dividerRow.showBelowOnly{
+      --gr-context-controls-justify-content: flex-start;
+      --gr-context-controls-margin-top: 1px;
+      --gr-context-controls-margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));
+    }
+
+    .dividerRow.showBoth{
+      --gr-context-controls-horizontal-align-items: center;
+    }
+    .dividerRow.showAboveOnly{
+      --gr-context-controls-horizontal-align-items: end;
+    }
+    .dividerRow.showBelowOnly{
+      --gr-context-controls-horizontal-align-items: start;
+    }
+    
     .displayLine .diff-row.target-row td {
       box-shadow: inset 0 -1px var(--border-color);
     }

@@ -108,20 +108,18 @@ export class GrContextControls extends LitElement {
   static styles = css`
     :host {
       display: flex;
-      width: 100%;
-      height: 100%;
       justify-content: center;
-      position: absolute;
+      flex-direction: column;
+      position: relative;
+      justify-content: var(--gr-context-controls-justify-content: center);
+      margin-top: var(--gr-context-controls-margin-top);
+      margin-bottom: var(--gr-context-controls-margin-bottom);
+      height: var(--gr-context-controls-height, auto);
     }
+
     .contextControlButton {
       background-color: var(--default-button-background-color);
       font: var(--context-control-button-font, inherit);
-      /* All position is relative to container, so ignore sibling buttons. */
-      position: absolute;
-    }
-    .contextControlButton:first-child {
-      /* First button needs to claim width to display without text wrapping. */
-      position: relative;
     }
 
     paper-button {
@@ -143,14 +141,10 @@ export class GrContextControls extends LitElement {
       background: rgba(0, 0, 0, 0.12);
     }
 
-    .centeredButton {
-      /* Center over divider. */
-      top: 50%;
-      transform: translateY(-50%);
-    }
     .aboveBelowButtons {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       margin-left: var(--spacing-m);
       position: relative;
     }
@@ -158,16 +152,19 @@ export class GrContextControls extends LitElement {
       margin-left: 0;
     }
 
+    .horizontalFlex {
+      display: flex;
+      justify-content: center;
+      align-items: var(--gr-context-controls-horizontal-align-items, center);
+    }
+
     .aboveButton {
-      /* Display over preceding content / background placeholder. */
-      transform: translateY(-100%);
       border-bottom-width: 0;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       padding: var(--spacing-xxs) var(--spacing-l);
     }
     .belowButton {
-      top: calc(100% + var(--divider-border));
       border-top-width: 0;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
@@ -491,9 +488,11 @@ export class GrContextControls extends LitElement {
       return html`<p>invalid properties</p>`;
     }
     return html`
+    <div class="horizontalFlex">
       ${this.createExpandAllButtonContainer()}
       ${this.createPartialExpansionButtons()}
       ${this.createBlockExpansionButtons()}
+    </div>
     `;
   }
 }

@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9bb5af3_102a810e",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T12:50:01Z",
+      "side": 1,
+      "message": "Since there is only a single field, do we need the Builder class?\n\nCan this just be\n\n  public static SubmitRequirementExpressionResult create(PredicateResult predicateResult) {\n    return new AutoValue_SubmitRequirementExpressionResult(predicateResult);\n  }\n\n?",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9c56cd4_320a34ba",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T12:50:01Z",
+      "side": 1,
+      "message": "childPredicateResults?",
+      "range": {
+        "startLine": 74,
+        "startChar": 44,
+        "endLine": 74,
+        "endChar": 59
+      },
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42d20991_452daf83",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T12:50:01Z",
+      "side": 1,
+      "message": "Why not return an ImmutableList here?",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 8
+      },
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cc5ba8d_ccaef928",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T12:50:01Z",
+      "side": 1,
+      "message": "Can be: if (childPredicates().isEmpty() \u0026\u0026 status() \u003d\u003d status) {\n\nOr did you intend to return is status() !\u003d status?",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 33
+      },
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cd51797_7659af63",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T12:50:01Z",
+      "side": 1,
+      "message": "Should this be a Singleton?",
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "592a69d0_37230e73",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-19T12:50:01Z",
+      "side": 1,
+      "message": "Why do we need to do the parsing again and again for each change that is evaluated? Can\u0027t we cache the Predicate in SubmitRequirementExpression after the validation was done?",
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

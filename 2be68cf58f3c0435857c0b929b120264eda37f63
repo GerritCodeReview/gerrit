@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45c7090f_60ab35de",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T11:59:56Z",
+      "side": 0,
+      "message": "This removed the last usage of logger, but missed to remove the declaration on line 47. Given that I cherry-picked this in change 304702 recently to stable-3.4 branch, should we fix it on stable-3.4 and then merge it up to master?",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 76
+      },
+      "revId": "2be68cf58f3c0435857c0b929b120264eda37f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

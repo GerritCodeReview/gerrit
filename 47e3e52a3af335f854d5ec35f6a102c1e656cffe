@@ -515,6 +515,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c4b87b51_945588b7",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-19T23:18:50Z",
+      "side": 1,
+      "message": "\u003e Hey Luca,\n\u003e \n\u003e I believe your concern is sufficiently addressed in the latest patchset. Please let me know if you disagree.\n\nDid you forget to push PS5? My comment was on PS4.",
+      "parentUuid": "f1d9c96f_87e42a84",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d424d44_eba2fe78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-19T13:06:20Z",
+      "side": 1,
+      "message": "I am not sure why you see this message, for me the replacement works, /details returns as expected:\n\n\"message\":\"Removed Code-Review-2 by \\u003cGERRIT_ACCOUNT_1030912\\u003e\\n\",\"accounts_in_message\":[{\"_account_id\":1030912,\"name\":\"Alice Kober-Sotzek\",\"email\":\"aliceks@google.com\",\n\n\nThen on UI:\n\nRemoved Code-Review-2 by Alice Kober-Sotzek",
+      "parentUuid": "5974ab7f_5434612a",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 77
+      },
+      "revId": "e40dc1a50dc7f457a37579e2755374f3e1a5413b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a96b6be4_5e473ff7",

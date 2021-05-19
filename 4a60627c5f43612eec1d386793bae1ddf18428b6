@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f132846_6865da85",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-19T15:22:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc6c4f57_76b3bfb6",
+      "range": {
+        "startLine": 420,
+        "startChar": 36,
+        "endLine": 420,
+        "endChar": 38
+      },
+      "revId": "4a60627c5f43612eec1d386793bae1ddf18428b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50bd649d_afbff43a",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "332d0414_368b52d8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-19T15:22:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50bd649d_afbff43a",
+      "range": {
+        "startLine": 114,
+        "startChar": 1,
+        "endLine": 116,
+        "endChar": 40
+      },
+      "revId": "4a60627c5f43612eec1d386793bae1ddf18428b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ba32dd8_1e009fb6",
@@ -77,6 +125,30 @@
       "writtenOn": "2021-05-19T13:46:43Z",
       "side": 1,
       "message": "Could you please check a11y? Does it announce you can edit merge?",
+      "range": {
+        "startLine": 95,
+        "startChar": 11,
+        "endLine": 95,
+        "endChar": 20
+      },
+      "revId": "4a60627c5f43612eec1d386793bae1ddf18428b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9385ae76_ad5efc11",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-19T15:22:37Z",
+      "side": 1,
+      "message": "Yes it announces the link portion as well",
+      "parentUuid": "6ba32dd8_1e009fb6",
       "range": {
         "startLine": 95,
         "startChar": 11,

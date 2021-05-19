@@ -22,6 +22,30 @@
       },
       "revId": "df69edbbf81960358efcd7e3f83af00419547799",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceb479c5_fce957ab",
+        "filename": "java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-19T15:27:06Z",
+      "side": 1,
+      "message": "sent https://gerrit-review.googlesource.com/c/gerrit/+/307053 to rename",
+      "parentUuid": "576bc72e_e307db0b",
+      "range": {
+        "startLine": 110,
+        "startChar": 3,
+        "endLine": 110,
+        "endChar": 36
+      },
+      "revId": "df69edbbf81960358efcd7e3f83af00419547799",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

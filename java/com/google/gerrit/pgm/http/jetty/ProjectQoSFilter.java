@@ -170,7 +170,7 @@ public class ProjectQoSFilter implements Filter {
         request.setAttribute(TASK, task);
 
         Future<?> f = getExecutor().submit(task);
-        asyncContext.addListener(new Listener(f));
+        asyncContext.addListener(new Listener(f, task));
         break;
       case CANCELED:
         rsp.sendError(SC_SERVICE_UNAVAILABLE);
@@ -181,7 +181,6 @@ public class ProjectQoSFilter implements Filter {
           task.begin(Thread.currentThread());
           chain.doFilter(req, rsp);
         } finally {
-          task.end();
           Thread.interrupted();
         }
         break;
@@ -213,21 +212,28 @@ public class ProjectQoSFilter implements Filter {
 
   private static final class Listener implements AsyncListener {
     final Future<?> future;
+    final TaskThunk task;
 
-    Listener(Future<?> future) {
+    Listener(Future<?> future, TaskThunk task) {
       this.future = future;
+      this.task = task;
     }
 
     @Override
-    public void onComplete(AsyncEvent event) throws IOException {}
+    public void onComplete(AsyncEvent event) throws IOException {
+      task.end();
+    }
 
     @Override
     public void onTimeout(AsyncEvent event) throws IOException {
+      task.end();
       future.cancel(true);
     }
 
     @Override
-    public void onError(AsyncEvent event) throws IOException {}
+    public void onError(AsyncEvent event) throws IOException {
+      task.end();
+    }
 
     @Override
     public void onStartAsync(AsyncEvent event) throws IOException {}

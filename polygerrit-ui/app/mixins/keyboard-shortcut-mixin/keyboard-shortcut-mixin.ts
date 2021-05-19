@@ -780,6 +780,17 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       /** Used to disable shortcuts when the element is not visible. */
       private observer?: IntersectionObserver;
 
+      /**
+       * Enabling shortcuts only when the element is visible (see `observer`
+       * above) is a great feature, but often what you want is for the *page* to
+       * be visible, not the specific child element that registers keyboard
+       * shortcuts. An example is the FileList in the ChangeView. So we allow
+       * a broader observer target to be specified here, and fall back to
+       * `this` as the default.
+       */
+      @property({type: Object})
+      observerTarget: Element = this;
+
       /** Are shortcuts currently enabled? True only when element is visible. */
       private bindingsEnabled = false;
 
@@ -930,11 +941,11 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
             this.disableBindings();
           }
         });
-        this.observer.observe(this);
+        this.observer.observe(this.observerTarget);
       }
 
       private destroyVisibilityObserver() {
-        if (this.observer) this.observer.unobserve(this);
+        if (this.observer) this.observer.unobserve(this.observerTarget);
       }
 
       /**

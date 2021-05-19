@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6da82ce4_2ad587a1",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-19T12:34:20Z",
+      "side": 1,
+      "message": "issue was with \u0027notes\u0027 variable being \u0027null\u0027 .. we are hitting null pointer exception here.. ? if we use notes() instead of notes variable, all the drafts tests in FakeIndex are working. doesn\u0027t it solve the bug..? or am I missing something here ..?",
+      "range": {
+        "startLine": 1067,
+        "startChar": 47,
+        "endLine": 1067,
+        "endChar": 52
+      },
+      "revId": "5e1fe046949d60b5247893c85538a8e8ccfa2f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d47a35b8_20b7b6a4",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1

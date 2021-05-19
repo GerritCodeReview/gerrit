@@ -282,6 +282,14 @@ export class GrChangeListView extends PolymerElement {
       e.detail.starred
     );
   }
+
+  /**
+   * Returns `this` as the visibility observer target for the keyboard shortcut
+   * mixin to decide whether shortcuts should be enabled or not.
+   */
+  _computeObserverTarget() {
+    return this;
+  }
 }
 
 declare global {

@@ -927,6 +927,14 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }, {} as {[patchset: string]: number});
   }
 
+  /**
+   * Returns `this` as the visibility observer target for the keyboard shortcut
+   * mixin to decide whether shortcuts should be enabled or not.
+   */
+  _computeObserverTarget() {
+    return this;
+  }
+
   _computeText(patch: RevisionInfo, commentThreads: CommentThread[]) {
     const commentCount = this._robotCommentCountPerPatchSet(commentThreads);
     const commentCnt = commentCount[patch._number] || 0;

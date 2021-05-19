@@ -77,6 +77,7 @@ export const htmlTemplate = html`
       selected-index="{{viewState.selectedChangeIndex}}"
       show-star="[[_loggedIn]]"
       on-toggle-star="_handleToggleStar"
+      observer-target="[[_computeObserverTarget()]]"
     ></gr-change-list>
     <nav class$="[[_computeNavClass(_loading)]]">
       Page [[_computePage(_offset, _changesPerPage)]]

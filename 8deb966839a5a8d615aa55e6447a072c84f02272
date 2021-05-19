@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be5f7f57_32d741df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-19T14:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c9eaa3f_a8f7a211",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "8deb966839a5a8d615aa55e6447a072c84f02272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "066f0186_e892ab21",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18d6203f_a4c30b90",
+        "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-19T14:16:08Z",
+      "side": 1,
+      "message": "vertical flex is the :host above (\u003cgr-context-controls\u003e - that didn\u0027t exist before)",
+      "parentUuid": "066f0186_e892ab21",
+      "revId": "8deb966839a5a8d615aa55e6447a072c84f02272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93fb2621_b1c5dbbd",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-05-19T11:15:21Z",
       "side": 1,
       "message": "What about adding those classes also to the contextControls element below?\n\nThen you could maybe move all the css vars from gr-diff into gr-context-controls?",
+      "revId": "8deb966839a5a8d615aa55e6447a072c84f02272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73362e26_16af4371",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-19T14:16:08Z",
+      "side": 1,
+      "message": "I don\u0027t like much having to redo the same logic in both places. On the other hand some of these parameters need to be defined at :host level - like margin-top.\n\nI took another approach. I\u0027m sending a new type (GrContextControlsShowConfig) as an attribute and than I match it via :host([showConfig\u003d\"above|below|both\"]) to perform overrides on the styles. Then we neither need to duplicate logic nor define css variables. WDYT?",
+      "parentUuid": "93fb2621_b1c5dbbd",
       "revId": "8deb966839a5a8d615aa55e6447a072c84f02272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -68,7 +68,7 @@ suite('gr-context-control tests', () => {
 
   test('context control at the top', async () => {
     element.contextGroups = createContextGroups({offset: 0, count: 20});
-    element.showBelow = true;
+    element.showConfig = 'below';
 
     await flush();
 
@@ -86,8 +86,7 @@ suite('gr-context-control tests', () => {
 
   test('context control in the middle', async () => {
     element.contextGroups = createContextGroups({offset: 10, count: 20});
-    element.showAbove = true;
-    element.showBelow = true;
+    element.showConfig = 'both';
 
     await flush();
 
@@ -107,7 +106,7 @@ suite('gr-context-control tests', () => {
 
   test('context control at the bottom', async () => {
     element.contextGroups = createContextGroups({offset: 30, count: 20});
-    element.showAbove = true;
+    element.showConfig = 'above';
 
     await flush();
 
@@ -133,7 +132,7 @@ suite('gr-context-control tests', () => {
   test('context control with block expansion at the top', async () => {
     prepareForBlockExpansion([]);
     element.contextGroups = createContextGroups({offset: 0, count: 20});
-    element.showBelow = true;
+    element.showConfig = 'below';
 
     await flush();
 
@@ -162,8 +161,7 @@ suite('gr-context-control tests', () => {
   test('context control with block expansion in the middle', async () => {
     prepareForBlockExpansion([]);
     element.contextGroups = createContextGroups({offset: 10, count: 20});
-    element.showAbove = true;
-    element.showBelow = true;
+    element.showConfig = 'both';
 
     await flush();
 
@@ -200,7 +198,7 @@ suite('gr-context-control tests', () => {
   test('context control with block expansion at the bottom', async () => {
     prepareForBlockExpansion([]);
     element.contextGroups = createContextGroups({offset: 30, count: 20});
-    element.showAbove = true;
+    element.showConfig = 'above';
 
     await flush();
 
@@ -240,8 +238,7 @@ suite('gr-context-control tests', () => {
       },
     ]);
     element.contextGroups = createContextGroups({offset: 10, count: 20});
-    element.showAbove = true;
-    element.showBelow = true;
+    element.showConfig = 'both';
 
     await flush();
 
@@ -293,8 +290,7 @@ suite('gr-context-control tests', () => {
       },
     ]);
     element.contextGroups = createContextGroups({offset: 10, count: 20});
-    element.showAbove = true;
-    element.showBelow = true;
+    element.showConfig = 'both';
 
     await flush();
 
@@ -340,8 +336,7 @@ suite('gr-context-control tests', () => {
       },
     ]);
     element.contextGroups = createContextGroups({offset: 10, count: 20});
-    element.showAbove = true;
-    element.showBelow = true;
+    element.showConfig = 'both';
     await flush();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
@@ -359,8 +354,7 @@ suite('gr-context-control tests', () => {
     prepareForBlockExpansion([]);
 
     element.contextGroups = createContextGroups({offset: 10, count: 20});
-    element.showAbove = true;
-    element.showBelow = true;
+    element.showConfig = 'both';
     await flush();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(

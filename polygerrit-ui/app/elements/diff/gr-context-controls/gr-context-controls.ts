@@ -83,6 +83,8 @@ function findBlockTreePathForLine(
   return [containingBlock].concat(innerPathInChild);
 }
 
+export type GrContextControlsShowConfig = 'above' | 'below' | 'both';
+
 @customElement('gr-context-controls')
 export class GrContextControls extends LitElement {
   @property({type: Object}) renderPreferences?: RenderPreferences;
@@ -93,9 +95,8 @@ export class GrContextControls extends LitElement {
 
   @property({type: Object}) contextGroups: GrDiffGroup[] = [];
 
-  @property({type: Boolean}) showAbove = false;
-
-  @property({type: Boolean}) showBelow = false;
+  @property({type: String, reflect: true})
+  showConfig: GrContextControlsShowConfig = 'both';
 
   private expandButtonsHover = new Subject<{
     eventType: 'enter' | 'leave';
@@ -108,20 +109,45 @@ export class GrContextControls extends LitElement {
   static styles = css`
     :host {
       display: flex;
-      width: 100%;
-      height: 100%;
       justify-content: center;
-      position: absolute;
+      flex-direction: column;
+      position: relative;
     }
+
+    :host([showConfig='above']) {
+      justify-content: flex-end;
+      margin-top: calc(-1px - var(--line-height-normal) - var(--spacing-s));
+      margin-bottom: var(--gr-context-controls-margin-bottom);
+      height: calc(var(--line-height-normal) + var(--spacing-s));
+      .horizontalFlex {
+        align-items: end;
+      }
+    }
+
+    :host([showConfig='below']) {
+      justify-content: flex-start;
+      margin-top: 1px;
+      margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));
+      .horizontalFlex {
+        align-items: start;
+      }
+    }
+
+    :host([showConfig='both']) {
+      margin-top: calc(0px - var(--line-height-normal) - var(--spacing-s));
+      margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));
+      height: calc(
+        2 * var(--line-height-normal) + 2 * var(--spacing-s) +
+          var(--divider-height)
+      );
+      .horizontalFlex {
+        align-items: center;
+      }
+    }
+
     .contextControlButton {
       background-color: var(--default-button-background-color);
       font: var(--context-control-button-font, inherit);
-      /* All position is relative to container, so ignore sibling buttons. */
-      position: absolute;
-    }
-    .contextControlButton:first-child {
-      /* First button needs to claim width to display without text wrapping. */
-      position: relative;
     }
 
     paper-button {
@@ -143,14 +169,10 @@ export class GrContextControls extends LitElement {
       background: rgba(0, 0, 0, 0.12);
     }
 
-    .centeredButton {
-      /* Center over divider. */
-      top: 50%;
-      transform: translateY(-50%);
-    }
     .aboveBelowButtons {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       margin-left: var(--spacing-m);
       position: relative;
     }
@@ -158,20 +180,27 @@ export class GrContextControls extends LitElement {
       margin-left: 0;
     }
 
+    .horizontalFlex {
+      display: flex;
+      justify-content: center;
+      align-items: var(--gr-context-controls-horizontal-align-items, center);
+    }
+
     .aboveButton {
-      /* Display over preceding content / background placeholder. */
-      transform: translateY(-100%);
       border-bottom-width: 0;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       padding: var(--spacing-xxs) var(--spacing-l);
     }
     .belowButton {
-      top: calc(100% + var(--divider-border));
       border-top-width: 0;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
       padding: var(--spacing-xxs) var(--spacing-l);
+      margin-top: calc(var(--divider-height) + 2 * var(--spacing-xxs));
+    }
+    .belowButton:first-child {
+      margin-top: 0;
     }
     .breadcrumbTooltip {
       white-space: nowrap;
@@ -185,6 +214,18 @@ export class GrContextControls extends LitElement {
 
   disconnectedCallback() {
     this.disconnected$.next();
+  }
+
+  private showBoth() {
+    return this.showConfig === 'both';
+  }
+
+  private showAbove() {
+    return this.showBoth() || this.showConfig === 'above';
+  }
+
+  private showBelow() {
+    return this.showBoth() || this.showConfig === 'below';
   }
 
   setupButtonHoverHandler() {
@@ -237,12 +278,11 @@ export class GrContextControls extends LitElement {
     if (type === ContextButtonType.ALL) {
       text = `+${pluralize(linesToExpand, 'common line')}`;
       ariaLabel = `Show ${pluralize(linesToExpand, 'common line')}`;
-      classes +=
-        this.showAbove && this.showBelow
-          ? 'centeredButton'
-          : this.showAbove
-          ? 'aboveButton'
-          : 'belowButton';
+      classes += this.showBoth()
+        ? 'centeredButton'
+        : this.showAbove()
+        ? 'aboveButton'
+        : 'belowButton';
       if (this.partialContent) {
         // Expanding content would require load of more data
         text += ' (too large)';
@@ -360,13 +400,13 @@ export class GrContextControls extends LitElement {
     }
     let aboveButton;
     let belowButton;
-    if (this.showAbove) {
+    if (this.showAbove()) {
       aboveButton = this.createContextButton(
         ContextButtonType.ABOVE,
         PARTIAL_CONTEXT_AMOUNT
       );
     }
-    if (this.showBelow) {
+    if (this.showBelow()) {
       belowButton = this.createContextButton(
         ContextButtonType.BELOW,
         PARTIAL_CONTEXT_AMOUNT
@@ -399,14 +439,14 @@ export class GrContextControls extends LitElement {
     }
     let aboveBlockButton;
     let belowBlockButton;
-    if (this.showAbove) {
+    if (this.showAbove()) {
       aboveBlockButton = this.createBlockButton(
         ContextButtonType.BLOCK_ABOVE,
         this.numLines(),
         this.contextRange().rightStart - 1
       );
     }
-    if (this.showBelow) {
+    if (this.showBelow()) {
       belowBlockButton = this.createBlockButton(
         ContextButtonType.BLOCK_BELOW,
         this.numLines(),
@@ -491,9 +531,11 @@ export class GrContextControls extends LitElement {
       return html`<p>invalid properties</p>`;
     }
     return html`
-      ${this.createExpandAllButtonContainer()}
-      ${this.createPartialExpansionButtons()}
-      ${this.createBlockExpansionButtons()}
+      <div class="horizontalFlex">
+        ${this.createExpandAllButtonContainer()}
+        ${this.createPartialExpansionButtons()}
+        ${this.createBlockExpansionButtons()}
+      </div>
     `;
   }
 }

@@ -93,6 +93,12 @@ public abstract class PatchSet {
       return PatchSet.id(Change.id(changeId), patchSetId);
     }
 
+    /** Parse a PatchSet.Id from an edit ref. */
+    public static PatchSet.Id fromEditRef(String ref) {
+      Change.Id changeId = Change.Id.fromEditRefPart(ref);
+      return PatchSet.id(changeId, Ints.tryParse(ref.substring(ref.lastIndexOf('/') + 1)));
+    }
+
     static int fromRef(String ref, int changeIdEnd) {
       // Patch set ID.
       int ps = changeIdEnd + 1;

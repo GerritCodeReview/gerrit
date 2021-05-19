@@ -41,8 +41,8 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangePredicates;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.HasDraftByPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.CommentJson;
 import com.google.gerrit.server.restapi.change.CommentJson.HumanCommentFormatter;
@@ -147,7 +147,7 @@ public class DeleteDraftComments
 
   private Predicate<ChangeData> predicate(Account.Id accountId, DeleteDraftCommentsInput input)
       throws BadRequestException {
-    Predicate<ChangeData> hasDraft = new HasDraftByPredicate(accountId);
+    Predicate<ChangeData> hasDraft = ChangePredicates.draftBy(accountId);
     if (CharMatcher.whitespace().trimFrom(Strings.nullToEmpty(input.query)).isEmpty()) {
       return hasDraft;
     }

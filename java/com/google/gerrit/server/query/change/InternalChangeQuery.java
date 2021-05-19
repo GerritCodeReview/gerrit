@@ -99,7 +99,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     predicateFactory =
         (id) ->
             schema().useLegacyNumericFields()
-                ? new LegacyChangeIdPredicate(id)
+                ? ChangePredicates.id(id)
                 : new LegacyChangeIdStrPredicate(id);
   }
 

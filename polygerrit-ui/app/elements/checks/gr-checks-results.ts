@@ -52,6 +52,7 @@ import {
   fireActionTriggered,
   iconForCategory,
   iconForLink,
+  primaryRunAction,
   tooltipForLink,
 } from '../../services/checks/checks-util';
 import {assertIsDefined, check} from '../../utils/common-util';
@@ -102,23 +103,29 @@ class GrResultRow extends GrLitElement {
         }
         td.iconCol {
           padding-left: var(--spacing-l);
-          padding-right: var(--spacing-m);
         }
-        .iconCol div {
-          width: 20px;
+        td.nameCol div.flex {
+          display: flex;
         }
-        .nameCol div {
-          width: 165px;
+        td.nameCol .name {
           overflow: hidden;
           text-overflow: ellipsis;
+          margin-right: var(--spacing-s);
         }
-        .summaryCol {
-          /* Forces this column to get the remaining space that is left over by
-             the other columns. */
-          width: 99%;
+        td.nameCol .space {
+          flex-grow: 1;
         }
-        .expanderCol div {
-          width: 20px;
+        td.nameCol gr-checks-action {
+          display: none;
+        }
+        tr:hover td.nameCol gr-checks-action {
+          display: inline-block;
+          /* The button should fit into the 20px line-height. The negative
+             margin provides the extra space needed for the vertical padding.
+             Alternatively we could have set the vertical padding to 0, but
+             that would not have been a nice click target. */
+          margin: calc(0px - var(--spacing-s)) 0px;
+          margin-left: var(--spacing-s);
         }
         td {
           white-space: nowrap;
@@ -126,7 +133,6 @@ class GrResultRow extends GrLitElement {
         }
         td .summary-cell {
           display: flex;
-          max-width: calc(100vw - 630px);
         }
         td .summary-cell .summary {
           font-weight: var(--font-weight-bold);
@@ -250,10 +256,12 @@ class GrResultRow extends GrLitElement {
           <div>${this.renderIcon()}</div>
         </td>
         <td class="nameCol" @click="${this.toggleExpanded}">
-          <div>
-            <span>${this.result.checkName}</span>
-            <gr-checks-attempt .run="${this.result}"></gr-checks-attempt>
+          <div class="flex">
             <gr-hovercard-run .run="${this.result}"></gr-hovercard-run>
+            <div class="name">${this.result.checkName}</div>
+            <gr-checks-attempt .run="${this.result}"></gr-checks-attempt>
+            <div class="space"></div>
+            ${this.renderPrimaryRunAction()}
           </div>
         </td>
         <td class="summaryCol">
@@ -298,6 +306,13 @@ class GrResultRow extends GrLitElement {
     const actionCount = this.result?.actions?.length ?? 0;
     // The primary link is rendered somewhere else, so it does not count here.
     return linkCount > 1 || actionCount > 0;
+  }
+
+  private renderPrimaryRunAction() {
+    if (!this.result) return;
+    const action = primaryRunAction(this.result);
+    if (!action) return;
+    return html`<gr-checks-action .action="${action}"></gr-checks-action>`;
   }
 
   private renderExpanded() {
@@ -575,6 +590,7 @@ export class GrChecksResults extends GrLitElement {
         }
         .headerTopRow,
         .headerBottomRow {
+          max-width: 1600px;
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
@@ -679,7 +695,7 @@ export class GrChecksResults extends GrLitElement {
         }
         .noResultsMessage {
           width: 100%;
-          max-width: 1280px;
+          max-width: 1600px;
           margin-top: var(--spacing-m);
           background-color: var(--background-color-primary);
           box-shadow: var(--elevation-level-1);
@@ -688,7 +704,8 @@ export class GrChecksResults extends GrLitElement {
         }
         table.resultsTable {
           width: 100%;
-          max-width: 1280px;
+          max-width: 1600px;
+          table-layout: fixed;
           margin-top: var(--spacing-m);
           background-color: var(--background-color-primary);
           box-shadow: var(--elevation-level-1);
@@ -698,6 +715,19 @@ export class GrChecksResults extends GrLitElement {
           font-weight: var(--font-weight-bold);
           padding: var(--spacing-s);
         }
+        th.iconCol {
+          width: 40px;
+        }
+        th.nameCol {
+          width: 200px;
+        }
+        th.summaryCol {
+          width: 99%;
+        }
+        th.expanderCol {
+          width: 30px;
+        }
+
         gr-button.showAll {
           margin: var(--spacing-m);
         }

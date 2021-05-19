@@ -32,7 +32,6 @@ import {sharedStyles} from '../../styles/shared-styles';
 import {
   AttemptDetail,
   compareByWorstCategory,
-  fireActionTriggered,
   iconForCategory,
   iconForRun,
   primaryRunAction,
@@ -133,17 +132,16 @@ export class GrChecksRun extends GrLitElement {
         div.chip.selected iron-icon.filter {
           color: var(--selected-foreground);
         }
-        .chip.selected gr-button.action,
-        .chip.deselected gr-button.action {
+        .chip.selected gr-checks-action,
+        .chip.deselected gr-checks-action {
           display: none;
         }
-        gr-button.action {
-          --padding: var(--spacing-xs) var(--spacing-m);
+        gr-checks-action {
           /* The button should fit into the 20px line-height. The negative
              margin provides the extra space needed for the vertical padding.
              Alternatively we could have set the vertical padding to 0, but
              that would not have been a nice click target. */
-          margin: calc(0px - var(--spacing-xs));
+          margin: calc(0px - var(--spacing-s));
         }
         .attemptDetails {
           padding-bottom: var(--spacing-s);
@@ -232,12 +230,7 @@ export class GrChecksRun extends GrLitElement {
         </div>
         <div class="right">
           ${action
-            ? html`<gr-button
-                class="action"
-                link
-                @click="${(e: MouseEvent) => this.handleAction(e, action)}"
-                >${action.name}</gr-button
-              >`
+            ? html`<gr-checks-action .action="${action}"></gr-checks-action>`
             : ''}
         </div>
       </div>
@@ -305,12 +298,6 @@ export class GrChecksRun extends GrLitElement {
     e.stopPropagation();
     e.preventDefault();
     fireRunSelected(this, this.run.checkName);
-  }
-
-  private handleAction(e: MouseEvent, action: Action) {
-    e.stopPropagation();
-    e.preventDefault();
-    fireActionTriggered(this, action, this.run);
   }
 }
 

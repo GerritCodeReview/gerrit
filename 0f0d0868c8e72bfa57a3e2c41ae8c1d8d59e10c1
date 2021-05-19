@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "121864e8_8e5b32eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-19T17:50:16Z",
+      "side": 1,
+      "message": "I have submitted some improvement to this, hopefully it\u0027s a bit better.\nI tested this on safari 14.1 and Chrome 90.0.4430.212 and the comment selection is functioning.\n\nI am not a FE developer so there are still some rough edges (I apologise for that, I might actually need some help to see this change through).\n\nAt this stage, I guess an important step forward would be to agree, whether, at least in principle, this approach is worth pursing or not.\n\nThoughts anybody?",
+      "revId": "0f0d0868c8e72bfa57a3e2c41ae8c1d8d59e10c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

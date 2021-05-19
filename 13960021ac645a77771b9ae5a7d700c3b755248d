@@ -52,6 +52,24 @@
       "parentUuid": "092ae25e_999982d5",
       "revId": "13960021ac645a77771b9ae5a7d700c3b755248d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e8d146e_ceef10c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-19T09:46:18Z",
+      "side": 1,
+      "message": "Change-list doesn\u0027t work as well. If you open https://gerrit-review.googlesource.com/q/owner:milutin%2540google.com and hide change list with dev tools (or open very small height window) j/k stops working.",
+      "parentUuid": "ab4001ac_57a63bf6",
+      "revId": "13960021ac645a77771b9ae5a7d700c3b755248d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

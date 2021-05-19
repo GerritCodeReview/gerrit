@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17037fea_84a2e7ed",
+        "filename": "modules/jgit",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-19T15:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1da4dfbe_211e5c7b",
+      "revId": "1676349b5e8469a312ecbfa784ea51b00a9a0390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84f2f293_d949e554",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-05-12T09:07:52Z",
       "side": 1,
       "message": "accident?",
+      "revId": "1676349b5e8469a312ecbfa784ea51b00a9a0390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dca12497_21b3bf61",
+        "filename": "plugins/replication",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-19T15:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84f2f293_d949e554",
       "revId": "1676349b5e8469a312ecbfa784ea51b00a9a0390",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

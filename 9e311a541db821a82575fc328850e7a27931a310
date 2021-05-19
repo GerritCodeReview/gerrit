@@ -22,6 +22,30 @@
       },
       "revId": "9e311a541db821a82575fc328850e7a27931a310",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e820489a_d9044e59",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-19T12:51:59Z",
+      "side": 0,
+      "message": "Experimenting with extreme values I could not see any effect. The attribute is very old, I traced it back through many refactors but did not get to the ultimate origin change. I\u0027m not sure why we want the limit anyway. If there is evidence it\u0027s useful then I\u0027ll keep it, otherwise I will remove it.",
+      "parentUuid": "cef8a14d_f3714767",
+      "range": {
+        "startLine": 327,
+        "startChar": 16,
+        "endLine": 327,
+        "endChar": 31
+      },
+      "revId": "9e311a541db821a82575fc328850e7a27931a310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

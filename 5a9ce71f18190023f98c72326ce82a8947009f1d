@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f3863cf8_302fbf38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-19T12:51:59Z",
+      "side": 1,
+      "message": "Shrank to 18px like other icons, screenshot updated.",
+      "parentUuid": "8eee5a04_010bc932",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "5a9ce71f18190023f98c72326ce82a8947009f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3bb7dada_c8019a30",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5

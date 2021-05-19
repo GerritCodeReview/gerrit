@@ -22,6 +22,30 @@
       },
       "revId": "84951fb7fa9773c694f2b304857b0d372f190485",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7cea9f3_62851a20",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-19T12:51:59Z",
+      "side": 1,
+      "message": "Done. It\u0027s shorter but not actually a boolean, requiring !! or similar.",
+      "parentUuid": "d2d99577_e540fd2c",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 30
+      },
+      "revId": "84951fb7fa9773c694f2b304857b0d372f190485",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

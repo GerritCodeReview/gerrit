@@ -377,6 +377,8 @@ public class CreateChange
         // create an empty commit
         c = newCommit(oi, rw, author, committer, mergeTip, commitMessage);
       }
+      // Flush inserter so that commit becomes visible to validators
+      oi.flush();
 
       Change.Id changeId = Change.id(seq.nextChangeId());
       ChangeInserter ins = changeInserterFactory.create(changeId, c, input.branch);

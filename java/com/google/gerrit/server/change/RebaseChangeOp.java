@@ -240,6 +240,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
         patchSetInserter.setGroups(GroupCollector.getDefaultGroups(rebasedCommit));
       }
     }
+
+    ctx.getRevWalk().getObjectReader().getCreatedFromInserter().flush();
     patchSetInserter.updateRepo(ctx);
   }
 

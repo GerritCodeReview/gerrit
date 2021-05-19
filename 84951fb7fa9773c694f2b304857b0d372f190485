@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2d99577_e540fd2c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-status/gr-change-status.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-19T10:55:39Z",
+      "side": 1,
+      "message": "resolveWeblinks?.length maybe?",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 30
+      },
+      "revId": "84951fb7fa9773c694f2b304857b0d372f190485",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

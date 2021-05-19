@@ -105,11 +105,17 @@ export class GrRelatedChangesList extends GrLitElement {
           display: flex;
         }
         .marker {
-          position: absolute;
           margin-left: calc(-1 * var(--spacing-s));
+          margin-right: calc(1 * var(--spacing-s));
         }
-        .arrowToCurrentChange {
-          position: absolute;
+        .arrowToCurrentChange,
+        .marker,
+        .space {
+          float: left;
+          width: 1.2em;
+        }
+        .space {
+          height: 1px;
         }
       `,
     ];
@@ -486,7 +492,7 @@ export class GrRelatedChangesList extends GrLitElement {
         ><iron-icon icon="gr-icons:arrowDropDown"></iron-icon
       ></span> `;
     }
-    return nothing;
+    return html`<span class="space"></span>`;
   }
 
   reload(getRelatedChanges?: Promise<RelatedChangesInfo | undefined>) {
@@ -655,15 +661,8 @@ export class GrRelatedCollapse extends GrLitElement {
         gr-button {
           display: flex;
         }
-        /* This is a hacky solution from old gr-related-change-list
-         * TODO(milutin): find layout without needing it
-         */
-        h4:before,
-        gr-button:before,
-        ::slotted(gr-related-change):before {
-          content: ' ';
-          flex-shrink: 0;
-          width: 1.2em;
+        h4 {
+          margin-left: 1.2em;
         }
         .collapsed ::slotted(gr-related-change.show-when-collapsed) {
           visibility: visible;

@@ -61,6 +61,7 @@ import {waitForEventOnce} from '../../../utils/event-util';
 import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-layer';
+import {anyLineTooLong} from '../../diff/gr-diff/gr-diff-utils';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -245,15 +246,17 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   get _diff() {
     if (this.comments === undefined || this.path === undefined) return;
     if (!this.comments[0]?.context_lines?.length) return;
-    waitForEventOnce(this, 'render').then(() => {
-      this.syntaxLayer.process();
-    });
     const diff = computeDiffFromContext(
       this.comments[0].context_lines,
       this.path,
       this.comments[0].source_content_type
     );
-    this.syntaxLayer.init(diff);
+    if (!anyLineTooLong(diff)) {
+      this.syntaxLayer.init(diff);
+      waitForEventOnce(this, 'render').then(() => {
+        this.syntaxLayer.process();
+      });
+    }
     return diff;
   }
 

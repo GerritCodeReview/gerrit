@@ -18,6 +18,11 @@
 import {CommentRange} from '../../../types/common';
 import {FILE, LineNumber} from './gr-diff-line';
 import {Side} from '../../../constants/constants';
+import {DiffInfo} from '../../../types/diff';
+
+// If any line of the diff is more than the character limit, then disable
+// syntax highlighting for the entire file.
+export const SYNTAX_MAX_LINE_LENGTH = 500;
 
 /**
  * Compare two ranges. Either argument may be falsy, but will only return
@@ -129,4 +134,18 @@ export function isThreadEl(node: Node): node is GrDiffThreadElement {
     node.nodeType === Node.ELEMENT_NODE &&
     (node as Element).classList.contains('comment-thread')
   );
+}
+
+/**
+ * @return whether any of the lines in diff are longer
+ * than SYNTAX_MAX_LINE_LENGTH.
+ */
+export function anyLineTooLong(diff?: DiffInfo) {
+  if (!diff) return false;
+  return diff.content.some(section => {
+    const lines = section.ab
+      ? section.ab
+      : (section.a || []).concat(section.b || []);
+    return lines.some(line => line.length >= SYNTAX_MAX_LINE_LENGTH);
+  });
 }

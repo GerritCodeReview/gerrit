@@ -50,6 +50,7 @@ import {
 import {
   allResults,
   fireActionTriggered,
+  hasCompletedWithoutResults,
   iconForCategory,
   iconForLink,
   primaryRunAction,
@@ -1069,8 +1070,7 @@ export class GrChecksResults extends GrLitElement {
   }
 
   computeRunResults(category: Category, run: CheckRun) {
-    const noResults = (run.results ?? []).length === 0;
-    if (noResults && category === Category.SUCCESS) {
+    if (category === Category.SUCCESS && hasCompletedWithoutResults(run)) {
       return [this.computeSuccessfulRunResult(run)];
     }
     return (

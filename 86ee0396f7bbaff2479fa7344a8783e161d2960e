@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c76fe4b_1c3a57c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-19T17:43:00Z",
+      "side": 1,
+      "message": "I actually thought it did 😊\nI just wanted this change to help assessing the feasibility of this approach.\n\nFixing the styling and making the content readonly is orthogonal to the way selection-related events are handled, which I think is the core of this change and what should really be assessed in deciding whether to continue further with this or stopping here.\n\nDo you believe the approach is valid?",
+      "parentUuid": "c3e58242_c4e8bd81",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "232ce94f_cea45d16",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-19T11:17:52Z",
       "side": 1,
       "message": "This would be optional. right now, the shadow-selection-polyfill also doesn\u0027t provide types, see my feature request: [1].\n\n[1] https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 15
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21d9ed62_88074cac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-19T17:43:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "232ce94f_cea45d16",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -121,6 +169,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06ead122_32c7c28c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/ContentEditableSelection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-19T17:43:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ef87aaad_7593517a",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4134df9b_85d2656d",
@@ -134,6 +206,30 @@
       "writtenOn": "2021-05-19T11:17:52Z",
       "side": 1,
       "message": "Why this is needed? Shouldn\u0027t FF support getSelection()?",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeffe35e_6090f3a1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/ContentEditableSelection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-19T17:43:00Z",
+      "side": 1,
+      "message": "Yes, this was only used in a negative form !IS_FIREFOX.\nThese event handlers should only be registered for safari, so I think the safest condition is to include it in a isSafari() check.\n\nLet me do that.",
+      "parentUuid": "4134df9b_85d2656d",
       "range": {
         "startLine": 21,
         "startChar": 6,
@@ -161,6 +257,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23e7323a_b50a72b1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/ContentEditableSelection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-19T17:43:00Z",
+      "side": 1,
+      "message": "It was simply the porting of the proposed solution[1].\nWe do not need a range, so I will simplify this.\n\n\n[1]https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/11",
+      "parentUuid": "7bd6dddd_09506424",
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5bcf8a17_ec108be7",
@@ -174,6 +288,24 @@
       "writtenOn": "2021-05-19T12:23:20Z",
       "side": 1,
       "message": "There is a `findActiveElement` util function for that.",
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec04bdde_60012761",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/ContentEditableSelection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-19T17:43:00Z",
+      "side": 1,
+      "message": "oh, thank you! let me use it 😊",
+      "parentUuid": "5bcf8a17_ec108be7",
       "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -218,6 +350,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3be167ae_3cb0cdf7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-19T17:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c6676a_83bd4fb0",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 65
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efda27c8_e65bb39e",
@@ -248,6 +404,30 @@
       "writtenOn": "2021-05-19T12:23:20Z",
       "side": 1,
       "message": "import {getRange}\n\nshould be sufficient",
+      "range": {
+        "startLine": 71,
+        "startChar": 1,
+        "endLine": 71,
+        "endChar": 8
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c3dedd2_5b34e171",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-19T17:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a40bd030_250644d2",
       "range": {
         "startLine": 71,
         "startChar": 1,
@@ -312,6 +492,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "5aa6085e_1883e719",
+      "range": {
+        "startLine": 676,
+        "startChar": 12,
+        "endLine": 676,
+        "endChar": 34
+      },
+      "revId": "86ee0396f7bbaff2479fa7344a8783e161d2960e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "934ec55f_6db04afd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-19T17:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eeb5f49c_fb0f42d6",
       "range": {
         "startLine": 676,
         "startChar": 12,

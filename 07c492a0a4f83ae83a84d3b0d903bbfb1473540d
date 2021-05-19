@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1981ebf_452a40af",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-19T12:10:57Z",
+      "side": 0,
+      "message": "This was the last usage of deletedBy parameter and thus it should be removed.",
+      "range": {
+        "startLine": 321,
+        "startChar": 46,
+        "endLine": 321,
+        "endChar": 66
+      },
+      "revId": "07c492a0a4f83ae83a84d3b0d903bbfb1473540d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

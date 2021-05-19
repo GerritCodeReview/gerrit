@@ -16,6 +16,24 @@
       "message": "I find `float` a bit obscure (especially with the height:1px trick) and would prefer to just wrap the \u003cspan\u003e and the \u003cgr-related-change\u003e elements in a \u003cdiv\u003e with display:flex, but this is just my taste, so optional. :-)",
       "revId": "9f4682ece7787536ebcab4462ba1407d852b55d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74ae7a68_3c5bb85f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-19T13:52:47Z",
+      "side": 1,
+      "message": "I was thinking about it, but I found this change enough for fixing issue and with smaller code change. But it\u0027s in back of my head and if there will be opportunity to change structure I will change this as well.",
+      "parentUuid": "7b9e72cb_b4d067e1",
+      "revId": "9f4682ece7787536ebcab4462ba1407d852b55d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

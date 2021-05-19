@@ -83,6 +83,7 @@ export const htmlTemplate = html`
       selected-index="{{_selectedChangeIndex}}"
       sections="[[_results]]"
       on-toggle-star="_handleToggleStar"
+      observer-target="[[_computeObserverTarget()]]"
     >
       <div id="emptyOutgoing" slot="empty-outgoing">
         <template is="dom-if" if="[[_showNewUserHelp]]">

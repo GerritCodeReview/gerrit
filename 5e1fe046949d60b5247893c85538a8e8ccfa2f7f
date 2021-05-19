@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d9ebfa1_8225ab8f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-19T12:52:15Z",
+      "side": 1,
+      "message": "This doesn\u0027t work because we have acceptance tests that assert that some logic (e.g. diff caches, diff computation) is only called a certain amount of times.\n\nIf we use a fresh ChangeData instead of a ChangeData reconstructed from index fields these tests would break and it would also mean the fake index behaves differently compared to real indices (who do not call #notes)",
+      "parentUuid": "6da82ce4_2ad587a1",
+      "range": {
+        "startLine": 1067,
+        "startChar": 47,
+        "endLine": 1067,
+        "endChar": 52
+      },
+      "revId": "5e1fe046949d60b5247893c85538a8e8ccfa2f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d47a35b8_20b7b6a4",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1

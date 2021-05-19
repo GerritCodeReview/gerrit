@@ -33,6 +33,24 @@
       "message": "nit:  long line",
       "revId": "d189df9dcd262d9b6a42766a72a29fc6f05f11ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40da6592_0a3c6d84",
+        "filename": "java/com/google/gerrit/acceptance/GitObjectVisibilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-19T08:27:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472c1d6a_35fc1a65",
+      "revId": "d189df9dcd262d9b6a42766a72a29fc6f05f11ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

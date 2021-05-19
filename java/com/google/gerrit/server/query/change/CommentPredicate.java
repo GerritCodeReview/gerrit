@@ -37,7 +37,7 @@ public class CommentPredicate extends ChangeIndexPredicate {
       Predicate<ChangeData> p =
           Predicate.and(
               index.getSchema().useLegacyNumericFields()
-                  ? new LegacyChangeIdPredicate(id)
+                  ? ChangePredicates.id(id)
                   : new LegacyChangeIdStrPredicate(id),
               this);
       for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {

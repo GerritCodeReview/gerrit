@@ -19,6 +19,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -211,5 +212,29 @@ public class ChangePredicates {
   public static Predicate<ChangeData> exactCommitter(String exactCommitter) {
     return new ChangeIndexPredicate(
         ChangeField.EXACT_COMMITTER, exactCommitter.toLowerCase(Locale.US));
+  }
+
+  /** Returns a predicate that matches changes whose ID starts withthe provided {@code id}. */
+  public static Predicate<ChangeData> id(String id) {
+    return new ChangeIndexPredicate(ChangeField.ID, id);
+  }
+
+  /**
+   * Returns a predicate that matches changes in a project that has the provided {@code prefix} in
+   * it's name.
+   */
+  public static Predicate<ChangeData> projectPrefix(String prefix) {
+    return new ChangeIndexPredicate(ChangeField.PROJECTS, prefix);
+  }
+
+  /**
+   * Returns a predicate that matches changes where a patch set has the provided {@code commitId}
+   * either as prefix or as full {@link org.eclipse.jgit.lib.ObjectId}.
+   */
+  public static Predicate<ChangeData> commit(String commitId) {
+    if (commitId.length() == ObjectIds.STR_LEN) {
+      return new ChangeIndexPredicate(ChangeField.EXACT_COMMIT, commitId);
+    }
+    return new ChangeIndexPredicate(ChangeField.COMMIT, commitId);
   }
 }

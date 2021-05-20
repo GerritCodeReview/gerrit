@@ -65,7 +65,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   private static Predicate<ChangeData> change(Change.Key key) {
-    return new ChangeIdPredicate(key.get());
+    return ChangePredicates.id(key.get());
   }
 
   private static Predicate<ChangeData> project(Project.NameKey project) {
@@ -77,7 +77,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   private static Predicate<ChangeData> commit(String id) {
-    return new CommitPredicate(id);
+    return ChangePredicates.commit(id);
   }
 
   private final ChangeData.Factory changeDataFactory;
@@ -108,7 +108,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   public List<ChangeData> byKeyPrefix(String prefix) {
-    return query(new ChangeIdPredicate(prefix));
+    return query(ChangePredicates.id(prefix));
   }
 
   public List<ChangeData> byLegacyChangeId(Change.Id id) {

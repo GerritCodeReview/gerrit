@@ -14,18 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.primitives.Ints;
-import com.google.common.primitives.Longs;
 import com.google.gerrit.index.FieldDef;
-import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.query.IndexPredicate;
-import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
-import java.util.Objects;
 
 /** Predicate that is mapped to a field in the change index. */
-public class ChangeIndexPredicate extends IndexPredicate<ChangeData>
-    implements Matchable<ChangeData> {
+public class ChangeIndexPredicate extends IndexPredicate<ChangeData> {
   /**
    * Returns an index predicate that matches no changes in the index.
    *
@@ -44,51 +38,5 @@ public class ChangeIndexPredicate extends IndexPredicate<ChangeData>
 
   protected ChangeIndexPredicate(FieldDef<ChangeData, ?> def, String name, String value) {
     super(def, name, value);
-  }
-
-  /**
-   * This method matches documents without calling an index subsystem. For primitive fields (e.g.
-   * integer, long) , the matching logic is consistent across this method and all known index
-   * implementations. For text fields (i.e. prefix and full-text) the semantics vary between this
-   * implementation and known index implementations:
-   * <li>Prefix: Lucene as well as {@link #match(ChangeData)} matches terms as true prefixes
-   *     (prefix:foo -> `foo bar` matches, but `baz foo bar` does not match). The index
-   *     implementation at Google tokenizes both the query and the indexed text and matches tokens
-   *     individually (prefix:fo ba -> `baz foo bar` matches).
-   *
-   * @return true if the predicate matches the provided {@link ChangeData}.
-   */
-  @Override
-  public boolean match(ChangeData cd) {
-    if (getField().isRepeatable()) {
-      Iterable<Object> values = (Iterable<Object>) getField().get(cd);
-      for (Object v : values) {
-        if (matchesSingleObject(v)) {
-          return true;
-        }
-      }
-      return false;
-    } else {
-      return matchesSingleObject(getField().get(cd));
-    }
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
-
-  private boolean matchesSingleObject(Object fieldValueFromObject) {
-    String fieldTypeName = getField().getType().getName();
-    if (fieldTypeName.equals(FieldType.INTEGER.getName())) {
-      return Objects.equals(fieldValueFromObject, Ints.tryParse(value));
-    } else if (fieldTypeName.equals(FieldType.EXACT.getName())) {
-      return Objects.equals(fieldValueFromObject, value);
-    } else if (fieldTypeName.equals(FieldType.LONG.getName())) {
-      return Objects.equals(fieldValueFromObject, Longs.tryParse(value));
-    } else if (fieldTypeName.equals(FieldType.PREFIX.getName())) {
-      return String.valueOf(fieldValueFromObject).startsWith(value);
-    }
-    throw new UnsupportedOperationException("match function must be provided in subclass");
   }
 }

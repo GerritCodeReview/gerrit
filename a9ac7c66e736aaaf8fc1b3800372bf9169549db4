@@ -70,6 +70,30 @@
       },
       "revId": "a9ac7c66e736aaaf8fc1b3800372bf9169549db4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d538934_0f05d48e",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2021-05-20T10:10:18Z",
+      "side": 1,
+      "message": "It is done? The remaining parenthesis is necessary to avoid an errorprone error.\n\n error: [OperatorPrecedence] Use grouping parenthesis to make the operator precedence explicit",
+      "parentUuid": "df0bb693_ec75aa98",
+      "range": {
+        "startLine": 274,
+        "startChar": 16,
+        "endLine": 274,
+        "endChar": 58
+      },
+      "revId": "a9ac7c66e736aaaf8fc1b3800372bf9169549db4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

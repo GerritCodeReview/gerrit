@@ -31,6 +31,7 @@ public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
 
   protected abstract Integer getValueInt(T object);
 
+  @Override
   public boolean match(T object) {
     Integer valueInt = getValueInt(object);
     if (valueInt == null) {

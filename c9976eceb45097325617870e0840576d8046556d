@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa599748_a3edac47",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/token-highlight-layer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-20T09:38:50Z",
+      "side": 1,
+      "message": "I find 200 ms too much for *un*highlighting.\n\nMaybe we can do something like this?\n\n  newHighlight \u003d\u003d\u003d undefined ? 30 : 200",
+      "revId": "c9976eceb45097325617870e0840576d8046556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

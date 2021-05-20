@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3118ac9_1dd953b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-20T07:00:54Z",
+      "side": 1,
+      "message": "Thanks for the review!\n\nNasser, Martin, Youssef: We (Edwin, Ben and me) thought about this some more and came up with another idea that I\u0027d like your feedback on:\n\nInstead of the many boolean configs that we have for copying approvals in core today and a plugin endpoint where in the end all of these get OR\u0027d together we thought it makes more sense to just create Predicates\u003cPatchSetAppoval\u003e and allow users to write a simple change-query-style query string.\n\nFor example:\n\n[label \"Code-Review\"]\n  copyIf \u003d (change-kind:REWORK OR change-kind:TRIVIAL_REBASE) AND approver-email:.*@foocorp.com\n...\n\n[label \"Code-Review\"]\n  copyIf \u003d change-kind:TRIVIAL_REBASE OR score:MIN\n...\n\n// Pseudo code\nclass ChangeKindPredicate extends Predicate\u003cPatchSetApproval\u003e {\n  ChangeKindPredicate(ChangeKind kind){...}\n\n  match(PatchSetApproval psa) {\n    return changeKindCache.load(psa.change(), psa.patchSet()) \u003d\u003d kind;\n  }\n}\n\nIn this world, we can also allow plugins to contribute Predicates (like we do for change queries) and we\u0027d become even more flexible because all results aren\u0027t OR\u0027d together.\n\nI think this would allow us to also communicate better to the users in the UI why some approvals where copied but others were not.",
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d3c2943_fc2e4b6d",

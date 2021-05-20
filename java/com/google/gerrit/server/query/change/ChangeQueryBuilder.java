@@ -546,7 +546,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> comment(String value) {
-    return new CommentPredicate(args.index, value);
+    return ChangePredicates.comment(value);
   }
 
   @Operator
@@ -807,7 +807,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throw new QueryParseException(
           "'inhashtag' operator is not supported by change index version");
     }
-    return new FuzzyHashtagPredicate(hashtag, args.index);
+    return ChangePredicates.fuzzyHashtag(hashtag);
   }
 
   @Operator
@@ -823,7 +823,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (name.isEmpty()) {
       return ChangePredicates.exactTopic(name);
     }
-    return new FuzzyTopicPredicate(name, args.index);
+    return ChangePredicates.fuzzyTopic(name);
   }
 
   @Operator
@@ -998,7 +998,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> message(String text) {
-    return new MessagePredicate(args.index, text);
+    return ChangePredicates.message(text);
   }
 
   @Operator
@@ -1390,18 +1390,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> author(String who) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXACT_AUTHOR)) {
       return getAuthorOrCommitterPredicate(
-          who.trim(), ChangePredicates::exactAuthor, AuthorPredicate::new);
+          who.trim(), ChangePredicates::exactAuthor, ChangePredicates::author);
     }
-    return getAuthorOrCommitterFullTextPredicate(who.trim(), AuthorPredicate::new);
+    return getAuthorOrCommitterFullTextPredicate(who.trim(), ChangePredicates::author);
   }
 
   @Operator
   public Predicate<ChangeData> committer(String who) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXACT_COMMITTER)) {
       return getAuthorOrCommitterPredicate(
-          who.trim(), ChangePredicates::exactCommitter, CommitterPredicate::new);
+          who.trim(), ChangePredicates::exactCommitter, ChangePredicates::committer);
     }
-    return getAuthorOrCommitterFullTextPredicate(who.trim(), CommitterPredicate::new);
+    return getAuthorOrCommitterFullTextPredicate(who.trim(), ChangePredicates::committer);
   }
 
   @Operator

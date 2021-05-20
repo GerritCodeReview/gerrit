@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.query.group;
 
-import static org.junit.Assume.assumeTrue;
 
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.testing.ConfigSuite;
@@ -47,13 +46,5 @@ public class FakeQueryGroupsTest extends AbstractQueryGroupsTest {
     InMemoryModule.setDefaults(fakeConfig);
     fakeConfig.setString("index", null, "type", "fake");
     return Guice.createInjector(new InMemoryModule(fakeConfig));
-  }
-
-  @Override
-  protected void validateAssumptions() {
-    // TODO(hiesel): Group predicates are not matchable, so we need to skip all tests here.
-    // We are doing this to document existing behavior. We want to remove this assume statement and
-    // make group predicates matchable.
-    assumeTrue(GroupPredicates.inname("test").isMatchable());
   }
 }

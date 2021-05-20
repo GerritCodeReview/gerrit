@@ -21,7 +21,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
-import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.server.account.AccountState;
@@ -132,29 +131,13 @@ public class AccountPredicates {
   }
 
   /** Predicate that is mapped to a field in the account index. */
-  static class AccountPredicate extends IndexPredicate<AccountState>
-      implements Matchable<AccountState> {
+  static class AccountPredicate extends IndexPredicate<AccountState> {
     AccountPredicate(FieldDef<AccountState, ?> def, String value) {
       super(def, value);
     }
 
     AccountPredicate(FieldDef<AccountState, ?> def, String name, String value) {
       super(def, name, value);
-    }
-
-    @Override
-    public boolean match(AccountState object) {
-      // TODO(hiesel): Remove this. This was just added so that we have a minimal working
-      // implementation.
-      if ("EXACT".equals(getField().getType().getName())) {
-        getValue().equals(getField().get(object));
-      }
-      return true;
-    }
-
-    @Override
-    public int getCost() {
-      return 1;
     }
   }
 

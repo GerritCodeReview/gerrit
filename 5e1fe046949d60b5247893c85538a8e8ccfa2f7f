@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ef85f07_462d6408",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-20T05:22:04Z",
+      "side": 1,
+      "message": "I believe this issue is due to the #notes being null and introduced in below change. This bug is part of the codebase since stable-2.14\n\nI622dbbb334b5a Store in index the state of all refs that contribute to a change",
+      "revId": "5e1fe046949d60b5247893c85538a8e8ccfa2f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6600426_060a0cb8",

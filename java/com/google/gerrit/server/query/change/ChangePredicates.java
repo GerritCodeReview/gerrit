@@ -146,6 +146,11 @@ public class ChangePredicates {
     return new ChangeIndexPredicate(ChangeField.EXACT_TOPIC, topic);
   }
 
+  /** Returns a predicate that matches changes in the provided {@code topic}. */
+  public static Predicate<ChangeData> fuzzyTopic(String topic) {
+    return new ChangeIndexPredicate(ChangeField.FUZZY_TOPIC, topic);
+  }
+
   /** Returns a predicate that matches changes submitted in the provided {@code changeSet}. */
   public static Predicate<ChangeData> submissionId(String changeSet) {
     return new ChangeIndexPredicate(ChangeField.SUBMISSIONID, changeSet);
@@ -161,6 +166,13 @@ public class ChangePredicates {
     // Use toLowerCase without locale to match behavior in ChangeField.
     return new ChangeIndexPredicate(
         ChangeField.HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
+  }
+
+  /** Returns a predicate that matches changes tagged with the provided {@code hashtag}. */
+  public static Predicate<ChangeData> fuzzyHashtag(String hashtag) {
+    // Use toLowerCase without locale to match behavior in ChangeField.
+    return new ChangeIndexPredicate(
+        ChangeField.FUZZY_HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase());
   }
 
   /** Returns a predicate that matches changes that modified the provided {@code file}. */
@@ -205,6 +217,11 @@ public class ChangePredicates {
     return new ChangeIndexPredicate(ChangeField.EXACT_AUTHOR, exactAuthor.toLowerCase(Locale.US));
   }
 
+  /** Returns a predicate that matches changes authored by the provided {@code author}. */
+  public static Predicate<ChangeData> author(String author) {
+    return new ChangeIndexPredicate(ChangeField.AUTHOR, author);
+  }
+
   /**
    * Returns a predicate that matches changes where the patch set was committed by {@code
    * exactCommitter}.
@@ -212,6 +229,13 @@ public class ChangePredicates {
   public static Predicate<ChangeData> exactCommitter(String exactCommitter) {
     return new ChangeIndexPredicate(
         ChangeField.EXACT_COMMITTER, exactCommitter.toLowerCase(Locale.US));
+  }
+
+  /**
+   * Returns a predicate that matches changes where the patch set was committed by {@code comitter}.
+   */
+  public static Predicate<ChangeData> committer(String comitter) {
+    return new ChangeIndexPredicate(ChangeField.COMMITTER, comitter.toLowerCase(Locale.US));
   }
 
   /** Returns a predicate that matches changes whose ID starts withthe provided {@code id}. */
@@ -236,5 +260,21 @@ public class ChangePredicates {
       return new ChangeIndexPredicate(ChangeField.EXACT_COMMIT, commitId);
     }
     return new ChangeIndexPredicate(ChangeField.COMMIT, commitId);
+  }
+
+  /**
+   * Returns a predicate that matches changes where the provided {@code message} appears in the
+   * commit message. Uses full-text search semantics.
+   */
+  public static Predicate<ChangeData> message(String message) {
+    return new ChangeIndexPredicate(ChangeField.COMMIT_MESSAGE, message);
+  }
+
+  /**
+   * Returns a predicate that matches changes where the provided {@code comment} appears in any
+   * comment on any patch set of the change. Uses full-text search semantics.
+   */
+  public static Predicate<ChangeData> comment(String comment) {
+    return new ChangeIndexPredicate(ChangeField.COMMENT, comment);
   }
 }

@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c9a04db0_fa490d8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-20T10:58:19Z",
+      "side": 1,
+      "message": "My opinion is that the reasoning in the commit message is poor.\nWith that reasoning Project Owners should be allowed to do everything regardless of what is configured.\nIt is more likely that you, as a project owner, only want the permissions you have given yourself to avoid doing things, like deleting branches, by mistake.\n\n\u003e If you want to prevent project owners to remove branches, disallow it on parent project. Done.\nThat\u0027s not really a solution, then Project Owners would need to ask the Owners of the parent project if they want to actually delete a branch on purpose!\nThis is not a change to uphold some company policy, this was brought to our attention by actual project owners who deleted a branch by accident from the UI.\nProject Owners should be able to configure their own permissions, why should Gerrit be opinionated about who should be able to delete branches? This goes against every other rule in the ACL (except for maybe admin permissions but that\u0027s a different story IMO).\n\nIf Project Owners want to prevent themselves from deleting branches by mistake, why shouldn\u0027t Gerrit let them?",
+      "parentUuid": "dd52e98b_1dddce9b",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "e5165ecdeb6ef8f37b58d28ffa425412a9153a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "514dcf26_664172c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

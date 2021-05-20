@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21c9cea7_c9d9edb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-20T14:23:33Z",
+      "side": 1,
+      "message": "\u003e I see your point. But this would be a breaking change and should be documented in Breaking Changes section in release notes, in homepage repository.\n\nAgreed, this is my opinion also.\n\n\u003e Also the new workflow would only work if project owner would remember to remove again the ACL after branch deletion was done. Should this workflow/idiom be explicitly documented/suggested: to only grant permission for a single operation and revoke it, like say for force push?\n\nI don\u0027t know that it needs to be documented since there\u0027s no extra workflow needed.\n \n\u003e Let\u0027s say, I\u0027m a change owner and would like to remove a branch after this change is submitted and released: I cannot delete a branch any more. I read breaking changes and understand, that starting from this release I need to explicitly add \"Delete Reference\" permission. Now, I grant me this permission, myself, without asking anyone to grant it for me. After removal of this branch I forgot to revoke this permission. Second time I remove branch by mistake, without gerrit prohibiting me to do it. So that I could screw it up even with this change. So, it\u0027s comparable with the current state of affairs.\n\nI don\u0027t know were you\u0027re going with this line of reasoning. As you said: when this change is merged project owners would need to actively give themselves the permission to screw things up as-opposed-to the current state were they have the permission to screw things up by default, which is sort-of the point I\u0027m trying to make as a proponent of this change.\n\nIf an individual Gerrit admin feels that it\u0027s imperative for the project owners of their instance to be able to delete all branches at all times (as before) they can allow delete \"refs/heads/.*\" for \"Project Owners\" in All-Projects. This can be added as a suggestion to the \"breaking change\" notice in the release notes.",
+      "parentUuid": "61a53c69_16090039",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "e5165ecdeb6ef8f37b58d28ffa425412a9153a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "514dcf26_664172c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

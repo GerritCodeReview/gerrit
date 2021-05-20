@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.primitives.Ints;
+import com.google.common.primitives.Longs;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.query.IndexPredicate;
@@ -71,6 +72,8 @@ public class ChangeIndexPredicate extends IndexPredicate<ChangeData>
       return Objects.equals(fieldValueFromObject, Ints.tryParse(value));
     } else if (fieldTypeName.equals(FieldType.EXACT.getName())) {
       return Objects.equals(fieldValueFromObject, value);
+    } else if (fieldTypeName.equals(FieldType.LONG.getName())) {
+      return Objects.equals(fieldValueFromObject, Longs.tryParse(value));
     }
     throw new UnsupportedOperationException("match function must be provided in subclass");
   }

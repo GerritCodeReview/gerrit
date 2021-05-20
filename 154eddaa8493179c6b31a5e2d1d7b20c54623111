@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0515f1fc_df459859",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-20T17:27:26Z",
+      "side": 1,
+      "message": "\u003e Nasser, Martin, Youssef: We (Edwin, Ben and me) thought about this some more and came up with another idea that I\u0027d like your feedback on:\n\nThanks for sharing this!\n\n\u003e \n\u003e Instead of the many boolean configs that we have for copying approvals in core today and a plugin endpoint where in the end all of these get OR\u0027d together we thought it makes more sense to just create Predicates\u003cPatchSetAppoval\u003e and allow users to write a simple change-query-style query string.\n\nI talked this over with Martin some and we really like the idea! It\u0027s very hard to anticipate all the different rules combinations users would like, so allowing a query string syntax would be ideal.\n\nTwo high level thoughts:\n\n1) We\u0027re not sure predicates based only on PatchSetApprovals will be sufficient. What if users want to use any of the existing ChangeData predicates?\n2) We need to add approval copying on cherrypicks to be able to get off our fork. Worst case we can do that in a plugin, but if this extension/rules-syntax leaves room for us to add the feature in core, that would be ideal.\n\n\u003e In this world, we can also allow plugins to contribute Predicates (like we do for change queries) and we\u0027d become even more flexible because all results aren\u0027t OR\u0027d together.\n\n+1\n\n\u003e \n\u003e I think this would allow us to also communicate better to the users in the UI why some approvals where copied but others were not.\n\nThat would be great! We have a feature like that for our fork cherrypick approval copying.",
+      "parentUuid": "c3118ac9_1dd953b3",
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d3c2943_fc2e4b6d",

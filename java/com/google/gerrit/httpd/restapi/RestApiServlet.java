@@ -456,6 +456,7 @@ public class RestApiServlet extends HttpServlet {
               }
             }
             if (viewData.view == null) {
+              // path has 2 elems: submit_requirements, code-review
               viewData = view(rc, req.getMethod(), path);
             }
           }
@@ -526,6 +527,7 @@ public class RestApiServlet extends HttpServlet {
               }
             }
             if (viewData.view == null) {
+              // here path has zero elements
               viewData = view(c, req.getMethod(), path);
             }
             checkRequiresCapability(viewData);

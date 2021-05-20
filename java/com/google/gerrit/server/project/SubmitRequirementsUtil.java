@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.metrics.Counter2;
@@ -177,6 +178,27 @@ public class SubmitRequirementsUtil {
     }
 
     return ImmutableMap.copyOf(result);
+  }
+
+  /** Validates the name of submit requirements. */
+  public static void validateName(@Nullable String name) throws IllegalArgumentException {
+    if (name == null || name.isEmpty()) {
+      throw new IllegalArgumentException("Empty submit requirement name");
+    }
+    for (int i = 0; i < name.length(); i++) {
+      char c = name.charAt(i);
+      if ((i == 0 && c == '-')
+          || !((c >= 'a' && c <= 'z')
+              || (c >= 'A' && c <= 'Z')
+              || (c >= '0' && c <= '9')
+              || c == '-')) {
+        throw new IllegalArgumentException(
+            String.format(
+                "Illegal submit requirement name \"%s\". Name can only consist of "
+                    + "alphanumeric characters and -",
+                name));
+      }
+    }
   }
 
   private static boolean shouldReportMetric(ChangeData cd) {

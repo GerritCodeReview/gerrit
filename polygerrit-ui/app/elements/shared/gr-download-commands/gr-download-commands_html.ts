@@ -64,11 +64,12 @@ export const htmlTemplate = html`
     </paper-tabs>
   </div>
   <div class="commands" hidden$="[[!schemes.length]]" hidden="">
-    <template is="dom-repeat" items="[[commands]]" as="command">
+    <template is="dom-repeat" items="[[commands]]" as="command" indexAs="index">
       <gr-shell-command
         class$="[[_computeClass(command.title)]]"
         label="[[command.title]]"
         command="[[command.command]]"
+        tooltip="[[_computeTooltip(showKeyboardShortcutTooltips, index)]]"
       ></gr-shell-command>
     </template>
   </div>

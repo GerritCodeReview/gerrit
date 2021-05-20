@@ -59,6 +59,9 @@ export class GrDownloadCommands extends PolymerElement {
   @property({type: String, notify: true})
   selectedScheme?: string;
 
+  @property({type: Boolean})
+  showKeyboardShortcutTooltips = false;
+
   private readonly restApiService = appContext.restApiService;
 
   /** @override */
@@ -109,6 +112,10 @@ export class GrDownloadCommands extends PolymerElement {
 
   _computeShowTabs(schemes: string[]) {
     return schemes.length > 1 ? '' : 'hidden';
+  }
+
+  _computeTooltip(showKeyboardShortcutTooltips: boolean, index: number) {
+    return (index <= 4 && showKeyboardShortcutTooltips) ? `Keyboard shortcut: ${index + 1}` : '';
   }
 
   // TODO: maybe unify with strToClassName from dom-util

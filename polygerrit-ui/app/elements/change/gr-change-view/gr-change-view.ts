@@ -555,6 +555,15 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     };
   }
 
+  get keyBindings() {
+    return {
+      1: '_handleNumberKey',
+      2: '_handleNumberKey',
+      3: '_handleNumberKey',
+      4: '_handleNumberKey',
+    };
+  }
+
   disconnected$ = new Subject();
 
   private replyRefitTask?: DelayedTask;
@@ -562,6 +571,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   private scrollTask?: DelayedTask;
 
   private lastStarredTimestamp?: number;
+
+  _handleNumberKey(e: CustomEvent) {
+    const key = Number(e.detail.key);
+    if (key < 1 || key > 5) return;
+  }
 
   /** @override */
   ready() {

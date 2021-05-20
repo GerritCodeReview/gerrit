@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69cc1ca8_95c5358c",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-20T10:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9bb5af3_102a810e",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 3
+      },
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9c56cd4_320a34ba",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-19T12:50:01Z",
       "side": 1,
       "message": "childPredicateResults?",
+      "range": {
+        "startLine": 74,
+        "startChar": 44,
+        "endLine": 74,
+        "endChar": 59
+      },
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c25a134a_864314d5",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-20T10:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9c56cd4_320a34ba",
       "range": {
         "startLine": 74,
         "startChar": 44,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69f9e33c_09f7d6ed",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-20T10:00:52Z",
+      "side": 1,
+      "message": "I used the void and recursion+list to avoid creating/appending lists many times while doing the recursion.\n\nI converted this method to return a ImmutableList\u003cPredicateResult\u003e and delegated the recursive logic to a private method.",
+      "parentUuid": "42d20991_452daf83",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 8
+      },
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cc5ba8d_ccaef928",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-05-19T12:50:01Z",
       "side": 1,
       "message": "Can be: if (childPredicates().isEmpty() \u0026\u0026 status() \u003d\u003d status) {\n\nOr did you intend to return is status() !\u003d status?",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 33
+      },
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dce856cb_7dd65bb1",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-20T10:00:52Z",
+      "side": 1,
+      "message": "Yeah we can do that. Done.",
+      "parentUuid": "2cc5ba8d_ccaef928",
       "range": {
         "startLine": 86,
         "startChar": 6,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4705903f_d29ff250",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-20T10:00:52Z",
+      "side": 1,
+      "message": "Yes. This class should be stateless. Done",
+      "parentUuid": "4cd51797_7659af63",
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "592a69d0_37230e73",
@@ -123,6 +237,24 @@
       "writtenOn": "2021-05-19T12:50:01Z",
       "side": 1,
       "message": "Why do we need to do the parsing again and again for each change that is evaluated? Can\u0027t we cache the Predicate in SubmitRequirementExpression after the validation was done?",
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6922871d_c596fafd",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-20T10:00:52Z",
+      "side": 1,
+      "message": "Right. I was looking into that in more details and here are my findings.\n\n* From an implementation POV, I couldn\u0027t add Predicate as a field in SubmitRequirementExpression (`com.google.gerrit.entities` can\u0027t depend on `com.google.gerrit.index.query` - cyclic dependency + we don\u0027t add any dependency from the entities package to any other gerrit core package). \n\n* I tried moving SubmitRequirement and SubmitRequirementExpression to `com.google.gerrit.server.project` but that doesn\u0027t work either because SubmitRequirement is a field in ProjectConfig and CachedProjectConfig. The latter (CachedProjectConfig) is in the entities package so can\u0027t depend on the gerrit server package again.\n\n* We could try to move Predicate (and its subclasses) to the entities package, but that\u0027s also infeasible (large refactoring + predicates have dependencies on gerrit server, e.g. on ChangeData).\n\n* Even if we manage to get this working, this still implies we need to serialize the predicate field in SubmitRequirementExpression. We have two options: 1) Implement this serialization in all predicates, or 2) As a workaround, I considered treating Predicate as transient and reconstructing it upon deserialization from the expression string, but with this, deserialization will throw a QueryParseException.\n\nI left this part as it is for now, I have two suggestions:\n\n1) Leave as is. I can benchmark (add latency metrics) and measure how expensive this parsing is. We can leave as is if we are OK with performance.\n\n2) We can add an in-memory cache: ExpressionParser\u003cString, Predicate\u003cChangeData\u003e\u003e so that the expression is parsed once. SubmitRequirementEvaluator will use this cache.\n\nPlease LMK if you have an opinion on this. I\u0027m happy to discuss this further.",
+      "parentUuid": "592a69d0_37230e73",
       "revId": "d59c8d945a93704f59007235da8c29a399988fab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

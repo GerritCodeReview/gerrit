@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
 import static com.google.gerrit.server.project.FileResource.FILE_KIND;
 import static com.google.gerrit.server.project.LabelResource.LABEL_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
+import static com.google.gerrit.server.project.SubmitRequirementResource.SUBMIT_REQUIREMENT_KIND;
 import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -46,6 +47,7 @@ public class ProjectRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), COMMIT_KIND);
     DynamicMap.mapOf(binder(), TAG_KIND);
     DynamicMap.mapOf(binder(), LABEL_KIND);
+    DynamicMap.mapOf(binder(), SUBMIT_REQUIREMENT_KIND);
 
     DynamicSet.bind(binder(), GerritConfigListener.class).to(SetParent.class);
     DynamicSet.bind(binder(), ProjectCreationValidationListener.class)
@@ -77,6 +79,10 @@ public class ProjectRestApiModule extends RestApiModule {
     put(LABEL_KIND).to(SetLabel.class);
     delete(LABEL_KIND).to(DeleteLabel.class);
     postOnCollection(LABEL_KIND).to(PostLabels.class);
+
+    child(PROJECT_KIND, "submit_requirements").to(SubmitRequirementsCollection.class);
+    create(SUBMIT_REQUIREMENT_KIND).to(CreateSubmitRequirement.class);
+    get(SUBMIT_REQUIREMENT_KIND).to(GetSubmitRequirement.class);
 
     get(PROJECT_KIND, "HEAD").to(GetHead.class);
     put(PROJECT_KIND, "HEAD").to(SetHead.class);

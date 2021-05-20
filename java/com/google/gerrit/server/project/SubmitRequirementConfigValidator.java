@@ -17,8 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
-import com.google.gerrit.entities.SubmitRequirementExpression;
-import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -29,9 +27,8 @@ import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
@@ -44,19 +41,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * {@link SubmitRequirementsEvaluator} and we cannot do injections into {@link ProjectConfig} (since
  * {@link ProjectConfig} is cached in the project cache).
  */
-public class SubmitRequirementExpressionsValidator implements CommitValidationListener {
+public class SubmitRequirementConfigValidator implements CommitValidationListener {
   private final DiffOperations diffOperations;
   private final ProjectConfig.Factory projectConfigFactory;
-  private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
+  private final SubmitRequirementExpressionValidator submitRequirementExpressionValidator;
 
   @Inject
-  SubmitRequirementExpressionsValidator(
+  SubmitRequirementConfigValidator(
       DiffOperations diffOperations,
       ProjectConfig.Factory projectConfigFactory,
-      SubmitRequirementsEvaluator submitRequirementsEvaluator) {
+      SubmitRequirementExpressionValidator submitRequirementExpressionValidator) {
     this.diffOperations = diffOperations;
     this.projectConfigFactory = projectConfigFactory;
-    this.submitRequirementsEvaluator = submitRequirementsEvaluator;
+    this.submitRequirementExpressionValidator = submitRequirementExpressionValidator;
   }
 
   @Override
@@ -71,15 +68,27 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
       }
 
       ProjectConfig projectConfig = getProjectConfig(event);
-      ImmutableList<CommitValidationMessage> validationMessages =
-          validateSubmitRequirementExpressions(
-              projectConfig.getSubmitRequirementSections().values());
-      if (!validationMessages.isEmpty()) {
+      ImmutableList.Builder<String> validationMsgsBuilder = ImmutableList.builder();
+      for (SubmitRequirement submitRequirement :
+          projectConfig.getSubmitRequirementSections().values()) {
+        validationMsgsBuilder.addAll(
+            submitRequirementExpressionValidator.validateExpressions(submitRequirement));
+      }
+      ImmutableList<String> validationMsgs = validationMsgsBuilder.build();
+      if (!validationMsgs.isEmpty()) {
         throw new CommitValidationException(
             String.format(
                 "invalid submit requirement expressions in %s (revision = %s)",
                 ProjectConfig.PROJECT_CONFIG, projectConfig.getRevision()),
-            validationMessages);
+            new ImmutableList.Builder<CommitValidationMessage>()
+                .add(
+                    new CommitValidationMessage(
+                        "Invalid project configuration", ValidationMessage.Type.ERROR))
+                .addAll(
+                    validationMsgs.stream()
+                        .map(m -> toCommitValidationMessage(m))
+                        .collect(Collectors.toList()))
+                .build());
       }
       return ImmutableList.of();
     } catch (IOException | DiffNotAvailableException | ConfigInvalidException e) {
@@ -93,6 +102,10 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
               event.project.getNameKey()),
           e);
     }
+  }
+
+  private static CommitValidationMessage toCommitValidationMessage(String message) {
+    return new CommitValidationMessage(message, ValidationMessage.Type.ERROR);
   }
 
   /**
@@ -118,65 +131,5 @@ public class SubmitRequirementExpressionsValidator implements CommitValidationLi
     ProjectConfig projectConfig = projectConfigFactory.create(receiveEvent.project.getNameKey());
     projectConfig.load(receiveEvent.revWalk, receiveEvent.commit);
     return projectConfig;
-  }
-
-  private ImmutableList<CommitValidationMessage> validateSubmitRequirementExpressions(
-      Collection<SubmitRequirement> submitRequirements) {
-    List<CommitValidationMessage> validationMessages = new ArrayList<>();
-    for (SubmitRequirement submitRequirement : submitRequirements) {
-      validateSubmitRequirementExpression(
-          validationMessages,
-          submitRequirement,
-          submitRequirement.submittabilityExpression(),
-          ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION);
-      submitRequirement
-          .applicabilityExpression()
-          .ifPresent(
-              expression ->
-                  validateSubmitRequirementExpression(
-                      validationMessages,
-                      submitRequirement,
-                      expression,
-                      ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION));
-      submitRequirement
-          .overrideExpression()
-          .ifPresent(
-              expression ->
-                  validateSubmitRequirementExpression(
-                      validationMessages,
-                      submitRequirement,
-                      expression,
-                      ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION));
-    }
-    return ImmutableList.copyOf(validationMessages);
-  }
-
-  private void validateSubmitRequirementExpression(
-      List<CommitValidationMessage> validationMessages,
-      SubmitRequirement submitRequirement,
-      SubmitRequirementExpression expression,
-      String configKey) {
-    try {
-      submitRequirementsEvaluator.validateExpression(expression);
-    } catch (QueryParseException e) {
-      if (validationMessages.isEmpty()) {
-        validationMessages.add(
-            new CommitValidationMessage(
-                "Invalid project configuration", ValidationMessage.Type.ERROR));
-      }
-      validationMessages.add(
-          new CommitValidationMessage(
-              String.format(
-                  "  %s: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
-                      + " invalid: %s",
-                  ProjectConfig.PROJECT_CONFIG,
-                  expression.expressionString(),
-                  submitRequirement.name(),
-                  ProjectConfig.SUBMIT_REQUIREMENT,
-                  submitRequirement.name(),
-                  configKey,
-                  e.getMessage()),
-              ValidationMessage.Type.ERROR));
-    }
   }
 }

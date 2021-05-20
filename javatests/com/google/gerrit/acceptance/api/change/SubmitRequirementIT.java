@@ -2934,7 +2934,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       String name, String submittabilityExpression) {
     SubmitRequirementInput input = new SubmitRequirementInput();
     input.name = name;
-    input.submittabilityExpression = submittabilityExpression;
+    input.submittableIf = submittabilityExpression;
     return input;
   }
 
@@ -2942,9 +2942,9 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       String name, String applicableIf, String submittableIf, String overrideIf) {
     SubmitRequirementInput input = new SubmitRequirementInput();
     input.name = name;
-    input.applicabilityExpression = applicableIf;
-    input.submittabilityExpression = submittableIf;
-    input.overrideExpression = overrideIf;
+    input.applicableIf = applicableIf;
+    input.submittableIf = submittableIf;
+    input.overrideIf = overrideIf;
     return input;
   }
 

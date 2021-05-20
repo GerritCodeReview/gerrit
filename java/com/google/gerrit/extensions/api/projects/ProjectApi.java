@@ -227,6 +227,8 @@ public interface ProjectApi {
 
   LabelApi label(String labelName) throws RestApiException;
 
+  SubmitRequirementApi submitRequirement(String name) throws RestApiException;
+
   /**
    * Adds, updates and deletes label definitions in a batch.
    *
@@ -422,6 +424,11 @@ public interface ProjectApi {
 
     @Override
     public LabelApi label(String labelName) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SubmitRequirementApi submitRequirement(String name) throws RestApiException {
       throw new NotImplementedException();
     }
 

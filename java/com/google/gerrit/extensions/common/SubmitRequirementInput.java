@@ -23,23 +23,23 @@ public class SubmitRequirementInput {
   public String description;
 
   /**
-   * Query expression that can be evaluated on any change. If evaluated to true on a change, the
-   * submit requirement is then applicable on this change.
+   * Query expression that can be evaluated on any change. If evaluated to true, the submit
+   * requirement is applicable for this change.
    */
-  public String applicabilityExpression;
+  public String applicableIf;
 
   /**
-   * Query expression that can be evaluated on any change. If evaluated to true on a change, the
-   * submit requirement is fulfilled and not blocking change submission.
+   * Query expression that can be evaluated on any change. If evaluated to true, the submit
+   * requirement is fulfilled and not blocking change submission.
    */
-  public String submittabilityExpression;
+  public String submittableIf;
 
   /**
-   * Query expression that can be evaluated on any change. If evaluated to true on a change, the
-   * submit requirement is overridden and not blocking change submission.
+   * Query expression that can be evaluated on any change. If evaluated to true, the submit
+   * requirement is overridden and not blocking change submission.
    */
-  public String overrideExpression;
+  public String overrideIf;
 
-  /** Whether this submit requirement can be overridden in child projects. */
-  public Boolean allowOverrideInChildProjects;
+  /** Whether the submit requirement definition can be overridden in child projects. */
+  public Boolean canOverrideInChildProjects;
 }

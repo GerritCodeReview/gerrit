@@ -30,7 +30,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangePredicates;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.query.change.ProjectPredicate;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -116,7 +115,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
               .setLimit(limit)
               .query(
                   Predicate.and(
-                      new ProjectPredicate(projectName.get()),
+                      ChangePredicates.project(projectName),
                       ChangeStatusPredicate.open(),
                       ChangePredicates.owner(user)))) {
         PatchSet ps = cd.currentPatchSet();

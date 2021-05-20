@@ -61,7 +61,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   private static Predicate<ChangeData> ref(BranchNameKey branch) {
-    return new RefPredicate(branch.branch());
+    return ChangePredicates.ref(branch.branch());
   }
 
   private static Predicate<ChangeData> change(Change.Key key) {
@@ -69,7 +69,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   private static Predicate<ChangeData> project(Project.NameKey project) {
-    return new ProjectPredicate(project.get());
+    return ChangePredicates.project(project);
   }
 
   private static Predicate<ChangeData> status(Change.Status status) {
@@ -100,7 +100,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
         (id) ->
             schema().useLegacyNumericFields()
                 ? ChangePredicates.id(id)
-                : new LegacyChangeIdStrPredicate(id);
+                : ChangePredicates.idStr(id);
   }
 
   public List<ChangeData> byKey(Change.Key key) {
@@ -225,7 +225,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   public List<ChangeData> byTopicOpen(String topic) {
-    return query(and(new ExactTopicPredicate(topic), open()));
+    return query(and(ChangePredicates.exactTopic(topic), open()));
   }
 
   public List<ChangeData> byCommit(ObjectId id) {
@@ -269,14 +269,17 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   private static Predicate<ChangeData> byBranchCommitPred(
       String project, String branch, String hash) {
-    return and(new ProjectPredicate(project), new RefPredicate(branch), commit(hash));
+    return and(
+        ChangePredicates.project(Project.nameKey(project)),
+        ChangePredicates.ref(branch),
+        commit(hash));
   }
 
   public List<ChangeData> bySubmissionId(String cs) {
     if (Strings.isNullOrEmpty(cs)) {
       return Collections.emptyList();
     }
-    return query(new SubmissionIdPredicate(cs));
+    return query(ChangePredicates.submissionId(cs));
   }
 
   private static Predicate<ChangeData> byProjectGroupsPredicate(

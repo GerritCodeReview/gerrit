@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "33cfc8e7_1fd73035",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-20T06:15:31Z",
+      "side": 1,
+      "message": "Nice, thanks!",
+      "revId": "ceca885fe7300e71442b98ecd24b845d37358a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6e7b823f_a78ccf73",
         "filename": "polygerrit-ui/app/elements/diff/gr-context-controls/gr-context-controls.ts",
         "patchSetId": 9

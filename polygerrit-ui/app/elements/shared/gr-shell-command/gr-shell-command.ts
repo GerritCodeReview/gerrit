@@ -38,6 +38,9 @@ class GrShellCommand extends PolymerElement {
   @property({type: String})
   label: string | undefined;
 
+  @property({type: String})
+  tooltip = '';
+
   focusOnCopy() {
     if (this.shadowRoot !== null) {
       const copyClipboard = this.shadowRoot.querySelector('gr-copy-clipboard');

@@ -257,6 +257,24 @@
       "parentUuid": "592a69d0_37230e73",
       "revId": "d59c8d945a93704f59007235da8c29a399988fab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0976ecf6_9c390210",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-20T13:58:07Z",
+      "side": 1,
+      "message": "You may want to look at how the task plugin solves this predicate caching in https://gerrit.googlesource.com/plugins/task/+/refs/heads/stable-2.16/src/main/java/com/googlesource/gerrit/plugins/task/PredicateCache.java\n\nThat\u0027s the 2.16 version because I haven\u0027t merged it up to tip yet, but the code should be pretty similar.",
+      "parentUuid": "6922871d_c596fafd",
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

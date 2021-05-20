@@ -533,6 +533,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     labelSections.put(labelType.getName(), labelType);
   }
 
+  /** Adds or replaces the given {@link SubmitRequirement} in this config. */
+  public void upsertSubmitRequirement(SubmitRequirement sr) {
+    submitRequirementSections.put(sr.name(), sr);
+  }
+
   /** Allows a mutation of an existing {@link LabelType}. */
   public void updateLabelType(String name, Consumer<LabelType.Builder> update) {
     LabelType labelType = labelSections.get(name);

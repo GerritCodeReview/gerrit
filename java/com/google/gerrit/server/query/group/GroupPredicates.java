@@ -19,7 +19,6 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.IndexPredicate;
-import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.index.group.GroupField;
 import java.util.Locale;
@@ -45,7 +44,7 @@ public class GroupPredicates {
   }
 
   public static Predicate<InternalGroup> name(String name) {
-    return new NameGroupPredicate(name);
+    return new GroupPredicate(GroupField.NAME, name);
   }
 
   public static Predicate<InternalGroup> owner(AccountGroup.UUID ownerUuid) {
@@ -73,26 +72,6 @@ public class GroupPredicates {
 
     GroupPredicate(FieldDef<InternalGroup, ?> def, String name, String value) {
       super(def, name, value);
-    }
-  }
-
-  // TODO(hiesel): This is just a one-off to make index tests work. Remove in favor of a more
-  // generic solution.
-  // This is required because Gerrit needs to look up groups by name on every request.
-  static class NameGroupPredicate extends IndexPredicate<InternalGroup>
-      implements Matchable<InternalGroup> {
-    NameGroupPredicate(String value) {
-      super(GroupField.NAME, value);
-    }
-
-    @Override
-    public boolean match(InternalGroup group) {
-      return group.getName().equals(getValue());
-    }
-
-    @Override
-    public int getCost() {
-      return 1;
     }
   }
 

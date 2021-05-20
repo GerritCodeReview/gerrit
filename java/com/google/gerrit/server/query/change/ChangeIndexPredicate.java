@@ -74,6 +74,8 @@ public class ChangeIndexPredicate extends IndexPredicate<ChangeData>
       return Objects.equals(fieldValueFromObject, value);
     } else if (fieldTypeName.equals(FieldType.LONG.getName())) {
       return Objects.equals(fieldValueFromObject, Longs.tryParse(value));
+    } else if (fieldTypeName.equals(FieldType.PREFIX.getName())) {
+      return String.valueOf(fieldValueFromObject).startsWith(value);
     }
     throw new UnsupportedOperationException("match function must be provided in subclass");
   }

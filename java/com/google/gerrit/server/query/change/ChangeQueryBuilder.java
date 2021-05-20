@@ -528,7 +528,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return Predicate.and(
           project(triplet.get().project().get()),
           branch(triplet.get().branch().branch()),
-          new ChangeIdPredicate(parseChangeId(triplet.get().id().get())));
+          ChangePredicates.id(parseChangeId(triplet.get().id().get())));
     }
     if (PAT_LEGACY_ID.matcher(query).matches()) {
       Integer id = Ints.tryParse(query);
@@ -538,7 +538,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
             : ChangePredicates.idStr(Change.id(id));
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
-      return new ChangeIdPredicate(parseChangeId(query));
+      return ChangePredicates.id(parseChangeId(query));
     }
 
     throw new QueryParseException("Invalid change format");
@@ -705,7 +705,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> commit(String id) {
-    return new CommitPredicate(id);
+    return ChangePredicates.commit(id);
   }
 
   @Operator
@@ -733,7 +733,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> projects(String name) {
-    return new ProjectPrefixPredicate(name);
+    return ChangePredicates.projectPrefix(name);
   }
 
   @Operator

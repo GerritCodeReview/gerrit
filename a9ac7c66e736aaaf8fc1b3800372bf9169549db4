@@ -46,6 +46,30 @@
       },
       "revId": "a9ac7c66e736aaaf8fc1b3800372bf9169549db4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df0bb693_ec75aa98",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-20T09:49:51Z",
+      "side": 1,
+      "message": "Not done yet.",
+      "parentUuid": "4764268c_3c284332",
+      "range": {
+        "startLine": 274,
+        "startChar": 16,
+        "endLine": 274,
+        "endChar": 58
+      },
+      "revId": "a9ac7c66e736aaaf8fc1b3800372bf9169549db4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

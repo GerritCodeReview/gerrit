@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61a53c69_16090039",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-20T13:53:05Z",
+      "side": 1,
+      "message": "I see your point. But this would be a breaking change and should be documented in Breaking Changes section in release notes, in homepage repository.\n\nAlso the new workflow would only work if project owner would remember to remove again the ACL after branch deletion was done. Should this workflow/idiom be explicitly documented/suggested: to only grant permission for a single operation and revoke it, like say for force push?\n\nLet\u0027s say, I\u0027m a change owner and would like to remove a branch after this change is submitted and released: I cannot delete a branch any more. I read breaking changes and understand, that starting from this release I need to explicitly add \"Delete Reference\" permission. Now, I grant me this permission, myself, without asking anyone to grant it for me. After removal of this branch I forgot to revoke this permission. Second time I remove branch by mistake, without gerrit prohibiting me to do it. So that I could screw it up even with this change. So, it\u0027s comparable with the current state of affairs.",
+      "parentUuid": "c9a04db0_fa490d8f",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "e5165ecdeb6ef8f37b58d28ffa425412a9153a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "514dcf26_664172c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

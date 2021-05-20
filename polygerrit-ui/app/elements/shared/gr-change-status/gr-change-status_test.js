@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 
+import sinon from 'sinon/pkg/sinon-esm';
 import '../../../test/common-test-setup-karma.js';
+import {createChange} from '../../../test/test-data-generators.js';
 import './gr-change-status.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {MERGE_CONFLICT_TOOLTIP} from './gr-change-status.js';
 
 const basicFixture = fixtureFromElement('gr-change-status');
@@ -62,6 +65,8 @@ suite('gr-change-status tests', () => {
         .querySelector('.chip').innerText, element.status);
     assert.equal(element.tooltipText, '');
     assert.isTrue(element.classList.contains('merged'));
+    assert.isFalse(
+        element.showResolveIcon([{url: 'http://google.com'}], 'Merged'));
   });
 
   test('abandoned', () => {
@@ -74,12 +79,36 @@ suite('gr-change-status tests', () => {
   });
 
   test('merge conflict', () => {
-    element.status = 'Merge Conflict';
+    const status = 'Merge Conflict';
+    element.status = status;
     flush();
+
     assert.equal(element.shadowRoot
         .querySelector('.chip').innerText, element.status);
     assert.equal(element.tooltipText, MERGE_CONFLICT_TOOLTIP);
     assert.isTrue(element.classList.contains('merge-conflict'));
+    assert.isFalse(element.hasStatusLink(undefined, [], status));
+    assert.isFalse(element.showResolveIcon([], status));
+  });
+
+  test('merge conflict with resolve link', () => {
+    const status = 'Merge Conflict';
+    const url = 'http://google.com';
+    const weblinks = [{url}];
+
+    assert.isTrue(element.hasStatusLink(undefined, weblinks, status));
+    assert.equal(element.getStatusLink(undefined, weblinks, status), url);
+    assert.isTrue(element.showResolveIcon(weblinks, status));
+  });
+
+  test('reverted change', () => {
+    const url = 'http://google.com';
+    const status = 'Revert Submitted';
+    const revertedChange = createChange();
+    sinon.stub(GerritNav, 'getUrlForSearchQuery').returns(url);
+
+    assert.isTrue(element.hasStatusLink(revertedChange, [], status));
+    assert.equal(element.getStatusLink(revertedChange, [], status), url);
   });
 
   test('private', () => {

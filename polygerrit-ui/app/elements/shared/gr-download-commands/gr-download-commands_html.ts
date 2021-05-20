@@ -69,6 +69,7 @@ export const htmlTemplate = html`
         class$="[[_computeClass(command.title)]]"
         label="[[command.title]]"
         command="[[command.command]]"
+        show-keyboard-shortcut-tooltips="[[showKeyboardShortcutTooltips]]"
       ></gr-shell-command>
     </template>
   </div>

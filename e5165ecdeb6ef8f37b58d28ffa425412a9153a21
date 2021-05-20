@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "780d49a3_49ac3607",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-05-20T11:08:55Z",
+      "side": 1,
+      "message": "What do you feel would be the negative impact if we let this rule work like any other in the ACLs?",
+      "parentUuid": "c9a04db0_fa490d8f",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "e5165ecdeb6ef8f37b58d28ffa425412a9153a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "514dcf26_664172c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

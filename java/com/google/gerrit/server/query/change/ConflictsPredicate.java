@@ -81,17 +81,17 @@ public class ConflictsPredicate {
 
     List<Predicate<ChangeData>> filePredicates = new ArrayList<>(files.size());
     for (String file : files) {
-      filePredicates.add(new EqualsPathPredicate(ChangeQueryBuilder.FIELD_PATH, file));
+      filePredicates.add(ChangePredicates.path(file));
     }
 
     List<Predicate<ChangeData>> and = new ArrayList<>(5);
-    and.add(new ProjectPredicate(c.getProject().get()));
-    and.add(new RefPredicate(c.getDest().branch()));
+    and.add(ChangePredicates.project(c.getProject()));
+    and.add(ChangePredicates.ref(c.getDest().branch()));
     and.add(
         Predicate.not(
             args.getSchema().useLegacyNumericFields()
                 ? ChangePredicates.id(c.getId())
-                : new LegacyChangeIdStrPredicate(c.getId())));
+                : ChangePredicates.idStr(c.getId())));
     and.add(Predicate.or(filePredicates));
 
     ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectCache);

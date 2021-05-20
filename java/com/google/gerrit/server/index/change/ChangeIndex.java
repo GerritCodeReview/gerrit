@@ -20,7 +20,6 @@ import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangePredicates;
-import com.google.gerrit.server.query.change.LegacyChangeIdStrPredicate;
 
 /**
  * Index for Gerrit changes. This class is mainly used for typing the generic parent class that
@@ -33,6 +32,6 @@ public interface ChangeIndex extends Index<Change.Id, ChangeData> {
   default Predicate<ChangeData> keyPredicate(Change.Id id) {
     return getSchema().useLegacyNumericFields()
         ? ChangePredicates.id(id)
-        : new LegacyChangeIdStrPredicate(id);
+        : ChangePredicates.idStr(id);
   }
 }

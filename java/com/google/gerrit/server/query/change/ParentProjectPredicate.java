@@ -47,10 +47,10 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
     }
 
     List<Predicate<ChangeData>> r = new ArrayList<>();
-    r.add(new ProjectPredicate(projectState.get().getName()));
+    r.add(ChangePredicates.project(projectState.get().getNameKey()));
     try {
       for (ProjectInfo p : childProjects.list(projectState.get().getNameKey())) {
-        r.add(new ProjectPredicate(p.name));
+        r.add(ChangePredicates.project(Project.nameKey(p.name)));
       }
     } catch (PermissionBackendException e) {
       logger.atWarning().withCause(e).log("cannot check permissions to expand child projects");

@@ -58,10 +58,10 @@ public class CheckSubmitRequirement
     return SubmitRequirement.builder()
         .setName(input.name)
         .setDescription(Optional.ofNullable(input.description))
-        .setApplicabilityExpression(SubmitRequirementExpression.of(input.applicabilityExpression))
+        .setApplicabilityExpression(SubmitRequirementExpression.of(input.applicability_expression))
         .setSubmittabilityExpression(
-            SubmitRequirementExpression.create(input.submittabilityExpression))
-        .setOverrideExpression(SubmitRequirementExpression.of(input.overrideExpression))
+            SubmitRequirementExpression.create(input.submittability_expression))
+        .setOverrideExpression(SubmitRequirementExpression.of(input.override_expression))
         .setAllowOverrideInChildProjects(
             input.allowOverrideInChildProjects == null ? true : input.allowOverrideInChildProjects)
         .build();
@@ -72,7 +72,7 @@ public class CheckSubmitRequirement
     if (input.name == null) {
       throw new BadRequestException("Field 'name' is missing from input.");
     }
-    if (input.submittabilityExpression == null) {
+    if (input.submittability_expression == null) {
       throw new BadRequestException("Field 'submittability_expression' is missing from input.");
     }
   }

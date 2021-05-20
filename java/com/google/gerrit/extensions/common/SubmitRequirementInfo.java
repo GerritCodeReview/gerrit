@@ -29,7 +29,7 @@ public class SubmitRequirementInfo {
 
   /**
    * Expression string to be evaluated on a change. When evaluated to true, this submit requirement
-   * becomes fulfilled for this change.
+   * becomes fulfilled for this change and not blocking change submission.
    */
   public String submittabilityExpression;
 
@@ -41,5 +41,5 @@ public class SubmitRequirementInfo {
   public String overrideExpression;
 
   /** Boolean indicating if this submit requirement can be overridden in child projects. */
-  public boolean allowOverrideInChildProjects;
+  public boolean canOverrideInChildProjects;
 }

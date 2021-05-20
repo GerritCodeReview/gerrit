@@ -32,6 +32,8 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
@@ -40,6 +42,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -85,7 +88,8 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
               .build(),
           RestCall.get("/projects/%s/dashboards"),
           RestCall.put("/projects/%s/labels/new-label"),
-          RestCall.post("/projects/%s/labels/"));
+          RestCall.post("/projects/%s/labels/"),
+          RestCall.put("/projects/%s/submit_requirements/new-sr"));
 
   /**
    * Child project REST endpoints to be tested, each URL contains placeholders for the parent
@@ -175,6 +179,15 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
           // Label deletion must be tested last
           RestCall.delete("/projects/%s/labels/%s"));
 
+  /**
+   * Submit requirements REST endpoints to be tested, each URL contains placeholders for the project
+   * identifier and the SR name.
+   */
+  private static final ImmutableList<RestCall> SUBMIT_REQUIREMENTS_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.get("/projects/%s/submit_requirements/%s"),
+          RestCall.put("/projects/%s/submit_requirements/%s"));
+
   private static final String FILENAME = "test.txt";
   @Inject private ProjectOperations projectOperations;
 
@@ -234,6 +247,21 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
     String label = "Foo-Review";
     configLabel(label, LabelFunction.NO_OP);
     RestApiCallHelper.execute(adminRestSession, LABEL_ENDPOINTS, project.get(), label);
+  }
+
+  @Test
+  @Ignore
+  // TODO(ghareeb): something's wrong with the binding
+  public void submitRequirementsEndpoints() throws Exception {
+    String sr = "code-review";
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName(sr)
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Code-Review=+2"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+    RestApiCallHelper.execute(adminRestSession, SUBMIT_REQUIREMENTS_ENDPOINTS, project.get(), sr);
   }
 
   private String createAndSubmitChange(String filename) throws Exception {

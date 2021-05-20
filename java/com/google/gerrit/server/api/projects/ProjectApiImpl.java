@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.api.projects.LabelApi;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.SubmitRequirementApi;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.BatchLabelInput;
@@ -140,6 +141,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final Provider<ListLabels> listLabels;
   private final PostLabels postLabels;
   private final LabelApiImpl.Factory labelApi;
+  private final SubmitRequirementApiImpl.Factory submitRequirementApi;
 
   @AssistedInject
   ProjectApiImpl(
@@ -179,6 +181,7 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListLabels> listLabels,
       PostLabels postLabels,
       LabelApiImpl.Factory labelApi,
+      SubmitRequirementApiImpl.Factory submitRequirementApi,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
@@ -218,6 +221,7 @@ public class ProjectApiImpl implements ProjectApi {
         listLabels,
         postLabels,
         labelApi,
+        submitRequirementApi,
         null);
   }
 
@@ -259,6 +263,7 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListLabels> listLabels,
       PostLabels postLabels,
       LabelApiImpl.Factory labelApi,
+      SubmitRequirementApiImpl.Factory submitRequirementApi,
       @Assisted String name) {
     this(
         permissionBackend,
@@ -298,6 +303,7 @@ public class ProjectApiImpl implements ProjectApi {
         listLabels,
         postLabels,
         labelApi,
+        submitRequirementApi,
         name);
   }
 
@@ -339,6 +345,7 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListLabels> listLabels,
       PostLabels postLabels,
       LabelApiImpl.Factory labelApi,
+      SubmitRequirementApiImpl.Factory submitRequirementApi,
       String name) {
     this.permissionBackend = permissionBackend;
     this.createProject = createProject;
@@ -378,6 +385,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.listLabels = listLabels;
     this.postLabels = postLabels;
     this.labelApi = labelApi;
+    this.submitRequirementApi = submitRequirementApi;
   }
 
   @Override
@@ -742,6 +750,15 @@ public class ProjectApiImpl implements ProjectApi {
       return labelApi.create(checkExists(), labelName);
     } catch (Exception e) {
       throw asRestApiException("Cannot parse label", e);
+    }
+  }
+
+  @Override
+  public SubmitRequirementApi submitRequirement(String name) throws RestApiException {
+    try {
+      return submitRequirementApi.create(checkExists(), name);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse submit requirement", e);
     }
   }
 

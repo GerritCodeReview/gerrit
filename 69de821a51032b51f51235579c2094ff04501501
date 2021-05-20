@@ -172,6 +172,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75a2af98_8ccc9419",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-20T09:28:19Z",
+      "side": 1,
+      "message": "I think the return type is void instead of undefined, that\u0027s it.",
+      "parentUuid": "662fbabc_2360b32b",
+      "range": {
+        "startLine": 164,
+        "startChar": 48,
+        "endLine": 164,
+        "endChar": 55
+      },
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3873d689_7be188f2",
@@ -374,6 +398,48 @@
       "side": 1,
       "message": "If you just call this function with `1`, then what is the point of the `repetitions` parameter?",
       "parentUuid": "f988d7f2_a1442142",
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "528998c7_ecadeea6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-20T09:28:19Z",
+      "side": 1,
+      "message": "Removed method.",
+      "parentUuid": "043e18e5_19a72024",
+      "revId": "69de821a51032b51f51235579c2094ff04501501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4ccaba8_2799e5f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-20T09:28:19Z",
+      "side": 1,
+      "message": "Removed the method and replaced with \n\nclock.tick(1000);\n    await flush();",
+      "parentUuid": "48d580f4_facbc331",
+      "range": {
+        "startLine": 1279,
+        "startChar": 4,
+        "endLine": 1279,
+        "endChar": 16
+      },
       "revId": "69de821a51032b51f51235579c2094ff04501501",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.query.project;
 
-import static org.junit.Assume.assumeTrue;
-
 import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.InMemoryModule;
@@ -49,13 +47,5 @@ public class FakeQueryProjectsTest extends AbstractQueryProjectsTest {
     InMemoryModule.setDefaults(fakeConfig);
     fakeConfig.setString("index", null, "type", "fake");
     return Guice.createInjector(new InMemoryModule(fakeConfig));
-  }
-
-  @Override
-  protected void validateAssumptions() {
-    // TODO(hiesel): Project predicates are not matchable, so we need to skip all tests here.
-    // We are doing this to document existing behavior. We want to remove this assume statement and
-    // make group predicates matchable.
-    assumeTrue(ProjectPredicates.inname("test").isMatchable());
   }
 }

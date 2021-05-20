@@ -46,6 +46,18 @@ public class ChangeIndexPredicate extends IndexPredicate<ChangeData>
     super(def, name, value);
   }
 
+  /**
+   * This method matches documents without calling an index subsystem. For primitive fields (e.g.
+   * integer, long) , the matching logic is consistent across this method and all known index
+   * implementations. For text fields (i.e. prefix and full-text) the semantics vary between this
+   * implementation and known index implementations:
+   * <li>Prefix: Lucene as well as {@link #match(ChangeData)} matches terms as true prefixes
+   *     (prefix:foo -> `foo bar` matches, but `baz foo bar` does not match). The index
+   *     implementation at Google tokenizes both the query and the indexed text and matches tokens
+   *     individually (prefix:fo ba -> `baz foo bar` matches).
+   *
+   * @return true if the predicate matches the provided {@link ChangeData}.
+   */
   @Override
   public boolean match(ChangeData cd) {
     if (getField().isRepeatable()) {
@@ -74,6 +86,8 @@ public class ChangeIndexPredicate extends IndexPredicate<ChangeData>
       return Objects.equals(fieldValueFromObject, value);
     } else if (fieldTypeName.equals(FieldType.LONG.getName())) {
       return Objects.equals(fieldValueFromObject, Longs.tryParse(value));
+    } else if (fieldTypeName.equals(FieldType.PREFIX.getName())) {
+      return String.valueOf(fieldValueFromObject).startsWith(value);
     }
     throw new UnsupportedOperationException("match function must be provided in subclass");
   }

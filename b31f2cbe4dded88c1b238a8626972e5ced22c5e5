@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f46247e4_de9cafb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-20T01:12:27Z",
+      "side": 1,
+      "message": "Selection works on Safari Technology Preview, sounds promising !\n\n@Ben what do you think about the approach? Would that be an option? Do you see an easy way to prevent editing and fixing the styling?",
+      "revId": "b31f2cbe4dded88c1b238a8626972e5ced22c5e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

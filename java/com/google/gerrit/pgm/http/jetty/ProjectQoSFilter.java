@@ -18,6 +18,7 @@ import static com.google.gerrit.server.config.ConfigUtil.getTimeUnit;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -170,7 +171,7 @@ public class ProjectQoSFilter implements Filter {
         request.setAttribute(TASK, task);
 
         Future<?> f = getExecutor().submit(task);
-        asyncContext.addListener(new Listener(f));
+        asyncContext.addListener(new Listener(f, task));
         break;
       case CANCELED:
         rsp.sendError(SC_SERVICE_UNAVAILABLE);
@@ -181,7 +182,6 @@ public class ProjectQoSFilter implements Filter {
           task.begin(Thread.currentThread());
           chain.doFilter(req, rsp);
         } finally {
-          task.end();
           Thread.interrupted();
         }
         break;
@@ -211,29 +211,38 @@ public class ProjectQoSFilter implements Filter {
   @Override
   public void destroy() {}
 
-  private static final class Listener implements AsyncListener {
+  @VisibleForTesting
+  protected static final class Listener implements AsyncListener {
     final Future<?> future;
+    final TaskThunk task;
 
-    Listener(Future<?> future) {
+    Listener(Future<?> future, TaskThunk task) {
       this.future = future;
+      this.task = task;
     }
 
     @Override
-    public void onComplete(AsyncEvent event) throws IOException {}
+    public void onComplete(AsyncEvent event) throws IOException {
+      task.end();
+    }
 
     @Override
     public void onTimeout(AsyncEvent event) throws IOException {
+      task.end();
       future.cancel(true);
     }
 
     @Override
-    public void onError(AsyncEvent event) throws IOException {}
+    public void onError(AsyncEvent event) throws IOException {
+      task.end();
+    }
 
     @Override
     public void onStartAsync(AsyncEvent event) throws IOException {}
   }
 
-  private final class TaskThunk implements CancelableRunnable {
+  @VisibleForTesting
+  protected class TaskThunk implements CancelableRunnable {
     private final AsyncContext asyncContext;
     private final String name;
     private final Object lock = new Object();
@@ -290,6 +299,10 @@ public class ProjectQoSFilter implements Filter {
         RequestState.RESUMED.set(req);
         asyncContext.dispatch();
       }
+    }
+
+    public boolean isDone() {
+      return done;
     }
 
     @Override

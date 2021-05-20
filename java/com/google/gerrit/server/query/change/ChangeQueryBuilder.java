@@ -36,6 +36,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.NotSignedInException;
@@ -534,7 +535,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       if (id != null) {
         return args.getSchema().useLegacyNumericFields()
             ? ChangePredicates.id(Change.id(id))
-            : new LegacyChangeIdStrPredicate(Change.id(id));
+            : ChangePredicates.idStr(Change.id(id));
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return new ChangeIdPredicate(parseChangeId(query));
@@ -727,7 +728,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (name.startsWith("^")) {
       return new RegexProjectPredicate(name);
     }
-    return new ProjectPredicate(name);
+    return ChangePredicates.project(Project.nameKey(name));
   }
 
   @Operator
@@ -790,7 +791,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> hashtag(String hashtag) {
-    return new ExactHashtagPredicate(hashtag);
+    return ChangePredicates.hashtag(hashtag);
   }
 
   @Operator
@@ -799,7 +800,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return new RegexHashtagPredicate(hashtag);
     }
     if (hashtag.isEmpty()) {
-      return new ExactHashtagPredicate(hashtag);
+      return ChangePredicates.hashtag(hashtag);
     }
 
     if (!args.index.getSchema().hasField(ChangeField.FUZZY_HASHTAG)) {
@@ -811,7 +812,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> topic(String name) {
-    return new ExactTopicPredicate(name);
+    return ChangePredicates.exactTopic(name);
   }
 
   @Operator
@@ -820,7 +821,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return new RegexTopicPredicate(name);
     }
     if (name.isEmpty()) {
-      return new ExactTopicPredicate(name);
+      return ChangePredicates.exactTopic(name);
     }
     return new FuzzyTopicPredicate(name, args.index);
   }
@@ -830,7 +831,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (ref.startsWith("^")) {
       return new RegexRefPredicate(ref);
     }
-    return new RefPredicate(ref);
+    return ChangePredicates.ref(ref);
   }
 
   @Operator
@@ -843,7 +844,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (file.startsWith("^")) {
       return new RegexPathPredicate(file);
     }
-    return EqualsFilePredicate.create(args, file);
+    return ChangePredicates.file(args, file);
   }
 
   @Operator
@@ -851,7 +852,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (path.startsWith("^")) {
       return new RegexPathPredicate(path);
     }
-    return new EqualsPathPredicate(FIELD_PATH, path);
+    return ChangePredicates.path(path);
   }
 
   @Operator
@@ -884,7 +885,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> footer(String footer) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.FOOTER)) {
-      return new FooterPredicate(footer);
+      return ChangePredicates.footer(footer);
     }
     throw new QueryParseException("'footer' operator is not supported by change index version");
   }
@@ -900,7 +901,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       if (directory.startsWith("^")) {
         return new RegexDirectoryPredicate(directory);
       }
-      return new DirectoryPredicate(directory);
+      return ChangePredicates.directory(directory);
     }
     throw new QueryParseException("'directory' operator is not supported by change index version");
   }
@@ -1231,7 +1232,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> tr(String trackingId) {
-    return new TrackingIdPredicate(trackingId);
+    return ChangePredicates.trackingId(trackingId);
   }
 
   @Operator
@@ -1389,7 +1390,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> author(String who) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXACT_AUTHOR)) {
       return getAuthorOrCommitterPredicate(
-          who.trim(), ExactAuthorPredicate::new, AuthorPredicate::new);
+          who.trim(), ChangePredicates::exactAuthor, AuthorPredicate::new);
     }
     return getAuthorOrCommitterFullTextPredicate(who.trim(), AuthorPredicate::new);
   }
@@ -1398,7 +1399,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> committer(String who) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXACT_COMMITTER)) {
       return getAuthorOrCommitterPredicate(
-          who.trim(), ExactCommitterPredicate::new, CommitterPredicate::new);
+          who.trim(), ChangePredicates::exactCommitter, CommitterPredicate::new);
     }
     return getAuthorOrCommitterFullTextPredicate(who.trim(), CommitterPredicate::new);
   }
@@ -1432,7 +1433,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> submissionId(String value) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.SUBMISSIONID)) {
-      return new SubmissionIdPredicate(value);
+      return ChangePredicates.submissionId(value);
     }
     throw new QueryParseException(
         "'submissionid' operator is not supported by change index version");

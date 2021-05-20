@@ -34,8 +34,8 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.Reachable;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangePredicates;
 import com.google.gerrit.server.query.change.CommitPredicate;
-import com.google.gerrit.server.query.change.ProjectPredicate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -149,7 +149,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     // branches to check, by seeing if its parents were associated to changes.
     Predicate<ChangeData> pred =
         Predicate.and(
-            new ProjectPredicate(project.get()),
+            ChangePredicates.project(project),
             Predicate.or(
                 Arrays.stream(commit.getParents())
                     .map(parent -> new CommitPredicate(parent.getId().getName()))

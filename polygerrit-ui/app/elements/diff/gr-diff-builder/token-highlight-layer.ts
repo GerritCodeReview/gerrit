@@ -31,7 +31,8 @@ const CSS_TOKEN = 'token';
 /** CSS class for the currently hovered token. */
 const CSS_HIGHLIGHT = 'token-highlight';
 
-const UPDATE_TOKEN_TASK_DELAY_MS = 50;
+const HOVER_DELAY_MS = 200;
+const UNHOVER_DELAY_MS = 50;
 
 const LINE_LENGTH_LIMIT = 500;
 
@@ -189,7 +190,7 @@ export class TokenHighlightLayer implements DiffLayer {
         this.notifyForToken(oldHighlight, oldLineNumber);
         this.notifyForToken(newHighlight, newLineNumber ?? 0);
       },
-      UPDATE_TOKEN_TASK_DELAY_MS
+      newHighlight === undefined ? UNHOVER_DELAY_MS : HOVER_DELAY_MS
     );
   }
 

@@ -80,6 +80,24 @@
       "parentUuid": "47669663_8c4b91cd",
       "revId": "df4ff6fc6589085075c6505fd358997543a62cb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3ab40dd_a9c3055b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-20T05:58:51Z",
+      "side": 1,
+      "message": "Clarification on the \"partially cherry-pick the fix (without FakeIndex tests)\"\n\nWe can split this fix into two changes, change #1 has only the fix and change #2 enables the FakeIndex tests for EqualsLabelPredicate. So that we can cherry-pick the fix change #1 onto stable-2.14 and up-merge that branch onto other applicable stable branches.",
+      "parentUuid": "c15f3dbe_cf103b8e",
+      "revId": "df4ff6fc6589085075c6505fd358997543a62cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

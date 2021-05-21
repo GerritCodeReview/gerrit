@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b493f7bc_0b5a8165",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2021-05-21T14:32:13Z",
+      "side": 1,
+      "message": "Thanks! Yeah, this looks basically good.",
+      "revId": "916b5aac040cbbefd06dab1cc2f64a6afefcc345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72885e8d_aeefee12",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2021-05-21T14:32:13Z",
+      "side": 1,
+      "message": "Two nits:\n1. (not introduced by this change, but seems worth fixing while we\u0027re here) The subshell here is not needed; it should be possible to use \"{ git rev-parse \u003cetc\u003e; } | git hash-object --stdin\" instead to save a process on some shells.\n\n2. Making this deterministic in the content makes collisions more likely. Would it make sense to still incorporate \"date\" output to avoid that? Or if only using Git commands, to use \"git var GIT_COMMITTER_IDENT\"?",
+      "revId": "916b5aac040cbbefd06dab1cc2f64a6afefcc345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

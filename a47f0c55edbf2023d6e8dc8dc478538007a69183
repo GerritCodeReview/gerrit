@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "363e72c1_d6f2337d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-05-21T13:16:28Z",
+      "side": 1,
+      "message": "Also as discussed in chat, I agree that we should only show for errors and warnings because under success it seems like there are errors.",
+      "revId": "a47f0c55edbf2023d6e8dc8dc478538007a69183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fcfa9b5_accf5613",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-05-21T13:16:28Z",
+      "side": 1,
+      "message": "I propose we fit the size of the box to the label text so that we save some space to show more summary.",
+      "range": {
+        "startLine": 232,
+        "startChar": 7,
+        "endLine": 232,
+        "endChar": 33
+      },
+      "revId": "a47f0c55edbf2023d6e8dc8dc478538007a69183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

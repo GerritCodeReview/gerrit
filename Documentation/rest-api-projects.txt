@@ -3521,6 +3521,44 @@ project.
    }
 ----
 
+[[list-submit-requirements]]
+=== List Submit Requirements
+--
+'GET /projects/link:#project-name[\{project-name\}]/submit_requirements'
+--
+
+Retrieves a list of all submit requirements for this project. The `inherited`
+parameter can be supplied to also list submit requirements from parent projects.
+
+The calling user must have read access to the `refs/meta/config` branch of the
+project. If the `inherited` option is used, caller must have read access to the
+`refs/meta/config` of parent projects as well.
+
+As response a list of link:#submit-requirement-info[SubmitRequirementInfo]
+entities is returned.
+
+.Request
+----
+  GET /projects/All-Projects/submit-requirements HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Code-Review",
+      "description": "At least one maximum vote for the Code-Review label is required",
+      "submittability_expression": "label:Code-Review=+2",
+      "allow_override_in_child_projects": false
+    }
+  ]
+----
+
 [[ids]]
 == IDs
 

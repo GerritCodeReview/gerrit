@@ -88,7 +88,8 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/projects/%s/dashboards"),
           RestCall.put("/projects/%s/labels/new-label"),
           RestCall.post("/projects/%s/labels/"),
-          RestCall.put("/projects/%s/submit_requirements/new-sr"));
+          RestCall.put("/projects/%s/submit_requirements/new-sr"),
+          RestCall.get("/projects/%s/submit_requirements"));
 
   /**
    * Child project REST endpoints to be tested, each URL contains placeholders for the parent

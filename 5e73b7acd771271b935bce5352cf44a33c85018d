@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ea8c7cb_3b3f01a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-21T11:57:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c4387df6_8ed205d7",
+      "range": {
+        "startLine": 19,
+        "startChar": 41,
+        "endLine": 19,
+        "endChar": 53
+      },
+      "revId": "5e73b7acd771271b935bce5352cf44a33c85018d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eee2edd1_33e8828d",
@@ -61,6 +85,30 @@
       "writtenOn": "2021-05-21T06:33:08Z",
       "side": 1,
       "message": "The proper fix could fix race condition and only render related changes if mergeable endpoint returned the result.\n\nA less intrusive approach and that would hopefully provide a better performance, could be to not even try to sync change view with related changes view, but just invoke mergeable REST endpoint second time. It\u0027s not an issue after all, because mergeable bit computation is cached, obviously (see gerrit/java/com/google/gerrit/server/restapi/change/Mergeable.java:160):\n\n  Boolean old \u003d cache.getIfPresent(commit, ref, submitType, strategy);\n\nMoreover, when the issue 14532 is resolved and new configuration option is provided, there is no point to delay rendering of related list view, to wait until asynchronous mergeable bit is retrieved in the change view, given that conflict changes section could be disabled anyway. So that even with delay and waiting for mergeable, conflicts query wouldn\u0027t be called anyway.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 14
+      },
+      "revId": "5e73b7acd771271b935bce5352cf44a33c85018d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a61074b_ba575c2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-21T11:57:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "eee2edd1_33e8828d",
       "range": {
         "startLine": 22,
         "startChar": 0,

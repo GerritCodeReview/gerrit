@@ -26,6 +26,14 @@ import {
 // Name of the standard Code-Review label.
 export const CODE_REVIEW = 'Code-Review';
 
+export enum LabelStatus {
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  RECOMMENDED = 'RECOMMENDED',
+  DISLIKED = 'DISLIKED',
+  NEUTRAL = 'NEUTRAL',
+}
+
 export function getVotingRange(label?: LabelInfo): VotingRangeInfo | undefined {
   if (!label || !isDetailedLabelInfo(label) || !label.values) return undefined;
   const values = Object.keys(label.values).map(v => Number(v));
@@ -37,6 +45,39 @@ export function getVotingRange(label?: LabelInfo): VotingRangeInfo | undefined {
 export function getVotingRangeOrDefault(label?: LabelInfo): VotingRangeInfo {
   const range = getVotingRange(label);
   return range ? range : {min: 0, max: 0};
+}
+
+/**
+ * If we don't know the label config, then we still need some way to decide
+ * which vote value is the most important one, so we apply the standard rule
+ * of a Code-Review label, where -2 blocks. So the most negative vote is
+ * regarded as representative, if its absolute value is greater than the most
+ * positive vote.
+ */
+export function getRepresentativeValue(label?: DetailedLabelInfo): number {
+  if (!label?.all) return 0;
+  const allValues = label.all.map(approvalInfo => approvalInfo.value ?? 0);
+  if (allValues.length === 0) return 0;
+  const max = Math.max(...allValues);
+  const min = Math.min(...allValues);
+  return max > -min ? max : min;
+}
+
+export function getLabelStatus(label?: DetailedLabelInfo): LabelStatus {
+  const value = getRepresentativeValue(label);
+  const range = getVotingRangeOrDefault(label);
+  if (value === range.min) return LabelStatus.REJECTED;
+  if (value === range.max) return LabelStatus.APPROVED;
+  if (value < 0) return LabelStatus.DISLIKED;
+  if (value > 0) return LabelStatus.RECOMMENDED;
+  return LabelStatus.NEUTRAL;
+}
+
+export function valueString(value?: number) {
+  if (!value) return ' 0';
+  let s = `${value}`;
+  if (value > 0) s = `+${s}`;
+  return s;
 }
 
 export function getMaxAccounts(label?: LabelInfo): ApprovalInfo[] {

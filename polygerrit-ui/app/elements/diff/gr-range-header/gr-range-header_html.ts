@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
+ * Copyright (C) 2021 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,27 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
-  <style include="gr-ranged-comment-theme">
-    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
-  </style>
   <style include="shared-styles">
     .row {
+      color: var(--gr-range-header-color);
       display: flex;
-      --gr-range-header-color: var(--ranged-comment-hint-text-color);
+      font-family: var(--font-family, ''), 'Roboto Mono';
+      font-size: var(--font-size-small, 12px);
+      font-weight: var(--code-hint-font-weight, 500);
+      line-height: var(--line-height-small, 16px);
+      justify-content: flex-end;
+      padding: var(--spacing-s) var(--spacing-l);
+      justify-content: flex-end;
     }
-    gr-range-header {
-      flex-grow: 1;
+    .icon {
+      color: var(--gr-range-header-color);
+      height: var(--line-height-small, 16px);
+      width: var(--line-height-small, 16px);
+      margin-right: var(--spacing-s);
     }
   </style>
-  <div class="rangeHighlight row">
-    <gr-range-header icon="gr-icons:comment"
-      >[[_computeRangeLabel(range)]]</gr-range-header
-    >
+  <div class="row">
+    <iron-icon class="icon" icon="[[icon]]"></iron-icon>
+    <slot></slot>
   </div>
 `;

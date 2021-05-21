@@ -34,7 +34,9 @@ suite('gr-ranged-comment-hint tests', () => {
       end_character: 3,
     } as CommentRange;
     await flush();
-    const textDiv = element.root!.querySelector<HTMLDivElement>('.row');
+    const textDiv = element
+      .root!.querySelector('gr-range-header')
+      ?.shadowRoot!.querySelector<HTMLDivElement>('.row');
     assert.equal(textDiv!.innerText.trim(), 'Long comment range 2 - 5');
   });
 });

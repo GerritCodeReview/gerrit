@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e4edfbb_0d44ac6f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-21T14:36:26Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure, but I think refs edits is not related to comments?",
+      "range": {
+        "startLine": 325,
+        "startChar": 54,
+        "endLine": 325,
+        "endChar": 67
+      },
+      "revId": "4b55072262252319544d3863843f29e8ff265c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99478af7_e0e00e79",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-21T14:36:26Z",
+      "side": 1,
+      "message": "typo?",
+      "range": {
+        "startLine": 325,
+        "startChar": 38,
+        "endLine": 325,
+        "endChar": 42
+      },
+      "revId": "4b55072262252319544d3863843f29e8ff265c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f716fa31_94606643",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-21T14:36:26Z",
+      "side": 1,
+      "message": "I think that\u0027s the only part that\u0027s fixing the bug? If yes, could you please add an explicit mention of that in the commit message (i.e. we fix that by reconstructing editsByUser in ChangeData#setRefStates).\n\nSince you are doing two things in this change, I wasn\u0027t sure which part is fixing the bug.",
+      "revId": "4b55072262252319544d3863843f29e8ff265c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

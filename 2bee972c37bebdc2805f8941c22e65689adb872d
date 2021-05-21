@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a83fe937_75f5a065",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T10:57:33Z",
+      "side": 1,
+      "message": "Why is that fishy? We don\u0027t use this for indexing, but it\u0027s the way to store and signal if an index is ready to be used.",
+      "parentUuid": "a842cf30_7967671b",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42227929_210c1477",
         "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
         "patchSetId": 7
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-12T13:55:05Z",
       "side": 1,
       "message": "Comparator",
+      "range": {
+        "startLine": 163,
+        "startChar": 6,
+        "endLine": 163,
+        "endChar": 16
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54dbce95_62c9c11b",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T10:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42227929_210c1477",
       "range": {
         "startLine": 163,
         "startChar": 6,
@@ -60,6 +108,30 @@
       "writtenOn": "2021-05-12T13:55:05Z",
       "side": 1,
       "message": "I\u0027m suprised: is this left to the index implementation to decide? Or is this something that has to be synchronized across implementations?",
+      "range": {
+        "startLine": 193,
+        "startChar": 37,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5faad41a_3f003372",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T10:57:33Z",
+      "side": 1,
+      "message": "It\u0027s left to the index implementation to figure out because each index configures sorting in a different way: Our internal index does it on the schema where you define presorts. Lucene accepts sorting on the Java API.\n\nThe fake index just uses comparators.",
+      "parentUuid": "76a6e53c_b514d082",
       "range": {
         "startLine": 193,
         "startChar": 37,
@@ -107,6 +179,30 @@
       "side": 1,
       "message": "Great. These are not all bugs, though (some of my comments here are wrong I think, but feel free to debug yourself). Some predicates (e.g. ChangeMessagePredicate) work, but they use the index even when you call #match.\n\nNow, I think that\u0027s a bug of it\u0027s own because the caller expects that this matching happens offline without a call to the index which isn\u0027t true.\nBut when you have an index available, #match does return a correct result for this predicate.\n\nI\u0027ll try to send out the remaining changes that are required to complete this work tomorrow and see if there are any non-trivial parts that I could factor our to you (thanks for offering that!). If not, I would appreciate your reviews :-)\n\nNote that in the fake index test, the account index and the group index aren\u0027t yet working which is also why some of these predicates fail.",
       "parentUuid": "b9cc5907_d4af1691",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 34
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01e471fc_c5efecf2",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T10:57:33Z",
+      "side": 1,
+      "message": "Resolved. The series is now finished and I\u0027d appreciate your review :-)",
+      "parentUuid": "826baa9b_c898d836",
       "range": {
         "startLine": 81,
         "startChar": 14,

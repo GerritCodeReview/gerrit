@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6cab3424_48394077",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T12:41:51Z",
+      "side": 1,
+      "message": "Thank you for looking at this so quickly, much appreciated!\n\n\u003e 1) We\u0027re not sure predicates based only on PatchSetApprovals will be sufficient. What if users want to use any of the existing ChangeData predicates?\n\nAbsolutely. Or what if they want to enforce conditions on the uploader of the change or the approver of the approval to be copied. Sounds like this is the right path forward.\n\n\u003e 2) We need to add approval copying on cherrypicks to be able to get off our fork. Worst case we can do that in a plugin, but if this extension/rules-syntax leaves room for us to add the feature in core, that would be ideal.\n\nI remember we talked about this but I could not find the discussion anywhere. Can you give me a pointer?\n\nDo I recall correctly that upon a cherry pick you want to copy the votes that were on the change originally?\n\nI don\u0027t think this query syntax would help then, but let\u0027s see if we could make it so.\n\nRight now, the approval copier runs in single changes and tries to copy patch set approvals forward to the next patch set if conditions are me. The query syntax (in the currently proposed form) would not change that. Instead of reading many booleans, we\u0027d just run that query and if it returns \"true\" we copy the PSA from PS N to N+1, but never to other changes because a single change is the only context we have.",
+      "parentUuid": "0515f1fc_df459859",
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d3c2943_fc2e4b6d",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1

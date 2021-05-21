@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0d8d4ed_53946d33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-21T23:23:19Z",
+      "side": 1,
+      "message": "Tested with Safari 14.1, WebKit 16611.1.10.1 and it works like a charm, the text area of the diff is read-only. @Tony you rock !\n\nThe last point to address is the styling.\n",
+      "revId": "f4a28d6ecfb4b27d2c7a7f526c5d6c1f042e3d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

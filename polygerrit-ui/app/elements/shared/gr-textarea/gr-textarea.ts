@@ -141,7 +141,7 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
   get keyBindings() {
     return {
       esc: '_handleEscKey',
-      tab: '_handleEnterByKey',
+      tab: '_handleTabKey',
       enter: '_handleEnterByKey',
       up: '_handleUpKey',
       down: '_handleDownKey',
@@ -216,10 +216,25 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
     this.disableEnterKeyForSelectingEmoji = false;
   }
 
-  _handleEnterByKey(e: KeyboardEvent) {
+  _handleTabKey(e: KeyboardEvent) {
+    // Tab should have normal behavior if the picker is closed or if the user
+    // has only typed ':'.
     if (this._hideAutocomplete || this.disableEnterKeyForSelectingEmoji) {
       return;
     }
+    e.preventDefault();
+    e.stopPropagation();
+    this._setEmoji(this.$.emojiSuggestions.getCurrentText());
+  }
+
+  _handleEnterByKey(e: KeyboardEvent) {
+    // Enter should have newline behavior if the picker is closed or if the user
+    // has only typed ':'.
+    if (this._hideAutocomplete || this.disableEnterKeyForSelectingEmoji) {
+      this._indent(e);
+      return;
+    }
+
     e.preventDefault();
     e.stopPropagation();
     this._setEmoji(this.$.emojiSuggestions.getCurrentText());
@@ -385,6 +400,34 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
     this.dispatchEvent(
       new CustomEvent('value-changed', {detail: {value: text}})
     );
+  }
+
+  _indent(e: KeyboardEvent): void {
+    if (!document.queryCommandSupported('insertText')) {
+      return;
+    }
+    // When nothing is selected, selectionStart is the caret position. We want
+    // the indentation level of the current line, not the end of the text which
+    // may be different.
+    const currentLine = this.$.textarea.textarea.value
+      .substr(0, this.$.textarea.selectionStart)
+      .split('\n')
+      .pop();
+    const currentLineIndentation = currentLine?.match(/^\s*/)?.[0];
+    if (!currentLineIndentation) {
+      return;
+    }
+
+    // Stops the normal newline being added afterwards since we are adding it
+    // ourselves.
+    e.preventDefault();
+
+    // MDN says that execCommand is deprecated, but the replacements are still
+    // WIP (Input Events Level 2). The queryCommandSupported check should ensure
+    // that entering newlines will work even if this indent feature breaks.
+    // Directly replacing the text is possible, but would destroy the undo/redo
+    // queue.
+    document.execCommand('insertText', false, '\n' + currentLineIndentation);
   }
 }
 

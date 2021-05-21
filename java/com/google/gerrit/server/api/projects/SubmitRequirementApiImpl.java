@@ -18,6 +18,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.gerrit.extensions.api.projects.SubmitRequirementApi;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -27,6 +28,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.SubmitRequirementResource;
 import com.google.gerrit.server.restapi.project.CreateSubmitRequirement;
+import com.google.gerrit.server.restapi.project.DeleteSubmitRequirement;
 import com.google.gerrit.server.restapi.project.GetSubmitRequirement;
 import com.google.gerrit.server.restapi.project.SubmitRequirementsCollection;
 import com.google.inject.Inject;
@@ -39,6 +41,7 @@ public class SubmitRequirementApiImpl implements SubmitRequirementApi {
 
   private final SubmitRequirementsCollection submitRequirements;
   private final CreateSubmitRequirement createSubmitRequirement;
+  private final DeleteSubmitRequirement deleteSubmitRequirement;
   private final GetSubmitRequirement getSubmitRequirement;
   private final String name;
   private final ProjectCache projectCache;
@@ -49,12 +52,14 @@ public class SubmitRequirementApiImpl implements SubmitRequirementApi {
   SubmitRequirementApiImpl(
       SubmitRequirementsCollection submitRequirements,
       CreateSubmitRequirement createSubmitRequirement,
+      DeleteSubmitRequirement deleteSubmitRequirement,
       GetSubmitRequirement getSubmitRequirement,
       ProjectCache projectCache,
       @Assisted ProjectResource project,
       @Assisted String name) {
     this.submitRequirements = submitRequirements;
     this.createSubmitRequirement = createSubmitRequirement;
+    this.deleteSubmitRequirement = deleteSubmitRequirement;
     this.getSubmitRequirement = getSubmitRequirement;
     this.projectCache = projectCache;
     this.project = project;
@@ -97,7 +102,11 @@ public class SubmitRequirementApiImpl implements SubmitRequirementApi {
 
   @Override
   public void delete() throws RestApiException {
-    /** TODO(ghareeb): implement */
+    try {
+      deleteSubmitRequirement.apply(resource(), new Input());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete label", e);
+    }
   }
 
   private SubmitRequirementResource resource() throws RestApiException, PermissionBackendException {

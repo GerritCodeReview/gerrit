@@ -98,6 +98,24 @@
       "parentUuid": "7d6ee0f9_2fe1b14b",
       "revId": "d0da4c7c35053b075b951154a088cf68f590a504",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89eea730_1380bb85",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1124260
+      },
+      "writtenOn": "2021-05-21T05:32:42Z",
+      "side": 1,
+      "message": "I\u0027ve refactored the random generation to depend solely on `git`. What are your thoughts of the new approach?",
+      "parentUuid": "f036b57c_ec4dd434",
+      "revId": "d0da4c7c35053b075b951154a088cf68f590a504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -62,11 +62,20 @@ import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
 import {isAttemptSelected} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
-import {ConfigInfo, PatchSetNumber} from '../../types/common';
-import {latestPatchNum$} from '../../services/change/change-model';
+import {
+  ConfigInfo,
+  LabelNameToInfoMap,
+  PatchSetNumber,
+} from '../../types/common';
+import {labels$, latestPatchNum$} from '../../services/change/change-model';
 import {appContext} from '../../services/app-context';
 import {repoConfig$} from '../../services/config/config-model';
 import {spinnerStyles} from '../../styles/gr-spinner-styles';
+import {
+  getLabelStatus,
+  getRepresentativeValue,
+  valueString,
+} from '../../utils/label-util';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -81,6 +90,14 @@ class GrResultRow extends GrLitElement {
 
   @property()
   shouldRender = false;
+
+  @property()
+  labels?: LabelNameToInfoMap;
+
+  constructor() {
+    super();
+    this.subscribe('labels', labels$);
+  }
 
   static get styles() {
     return [
@@ -182,14 +199,6 @@ class GrResultRow extends GrLitElement {
           padding: 0 var(--spacing-m);
           margin-left: var(--spacing-s);
         }
-        td .summary-cell .label {
-          color: var(--primary-text-color);
-          display: inline-block;
-          border-radius: 20px;
-          background-color: var(--label-background);
-          padding: 0 var(--spacing-m);
-          margin-left: var(--spacing-s);
-        }
         td .summary-cell .tag.gray {
           background-color: var(--tag-gray);
         }
@@ -219,6 +228,37 @@ class GrResultRow extends GrLitElement {
         }
         #moreMessage {
           display: none;
+        }
+        td .summary-cell .label {
+          margin-left: var(--spacing-s);
+          border-radius: var(--border-radius);
+          color: var(--vote-text-color);
+          display: inline-block;
+          padding: 0 var(--spacing-s);
+          text-align: center;
+          min-width: 100px;
+        }
+        td .summary-cell .label.neutral {
+          background-color: var(--vote-color-neutral);
+        }
+        td .summary-cell .label.recommended,
+        td .summary-cell .label.disliked {
+          line-height: calc(var(--line-height-normal) - 2px);
+          color: var(--chip-color);
+        }
+        td .summary-cell .label.recommended {
+          background-color: var(--vote-color-recommended);
+          border: 1px solid var(--vote-outline-recommended);
+        }
+        td .summary-cell .label.disliked {
+          background-color: var(--vote-color-disliked);
+          border: 1px solid var(--vote-outline-disliked);
+        }
+        td .summary-cell .label.approved {
+          background-color: var(--vote-color-approved);
+        }
+        td .summary-cell .label.rejected {
+          background-color: var(--vote-color-rejected);
         }
       `,
     ];
@@ -345,10 +385,12 @@ class GrResultRow extends GrLitElement {
   renderLabel() {
     const label = this.result?.labelName;
     if (!label) return;
+    const info = this.labels?.[label];
+    const status = getLabelStatus(info).toLowerCase();
+    const value = valueString(getRepresentativeValue(info));
+    const hover = this.hasLinksOrActions() ? 'hoverHide' : '';
     return html`
-      <div class="label ${this.hasLinksOrActions() ? 'hoverHide' : ''}">
-        ${label}
-      </div>
+      <div class="label ${status} ${hover}">${label} ${value}</div>
     `;
   }
 

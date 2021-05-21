@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1d858ae7_0cf19037",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T10:51:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bc1fcf6_0845c58b",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "85128299d341549c270b995e845e9495e0fc9ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c445d2d7_6adfd0bc",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -37,6 +61,24 @@
       "writtenOn": "2021-05-12T07:55:53Z",
       "side": 1,
       "message": "very nice; I love seeing the deleted code :) \n\nthis will need an import fixup, I guess?",
+      "revId": "85128299d341549c270b995e845e9495e0fc9ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "203ba8b1_539d5fc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T10:51:14Z",
+      "side": 1,
+      "message": "We don\u0027t because this isn\u0027t taking away functionality. Once we have it imported we can delete quite some internal code as well :-)",
+      "parentUuid": "c445d2d7_6adfd0bc",
       "revId": "85128299d341549c270b995e845e9495e0fc9ea4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2021-05-12T07:55:53Z",
       "side": 1,
       "message": "that\u0027s weird. Shouldn\u0027t it return a bool so the caller can do something else if needed?",
+      "range": {
+        "startLine": 172,
+        "startChar": 95,
+        "endLine": 173,
+        "endChar": 41
+      },
+      "revId": "85128299d341549c270b995e845e9495e0fc9ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81c2d1b6_8190bccf",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T10:51:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d29a379_2c3d93e3",
       "range": {
         "startLine": 172,
         "startChar": 95,
@@ -135,6 +201,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62a5a934_91ec32c8",
+        "filename": "java/com/google/gerrit/index/StoredField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T10:51:14Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "63e545ea_1f70b8be",
+      "range": {
+        "startLine": 23,
+        "startChar": 17,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "85128299d341549c270b995e845e9495e0fc9ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b30e1f0_be331cd2",
@@ -148,6 +238,30 @@
       "writtenOn": "2021-05-12T07:55:53Z",
       "side": 1,
       "message": "maybe obvious to you, but could use a comment why this is a list rather than single instance.",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 36
+      },
+      "revId": "85128299d341549c270b995e845e9495e0fc9ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c207126d_04013a98",
+        "filename": "java/com/google/gerrit/lucene/LuceneStoredField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T10:51:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b30e1f0_be331cd2",
       "range": {
         "startLine": 29,
         "startChar": 16,

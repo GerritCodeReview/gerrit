@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1f5c996_30d4b47b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-21T11:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a0f47c9_aa01d4f2",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 3
+      },
+      "revId": "90d84cec5de56234a5a672bc4b0bc7d76de21149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c54546c7_696f39d9",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-05-20T16:58:36Z",
       "side": 1,
       "message": "You should also describe the more serious consequences of that:\n- TaskThunk:run() is a task allocated on one executor of the SSH thread pools (interactive or batch)\n- The executor stays in wait *forever* and won\u0027t release the executor anymore, reducing the ability for Gerrit to serve requests\n- Longer term, all executors are hanged and Gerrit is technically dead\n- There is no solution other than restarting Gerrit",
+      "revId": "90d84cec5de56234a5a672bc4b0bc7d76de21149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1af0c150_c361ec08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-21T11:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c54546c7_696f39d9",
       "revId": "90d84cec5de56234a5a672bc4b0bc7d76de21149",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +113,24 @@
       "writtenOn": "2021-05-20T16:58:36Z",
       "side": 1,
       "message": "Can you also check what happens if TaskThunk is waiting on a thread in the SSH thread pool and the listener is called on a different thread?",
+      "revId": "90d84cec5de56234a5a672bc4b0bc7d76de21149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e0795dd_6109877e",
+        "filename": "javatests/com/google/gerrit/pgm/http/jetty/ProjectQoSFilterTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-21T11:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd97b8bd_34fc99e4",
       "revId": "90d84cec5de56234a5a672bc4b0bc7d76de21149",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

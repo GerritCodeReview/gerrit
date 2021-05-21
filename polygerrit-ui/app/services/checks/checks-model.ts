@@ -16,16 +16,7 @@
  */
 
 import {BehaviorSubject, Observable} from 'rxjs';
-import {
-  Action,
-  Category,
-  CheckResult as CheckResultApi,
-  CheckRun as CheckRunApi,
-  ChecksApiConfig,
-  Link,
-  LinkIcon,
-  RunStatus,
-} from '../../api/checks';
+import {Action, Category, CheckResult as CheckResultApi, CheckRun as CheckRunApi, ChecksApiConfig, Link, LinkIcon, RunStatus, TagColor,} from '../../api/checks';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {PatchSetNumber} from '../../types/common';
 import {AttemptDetail, createAttemptMap} from './checks-util';
@@ -273,7 +264,7 @@ export const fakeRun0: CheckRun = {
           callback: () => Promise.resolve({message: 'fake "upload" triggered'}),
         },
       ],
-      tags: [{name: 'INTERRUPTED'}, {name: 'WINDOWS'}],
+      tags: [{name: 'INTERRUPTED', color: TagColor.BROWN}, {name: 'WINDOWS'}],
       links: [
         {primary: true, url: 'https://google.com', icon: LinkIcon.EXTERNAL},
         {primary: true, url: 'https://google.com', icon: LinkIcon.DOWNLOAD},
@@ -300,7 +291,7 @@ export const fakeRun1: CheckRun = {
       summary: 'We think that you could improve this.',
       message: `There is a lot to be said. A lot. I say, a lot.\n
                 So please keep reading.`,
-      tags: [{name: 'INTERRUPTED'}, {name: 'WINDOWS'}],
+      tags: [{name: 'INTERRUPTED', color: TagColor.PURPLE}, {name: 'WINDOWS'}],
       links: [
         {primary: true, url: 'https://google.com', icon: LinkIcon.EXTERNAL},
         {primary: true, url: 'https://google.com', icon: LinkIcon.DOWNLOAD},

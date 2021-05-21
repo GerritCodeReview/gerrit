@@ -190,22 +190,22 @@ class GrResultRow extends GrLitElement {
           padding: 0 var(--spacing-m);
           margin-left: var(--spacing-s);
         }
-        .tag.gray {
+        td .summary-cell .tag.gray {
           background-color: var(--tag-gray);
         }
-        .tag.yellow {
+        td .summary-cell .tag.yellow {
           background-color: var(--tag-yellow);
         }
-        .tag.pink {
+        td .summary-cell .tag.pink {
           background-color: var(--tag-pink);
         }
-        .tag.purple {
+        td .summary-cell .tag.purple {
           background-color: var(--tag-purple);
         }
-        .tag.cyan {
+        td .summary-cell .tag.cyan {
           background-color: var(--tag-cyan);
         }
-        .tag.brown {
+        td .summary-cell .tag.brown {
           background-color: var(--tag-brown);
         }
         .actions gr-checks-action,

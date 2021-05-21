@@ -114,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64c1b70f_b83ef5cf",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-21T12:55:27Z",
+      "side": 1,
+      "message": "Hi Patrick.., I have tried to run [1] and [2] diff cache acceptance tests with notes() and with #notes variable. They were passing in both cases. Also tried to test on the CI with a test change [0] and all the tests are passing. Can you kindly let me, when you said \"we have acceptance tests that assert that some logic\" which exact tests are those ..? and are they not enabled on the CI ..?\n\n\n[0] https://gerrit-review.googlesource.com/c/gerrit/+/307362\n\n[1] //javatests/com/google/gerrit/acceptance/api/revision:RevisionNewDiffCacheForSingleFileIT\n\n[2] //javatests/com/google/gerrit/acceptance/api/revision:RevisionNewDiffCacheIT",
+      "parentUuid": "5d9ebfa1_8225ab8f",
+      "range": {
+        "startLine": 1067,
+        "startChar": 47,
+        "endLine": 1067,
+        "endChar": 52
+      },
+      "revId": "5e1fe046949d60b5247893c85538a8e8ccfa2f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d47a35b8_20b7b6a4",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1

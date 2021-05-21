@@ -37,7 +37,7 @@ The change status shows the state of the change:
 +
 The change is under active review.
 
-- [[not-current]]`Merge Conflict`:
+- [[merge-conflict]]`Merge Conflict`:
 +
 The change can't be merged due to conflicts.
 

@@ -450,6 +450,7 @@ export const htmlTemplate = html`
               <gr-related-changes-list
                 change="[[_change]]"
                 id="relatedChanges"
+                mergeable="[[_mergeable]]"
                 patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
               ></gr-related-changes-list>
             </div>

@@ -81,6 +81,15 @@ export class GrCopyClipboard extends PolymerElement {
     if (this.hideInput) {
       this.$.input.style.display = 'none';
     }
+    this.dispatchEvent(
+      new CustomEvent('text-selected', {
+        composed: true,
+        bubbles: true,
+        detail: {
+          text: this.text,
+        },
+      })
+    );
     this.$.icon.icon = 'gr-icons:check';
     setTimeout(
       () => (this.$.icon.icon = 'gr-icons:content-copy'),

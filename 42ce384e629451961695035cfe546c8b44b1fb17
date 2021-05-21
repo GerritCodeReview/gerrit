@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f7df315_2fe19184",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-21T11:03:36Z",
+      "side": 0,
+      "message": "Why this line was lost? See issue 14561.",
+      "range": {
+        "startLine": 548,
+        "startChar": 18,
+        "endLine": 548,
+        "endChar": 44
+      },
+      "revId": "42ce384e629451961695035cfe546c8b44b1fb17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

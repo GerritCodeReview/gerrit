@@ -33,6 +33,24 @@
       "message": "Two nits:\n1. (not introduced by this change, but seems worth fixing while we\u0027re here) The subshell here is not needed; it should be possible to use \"{ git rev-parse \u003cetc\u003e; } | git hash-object --stdin\" instead to save a process on some shells.\n\n2. Making this deterministic in the content makes collisions more likely. Would it make sense to still incorporate \"date\" output to avoid that? Or if only using Git commands, to use \"git var GIT_COMMITTER_IDENT\"?",
       "revId": "916b5aac040cbbefd06dab1cc2f64a6afefcc345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55124eee_83a44871",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1124260
+      },
+      "writtenOn": "2021-05-21T15:12:33Z",
+      "side": 1,
+      "message": "\u003e 1. (not introduced by this change, but seems worth fixing while we\u0027re here) The subshell here is not needed; it should be possible to use \"{ git rev-parse \u003cetc\u003e; } | git hash-object --stdin\" instead to save a process on some shells.\n\nAck\n\n\u003e 2. Making this deterministic in the content makes collisions more likely. Would it make sense to still incorporate \"date\" output to avoid that? Or if only using Git commands, to use \"git var GIT_COMMITTER_IDENT\"?\n\nHmm. That\u0027s a good observation, and I\u0027m in perfect alignment with you, but want to just note that we\u0027re still using the commit message contents here which, at least in theory, should be sufficiently unique between different users, even if the diff is identical.\n\nThat said, again, more than happy to add more randomization in here. Any particular preference between `date` or `GIT_COMMITER_IDENT`?",
+      "parentUuid": "72885e8d_aeefee12",
+      "revId": "916b5aac040cbbefd06dab1cc2f64a6afefcc345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

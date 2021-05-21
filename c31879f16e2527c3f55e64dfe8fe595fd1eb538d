@@ -69,6 +69,63 @@
       "parentUuid": "95a986f2_d03ce3dc",
       "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8c9bbe1_637c04bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-21T21:10:58Z",
+      "side": 1,
+      "message": "Some ideas below; interesting change! :)",
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9e1b722_385ede38",
+        "filename": "contrib/smoke-test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-21T21:10:58Z",
+      "side": 1,
+      "message": "env python3",
+      "range": {
+        "startLine": 1,
+        "startChar": 11,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9536936_a719f855",
+        "filename": "contrib/smoke-test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-21T21:10:58Z",
+      "side": 1,
+      "message": "Maybe move this file to a ./smoke-test directory, to then put some dev-env files in it as well. See ./reindex as a potential example. The latter has some dev-env files in it already, which help in formatting the sibling python code, as well as resolving dependencies locally. You likely encountered that tooling already.\n\nAdding a Makefile or an executable README alongside usually helps on the usage too. This could replace the comment lines 17-21 further above, depending. Overall, putting this initial work in a directory would help support further expansion of such test code. But as you say already, as far as the scope here doesn\u0027t overlap too much with the existing test code elsewhere in Gerrit.\n\nSpeaking of formatting, the ../.editorconfig root file might require tweaking for python files underneath. -Depends of course on how the local IDE or editor considers it from its own project setup perspective. I\u0027m thinking of indent_size which should be 4 for python indeed.\n\nFor flake8, I usually use extend-ignore over \u0027ignore\u0027 which overwrites default ignores it seems. Ignoring E203 used to suffice for me so far, but this depends on the actual python code of course. And \u0027black\u0027 showed to be a needful complement beside flake8; one reformats and the other fixes the style further.",
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

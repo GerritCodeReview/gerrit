@@ -84,6 +84,7 @@ public class ProjectRestApiModule extends RestApiModule {
     create(SUBMIT_REQUIREMENT_KIND).to(CreateSubmitRequirement.class);
     put(SUBMIT_REQUIREMENT_KIND).to(UpdateSubmitRequirement.class);
     get(SUBMIT_REQUIREMENT_KIND).to(GetSubmitRequirement.class);
+    delete(SUBMIT_REQUIREMENT_KIND).to(DeleteSubmitRequirement.class);
 
     get(PROJECT_KIND, "HEAD").to(GetHead.class);
     put(PROJECT_KIND, "HEAD").to(SetHead.class);

@@ -51,6 +51,41 @@
       "parentUuid": "84a0a993_def1dd1a",
       "revId": "580581b0801557c230f60e0a0d59ac339d77e76c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f85575e_f95c1032",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-21T14:38:35Z",
+      "side": 1,
+      "message": "@Philipp Wollermann we migrated the CI to RBE starting from stable-3.4 and cannot switch to Bazel 4.1.0 yet. For all RBE customers the prerequisite to switch to using a new Bazel release is the availability of new bazel-toolchains release with checked in configuration for new Bazel release.",
+      "revId": "580581b0801557c230f60e0a0d59ac339d77e76c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bd862af_6e10125c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-05-21T14:38:35Z",
+      "side": 1,
+      "message": "I filed this issue: [1] on bazel-toolchains project.\n\n[1] https://github.com/bazelbuild/bazel-toolchains/issues/958",
+      "parentUuid": "84a0a993_def1dd1a",
+      "revId": "580581b0801557c230f60e0a0d59ac339d77e76c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

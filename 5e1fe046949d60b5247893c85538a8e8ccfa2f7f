@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c59393d_2b766d60",
+        "filename": "java/com/google/gerrit/entities/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T12:15:16Z",
+      "side": 1,
+      "message": "Awesome, thanks for the pointer! Done.",
+      "parentUuid": "f6600426_060a0cb8",
+      "range": {
+        "startLine": 201,
+        "startChar": 27,
+        "endLine": 201,
+        "endChar": 55
+      },
+      "revId": "5e1fe046949d60b5247893c85538a8e8ccfa2f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6da82ce4_2ad587a1",
@@ -101,6 +125,30 @@
       "writtenOn": "2021-05-12T22:43:53Z",
       "side": 1,
       "message": "Why do you need to add this? I admit I haven\u0027t really investigated how/where/why setRefStates is used, so maybe it\u0027s obvious if I go look at that?",
+      "range": {
+        "startLine": 1271,
+        "startChar": 6,
+        "endLine": 1271,
+        "endChar": 35
+      },
+      "revId": "5e1fe046949d60b5247893c85538a8e8ccfa2f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87e572e9_e8b461bf",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1271,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T12:15:16Z",
+      "side": 1,
+      "message": "Done\n\nThe fake index has to convert from ChangeData to Indexed doc (map of fields) back to change data because ChangeData is a mutable object (so we can\u0027t just hold onto it when indexed). We can also not just recreate a ChangeData when indexing because there are tests that assert that certain calls are made only once (e.g. calls to the diff cache, submit rules, ...) and these would break if we recreated ChangeData.\n\nI hope we\u0027ll refactor this in the future so that ChangeData gets an immutable snapshot. But for now, it was the easiest to just recover edits and drafts and I think that\u0027s actually a plus overall.",
+      "parentUuid": "d47a35b8_20b7b6a4",
       "range": {
         "startLine": 1271,
         "startChar": 6,

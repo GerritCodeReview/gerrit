@@ -518,6 +518,43 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     assertThat(names(infos)).containsExactly("base-sr", "sr-1", "sr-2");
   }
 
+  @Test
+  public void cannotDeleteSRAsAnonymousUser() throws Exception {
+    createSubmitRequirement("code-review");
+
+    requestScopeOperations.setApiUserAnonymous();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.projects().name(project.get()).submitRequirement("code-review").delete());
+    assertThat(thrown).hasMessageThat().contains("Authentication required");
+  }
+
+  @Test
+  public void cannotDeleteNonExistingSR() throws Exception {
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.projects().name(project.get()).submitRequirement("non-existing").delete());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("Submit requirement 'non-existing' does not exist");
+  }
+
+  @Test
+  public void deleteSubmitRequirement() throws Exception {
+    createSubmitRequirement("code-review");
+    createSubmitRequirement("verified");
+
+    List<SubmitRequirementInfo> infos =
+        gApi.projects().name(project.get()).submitRequirements().get();
+    assertThat(names(infos)).containsExactly("code-review", "verified");
+
+    gApi.projects().name(project.get()).submitRequirement("code-review").delete();
+    infos = gApi.projects().name(project.get()).submitRequirements().get();
+    assertThat(names(infos)).containsExactly("verified");
+  }
+
   private SubmitRequirementInfo createSubmitRequirement(String srName) throws RestApiException {
     return createSubmitRequirement(project.get(), srName);
   }

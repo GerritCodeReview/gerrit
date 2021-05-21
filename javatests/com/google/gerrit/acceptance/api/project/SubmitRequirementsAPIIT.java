@@ -24,7 +24,10 @@ import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.Test;
 
 @NoHttpd
@@ -257,5 +260,69 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
                 + "submit requirement 'code-review' "
                 + "(parameter submit-requirement.code-review.applicableIf) is invalid: "
                 + "Unsupported operator invalid_field:invalid_value]");
+  }
+
+  @Test
+  public void cannotListSRsAsAnonymous() throws Exception {
+    requestScopeOperations.setApiUserAnonymous();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.projects().name(project.get()).submitRequirements().get());
+    assertThat(thrown).hasMessageThat().contains("Authentication required");
+  }
+
+  @Test
+  public void cannotListSRsWithoutReadPermissionsToRefsMetaConfig() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.projects().name(project.get()).submitRequirements().get());
+    assertThat(thrown).hasMessageThat().contains("read refs/meta/config not permitted");
+  }
+
+  @Test
+  public void listSRs() throws Exception {
+    createSubmitRequirement("sr-1");
+    createSubmitRequirement("sr-2");
+
+    List<SubmitRequirementInfo> infos =
+        gApi.projects().name(project.get()).submitRequirements().get();
+
+    assertThat(names(infos)).containsExactly("sr-1", "sr-2");
+  }
+
+  @Test
+  public void listSRsWithInheritance() throws Exception {
+    createSubmitRequirement(allProjects.get(), "base-sr");
+    createSubmitRequirement(project.get(), "sr-1");
+    createSubmitRequirement(project.get(), "sr-2");
+
+    List<SubmitRequirementInfo> infos =
+        gApi.projects().name(project.get()).submitRequirements().withInherited(false).get();
+
+    assertThat(names(infos)).containsExactly("sr-1", "sr-2");
+
+    infos = gApi.projects().name(project.get()).submitRequirements().withInherited(true).get();
+
+    assertThat(names(infos)).containsExactly("base-sr", "sr-1", "sr-2");
+  }
+
+  private SubmitRequirementInfo createSubmitRequirement(String srName) throws RestApiException {
+    return createSubmitRequirement(project.get(), srName);
+  }
+
+  private SubmitRequirementInfo createSubmitRequirement(String project, String srName)
+      throws RestApiException {
+    SubmitRequirementInput input = new SubmitRequirementInput();
+    input.name = srName;
+    input.submittableIf = "label:dummy=+2";
+
+    return gApi.projects().name(project).submitRequirement(srName).create(input).get();
+  }
+
+  private List<String> names(List<SubmitRequirementInfo> infos) {
+    return infos.stream().map(sr -> sr.name).collect(Collectors.toList());
   }
 }

@@ -235,44 +235,25 @@ export const htmlTemplate = html`
 
     /* dueToMove */
     .dueToMove .content.add .contentText,
-    .dueToMove .moveControls.movedIn .moveLabel,
+    .dueToMove .moveControls.movedIn .moveHeader,
     .delta.total.dueToMove .content.add .contentText {
       background-color: var(--diff-moved-in-background);
     }
 
     .dueToMove .content.remove .contentText,
-    .dueToMove .moveControls.movedOut .moveLabel,
+    .dueToMove .moveControls.movedOut .moveHeader,
     .delta.total.dueToMove .content.remove .contentText {
       background-color: var(--diff-moved-out-background);
     }
 
-    .delta.dueToMove .movedIn .moveDescription {
-      color: var(--diff-moved-in-label-color);
+    .delta.dueToMove .movedIn .moveHeader {
+      --gr-range-header-color: var(--diff-moved-in-label-color);
     }
-    .delta.dueToMove .movedOut .moveDescription {
-      color: var(--diff-moved-out-label-color);
-    }
-    .moveLabel {
-      font-family: var(--font-family, ''), 'Roboto Mono';
-      font-size: var(--font-size-small, 12px);
-      font-weight: var(--code-hint-font-weight, 500);
-      line-height: var(--line-height-small, 16px);
-      padding: var(--spacing-s) var(--spacing-m);
-      margin: var(--spacing-s);
-    }
-    .delta.dueToMove .moveDescription {
-      display: flex;
-      justify-content: flex-end;
+    .delta.dueToMove .movedOut .moveHeader {
+      --gr-range-header-color: var(--diff-moved-out-label-color);
     }
 
-    .moveDescription iron-icon {
-      color: inherit;
-      margin-right: var(--spacing-s);
-      height: var(--line-height-small, 16px);
-      width: var(--line-height-small, 16px);
-    }
-
-    .moveDescription a {
+    .moveHeader a {
       color: inherit;
     }
 

@@ -729,13 +729,12 @@ export abstract class GrDiffBuilder {
     const cells = [...Array(numberOfCells).keys()].map(() =>
       this._createElement('td')
     );
-    const moveDescriptionDiv = this._createElement('div', 'moveDescription');
-    const icon = this._createElement('iron-icon');
-    icon.setAttribute('icon', 'gr-icons:move-item');
-    moveDescriptionDiv.appendChild(icon);
-    moveDescriptionDiv.appendChild(descriptionTextDiv);
-    cells[descriptionIndex].appendChild(moveDescriptionDiv);
-    cells[descriptionIndex].classList.add('moveLabel');
+
+    const moveRangeHeader = this._createElement('gr-range-header');
+    moveRangeHeader.setAttribute('icon', 'gr-icons:move-item');
+    moveRangeHeader.appendChild(descriptionTextDiv);
+    cells[descriptionIndex].classList.add('moveHeader');
+    cells[descriptionIndex].appendChild(moveRangeHeader);
     cells.forEach(c => {
       controls.appendChild(c);
     });

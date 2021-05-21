@@ -22,6 +22,8 @@ import {htmlTemplate} from './gr-download-commands_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {appContext} from '../../../services/app-context';
+import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
+import {queryAndAssert, strToClassName} from '../../../utils/dom-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -46,9 +48,8 @@ export class GrDownloadCommands extends PolymerElement {
     return htmlTemplate;
   }
 
-  // TODO(TS): maybe default to [] as only used in dom-repeat
   @property({type: Array})
-  commands?: Command[];
+  commands: Command[] = [];
 
   @property({type: Boolean})
   _loggedIn = false;
@@ -70,8 +71,7 @@ export class GrDownloadCommands extends PolymerElement {
   }
 
   focusOnCopy() {
-    // TODO(TS): remove ! assertion later
-    this.shadowRoot!.querySelector('gr-shell-command')!.focusOnCopy();
+    queryAndAssert<GrShellCommand>(this, 'gr-shell-command').focusOnCopy();
   }
 
   _getLoggedIn() {
@@ -111,9 +111,8 @@ export class GrDownloadCommands extends PolymerElement {
     return schemes.length > 1 ? '' : 'hidden';
   }
 
-  // TODO: maybe unify with strToClassName from dom-util
   _computeClass(title: string) {
     // Only retain [a-z] chars, so "Cherry Pick" becomes "cherrypick".
-    return '_label_' + title.replace(/[^a-z]+/gi, '').toLowerCase();
+    return strToClassName(title, '_label_', '');
   }
 }

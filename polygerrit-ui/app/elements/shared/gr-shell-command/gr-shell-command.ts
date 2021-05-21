@@ -27,7 +27,7 @@ declare global {
 }
 
 @customElement('gr-shell-command')
-class GrShellCommand extends PolymerElement {
+export class GrShellCommand extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

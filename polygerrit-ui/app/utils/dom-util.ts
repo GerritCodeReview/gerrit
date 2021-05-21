@@ -220,8 +220,8 @@ export function descendedFromClass(
  * Must begin with a letter A-Z or a-z
  * Can be followed by: letters (A-Za-z), digits (0-9), hyphens ("-"), and underscores ("_")
  */
-export function strToClassName(str = '', prefix = 'generated_') {
-  return `${prefix}${str.replace(/[^a-zA-Z0-9-_]/g, '_')}`;
+export function strToClassName(str = '', prefix = 'generated_', token = '_') {
+  return `${prefix}${str.replace(/[^a-zA-Z0-9-_]/g, token)}`;
 }
 
 // document.activeElement is not enough, because it's not getting activeElement
@@ -312,4 +312,22 @@ export function getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent {
     return (event as CustomKeyboardEvent).event;
   }
   return event as CustomKeyboardEvent;
+}
+
+function query<E extends Element = Element>(
+  el: Element | undefined,
+  selector: string
+): E | undefined {
+  if (!el) return undefined;
+  const root = el.shadowRoot ?? el;
+  return root.querySelector<E>(selector) ?? undefined;
+}
+
+export function queryAndAssert<E extends Element = Element>(
+  el: Element | undefined,
+  selector: string
+): E {
+  const found = query<E>(el, selector);
+  if (!found) assert.fail(`selector '${selector}' did not match anything'`);
+  return found;
 }

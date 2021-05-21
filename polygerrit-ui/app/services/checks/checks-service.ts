@@ -158,11 +158,11 @@ export class ChecksService {
           }
         ),
         catchError(e => {
-          const errorResponse: FetchResponse = {
-            responseCode: ResponseCode.ERROR,
-            errorMessage: `Error message from plugin '${pluginName}': ${e}`,
-          };
-          return of(errorResponse);
+          // This should not happen and is really severe, because it means that
+          // the Observable has terminated and we won't recover from that. No
+          // further attempts to fetch results for this plugin will be made.
+          this.reporting.error(e, `checks-service crash for ${pluginName}`);
+          return of(this.createErrorResponse(pluginName, `${e}`));
         })
       )
       .subscribe(response => {
@@ -187,7 +187,20 @@ export class ChecksService {
       });
   }
 
-  private fetchResults(pluginName: string, data: ChangeData) {
+  private createErrorResponse(
+    pluginName: string,
+    message: string
+  ): FetchResponse {
+    return {
+      responseCode: ResponseCode.ERROR,
+      errorMessage: `Error message from plugin '${pluginName}': ${message}`,
+    };
+  }
+
+  private fetchResults(
+    pluginName: string,
+    data: ChangeData
+  ): Observable<FetchResponse> {
     updateStateSetLoading(pluginName);
     const timer = this.reporting.getTimer('ChecksPluginFetch');
     const fetchPromise = this.providers[pluginName]
@@ -196,6 +209,8 @@ export class ChecksService {
         timer.end({pluginName});
         return response;
       });
-    return from(fetchPromise);
+    return from(fetchPromise).pipe(
+      catchError(e => of(this.createErrorResponse(pluginName, `${e}`)))
+    );
   }
 }

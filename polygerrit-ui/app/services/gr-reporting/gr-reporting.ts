@@ -52,7 +52,7 @@ export interface ReportingService {
   reportExtension(name: string): void;
   pluginLoaded(name: string): void;
   pluginsLoaded(pluginsList?: string[]): void;
-  error(err: unknown, reporter?: string, details?: EventDetails): void;
+  error(err: Error, reporter?: string, details?: EventDetails): void;
   /**
    * Reset named timer.
    */

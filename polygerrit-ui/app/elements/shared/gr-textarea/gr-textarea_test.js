@@ -71,7 +71,7 @@ suite('gr-textarea tests', () => {
         flush();
         assert.isFalse(element.$.emojiSuggestions.isHidden);
         assert.equal(element._colonIndex, 0);
-        assert.isFalse(element._hideAutocomplete);
+        assert.isFalse(element._hideEmojiAutocomplete);
         assert.equal(element._currentSearchString, '');
       });
 
@@ -86,7 +86,7 @@ suite('gr-textarea tests', () => {
         flush();
         assert.isFalse(element.$.emojiSuggestions.isHidden);
         assert.equal(element._colonIndex, 1);
-        assert.isFalse(element._hideAutocomplete);
+        assert.isFalse(element._hideEmojiAutocomplete);
         assert.equal(element._currentSearchString, '');
       });
 
@@ -100,7 +100,7 @@ suite('gr-textarea tests', () => {
         element.text = 'test:';
         flush();
         assert.isTrue(element.$.emojiSuggestions.isHidden);
-        assert.isTrue(element._hideAutocomplete);
+        assert.isTrue(element._hideEmojiAutocomplete);
       });
 
   test('emoji selector opens when a colon is typed and some substring',
@@ -117,7 +117,7 @@ suite('gr-textarea tests', () => {
         flush();
         assert.isFalse(element.$.emojiSuggestions.isHidden);
         assert.equal(element._colonIndex, 0);
-        assert.isFalse(element._hideAutocomplete);
+        assert.isFalse(element._hideEmojiAutocomplete);
         assert.equal(element._currentSearchString, 't');
       });
 
@@ -142,7 +142,7 @@ suite('gr-textarea tests', () => {
         flush();
         assert.isFalse(element.$.emojiSuggestions.isHidden);
         assert.equal(element._colonIndex, 0);
-        assert.isFalse(element._hideAutocomplete);
+        assert.isFalse(element._hideEmojiAutocomplete);
         assert.equal(element._currentSearchString, '');
       });
   test('emoji selector closes when text changes before the colon', () => {
@@ -169,7 +169,7 @@ suite('gr-textarea tests', () => {
     const closeSpy = sinon.spy(element, 'closeDropdown');
     element._resetEmojiDropdown();
     assert.equal(element._currentSearchString, '');
-    assert.isTrue(element._hideAutocomplete);
+    assert.isTrue(element._hideEmojiAutocomplete);
     assert.equal(element._colonIndex, null);
 
     element.$.emojiSuggestions.open();
@@ -218,6 +218,16 @@ suite('gr-textarea tests', () => {
     element._updateCaratPosition();
     assert.deepEqual(element.$.hiddenText.innerHTML, element.text +
         element.$.caratSpan.outerHTML);
+  });
+
+  test('newline receives matching indentation', async () => {
+    const indentCommand = sinon.stub(document, 'execCommand');
+    element.$.textarea.value = '    a';
+    element._handleEnterByKey(
+        new CustomEvent('keydown', {detail: {keyboardEvent: {keyCode: 13}}})
+    );
+    await flush();
+    assert.deepEqual(indentCommand.args[0], ['insertText', false, '\n    ']);
   });
 
   test('emoji dropdown is closed when iron-overlay-closed is fired', () => {

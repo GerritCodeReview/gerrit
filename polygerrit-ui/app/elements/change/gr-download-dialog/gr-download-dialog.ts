@@ -26,6 +26,7 @@ import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {GrOverlayStops} from '../../shared/gr-overlay/gr-overlay';
+import {appContext} from '../../../services/app-context';
 
 export interface GrDownloadDialog {
   $: {
@@ -58,6 +59,8 @@ export class GrDownloadDialog extends PolymerElement {
 
   @property({type: String})
   _selectedScheme?: string;
+
+  private readonly reporting = appContext.reportingService;
 
   @computed('change', 'patchNum')
   get _schemes() {
@@ -204,6 +207,21 @@ export class GrDownloadDialog extends PolymerElement {
       return 0;
     }
     return Object.keys(revisions).length;
+  }
+
+  _handleTextSelected(e: CustomEvent) {
+    const text = e.detail.text;
+    const command = this._computeDownloadCommands(
+      this.change,
+      this.patchNum,
+      this._selectedScheme
+    ).find(command => command.command === text);
+    if (!command) return;
+    this.reporting.reportInteraction('download-command-selected', {
+      scheme: this._selectedScheme || '',
+      title: command.title,
+      command: text,
+    });
   }
 
   _handleCloseTap(e: Event) {

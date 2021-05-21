@@ -71,6 +71,7 @@ export const htmlTemplate = html`
       commands="[[_computeDownloadCommands(change, patchNum, _selectedScheme)]]"
       schemes="[[_schemes]]"
       selected-scheme="{{_selectedScheme}}"
+      on-text-selected="_handleTextSelected"
     ></gr-download-commands>
   </section>
   <section class="flexContainer">

@@ -51,6 +51,24 @@
       "parentUuid": "72885e8d_aeefee12",
       "revId": "916b5aac040cbbefd06dab1cc2f64a6afefcc345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "559650f1_b5ed58fc",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1124260
+      },
+      "writtenOn": "2021-05-21T15:16:36Z",
+      "side": 1,
+      "message": "As I think about this some more, I wonder if using `GIT_COMMITTER_IDENT` and the sha of the parent is enough, and whether or not we can wholly avoid the `git-write-tree` call.",
+      "parentUuid": "55124eee_83a44871",
+      "revId": "916b5aac040cbbefd06dab1cc2f64a6afefcc345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

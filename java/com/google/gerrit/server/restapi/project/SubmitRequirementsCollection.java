@@ -38,20 +38,22 @@ public class SubmitRequirementsCollection
     implements ChildCollection<ProjectResource, SubmitRequirementResource> {
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
+  private final Provider<ListSubmitRequirements> list;
 
   @Inject
   SubmitRequirementsCollection(
       DynamicMap<RestView<LabelResource>> views,
       Provider<CurrentUser> user,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      Provider<ListSubmitRequirements> list) {
     this.user = user;
     this.permissionBackend = permissionBackend;
+    this.list = list;
   }
 
   @Override
   public RestView<ProjectResource> list() throws RestApiException {
-    /** TODO(ghareeb): implement. */
-    return null;
+    return list.get();
   }
 
   @Override

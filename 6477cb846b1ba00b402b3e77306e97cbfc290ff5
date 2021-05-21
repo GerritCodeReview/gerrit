@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b92d267_ffb8ba61",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-21T08:51:14Z",
+      "side": 1,
+      "message": "not sure I understand the purpose of this function.\nit\u0027s looking at votes by reviewers and finding the min and max value from that?\nso it\u0027s finding the most significant vote?\n-2 is more significant than -1,0,1,2\n\n2 is more significant than -1?",
+      "range": {
+        "startLine": 50,
+        "startChar": 7,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "6477cb846b1ba00b402b3e77306e97cbfc290ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -98,6 +98,24 @@
       "parentUuid": "c15f3dbe_cf103b8e",
       "revId": "df4ff6fc6589085075c6505fd358997543a62cb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2c55988_f0772f4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T11:08:22Z",
+      "side": 1,
+      "message": "Great that you traced where this bug was added!\n\n\u003e one of the strategy is to partially cherry-pick the fix (without FakeIndex tests) onto to stable-2.14 and then propagate that fix to new branches by merging branches upward. Do you think this is a feasible approach ..?\n\nYes, I think this is feasible. I wanted to complete the series first (which I have now) to be able to judge what actual bugs are vs shortcomings in my implementation that I just need to fix.\n\nIt seems this is the only bug minus smaller discrepancy in matching semantics (most full text fields used contains in the #match function of predicates while Lucene uses UTF word separation).\n\nIf you want to cherry pick this change back to old branches, please do so. I\u0027ll continue with the series on master and any forward merge will then be a no-op because the code is already there.\n\nAt the hackathon we discussed that we might want to backport the whole series to 3.2, but given that this was the only actual bug I think we can spare that effort.",
+      "parentUuid": "b3ab40dd_a9c3055b",
+      "revId": "df4ff6fc6589085075c6505fd358997543a62cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

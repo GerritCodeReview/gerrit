@@ -34,6 +34,47 @@
       "parentUuid": "3a811e62_6f1cb397",
       "revId": "e59df657e986960a97269c3f06c4d8c124efceb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f9e20b8_64709671",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-21T12:40:33Z",
+      "side": 1,
+      "message": "OK, I agree. Probably catching a RuntimeException is a bad idea.\n\nMy idea was that calling a doc.asString() for an integer field would fail. That would result if we erroneously defined an index field with the wrong type, but that shouldn\u0027t happen.",
+      "parentUuid": "3889e67c_3257915e",
+      "revId": "e59df657e986960a97269c3f06c4d8c124efceb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a8b7351_46dca79c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-21T12:40:33Z",
+      "side": 1,
+      "message": "nit: the removed code in Lucene/Elastic didn\u0027t backfill this field. Maybe mention in the commit message that we added backfilling for this field.",
+      "range": {
+        "startLine": 474,
+        "startChar": 14,
+        "endLine": 474,
+        "endChar": 30
+      },
+      "revId": "e59df657e986960a97269c3f06c4d8c124efceb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

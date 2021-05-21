@@ -81,6 +81,30 @@
       },
       "revId": "9335967b22c587830a6e95c093b591fdbe0183bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18507afd_e5c63163",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1124260
+      },
+      "writtenOn": "2021-05-21T17:31:04Z",
+      "side": 1,
+      "message": "Replying to myself -- wasn\u0027t able to keep the single shell as command grouping is, as far as I can tell, not POSIX sh.",
+      "parentUuid": "34377202_b9cc0e79",
+      "range": {
+        "startLine": 37,
+        "startChar": 41,
+        "endLine": 37,
+        "endChar": 59
+      },
+      "revId": "9335967b22c587830a6e95c093b591fdbe0183bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

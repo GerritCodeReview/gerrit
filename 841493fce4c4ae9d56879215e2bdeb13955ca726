@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47f81b8f_9cf73851",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-21T21:29:36Z",
+      "side": 1,
+      "message": "Did you confirm the (or which) tests fail without your fix?",
+      "revId": "841493fce4c4ae9d56879215e2bdeb13955ca726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

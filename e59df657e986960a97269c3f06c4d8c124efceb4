@@ -16,6 +16,24 @@
       "message": "doc.as*() can result in a ClassCastException (or other exceptions) depending on the index implementation. Should we wrap these in a proper exception and make this explicit in the StoredValue interface?",
       "revId": "e59df657e986960a97269c3f06c4d8c124efceb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3889e67c_3257915e",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-21T12:07:13Z",
+      "side": 1,
+      "message": "I think this can\u0027t happen, actually:\n\nT is a generic type defined by the field. For STRING_TYPE fields, it\u0027s always \"String\" or \"Iterable\u003cString\u003e\". asString/asStrings will always yield these types.\n\nAm I missing something?\n\nIn any case I think this is the right exception to throw and we want to throw a RuntimeException because checked exceptions are for recoverable failures which this is not.",
+      "parentUuid": "3a811e62_6f1cb397",
+      "revId": "e59df657e986960a97269c3f06c4d8c124efceb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

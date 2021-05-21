@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52219a84_a40b6236",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-21T08:46:08Z",
+      "side": 1,
+      "message": "Is this order intentionally chaotic? If so, maybe the const name should reflect this it doesn\u0027t get organized later.",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "5e3929d6e0c27793f76295f91a91ee2af58375c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

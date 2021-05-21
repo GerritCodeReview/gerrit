@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
+ * Copyright (C) 2021 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +15,28 @@
  * limitations under the License.
  */
 
-import '../gr-range-header/gr-range-header';
 import {customElement, property} from '@polymer/decorators';
-import {CommentRange} from '../../../types/common';
-import {htmlTemplate} from './gr-ranged-comment-hint_html';
+import {htmlTemplate} from './gr-range-header_html';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 
-@customElement('gr-ranged-comment-hint')
-export class GrRangedCommentHint extends PolymerElement {
+/**
+ * Represents a header (label) for a code chunk whenever showing
+ * diffs.
+ * Used as a labeled header to describe selections in code for cases
+ * like long comments and moved in/out chunks.
+ */
+@customElement('gr-range-header')
+export class GrRangeHeader extends PolymerElement {
+  @property({type: String})
+  icon?: string;
+
   static get template() {
     return htmlTemplate;
-  }
-
-  @property({type: Object})
-  range?: CommentRange;
-
-  _computeRangeLabel(range?: CommentRange): string {
-    if (!range) return '';
-    return `Long comment range ${range.start_line} - ${range.end_line}`;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-ranged-comment-hint': GrRangedCommentHint;
+    'gr-range-header': GrRangeHeader;
   }
 }

@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -78,6 +79,7 @@ import com.google.gerrit.server.restapi.project.IndexChanges;
 import com.google.gerrit.server.restapi.project.ListBranches;
 import com.google.gerrit.server.restapi.project.ListDashboards;
 import com.google.gerrit.server.restapi.project.ListLabels;
+import com.google.gerrit.server.restapi.project.ListSubmitRequirements;
 import com.google.gerrit.server.restapi.project.ListTags;
 import com.google.gerrit.server.restapi.project.PostLabels;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
@@ -134,6 +136,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final Index index;
   private final IndexChanges indexChanges;
   private final Provider<ListLabels> listLabels;
+  private final Provider<ListSubmitRequirements> listSubmitRequirements;
   private final PostLabels postLabels;
   private final LabelApiImpl.Factory labelApi;
   private final SubmitRequirementApiImpl.Factory submitRequirementApi;
@@ -173,6 +176,7 @@ public class ProjectApiImpl implements ProjectApi {
       Index index,
       IndexChanges indexChanges,
       Provider<ListLabels> listLabels,
+      Provider<ListSubmitRequirements> listSubmitRequirements,
       PostLabels postLabels,
       LabelApiImpl.Factory labelApi,
       SubmitRequirementApiImpl.Factory submitRequirementApi,
@@ -212,6 +216,7 @@ public class ProjectApiImpl implements ProjectApi {
         index,
         indexChanges,
         listLabels,
+        listSubmitRequirements,
         postLabels,
         labelApi,
         submitRequirementApi,
@@ -253,6 +258,7 @@ public class ProjectApiImpl implements ProjectApi {
       Index index,
       IndexChanges indexChanges,
       Provider<ListLabels> listLabels,
+      Provider<ListSubmitRequirements> listSubmitRequirements,
       PostLabels postLabels,
       LabelApiImpl.Factory labelApi,
       SubmitRequirementApiImpl.Factory submitRequirementApi,
@@ -292,6 +298,7 @@ public class ProjectApiImpl implements ProjectApi {
         index,
         indexChanges,
         listLabels,
+        listSubmitRequirements,
         postLabels,
         labelApi,
         submitRequirementApi,
@@ -333,6 +340,7 @@ public class ProjectApiImpl implements ProjectApi {
       Index index,
       IndexChanges indexChanges,
       Provider<ListLabels> listLabels,
+      Provider<ListSubmitRequirements> listSubmitRequirements,
       PostLabels postLabels,
       LabelApiImpl.Factory labelApi,
       SubmitRequirementApiImpl.Factory submitRequirementApi,
@@ -372,6 +380,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.index = index;
     this.indexChanges = indexChanges;
     this.listLabels = listLabels;
+    this.listSubmitRequirements = listSubmitRequirements;
     this.postLabels = postLabels;
     this.labelApi = labelApi;
     this.submitRequirementApi = submitRequirementApi;
@@ -716,6 +725,20 @@ public class ProjectApiImpl implements ProjectApi {
           return listLabels.get().withInherited(inherited).apply(checkExists()).value();
         } catch (Exception e) {
           throw asRestApiException("Cannot list labels", e);
+        }
+      }
+    };
+  }
+
+  @Override
+  public ListSubmitRequirementsRequest submitRequirements() {
+    return new ListSubmitRequirementsRequest() {
+      @Override
+      public List<SubmitRequirementInfo> get() throws RestApiException {
+        try {
+          return listSubmitRequirements.get().withInherited(inherited).apply(checkExists()).value();
+        } catch (Exception e) {
+          throw asRestApiException("Cannot list submit requirements", e);
         }
       }
     };

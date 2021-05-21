@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36cb947c_63c962a5",
+        "filename": "java/com/google/gerrit/index/testing/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-21T13:58:59Z",
+      "side": 1,
+      "message": "This package should only be used in tests. Is there a reason for commenting this out? If yes, should we add a TODO to remove after ...?",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 37
+      },
+      "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e96fef8_0ff4c0a9",
+        "filename": "java/com/google/gerrit/index/testing/FakeVersionManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-21T13:58:59Z",
+      "side": 1,
+      "message": "Better rename to FakeIndexVersionManager?\n\n* For elastic, it\u0027s ElasticIndexVersionManager\n* For lucene, it\u0027s LuceneVersionManager",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8cd6805_8b8f8368",
+        "filename": "java/com/google/gerrit/server/query/account/AccountPredicates.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-21T13:58:59Z",
+      "side": 1,
+      "message": "Are you missing a return statement? Can you add a clarification what the added \u0027if\u0027 condition is doing?",
+      "range": {
+        "startLine": 150,
+        "startChar": 8,
+        "endLine": 150,
+        "endChar": 50
+      },
+      "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0798a1a_bd6c9de9",
+        "filename": "javatests/com/google/gerrit/server/query/project/FakeQueryProjectsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-21T13:58:59Z",
+      "side": 1,
+      "message": "I didn\u0027t get why we are skipping this for the fake index, especially that it\u0027s working with the other index implementation.\n\nAm I missing a fundamental thing here?",
+      "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

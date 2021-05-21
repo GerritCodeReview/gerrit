@@ -220,8 +220,8 @@ export function descendedFromClass(
  * Must begin with a letter A-Z or a-z
  * Can be followed by: letters (A-Za-z), digits (0-9), hyphens ("-"), and underscores ("_")
  */
-export function strToClassName(str = '', prefix = 'generated_') {
-  return `${prefix}${str.replace(/[^a-zA-Z0-9-_]/g, '_')}`;
+export function strToClassName(str = '', prefix = 'generated_', token = '_') {
+  return `${prefix}${str.replace(/[^a-zA-Z0-9-_]/g, token)}`;
 }
 
 // document.activeElement is not enough, because it's not getting activeElement

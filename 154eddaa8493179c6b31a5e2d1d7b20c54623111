@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48277c88_476976c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-21T14:15:23Z",
+      "side": 1,
+      "message": "\u003e \u003e 2) We need to add approval copying on cherrypicks to be able to get off our fork. Worst case we can do that in a plugin, but if this extension/rules-syntax leaves room for us to add the feature in core, that would be ideal.\n\u003e \n\u003e I remember we talked about this but I could not find the discussion anywhere. Can you give me a pointer?\n\nI think it was when I was adding it to the roadmap: https://gerrit-review.googlesource.com/c/homepage/+/279056/comment/fc7227b4_900f0b0e/\n\n\u003e \n\u003e Do I recall correctly that upon a cherry pick you want to copy the votes that were on the change originally?\n\nYes, and with configuration per-label at least for 1) if any of that label\u0027s votes should be copied and 2) if the user giving that vote should have their votes copied (use case relating to integration teams vs dev teams - I can explain more sometime).\n\n\u003e \n\u003e I don\u0027t think this query syntax would help then, but let\u0027s see if we could make it so.\n\n+1\n\n\u003e \n\u003e Right now, the approval copier runs in single changes and tries to copy patch set approvals forward to the next patch set if conditions are me. The query syntax (in the currently proposed form) would not change that. Instead of reading many booleans, we\u0027d just run that query and if it returns \"true\" we copy the PSA from PS N to N+1, but never to other changes because a single change is the only context we have.\n\nRight and I think that\u0027s fine. If you were still going the new extension point route, then I think ensuring that new API would be sufficient for handling cherry-pick approvals would have been nice. For adding the query support, I think it just becomes something to keep in the back of your mind to try and not make a decision that would make it extra hard for us to add the cherry-pick copying later.",
+      "parentUuid": "6cab3424_48394077",
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d3c2943_fc2e4b6d",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1

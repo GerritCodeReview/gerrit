@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c01a0996_64f36a59",
+        "filename": "java/com/google/gerrit/server/query/change/IsReviewedPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-21T14:59:06Z",
+      "side": 0,
+      "message": "I was looking more thoroughly to make sure these cases are handled, for example also for FIELD_ASSIGNEE with NO_ASSIGNEE. But I see they are handled correctly in ChangeField. I hope we have tests for these.",
+      "range": {
+        "startLine": 52,
+        "startChar": 61,
+        "endLine": 52,
+        "endChar": 84
+      },
+      "revId": "4b55072262252319544d3863843f29e8ff265c90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

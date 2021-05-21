@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -39,21 +38,23 @@ public class SubmitRequirementsCollection
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
   private final DynamicMap<RestView<SubmitRequirementResource>> views;
+  private final Provider<ListSubmitRequirements> list;
 
   @Inject
   SubmitRequirementsCollection(
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
-      DynamicMap<RestView<SubmitRequirementResource>> views) {
+      DynamicMap<RestView<SubmitRequirementResource>> views,
+      Provider<ListSubmitRequirements> list) {
     this.user = user;
     this.permissionBackend = permissionBackend;
+    this.list = list;
     this.views = views;
   }
 
   @Override
   public RestView<ProjectResource> list() throws RestApiException {
-    /** TODO(ghareeb): implement. */
-    throw new NotImplementedException();
+    return list.get();
   }
 
   @Override

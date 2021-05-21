@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1b5e32f_7666eb4b",
+        "filename": "javatests/com/google/gerrit/pgm/http/jetty/ProjectQoSFilterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-21T15:48:22Z",
+      "side": 1,
+      "message": "The begin and onComplete() (calling end()) are on the same thread here.\nYou should instead make the onComplete() executed on a different thread for this test to actually verify the concurrent access to the lock.",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 36
+      },
+      "revId": "4de91066cebc574a50d7fbaae9869da9b9101ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

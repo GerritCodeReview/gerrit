@@ -525,8 +525,10 @@ export class GrRelatedChangesList extends GrLitElement {
     ];
 
     // Get conflicts if change is open and is mergeable.
-    // Mergeable is output of restApiServict.getMergeable from gr-change-view
-    if (changeIsOpen(change) && this.mergeable) {
+    // Mergeable is output of restApiServict.getMergeable from gr-change-view.
+    // Also check in addition for mergeable from changes/<id>/detail endpoint,
+    // that is populated for the sites that enabled mergeable field in index.
+    if (changeIsOpen(change) && (change.mergeable || this.mergeable)) {
       promises.push(
         this.restApiService
           .getChangeConflicts(change._number)

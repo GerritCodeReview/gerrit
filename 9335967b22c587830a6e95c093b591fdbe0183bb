@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fb02de7_0d8359d9",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1124260
+      },
+      "writtenOn": "2021-05-21T16:58:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c56e22b_990da53d",
+      "revId": "9335967b22c587830a6e95c093b591fdbe0183bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63bf4790_7f460449",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-05-21T15:46:17Z",
       "side": 1,
       "message": "What should happen in the \"initial commit\" (on a branch yet to be born, e.g. from a new repository or \"git checkout --orphan\") case? Might be sufficient to redirect 2\u003e/dev/null to avoid that printing an error message.",
+      "range": {
+        "startLine": 37,
+        "startChar": 41,
+        "endLine": 37,
+        "endChar": 59
+      },
+      "revId": "9335967b22c587830a6e95c093b591fdbe0183bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34377202_b9cc0e79",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1124260
+      },
+      "writtenOn": "2021-05-21T16:58:56Z",
+      "side": 1,
+      "message": "I think a more common response here, perhaps biased by how I\u0027ve handled this in the past, is to generate a diff against an empty tree object, like so:\n\n```\ngit hash-object -t tree /dev/null\n```\n\n... makes the line a little long, but I think this is better than redirecting stderr, as all we\u0027d be getting back from the command is the string `HEAD`, as seen here:\n\n```\n➜ cd $(mktemp -d) \u0026\u0026 git init \u0026\u003e/dev/null \u0026\u0026 git rev-parse HEAD 2\u003e/dev/null\nHEAD\n```\n\nI\u0027ve submitted a new patch set that handles cases where there is no commit history, and still keeps a single subshell (although we do create another process by introducing the if/else stanza; I still think this is faster).",
+      "parentUuid": "63bf4790_7f460449",
       "range": {
         "startLine": 37,
         "startChar": 41,

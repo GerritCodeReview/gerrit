@@ -34,6 +34,23 @@
       "parentUuid": "f46247e4_de9cafb4",
       "revId": "b31f2cbe4dded88c1b238a8626972e5ced22c5e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "797affe4_0ec18747",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-21T14:48:49Z",
+      "side": 1,
+      "message": "Thanks for the initial reviews guys.\nSo this issue does the trick for fixing the multi-line selection issue for Safari (\u003e\u003d 14.1).\n\nThe name of the game now is to fix the styling and (especially) to make the content non editable.\n\n@Paladox, I am adding you as a reviewer as well, if have some spare time, we could do with some help/ideas 😊\n\nMeanwhile, I will do what I can on my side.",
+      "revId": "b31f2cbe4dded88c1b238a8626972e5ced22c5e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

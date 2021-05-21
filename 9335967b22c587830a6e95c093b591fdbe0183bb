@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c56e22b_990da53d",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2021-05-21T15:46:17Z",
+      "side": 1,
+      "message": "Please don\u0027t.",
+      "revId": "9335967b22c587830a6e95c093b591fdbe0183bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63bf4790_7f460449",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2021-05-21T15:46:17Z",
+      "side": 1,
+      "message": "What should happen in the \"initial commit\" (on a branch yet to be born, e.g. from a new repository or \"git checkout --orphan\") case? Might be sufficient to redirect 2\u003e/dev/null to avoid that printing an error message.",
+      "range": {
+        "startLine": 37,
+        "startChar": 41,
+        "endLine": 37,
+        "endChar": 59
+      },
+      "revId": "9335967b22c587830a6e95c093b591fdbe0183bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

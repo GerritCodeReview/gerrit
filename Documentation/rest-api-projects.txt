@@ -3559,6 +3559,33 @@ entities is returned.
   ]
 ----
 
+[[delete-submit-requirement]]
+=== Delete Submit Requirement
+--
+'DELETE /projects/link:#project-name[\{project-name\}]/submit_requirements/link:#submit-requirement-name[\{submit-requirement-name\}]'
+--
+
+Deletes the definition of a submit requirement that is defined in this project.
+
+The calling user must have write access to the `refs/meta/config` branch of the
+project. The request would fail with `404 Not Found` if there is no submit
+requirement with this name for this project.
+
+No request body is needed.
+
+.Request
+----
+  DELETE /projects/My-Project/submit_requirements/Foo-Review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+----
+
+If a submit requirement was deleted the response is "`204 No Content`".
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[ids]]
 == IDs
 

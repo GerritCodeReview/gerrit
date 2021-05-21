@@ -186,7 +186,10 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> SUBMIT_REQUIREMENT_ENDPOINTS =
       ImmutableList.of(
           RestCall.get("/projects/%s/submit_requirements/%s"),
-          RestCall.put("/projects/%s/submit_requirements/%s"));
+          RestCall.put("/projects/%s/submit_requirements/%s"),
+
+          // Submit requirement deletion must be tested last
+          RestCall.delete("/projects/%s/submit_requirements/%s"));
 
   private static final String FILENAME = "test.txt";
   @Inject private ProjectOperations projectOperations;

@@ -92,6 +92,11 @@ export const repo$ = change$.pipe(
   distinctUntilChanged()
 );
 
+export const labels$ = change$.pipe(
+  map(change => change?.labels),
+  distinctUntilChanged()
+);
+
 export const latestPatchNum$ = change$.pipe(
   map(change => computeLatestPatchNum(computeAllPatchSets(change))),
   distinctUntilChanged()

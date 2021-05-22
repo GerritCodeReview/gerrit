@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68961f94_99b0db44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-22T11:42:59Z",
+      "side": 1,
+      "message": "Blocking this until we get confirmation that RBE is working with Bazel 4.1.0",
+      "revId": "f404bc3f86d3f1d9ce2383b44ba0097163b5954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -635,6 +635,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b27d330_bc8e27fa",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-22T00:54:37Z",
+      "side": 1,
+      "message": "\u003e \u003e I believe it would be best to have a glossary that represent what we have today and, as a follow-up, propose new terms we want to introduce.\n\u003e \n\u003e It is my understanding that Gerrit currently supports a least three different multi primaries setups using shared storage: 1) using HA plugins 2) using Lucene indexes 3) using another index (google\u0027s system). I believe Nasser is trying to define a term to represent those 3 setups. HA represents only one of those. Would you like to add a separate subsection for the HA term?\n\n1) Yes\n2) No: you cannot share the Lucene indexes across multiple primary nodes\n3) Google\u0027s system isn\u0027t Open-Source, it would be confusing mentioning it here",
+      "parentUuid": "3adcf974_df4f4cc6",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

@@ -33,25 +33,6 @@ load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 load("//tools:nongoogle.bzl", "TESTCONTAINERS_VERSION", "declare_nongoogle_deps")
 
 http_archive(
-    name = "bazel_toolchains",
-    sha256 = "1adf7a8e9901287c644dcf9ca08dd8d67a69df94bedbd57a841490a84dc1e9ed",
-    strip_prefix = "bazel-toolchains-5.0.0",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/v5.0.0.tar.gz",
-        "https://github.com/bazelbuild/bazel-toolchains/archive/v5.0.0.tar.gz",
-    ],
-)
-
-load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
-
-# Creates a default toolchain config for RBE.
-rbe_autoconfig(
-    name = "rbe_jdk11",
-    java_home = "/usr/lib/jvm/11.29.3-ca-jdk11.0.2/reduced",
-    use_checked_in_confs = "Force",
-)
-
-http_archive(
     name = "com_google_protobuf",
     sha256 = "d0f5f605d0d656007ce6c8b5a82df3037e1d8fe8b121ed42e536f569dec16113",
     strip_prefix = "protobuf-3.14.0",

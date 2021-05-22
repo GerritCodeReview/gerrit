@@ -30,13 +30,13 @@ build:remote --disk_cache=
 
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
-build:remote --host_javabase=@rbe_jdk11//java:jdk
-build:remote --javabase=@rbe_jdk11//java:jdk
-build:remote --crosstool_top=@rbe_jdk11//cc:toolchain
-build:remote --extra_toolchains=@rbe_jdk11//config:cc-toolchain
-build:remote --extra_execution_platforms=@rbe_jdk11//config:platform
-build:remote --host_platform=@rbe_jdk11//config:platform
-build:remote --platforms=@rbe_jdk11//config:platform
+build:remote --host_javabase=//tools/rbe/java:jdk11
+build:remote --javabase=//tools/rbe/java:jdk11
+build:remote --crosstool_top=//tools/rbe/cc:toolchain
+build:remote --extra_toolchains=//tools/rbe/config:cc-toolchain
+build:remote --extra_execution_platforms=//tools/rbe/config:platform
+build:remote --host_platform=//tools/rbe/config:platform
+build:remote --platforms=//tools/rbe/config:platform
 build:remote --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
 
 # Set various strategies so that all actions execute remotely. Mixing remote

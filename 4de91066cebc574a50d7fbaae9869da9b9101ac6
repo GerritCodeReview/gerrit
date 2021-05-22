@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "800d925c_6f7e319d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-22T01:47:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "304c674a_887e9957",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 40
+      },
+      "revId": "4de91066cebc574a50d7fbaae9869da9b9101ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a2692e0_e97df4b4",
@@ -355,6 +379,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "494edc4b_0620839c",
+        "filename": "javatests/com/google/gerrit/pgm/http/jetty/ProjectQoSFilterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-22T01:47:56Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "aac0940c_757fad09",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "4de91066cebc574a50d7fbaae9869da9b9101ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5563d078_39995001",
         "filename": "javatests/com/google/gerrit/pgm/http/jetty/ProjectQoSFilterTest.java",
         "patchSetId": 10
@@ -437,6 +485,30 @@
       "side": 1,
       "message": "Amended. Have a look now.",
       "parentUuid": "d1b5e32f_7666eb4b",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 36
+      },
+      "revId": "4de91066cebc574a50d7fbaae9869da9b9101ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94a9e0b9_e13bb869",
+        "filename": "javatests/com/google/gerrit/pgm/http/jetty/ProjectQoSFilterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-22T01:47:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0e7878a4_26a1aa9b",
       "range": {
         "startLine": 101,
         "startChar": 0,

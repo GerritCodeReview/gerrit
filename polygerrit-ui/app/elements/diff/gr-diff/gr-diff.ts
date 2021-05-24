@@ -54,9 +54,8 @@ import {DiffViewMode, Side} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-// TODO(davido): See: https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
 // @ts-ignore
-import * as shadow from 'shadow-selection-polyfill/shadow.js';
+import {getContentEditableRange} from './ContentEditableSelection.js';
 
 import {isSafari} from '../../../utils/dom-util';
 
@@ -218,6 +217,9 @@ export class GrDiff extends GestureEventListeners(
   @property({type: Object})
   revisionImage?: ImageInfo;
 
+  @property({type: Boolean})
+  _isContentEditable = isSafari();
+
   /**
    * Whether the safety check for large diffs when whole-file is set has
    * been bypassed. If the value is null, then the safety has not been
@@ -323,18 +325,10 @@ export class GrDiff extends GestureEventListeners(
     }
 
     if (loggedIn && isAttached) {
-      this.listen(
-        document,
-        '-shadow-selectionchange',
-        '_handleSelectionChange'
-      );
+      this.listen(document, 'selectionchange', '_handleSelectionChange');
       this.listen(document, 'mouseup', '_handleMouseUp');
     } else {
-      this.unlisten(
-        document,
-        '-shadow-selectionchange',
-        '_handleSelectionChange'
-      );
+      this.unlisten(document, 'selectionchange', '_handleSelectionChange');
       this.unlisten(document, 'mouseup', '_handleMouseUp');
     }
   }
@@ -364,7 +358,7 @@ export class GrDiff extends GestureEventListeners(
     return this.root instanceof ShadowRoot && this.root.getSelection
       ? this.root.getSelection()
       : isSafari()
-      ? shadow.getRange(this.root)
+      ? getContentEditableRange()
       : document.getSelection();
   }
 
@@ -1076,7 +1070,6 @@ export class GrDiff extends GestureEventListeners(
       }
     }, 0);
   }
-
 }
 
 declare global {

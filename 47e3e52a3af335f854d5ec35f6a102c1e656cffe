@@ -683,6 +683,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e391eeb_7e19cb67",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-24T19:52:51Z",
+      "side": 1,
+      "message": "Do you mean that with ElasticSearch as index it won\u0027t be an HA setup anymore?\n\nP.S. Support for ES is about to be decoupled or removed in Gerrit, but that is a different topic :-)",
+      "parentUuid": "ed61e1b2_b04bd217",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

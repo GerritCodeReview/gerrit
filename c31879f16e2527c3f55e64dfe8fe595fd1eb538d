@@ -126,6 +126,24 @@
       "message": "Maybe move this file to a ./smoke-test directory, to then put some dev-env files in it as well. See ./reindex as a potential example. The latter has some dev-env files in it already, which help in formatting the sibling python code, as well as resolving dependencies locally. You likely encountered that tooling already.\n\nAdding a Makefile or an executable README alongside usually helps on the usage too. This could replace the comment lines 17-21 further above, depending. Overall, putting this initial work in a directory would help support further expansion of such test code. But as you say already, as far as the scope here doesn\u0027t overlap too much with the existing test code elsewhere in Gerrit.\n\nSpeaking of formatting, the ../.editorconfig root file might require tweaking for python files underneath. -Depends of course on how the local IDE or editor considers it from its own project setup perspective. I\u0027m thinking of indent_size which should be 4 for python indeed.\n\nFor flake8, I usually use extend-ignore over \u0027ignore\u0027 which overwrites default ignores it seems. Ignoring E203 used to suffice for me so far, but this depends on the actual python code of course. And \u0027black\u0027 showed to be a needful complement beside flake8; one reformats and the other fixes the style further.",
       "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01fb4bb7_bd46f1ac",
+        "filename": "contrib/smoke-test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-24T19:35:03Z",
+      "side": 1,
+      "message": "\u003e Maybe move this file to a ./smoke-test directory, to then put some dev-env files in it as well. See ./reindex as a potential example. The latter has some dev-env files in it already, which help in formatting the sibling python code, as well as resolving dependencies locally. You likely encountered that tooling already.\n\nSure, but the purpose of this script is to stay quite basic: I would not plan to expand it a lot from what it is today.\n\n\u003e Adding a Makefile or an executable README alongside usually helps on the usage too.\n\nThat sounds a very good idea, possibly worth then having a ./smoke-test directory as you suggested above.\n\n\u003e This could replace the comment lines 17-21 further above, depending. Overall, putting this initial work in a directory would help support further expansion of such test code. \n\nAs mentioned, that isn\u0027t the intention. We have already a comprehensive E2E tests suite and I wouldn\u0027t create a duplicate.\n\n\u003e But as you say already, as far as the scope here doesn\u0027t overlap too much with the existing test code elsewhere in Gerrit.\n\n+1\n\n\u003e Speaking of formatting, the ../.editorconfig root file might require tweaking for python files underneath. -Depends of course on how the local IDE or editor considers it from its own project setup perspective. I\u0027m thinking of indent_size which should be 4 for python indeed.\n\nI just used \u0027vi\u0027 for editing, let me have a look at the .editorconfig preferences.\n\n\u003e For flake8, I usually use extend-ignore over \u0027ignore\u0027 which overwrites default ignores it seems. Ignoring E203 used to suffice for me so far, but this depends on the actual python code of course. And \u0027black\u0027 showed to be a needful complement beside flake8; one reformats and the other fixes the style further.\n\nCan you upload a PS with the styling fixes?",
+      "parentUuid": "d9536936_a719f855",
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

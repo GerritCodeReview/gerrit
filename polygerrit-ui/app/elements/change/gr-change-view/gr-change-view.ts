@@ -2294,6 +2294,12 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       return Promise.reject(new Error('missing required changeNum property'));
     }
 
+    // If mergeable bit was already returned in detail REST endpoint, use it.
+    if (this._change.mergeable !== undefined) {
+      this._mergeable = this._change.mergeable;
+      return Promise.resolve();
+    }
+
     this._mergeable = null;
     return this.restApiService
       .getMergeable(this._changeNum)

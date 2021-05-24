@@ -401,6 +401,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29aa8065_8c1611c3",
+        "filename": "javatests/com/google/gerrit/pgm/http/jetty/ProjectQoSFilterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-24T07:55:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "494edc4b_0620839c",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "4de91066cebc574a50d7fbaae9869da9b9101ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5563d078_39995001",

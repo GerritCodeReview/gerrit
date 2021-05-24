@@ -30,8 +30,7 @@
     "ba-linkify": "file:../../lib/ba-linkify/src/",
     "page": "^1.11.5",
     "polymer-bridges": "file:../../polymer-bridges/",
-    "polymer-resin": "^2.0.1",
-    "shadow-selection-polyfill": "^1.1.0"
+    "polymer-resin": "^2.0.1"
   },
   "license": "Apache-2.0",
   "private": true

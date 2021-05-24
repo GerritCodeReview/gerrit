@@ -707,6 +707,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d95f0357_70ae8708",
+        "filename": "Documentation/glossary.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-24T22:30:35Z",
+      "side": 1,
+      "message": "\u003e Do you mean that with ElasticSearch as index it won\u0027t be an HA setup anymore?\n\nMartin meant that using ES is another way to build the configuration I\u0027m outlining here.\n\nI\u0027m worried we\u0027re mixing two different concepts, \"configurations\" and \"capabilities\". I\u0027m trying to document specific configurations (and sub-configurations, etc) - \"Single cluster multi-primary with shared storage\". To me, \"High Availability\" (HA) is a capability that can be enabled through a variety of configurations (which I think is what Martin was getting at and what I referred to earlier with HA primaries and HA replicas).\n\nFurther, I don\u0027t think a Gerrit doc needs to have a glossary entry for such a well defined and well understood term as we\u0027re not redefining it for Gerrit. You can Google high availability and get a good definition off wikipedia [1] that applies well to Gerrit as-is. It might be valuable to have a section of the Gerrit docs dedicated to *how* to run Gerrit in highly available ways and those docs would likely reference some of these glossary entries.\n\n[1] https://en.wikipedia.org/wiki/High_availability#:~:text\u003dHigh%20availability%20(HA)%20is%20a,increased%20reliance%20on%20these%20systems.",
+      "parentUuid": "0e391eeb_7e19cb67",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "47e3e52a3af335f854d5ec35f6a102c1e656cffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e931df1_bb626343",
         "filename": "Documentation/glossary.txt",
         "patchSetId": 1

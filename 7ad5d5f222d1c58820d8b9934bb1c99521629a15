@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c3a14f4_f5cc5a93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-24T22:24:46Z",
+      "side": 1,
+      "message": "I think I have addressed all the comments and this change is now ready for another review.\nWould you mind casting your eyes on this one more time?\n\nThanks a lot!",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -38,7 +38,6 @@ import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
@@ -1285,12 +1284,6 @@ public class ChangeData {
     }
 
     return refStates;
-  }
-
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public void setRefStates(Iterable<byte[]> refStates) {
-    // TODO(hanwen): remove Google use, and drop this method.
-    setRefStates(RefState.parseStates(refStates));
   }
 
   public void setRefStates(ImmutableSetMultimap<Project.NameKey, RefState> refStates) {

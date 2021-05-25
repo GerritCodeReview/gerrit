@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cab607f6_43611f0b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-range-header/gr-range-header.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-25T12:00:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80940d9b_16122d03",
+      "revId": "e8ad7678637e115547b9466ad182690908eb6ad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47596e30_26e70682",
@@ -75,6 +93,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f70eb5fd_23e52faf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-range-header/gr-range-header_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-25T12:00:53Z",
+      "side": 1,
+      "message": "You are correct. We can remove it. Done.",
+      "parentUuid": "47596e30_26e70682",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "e8ad7678637e115547b9466ad182690908eb6ad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "201c99d6_c82eff0b",
@@ -88,6 +130,24 @@
       "writtenOn": "2021-05-25T11:47:21Z",
       "side": 1,
       "message": "repetition",
+      "revId": "e8ad7678637e115547b9466ad182690908eb6ad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccfcae64_97e3e2a7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-range-header/gr-range-header_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-25T12:00:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "201c99d6_c82eff0b",
       "revId": "e8ad7678637e115547b9466ad182690908eb6ad1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

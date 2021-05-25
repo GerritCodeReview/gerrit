@@ -116,7 +116,7 @@ suite('GrDiffBuilderUnified tests', () => {
       assert.equal(rowEls.length, 3);
       assert.isTrue(moveControlsRow.classList.contains('movedOut'));
       assert.equal(cells.length, 3);
-      assert.isTrue(cells[2].classList.contains('moveLabel'));
+      assert.isTrue(cells[2].classList.contains('moveHeader'));
       assert.equal(cells[2].textContent, 'Moved out');
     });
 
@@ -139,7 +139,7 @@ suite('GrDiffBuilderUnified tests', () => {
       assert.equal(rowEls.length, 3);
       assert.isTrue(moveControlsRow.classList.contains('movedIn'));
       assert.equal(cells.length, 3);
-      assert.isTrue(cells[2].classList.contains('moveLabel'));
+      assert.isTrue(cells[2].classList.contains('moveHeader'));
       assert.equal(cells[2].textContent, 'Moved in');
     });
   });

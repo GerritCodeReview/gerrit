@@ -27,11 +27,9 @@ $_documentContainer.innerHTML = `<dom-module id="gr-ranged-comment-theme">
     <style>
       .rangeHighlight {
         background-color: var(--diff-highlight-range-color);
-        display: inline;
       }
       .rangeHoverHighlight {
         background-color: var(--diff-highlight-range-hover-color);
-        display: inline;
       }
     </style>
   </template>

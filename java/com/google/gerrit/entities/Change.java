@@ -526,7 +526,6 @@ public final class Change {
     assignee = other.assignee;
     changeId = other.changeId;
     changeKey = other.changeKey;
-    rowVersion = other.rowVersion;
     createdOn = other.createdOn;
     lastUpdatedOn = other.lastUpdatedOn;
     owner = other.owner;
@@ -585,10 +584,6 @@ public final class Change {
 
   public void setLastUpdatedOn(Timestamp now) {
     lastUpdatedOn = now;
-  }
-
-  public int getRowVersion() {
-    return rowVersion;
   }
 
   public Account.Id getOwner() {

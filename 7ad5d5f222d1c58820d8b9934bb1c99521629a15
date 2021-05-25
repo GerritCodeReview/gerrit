@@ -69,6 +69,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0f88551_d9f21a68",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-25T12:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18cc4bd2_ebfdf138",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "285ae3ef_b083eb53",
@@ -82,6 +100,24 @@
       "writtenOn": "2021-05-25T10:22:17Z",
       "side": 1,
       "message": "no underscore",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b029abb_a03dc7af",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-25T12:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "285ae3ef_b083eb53",
       "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -105,6 +141,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6ff4583_1a86289c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-25T12:39:45Z",
+      "side": 1,
+      "message": "Yes, this is the fix to the styling mentioned in the previous patchsets.\nIt fixes this problem: https://imgur.com/a/c0TRGOY",
+      "parentUuid": "096833fa_b18d52ba",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "115fbf0e_881d8be6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
         "patchSetId": 20
@@ -116,6 +170,24 @@
       "writtenOn": "2021-05-25T10:22:17Z",
       "side": 1,
       "message": "Is this related to the change?",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0f56c56_af17ac9b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-25T12:39:45Z",
+      "side": 1,
+      "message": "Yes, since now the content might be editable (on safari), when clicking on #diffTable the default :focus will be rendered.\n\nThis shows the problem it fixes: https://imgur.com/a/9KsDo28",
+      "parentUuid": "115fbf0e_881d8be6",
       "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -137,6 +209,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb359c52_0d696940",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-25T12:39:45Z",
+      "side": 1,
+      "message": "good point, it was a reminiscence of the original proposition[1].\n\nDone.\n\n\n[1]https://jsfiddle.net/dbalcomb/oLnkyv78/",
+      "parentUuid": "970fe1b6_7abf7ca2",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9f3a276_10dd67b0",
@@ -150,6 +240,24 @@
       "writtenOn": "2021-05-25T10:22:17Z",
       "side": 1,
       "message": "I think it would help future developers, if you would add 10-20 lines of comments about how this hack works and maybe add some links to where this pattern is documented or copied from.",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7645b017_a2ab535c",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-25T12:39:45Z",
+      "side": 1,
+      "message": "Yes it makes sense.\nThis is already explained in the commit message but I can port it as a code comment so that it is more accessible.\n\nI will do that.",
+      "parentUuid": "b9f3a276_10dd67b0",
       "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -179,6 +287,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75edf4d2_8864918f",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-25T12:39:45Z",
+      "side": 1,
+      "message": "I did try to use InputEvent, but when I did so, a plethora of errors arised[1], among which:\n\n```\nTSC - 2021/05/25 15:00:35 app/utils/safari-selection-util.ts(73,30): error TS2339: Property \u0027getTargetRanges\u0027 does not exist on type \u0027InputEvent\u0027.\n```\n\nI did try to import the type definition @types/dom-inputevent[2], but looks like the getTargetRanges is not provided either by that type definition?\n\n[1]https://pastebin.com/PdVnvNwX\n[2]https://www.npmjs.com/package/@types/dom-inputevent",
+      "parentUuid": "92ae7d99_15119bbc",
+      "range": {
+        "startLine": 73,
+        "startChar": 23,
+        "endLine": 73,
+        "endChar": 37
+      },
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d5e0887c_fbaff740",
         "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
         "patchSetId": 20
@@ -190,6 +322,30 @@
       "writtenOn": "2021-05-25T10:22:17Z",
       "side": 1,
       "message": "I don\u0027t understand why anything needs to happen when `processing \u003d\u003d\u003d false`. Why do you have to call prevent/stop here? Add a comment.",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 90,
+        "endChar": 43
+      },
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d21f4c32_9830ca73",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-05-25T12:39:45Z",
+      "side": 1,
+      "message": "This is the bit that prevents the content of the diff from being edited.\nI have added a comment.",
+      "parentUuid": "d5e0887c_fbaff740",
       "range": {
         "startLine": 89,
         "startChar": 9,

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83efa665_00f62574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T10:32:01Z",
+      "side": 1,
+      "message": "nit: ChangePredicates",
+      "range": {
+        "startLine": 7,
+        "startChar": 56,
+        "endLine": 7,
+        "endChar": 71
+      },
+      "revId": "5608e3b9bfd52400f1921f29d7c0f7e4b2c2bb5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06d52abc_b56a0c04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T10:32:01Z",
+      "side": 1,
+      "message": "LGTM. Does this change add any new behaviour in ChangePredicates? If not, please just mention it explicitly in the commit message (only moving code from the deleted predicates to ChangePredicate).",
+      "revId": "5608e3b9bfd52400f1921f29d7c0f7e4b2c2bb5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

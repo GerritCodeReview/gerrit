@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfda2133_f395a169",
+        "filename": "java/com/google/gerrit/index/testing/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T16:52:52Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "36cb947c_63c962a5",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 37
+      },
+      "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e96fef8_0ff4c0a9",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-21T13:58:59Z",
       "side": 1,
       "message": "Better rename to FakeIndexVersionManager?\n\n* For elastic, it\u0027s ElasticIndexVersionManager\n* For lucene, it\u0027s LuceneVersionManager",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c995354_1e66a442",
+        "filename": "java/com/google/gerrit/index/testing/FakeVersionManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T16:52:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e96fef8_0ff4c0a9",
       "range": {
         "startLine": 35,
         "startChar": 13,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13341880_11304163",
+        "filename": "java/com/google/gerrit/server/query/account/AccountPredicates.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T16:52:52Z",
+      "side": 1,
+      "message": "Done. I was able to remove that instead :-)",
+      "parentUuid": "e8cd6805_8b8f8368",
+      "range": {
+        "startLine": 150,
+        "startChar": 8,
+        "endLine": 150,
+        "endChar": 50
+      },
+      "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0798a1a_bd6c9de9",
@@ -83,6 +155,24 @@
       "writtenOn": "2021-05-21T13:58:59Z",
       "side": 1,
       "message": "I didn\u0027t get why we are skipping this for the fake index, especially that it\u0027s working with the other index implementation.\n\nAm I missing a fundamental thing here?",
+      "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3e7f3a4_9a76e6d6",
+        "filename": "javatests/com/google/gerrit/server/query/project/FakeQueryProjectsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T16:52:52Z",
+      "side": 1,
+      "message": "Yes: Group, Accounts and Project predicates aren\u0027t yet working because they don\u0027t implement #match correctly. AccountPredicate just returns true without any filtering, the rest does not implement matchable.\n\nMartin asked me to document the status quo by merging the fake index first and ignoring any tests that are currently broken. Later in the series, I remove all these ignore statements so that you can see what the state of the system is now and at the end of this work.",
+      "parentUuid": "c0798a1a_bd6c9de9",
       "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

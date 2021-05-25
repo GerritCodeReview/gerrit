@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70a9d68c_933e4401",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T16:52:52Z",
+      "side": 1,
+      "message": "Ah, I see. Thanks for the clarification. Done.",
+      "parentUuid": "6ce04002_d4bb4808",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42227929_210c1477",
@@ -180,6 +204,30 @@
       "side": 1,
       "message": "interesting. I just looked through the documentation. Would be good to mention in the docs that sorting order is implementation defined. (not in this change, though)",
       "parentUuid": "5faad41a_3f003372",
+      "range": {
+        "startLine": 193,
+        "startChar": 37,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7599c81f_a5c04878",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T16:52:52Z",
+      "side": 1,
+      "message": "Will do and will leave this comment open to track.",
+      "parentUuid": "5b552c86_e81a89c9",
       "range": {
         "startLine": 193,
         "startChar": 37,

@@ -33,6 +33,154 @@
       "message": "Some demos of this fix:\n\nSafari 14.1: https://imgur.com/a/e1vX71h\nChrome 90.0.4430.212: https://imgur.com/a/tZdUWFd",
       "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18cc4bd2_ebfdf138",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T10:22:17Z",
+      "side": 1,
+      "message": "Add a comment explaining the rationale of having such a property.",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "285ae3ef_b083eb53",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T10:22:17Z",
+      "side": 1,
+      "message": "no underscore",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "096833fa_b18d52ba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T10:22:17Z",
+      "side": 1,
+      "message": "Is this related to the change?",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "115fbf0e_881d8be6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T10:22:17Z",
+      "side": 1,
+      "message": "Is this related to the change?",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "970fe1b6_7abf7ca2",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T10:22:17Z",
+      "side": 1,
+      "message": "Why this wrapper class?\n\nMaybe `contentEditableRange` could just be `Range | null` instead?",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9f3a276_10dd67b0",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T10:22:17Z",
+      "side": 1,
+      "message": "I think it would help future developers, if you would add 10-20 lines of comments about how this hack works and maybe add some links to where this pattern is documented or copied from.",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92ae7d99_15119bbc",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T10:22:17Z",
+      "side": 1,
+      "message": "Try to not use `any`. Can you try `event: InputEvent` in line 70?",
+      "range": {
+        "startLine": 73,
+        "startChar": 23,
+        "endLine": 73,
+        "endChar": 37
+      },
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5e0887c_fbaff740",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T10:22:17Z",
+      "side": 1,
+      "message": "I don\u0027t understand why anything needs to happen when `processing \u003d\u003d\u003d false`. Why do you have to call prevent/stop here? Add a comment.",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 90,
+        "endChar": 43
+      },
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

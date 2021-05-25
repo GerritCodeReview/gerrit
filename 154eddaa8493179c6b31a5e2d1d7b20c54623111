@@ -89,6 +89,41 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81d2887e_dddec362",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T13:43:28Z",
+      "side": 1,
+      "message": "Thanks for all your comments and reviews. Let\u0027s go with I2d10af61a72197d4 as it seems we all agree that this is a good path forward :-)",
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "399ef2b5_6e240949",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T13:43:28Z",
+      "side": 1,
+      "message": "Thanks for all your comments!\n\nI implemented the first step of this in I2d10af61a72197d4 and will follow up with a change to wire it up. The plugin endpoint can then just be to allow plugins to contribute predicates.\n\nI thought again about your use case and how I can make sure that at least the query syntax isn\u0027t making that harder for you: I\u0027ve made it so that the entity we match on (ApprovalContext) carries another PatchSet.Id called \"target\". With that, we could make it so in the future (in a plugin or in core) that the same query processor is used to answer if an approval should be copied when cherry picking (\u003dnew change ID). I did not implement that for now, though.",
+      "parentUuid": "48277c88_476976c0",
+      "revId": "154eddaa8493179c6b31a5e2d1d7b20c54623111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d3c2943_fc2e4b6d",

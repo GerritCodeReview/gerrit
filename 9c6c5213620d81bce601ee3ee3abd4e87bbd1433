@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95b4329f_15195643",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-05-25T19:41:51Z",
+      "side": 1,
+      "message": "we have plenty of other occurrences of usage of querySelector(.*)! in the codebase and they are without any TODO(TS).\nDo we want to discourage this usage? Not sure how to resolve this. Create a queryAndAssert() type function for usage outside the test-suite?",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 55
+      },
+      "revId": "9c6c5213620d81bce601ee3ee3abd4e87bbd1433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

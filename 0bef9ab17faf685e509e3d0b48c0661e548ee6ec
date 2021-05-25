@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ec045d3_d82a1069",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesCommitIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-05-25T15:54:13Z",
+      "side": 1,
+      "message": "Yes, this solution is even better. Shouldn\u0027t you now annotate some other tests, like AttentionSetIT?",
+      "parentUuid": "2695b7dc_d6110a30",
+      "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12427a77_6962e9c9",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesCommitIT.java",
         "patchSetId": 8

@@ -22,6 +22,30 @@
       },
       "revId": "3af8dbf40cbb79f1dd6325c6f237d5a4dc0e1b0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "304d44df_d93197bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-25T08:55:27Z",
+      "side": 1,
+      "message": "Good idea, added. You\u0027re right it\u0027s the caret position.",
+      "parentUuid": "b1685ca4_846ee550",
+      "range": {
+        "startLine": 405,
+        "startChar": 17,
+        "endLine": 405,
+        "endChar": 40
+      },
+      "revId": "3af8dbf40cbb79f1dd6325c6f237d5a4dc0e1b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

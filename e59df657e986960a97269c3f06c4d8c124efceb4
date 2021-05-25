@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e059b180_39667ba7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-25T09:28:03Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 14,
+        "startChar": 3,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "e59df657e986960a97269c3f06c4d8c124efceb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8aec727_509d67d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-25T09:28:03Z",
+      "side": 1,
+      "message": "CI failure is something broken with javadoc for the plugin API. Seems unrelated. ",
+      "revId": "e59df657e986960a97269c3f06c4d8c124efceb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a811e62_6f1cb397",
         "filename": "java/com/google/gerrit/index/FieldDef.java",
         "patchSetId": 7

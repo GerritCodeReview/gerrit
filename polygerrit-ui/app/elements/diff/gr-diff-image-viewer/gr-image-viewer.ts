@@ -66,7 +66,7 @@ export class GrImageViewer extends LitElement {
   // URL for the image to use as revision.
   @property({type: String}) revisionUrl = '';
 
-  @state() protected baseSelected = true;
+  @state() protected baseSelected = false;
 
   @state() protected scaledSelected = true;
 

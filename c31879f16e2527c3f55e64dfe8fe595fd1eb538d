@@ -144,6 +144,24 @@
       "parentUuid": "d9536936_a719f855",
       "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d5f6b2d_572578d6",
+        "filename": "contrib/smoke-test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-25T16:14:57Z",
+      "side": 1,
+      "message": "I prefer to let you apply the above at will, as I don\u0027t have the time to do it timely now.",
+      "parentUuid": "01fb4bb7_bd46f1ac",
+      "revId": "c31879f16e2527c3f55e64dfe8fe595fd1eb538d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

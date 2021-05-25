@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1cc0fb0_3983707b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-25T09:18:29Z",
+      "side": 1,
+      "message": "this says you\u0027re removing something, but the change only adds files.\n\nDid you generate those files by calling rbe_configs_gen ?\n\nRather than checking in a large automatically generated blob of code, could this be loaded as a @repo ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "d2bda587ffddc21d81332dc8b4ea076b7edb89c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0cd62a38_86122f65",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -19,6 +42,29 @@
         "startChar": 11,
         "endLine": 11,
         "endChar": 59
+      },
+      "revId": "d2bda587ffddc21d81332dc8b4ea076b7edb89c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "738d35d0_b05ae491",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-25T09:18:29Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 13,
+        "startChar": 26,
+        "endLine": 13,
+        "endChar": 34
       },
       "revId": "d2bda587ffddc21d81332dc8b4ea076b7edb89c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

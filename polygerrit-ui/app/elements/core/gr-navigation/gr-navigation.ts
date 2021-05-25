@@ -257,6 +257,7 @@ export interface GenerateUrlChangeViewParameters {
   host?: string;
   messageHash?: string;
   queryMap?: Map<string, string> | URLSearchParams;
+  commentId?: UrlEncodedCommentId;
 
   // TODO(TS): querystring isn't set anywhere, try to remove
   querystring?: string;

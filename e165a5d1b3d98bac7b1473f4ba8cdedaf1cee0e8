@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d478863_3ccc0455",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-25T11:00:05Z",
+      "side": 1,
+      "message": "_handleEnterByKey was actually triggered by Tab or Enter so I had to subcase. I have introduced a separate method of Tab instead of subcasing in the Enter method.",
+      "parentUuid": "b2bd3194_ad7b1278",
+      "range": {
+        "startLine": 222,
+        "startChar": 6,
+        "endLine": 222,
+        "endChar": 44
+      },
+      "revId": "e165a5d1b3d98bac7b1473f4ba8cdedaf1cee0e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ee99e01_265ebf03",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-25T09:46:16Z",
       "side": 1,
       "message": "I have a hard time understanding this logic. Can you somehow use local vars and comments to make this clearer?",
+      "range": {
+        "startLine": 223,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 46
+      },
+      "revId": "e165a5d1b3d98bac7b1473f4ba8cdedaf1cee0e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74ff3ade_7be99393",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-25T11:00:05Z",
+      "side": 1,
+      "message": "Done. The disableEnterKeyForSelectingEmoji behavior is surprising but makes sense at the same time.. I have added a comment and simplified the logic.",
+      "parentUuid": "0ee99e01_265ebf03",
       "range": {
         "startLine": 223,
         "startChar": 6,

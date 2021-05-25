@@ -164,6 +164,24 @@
       "parentUuid": "b3ab40dd_a9c3055b",
       "revId": "df4ff6fc6589085075c6505fd358997543a62cb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "267ca258_111cf944",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T16:56:25Z",
+      "side": 1,
+      "message": "Resolved. Thanks for the cherry pick in Ia420180eb73f",
+      "parentUuid": "e2c55988_f0772f4f",
+      "revId": "df4ff6fc6589085075c6505fd358997543a62cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

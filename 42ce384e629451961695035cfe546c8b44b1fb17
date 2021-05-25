@@ -22,6 +22,30 @@
       },
       "revId": "42ce384e629451961695035cfe546c8b44b1fb17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b532d46f_b6d35d58",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-25T09:05:04Z",
+      "side": 0,
+      "message": "Thanks for fixing it at [1], it was mistake to not pass mergeable. \n\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/307342",
+      "parentUuid": "7f7df315_2fe19184",
+      "range": {
+        "startLine": 548,
+        "startChar": 18,
+        "endLine": 548,
+        "endChar": 44
+      },
+      "revId": "42ce384e629451961695035cfe546c8b44b1fb17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

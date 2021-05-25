@@ -991,5 +991,5 @@ maven_jar(
 maven_jar(
     name = "testcontainers-elasticsearch",
     artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-    sha1 = "6b778a270b7529fcb9b7a6f62f3ae9d38544ce2f",
+    sha1 = "595e3a50f59cd3c1d281ca6c1bc4037e277a1353",
 )

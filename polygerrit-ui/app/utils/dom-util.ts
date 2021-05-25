@@ -292,3 +292,40 @@ export function toggleClass(el: Element, className: string, bool?: boolean) {
     el.classList.remove(className);
   }
 }
+
+// document.activeElement is not enough, because it's not getting activeElement
+// without looking inside of shadow roots. This will find best activeElement.
+export function findActiveElement(
+  root: DocumentOrShadowRoot | null,
+  ignoreDialogs?: boolean
+): HTMLElement | null {
+  if (root === null) {
+    return null;
+  }
+  if (
+    ignoreDialogs &&
+    root.activeElement &&
+    root.activeElement.nodeName.toUpperCase().includes('DIALOG')
+  ) {
+    return null;
+  }
+  if (root.activeElement?.shadowRoot?.activeElement) {
+    return findActiveElement(root.activeElement.shadowRoot);
+  }
+  if (!root.activeElement) {
+    return null;
+  }
+  // We block some elements
+  if ('BODY' === root.activeElement.nodeName.toUpperCase()) {
+    return null;
+  }
+  return root.activeElement as HTMLElement;
+}
+
+// Whether the browser is Safari. Used for polyfilling unique browser behavior.
+export function isSafari() {
+  return (
+    /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ||
+    (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+  );
+}

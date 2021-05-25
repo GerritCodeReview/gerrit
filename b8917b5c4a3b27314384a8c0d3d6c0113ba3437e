@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ae10c39_8363650b",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T15:15:57Z",
+      "side": 1,
+      "message": "Right. Done.",
+      "parentUuid": "179fd7c5_a4b0f90e",
+      "revId": "b8917b5c4a3b27314384a8c0d3d6c0113ba3437e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7ea94a3_465f9756",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-05-25T09:49:17Z",
       "side": 1,
       "message": "I think it would be cleaner to keep the old method signature and just not invoke this method if the expression is empty.",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 55
+      },
+      "revId": "b8917b5c4a3b27314384a8c0d3d6c0113ba3437e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8f5f308_91470eb2",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T15:15:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7ea94a3_465f9756",
       "range": {
         "startLine": 95,
         "startChar": 6,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c640f697_6860506f",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T15:15:57Z",
+      "side": 1,
+      "message": "Right, that was redundant.\n\nDone.",
+      "parentUuid": "794b768e_8d240bc9",
+      "range": {
+        "startLine": 97,
+        "startChar": 35,
+        "endLine": 97,
+        "endChar": 81
+      },
+      "revId": "b8917b5c4a3b27314384a8c0d3d6c0113ba3437e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e149228e_e7850449",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-05-25T09:49:17Z",
       "side": 1,
       "message": "The names in these comments should match the actual parameter names. But there is a mismatch here: \u0027applicabilityExpr\u0027 here vs. \u0027applicability\u0027 as parameter name.\n\nSame below.",
+      "range": {
+        "startLine": 106,
+        "startChar": 15,
+        "endLine": 106,
+        "endChar": 32
+      },
+      "revId": "b8917b5c4a3b27314384a8c0d3d6c0113ba3437e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e3e889_540bcae5",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T15:15:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e149228e_e7850449",
       "range": {
         "startLine": 106,
         "startChar": 15,

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e116dca_30d860ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T11:42:49Z",
+      "side": 1,
+      "message": "Nit and not your change, but I find `autoCompleteHidden` better than `hideAutocomplete`, because `hide` sounds like a command, not a state.\n\nAlso, I would prefer if the variable name contained `emoji`, because I think this autocomplete is about emoji only?",
+      "range": {
+        "startLine": 233,
+        "startChar": 13,
+        "endLine": 233,
+        "endChar": 30
+      },
+      "revId": "ef342a8368a9a096d4d7e88936aaa1a738526c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e965265d_57acac5c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T11:42:49Z",
+      "side": 1,
+      "message": "Nit: The underscores are legacy. New code should avoid them. But you could make the method private.",
+      "revId": "ef342a8368a9a096d4d7e88936aaa1a738526c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

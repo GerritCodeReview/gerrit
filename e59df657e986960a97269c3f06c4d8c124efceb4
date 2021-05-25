@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2f2ba46_b2533cc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T09:34:03Z",
+      "side": 1,
+      "message": "I also found https://bugs.openjdk.java.net/browse/JDK-8242564 which suggests the problem is related to javadocs, but nothing in this change looks suspicious.",
+      "parentUuid": "e8aec727_509d67d5",
+      "revId": "e59df657e986960a97269c3f06c4d8c124efceb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a811e62_6f1cb397",

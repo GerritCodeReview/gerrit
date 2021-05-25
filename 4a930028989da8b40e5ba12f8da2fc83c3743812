@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d71044bb_a4133bc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T10:18:37Z",
+      "side": 1,
+      "message": "ChangePredicates (missing \u0027s\u0027)",
+      "range": {
+        "startLine": 7,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "4a930028989da8b40e5ba12f8da2fc83c3743812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b92f8c58_c34037d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T10:18:37Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 17,
+        "startChar": 52,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "4a930028989da8b40e5ba12f8da2fc83c3743812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdb283f4_598ecea4",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T10:18:37Z",
+      "side": 1,
+      "message": "Is this implementation correct?\n\nMy understanding is that tokenizedField and tokenizedValue represent the field value in ChangeData (NoteDb) vs. the query string we are looking up.\n\nAs I understand, this implementation is tokenizing both strings into a set, e.g.\n  * \"generic matching for full-text\"\n\nwould result in\n  * [\"generic\", \"matching\", \"for\", \"full\", \"text\"]\n\nthen we do set intersection. If at least one word is common, then we have a match.\n\nHowever, current matching also respects the order of words, for example searching for: \"generic matching for full-text\" would match this change, but searching for \"generic for full-text\" yields nothing. Set intersection would false positively matched that query.",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 74
+      },
+      "revId": "4a930028989da8b40e5ba12f8da2fc83c3743812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e26f21e_9dcb66f0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T10:18:37Z",
+      "side": 1,
+      "message": "nit: committer",
+      "range": {
+        "startLine": 235,
+        "startChar": 90,
+        "endLine": 235,
+        "endChar": 98
+      },
+      "revId": "4a930028989da8b40e5ba12f8da2fc83c3743812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

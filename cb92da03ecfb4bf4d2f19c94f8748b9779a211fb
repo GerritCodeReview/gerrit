@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f75224b4_f430024f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-25T20:07:54Z",
+      "side": 1,
+      "message": "Upstream merge-up will depend on [1] merging in first.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/307624\n",
+      "revId": "cb92da03ecfb4bf4d2f19c94f8748b9779a211fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

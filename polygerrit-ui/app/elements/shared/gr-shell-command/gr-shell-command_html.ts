@@ -53,6 +53,10 @@ export const htmlTemplate = html`
   </style>
   <label>[[label]]</label>
   <div class="commandContainer">
-    <gr-copy-clipboard text="[[command]]"></gr-copy-clipboard>
+    <gr-copy-clipboard
+      text="[[command]]"
+      has-tooltip
+      button-title="[[tooltip]]"
+    ></gr-copy-clipboard>
   </div>
 `;

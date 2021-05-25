@@ -26,6 +26,8 @@ import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {GrOverlayStops} from '../../shared/gr-overlay/gr-overlay';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {fireAlert} from '../../../utils/event-util';
 
 export interface GrDownloadDialog {
   $: {
@@ -36,7 +38,7 @@ export interface GrDownloadDialog {
 }
 
 @customElement('gr-download-dialog')
-export class GrDownloadDialog extends PolymerElement {
+export class GrDownloadDialog extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }
@@ -59,6 +61,16 @@ export class GrDownloadDialog extends PolymerElement {
   @property({type: String})
   _selectedScheme?: string;
 
+  get keyBindings() {
+    return {
+      1: '_handleNumberKey',
+      2: '_handleNumberKey',
+      3: '_handleNumberKey',
+      4: '_handleNumberKey',
+      5: '_handleNumberKey',
+    };
+  }
+
   @computed('change', 'patchNum')
   get _schemes() {
     // Polymer 2: check for undefined
@@ -76,6 +88,19 @@ export class GrDownloadDialog extends PolymerElement {
       }
     }
     return [];
+  }
+
+  _handleNumberKey(e: CustomEvent) {
+    const index = Number(e.detail.key) - 1;
+    const commands = this._computeDownloadCommands(
+      this.change,
+      this.patchNum,
+      this._selectedScheme
+    );
+    if (index > commands.length) return;
+    navigator.clipboard.writeText(commands[index].command).then(() => {
+      fireAlert(this, `${commands[index].title} command copied to clipboard`);
+    });
   }
 
   /** @override */

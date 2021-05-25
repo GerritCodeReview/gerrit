@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a488b569_b8ca29c3",
+        "filename": "java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-25T13:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95d4a854_2fc1a4de",
+      "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c62f6e5f_2cc96ead",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-05-10T08:01:23Z",
       "side": 1,
       "message": "Could you add a comment here to describe when this method is to be used instead of the other two?",
+      "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33648968_fcd8742b",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-25T13:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c62f6e5f_2cc96ead",
       "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2695b7dc_d6110a30",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesCommitIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-25T13:39:31Z",
+      "side": 1,
+      "message": "Good point! I did not want to add the verification to other test classes, in case it turns out to be to expensive to run and we would want to turn it off. \n\nI instead added as annotation to AbstractDaemonTest so it can be enabled per test class/method.",
+      "parentUuid": "6b5c6d4e_0dae81d1",
+      "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12427a77_6962e9c9",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-05-10T08:01:23Z",
       "side": 1,
       "message": "nit: inline",
+      "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "260c599c_e8971c77",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesCommitIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-25T13:39:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12427a77_6962e9c9",
       "revId": "0bef9ab17faf685e509e3d0b48c0661e548ee6ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

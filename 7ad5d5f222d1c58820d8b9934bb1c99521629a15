@@ -157,6 +157,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d81808e5_94d2d982",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T13:02:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e6ff4583_1a86289c",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "115fbf0e_881d8be6",
@@ -188,6 +206,24 @@
       "side": 1,
       "message": "Yes, since now the content might be editable (on safari), when clicking on #diffTable the default :focus will be rendered.\n\nThis shows the problem it fixes: https://imgur.com/a/9KsDo28",
       "parentUuid": "115fbf0e_881d8be6",
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a70e2bd3_3e7562ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T13:02:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f0f56c56_af17ac9b",
       "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -317,6 +353,30 @@
       "side": 1,
       "message": "I did try to use InputEvent, but when I did so, a plethora of errors arised[1], among which:\n\n```\nTSC - 2021/05/25 15:00:35 app/utils/safari-selection-util.ts(73,30): error TS2339: Property \u0027getTargetRanges\u0027 does not exist on type \u0027InputEvent\u0027.\n```\n\nI did try to import the type definition @types/dom-inputevent[2], but looks like the getTargetRanges is not provided either by that type definition?\n\n[1]https://pastebin.com/PdVnvNwX\n[2]https://www.npmjs.com/package/@types/dom-inputevent",
       "parentUuid": "92ae7d99_15119bbc",
+      "range": {
+        "startLine": 73,
+        "startChar": 23,
+        "endLine": 73,
+        "endChar": 37
+      },
+      "revId": "7ad5d5f222d1c58820d8b9934bb1c99521629a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "318ff188_af53461a",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-25T13:02:55Z",
+      "side": 1,
+      "message": "Add this interface def somewhere at the top of the file:\n\n  interface InputEventExtended extends InputEvent {\n    getTargetRanges(): StaticRange[];\n  }\n\nThen here do:\n\n  const inputEvent \u003d event as InputEventExtended;\n  if (typeof inputEvent.getTargetRanges !\u003d\u003d \u0027function\u0027) return;\n  const range \u003d inputEvent.getTargetRanges()[0];",
+      "parentUuid": "75edf4d2_8864918f",
       "range": {
         "startLine": 73,
         "startChar": 23,

@@ -1287,12 +1287,6 @@ public class ChangeData {
     return refStates;
   }
 
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public void setRefStates(Iterable<byte[]> refStates) {
-    // TODO(hanwen): remove Google use, and drop this method.
-    setRefStates(RefState.parseStates(refStates));
-  }
-
   public void setRefStates(ImmutableSetMultimap<Project.NameKey, RefState> refStates) {
     this.refStates = refStates;
     if (draftsByUser == null) {

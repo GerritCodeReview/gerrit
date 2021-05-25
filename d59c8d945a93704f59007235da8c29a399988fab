@@ -293,6 +293,24 @@
       "parentUuid": "0976ecf6_9c390210",
       "revId": "d59c8d945a93704f59007235da8c29a399988fab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afb8c990_3c6153fd",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T12:04:04Z",
+      "side": 1,
+      "message": "RE @Nasser: \n\u003e You may want to look at how the task plugin solves this predicate caching.\n\nThanks Nasser. Yes I was referring to the same thing.\n\nRE @Edwin:\n\u003e should callers of evaluateExpression need to handle QueryParseException or is QueryParseException already handled when validateExpression is invoked?\n\nThere should be two kinds of callers:\n1) callers who wish to create or update submit requirements (and also ProjectConfig for loading submit requirements). These callers need to validate submit requirements before storing/loading them. I believe these callers should handle QueryParseException then throw a BadRequestException (e.g. for creating submit requirement via the API).\n\n2) callers who wish to evaluate submit requirements. At that point, submit requirements are expected to be valid (they were validated upon creation/update), but since we redo the parsing, QueryParseException can still happen and it means an internal server error. It could be better to return the result of SubmitRequirementExpression as {TRUE, FALSE, ERROR} and include the error message in the result instead, similar to what we do for current submit rules.",
+      "parentUuid": "a95471f6_e777593b",
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

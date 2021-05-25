@@ -193,6 +193,10 @@ const RoutePattern = {
   // links generated in the emails.
   COMMENT: /^\/c\/(.+)\/\+\/(\d+)\/comment\/(\w+)\/?$/,
 
+  // Matches /c/<project>/+/<changeNum>/comments/<commentId>/
+  // Navigates to the commentId inside the Comments Tab
+  COMMENTS_TAB: /^\/c\/(.+)\/\+\/(\d+)\/comments(?:\/)?(\w+)?\/?$/,
+
   // Matches
   // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..]<patchNum|edit>/<path>.
   // TODO(kaspern): Migrate completely to project based URLs, with backwards
@@ -1078,6 +1082,8 @@ export class GrRouter extends PolymerElement {
 
     this._mapRoute(RoutePattern.COMMENT, '_handleCommentRoute');
 
+    this._mapRoute(RoutePattern.COMMENTS_TAB, '_handleCommentsRoute');
+
     this._mapRoute(RoutePattern.DIFF, '_handleDiffRoute');
 
     this._mapRoute(RoutePattern.CHANGE, '_handleChangeRoute');
@@ -1604,6 +1610,19 @@ export class GrRouter extends PolymerElement {
       commentId: ctx.params[2] as UrlEncodedCommentId,
       view: GerritView.DIFF,
       commentLink: true,
+    };
+    this.reporting.setRepoName(params.project);
+    this.reporting.setChangeId(changeNum);
+    this._redirectOrNavigate(params);
+  }
+
+  _handleCommentsRoute(ctx: PageContextWithQueryMap) {
+    const changeNum = Number(ctx.params[1]) as NumericChangeId;
+    const params: GenerateUrlChangeViewParameters = {
+      project: ctx.params[0] as RepoName,
+      changeNum,
+      commentId: ctx.params[2] as UrlEncodedCommentId,
+      view: GerritView.CHANGE,
     };
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);

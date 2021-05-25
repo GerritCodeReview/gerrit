@@ -35,7 +35,6 @@ message Change_Key {
 message Change {
   required Change_Id change_id = 1;
   optional Change_Key change_key = 2;
-  optional int32 row_version = 3;
   optional fixed64 created_on = 4;
   optional fixed64 last_updated_on = 5;
   optional Account_Id owner_account_id = 7;
@@ -54,6 +53,7 @@ message Change {
   optional PatchSet_Id cherry_pick_of = 24;
 
   // Deleted fields, should not be reused:
+  reserved 3;    // row_version
   reserved 6;    // sortkey
   reserved 9;    // open
   reserved 11;   // nbrPatchSets

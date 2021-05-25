@@ -60,7 +60,6 @@ public class ChangeProtoConverterTest {
         Entities.Change.newBuilder()
             .setChangeId(Entities.Change_Id.newBuilder().setId(14))
             .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
-            .setRowVersion(0)
             .setCreatedOn(987654L)
             .setLastUpdatedOn(1234567L)
             .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))
@@ -109,7 +108,6 @@ public class ChangeProtoConverterTest {
                     .setBranch("refs/heads/branch-74"))
             // Default values which can't be unset.
             .setCurrentPatchSetId(0)
-            .setRowVersion(0)
             .setStatus(Change.STATUS_NEW)
             .setIsPrivate(false)
             .setWorkInProgress(false)
@@ -147,7 +145,6 @@ public class ChangeProtoConverterTest {
                     .setBranch("refs/heads/branch-74"))
             .setCurrentPatchSetId(0)
             // Default values which can't be unset.
-            .setRowVersion(0)
             .setStatus(Change.STATUS_NEW)
             .setIsPrivate(false)
             .setWorkInProgress(false)
@@ -185,7 +182,6 @@ public class ChangeProtoConverterTest {
             .setCurrentPatchSetId(23)
             .setSubject("subject ABC")
             // Default values which can't be unset.
-            .setRowVersion(0)
             .setStatus(Change.STATUS_NEW)
             .setIsPrivate(false)
             .setWorkInProgress(false)
@@ -251,7 +247,6 @@ public class ChangeProtoConverterTest {
     assertThat(change.getSubject()).isNull();
     assertThat(change.currentPatchSetId()).isNull();
     // Default values for unset protobuf fields which can't be unset in the entity object.
-    assertThat(change.getRowVersion()).isEqualTo(0);
     assertThat(change.isNew()).isTrue();
     assertThat(change.isPrivate()).isFalse();
     assertThat(change.isWorkInProgress()).isFalse();
@@ -284,7 +279,6 @@ public class ChangeProtoConverterTest {
             ImmutableMap.<String, Type>builder()
                 .put("changeId", Change.Id.class)
                 .put("changeKey", Change.Key.class)
-                .put("rowVersion", int.class)
                 .put("createdOn", Timestamp.class)
                 .put("lastUpdatedOn", Timestamp.class)
                 .put("owner", Account.Id.class)
@@ -309,7 +303,6 @@ public class ChangeProtoConverterTest {
   private static void assertEqualChange(Change change, Change expectedChange) {
     assertThat(change.getChangeId()).isEqualTo(expectedChange.getChangeId());
     assertThat(change.getKey()).isEqualTo(expectedChange.getKey());
-    assertThat(change.getRowVersion()).isEqualTo(expectedChange.getRowVersion());
     assertThat(change.getCreatedOn()).isEqualTo(expectedChange.getCreatedOn());
     assertThat(change.getLastUpdatedOn()).isEqualTo(expectedChange.getLastUpdatedOn());
     assertThat(change.getOwner()).isEqualTo(expectedChange.getOwner());

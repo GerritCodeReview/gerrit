@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ce04002_d4bb4808",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-25T09:23:57Z",
+      "side": 1,
+      "message": "SitePaths are filenames, so it must relate to on-disk data. That is strange if the index is in-memory. At the very least, needs a comment.",
+      "parentUuid": "a83fe937_75f5a065",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42227929_210c1477",
         "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
         "patchSetId": 7
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "It\u0027s left to the index implementation to figure out because each index configures sorting in a different way: Our internal index does it on the schema where you define presorts. Lucene accepts sorting on the Java API.\n\nThe fake index just uses comparators.",
       "parentUuid": "76a6e53c_b514d082",
+      "range": {
+        "startLine": 193,
+        "startChar": 37,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "2bee972c37bebdc2805f8941c22e65689adb872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b552c86_e81a89c9",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-25T09:23:57Z",
+      "side": 1,
+      "message": "interesting. I just looked through the documentation. Would be good to mention in the docs that sorting order is implementation defined. (not in this change, though)",
+      "parentUuid": "5faad41a_3f003372",
       "range": {
         "startLine": 193,
         "startChar": 37,

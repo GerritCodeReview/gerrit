@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "103a31e5_487fa165",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T09:59:47Z",
+      "side": 1,
+      "message": "LGTM - left 3 nits",
+      "revId": "0c326d06f18d0fd11f719a6a1b81561044a7b799",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a89f7a9a_949426d1",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T09:59:47Z",
+      "side": 1,
+      "message": "nit: with the",
+      "range": {
+        "startLine": 217,
+        "startChar": 63,
+        "endLine": 217,
+        "endChar": 70
+      },
+      "revId": "0c326d06f18d0fd11f719a6a1b81561044a7b799",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42b612d5_29b79bc6",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T09:59:47Z",
+      "side": 1,
+      "message": "nit: its",
+      "range": {
+        "startLine": 224,
+        "startChar": 5,
+        "endLine": 224,
+        "endChar": 9
+      },
+      "revId": "0c326d06f18d0fd11f719a6a1b81561044a7b799",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "657f7ccd_07658223",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T09:59:47Z",
+      "side": 1,
+      "message": "Optional: rename to commitPrefix? Also no need to explicitly mention \"either as prefix or as full\" in javadoc, since full is subsumed under prefix.",
+      "range": {
+        "startLine": 234,
+        "startChar": 38,
+        "endLine": 234,
+        "endChar": 44
+      },
+      "revId": "0c326d06f18d0fd11f719a6a1b81561044a7b799",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

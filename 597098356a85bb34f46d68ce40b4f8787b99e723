@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "019c8c9d_811cbdd7",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-25T20:01:21Z",
+      "side": 1,
+      "message": "I could not find a better way :-(\n\n@Ben any other suggestion?",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 64
+      },
+      "revId": "597098356a85bb34f46d68ce40b4f8787b99e723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d13e0a62_9e6df066",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-25T13:52:02Z",
+      "side": 1,
+      "message": "It\u0027s a bit odd overall since we usually have showXYZ or hideXYZ that act like commands (where showXYZ \u003d true; will update the DOM), but here it\u0027s only a local mirror of this.$.emojiSuggestions.isHidden and only used for logic purposes..\n\nI will leave for now but I have added \u0027Emoji\u0027 for a bit more clarity.",
+      "parentUuid": "8e116dca_30d860ba",
+      "range": {
+        "startLine": 233,
+        "startChar": 13,
+        "endLine": 233,
+        "endChar": 30
+      },
+      "revId": "ef342a8368a9a096d4d7e88936aaa1a738526c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e965265d_57acac5c",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-05-25T11:42:49Z",
       "side": 1,
       "message": "Nit: The underscores are legacy. New code should avoid them. But you could make the method private.",
+      "revId": "ef342a8368a9a096d4d7e88936aaa1a738526c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77ce84b0_3003b2e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-05-25T13:52:02Z",
+      "side": 1,
+      "message": "Done. I like private.",
+      "parentUuid": "e965265d_57acac5c",
       "revId": "ef342a8368a9a096d4d7e88936aaa1a738526c9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -275,6 +275,24 @@
       "parentUuid": "6922871d_c596fafd",
       "revId": "d59c8d945a93704f59007235da8c29a399988fab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a95471f6_e777593b",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-25T09:14:06Z",
+      "side": 1,
+      "message": "I see, thanks for evaluating all these options. It\u0027s indeed more tricky than I thought.\n\n\u003e 1) Leave as is. I can benchmark (add latency metrics) and measure how\n\u003e expensive this parsing is. We can leave as is if we are OK with\n\u003e performance.\n\nPerformance is one aspect. Another thing I\u0027m trying to understand is how we intend to handle non-parseable expressions, e.g. should callers of evaluateExpression need to handle QueryParseException or is QueryParseException already handled when validateExpression is invoked?\n\nGetting the API here right is more important to me than the performance aspect. E.g. for me it would be okay to do the parsing on each access now, if we know that we could add a cache for this later if needed.",
+      "parentUuid": "0976ecf6_9c390210",
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

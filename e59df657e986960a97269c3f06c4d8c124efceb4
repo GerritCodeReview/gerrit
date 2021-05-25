@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "af184ad1_53be153f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T15:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e059b180_39667ba7",
+      "range": {
+        "startLine": 14,
+        "startChar": 3,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "e59df657e986960a97269c3f06c4d8c124efceb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e8aec727_509d67d5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -125,6 +149,30 @@
       "writtenOn": "2021-05-21T12:40:33Z",
       "side": 1,
       "message": "nit: the removed code in Lucene/Elastic didn\u0027t backfill this field. Maybe mention in the commit message that we added backfilling for this field.",
+      "range": {
+        "startLine": 474,
+        "startChar": 14,
+        "endLine": 474,
+        "endChar": 30
+      },
+      "revId": "e59df657e986960a97269c3f06c4d8c124efceb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d31a164_57d39067",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T15:14:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a8b7351_46dca79c",
       "range": {
         "startLine": 474,
         "startChar": 14,

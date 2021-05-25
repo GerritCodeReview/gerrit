@@ -43,7 +43,6 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     Entities.Change.Builder builder =
         Entities.Change.newBuilder()
             .setChangeId(changeIdConverter.toProto(change.getId()))
-            .setRowVersion(change.getRowVersion())
             .setChangeKey(changeKeyConverter.toProto(change.getKey()))
             .setCreatedOn(change.getCreatedOn().getTime())
             .setLastUpdatedOn(change.getLastUpdatedOn().getTime())

@@ -443,9 +443,6 @@ public final class Change {
   /** Globally assigned unique identifier of the change */
   protected Key changeKey;
 
-  /** optimistic locking */
-  protected int rowVersion;
-
   /** When this change was first introduced into the database. */
   protected Timestamp createdOn;
 
@@ -526,7 +523,6 @@ public final class Change {
     assignee = other.assignee;
     changeId = other.changeId;
     changeKey = other.changeKey;
-    rowVersion = other.rowVersion;
     createdOn = other.createdOn;
     lastUpdatedOn = other.lastUpdatedOn;
     owner = other.owner;
@@ -585,10 +581,6 @@ public final class Change {
 
   public void setLastUpdatedOn(Timestamp now) {
     lastUpdatedOn = now;
-  }
-
-  public int getRowVersion() {
-    return rowVersion;
   }
 
   public Account.Id getOwner() {

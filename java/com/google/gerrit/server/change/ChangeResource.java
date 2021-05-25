@@ -167,7 +167,6 @@ public class ChangeResource implements RestResource, HasETag {
   public void prepareETag(Hasher h, CurrentUser user) {
     h.putInt(JSON_FORMAT_VERSION)
         .putLong(getChange().getLastUpdatedOn().getTime())
-        .putInt(getChange().getRowVersion())
         .putInt(user.isIdentifiedUser() ? user.getAccountId().get() : 0);
 
     if (user.isIdentifiedUser()) {

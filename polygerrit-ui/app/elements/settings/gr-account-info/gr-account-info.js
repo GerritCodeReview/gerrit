@@ -102,6 +102,8 @@ class GrAccountInfo extends GestureEventListeners(
       this._serverConfig = config;
     }));
 
+    promises.push(this.$.restAPI.invalidateAccountsDetailCache());
+
     promises.push(this.$.restAPI.getAccount().then(account => {
       this._hasNameChange = false;
       this._hasUsernameChange = false;

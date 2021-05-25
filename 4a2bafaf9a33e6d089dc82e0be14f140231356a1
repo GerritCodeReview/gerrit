@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a3e841e_53831caf",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-25T09:46:20Z",
+      "side": 1,
+      "message": "This method isn\u0027t used outside this class. Also couldn\u0027t find usage in plugins. Shall we make this private?",
+      "range": {
+        "startLine": 1056,
+        "startChar": 2,
+        "endLine": 1056,
+        "endChar": 8
+      },
+      "revId": "4a2bafaf9a33e6d089dc82e0be14f140231356a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

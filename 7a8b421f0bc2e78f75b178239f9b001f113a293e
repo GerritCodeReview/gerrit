@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ca67b74_2490a6bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-25T16:07:24Z",
+      "side": 1,
+      "message": "Seems like a simple oversight from the change mentioned in the commit message.",
+      "revId": "7a8b421f0bc2e78f75b178239f9b001f113a293e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

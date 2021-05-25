@@ -54,9 +54,9 @@ import {DiffViewMode, Side} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-// TODO(davido): See: https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
-// @ts-ignore
-import * as shadow from 'shadow-selection-polyfill/shadow.js';
+import {getContentEditableRange} from '../../../utils/safari-selection-util';
+
+import {isSafari} from '../../../utils/dom-util';
 
 const NO_NEWLINE_BASE = 'No newline at end of base file.';
 const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
@@ -217,6 +217,14 @@ export class GrDiff extends GestureEventListeners(
   revisionImage?: ImageInfo;
 
   /**
+   * In order to allow multi-select in Safari browsers, a workaround is required
+   * to trigger 'beforeinput' events to get a list of static ranges. This is
+   * obtained by making the content of the diff table "contentEditable".
+   */
+  @property({type: Boolean})
+  isContentEditable = isSafari();
+
+  /**
    * Whether the safety check for large diffs when whole-file is set has
    * been bypassed. If the value is null, then the safety has not been
    * bypassed. If the value is a number, then that number represents the
@@ -321,18 +329,10 @@ export class GrDiff extends GestureEventListeners(
     }
 
     if (loggedIn && isAttached) {
-      this.listen(
-        document,
-        '-shadow-selectionchange',
-        '_handleSelectionChange'
-      );
+      this.listen(document, 'selectionchange', '_handleSelectionChange');
       this.listen(document, 'mouseup', '_handleMouseUp');
     } else {
-      this.unlisten(
-        document,
-        '-shadow-selectionchange',
-        '_handleSelectionChange'
-      );
+      this.unlisten(document, 'selectionchange', '_handleSelectionChange');
       this.unlisten(document, 'mouseup', '_handleMouseUp');
     }
   }
@@ -361,8 +361,8 @@ export class GrDiff extends GestureEventListeners(
     // element. This takes the shadow DOM selection if one exists.
     return this.root instanceof ShadowRoot && this.root.getSelection
       ? this.root.getSelection()
-      : this._isSafari()
-      ? shadow.getRange(this.root)
+      : isSafari()
+      ? getContentEditableRange()
       : document.getSelection();
   }
 
@@ -1073,13 +1073,6 @@ export class GrDiff extends GestureEventListeners(
         );
       }
     }, 0);
-  }
-
-  _isSafari() {
-    return (
-      /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ||
-      (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
-    );
   }
 }
 

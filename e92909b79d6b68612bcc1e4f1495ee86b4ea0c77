@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82e7bde4_e58290be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-25T14:42:57Z",
+      "side": 1,
+      "message": "I\u0027d appreciate your comments also on a feature-design level to make sure we get this right.\n\nHow should we handle change-related terms?\nOption A (subquery):\n  change:\"project:fooBar\"\nOption B (dedicated predicate):\n  project:fooBar\nOption C (bridge over to change queries, so less boiler plate in code and no sub queries):\n  change-project:fooBar\n\nMy order of preferences is C (top) - B - A. WDYT?",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

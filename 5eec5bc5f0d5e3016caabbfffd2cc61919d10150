@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bc7887d_f15d650a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-25T21:51:47Z",
+      "side": 1,
+      "message": "@Marco any special reason why we want this upgrade on a stable branch?\nUnfortunately, test-containers upgrades would have a ripple effect on plugins that would have to upgrade also.",
+      "revId": "5eec5bc5f0d5e3016caabbfffd2cc61919d10150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

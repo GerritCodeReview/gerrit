@@ -239,6 +239,7 @@ export class GrImageViewer extends LitElement {
       font: var(--image-diff-button-font);
       text-transform: var(--image-diff-button-text-transform, uppercase);
       outline: 1px solid transparent;
+      border: 1px solid var(--primary-button-background-color);
     }
     paper-button[unelevated] {
       color: var(--primary-button-text-color);
@@ -246,7 +247,6 @@ export class GrImageViewer extends LitElement {
     }
     paper-button[outlined] {
       color: var(--primary-button-background-color);
-      border-color: var(--primary-button-background-color);
     }
     #version-switcher {
       display: flex;
@@ -283,6 +283,12 @@ export class GrImageViewer extends LitElement {
     }
     #zoom-control {
       margin: 0 var(--spacing-xl);
+    }
+    paper-item {
+      cursor: pointer;
+    }
+    paper-item:hover {
+      background-color: var(--hover-background-color);
     }
     #follow-mouse {
       margin: var(--spacing-m) var(--spacing-xl);
@@ -501,63 +507,24 @@ export class GrImageViewer extends LitElement {
       </paper-fab>
     `;
 
-    // To pass CSS mixins for @apply to Polymer components, they need to be
-    // wrapped in a <custom-style>.
+    // To pass CSS mixins for @apply to Polymer components, they need to appear
+    // in <style> inside the template.
     const customStyle = html`
-      <custom-style>
-        <style>
-            paper-button.left {
-              --paper-button: {
-                border-radius: 4px 0 0 4px;
-                border-width: 1px;
-                border-style: solid;
-                border-color: var(--primary-button-background-color);
-              }
-            }
-            paper-button.left[outlined] {
-              --paper-button: {
-                border-radius: 4px 0 0 4px;
-                border-width: 1px;
-                border-style: solid;
-                border-color: var(--primary-button-background-color);
-              }
-            }
-            paper-button.right {
-              --paper-button: {
-                border-radius: 0 4px 4px 0;
-                border-width: 1px;
-                border-style: solid;
-                border-color: var(--primary-button-background-color);
-              }
-            }
-            paper-button.right[outlined] {
-              --paper-button: {
-                border-radius: 0 4px 4px 0;
-                border-width: 1px;
-                border-style: solid;
-                border-color: var(--primary-button-background-color);
-              }
-            }
-            paper-item {
-              cursor: pointer;
-              --paper-item-min-height: 48;
-              --paper-item: {
-                min-height: 48px;
-                padding: 0 var(--spacing-xl);
-              }
-              --paper-item-focused-before: {
-                background-color: var(--selection-background-color);
-              }
-              --paper-item-focused: {
-                background-color: var(--selection-background-color);
-              }
-            }
+      <style>
+        paper-item {
+          --paper-item-min-height: 48;
+          --paper-item: {
+            min-height: 48px;
+            padding: 0 var(--spacing-xl);
           }
-          paper-item:hover {
-            background-color: var(--hover-background-color);
+          --paper-item-focused-before: {
+            background-color: var(--selection-background-color);
           }
-        </style>
-      </custom-style>
+          --paper-item-focused: {
+            background-color: var(--selection-background-color);
+          }
+        }
+      </style>
     `;
 
     return html`

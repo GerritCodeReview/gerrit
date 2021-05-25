@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b83aa5dd_9ceb77b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-25T18:41:53Z",
+      "side": 1,
+      "message": "There is also another problem: the flipping of attention-set of a change are counting as \"modifications\" against the limit.\n\nThe \"pollution\" of those modifications would cause changes to hits their limits without actually having made any *real* modification to it.",
+      "revId": "7c12a2ca1aaaee7fbbe465d669b7bc7afc335ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

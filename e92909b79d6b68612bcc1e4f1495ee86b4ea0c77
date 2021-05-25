@@ -16,6 +16,23 @@
       "message": "I\u0027d appreciate your comments also on a feature-design level to make sure we get this right.\n\nHow should we handle change-related terms?\nOption A (subquery):\n  change:\"project:fooBar\"\nOption B (dedicated predicate):\n  project:fooBar\nOption C (bridge over to change queries, so less boiler plate in code and no sub queries):\n  change-project:fooBar\n\nMy order of preferences is C (top) - B - A. WDYT?",
       "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9c9483e_7209c33a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-25T17:39:55Z",
+      "side": 1,
+      "message": "2 random comments: \n\n* I think it would be good to have a mechanism (plugin API? gerrit.config?) that will do an implicit AND on the configured approval criterion. This would let us set a mandatory, global policy.\n\n* Are the copying criteria currently persisted in NoteDb? If not, it might be useful to do so, to be able to check afterwards why a certain approval was copied forward.",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

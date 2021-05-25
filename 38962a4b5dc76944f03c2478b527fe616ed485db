@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82e2066a_0ef22675",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-25T10:09:36Z",
+      "side": 1,
+      "message": "Should this be a Boolean, so that this field doesn\u0027t need to be set when the user only wants update one of the other fields?",
+      "range": {
+        "startLine": 43,
+        "startChar": 9,
+        "endLine": 43,
+        "endChar": 16
+      },
+      "revId": "38962a4b5dc76944f03c2478b527fe616ed485db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

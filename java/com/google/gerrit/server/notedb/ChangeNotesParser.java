@@ -317,7 +317,6 @@ class ChangeNotesParser {
   }
 
   private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
-    updateCount++;
     Timestamp ts = new Timestamp(commit.getCommitterIdent().getWhen().getTime());
 
     createdOn = ts;
@@ -360,7 +359,7 @@ class ChangeNotesParser {
       originalSubject = currSubject;
     }
 
-    parseChangeMessage(psId, accountId, realAccountId, commit, ts);
+    boolean hasChangeMessage = parseChangeMessage(psId, accountId, realAccountId, commit, ts);
     if (topic == null) {
       topic = parseTopic(commit);
     }
@@ -433,6 +432,9 @@ class ChangeNotesParser {
 
     previousWorkInProgressFooter = null;
     parseWorkInProgress(commit);
+    if (countTowardsMaxUpdatesLimit(commit, hasChangeMessage)) {
+      updateCount++;
+    }
   }
 
   private String parseSubmissionId(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -697,7 +699,7 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseChangeMessage(
+  private boolean parseChangeMessage(
       PatchSet.Id psId,
       Account.Id accountId,
       Account.Id realAccountId,
@@ -705,7 +707,7 @@ class ChangeNotesParser {
       Timestamp ts) {
     Optional<String> changeMsgString = getChangeMessageString(commit);
     if (!changeMsgString.isPresent()) {
-      return;
+      return false;
     }
 
     ChangeMessage changeMessage =
@@ -714,6 +716,7 @@ class ChangeNotesParser {
     changeMessage.setTag(tag);
     changeMessage.setRealAuthor(realAccountId);
     allChangeMessages.add(changeMessage);
+    return true;
   }
 
   public static Optional<String> getChangeMessageString(ChangeNotesCommit commit) {
@@ -1136,5 +1139,10 @@ class ChangeNotesParser {
     return NoteDbUtil.parseIdent(ident)
         .orElseThrow(
             () -> parseException("cannot retrieve account id: %s", ident.getEmailAddress()));
+  }
+
+  protected boolean countTowardsMaxUpdatesLimit(
+      ChangeNotesCommit commit, boolean hasChangeMessage) {
+    return !commit.isAttentionSetCommitOnly(hasChangeMessage);
   }
 }

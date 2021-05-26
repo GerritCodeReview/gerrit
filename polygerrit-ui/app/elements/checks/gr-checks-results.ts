@@ -667,8 +667,15 @@ export class GrChecksResults extends GrLitElement {
           display: flex;
           align-items: center;
         }
-        .headerBottomRow .links iron-icon {
+        .headerBottomRow iron-icon {
           color: var(--link-color);
+        }
+        .headerBottomRow .space {
+          display: inline-block;
+          width: var(--spacing-xl);
+          height: var(--line-height-normal);
+        }
+        .headerBottomRow a {
           margin-right: var(--spacing-l);
         }
         #moreActions iron-icon {
@@ -831,7 +838,11 @@ export class GrChecksResults extends GrLitElement {
         </div>
         <div class="headerBottomRow">
           <div class="left">${this.renderFilter()}</div>
-          <div class="right">${this.renderLinks()}${this.renderActions()}</div>
+          <div class="right">
+            ${this.renderLinks()}
+            <div class="space"></div>
+            ${this.renderActions()}
+          </div>
         </div>
       </div>
       <div class="body">
@@ -844,12 +855,44 @@ export class GrChecksResults extends GrLitElement {
   }
 
   private renderLinks() {
-    const links = (this.links ?? []).slice(0, 4);
+    const links = this.links ?? [];
     if (links.length === 0) return;
-    return html`<div class="links">${links.map(this.renderLink)}</div>`;
+    const primaryLinks = links.filter(a => a.primary).slice(0, 4);
+    const overflowLinks = links.filter(a => !primaryLinks.includes(a));
+    return html`
+      ${this.renderLink(primaryLinks[0])} ${this.renderLink(primaryLinks[1])}
+      ${this.renderLink(primaryLinks[2])} ${this.renderLink(primaryLinks[3])}
+      ${this.renderOverflowLinks(overflowLinks)}
+    `;
   }
 
-  private renderLink(link: Link) {
+  private renderOverflowLinks(overflowLinks: Link[]) {
+    const items = overflowLinks.map(link => {
+      return {
+        ...link,
+        id: link.tooltip,
+        name: link.tooltip,
+        target: '_blank',
+        tooltip: undefined,
+      };
+    });
+    return html`
+      <gr-dropdown
+        id="moreLinks"
+        link=""
+        vertical-offset="32"
+        horizontal-align="right"
+        .items="${items}"
+      >
+        <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
+        </iron-icon>
+        <span id="moreMessage">More</span>
+      </gr-dropdown>
+    `;
+  }
+
+  private renderLink(link?: Link) {
+    if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     return html`<a href="${link.url}" target="_blank"
       ><iron-icon
@@ -863,6 +906,7 @@ export class GrChecksResults extends GrLitElement {
 
   private renderActions() {
     const actions = this.actions ?? [];
+    if (actions.length === 0) return;
     const primaryActions = actions.filter(a => a.primary).slice(0, 2);
     const overflowActions = actions.filter(a => !primaryActions.includes(a));
     return html`

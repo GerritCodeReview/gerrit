@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3e984cde_f817e8b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-26T13:34:14Z",
+      "side": 1,
+      "message": "nit: please wrap text to 72 chars/line",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9977f977_89863c7a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -68,6 +85,29 @@
       "side": 1,
       "message": "Thanks!",
       "parentUuid": "e496b77c_72443e05",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7ed211f_016f8d31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-26T13:34:14Z",
+      "side": 1,
+      "message": "nit: polluting?",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 17
+      },
       "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -183,6 +223,29 @@
         "startChar": 26,
         "endLine": 11,
         "endChar": 45
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1fd89bf_fc4b70aa",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-26T13:34:14Z",
+      "side": 1,
+      "message": "Can we drop \"ANY\"? What could be a use case for it?\n\nFor example\n  * copyIf \u003d changekind:trivial-rebase AND is:ANY\n\nCan be reduced to\n  * copyIf \u003d changeKind:trivial-rebase\n\n--\n\nIf we want to support a use case like: \"always copy\", I believe it\u0027s better to add support for `copyIf \u003d true` to the language and use that to create a AlwaysTruePredicate. WDYT?",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 7
       },
       "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

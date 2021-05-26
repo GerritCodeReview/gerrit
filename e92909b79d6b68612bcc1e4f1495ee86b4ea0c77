@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b15226_d956afd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-26T08:17:32Z",
+      "side": 1,
+      "message": "\u003e but are label configs inherited\n\nyes\n\n\u003e Can they be partially changed by child repos?\n\nNo, they can only be replaced in full if canOverride [1] was set to true in the parent.\n\n\u003e Do we need a `copyIfParent` predicate?\n\nI think the current way of inheritance is pretty nice because it is simple: you can only override in full (not partially) and only of the parent allowed that. WDYT?\n\n\u003e Do we need some way to prevent child overrides?\n\nExists already :-)\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_canOverride",
+      "parentUuid": "9977f977_89863c7a",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "82e7bde4_e58290be",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-05-25T17:39:55Z",
       "side": 1,
       "message": "2 random comments: \n\n* I think it would be good to have a mechanism (plugin API? gerrit.config?) that will do an implicit AND on the configured approval criterion. This would let us set a mandatory, global policy.\n\n* Are the copying criteria currently persisted in NoteDb? If not, it might be useful to do so, to be able to check afterwards why a certain approval was copied forward.",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "789298b4_c82eb786",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-26T08:17:32Z",
+      "side": 1,
+      "message": "\u003e This would let us set a mandatory, global policy.\n\nSGTM. A plugin endpoint that is allwowed to rewrite queries could be an option.\n\n\u003e Are the copying criteria currently persisted in NoteDb?\n\nThey are not, but this sounds like a good idea. Copied labels are currently only persisted when the change gets submitted. While it\u0027s active, we infer votes which is expensive, so we need to cache that or persist that in NoteDb as well when new patch sets get uploaded. I\u0027d vote for the latter but it means that copy config changes will not apply to open changes until new patch sets are uploaded (seems fine to me).",
+      "parentUuid": "f9c9483e_7209c33a",
       "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

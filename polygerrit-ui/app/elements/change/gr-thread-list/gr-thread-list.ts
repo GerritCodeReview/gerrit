@@ -33,6 +33,7 @@ import {
   AccountDetailInfo,
   AccountInfo,
   ChangeInfo,
+  UrlEncodedCommentId,
 } from '../../../types/common';
 import {
   CommentThread,
@@ -134,6 +135,9 @@ export class GrThreadList extends PolymerElement {
       ? CommentTabState.UNRESOLVED
       : CommentTabState.SHOW_ALL;
   }
+
+  @property({type: String})
+  scrollCommentId?: UrlEncodedCommentId;
 
   _showEmptyThreadsMessage(
     threads: CommentThread[],

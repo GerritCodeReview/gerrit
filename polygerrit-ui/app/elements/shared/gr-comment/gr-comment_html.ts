@@ -248,6 +248,10 @@ export const htmlTemplate = html`
     .portedMessage {
       margin: 0 var(--spacing-m);
     }
+    .link-icon {
+      vertical-align: middle;
+      cursor: pointer;
+    }
   </style>
   <div id="container" class="container">
     <div class="header" id="header" on-click="_handleToggleCollapsed">
@@ -405,6 +409,16 @@ export const htmlTemplate = html`
         </div>
         <template is="dom-if" if="[[draft]]">
           <div class="rightActions">
+            <template is="dom-if" if="[[hasPublishedComment(comments)]]">
+              <iron-icon
+                class="link-icon"
+                on-click="handleCopyLink"
+                class="copy"
+                title="Copy link to this comment"
+                icon="gr-icons:link"
+              >
+              </iron-icon>
+            </template>
             <gr-button
               link=""
               class="action cancel hideOnPublished"
@@ -434,6 +448,16 @@ export const htmlTemplate = html`
         </template>
       </div>
       <div class="robotActions" hidden$="[[!_showRobotActions]]">
+        <template is="dom-if" if="[[hasPublishedComment(comments)]]">
+          <iron-icon
+            class="link-icon"
+            on-click="handleCopyLink"
+            class="copy"
+            title="Copy link to this comment"
+            icon="gr-icons:link"
+          >
+          </iron-icon>
+        </template>
         <template is="dom-if" if="[[isRobotComment]]">
           <gr-endpoint-decorator name="robot-comment-controls">
             <gr-endpoint-param name="comment" value="[[comment]]">

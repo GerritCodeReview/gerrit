@@ -102,6 +102,10 @@ export const htmlTemplate = html`
       border-top: 1px solid var(--border-color);
       background-color: var(--background-color-primary);
     }
+    .link-icon {
+      vertical-align: middle;
+      cursor: pointer;
+    }
   </style>
 
   <template is="dom-if" if="[[showFilePath]]">
@@ -155,6 +159,7 @@ export const htmlTemplate = html`
           on-create-fix-comment="_handleCommentFix"
           on-comment-discard="_handleCommentDiscard"
           on-comment-save="_handleCommentSavedOrDiscarded"
+          on-copy-comment-link="handleCopyLink"
         ></gr-comment>
       </template>
       <div
@@ -163,6 +168,14 @@ export const htmlTemplate = html`
       >
         <span id="unresolvedLabel">[[_getUnresolvedLabel(unresolved)]]</span>
         <div id="actions">
+          <iron-icon
+            class="link-icon"
+            on-click="handleCopyLink"
+            class="copy"
+            title="Copy link to this comment"
+            icon="gr-icons:link"
+          >
+          </iron-icon>
           <gr-button
             id="replyBtn"
             link=""

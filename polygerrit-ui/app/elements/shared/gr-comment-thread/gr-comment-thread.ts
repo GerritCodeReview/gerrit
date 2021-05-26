@@ -58,7 +58,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
 import {check, assertIsDefined} from '../../../utils/common-util';
-import {waitForEventOnce} from '../../../utils/event-util';
+import {fireAlert, waitForEventOnce} from '../../../utils/event-util';
 import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-layer';
@@ -405,6 +405,22 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     const id = this.comments[0].id;
     if (!id) throw new Error('A published comment is missing the id.');
     return GerritNav.getUrlForComment(changeNum, projectName, id);
+  }
+
+  handleCopyLink() {
+    assertIsDefined(this.changeNum, 'changeNum');
+    assertIsDefined(this.projectName, 'projectName');
+    const url =
+      'https://' +
+      window.location.hostname +
+      GerritNav.getUrlForCommentsTab(
+        this.changeNum,
+        this.projectName,
+        this.comments[0].id!
+      );
+    navigator.clipboard.writeText(url).then(() => {
+      fireAlert(this, 'Link copied to clipboard');
+    });
   }
 
   _isPatchsetLevelComment(path: string) {

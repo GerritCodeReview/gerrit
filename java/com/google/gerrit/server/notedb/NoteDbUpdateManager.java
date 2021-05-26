@@ -373,7 +373,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
     bru.setAtomic(true);
     or.cmds.addTo(bru);
-    bru.setAllowNonFastForwards(true);
+    // bru.setAllowNonFastForwards(true);
     for (BatchUpdateListener listener : batchUpdateListeners) {
       bru = listener.beforeUpdateRefs(bru);
     }

@@ -69,6 +69,7 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
+import com.google.gerrit.server.patch.DiffOperationsImpl;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.permissions.SectionSortCache;
@@ -113,6 +114,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(BatchUpdate.module());
     modules.add(PatchListCacheImpl.module());
     modules.add(new DefaultUrlFormatter.Module());
+    modules.add(DiffOperationsImpl.module());
 
     // There is the concept of LifecycleModule, in Gerrit's own extension to Guice, which has these:
     //  listener().to(SomeClassImplementingLifecycleListener.class);

@@ -140,6 +140,69 @@
       "parentUuid": "789298b4_c82eb786",
       "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf2d0ad4_c12d7fd3",
+        "filename": "java/com/google/gerrit/server/query/approval/ChangeKindPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-26T11:09:36Z",
+      "side": 1,
+      "message": "Maybe do these checks when creating ApprovalContext?",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 5
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faad3d34_154a20ce",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-26T11:09:36Z",
+      "side": 1,
+      "message": "nit: duplicated word",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "830bbf8c_085d4fe4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-26T11:09:36Z",
+      "side": 1,
+      "message": "nit: missing licence header",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

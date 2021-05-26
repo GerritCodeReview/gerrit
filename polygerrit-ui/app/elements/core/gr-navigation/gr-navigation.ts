@@ -696,6 +696,19 @@ export const GerritNav = {
     });
   },
 
+  getUrlForCommentsTab(
+    changeNum: NumericChangeId,
+    project: RepoName,
+    commentId: UrlEncodedCommentId
+  ) {
+    return this._getUrlFor({
+      view: GerritView.CHANGE,
+      changeNum,
+      project,
+      commentId,
+    });
+  },
+
   /**
    * @param basePatchNum The string 'PARENT' can be used for none.
    */

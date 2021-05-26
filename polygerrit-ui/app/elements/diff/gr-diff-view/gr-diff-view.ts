@@ -106,9 +106,14 @@ import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {toggleClass, getKeyboardEvent} from '../../../utils/dom-util';
+import {CursorMoveResult} from '../../shared/gr-cursor-manager/gr-cursor-manager';
+
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';
+
+// Time in which pressing n key again after the toast navigates to next file
+const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
 interface Files {
   sortedFileList: string[];
@@ -623,15 +628,62 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
     e.preventDefault();
     if (e.detail.keyboardEvent?.shiftKey) {
-      this.$.cursor.moveToNextCommentThread();
+      const result = this.$.cursor.moveToNextCommentThread();
+      if (result === CursorMoveResult.CLIPPED) {
+        this._navigateToNextFileWithCommentThread();
+      }
     } else {
       if (this.modifierPressed(e)) return;
+      const result = this.$.cursor.moveToNextChunk();
       // navigate to next file if key is not being held down
-      this.$.cursor.moveToNextChunk(
-        /* opt_clipToTop = */ false,
-        /* opt_navigateToNextFile = */ !e.detail.keyboardEvent?.repeat
+      if (
+        !e.detail.keyboardEvent?.repeat &&
+        result === CursorMoveResult.CLIPPED &&
+        this.$.cursor.isAtEnd()
+      ) {
+        this.showToastAndFireEvent('next', 'n');
+      }
+    }
+  }
+
+  private lastDisplayedNavigateToFileToast: Map<string, number> = new Map();
+
+  private showToastAndFireEvent(direction: string, shortcut: string) {
+    /*
+     * If user presses p/n on the first/last diff chunk, show a toast informing
+     * user that pressing it again will navigate them to previous/next
+     * unreviewedfile if click happens within the time limit
+     */
+    if (
+      this.lastDisplayedNavigateToFileToast.get(direction) &&
+      Date.now() - this.lastDisplayedNavigateToFileToast.get(direction)! <=
+        NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
+    ) {
+      // reset for next file
+      this.lastDisplayedNavigateToFileToast.delete(direction);
+      this.navigateToUnreviewedFile(direction);
+
+      fireEvent(this, `navigate-to-${direction}-unreviewed-file`);
+    } else {
+      this.lastDisplayedNavigateToFileToast.set(direction, Date.now());
+      fireAlert(
+        this,
+        `Press ${shortcut} again to navigate to ${direction} unreviewed file`
       );
     }
+  }
+
+  private navigateToUnreviewedFile(direction: string) {
+    if (!this._path) return;
+    if (!this._fileList) return;
+    if (!this._reviewedFiles) return;
+    // Ensure that the currently viewed file always appears in unreviewedFiles
+    // so we resolve the right "next" file.
+    const unreviewedFiles = this._fileList.filter(
+      file => file === this._path || !this._reviewedFiles.has(file)
+    );
+
+    this._navToFile(this._path, unreviewedFiles, direction === 'next' ? 1 : -1);
   }
 
   _handlePrevChunkOrCommentThread(e: CustomKeyboardEvent) {
@@ -642,7 +694,10 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
       this.$.cursor.moveToPreviousCommentThread();
     } else {
       if (this.modifierPressed(e)) return;
-      this.$.cursor.moveToPreviousChunk(!e.detail.keyboardEvent?.repeat);
+      this.$.cursor.moveToPreviousChunk();
+      if (!e.detail.keyboardEvent?.repeat && this.$.cursor.isAtStart()) {
+        this.showToastAndFireEvent('previous', 'p');
+      }
     }
   }
 
@@ -1753,34 +1808,10 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     return disableDiffPrefs || !loggedIn;
   }
 
-  _navigateToNextUnreviewedFile() {
-    if (!this._path) return;
-    if (!this._fileList) return;
-    if (!this._reviewedFiles) return;
-    // Ensure that the currently viewed file always appears in unreviewedFiles
-    // so we resolve the right "next" file.
-    const unreviewedFiles = this._fileList.filter(
-      file => file === this._path || !this._reviewedFiles.has(file)
-    );
-    this._navToFile(this._path, unreviewedFiles, 1);
-  }
-
-  _navigateToPreviousUnreviewedFile() {
-    if (!this._path) return;
-    if (!this._fileList) return;
-    if (!this._reviewedFiles) return;
-    // Ensure that the currently viewed file always appears in unreviewedFiles
-    // so we resolve the right "next" file.
-    const unreviewedFiles = this._fileList.filter(
-      file => file === this._path || !this._reviewedFiles.has(file)
-    );
-    this._navToFile(this._path, unreviewedFiles, -1);
-  }
-
   _handleNextUnreviewedFile(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e)) return;
     this._setReviewed(true);
-    this._navigateToNextUnreviewedFile();
+    this.navigateToUnreviewedFile('unreviewed');
   }
 
   _navigateToNextFileWithCommentThread() {

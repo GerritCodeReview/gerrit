@@ -35,7 +35,6 @@ import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {PolymerDomWrapper} from '../../../types/types';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
-import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {Subscription} from 'rxjs';
 import {toggleClass} from '../../../utils/dom-util';
 
@@ -43,9 +42,6 @@ type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
 
 const LEFT_SIDE_CLASS = 'target-side-left';
 const RIGHT_SIDE_CLASS = 'target-side-right';
-
-// Time in which pressing n key again after the toast navigates to next file
-const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
 export interface GrDiffCursor {
   $: {};
@@ -58,8 +54,6 @@ export class GrDiffCursor extends PolymerElement {
   }
 
   private preventAutoScrollOnManualScroll = false;
-
-  private lastDisplayedNavigateToFileToast: Map<string, number> = new Map();
 
   @property({type: String})
   side = Side.RIGHT;
@@ -190,65 +184,27 @@ export class GrDiffCursor extends PolymerElement {
     }
   }
 
-  private showToastAndFireEvent(direction: string, shortcut: string) {
-    /*
-     * If user presses p/n on the first/last diff chunk, show a toast informing
-     * user that pressing it again will navigate them to previous/next
-     * unreviewedfile if click happens within the time limit
-     */
-    if (
-      this.lastDisplayedNavigateToFileToast.get(direction) &&
-      Date.now() - this.lastDisplayedNavigateToFileToast.get(direction)! <=
-        NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
-    ) {
-      // reset for next file
-      this.lastDisplayedNavigateToFileToast.delete(direction);
-      fireEvent(this, `navigate-to-${direction}-unreviewed-file`);
-    } else {
-      this.lastDisplayedNavigateToFileToast.set(direction, Date.now());
-      fireAlert(
-        this,
-        `Press ${shortcut} again to navigate to ${direction} unreviewed file`
-      );
-    }
-  }
-
-  moveToNextChunk(
-    clipToTop?: boolean,
-    navigateToNextFile?: boolean
-  ): CursorMoveResult {
+  moveToNextChunk(clipToTop?: boolean): CursorMoveResult {
     const result = this.cursorManager.next({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
       getTargetHeight: target =>
         (target?.parentNode as HTMLElement)?.scrollHeight || 0,
       clipToTop,
     });
-    if (
-      navigateToNextFile &&
-      result === CursorMoveResult.CLIPPED &&
-      this.isAtEnd()
-    ) {
-      this.showToastAndFireEvent('next', 'n');
-    }
-
     this._fixSide();
     return result;
   }
 
-  moveToPreviousChunk(navigateToPreviousFile?: boolean): CursorMoveResult {
+  moveToPreviousChunk(): CursorMoveResult {
     const result = this.cursorManager.previous({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
     });
-    if (navigateToPreviousFile && this.isAtStart()) {
-      this.showToastAndFireEvent('previous', 'p');
-    }
     this._fixSide();
     return result;
   }
 
   moveToNextCommentThread(): CursorMoveResult {
     if (this.isAtEnd()) {
-      fireEvent(this, 'navigate-to-next-file-with-comments');
       return CursorMoveResult.CLIPPED;
     }
     const result = this.cursorManager.next({

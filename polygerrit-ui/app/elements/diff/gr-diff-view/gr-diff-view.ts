@@ -106,6 +106,7 @@ import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {toggleClass, getKeyboardEvent} from '../../../utils/dom-util';
+import {CursorMoveResult} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';
@@ -623,7 +624,10 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
     e.preventDefault();
     if (e.detail.keyboardEvent?.shiftKey) {
-      this.$.cursor.moveToNextCommentThread();
+      const result = this.$.cursor.moveToNextCommentThread();
+      if (result === CursorMoveResult.CLIPPED) {
+        this._navigateToNextFileWithCommentThread();
+      }
     } else {
       if (this.modifierPressed(e)) return;
       // navigate to next file if key is not being held down

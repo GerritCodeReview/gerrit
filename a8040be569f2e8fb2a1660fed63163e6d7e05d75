@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d17ae5_a76fcde3",
+        "filename": "java/com/google/gerrit/acceptance/VerifyChangeNotesCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-26T09:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3dc9112_e6370a87",
+      "revId": "a8040be569f2e8fb2a1660fed63163e6d7e05d75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c81f2437_830ec182",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-05-25T15:54:13Z",
       "side": 1,
       "message": "nit: its",
+      "range": {
+        "startLine": 538,
+        "startChar": 67,
+        "endLine": 538,
+        "endChar": 68
+      },
+      "revId": "a8040be569f2e8fb2a1660fed63163e6d7e05d75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4ee8d78_28d90e24",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-05-26T09:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c81f2437_830ec182",
       "range": {
         "startLine": 538,
         "startChar": 67,

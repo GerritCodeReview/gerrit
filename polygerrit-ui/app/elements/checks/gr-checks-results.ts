@@ -386,6 +386,7 @@ class GrResultRow extends GrLitElement {
     if (category !== Category.ERROR && category !== Category.WARNING) return;
     const label = this.result?.labelName;
     if (!label) return;
+    if (!this.result?.isLatestAttempt) return;
     const info = this.labels?.[label];
     const status = getLabelStatus(info).toLowerCase();
     const value = valueString(getRepresentativeValue(info));

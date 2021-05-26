@@ -35,6 +35,7 @@ import {
 } from '../../../types/common';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
+import {generateAbsoluteUrl} from '../../../utils/url-util';
 
 // Navigation parameters object format:
 //
@@ -693,6 +694,21 @@ export const GerritNav = {
       project,
       commentId,
     });
+  },
+
+  getUrlForCommentsTab(
+    changeNum: NumericChangeId,
+    project: RepoName,
+    commentId: UrlEncodedCommentId
+  ) {
+    return generateAbsoluteUrl(
+      this._getUrlFor({
+        view: GerritView.CHANGE,
+        changeNum,
+        project,
+        commentId,
+      })
+    );
   },
 
   /**

@@ -110,6 +110,30 @@
       },
       "revId": "cb50357fd4c3d09e81632b7cd03051874c517f9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11969e61_e25eddb7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-26T12:30:59Z",
+      "side": 1,
+      "message": "\u003e We match documents when at least one of these repeated integers matches. This makes it so that we can search for attention:123 where 123 is the user ID and the doc might have 1,2,123 as attention set users.\n\nI see. Thanks for the example, I was a bit confused. The added logic is good: we match a single query value against a list of objects from our storage (e.g. attention set users), hence returning true if any of the objects match LGTM.",
+      "parentUuid": "8206c269_cf76b8d8",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 9
+      },
+      "revId": "cb50357fd4c3d09e81632b7cd03051874c517f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

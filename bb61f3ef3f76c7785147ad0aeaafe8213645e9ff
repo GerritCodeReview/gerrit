@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9751164b_bed29b0f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-26T17:12:06Z",
+      "side": 1,
+      "message": "Are we handling submit requirements from parent projects? Please also add a test for that.",
+      "range": {
+        "startLine": 906,
+        "startChar": 8,
+        "endLine": 906,
+        "endChar": 65
+      },
+      "revId": "bb61f3ef3f76c7785147ad0aeaafe8213645e9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

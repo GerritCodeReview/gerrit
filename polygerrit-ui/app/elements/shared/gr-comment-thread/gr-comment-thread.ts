@@ -68,6 +68,8 @@ import {getUserName} from '../../../utils/display-name-util';
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
 
+let resizeObserver;
+
 export interface GrCommentThread {
   $: {
     replyBtn: GrButton;
@@ -155,6 +157,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   })
   rootId?: UrlEncodedCommentId;
 
+  @property({type: String})
+  scrollCommentId?: UrlEncodedCommentId;
+
   @property({type: Boolean})
   showFilePath = false;
 
@@ -226,6 +231,16 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener('comment-update', e =>
       this._handleCommentUpdate(e as CustomEvent)
     );
+    // Wait for comment to be rendered before scrolling to it
+    resizeObserver = new ResizeObserver(
+      (_entries: ResizeObserverEntry[], observer: ResizeObserver) => {
+        if (this.scrollCommentId === this.rootId && this.offsetHeight > 0) {
+          this.scrollIntoView();
+        }
+        observer.unobserve(this);
+      }
+    );
+    resizeObserver.observe(this);
   }
 
   /** @override */

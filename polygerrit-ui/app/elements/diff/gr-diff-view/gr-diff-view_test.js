@@ -29,6 +29,8 @@ import {
   createComment,
 } from '../../../test/test-data-generators.js';
 import {EditPatchSetNum} from '../../../types/common.js';
+import sinon from 'sinon/pkg/sinon-esm';
+import {CursorMoveResult} from '../../shared/gr-cursor-manager/gr-cursor-manager.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -1735,6 +1737,133 @@ suite('gr-diff-view tests', () => {
       });
     });
 
+    suite('switching files', () => {
+      let dispatchEventStub;
+      let navToFileStub;
+      let moveToPreviousChunkStub;
+      let moveToNextChunkStub;
+      let isAtStartStub;
+      let isAtEndStub;
+      let nowStub;
+
+      setup(() => {
+        dispatchEventStub = sinon.stub(
+            element, 'dispatchEvent').callThrough();
+        navToFileStub = sinon.stub(element, '_navToFile');
+        moveToPreviousChunkStub =
+            sinon.stub(element.$.cursor, 'moveToPreviousChunk');
+        moveToNextChunkStub =
+            sinon.stub(element.$.cursor, 'moveToNextChunk');
+        isAtStartStub = sinon.stub(element.$.cursor, 'isAtStart');
+        isAtEndStub = sinon.stub(element.$.cursor, 'isAtEnd');
+        nowStub = sinon.stub(Date, 'now');
+      });
+
+      test('shows toast when at the end of file', () => {
+        moveToNextChunkStub.returns(CursorMoveResult.CLIPPED);
+        isAtEndStub.returns(true);
+
+        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+
+        assert.isTrue(moveToNextChunkStub.called);
+        assert.equal(dispatchEventStub.lastCall.args[0].type, 'show-alert');
+        assert.isFalse(navToFileStub.called);
+      });
+
+      test('navigates to next file when n is tapped again', () => {
+        moveToNextChunkStub.returns(CursorMoveResult.CLIPPED);
+        isAtEndStub.returns(true);
+
+        element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
+        element._reviewedFiles = new Set(['file2']);
+        element._path = 'file1';
+
+        nowStub.returns(5);
+        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        nowStub.returns(10);
+        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+
+        assert.isTrue(navToFileStub.called);
+        assert.deepEqual(navToFileStub.lastCall.args, [
+          'file1',
+          ['file1', 'file3'],
+          1,
+        ]);
+      });
+
+      test('does not navigate if n is tapped twice too slow', () => {
+        moveToNextChunkStub.returns(CursorMoveResult.CLIPPED);
+        isAtEndStub.returns(true);
+
+        nowStub.returns(5);
+        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+        nowStub.returns(6000);
+        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+
+        assert.isFalse(navToFileStub.called);
+      });
+
+      test('shows toast when at the start of file', () => {
+        moveToPreviousChunkStub.returns(CursorMoveResult.CLIPPED);
+        isAtStartStub.returns(true);
+
+        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+
+        assert.isTrue(moveToPreviousChunkStub.called);
+        assert.equal(dispatchEventStub.lastCall.args[0].type, 'show-alert');
+        assert.isFalse(navToFileStub.called);
+      });
+
+      test('navigates to prev file when p is tapped again', () => {
+        moveToPreviousChunkStub.returns(CursorMoveResult.CLIPPED);
+        isAtStartStub.returns(true);
+
+        element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
+        element._reviewedFiles = new Set(['file2']);
+        element._path = 'file3';
+
+        nowStub.returns(5);
+        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+        nowStub.returns(10);
+        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+
+        assert.isTrue(navToFileStub.called);
+        assert.deepEqual(navToFileStub.lastCall.args, [
+          'file3',
+          ['file1', 'file3'],
+          -1,
+        ]);
+      });
+
+      test('does not navigate if p is tapped twice too slow', () => {
+        moveToPreviousChunkStub.returns(CursorMoveResult.CLIPPED);
+        isAtStartStub.returns(true);
+
+        nowStub.returns(5);
+        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+        nowStub.returns(6000);
+        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+
+        assert.isFalse(navToFileStub.called);
+      });
+
+      test('does not navigate when tapping n then p', () => {
+        moveToNextChunkStub.returns(CursorMoveResult.CLIPPED);
+        isAtEndStub.returns(true);
+
+        nowStub.returns(5);
+        MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+
+        moveToPreviousChunkStub.returns(CursorMoveResult.CLIPPED);
+        isAtStartStub.returns(true);
+
+        nowStub.returns(10);
+        MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'p');
+
+        assert.isFalse(navToFileStub.called);
+      });
+    });
+
     test('shift+m navigates to next unreviewed file', () => {
       element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
       element._reviewedFiles = new Set(['file1', 'file2']);
@@ -1894,7 +2023,7 @@ suite('gr-diff-view tests', () => {
     });
   });
 
-  suite('gr-diff-view tests unmodified files with comments', () => {
+  suite('unmodified files with comments', () => {
     let element;
     setup(() => {
       const changedFiles = {

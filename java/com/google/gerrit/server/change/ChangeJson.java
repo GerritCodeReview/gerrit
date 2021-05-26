@@ -59,6 +59,11 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Status;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateResult;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
@@ -75,6 +80,8 @@ import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementExpressionInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.RefState;
@@ -362,9 +369,52 @@ public class ChangeJson {
     return reqInfos;
   }
 
+  private static Collection<SubmitRequirementResultInfo> submitRequirementsFor(ChangeData cd) {
+    Collection<SubmitRequirementResultInfo> reqInfos = new ArrayList<>();
+    Map<SubmitRequirement, SubmitRequirementResult> requirements = cd.submitRequirements();
+    for (Map.Entry<SubmitRequirement, SubmitRequirementResult> entry : requirements.entrySet()) {
+      reqInfos.add(submitRequirementToInfo(entry.getKey(), entry.getValue()));
+    }
+    return reqInfos;
+  }
+
   private static LegacySubmitRequirementInfo requirementToInfo(
       LegacySubmitRequirement req, Status status) {
     return new LegacySubmitRequirementInfo(status.name(), req.fallbackText(), req.type());
+  }
+
+  private static SubmitRequirementResultInfo submitRequirementToInfo(
+      SubmitRequirement req, SubmitRequirementResult result) {
+    SubmitRequirementResultInfo info = new SubmitRequirementResultInfo();
+    info.name = req.name();
+    info.description = req.description().orElse(null);
+    if (req.applicabilityExpression().isPresent()) {
+      info.applicabilityExpressionResult =
+          submitRequirementExpressionToInfo(
+              req.applicabilityExpression().get(), result.applicabilityExpressionResult().get());
+    }
+    if (req.overrideExpression().isPresent()) {
+      info.overrideExpressionResult =
+          submitRequirementExpressionToInfo(
+              req.overrideExpression().get(), result.overrideExpressionResult().get());
+    }
+    info.submittabilityExpressionResult =
+        submitRequirementExpressionToInfo(
+            req.submittabilityExpression(), result.submittabilityExpressionResult());
+    info.status = SubmitRequirementResultInfo.Status.valueOf(result.status().toString());
+    return info;
+  }
+
+  private static SubmitRequirementExpressionInfo submitRequirementExpressionToInfo(
+      SubmitRequirementExpression expression, SubmitRequirementExpressionResult result) {
+    SubmitRequirementExpressionInfo info = new SubmitRequirementExpressionInfo();
+    info.expression = expression.expressionString();
+    info.fulfilled = result.status().equals(SubmitRequirementExpressionResult.Status.PASS);
+    info.passingAtoms =
+        result.getPassingAtoms().stream().map(PredicateResult::predicateString).collect(toList());
+    info.failingAtoms =
+        result.getFailingAtoms().stream().map(PredicateResult::predicateString).collect(toList());
+    return info;
   }
 
   private static void finish(ChangeInfo info) {
@@ -612,6 +662,7 @@ public class ChangeJson {
 
     out.labels = labelsJson.labelsFor(accountLoader, cd, has(LABELS), has(DETAILED_LABELS));
     out.requirements = requirementsFor(cd);
+    out.submitRequirements = submitRequirementsFor(cd);
 
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't

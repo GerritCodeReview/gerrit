@@ -22,6 +22,7 @@ import static java.util.Comparator.comparing;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccessSection;
@@ -37,6 +38,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.StoredCommentLinkInfo;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -390,6 +392,21 @@ public class ProjectState {
       }
     }
     return false;
+  }
+
+  /** Get all submit requirements for a project, including those from parent projects. */
+  public Map<String, SubmitRequirement> getSubmitRequirements() {
+    Map<String, SubmitRequirement> requirements = new LinkedHashMap<>();
+    for (ProjectState s : treeInOrder()) {
+      for (SubmitRequirement requirement : s.getConfig().getSubmitRequirementSections().values()) {
+        String lowerName = requirement.name().toLowerCase();
+        SubmitRequirement old = requirements.get(lowerName);
+        if (old == null || old.allowOverrideInChildProjects()) {
+          requirements.put(lowerName, requirement);
+        }
+      }
+    }
+    return ImmutableMap.copyOf(requirements);
   }
 
   /** All available label types. */

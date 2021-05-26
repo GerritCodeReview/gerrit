@@ -53,6 +53,8 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -86,6 +88,7 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -265,7 +268,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, project, id, null, null);
+            null, null, project, id, null, null);
     cd.currentPatchSet =
         PatchSet.builder()
             .id(PatchSet.id(id, currentPatchSetId))
@@ -291,6 +294,7 @@ public class ChangeData {
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
   private final PureRevert pureRevert;
+  private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   // Required assisted injected fields.
@@ -365,6 +369,7 @@ public class ChangeData {
       ProjectCache projectCache,
       TrackingFooters trackingFooters,
       PureRevert pureRevert,
+      SubmitRequirementsEvaluator submitRequirementsEvaluator,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
@@ -384,6 +389,7 @@ public class ChangeData {
     this.starredChangesUtil = starredChangesUtil;
     this.trackingFooters = trackingFooters;
     this.pureRevert = pureRevert;
+    this.submitRequirementsEvaluator = submitRequirementsEvaluator;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
 
     this.project = project;
@@ -918,6 +924,19 @@ public class ChangeData {
       messages = cmUtil.byChange(notes());
     }
     return messages;
+  }
+
+  /** Get all submit requirements for this change, including those from parent projects. */
+  public Map<SubmitRequirement, SubmitRequirementResult> submitRequirements() {
+    // TODO(ghareeb): we can cache the result instead of re-calculating it on each call
+    ProjectState state = projectCache.get(project()).orElseThrow(illegalState(project()));
+    Map<String, SubmitRequirement> requirements = state.getSubmitRequirements();
+    ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> result =
+        ImmutableMap.builderWithExpectedSize(requirements.size());
+    for (SubmitRequirement requirement : requirements.values()) {
+      result.put(requirement, submitRequirementsEvaluator.evaluate(requirement, this));
+    }
+    return result.build();
   }
 
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {

@@ -102,6 +102,10 @@ export const htmlTemplate = html`
       border-top: 1px solid var(--border-color);
       background-color: var(--background-color-primary);
     }
+    .link-icon {
+      vertical-align: middle;
+      cursor: pointer;
+    }
   </style>
 
   <template is="dom-if" if="[[showFilePath]]">
@@ -163,6 +167,16 @@ export const htmlTemplate = html`
       >
         <span id="unresolvedLabel">[[_getUnresolvedLabel(unresolved)]]</span>
         <div id="actions">
+          <template is="dom-if" if="[[!isDraftOnly(comments)]]">
+            <iron-icon
+              class="link-icon"
+              on-click="handleCopyLink"
+              class="copy"
+              title="Copy link to this comment"
+              icon="gr-icons:link"
+            >
+            </iron-icon>
+          </template>
           <gr-button
             id="replyBtn"
             link=""

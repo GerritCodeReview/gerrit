@@ -136,6 +136,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee02fe36_9043ed3a",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-26T07:30:24Z",
+      "side": 1,
+      "message": "Sorry, I was wrong in parts :-)\n\nYou are right, the tests pass after your notes-\u003enotes() fix. This means that we load change notes on the ChangeData we reconstructed from the index or draft comments by user would not be available. For serving query responses in the REST API we don\u0027t allow loading change notes because that\u0027s too slow. Instead, the query response (with the exception of queries that require lazy loading) are served solely from the index.\n\nSo recovering any fields in ChangeData that we can recover from the index is a plus in my opinion. So suggest still submitting this change.",
+      "parentUuid": "64c1b70f_b83ef5cf",
+      "range": {
+        "startLine": 1067,
+        "startChar": 47,
+        "endLine": 1067,
+        "endChar": 52
+      },
+      "revId": "5e1fe046949d60b5247893c85538a8e8ccfa2f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d47a35b8_20b7b6a4",

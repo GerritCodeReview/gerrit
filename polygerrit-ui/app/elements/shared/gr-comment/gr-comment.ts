@@ -56,7 +56,7 @@ import {
   UIRobot,
 } from '../../../utils/comment-util';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
@@ -422,6 +422,11 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     this._showRobotActions = showActions && isRobotComment;
   }
 
+  hasPublishedComment(comments: UIComment[]) {
+    if (!comments.length) return false;
+    return comments.length > 1 || !isDraft(comments[0]);
+  }
+
   @observe('comment')
   _isRobotComment(comment: UIRobot) {
     this.isRobotComment = !!comment.robot_id;
@@ -444,6 +449,10 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
   _computeDraftText(unableToSave: boolean) {
     return 'DRAFT' + (unableToSave ? '(Failed to save)' : '');
+  }
+
+  handleCopyLink() {
+    fireEvent(this, 'copy-comment-link');
   }
 
   save(opt_comment?: UIComment) {

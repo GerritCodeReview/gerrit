@@ -6511,6 +6511,9 @@ entities.
 |`requirements`             |optional|
 List of the link:rest-api-changes.html#requirement[requirements] to be met before this change
 can be submitted.
+|`submit_requirements`      ||
+List of the link:#submit-requirement-result-info[SubmitRequirementResultInfo]
+containing the evaluated submit requirements for the change.
 |`labels`             |optional|
 The labels of the change as a map that maps the label names to
 link:#label-info[LabelInfo] entries. +
@@ -8135,6 +8138,57 @@ is currently an empty object.
 |`error_message`|optional|
 When status is RULE_ERROR this message provides some text describing
 the failure of the rule predicate.
+|===========================
+
+[[submit-requirement-result-info]]
+=== SubmitRequirementResultInfo
+The `SubmitRequirementResultInfo` describes the result of evaluating a
+submit requirement on a change.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`name`||
+The submit requirement name.
+|`description`|optional|
+Description of the submit requirement.
+|`status`||
+Status describing the result of evaluating the submit requirement. The status
+is one of (`SATISFIED`, `UNSATISFED`, `OVERRIDDEN`, `NOT_APPLICABLE`).
+|`applicability_expression_result`|optional|
+A link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo]
+containing the result of evaluating the applicability expression. Null if the
+submit requirement did not define an applicability expression.
+|`submittability_expression_result`||
+A link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo]
+containing the result of evaluating the submittability expression.
+|`override_expression_result`|optional|
+A link:#submit-requirement-expression-info[SubmitRequirementExpressionInfo]
+containing the result of evaluating the override expression. Null if the
+submit requirement did not define an override expression.
+|===========================
+
+
+[[submit-requirement-expression-info]]
+=== SubmitRequirementExpressionInfo
+The `SubmitRequirementExpressionInfo` describes the result of evaluating a
+single submit requirement expression, for example `label:code-review=+2`.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`expression`||
+The submit requirement expression as a string, for example
+`branch:refs/heads/foo and label:verified=+1`.
+|`fulfilled`||
+True if the submit requirement is fulfilled for the change.
+|`passingAtoms`||
+A list of passing atoms as strings. For the above expression,
+`passing_atoms` can contain ["branch:refs/heads/foo"] if the branch predicate is
+fulfilled for the change.
+|`failing_atoms`||
+A list of failing atoms. This is similar to `passingAtoms` except that it
+contains the list of predicates that are not fulfilled for the change.
 |===========================
 
 [[submitted-together-info]]

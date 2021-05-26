@@ -287,6 +287,11 @@ export declare interface MovedLinkClickedEventDetail {
   lineNum: LineNumber;
 }
 
+export declare interface LineNumberEventDetail {
+  side: Side;
+  lineNum: LineNumber;
+}
+
 /** All types of button for expanding diff sections */
 export enum ContextButtonType {
   ABOVE = 'above',

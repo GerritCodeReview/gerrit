@@ -262,7 +262,7 @@ export const fakeRun0: CheckRun = {
         },
         {
           name: 'Flag',
-          tooltip: 'Flag this result as not useful',
+          tooltip: 'Flag this result as totally absolutely really not useful',
           primary: true,
           disabled: true,
           callback: () => Promise.resolve({message: 'flag "flag" triggered'}),

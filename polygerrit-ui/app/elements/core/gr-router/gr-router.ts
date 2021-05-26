@@ -547,6 +547,9 @@ export class GrRouter extends PolymerElement {
     if (params.messageHash) {
       suffix += params.messageHash;
     }
+    if (params.commentId) {
+      suffix = suffix + `/comments/${params.commentId}`;
+    }
     if (params.project) {
       const encodedProject = encodeURL(params.project, true);
       return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;

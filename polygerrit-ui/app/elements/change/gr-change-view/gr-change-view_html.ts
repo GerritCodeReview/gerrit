@@ -574,6 +574,7 @@ export const htmlTemplate = html`
           comment-tab-state="[[_tabState.commentTab]]"
           only-show-robot-comments-with-human-reply=""
           unresolved-only="[[unresolvedOnly]]"
+          focus-comment-id="[[focusCommentId]]"
           show-comment-context
         ></gr-thread-list>
       </template>

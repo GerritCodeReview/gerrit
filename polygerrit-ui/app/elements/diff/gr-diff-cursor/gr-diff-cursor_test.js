@@ -445,21 +445,6 @@ suite('gr-diff-cursor tests', () => {
     });
   });
 
-  test('navigate to next unreviewed file via moveToNextChunk', () => {
-    const cursorManager = cursorElement.cursorManager;
-    cursorManager.index = cursorManager.stops.length - 1;
-    const dispatchEventStub = sinon.stub(cursorElement, 'dispatchEvent');
-    cursorElement.moveToNextChunk(/* opt_clipToTop = */false,
-        /* opt_navigateToNextFile = */true);
-    assert.isTrue(dispatchEventStub.called);
-    assert.equal(dispatchEventStub.getCall(1).args[0].type, 'show-alert');
-
-    cursorElement.moveToNextChunk(/* opt_clipToTop = */false,
-        /* opt_navigateToNextFile = */true);
-    assert.equal(dispatchEventStub.getCall(2).args[0].type,
-        'navigate-to-next-unreviewed-file');
-  });
-
   test('initialLineNumber not provided', done => {
     let scrollBehaviorDuringMove;
     const moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber');

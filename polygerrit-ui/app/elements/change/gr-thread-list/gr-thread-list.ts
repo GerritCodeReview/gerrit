@@ -34,7 +34,7 @@ import {
   AccountDetailInfo,
   AccountInfo,
   ChangeInfo,
-  UrlEncodedCommentId
+  UrlEncodedCommentId,
 } from '../../../types/common';
 import {
   CommentThread,
@@ -136,6 +136,7 @@ export class GrThreadList extends PolymerElement {
       ? CommentTabState.UNRESOLVED
       : CommentTabState.SHOW_ALL;
   }
+
   @property({type: String})
   focusCommentId?: UrlEncodedCommentId;
 

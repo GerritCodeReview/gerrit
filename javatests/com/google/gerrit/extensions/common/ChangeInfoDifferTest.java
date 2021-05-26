@@ -18,9 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.extensions.client.ReviewerState;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import org.junit.Test;
@@ -303,6 +305,32 @@ public final class ChangeInfoDifferTest {
   @Test
   public void getDiff_assertCanConstructAllChangeInfoReferences() throws Exception {
     buildObjectWithFullFields(ChangeInfo.class);
+  }
+
+  @Test
+  public void getDiff_arrayListInMap() {
+    ChangeInfo oldChangeInfo = new ChangeInfo();
+    ChangeInfo newChangeInfo = new ChangeInfo();
+
+    AccountInfo i1 = new AccountInfo();
+    i1._accountId = 1;
+    AccountInfo i2 = new AccountInfo();
+    i2._accountId = 2;
+
+    ArrayList<AccountInfo> a1 = new ArrayList<>();
+    ArrayList<AccountInfo> a2 = new ArrayList<>();
+
+    a1.add(i1);
+    a2.add(i1);
+    a2.add(i2);
+    oldChangeInfo.reviewers = ImmutableMap.of(ReviewerState.REVIEWER, a1);
+    newChangeInfo.reviewers = ImmutableMap.of(ReviewerState.REVIEWER, a2);
+
+    ChangeInfoDifference diff = ChangeInfoDiffer.getDifference(oldChangeInfo, newChangeInfo);
+    assertThat(diff.added().reviewers).hasSize(1);
+    assertThat(diff.added().reviewers).containsKey(ReviewerState.REVIEWER);
+    assertThat(diff.added().reviewers.get(ReviewerState.REVIEWER)).containsExactly(i2);
+    assertThat(diff.removed().reviewers).isNull();
   }
 
   private static Object buildObjectWithFullFields(Class<?> c) throws Exception {

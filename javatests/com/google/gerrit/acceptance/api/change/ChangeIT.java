@@ -141,6 +141,8 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -3997,6 +3999,77 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirementIsSatisfied_whenSubmittabilityExpressionIsFulfilled()
+      throws Exception {
+    configSubmitRequirement("code-review", /* submittabilityExpr= */ "label:code-review=+2");
+    configSubmitRequirement("verified", /* submittabilityExpr= */ "label:verified=+1");
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(change.submitRequirements, "verified", Status.UNSATISFIED);
+
+    voteLabel(changeId, "code-review", 2);
+
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(change.submitRequirements, "verified", Status.UNSATISFIED);
+  }
+
+  @Test
+  public void submitRequirementIsNotApplicable_whenApplicabilityExpressionIsNotFulfilled()
+      throws Exception {
+    configSubmitRequirement(
+        "code-review",
+        /* applicability_expr = */ "project:foo",
+        /* submittabilityExpr= */ "label:code-review=+2",
+        /* overrideExpr= */ null);
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.NOT_APPLICABLE);
+  }
+
+  @Test
+  public void submitRequirementIsOverridden_whenOverrideExpressionIsFulfilled() throws Exception {
+    configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel("build-cop-override")
+                .ref("refs/heads/master")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    configSubmitRequirement(
+        "code-review",
+        /* applicability_expr = */ null,
+        /* submittabilityExpr= */ "label:code-review=+2",
+        /* overrideExpr= */ "label:build-cop-override=+1");
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+
+    voteLabel(changeId, "build-cop-override", 1);
+
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.OVERRIDDEN);
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));
@@ -4636,5 +4709,22 @@ public class ChangeIT extends AbstractDaemonTest {
       this.wip =
           event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
     }
+  }
+
+  private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
+    gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
+  }
+
+  private void assertSubmitRequirementStatus(
+      Collection<SubmitRequirementResultInfo> results,
+      String requirementName,
+      SubmitRequirementResultInfo.Status status) {
+    for (SubmitRequirementResultInfo result : results) {
+      if (result.name.equals(requirementName) && result.status == status) {
+        return;
+      }
+    }
+    throw new AssertionError(
+        "Could not find submit requirement  " + requirementName + " with status " + status);
   }
 }

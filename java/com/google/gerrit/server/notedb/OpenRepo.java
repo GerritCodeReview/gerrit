@@ -174,7 +174,7 @@ class OpenRepo implements AutoCloseable {
         }
         if (maxUpdates.isPresent()
             && !Objects.equals(next, curr)
-            && ++updateCount > maxUpdates.get()
+            && updateCount++ > maxUpdates.get()
             && !update.bypassMaxUpdates()) {
           throw new LimitExceededException(
               String.format(

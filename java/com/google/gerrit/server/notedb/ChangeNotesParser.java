@@ -317,7 +317,6 @@ class ChangeNotesParser {
   }
 
   private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
-    updateCount++;
     Timestamp ts = new Timestamp(commit.getCommitterIdent().getWhen().getTime());
 
     createdOn = ts;
@@ -433,6 +432,9 @@ class ChangeNotesParser {
 
     previousWorkInProgressFooter = null;
     parseWorkInProgress(commit);
+    if (commit.countTowardsMaxUpdatesLimit()) {
+      updateCount++;
+    }
   }
 
   private String parseSubmissionId(ChangeNotesCommit commit) throws ConfigInvalidException {

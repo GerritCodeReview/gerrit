@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Sets;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
 import java.io.IOException;
@@ -126,5 +127,13 @@ public class ChangeNotesCommit extends RevCommit {
       }
     }
     return footerLines.get(key.getName().toLowerCase());
+  }
+
+  public boolean countTowardsMaxUpdatesLimit() {
+    return !isAttentionSetCommitOnly();
+  }
+
+  private boolean isAttentionSetCommitOnly() {
+    return footerLines.keySet().equals(Sets.newHashSet("patch-set", "attention"));
   }
 }

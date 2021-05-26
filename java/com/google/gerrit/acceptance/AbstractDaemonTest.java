@@ -71,6 +71,8 @@ import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -1593,6 +1595,49 @@ public abstract class AbstractDaemonTest {
   protected RevCommit parseCurrentRevision(RevWalk rw, String changeId) throws Exception {
     return rw.parseCommit(
         ObjectId.fromString(get(changeId, ListChangesOption.CURRENT_REVISION).currentRevision));
+  }
+
+  protected void configSubmitRequirement(
+      Project.NameKey project,
+      String name,
+      @Nullable String applicabilityExpr,
+      String submittabilityExpr,
+      @Nullable String overrideExpr,
+      @Nullable Boolean allowOverride)
+      throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      SubmitRequirement.Builder submitRequirement =
+          SubmitRequirement.builder()
+              .setName(name)
+              .setSubmittabilityExpression(SubmitRequirementExpression.create(submittabilityExpr))
+              .setApplicabilityExpression(SubmitRequirementExpression.of(applicabilityExpr))
+              .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
+              .setAllowOverrideInChildProjects(allowOverride == null ? false : allowOverride);
+      u.getConfig().upsertSubmitRequirement(submitRequirement.build());
+      u.save();
+    }
+  }
+
+  protected void configSubmitRequirement(String name, String submittabilityExpr) throws Exception {
+    configSubmitRequirement(
+        project,
+        name,
+        /* applicabilityExpr= */ null,
+        submittabilityExpr,
+        /* overrideExpr= */ null,
+        /* allowOverride= */ null);
+  }
+
+  protected void configSubmitRequirement(
+      Project.NameKey project, String name, String submittabilityExpr, boolean allowOverride)
+      throws Exception {
+    configSubmitRequirement(
+        project,
+        name,
+        /* applicabilityExpr= */ null,
+        submittabilityExpr,
+        /* overrideExpr= */ null,
+        allowOverride);
   }
 
   protected void configLabel(String label, LabelFunction func) throws Exception {

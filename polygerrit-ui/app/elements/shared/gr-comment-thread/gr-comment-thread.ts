@@ -59,7 +59,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences} from '../../../api/diff';
 import {check, assertIsDefined} from '../../../utils/common-util';
-import {waitForEventOnce} from '../../../utils/event-util';
+import {fireAlert, waitForEventOnce} from '../../../utils/event-util';
 import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-layer';
@@ -155,6 +155,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     computed: '_computeRootId(comments.*)',
   })
   rootId?: UrlEncodedCommentId;
+
+  @property({type: Boolean, observer: 'handleShouldScrollIntoViewChanged'})
+  shouldScrollIntoView = false;
 
   @property({type: Boolean})
   shouldScrollIntoView = false;
@@ -284,8 +287,27 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     return diff;
   }
 
-  _shouldShowCommentContext(diff?: DiffInfo) {
-    return this.showCommentContext && !!diff;
+  handleShouldScrollIntoViewChanged(shouldScrollIntoView?: boolean) {
+    // Wait for comment to be rendered before scrolling to it
+    if (shouldScrollIntoView) {
+      const resizeObserver = new ResizeObserver(
+        (_entries: ResizeObserverEntry[], observer: ResizeObserver) => {
+          if (this.offsetHeight > 0) {
+            this.scrollIntoView();
+          }
+          observer.unobserve(this);
+        }
+      );
+      resizeObserver.observe(this);
+    }
+  }
+
+  _shouldShowCommentContext(
+    changeNum?: NumericChangeId,
+    showCommentContext?: boolean,
+    diff?: DiffInfo
+  ) {
+    return changeNum && showCommentContext && !!diff;
   }
 
   addOrEditDraft(lineNum?: LineNumber, rangeParam?: CommentRange) {
@@ -372,15 +394,15 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     return layers;
   }
 
-  _getUrlForViewDiff(comments: UIComment[]) {
-    assertIsDefined(this.changeNum, 'changeNum');
-    assertIsDefined(this.projectName, 'projectName');
+  _getUrlForViewDiff(
+    comments: UIComment[],
+    changeNum?: NumericChangeId,
+    projectName?: RepoName
+  ) {
+    if (!changeNum) return;
+    if (!projectName) return;
     check(comments.length > 0, 'comment not found');
-    return GerritNav.getUrlForComment(
-      this.changeNum,
-      this.projectName,
-      comments[0].id!
-    );
+    return GerritNav.getUrlForComment(changeNum, projectName, comments[0].id!);
   }
 
   _getDiffUrlForComment(
@@ -407,6 +429,19 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     const id = this.comments[0].id;
     if (!id) throw new Error('A published comment is missing the id.');
     return GerritNav.getUrlForComment(changeNum, projectName, id);
+  }
+
+  handleCopyLink() {
+    assertIsDefined(this.changeNum, 'changeNum');
+    assertIsDefined(this.projectName, 'projectName');
+    const url = GerritNav.getUrlForCommentsTab(
+      this.changeNum,
+      this.projectName,
+      this.comments[0].id!
+    );
+    navigator.clipboard.writeText(url).then(() => {
+      fireAlert(this, 'Link copied to clipboard');
+    });
   }
 
   _isPatchsetLevelComment(path: string) {

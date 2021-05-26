@@ -27,7 +27,11 @@ import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-cursor_html';
-import {DiffViewMode} from '../../../api/diff';
+import {
+  DiffViewMode,
+  LineNumber,
+  LineNumberEventDetail,
+} from '../../../api/diff';
 import {ScrollMode, Side} from '../../../constants/constants';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrDiffLineType} from '../gr-diff/gr-diff-line';
@@ -61,10 +65,10 @@ export class GrDiffCursor extends PolymerElement {
 
   private lastDisplayedNavigateToFileToast: Map<string, number> = new Map();
 
-  @property({type: String})
+  @property({type: String, notify: true, observer: 'updateSide'})
   side = Side.RIGHT;
 
-  @property({type: Object, notify: true, observer: '_rowChanged'})
+  @property({type: Object, notify: true, observer: 'rowChanged'})
   diffRow?: HTMLElement;
 
   @property({type: Object})
@@ -500,20 +504,74 @@ export class GrDiffCursor extends PolymerElement {
     );
   }
 
-  _rowChanged(_: HTMLElement, oldRow: HTMLElement) {
+  rowChanged(_: HTMLElement, oldRow: HTMLElement) {
     if (oldRow) {
-      oldRow.classList.remove(LEFT_SIDE_CLASS, RIGHT_SIDE_CLASS);
+      this.fireCursorMoved('line-cursor-moved-out', oldRow, this.side);
     }
-    this._updateSideClass();
+    this.updateSideClass();
+    if (this.diffRow) {
+      this.fireCursorMoved('line-cursor-moved-in', this.diffRow, this.side);
+    }
   }
 
-  @observe('side')
-  _updateSideClass() {
+  private fireCursorMoved(
+    event: 'line-cursor-moved-out' | 'line-cursor-moved-in',
+    row: HTMLElement,
+    side: Side
+  ) {
+    const lineNumber = this.selectedLineNumAtRow(row, side);
+    if (lineNumber) {
+      row.dispatchEvent(
+        new CustomEvent<LineNumberEventDetail>(event, {
+          detail: {
+            lineNum: lineNumber,
+            side,
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+    }
+  }
+
+  private updateSideClass() {
     if (!this.diffRow) {
       return;
     }
     toggleClass(this.diffRow, LEFT_SIDE_CLASS, this.side === Side.LEFT);
     toggleClass(this.diffRow, RIGHT_SIDE_CLASS, this.side === Side.RIGHT);
+  }
+
+  updateSide(_: Side, oldSide: Side) {
+    if (!this.diffRow) {
+      return;
+    }
+    if (oldSide) {
+      this.fireCursorMoved('line-cursor-moved-out', this.diffRow, oldSide);
+    }
+    this.updateSideClass();
+    if (this.diffRow) {
+      this.fireCursorMoved('line-cursor-moved-in', this.diffRow, this.side);
+    }
+  }
+
+  private selectedLineNumAtRow(
+    row: HTMLElement,
+    side: Side
+  ): LineNumber | undefined {
+    const lineNumberCell = row.querySelector<HTMLElement>(`.${side}.lineNum`);
+    const lineNumber = lineNumberCell?.dataset['value'];
+    if (!lineNumber) {
+      return undefined;
+    }
+    if (lineNumber === 'FILE') {
+      return 'FILE';
+    } else if (lineNumber === 'LOST') {
+      return 'LOST';
+    } else if (!isNaN(Number(lineNumber))) {
+      return Number(lineNumber);
+    }
+    return undefined;
   }
 
   _isActionType(type: GrDiffRowType) {

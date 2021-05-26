@@ -122,6 +122,24 @@
       "parentUuid": "f9c9483e_7209c33a",
       "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e393a728_251aa9a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-26T09:29:09Z",
+      "side": 1,
+      "message": "\u003e A plugin endpoint that is allwowed to rewrite queries could be an option.\n\nit is an option, but it sounds hairy. What if two plugins try to rewrite the query? The result would depend on the ordering of the rewrites, and it would be harder (relative to AND-ing something together) to reason about the result of the extension.",
+      "parentUuid": "789298b4_c82eb786",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

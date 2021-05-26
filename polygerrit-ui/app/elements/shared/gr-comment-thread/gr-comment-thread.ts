@@ -23,6 +23,7 @@ import {htmlTemplate} from './gr-comment-thread_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
   computeDiffFromContext,
+  computeId,
   isDraft,
   isRobot,
   sortComments,
@@ -67,6 +68,8 @@ import {getUserName} from '../../../utils/display-name-util';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
+
+let resizeObserver;
 
 export interface GrCommentThread {
   $: {
@@ -156,6 +159,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   rootId?: UrlEncodedCommentId;
 
   @property({type: Boolean})
+  shouldScrollIntoView = false;
+
+  @property({type: Boolean})
   showFilePath = false;
 
   @property({type: Object, reflectToAttribute: true})
@@ -226,6 +232,18 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener('comment-update', e =>
       this._handleCommentUpdate(e as CustomEvent)
     );
+    // Wait for comment to be rendered before scrolling to it
+    if (this.shouldScrollIntoView) {
+      resizeObserver = new ResizeObserver(
+        (_entries: ResizeObserverEntry[], observer: ResizeObserver) => {
+          if (this.offsetHeight > 0) {
+            this.scrollIntoView();
+          }
+          observer.unobserve(this);
+        }
+      );
+      resizeObserver.observe(this);
+    }
   }
 
   /** @override */
@@ -649,10 +667,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     if (!comments.base.length) {
       return this.rootId;
     }
-    const rootComment = comments.base[0];
-    if (rootComment.id) return rootComment.id;
-    if (isDraft(rootComment)) return rootComment.__draftID;
-    throw new Error('Missing id in root comment.');
+    return computeId(comments.base[0]);
   }
 
   _handleCommentDiscard(e: Event) {

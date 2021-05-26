@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e496b77c_72443e05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-26T08:17:53Z",
+      "side": 1,
+      "message": "For how it works now:\n\n* Yes, label definitions are inherited [1].\n* It\u0027s possible to prevent child projects from overriding inherited definitions [2]\n\n[1] https://docs.google.com/presentation/d/1fUjnmngWLFaexZKlN5XmL9EmOX8Nh_P0yJcThnlJ3Lk/edit#slide\u003did.g418d0013ba_2_303\n\n[2] https://docs.google.com/presentation/d/1fUjnmngWLFaexZKlN5XmL9EmOX8Nh_P0yJcThnlJ3Lk/edit#slide\u003did.g418d0013ba_2_360",
+      "parentUuid": "9977f977_89863c7a",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "82e7bde4_e58290be",

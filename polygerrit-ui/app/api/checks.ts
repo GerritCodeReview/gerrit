@@ -424,8 +424,6 @@ export declare interface Link {
   url: string;
   tooltip?: string;
   /**
-   * TODO: Maybe drop this property? Do we really need it?
-   *
    * Primary links will get a more prominent treatment in the UI, e.g. being
    * always visible in the results table or also showing up in the change page
    * summary of checks.

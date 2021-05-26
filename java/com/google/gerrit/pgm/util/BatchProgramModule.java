@@ -83,6 +83,8 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.approval.ApprovalModule;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
@@ -174,6 +176,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(new NoteDbModule());
     modules.add(AccountCacheImpl.module());
     modules.add(ApprovalCacheImpl.module());
+    modules.add(ConflictsCacheImpl.module());
     modules.add(DefaultPreferencesCacheImpl.module());
     modules.add(GroupCacheImpl.module());
     modules.add(GroupIncludeCacheImpl.module());
@@ -189,6 +192,10 @@ public class BatchProgramModule extends FactoryModule {
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeIsVisibleToPredicate.Factory.class);
     factory(ProjectState.Factory.class);
+
+    DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
+    DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);
+    DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeIsOperandFactory.class);
 
     // Submit rules
     DynamicSet.setOf(binder(), SubmitRule.class);

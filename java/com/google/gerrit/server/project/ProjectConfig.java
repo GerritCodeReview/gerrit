@@ -529,6 +529,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return submitRequirementSections;
   }
 
+  public void upsertSubmitRequirement(SubmitRequirement requirement) {
+    submitRequirementSections.put(requirement.name(), requirement);
+  }
+
   /** Adds or replaces the given {@link LabelType} in this config. */
   public void upsertLabelType(LabelType labelType) {
     labelSections.put(labelType.getName(), labelType);

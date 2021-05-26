@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,20 +14,16 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.IndexConfig;
+import org.eclipse.jgit.lib.Config;
 
-public class SubmittablePredicate extends ChangeIndexPredicate {
-  protected final SubmitRecord.Status status;
-
-  public SubmittablePredicate(SubmitRecord.Status status) {
-    super(ChangeField.SUBMIT_RECORD, status.name());
-    this.status = status;
-  }
-
-  @Override
-  public boolean match(ChangeData cd) {
-    return cd.submitRecords(ChangeField.SUBMIT_RULE_OPTIONS_STRICT).stream()
-        .anyMatch(r -> r.status == status);
+/**
+ * Test against {@link com.google.gerrit.index.testing.AbstractFakeIndex} using the latest schema.
+ */
+public class FakeQueryChangesLatestIndexVersionTest extends FakeQueryChangesTest {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    return IndexConfig.createForFake();
   }
 }

@@ -33,9 +33,4 @@ public class AttentionSetPredicate extends ChangeIndexPredicate {
     return additionsOnly(changeData.attentionSet()).stream()
         .anyMatch(update -> update.account().equals(id));
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

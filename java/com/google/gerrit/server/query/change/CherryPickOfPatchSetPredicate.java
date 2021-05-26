@@ -28,9 +28,4 @@ public class CherryPickOfPatchSetPredicate extends ChangeIndexPredicate {
     }
     return cd.change().getCherryPickOf().getId().equals(value);
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

@@ -33,9 +33,4 @@ public class SubmissionIdPredicate extends ChangeIndexPredicate {
     }
     return getValue().equals(change.getSubmissionId());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

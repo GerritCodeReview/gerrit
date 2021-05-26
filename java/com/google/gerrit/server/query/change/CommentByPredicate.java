@@ -46,9 +46,4 @@ public class CommentByPredicate extends ChangeIndexPredicate {
     }
     return false;
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

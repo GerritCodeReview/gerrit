@@ -30,9 +30,4 @@ public class FuzzyHashtagPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData cd) {
     return cd.hashtags().stream().anyMatch(ht -> ht.toLowerCase().contains(getValue()));
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

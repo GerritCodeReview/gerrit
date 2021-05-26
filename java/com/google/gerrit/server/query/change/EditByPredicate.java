@@ -29,9 +29,4 @@ public class EditByPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData cd) {
     return cd.editsByUser().contains(id);
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

@@ -37,9 +37,4 @@ public class ExactHashtagPredicate extends ChangeIndexPredicate {
     }
     return false;
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

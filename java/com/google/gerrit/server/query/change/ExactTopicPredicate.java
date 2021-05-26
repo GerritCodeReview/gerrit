@@ -31,9 +31,4 @@ public class ExactTopicPredicate extends ChangeIndexPredicate {
     }
     return getValue().equals(change.getTopic());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

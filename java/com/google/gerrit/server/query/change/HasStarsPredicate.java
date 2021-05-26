@@ -31,11 +31,6 @@ public class HasStarsPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public int getCost() {
-    return 1;
-  }
-
-  @Override
   public String toString() {
     return ChangeQueryBuilder.FIELD_STARBY + ":" + accountId;
   }

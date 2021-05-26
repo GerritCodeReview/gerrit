@@ -31,9 +31,4 @@ public class LegacyChangeIdStrPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData object) {
     return id.equals(object.getId());
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

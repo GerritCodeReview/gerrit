@@ -26,9 +26,4 @@ public class EqualsPathPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData object) {
     return Collections.binarySearch(object.currentFilePaths(), value) >= 0;
   }
-
-  @Override
-  public int getCost() {
-    return 1;
-  }
 }

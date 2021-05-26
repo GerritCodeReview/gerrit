@@ -34,11 +34,6 @@ public class StarPredicate extends ChangeIndexPredicate {
   }
 
   @Override
-  public int getCost() {
-    return 1;
-  }
-
-  @Override
   public String toString() {
     return ChangeQueryBuilder.FIELD_STAR + ":" + label;
   }

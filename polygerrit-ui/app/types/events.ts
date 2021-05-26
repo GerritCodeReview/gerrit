@@ -18,7 +18,7 @@ import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PatchSetNum, UrlEncodedCommentId} from './common';
 import {UIComment} from '../utils/comment-util';
 import {FetchRequest} from './types';
-import {MovedLinkClickedEventDetail} from '../api/diff';
+import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
 import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 
@@ -55,6 +55,10 @@ declare global {
     'editable-content-save': EditableContentSaveEvent;
     'location-change': LocationChangeEvent;
     'iron-announce': IronAnnounceEvent;
+    'line-number-mouse-enter': LineNumberEvent;
+    'line-number-mouse-leave': LineNumberEvent;
+    'line-cursor-moved-in': LineNumberEvent;
+    'line-cursor-moved-out': LineNumberEvent;
     'moved-link-clicked': MovedLinkClickedEvent;
     'open-fix-preview': OpenFixPreviewEvent;
     'close-fix-preview': CloseFixPreviewEvent;
@@ -123,6 +127,8 @@ export interface LocationChangeEventDetail {
 export type LocationChangeEvent = CustomEvent<LocationChangeEventDetail>;
 
 export type MovedLinkClickedEvent = CustomEvent<MovedLinkClickedEventDetail>;
+
+export type LineNumberEvent = CustomEvent<LineNumberEventDetail>;
 
 export interface NetworkErrorEventDetail {
   error: Error;

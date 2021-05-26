@@ -40,8 +40,7 @@
     "page": "^1.11.6",
     "polymer-bridges": "file:../../polymer-bridges/",
     "polymer-resin": "^2.0.1",
-    "rxjs": "^6.6.7",
-    "shadow-selection-polyfill": "^1.1.0"
+    "rxjs": "^6.6.7"
   },
   "license": "Apache-2.0",
   "private": true

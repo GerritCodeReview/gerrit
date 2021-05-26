@@ -65,9 +65,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {AbortStop} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {MovedLinkClickedEvent} from '../../../types/events';
-// TODO(davido): See: https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
-// @ts-ignore
-import * as shadow from 'shadow-selection-polyfill/shadow.js';
+import {getContentEditableRange} from '../../../utils/safari-selection-util';
 
 import {
   CreateCommentEventDetail as CreateCommentEventDetailApi,
@@ -228,6 +226,14 @@ export class GrDiff extends PolymerElement {
   revisionImage?: ImageInfo;
 
   /**
+   * In order to allow multi-select in Safari browsers, a workaround is required
+   * to trigger 'beforeinput' events to get a list of static ranges. This is
+   * obtained by making the content of the diff table "contentEditable".
+   */
+  @property({type: Boolean})
+  isContentEditable = isSafari();
+
+  /**
    * Whether the safety check for large diffs when whole-file is set has
    * been bypassed. If the value is null, then the safety has not been
    * bypassed. If the value is a number, then that number represents the
@@ -336,14 +342,11 @@ export class GrDiff extends PolymerElement {
   @observe('loggedIn', 'isAttached')
   _enableSelectionObserver(loggedIn: boolean, isAttached: boolean) {
     if (loggedIn && isAttached) {
-      document.addEventListener(
-        '-shadow-selectionchange',
-        this.handleSelectionChange
-      );
+      document.addEventListener('selectionchange', this.handleSelectionChange);
       document.addEventListener('mouseup', this.handleMouseUp);
     } else {
       document.removeEventListener(
-        '-shadow-selectionchange',
+        'selectionchange',
         this.handleSelectionChange
       );
       document.removeEventListener('mouseup', this.handleMouseUp);
@@ -375,7 +378,7 @@ export class GrDiff extends PolymerElement {
     return this.root instanceof ShadowRoot && this.root.getSelection
       ? this.root.getSelection()
       : isSafari()
-      ? shadow.getRange(this.root)
+      ? getContentEditableRange()
       : document.getSelection();
   }
 

@@ -108,3 +108,10 @@ export function toPath(pathname: string, searchParams: URLSearchParams) {
   const middle = paramString ? '?' : '';
   return pathname + middle + paramString;
 }
+
+/**
+ * Primary use case is to copy the absolute comments url to clipboard.
+ */
+export function generateAbsoluteUrl(url: string) {
+  return new URL(url, window.location.href).toString();
+}

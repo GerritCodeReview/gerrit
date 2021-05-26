@@ -39,6 +39,30 @@
       },
       "revId": "597098356a85bb34f46d68ce40b4f8787b99e723",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b64d80c8_8e9e87d8",
+        "filename": "polygerrit-ui/app/utils/safari-selection-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-26T08:13:29Z",
+      "side": 1,
+      "message": "Can you try `InputEventExtended` instead of `any`?\n\nOtherwise maybe we can just drop the SUPPORTS_BEFORE_INPUT condition. I don\u0027t think that will hurt much.",
+      "parentUuid": "019c8c9d_811cbdd7",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 64
+      },
+      "revId": "597098356a85bb34f46d68ce40b4f8787b99e723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

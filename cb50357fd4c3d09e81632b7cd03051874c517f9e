@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c8ae3402_f66d691b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-26T12:01:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9c1fe93_043340f3",
+      "range": {
+        "startLine": 10,
+        "startChar": 51,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "cb50357fd4c3d09e81632b7cd03051874c517f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c907bab7_23fb4fcb",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -54,6 +78,30 @@
       "writtenOn": "2021-05-21T14:59:06Z",
       "side": 1,
       "message": "This logic depends that all predicates assume \u0027any match\u0027 for matching? What about cases requiring \u0027all match\u0027? Do we need to support that?\n\nAnswer: I think we can build an \"AND\" predicate of all these values in ChangePredicates.",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 9
+      },
+      "revId": "cb50357fd4c3d09e81632b7cd03051874c517f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8206c269_cf76b8d8",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-26T12:01:12Z",
+      "side": 1,
+      "message": "Hmm, I don\u0027t think so.\n\nThis is only about repeated fields. For example: FIELD_ATTENTION_SET_USERS is a repeated field of type integer. This does not concern AND queries. These are split into separate predicates.\n\nWe match documents when at least one of these repeated integers matches. This makes it so that we can search for attention:123 where 123 is the user ID and the doc might have 1,2,123 as attention set users.\n\nThe matching semantic is always the same and can\u0027t be tweaked per field.\n\nSo I think this is correct. WDYT?",
+      "parentUuid": "8adac081_47dbb7a0",
       "range": {
         "startLine": 53,
         "startChar": 8,

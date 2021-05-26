@@ -525,6 +525,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object})
   revertedChange?: ChangeInfo;
 
+  @property({type: String})
+  focusCommentId?: UrlEncodedCommentId;
+
   @property({
     type: Array,
     computed: '_computeResolveWeblinks(_change, _commitInfo, _serverConfig)',
@@ -1273,6 +1276,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
     this.$.fileList.collapseAllDiffs();
     this._patchRange = patchRange;
+    this.focusCommentId = value.commentId;
 
     const patchKnown =
       !patchRange.patchNum ||
@@ -1308,7 +1312,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     let primaryTab = PrimaryTab.FILES;
     if (params && params.queryMap && params.queryMap.has('tab')) {
       primaryTab = params.queryMap.get('tab') as PrimaryTab;
-    }
+    } else if (params?.commentId) primaryTab = PrimaryTab.COMMENT_THREADS;
     this._setActivePrimaryTab(
       new CustomEvent('initActiveTab', {
         detail: {

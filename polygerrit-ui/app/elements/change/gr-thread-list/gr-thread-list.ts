@@ -28,7 +28,7 @@ import {
   PolymerSpliceChange,
   PolymerDeepPropertyChange,
 } from '@polymer/polymer/interfaces';
-import {ChangeInfo} from '../../../types/common';
+import {ChangeInfo, UrlEncodedCommentId} from '../../../types/common';
 import {
   CommentThread,
   isDraft,
@@ -101,6 +101,9 @@ export class GrThreadList extends PolymerElement {
 
   @property({type: Object, observer: '_commentTabStateChange'})
   commentTabState?: CommentTabState;
+
+  @property({type: String})
+  focusCommentId?: UrlEncodedCommentId;
 
   _showEmptyThreadsMessage(
     threads: CommentThread[],

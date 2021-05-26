@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0360b1dc_81c07696",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-05-26T12:02:53Z",
+      "side": 1,
+      "message": "During the login process,",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "14b3d910ef0d68224dcaf9295f7f50cdbb30b4c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78791f85_3e0a7c11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2021-05-26T12:02:53Z",
+      "side": 1,
+      "message": "settings?",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "14b3d910ef0d68224dcaf9295f7f50cdbb30b4c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "b83aa5dd_9ceb77b7",
       "revId": "7c12a2ca1aaaee7fbbe465d669b7bc7afc335ff5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2daefe5a_a48d321e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-26T12:54:45Z",
+      "side": 1,
+      "message": "I believe you are right: the change I was thinking about is considering the bypass when calculating the updateCount in ChangeNotesParser.java:320.\n\nHowever, those are two different problems:\n- Not incrementing the updateCount for Attention-Set only modifications\n- Allowing Attention-Set modifications even if updateCount has reached its maximum",
+      "parentUuid": "012b2d95_ef3be171",
+      "revId": "7c12a2ca1aaaee7fbbe465d669b7bc7afc335ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

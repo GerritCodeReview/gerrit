@@ -355,3 +355,9 @@ export function getCommentAuthors(
   );
   return authors;
 }
+
+export function computeId(comment: UIComment) {
+  if (comment.id) return comment.id;
+  if (isDraft(comment)) return comment.__draftID;
+  throw new Error('Missing id in root comment.');
+}

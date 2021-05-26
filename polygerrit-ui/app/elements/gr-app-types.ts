@@ -124,6 +124,7 @@ export interface AppElementChangeViewParams {
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   queryMap?: Map<string, string> | URLSearchParams;
+  commentId?: UrlEncodedCommentId;
 }
 
 export interface AppElementJustRegisteredParams {

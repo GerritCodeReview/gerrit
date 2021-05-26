@@ -175,6 +175,24 @@
       "parentUuid": "c0798a1a_bd6c9de9",
       "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b03b1b2_3f76ff9e",
+        "filename": "javatests/com/google/gerrit/server/query/project/FakeQueryProjectsTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-26T07:42:09Z",
+      "side": 1,
+      "message": "Right. Makes perfect sense. \n\nThanks for clarifying.",
+      "parentUuid": "a3e7f3a4_9a76e6d6",
+      "revId": "5d507e925722defd8a9c088298f42e03e8c43a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

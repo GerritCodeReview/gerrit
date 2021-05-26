@@ -228,9 +228,9 @@ export function updateStateSetProvider(
   privateState$.next(nextState);
 }
 
-// TODO(brohlfs): Remove all fake runs by end of April. They are just making
-// it easier to develop the UI and always see all the different types/states of
-// runs and results.
+// TODO(brohlfs): Remove all fake runs once the Checks UI is fully launched.
+//  They are just making it easier to develop the UI and always see all the
+//  different types/states of runs and results.
 
 export const fakeRun0: CheckRun = {
   internalRunId: 'f0',

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9977f977_89863c7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-26T08:09:43Z",
+      "side": 1,
+      "message": "Maybe a stupid comment, because I don\u0027t know much about label configs, but are label configs inherited? Can they be partially changed by child repos? If yes, then:\n\n1. Do we need a `copyIfParent` predicate?\n\n2. Do we need some way to prevent child overrides?",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "82e7bde4_e58290be",

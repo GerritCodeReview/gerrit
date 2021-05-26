@@ -53,6 +53,8 @@ import {
   hasCompletedWithoutResults,
   iconForCategory,
   iconForLink,
+  otherLinks,
+  primaryLink,
   primaryRunAction,
   tooltipForLink,
 } from '../../services/checks/checks-util';
@@ -306,7 +308,7 @@ class GrResultRow extends GrLitElement {
         </td>
         <td class="summaryCol">
           <div class="summary-cell">
-            ${(this.result.links?.slice(0, 1) ?? []).map(this.renderLink)}
+            ${this.renderLink(primaryLink(this.result))}
             ${this.renderSummary(this.result.summary)}
             <div class="message" @click="${this.toggleExpanded}">
               ${this.isExpanded ? '' : this.result.message}
@@ -396,12 +398,13 @@ class GrResultRow extends GrLitElement {
   }
 
   renderLinks() {
-    const links = (this.result?.links ?? []).slice(1);
+    const links = otherLinks(this.result);
     if (links.length === 0) return;
     return html`<div class="links">${links.map(this.renderLink)}</div>`;
   }
 
-  renderLink(link: Link) {
+  renderLink(link?: Link) {
+    if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     return html`<a href="${link.url}" target="_blank"
       ><iron-icon

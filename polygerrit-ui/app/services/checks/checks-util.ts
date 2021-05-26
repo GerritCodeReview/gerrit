@@ -21,6 +21,7 @@ import {
   CheckResult as CheckResultApi,
   LinkIcon,
   RunStatus,
+  Link,
 } from '../../api/checks';
 import {assertNever} from '../../utils/common-util';
 import {CheckResult, CheckRun} from './checks-model';
@@ -307,4 +308,15 @@ export function fromApiToInternalResult(result: CheckResultApi): CheckResult {
     ...result,
     internalResultId: 'fake',
   };
+}
+
+export function primaryLink(result?: CheckResultApi): Link | undefined {
+  const links = result?.links ?? [];
+  return links.find(link => link.primary);
+}
+
+export function otherLinks(result?: CheckResultApi): Link[] {
+  const primary = primaryLink(result);
+  const links = result?.links ?? [];
+  return links.filter(link => link !== primary);
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62989cde_f8cf6f4e",
+        "filename": "javatests/com/google/gerrit/extensions/common/ChangeInfoDifferTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-26T13:59:33Z",
+      "side": 1,
+      "message": "opinions: should this be null or the empty set ?",
+      "range": {
+        "startLine": 333,
+        "startChar": 41,
+        "endLine": 333,
+        "endChar": 47
+      },
+      "revId": "bb78e23167aee274ee740d32a5ec00fed7a8d13a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

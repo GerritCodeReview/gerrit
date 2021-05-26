@@ -28,7 +28,6 @@ import {
 } from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import './gr-checks-action';
-import './gr-checks-attempt';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {
   Action,
@@ -299,7 +298,6 @@ class GrResultRow extends GrLitElement {
           <div class="flex">
             <gr-hovercard-run .run="${this.result}"></gr-hovercard-run>
             <div class="name">${this.result.checkName}</div>
-            <gr-checks-attempt .run="${this.result}"></gr-checks-attempt>
             <div class="space"></div>
             ${this.renderPrimaryRunAction()}
           </div>

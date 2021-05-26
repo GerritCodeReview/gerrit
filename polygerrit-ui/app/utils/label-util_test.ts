@@ -33,6 +33,10 @@ import {
   DetailedLabelInfo,
 } from '../types/common';
 
+const VALUES_0 = {
+  '0': 'neutral',
+};
+
 const VALUES_1 = {
   '-1': 'bad',
   '0': 'neutral',
@@ -133,6 +137,10 @@ suite('label-util', () => {
 
   test('getLabelStatus', () => {
     let labelInfo: DetailedLabelInfo = {all: [], values: VALUES_2};
+    assert.equal(getLabelStatus(labelInfo), LabelStatus.NEUTRAL);
+    labelInfo = {all: [{value: 0}], values: VALUES_0};
+    assert.equal(getLabelStatus(labelInfo), LabelStatus.NEUTRAL);
+    labelInfo = {all: [{value: 0}], values: VALUES_1};
     assert.equal(getLabelStatus(labelInfo), LabelStatus.NEUTRAL);
     labelInfo = {all: [{value: 0}], values: VALUES_2};
     assert.equal(getLabelStatus(labelInfo), LabelStatus.NEUTRAL);

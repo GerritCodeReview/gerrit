@@ -66,10 +66,12 @@ export function getRepresentativeValue(label?: DetailedLabelInfo): number {
 export function getLabelStatus(label?: DetailedLabelInfo): LabelStatus {
   const value = getRepresentativeValue(label);
   const range = getVotingRangeOrDefault(label);
-  if (value === range.min) return LabelStatus.REJECTED;
-  if (value === range.max) return LabelStatus.APPROVED;
-  if (value < 0) return LabelStatus.DISLIKED;
-  if (value > 0) return LabelStatus.RECOMMENDED;
+  if (value < 0) {
+    return value === range.min ? LabelStatus.REJECTED : LabelStatus.DISLIKED;
+  }
+  if (value > 0) {
+    return value === range.max ? LabelStatus.APPROVED : LabelStatus.RECOMMENDED;
+  }
   return LabelStatus.NEUTRAL;
 }
 

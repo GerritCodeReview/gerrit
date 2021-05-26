@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3f682be_cca5173e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-26T09:15:45Z",
+      "side": 1,
+      "message": "Agree on removing it",
+      "parentUuid": "2cf971e6_a72ad236",
+      "revId": "700d497e066fb661e4404530e5488c4e51b52ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edb17338_c6c2c25f",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-05-26T08:58:10Z",
       "side": 1,
       "message": "Why does this need to be \u003d\u003d 1?\nWouldn\u0027t it be an attention_set_change_only even if the update was adding, say, 2 users, or removing 1 and adding 1?\n\nI appreciate in this context this might be enough, because we are addressing the use-case where 1 user is removing herself from the attention set, but the method suggests a generic way to check if this request only updates the AS, which might take different forms than `plannedAttentionSetUpdates.size() \u003d\u003d 1`",
+      "range": {
+        "startLine": 583,
+        "startChar": 11,
+        "endLine": 583,
+        "endChar": 49
+      },
+      "revId": "700d497e066fb661e4404530e5488c4e51b52ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "332749d3_c79f95ea",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-26T09:15:45Z",
+      "side": 1,
+      "message": "I couldn\u0027t see a path in the code where \"plannedAttentionSetUpdates.size() \u003e 0 \u0026\u0026 comments.isEmpty()\". But you are right it is probably safer checking for \u003e 0 here.",
+      "parentUuid": "edb17338_c6c2c25f",
       "range": {
         "startLine": 583,
         "startChar": 11,

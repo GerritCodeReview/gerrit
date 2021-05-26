@@ -27,7 +27,7 @@ import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-cursor_html';
-import {DiffViewMode} from '../../../api/diff';
+import {DiffViewMode, LineNumberEventDetail} from '../../../api/diff';
 import {ScrollMode, Side} from '../../../constants/constants';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrDiffLineType} from '../gr-diff/gr-diff-line';
@@ -61,7 +61,7 @@ export class GrDiffCursor extends PolymerElement {
 
   private lastDisplayedNavigateToFileToast: Map<string, number> = new Map();
 
-  @property({type: String})
+  @property({type: String, notify: true, observer: '_updateSide'})
   side = Side.RIGHT;
 
   @property({type: Object, notify: true, observer: '_rowChanged'})
@@ -416,17 +416,20 @@ export class GrDiffCursor extends PolymerElement {
     if (!this.diffRow) {
       return null;
     }
-
     // Get the line-number cell targeted by the cursor. If the mode is unified
     // then prefer the revision cell if available.
+    return this.getAddressFor(this.diffRow, this.side);
+  }
+
+  private getAddressFor(diffRow: HTMLElement, side: Side) {
     let cell;
     if (this._getViewMode() === DiffViewMode.UNIFIED) {
-      cell = this.diffRow.querySelector('.lineNum.right');
+      cell = diffRow.querySelector('.lineNum.right');
       if (!cell) {
-        cell = this.diffRow.querySelector('.lineNum.left');
+        cell = diffRow.querySelector('.lineNum.left');
       }
     } else {
-      cell = this.diffRow.querySelector('.lineNum.' + this.side);
+      cell = diffRow.querySelector('.lineNum.' + side);
     }
     if (!cell) {
       return null;
@@ -502,18 +505,54 @@ export class GrDiffCursor extends PolymerElement {
 
   _rowChanged(_: HTMLElement, oldRow: HTMLElement) {
     if (oldRow) {
-      oldRow.classList.remove(LEFT_SIDE_CLASS, RIGHT_SIDE_CLASS);
+      this.fireCursorMoved('line-cursor-moved-out', oldRow, this.side);
     }
-    this._updateSideClass();
+    this.updateSideClass();
+    if (this.diffRow) {
+      this.fireCursorMoved('line-cursor-moved-in', this.diffRow, this.side);
+    }
   }
 
-  @observe('side')
-  _updateSideClass() {
+  private fireCursorMoved(
+    event: 'line-cursor-moved-out' | 'line-cursor-moved-in',
+    row: HTMLElement,
+    side: Side
+  ) {
+    const address = this.getAddressFor(row, side);
+    if (address) {
+      const {leftSide, number} = address;
+      row.dispatchEvent(
+        new CustomEvent<LineNumberEventDetail>(event, {
+          detail: {
+            lineNum: number,
+            side: leftSide ? Side.LEFT : Side.RIGHT,
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+    }
+  }
+
+  private updateSideClass() {
     if (!this.diffRow) {
       return;
     }
     toggleClass(this.diffRow, LEFT_SIDE_CLASS, this.side === Side.LEFT);
     toggleClass(this.diffRow, RIGHT_SIDE_CLASS, this.side === Side.RIGHT);
+  }
+
+  _updateSide(_: Side, oldSide: Side) {
+    if (!this.diffRow) {
+      return;
+    }
+    if (oldSide) {
+      this.fireCursorMoved('line-cursor-moved-out', this.diffRow, oldSide);
+    }
+    this.updateSideClass();
+    if (this.diffRow) {
+      this.fireCursorMoved('line-cursor-moved-in', this.diffRow, this.side);
+    }
   }
 
   _isActionType(type: GrDiffRowType) {

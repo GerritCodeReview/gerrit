@@ -123,7 +123,10 @@ export class GrDiffHighlight extends PolymerElement {
    * because isMouseUp === true combined with an existing selection must
    * mean that this is the end of a double-click.
    */
-  handleSelectionChange(selection: Selection | null, isMouseUp: boolean) {
+  handleSelectionChange(
+    selection: Selection | Range | null,
+    isMouseUp: boolean
+  ) {
     if (selection === null) return;
     // Debounce is not just nice for waiting until the selection has settled,
     // it is also vital for being able to click on the action box before it is
@@ -262,7 +265,7 @@ export class GrDiffHighlight extends PolymerElement {
    * syntax highligh, convert native DOM Range objects to Gerrit concepts
    * (line, side, etc).
    */
-  _getNormalizedRange(selection: Selection) {
+  _getNormalizedRange(selection: Selection | Range) {
     /* On Safari the ShadowRoot.getSelection() isn't there and the only thing
        we can get is a single Range */
     if (selection instanceof Range) {
@@ -425,7 +428,7 @@ export class GrDiffHighlight extends PolymerElement {
     );
   }
 
-  _handleSelection(selection: Selection, isMouseUp: boolean) {
+  _handleSelection(selection: Selection | Range, isMouseUp: boolean) {
     /* On Safari, the selection events may return a null range that should
        be ignored */
     if (!selection) {

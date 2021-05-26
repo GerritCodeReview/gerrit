@@ -97,6 +97,10 @@ export const htmlTemplate = html`
       height: 100%;
       background-color: var(--diff-blank-background-color);
     }
+    td.lineNum {
+      vertical-align: top;
+    }
+
     /*
       The only way to focus this (clicking) will apply our own focus styling,
       so this default styling is not needed and distracting.
@@ -358,6 +362,9 @@ export const htmlTemplate = html`
       color: var(--link-color);
       padding: var(--spacing-m) 0 var(--spacing-m) 48px;
     }
+    #diffTable:focus {
+      outline: none;
+    }
     #loadingError,
     #sizeWarning {
       display: none;
@@ -558,6 +565,7 @@ export const htmlTemplate = html`
             id="diffTable"
             class$="[[_diffTableClass]]"
             role="presentation"
+            contenteditable$="[[isContentEditable]]"
           ></table>
 
           <template

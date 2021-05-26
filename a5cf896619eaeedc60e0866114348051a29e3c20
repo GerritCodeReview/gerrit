@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "751d7795_f0014c22",
+        "filename": "polygerrit-ui/app/services/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-26T15:31:53Z",
+      "side": 1,
+      "message": "Isn\u0027t this simpler?\n```links.filter(link \u003d\u003e !link.primary)```\n\nOr you count that there can be more than 1 primary link so this will just filter first link? Maybe add this as a comment.",
+      "range": {
+        "startLine": 321,
+        "startChar": 9,
+        "endLine": 321,
+        "endChar": 47
+      },
+      "revId": "a5cf896619eaeedc60e0866114348051a29e3c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

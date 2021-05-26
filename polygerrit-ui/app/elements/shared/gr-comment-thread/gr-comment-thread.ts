@@ -153,6 +153,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   })
   rootId?: UrlEncodedCommentId;
 
+  @property({type: String})
+  focusCommentId?: UrlEncodedCommentId;
+
   @property({type: Boolean})
   showFilePath = false;
 
@@ -214,6 +217,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly syntaxLayer = new GrSyntaxLayer();
 
+  private resizeObserver?: ResizeObserver;
+
   readonly restApiService = appContext.restApiService;
 
   constructor() {
@@ -221,6 +226,15 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener('comment-update', e =>
       this._handleCommentUpdate(e as CustomEvent)
     );
+    this.resizeObserver = new ResizeObserver(
+      (_entries: ResizeObserverEntry[], observer: ResizeObserver) => {
+        if (this.focusCommentId === this.rootId) {
+          this.scrollIntoView();
+        }
+        observer.unobserve(this);
+      }
+    );
+    this.resizeObserver.observe(this);
   }
 
   /** @override */

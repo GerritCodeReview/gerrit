@@ -61,6 +61,8 @@ import {
 } from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {charsOnly} from '../../utils/string-util';
+import {appContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends GrLitElement {
@@ -327,6 +329,8 @@ export class GrChecksRuns extends GrLitElement {
 
   private isSectionExpanded = new Map<RunStatus, boolean>();
 
+  private flagService = appContext.flagsService;
+
   constructor() {
     super();
     this.subscribe('runs', allRuns$);
@@ -425,34 +429,7 @@ export class GrChecksRuns extends GrLitElement {
       />
       ${this.renderSection(RunStatus.COMPLETED)}
       ${this.renderSection(RunStatus.RUNNING)}
-      ${this.renderSection(RunStatus.RUNNABLE)}
-      <div class="testing">
-        <div>Toggle fake runs by clicking buttons:</div>
-        <gr-button link @click="${this.none}">none</gr-button>
-        <gr-button
-          link
-          @click="${() =>
-            this.toggle('f0', [fakeRun0], fakeActions, fakeLinks)}"
-          >0</gr-button
-        >
-        <gr-button link @click="${() => this.toggle('f1', [fakeRun1])}"
-          >1</gr-button
-        >
-        <gr-button link @click="${() => this.toggle('f2', [fakeRun2])}"
-          >2</gr-button
-        >
-        <gr-button link @click="${() => this.toggle('f3', [fakeRun3])}"
-          >3</gr-button
-        >
-        <gr-button
-          link
-          @click="${() => {
-            this.toggle('f4', [fakeRun4_1, fakeRun4_2, fakeRun4_3, fakeRun4_4]);
-          }}"
-          >4</gr-button
-        >
-        <gr-button link @click="${this.all}">all</gr-button>
-      </div>
+      ${this.renderSection(RunStatus.RUNNABLE)} ${this.renderFakeControls()}
     `;
   }
 
@@ -540,6 +517,39 @@ export class GrChecksRuns extends GrLitElement {
       this.filterRegExp = new RegExp('');
     }
     return show;
+  }
+
+  renderFakeControls() {
+    if (!this.flagService.isEnabled(KnownExperimentId.CHECKS_DEVELOPER)) return;
+    return html`
+      <div class="testing">
+        <div>Toggle fake runs by clicking buttons:</div>
+        <gr-button link @click="${this.none}">none</gr-button>
+        <gr-button
+          link
+          @click="${() =>
+            this.toggle('f0', [fakeRun0], fakeActions, fakeLinks)}"
+          >0</gr-button
+        >
+        <gr-button link @click="${() => this.toggle('f1', [fakeRun1])}"
+          >1</gr-button
+        >
+        <gr-button link @click="${() => this.toggle('f2', [fakeRun2])}"
+          >2</gr-button
+        >
+        <gr-button link @click="${() => this.toggle('f3', [fakeRun3])}"
+          >3</gr-button
+        >
+        <gr-button
+          link
+          @click="${() => {
+            this.toggle('f4', [fakeRun4_1, fakeRun4_2, fakeRun4_3, fakeRun4_4]);
+          }}"
+          >4</gr-button
+        >
+        <gr-button link @click="${this.all}">all</gr-button>
+      </div>
+    `;
   }
 }
 

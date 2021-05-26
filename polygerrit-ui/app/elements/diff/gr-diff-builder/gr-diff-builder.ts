@@ -17,6 +17,7 @@
 import {
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
+  LineNumberEventDetail,
   MovedLinkClickedEventDetail,
   RenderPreferences,
 } from '../../../api/diff';
@@ -458,6 +459,30 @@ export abstract class GrDiffBuilder {
           button.setAttribute('aria-label', `${number} added`);
         }
       }
+      button.addEventListener('mouseenter', () => {
+        button.dispatchEvent(
+          new CustomEvent<LineNumberEventDetail>('line-number-mouse-enter', {
+            detail: {
+              lineNum: number,
+              side,
+            },
+            composed: true,
+            bubbles: true,
+          })
+        );
+      });
+      button.addEventListener('mouseleave', () => {
+        button.dispatchEvent(
+          new CustomEvent<LineNumberEventDetail>('line-number-mouse-leave', {
+            detail: {
+              lineNum: number,
+              side,
+            },
+            composed: true,
+            bubbles: true,
+          })
+        );
+      });
     }
 
     return td;

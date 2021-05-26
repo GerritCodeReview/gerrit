@@ -70,12 +70,26 @@ public final class ChangeInfoDiffer {
 
   @SuppressWarnings("unchecked") // reflection is used to construct instances of T
   private static <T> T getAdded(T oldValue, T newValue) {
+    if (newValue instanceof Collection) {
+      List result = getAddedForCollection((Collection<?>) oldValue, (Collection<?>) newValue);
+      return (T) result;
+    }
+
+    if (newValue instanceof Map) {
+      Map result = getAddedForMap((Map<?, ?>) oldValue, (Map<?, ?>) newValue);
+      return (T) result;
+    }
+
     T toPopulate = (T) construct(newValue.getClass());
     if (toPopulate == null) {
       return null;
     }
 
     for (Field field : newValue.getClass().getDeclaredFields()) {
+      if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
+        continue;
+      }
+
       Object newFieldObj = get(field, newValue);
       if (oldValue == null || newFieldObj == null) {
         set(field, toPopulate, newFieldObj);
@@ -89,13 +103,8 @@ public final class ChangeInfoDiffer {
 
       if (isSimple(field.getType()) || oldFieldObj == null) {
         set(field, toPopulate, newFieldObj);
-      } else if (newFieldObj instanceof Collection) {
-        set(
-            field,
-            toPopulate,
-            getAddedForCollection((Collection<?>) oldFieldObj, (Collection<?>) newFieldObj));
-      } else if (newFieldObj instanceof Map) {
-        set(field, toPopulate, getAddedForMap((Map<?, ?>) oldFieldObj, (Map<?, ?>) newFieldObj));
+      } else if (newFieldObj instanceof Collection || newFieldObj instanceof Map) {
+        set(field, toPopulate, getAdded(oldFieldObj, newFieldObj));
       } else {
         // Recurse to set all fields in the non-primitive object.
         set(field, toPopulate, getAdded(oldFieldObj, newFieldObj));
@@ -143,6 +152,9 @@ public final class ChangeInfoDiffer {
 
   private static ImmutableList<Object> getAdditions(
       Collection<?> oldCollection, Collection<?> newCollection) {
+    if (oldCollection == null)
+      return newCollection != null ? ImmutableList.copyOf(newCollection) : null;
+
     Map<Object, List<Object>> duplicatesMap = newCollection.stream().collect(groupingBy(v -> v));
     oldCollection.forEach(
         v -> {

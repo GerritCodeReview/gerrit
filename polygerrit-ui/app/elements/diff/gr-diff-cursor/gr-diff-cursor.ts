@@ -246,10 +246,10 @@ export class GrDiffCursor extends PolymerElement {
     return result;
   }
 
-  moveToNextCommentThread(): CursorMoveResult | undefined {
+  moveToNextCommentThread(): CursorMoveResult {
     if (this.isAtEnd()) {
       fireEvent(this, 'navigate-to-next-file-with-comments');
-      return;
+      return CursorMoveResult.CLIPPED;
     }
     const result = this.cursorManager.next({
       filter: (row: HTMLElement) => this._rowHasThread(row),

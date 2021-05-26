@@ -497,6 +497,36 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void attentionSetOnlyShouldNotCountTowardsMaxUpdatesLimit() throws Exception {
+    RevCommit commit =
+        writeCommit(
+            "Update patch set 1\n"
+                + "\n"
+                + "Patch-set: 1\n"
+                + "Attention: {\"person_ident\":\"Gerrit User 1000000 \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}",
+            false);
+    newParser(commit).parseAll();
+    ChangeNotesCommit changeNotesCommit = (ChangeNotesCommit) commit;
+    final boolean hasChangeMessage = false;
+    assertThat(changeNotesCommit.countTowardsMaxUpdatesLimit(hasChangeMessage)).isEqualTo(false);
+  }
+
+  @Test
+  public void attentionSetWithCommentShouldCountTowardsMaxUpdatesLimit() throws Exception {
+    RevCommit commit =
+        writeCommit(
+            "Update patch set 1\n"
+                + "\n"
+                + "Patch-set: 1\n"
+                + "Attention: {\"person_ident\":\"Gerrit User 1000000 \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}",
+            false);
+    newParser(commit).parseAll();
+    ChangeNotesCommit changeNotesCommit = (ChangeNotesCommit) commit;
+    final boolean hasChangeMessage = true;
+    assertThat(changeNotesCommit.countTowardsMaxUpdatesLimit(hasChangeMessage)).isEqualTo(true);
+  }
+
+  @Test
   public void caseInsensitiveFooters() throws Exception {
     assertParseSucceeds(
         "Update change\n"

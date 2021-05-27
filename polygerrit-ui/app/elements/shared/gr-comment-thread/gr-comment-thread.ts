@@ -50,7 +50,7 @@ import {
 } from '../../../types/common';
 import {GrComment} from '../gr-comment/gr-comment';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {LineNumber, FILE} from '../../diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
@@ -62,15 +62,29 @@ import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-layer';
 import {anyLineTooLong} from '../../diff/gr-diff/gr-diff-utils';
+import {getRootElement} from '../../../scripts/rootElement';
+import {GrOverlay} from '../gr-overlay/gr-overlay';
+import {GrDialog} from '../gr-dialog/gr-dialog';
+import { DelayedTask } from '../../../utils/async-util';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
+
+const REPORT_CREATE_DRAFT = 'CreateDraftComment';
+const REPORT_UPDATE_DRAFT = 'UpdateDraftComment';
+const REPORT_DISCARD_DRAFT = 'DiscardDraftComment';
 
 export interface GrCommentThread {
   $: {
     replyBtn: GrButton;
     quoteBtn: GrButton;
+    resolvedCheckbox: HTMLInputElement;
   };
+}
+
+interface CommentOverlays {
+  confirmDelete?: GrOverlay | null;
+  confirmDiscard?: GrOverlay | null;
 }
 
 @customElement('gr-comment-thread')
@@ -200,10 +214,44 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   showCommentContext = false;
 
+  @property({type: Boolean})
+  resolved?: boolean;
+
+  /**
+   * Property for storing references to overlay elements. When the overlays
+   * are moved to getRootElement() to be shown they are no-longer
+   * children, so they can't be queried along the tree, so they are stored
+   * here.
+   */
+  @property({type: Object})
+  _overlays: CommentOverlays = {};
+
   get keyBindings() {
     return {
       'e shift+e': '_handleEKey',
     };
+  }
+
+  get confirmDeleteOverlay() {
+    if (!this._overlays.confirmDelete) {
+      this._enableOverlay = true;
+      flush();
+      this._overlays.confirmDelete = this.shadowRoot?.querySelector(
+        '#confirmDeleteOverlay'
+      ) as GrOverlay | null;
+    }
+    return this._overlays.confirmDelete;
+  }
+
+  get confirmDiscardOverlay() {
+    if (!this._overlays.confirmDiscard) {
+      this._enableOverlay = true;
+      flush();
+      this._overlays.confirmDiscard = this.shadowRoot?.querySelector(
+        '#confirmDiscardOverlay'
+      ) as GrOverlay | null;
+    }
+    return this._overlays.confirmDiscard;
   }
 
   reporting = appContext.reportingService;
@@ -215,6 +263,12 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   private readonly syntaxLayer = new GrSyntaxLayer();
 
   readonly restApiService = appContext.restApiService;
+
+  private fireUpdateTask?: DelayedTask;
+
+  private storeTask?: DelayedTask;
+
+  private draftToastTask?: DelayedTask;
 
   constructor() {
     super();
@@ -449,6 +503,200 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
       this._shouldDisableAction(_showActions, _lastComment) ||
       isRobot(_lastComment)
     );
+  }
+
+  hideHumanActions(_showActions?: boolean, _lastComment?: UIComment) {
+    return !_showActions || isRobot(_lastComment);
+  }
+
+  _handleToggleResolved() {
+    this.reporting.recordDraftInteraction();
+    this.resolved = !this.resolved;
+    // Modify payload instead of this.comment, as this.comment is passed from
+    // the parent by ref.
+    const payload = this._getEventPayload();
+    if (!payload.comment) {
+      throw new Error('comment not defined in payload');
+    }
+    payload.comment.unresolved = !this.$.resolvedCheckbox.checked;
+    this.dispatchEvent(
+      new CustomEvent('comment-update', {
+        detail: payload,
+        composed: true,
+        bubbles: true,
+      })
+    );
+    if (!this.editing) {
+      // Save the resolved state immediately.
+      this.save(payload.comment);
+    }
+  }
+
+  _getEventPayload(): OpenFixPreviewEvent {
+    return {comment: this.comment, patchNum: this.patchNum};
+  }
+
+  _handleCancel(e: Event) {
+    e.preventDefault();
+
+    if (
+      !this.comment?.message ||
+      this.comment.message.trim().length === 0 ||
+      !this.comment.id
+    ) {
+      this._fireDiscard();
+      return;
+    }
+    this._messageText = this.comment.message;
+    this.editing = false;
+  }
+
+  _handleEdit(e: Event) {
+    e.preventDefault();
+    if (this.comment?.message) this._messageText = this.comment.message;
+    this.editing = true;
+    this.reporting.recordDraftInteraction();
+  }
+
+  _handleSave(e: Event) {
+    e.preventDefault();
+
+    // Ignore saves started while already saving.
+    if (this.disabled) {
+      return;
+    }
+    const timingLabel = this.comment?.id
+      ? REPORT_UPDATE_DRAFT
+      : REPORT_CREATE_DRAFT;
+    const timer = this.reporting.getTimer(timingLabel);
+    this.set('comment.__editing', false);
+    return this.save().then(() => {
+      timer.end();
+    });
+  }
+
+  save(opt_comment?: UIComment) {
+    let comment = opt_comment;
+    if (!comment) {
+      comment = this.comment;
+    }
+
+    this.set('comment.message', this._messageText);
+    this.editing = false;
+    this.disabled = true;
+
+    if (!this._messageText) {
+      return this._discardDraft();
+    }
+
+    this._xhrPromise = this._saveDraft(comment)
+      .then(response => {
+        this.disabled = false;
+        if (!response.ok) {
+          return;
+        }
+
+        this._eraseDraftComment();
+        return this.restApiService.getResponseObject(response).then(obj => {
+          const resComment = (obj as unknown) as UIDraft;
+          if (!isDraft(this.comment)) throw new Error('Can only save drafts.');
+          resComment.__draft = true;
+          // Maintain the ephemeral draft ID for identification by other
+          // elements.
+          if (this.comment?.__draftID) {
+            resComment.__draftID = this.comment.__draftID;
+          }
+          this.comment = resComment;
+          this._fireSave();
+          return obj;
+        });
+      })
+      .catch(err => {
+        this.disabled = false;
+        throw err;
+      });
+
+    return this._xhrPromise;
+  }
+
+  _eraseDraftComment() {
+    // Prevents a race condition in which removing the draft comment occurs
+    // prior to it being saved.
+    this.storeTask?.cancel();
+
+    assertIsDefined(this.comment?.path, 'comment.path');
+    assertIsDefined(this.changeNum, 'changeNum');
+    this.storage.eraseDraftComment({
+      changeNum: this.changeNum,
+      patchNum: this._getPatchNum(),
+      path: this.comment.path,
+      line: this.comment.line,
+      range: this.comment.range,
+    });
+  }
+
+  _fireDiscard() {
+    this.fireUpdateTask?.cancel();
+    this.dispatchEvent(
+      new CustomEvent('comment-discard', {
+        detail: this._getEventPayload(),
+        composed: true,
+        bubbles: true,
+      })
+    );
+  }
+
+  _computeSaveDisabled(
+    draft: string,
+    comment: UIComment | undefined,
+    resolved?: boolean
+  ) {
+    // If resolved state has changed and a msg exists, save should be enabled.
+    if (!comment || (comment.unresolved === resolved && draft)) {
+      return false;
+    }
+    return !draft || draft.trim() === '';
+  }
+
+  _handleSaveKey(e: Event) {
+    if (
+      !this._computeSaveDisabled(this._messageText, this.comment, this.resolved)
+    ) {
+      e.preventDefault();
+      this._handleSave(e);
+    }
+  }
+
+  _handleEsc(e: Event) {
+    if (!this._messageText.length) {
+      e.preventDefault();
+      this._handleCancel(e);
+    }
+  }
+
+  _handleDiscard(e: Event) {
+    e.preventDefault();
+    this.reporting.recordDraftInteraction();
+
+    if (!this._messageText) {
+      this._discardDraft();
+      return;
+    }
+
+    this._openOverlay(this.confirmDiscardOverlay).then(() => {
+      const dialog = this.confirmDiscardOverlay?.querySelector(
+        '#confirmDiscardDialog'
+      ) as GrDialog | null;
+      if (dialog) dialog.resetFocus();
+    });
+  }
+
+  _openOverlay(overlay?: GrOverlay | null) {
+    if (!overlay) {
+      return Promise.reject(new Error('undefined overlay'));
+    }
+    getRootElement().appendChild(overlay);
+    return overlay.open();
   }
 
   _getLastComment() {

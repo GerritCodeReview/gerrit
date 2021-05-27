@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29963054_225e5674",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-27T06:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd94d07f_e8507138",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "8b6818c4b0bb864c3b6b165d40d54b144db3b515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fc1ebd2_ab8b29f3",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-26T15:40:15Z",
       "side": 1,
       "message": "Nit: `${primaryLinks.forEach(primaryLink \u003d\u003e this.renderLink(primaryLink)}`\n\nIs there always 4 primary links? or you count with primaryLinks[3] returning undefined?",
+      "range": {
+        "startLine": 863,
+        "startChar": 6,
+        "endLine": 864,
+        "endChar": 77
+      },
+      "revId": "8b6818c4b0bb864c3b6b165d40d54b144db3b515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19a1c5d6_9a083025",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-05-27T06:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fc1ebd2_ab8b29f3",
       "range": {
         "startLine": 863,
         "startChar": 6,

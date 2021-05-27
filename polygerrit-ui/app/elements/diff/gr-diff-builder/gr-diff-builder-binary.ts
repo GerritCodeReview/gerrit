@@ -18,6 +18,7 @@
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
+import {queryAndAssert} from '../../../utils/common-util';
 
 export class GrDiffBuilderBinary extends GrDiffBuilderUnified {
   constructor(
@@ -32,7 +33,7 @@ export class GrDiffBuilderBinary extends GrDiffBuilderUnified {
     const section = this._createElement('tbody', 'binary-diff');
     const line = new GrDiffLine(GrDiffLineType.BOTH, 'FILE', 'FILE');
     const fileRow = this._createRow(line);
-    const contentTd = fileRow.querySelector('td.both.file')!;
+    const contentTd = queryAndAssert(fileRow, 'td.both.file')!;
     contentTd.textContent = ' Difference in binary files';
     section.appendChild(fileRow);
     return section;

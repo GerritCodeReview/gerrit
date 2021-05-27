@@ -22,6 +22,8 @@ import {htmlTemplate} from './gr-download-commands_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {appContext} from '../../../services/app-context';
+import {queryAndAssert} from '../../../utils/common-util';
+import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -73,8 +75,7 @@ export class GrDownloadCommands extends PolymerElement {
   }
 
   focusOnCopy() {
-    // TODO(TS): remove ! assertion later
-    this.shadowRoot!.querySelector('gr-shell-command')!.focusOnCopy();
+    queryAndAssert<GrShellCommand>(this, 'gr-shell-command').focusOnCopy();
   }
 
   _getLoggedIn() {

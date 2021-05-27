@@ -107,6 +107,7 @@ public class ChangeField {
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
+  // TODO: Rename LEGACY_ID to NUMERIC_ID
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
       integer("legacy_id").stored().build(cd -> cd.getId().get());

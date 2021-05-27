@@ -16,6 +16,24 @@
       "message": "unrelated change?",
       "revId": "e4356460c26731962092bc747003d7eb202756b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a3232e7_27e07c1b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-27T14:44:08Z",
+      "side": 0,
+      "message": "Removed by mistake.\n\nDone.",
+      "parentUuid": "6f97bae8_4ec5cf4a",
+      "revId": "e4356460c26731962092bc747003d7eb202756b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

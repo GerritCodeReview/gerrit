@@ -18,7 +18,8 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-cursor-manager.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {AbortStop, CursorMoveResult, GrCursorManager} from './gr-cursor-manager.js';
+import {AbortStop, CursorMoveResult} from '../../../api/core.js';
+import {GrCursorManager} from './gr-cursor-manager.js';
 
 const basicTestFixutre = fixtureFromTemplate(html`
     <ul>

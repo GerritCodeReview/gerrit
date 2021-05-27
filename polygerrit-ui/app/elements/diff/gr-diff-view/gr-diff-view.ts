@@ -106,7 +106,7 @@ import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {toggleClass, getKeyboardEvent} from '../../../utils/dom-util';
-import {CursorMoveResult} from '../../shared/gr-cursor-manager/gr-cursor-manager';
+import {CursorMoveResult} from '../../../api/core';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';

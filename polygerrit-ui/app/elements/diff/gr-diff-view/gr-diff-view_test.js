@@ -30,7 +30,7 @@ import {
 } from '../../../test/test-data-generators.js';
 import {EditPatchSetNum} from '../../../types/common.js';
 import sinon from 'sinon/pkg/sinon-esm';
-import {CursorMoveResult} from '../../shared/gr-cursor-manager/gr-cursor-manager.js';
+import {CursorMoveResult} from '../../../api/core.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 

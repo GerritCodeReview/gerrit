@@ -62,11 +62,10 @@ import {
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {AbortStop} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {MovedLinkClickedEvent} from '../../../types/events';
 import {getContentEditableRange} from '../../../utils/safari-selection-util';
-
+import {AbortStop} from '../../../api/core';
 import {
   CreateCommentEventDetail as CreateCommentEventDetailApi,
   RenderPreferences,

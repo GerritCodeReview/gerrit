@@ -22,6 +22,30 @@
       },
       "revId": "a3311aa8385a3c18b31e29ec9d99db66c7e6981a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be613a89_d4d15b73",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-27T08:37:18Z",
+      "side": 1,
+      "message": "I agree. Some index implementations (like our own) represent the whole query as a string. Others (lucene) actually want the typed data.",
+      "parentUuid": "8003eefd_8c8e67ec",
+      "range": {
+        "startLine": 35,
+        "startChar": 69,
+        "endLine": 35,
+        "endChar": 80
+      },
+      "revId": "a3311aa8385a3c18b31e29ec9d99db66c7e6981a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

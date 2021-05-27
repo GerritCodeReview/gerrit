@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8003eefd_8c8e67ec",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-27T08:13:39Z",
+      "side": 1,
+      "message": "this is quite confusing - it looks like this does parsing string -\u003e int somewhere? Wouldn\u0027t it be better to pass the integer value without the roundtrips? I couldn\u0027t find where the actual matching happens.\n\nnot a blocker because it was like that before as well.",
+      "range": {
+        "startLine": 35,
+        "startChar": 69,
+        "endLine": 35,
+        "endChar": 80
+      },
+      "revId": "a3311aa8385a3c18b31e29ec9d99db66c7e6981a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

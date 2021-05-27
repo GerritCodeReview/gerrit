@@ -32,8 +32,10 @@ import {sharedStyles} from '../../styles/shared-styles';
 import {
   AttemptDetail,
   compareByWorstCategory,
+  fireActionTriggered,
   iconForCategory,
   iconForRun,
+  PRIMARY_STATUS_ACTIONS,
   primaryRunAction,
   worstCategory,
 } from '../../services/checks/checks-util';
@@ -314,6 +316,9 @@ export class GrChecksRuns extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
 
+  @property({type: Boolean, reflect: true})
+  collapsed = false;
+
   @property()
   selectedRuns: string[] = [];
 
@@ -342,12 +347,30 @@ export class GrChecksRuns extends GrLitElement {
       css`
         :host {
           display: block;
+        }
+        :host(:not([collapsed])) {
+          min-width: 320px;
           padding: var(--spacing-l) var(--spacing-xl) var(--spacing-xl)
             var(--spacing-xl);
         }
+        :host([collapsed]) {
+          padding: var(--spacing-l) 0;
+        }
         .title {
           display: flex;
-          justify-content: space-between;
+        }
+        .title .flex-space {
+          flex-grow: 1;
+        }
+        .title gr-button {
+          --padding: var(--spacing-s) var(--spacing-m);
+          white-space: nowrap;
+        }
+        .title gr-button.expandButton {
+          --padding: var(--spacing-xs) var(--spacing-s);
+        }
+        :host(:not([collapsed])) .expandButton {
+          margin-right: calc(0px - var(--spacing-m));
         }
         .expandIcon {
           width: var(--line-height-h3);
@@ -408,17 +431,14 @@ export class GrChecksRuns extends GrLitElement {
   }
 
   render() {
+    if (this.collapsed) {
+      return html`${this.renderCollapseButton()}`;
+    }
     return html`
       <h2 class="title">
         <div class="heading-2">Runs</div>
-        <div class="font-normal">
-          <gr-button
-            ?hidden="${this.selectedRuns.length < 2}"
-            link
-            @click="${() => fireRunSelectionReset(this)}"
-            >Unselect All</gr-button
-          >
-        </div>
+        <div class="flex-space"></div>
+        ${this.renderTitleButtons()} ${this.renderCollapseButton()}
       </h2>
       <input
         id="filterInput"
@@ -430,6 +450,65 @@ export class GrChecksRuns extends GrLitElement {
       ${this.renderSection(RunStatus.COMPLETED)}
       ${this.renderSection(RunStatus.RUNNING)}
       ${this.renderSection(RunStatus.RUNNABLE)} ${this.renderFakeControls()}
+    `;
+  }
+
+  private renderTitleButtons() {
+    if (this.selectedRuns.length < 2) return;
+    const actions = this.selectedRuns.map(selected => {
+      const run = this.runs.find(
+        run => run.isLatestAttempt && run.checkName === selected
+      );
+      return primaryRunAction(run);
+    });
+    const runButtonDisabled = !actions.every(
+      action =>
+        action?.name === PRIMARY_STATUS_ACTIONS.RUN ||
+        action?.name === PRIMARY_STATUS_ACTIONS.RERUN
+    );
+    return html`
+      <gr-button
+        class="font-normal"
+        link
+        @click="${() => fireRunSelectionReset(this)}"
+        >Unselect All</gr-button
+      >
+      <gr-button
+        class="font-normal"
+        link
+        title="${runButtonDisabled
+          ? 'Disabled. All selected runs must have a "Run" action.'
+          : ''}"
+        has-tooltip="${runButtonDisabled}"
+        ?disabled="${runButtonDisabled}"
+        @click="${() => {
+          actions.forEach(action => fireActionTriggered(this, action));
+        }}"
+        >Run Selected</gr-button
+      >
+    `;
+  }
+
+  private renderCollapseButton() {
+    return html`
+      <gr-button
+        link
+        class="expandButton"
+        role="switch"
+        ?aria-checked="${this.collapsed}"
+        aria-label="${this.collapsed
+          ? 'Expand runs panel'
+          : 'Collapse runs panel'}"
+        has-tooltip="true"
+        title="${this.collapsed ? 'Expand runs panel' : 'Collapse runs panel'}"
+        @click="${() => (this.collapsed = !this.collapsed)}"
+        ><iron-icon
+          class="expandIcon"
+          icon="${this.collapsed
+            ? 'gr-icons:chevron-right'
+            : 'gr-icons:chevron-left'}"
+        ></iron-icon>
+      </gr-button>
     `;
   }
 

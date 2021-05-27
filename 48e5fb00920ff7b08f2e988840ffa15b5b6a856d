@@ -22,6 +22,30 @@
       },
       "revId": "48e5fb00920ff7b08f2e988840ffa15b5b6a856d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61407722_071eddb5",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-27T11:34:19Z",
+      "side": 1,
+      "message": "LONG is an odd FieldType. It exists but is currently unused. All index backends implement support for it, though, but no field uses this type.\n\nI thought I\u0027ll be consistent with the test and just implement it here as well. The implementation seemed trivial.",
+      "parentUuid": "c6a9ace7_e570c4e3",
+      "range": {
+        "startLine": 74,
+        "startChar": 57,
+        "endLine": 76,
+        "endChar": 73
+      },
+      "revId": "48e5fb00920ff7b08f2e988840ffa15b5b6a856d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

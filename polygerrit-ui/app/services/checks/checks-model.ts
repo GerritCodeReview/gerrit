@@ -448,7 +448,7 @@ export const fakeRun4_4: CheckRun = {
 export const fakeActions: Action[] = [
   {
     name: 'Fake Action 1',
-    primary: false,
+    primary: true,
     disabled: true,
     tooltip: 'Tooltip for Fake Action 1',
     callback: () => Promise.resolve({message: 'fake action 1 triggered'}),

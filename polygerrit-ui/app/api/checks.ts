@@ -225,8 +225,6 @@ export declare interface Action {
   name: string;
   tooltip?: string;
   /**
-   * TODO: Maybe drop this property? Do we really need it?
-   *
    * Primary actions will get a more prominent treatment in the UI. For example
    * primary actions might be rendered as buttons versus just menu entries in
    * an overflow menu.

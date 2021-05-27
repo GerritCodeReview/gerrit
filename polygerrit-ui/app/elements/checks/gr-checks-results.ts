@@ -864,23 +864,32 @@ export class GrChecksResults extends GrLitElement {
   }
 
   private renderActions() {
-    const overflowItems = this.actions.slice(2).map(action => {
+    const actions = this.actions ?? [];
+    const primaryActions = actions.filter(a => a.primary).slice(0, 2);
+    const overflowActions = actions.filter(a => !primaryActions.includes(a));
+    return html`
+      ${this.renderAction(primaryActions[0])}
+      ${this.renderAction(primaryActions[1])}
+      ${this.renderOverflowActions(overflowActions)}
+    `;
+  }
+
+  private renderOverflowActions(overflowActions: Action[]) {
+    const items = overflowActions.map(action => {
       return {...action, id: action.name};
     });
-    const disabledItems = overflowItems
+    if (!items || items.length === 0) return;
+    const disabledItems = items
       .filter(action => action.disabled)
       .map(action => action.id);
     return html`
-      ${this.renderAction(this.actions[0])}
-      ${this.renderAction(this.actions[1])}
       <gr-dropdown
         id="moreActions"
         link=""
         vertical-offset="32"
         horizontal-align="right"
         @tap-item="${this.handleAction}"
-        ?hidden="${overflowItems.length === 0}"
-        .items="${overflowItems}"
+        .items="${items}"
         .disabledIds="${disabledItems}"
       >
         <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">

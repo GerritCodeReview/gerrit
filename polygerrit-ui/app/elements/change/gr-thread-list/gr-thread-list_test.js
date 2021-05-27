@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-thread-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
+import {CommentTabState} from '../../../types/events.js';
 
 const basicFixture = fixtureFromElement('gr-thread-list');
 
@@ -268,17 +269,6 @@ suite('gr-thread-list tests', () => {
           .querySelectorAll('gr-comment-thread');
       done();
     });
-  });
-
-  test('draft toggle only appears when logged in', () => {
-    element.loggedIn = false;
-    assert.equal(getComputedStyle(element.shadowRoot
-        .querySelector('#draftsRadio')).display,
-    'none');
-    element.loggedIn = true;
-    assert.notEqual(getComputedStyle(element.shadowRoot
-        .querySelector('#draftsRadio')).display,
-    'none');
   });
 
   test('show all threads by default', () => {
@@ -549,22 +539,23 @@ suite('gr-thread-list tests', () => {
     });
   });
 
-  test('toggle all shows all all comments', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector(
-        '#allRadio'));
+  test('show all comments', () => {
+    element.handleCommentsDropdownValueChange({detail: {
+      value: CommentTabState.SHOW_ALL}});
     flush();
     assert.equal(getVisibleThreads().length, 9);
   });
 
-  test('toggle unresolved shows all unresolved comments', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector(
-        '#unresolvedRadio'));
+  test('unresolved shows all unresolved comments', () => {
+    element.handleCommentsDropdownValueChange({detail: {
+      value: CommentTabState.UNRESOLVED}});
     flush();
     assert.equal(getVisibleThreads().length, 4);
   });
 
   test('toggle drafts only shows threads with draft comments', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector('#draftsRadio'));
+    element.handleCommentsDropdownValueChange({detail: {
+      value: CommentTabState.DRAFTS}});
     flush();
     assert.equal(getVisibleThreads().length, 2);
   });

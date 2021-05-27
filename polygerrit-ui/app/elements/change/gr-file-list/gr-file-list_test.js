@@ -525,7 +525,7 @@ suite('gr-file-list tests', () => {
         assert.equal(element.fileCursor.index, 2);
 
         // up should not move the cursor.
-        MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'down');
+        MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'up');
         assert.equal(element.fileCursor.index, 2);
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
@@ -540,8 +540,8 @@ suite('gr-file-list tests', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
-        assert.equal(element.fileCursor.index, 0);
-        assert.equal(element.selectedIndex, 0);
+        assert.equal(element.fileCursor.index, 1);
+        assert.equal(element.selectedIndex, 1);
 
         const createCommentInPlaceStub = sinon.stub(element.$.diffCursor,
             'createCommentInPlace');

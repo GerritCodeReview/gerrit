@@ -1042,7 +1042,7 @@ public class ChangeData {
       }
 
       draftsByUser = new HashMap<>();
-      for (Ref ref : commentsUtil.getDraftRefs(notes.getChangeId())) {
+      for (Ref ref : commentsUtil.getDraftRefs(notes().getChangeId())) {
         Account.Id account = Account.Id.fromRefSuffix(ref.getName());
         if (account != null
             // Double-check that any drafts exist for this user after

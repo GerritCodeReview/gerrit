@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71ebfe85_023bd2e6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-27T14:26:05Z",
+      "side": 1,
+      "message": "That is a good question. We are adding two event handlers for each button. They would however only fire whenever the mouse enters/leave each one of them. Since we are already saving data for each row anyway - not only the actual code, but syntax highlighting info and line numbers - I believe adding two handlers per line shouldn\u0027t make the situation significantly worse than now.\n\nI manually tested a few large changes and couldn\u0027t see a lot of difference (empirically). Marking this as resolved?",
+      "parentUuid": "ff7441e4_98d0df3e",
+      "revId": "cfd45cd77ee656fd11d2be1a7d22e574de2ad87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb878ff5_514be4d8",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "640cb457_8daaf094",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-27T14:26:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb878ff5_514be4d8",
+      "range": {
+        "startLine": 558,
+        "startChar": 10,
+        "endLine": 558,
+        "endChar": 30
+      },
+      "revId": "cfd45cd77ee656fd11d2be1a7d22e574de2ad87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d955d3ae_60c96f06",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-05-27T11:31:40Z",
       "side": 1,
       "message": "Seems very similar to getTargetLineElement - can you use that?",
+      "range": {
+        "startLine": 562,
+        "startChar": 28,
+        "endLine": 562,
+        "endChar": 78
+      },
+      "revId": "cfd45cd77ee656fd11d2be1a7d22e574de2ad87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a230f4c_f12927e8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-27T14:26:05Z",
+      "side": 1,
+      "message": "I refactored all of it from getAddress(). Marking it as done.",
+      "parentUuid": "d955d3ae_60c96f06",
       "range": {
         "startLine": 562,
         "startChar": 28,

@@ -136,10 +136,6 @@ export class GrChecksRun extends GrLitElement {
         div.chip.selected iron-icon.filter {
           color: var(--selected-foreground);
         }
-        .chip.selected gr-checks-action,
-        .chip.deselected gr-checks-action {
-          display: none;
-        }
         gr-checks-action {
           /* The button should fit into the 20px line-height. The negative
              margin provides the extra space needed for the vertical padding.
@@ -477,7 +473,7 @@ export class GrChecksRuns extends GrLitElement {
         class="font-normal"
         link
         title="${runButtonDisabled
-          ? 'Disabled. All selected runs must have a "Run" action.'
+          ? 'Disabled. Unselect without a "Run" action to enable the button.'
           : ''}"
         has-tooltip="${runButtonDisabled}"
         ?disabled="${runButtonDisabled}"

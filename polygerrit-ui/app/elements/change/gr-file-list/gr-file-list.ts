@@ -899,7 +899,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
         return;
       }
       e.preventDefault();
-      this.fileCursor.next();
+      this.fileCursor.next({circular: true});
       this.selectedIndex = this.fileCursor.index;
     }
   }
@@ -919,7 +919,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
         return;
       }
       e.preventDefault();
-      this.fileCursor.previous();
+      this.fileCursor.previous({circular: true});
       this.selectedIndex = this.fileCursor.index;
     }
   }

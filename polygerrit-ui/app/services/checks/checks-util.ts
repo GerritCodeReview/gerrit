@@ -99,7 +99,7 @@ export function iconForCategory(category: Category) {
   }
 }
 
-enum PRIMARY_STATUS_ACTIONS {
+export enum PRIMARY_STATUS_ACTIONS {
   RERUN = 'rerun',
   RUN = 'run',
   CANCEL = 'cancel',
@@ -129,7 +129,8 @@ export function primaryActionName(status: RunStatus) {
   }
 }
 
-export function primaryRunAction(run: CheckRun): Action | undefined {
+export function primaryRunAction(run?: CheckRun): Action | undefined {
+  if (!run) return undefined;
   return runActions(run).filter(
     action => !action.disabled && action.name === primaryActionName(run.status)
   )[0];
@@ -238,9 +239,10 @@ declare global {
 
 export function fireActionTriggered(
   target: EventTarget,
-  action: Action,
+  action?: Action,
   run?: CheckRun
 ) {
+  if (!action) return;
   target.dispatchEvent(
     new CustomEvent('action-triggered', {
       detail: {action, run},

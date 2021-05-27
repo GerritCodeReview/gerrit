@@ -32,8 +32,10 @@ import {sharedStyles} from '../../styles/shared-styles';
 import {
   AttemptDetail,
   compareByWorstCategory,
+  fireActionTriggered,
   iconForCategory,
   iconForRun,
+  PRIMARY_STATUS_ACTIONS,
   primaryRunAction,
   worstCategory,
 } from '../../services/checks/checks-util';
@@ -347,7 +349,7 @@ export class GrChecksRuns extends GrLitElement {
           display: block;
         }
         :host(:not([collapsed])) {
-          min-width: 300px;
+          min-width: 320px;
           padding: var(--spacing-l) var(--spacing-xl) var(--spacing-xl)
             var(--spacing-xl);
         }
@@ -357,10 +359,14 @@ export class GrChecksRuns extends GrLitElement {
         .title {
           display: flex;
         }
-        .flex-space {
+        .title .flex-space {
           flex-grow: 1;
         }
-        .expandButton {
+        .title gr-button {
+          --padding: var(--spacing-s) var(--spacing-m);
+          white-space: nowrap;
+        }
+        .title gr-button.expandButton {
           --padding: var(--spacing-xs) var(--spacing-s);
         }
         :host(:not([collapsed])) .expandButton {
@@ -432,15 +438,7 @@ export class GrChecksRuns extends GrLitElement {
       <h2 class="title">
         <div class="heading-2">Runs</div>
         <div class="flex-space"></div>
-        <div class="font-normal">
-          <gr-button
-            ?hidden="${this.selectedRuns.length < 2}"
-            link
-            @click="${() => fireRunSelectionReset(this)}"
-            >Unselect All</gr-button
-          >
-        </div>
-        ${this.renderCollapseButton()}
+        ${this.renderTitleButtons()} ${this.renderCollapseButton()}
       </h2>
       <input
         id="filterInput"
@@ -452,6 +450,42 @@ export class GrChecksRuns extends GrLitElement {
       ${this.renderSection(RunStatus.COMPLETED)}
       ${this.renderSection(RunStatus.RUNNING)}
       ${this.renderSection(RunStatus.RUNNABLE)} ${this.renderFakeControls()}
+    `;
+  }
+
+  private renderTitleButtons() {
+    if (this.selectedRuns.length < 2) return;
+    const actions = this.selectedRuns.map(selected => {
+      const run = this.runs.find(
+        run => run.isLatestAttempt && run.checkName === selected
+      );
+      return primaryRunAction(run);
+    });
+    const runButtonDisabled = !actions.every(
+      action =>
+        action?.name === PRIMARY_STATUS_ACTIONS.RUN ||
+        action?.name === PRIMARY_STATUS_ACTIONS.RERUN
+    );
+    return html`
+      <gr-button
+        class="font-normal"
+        link
+        @click="${() => fireRunSelectionReset(this)}"
+        >Unselect All</gr-button
+      >
+      <gr-button
+        class="font-normal"
+        link
+        title="${runButtonDisabled
+          ? 'Disabled. All selected runs must have a "Run" action.'
+          : ''}"
+        has-tooltip="${runButtonDisabled}"
+        ?disabled="${runButtonDisabled}"
+        @click="${() => {
+          actions.forEach(action => fireActionTriggered(this, action));
+        }}"
+        >Run Selected</gr-button
+      >
     `;
   }
 

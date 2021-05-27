@@ -22,6 +22,30 @@
       },
       "revId": "bb78e23167aee274ee740d32a5ec00fed7a8d13a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "968c982f_df928845",
+        "filename": "javatests/com/google/gerrit/extensions/common/ChangeInfoDifferTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-27T07:44:38Z",
+      "side": 1,
+      "message": "Null because unset fields in the REST API are null by convention ISO empty collections or arrays.",
+      "parentUuid": "62989cde_f8cf6f4e",
+      "range": {
+        "startLine": 333,
+        "startChar": 41,
+        "endLine": 333,
+        "endChar": 47
+      },
+      "revId": "bb78e23167aee274ee740d32a5ec00fed7a8d13a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

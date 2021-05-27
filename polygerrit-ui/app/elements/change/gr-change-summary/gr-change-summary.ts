@@ -260,7 +260,7 @@ export class GrChecksChip extends GrLitElement {
 }
 
 /** What is the maximum number of expanded checks chips? */
-const DETAILS_QUOTA = 3;
+const DETAILS_QUOTA = 2;
 
 @customElement('gr-change-summary')
 export class GrChangeSummary extends GrLitElement {
@@ -292,7 +292,7 @@ export class GrChangeSummary extends GrLitElement {
    * How many check chips may still be rendered as a detailed chip. Is reset
    * when rendering begins and decreases while chips are rendered. So when
    * there are two ERRORs, then those would consume 2 from this quota and then
-   * there would only by DETAILS_QUOTA - 2 left for the other summary chips.
+   * there would only be DETAILS_QUOTA - 2 left for the other summary chips.
    * Once there are more results than quota left we will stop rendering
    * detailed chips and fall back to just icon+number rendering.
    */

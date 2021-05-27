@@ -23,7 +23,7 @@ import {htmlTemplate} from './gr-thread-list_html';
 import {parseDate} from '../../../utils/date-util';
 
 import {CommentSide, SpecialFilePath} from '../../../constants/constants';
-import {customElement, observe, property} from '@polymer/decorators';
+import {computed, customElement, observe, property} from '@polymer/decorators';
 import {
   PolymerSpliceChange,
   PolymerDeepPropertyChange,
@@ -41,6 +41,7 @@ import {pluralize} from '../../../utils/string-util';
 import {fireThreadListModifiedEvent} from '../../../utils/event-util';
 import {assertNever} from '../../../utils/common-util';
 import {CommentTabState} from '../../../types/events';
+import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -102,6 +103,15 @@ export class GrThreadList extends PolymerElement {
   @property({type: Object, observer: '_commentTabStateChange'})
   commentTabState?: CommentTabState;
 
+  @computed('unresolvedOnly', '_draftsOnly')
+  get commentsDropdownValue() {
+    // set initial value and triggered when comment summary chips are clicked
+    if (this._draftsOnly) return CommentTabState.DRAFTS;
+    return this.unresolvedOnly
+      ? CommentTabState.UNRESOLVED
+      : CommentTabState.SHOW_ALL;
+  }
+
   _showEmptyThreadsMessage(
     threads: CommentThread[],
     displayedThreads: CommentThread[],
@@ -144,6 +154,32 @@ export class GrThreadList extends PolymerElement {
 
   _handleResolvedCommentsMessageClick() {
     this.unresolvedOnly = !this.unresolvedOnly;
+  }
+
+  getCommentsDropdownEntires(threads: CommentThread[], loggedIn?: boolean) {
+    const items: DropdownItem[] = [
+      {
+        text: `Unresolved(${this._countUnresolved(threads)})`,
+        value: CommentTabState.UNRESOLVED,
+      },
+      {
+        text: `All(${this._countAllThreads(threads)})`,
+        value: CommentTabState.SHOW_ALL,
+      },
+    ];
+    if (loggedIn)
+      items.splice(1, 0, {
+        text: `Drafts(${this._countDrafts(threads)})`,
+        value: CommentTabState.DRAFTS,
+      });
+    return items;
+  }
+
+  handleCommentsDropdownValueChange(e: CustomEvent) {
+    const value = e.detail.value;
+    if (value === CommentTabState.UNRESOLVED) this._handleOnlyUnresolved();
+    else if (value === CommentTabState.DRAFTS) this._handleOnlyDrafts();
+    else this._handleAllComments();
   }
 
   _compareThreads(c1: CommentThreadWithInfo, c2: CommentThreadWithInfo) {

@@ -107,12 +107,20 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     return null;
   }
 
-  protected boolean match(ChangeData cd, short value, Account.Id approver) {
+  protected boolean match(ChangeData cd, short value, Account.Id approver) throws OrmException {
     if (value != expVal) {
       return false;
     }
 
-    if (account != null && !account.equals(approver)) {
+    if (account != null
+        && !account.equals(approver)
+        && !account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)) {
+      return false;
+    }
+
+    if (account != null
+        && account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
+        && !cd.change().getOwner().equals(approver)) {
       return false;
     }
 

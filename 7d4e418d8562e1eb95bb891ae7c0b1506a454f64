@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9063c9d_e534108b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-27T13:43:42Z",
+      "side": 1,
+      "message": "please also update the error message in OpenRepo#180, which only talks about submitting/abandoning a change",
+      "revId": "7d4e418d8562e1eb95bb891ae7c0b1506a454f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

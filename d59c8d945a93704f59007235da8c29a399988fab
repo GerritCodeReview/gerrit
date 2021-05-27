@@ -311,6 +311,24 @@
       "parentUuid": "a95471f6_e777593b",
       "revId": "d59c8d945a93704f59007235da8c29a399988fab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63201b71_31a19b60",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-27T12:54:03Z",
+      "side": 1,
+      "message": "Thanks, returning an error state from evaluateExpression if there is QueryParseException looks good to me.",
+      "parentUuid": "afb8c990_3c6153fd",
+      "revId": "d59c8d945a93704f59007235da8c29a399988fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

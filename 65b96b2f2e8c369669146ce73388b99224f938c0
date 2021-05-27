@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "087bd8cd_4e9cdc42",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-27T12:54:03Z",
+      "side": 1,
+      "message": "Can\u0027t you use the createChange methods from AbstractDaemonTest?\nThey return PushOneCommit.Result which also gives you access to ChangeData.",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 62
+      },
+      "revId": "65b96b2f2e8c369669146ce73388b99224f938c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b7e4747_677d5e03",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-27T12:54:03Z",
+      "side": 1,
+      "message": "Why is a single atom expression resulting in a failure?",
+      "revId": "65b96b2f2e8c369669146ce73388b99224f938c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b318f706_94173196",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-05-27T12:54:03Z",
+      "side": 1,
+      "message": "why is indexing needed here?",
+      "revId": "65b96b2f2e8c369669146ce73388b99224f938c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "[optional] Should this method use @Memoized to avoid re-computation if this method is invoked multiple times?",
       "revId": "e4356460c26731962092bc747003d7eb202756b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aad93b38_c94d7a63",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-27T14:44:08Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "13608663_3b16b810",
+      "revId": "e4356460c26731962092bc747003d7eb202756b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

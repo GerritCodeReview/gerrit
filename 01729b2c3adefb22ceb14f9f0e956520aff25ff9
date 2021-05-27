@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b12d317c_3cd69308",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-05-27T13:38:07Z",
+      "side": 1,
+      "message": "\"checks\"\n\nDisabled. Unselect checks without a \"Run\" action to enable the button.",
+      "range": {
+        "startLine": 476,
+        "startChar": 31,
+        "endLine": 476,
+        "endChar": 32
+      },
+      "revId": "01729b2c3adefb22ceb14f9f0e956520aff25ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

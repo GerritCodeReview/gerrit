@@ -533,7 +533,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       Integer id = Ints.tryParse(query);
       if (id != null) {
         return args.getSchema().useLegacyNumericFields()
-            ? new LegacyChangeIdPredicate(Change.id(id))
+            ? ChangePredicates.id(Change.id(id))
             : new LegacyChangeIdStrPredicate(Change.id(id));
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
@@ -551,7 +551,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> status(String statusName) {
     if ("reviewed".equalsIgnoreCase(statusName)) {
-      return IsReviewedPredicate.create();
+      return ChangePredicates.unreviewed();
     }
     return ChangeStatusPredicate.parse(statusName);
   }
@@ -576,7 +576,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("edit".equalsIgnoreCase(value)) {
-      return new EditByPredicate(self());
+      return ChangePredicates.editBy(self());
     }
 
     if ("unresolved".equalsIgnoreCase(value)) {
@@ -610,11 +610,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("reviewed".equalsIgnoreCase(value)) {
-      return IsReviewedPredicate.create();
+      return ChangePredicates.unreviewed();
     }
 
     if ("owner".equalsIgnoreCase(value)) {
-      return new OwnerPredicate(self());
+      return ChangePredicates.owner(self());
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
@@ -653,11 +653,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("assigned".equalsIgnoreCase(value)) {
-      return Predicate.not(new AssigneePredicate(Account.id(ChangeField.NO_ASSIGNEE)));
+      return Predicate.not(ChangePredicates.assignee(Account.id(ChangeField.NO_ASSIGNEE)));
     }
 
     if ("unassigned".equalsIgnoreCase(value)) {
-      return new AssigneePredicate(Account.id(ChangeField.NO_ASSIGNEE));
+      return ChangePredicates.assignee(Account.id(ChangeField.NO_ASSIGNEE));
     }
 
     if ("submittable".equalsIgnoreCase(value)) {
@@ -1060,7 +1060,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> draftby(Account.Id who) {
-    return new HasDraftByPredicate(who);
+    return ChangePredicates.draftBy(who);
   }
 
   @Operator
@@ -1119,9 +1119,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> owner(Set<Account.Id> who) {
-    List<OwnerPredicate> p = Lists.newArrayListWithCapacity(who.size());
+    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(who.size());
     for (Account.Id id : who) {
-      p.add(new OwnerPredicate(id));
+      p.add(ChangePredicates.owner(id));
     }
     return Predicate.or(p);
   }
@@ -1146,7 +1146,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> attention(Set<Account.Id> who) {
-    return Predicate.or(who.stream().map(AttentionSetPredicate::new).collect(toImmutableSet()));
+    return Predicate.or(who.stream().map(ChangePredicates::attentionSet).collect(toImmutableSet()));
   }
 
   @Operator
@@ -1156,9 +1156,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> assignee(Set<Account.Id> who) {
-    List<AssigneePredicate> p = Lists.newArrayListWithCapacity(who.size());
+    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(who.size());
     for (Account.Id id : who) {
-      p.add(new AssigneePredicate(id));
+      p.add(ChangePredicates.assignee(id));
     }
     return Predicate.or(p);
   }
@@ -1177,9 +1177,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     Set<Account.Id> accounts = getMembers(groupId);
-    List<OwnerPredicate> p = Lists.newArrayListWithCapacity(accounts.size());
+    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(accounts.size());
     for (Account.Id id : accounts) {
-      p.add(new OwnerPredicate(id));
+      p.add(ChangePredicates.owner(id));
     }
     return Predicate.or(p);
   }
@@ -1275,9 +1275,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> commentby(Set<Account.Id> who) {
-    List<CommentByPredicate> p = Lists.newArrayListWithCapacity(who.size());
+    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(who.size());
     for (Account.Id id : who) {
-      p.add(new CommentByPredicate(id));
+      p.add(ChangePredicates.commentBy(id));
     }
     return Predicate.or(p);
   }
@@ -1337,7 +1337,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> reviewedby(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    return IsReviewedPredicate.create(parseAccount(who));
+    return ChangePredicates.reviewedBy(parseAccount(who));
   }
 
   @Operator
@@ -1420,8 +1420,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> revertof(String value) throws QueryParseException {
+    if (value == null || Ints.tryParse(value) == null) {
+      throw new QueryParseException("'revertof' must be an integer");
+    }
     if (args.getSchema().hasField(ChangeField.REVERT_OF)) {
-      return new RevertOfPredicate(value);
+      return ChangePredicates.revertOf(Change.id(Ints.tryParse(value)));
     }
     throw new QueryParseException("'revertof' operator is not supported by change index version");
   }
@@ -1440,13 +1443,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (args.getSchema().hasField(ChangeField.CHERRY_PICK_OF_CHANGE)
         && args.getSchema().hasField(ChangeField.CHERRY_PICK_OF_PATCHSET)) {
       if (Ints.tryParse(value) != null) {
-        return new CherryPickOfChangePredicate(value);
+        return ChangePredicates.cherryPickOf(Change.id(Ints.tryParse(value)));
       }
       try {
         PatchSet.Id patchSetId = PatchSet.Id.parse(value);
-        return Predicate.and(
-            new CherryPickOfChangePredicate(patchSetId.changeId().toString()),
-            new CherryPickOfPatchSetPredicate(patchSetId.getId()));
+        return ChangePredicates.cherryPickOf(patchSetId);
       } catch (IllegalArgumentException e) {
         throw new QueryParseException(
             "'"

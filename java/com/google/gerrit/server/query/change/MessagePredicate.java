@@ -36,7 +36,7 @@ public class MessagePredicate extends ChangeIndexPredicate {
       Predicate<ChangeData> p =
           Predicate.and(
               index.getSchema().useLegacyNumericFields()
-                  ? new LegacyChangeIdPredicate(object.getId())
+                  ? ChangePredicates.id(object.getId())
                   : new LegacyChangeIdStrPredicate(object.getId()),
               this);
       for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {

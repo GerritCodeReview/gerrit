@@ -14,13 +14,16 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.primitives.Ints;
 import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
+import java.util.Objects;
 
 /** Predicate that is mapped to a field in the change index. */
-public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
+public class ChangeIndexPredicate extends IndexPredicate<ChangeData>
     implements Matchable<ChangeData> {
   /**
    * Returns an index predicate that matches no changes in the index.
@@ -43,7 +46,30 @@ public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
   }
 
   @Override
+  public boolean match(ChangeData cd) {
+    if (getField().isRepeatable()) {
+      Iterable<Object> values = (Iterable<Object>) getField().get(cd);
+      for (Object v : values) {
+        if (matchesSingleObject(v)) {
+          return true;
+        }
+      }
+      return false;
+    } else {
+      return matchesSingleObject(getField().get(cd));
+    }
+  }
+
+  @Override
   public int getCost() {
     return 1;
+  }
+
+  private boolean matchesSingleObject(Object fieldValueFromObject) {
+    String fieldTypeName = getField().getType().getName();
+    if (fieldTypeName.equals(FieldType.INTEGER.getName())) {
+      return Objects.equals(fieldValueFromObject, Ints.tryParse(value));
+    }
+    throw new UnsupportedOperationException("match function must be provided in subclass");
   }
 }

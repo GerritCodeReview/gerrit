@@ -90,7 +90,7 @@ public class ConflictsPredicate {
     and.add(
         Predicate.not(
             args.getSchema().useLegacyNumericFields()
-                ? new LegacyChangeIdPredicate(c.getId())
+                ? ChangePredicates.id(c.getId())
                 : new LegacyChangeIdStrPredicate(c.getId())));
     and.add(Predicate.or(filePredicates));
 

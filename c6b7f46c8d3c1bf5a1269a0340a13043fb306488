@@ -16,6 +16,24 @@
       "message": "Probably should be rebased on https://gerrit-review.googlesource.com/c/gerrit/+/307662",
       "revId": "c6b7f46c8d3c1bf5a1269a0340a13043fb306488",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "312b8cf3_ecc94cc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2021-05-27T18:41:55Z",
+      "side": 1,
+      "message": "Done. thanks.",
+      "parentUuid": "3acdb216_7d7cfab1",
+      "revId": "c6b7f46c8d3c1bf5a1269a0340a13043fb306488",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

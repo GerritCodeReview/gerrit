@@ -45,3 +45,25 @@ export declare interface CommentRange {
   /** The character position in the end line. (0-based) */
   end_character: number;
 }
+
+/**
+ * Return type for cursor moves, that indicate whether a move was possible.
+ */
+ export enum CursorMoveResult {
+  /** The cursor was successfully moved. */
+  MOVED,
+  /** There were no stops - the cursor was reset. */
+  NO_STOPS,
+  /**
+   * There was no more matching stop to move to - the cursor was clipped to the
+   * end.
+   */
+  CLIPPED,
+  /** The abort condition would have been fulfilled for the new target. */
+  ABORTED,
+}
+
+/** A sentinel that can be inserted to disallow moving across. */
+export class AbortStop {}
+
+export type Stop = HTMLElement|AbortStop;

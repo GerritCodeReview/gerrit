@@ -15,27 +15,24 @@
  * limitations under the License.
  */
 
-import {Subscription} from 'rxjs';
-import '../../shared/gr-cursor-manager/gr-cursor-manager';
-import {
-  AbortStop,
-  CursorMoveResult,
-  GrCursorManager,
-  Stop,
-  isTargetable,
-} from '../../shared/gr-cursor-manager/gr-cursor-manager';
+import {customElement, observe, property} from '@polymer/decorators';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {Subscription} from 'rxjs';
 import {DiffViewMode, LineNumberEventDetail} from '../../../api/diff';
+import {AbortStop, CursorMoveResult, Stop} from '../../../api/core';
 import {ScrollMode, Side} from '../../../constants/constants';
-import {customElement, observe, property} from '@polymer/decorators';
-import {GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {PolymerDomWrapper} from '../../../types/types';
+import {toggleClass} from '../../../utils/dom-util';
+import {
+  GrCursorManager,
+  isTargetable,
+} from '../../shared/gr-cursor-manager/gr-cursor-manager';
+import {GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
-import {toggleClass} from '../../../utils/dom-util';
 
 type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
 

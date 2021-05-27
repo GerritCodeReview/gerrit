@@ -54,6 +54,7 @@ export class GrRelatedChange extends GrLitElement {
         a {
           display: block;
         }
+        :host,
         .changeContainer,
         a {
           max-width: 100%;

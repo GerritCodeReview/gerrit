@@ -153,15 +153,83 @@ export const htmlTemplate = html`
           side="[[comment.side]]"
           project-config="[[_projectConfig]]"
           on-create-fix-comment="_handleCommentFix"
-          on-comment-discard="_handleCommentDiscard"
-          on-comment-save="_handleCommentSavedOrDiscarded"
         ></gr-comment>
       </template>
-      <div
-        id="commentInfoContainer"
-        hidden$="[[_hideActions(_showActions, _lastComment)]]"
-      >
+      <div id="commentInfoContainer" hidden$="[[_showActions]]">
         <span id="unresolvedLabel">[[_getUnresolvedLabel(unresolved)]]</span>
+        <div
+          class="actions humanActions"
+          hidden$="[[hideHumanActions(_showActions, _lastComment)]]"
+        >
+          <div class="action resolve hideOnPublished">
+            <label>
+              <input
+                type="checkbox"
+                id="resolvedCheckbox"
+                checked="[[resolved]]"
+                on-change="_handleToggleResolved"
+              />
+              Resolved
+            </label>
+          </div>
+          <template is="dom-if" if="[[draft]]">
+            <div class="rightActions">
+              <gr-button
+                link=""
+                class="action cancel hideOnPublished"
+                on-click="_handleCancel"
+                >Cancel</gr-button
+              >
+              <gr-button
+                link=""
+                class="action discard hideOnPublished"
+                on-click="_handleDiscard"
+                >Discard</gr-button
+              >
+              <gr-button
+                link=""
+                class="action edit hideOnPublished"
+                on-click="_handleEdit"
+                >Edit</gr-button
+              >
+              <gr-button
+                link=""
+                disabled$="[[_computeSaveDisabled(_messageText, comment, resolved)]]"
+                class="action save hideOnPublished"
+                on-click="_handleSave"
+                >Save</gr-button
+              >
+            </div>
+          </template>
+        </div>
+        <div class="robotActions" hidden$="[[!_showRobotActions]]">
+          <template is="dom-if" if="[[isRobotComment]]">
+            <gr-endpoint-decorator name="robot-comment-controls">
+              <gr-endpoint-param name="comment" value="[[comment]]">
+              </gr-endpoint-param>
+            </gr-endpoint-decorator>
+            <gr-button
+              link=""
+              secondary=""
+              class="action show-fix"
+              hidden$="[[_hasNoFix(comment)]]"
+              on-click="_handleShowFix"
+            >
+              Show Fix
+            </gr-button>
+            <template is="dom-if" if="[[!_hasHumanReply]]">
+              <gr-button
+                link=""
+                class="action fix"
+                on-click="_handleFix"
+                disabled="[[robotButtonDisabled]]"
+              >
+                Please Fix
+              </gr-button>
+            </template>
+          </template>
+        </div>
+
         <div id="actions">
           <gr-button
             id="replyBtn"
@@ -219,4 +287,28 @@ export const htmlTemplate = html`
       </div>
     </template>
   </div>
+  <template is="dom-if" if="[[_enableOverlay]]">
+    <gr-overlay id="confirmDeleteOverlay" with-backdrop="">
+      <gr-confirm-delete-comment-dialog
+        id="confirmDeleteComment"
+        on-confirm="_handleConfirmDeleteComment"
+        on-cancel="_handleCancelDeleteComment"
+      >
+      </gr-confirm-delete-comment-dialog>
+    </gr-overlay>
+    <gr-overlay id="confirmDiscardOverlay" with-backdrop="">
+      <gr-dialog
+        id="confirmDiscardDialog"
+        confirm-label="Discard"
+        confirm-on-enter=""
+        on-confirm="_handleConfirmDiscard"
+        on-cancel="_closeConfirmDiscardOverlay"
+      >
+        <div class="header" slot="header">Discard comment</div>
+        <div class="main" slot="main">
+          Are you sure you want to discard this draft comment?
+        </div>
+      </gr-dialog>
+    </gr-overlay>
+  </template>
 `;

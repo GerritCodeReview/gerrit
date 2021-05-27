@@ -47,34 +47,14 @@ import {
   BasePatchSetNum,
 } from '../../../types/common';
 import {GrButton} from '../gr-button/gr-button';
-import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
-import {GrDialog} from '../gr-dialog/gr-dialog';
-import {
-  isDraft,
-  UIComment,
-  UIDraft,
-  UIRobot,
-} from '../../../utils/comment-util';
-import {OpenFixPreviewEventDetail} from '../../../types/events';
-import {fireAlert} from '../../../utils/event-util';
-import {pluralize} from '../../../utils/string-util';
+import {isDraft, UIComment, UIRobot} from '../../../utils/comment-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 
-const STORAGE_DEBOUNCE_INTERVAL = 400;
-const TOAST_DEBOUNCE_INTERVAL = 200;
-
-const SAVED_MESSAGE = 'All changes saved';
-const UNSAVED_MESSAGE = 'Unable to save draft';
-
-const REPORT_CREATE_DRAFT = 'CreateDraftComment';
-const REPORT_UPDATE_DRAFT = 'UpdateDraftComment';
-const REPORT_DISCARD_DRAFT = 'DiscardDraftComment';
-
 const FILE = 'FILE';
 
-export const __testOnly_UNSAVED_MESSAGE = UNSAVED_MESSAGE;
+const STORAGE_DEBOUNCE_INTERVAL = 400;
 
 /**
  * All candidates tips to show, will pick randomly.
@@ -88,15 +68,9 @@ const RESPECTFUL_REVIEW_TIPS = [
   'When disagreeing, explain the advantage of your approach.',
 ];
 
-interface CommentOverlays {
-  confirmDelete?: GrOverlay | null;
-  confirmDiscard?: GrOverlay | null;
-}
-
 export interface GrComment {
   $: {
     container: HTMLDivElement;
-    resolvedCheckbox: HTMLInputElement;
     header: HTMLDivElement;
   };
 }
@@ -117,12 +91,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
    * Fired when the show fix preview action is triggered.
    *
    * @event open-fix-preview
-   */
-
-  /**
-   * Fired when this comment is discarded.
-   *
-   * @event comment-discard
    */
 
   /**
@@ -164,9 +132,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean, reflectToAttribute: true})
   isRobotComment = false;
 
-  @property({type: Boolean, reflectToAttribute: true})
-  disabled = false;
-
   @property({type: Boolean, observer: '_draftChanged'})
   draft = false;
 
@@ -184,9 +149,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: Boolean})
   showActions?: boolean;
-
-  @property({type: Boolean})
-  _showHumanActions?: boolean;
 
   @property({type: Boolean})
   _showRobotActions?: boolean;
@@ -210,34 +172,8 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   _isAdmin = false;
 
-  @property({type: Object})
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  _xhrPromise?: Promise<any>; // Used for testing.
-
-  @property({type: String, observer: '_messageTextChanged'})
-  _messageText = '';
-
   @property({type: String})
   side?: string;
-
-  @property({type: Boolean})
-  resolved?: boolean;
-
-  // Intentional to share the object across instances.
-  @property({type: Object})
-  _numPendingDraftRequests: {number: number} = {number: 0};
-
-  @property({type: Boolean})
-  _enableOverlay = false;
-
-  /**
-   * Property for storing references to overlay elements. When the overlays
-   * are moved to getRootElement() to be shown they are no-longer
-   * children, so they can't be queried along the tree, so they are stored
-   * here.
-   */
-  @property({type: Object})
-  _overlays: CommentOverlays = {};
 
   @property({type: Boolean})
   _showRespectfulTip = false;
@@ -251,14 +187,17 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   _respectfulTipDismissed = false;
 
-  @property({type: Boolean})
-  _unableToSave = false;
-
   @property({type: Object})
   _selfAccount?: AccountDetailInfo;
 
   @property({type: Boolean})
   showPortedComment = false;
+
+  @property({type: Boolean})
+  resolved?: boolean;
+
+  @property({type: String, observer: '_messageTextChanged'})
+  _messageText = '';
 
   get keyBindings() {
     return {
@@ -271,13 +210,11 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly storage = appContext.storageService;
 
-  reporting = appContext.reportingService;
-
   private fireUpdateTask?: DelayedTask;
 
   private storeTask?: DelayedTask;
 
-  private draftToastTask?: DelayedTask;
+  reporting = appContext.reportingService;
 
   /** @override */
   connectedCallback() {
@@ -297,9 +234,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
-    this.fireUpdateTask?.cancel();
-    this.storeTask?.cancel();
-    this.draftToastTask?.cancel();
     if (this.textarea) {
       this.textarea.closeDropdown();
     }
@@ -326,6 +260,44 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       line: this.comment.line,
       range: this.comment.range,
     });
+  }
+
+  _messageTextChanged(_: string, oldValue: string) {
+    if (!this.comment || (this.comment && this.comment.id)) {
+      return;
+    }
+
+    const patchNum = this.comment.patch_set
+      ? this.comment.patch_set
+      : this._getPatchNum();
+    const {path, line, range} = this.comment;
+    if (path) {
+      this.storeTask = debounce(
+        this.storeTask,
+        () => {
+          const message = this._messageText;
+          if (this.changeNum === undefined) {
+            throw new Error('undefined changeNum');
+          }
+          const commentLocation: StorageLocation = {
+            changeNum: this.changeNum,
+            patchNum,
+            path,
+            line,
+            range,
+          };
+
+          if ((!message || !message.length) && oldValue) {
+            // If the draft has been modified to be empty, then erase the storage
+            // entry.
+            this.storage.eraseDraftComment(commentLocation);
+          } else {
+            this.storage.setDraftComment(commentLocation, message);
+          }
+        },
+        STORAGE_DEBOUNCE_INTERVAL
+      );
+    }
   }
 
   @observe('editing')
@@ -381,28 +353,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     return this.shadowRoot?.querySelector('#editTextarea') as GrTextarea | null;
   }
 
-  get confirmDeleteOverlay() {
-    if (!this._overlays.confirmDelete) {
-      this._enableOverlay = true;
-      flush();
-      this._overlays.confirmDelete = this.shadowRoot?.querySelector(
-        '#confirmDeleteOverlay'
-      ) as GrOverlay | null;
-    }
-    return this._overlays.confirmDelete;
-  }
-
-  get confirmDiscardOverlay() {
-    if (!this._overlays.confirmDiscard) {
-      this._enableOverlay = true;
-      flush();
-      this._overlays.confirmDiscard = this.shadowRoot?.querySelector(
-        '#confirmDiscardOverlay'
-      ) as GrOverlay | null;
-    }
-    return this._overlays.confirmDiscard;
-  }
-
   _computeShowHideIcon(collapsed: boolean) {
     return collapsed ? 'gr-icons:expand-more' : 'gr-icons:expand-less';
   }
@@ -418,7 +368,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       return;
     }
 
-    this._showHumanActions = showActions && !isRobotComment;
     this._showRobotActions = showActions && isRobotComment;
   }
 
@@ -446,66 +395,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     return 'DRAFT' + (unableToSave ? '(Failed to save)' : '');
   }
 
-  save(opt_comment?: UIComment) {
-    let comment = opt_comment;
-    if (!comment) {
-      comment = this.comment;
-    }
-
-    this.set('comment.message', this._messageText);
-    this.editing = false;
-    this.disabled = true;
-
-    if (!this._messageText) {
-      return this._discardDraft();
-    }
-
-    this._xhrPromise = this._saveDraft(comment)
-      .then(response => {
-        this.disabled = false;
-        if (!response.ok) {
-          return;
-        }
-
-        this._eraseDraftComment();
-        return this.restApiService.getResponseObject(response).then(obj => {
-          const resComment = (obj as unknown) as UIDraft;
-          if (!isDraft(this.comment)) throw new Error('Can only save drafts.');
-          resComment.__draft = true;
-          // Maintain the ephemeral draft ID for identification by other
-          // elements.
-          if (this.comment?.__draftID) {
-            resComment.__draftID = this.comment.__draftID;
-          }
-          this.comment = resComment;
-          this._fireSave();
-          return obj;
-        });
-      })
-      .catch(err => {
-        this.disabled = false;
-        throw err;
-      });
-
-    return this._xhrPromise;
-  }
-
-  _eraseDraftComment() {
-    // Prevents a race condition in which removing the draft comment occurs
-    // prior to it being saved.
-    this.storeTask?.cancel();
-
-    assertIsDefined(this.comment?.path, 'comment.path');
-    assertIsDefined(this.changeNum, 'changeNum');
-    this.storage.eraseDraftComment({
-      changeNum: this.changeNum,
-      patchNum: this._getPatchNum(),
-      path: this.comment.path,
-      line: this.comment.line,
-      range: this.comment.range,
-    });
-  }
-
   _commentChanged(comment: UIComment) {
     this.editing = isDraft(comment) && !!comment.__editing;
     this.resolved = !comment.unresolved;
@@ -528,18 +417,8 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _getEventPayload(): OpenFixPreviewEventDetail {
+  _getEventPayload() {
     return {comment: this.comment, patchNum: this.patchNum};
-  }
-
-  _fireSave() {
-    this.dispatchEvent(
-      new CustomEvent('comment-save', {
-        detail: this._getEventPayload(),
-        composed: true,
-        bubbles: true,
-      })
-    );
   }
 
   _fireUpdate() {
@@ -596,34 +475,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     return isAdmin && !draft ? 'showDeleteButtons' : '';
   }
 
-  _computeSaveDisabled(
-    draft: string,
-    comment: UIComment | undefined,
-    resolved?: boolean
-  ) {
-    // If resolved state has changed and a msg exists, save should be enabled.
-    if (!comment || (comment.unresolved === resolved && draft)) {
-      return false;
-    }
-    return !draft || draft.trim() === '';
-  }
-
-  _handleSaveKey(e: Event) {
-    if (
-      !this._computeSaveDisabled(this._messageText, this.comment, this.resolved)
-    ) {
-      e.preventDefault();
-      this._handleSave(e);
-    }
-  }
-
-  _handleEsc(e: Event) {
-    if (!this._messageText.length) {
-      e.preventDefault();
-      this._handleCancel(e);
-    }
-  }
-
   _handleToggleCollapsed() {
     this.collapsed = !this.collapsed;
   }
@@ -641,44 +492,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     this._messageText = message || '';
   }
 
-  _messageTextChanged(_: string, oldValue: string) {
-    if (!this.comment || (this.comment && this.comment.id)) {
-      return;
-    }
-
-    const patchNum = this.comment.patch_set
-      ? this.comment.patch_set
-      : this._getPatchNum();
-    const {path, line, range} = this.comment;
-    if (path) {
-      this.storeTask = debounce(
-        this.storeTask,
-        () => {
-          const message = this._messageText;
-          if (this.changeNum === undefined) {
-            throw new Error('undefined changeNum');
-          }
-          const commentLocation: StorageLocation = {
-            changeNum: this.changeNum,
-            patchNum,
-            path,
-            line,
-            range,
-          };
-
-          if ((!message || !message.length) && oldValue) {
-            // If the draft has been modified to be empty, then erase the storage
-            // entry.
-            this.storage.eraseDraftComment(commentLocation);
-          } else {
-            this.storage.setDraftComment(commentLocation, message);
-          }
-        },
-        STORAGE_DEBOUNCE_INTERVAL
-      );
-    }
-  }
-
   _handleAnchorClick(e: Event) {
     e.preventDefault();
     if (!this.comment) return;
@@ -690,56 +503,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
           number: this.comment.line || FILE,
           side: this.side,
         },
-      })
-    );
-  }
-
-  _handleEdit(e: Event) {
-    e.preventDefault();
-    if (this.comment?.message) this._messageText = this.comment.message;
-    this.editing = true;
-    this.reporting.recordDraftInteraction();
-  }
-
-  _handleSave(e: Event) {
-    e.preventDefault();
-
-    // Ignore saves started while already saving.
-    if (this.disabled) {
-      return;
-    }
-    const timingLabel = this.comment?.id
-      ? REPORT_UPDATE_DRAFT
-      : REPORT_CREATE_DRAFT;
-    const timer = this.reporting.getTimer(timingLabel);
-    this.set('comment.__editing', false);
-    return this.save().then(() => {
-      timer.end();
-    });
-  }
-
-  _handleCancel(e: Event) {
-    e.preventDefault();
-
-    if (
-      !this.comment?.message ||
-      this.comment.message.trim().length === 0 ||
-      !this.comment.id
-    ) {
-      this._fireDiscard();
-      return;
-    }
-    this._messageText = this.comment.message;
-    this.editing = false;
-  }
-
-  _fireDiscard() {
-    this.fireUpdateTask?.cancel();
-    this.dispatchEvent(
-      new CustomEvent('comment-discard', {
-        detail: this._getEventPayload(),
-        composed: true,
-        bubbles: true,
       })
     );
   }
@@ -766,162 +529,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
   _hasNoFix(comment: UIComment) {
     return !comment || !(comment as UIRobot).fix_suggestions;
-  }
-
-  _handleDiscard(e: Event) {
-    e.preventDefault();
-    this.reporting.recordDraftInteraction();
-
-    if (!this._messageText) {
-      this._discardDraft();
-      return;
-    }
-
-    this._openOverlay(this.confirmDiscardOverlay).then(() => {
-      const dialog = this.confirmDiscardOverlay?.querySelector(
-        '#confirmDiscardDialog'
-      ) as GrDialog | null;
-      if (dialog) dialog.resetFocus();
-    });
-  }
-
-  _handleConfirmDiscard(e: Event) {
-    e.preventDefault();
-    const timer = this.reporting.getTimer(REPORT_DISCARD_DRAFT);
-    this._closeConfirmDiscardOverlay();
-    return this._discardDraft().then(() => {
-      timer.end();
-    });
-  }
-
-  _discardDraft() {
-    if (!this.comment) return Promise.reject(new Error('undefined comment'));
-    if (!isDraft(this.comment)) {
-      return Promise.reject(new Error('Cannot discard a non-draft comment.'));
-    }
-    this.discarding = true;
-    this.editing = false;
-    this.disabled = true;
-    this._eraseDraftComment();
-
-    if (!this.comment.id) {
-      this.disabled = false;
-      this._fireDiscard();
-      return Promise.resolve();
-    }
-
-    this._xhrPromise = this._deleteDraft(this.comment)
-      .then(response => {
-        this.disabled = false;
-        if (!response.ok) {
-          this.discarding = false;
-        }
-
-        this._fireDiscard();
-        return response;
-      })
-      .catch(err => {
-        this.disabled = false;
-        throw err;
-      });
-
-    return this._xhrPromise;
-  }
-
-  _closeConfirmDiscardOverlay() {
-    this._closeOverlay(this.confirmDiscardOverlay);
-  }
-
-  _getSavingMessage(numPending: number, requestFailed?: boolean) {
-    if (requestFailed) {
-      return UNSAVED_MESSAGE;
-    }
-    if (numPending === 0) {
-      return SAVED_MESSAGE;
-    }
-    return `Saving ${pluralize(numPending, 'draft')}...`;
-  }
-
-  _showStartRequest() {
-    const numPending = ++this._numPendingDraftRequests.number;
-    this._updateRequestToast(numPending);
-  }
-
-  _showEndRequest() {
-    const numPending = --this._numPendingDraftRequests.number;
-    this._updateRequestToast(numPending);
-  }
-
-  _handleFailedDraftRequest() {
-    this._numPendingDraftRequests.number--;
-
-    // Cancel the debouncer so that error toasts from the error-manager will
-    // not be overridden.
-    this.draftToastTask?.cancel();
-    this._updateRequestToast(
-      this._numPendingDraftRequests.number,
-      /* requestFailed=*/ true
-    );
-  }
-
-  _updateRequestToast(numPending: number, requestFailed?: boolean) {
-    const message = this._getSavingMessage(numPending, requestFailed);
-    this.draftToastTask = debounce(
-      this.draftToastTask,
-      () => {
-        // Note: the event is fired on the body rather than this element because
-        // this element may not be attached by the time this executes, in which
-        // case the event would not bubble.
-        fireAlert(document.body, message);
-      },
-      TOAST_DEBOUNCE_INTERVAL
-    );
-  }
-
-  _handleDraftFailure() {
-    this.$.container.classList.add('unableToSave');
-    this._unableToSave = true;
-    this._handleFailedDraftRequest();
-  }
-
-  _saveDraft(draft?: UIComment) {
-    if (!draft || this.changeNum === undefined || this.patchNum === undefined) {
-      throw new Error('undefined draft or changeNum or patchNum');
-    }
-    this._showStartRequest();
-    return this.restApiService
-      .saveDiffDraft(this.changeNum, this.patchNum, draft)
-      .then(result => {
-        if (result.ok) {
-          // remove
-          this._unableToSave = false;
-          this.$.container.classList.remove('unableToSave');
-          this._showEndRequest();
-        } else {
-          this._handleDraftFailure();
-        }
-        return result;
-      })
-      .catch(err => {
-        this._handleDraftFailure();
-        throw err;
-      });
-  }
-
-  _deleteDraft(draft: UIComment) {
-    if (this.changeNum === undefined || this.patchNum === undefined) {
-      throw new Error('undefined changeNum or patchNum');
-    }
-    fireAlert(this, 'Discarding draft...');
-    if (!draft.id) throw new Error('Missing id in comment draft.');
-    return this.restApiService
-      .deleteDiffDraft(this.changeNum, this.patchNum, {id: draft.id})
-      .then(result => {
-        if (result.ok) {
-          fireAlert(this, 'Draft successfully discarded');
-        }
-        return result;
-      });
   }
 
   _getPatchNum(): PatchSetNum {
@@ -962,37 +569,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
-  _handleToggleResolved() {
-    this.reporting.recordDraftInteraction();
-    this.resolved = !this.resolved;
-    // Modify payload instead of this.comment, as this.comment is passed from
-    // the parent by ref.
-    const payload = this._getEventPayload();
-    if (!payload.comment) {
-      throw new Error('comment not defined in payload');
-    }
-    payload.comment.unresolved = !this.$.resolvedCheckbox.checked;
-    this.dispatchEvent(
-      new CustomEvent('comment-update', {
-        detail: payload,
-        composed: true,
-        bubbles: true,
-      })
-    );
-    if (!this.editing) {
-      // Save the resolved state immediately.
-      this.save(payload.comment);
-    }
-  }
-
-  _handleCommentDelete() {
-    this._openOverlay(this.confirmDeleteOverlay);
-  }
-
-  _handleCancelDeleteComment() {
-    this._closeOverlay(this.confirmDeleteOverlay);
-  }
-
   _openOverlay(overlay?: GrOverlay | null) {
     if (!overlay) {
       return Promise.reject(new Error('undefined overlay'));
@@ -1011,34 +587,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       getRootElement().removeChild(overlay);
       overlay.close();
     }
-  }
-
-  _handleConfirmDeleteComment() {
-    const dialog = this.confirmDeleteOverlay?.querySelector(
-      '#confirmDeleteComment'
-    ) as GrConfirmDeleteCommentDialog | null;
-    if (!dialog || !dialog.message) {
-      throw new Error('missing confirm delete dialog');
-    }
-    if (
-      !this.comment ||
-      !this.comment.id ||
-      this.changeNum === undefined ||
-      this.patchNum === undefined
-    ) {
-      throw new Error('undefined comment or id or changeNum or patchNum');
-    }
-    this.restApiService
-      .deleteComment(
-        this.changeNum,
-        this.patchNum,
-        this.comment.id,
-        dialog.message
-      )
-      .then(newComment => {
-        this._handleCancelDeleteComment();
-        this.comment = newComment;
-      });
   }
 }
 

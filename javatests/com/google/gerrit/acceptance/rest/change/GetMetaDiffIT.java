@@ -20,14 +20,21 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInfoDifference;
+import com.google.inject.Inject;
+import java.util.Collection;
 import org.junit.Test;
 
 public class GetMetaDiffIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private static final String UNSAVED_REV_ID = "0000000000000000000000000000000000000001";
   private static final String TOPIC = "topic";
@@ -196,5 +203,23 @@ public class GetMetaDiffIT extends AbstractDaemonTest {
     assertThat(oldInfo.currentRevision).isNotNull();
     assertThat(difference.added().currentRevision).isEqualTo(newInfo.currentRevision);
     assertThat(difference.removed().currentRevision).isEqualTo(oldInfo.currentRevision);
+  }
+
+  @Test
+  public void staticField() throws Exception {
+    PushOneCommit.Result result = createChange();
+    ReviewInput in = new ReviewInput();
+    in.message("hello");
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(result.getChangeId()).revision("current").review(in);
+    ChangeApi chApi = gApi.changes().id(result.getChangeId());
+    ChangeInfoDifference difference = chApi.metaDiff(null, null, ListChangesOption.LABELS);
+    assertThat(difference.added().reviewers).containsKey(ReviewerState.CC);
+    assertThat(difference.added().reviewers).hasSize(1);
+    Collection<AccountInfo> reviewers = difference.added().reviewers.get(ReviewerState.CC);
+    assertThat(reviewers).hasSize(1);
+    AccountInfo info = reviewers.iterator().next();
+    assertThat(info._accountId).isEqualTo(user.id().get());
   }
 }

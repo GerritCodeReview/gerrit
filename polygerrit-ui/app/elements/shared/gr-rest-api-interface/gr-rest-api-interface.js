@@ -1349,6 +1349,10 @@ class GrRestApiInterface extends mixinBehaviors( [
     this._restApiHelper.invalidateFetchPromisesPrefix('/accounts/');
   }
 
+  invalidateAccountsDetailCache() {
+    this._restApiHelper.invalidateFetchPromisesPrefix('/accounts/self/detail');
+  }
+
   /**
    * @param {string} filter
    * @param {number} groupsPerPage

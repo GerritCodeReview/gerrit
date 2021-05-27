@@ -52,6 +52,24 @@
       "parentUuid": "ec702acb_7fa29ac4",
       "revId": "58c364ee1baef20d24a3d7eef216be9526cb5766",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8071f00c_501b2b7d",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeUpdateTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-27T17:37:58Z",
+      "side": 1,
+      "message": "New merge here: https://gerrit-review.googlesource.com/c/gerrit/+/307905",
+      "parentUuid": "746c3a0e_b82934ab",
+      "revId": "58c364ee1baef20d24a3d7eef216be9526cb5766",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

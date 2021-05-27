@@ -52,6 +52,24 @@
       "parentUuid": "012b2d95_ef3be171",
       "revId": "7c12a2ca1aaaee7fbbe465d669b7bc7afc335ff5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6418347c_7c2480d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-27T14:42:13Z",
+      "side": 1,
+      "message": "I would suggest to just increase the default for maxUpdates instead of not incrementing the update count for attention set only modifications.",
+      "parentUuid": "2daefe5a_a48d321e",
+      "revId": "7c12a2ca1aaaee7fbbe465d669b7bc7afc335ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

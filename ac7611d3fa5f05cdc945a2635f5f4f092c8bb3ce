@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e17a4231_89342079",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-27T11:31:27Z",
+      "side": 1,
+      "message": "Done: https://gerrit-review.googlesource.com/c/gerrit/+/307838",
+      "parentUuid": "ba079751_721f945c",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 29
+      },
+      "revId": "ac7611d3fa5f05cdc945a2635f5f4f092c8bb3ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "90df66a3_49e6fda7",
         "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-27T08:19:05Z",
       "side": 1,
       "message": "how could this happen?",
+      "range": {
+        "startLine": 167,
+        "startChar": 46,
+        "endLine": 168,
+        "endChar": 60
+      },
+      "revId": "ac7611d3fa5f05cdc945a2635f5f4f092c8bb3ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0485c3bc_e392ec34",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-27T11:31:27Z",
+      "side": 1,
+      "message": "I guess it can\u0027t anymore but I kept this as-is to keep the change minimal in terms of logic changes.",
+      "parentUuid": "90df66a3_49e6fda7",
       "range": {
         "startLine": 167,
         "startChar": 46,

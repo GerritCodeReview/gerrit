@@ -579,8 +579,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @Override
   protected boolean bypassMaxUpdates() {
-    // Allow abandoning or submitting a change even if it would exceed the max update count.
+    return isAbandonChange() || isAttentionSetChangeOnly();
+  }
+
+  private boolean isAbandonChange() {
     return status != null && status.isClosed();
+  }
+
+  private boolean isAttentionSetChangeOnly() {
+    return (plannedAttentionSetUpdates != null
+        && plannedAttentionSetUpdates.size() > 0
+        && comments.isEmpty());
   }
 
   @Override

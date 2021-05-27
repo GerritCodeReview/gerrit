@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f040cf29_c945a130",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-27T14:44:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "087bd8cd_4e9cdc42",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 62
+      },
+      "revId": "65b96b2f2e8c369669146ce73388b99224f938c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b7e4747_677d5e03",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c70596c3_3a984867",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-27T14:44:08Z",
+      "side": 1,
+      "message": "Test name was misleading. Renamed the method.",
+      "parentUuid": "3b7e4747_677d5e03",
+      "revId": "65b96b2f2e8c369669146ce73388b99224f938c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b318f706_94173196",
@@ -54,6 +96,24 @@
       "writtenOn": "2021-05-27T12:54:03Z",
       "side": 1,
       "message": "why is indexing needed here?",
+      "revId": "65b96b2f2e8c369669146ce73388b99224f938c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51048c74_1b09f28f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-27T14:44:08Z",
+      "side": 1,
+      "message": "I haven\u0027t really tested if test will fail without this statement, but I was assuming a reindexing is needed before ChangeData can be available in index.\n\nI removed this part anyway and reused createChange from AbstractDaemonTest.",
+      "parentUuid": "b318f706_94173196",
       "revId": "65b96b2f2e8c369669146ce73388b99224f938c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

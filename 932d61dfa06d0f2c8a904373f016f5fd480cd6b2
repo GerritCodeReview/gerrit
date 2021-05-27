@@ -16,6 +16,24 @@
       "message": "you could also note that this makes getDraftRefs() private.\n\nI\u0027m surprised that we have per-user state in ChangeData. To me, that blurs what the class represents. (I assume we don\u0027t reindex the change if someone adds a draft comment to it, right?)",
       "revId": "932d61dfa06d0f2c8a904373f016f5fd480cd6b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f0fbfc9_a64adf18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-27T07:53:28Z",
+      "side": 1,
+      "message": "\u003e you could also note that this makes getDraftRefs() private.\n\ndone.\n\n\u003e I\u0027m surprised that we have per-user state in ChangeData. To me, that blurs what the class represents.\n\nI agree :-)\n\nI feel a strong temptation to refactor Change, ChangeData and ChangeNotes but because Change gets indexed as protocol buffer that is a significant amount of work, so can\u0027t do ~now.\n\n\u003e I assume we don\u0027t reindex the change if someone adds a draft comment to it, right?\n\nWe do because you can search for \"has:drafts\" and you get changes where you have pending draft comments. Reindexing used to slow down draft comments creation until we removed the mergability computation",
+      "parentUuid": "0c646669_53a08f5f",
+      "revId": "932d61dfa06d0f2c8a904373f016f5fd480cd6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

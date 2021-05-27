@@ -16,6 +16,52 @@
       "message": "Did you check that this does not have negative performance implications for large files?",
       "revId": "cfd45cd77ee656fd11d2be1a7d22e574de2ad87d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb878ff5_514be4d8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-05-27T11:31:40Z",
+      "side": 1,
+      "message": "This entire method looks pretty similar to getAddress() - is there anything that can be simplified/unified?",
+      "range": {
+        "startLine": 558,
+        "startChar": 10,
+        "endLine": 558,
+        "endChar": 30
+      },
+      "revId": "cfd45cd77ee656fd11d2be1a7d22e574de2ad87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d955d3ae_60c96f06",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-05-27T11:31:40Z",
+      "side": 1,
+      "message": "Seems very similar to getTargetLineElement - can you use that?",
+      "range": {
+        "startLine": 562,
+        "startChar": 28,
+        "endLine": 562,
+        "endChar": 78
+      },
+      "revId": "cfd45cd77ee656fd11d2be1a7d22e574de2ad87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

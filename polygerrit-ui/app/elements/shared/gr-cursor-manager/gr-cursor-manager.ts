@@ -116,6 +116,8 @@ export class GrCursorManager {
    *    sometimes different, used by the diff cursor.
    * @param options.clipToTop When none of the next indices match, move
    *     back to first instead of to last.
+   * @param options.circular When on first element and delta -1, you get to
+   *     last.
    * @return If a move was performed or why not.
    * @private
    */
@@ -124,6 +126,7 @@ export class GrCursorManager {
       filter?: (stop: HTMLElement) => boolean;
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
+      circular?: boolean;
     } = {}
   ): CursorMoveResult {
     return this._moveCursor(1, options);
@@ -132,6 +135,7 @@ export class GrCursorManager {
   previous(
     options: {
       filter?: (stop: HTMLElement) => boolean;
+      circular?: boolean;
     } = {}
   ): CursorMoveResult {
     return this._moveCursor(-1, options);
@@ -321,10 +325,12 @@ export class GrCursorManager {
       filter,
       getTargetHeight,
       clipToTop,
+      circular,
     }: {
       filter?: (stop: HTMLElement) => boolean;
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
+      circular?: boolean;
     } = {}
   ): CursorMoveResult {
     if (!this.stops.length) {
@@ -347,7 +353,10 @@ export class GrCursorManager {
         (delta > 0 && newIndex >= this.stops.length) ||
         (delta < 0 && newIndex < 0)
       ) {
-        newIndex = delta < 0 || clipToTop ? 0 : this.stops.length - 1;
+        newIndex =
+          (delta < 0 && !circular) || (delta > 0 && circular) || clipToTop
+            ? 0
+            : this.stops.length - 1;
         newStop = this.stops[newIndex];
         clipped = true;
         break;

@@ -471,7 +471,7 @@ export const fakeActions: Action[] = [
 export const fakeLinks: Link[] = [
   {
     url: 'https://www.google.com',
-    primary: false,
+    primary: true,
     tooltip: 'Tooltip for Bug Report Fake Link',
     icon: LinkIcon.REPORT_BUG,
   },

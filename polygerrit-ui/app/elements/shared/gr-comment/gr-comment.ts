@@ -68,10 +68,6 @@ const TOAST_DEBOUNCE_INTERVAL = 200;
 const SAVED_MESSAGE = 'All changes saved';
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
-const REPORT_CREATE_DRAFT = 'CreateDraftComment';
-const REPORT_UPDATE_DRAFT = 'UpdateDraftComment';
-const REPORT_DISCARD_DRAFT = 'DiscardDraftComment';
-
 const FILE = 'FILE';
 
 export const __testOnly_UNSAVED_MESSAGE = UNSAVED_MESSAGE;
@@ -88,15 +84,9 @@ const RESPECTFUL_REVIEW_TIPS = [
   'When disagreeing, explain the advantage of your approach.',
 ];
 
-interface CommentOverlays {
-  confirmDelete?: GrOverlay | null;
-  confirmDiscard?: GrOverlay | null;
-}
-
 export interface GrComment {
   $: {
     container: HTMLDivElement;
-    resolvedCheckbox: HTMLInputElement;
     header: HTMLDivElement;
   };
 }
@@ -186,9 +176,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   showActions?: boolean;
 
   @property({type: Boolean})
-  _showHumanActions?: boolean;
-
-  @property({type: Boolean})
   _showRobotActions?: boolean;
 
   @property({
@@ -220,24 +207,12 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: String})
   side?: string;
 
-  @property({type: Boolean})
-  resolved?: boolean;
-
   // Intentional to share the object across instances.
   @property({type: Object})
   _numPendingDraftRequests: {number: number} = {number: 0};
 
   @property({type: Boolean})
   _enableOverlay = false;
-
-  /**
-   * Property for storing references to overlay elements. When the overlays
-   * are moved to getRootElement() to be shown they are no-longer
-   * children, so they can't be queried along the tree, so they are stored
-   * here.
-   */
-  @property({type: Object})
-  _overlays: CommentOverlays = {};
 
   @property({type: Boolean})
   _showRespectfulTip = false;
@@ -381,28 +356,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     return this.shadowRoot?.querySelector('#editTextarea') as GrTextarea | null;
   }
 
-  get confirmDeleteOverlay() {
-    if (!this._overlays.confirmDelete) {
-      this._enableOverlay = true;
-      flush();
-      this._overlays.confirmDelete = this.shadowRoot?.querySelector(
-        '#confirmDeleteOverlay'
-      ) as GrOverlay | null;
-    }
-    return this._overlays.confirmDelete;
-  }
-
-  get confirmDiscardOverlay() {
-    if (!this._overlays.confirmDiscard) {
-      this._enableOverlay = true;
-      flush();
-      this._overlays.confirmDiscard = this.shadowRoot?.querySelector(
-        '#confirmDiscardOverlay'
-      ) as GrOverlay | null;
-    }
-    return this._overlays.confirmDiscard;
-  }
-
   _computeShowHideIcon(collapsed: boolean) {
     return collapsed ? 'gr-icons:expand-more' : 'gr-icons:expand-less';
   }
@@ -446,66 +399,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     return 'DRAFT' + (unableToSave ? '(Failed to save)' : '');
   }
 
-  save(opt_comment?: UIComment) {
-    let comment = opt_comment;
-    if (!comment) {
-      comment = this.comment;
-    }
-
-    this.set('comment.message', this._messageText);
-    this.editing = false;
-    this.disabled = true;
-
-    if (!this._messageText) {
-      return this._discardDraft();
-    }
-
-    this._xhrPromise = this._saveDraft(comment)
-      .then(response => {
-        this.disabled = false;
-        if (!response.ok) {
-          return;
-        }
-
-        this._eraseDraftComment();
-        return this.restApiService.getResponseObject(response).then(obj => {
-          const resComment = (obj as unknown) as UIDraft;
-          if (!isDraft(this.comment)) throw new Error('Can only save drafts.');
-          resComment.__draft = true;
-          // Maintain the ephemeral draft ID for identification by other
-          // elements.
-          if (this.comment?.__draftID) {
-            resComment.__draftID = this.comment.__draftID;
-          }
-          this.comment = resComment;
-          this._fireSave();
-          return obj;
-        });
-      })
-      .catch(err => {
-        this.disabled = false;
-        throw err;
-      });
-
-    return this._xhrPromise;
-  }
-
-  _eraseDraftComment() {
-    // Prevents a race condition in which removing the draft comment occurs
-    // prior to it being saved.
-    this.storeTask?.cancel();
-
-    assertIsDefined(this.comment?.path, 'comment.path');
-    assertIsDefined(this.changeNum, 'changeNum');
-    this.storage.eraseDraftComment({
-      changeNum: this.changeNum,
-      patchNum: this._getPatchNum(),
-      path: this.comment.path,
-      line: this.comment.line,
-      range: this.comment.range,
-    });
-  }
-
   _commentChanged(comment: UIComment) {
     this.editing = isDraft(comment) && !!comment.__editing;
     this.resolved = !comment.unresolved;
@@ -526,10 +419,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
         c.in_reply_to === comment.id &&
         !(c as UIRobot).robot_id
     );
-  }
-
-  _getEventPayload(): OpenFixPreviewEventDetail {
-    return {comment: this.comment, patchNum: this.patchNum};
   }
 
   _fireSave() {
@@ -694,56 +583,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _handleEdit(e: Event) {
-    e.preventDefault();
-    if (this.comment?.message) this._messageText = this.comment.message;
-    this.editing = true;
-    this.reporting.recordDraftInteraction();
-  }
-
-  _handleSave(e: Event) {
-    e.preventDefault();
-
-    // Ignore saves started while already saving.
-    if (this.disabled) {
-      return;
-    }
-    const timingLabel = this.comment?.id
-      ? REPORT_UPDATE_DRAFT
-      : REPORT_CREATE_DRAFT;
-    const timer = this.reporting.getTimer(timingLabel);
-    this.set('comment.__editing', false);
-    return this.save().then(() => {
-      timer.end();
-    });
-  }
-
-  _handleCancel(e: Event) {
-    e.preventDefault();
-
-    if (
-      !this.comment?.message ||
-      this.comment.message.trim().length === 0 ||
-      !this.comment.id
-    ) {
-      this._fireDiscard();
-      return;
-    }
-    this._messageText = this.comment.message;
-    this.editing = false;
-  }
-
-  _fireDiscard() {
-    this.fireUpdateTask?.cancel();
-    this.dispatchEvent(
-      new CustomEvent('comment-discard', {
-        detail: this._getEventPayload(),
-        composed: true,
-        bubbles: true,
-      })
-    );
-  }
-
   _handleFix() {
     this.dispatchEvent(
       new CustomEvent('create-fix-comment', {
@@ -766,23 +605,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
   _hasNoFix(comment: UIComment) {
     return !comment || !(comment as UIRobot).fix_suggestions;
-  }
-
-  _handleDiscard(e: Event) {
-    e.preventDefault();
-    this.reporting.recordDraftInteraction();
-
-    if (!this._messageText) {
-      this._discardDraft();
-      return;
-    }
-
-    this._openOverlay(this.confirmDiscardOverlay).then(() => {
-      const dialog = this.confirmDiscardOverlay?.querySelector(
-        '#confirmDiscardDialog'
-      ) as GrDialog | null;
-      if (dialog) dialog.resetFocus();
-    });
   }
 
   _handleConfirmDiscard(e: Event) {
@@ -961,29 +783,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
     if (draft) {
       this.set('comment.message', draft.message);
-    }
-  }
-
-  _handleToggleResolved() {
-    this.reporting.recordDraftInteraction();
-    this.resolved = !this.resolved;
-    // Modify payload instead of this.comment, as this.comment is passed from
-    // the parent by ref.
-    const payload = this._getEventPayload();
-    if (!payload.comment) {
-      throw new Error('comment not defined in payload');
-    }
-    payload.comment.unresolved = !this.$.resolvedCheckbox.checked;
-    this.dispatchEvent(
-      new CustomEvent('comment-update', {
-        detail: payload,
-        composed: true,
-        bubbles: true,
-      })
-    );
-    if (!this.editing) {
-      // Save the resolved state immediately.
-      this.save(payload.comment);
     }
   }
 

@@ -62,40 +62,14 @@ export const htmlTemplate = html`
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
-        <input
-          class="categoryRadio"
-          id="unresolvedRadio"
-          name="filterComments"
-          type="radio"
-          on-click="_handleOnlyUnresolved"
-          checked="[[unresolvedOnly]]"
-        />
-        <label for="unresolvedRadio">
-          Unresolved ([[_countUnresolved(threads)]])
-        </label>
-        <input
-          class="categoryRadio"
-          id="draftsRadio"
-          name="filterComments"
-          type="radio"
-          on-click="_handleOnlyDrafts"
-          checked="[[_draftsOnly]]"
-          hidden$="[[!loggedIn]]"
-        />
-        <label for="draftsRadio" hidden$="[[!loggedIn]]">
-          Drafts ([[_countDrafts(threads)]])
-        </label>
-        <input
-          class="categoryRadio"
-          id="allRadio"
-          name="filterComments"
-          type="radio"
-          on-click="_handleAllComments"
-          checked="[[_showAllComments(_draftsOnly, unresolvedOnly)]]"
-        />
-        <label for="allRadio">
-          All ([[_countAllThreads(threads)]])
-        </label>
+      Filter By:
+      <gr-dropdown-list
+        id="dropdown"
+        value="[[commentsDropdownValue]]"
+        on-value-change="handleCommentsDropdownValueChange"
+        items="[[getCommentsDropdownEntires(threads, loggedIn)]]"
+      >
+      </gr-dropdown-list>
     </div>
   </template>
   <div id="threads">

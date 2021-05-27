@@ -99,7 +99,7 @@ export const htmlTemplate = html`
       font-size: var(--font-size-mono);
       line-height: var(--line-height-mono);
       margin-right: var(--spacing-l);
-      margin-bottom: var(--spacing-m);
+      margin-bottom: var(--spacing-l);
       /* Account for border and padding and rounding errors. */
       max-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
     }
@@ -197,8 +197,7 @@ export const htmlTemplate = html`
       width: 100%;
     }
     gr-change-summary {
-      /* temporary for old checks status */
-      margin-bottom: var(--spacing-m);
+      margin-left: var(--spacing-m);
     }
     @media screen and (max-width: 75em) {
       .relatedChanges {

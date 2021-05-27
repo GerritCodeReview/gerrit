@@ -60,14 +60,14 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void updateProjectConfig() throws Exception {
     String id = testUpdateProjectConfig();
     assertThat(gApi.changes().id(id).get().revisions).hasSize(1);
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user", submitType = SubmitType.CHERRY_PICK)
+  @TestProjectInput(cloneAs = "user1", submitType = SubmitType.CHERRY_PICK)
   public void updateProjectConfigWithCherryPick() throws Exception {
     String id = testUpdateProjectConfig();
     assertThat(gApi.changes().id(id).get().revisions).hasSize(2);
@@ -102,7 +102,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
+  @TestProjectInput(cloneAs = "user1")
   public void onlyAdminMayUpdateProjectParent() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
     ProjectInput parent = new ProjectInput();

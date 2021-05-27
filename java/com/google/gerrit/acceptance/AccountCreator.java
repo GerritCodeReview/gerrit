@@ -145,8 +145,8 @@ public class AccountCreator {
     return create("admin2", "admin2@example.com", "Administrator2", null, "Administrators");
   }
 
-  public TestAccount user() throws Exception {
-    return create("user", "user@example.com", "User", null);
+  public TestAccount user1() throws Exception {
+    return create("user1", "user1@example.com", "User1", null);
   }
 
   public TestAccount user2() throws Exception {

@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
@@ -71,6 +72,7 @@ import org.junit.Test;
 
 @NoHttpd
 @UseClockStep(clockStepUnit = TimeUnit.MINUTES)
+@VerifyNoPiiInChangeNotes(true)
 public class AttentionSetIT extends AbstractDaemonTest {
 
   @Inject private ChangeOperations changeOperations;
@@ -703,7 +705,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     assertThat(exception.getMessage())
         .isEqualTo(
-            "user can not be added/removed twice, and can not be added and removed at the same"
+            "user1 can not be added/removed twice, and can not be added and removed at the same"
                 + " time");
   }
 
@@ -720,7 +722,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     assertThat(exception.getMessage())
         .isEqualTo(
-            "user can not be added/removed twice, and can not be added and removed at the same"
+            "user1 can not be added/removed twice, and can not be added and removed at the same"
                 + " time");
   }
 
@@ -757,7 +759,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     assertThat(exception.getMessage())
         .isEqualTo(
-            "user can not be added/removed twice, and can not be added and removed at the same"
+            "user1 can not be added/removed twice, and can not be added and removed at the same"
                 + " time");
   }
 

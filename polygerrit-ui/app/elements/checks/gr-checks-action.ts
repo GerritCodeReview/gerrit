@@ -59,7 +59,10 @@ export class GrChecksAction extends GrLitElement {
         @click="${(e: Event) => this.handleClick(e)}"
       >
         ${this.action.name}
-        <paper-tooltip ?hidden="${!this.action.tooltip}" offset="5"
+        <paper-tooltip
+          ?hidden="${!this.action.tooltip}"
+          offset="5"
+          fit-to-visible-bounds="true"
           >${this.action.tooltip}</paper-tooltip
         >
       </gr-button>

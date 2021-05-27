@@ -112,6 +112,8 @@ export class GrAccountInfo extends GestureEventListeners(
       })
     );
 
+    promises.push(this.$.restAPI.invalidateAccountsDetailCache());
+
     promises.push(
       this.$.restAPI.getAccount().then(account => {
         if (!account) return;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93d1bcb8_c5b4e149",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-05-27T14:55:52Z",
+      "side": 1,
+      "message": "Nit: You pass side in here, and then gives you leftSide: boolean back, and then you convert that back to side? That seems pretty convoluted. Also it looks like for unified mode, this can actually give you leftSide: false even though you passed in left side, just because there was no left side? Is that what we want?\n\nMaybe it is safer to only extract the part for our to get the line number:\n\ngetLineNumber(diffRow: HTMLElement, side: Side): number|null { ... }\n\nThen use that in getAddress, but keep the side we have for the event? \n\nSorry, I am actually not 100% sure what is best - I just find this whole side thing pretty wonky here...\n\n\nI actually looked at where getAddress is used:\nhttps://source.corp.google.com/search?q\u003df:polygerrit%20%20getAddress\u0026sq\u003d\n\nApart from tests, it seems to always ignore the side?\nhttp://google3/third_party/javascript/polygerrit/elements/diff/gr-diff-view/gr-diff-view.ts?l\u003d798\u0026rcl\u003d372866053\n\nFeel free to punt this clean up, I am just hoping we can make this better step by step...",
+      "range": {
+        "startLine": 380,
+        "startChar": 46,
+        "endLine": 380,
+        "endChar": 50
+      },
+      "revId": "baea5de5e9450217087c77b348729cc864aaccfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

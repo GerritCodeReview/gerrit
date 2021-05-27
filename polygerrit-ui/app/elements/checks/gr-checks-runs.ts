@@ -314,6 +314,9 @@ export class GrChecksRuns extends GrLitElement {
   @property()
   runs: CheckRun[] = [];
 
+  @property({type: Boolean, reflect: true})
+  collapsed = false;
+
   @property()
   selectedRuns: string[] = [];
 
@@ -342,12 +345,26 @@ export class GrChecksRuns extends GrLitElement {
       css`
         :host {
           display: block;
+        }
+        :host(:not([collapsed])) {
+          min-width: 300px;
           padding: var(--spacing-l) var(--spacing-xl) var(--spacing-xl)
             var(--spacing-xl);
         }
+        :host([collapsed]) {
+          padding: var(--spacing-l) 0;
+        }
         .title {
           display: flex;
-          justify-content: space-between;
+        }
+        .flex-space {
+          flex-grow: 1;
+        }
+        .expandButton {
+          --padding: var(--spacing-xs) var(--spacing-s);
+        }
+        :host(:not([collapsed])) .expandButton {
+          margin-right: calc(0px - var(--spacing-m));
         }
         .expandIcon {
           width: var(--line-height-h3);
@@ -408,9 +425,13 @@ export class GrChecksRuns extends GrLitElement {
   }
 
   render() {
+    if (this.collapsed) {
+      return html`${this.renderCollapseButton()}`;
+    }
     return html`
       <h2 class="title">
         <div class="heading-2">Runs</div>
+        <div class="flex-space"></div>
         <div class="font-normal">
           <gr-button
             ?hidden="${this.selectedRuns.length < 2}"
@@ -419,6 +440,7 @@ export class GrChecksRuns extends GrLitElement {
             >Unselect All</gr-button
           >
         </div>
+        ${this.renderCollapseButton()}
       </h2>
       <input
         id="filterInput"
@@ -431,6 +453,33 @@ export class GrChecksRuns extends GrLitElement {
       ${this.renderSection(RunStatus.RUNNING)}
       ${this.renderSection(RunStatus.RUNNABLE)} ${this.renderFakeControls()}
     `;
+  }
+
+  private renderCollapseButton() {
+    return html`
+      <gr-button
+        link
+        class="expandButton"
+        role="switch"
+        ?aria-checked="${this.collapsed}"
+        aria-label="${this.collapsed
+          ? 'Expand runs panel'
+          : 'Collapse runs panel'}"
+        has-tooltip="true"
+        title="${this.collapsed ? 'Expand runs panel' : 'Collapse runs panel'}"
+        @click="${() => this.toggleCollapsed()}"
+        ><iron-icon
+          class="expandIcon"
+          icon="${this.collapsed
+            ? 'gr-icons:chevron-right'
+            : 'gr-icons:chevron-left'}"
+        ></iron-icon>
+      </gr-button>
+    `;
+  }
+
+  private toggleCollapsed() {
+    this.collapsed = !this.collapsed;
   }
 
   onInput() {

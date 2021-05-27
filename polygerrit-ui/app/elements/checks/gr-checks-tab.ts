@@ -91,7 +91,6 @@ export class GrChecksTab extends GrLitElement {
         display: flex;
       }
       .runs {
-        min-width: 300px;
         min-height: 400px;
         border-right: 1px solid var(--border-color);
       }

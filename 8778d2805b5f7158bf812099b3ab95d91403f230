@@ -16,6 +16,24 @@
       "message": "Can you add some rationale to the commit message and fix the style/tests?",
       "revId": "8778d2805b5f7158bf812099b3ab95d91403f230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd010cde_b6c2fa0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-05-27T08:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0169a371_6528e708",
+      "revId": "8778d2805b5f7158bf812099b3ab95d91403f230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

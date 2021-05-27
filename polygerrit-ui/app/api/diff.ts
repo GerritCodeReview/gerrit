@@ -20,7 +20,7 @@
  * limitations under the License.
  */
 
-import {CommentRange} from './core';
+import {CommentRange, CursorMoveResult} from './core';
 
 /**
  * Diff type in preferences
@@ -404,4 +404,39 @@ export declare interface GrAnnotation {
     length: number,
     className: string
   ): void;
+}
+
+// The current setup requires API users to register GrDiff instances with the
+// cursor, but we do not at this point want to expose the API that GrDiffCursor
+// uses to the public as it is likely to change. So for now, we allow any type
+// and cast. This works fine so long as API users do provide whatever the
+// gr-diff tag creates.
+export type GrDiff = unknown;
+
+/** A service to interact with the line cursor in gr-diff instances. */
+export declare interface GrDiffCursor {
+  replaceDiffs(diffs: GrDiff[]): void;
+  unregisterDiff(diff: GrDiff): void;
+
+  isAtStart(): boolean;
+  isAtEnd(): boolean;
+
+  moveLeft(): void;
+  moveRight(): void;
+
+  moveDown(): CursorMoveResult;
+  moveUp(): CursorMoveResult;
+
+  moveToFirstChunk(): void;
+  moveToLastChunk(): void;
+
+  moveToNextChunk(): CursorMoveResult;
+  moveToPreviousChunk(): CursorMoveResult;
+
+  moveToNextCommentThread(): CursorMoveResult;
+  moveToPreviousCommentThread(): CursorMoveResult;
+
+  createCommentInPlace(): void;
+  resetScrollMode(): void;
+  moveToLineNumber(lineNum: number, side: Side, path?: string): void;
 }

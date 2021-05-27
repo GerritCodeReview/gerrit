@@ -21,8 +21,12 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {Subscription} from 'rxjs';
-import {DiffViewMode, LineNumberEventDetail} from '../../../api/diff';
 import {AbortStop, CursorMoveResult, Stop} from '../../../api/core';
+import {
+  DiffViewMode,
+  GrDiffCursor as GrDiffCursorApi,
+  LineNumberEventDetail,
+} from '../../../api/diff';
 import {ScrollMode, Side} from '../../../constants/constants';
 import {PolymerDomWrapper} from '../../../types/types';
 import {toggleClass} from '../../../utils/dom-util';
@@ -47,7 +51,7 @@ export interface GrDiffCursorable extends HTMLElement {
   path?: string;
 }
 
-export class GrDiffCursor {
+export class GrDiffCursor implements GrDiffCursorApi {
   private preventAutoScrollOnManualScroll = false;
 
   set side(side: Side) {

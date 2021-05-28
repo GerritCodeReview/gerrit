@@ -184,6 +184,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4fe44e0_d612da2d",
+        "filename": "java/com/google/gerrit/server/query/approval/ChangeKindPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-28T18:55:56Z",
+      "side": 1,
+      "message": "nit: duplicated word",
+      "range": {
+        "startLine": 27,
+        "startChar": 26,
+        "endLine": 27,
+        "endChar": 44
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d75796e8_e03058c2",
+        "filename": "java/com/google/gerrit/server/query/approval/ChangeKindPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-28T18:55:56Z",
+      "side": 1,
+      "message": "I would avoid using \u0027change\u0027 here unless you mean a Gerrit change. difference? modification?",
+      "range": {
+        "startLine": 27,
+        "startChar": 78,
+        "endLine": 27,
+        "endChar": 84
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf2d0ad4_c12d7fd3",
         "filename": "java/com/google/gerrit/server/query/approval/ChangeKindPredicate.java",
         "patchSetId": 1
@@ -201,6 +247,46 @@
         "endLine": 59,
         "endChar": 5
       },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "773dc54e_ea31b554",
+        "filename": "java/com/google/gerrit/server/query/approval/ChangeKindPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-28T18:55:56Z",
+      "side": 1,
+      "message": "Do we use Objects.equals() for this usually?",
+      "range": {
+        "startLine": 83,
+        "startChar": 11,
+        "endLine": 83,
+        "endChar": 70
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d24c1670_2046d590",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-28T18:55:56Z",
+      "side": 1,
+      "message": "Needs license header",
       "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -253,6 +339,70 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3aae6f1_d0a933da",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-28T18:55:56Z",
+      "side": 1,
+      "message": "\u0027copyIf \u003d is:ANY\u0027 seems simpler to support than special logic for \u0027copyIf \u003d true\u0027, and probably easier for users to find/use.",
+      "parentUuid": "d1fd89bf_fc4b70aa",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "224619e5_85ee9e3f",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-28T18:55:56Z",
+      "side": 1,
+      "message": "You can refactor this with a helper to share a bit more code and ensure you\u0027re covering the cases in your enum:\n\n  public boolean match(ApprovalContext ctx) {\n    short pValue;\n    switch (value) {\n      case MagicValue.ANY:\n        return true;\n      case MagicValue.MIN:\n        pValue \u003d getLabelType(ctx.project(), ctx.patchSetApproval().labelId()).getMaxNegative();\n        break;\n      case MagicValue.MAX:\n        pValue \u003d getLabelType(ctx.project(), ctx.patchSetApproval().labelId()).getMaxPositive();\n        break;\n    }\n    return pValue \u003d\u003d ctx.patchSetApproval().value();\n  }\n\n  private LabelType getLabelType(Project.NameKey project, LabelId labelId) {\n    return projectCache\n            .get(project)\n            .orElseThrow(() -\u003e new IllegalStateException(project + \" absent\"))\n            .getLabelTypes().byLabel(labelId);\n  }",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24729234_c7e2113e",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-28T18:55:56Z",
+      "side": 1,
+      "message": "Use Objects.equals()?",
+      "range": {
+        "startLine": 71,
+        "startChar": 11,
+        "endLine": 71,
+        "endChar": 60
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "830bbf8c_085d4fe4",
         "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
         "patchSetId": 1
@@ -264,6 +414,23 @@
       "writtenOn": "2021-05-26T11:09:36Z",
       "side": 1,
       "message": "nit: missing licence header",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05c219aa_1d728d28",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-28T18:55:56Z",
+      "side": 1,
+      "message": "Are there existing helpers like this and the ones below for approval copying tests? (related: are there existing approval copying tests?)",
       "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

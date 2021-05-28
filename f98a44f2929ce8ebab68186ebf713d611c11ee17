@@ -34,6 +34,24 @@
       "parentUuid": "d7698a5c_5c58d0f3",
       "revId": "f98a44f2929ce8ebab68186ebf713d611c11ee17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2470d31b_8ad1cd40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2021-05-28T14:03:38Z",
+      "side": 1,
+      "message": "You may either amend this change to adapt it as a merge-up, or consider follow-up changes from this differing version up. The latter might mean opening the Issue in Monorail again. We usually add a trailing note in merge-up commit messages when adapting them in a non-trivial fashion.",
+      "parentUuid": "154381c4_1f7746e3",
+      "revId": "f98a44f2929ce8ebab68186ebf713d611c11ee17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8306d633_6d831e2f",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-05-28T23:07:18Z",
+      "side": 1,
+      "message": "This doesn\u0027t handle suffixes:\n\n Values should use common unit suffixes to express their setting:\n   s, sec, second, seconds\n   m, min, minute, minutes\n\nhttps://gerrit-documentation.storage.googleapis.com/Documentation/3.4.0/config-gerrit.html#httpd.gracefulStopTimeout",
+      "range": {
+        "startLine": 321,
+        "startChar": 45,
+        "endLine": 321,
+        "endChar": 46
+      },
+      "revId": "cc0f463747bc3c61616b1e2c374e5f4b0e60a7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

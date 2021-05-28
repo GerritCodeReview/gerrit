@@ -316,6 +316,19 @@ ulimit -v unlimited    ; # virtual memory
 ulimit -x >/dev/null 2>&1 && ulimit -x unlimited  ; # file locks
 
 #####################################################
+# Configure the maximum wait time for shutdown
+#####################################################
+HTTPD_GRACEFUL_STOP_TIMEOUT=`get_config --get httpd.gracefulStopTimeout || echo 30`
+SSHD_GRACEFUL_STOP_TIMEOUT=`get_config --get sshd.gracefulStopTimeout || echo 30`
+
+if expr $HTTPD_GRACEFUL_STOP_TIMEOUT '>' $SSHD_GRACEFUL_STOP_TIMEOUT
+then
+  STOP_TIMEOUT=$HTTPD_GRACEFUL_STOP_TIMEOUT
+else
+  STOP_TIMEOUT=$SSHD_GRACEFUL_STOP_TIMEOUT
+fi
+
+#####################################################
 # This is how the Gerrit server will be started
 #####################################################
 
@@ -477,7 +490,7 @@ case "$ACTION" in
       if running "$GERRIT_PID" ; then
         sleep 3
         if running "$GERRIT_PID" ; then
-          sleep 30
+          sleep $STOP_TIMEOUT
           if running "$GERRIT_PID" ; then
             start-stop-daemon -K -p "$GERRIT_PID" -s KILL
           fi
@@ -487,7 +500,7 @@ case "$ACTION" in
       echo OK
     else
       PID=`cat "$GERRIT_PID" 2>/dev/null`
-      TIMEOUT=30
+      TIMEOUT=$STOP_TIMEOUT
       while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do
         kill $PID 2>/dev/null
         sleep 1

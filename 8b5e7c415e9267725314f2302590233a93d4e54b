@@ -34,6 +34,24 @@
       "parentUuid": "01caeb39_6a3cbf7f",
       "revId": "8b5e7c415e9267725314f2302590233a93d4e54b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c41f60_f057e8eb",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 23
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2021-05-28T00:58:04Z",
+      "side": 1,
+      "message": "`{ git var GIT_COMMITTER_IDENT; echo \"$refhash\"; cat \"$1\"; }` is POSIX. The semicolon and space before the closing brace are required. See \"grouping commands\" in https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_09_04.",
+      "parentUuid": "e3406246_d9a32011",
+      "revId": "8b5e7c415e9267725314f2302590233a93d4e54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

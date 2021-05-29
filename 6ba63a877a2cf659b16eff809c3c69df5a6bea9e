@@ -16,6 +16,24 @@
       "message": "Invalid comment format",
       "revId": "6ba63a877a2cf659b16eff809c3c69df5a6bea9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "845a66ea_1bf73261",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-29T00:15:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01a601c2_2ee0c442",
+      "revId": "6ba63a877a2cf659b16eff809c3c69df5a6bea9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

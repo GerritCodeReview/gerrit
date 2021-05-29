@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0cc31f1_436d2113",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-29T04:27:07Z",
+      "side": 1,
+      "message": "Just taking the timeout values configured in gerrit.config might not help in every case. Consider the case that the timeout is reached without all requests finished. In that case Gerrit will continue the shutdown after closing all connections. However, gerrit.sh would in this case still forcefully kill Gerrit at around this time. Thus, gerrit.sh would have to get some buffer on top of the configured value.",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

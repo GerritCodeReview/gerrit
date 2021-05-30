@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7112693d_f52709d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-30T20:43:47Z",
+      "side": 1,
+      "message": "gracefulStopTimeout",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 62
+      },
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0cc31f1_436d2113",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -14,6 +37,41 @@
       "writtenOn": "2021-05-29T04:27:07Z",
       "side": 1,
       "message": "Just taking the timeout values configured in gerrit.config might not help in every case. Consider the case that the timeout is reached without all requests finished. In that case Gerrit will continue the shutdown after closing all connections. However, gerrit.sh would in this case still forcefully kill Gerrit at around this time. Thus, gerrit.sh would have to get some buffer on top of the configured value.",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bd51b19_3ab73e63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-30T20:43:47Z",
+      "side": 1,
+      "message": "This is a tradeoff between\n- being able to finish shutdown within a reasonable time\n- avoid killing requests in flight\n\nCloning a large repository can take half an hour, using a timeout of 30min would mean that a rolling restart of a 3 node cluster could take up to 90min hence I\u0027d go for a timeout of something like 5min and expect clients to retry failed requests.",
+      "parentUuid": "d0cc31f1_436d2113",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ad84546_2dab6c4a",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-05-30T20:43:47Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of having two separate options for configuring timeout for ssh and http ? It seems a single one would be sufficient since both http and ssh daemon run in the same process.",
       "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

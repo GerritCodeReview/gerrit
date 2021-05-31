@@ -18,7 +18,7 @@
 import {customElement, observe, property} from '@polymer/decorators';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {Subscription} from 'rxjs';
 import {AbortStop, CursorMoveResult, Stop} from '../../../api/core';

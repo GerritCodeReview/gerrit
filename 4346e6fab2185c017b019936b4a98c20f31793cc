@@ -16,6 +16,29 @@
       "message": "LGTM",
       "revId": "4346e6fab2185c017b019936b4a98c20f31793cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20891662_9c0337f0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-05-31T12:43:03Z",
+      "side": 1,
+      "message": "idPrefix ?",
+      "range": {
+        "startLine": 218,
+        "startChar": 38,
+        "endLine": 218,
+        "endChar": 41
+      },
+      "revId": "4346e6fab2185c017b019936b4a98c20f31793cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

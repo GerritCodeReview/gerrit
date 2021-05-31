@@ -66,6 +66,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -204,6 +205,7 @@ public class RestApiServlet extends HttpServlet {
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
 
   @VisibleForTesting public static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
+  @VisibleForTesting public static final String X_GERRIT_UPDATED_REF = "X-Gerrit-UpdatedRef";
 
   private static final String X_REQUESTED_WITH = "X-Requested-With";
   private static final String X_GERRIT_AUTH = "X-Gerrit-Auth";
@@ -303,6 +305,18 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  /**
+   * Used to store the updated refs so whenever they are updated, so that we export this information
+   * in the response headers.
+   */
+  public static class GitReferenceUpdated implements GitReferenceUpdatedListener {
+    @Override
+    public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
+      refUpdates.add(event);
+    }
+  }
+
+  private static List<GitReferenceUpdatedListener.Event> refUpdates;
   private final Globals globals;
   private final Provider<RestCollection<RestResource, RestResource>> members;
 
@@ -319,11 +333,15 @@ public class RestApiServlet extends HttpServlet {
         (Provider<RestCollection<RestResource, RestResource>>) requireNonNull((Object) members);
     this.globals = globals;
     this.members = n;
+    this.refUpdates = new ArrayList<>();
   }
 
   @Override
   protected final void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
+    // only store the ref updates for the current request.
+    refUpdates.clear();
+
     final long startNanos = System.nanoTime();
     long auditStartTs = TimeUtil.nowMs();
     res.setHeader("Content-Disposition", "attachment");
@@ -593,6 +611,8 @@ public class RestApiServlet extends HttpServlet {
               throw new ResourceNotFoundException();
             }
 
+            setXGerritUpdatedRefResponseHeaders(res);
+
             if (response instanceof Response.Redirect) {
               CacheHeaders.setNotCacheable(res);
               String location = ((Response.Redirect) response).location();
@@ -750,6 +770,20 @@ public class RestApiServlet extends HttpServlet {
                 rsrc,
                 viewData == null ? null : viewData.view));
       }
+    }
+  }
+
+  /**
+   * Fill in the refs that were updated during this request in the response header. The updated refs
+   * will be in the form of "project~ref~updated_SHA-1".
+   */
+  private void setXGerritUpdatedRefResponseHeaders(HttpServletResponse res) {
+    for (GitReferenceUpdatedListener.Event refUpdate : refUpdates) {
+      res.addHeader(
+          X_GERRIT_UPDATED_REF,
+          String.format(
+              "%s~%s~%s",
+              refUpdate.getProjectName(), refUpdate.getRefName(), refUpdate.getNewObjectId()));
     }
   }
 

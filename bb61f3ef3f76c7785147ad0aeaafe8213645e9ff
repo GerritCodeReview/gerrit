@@ -22,6 +22,30 @@
       },
       "revId": "bb61f3ef3f76c7785147ad0aeaafe8213645e9ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "383d50ba_55af980b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-31T08:09:07Z",
+      "side": 1,
+      "message": "We have to, but we aren\u0027t if you make the call like this.\n\n#getConfig returns a CachedProjectConfig which has config values for the current project only.\n\nYou can add a method to ProjectState (\"getSubmitRequirementWithInheritance\") that traverses all parents and inherits SRs. There are other examples for this in ProjectState already.",
+      "parentUuid": "9751164b_bed29b0f",
+      "range": {
+        "startLine": 906,
+        "startChar": 8,
+        "endLine": 906,
+        "endChar": 65
+      },
+      "revId": "bb61f3ef3f76c7785147ad0aeaafe8213645e9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d03eb382_873f9558",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-31T11:35:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d71044bb_a4133bc7",
+      "range": {
+        "startLine": 7,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "4a930028989da8b40e5ba12f8da2fc83c3743812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b92f8c58_c34037d0",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-05-25T10:18:37Z",
       "side": 1,
       "message": "typo",
+      "range": {
+        "startLine": 17,
+        "startChar": 52,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "4a930028989da8b40e5ba12f8da2fc83c3743812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61bde642_2c7c3709",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-31T11:35:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b92f8c58_c34037d0",
       "range": {
         "startLine": 17,
         "startChar": 52,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03b75a48_228bf91c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-31T11:35:25Z",
+      "side": 1,
+      "message": "Good catch! Unfortunately, index implementations aren\u0027t consistent in how they implement full-text search.\n\nI left a longer JavaDoc comment in ChangePredicate#match.",
+      "parentUuid": "cdb283f4_598ecea4",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 74
+      },
+      "revId": "4a930028989da8b40e5ba12f8da2fc83c3743812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e26f21e_9dcb66f0",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-05-25T10:18:37Z",
       "side": 1,
       "message": "nit: committer",
+      "range": {
+        "startLine": 235,
+        "startChar": 90,
+        "endLine": 235,
+        "endChar": 98
+      },
+      "revId": "4a930028989da8b40e5ba12f8da2fc83c3743812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "407b971b_fb323b98",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-05-31T11:35:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e26f21e_9dcb66f0",
       "range": {
         "startLine": 235,
         "startChar": 90,

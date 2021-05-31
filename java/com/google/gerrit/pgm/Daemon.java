@@ -32,6 +32,7 @@ import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.H2CacheBasedWebSession;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
+import com.google.gerrit.httpd.HttpdModule;
 import com.google.gerrit.httpd.RequestCleanupFilter;
 import com.google.gerrit.httpd.RequestContextFilter;
 import com.google.gerrit.httpd.RequestMetricsFilter;
@@ -580,6 +581,7 @@ public class Daemon extends SiteProgram {
     modules.add(H2CacheBasedWebSession.module());
     modules.add(sysInjector.getInstance(GerritAuthModule.class));
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
+    modules.add(sysInjector.getInstance(HttpdModule.class));
     if (sshd) {
       modules.add(new ProjectQoSFilter.Module());
     }

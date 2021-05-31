@@ -464,7 +464,7 @@ export const htmlTemplate = html`
       <paper-tab
         on-click="_onPaperTabClick"
         data-name$="[[_constants.PrimaryTab.FILES]]"
-        >Files</paper-tab
+        ><span>Files</span></paper-tab
       >
       <paper-tab
         on-click="_onPaperTabClick"
@@ -482,7 +482,7 @@ export const htmlTemplate = html`
         <paper-tab
           data-name$="[[_constants.PrimaryTab.CHECKS]]"
           on-click="_onPaperTabClick"
-          >Checks</paper-tab
+          ><span>Checks</span></paper-tab
         >
       </template>
       <template
@@ -503,7 +503,7 @@ export const htmlTemplate = html`
         data-name$="[[_constants.PrimaryTab.FINDINGS]]"
         on-click="_onPaperTabClick"
       >
-        Findings
+        <span>Findings</span>
       </paper-tab>
     </paper-tabs>
 

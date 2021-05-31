@@ -20,6 +20,7 @@ import './gr-thread-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {CommentTabState} from '../../../types/events.js';
+import {__testOnly_SortDropdownState} from './gr-thread-list.js';
 
 const basicFixture = fixtureFromElement('gr-thread-list');
 
@@ -75,7 +76,7 @@ suite('gr-thread-list tests', () => {
         path: '/COMMIT_MSG',
         line: 5,
         rootId: 'ecf0b9fa_fe1a5f62',
-        start_datetime: '2018-02-08 18:49:18.000000000',
+        updated: '2018-02-08 18:49:18.000000000',
       },
       {
         comments: [
@@ -97,7 +98,7 @@ suite('gr-thread-list tests', () => {
         patchNum: 3,
         path: 'test.txt',
         rootId: '09a9fb0a_1484e6cf',
-        start_datetime: '2018-02-13 22:47:19.000000000',
+        updated: '2018-02-13 22:47:19.000000000',
         commentSide: 'PARENT',
       },
       {
@@ -119,7 +120,7 @@ suite('gr-thread-list tests', () => {
         patchNum: 2,
         path: '/COMMIT_MSG',
         rootId: '8caddf38_44770ec1',
-        start_datetime: '2018-02-13 22:48:40.000000000',
+        updated: '2018-02-13 22:48:40.000000000',
       },
       {
         comments: [
@@ -142,7 +143,7 @@ suite('gr-thread-list tests', () => {
         path: '/COMMIT_MSG',
         line: 4,
         rootId: 'scaddf38_44770ec1',
-        start_datetime: '2018-02-14 22:48:40.000000000',
+        updated: '2018-02-14 22:48:40.000000000',
       },
       {
         comments: [
@@ -163,7 +164,7 @@ suite('gr-thread-list tests', () => {
         path: '/COMMIT_MSG',
         line: 6,
         rootId: 'zcf0b9fa_fe1a5f62',
-        start_datetime: '2018-02-09 18:49:18.000000000',
+        updated: '2018-02-09 18:49:18.000000000',
       },
       {
         comments: [
@@ -180,7 +181,7 @@ suite('gr-thread-list tests', () => {
         patchNum: 2,
         path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
         rootId: 'patchset_level_1',
-        start_datetime: '2018-02-09 18:49:18.000000000',
+        updated: '2018-02-09 18:49:18.000000000',
       },
       {
         comments: [
@@ -197,7 +198,7 @@ suite('gr-thread-list tests', () => {
         patchNum: 3,
         path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
         rootId: 'patchset_level_2',
-        start_datetime: '2018-02-09 18:49:18.000000000',
+        updated: '2018-02-09 18:49:18.000000000',
       },
       {
         comments: [
@@ -221,7 +222,7 @@ suite('gr-thread-list tests', () => {
         path: '/COMMIT_MSG',
         line: 5,
         rootId: 'rc1',
-        start_datetime: '2019-02-08 18:49:18.000000000',
+        updated: '2019-02-08 18:49:18.000000000',
       },
       {
         comments: [
@@ -259,7 +260,7 @@ suite('gr-thread-list tests', () => {
         path: '/COMMIT_MSG',
         line: 7,
         rootId: 'rc2',
-        start_datetime: '2019-03-08 18:49:18.000000000',
+        updated: '2019-03-08 18:49:18.000000000',
       },
     ];
 
@@ -299,6 +300,7 @@ suite('gr-thread-list tests', () => {
   });
 
   test('showing file name takes visible threads into account', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
         element._sortedThreads[2], element.unresolvedOnly, element._draftsOnly,
         element.onlyShowRobotCommentsWithHumanReply), true);
@@ -318,6 +320,10 @@ suite('gr-thread-list tests', () => {
   });
 
   suite('_compareThreads', () => {
+    setup(() => {
+      element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
+    });
+
     test('patchset comes before any other file', () => {
       const t1 = {thread: {path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS}};
       const t2 = {thread: {path: SpecialFilePath.COMMIT_MESSAGE}};
@@ -449,6 +455,7 @@ suite('gr-thread-list tests', () => {
   });
 
   test('_computeSortedThreads', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     assert.equal(element._sortedThreads.length, 9);
     const expectedSortedRootIds = [
       'patchset_level_2', // Posted on Patchset 3
@@ -466,7 +473,27 @@ suite('gr-thread-list tests', () => {
     });
   });
 
+  test('_computeSortedThreads with timestamp', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.TIMESTAMP;
+    assert.equal(element._sortedThreads.length, 9);
+    const expectedSortedRootIds = [
+      'rc2',
+      'rc1',
+      'zcf0b9fa_fe1a5f62',
+      'patchset_level_1',
+      'patchset_level_2',
+      'scaddf38_44770ec1',
+      'ecf0b9fa_fe1a5f62',
+      '8caddf38_44770ec1',
+      '09a9fb0a_1484e6cf'
+    ];
+    element._sortedThreads.forEach((thread, index) => {
+      assert.equal(thread.rootId, expectedSortedRootIds[index]);
+    });
+  });
+
   test('thread removal and sort again', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     threadElements[1].dispatchEvent(
         new CustomEvent('thread-discard', {
           detail: {rootId: 'rc2'},
@@ -490,6 +517,7 @@ suite('gr-thread-list tests', () => {
   });
 
   test('modification on thread shold not trigger sort again', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     const currentSortedThreads = [...element._sortedThreads];
     for (const thread of currentSortedThreads) {
       thread.comments = [...thread.comments];
@@ -527,6 +555,7 @@ suite('gr-thread-list tests', () => {
 
   test('non-equal length of sortThreads and threads' +
     ' should trigger sort again', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     const modifiedThreads = [...element.threads];
     const currentSortedThreads = [...element._sortedThreads];
     element._sortedThreads = [];

@@ -61,6 +61,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "816abdbf_1641be24",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-05-31T06:05:47Z",
+      "side": 1,
+      "message": "nit: this could be moved to a DEFAULT_TIMEOUT variable",
+      "range": {
+        "startLine": 352,
+        "startChar": 91,
+        "endLine": 352,
+        "endChar": 93
+      },
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ad84546_2dab6c4a",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 5

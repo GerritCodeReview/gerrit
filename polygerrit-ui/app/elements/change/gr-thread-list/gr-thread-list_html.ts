@@ -59,12 +59,23 @@ export const htmlTemplate = html`
     .partypopper{
       margin-right: var(--spacing-s);
     }
+    .filter-text {
+      margin-left: var(--spacing-m);
+    }
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
-      Filter By:
+      <span>Sort By:</span>
       <gr-dropdown-list
-        id="dropdown"
+        id="sortDropdown"
+        value="[[sortDropdownValue]]"
+        on-value-change="handleSortDropdownValueChange"
+        items="[[getSortDropdownEntires()]]"
+      >
+      </gr-dropdown-list>
+      <span class="filter-text">Filter By:</span>
+      <gr-dropdown-list
+        id="filterDropdown"
         value="[[commentsDropdownValue]]"
         on-value-change="handleCommentsDropdownValueChange"
         items="[[getCommentsDropdownEntires(threads, loggedIn)]]"

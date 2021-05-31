@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc350f0b_44056648",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-31T12:06:56Z",
+      "side": 1,
+      "message": "nit: because*",
+      "range": {
+        "startLine": 17,
+        "startChar": 52,
+        "endLine": 17,
+        "endChar": 60
+      },
+      "revId": "2293ea12af36a7387b520e3a495188e0448fc04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52cc538e_b36136d3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIndexPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-31T12:06:56Z",
+      "side": 1,
+      "message": "Thank you for adding detailed javadocs, LGTM.\n\nnit: I think this line could also be reduced to:\n\n`return Sets.intersection(tokenizedField, tokenizedValue) \u003d\u003d tokenizedValue;`",
+      "revId": "2293ea12af36a7387b520e3a495188e0448fc04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

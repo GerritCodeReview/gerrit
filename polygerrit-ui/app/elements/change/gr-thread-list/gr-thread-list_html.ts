@@ -62,9 +62,17 @@ export const htmlTemplate = html`
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
+      Sort By:
+      <gr-dropdown-list
+        id="sortDropdown"
+        value="[[sortDropdownValue]]"
+        on-value-change="handleSortDropdownValueChange"
+        items="[[getSortDropdownEntires()]]"
+      >
+      </gr-dropdown-list>
       Filter By:
       <gr-dropdown-list
-        id="dropdown"
+        id="filterDropdown"
         value="[[commentsDropdownValue]]"
         on-value-change="handleCommentsDropdownValueChange"
         items="[[getCommentsDropdownEntires(threads, loggedIn)]]"

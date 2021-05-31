@@ -429,6 +429,7 @@ export const htmlTemplate = html`
                   ></gr-linked-text>
                 </gr-editable-content>
               </div>
+              <h3 class="assistive-tech-only">Comments and Checks Summary</h3>
               <gr-change-summary
                 change-comments="[[_changeComments]]"
                 comment-threads="[[_commentThreads]]"
@@ -563,6 +564,7 @@ export const htmlTemplate = html`
         is="dom-if"
         if="[[_isTabActive(_constants.PrimaryTab.COMMENT_THREADS, _activeTabs)]]"
       >
+        <h3 class="assistive-tech-only">Comments</h3>
         <gr-thread-list
           threads="[[_commentThreads]]"
           change="[[_change]]"
@@ -578,6 +580,7 @@ export const htmlTemplate = html`
         is="dom-if"
         if="[[_isTabActive(_constants.PrimaryTab.CHECKS, _activeTabs)]]"
       >
+        <h3 class="assistive-tech-only">Checks</h3>
         <gr-checks-tab
           id="checksTab"
           tab-state="[[_tabState.checksTab]]"

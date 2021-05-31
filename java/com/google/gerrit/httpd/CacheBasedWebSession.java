@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
 
 @RequestScoped
-public abstract class CacheBasedWebSession implements WebSession {
+public abstract class CacheBasedWebSession extends WebSession {
   @VisibleForTesting public static final String ACCOUNT_COOKIE = "GerritAccount";
   protected static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);
 

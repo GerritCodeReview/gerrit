@@ -16,30 +16,55 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.inject.servlet.RequestScoped;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public interface WebSession {
-  boolean isSignedIn();
+public abstract class WebSession {
+  public abstract boolean isSignedIn();
 
   @Nullable
-  String getXGerritAuth();
+  public abstract String getXGerritAuth();
 
-  boolean isValidXGerritAuth(String keyIn);
+  public abstract boolean isValidXGerritAuth(String keyIn);
 
-  CurrentUser getUser();
+  public abstract CurrentUser getUser();
 
-  void login(AuthResult res, boolean rememberMe);
+  public abstract void login(AuthResult res, boolean rememberMe);
 
   /** Set the user account for this current request only. */
-  void setUserAccountId(Account.Id id);
+  public abstract void setUserAccountId(Account.Id id);
 
-  boolean isAccessPathOk(AccessPath path);
+  public abstract boolean isAccessPathOk(AccessPath path);
 
-  void setAccessPathOk(AccessPath path, boolean ok);
+  public abstract void setAccessPathOk(AccessPath path, boolean ok);
 
-  void logout();
+  public abstract void logout();
 
-  String getSessionId();
+  public abstract String getSessionId();
+
+  /**
+   * Store and return the ref updates in this session. This class is {@link RequestScoped}, hence
+   * this is thread safe.
+   *
+   * <p>The same session could perform separate requests one after another, so resetting the ref
+   * updates is necessary between requests.
+   */
+  private List<GitReferenceUpdatedListener.Event> refUpdatedEvents = new CopyOnWriteArrayList<>();
+
+  public List<GitReferenceUpdatedListener.Event> getRefUpdatedEvents() {
+    return refUpdatedEvents;
+  }
+
+  public void addRefUpdatedEvents(GitReferenceUpdatedListener.Event event) {
+    refUpdatedEvents.add(event);
+  }
+
+  public void resetRefUpdatedEvents() {
+    refUpdatedEvents.clear();
+  }
 }

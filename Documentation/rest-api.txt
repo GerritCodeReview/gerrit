@@ -244,6 +244,37 @@ HTTP/1.1 200 OK
 Given the trace ID an administrator can find the corresponding logs and
 investigate issues more easily.
 
+[[updated-refs]]
+=== X-Gerrit-UpdatedRef
+For each write REST request, we return X-Gerrit-UpdatedRef headers as the refs
+that were updated in the current request (involved in a ref transaction in the
+current request).
+
+The format of those headers is `PROJECT_NAME~REF_NAME~OLD_SHA-1~NEW_SHA-1`.
+
+A new SHA-1 of `0000000000000000000000000000000000000000` is treated as a
+deleted ref.
+If the new SHA-1 is not `0000000000000000000000000000000000000000`, the ref was
+either updated or created.
+If the old SHA-1 is `0000000000000000000000000000000000000000`, the ref was
+created.
+
+.Example Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940
+----
+
+.Example Response
+----
+HTTP/1.1 204 NO CONTENT
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+  X-Gerrit-UpdatedRef: myProject~refs/changes/01/1/1~deadbeefdeadbeefdeadbeefdeadbeefdeadbeef~0000000000000000000000000000000000000000
+  X-Gerrit-UpdatedRef: myProject~refs/changes/01/1/meta~deadbeefdeadbeefdeadbeefdeadbeefdeadbeef~0000000000000000000000000000000000000000
+
+  )]}'
+----
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

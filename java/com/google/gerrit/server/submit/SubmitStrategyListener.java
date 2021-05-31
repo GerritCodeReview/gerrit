@@ -134,6 +134,7 @@ public class SubmitStrategyListener implements BatchUpdateListener {
         case NOT_FAST_FORWARD:
         case EMPTY_COMMIT:
         case MISSING_DEPENDENCY:
+        case FAST_FORWARD_INDEPENDENT_CHANGES:
           // TODO(dborowitz): Reformat these messages to be more appropriate for
           // short problem descriptions.
           String message = s.getDescription();

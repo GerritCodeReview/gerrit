@@ -77,7 +77,14 @@ public enum CommitMergeStatus {
   EMPTY_COMMIT(
       "Change could not be merged because the commit is empty.\n"
           + "\n"
-          + "Project policy requires all commits to contain modifications to at least one file.");
+          + "Project policy requires all commits to contain modifications to at least one file."),
+
+  FAST_FORWARD_INDEPENDENT_CHANGES(
+      "Change could not be merged because the submission has two independent changes "
+          + "with the same destination branch.\n"
+          + "\n"
+          + "Independent changes can't be submitted to the same destination branch with "
+          + "FAST_FORWARD_ONLY submit strategy");
 
   private final String description;
 

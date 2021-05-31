@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f55c6d63_8dd2706d",
+        "filename": "polygerrit-ui/app/embed/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-05-31T07:48:26Z",
+      "side": 1,
+      "message": "Nit: Do you have a plugin that rearrange imports to be sorted alphabetically?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 78
+      },
+      "revId": "4acfdc550ac614d14ce7a1445beb7a69c433e198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

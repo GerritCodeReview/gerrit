@@ -16,6 +16,81 @@
       "message": "docs?",
       "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7867c2f3_dfbb381f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-31T16:08:05Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "523a0e1a_15c6725b",
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "965ca219_4000e5d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-31T16:08:05Z",
+      "side": 1,
+      "message": "One more general comment: Is it OK to return ref updates for all refs? (maybe we could whitelist/blacklist some ref patterns)\n\nCan we end up leaking some refs that we don\u0027t want to return to users.",
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c29f91e7_dd07d518",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-31T16:08:05Z",
+      "side": 1,
+      "message": "Is it OK to reuse refUpdates in this way?\n\nIf *RestApiServlet reuses the same instance for concurrent requests, then you may end up with different requests writing to refUpdates simultaneously.\n\nI also think test RestApiServletIT#xGerritUpdatedRefSetForDifferentWriteRequests is not really testing this case since both requests are done one after the other.",
+      "range": {
+        "startLine": 343,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 23
+      },
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5558c751_e74171f1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-05-31T16:08:05Z",
+      "side": 1,
+      "message": "from lines 89-104 is repeated again in 106-122, maybe better to extract in a helper method that returns the meta ref SHA-1 and does the asserts?",
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

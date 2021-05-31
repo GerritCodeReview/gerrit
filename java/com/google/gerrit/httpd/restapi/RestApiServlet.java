@@ -66,6 +66,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -204,6 +205,7 @@ public class RestApiServlet extends HttpServlet {
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
 
   @VisibleForTesting public static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
+  @VisibleForTesting public static final String X_GERRIT_UPDATED_REF = "X-Gerrit-UpdatedRef";
 
   private static final String X_REQUESTED_WITH = "X-Requested-With";
   private static final String X_GERRIT_AUTH = "X-Gerrit-Auth";
@@ -300,6 +302,27 @@ public class RestApiServlet extends HttpServlet {
         return Pattern.compile(Joiner.on('|').join(allow));
       }
       return null;
+    }
+  }
+
+  /**
+   * Used to store the updated refs so whenever they are updated, so that we export this information
+   * in the response headers.
+   */
+  public static class GitReferenceUpdated implements GitReferenceUpdatedListener {
+    final DynamicItem<WebSession> webSession;
+
+    @Inject
+    GitReferenceUpdated(DynamicItem<WebSession> webSession) {
+      this.webSession = webSession;
+    }
+
+    @Override
+    public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
+      WebSession currentSession = webSession.get();
+      if (currentSession != null) {
+        currentSession.addRefUpdatedEvents(event);
+      }
     }
   }
 
@@ -593,6 +616,8 @@ public class RestApiServlet extends HttpServlet {
               throw new ResourceNotFoundException();
             }
 
+            setXGerritUpdatedRefResponseHeaders(req, res);
+
             if (response instanceof Response.Redirect) {
               CacheHeaders.setNotCacheable(res);
               String location = ((Response.Redirect) response).location();
@@ -751,6 +776,32 @@ public class RestApiServlet extends HttpServlet {
                 viewData == null ? null : viewData.view));
       }
     }
+  }
+
+  /**
+   * Fill in the refs that were updated during this request in the response header. The updated refs
+   * will be in the form of "project~ref~updated_SHA-1".
+   */
+  private void setXGerritUpdatedRefResponseHeaders(
+      HttpServletRequest request, HttpServletResponse response) {
+    for (GitReferenceUpdatedListener.Event refUpdate :
+        globals.webSession.get().getRefUpdatedEvents()) {
+      String refUpdateFormat =
+          String.format(
+              "%s~%s~%s~%s",
+              refUpdate.getProjectName(),
+              refUpdate.getRefName(),
+              refUpdate.getOldObjectId(),
+              refUpdate.getNewObjectId());
+
+      if (isRead(request)) {
+        logger.atWarning().log(
+            "request %s performed a ref update %s although the request is a" + " READ request",
+            request.getRequestURL().toString(), refUpdateFormat);
+      }
+      response.addHeader(X_GERRIT_UPDATED_REF, refUpdateFormat);
+    }
+    globals.webSession.get().resetRefUpdatedEvents();
   }
 
   private String getEtagWithRetry(

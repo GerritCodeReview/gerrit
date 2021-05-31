@@ -17,6 +17,9 @@ package com.google.gerrit.httpd;
 import static com.google.gerrit.extensions.api.lfs.LfsDefinitions.LFS_URL_WO_AUTH_REGEX;
 
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
@@ -35,6 +38,8 @@ public class GerritAuthModule extends ServletModule {
   @Override
   protected void configureServlets() {
     Class<? extends Filter> authFilter = retreiveAuthFilterFromConfig(authConfig);
+    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+        .to(RestApiServlet.GitReferenceUpdated.class);
 
     filterRegex(NOT_AUTHORIZED_LFS_URL_REGEX).through(authFilter);
     filter("/a/*").through(authFilter);

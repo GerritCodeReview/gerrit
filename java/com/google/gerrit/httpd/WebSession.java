@@ -16,9 +16,13 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.inject.servlet.RequestScoped;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface WebSession {
   boolean isSignedIn();
@@ -42,4 +46,25 @@ public interface WebSession {
   void logout();
 
   String getSessionId();
+
+  /**
+   * Store and return the ref updates in this session. This class is {@link RequestScoped}, hence
+   * this is thread safe.
+   *
+   * <p>The same session could perform separate requests one after another, so resetting the ref
+   * updates is necessary between requests.
+   */
+  List<GitReferenceUpdatedListener.Event> refUpdatedEvents = new ArrayList<>();
+
+  default List<GitReferenceUpdatedListener.Event> getRefUpdatedEvents() {
+    return refUpdatedEvents;
+  }
+
+  default void addRefUpdatedEvents(GitReferenceUpdatedListener.Event event) {
+    refUpdatedEvents.add(event);
+  }
+
+  default void resetRefUpdatedEvents() {
+    refUpdatedEvents.clear();
+  }
 }

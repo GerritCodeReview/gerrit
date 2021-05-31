@@ -23,6 +23,8 @@ import {htmlTemplate} from './gr-editable-content_html';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {queryAndAssert} from '../../../utils/common-util';
+import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -131,7 +133,10 @@ export class GrEditableContent extends PolymerElement {
   }
 
   focusTextarea() {
-    this.shadowRoot!.querySelector('iron-autogrow-textarea')!.textarea.focus();
+    queryAndAssert<IronAutogrowTextareaElement>(
+      this,
+      'iron-autogrow-textarea'
+    ).textarea.focus();
   }
 
   _newContentChanged(newContent: string) {

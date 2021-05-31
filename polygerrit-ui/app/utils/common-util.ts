@@ -90,6 +90,24 @@ export function assertIsDefined<T>(
   }
 }
 
+function query<E extends Element = Element>(
+  el: Element | undefined,
+  selector: string
+): E | undefined {
+  if (!el) return undefined;
+  const root = el.shadowRoot ?? el;
+  return root.querySelector<E>(selector) ?? undefined;
+}
+
+export function queryAndAssert<E extends Element = Element>(
+  el: Element | undefined,
+  selector: string
+): E {
+  const found = query<E>(el, selector);
+  if (!found) throw new Error(`selector '${selector}' did not match anything'`);
+  return found;
+}
+
 /**
  * Returns true, if both sets contain the same members.
  */

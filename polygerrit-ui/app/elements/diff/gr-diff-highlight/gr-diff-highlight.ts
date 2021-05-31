@@ -36,6 +36,7 @@ import {
   getSideByLineEl,
 } from '../gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {queryAndAssert} from '../../../utils/common-util';
 
 interface SidedRange {
   side: Side;
@@ -574,7 +575,7 @@ export class GrDiffHighlight extends PolymerElement {
   _getLength(node: Node | null): number {
     if (node === null) return 0;
     if (node instanceof Element && node.classList.contains('content')) {
-      return this._getLength(node.querySelector('.contentText')!);
+      return this._getLength(queryAndAssert(node, '.contentText'));
     } else {
       return GrAnnotation.getLength(node);
     }

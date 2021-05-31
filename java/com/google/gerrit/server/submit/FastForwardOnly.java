@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.submit;
 
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.update.RepoContext;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FastForwardOnly extends SubmitStrategy {
   FastForwardOnly(SubmitStrategy.Arguments args) {
@@ -28,6 +32,21 @@ public class FastForwardOnly extends SubmitStrategy {
   @Override
   public List<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
     List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
+
+    Map<BranchNameKey, CodeReviewCommit> branchToCommit = new HashMap<>();
+    for (CodeReviewCommit codeReviewCommit : sorted) {
+      BranchNameKey branchNameKey = codeReviewCommit.change().getDest();
+      CodeReviewCommit otherCommitInBranch = branchToCommit.get(branchNameKey);
+      if (otherCommitInBranch == null) {
+        branchToCommit.put(branchNameKey, codeReviewCommit);
+      } else {
+        // we found another change with the same destination branch.
+        codeReviewCommit.setStatusCode(CommitMergeStatus.FAST_FORWARD_INDEPENDENT_CHANGES);
+        otherCommitInBranch.setStatusCode(CommitMergeStatus.FAST_FORWARD_INDEPENDENT_CHANGES);
+        return ImmutableList.of();
+      }
+    }
+
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
     CodeReviewCommit newTipCommit =
         args.mergeUtil.getFirstFastForward(args.mergeTip.getInitialTip(), args.rw, sorted);

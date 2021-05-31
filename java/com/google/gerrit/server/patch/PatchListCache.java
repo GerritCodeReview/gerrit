@@ -17,6 +17,8 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.change.DiffOperations;
+
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Provides a cached list of {@link PatchListEntry}. */

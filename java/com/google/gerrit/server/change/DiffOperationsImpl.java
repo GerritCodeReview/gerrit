@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.change;
 
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
@@ -30,6 +30,10 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.patch.AutoValue_DiffOperationsImpl_DiffParameters;
+import com.google.gerrit.server.patch.BaseCommitUtil;
+import com.google.gerrit.server.patch.ComparisonType;
+import com.google.gerrit.server.patch.AutoValue_DiffOperationsImpl_DiffParameters.Builder;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey;

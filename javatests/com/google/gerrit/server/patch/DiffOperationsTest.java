@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.change.DiffOperations;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.util.time.TimeUtil;

@@ -22,7 +22,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
-import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;

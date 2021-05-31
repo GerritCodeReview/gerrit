@@ -20,6 +20,7 @@ import './gr-thread-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {CommentTabState} from '../../../types/events.js';
+import {__testOnly_SortDropdownState} from './gr-thread-list.js';
 
 const basicFixture = fixtureFromElement('gr-thread-list');
 
@@ -299,6 +300,7 @@ suite('gr-thread-list tests', () => {
   });
 
   test('showing file name takes visible threads into account', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
         element._sortedThreads[2], element.unresolvedOnly, element._draftsOnly,
         element.onlyShowRobotCommentsWithHumanReply), true);
@@ -318,6 +320,10 @@ suite('gr-thread-list tests', () => {
   });
 
   suite('_compareThreads', () => {
+    setup(() => {
+      element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
+    });
+
     test('patchset comes before any other file', () => {
       const t1 = {thread: {path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS}};
       const t2 = {thread: {path: SpecialFilePath.COMMIT_MESSAGE}};
@@ -449,6 +455,7 @@ suite('gr-thread-list tests', () => {
   });
 
   test('_computeSortedThreads', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     assert.equal(element._sortedThreads.length, 9);
     const expectedSortedRootIds = [
       'patchset_level_2', // Posted on Patchset 3
@@ -467,6 +474,7 @@ suite('gr-thread-list tests', () => {
   });
 
   test('thread removal and sort again', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     threadElements[1].dispatchEvent(
         new CustomEvent('thread-discard', {
           detail: {rootId: 'rc2'},
@@ -490,6 +498,7 @@ suite('gr-thread-list tests', () => {
   });
 
   test('modification on thread shold not trigger sort again', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     const currentSortedThreads = [...element._sortedThreads];
     for (const thread of currentSortedThreads) {
       thread.comments = [...thread.comments];
@@ -527,6 +536,7 @@ suite('gr-thread-list tests', () => {
 
   test('non-equal length of sortThreads and threads' +
     ' should trigger sort again', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     const modifiedThreads = [...element.threads];
     const currentSortedThreads = [...element._sortedThreads];
     element._sortedThreads = [];

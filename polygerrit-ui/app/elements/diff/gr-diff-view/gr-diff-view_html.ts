@@ -429,6 +429,5 @@ export const htmlTemplate = html`
     on-reload-diff-preference="_handleReloadingDiffPreference"
   >
   </gr-diff-preferences-dialog>
-  <gr-diff-cursor id="cursor"></gr-diff-cursor>
   <gr-comment-api id="commentAPI"></gr-comment-api>
 `;

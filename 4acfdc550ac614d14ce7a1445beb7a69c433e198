@@ -22,6 +22,30 @@
       },
       "revId": "4acfdc550ac614d14ce7a1445beb7a69c433e198",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa704382_c5ad6ccf",
+        "filename": "polygerrit-ui/app/embed/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-05-31T08:05:05Z",
+      "side": 1,
+      "message": "I think not - I do this handishly from time to time, especially when I need to add a new import and I don\u0027t know where because the pre-existing imports are completely arbitrarily sorted. I will kick off a discussion whether we cannot maybe move towards sorting imports (ideally automatically). As always, there is some edit history tainting, but that feels like a small loss on something like imports for the added value of having the imports in some order.\n\nFor this change, given that you gave +2, I assume this can stay this way.",
+      "parentUuid": "f55c6d63_8dd2706d",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 78
+      },
+      "revId": "4acfdc550ac614d14ce7a1445beb7a69c433e198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

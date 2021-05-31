@@ -123,7 +123,7 @@ export const htmlTemplate = html`
       <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
         <a
           href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]"
-          >[[_computeDisplayLine()]]</a
+          >[[_computeDisplayLine(lineNum, range)]]</a
         >
       </template>
     </div>

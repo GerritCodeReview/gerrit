@@ -404,16 +404,16 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     return displayPath;
   }
 
-  _computeDisplayLine() {
-    if (this.lineNum === FILE) {
+  _computeDisplayLine(lineNum?: LineNumber, range?: CommentRange) {
+    if (lineNum === FILE) {
       if (this.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
         return '';
       }
       return FILE;
     }
-    if (this.lineNum) return `#${this.lineNum}`;
+    if (lineNum) return `#${lineNum}`;
     // If range is set, then lineNum equals the end line of the range.
-    if (this.range) return `#${this.range.end_line}`;
+    if (range) return `#${range.end_line}`;
     return '';
   }
 

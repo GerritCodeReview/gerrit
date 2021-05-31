@@ -285,15 +285,24 @@ suite('gr-comment-thread tests', () => {
 
     test('_computeDisplayLine', () => {
       element.lineNum = 5;
-      assert.equal(element._computeDisplayLine(), '#5');
+      assert.equal(
+        element._computeDisplayLine(element.lineNum, element.range),
+        '#5'
+      );
 
       element.path = SpecialFilePath.COMMIT_MESSAGE;
       element.lineNum = 5;
-      assert.equal(element._computeDisplayLine(), '#5');
+      assert.equal(
+        element._computeDisplayLine(element.lineNum, element.range),
+        '#5'
+      );
 
       element.lineNum = undefined;
       element.path = SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
-      assert.equal(element._computeDisplayLine(), '');
+      assert.equal(
+        element._computeDisplayLine(element.lineNum, element.range),
+        ''
+      );
     });
   });
 });

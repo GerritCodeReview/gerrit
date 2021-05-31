@@ -22,7 +22,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-thread-list_html';
 import {parseDate} from '../../../utils/date-util';
 
-import {CommentSide, SpecialFilePath} from '../../../constants/constants';
+import {CommentSide, ScrollMode, SpecialFilePath} from '../../../constants/constants';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
   PolymerSpliceChange,
@@ -40,7 +40,9 @@ import {
 import {pluralize} from '../../../utils/string-util';
 import {fireThreadListModifiedEvent} from '../../../utils/event-util';
 import {assertNever} from '../../../utils/common-util';
-import {CommentTabState} from '../../../types/events';
+import {CommentTabState, CustomKeyboardEvent} from '../../../types/events';
+import { GrCursorManager } from '../../shared/gr-cursor-manager/gr-cursor-manager';
+import { KeyboardShortcutMixin, Shortcut } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -53,7 +55,7 @@ interface CommentThreadWithInfo {
 }
 
 @customElement('gr-thread-list')
-export class GrThreadList extends PolymerElement {
+export class GrThreadList  extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }
@@ -101,6 +103,42 @@ export class GrThreadList extends PolymerElement {
 
   @property({type: Object, observer: '_commentTabStateChange'})
   commentTabState?: CommentTabState;
+
+  keyboardShortcuts() {
+    return {
+      [Shortcut.CURSOR_NEXT_FILE]: '_handleCursorNext',
+      [Shortcut.CURSOR_PREV_FILE]: '_handleCursorPrev',
+    };
+  }
+
+  private fileCursor = new GrCursorManager();
+
+  constructor() {
+    super();
+    this.fileCursor.scrollMode = ScrollMode.KEEP_VISIBLE;
+    this.fileCursor.cursorTargetClass = 'selected';
+    this.fileCursor.focusOnMove = true;
+  }
+
+  /** @override */
+  disconnectedCallback() {
+    this.fileCursor.unsetCursor();
+    super.disconnectedCallback();
+  }
+
+  _handleCursorNext(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
+    this.fileCursor.next();
+  }
+
+  _handleCursorPrev(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
+    this.fileCursor.previous();
+  }
 
   _showEmptyThreadsMessage(
     threads: CommentThread[],
@@ -272,7 +310,7 @@ export class GrThreadList extends PolymerElement {
     onlyShowRobotCommentsWithHumanReply?: boolean
   ) {
     if (!sortedThreadsRecord || !sortedThreadsRecord.base) return [];
-    return sortedThreadsRecord.base.filter(t =>
+    const t = sortedThreadsRecord.base.filter(t =>
       this._shouldShowThread(
         t,
         unresolvedOnly,
@@ -280,6 +318,12 @@ export class GrThreadList extends PolymerElement {
         onlyShowRobotCommentsWithHumanReply
       )
     );
+
+    flush();
+    this.fileCursor.stops = Array.from(
+      this.root!.querySelectorAll('gr-comment-thread')
+    );
+    return t;
   }
 
   _isFirstThreadWithFileName(

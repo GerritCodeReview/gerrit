@@ -55,6 +55,13 @@ interface CommentThreadWithInfo {
   updated?: Date;
 }
 
+enum SortDropdownState {
+  TIMESTAMP = 'Latest timestamp',
+  FILES = 'Files',
+}
+
+export const __testOnly_SortDropdownState = SortDropdownState;
+
 @customElement('gr-thread-list')
 export class GrThreadList extends PolymerElement {
   static get template() {
@@ -104,6 +111,9 @@ export class GrThreadList extends PolymerElement {
 
   @property({type: Object, observer: '_commentTabStateChange'})
   commentTabState?: CommentTabState;
+
+  @property({type: Object})
+  sortDropdownValue: SortDropdownState = SortDropdownState.TIMESTAMP;
 
   @computed('unresolvedOnly', '_draftsOnly')
   get commentsDropdownValue() {
@@ -158,6 +168,13 @@ export class GrThreadList extends PolymerElement {
     this.unresolvedOnly = !this.unresolvedOnly;
   }
 
+  getSortDropdownEntires() {
+    return [
+      {text: SortDropdownState.FILES, value: SortDropdownState.FILES},
+      {text: SortDropdownState.TIMESTAMP, value: SortDropdownState.TIMESTAMP},
+    ];
+  }
+
   getCommentsDropdownEntires(threads: CommentThread[], loggedIn?: boolean) {
     const items: DropdownItem[] = [
       {
@@ -177,6 +194,11 @@ export class GrThreadList extends PolymerElement {
     return items;
   }
 
+  handleSortDropdownValueChange(e: CustomEvent) {
+    this.sortDropdownValue = e.detail.value;
+    this.resortThreads(this.threads);
+  }
+
   handleCommentsDropdownValueChange(e: CustomEvent) {
     const value = e.detail.value;
     if (value === CommentTabState.UNRESOLVED) this._handleOnlyUnresolved();
@@ -185,6 +207,10 @@ export class GrThreadList extends PolymerElement {
   }
 
   _compareThreads(c1: CommentThreadWithInfo, c2: CommentThreadWithInfo) {
+    if (this.sortDropdownValue === SortDropdownState.TIMESTAMP) {
+      if (c1.updated && c2.updated) return c1.updated > c2.updated ? -1 : 1;
+    }
+
     if (c1.thread.path !== c2.thread.path) {
       // '/PATCHSET' will not come before '/COMMIT' when sorting
       // alphabetically so move it to the front explicitly
@@ -240,6 +266,15 @@ export class GrThreadList extends PolymerElement {
     return 0;
   }
 
+  resortThreads(threads: CommentThread[]) {
+    const threadsWithInfo = threads.map(thread =>
+      this._getThreadWithStatusInfo(thread)
+    );
+    this._sortedThreads = threadsWithInfo
+      .sort((t1, t2) => this._compareThreads(t1, t2))
+      .map(threadInfo => threadInfo.thread);
+  }
+
   /**
    * Observer on threads and update _sortedThreads when needed.
    * Order as follows:
@@ -292,12 +327,7 @@ export class GrThreadList extends PolymerElement {
       return;
     }
 
-    const threadsWithInfo = threads.map(thread =>
-      this._getThreadWithStatusInfo(thread)
-    );
-    this._sortedThreads = threadsWithInfo
-      .sort((t1, t2) => this._compareThreads(t1, t2))
-      .map(threadInfo => threadInfo.thread);
+    this.resortThreads(threads);
   }
 
   _computeDisplayedThreads(

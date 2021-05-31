@@ -55,6 +55,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bbac6d8e_9f7746de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-31T16:52:49Z",
+      "side": 1,
+      "message": "yea, thanks, I\u0027ll write that tomorrow",
+      "parentUuid": "7867c2f3_dfbb381f",
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6aa4707_822d70e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-31T16:52:49Z",
+      "side": 1,
+      "message": "I can\u0027t think of refs that we don\u0027t want to return to the calling user. We wouldn\u0027t want to leak the SHA-1 of the account branch of some account you can\u0027t see, for example, but if a user performed some action on that account, there is no problem to return that ref. Same goes for changes, etc.\n\nI\u0027ll leave this open for Patrick/Han-Wen to comment if they think differently.",
+      "parentUuid": "965ca219_4000e5d8",
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c29f91e7_dd07d518",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 2
@@ -78,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "26b33de8_e8410c2b",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-31T16:52:49Z",
+      "side": 1,
+      "message": "I was wondering this as well, but my conclusion was that it can\u0027t happen: different instances of RestApiServlet are created for different REST requests. This is easier to see by looking at globals.webSession, which is the request (so different requests -\u003e different RestApiServlet).\n\nDoes it make sense?",
+      "parentUuid": "c29f91e7_dd07d518",
+      "range": {
+        "startLine": 343,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 23
+      },
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5558c751_e74171f1",
         "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
         "patchSetId": 2
@@ -89,6 +149,24 @@
       "writtenOn": "2021-05-31T16:08:05Z",
       "side": 1,
       "message": "from lines 89-104 is repeated again in 106-122, maybe better to extract in a helper method that returns the meta ref SHA-1 and does the asserts?",
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2c8a5db_49aa31b3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-05-31T16:52:49Z",
+      "side": 1,
+      "message": "I\u0027m not a huge fan of such methods especially when this won\u0027t work in any of the other tests since there are multiple SHA-1s. \n\nI find this method confusing since it will be creating a topic and returning a change meta SHA-1, but also performing some complicated assertions about the response header (that make sense only in the context of this test).\n\nDo you feel strongly about this?",
+      "parentUuid": "5558c751_e74171f1",
       "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

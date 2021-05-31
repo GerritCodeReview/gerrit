@@ -534,6 +534,7 @@ export interface RestApiService {
   invalidateGroupsCache(): void;
   invalidateReposCache(): void;
   invalidateAccountsCache(): void;
+  invalidateAccountsDetailCache(): void;
   removeFromAttentionSet(
     changeNum: NumericChangeId,
     user: AccountId,

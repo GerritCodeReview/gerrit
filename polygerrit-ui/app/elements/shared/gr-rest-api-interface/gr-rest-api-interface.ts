@@ -1451,6 +1451,10 @@ export class GrRestApiInterface
     this._restApiHelper.invalidateFetchPromisesPrefix('/accounts/');
   }
 
+  invalidateAccountsDetailCache() {
+    this._restApiHelper.invalidateFetchPromisesPrefix('/accounts/self/detail');
+  }
+
   getGroups(filter: string, groupsPerPage: number, offset?: number) {
     const url = this._getGroupsUrl(filter, groupsPerPage, offset);
 

@@ -33,7 +33,7 @@ export const htmlTemplate = html`
       border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: left;
-      padding: var(--spacing-m) var(--spacing-l);
+      padding: var(--spacing-s) var(--spacing-l);
     }
     .draftsOnly:not(.unresolvedOnly) gr-comment-thread[has-draft],
     .unresolvedOnly:not(.draftsOnly) gr-comment-thread[unresolved],
@@ -48,33 +48,35 @@ export const htmlTemplate = html`
       box-shadow: none;
       padding-left: var(--spacing-m);
     }
-    .header .categoryRadio {
-      height: 18px;
-      width: 18px;
-    }
-    .header label {
-      padding-left: 8px;
-      margin-right: 16px;
-    }
     .partypopper{
       margin-right: var(--spacing-s);
     }
     gr-dropdown-list {
       --trigger-style: {
-        color: var(--deemphasized-text-color);
+        color: var(--primary-text-color);
         text-transform: none;
         font-family: var(--font-family);
       }
     }
-    .filter-text {
+    .filter-text, .sort-text {
       margin-right: var(--spacing-s);
+      color: var(--deemphasized-text-color);
     }
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
+      <span class="sort-text">Sort By:</span>
+      <gr-dropdown-list
+        id="sortDropdown"
+        value="[[sortDropdownValue]]"
+        on-value-change="handleSortDropdownValueChange"
+        items="[[getSortDropdownEntires()]]"
+      >
+      </gr-dropdown-list>
+      <span class="separator"></span>
       <span class="filter-text">Filter By:</span>
       <gr-dropdown-list
-        id="dropdown"
+        id="filterDropdown"
         value="[[commentsDropdownValue]]"
         on-value-change="handleCommentsDropdownValueChange"
         items="[[getCommentsDropdownEntires(threads, loggedIn)]]"

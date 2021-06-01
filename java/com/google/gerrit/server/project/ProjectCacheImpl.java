@@ -81,7 +81,13 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
-/** Cache of project information, including access rights. */
+/**
+ * Cache of project information, including access rights.
+ *
+ * <p>The data of a project is the project's project.config in refs/meta/config parsed out as an
+ * immutable value. It's keyed purely by the refs/meta/config SHA-1. We also cache the same value
+ * keyed by name. The latter mapping can become outdated, so data must be evicted explicitly.
+ */
 @Singleton
 public class ProjectCacheImpl implements ProjectCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

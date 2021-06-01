@@ -63,7 +63,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 /**
- * Cached information on a project. Must not contain any data derived from parents other than it's
+ * Cached information on a project. Must not contain any data derived from parents other than its
  * immediate parent's {@link com.google.gerrit.entities.Project.NameKey}.
  */
 public class ProjectState {

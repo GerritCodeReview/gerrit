@@ -61,13 +61,13 @@ import {
 } from '../../../utils/path-list-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
+  BasePatchSetNum,
   ElementPropertyDeepChange,
   FileInfo,
   FileNameToFileInfoMap,
   NumericChangeId,
   PatchRange,
   PreferencesInfo,
-  RevisionInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
@@ -80,6 +80,7 @@ import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Timing} from '../../../constants/reporting';
+import {RevisionInfo} from '../../shared/revision-info/revision-info';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -191,9 +192,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object})
   changeComments?: ChangeComments;
 
-  @property({type: Array})
-  revisions?: {[revisionId: string]: RevisionInfo};
-
   @property({type: Number, notify: true})
   selectedIndex = -1;
 
@@ -274,6 +272,12 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: Boolean, computed: '_computeShowSizeBars(_userPrefs)'})
   _showSizeBars = true;
+
+  // For merge commits vs Auto Merge, an extra file row is shown detailing the
+  // files that were merged without conflict. These files are also passed to any
+  // plugins.
+  @property({type: Array})
+  _cleanlyMergedPaths: string[] = [];
 
   private _cancelForEachDiff?: () => void;
 
@@ -446,6 +450,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
           this._filesByPath = filesByPath;
         })
     );
+
     promises.push(
       this._getLoggedIn()
         .then(loggedIn => (this._loggedIn = loggedIn))
@@ -479,6 +484,42 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       this._detectChromiteButler();
       this.reporting.fileListDisplayed();
     });
+  }
+
+  @observe('_filesByPath')
+  async _updateCleanlyMergedPaths(
+    // changeNum?: NumericChangeId,
+    // change?: ParsedChangeInfo,
+    // patchRange?: PatchRange,
+    filesByPath?: FileNameToFileInfoMap
+  ) {
+    // When viewing Auto Merge base vs a patchset, add an additional row that
+    // knows how many files were cleanly merged. This requires an additional RPC
+    // for the diffs between target parent and the patch set. The cleanly merged
+    // files are all the files in the target RPC that weren't in the Auto Merge
+    // RPC.
+    if (
+      this.change &&
+      this.changeNum &&
+      this.patchRange?.patchNum &&
+      new RevisionInfo(this.change).isMergeCommit(this.patchRange.patchNum) &&
+      this.patchRange.basePatchNum === 'PARENT'
+    ) {
+      const allFilesByPath = await this.restApiService.getChangeOrEditFiles(
+        this.changeNum,
+        {
+          basePatchNum: -1 as BasePatchSetNum, // -1 is first (target) parent
+          patchNum: this.patchRange.patchNum,
+        }
+      );
+      if (!allFilesByPath || !filesByPath) return;
+      const conflictingPaths = Object.keys(filesByPath);
+      this._cleanlyMergedPaths = Object.keys(allFilesByPath).filter(
+        path => !conflictingPaths.includes(path)
+      );
+    } else {
+      this._cleanlyMergedPaths = [];
+    }
   }
 
   _detectChromiteButler() {
@@ -1160,6 +1201,24 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       : 'gr-icons:expand-more';
   }
 
+  _computeShowNumCleanlyMerged(cleanlyMergedPaths: string[]): boolean {
+    return cleanlyMergedPaths.length > 0;
+  }
+
+  _computeCleanlyMergedText(cleanlyMergedPaths: string[]): string {
+    const fileCount = pluralize(cleanlyMergedPaths.length, 'file');
+    return `${fileCount} merged cleanly in Parent 1`;
+  }
+
+  _handleShowParent1(): void {
+    if (!this.change || !this.patchRange) return;
+    GerritNav.navigateToChange(
+      this.change,
+      this.patchRange.patchNum,
+      -1 as BasePatchSetNum // Parent 1
+    );
+  }
+
   @observe(
     '_filesByPath',
     'changeComments',
@@ -1184,12 +1243,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     ) {
       return;
     }
-
     // Await all promises resolving from reload. @See Issue 9057
     if (loading || !changeComments) {
       return;
     }
-
     const commentedPaths = changeComments.getPaths(patchRange);
     const files: FileNameToReviewedFileInfoMap = {...filesByPath};
     addUnmodifiedFiles(files, commentedPaths);

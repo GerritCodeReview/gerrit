@@ -16,6 +16,24 @@
       "message": "If the whole file is collapsed, then don\u0027t we want a \"show all\" button to expand everything?",
       "revId": "b8e8db5404ace87b0c145de71cc19227f0641aa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "341fa123_c43e2fcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-06-01T19:41:13Z",
+      "side": 1,
+      "message": "I agree with you. We ideally want to provide the possibility to show more content - also in this scenario. Whoever the whole idea of showAbove and showBelow doesn\u0027t make a lot of sense in this scenario because we are not showing anything, so we don\u0027t have a point of reference to define if expansion is downwards, upwards or both.\n\nThe practical problem here is also that this scenario we render a single context control in a very small container - ~4px height - also because of the recent changes in rendering logic from that Safari bug (https://gerrit-review.googlesource.com/c/gerrit/+/306214). This is currently creating some confusion among users (I can give you some examples via chat) - so this is in a way a quick-fix until we develop a proper behavior for this scenario. What do you think?",
+      "parentUuid": "c2381c41_318d1398",
+      "revId": "b8e8db5404ace87b0c145de71cc19227f0641aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

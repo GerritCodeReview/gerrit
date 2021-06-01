@@ -41,6 +41,7 @@ import {
 import {computeDisplayPath} from '../../../utils/path-list-util';
 import {computed, customElement, observe, property} from '@polymer/decorators';
 import {
+  AccountDetailInfo,
   CommentRange,
   ConfigInfo,
   NumericChangeId,
@@ -62,6 +63,7 @@ import {GrSyntaxLayer} from '../../diff/gr-syntax-layer/gr-syntax-layer';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {TokenHighlightLayer} from '../../diff/gr-diff-builder/token-highlight-layer';
 import {anyLineTooLong} from '../../diff/gr-diff/gr-diff-utils';
+import {getUserName} from '../../../utils/display-name-util';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -200,6 +202,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   showCommentContext = false;
 
+  @property({type: Object})
+  _selfAccount?: AccountDetailInfo;
+
   get keyBindings() {
     return {
       'e shift+e': '_handleEKey',
@@ -238,6 +243,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
         line_wrapping: true,
       };
       this.syntaxLayer.setEnabled(!!prefs.syntax_highlighting);
+    });
+    this.restApiService.getAccount().then(account => {
+      this._selfAccount = account;
     });
     this._setInitialExpandedState();
   }
@@ -742,6 +750,17 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     this.restApiService.getProjectConfig(name).then(config => {
       this._projectConfig = config;
     });
+  }
+
+  _computeAriaHeading(_orderedComments: UIComment[]) {
+    const firstComment = _orderedComments[0];
+    const author = firstComment?.author ?? this._selfAccount;
+    const lastComment = _orderedComments[_orderedComments.length - 1] || {};
+    const status = [
+      lastComment.unresolved ? 'Unresolved' : '',
+      isDraft(lastComment) ? 'Draft' : '',
+    ].join(' ');
+    return `${status} Comment thread by ${getUserName(undefined, author)}`;
   }
 }
 

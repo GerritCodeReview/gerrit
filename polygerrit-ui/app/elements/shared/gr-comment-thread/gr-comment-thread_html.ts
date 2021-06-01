@@ -129,6 +129,9 @@ export const htmlTemplate = html`
     </div>
   </template>
   <div id="container">
+    <h3 class="assistive-tech-only">
+      [[_computeAriaHeading(_orderedComments)]]
+    </h3>
     <div class$="[[_computeHostClass(unresolved, isRobotComment)]] comment-box">
       <template
         id="commentList"

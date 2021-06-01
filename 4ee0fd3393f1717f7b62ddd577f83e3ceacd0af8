@@ -46,6 +46,30 @@
       },
       "revId": "4ee0fd3393f1717f7b62ddd577f83e3ceacd0af8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90f5af46_5f6c8246",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-01T11:06:09Z",
+      "side": 1,
+      "message": "I did find one reason - to differentiate between created and updated refs.",
+      "parentUuid": "25e0243f_83ba3e1f",
+      "range": {
+        "startLine": 253,
+        "startChar": 31,
+        "endLine": 253,
+        "endChar": 65
+      },
+      "revId": "4ee0fd3393f1717f7b62ddd577f83e3ceacd0af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

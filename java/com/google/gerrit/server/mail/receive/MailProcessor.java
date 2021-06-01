@@ -43,7 +43,7 @@ import com.google.gerrit.mail.MailHeaderParser;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.mail.MailMetadata;
 import com.google.gerrit.mail.TextParser;
-import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;

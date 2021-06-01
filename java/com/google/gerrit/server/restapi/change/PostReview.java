@@ -81,7 +81,7 @@ import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
-import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -91,6 +91,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.approval.ApprovalInference;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.ModifyReviewersEmail;
@@ -1421,7 +1422,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     /**
      * Approval is copied over if it doesn't exist in the approvals of the current patch-set
      * according to change notes (which means it was computed in {@link
-     * com.google.gerrit.server.ApprovalInference})
+     * ApprovalInference})
      */
     private boolean isApprovalCopiedOver(
         PatchSetApproval patchSetApproval, ChangeNotes changeNotes) {

@@ -90,7 +90,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.approval.ApprovalInference;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
@@ -1419,10 +1418,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return !del.isEmpty() || !ups.isEmpty();
     }
 
-    /**
-     * Approval is copied over if it doesn't exist in the approvals of the current patch-set
-     * according to change notes (which means it was computed in {@link ApprovalInference})
-     */
+    /** Approval is copied over if it doesn't exist in the approvals of the current patch-set. */
     private boolean isApprovalCopiedOver(
         PatchSetApproval patchSetApproval, ChangeNotes changeNotes) {
       return !changeNotes.getApprovals().get(changeNotes.getChange().currentPatchSetId()).stream()

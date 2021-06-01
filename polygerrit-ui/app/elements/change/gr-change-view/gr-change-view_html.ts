@@ -546,7 +546,6 @@ export const htmlTemplate = html`
           change-num="[[_changeNum]]"
           patch-range="{{_patchRange}}"
           change-comments="[[_changeComments]]"
-          revisions="[[_change.revisions]]"
           selected-index="{{viewState.selectedFileIndex}}"
           diff-view-mode="[[viewState.diffMode]]"
           edit-mode="[[_editMode]]"

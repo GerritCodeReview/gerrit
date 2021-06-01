@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -99,6 +100,39 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
             + "Change "
             + id1
             + ": needs Code-Review");
+
+    RevCommit updatedHead = projectOperations.project(project).getHead("master");
+    assertThat(updatedHead.getId()).isEqualTo(initialHead.getId());
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
+  }
+
+  @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void submitTwoIndependentChangesWithFastForwardFail() throws Throwable {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    PushOneCommit.Result change1 = createChange("subject1", "file1.txt", "content", "topic");
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("subject2", "file2.txt", "content", "topic");
+
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+
+    String fastForwardIndependentChangesError =
+        "Change could not be merged because the submission"
+            + " has two independent changes with the same destination branch. Independent changes can't "
+            + "be submitted to the same destination branch with FAST_FORWARD_ONLY submit strategy";
+
+    submitWithConflict(
+        change2.getChangeId(),
+        String.format(
+            "Failed to submit 2 changes due to the following problems:\n"
+                + "Change %d: %s\nChange %d: %s",
+            change1.getChange().getId().get(),
+            fastForwardIndependentChangesError,
+            change2.getChange().getId().get(),
+            fastForwardIndependentChangesError));
 
     RevCommit updatedHead = projectOperations.project(project).getHead("master");
     assertThat(updatedHead.getId()).isEqualTo(initialHead.getId());

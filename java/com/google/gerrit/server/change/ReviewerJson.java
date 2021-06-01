@@ -94,7 +94,7 @@ public class ReviewerJson {
         out,
         reviewerAccountId,
         cd,
-        approvalsUtil.byPatchSetUser(cd.notes(), psId, reviewerAccountId, null, null));
+        approvalsUtil.byPatchSetUser(cd.notes(), psId, reviewerAccountId));
   }
 
   public ReviewerInfo format(

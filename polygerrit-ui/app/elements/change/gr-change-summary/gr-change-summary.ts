@@ -20,13 +20,13 @@ import {GrLitElement} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
 import {
-  allRunsLatest$,
+  allRunsLatestPatchsetLatestAttempt$,
   aPluginHasRegistered$,
   CheckResult,
   CheckRun,
-  errorMessage$,
-  loginCallback$,
-  someProvidersAreLoading$,
+  errorMessageLatest$,
+  loginCallbackLatest$,
+  someProvidersAreLoadingLatest$,
 } from '../../../services/checks/checks-model';
 import {Category, Link, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
@@ -307,11 +307,11 @@ export class GrChangeSummary extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRunsLatest$);
+    this.subscribe('runs', allRunsLatestPatchsetLatestAttempt$);
     this.subscribe('showChecksSummary', aPluginHasRegistered$);
-    this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
-    this.subscribe('errorMessage', errorMessage$);
-    this.subscribe('loginCallback', loginCallback$);
+    this.subscribe('someProvidersAreLoading', someProvidersAreLoadingLatest$);
+    this.subscribe('errorMessage', errorMessageLatest$);
+    this.subscribe('loginCallback', loginCallbackLatest$);
   }
 
   static get styles() {

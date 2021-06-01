@@ -39,12 +39,12 @@ import {
 } from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {
-  allActions$,
-  allLinks$,
+  topLevelActionsSelected$,
+  topLevelLinksSelected$,
   CheckRun,
-  checksPatchsetNumber$,
   RunResult,
-  someProvidersAreLoading$,
+  checksSelectedPatchsetNumber$,
+  someProvidersAreLoadingSelected$,
 } from '../../services/checks/checks-model';
 import {
   allResults,
@@ -611,11 +611,11 @@ export class GrChecksResults extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('actions', allActions$);
-    this.subscribe('links', allLinks$);
-    this.subscribe('checksPatchsetNumber', checksPatchsetNumber$);
+    this.subscribe('actions', topLevelActionsSelected$);
+    this.subscribe('links', topLevelLinksSelected$);
+    this.subscribe('checksPatchsetNumber', checksSelectedPatchsetNumber$);
     this.subscribe('latestPatchsetNumber', latestPatchNum$);
-    this.subscribe('someProvidersAreLoading', someProvidersAreLoading$);
+    this.subscribe('someProvidersAreLoading', someProvidersAreLoadingSelected$);
   }
 
   static get styles() {

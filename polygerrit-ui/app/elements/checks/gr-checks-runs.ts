@@ -41,7 +41,6 @@ import {
 } from '../../services/checks/checks-util';
 import {
   CheckRun,
-  allRuns$,
   fakeActions,
   fakeRun0,
   fakeRun1,
@@ -53,6 +52,7 @@ import {
   fakeRun4_4,
   updateStateSetResults,
   fakeLinks,
+  allRunsSelectedPatchset$,
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
@@ -334,7 +334,7 @@ export class GrChecksRuns extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRuns$);
+    this.subscribe('runs', allRunsSelectedPatchset$);
   }
 
   static get styles() {

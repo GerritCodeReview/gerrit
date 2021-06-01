@@ -138,6 +138,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "850b29aa_9b103907",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-01T08:30:48Z",
+      "side": 1,
+      "message": "mmm I think we can\u0027t do that. I had a quick look and found https://stackoverflow.com/a/3106909, which suggests that servlets and filters are shared among requests, so assigning instance variables is not thread safe. Not sure if we configure servlets in our code. The same link suggests:\n`That\u0027s the nice thing about Java, it\u0027s multithreaded and different threads (read: HTTP requests) can make use of the same instance`\n\nAnother thing that came to my mind: is GitReferenceUpdatedListener called for refs updated from ReceiveCommits?",
+      "parentUuid": "26b33de8_e8410c2b",
+      "range": {
+        "startLine": 343,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 23
+      },
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5558c751_e74171f1",
         "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
         "patchSetId": 2

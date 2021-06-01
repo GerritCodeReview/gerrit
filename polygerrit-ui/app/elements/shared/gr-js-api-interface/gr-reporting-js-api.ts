@@ -18,7 +18,6 @@
 import {appContext} from '../../../services/app-context';
 import {PluginApi} from '../../../api/plugin';
 import {EventDetails, ReportingPluginApi} from '../../../api/reporting';
-import {LifeCycle} from '../../../constants/reporting';
 
 /**
  * Defines all methods that will be exported to plugin from reporting service.
@@ -32,7 +31,7 @@ export class GrReportingJsApi implements ReportingPluginApi {
 
   reportInteraction(eventName: string, details?: EventDetails) {
     this.reporting.trackApi(this.plugin, 'reporting', 'reportInteraction');
-    this.reporting.reportInteraction(
+    this.reporting.reportPluginInteractionLog(
       `${this.plugin.getPluginName()}-${eventName}`,
       details
     );
@@ -40,10 +39,9 @@ export class GrReportingJsApi implements ReportingPluginApi {
 
   reportLifeCycle(eventName: string, details?: EventDetails) {
     this.reporting.trackApi(this.plugin, 'reporting', 'reportLifeCycle');
-    this.reporting.reportLifeCycle(LifeCycle.PLUGIN_LIFE_CYCLE, {
-      ...details,
-      pluginName: this.plugin.getPluginName(),
-      eventName,
-    });
+    this.reporting.reportPluginLifeCycleLog(
+      `${this.plugin.getPluginName()}-${eventName}`,
+      details
+    );
   }
 }

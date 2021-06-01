@@ -70,6 +70,14 @@ const ERROR = {
   },
 };
 
+const PLUGIN = {
+  TYPE: 'plugin-log',
+  CATEGORY: {
+    LIFECYCLE: 'lifecycle',
+    INTERACTION: 'interaction',
+  },
+};
+
 const STARTUP_TIMERS: {[name: string]: number} = {
   [Timing.PLUGINS_LOADED]: 0,
   [Timing.METRICS_PLUGIN_LOADED]: 0,
@@ -765,6 +773,28 @@ export class GrReporting implements ReportingService {
     this.reporter(
       LIFECYCLE.TYPE,
       LIFECYCLE.CATEGORY.DEFAULT,
+      eventName,
+      undefined,
+      details,
+      true
+    );
+  }
+
+  reportPluginLifeCycleLog(eventName: string, details: EventDetails) {
+    this.reporter(
+      PLUGIN.TYPE,
+      PLUGIN.CATEGORY.LIFECYCLE,
+      eventName,
+      undefined,
+      details,
+      true
+    );
+  }
+
+  reportPluginInteractionLog(eventName: string, details: EventDetails) {
+    this.reporter(
+      PLUGIN.TYPE,
+      PLUGIN.CATEGORY.INTERACTION,
       eventName,
       undefined,
       details,

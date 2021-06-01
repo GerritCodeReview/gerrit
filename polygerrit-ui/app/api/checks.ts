@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {CommentRange} from './core';
 
 export declare interface ChecksPluginApi {
   /**
@@ -382,6 +383,11 @@ export declare interface CheckResult {
   links?: Link[];
 
   /**
+   * Links to lines of code. The referenced path must be part of this patchset.
+   */
+  codePointers?: CodePointer[];
+
+  /**
    * Callbacks to the plugin. Must be implemented individually by each
    * plugin. Actions are rendered as buttons. If there are more than two actions
    * per result, then further actions are put into an overflow menu. Sort order
@@ -428,6 +434,11 @@ export declare interface Link {
    */
   primary: boolean;
   icon: LinkIcon;
+}
+
+export declare interface CodePointer {
+  path: string;
+  range: CommentRange;
 }
 
 export enum LinkIcon {

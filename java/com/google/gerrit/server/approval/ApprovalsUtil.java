@@ -97,16 +97,19 @@ public class ApprovalsUtil {
   private final ApprovalInference approvalInference;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
+  private final ApprovalCache approvalCache;
 
   @VisibleForTesting
   @Inject
   public ApprovalsUtil(
       ApprovalInference approvalInference,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ApprovalCache approvalCache) {
     this.approvalInference = approvalInference;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.approvalCache = approvalCache;
   }
 
   /**
@@ -341,6 +344,10 @@ public class ApprovalsUtil {
     return approvalInference.forPatchSet(notes, psId, rw, repoConfig);
   }
 
+  public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
+    return approvalCache.get(notes, psId);
+  }
+
   public Iterable<PatchSetApproval> byPatchSetUser(
       ChangeNotes notes,
       PatchSet.Id psId,
@@ -348,6 +355,11 @@ public class ApprovalsUtil {
       @Nullable RevWalk rw,
       @Nullable Config repoConfig) {
     return filterApprovals(byPatchSet(notes, psId, rw, repoConfig), accountId);
+  }
+
+  public Iterable<PatchSetApproval> byPatchSetUser(
+      ChangeNotes notes, PatchSet.Id psId, Account.Id accountId) {
+    return filterApprovals(byPatchSet(notes, psId), accountId);
   }
 
   public PatchSetApproval getSubmitter(ChangeNotes notes, PatchSet.Id c) {

@@ -240,6 +240,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dff6cb31_3cc3fc29",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T11:21:32Z",
+      "side": 1,
+      "message": "Youssef is right, there are even places in Gerrit code that reuse RestApiServlet, for example HTTPPluginServlet.",
+      "parentUuid": "5051fe2e_ec18feaa",
+      "range": {
+        "startLine": 343,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 23
+      },
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5558c751_e74171f1",
         "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
         "patchSetId": 2

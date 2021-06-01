@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3909c5f9_b0dbaa70",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-01T09:05:10Z",
+      "side": 1,
+      "message": "I wonder if we shouldn\u0027t also include the old SHA-1. THoughts?",
+      "range": {
+        "startLine": 253,
+        "startChar": 31,
+        "endLine": 253,
+        "endChar": 65
+      },
+      "revId": "4ee0fd3393f1717f7b62ddd577f83e3ceacd0af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

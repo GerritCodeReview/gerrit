@@ -48,7 +48,7 @@ export const changeState$: Observable<ChangeState> = privateState$;
 export function updateState(change?: ParsedChangeInfo) {
   const current = privateState$.getValue();
   // We want to make it easy for subscribers to react to change changes, so we
-  // are explicitly emitting and additional `undefined` when the change number
+  // are explicitly emitting an additional `undefined` when the change number
   // changes. So if you are subscribed to the latestPatchsetNumber for example,
   // then you can rely on emissions even if the old and the new change have the
   // same latestPatchsetNumber.

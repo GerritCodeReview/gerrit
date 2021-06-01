@@ -318,6 +318,12 @@ export abstract class GrDiffBuilder {
     const showAbove = leftStart > 1 && !firstGroupIsSkipped;
     const showBelow = leftEnd < this._numLinesLeft && !lastGroupIsSkipped;
 
+    if (this._numLinesLeft === leftEnd - leftStart + 1) {
+      // We should check if the whole file is collapsed and not render expansion
+      // buttons in that case. The idea of direction (above/below) doesn't make
+      // and we should develop a reasonable behavior specifically for this case.
+      return;
+    }
     if (showAbove) {
       const paddingRow = this._createContextControlPaddingRow(viewMode);
       paddingRow.classList.add('above');

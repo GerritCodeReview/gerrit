@@ -43,30 +43,34 @@ suite('gr-reporting-js-api tests', () => {
     });
 
     test('redirect reportInteraction call to reportingService', () => {
-      sinon.spy(appContext.reportingService, 'reportInteraction');
+      sinon.spy(appContext.reportingService, 'reportPluginInteractionLog');
       reporting.reportInteraction('test', {});
-      assert.isTrue(appContext.reportingService.reportInteraction.called);
+      assert.isTrue(appContext.reportingService.reportPluginInteractionLog
+          .called);
       assert.equal(
-          appContext.reportingService.reportInteraction.lastCall.args[0],
+          appContext.reportingService.reportPluginInteractionLog.lastCall
+              .args[0],
           'testplugin-test'
       );
       assert.deepEqual(
-          appContext.reportingService.reportInteraction.lastCall.args[1],
+          appContext.reportingService.reportPluginInteractionLog.lastCall
+              .args[1],
           {}
       );
     });
 
     test('redirect reportLifeCycle call to reportingService', () => {
-      sinon.spy(appContext.reportingService, 'reportLifeCycle');
+      sinon.spy(appContext.reportingService, 'reportPluginLifeCycleLog');
       reporting.reportLifeCycle('test', {});
-      assert.isTrue(appContext.reportingService.reportLifeCycle.called);
+      assert.isTrue(appContext.reportingService.reportPluginLifeCycleLog
+          .called);
       assert.equal(
-          appContext.reportingService.reportLifeCycle.lastCall.args[0],
-          'Plugin life cycle'
+          appContext.reportingService.reportPluginLifeCycleLog.lastCall.args[0],
+          'testplugin-test'
       );
       assert.deepEqual(
-          appContext.reportingService.reportLifeCycle.lastCall.args[1],
-          {pluginName: 'testplugin', eventName: 'test'}
+          appContext.reportingService.reportPluginLifeCycleLog.lastCall.args[1],
+          {}
       );
     });
   });

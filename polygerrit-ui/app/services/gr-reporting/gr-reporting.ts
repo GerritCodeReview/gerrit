@@ -94,7 +94,8 @@ export interface ReportingService {
    */
   reportRpcTiming(anonymizedUrl: string, elapsed: number): void;
   reportLifeCycle(eventName: LifeCycle, details?: EventDetails): void;
-
+  reportPluginLifeCycleLog(eventName: string, details?: EventDetails): void;
+  reportPluginInteractionLog(eventName: string, details?: EventDetails): void;
   /**
    * Use this method, if you want to check/count how often a certain code path
    * is executed. For example you can use this method to prove that certain code

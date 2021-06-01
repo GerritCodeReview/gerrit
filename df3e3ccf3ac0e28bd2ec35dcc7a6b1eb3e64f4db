@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7996cb3_5988b229",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-01T18:31:47Z",
+      "side": 1,
+      "message": "Hi Ben, for some reasons the checks associated with this change ended up in a funny state:\n- The CI cannot discover it\n- I cannot see any \"Re-Run\" link anywhere\n- I cannot see any details\n\nCould you please add another PS and see if that clears out the Checks status?",
+      "revId": "df3e3ccf3ac0e28bd2ec35dcc7a6b1eb3e64f4db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c40e0c_ebc8e8af",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-01T11:43:27Z",
+      "side": 1,
+      "message": "Sorry for changing my mind but I have second thoughts about writing \"still running\" because it doesn\u0027t add much complementary information and adds more text to read.\nMaybe we could keep \"Running\" section title in the Run side panel and simply make the change to add \"Running\" in the check results table. \n\nWDYT?",
+      "range": {
+        "startLine": 303,
+        "startChar": 46,
+        "endLine": 303,
+        "endChar": 58
+      },
+      "revId": "c87b1ebc24c4c302e207e2c89bece2582c9b5aa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -66,11 +66,17 @@ export const htmlTemplate = html`
         font-family: var(--font-family);
       }
     }
-    .filter-text, .sort-text {
+    .filter-text, .sort-text, .author-text {
       margin-right: var(--spacing-s);
     }
     .filter-text {
       margin-left: var(--spacing-xl);
+    }
+    .author-text {
+      margin-left: var(--spacing-m);
+    }
+    gr-account-label {
+      cursor: pointer;
     }
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
@@ -91,6 +97,14 @@ export const htmlTemplate = html`
         items="[[getCommentsDropdownEntires(threads, loggedIn)]]"
       >
       </gr-dropdown-list>
+      <span class="author-text">From:</span>
+      <template is="dom-repeat" items="[[getCommentAuthors(threads)]]">
+        <gr-account-label
+          account="[[item]]"
+          on-click="handleAccountClicked"
+          selected="[[isHighlighted(item, selectedAuthors)]]"
+        > </gr-account-label>
+      </template>
     </div>
   </template>
   <div id="threads">

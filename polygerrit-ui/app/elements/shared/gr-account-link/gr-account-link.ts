@@ -64,6 +64,9 @@ class GrAccountLink extends PolymerElement {
   @property({type: Boolean})
   hideStatus = false;
 
+  @property({type: Boolean})
+  disableNavigation = false;
+
   /**
    * Only show the first name in the account label.
    */
@@ -71,7 +74,7 @@ class GrAccountLink extends PolymerElement {
   firstName = false;
 
   _computeOwnerLink(account?: AccountInfo) {
-    if (!account) {
+    if (!account || this.disableNavigation) {
       return;
     }
     return GerritNav.getUrlForOwner(

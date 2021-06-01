@@ -78,11 +78,18 @@ export class GrAccountChip extends PolymerElement {
   @property({type: Boolean})
   highlightAttention = false;
 
+  // should clicking the account chip navigate to change list
+  @property({type: Boolean})
+  disableNavigation = false;
+
   @property({type: Boolean, reflectToAttribute: true})
   showAvatar?: boolean;
 
   @property({type: Boolean})
   transparentBackground = false;
+
+  @property({type: Boolean})
+  highlight = false;
 
   private readonly restApiService = appContext.restApiService;
 
@@ -94,7 +101,8 @@ export class GrAccountChip extends PolymerElement {
     });
   }
 
-  _getBackgroundClass(transparent: boolean) {
+  _getBackgroundClass(transparent: boolean, highlight: boolean) {
+    if (highlight) return 'highlight';
     return transparent ? 'transparentBackground' : '';
   }
 

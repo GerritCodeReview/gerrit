@@ -16,6 +16,24 @@
       "message": "Hi Ole,\n\nI think there was a problem in the merges about gr-diff. Could you take a look?",
       "revId": "9644be431405f7a849655b1bfdbe01d2e922276d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1977108_5257c79e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-06-01T20:45:08Z",
+      "side": 1,
+      "message": "I think this was removed on https://gerrit-review.googlesource.com/c/gerrit/+/300084/13/polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+      "parentUuid": "07ef34d3_29a87b21",
+      "revId": "9644be431405f7a849655b1bfdbe01d2e922276d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

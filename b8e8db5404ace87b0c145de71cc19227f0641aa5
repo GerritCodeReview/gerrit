@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2381c41_318d1398",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-01T17:26:20Z",
+      "side": 1,
+      "message": "If the whole file is collapsed, then don\u0027t we want a \"show all\" button to expand everything?",
+      "revId": "b8e8db5404ace87b0c145de71cc19227f0641aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -125,6 +125,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "777848b7_83cec8ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-01T11:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e645b59_59faac27",
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c29f91e7_dd07d518",
@@ -186,6 +204,30 @@
       "side": 1,
       "message": "mmm I think we can\u0027t do that. I had a quick look and found https://stackoverflow.com/a/3106909, which suggests that servlets and filters are shared among requests, so assigning instance variables is not thread safe. Not sure if we configure servlets in our code. The same link suggests:\n`That\u0027s the nice thing about Java, it\u0027s multithreaded and different threads (read: HTTP requests) can make use of the same instance`\n\nAnother thing that came to my mind: is GitReferenceUpdatedListener called for refs updated from ReceiveCommits?",
       "parentUuid": "26b33de8_e8410c2b",
+      "range": {
+        "startLine": 343,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 23
+      },
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5051fe2e_ec18feaa",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-01T11:05:11Z",
+      "side": 1,
+      "message": "You\u0027re right, I looked deeper into the javadocs of this class and it does need to support multithreaded requests. The defence I added here is a request scoped binding essentially, since WebSession is request scoped, and the list of ref updates is part of this WebSession now. I don\u0027t think there is a reasonable integration test I can do here to test this, though. Does that make sense? Either way, checking this on staging would be good.\n\nIt doesn\u0027t work with ReceiveCommits, I think that\u0027s fine since nobody ever asked for that (the discussion was always about REST API). I can add that in a follow-up if anyone wants it.",
+      "parentUuid": "850b29aa_9b103907",
       "range": {
         "startLine": 343,
         "startChar": 4,

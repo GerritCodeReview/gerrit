@@ -21,9 +21,9 @@ import {Action} from '../../api/checks';
 import {
   CheckResult,
   CheckRun,
-  allResults$,
-  allRuns$,
-  checksPatchsetNumber$,
+  allResultsSelected$,
+  checksSelectedPatchsetNumber$,
+  allRunsSelectedPatchset$,
 } from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
@@ -72,9 +72,9 @@ export class GrChecksTab extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRuns$);
-    this.subscribe('results', allResults$);
-    this.subscribe('checksPatchsetNumber', checksPatchsetNumber$);
+    this.subscribe('runs', allRunsSelectedPatchset$);
+    this.subscribe('results', allResultsSelected$);
+    this.subscribe('checksPatchsetNumber', checksSelectedPatchsetNumber$);
     this.subscribe('changeNum', changeNum$);
 
     this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>

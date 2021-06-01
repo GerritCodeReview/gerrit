@@ -79,6 +79,8 @@ export const grReportingMock: ReportingService = {
     log(`reportInteraction '${eventName}': ${JSON.stringify(details)}`);
   },
   reportLifeCycle: () => {},
+  reportPluginLifeCycleLog: () => {},
+  reportPluginInteractionLog: () => {},
   reportRpcTiming: () => {},
   setRepoName: () => {},
   setChangeId: () => {},

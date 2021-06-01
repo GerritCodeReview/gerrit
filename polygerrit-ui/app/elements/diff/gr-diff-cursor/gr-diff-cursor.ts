@@ -55,8 +55,19 @@ export class GrDiffCursor implements GrDiffCursorApi {
   private preventAutoScrollOnManualScroll = false;
 
   set side(side: Side) {
+    const changedSide = this.sideInternal !== side;
+    if (changedSide && this.sideInternal && this.diffRow) {
+      this.fireCursorMoved(
+        'line-cursor-moved-out',
+        this.diffRow,
+        this.sideInternal
+      );
+    }
     this.sideInternal = side;
     this.updateSideClass();
+    if (changedSide && this.diffRow) {
+      this.fireCursorMoved('line-cursor-moved-in', this.diffRow, this.side);
+    }
   }
 
   get side(): Side {
@@ -476,19 +487,6 @@ export class GrDiffCursor implements GrDiffCursorApi {
     }
     toggleClass(this.diffRow, LEFT_SIDE_CLASS, this.side === Side.LEFT);
     toggleClass(this.diffRow, RIGHT_SIDE_CLASS, this.side === Side.RIGHT);
-  }
-
-  _updateSide(_: Side, oldSide: Side) {
-    if (!this.diffRow) {
-      return;
-    }
-    if (oldSide) {
-      this.fireCursorMoved('line-cursor-moved-out', this.diffRow, oldSide);
-    }
-    this.updateSideClass();
-    if (this.diffRow) {
-      this.fireCursorMoved('line-cursor-moved-in', this.diffRow, this.side);
-    }
   }
 
   _isActionType(type: GrDiffRowType) {

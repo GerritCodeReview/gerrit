@@ -443,8 +443,8 @@ export class GrChecksRuns extends GrLitElement {
         ?hidden="${!this.showFilter()}"
         @input="${this.onInput}"
       />
-      ${this.renderSection(RunStatus.COMPLETED)}
       ${this.renderSection(RunStatus.RUNNING)}
+      ${this.renderSection(RunStatus.COMPLETED)}
       ${this.renderSection(RunStatus.RUNNABLE)} ${this.renderFakeControls()}
     `;
   }

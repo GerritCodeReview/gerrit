@@ -206,6 +206,9 @@ export const htmlTemplate = html`
       cursor: pointer;
       opacity: 100;
     }
+    .showParentButton {
+      margin-left: var(--spacing-m);
+    }
     .row:focus {
       outline: none;
     }
@@ -639,6 +642,42 @@ export const htmlTemplate = html`
             view-mode="[[diffViewMode]]"
           ></gr-diff-host>
         </template>
+      </div>
+    </template>
+    <template is="dom-if" if="[[_showNumCleanlyMerged]]">
+      <div class="row">
+        <!-- endpoint: change-view-file-list-content-prepend -->
+        <template is="dom-if" if="[[_showPrependedDynamicColumns]]">
+          <template
+            is="dom-repeat"
+            items="[[_dynamicPrependedContentEndpoints]]"
+            as="contentEndpoint"
+          >
+            <gr-endpoint-decorator name="[[contentEndpoint]]" role="gridcell">
+              <gr-endpoint-param name="change" value="[[change]]">
+              </gr-endpoint-param>
+              <gr-endpoint-param name="changeNum" value="[[changeNum]]">
+              </gr-endpoint-param>
+              <gr-endpoint-param name="patchRange" value="[[patchRange]]">
+              </gr-endpoint-param>
+              <gr-endpoint-param
+                name="cleanlyMergedPaths"
+                value="[[_cleanlyMergedPaths]]"
+              >
+              </gr-endpoint-param>
+            </gr-endpoint-decorator>
+          </template>
+        </template>
+        <div role="gridcell">
+          <div>
+            <span class="cleanlyMergedText">
+              [[_computeCleanlyMergedText(_cleanlyMergedPaths)]]
+            </span>
+            <gr-button link class="showParentButton" on-click="_showParent1">
+              Show Parent 1
+            </gr-button>
+          </div>
+        </div>
       </div>
     </template>
   </div>

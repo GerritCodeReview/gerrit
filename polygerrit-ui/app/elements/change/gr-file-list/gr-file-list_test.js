@@ -25,10 +25,26 @@ import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {TestKeyboardShortcutBinder, stubRestApi, spyRestApi, listenOnce} from '../../../test/test-utils.js';
+import {
+  TestKeyboardShortcutBinder,
+  stubRestApi,
+  spyRestApi,
+  listenOnce,
+  mockPromise,
+  query,
+} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {createCommentThreads} from '../../../utils/comment-util.js';
-import {createChangeComments} from '../../../test/test-data-generators.js';
+import {
+  createChange,
+  createChangeComments,
+  createCommit,
+  createParsedChange,
+  createRevision,
+} from '../../../test/test-data-generators.js';
+import sinon from 'sinon/pkg/sinon-esm';
+import {createDefaultDiffPrefs} from '../../../constants/constants.js';
+import {queryAndAssert} from '../../../utils/common-util.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
@@ -1093,32 +1109,119 @@ suite('gr-file-list tests', () => {
       });
     });
 
-    test('_loadingChanged fired from reload in debouncer', done => {
-      sinon.stub(element, '_getReviewedFiles').returns(Promise.resolve([]));
+    test('_loadingChanged fired from reload in debouncer', async () => {
+      const reloadBlocker = mockPromise();
+      stubRestApi('getChangeOrEditFiles').resolves({'foo.bar': {}});
+      stubRestApi('getReviewedFiles').resolves(null);
+      stubRestApi('getDiffPreferences').resolves(createDefaultDiffPrefs());
+      stubRestApi('getLoggedIn').returns(reloadBlocker.then(() => false));
+
       element.changeNum = 123;
       element.patchRange = {patchNum: 12};
       element._filesByPath = {'foo.bar': {}};
+      element.change = {...createParsedChange(), _number: 123};
 
-      element.reload().then(() => {
-        assert.isFalse(element._loading);
-        element.loadingTask.flush();
-        assert.isFalse(element.classList.contains('loading'));
-        done();
-      });
+      const reloaded = element.reload();
       assert.isTrue(element._loading);
       assert.isFalse(element.classList.contains('loading'));
       element.loadingTask.flush();
       assert.isTrue(element.classList.contains('loading'));
+
+      reloadBlocker.resolve();
+      await reloaded;
+
+      assert.isFalse(element._loading);
+      element.loadingTask.flush();
+      assert.isFalse(element.classList.contains('loading'));
     });
 
     test('_loadingChanged does not set class when there are no files', () => {
-      sinon.stub(element, '_getReviewedFiles').returns(Promise.resolve([]));
+      const reloadBlocker = mockPromise();
+      stubRestApi('getLoggedIn').returns(reloadBlocker.then(() => false));
+      sinon.stub(element, '_getReviewedFiles').resolves([]);
       element.changeNum = 123;
       element.patchRange = {patchNum: 12};
+      element.change = {...createParsedChange(), _number: 123};
       element.reload();
+
       assert.isTrue(element._loading);
+
       element.loadingTask.flush();
+
       assert.isFalse(element.classList.contains('loading'));
+    });
+
+    suite('for merge commits', () => {
+      let filesStub;
+
+      setup(() => {
+        filesStub = stubRestApi('getChangeOrEditFiles')
+            .onFirstCall()
+            .resolves({'conflictingFile.js': {}})
+            .onSecondCall()
+            .resolves({'conflictingFile.js': {}, 'cleanlyMergedFile.js': {}});
+        stubRestApi('getReviewedFiles').resolves([]);
+        stubRestApi('getDiffPreferences').resolves(createDefaultDiffPrefs());
+        const changeWithMultipleParents = {
+          ...createChange(),
+          revisions: {
+            r1: {
+              ...createRevision(),
+              commit: {
+                ...createCommit(),
+                parents: [
+                  {commit: 'p1', subject: 'subject1'},
+                  {commit: 'p2', subject: 'subject2'},
+                ],
+              },
+            },
+          },
+        };
+        element.changeNum = changeWithMultipleParents._number;
+        element.change = changeWithMultipleParents;
+        element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
+      });
+
+      test('displays cleanly merged file count', async () => {
+        await element.reload();
+
+        const message = queryAndAssert(element, '.cleanlyMergedText')
+            .textContent.trim();
+        assert.equal(message, '1 file merged cleanly in Parent 1');
+      });
+
+      test('displays plural cleanly merged file count', async () => {
+        filesStub.restore();
+        stubRestApi('getChangeOrEditFiles')
+            .onFirstCall()
+            .resolves({'conflictingFile.js': {}})
+            .onSecondCall()
+            .resolves({
+              'conflictingFile.js': {},
+              'cleanlyMergedFile.js': {},
+              'anotherCleanlyMergedFile.js': {},
+            });
+        await element.reload();
+
+        const message = queryAndAssert(
+            element,
+            '.cleanlyMergedText'
+        ).textContent.trim();
+        assert.equal(message, '2 files merged cleanly in Parent 1');
+      });
+
+      test('displays button for navigating to parent 1 base', async () => {
+        await element.reload();
+
+        queryAndAssert(element, '.showParentButton');
+      });
+      test('not shown for non-Auto Merge base parents', async () => {
+        element.patchRange = {basePatchNum: 1, patchNum: 2};
+        await element.reload();
+
+        assert.notOk(query(element, '.cleanlyMergedText'));
+        assert.notOk(query(element, '.showParentButton'));
+      });
     });
   });
 

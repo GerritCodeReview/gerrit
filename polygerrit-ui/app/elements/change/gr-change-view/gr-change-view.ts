@@ -2168,7 +2168,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     if (this._patchRange && this._patchRange.patchNum) {
       // Because a specific patchset is specified, reload the resources that
       // are keyed by patch number or patch range.
-      const patchResourcesLoaded = this._reloadPatchNumDependentResources();
+      const patchResourcesLoaded = detailCompletes.then(() =>
+        this._reloadPatchNumDependentResources()
+      );
       allDataPromises.push(patchResourcesLoaded);
 
       // Promise resolves when the change detail and patch dependent resources

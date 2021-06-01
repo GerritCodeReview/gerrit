@@ -59,7 +59,7 @@ export const htmlTemplate = html`
     .partypopper{
       margin-right: var(--spacing-s);
     }
-    .filter-text {
+    .filter-text, .author-text {
       margin-left: var(--spacing-m);
     }
   </style>
@@ -81,6 +81,14 @@ export const htmlTemplate = html`
         items="[[getCommentsDropdownEntires(threads, loggedIn)]]"
       >
       </gr-dropdown-list>
+      <span class="author-text">From:</span>
+      <template is="dom-repeat" items="[[getCommentAuthors(threads)]]">
+        <gr-account-chip
+          account="[[item]]"
+          disable-navigation
+          on-click="handleAccountClicked"
+        >
+      </template>
     </div>
   </template>
   <div id="threads">

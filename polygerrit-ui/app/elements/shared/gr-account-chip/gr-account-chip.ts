@@ -78,6 +78,10 @@ export class GrAccountChip extends PolymerElement {
   @property({type: Boolean})
   highlightAttention = false;
 
+  // should clicking the account chip navigate to change list
+  @property({type: Boolean})
+  disableNavigation = false;
+
   @property({type: Boolean, reflectToAttribute: true})
   showAvatar?: boolean;
 

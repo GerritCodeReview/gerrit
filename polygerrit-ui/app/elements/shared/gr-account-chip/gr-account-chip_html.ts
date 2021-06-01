@@ -97,6 +97,7 @@ export const htmlTemplate = html`
       force-attention="[[forceAttention]]"
       highlight-attention="[[highlightAttention]]"
       voteable-text="[[voteableText]]"
+      disable-navigation="[[disableNavigation]]"
     >
     </gr-account-link>
     <gr-button

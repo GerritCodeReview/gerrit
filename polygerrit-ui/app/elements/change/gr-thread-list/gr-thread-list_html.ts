@@ -58,9 +58,30 @@ export const htmlTemplate = html`
         font-family: var(--font-family);
       }
     }
-    .filter-text, .sort-text {
+    .filter-text, .sort-text, .author-text {
       margin-right: var(--spacing-s);
       color: var(--deemphasized-text-color);
+    }
+    .author-text {
+      margin-left: var(--spacing-m);
+    }
+    gr-account-label {
+      --account-max-length: 120px;
+      display: inline-block;
+      user-select: none;
+      --label-border-radius: 8px;
+      margin: 0 var(--spacing-xs);
+      padding: var(--spacing-xs) var(--spacing-m);
+      line-height: var(--line-height-normal);
+      cursor: pointer;
+    }
+    gr-account-label:focus {
+      outline: none;
+    }
+    gr-account-label:hover,
+    gr-account-label:hover {
+      box-shadow: var(--elevation-level-1);
+      cursor: pointer;
     }
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
@@ -82,6 +103,15 @@ export const htmlTemplate = html`
         items="[[getCommentsDropdownEntires(threads, loggedIn)]]"
       >
       </gr-dropdown-list>
+      <span class="author-text">From:</span>
+      <template is="dom-repeat" items="[[getCommentAuthors(threads)]]">
+        <gr-account-label
+          account="[[item]]"
+          on-click="handleAccountClicked"
+          selection-chip-style
+          selected="[[isSelected(item, selectedAuthors)]]"
+        > </gr-account-label>
+      </template>
     </div>
   </template>
   <div id="threads">
@@ -117,7 +147,7 @@ export const htmlTemplate = html`
     >
       <template
         is="dom-if"
-        if="[[_shouldRenderSeparator(_displayedThreads, thread, unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
+        if="[[_shouldRenderSeparator(_displayedThreads, thread, unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply, selectedAuthors)]]"
       >
         <div class="thread-separator"></div>
       </template>
@@ -128,7 +158,7 @@ export const htmlTemplate = html`
         change-num="[[changeNum]]"
         comments="[[thread.comments]]"
         diff-side="[[thread.diffSide]]"
-        show-file-name="[[_isFirstThreadWithFileName(_displayedThreads, thread, unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
+        show-file-name="[[_isFirstThreadWithFileName(_displayedThreads, thread, unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply, selectedAuthors)]]"
         project-name="[[change.project]]"
         is-on-parent="[[_isOnParent(thread.commentSide)]]"
         line-num="[[thread.line]]"

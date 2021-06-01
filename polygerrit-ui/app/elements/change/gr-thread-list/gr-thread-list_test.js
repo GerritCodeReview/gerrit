@@ -21,6 +21,9 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {CommentTabState} from '../../../types/events.js';
 import {__testOnly_SortDropdownState} from './gr-thread-list.js';
+import {queryAll} from '../../../test/test-utils.js';
+import {accountOrGroupKey} from '../../../utils/account-util.js';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-thread-list');
 
@@ -47,7 +50,7 @@ suite('gr-thread-list tests', () => {
           {
             path: '/COMMIT_MSG',
             author: {
-              _account_id: 1000000,
+              _account_id: 1000001,
               name: 'user',
               username: 'user',
             },
@@ -83,7 +86,7 @@ suite('gr-thread-list tests', () => {
           {
             path: 'test.txt',
             author: {
-              _account_id: 1000000,
+              _account_id: 1000002,
               name: 'user',
               username: 'user',
             },
@@ -106,7 +109,7 @@ suite('gr-thread-list tests', () => {
           {
             path: '/COMMIT_MSG',
             author: {
-              _account_id: 1000000,
+              _account_id: 1000002,
               name: 'user',
               username: 'user',
             },
@@ -127,7 +130,7 @@ suite('gr-thread-list tests', () => {
           {
             path: '/COMMIT_MSG',
             author: {
-              _account_id: 1000000,
+              _account_id: 1000003,
               name: 'user',
               username: 'user',
             },
@@ -303,11 +306,13 @@ suite('gr-thread-list tests', () => {
     element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
         element._sortedThreads[2], element.unresolvedOnly, element._draftsOnly,
-        element.onlyShowRobotCommentsWithHumanReply), true);
+        element.onlyShowRobotCommentsWithHumanReply, element.selectedAuthors),
+    true);
     element.unresolvedOnly = true;
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
         element._sortedThreads[2], element.unresolvedOnly, element._draftsOnly,
-        element.onlyShowRobotCommentsWithHumanReply), false);
+        element.onlyShowRobotCommentsWithHumanReply, element.selectedAuthors),
+    false);
   });
 
   test('onlyShowRobotCommentsWithHumanReply ', () => {
@@ -491,6 +496,46 @@ suite('gr-thread-list tests', () => {
     element._sortedThreads.forEach((thread, index) => {
       assert.equal(thread.rootId, expectedSortedRootIds[index]);
     });
+  });
+
+  test('tapping single author chips', () => {
+    const chips = queryAll(element, 'gr-account-label');
+    const authors = Array.from(chips).map(
+        chip => accountOrGroupKey(chip.account))
+        .sort();
+    assert.deepEqual(authors, [1000000, 1000001, 1000002, 1000003]);
+    assert.equal(element.threads.length, 9);
+    assert.equal(element._displayedThreads.length, 9);
+
+    tap(chips[0]); // accountId 1000001
+    flush();
+
+    assert.equal(element.threads.length, 9);
+    assert.equal(element._displayedThreads.length, 1);
+    assert.equal(element._displayedThreads[0].comments[0].author._account_id,
+        1000001);
+
+    tap(chips[0]); // tapping again resets
+    flush();
+    assert.equal(element.threads.length, 9);
+    assert.equal(element._displayedThreads.length, 9);
+  });
+
+  test('tapping multiple author chips', () => {
+    const chips = queryAll(element, 'gr-account-label');
+
+    tap(chips[0]); // accountId 1000001
+    tap(chips[1]); // accountId 1000002
+    flush();
+
+    assert.equal(element.threads.length, 9);
+    assert.equal(element._displayedThreads.length, 3);
+    assert.equal(element._displayedThreads[0].comments[0].author._account_id,
+        1000002);
+    assert.equal(element._displayedThreads[1].comments[0].author._account_id,
+        1000002);
+    assert.equal(element._displayedThreads[2].comments[0].author._account_id,
+        1000001);
   });
 
   test('thread removal and sort again', () => {

@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28079545_6294ca0b",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T15:26:04Z",
+      "side": 1,
+      "message": "Sorry I left the comment a bit further down. I am not talking about this in the docs, but how we surface this 4 parts separated by ~ in the code :-) \n\n\u003e According to this doc, if the project name itself had a \u0027~\u0027 in it, then this \u0027~\u0027 would need to be encoded\n\nRight. But we aren\u0027t doing that (yet), so we could produce headers that look like:\n\nfoo~bar~refs/heads/main~0..0~0..0\n\nWhich the receiver can\u0027t parse.",
+      "parentUuid": "17d2882f_179c4e00",
+      "revId": "e76ae03c84192e3f146dab79b03ee174d0b0641a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4379a8f_91861faf",
         "filename": "java/com/google/gerrit/httpd/GerritAuthModule.java",
         "patchSetId": 4
@@ -120,6 +138,30 @@
       "side": 1,
       "message": "GerritGlobalModule is in server.config package, which can\u0027t see gerrit.httpd package.\nIf I try to add it to the BUILD file, it finds a circular dependency: git.receive -\u003e server.restapi -\u003e server -\u003e httpd -\u003e git.receive.\n\nI just added a Module file, is that better?",
       "parentUuid": "1edb0cb0_0a0809c8",
+      "range": {
+        "startLine": 41,
+        "startChar": 7,
+        "endLine": 42,
+        "endChar": 54
+      },
+      "revId": "e76ae03c84192e3f146dab79b03ee174d0b0641a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f6db1b8_abc3c95f",
+        "filename": "java/com/google/gerrit/httpd/GerritAuthModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T15:26:04Z",
+      "side": 1,
+      "message": "\u003e I just added a Module file, is that better?\n\nYep, that works as well!",
+      "parentUuid": "e76abc43_cb0bcd26",
       "range": {
         "startLine": 41,
         "startChar": 7,

@@ -57,9 +57,9 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -642,7 +642,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
         ListMultimapBuilder.treeKeys().arrayListValues().build();
     try {
       Iterable<PatchSetApproval> approvals =
-          approvalsUtil.byPatchSet(revision.getNotes(), revision.getPatchSet().id(), null, null);
+          approvalsUtil.byPatchSet(revision.getNotes(), revision.getPatchSet().id());
       AccountLoader accountLoader =
           accountLoaderFactory.create(
               EnumSet.of(

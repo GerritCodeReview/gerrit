@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.approval;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
@@ -39,6 +39,9 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -94,16 +97,19 @@ public class ApprovalsUtil {
   private final ApprovalInference approvalInference;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
+  private final ApprovalCache approvalCache;
 
   @VisibleForTesting
   @Inject
   public ApprovalsUtil(
       ApprovalInference approvalInference,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ApprovalCache approvalCache) {
     this.approvalInference = approvalInference;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.approvalCache = approvalCache;
   }
 
   /**
@@ -338,6 +344,10 @@ public class ApprovalsUtil {
     return approvalInference.forPatchSet(notes, psId, rw, repoConfig);
   }
 
+  public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
+    return approvalCache.get(notes, psId);
+  }
+
   public Iterable<PatchSetApproval> byPatchSetUser(
       ChangeNotes notes,
       PatchSet.Id psId,
@@ -345,6 +355,11 @@ public class ApprovalsUtil {
       @Nullable RevWalk rw,
       @Nullable Config repoConfig) {
     return filterApprovals(byPatchSet(notes, psId, rw, repoConfig), accountId);
+  }
+
+  public Iterable<PatchSetApproval> byPatchSetUser(
+      ChangeNotes notes, PatchSet.Id psId, Account.Id accountId) {
+    return filterApprovals(byPatchSet(notes, psId), accountId);
   }
 
   public PatchSetApproval getSubmitter(ChangeNotes notes, PatchSet.Id c) {

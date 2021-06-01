@@ -586,8 +586,7 @@ public class ChangeData {
       } else {
         try {
           currentApprovals =
-              ImmutableList.copyOf(
-                  approvalsUtil.byPatchSet(notes(), c.currentPatchSetId(), null, null));
+              ImmutableList.copyOf(approvalsUtil.byPatchSet(notes(), c.currentPatchSetId()));
         } catch (StorageException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();

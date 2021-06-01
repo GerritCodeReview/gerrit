@@ -264,6 +264,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80b638e9_e2ab4fb6",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-01T16:17:50Z",
+      "side": 1,
+      "message": "Thanks Patrick for double checking me.\n\n\u003e It doesn\u0027t work with ReceiveCommits, I think that\u0027s fine since nobody ever asked for that (the discussion was always about REST API). I can add that in a follow-up if anyone wants it.\n\nYeah sure, I understand we are not supporting that with this change. I meant that this event is fired for all git reference updates (check GitReferenceUpdated#fire) which has callers from many places including ReceiveCommits, but we actually want to ignore such events.\n\nI think your rework is fine now since you set/retrieve ref update events for the current WebSession.",
+      "parentUuid": "dff6cb31_3cc3fc29",
+      "range": {
+        "startLine": 343,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 23
+      },
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5558c751_e74171f1",
         "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
         "patchSetId": 2
@@ -293,6 +317,24 @@
       "side": 1,
       "message": "I\u0027m not a huge fan of such methods especially when this won\u0027t work in any of the other tests since there are multiple SHA-1s. \n\nI find this method confusing since it will be creating a topic and returning a change meta SHA-1, but also performing some complicated assertions about the response header (that make sense only in the context of this test).\n\nDo you feel strongly about this?",
       "parentUuid": "5558c751_e74171f1",
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab1bb859_13c090f6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-01T16:17:50Z",
+      "side": 1,
+      "message": "I\u0027d personally like to have short methods but maybe it will be cumbersome here. Fine for me either ways.",
+      "parentUuid": "f2c8a5db_49aa31b3",
       "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -90,7 +90,9 @@ export const htmlTemplate = html`
       width: 1.2rem;
     }
   </style>
-  <div class$="container [[_getBackgroundClass(transparentBackground)]]">
+  <div
+    class$="container [[_getBackgroundClass(transparentBackground)]]"
+  >
     <gr-account-link
       account="[[account]]"
       change="[[change]]"

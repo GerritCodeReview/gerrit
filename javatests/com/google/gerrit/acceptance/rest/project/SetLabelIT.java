@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.inject.Inject;
+import java.util.Optional;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -513,6 +514,54 @@ public class SetLabelIT extends AbstractDaemonTest {
     assertThat(updatedLabel.copyAnyScore).isNull();
 
     assertThat(gApi.projects().name(project.get()).label("foo").get().copyAnyScore).isNull();
+  }
+
+  @Test
+  public void setCopyCondition() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyCondition).isNull();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.copyCondition = "is:MAX";
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.copyCondition).isEqualTo("is:MAX");
+  }
+
+  @Test
+  public void setInvalidCopyCondition() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyCondition).isNull();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.copyCondition = "foo:::bar";
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(project.get()).label("foo").update(input));
+    assertThat(thrown).hasMessageThat().contains("unable to parse copy condition");
+  }
+
+  @Test
+  public void unsetCopyCondition() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType("foo", lt -> lt.setCopyCondition(Optional.of("is:MAX")));
+      u.save();
+    }
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyCondition)
+        .isEqualTo("is:MAX");
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.unsetCopyCondition = true;
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.copyCondition).isNull();
+
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyCondition).isNull();
   }
 
   @Test

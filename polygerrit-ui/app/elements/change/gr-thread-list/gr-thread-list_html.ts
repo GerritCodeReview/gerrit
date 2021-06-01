@@ -66,11 +66,32 @@ export const htmlTemplate = html`
         font-family: var(--font-family);
       }
     }
-    .filter-text, .sort-text {
+    .filter-text, .sort-text, .author-text {
       margin-right: var(--spacing-s);
     }
     .filter-text {
       margin-left: var(--spacing-xl);
+    }
+    .author-text {
+      margin-left: var(--spacing-m);
+    }
+    gr-account-label {
+      --account-max-length: 120px;
+      display: inline-block;
+      user-select: none;
+      --label-border-radius: 8px;
+      margin: 0 var(--spacing-xs);
+      padding: var(--spacing-xs) var(--spacing-m);
+      line-height: var(--line-height-normal);
+      cursor: pointer;
+    }
+    gr-account-label:focus {
+      outline: none;
+    }
+    gr-account-label:hover,
+    gr-account-label:hover {
+      box-shadow: var(--elevation-level-1);
+      cursor: pointer;
     }
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
@@ -91,6 +112,15 @@ export const htmlTemplate = html`
         items="[[getCommentsDropdownEntires(threads, loggedIn)]]"
       >
       </gr-dropdown-list>
+      <span class="author-text">From:</span>
+      <template is="dom-repeat" items="[[getCommentAuthors(threads)]]">
+        <gr-account-label
+          account="[[item]]"
+          on-click="handleAccountClicked"
+          selected="[[isHighlighted(item, selectedAuthors)]]"
+          deselected="[[!isHighlighted(item, selectedAuthors)]]"
+        > </gr-account-label>
+      </template>
     </div>
   </template>
   <div id="threads">

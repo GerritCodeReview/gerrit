@@ -642,7 +642,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
         ListMultimapBuilder.treeKeys().arrayListValues().build();
     try {
       Iterable<PatchSetApproval> approvals =
-          approvalsUtil.byPatchSet(revision.getNotes(), revision.getPatchSet().id(), null, null);
+          approvalsUtil.byPatchSet(revision.getNotes(), revision.getPatchSet().id());
       AccountLoader accountLoader =
           accountLoaderFactory.create(
               EnumSet.of(

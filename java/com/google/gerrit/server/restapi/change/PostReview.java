@@ -90,7 +90,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.approval.ApprovalInference;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
@@ -1421,7 +1420,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     /**
      * Approval is copied over if it doesn't exist in the approvals of the current patch-set
+<<<<<<< HEAD
      * according to change notes (which means it was computed in {@link ApprovalInference})
+=======
+     * according to change notes (which means it was computed in {@code ApprovalInference})
+>>>>>>> 2cc609068d (Cache PatchSetApprovals)
      */
     private boolean isApprovalCopiedOver(
         PatchSetApproval patchSetApproval, ChangeNotes changeNotes) {

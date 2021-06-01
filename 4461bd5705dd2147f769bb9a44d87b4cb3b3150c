@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9388ca9d_e827e7f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-06-01T15:20:12Z",
+      "side": 1,
+      "message": "Is there going to be an SSH equivalent of this?",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "4461bd5705dd2147f769bb9a44d87b4cb3b3150c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14a44d3b_829813a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-06-01T15:20:12Z",
+      "side": 1,
+      "message": "I think this was briefly discussed in the hackathon, but what\u0027s the tradeoff of this approach vs returning the SHA1s of the updated refs in the regular api response objects?",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "4461bd5705dd2147f769bb9a44d87b4cb3b3150c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

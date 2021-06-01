@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "267bcd28_0b5e9b49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e984cde_f817e8b6",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9977f977_89863c7a",
@@ -114,6 +132,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "240c4de8_2670107e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ed211f_016f8d31",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "82e7bde4_e58290be",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -182,6 +224,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfc8b3d2_70999de6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Right. Might be better to implement a plugin endpoint that creates an AndSource (used today for visibility predicates in indices) with the existing query + what it wants to inject.\n\nSounds simple enough so that we can add this later.",
+      "parentUuid": "e393a728_251aa9a4",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4fe44e0_d612da2d",
@@ -228,6 +288,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74d2421f_4430f954",
+        "filename": "java/com/google/gerrit/server/query/approval/ChangeKindPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d75796e8_e03058c2",
+      "range": {
+        "startLine": 27,
+        "startChar": 78,
+        "endLine": 27,
+        "endChar": 84
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "645c67e3_a89e50cd",
+        "filename": "java/com/google/gerrit/server/query/approval/ChangeKindPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4fe44e0_d612da2d",
+      "range": {
+        "startLine": 27,
+        "startChar": 26,
+        "endLine": 27,
+        "endChar": 44
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf2d0ad4_c12d7fd3",
@@ -241,6 +349,30 @@
       "writtenOn": "2021-05-26T11:09:36Z",
       "side": 1,
       "message": "Maybe do these checks when creating ApprovalContext?",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 5
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7794e7af_0fad73b1",
+        "filename": "java/com/google/gerrit/server/query/approval/ChangeKindPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf2d0ad4_c12d7fd3",
       "range": {
         "startLine": 51,
         "startChar": 4,
@@ -274,6 +406,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6794b8b9_57f12ca9",
+        "filename": "java/com/google/gerrit/server/query/approval/ChangeKindPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "That would not help because we need to extract the value anyway.",
+      "parentUuid": "773dc54e_ea31b554",
+      "range": {
+        "startLine": 83,
+        "startChar": 11,
+        "endLine": 83,
+        "endChar": 70
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d24c1670_2046d590",
@@ -291,6 +447,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f58a933_6105a3d8",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d24c1670_2046d590",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "faad3d34_154a20ce",
@@ -304,6 +478,30 @@
       "writtenOn": "2021-05-26T11:09:36Z",
       "side": 1,
       "message": "nit: duplicated word",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c3ba735_67bb9b2c",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faad3d34_154a20ce",
       "range": {
         "startLine": 11,
         "startChar": 26,
@@ -361,6 +559,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6c00b4e_c0e42059",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "I agree to what Nasser said, so leaving as-is.",
+      "parentUuid": "b3aae6f1_d0a933da",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "224619e5_85ee9e3f",
@@ -374,6 +596,24 @@
       "writtenOn": "2021-05-28T18:55:56Z",
       "side": 1,
       "message": "You can refactor this with a helper to share a bit more code and ensure you\u0027re covering the cases in your enum:\n\n  public boolean match(ApprovalContext ctx) {\n    short pValue;\n    switch (value) {\n      case MagicValue.ANY:\n        return true;\n      case MagicValue.MIN:\n        pValue \u003d getLabelType(ctx.project(), ctx.patchSetApproval().labelId()).getMaxNegative();\n        break;\n      case MagicValue.MAX:\n        pValue \u003d getLabelType(ctx.project(), ctx.patchSetApproval().labelId()).getMaxPositive();\n        break;\n    }\n    return pValue \u003d\u003d ctx.patchSetApproval().value();\n  }\n\n  private LabelType getLabelType(Project.NameKey project, LabelId labelId) {\n    return projectCache\n            .get(project)\n            .orElseThrow(() -\u003e new IllegalStateException(project + \" absent\"))\n            .getLabelTypes().byLabel(labelId);\n  }",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a15464c9_1cb2de23",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "224619e5_85ee9e3f",
       "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -401,6 +641,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "948eb402_68b72848",
+        "filename": "java/com/google/gerrit/server/query/approval/MagicValuePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Doesn\u0027t help because we need to compare the value, so have to cast anyway.",
+      "parentUuid": "24729234_c7e2113e",
+      "range": {
+        "startLine": 71,
+        "startChar": 11,
+        "endLine": 71,
+        "endChar": 60
+      },
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "830bbf8c_085d4fe4",
@@ -418,6 +682,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1302a260_9cb53064",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "830bbf8c_085d4fe4",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05c219aa_1d728d28",
@@ -431,6 +713,24 @@
       "writtenOn": "2021-05-28T18:55:56Z",
       "side": 1,
       "message": "Are there existing helpers like this and the ones below for approval copying tests? (related: are there existing approval copying tests?)",
+      "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5279cbc3_e6c1ae23",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-01T08:30:23Z",
+      "side": 1,
+      "message": "Done (I factored out some logic in a predecessor change).",
+      "parentUuid": "05c219aa_1d728d28",
       "revId": "e92909b79d6b68612bcc1e4f1495ee86b4ea0c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -112,6 +112,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_ALLOW_POST_SUBMIT = "allowPostSubmit";
   public static final String KEY_IGNORE_SELF_APPROVAL = "ignoreSelfApproval";
   public static final String KEY_COPY_ANY_SCORE = "copyAnyScore";
+  public static final String KEY_COPY_CONDITION = "copyCondition";
   public static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
   public static final String KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE =
       "copyAllScoresIfListOfFilesDidNotChange";
@@ -1075,6 +1076,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                     KEY_FUNCTION, name, Joiner.on(", ").join(LabelFunction.ALL.keySet()))));
       }
       label.setFunction(function.orElse(null));
+      label.setCopyCondition(Optional.ofNullable(rc.getString(LABEL, name, KEY_COPY_CONDITION)));
 
       if (!values.isEmpty()) {
         short dv = (short) rc.getInt(LABEL, name, KEY_DEFAULT_VALUE, 0);
@@ -1664,6 +1666,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         values.add(value.format().trim());
       }
       rc.setStringList(LABEL, name, KEY_VALUE, values);
+      if (label.getCopyCondition().isPresent()) {
+        rc.setString(LABEL, name, KEY_COPY_CONDITION, label.getCopyCondition().get());
+      } else {
+        rc.unset(LABEL, name, KEY_COPY_CONDITION);
+      }
 
       List<String> refPatterns = label.getRefPatterns();
       if (refPatterns != null && !refPatterns.isEmpty()) {

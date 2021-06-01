@@ -25,6 +25,8 @@ public class LabelDefinitionInput extends InputWithCommitMessage {
   public List<String> branches;
   public Boolean canOverride;
   public Boolean copyAnyScore;
+  public String copyCondition;
+  public Boolean unsetCopyCondition;
   public Boolean copyMinScore;
   public Boolean copyMaxScore;
   public Boolean copyAllScoresIfListOfFilesDidNotChange;

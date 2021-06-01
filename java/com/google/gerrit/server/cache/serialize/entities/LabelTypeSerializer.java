@@ -18,11 +18,13 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.server.cache.proto.Cache;
+import java.util.Optional;
 
 /** Helper to (de)serialize values for caches. */
 public class LabelTypeSerializer {
@@ -39,6 +41,7 @@ public class LabelTypeSerializer {
         .setAllowPostSubmit(proto.getAllowPostSubmit())
         .setIgnoreSelfApproval(proto.getIgnoreSelfApproval())
         .setDefaultValue(Shorts.saturatedCast(proto.getDefaultValue()))
+        .setCopyCondition(Optional.ofNullable(Strings.emptyToNull(proto.getCopyCondition())))
         .setCopyAnyScore(proto.getCopyAnyScore())
         .setCopyMinScore(proto.getCopyMinScore())
         .setCopyMaxScore(proto.getCopyMaxScore())
@@ -67,6 +70,7 @@ public class LabelTypeSerializer {
                 .map(LabelValueSerializer::serialize)
                 .collect(toImmutableList()))
         .setFunction(FUNCTION_CONVERTER.reverse().convert(autoValue.getFunction()))
+        .setCopyCondition(autoValue.getCopyCondition().orElse(""))
         .setCopyAnyScore(autoValue.isCopyAnyScore())
         .setCopyMinScore(autoValue.isCopyMinScore())
         .setCopyMaxScore(autoValue.isCopyMaxScore())

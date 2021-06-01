@@ -24,6 +24,7 @@ import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @AutoValue
 public abstract class LabelType {
@@ -127,6 +128,8 @@ public abstract class LabelType {
   public abstract short getMaxPositive();
 
   public abstract boolean isCanOverride();
+
+  public abstract Optional<String> getCopyCondition();
 
   @Nullable
   public abstract ImmutableList<String> getRefPatterns();
@@ -238,6 +241,8 @@ public abstract class LabelType {
     public abstract Builder setDefaultValue(short defaultValue);
 
     public abstract Builder setCopyAnyScore(boolean copyAnyScore);
+
+    public abstract Builder setCopyCondition(Optional<String> copyCondition);
 
     public abstract Builder setCopyMinScore(boolean copyMinScore);
 

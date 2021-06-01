@@ -29,9 +29,11 @@ import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.logging.Metadata;
@@ -44,6 +46,8 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.approval.ApprovalContext;
+import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -68,17 +72,20 @@ public class ApprovalInference {
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
   private final PatchListCache patchListCache;
+  private final ApprovalQueryBuilder approvalQueryBuilder;
 
   @Inject
   ApprovalInference(
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
-      PatchListCache patchListCache) {
+      PatchListCache patchListCache,
+      ApprovalQueryBuilder approvalQueryBuilder) {
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.patchListCache = patchListCache;
+    this.approvalQueryBuilder = approvalQueryBuilder;
   }
 
   /**
@@ -105,7 +112,7 @@ public class ApprovalInference {
     }
   }
 
-  private static boolean canCopy(
+  private static boolean canCopyBasedOnBooleanLabelConfigs(
       ProjectState project,
       PatchSetApproval psa,
       PatchSet.Id psId,
@@ -380,7 +387,8 @@ public class ApprovalInference {
       if (patchList == null && type != null && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
         patchList = getPatchList(project, ps, priorPatchSet);
       }
-      if (!canCopy(project, psa, ps.id(), kind, type, patchList)) {
+      if (!canCopyBasedOnBooleanLabelConfigs(project, psa, ps.id(), kind, type, patchList)
+          && !canCopyBasedOnCopyCondition(project.getNameKey(), psa, ps.id(), type)) {
         continue;
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
@@ -407,6 +415,21 @@ public class ApprovalInference {
               + " votes on labels even if list of files is the same and "
               + "copyAllIfListOfFilesDidNotChange",
           ex);
+    }
+  }
+
+  private boolean canCopyBasedOnCopyCondition(
+      Project.NameKey project, PatchSetApproval psa, PatchSet.Id psId, LabelType type) {
+    if (!type.getCopyCondition().isPresent()) {
+      return false;
+    }
+    ApprovalContext ctx = ApprovalContext.create(project, psa, psId);
+    try {
+      return approvalQueryBuilder.parse(type.getCopyCondition().get()).asMatchable().match(ctx);
+    } catch (QueryParseException e) {
+      logger.atWarning().withCause(e).log(
+          "Unable to copy label because config is invalid. This should have been caught before.");
+      return false;
     }
   }
 }

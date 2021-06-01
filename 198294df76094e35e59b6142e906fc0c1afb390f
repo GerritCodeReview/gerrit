@@ -66,6 +66,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "07b0a22e_4a0035cb",
+        "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-01T15:29:59Z",
+      "side": 1,
+      "message": "nit: rename? cd \u003d changedata, but this is a generic document  ?\n\ncan be in a follow-up.",
+      "range": {
+        "startLine": 77,
+        "startChar": 25,
+        "endLine": 77,
+        "endChar": 27
+      },
+      "revId": "198294df76094e35e59b6142e906fc0c1afb390f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de654b46_05ba0c55",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 9

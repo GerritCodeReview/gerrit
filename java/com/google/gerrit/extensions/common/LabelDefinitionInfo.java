@@ -26,6 +26,7 @@ public class LabelDefinitionInfo {
   public List<String> branches;
   public Boolean canOverride;
   public Boolean copyAnyScore;
+  public String copyCondition;
   public Boolean copyMinScore;
   public Boolean copyMaxScore;
   public Boolean copyAllScoresIfListOfFilesDidNotChange;

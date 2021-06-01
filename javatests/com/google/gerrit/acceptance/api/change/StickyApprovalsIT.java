@@ -140,6 +140,28 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void stickyWhenCopyConditionIsTrue() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("is:ANY"));
+      u.save();
+    }
+
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, 1, -1);
+
+      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 2, 0, changeKind);
+      assertVotes(c, user, 1, 0, changeKind);
+    }
+  }
+
+  @Test
   public void stickyOnMinScore() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMinScore(true));
@@ -157,6 +179,30 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
       ChangeInfo c = detailedChange(changeId);
       assertVotes(c, admin, 0, 0, changeKind);
+      assertVotes(c, user, -2, 0, changeKind);
+    }
+  }
+
+  @Test
+  public void stickyWhenEitherBooleanConfigsOrCopyConditionAreTrue() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyCondition("is:MAX").setCopyMinScore(true));
+      u.save();
+    }
+
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, -2, -1);
+
+      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 2, 0, changeKind);
       assertVotes(c, user, -2, 0, changeKind);
     }
   }

@@ -3964,6 +3964,8 @@ by child projects.
 |`copy_any_score`|`false` if not set|
 Whether link:config-labels.html#label_copyAnyScore[copyAnyScore] is set on the
 label.
+|`copy_condition`|optional|
+See link:config-labels.html#label_copyCondition[copyCondition].
 |`copy_min_score`|`false` if not set|
 Whether link:config-labels.html#label_copyMinScore[copyMinScore] is set on the
 label.
@@ -4034,6 +4036,10 @@ by child projects.
 |`copy_any_score`|optional|
 Whether link:config-labels.html#label_copyAnyScore[copyAnyScore] is set on the
 label.
+|`copy_condition`|optional|
+See link:config-labels.html#label_copyCondition[copyCondition].
+|`unset_copy_condition`|optional|
+If true, clears the value stored in `copy_condition`.
 |`copy_min_score`|optional|
 Whether link:config-labels.html#label_copyMinScore[copyMinScore] is set on the
 label.

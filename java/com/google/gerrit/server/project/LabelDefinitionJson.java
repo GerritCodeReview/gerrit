@@ -32,6 +32,7 @@ public class LabelDefinitionJson {
     label.defaultValue = labelType.getDefaultValue();
     label.branches = labelType.getRefPatterns() != null ? labelType.getRefPatterns() : null;
     label.canOverride = toBoolean(labelType.isCanOverride());
+    label.copyCondition = labelType.getCopyCondition().orElse(null);
     label.copyAnyScore = toBoolean(labelType.isCopyAnyScore());
     label.copyMinScore = toBoolean(labelType.isCopyMinScore());
     label.copyMaxScore = toBoolean(labelType.isCopyMaxScore());

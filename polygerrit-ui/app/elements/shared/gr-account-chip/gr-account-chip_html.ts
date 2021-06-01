@@ -81,6 +81,10 @@ export const htmlTemplate = html`
     gr-button.transparentBackground {
       background-color: transparent;
     }
+    .highlight,
+    gr-button.highlight {
+      background-color: var(--chip-background-color);
+    }
     :host([disabled]) {
       opacity: 0.6;
       pointer-events: none;
@@ -90,13 +94,16 @@ export const htmlTemplate = html`
       width: 1.2rem;
     }
   </style>
-  <div class$="container [[_getBackgroundClass(transparentBackground)]]">
+  <div
+    class$="container [[_getBackgroundClass(transparentBackground, highlight)]]"
+  >
     <gr-account-link
       account="[[account]]"
       change="[[change]]"
       force-attention="[[forceAttention]]"
       highlight-attention="[[highlightAttention]]"
       voteable-text="[[voteableText]]"
+      disable-navigation="[[disableNavigation]]"
     >
     </gr-account-link>
     <gr-button
@@ -105,7 +112,7 @@ export const htmlTemplate = html`
       hidden$="[[!removable]]"
       hidden=""
       aria-label="Remove"
-      class$="remove [[_getBackgroundClass(transparentBackground)]]"
+      class$="remove [[_getBackgroundClass(transparentBackground, highlight)]]"
       on-click="_handleRemoveTap"
     >
       <iron-icon icon="gr-icons:close"></iron-icon>

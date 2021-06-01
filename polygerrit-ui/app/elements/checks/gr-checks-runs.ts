@@ -40,9 +40,10 @@ import {
   worstCategory,
 } from '../../services/checks/checks-util';
 import {
-  CheckRun,
   allRuns$,
+  CheckRun,
   fakeActions,
+  fakeLinks,
   fakeRun0,
   fakeRun1,
   fakeRun2,
@@ -52,7 +53,6 @@ import {
   fakeRun4_3,
   fakeRun4_4,
   updateStateSetResults,
-  fakeLinks,
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
@@ -561,11 +561,16 @@ export class GrChecksRuns extends GrLitElement {
           @click="${() => this.toggleExpanded(status)}"
         >
           <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
-          <h3 class="heading-3">${status.toLowerCase()}</h3>
+          <h3 class="heading-3">${this.headingForStatus(status)}</h3>
         </div>
         <div class="sectionRuns">${runs.map(run => this.renderRun(run))}</div>
       </div>
     `;
+  }
+
+  headingForStatus(status: RunStatus) {
+    if (status === RunStatus.RUNNING) return 'still running';
+    return html`${status.toLowerCase()}`;
   }
 
   toggleExpanded(status: RunStatus) {

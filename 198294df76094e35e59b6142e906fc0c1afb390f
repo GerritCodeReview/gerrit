@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f82a286_071216f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-01T12:47:10Z",
+      "side": 1,
+      "message": "typo: update",
+      "range": {
+        "startLine": 20,
+        "startChar": 34,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "198294df76094e35e59b6142e906fc0c1afb390f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ca05c4b_e57740b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-01T12:47:10Z",
+      "side": 1,
+      "message": "LGTM - nits",
+      "revId": "198294df76094e35e59b6142e906fc0c1afb390f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21b2b2cc_e8380998",
+        "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-01T12:47:10Z",
+      "side": 1,
+      "message": "Thanks for updating the javadocs. While moving code around, it\u0027s hard (as a reviewer) to spot what/if something has actually changed.",
+      "range": {
+        "startLine": 66,
+        "startChar": 49,
+        "endLine": 66,
+        "endChar": 50
+      },
+      "revId": "198294df76094e35e59b6142e906fc0c1afb390f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de654b46_05ba0c55",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-01T12:47:10Z",
+      "side": 1,
+      "message": "Please add a comment here or in line 623 that querying for accounts after performing the update will not result in stale result (if I understand it correctly from the commit message) because we are using the fake index and the account state is reconstructed from the accounts cache.",
+      "revId": "198294df76094e35e59b6142e906fc0c1afb390f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

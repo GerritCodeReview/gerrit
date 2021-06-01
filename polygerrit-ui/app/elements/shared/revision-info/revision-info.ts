@@ -63,6 +63,10 @@ export class RevisionInfo {
     return this.getParentCountMap()[patchNum as number];
   }
 
+  isMergeCommit(patchNum: PatchSetNum) {
+    return this.getParentCount(patchNum) > 1;
+  }
+
   /**
    * Get the commit ID of the (0-offset) indexed parent in the given revision
    * number.

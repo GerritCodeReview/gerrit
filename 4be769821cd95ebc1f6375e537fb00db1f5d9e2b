@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e645b59_59faac27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-01T08:33:00Z",
+      "side": 1,
+      "message": "If a user can cause writes in the system, they must have permission to see the thing. (The gerrit permissions are separate, but if you have write permission without read permission, the git wire protocol breaks in interesting ways.)\n\nslightly related: It might useful to log a stacktrace if we see a RefUpdated event on a GET request.",
+      "parentUuid": "f6aa4707_822d70e9",
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c29f91e7_dd07d518",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 2

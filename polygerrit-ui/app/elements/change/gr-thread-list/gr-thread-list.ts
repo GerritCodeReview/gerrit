@@ -30,7 +30,7 @@ import {
   PolymerSpliceChange,
   PolymerDeepPropertyChange,
 } from '@polymer/polymer/interfaces';
-import {ChangeInfo} from '../../../types/common';
+import {AccountInfo, ChangeInfo} from '../../../types/common';
 import {
   CommentThread,
   isDraft,
@@ -38,12 +38,14 @@ import {
   isDraftThread,
   isRobotThread,
   hasHumanReply,
+  getCommentAuthors,
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireThreadListModifiedEvent} from '../../../utils/event-util';
-import {assertNever} from '../../../utils/common-util';
+import {assertIsDefined, assertNever} from '../../../utils/common-util';
 import {CommentTabState} from '../../../types/events';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
+import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -89,7 +91,7 @@ export class GrThreadList extends PolymerElement {
   @property({
     computed:
       '_computeDisplayedThreads(_sortedThreads.*, unresolvedOnly, ' +
-      '_draftsOnly, onlyShowRobotCommentsWithHumanReply)',
+      '_draftsOnly, onlyShowRobotCommentsWithHumanReply, selectedAuthors)',
     type: Array,
   })
   _displayedThreads: CommentThread[] = [];
@@ -114,6 +116,9 @@ export class GrThreadList extends PolymerElement {
 
   @property({type: Object})
   sortDropdownValue: SortDropdownState = SortDropdownState.TIMESTAMP;
+
+  @property({type: Array, notify: true})
+  selectedAuthors: AccountInfo[] = [];
 
   @computed('unresolvedOnly', '_draftsOnly')
   get commentsDropdownValue() {
@@ -194,8 +199,33 @@ export class GrThreadList extends PolymerElement {
     return items;
   }
 
+  getCommentAuthors(threads?: CommentThread[]) {
+    return getCommentAuthors(threads);
+  }
+
+  handleAccountClicked(e: MouseEvent) {
+    const account = (e.target as GrAccountChip).account;
+    assertIsDefined(account, 'account');
+    const index = this.selectedAuthors.findIndex(
+      author => author._account_id === account._account_id
+    );
+    if (index === -1) this.push('selectedAuthors', account);
+    else this.splice('selectedAuthors', index, 1);
+    // re-assign so that isSelected template method is called
+    this.selectedAuthors = [...this.selectedAuthors];
+  }
+
+  isSelected(author: AccountInfo, selectedAuthors: AccountInfo[]) {
+    return selectedAuthors.some(a => a._account_id === author._account_id);
+  }
+
   handleSortDropdownValueChange(e: CustomEvent) {
     this.sortDropdownValue = e.detail.value;
+    /*
+     * Ideally we would have updateSortedThreads observe on sortDropdownValue
+     * but the method triggered re-render only when the length of threads
+     * changes, hence keep the explicit resortThreads method
+     */
     this.resortThreads(this.threads);
   }
 
@@ -337,7 +367,8 @@ export class GrThreadList extends PolymerElement {
     >,
     unresolvedOnly?: boolean,
     draftsOnly?: boolean,
-    onlyShowRobotCommentsWithHumanReply?: boolean
+    onlyShowRobotCommentsWithHumanReply?: boolean,
+    selectedAuthors?: AccountInfo[]
   ) {
     if (!sortedThreadsRecord || !sortedThreadsRecord.base) return [];
     return sortedThreadsRecord.base.filter(t =>
@@ -345,7 +376,8 @@ export class GrThreadList extends PolymerElement {
         t,
         unresolvedOnly,
         draftsOnly,
-        onlyShowRobotCommentsWithHumanReply
+        onlyShowRobotCommentsWithHumanReply,
+        selectedAuthors
       )
     );
   }
@@ -355,14 +387,16 @@ export class GrThreadList extends PolymerElement {
     thread: CommentThread,
     unresolvedOnly?: boolean,
     draftsOnly?: boolean,
-    onlyShowRobotCommentsWithHumanReply?: boolean
+    onlyShowRobotCommentsWithHumanReply?: boolean,
+    selectedAuthors?: AccountInfo[]
   ) {
     const threads = displayedThreads.filter(t =>
       this._shouldShowThread(
         t,
         unresolvedOnly,
         draftsOnly,
-        onlyShowRobotCommentsWithHumanReply
+        onlyShowRobotCommentsWithHumanReply,
+        selectedAuthors
       )
     );
     const index = threads.findIndex(t => t.rootId === thread.rootId);
@@ -377,14 +411,16 @@ export class GrThreadList extends PolymerElement {
     thread: CommentThread,
     unresolvedOnly?: boolean,
     draftsOnly?: boolean,
-    onlyShowRobotCommentsWithHumanReply?: boolean
+    onlyShowRobotCommentsWithHumanReply?: boolean,
+    selectedAuthors?: AccountInfo[]
   ) {
     const threads = displayedThreads.filter(t =>
       this._shouldShowThread(
         t,
         unresolvedOnly,
         draftsOnly,
-        onlyShowRobotCommentsWithHumanReply
+        onlyShowRobotCommentsWithHumanReply,
+        selectedAuthors
       )
     );
     const index = threads.findIndex(t => t.rootId === thread.rootId);
@@ -398,7 +434,8 @@ export class GrThreadList extends PolymerElement {
         thread,
         unresolvedOnly,
         draftsOnly,
-        onlyShowRobotCommentsWithHumanReply
+        onlyShowRobotCommentsWithHumanReply,
+        selectedAuthors
       )
     );
   }
@@ -407,7 +444,8 @@ export class GrThreadList extends PolymerElement {
     thread: CommentThread,
     unresolvedOnly?: boolean,
     draftsOnly?: boolean,
-    onlyShowRobotCommentsWithHumanReply?: boolean
+    onlyShowRobotCommentsWithHumanReply?: boolean,
+    selectedAuthors?: AccountInfo[]
   ) {
     if (
       [
@@ -415,9 +453,24 @@ export class GrThreadList extends PolymerElement {
         unresolvedOnly,
         draftsOnly,
         onlyShowRobotCommentsWithHumanReply,
+        selectedAuthors,
       ].includes(undefined)
     ) {
       return false;
+    }
+
+    if (selectedAuthors!.length) {
+      if (
+        !thread.comments.some(
+          c =>
+            c.author &&
+            selectedAuthors!.some(
+              author => c.author!._account_id === author._account_id
+            )
+        )
+      ) {
+        return false;
+      }
     }
 
     if (

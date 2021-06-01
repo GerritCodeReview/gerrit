@@ -30,7 +30,7 @@ import {
   PolymerSpliceChange,
   PolymerDeepPropertyChange,
 } from '@polymer/polymer/interfaces';
-import {ChangeInfo} from '../../../types/common';
+import {AccountInfo, ChangeInfo} from '../../../types/common';
 import {
   CommentThread,
   isDraft,
@@ -44,6 +44,8 @@ import {fireThreadListModifiedEvent} from '../../../utils/event-util';
 import {assertNever} from '../../../utils/common-util';
 import {CommentTabState} from '../../../types/events';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
+import {accountOrGroupKey} from '../../../utils/account-util';
+import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -114,6 +116,9 @@ export class GrThreadList extends PolymerElement {
 
   @property({type: Object})
   sortDropdownValue: SortDropdownState = SortDropdownState.TIMESTAMP;
+
+  @property({type: Array, notify: true})
+  selectedAuthors: AccountInfo[] = [];
 
   @computed('unresolvedOnly', '_draftsOnly')
   get commentsDropdownValue() {
@@ -192,6 +197,36 @@ export class GrThreadList extends PolymerElement {
         value: CommentTabState.DRAFTS,
       });
     return items;
+  }
+
+  getCommentAuthors(threads: CommentThread[]) {
+    const ids = new Set();
+    const authors: AccountInfo[] = [];
+    threads.forEach(t =>
+      t.comments.forEach(c => {
+        if (c.author && !ids.has(accountOrGroupKey(c.author))) {
+          ids.add(accountOrGroupKey(c.author));
+          authors.push(c.author);
+        }
+      })
+    );
+    return authors;
+  }
+
+  handleAccountClicked(e: MouseEvent) {
+    const account = (e.target! as GrAccountChip).account;
+    if (!account) throw new Error('account not found');
+    const index = this.selectedAuthors.findIndex(
+      author => accountOrGroupKey(author) === accountOrGroupKey(account)
+    );
+    if (index === -1) this.push('selectedAuthors', account);
+    else this.splice('selectedAuthors', index, 1);
+    this.notifyPath('profile')
+    this.resortThreads(this.threads);
+  }
+
+  isHighlighted(author: AccountInfo, selectedAuthors: AccountInfo[]) {
+    return selectedAuthors.some(a => accountOrGroupKey(a) === accountOrGroupKey(author));
   }
 
   handleSortDropdownValueChange(e: CustomEvent) {
@@ -418,6 +453,21 @@ export class GrThreadList extends PolymerElement {
       ].includes(undefined)
     ) {
       return false;
+    }
+
+    if (this.selectedAuthors.length) {
+      if (
+        !thread.comments.some(
+          c =>
+            c.author &&
+            this.selectedAuthors.some(
+              author =>
+                accountOrGroupKey(c.author!) === accountOrGroupKey(author)
+            )
+        )
+      ) {
+        return false;
+      }
     }
 
     if (

@@ -32,7 +32,7 @@ export class GrReportingJsApi implements ReportingPluginApi {
 
   reportInteraction(eventName: string, details?: EventDetails) {
     this.reporting.trackApi(this.plugin, 'reporting', 'reportInteraction');
-    this.reporting.reportInteraction(
+    this.reporting.reportPluginInteractionLog(
       `${this.plugin.getPluginName()}-${eventName}`,
       details
     );
@@ -40,10 +40,9 @@ export class GrReportingJsApi implements ReportingPluginApi {
 
   reportLifeCycle(eventName: string, details?: EventDetails) {
     this.reporting.trackApi(this.plugin, 'reporting', 'reportLifeCycle');
-    this.reporting.reportLifeCycle(LifeCycle.PLUGIN_LIFE_CYCLE, {
-      ...details,
-      pluginName: this.plugin.getPluginName(),
-      eventName,
-    });
+    this.reporting.reportPluginLifecycleLog(
+      `${this.plugin.getPluginName()}-${eventName}`,
+      details
+    );
   }
 }

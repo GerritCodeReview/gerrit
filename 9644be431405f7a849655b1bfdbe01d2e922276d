@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07ef34d3_29a87b21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-06-01T20:34:44Z",
+      "side": 1,
+      "message": "Hi Ole,\n\nI think there was a problem in the merges about gr-diff. Could you take a look?",
+      "revId": "9644be431405f7a849655b1bfdbe01d2e922276d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

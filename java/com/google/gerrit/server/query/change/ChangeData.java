@@ -58,7 +58,6 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.index.RefState;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -68,6 +67,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
+import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.CommentThread;
 import com.google.gerrit.server.change.CommentThreads;
 import com.google.gerrit.server.change.MergeabilityCache;
@@ -586,8 +586,7 @@ public class ChangeData {
       } else {
         try {
           currentApprovals =
-              ImmutableList.copyOf(
-                  approvalsUtil.byPatchSet(notes(), c.currentPatchSetId(), null, null));
+              ImmutableList.copyOf(approvalsUtil.byPatchSet(notes(), c.currentPatchSetId()));
         } catch (StorageException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();

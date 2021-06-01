@@ -47,9 +47,9 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -650,7 +650,7 @@ public class MergeUtil {
 
   private Iterable<PatchSetApproval> safeGetApprovals(ChangeNotes notes, PatchSet.Id psId) {
     try {
-      return approvalsUtil.byPatchSet(notes, psId, null, null);
+      return approvalsUtil.byPatchSet(notes, psId);
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Can't read approval records for %s", psId);
       return Collections.emptyList();

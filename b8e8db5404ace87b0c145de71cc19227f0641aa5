@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec915730_faa25655",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-06-02T09:29:26Z",
+      "side": 1,
+      "message": "I simplified the code a bit for that solution (only showAbove) - in case that\u0027s the behavior we want in the end for all gr-diff clients.",
+      "parentUuid": "aa37431d_09e3f618",
+      "revId": "b8e8db5404ace87b0c145de71cc19227f0641aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36f82282_1c37d202",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
         "patchSetId": 1

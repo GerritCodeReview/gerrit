@@ -48,6 +48,7 @@ import {
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {pluralize} from '../../../utils/string-util';
+import { ChangeStates } from '../../shared/gr-change-status/gr-change-status';
 
 enum ChangeSize {
   XS = 10,
@@ -105,7 +106,7 @@ export class GrChangeListItem extends ChangeTableMixin(PolymerElement) {
   changeURL?: string;
 
   @property({type: Array, computed: '_changeStatuses(change)'})
-  statuses?: string[];
+  statuses?: ChangeStates[];
 
   @property({type: Boolean})
   showStar = false;

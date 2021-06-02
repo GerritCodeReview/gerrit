@@ -532,7 +532,7 @@ class GrResultExpanded extends GrLitElement {
     if (!this.result) return '';
     return html`
       ${this.renderFirstPrimaryLink()} ${this.renderOtherPrimaryLinks()}
-      ${this.renderSecondaryLinks()}
+      ${this.renderSecondaryLinks()} ${this.renderCodePointers()}
       <gr-endpoint-decorator name="check-result-expanded">
         <gr-endpoint-param
           name="run"
@@ -560,6 +560,7 @@ class GrResultExpanded extends GrLitElement {
 
   private renderOtherPrimaryLinks() {
     const links = otherPrimaryLinks(this.result);
+    if (links.length === 0) return;
     return html`<div class="links">
       ${links.map(link => this.renderLink(link))}
     </div>`;
@@ -567,9 +568,31 @@ class GrResultExpanded extends GrLitElement {
 
   private renderSecondaryLinks() {
     const links = secondaryLinks(this.result);
+    if (links.length === 0) return;
     return html`<div class="links">
       ${links.map(link => this.renderLink(link))}
     </div>`;
+  }
+
+  private renderCodePointers() {
+    const pointers = this.result?.codePointers ?? [];
+    if (pointers.length === 0) return;
+    const links = pointers.map(pointer => {
+      let rangeText = '';
+      const start = pointer?.range?.start_line;
+      const end = pointer?.range?.end_line;
+      if (start) rangeText += `#${start}`;
+      if (end && start !== end) rangeText += `-${end}`;
+      return {
+        icon: LinkIcon.CODE,
+        tooltip: `${pointer.path}${rangeText}`,
+        url: `${pointer.path}`,
+        primary: true,
+      };
+    });
+    return links.map(
+      link => html`<div class="links">${this.renderLink(link)}</div>`
+    );
   }
 
   private renderLink(link?: Link) {

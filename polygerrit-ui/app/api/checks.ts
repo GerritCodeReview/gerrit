@@ -449,4 +449,5 @@ export enum LinkIcon {
   DOWNLOAD_MOBILE = 'download_mobile',
   HELP_PAGE = 'help_page',
   REPORT_BUG = 'report_bug',
+  CODE = 'code',
 }

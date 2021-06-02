@@ -17,67 +17,28 @@
 import {html} from 'lit-html';
 import {classMap} from 'lit-html/directives/class-map';
 import {repeat} from 'lit-html/directives/repeat';
-import {
-  css,
-  customElement,
-  property,
-  PropertyValues,
-  query,
-  state,
-  TemplateResult,
-} from 'lit-element';
+import {css, customElement, property, PropertyValues, query, state, TemplateResult,} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import './gr-checks-action';
 import '@polymer/paper-tooltip/paper-tooltip';
-import {
-  Action,
-  Category,
-  Link,
-  LinkIcon,
-  RunStatus,
-  Tag,
-} from '../../api/checks';
+import {Action, Category, Link, LinkIcon, RunStatus, Tag,} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
-import {
-  allActions$,
-  allLinks$,
-  CheckRun,
-  checksPatchsetNumber$,
-  RunResult,
-  someProvidersAreLoading$,
-} from '../../services/checks/checks-model';
-import {
-  allResults,
-  fireActionTriggered,
-  hasCompletedWithoutResults,
-  iconForCategory,
-  iconForLink,
-  otherPrimaryLinks,
-  firstPrimaryLink,
-  primaryRunAction,
-  tooltipForLink,
-  secondaryLinks,
-} from '../../services/checks/checks-util';
+import {allActions$, allLinks$, CheckRun, checksPatchsetNumber$, RunResult, someProvidersAreLoading$,} from '../../services/checks/checks-model';
+import {allResults, fireActionTriggered, firstPrimaryLink, hasCompletedWithoutResults, iconForCategory, iconForLink, otherPrimaryLinks, primaryRunAction, secondaryLinks, tooltipForLink,} from '../../services/checks/checks-util';
 import {assertIsDefined, check} from '../../utils/common-util';
 import {toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
 import {isAttemptSelected} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
-import {
-  ConfigInfo,
-  LabelNameToInfoMap,
-  PatchSetNumber,
-} from '../../types/common';
+import {ConfigInfo, LabelNameToInfoMap, PatchSetNumber,} from '../../types/common';
 import {labels$, latestPatchNum$} from '../../services/change/change-model';
 import {appContext} from '../../services/app-context';
 import {repoConfig$} from '../../services/config/config-model';
 import {spinnerStyles} from '../../styles/gr-spinner-styles';
-import {
-  getLabelStatus,
-  getRepresentativeValue,
-  valueString,
-} from '../../utils/label-util';
+import {getLabelStatus, getRepresentativeValue, valueString,} from '../../utils/label-util';
+import {GerritNav} from '../core/gr-navigation/gr-navigation';
+import {range} from 'rxjs';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -532,7 +493,7 @@ class GrResultExpanded extends GrLitElement {
     if (!this.result) return '';
     return html`
       ${this.renderFirstPrimaryLink()} ${this.renderOtherPrimaryLinks()}
-      ${this.renderSecondaryLinks()}
+      ${this.renderSecondaryLinks()} ${this.renderCodePointers()}
       <gr-endpoint-decorator name="check-result-expanded">
         <gr-endpoint-param
           name="run"
@@ -560,6 +521,7 @@ class GrResultExpanded extends GrLitElement {
 
   private renderOtherPrimaryLinks() {
     const links = otherPrimaryLinks(this.result);
+    if (links.length === 0) return;
     return html`<div class="links">
       ${links.map(link => this.renderLink(link))}
     </div>`;
@@ -567,9 +529,31 @@ class GrResultExpanded extends GrLitElement {
 
   private renderSecondaryLinks() {
     const links = secondaryLinks(this.result);
+    if (links.length === 0) return;
     return html`<div class="links">
       ${links.map(link => this.renderLink(link))}
     </div>`;
+  }
+
+  private renderCodePointers() {
+    const pointers = this.result?.codePointers ?? [];
+    if (pointers.length === 0) return;
+    const links = pointers.map(pointer => {
+      let rangeText = '';
+      const start = pointer?.range?.start_line;
+      const end = pointer?.range?.end_line;
+      if (start) rangeText += `#${start}`;
+      if (end && start !== end) rangeText += `-${end}`;
+      return {
+        icon: LinkIcon.CODE,
+        tooltip: `${pointer.path}${rangeText}`,
+        url: `${pointer.path}`,
+        primary: true,
+      };
+    });
+    return links.map(
+      link => html`<div class="links">${this.renderLink(link)}</div>`
+    );
   }
 
   private renderLink(link?: Link) {

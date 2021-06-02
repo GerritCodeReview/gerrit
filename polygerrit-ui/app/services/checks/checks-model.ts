@@ -310,6 +310,26 @@ export const fakeRun1: CheckRun = {
       message: `There is a lot to be said. A lot. I say, a lot.\n
                 So please keep reading.`,
       tags: [{name: 'INTERRUPTED', color: TagColor.PURPLE}, {name: 'WINDOWS'}],
+      codePointers: [
+        {
+          path: 'COMMIT_MSG',
+          range: {
+            start_line: 10,
+            start_character: 0,
+            end_line: 10,
+            end_character: 0,
+          },
+        },
+        {
+          path: 'path/to/file/in/change.txt',
+          range: {
+            start_line: 5,
+            start_character: 0,
+            end_line: 7,
+            end_character: 0,
+          },
+        },
+      ],
       links: [
         {primary: true, url: 'https://google.com', icon: LinkIcon.EXTERNAL},
         {primary: true, url: 'https://google.com', icon: LinkIcon.DOWNLOAD},

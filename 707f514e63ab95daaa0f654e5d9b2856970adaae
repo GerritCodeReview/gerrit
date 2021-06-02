@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d91ff08_18ede79f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-02T21:16:20Z",
+      "side": 1,
+      "message": "Better:\n\n  queryAndAssert\u003cHTMLElement\u003e(element, \u0027#output\u0027)",
+      "range": {
+        "startLine": 102,
+        "startChar": 17,
+        "endLine": 102,
+        "endChar": 33
+      },
+      "revId": "707f514e63ab95daaa0f654e5d9b2856970adaae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91ccc4e2_d453a725",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-02T21:16:20Z",
+      "side": 1,
+      "message": "Better:\n\n  queryAndAssert\u003cHTMLSpanElement\u003e(element, \u0027span\u0027)",
+      "range": {
+        "startLine": 356,
+        "startChar": 6,
+        "endLine": 356,
+        "endChar": 65
+      },
+      "revId": "707f514e63ab95daaa0f654e5d9b2856970adaae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

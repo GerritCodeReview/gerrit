@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32023ff7_b7918750",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-02T09:07:36Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment. What data could somebody try to insert here?",
+      "range": {
+        "startLine": 66,
+        "startChar": 89,
+        "endLine": 67,
+        "endChar": 21
+      },
+      "revId": "cc9ca3523083645e5dd22822a471c889a296afd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

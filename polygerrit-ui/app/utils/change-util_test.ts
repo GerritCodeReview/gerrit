@@ -16,6 +16,7 @@
  */
 
 import {ChangeStatus} from '../constants/constants';
+import {ChangeStates} from '../elements/shared/gr-change-status/gr-change-status';
 import '../test/common-test-setup-karma';
 import {createChange, createRevisions} from '../test/test-data-generators';
 import {
@@ -66,29 +67,29 @@ suite('change-util tests', () => {
 
     change.submittable = false;
     statuses = changeStatuses(change, {mergeable: true, submitEnabled: false});
-    assert.deepEqual(statuses, ['Active']);
+    assert.deepEqual(statuses, [ChangeStates.ACTIVE]);
 
     // With no missing labels but no submitEnabled option.
     change.submittable = true;
     statuses = changeStatuses(change, {mergeable: true, submitEnabled: false});
-    assert.deepEqual(statuses, ['Active']);
+    assert.deepEqual(statuses, [ChangeStates.ACTIVE]);
 
     // Without missing labels and enabled submit
     statuses = changeStatuses(change, {mergeable: true, submitEnabled: true});
-    assert.deepEqual(statuses, ['Ready to submit']);
+    assert.deepEqual(statuses, [ChangeStates.READY_TO_SUBMIT]);
 
     change.mergeable = false;
     change.submittable = true;
     statuses = changeStatuses(change, {mergeable: false, submitEnabled: false});
-    assert.deepEqual(statuses, ['Merge Conflict']);
+    assert.deepEqual(statuses, [ChangeStates.MERGE_CONFLICT]);
 
     change.mergeable = true;
     statuses = changeStatuses(change, {mergeable: true, submitEnabled: true});
-    assert.deepEqual(statuses, ['Ready to submit']);
+    assert.deepEqual(statuses, [ChangeStates.READY_TO_SUBMIT]);
 
     change.submittable = true;
     statuses = changeStatuses(change, {mergeable: false, submitEnabled: false});
-    assert.deepEqual(statuses, ['Merge Conflict']);
+    assert.deepEqual(statuses, [ChangeStates.MERGE_CONFLICT]);
   });
 
   test('Merge conflict', () => {
@@ -100,7 +101,7 @@ suite('change-util tests', () => {
       mergeable: false,
     };
     const statuses = changeStatuses(change);
-    assert.deepEqual(statuses, ['Merge Conflict']);
+    assert.deepEqual(statuses, [ChangeStates.MERGE_CONFLICT]);
   });
 
   test('mergeable prop undefined', () => {
@@ -122,7 +123,7 @@ suite('change-util tests', () => {
       status: ChangeStatus.MERGED,
     };
     const statuses = changeStatuses(change);
-    assert.deepEqual(statuses, ['Merged']);
+    assert.deepEqual(statuses, [ChangeStates.MERGED]);
   });
 
   test('Abandoned status', () => {
@@ -134,7 +135,7 @@ suite('change-util tests', () => {
       mergeable: false,
     };
     const statuses = changeStatuses(change);
-    assert.deepEqual(statuses, ['Abandoned']);
+    assert.deepEqual(statuses, [ChangeStates.ABANDONED]);
   });
 
   test('Open status with private and wip', () => {
@@ -149,7 +150,7 @@ suite('change-util tests', () => {
       labels: {},
     };
     const statuses = changeStatuses(change);
-    assert.deepEqual(statuses, ['WIP', 'Private']);
+    assert.deepEqual(statuses, [ChangeStates.WIP, ChangeStates.PRIVATE]);
   });
 
   test('Merge conflict with private and wip', () => {
@@ -164,7 +165,11 @@ suite('change-util tests', () => {
       labels: {},
     };
     const statuses = changeStatuses(change);
-    assert.deepEqual(statuses, ['Merge Conflict', 'WIP', 'Private']);
+    assert.deepEqual(statuses, [
+      ChangeStates.MERGE_CONFLICT,
+      ChangeStates.WIP,
+      ChangeStates.PRIVATE,
+    ]);
   });
 
   test('isRemovableReviewer', () => {

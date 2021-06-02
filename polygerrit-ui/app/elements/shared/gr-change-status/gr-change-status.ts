@@ -28,13 +28,15 @@ import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 
 export enum ChangeStates {
-  MERGED = 'Merged',
   ABANDONED = 'Abandoned',
+  ACTIVE = 'Active',
   MERGE_CONFLICT = 'Merge Conflict',
-  WIP = 'WIP',
+  MERGED = 'Merged',
   PRIVATE = 'Private',
+  READY_TO_SUBMIT = 'Ready to submit',
   REVERT_CREATED = 'Revert Created',
   REVERT_SUBMITTED = 'Revert Submitted',
+  WIP = 'WIP',
 }
 
 const WIP_TOOLTIP =
@@ -52,7 +54,7 @@ const PRIVATE_TOOLTIP =
   'current reviewers (or anyone with "View Private Changes" permission).';
 
 @customElement('gr-change-status')
-class GrChangeStatus extends PolymerElement {
+export class GrChangeStatus extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

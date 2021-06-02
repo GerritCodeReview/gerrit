@@ -22,6 +22,30 @@
       },
       "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eadb2d8b_ec80574a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-06-02T17:08:20Z",
+      "side": 1,
+      "message": "How many migration threads were you using when that became a problem? We haven\u0027t found a case where shuffling improved overall migration time.",
+      "parentUuid": "7b29a9f1_530bfce8",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

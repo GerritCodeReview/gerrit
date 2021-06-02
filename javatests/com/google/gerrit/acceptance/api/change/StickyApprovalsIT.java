@@ -162,6 +162,27 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void stickyEvenWhenUserCantSeeUploaderInGroup() throws Exception {
+    // user can't see admin group
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
+      u.getConfig()
+          .updateLabelType(
+              LabelId.CODE_REVIEW, b -> b.setCopyCondition("approverin:" + administratorsUUID));
+      u.save();
+    }
+
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+    amendChange(changeId);
+    vote(user, changeId, 1, -1); // Invalidate cache
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, 1, -1);
+  }
+
+  @Test
   public void stickyOnMinScore() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMinScore(true));

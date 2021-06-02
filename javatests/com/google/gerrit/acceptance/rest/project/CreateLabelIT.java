@@ -441,6 +441,33 @@ public class CreateLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createCopyConditionPerformsGroupVisibilityCheckWhenUserInPredicateIsUsed()
+      throws Exception {
+    String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.copyCondition = "uploaderin:" + administratorsUUID;
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    // User can't see admin group
+    requestScopeOperations.setApiUser(user.id());
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(project.get()).label("foo").create(input));
+    assertThat(thrown).hasMessageThat().contains("Group " + administratorsUUID + " not found");
+
+    // Admin can see admin group
+    requestScopeOperations.setApiUser(admin.id());
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(updatedLabel.copyCondition).isEqualTo(input.copyCondition);
+  }
+
+  @Test
   public void createWithInvalidCopyCondition() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");

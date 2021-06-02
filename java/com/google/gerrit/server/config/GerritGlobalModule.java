@@ -179,8 +179,7 @@ import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectNameLockManager;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.query.approval.ChangeKindPredicate;
-import com.google.gerrit.server.query.approval.MagicValuePredicate;
+import com.google.gerrit.server.query.approval.ApprovalModule;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -272,6 +271,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new SshAddressesModule());
     install(new FileInfoJsonModule(cfg));
     install(ThreadLocalRequestContext.module());
+    install(new ApprovalModule());
 
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);
@@ -284,8 +284,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(RevisionJson.Factory.class);
     factory(InboundEmailRejectionSender.Factory.class);
     factory(ExternalUser.Factory.class);
-    factory(ChangeKindPredicate.Factory.class);
-    factory(MagicValuePredicate.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
     AccountDefaultDisplayName accountDefaultDisplayName =

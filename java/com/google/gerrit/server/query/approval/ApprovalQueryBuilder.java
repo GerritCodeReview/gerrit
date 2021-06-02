@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.query.approval;
 
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupResolver;
 import com.google.inject.Inject;
 import java.util.Arrays;
 
@@ -27,14 +31,23 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
 
   private final ChangeKindPredicate.Factory changeKindPredicateFactory;
   private final MagicValuePredicate.Factory magicValuePredicate;
+  private final UserInPredicate.Factory userInPredicate;
+  private final GroupResolver groupResolver;
+  private final GroupControl.Factory groupControl;
 
   @Inject
   protected ApprovalQueryBuilder(
       ChangeKindPredicate.Factory changeKindPredicateFactory,
-      MagicValuePredicate.Factory magicValuePredicate) {
+      MagicValuePredicate.Factory magicValuePredicate,
+      UserInPredicate.Factory userInPredicate,
+      GroupResolver groupResolver,
+      GroupControl.Factory groupControl) {
     super(mydef, null);
     this.changeKindPredicateFactory = changeKindPredicateFactory;
     this.magicValuePredicate = magicValuePredicate;
+    this.userInPredicate = userInPredicate;
+    this.groupResolver = groupResolver;
+    this.groupControl = groupControl;
   }
 
   @Operator
@@ -45,6 +58,16 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   @Operator
   public Predicate<ApprovalContext> is(String term) throws QueryParseException {
     return magicValuePredicate.create(toEnumValue(MagicValuePredicate.MagicValue.class, term));
+  }
+
+  @Operator
+  public Predicate<ApprovalContext> approverin(String group) throws QueryParseException {
+    return userInPredicate.create(UserInPredicate.Field.APPROVER, parseGroupOrThrow(group));
+  }
+
+  @Operator
+  public Predicate<ApprovalContext> uploaderin(String group) throws QueryParseException {
+    return userInPredicate.create(UserInPredicate.Field.UPLOADER, parseGroupOrThrow(group));
   }
 
   private static <T extends Enum<T>> T toEnumValue(Class<T> clazz, String term)
@@ -59,5 +82,13 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
               "%s is not a valid term. valid options: %s",
               term, Arrays.asList(clazz.getEnumConstants())));
     }
+  }
+
+  private AccountGroup.UUID parseGroupOrThrow(String maybeUUID) throws QueryParseException {
+    GroupDescription.Basic g = groupResolver.parseId(maybeUUID);
+    if (g == null || !groupControl.controlFor(g).isVisible()) {
+      throw error("Group " + maybeUUID + " not found");
+    }
+    return g.getGroupUUID();
   }
 }

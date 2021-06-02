@@ -16,6 +16,23 @@
       "message": "Ole is the expert. I would like him to review first.",
       "revId": "f1db12703faffa9867b1ebadff57dcb9d103642c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "913f7cf9_8032e1c3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-06-02T07:28:51Z",
+      "side": 1,
+      "message": "The doc strings are odd here:\n* we only have a commment on next(), not previous()\n* we do have a doc string for the \"private\" moveCursor - it is now missing the docs for the new circular option.\n* the \"delta\" you talk about here is part of a private method\n\n\nMaybe document next and previous, and remove the docs for nextCursor, and then make you can \"expand\" the case distinction and get rid of the mentin of delta?",
+      "revId": "f1db12703faffa9867b1ebadff57dcb9d103642c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d8d783b_b6168548",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-02T09:39:26Z",
+      "side": 1,
+      "message": "Remove else. There is a `return` above.",
+      "revId": "e79bb9ead5bf36267d3a3360d74dc978997419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a56c99_bef9eac6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-02T09:39:26Z",
+      "side": 1,
+      "message": "Add a comment that this is important for Shift-M.",
+      "revId": "e79bb9ead5bf36267d3a3360d74dc978997419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

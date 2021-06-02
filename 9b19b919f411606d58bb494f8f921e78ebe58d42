@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b417f2db_f646308c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-02T17:29:47Z",
+      "side": 1,
+      "message": "+ 1 would be nice to have a screenshot :)",
+      "parentUuid": "6df14888_617383e2",
+      "revId": "9b19b919f411606d58bb494f8f921e78ebe58d42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b798a150_fa70f189",

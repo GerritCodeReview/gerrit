@@ -334,6 +334,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e91cff_da18568f",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-02T13:54:30Z",
+      "side": 1,
+      "message": "Yup, exactly. I also realized that (Y)\nLGTM",
+      "parentUuid": "ba923518_eb029248",
+      "range": {
+        "startLine": 343,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 23
+      },
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5558c751_e74171f1",

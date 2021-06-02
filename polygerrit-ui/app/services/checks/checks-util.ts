@@ -312,14 +312,28 @@ export function fromApiToInternalResult(result: CheckResultApi): CheckResult {
   };
 }
 
-export function primaryLink(result?: CheckResultApi): Link | undefined {
-  const links = result?.links ?? [];
-  return links.find(link => link.primary);
+export function allPrimaryLinks(result?: CheckResultApi): Link[] {
+  return (result?.links ?? []).filter(link => link.primary);
 }
 
-export function otherLinks(result?: CheckResultApi): Link[] {
-  const primary = primaryLink(result);
-  const links = result?.links ?? [];
-  // Just filter the one primary link, not all primary links.
-  return links.filter(link => link !== primary);
+export function firstPrimaryLink(result?: CheckResultApi): Link | undefined {
+  return allPrimaryLinks(result).find(link => link.icon === LinkIcon.EXTERNAL);
+}
+
+export function otherPrimaryLinks(result?: CheckResultApi): Link[] {
+  const first = firstPrimaryLink(result);
+  return (
+    allPrimaryLinks(result)
+      .filter(link => link !== first)
+      // Only one link per icon.
+      .filter(
+        (link: Link, index: number, array: Link[]) =>
+          array.findIndex(other => link.icon === other.icon) === index
+      )
+      .slice(0, 4)
+  );
+}
+
+export function secondaryLinks(result?: CheckResultApi): Link[] {
+  return (result?.links ?? []).filter(link => !link.primary);
 }

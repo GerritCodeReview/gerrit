@@ -28,10 +28,11 @@ import {
   loginCallbackLatest$,
   someProvidersAreLoadingLatest$,
 } from '../../../services/checks/checks-model';
-import {Category, Link, RunStatus} from '../../../api/checks';
+import {Category, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
 import {
+  firstPrimaryLink,
   getResultsOf,
   hasCompletedWithoutResults,
   hasResultsOf,
@@ -455,13 +456,10 @@ export class GrChangeSummary extends GrLitElement {
       this.detailsQuota -= runs.length;
       return runs.map(run => {
         this.detailsCheckNames.push(run.checkName);
-        const allLinks = resultFilter(run)
-          .reduce(
-            (links, result) => links.concat(result.links ?? []),
-            [] as Link[]
-          )
-          .filter(link => link.primary);
-        const links = allLinks.length === 1 ? allLinks : [];
+        const allPrimaryLinks = resultFilter(run)
+          .map(firstPrimaryLink)
+          .filter(notUndefined);
+        const links = allPrimaryLinks.length === 1 ? allPrimaryLinks : [];
         const text = `${run.checkName}`;
         return html`<gr-checks-chip
           class="${icon}"

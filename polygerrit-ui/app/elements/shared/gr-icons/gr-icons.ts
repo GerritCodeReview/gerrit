@@ -148,6 +148,8 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="playArrow"><path d="M0 0h24v24H0z" fill="none"/><path d="M8 5v14l11-7z"/></g>
       <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material%20Icons%3Apause-->
       <g id="pause"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></g>
+      <!-- This SVG is a copy from material.io https://material.io/icons/#code-->
+      <g id="code"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></g>
     </defs>
   </svg>
 </iron-iconset-svg>`;

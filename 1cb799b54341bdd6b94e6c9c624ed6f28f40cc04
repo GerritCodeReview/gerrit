@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49d1fc69_ffb609bd",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-02T16:39:48Z",
+      "side": 1,
+      "message": "--spacing-xs between Icon and Link text so that they look more closely related",
+      "range": {
+        "startLine": 517,
+        "startChar": 28,
+        "endLine": 517,
+        "endChar": 39
+      },
+      "revId": "1cb799b54341bdd6b94e6c9c624ed6f28f40cc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

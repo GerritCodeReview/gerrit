@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa37431d_09e3f618",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-06-02T07:37:21Z",
+      "side": 1,
+      "message": "I was thinking however, we can define it with only a \"showAbove\" - it could look like that: https://imgur.com/tpR1gK5\n\nWhat do you think? \n\nThe single change here would then be:\n```\n    const containsWholeFile \u003d this._numLinesLeft \u003d\u003d\u003d leftEnd - leftStart + 1;\n    if (containsWholeFile) {\n      showAbove \u003d true;\n      showBelow \u003d false;\n    }\n    ...\n```\n\n@Ole Since gr-diff doesn\u0027t necessarily renders the \"File\" line in some clients, which might be more confusing to these users. But maybe it\u0027s not a bad experience after all?",
+      "parentUuid": "d1c3eeed_cb9cd359",
+      "revId": "b8e8db5404ace87b0c145de71cc19227f0641aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36f82282_1c37d202",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
         "patchSetId": 1

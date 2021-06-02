@@ -16,6 +16,23 @@
       "message": "Nice change!",
       "revId": "a540622ba8694a7d592681a0a5f32663e66952f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "410b69fa_02600535",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-02T16:27:10Z",
+      "side": 1,
+      "message": "Han-Wen, could you approve this change?",
+      "revId": "a540622ba8694a7d592681a0a5f32663e66952f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

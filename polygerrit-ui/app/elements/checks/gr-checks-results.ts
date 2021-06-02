@@ -113,7 +113,7 @@ class GrResultRow extends GrLitElement {
         gr-result-expanded {
           cursor: default;
         }
-        tr {
+        tr.container {
           border-top: 1px solid var(--border-color);
         }
         iron-icon.link {
@@ -169,27 +169,30 @@ class GrResultRow extends GrLitElement {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        tr:hover {
+        tr.container:hover {
           background: var(--hover-background-color);
         }
-        tr td .summary-cell .links,
-        tr td .summary-cell .actions,
-        tr.collapsed:hover td .summary-cell .links,
-        tr.collapsed:hover td .summary-cell .actions,
+        tr.container td .summary-cell .links,
+        tr.container td .summary-cell .actions,
+        tr.container.collapsed:hover td .summary-cell .links,
+        tr.container.collapsed:hover td .summary-cell .actions,
         :host(.dropdown-open) tr td .summary-cell .links,
         :host(.dropdown-open) tr td .summary-cell .actions {
           display: inline-block;
           margin-left: var(--spacing-s);
         }
-        tr.collapsed td .summary-cell .message {
+        tr.container.collapsed td .summary-cell .message {
           color: var(--deemphasized-text-color);
         }
-        tr.collapsed td .summary-cell .links,
-        tr.collapsed td .summary-cell .actions {
+        tr.container.collapsed td .summary-cell .links,
+        tr.container.collapsed td .summary-cell .actions {
           display: none;
         }
-        tr.collapsed:hover .summary-cell .hoverHide.tags,
-        tr.collapsed:hover .summary-cell .hoverHide.label {
+        tr.container.collapsed:hover .summary-cell .hoverHide.tags,
+        tr.container.collapsed:hover .summary-cell .hoverHide.label {
+          display: none;
+        }
+        tr.detailsRow.collapsed {
           display: none;
         }
         td .summary-cell .tags .tag {
@@ -318,7 +321,6 @@ class GrResultRow extends GrLitElement {
             </div>
             ${this.renderLabel()} ${this.renderLinks()} ${this.renderActions()}
           </div>
-          ${this.renderExpanded()}
         </td>
         <td class="expanderCol" @click="${this.toggleExpanded}">
           <div
@@ -339,6 +341,10 @@ class GrResultRow extends GrLitElement {
             ></iron-icon>
           </div>
         </td>
+      </tr>
+      <tr class="${classMap({detailsRow: true, collapsed: !this.isExpanded})}">
+        <td></td>
+        <td colspan="3">${this.renderExpanded()}</td>
       </tr>
     `;
   }

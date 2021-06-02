@@ -308,6 +308,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71d9bf8f_24247198",
+        "filename": "java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-02T14:28:50Z",
+      "side": 1,
+      "message": "Yes, this is needed only because in theory we could have multiple ref updates firing concurrently in the same request.",
+      "parentUuid": "ff263483_cae7c6d7",
+      "range": {
+        "startLine": 57,
+        "startChar": 65,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "e76ae03c84192e3f146dab79b03ee174d0b0641a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5034e23_36e13985",

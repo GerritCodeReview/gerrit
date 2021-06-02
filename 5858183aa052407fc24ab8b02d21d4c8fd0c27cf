@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89f4771d_82847bf4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-02T08:35:28Z",
+      "side": 1,
+      "message": "What do you think about this? I will fix test, if you will like this change.",
+      "revId": "5858183aa052407fc24ab8b02d21d4c8fd0c27cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -56,6 +56,7 @@ import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
+import {routerPatchNum$} from '../router/router-model';
 
 export class ChecksService {
   private readonly providers: {[name: string]: ChecksProvider} = {};
@@ -72,10 +73,18 @@ export class ChecksService {
     checkToPluginMap$.subscribe(map => {
       this.checkToPluginMap = map;
     });
-    latestPatchNum$.subscribe(num => {
-      this.latestPatchNum = num;
-      this.setPatchset(num);
-    });
+    combineLatest([routerPatchNum$, latestPatchNum$]).subscribe(
+      ([routerPs, latestPs]) => {
+        this.latestPatchNum = latestPs;
+        if (latestPs === undefined) {
+          this.setPatchset(undefined);
+        } else if (typeof routerPs === 'number') {
+          this.setPatchset(routerPs);
+        } else {
+          this.setPatchset(latestPs);
+        }
+      }
+    );
     document.addEventListener('visibilitychange', () => {
       this.documentVisibilityChange$.next(undefined);
     });

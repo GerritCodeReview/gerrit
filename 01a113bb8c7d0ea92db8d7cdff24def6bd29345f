@@ -46,6 +46,30 @@
       },
       "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3b4c67d_15f88531",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-02T17:41:50Z",
+      "side": 1,
+      "message": "It depends, I think on the size distribution of the repositories in the site.\n\nI measured migration speed for our largest repository (10GB, 15mio commits, 1.5mio refs) vs. number of migration threads. Migration speed increased roughly linearly between 1 thread and 15 threads from 50 to 450 changes/s, between 20 and 30 threads migration speed dropped from 400 to 100 changes/s. Above 20 threads Java gc cpu% increased a lot reducing cpu% available for the migration. This site (including 1k other repositories in that site) we migrated using 20 threads, average speed was 120 changes/s.\n\nOn another site (serving 25k repositories) we could migrate using 1 thread/core with 350 cores by skipping one very large repository which fortunately is read-only so we could migrate that in advance on another server. Here migration speed was \u003e1500 changes/s.\n\nI guess this could be improved by using two thread pools instead of shuffling:\n- one smaller thread pool (e.g. 20 threads) to migrate slices of large repositories (e.g. \u003e 1GB)\n- another larger thread pool (1 thread/core - 20) migrating slices from smaller repositories.",
+      "parentUuid": "eadb2d8b_ec80574a",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

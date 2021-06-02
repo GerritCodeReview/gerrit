@@ -276,8 +276,16 @@ export const fakeRun0: CheckRun = {
       ],
       tags: [{name: 'INTERRUPTED', color: TagColor.BROWN}, {name: 'WINDOWS'}],
       links: [
-        {primary: true, url: 'https://google.com', icon: LinkIcon.EXTERNAL},
+        {primary: false, url: 'https://google.com', icon: LinkIcon.EXTERNAL},
         {primary: true, url: 'https://google.com', icon: LinkIcon.DOWNLOAD},
+        {
+          primary: true,
+          url: 'https://google.com',
+          icon: LinkIcon.DOWNLOAD_MOBILE,
+        },
+        {primary: true, url: 'https://google.com', icon: LinkIcon.IMAGE},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.IMAGE},
+        {primary: true, url: 'https://google.com', icon: LinkIcon.IMAGE},
         {primary: true, url: 'https://google.com', icon: LinkIcon.REPORT_BUG},
         {primary: true, url: 'https://google.com', icon: LinkIcon.HELP_PAGE},
         {primary: true, url: 'https://google.com', icon: LinkIcon.HISTORY},

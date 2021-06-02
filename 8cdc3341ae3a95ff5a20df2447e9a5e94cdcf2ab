@@ -46,6 +46,30 @@
       },
       "revId": "8cdc3341ae3a95ff5a20df2447e9a5e94cdcf2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c7b030c_edc2e7cd",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-02T12:33:10Z",
+      "side": 1,
+      "message": "\u003e This behaves the same way was if we would store approvals in NoteDb when a new patch set is uploaded. So if you change the copy rules after that, that does not affect any votes.\n\nthanks, that addresses my concerns. I guess it\u0027s in the commit message if you read carefully enough (which I didn\u0027t do.)",
+      "parentUuid": "3200651a_a4d0cc5d",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 25
+      },
+      "revId": "8cdc3341ae3a95ff5a20df2447e9a5e94cdcf2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

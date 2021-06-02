@@ -14,16 +14,21 @@
 
 package com.google.gerrit.acceptance.server.query;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Inject;
@@ -33,6 +38,7 @@ import org.junit.Test;
 public class ApprovalQueryIT extends AbstractDaemonTest {
   @Inject private ApprovalQueryBuilder queryBuilder;
   @Inject private ChangeKindCreator changeKindCreator;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void magicValuePredicate() throws Exception {
@@ -111,6 +117,43 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .parse("-changekind:rework")
             .asMatchable()
             .match(contextForCodeReviewLabel(-2, ps2)));
+  }
+
+  @Test
+  public void uploaderInPredicate() throws Exception {
+    String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
+
+    PushOneCommit.Result pushResult = createChange();
+    String changeCreatedByAdmin = pushResult.getChangeId();
+    approve(changeCreatedByAdmin);
+    // PS2 uploaded by admin
+    amendChange(changeCreatedByAdmin);
+    // PS3 uploaded by user
+    amendChangeWithUploader(pushResult, project, user).assertOkStatus();
+
+    assertTrue(
+        queryBuilder
+            .parse("uploaderin:" + administratorsUUID)
+            .asMatchable()
+            .match(contextForCodeReviewLabel(2, PatchSet.id(pushResult.getChange().getId(), 1))));
+    assertFalse(
+        queryBuilder
+            .parse("uploaderin:" + administratorsUUID)
+            .asMatchable()
+            .match(contextForCodeReviewLabel(2, PatchSet.id(pushResult.getChange().getId(), 2))));
+  }
+
+  @Test
+  public void userInPredicate_groupNotFound() throws Exception {
+    QueryParseException thrown =
+        assertThrows(
+            QueryParseException.class,
+            () ->
+                queryBuilder
+                    .parse("uploaderin:foobar")
+                    .asMatchable()
+                    .match(contextForCodeReviewLabel(2)));
+    assertThat(thrown).hasMessageThat().contains("Group foobar not found");
   }
 
   private ApprovalContext contextForCodeReviewLabel(int value) {

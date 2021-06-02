@@ -16,6 +16,40 @@
       "message": "What do you think about this? I will fix test, if you will like this change.",
       "revId": "5858183aa052407fc24ab8b02d21d4c8fd0c27cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5f9b36e_0a7c3c61",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-06-02T09:24:53Z",
+      "side": 1,
+      "message": "Can you document what this actually does? It sounds like it does some kind of scoping - does that mean that users then also need to something special in the CSS to make sure this matches?",
+      "revId": "5858183aa052407fc24ab8b02d21d4c8fd0c27cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5f000ef_59aaf868",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-06-02T09:24:53Z",
+      "side": 1,
+      "message": "Why not do this here? Can we consistently add this or not in all code paths?",
+      "revId": "5858183aa052407fc24ab8b02d21d4c8fd0c27cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

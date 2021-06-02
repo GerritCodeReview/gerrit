@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99a512eb_f349c40c",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-02T06:56:03Z",
+      "side": 1,
+      "message": "This is not true :-)\n\nThis cache returns a ProjectState, which is an inheritance accessor for CachedProjectConfig. However, it does not actually cache that (so \"it must be carefully evicted\" is not accurate).\n\nIt produces a fresh ProjectState everytime you call it, but that is just a very thin wrapper around a single CachedProjectState and a reference to this cache so that it can serve as accessor for inherited values.\n\nThe cache has to be evicted because it holds onto a CachedProjectState keyed only by Project.NameKey for faster access. The persisted variant is keyed by SHA1 of refs/meta/config which is not an option for the in-mem variante because it would mean that any call to the cache entails opening the repo and reading a SHA1 which for dashboard pages would mean we do this 100-1000 times (resolving acls).",
+      "range": {
+        "startLine": 87,
+        "startChar": 3,
+        "endLine": 90,
+        "endChar": 70
+      },
+      "revId": "e6bffba3b2baa481a754504c8aacaa47764d649a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

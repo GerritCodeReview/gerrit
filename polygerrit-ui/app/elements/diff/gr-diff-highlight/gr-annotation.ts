@@ -118,6 +118,9 @@ export const GrAnnotation = {
     const nodes: Array<HTMLElement | Text> = [].slice.apply(parent.childNodes);
     let nodeLength;
     let subLength;
+    if (!cssClass.includes('style-scope gr-diff')) {
+      cssClass = 'style-scope gr-diff ' + cssClass;
+    }
 
     for (const node of nodes) {
       nodeLength = this.getLength(node);

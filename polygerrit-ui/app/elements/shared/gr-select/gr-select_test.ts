@@ -15,41 +15,42 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-select.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '../../../test/common-test-setup-karma';
+import './gr-select';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {GrSelect} from './gr-select';
 
 const basicFixture = fixtureFromTemplate(html`
-<gr-select>
-      <select>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
-    </gr-select>
+  <gr-select>
+    <select>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
+  </gr-select>
 `);
 
 const noOptionsFixture = fixtureFromTemplate(html`
-<gr-select>
-      <select>
-      </select>
-    </gr-select>
+  <gr-select>
+    <select></select>
+  </gr-select>
 `);
 
 suite('gr-select tests', () => {
-  let element;
+  let element: GrSelect;
 
   setup(() => {
-    element = basicFixture.instantiate();
+    element = basicFixture.instantiate() as GrSelect;
   });
 
   test('bindValue must be set to the first option value', () => {
     assert.equal(element.bindValue, '1');
+    assert.equal(element.nativeSelect.value, '1');
   });
 
   test('value of 0 should still trigger value updates', () => {
-    element.bindValue = 0;
-    assert.equal(element.nativeSelect.value, 0);
+    element.bindValue = '0';
+    assert.equal(element.nativeSelect.value, '');
   });
 
   test('bidirectional binding property-to-attribute', () => {
@@ -82,9 +83,11 @@ suite('gr-select tests', () => {
     // Now change the value.
     element.nativeSelect.value = '3';
     element.dispatchEvent(
-        new CustomEvent('change', {
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('change', {
+        composed: true,
+        bubbles: true,
+      })
+    );
 
     // It should be updated.
     assert.equal(element.nativeSelect.value, '3');
@@ -93,10 +96,10 @@ suite('gr-select tests', () => {
   });
 
   suite('gr-select no options tests', () => {
-    let element;
+    let element: GrSelect;
 
     setup(() => {
-      element = noOptionsFixture.instantiate();
+      element = noOptionsFixture.instantiate() as GrSelect;
     });
 
     test('bindValue must not be changed', () => {
@@ -104,4 +107,3 @@ suite('gr-select tests', () => {
     });
   });
 });
-

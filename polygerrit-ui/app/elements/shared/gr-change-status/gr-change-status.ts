@@ -52,7 +52,7 @@ const PRIVATE_TOOLTIP =
   'current reviewers (or anyone with "View Private Changes" permission).';
 
 @customElement('gr-change-status')
-class GrChangeStatus extends PolymerElement {
+export class GrChangeStatus extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
@@ -64,7 +64,7 @@ class GrChangeStatus extends PolymerElement {
   change?: ChangeInfo | ParsedChangeInfo;
 
   @property({type: String, observer: '_updateChipDetails'})
-  status?: ChangeStates;
+  status?: ChangeStates | string;
 
   @property({type: String})
   tooltipText = '';

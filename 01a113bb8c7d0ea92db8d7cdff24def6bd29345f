@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b29a9f1_530bfce8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-02T17:06:09Z",
+      "side": 1,
+      "message": "I added shuffling to reduce memory allocation if the site has a few large and many small repositories. Migrating slices of small repositories needs a lot less memory than migrating the same number of slices of large repositories. Shuffling is an attempt to mix slices from large and small repositories to reduce overall memory allocation so that the number of migration threads can be increased without driving java gc crazy.",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

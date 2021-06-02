@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4368d34_49e65d5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-02T10:20:32Z",
+      "side": 1,
+      "message": "I\u0027ll add one more test to make sure we handle object ID state correctly when passing in older change notes to the cache, but I think it\u0027s good enough for a first round of reviews - thanks!",
+      "revId": "10f1a39caa807370b97c212d36f0f68c94ef28c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e91ce1d6_8ef2c5a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-02T14:43:02Z",
+      "side": 1,
+      "message": "Adding Delphine for UX review. Should the chips look more like the attention set ones (in the reply dialog) and the code owners ones? Then you could maybe use \u003cgr-account-label\u003e instead of \u003cgr-account-link\u003e with disabled navigation.",
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

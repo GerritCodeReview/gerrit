@@ -21,7 +21,6 @@ import static com.google.gerrit.server.cache.serialize.entities.LabelTypeSeriali
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
-import java.util.Optional;
 import org.junit.Test;
 
 public class LabelTypeSerializerTest {

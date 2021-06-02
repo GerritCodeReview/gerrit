@@ -40,9 +40,11 @@ import {
   worstCategory,
 } from '../../services/checks/checks-util';
 import {
+  allRunsSelectedPatchset$,
   CheckRun,
-  allRuns$,
+  ChecksPatchset,
   fakeActions,
+  fakeLinks,
   fakeRun0,
   fakeRun1,
   fakeRun2,
@@ -52,7 +54,6 @@ import {
   fakeRun4_3,
   fakeRun4_4,
   updateStateSetResults,
-  fakeLinks,
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
 import {whenVisible} from '../../utils/dom-util';
@@ -334,7 +335,7 @@ export class GrChecksRuns extends GrLitElement {
 
   constructor() {
     super();
-    this.subscribe('runs', allRuns$);
+    this.subscribe('runs', allRunsSelectedPatchset$);
   }
 
   static get styles() {
@@ -514,24 +515,31 @@ export class GrChecksRuns extends GrLitElement {
   }
 
   none() {
-    updateStateSetResults('f0', [], []);
-    updateStateSetResults('f1', []);
-    updateStateSetResults('f2', []);
-    updateStateSetResults('f3', []);
-    updateStateSetResults('f4', []);
+    updateStateSetResults('f0', [], [], [], ChecksPatchset.LATEST);
+    updateStateSetResults('f1', [], [], [], ChecksPatchset.LATEST);
+    updateStateSetResults('f2', [], [], [], ChecksPatchset.LATEST);
+    updateStateSetResults('f3', [], [], [], ChecksPatchset.LATEST);
+    updateStateSetResults('f4', [], [], [], ChecksPatchset.LATEST);
   }
 
   all() {
-    updateStateSetResults('f0', [fakeRun0], fakeActions, fakeLinks);
-    updateStateSetResults('f1', [fakeRun1]);
-    updateStateSetResults('f2', [fakeRun2]);
-    updateStateSetResults('f3', [fakeRun3]);
-    updateStateSetResults('f4', [
-      fakeRun4_1,
-      fakeRun4_2,
-      fakeRun4_3,
-      fakeRun4_4,
-    ]);
+    updateStateSetResults(
+      'f0',
+      [fakeRun0],
+      fakeActions,
+      fakeLinks,
+      ChecksPatchset.LATEST
+    );
+    updateStateSetResults('f1', [fakeRun1], [], [], ChecksPatchset.LATEST);
+    updateStateSetResults('f2', [fakeRun2], [], [], ChecksPatchset.LATEST);
+    updateStateSetResults('f3', [fakeRun3], [], [], ChecksPatchset.LATEST);
+    updateStateSetResults(
+      'f4',
+      [fakeRun4_1, fakeRun4_2, fakeRun4_3, fakeRun4_4],
+      [],
+      [],
+      ChecksPatchset.LATEST
+    );
   }
 
   toggle(
@@ -541,7 +549,13 @@ export class GrChecksRuns extends GrLitElement {
     links: Link[] = []
   ) {
     const newRuns = this.runs.includes(runs[0]) ? [] : runs;
-    updateStateSetResults(plugin, newRuns, actions, links);
+    updateStateSetResults(
+      plugin,
+      newRuns,
+      actions,
+      links,
+      ChecksPatchset.LATEST
+    );
   }
 
   renderSection(status: RunStatus) {

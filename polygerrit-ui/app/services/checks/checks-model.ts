@@ -21,7 +21,6 @@ import {
   Category,
   CheckResult as CheckResultApi,
   CheckRun as CheckRunApi,
-  ChecksApiConfig,
   Link,
   LinkIcon,
   RunStatus,
@@ -31,6 +30,17 @@ import {distinctUntilChanged, map} from 'rxjs/operators';
 import {PatchSetNumber} from '../../types/common';
 import {AttemptDetail, createAttemptMap} from './checks-util';
 import {assertIsDefined} from '../../utils/common-util';
+
+/**
+ * The checks model maintains the state of checks for two patchsets: the latest
+ * and (if different) also for the one selected in the checks tab. So we need
+ * the distinction in a lot of places for checks about whether the code affects
+ * the checks data of the LATEST or the SELECTED patchset.
+ */
+export enum ChecksPatchset {
+  LATEST = 'LATEST',
+  SELECTED = 'SELECTED',
+}
 
 export interface CheckResult extends CheckResultApi {
   /**
@@ -75,21 +85,33 @@ interface ChecksProviderState {
   errorMessage?: string;
   /** Presence of loginCallback implicitly means that the provider is in NOT_LOGGED_IN state. */
   loginCallback?: () => void;
-  config?: ChecksApiConfig;
   runs: CheckRun[];
   actions: Action[];
   links: Link[];
 }
 
 interface ChecksState {
-  patchsetNumber?: PatchSetNumber;
-  providerNameToState: {
+  /**
+   * This is the patchset number selected by the user. The *latest* patchset
+   * can be picked up from the change model.
+   */
+  patchsetNumberSelected?: PatchSetNumber;
+  /** Checks data for the latest patchset. */
+  pluginStateLatest: {
+    [name: string]: ChecksProviderState;
+  };
+  /**
+   * Checks data for the selected patchset. Note that `checksSelected$` below
+   * falls back to the data for the latest patchset, if no patchset is selected.
+   */
+  pluginStateSelected: {
     [name: string]: ChecksProviderState;
   };
 }
 
 const initialState: ChecksState = {
-  providerNameToState: {},
+  pluginStateLatest: {},
+  pluginStateSelected: {},
 };
 
 const privateState$ = new BehaviorSubject(initialState);
@@ -97,29 +119,45 @@ const privateState$ = new BehaviorSubject(initialState);
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const checksState$: Observable<ChecksState> = privateState$;
 
-export const checksPatchsetNumber$ = checksState$.pipe(
-  map(state => state.patchsetNumber),
+export const checksSelectedPatchsetNumber$ = checksState$.pipe(
+  map(state => state.patchsetNumberSelected),
   distinctUntilChanged()
 );
 
-export const checksProviderState$ = checksState$.pipe(
-  map(state => state.providerNameToState),
+export const checksLatest$ = checksState$.pipe(
+  map(state => state.pluginStateLatest),
   distinctUntilChanged()
 );
 
-export const aPluginHasRegistered$ = checksProviderState$.pipe(
+export const checksSelected$ = checksState$.pipe(
+  map(state =>
+    state.patchsetNumberSelected
+      ? state.pluginStateSelected
+      : state.pluginStateLatest
+  ),
+  distinctUntilChanged()
+);
+
+export const aPluginHasRegistered$ = checksLatest$.pipe(
   map(state => Object.keys(state).length > 0),
   distinctUntilChanged()
 );
 
-export const someProvidersAreLoading$ = checksProviderState$.pipe(
+export const someProvidersAreLoadingLatest$ = checksLatest$.pipe(
   map(state =>
     Object.values(state).some(providerState => providerState.loading)
   ),
   distinctUntilChanged()
 );
 
-export const errorMessage$ = checksProviderState$.pipe(
+export const someProvidersAreLoadingSelected$ = checksSelected$.pipe(
+  map(state =>
+    Object.values(state).some(providerState => providerState.loading)
+  ),
+  distinctUntilChanged()
+);
+
+export const errorMessageLatest$ = checksLatest$.pipe(
   map(
     state =>
       Object.values(state).find(
@@ -129,7 +167,7 @@ export const errorMessage$ = checksProviderState$.pipe(
   distinctUntilChanged()
 );
 
-export const loginCallback$ = checksProviderState$.pipe(
+export const loginCallbackLatest$ = checksLatest$.pipe(
   map(
     state =>
       Object.values(state).find(
@@ -139,7 +177,7 @@ export const loginCallback$ = checksProviderState$.pipe(
   distinctUntilChanged()
 );
 
-export const allActions$ = checksProviderState$.pipe(
+export const topLevelActionsSelected$ = checksSelected$.pipe(
   map(state =>
     Object.values(state).reduce(
       (allActions: Action[], providerState: ChecksProviderState) => [
@@ -151,7 +189,7 @@ export const allActions$ = checksProviderState$.pipe(
   )
 );
 
-export const allLinks$ = checksProviderState$.pipe(
+export const topLevelLinksSelected$ = checksSelected$.pipe(
   map(state =>
     Object.values(state).reduce(
       (allActions: Link[], providerState: ChecksProviderState) => [
@@ -163,7 +201,7 @@ export const allLinks$ = checksProviderState$.pipe(
   )
 );
 
-export const allRuns$ = checksProviderState$.pipe(
+export const allRunsLatestPatchset$ = checksLatest$.pipe(
   map(state =>
     Object.values(state).reduce(
       (allRuns: CheckRun[], providerState: ChecksProviderState) => [
@@ -175,11 +213,23 @@ export const allRuns$ = checksProviderState$.pipe(
   )
 );
 
-export const allRunsLatest$ = allRuns$.pipe(
+export const allRunsSelectedPatchset$ = checksSelected$.pipe(
+  map(state =>
+    Object.values(state).reduce(
+      (allRuns: CheckRun[], providerState: ChecksProviderState) => [
+        ...allRuns,
+        ...providerState.runs,
+      ],
+      []
+    )
+  )
+);
+
+export const allRunsLatestPatchsetLatestAttempt$ = allRunsLatestPatchset$.pipe(
   map(runs => runs.filter(run => run.isLatestAttempt))
 );
 
-export const checkToPluginMap$ = checksProviderState$.pipe(
+export const checkToPluginMap$ = checksLatest$.pipe(
   map(state => {
     const map = new Map<string, string>();
     for (const [pluginName, providerState] of Object.entries(state)) {
@@ -191,7 +241,7 @@ export const checkToPluginMap$ = checksProviderState$.pipe(
   })
 );
 
-export const allResults$ = checksProviderState$.pipe(
+export const allResultsSelected$ = checksSelected$.pipe(
   map(state =>
     Object.values(state)
       .reduce(
@@ -211,16 +261,12 @@ export const allResults$ = checksProviderState$.pipe(
 
 // Must only be used by the checks service or whatever is in control of this
 // model.
-export function updateStateSetProvider(
-  pluginName: string,
-  config?: ChecksApiConfig
-) {
+export function updateStateSetProvider(pluginName: string) {
   const nextState = {...privateState$.getValue()};
-  nextState.providerNameToState = {...nextState.providerNameToState};
-  nextState.providerNameToState[pluginName] = {
+  nextState.pluginStateLatest = {...nextState.pluginStateLatest};
+  nextState.pluginStateLatest[pluginName] = {
     pluginName,
     loading: false,
-    config,
     runs: [],
     actions: [],
     links: [],
@@ -483,21 +529,41 @@ export const fakeLinks: Link[] = [
   },
 ];
 
-export function updateStateSetLoading(pluginName: string) {
+export function getPluginState(
+  state: ChecksState,
+  patchset: ChecksPatchset = ChecksPatchset.LATEST
+) {
+  if (patchset === ChecksPatchset.LATEST) {
+    state.pluginStateLatest = {...state.pluginStateLatest};
+    return state.pluginStateLatest;
+  } else {
+    state.pluginStateSelected = {...state.pluginStateSelected};
+    return state.pluginStateSelected;
+  }
+}
+
+export function updateStateSetLoading(
+  pluginName: string,
+  patchset: ChecksPatchset
+) {
   const nextState = {...privateState$.getValue()};
-  nextState.providerNameToState = {...nextState.providerNameToState};
-  nextState.providerNameToState[pluginName] = {
-    ...nextState.providerNameToState[pluginName],
+  const pluginState = getPluginState(nextState, patchset);
+  pluginState[pluginName] = {
+    ...pluginState[pluginName],
     loading: true,
   };
   privateState$.next(nextState);
 }
 
-export function updateStateSetError(pluginName: string, errorMessage: string) {
+export function updateStateSetError(
+  pluginName: string,
+  errorMessage: string,
+  patchset: ChecksPatchset
+) {
   const nextState = {...privateState$.getValue()};
-  nextState.providerNameToState = {...nextState.providerNameToState};
-  nextState.providerNameToState[pluginName] = {
-    ...nextState.providerNameToState[pluginName],
+  const pluginState = getPluginState(nextState, patchset);
+  pluginState[pluginName] = {
+    ...pluginState[pluginName],
     loading: false,
     errorMessage,
     loginCallback: undefined,
@@ -509,12 +575,13 @@ export function updateStateSetError(pluginName: string, errorMessage: string) {
 
 export function updateStateSetNotLoggedIn(
   pluginName: string,
-  loginCallback: () => void
+  loginCallback: () => void,
+  patchset: ChecksPatchset
 ) {
   const nextState = {...privateState$.getValue()};
-  nextState.providerNameToState = {...nextState.providerNameToState};
-  nextState.providerNameToState[pluginName] = {
-    ...nextState.providerNameToState[pluginName],
+  const pluginState = getPluginState(nextState, patchset);
+  pluginState[pluginName] = {
+    ...pluginState[pluginName],
     loading: false,
     errorMessage: undefined,
     loginCallback,
@@ -528,7 +595,8 @@ export function updateStateSetResults(
   pluginName: string,
   runs: CheckRunApi[],
   actions: Action[] = [],
-  links: Link[] = []
+  links: Link[] = [],
+  patchset: ChecksPatchset
 ) {
   const attemptMap = createAttemptMap(runs);
   for (const attemptInfo of attemptMap.values()) {
@@ -537,9 +605,9 @@ export function updateStateSetResults(
     attemptInfo.attempts.sort((a, b) => (b.attempt ?? -1) - (a.attempt ?? -1));
   }
   const nextState = {...privateState$.getValue()};
-  nextState.providerNameToState = {...nextState.providerNameToState};
-  nextState.providerNameToState[pluginName] = {
-    ...nextState.providerNameToState[pluginName],
+  const pluginState = getPluginState(nextState, patchset);
+  pluginState[pluginName] = {
+    ...pluginState[pluginName],
     loading: false,
     errorMessage: undefined,
     loginCallback: undefined,
@@ -569,6 +637,6 @@ export function updateStateSetResults(
 
 export function updateStateSetPatchset(patchsetNumber?: PatchSetNumber) {
   const nextState = {...privateState$.getValue()};
-  nextState.patchsetNumber = patchsetNumber;
+  nextState.patchsetNumberSelected = patchsetNumber;
   privateState$.next(nextState);
 }

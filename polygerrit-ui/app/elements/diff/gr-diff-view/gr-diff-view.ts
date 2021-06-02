@@ -1233,6 +1233,9 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
       }
       return;
     }
+    // shift + m navigates to next unreviewed file so request list of reviewed
+    // files even if manual review is not set
+    this._getReviewedFiles(this._changeNum, patchRange.patchNum);
 
     if (paramsRecord.base?.view === GerritNav.View.DIFF) {
       this._setReviewed(true);

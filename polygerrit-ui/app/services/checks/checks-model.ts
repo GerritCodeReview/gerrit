@@ -365,6 +365,18 @@ export const fakeRun1: CheckRun = {
           icon: LinkIcon.DOWNLOAD_MOBILE,
         },
         {primary: true, url: 'https://google.com', icon: LinkIcon.IMAGE},
+        {
+          primary: false,
+          url: 'https://google.com',
+          tooltip: 'look at this',
+          icon: LinkIcon.IMAGE,
+        },
+        {
+          primary: false,
+          url: 'https://google.com',
+          tooltip: 'not at this',
+          icon: LinkIcon.IMAGE,
+        },
       ],
     },
   ],

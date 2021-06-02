@@ -22,6 +22,30 @@
       },
       "revId": "8cdc3341ae3a95ff5a20df2447e9a5e94cdcf2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3200651a_a4d0cc5d",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-02T11:30:03Z",
+      "side": 1,
+      "message": "This behaves the same way was if we would store approvals in NoteDb when a new patch set is uploaded. So if you change the copy rules after that, that does not affect any votes.\n\nThe only current exception is that when this cache invalidates because the /meta receives an update we run the copy logic from scratch again (when storing in NoteDb, that would not be the case).\n\nThe key is \"project+change_num+patchset_num+metaref_sha1\".\n\nDo you have any concerns with that?",
+      "parentUuid": "9691ffdc_d91cc4ff",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 25
+      },
+      "revId": "8cdc3341ae3a95ff5a20df2447e9a5e94cdcf2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

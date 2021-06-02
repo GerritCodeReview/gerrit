@@ -65,9 +65,9 @@ type RangesMap = {
 // Polymer 1 adds # before array's key, while Polymer 2 doesn't
 const HOVER_PATH_PATTERN = /^(commentRanges\.#?\d+)\.hovering$/;
 
-const RANGE_BASE_ONLY = 'style-scope gr-diff range';
-const RANGE_HIGHLIGHT = 'style-scope gr-diff range rangeHighlight';
-const HOVER_HIGHLIGHT = 'style-scope gr-diff range rangeHoverHighlight';
+const RANGE_BASE_ONLY = 'range';
+const RANGE_HIGHLIGHT = 'range rangeHighlight';
+const HOVER_HIGHLIGHT = 'range rangeHoverHighlight';
 
 @customElement('gr-ranged-comment-layer')
 export class GrRangedCommentLayer extends PolymerElement implements DiffLayer {

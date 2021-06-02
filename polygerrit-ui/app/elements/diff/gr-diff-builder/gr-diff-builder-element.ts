@@ -407,7 +407,7 @@ export class GrDiffBuilderElement extends PolymerElement {
       // differences to highlight and apply them to the element as
       // annotations.
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
-        const HL_CLASS = 'style-scope gr-diff intraline';
+        const HL_CLASS = 'intraline';
         for (const highlight of line.highlights) {
           // The start and end indices could be the same if a highlight is
           // meant to start at the end of a line and continue onto the
@@ -451,12 +451,7 @@ export class GrDiffBuilderElement extends PolymerElement {
           // Skip forward by the length of the content
           pos += split[i].length;
 
-          GrAnnotation.annotateElement(
-            contentEl,
-            pos,
-            1,
-            'style-scope gr-diff tab-indicator'
-          );
+          GrAnnotation.annotateElement(contentEl, pos, 1, 'tab-indicator');
 
           // Skip forward by one tab character.
           pos++;
@@ -481,7 +476,7 @@ export class GrDiffBuilderElement extends PolymerElement {
             contentEl,
             pos,
             1,
-            'style-scope gr-diff special-char-indicator'
+            'special-char-indicator'
           );
 
           pos++;
@@ -511,7 +506,7 @@ export class GrDiffBuilderElement extends PolymerElement {
             contentEl,
             index,
             length,
-            'style-scope gr-diff trailing-whitespace'
+            'trailing-whitespace'
           );
         }
       },

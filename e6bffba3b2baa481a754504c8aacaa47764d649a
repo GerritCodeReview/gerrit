@@ -22,6 +22,30 @@
       },
       "revId": "e6bffba3b2baa481a754504c8aacaa47764d649a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9790698a_a7ca51e5",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-02T07:18:32Z",
+      "side": 1,
+      "message": "Do you want to reuse parts of the comment that starts at l.106?",
+      "parentUuid": "99a512eb_f349c40c",
+      "range": {
+        "startLine": 87,
+        "startChar": 3,
+        "endLine": 90,
+        "endChar": 70
+      },
+      "revId": "e6bffba3b2baa481a754504c8aacaa47764d649a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

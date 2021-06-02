@@ -52,6 +52,70 @@
       "parentUuid": "bfb3b206_6e0c781a",
       "revId": "18756605d60ff661c3eb97854262d5b85363be20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79f9fe42_6706548c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-02T17:28:52Z",
+      "side": 1,
+      "message": "+ 1 to chips looking like the attention set and code owners chips, which are selection chips.",
+      "parentUuid": "34540df8_77ae1d93",
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde43f63_103fb819",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-02T17:28:52Z",
+      "side": 1,
+      "message": "We\u0027ll need to add more spacing between user chips ( --spacing-s: 4px;) also PTAL at the specs links attached to the bug.",
+      "range": {
+        "startLine": 65,
+        "startChar": 3,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "763db8ed_fbf4f932",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-02T17:28:52Z",
+      "side": 1,
+      "message": "If this is defining the selection color of the user chip, then use --chip-selected-background-color in both light and dark theme to be consistent with the Code-Owners chips.",
+      "range": {
+        "startLine": 86,
+        "startChar": 5,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

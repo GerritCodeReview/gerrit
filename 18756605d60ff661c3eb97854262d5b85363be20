@@ -34,6 +34,24 @@
       "parentUuid": "e91ce1d6_8ef2c5a6",
       "revId": "18756605d60ff661c3eb97854262d5b85363be20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34540df8_77ae1d93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-02T15:19:43Z",
+      "side": 1,
+      "message": "gr-account-link is a gr-account-label with a link, but you don\u0027t want a link, so just use gr-account-label.",
+      "parentUuid": "bfb3b206_6e0c781a",
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -294,12 +294,14 @@ class GrResultRow extends GrLitElement {
     return html`
       <tr class="${classMap({container: true, collapsed: !this.isExpanded})}">
         <td class="iconCol" @click="${this.toggleExpanded}">
-          <div>${this.renderIcon()}</div>
+          <div>${this.runningIcon()}</div>
         </td>
         <td class="nameCol" @click="${this.toggleExpanded}">
           <div class="flex">
             <gr-hovercard-run .run="${this.result}"></gr-hovercard-run>
-            <div class="name">${this.result.checkName}</div>
+            <div class="name">
+              ${this.result.checkName} ${this.renderStatus()}
+            </div>
             <div class="space"></div>
             ${this.renderPrimaryRunAction()}
           </div>
@@ -376,7 +378,12 @@ class GrResultRow extends GrLitElement {
     `;
   }
 
-  renderIcon() {
+  private renderStatus() {
+    if (this.result?.status !== RunStatus.RUNNING) return;
+    return html`<span>(Running)</span>`;
+  }
+
+  private runningIcon() {
     if (this.result?.status !== RunStatus.RUNNING) return;
     return html`<iron-icon icon="gr-icons:timelapse"></iron-icon>`;
   }

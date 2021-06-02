@@ -83,6 +83,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "edf08e7e_2002ffc1",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-02T17:32:02Z",
+      "side": 1,
+      "message": "How does the selection state look like? Is this re-using the same selection states as the Patchset picker dropdown?\n\nThe selection background color is --selected-background",
+      "revId": "4df548109f6fd9bf49c9de7aa68eeb2b278e4c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "807c19df_df1d3268",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
         "patchSetId": 7

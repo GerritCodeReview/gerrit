@@ -1232,6 +1232,8 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
         });
       }
       return;
+    } else {
+      this._getReviewedFiles(this._changeNum, patchRange.patchNum);
     }
 
     if (paramsRecord.base?.view === GerritNav.View.DIFF) {

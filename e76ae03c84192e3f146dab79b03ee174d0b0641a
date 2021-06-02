@@ -284,6 +284,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff263483_cae7c6d7",
+        "filename": "java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-02T13:54:30Z",
+      "side": 1,
+      "message": "Sorry for re-iterating.\n\noptional: if WebSession is RequestScoped (every request has its own WebSession instance) do we need this? Maybe if multiple ref updates are fired concurrently within the same request.",
+      "parentUuid": "0883f92b_2ecb76a3",
+      "range": {
+        "startLine": 57,
+        "startChar": 65,
+        "endLine": 57,
+        "endChar": 74
+      },
+      "revId": "e76ae03c84192e3f146dab79b03ee174d0b0641a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5034e23_36e13985",

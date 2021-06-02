@@ -116,6 +116,30 @@
       },
       "revId": "4461bd5705dd2147f769bb9a44d87b4cb3b3150c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ecf5a39_960bbd52",
+        "filename": "java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-02T09:06:45Z",
+      "side": 1,
+      "message": "All the implementors have it, so I think it\u0027s OK.\n\nWhen trying to add @RequestScoped here it threw me a Guice error:\nWebSession is annotated with RequestScopred, but scope annotations are not supported for abstract types.\n\nI added a warning to this class header, though.",
+      "parentUuid": "89c5c054_e43d2a3c",
+      "range": {
+        "startLine": 51,
+        "startChar": 76,
+        "endLine": 51,
+        "endChar": 89
+      },
+      "revId": "4461bd5705dd2147f769bb9a44d87b4cb3b3150c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

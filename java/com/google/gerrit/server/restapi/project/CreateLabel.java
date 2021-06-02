@@ -176,7 +176,8 @@ public class CreateLabel
         approvalQueryBuilder.parse(input.copyCondition);
       } catch (QueryParseException e) {
         throw new BadRequestException(
-            "unable to parse copy condition. got: " + input.copyCondition, e);
+            "unable to parse copy condition. got: " + input.copyCondition + ". " + e.getMessage(),
+            e);
       }
       if (Boolean.TRUE.equals(input.unsetCopyCondition)) {
         throw new BadRequestException("can't set and unset copyCondition in the same request");

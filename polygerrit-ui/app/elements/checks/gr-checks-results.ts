@@ -56,6 +56,7 @@ import {
   firstPrimaryLink,
   primaryRunAction,
   tooltipForLink,
+  secondaryLinks,
 } from '../../services/checks/checks-util';
 import {assertIsDefined, check} from '../../utils/common-util';
 import {toggleClass, whenVisible} from '../../utils/dom-util';
@@ -410,12 +411,23 @@ class GrResultRow extends GrLitElement {
   }
 
   renderLinks() {
-    const links = otherPrimaryLinks(this.result);
+    const links = otherPrimaryLinks(this.result)
+      // Showing the same icons twice without text is super confusing.
+      .filter(
+        (link: Link, index: number, array: Link[]) =>
+          array.findIndex(other => link.icon === other.icon) === index
+      )
+      // 4 is enough for the summary row. All are shown in expanded state.
+      .slice(0, 4);
     if (links.length === 0) return;
-    return html`<div class="links">${links.map(this.renderLink)}</div>`;
+    return html`<div class="links">
+      ${links.map(link => this.renderLink(link))}
+    </div>`;
   }
 
   renderLink(link?: Link) {
+    // The expanded state renders all links in more detail. Hide in summary.
+    if (this.isExpanded) return;
     if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     return html`<a href="${link.url}" target="_blank"
@@ -502,6 +514,17 @@ class GrResultExpanded extends GrLitElement {
     return [
       sharedStyles,
       css`
+        .links {
+          white-space: normal;
+          padding: var(--spacing-s) 0;
+        }
+        .links a {
+          display: inline-block;
+          margin-right: var(--spacing-xl);
+        }
+        .links a iron-icon {
+          margin-right: var(--spacing-xs);
+        }
         .message {
           padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
         }
@@ -517,6 +540,8 @@ class GrResultExpanded extends GrLitElement {
   render() {
     if (!this.result) return '';
     return html`
+      ${this.renderFirstPrimaryLink()} ${this.renderOtherPrimaryLinks()}
+      ${this.renderSecondaryLinks()}
       <gr-endpoint-decorator name="check-result-expanded">
         <gr-endpoint-param
           name="run"
@@ -534,6 +559,38 @@ class GrResultExpanded extends GrLitElement {
         ></gr-formatted-text>
       </gr-endpoint-decorator>
     `;
+  }
+
+  private renderFirstPrimaryLink() {
+    const link = firstPrimaryLink(this.result);
+    if (!link) return;
+    return html`<div class="links">${this.renderLink(link)}</div>`;
+  }
+
+  private renderOtherPrimaryLinks() {
+    const links = otherPrimaryLinks(this.result);
+    return html`<div class="links">
+      ${links.map(link => this.renderLink(link))}
+    </div>`;
+  }
+
+  private renderSecondaryLinks() {
+    const links = secondaryLinks(this.result);
+    return html`<div class="links">
+      ${links.map(link => this.renderLink(link))}
+    </div>`;
+  }
+
+  private renderLink(link?: Link) {
+    if (!link) return;
+    const text = link.tooltip ?? tooltipForLink(link.icon);
+    return html`<a href="${link.url}" target="_blank">
+      <iron-icon
+        class="link"
+        icon="gr-icons:${iconForLink(link.icon)}"
+      ></iron-icon
+      ><span>${text}</span>
+    </a>`;
   }
 }
 

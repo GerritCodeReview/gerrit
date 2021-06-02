@@ -299,6 +299,7 @@ export const fakeRun0: CheckRun = {
       internalResultId: 'f0r1',
       category: Category.ERROR,
       summary: 'Running the mighty test has failed by crashing.',
+      message: `Btw, 1 is also not equal to 3. Did you know?`,
       actions: [
         {
           name: 'Ignore',
@@ -331,7 +332,7 @@ export const fakeRun0: CheckRun = {
         },
         {primary: true, url: 'https://google.com', icon: LinkIcon.IMAGE},
         {primary: true, url: 'https://google.com', icon: LinkIcon.IMAGE},
-        {primary: true, url: 'https://google.com', icon: LinkIcon.IMAGE},
+        {primary: false, url: 'https://google.com', icon: LinkIcon.IMAGE},
         {primary: true, url: 'https://google.com', icon: LinkIcon.REPORT_BUG},
         {primary: true, url: 'https://google.com', icon: LinkIcon.HELP_PAGE},
         {primary: true, url: 'https://google.com', icon: LinkIcon.HISTORY},
@@ -365,6 +366,18 @@ export const fakeRun1: CheckRun = {
           icon: LinkIcon.DOWNLOAD_MOBILE,
         },
         {primary: true, url: 'https://google.com', icon: LinkIcon.IMAGE},
+        {
+          primary: false,
+          url: 'https://google.com',
+          tooltip: 'look at this',
+          icon: LinkIcon.IMAGE,
+        },
+        {
+          primary: false,
+          url: 'https://google.com',
+          tooltip: 'not at this',
+          icon: LinkIcon.IMAGE,
+        },
       ],
     },
   ],

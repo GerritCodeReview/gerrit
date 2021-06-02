@@ -43,6 +43,8 @@ export function iconForLink(linkIcon?: LinkIcon) {
       return 'help-outline';
     case LinkIcon.REPORT_BUG:
       return 'bug';
+    case LinkIcon.CODE:
+      return 'code';
     default:
       // We don't throw an assertion error here, because plugins don't have to
       // be written in TypeScript, so we may encounter arbitrary strings for

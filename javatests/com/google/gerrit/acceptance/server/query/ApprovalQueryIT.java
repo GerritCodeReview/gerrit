@@ -14,16 +14,23 @@
 
 package com.google.gerrit.acceptance.server.query;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Inject;
@@ -33,6 +40,8 @@ import org.junit.Test;
 public class ApprovalQueryIT extends AbstractDaemonTest {
   @Inject private ApprovalQueryBuilder queryBuilder;
   @Inject private ChangeKindCreator changeKindCreator;
+  @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void magicValuePredicate() throws Exception {
@@ -62,7 +71,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         queryBuilder
             .parse("changekind:no-code-change")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2, ps1)));
+            .match(contextForCodeReviewLabel(-2, ps1, admin.id())));
 
     changeKindCreator.updateChange(change, ChangeKind.TRIVIAL_REBASE, testRepo, admin, project);
     PatchSet.Id ps2 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), 2);
@@ -70,7 +79,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         queryBuilder
             .parse("changekind:no-code-change")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2, ps2)));
+            .match(contextForCodeReviewLabel(-2, ps2, admin.id())));
   }
 
   @Test
@@ -82,7 +91,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         queryBuilder
             .parse("changekind:trivial-rebase")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2, ps1)));
+            .match(contextForCodeReviewLabel(-2, ps1, admin.id())));
 
     changeKindCreator.updateChange(change, ChangeKind.REWORK, testRepo, admin, project);
     PatchSet.Id ps2 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), 2);
@@ -90,7 +99,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         queryBuilder
             .parse("changekind:trivial-rebase")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2, ps2)));
+            .match(contextForCodeReviewLabel(-2, ps2, admin.id())));
   }
 
   @Test
@@ -102,7 +111,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         queryBuilder
             .parse("changekind:rework")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2, ps1)));
+            .match(contextForCodeReviewLabel(-2, ps1, admin.id())));
 
     changeKindCreator.updateChange(change, ChangeKind.REWORK, testRepo, admin, project);
     PatchSet.Id ps2 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), 2);
@@ -110,20 +119,83 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         queryBuilder
             .parse("-changekind:rework")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2, ps2)));
+            .match(contextForCodeReviewLabel(-2, ps2, admin.id())));
+  }
+
+  @Test
+  public void uploaderInPredicate() throws Exception {
+    String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
+
+    PushOneCommit.Result pushResult = createChange();
+    String changeCreatedByAdmin = pushResult.getChangeId();
+    approve(changeCreatedByAdmin);
+    // PS2 uploaded by admin
+    amendChange(changeCreatedByAdmin);
+    // PS3 uploaded by user
+    amendChangeWithUploader(pushResult, project, user).assertOkStatus();
+
+    assertTrue(
+        queryBuilder
+            .parse("uploaderin:" + administratorsUUID)
+            .asMatchable()
+            .match(
+                contextForCodeReviewLabel(
+                    2, PatchSet.id(pushResult.getChange().getId(), 1), admin.id())));
+    assertFalse(
+        queryBuilder
+            .parse("uploaderin:" + administratorsUUID)
+            .asMatchable()
+            .match(
+                contextForCodeReviewLabel(
+                    2, PatchSet.id(pushResult.getChange().getId(), 2), admin.id())));
+  }
+
+  @Test
+  public void approverInPredicate() throws Exception {
+    String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
+
+    PushOneCommit.Result pushResult = createChange();
+    assertTrue(
+        queryBuilder
+            .parse("approverin:" + administratorsUUID)
+            .asMatchable()
+            .match(
+                contextForCodeReviewLabel(
+                    2, PatchSet.id(pushResult.getChange().getId(), 1), admin.id())));
+    assertFalse(
+        queryBuilder
+            .parse("approverin:" + administratorsUUID)
+            .asMatchable()
+            .match(
+                contextForCodeReviewLabel(
+                    2, PatchSet.id(pushResult.getChange().getId(), 2), user.id())));
+  }
+
+  @Test
+  public void userInPredicate_groupNotFound() {
+    QueryParseException thrown =
+        assertThrows(
+            QueryParseException.class,
+            () ->
+                queryBuilder
+                    .parse("uploaderin:foobar")
+                    .asMatchable()
+                    .match(contextForCodeReviewLabel(2)));
+    assertThat(thrown).hasMessageThat().contains("Group foobar not found");
   }
 
   private ApprovalContext contextForCodeReviewLabel(int value) {
     PatchSet.Id psId = PatchSet.id(Change.id(1), 1);
-    return contextForCodeReviewLabel(value, psId);
+    return contextForCodeReviewLabel(value, psId, admin.id());
   }
 
-  private ApprovalContext contextForCodeReviewLabel(int value, PatchSet.Id psId) {
+  private ApprovalContext contextForCodeReviewLabel(
+      int value, PatchSet.Id psId, Account.Id approver) {
     PatchSetApproval approval =
         PatchSetApproval.builder()
             .postSubmit(false)
             .granted(new Date())
-            .key(PatchSetApproval.key(psId, admin.id(), LabelId.create("Code-Review")))
+            .key(PatchSetApproval.key(psId, approver, LabelId.create("Code-Review")))
             .value(value)
             .build();
     return ApprovalContext.create(project, approval, PatchSet.id(psId.changeId(), psId.get() + 1));

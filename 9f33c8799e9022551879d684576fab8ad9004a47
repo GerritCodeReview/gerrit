@@ -16,6 +16,24 @@
       "message": "This is unrelated? Please remove or split into a separate change.",
       "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b42edf59_9b707bf8",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-02T11:26:03Z",
+      "side": 0,
+      "message": "This is related :-)\n\nhttps://gerrit-review.googlesource.com/c/plugins/reviewnotes/+/308282\n\nIt makes CI pass",
+      "parentUuid": "8dc9d537_65763a0d",
+      "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

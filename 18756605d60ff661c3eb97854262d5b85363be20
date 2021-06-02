@@ -16,6 +16,24 @@
       "message": "Adding Delphine for UX review. Should the chips look more like the attention set ones (in the reply dialog) and the code owners ones? Then you could maybe use \u003cgr-account-label\u003e instead of \u003cgr-account-link\u003e with disabled navigation.",
       "revId": "18756605d60ff661c3eb97854262d5b85363be20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfb3b206_6e0c781a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-02T14:55:20Z",
+      "side": 1,
+      "message": "gr-account-label is being used eventually by gr-account-link so I\u0027m not sure what the difference will be?\n\nThe chips look similar to me. Perhaps I\u0027m missing something.\n\nThe chips in the reply dialog are also clickable so we need to disable navigation in both places.",
+      "parentUuid": "e91ce1d6_8ef2c5a6",
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

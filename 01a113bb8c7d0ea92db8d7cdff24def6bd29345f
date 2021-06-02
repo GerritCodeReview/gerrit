@@ -70,6 +70,30 @@
       },
       "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf2b2891_ec1e8992",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-06-02T17:57:40Z",
+      "side": 1,
+      "message": "So you\u0027re saying on the site with the 10GB repo, you needed shuffling because java gc cpu% was too high? And you think it was too high because you ended up with many threads working on that same repo? Shouldn\u0027t slices of the same repo be distributed already based on how the migrator picks up one slice from each project at a time?\n\nWith this change, the DB warming change [1], and the JGit series Kaushik uploaded [2], we get ~450 changes/s during the rebuild phase and ~4000 changes/s during the primary storage migration phase with a subset site (for faster testing cycles) that has 850k total changes and 105GB total pack size across 50 repos, with repos stored on NFS.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/302923\n[2] https://git.eclipse.org/r/c/jgit/jgit/+/180697",
+      "parentUuid": "d3b4c67d_15f88531",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

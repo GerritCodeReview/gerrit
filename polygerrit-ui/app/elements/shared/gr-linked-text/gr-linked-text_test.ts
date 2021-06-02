@@ -15,27 +15,29 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-linked-text.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '../../../test/common-test-setup-karma';
+import './gr-linked-text';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {GrLinkedText} from './gr-linked-text';
+import {CommentLinks} from '../../../types/common';
 
 const basicFixture = fixtureFromTemplate(html`
-<gr-linked-text>
-      <div id="output"></div>
-    </gr-linked-text>
+  <gr-linked-text>
+    <div id="output"></div>
+  </gr-linked-text>
 `);
 
 suite('gr-linked-text tests', () => {
-  let element;
+  let element: GrLinkedText;
 
-  let originalCanonicalPath;
+  let originalCanonicalPath: string | undefined;
 
   setup(() => {
     originalCanonicalPath = window.CANONICAL_PATH;
-    element = basicFixture.instantiate();
+    element = basicFixture.instantiate() as GrLinkedText;
 
-    sinon.stub(GerritNav, 'mapCommentlinks').value( x => x);
+    sinon.stub(GerritNav, 'mapCommentlinks').value((x: CommentLinks) => x);
     element.config = {
       ph: {
         match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',
@@ -86,7 +88,7 @@ suite('gr-linked-text tests', () => {
     // Regular inline link.
     const url = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
     element.content = url;
-    const linkEl = element.$.output.childNodes[0];
+    const linkEl = element.$.output.childNodes[0] as HTMLAnchorElement;
     assert.equal(linkEl.target, '_blank');
     assert.equal(linkEl.rel, 'noopener');
     assert.equal(linkEl.href, url);
@@ -97,14 +99,14 @@ suite('gr-linked-text tests', () => {
     // "Issue/Bug" pattern.
     element.content = 'Issue 3650';
 
-    let linkEl = element.$.output.childNodes[0];
+    let linkEl = element.$.output.childNodes[0] as HTMLAnchorElement;
     const url = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
     assert.equal(linkEl.target, '_blank');
     assert.equal(linkEl.href, url);
     assert.equal(linkEl.textContent, 'Issue 3650');
 
     element.content = 'Bug 3650';
-    linkEl = element.$.output.childNodes[0];
+    linkEl = element.$.output.childNodes[0] as HTMLAnchorElement;
     assert.equal(linkEl.target, '_blank');
     assert.equal(linkEl.rel, 'noopener');
     assert.equal(linkEl.href, url);
@@ -116,7 +118,7 @@ suite('gr-linked-text tests', () => {
     element.content = 'httpexample 3650';
 
     assert.equal(element.$.output.childNodes.length, 1);
-    const linkEl = element.$.output.childNodes[0];
+    const linkEl = element.$.output.childNodes[0] as HTMLAnchorElement;
     const url = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
     assert.equal(linkEl.target, '_blank');
     assert.equal(linkEl.href, url);
@@ -130,7 +132,7 @@ suite('gr-linked-text tests', () => {
     element.content = prefix + changeID;
 
     const textNode = element.$.output.childNodes[0];
-    const linkEl = element.$.output.childNodes[1];
+    const linkEl = element.$.output.childNodes[1] as HTMLAnchorElement;
     assert.equal(textNode.textContent, prefix);
     const url = '/q/' + changeID;
     assert.isFalse(linkEl.hasAttribute('target'));
@@ -148,7 +150,7 @@ suite('gr-linked-text tests', () => {
     element.content = prefix + changeID;
 
     const textNode = element.$.output.childNodes[0];
-    const linkEl = element.$.output.childNodes[1];
+    const linkEl = element.$.output.childNodes[1] as HTMLAnchorElement;
     assert.equal(textNode.textContent, prefix);
     const url = '/r/q/' + changeID;
     assert.isFalse(linkEl.hasAttribute('target'));
@@ -159,17 +161,21 @@ suite('gr-linked-text tests', () => {
 
   test('Multiple matches', () => {
     element.content = 'Issue 3650\nIssue 3450';
-    const linkEl1 = element.$.output.childNodes[0];
-    const linkEl2 = element.$.output.childNodes[2];
+    const linkEl1 = element.$.output.childNodes[0] as HTMLAnchorElement;
+    const linkEl2 = element.$.output.childNodes[2] as HTMLAnchorElement;
 
     assert.equal(linkEl1.target, '_blank');
-    assert.equal(linkEl1.href,
-        'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650');
+    assert.equal(
+      linkEl1.href,
+      'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650'
+    );
     assert.equal(linkEl1.textContent, 'Issue 3650');
 
     assert.equal(linkEl2.target, '_blank');
-    assert.equal(linkEl2.href,
-        'https://bugs.chromium.org/p/gerrit/issues/detail?id=3450');
+    assert.equal(
+      linkEl2.href,
+      'https://bugs.chromium.org/p/gerrit/issues/detail?id=3450'
+    );
     assert.equal(linkEl2.textContent, 'Issue 3450');
   });
 
@@ -187,8 +193,8 @@ suite('gr-linked-text tests', () => {
     element.content = prefix + changeID + bug;
 
     const textNode = element.$.output.childNodes[0];
-    const changeLinkEl = element.$.output.childNodes[1];
-    const bugLinkEl = element.$.output.childNodes[2];
+    const changeLinkEl = element.$.output.childNodes[1] as HTMLAnchorElement;
+    const bugLinkEl = element.$.output.childNodes[2] as HTMLAnchorElement;
 
     assert.equal(textNode.textContent, prefix);
 
@@ -203,15 +209,17 @@ suite('gr-linked-text tests', () => {
 
   test('html field in link config', () => {
     element.content = 'google:do a barrel roll';
-    const linkEl = element.$.output.childNodes[0];
-    assert.equal(linkEl.getAttribute('href'),
-        'https://google.com/search?q=do a barrel roll');
+    const linkEl = element.$.output.childNodes[0] as HTMLAnchorElement;
+    assert.equal(
+      linkEl.getAttribute('href'),
+      'https://google.com/search?q=do a barrel roll'
+    );
     assert.equal(linkEl.textContent, 'do a barrel roll');
   });
 
   test('removing hash from links', () => {
     element.content = 'hash:foo';
-    const linkEl = element.$.output.childNodes[0];
+    const linkEl = element.$.output.childNodes[0] as HTMLAnchorElement;
     assert.isTrue(linkEl.href.endsWith('/awesomesauce'));
     assert.equal(linkEl.textContent, 'foo');
   });
@@ -220,7 +228,7 @@ suite('gr-linked-text tests', () => {
     window.CANONICAL_PATH = '/r';
 
     element.content = 'test foo';
-    const linkEl = element.$.output.childNodes[0];
+    const linkEl = element.$.output.childNodes[0] as HTMLAnchorElement;
     assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
     assert.equal(linkEl.textContent, 'foo');
   });
@@ -229,7 +237,7 @@ suite('gr-linked-text tests', () => {
     window.CANONICAL_PATH = '/r';
 
     element.content = 'a test foo';
-    const linkEl = element.$.output.childNodes[1];
+    const linkEl = element.$.output.childNodes[1] as HTMLAnchorElement;
     assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
     assert.equal(linkEl.textContent, 'foo');
   });
@@ -238,7 +246,7 @@ suite('gr-linked-text tests', () => {
     window.CANONICAL_PATH = '/r';
 
     element.content = 'hash:foo';
-    const linkEl = element.$.output.childNodes[0];
+    const linkEl = element.$.output.childNodes[0] as HTMLAnchorElement;
     assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
     assert.equal(linkEl.textContent, 'foo');
   });
@@ -252,14 +260,14 @@ suite('gr-linked-text tests', () => {
     element.removeZeroWidthSpace = true;
     element.content = 'R=\u200Btest@google.com';
     assert.equal(element.$.output.textContent, 'R=test@google.com');
-    assert.equal(element.$.output.innerHTML.match(/(R=<a)/g).length, 1);
+    assert.equal(element.$.output.innerHTML.match(/(R=<a)/g)!.length, 1);
   });
 
   test('CC=email labels link correctly', () => {
     element.removeZeroWidthSpace = true;
     element.content = 'CC=\u200Btest@google.com';
     assert.equal(element.$.output.textContent, 'CC=test@google.com');
-    assert.equal(element.$.output.innerHTML.match(/(CC=<a)/g).length, 1);
+    assert.equal(element.$.output.innerHTML.match(/(CC=<a)/g)!.length, 1);
   });
 
   test('only {http,https,mailto} protocols are linkified', () => {
@@ -341,11 +349,13 @@ suite('gr-linked-text tests', () => {
       },
     };
     element.content = '- B: 123, 45';
-    const links = element.root.querySelectorAll('a');
+    const links = element.root!.querySelectorAll('a');
 
     assert.equal(links.length, 2);
-    assert.equal(element.shadowRoot
-        .querySelector('span').textContent, '- B: 123, 45');
+    assert.equal(
+      element.shadowRoot!.querySelector<HTMLSpanElement>('span')!.textContent,
+      '- B: 123, 45'
+    );
 
     assert.equal(links[0].href, 'ftp://foo/123');
     assert.equal(links[0].textContent, '123');
@@ -362,4 +372,3 @@ suite('gr-linked-text tests', () => {
     assert.isTrue(contentConfigStub.called);
   });
 });
-

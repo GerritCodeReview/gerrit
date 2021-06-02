@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ffaace1f_e22f0041",
+        "filename": "java/com/google/gerrit/entities/LabelType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-06-02T19:23:11Z",
+      "side": 1,
+      "message": "I thought Optional in args was usually discouraged? https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#_optional_nullable",
+      "range": {
+        "startLine": 245,
+        "startChar": 45,
+        "endLine": 245,
+        "endChar": 75
+      },
+      "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98bbf20b_bcbaa713",
         "filename": "java/com/google/gerrit/extensions/common/LabelDefinitionInput.java",
         "patchSetId": 3
@@ -31,6 +54,29 @@
       "writtenOn": "2021-06-02T10:01:20Z",
       "side": 1,
       "message": "Please document this field.\n\nAddendum: can we allow empty copy conditions in input instead (let them mean unset)?",
+      "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81c4c46e_a7014e73",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-06-02T19:23:11Z",
+      "side": 1,
+      "message": "nit: Put this just below canCopyBasedOnBooleanLabelConfigs ?",
+      "range": {
+        "startLine": 421,
+        "startChar": 18,
+        "endLine": 421,
+        "endChar": 45
+      },
       "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

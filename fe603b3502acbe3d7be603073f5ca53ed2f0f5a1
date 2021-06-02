@@ -34,6 +34,24 @@
       "parentUuid": "38c0a023_3a4f0a9c",
       "revId": "fe603b3502acbe3d7be603073f5ca53ed2f0f5a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f34e33bc_03ece2c1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-06-02T08:47:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2840ad69_ab92276c",
+      "revId": "fe603b3502acbe3d7be603073f5ca53ed2f0f5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

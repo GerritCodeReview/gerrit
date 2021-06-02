@@ -94,6 +94,30 @@
       },
       "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48aef325_d94ad423",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-02T19:06:01Z",
+      "side": 1,
+      "message": "slice() creates a consecutive list of slices for each project which are appended in this order to the list of slices. rebuild() schedules the slices to be migrated in the same order. As soon as rebuild() reaches the slices of the huge repository it will schedule thousands of slices of this huge repository in a row. I think shuffling the slice list randomly should reduce the number of slices of this large repository being migrated concurrently.\n\nMaybe just add yet another option for shuffling ?",
+      "parentUuid": "cf2b2891_ec1e8992",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "01a113bb8c7d0ea92db8d7cdff24def6bd29345f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

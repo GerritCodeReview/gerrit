@@ -344,6 +344,7 @@ export const fakeRun0: CheckRun = {
 export const fakeRun1: CheckRun = {
   internalRunId: 'f1',
   checkName: 'FAKE Super Check',
+  patchset: 1,
   labelName: 'Verified',
   isSingleAttempt: true,
   isLatestAttempt: true,
@@ -356,6 +357,26 @@ export const fakeRun1: CheckRun = {
       message: `There is a lot to be said. A lot. I say, a lot.\n
                 So please keep reading.`,
       tags: [{name: 'INTERRUPTED', color: TagColor.PURPLE}, {name: 'WINDOWS'}],
+      codePointers: [
+        {
+          path: '/COMMIT_MSG',
+          range: {
+            start_line: 10,
+            start_character: 0,
+            end_line: 10,
+            end_character: 0,
+          },
+        },
+        {
+          path: 'polygerrit-ui/app/api/checks.ts',
+          range: {
+            start_line: 5,
+            start_character: 0,
+            end_line: 7,
+            end_character: 0,
+          },
+        },
+      ],
       links: [
         {primary: true, url: 'https://google.com', icon: LinkIcon.EXTERNAL},
         {primary: true, url: 'https://google.com', icon: LinkIcon.DOWNLOAD},

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {routerChangeNum$} from '../router/router-model';
-import {updateState} from './change-model';
+import {change$, updateState} from './change-model';
 import {ParsedChangeInfo} from '../../types/types';
 import {appContext} from '../app-context';
 import {ChangeInfo} from '../../types/common';
@@ -25,6 +25,8 @@ import {
 } from '../../utils/patch-set-util';
 
 export class ChangeService {
+  private change?: ParsedChangeInfo;
+
   private readonly restApiService = appContext.restApiService;
 
   constructor() {
@@ -33,6 +35,9 @@ export class ChangeService {
     // change when no changeNum is set.
     routerChangeNum$.subscribe(changeNum => {
       if (!changeNum) updateState(undefined);
+    });
+    change$.subscribe(change => {
+      this.change = change;
     });
   }
 
@@ -45,6 +50,15 @@ export class ChangeService {
    */
   updateChange(change: ParsedChangeInfo) {
     updateState(change);
+  }
+
+  /**
+   * Typically you would just subscribe to change$ yourself to get updates. But
+   * sometimes it is nice to also be able to get the current ChangeInfo on
+   * demand. So here it is for your convenience.
+   */
+  getChange() {
+    return this.change;
   }
 
   /**

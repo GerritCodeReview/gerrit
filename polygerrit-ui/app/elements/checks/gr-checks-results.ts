@@ -17,6 +17,7 @@
 import {html} from 'lit-html';
 import {classMap} from 'lit-html/directives/class-map';
 import {repeat} from 'lit-html/directives/repeat';
+import {ifDefined} from 'lit-html/directives/if-defined';
 import {
   css,
   customElement,
@@ -78,6 +79,7 @@ import {
   getRepresentativeValue,
   valueString,
 } from '../../utils/label-util';
+import {GerritNav} from '../core/gr-navigation/gr-navigation';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
@@ -502,6 +504,8 @@ class GrResultExpanded extends GrLitElement {
   @property()
   repoConfig?: ConfigInfo;
 
+  private changeService = appContext.changeService;
+
   static get styles() {
     return [
       sharedStyles,
@@ -532,7 +536,7 @@ class GrResultExpanded extends GrLitElement {
     if (!this.result) return '';
     return html`
       ${this.renderFirstPrimaryLink()} ${this.renderOtherPrimaryLinks()}
-      ${this.renderSecondaryLinks()}
+      ${this.renderSecondaryLinks()} ${this.renderCodePointers()}
       <gr-endpoint-decorator name="check-result-expanded">
         <gr-endpoint-param
           name="run"
@@ -560,6 +564,7 @@ class GrResultExpanded extends GrLitElement {
 
   private renderOtherPrimaryLinks() {
     const links = otherPrimaryLinks(this.result);
+    if (links.length === 0) return;
     return html`<div class="links">
       ${links.map(link => this.renderLink(link))}
     </div>`;
@@ -567,15 +572,43 @@ class GrResultExpanded extends GrLitElement {
 
   private renderSecondaryLinks() {
     const links = secondaryLinks(this.result);
+    if (links.length === 0) return;
     return html`<div class="links">
       ${links.map(link => this.renderLink(link))}
     </div>`;
   }
 
-  private renderLink(link?: Link) {
+  private renderCodePointers() {
+    const pointers = this.result?.codePointers ?? [];
+    if (pointers.length === 0) return;
+    const links = pointers.map(pointer => {
+      let rangeText = '';
+      const start = pointer?.range?.start_line;
+      const end = pointer?.range?.end_line;
+      if (start) rangeText += `#${start}`;
+      if (end && start !== end) rangeText += `-${end}`;
+      const change = this.changeService.getChange();
+      assertIsDefined(change);
+      const path = pointer.path;
+      const patchset = this.result?.patchset as PatchSetNumber | undefined;
+      const line = pointer?.range?.start_line;
+      return {
+        icon: LinkIcon.CODE,
+        tooltip: `${path}${rangeText}`,
+        url: GerritNav.getUrlForDiff(change, path, patchset, undefined, line),
+        primary: true,
+      };
+    });
+    return links.map(
+      link => html`<div class="links">${this.renderLink(link, false)}</div>`
+    );
+  }
+
+  private renderLink(link?: Link, targetBlank = true) {
     if (!link) return;
     const text = link.tooltip ?? tooltipForLink(link.icon);
-    return html`<a href="${link.url}" target="_blank">
+    const target = targetBlank ? '_blank' : undefined;
+    return html`<a href="${link.url}" target="${ifDefined(target)}">
       <iron-icon
         class="link"
         icon="gr-icons:${iconForLink(link.icon)}"

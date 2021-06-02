@@ -310,6 +310,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba923518_eb029248",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-02T13:48:24Z",
+      "side": 1,
+      "message": "Ah, about the \"git reference updates fired from many places including ReceiveCommits\" - that is correct that the event will be fired, but it won\u0027t be logged to the REST API request because the session will be null / this will throw some exception.\n\nWe implicitly verified this by, for example, not returning some unrelated refs in the response headers that could have been logged if currentSession was not null, e.g the setup for the test creates some accounts, etc. (but those creations were not by a REST request).",
+      "parentUuid": "0242e0d9_add35168",
+      "range": {
+        "startLine": 343,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 23
+      },
+      "revId": "4be769821cd95ebc1f6375e537fb00db1f5d9e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5558c751_e74171f1",

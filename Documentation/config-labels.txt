@@ -288,10 +288,18 @@ Matches if the diff between two patch sets was of a certain change kind.
 
 Matches votes that are equal to the minimal or maximal voting range. Or any votes.
 
+==== approverin:`groupUUID`
+
+Matches votes granted by a user who is a member of `groupUUID`.
+
+==== uploaderin:`groupUUID`
+
+Matches votes where the new patch set was uploaded by a member of `groupUUID`.
+
 ==== Example
 
 ----
-copyCondition = is:MIN OR -change-kind:REWORK
+copyCondition = is:MIN OR -change-kind:REWORK OR uploaderin:dead...beef
 ----
 
 [[label_copyMinScore]]

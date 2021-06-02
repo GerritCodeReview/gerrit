@@ -52,6 +52,41 @@
       "parentUuid": "341fa123_c43e2fcf",
       "revId": "b8e8db5404ace87b0c145de71cc19227f0641aa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1c3eeed_cb9cd359",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-02T07:26:11Z",
+      "side": 1,
+      "message": "Isn\u0027t a super ugly \"show all\" still better than no \"show all\"?",
+      "parentUuid": "ecfcbacd_7c0932d2",
+      "revId": "b8e8db5404ace87b0c145de71cc19227f0641aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36f82282_1c37d202",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-02T07:26:11Z",
+      "side": 1,
+      "message": "Can you just show the padding rows in this case?",
+      "revId": "b8e8db5404ace87b0c145de71cc19227f0641aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

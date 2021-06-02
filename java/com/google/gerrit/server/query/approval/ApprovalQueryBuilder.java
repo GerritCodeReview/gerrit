@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.query.approval;
 
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupBackends;
 import com.google.inject.Inject;
 import java.util.Arrays;
 
@@ -27,14 +30,20 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
 
   private final ChangeKindPredicate.Factory changeKindPredicateFactory;
   private final MagicValuePredicate.Factory magicValuePredicate;
+  private final UserInPredicate.Factory userInPredicate;
+  private final GroupBackend groupBackend;
 
   @Inject
   protected ApprovalQueryBuilder(
       ChangeKindPredicate.Factory changeKindPredicateFactory,
-      MagicValuePredicate.Factory magicValuePredicate) {
+      MagicValuePredicate.Factory magicValuePredicate,
+      UserInPredicate.Factory userInPredicate,
+      GroupBackend groupBackend) {
     super(mydef, null);
     this.changeKindPredicateFactory = changeKindPredicateFactory;
     this.magicValuePredicate = magicValuePredicate;
+    this.userInPredicate = userInPredicate;
+    this.groupBackend = groupBackend;
   }
 
   @Operator
@@ -45,6 +54,24 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   @Operator
   public Predicate<ApprovalContext> is(String term) throws QueryParseException {
     return magicValuePredicate.create(toEnumValue(MagicValuePredicate.MagicValue.class, term));
+  }
+
+  @Operator
+  public Predicate<ApprovalContext> approverin(String group) throws QueryParseException {
+    GroupReference g = GroupBackends.findBestSuggestion(groupBackend, group);
+    if (g == null) {
+      throw error("Group " + group + " not found");
+    }
+    return userInPredicate.create(UserInPredicate.Field.APPROVER, g.getUUID());
+  }
+
+  @Operator
+  public Predicate<ApprovalContext> uploaderin(String group) throws QueryParseException {
+    GroupReference g = GroupBackends.findBestSuggestion(groupBackend, group);
+    if (g == null) {
+      throw error("Group " + group + " not found");
+    }
+    return userInPredicate.create(UserInPredicate.Field.UPLOADER, g.getUUID());
   }
 
   private static <T extends Enum<T>> T toEnumValue(Class<T> clazz, String term)

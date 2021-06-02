@@ -48,6 +48,8 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -73,6 +75,7 @@ class ApprovalInference {
   private final LabelNormalizer labelNormalizer;
   private final PatchListCache patchListCache;
   private final ApprovalQueryBuilder approvalQueryBuilder;
+  private final OneOffRequestContext requestContext;
 
   @Inject
   ApprovalInference(
@@ -80,12 +83,14 @@ class ApprovalInference {
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
       PatchListCache patchListCache,
-      ApprovalQueryBuilder approvalQueryBuilder) {
+      ApprovalQueryBuilder approvalQueryBuilder,
+      OneOffRequestContext requestContext) {
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.patchListCache = patchListCache;
     this.approvalQueryBuilder = approvalQueryBuilder;
+    this.requestContext = requestContext;
   }
 
   /**
@@ -323,7 +328,13 @@ class ApprovalInference {
     }
     ApprovalContext ctx = ApprovalContext.create(project, psa, psId);
     try {
-      return approvalQueryBuilder.parse(type.getCopyCondition().get()).asMatchable().match(ctx);
+      // Use a request context to run checks as an internal user with expanded visibility. This is
+      // so that the output of the copy condition does not depend on who is running the current
+      // request (e.g. a group used in this query might not be visible to the person sending this
+      // request).
+      try (ManualRequestContext ignored = requestContext.open()) {
+        return approvalQueryBuilder.parse(type.getCopyCondition().get()).asMatchable().match(ctx);
+      }
     } catch (QueryParseException e) {
       logger.atWarning().withCause(e).log(
           "Unable to copy label because config is invalid. This should have been caught before.");

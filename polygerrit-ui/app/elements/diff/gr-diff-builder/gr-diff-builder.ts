@@ -315,7 +315,9 @@ export abstract class GrDiffBuilder {
     const firstGroupIsSkipped = !!contextGroups[0].skip;
     const lastGroupIsSkipped = !!contextGroups[contextGroups.length - 1].skip;
 
-    const showAbove = leftStart > 1 && !firstGroupIsSkipped;
+    const containsWholeFile = this._numLinesLeft === leftEnd - leftStart + 1;
+    const showAbove =
+      (leftStart > 1 && !firstGroupIsSkipped) || containsWholeFile;
     const showBelow = leftEnd < this._numLinesLeft && !lastGroupIsSkipped;
 
     if (showAbove) {

@@ -25,7 +25,7 @@ link:index.html[the rest of the documentation] for a more complete overview and 
 Here’s how getting code reviewed and submitted with Gerrit is different from
 doing the same with GitHub:
 
-* You need the add a commit-msg hook script when you clone a repo for the first
+* You need to add a commit-msg hook script when you clone a repo for the first
 time using a snippet you can find e.g. https://gerrit-review.googlesource.com/admin/repos/gerrit[here,role=external,window=_blank];
 * Your review will be on a single commit instead of a branch. You use
 `git commit --amend` to modify a code change.

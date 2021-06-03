@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30625551_8c935dcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-03T19:44:49Z",
+      "side": 1,
+      "message": "This is quite a big jump for the replication plugin: we are pulling many commits from master.\n\n@Nasser do you foresee any issue with this?\n@DavidO that may have an impact on the release notes also, do you agree to this jump?",
+      "revId": "be0dd683891a981c0b7f76b9f5a71806b5f2d19b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

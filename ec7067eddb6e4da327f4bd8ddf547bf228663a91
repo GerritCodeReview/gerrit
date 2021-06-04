@@ -207,6 +207,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b508bd91_82deeb5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2021-06-04T10:57:48Z",
+      "side": 1,
+      "message": "I think so. Reason I have not done it yet, was because I wanted to link to the change of the new proposal in the abandond message. But I guess I could do that as a separate message.",
+      "parentUuid": "f9ed0dd9_3c8310bb",
+      "revId": "ec7067eddb6e4da327f4bd8ddf547bf228663a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef0a5ab5_2a9dd868",

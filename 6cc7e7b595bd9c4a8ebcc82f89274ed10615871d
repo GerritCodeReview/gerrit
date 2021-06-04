@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "127928ef_43487c4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-04T09:05:42Z",
+      "side": 1,
+      "message": "Should we backport this to stable-3.4?",
+      "revId": "6cc7e7b595bd9c4a8ebcc82f89274ed10615871d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

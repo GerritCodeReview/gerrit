@@ -128,6 +128,30 @@
       },
       "revId": "86090eca8789aca10f794aede348a54377b4a8f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "599a0410_f270fc4a",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T15:29:16Z",
+      "side": 1,
+      "message": "Okay, sure, sounds legit.\nI\u0027ll try to remember to change this in the internal method during after the import :-)",
+      "parentUuid": "f24ebedd_39d82f9c",
+      "range": {
+        "startLine": 344,
+        "startChar": 11,
+        "endLine": 344,
+        "endChar": 70
+      },
+      "revId": "86090eca8789aca10f794aede348a54377b4a8f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

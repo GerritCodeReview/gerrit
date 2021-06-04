@@ -120,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b639cb8a_5756e4b4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T15:22:39Z",
+      "side": 1,
+      "message": "Explanation to the comment below and maybe this should suffice:\n// can copy approval from patchset 2 -\u003e 3",
+      "parentUuid": "df848095_9b73ef1f",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 15
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "192f0c28_bf21a4fd",
         "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
         "patchSetId": 9

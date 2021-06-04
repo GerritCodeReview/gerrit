@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cbcf9aa_a269ec14",
+        "filename": "polygerrit-ui/app/services/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-04T08:32:42Z",
+      "side": 1,
+      "message": "Actually we have `unique` in `common-util` that could be used, but I also haven\u0027t used it for `uniqueDefinedAvatar` :)",
+      "range": {
+        "startLine": 329,
+        "startChar": 6,
+        "endLine": 332,
+        "endChar": 7
+      },
+      "revId": "8ba89d398258a406ccfa36ea24c81c4694a63930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

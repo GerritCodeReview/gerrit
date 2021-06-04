@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db81dc85_48349237",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-04T11:11:01Z",
+      "side": 1,
+      "message": "Ahh the chips in the mock look like the reviewer chips so I was confused which consistency we were going for.\nDeviating from the mocks and using Owners chips.",
+      "parentUuid": "7cb31b65_fb7607ab",
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cde43f63_103fb819",
@@ -131,6 +149,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea3b93cf_567004e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-04T11:11:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cde43f63_103fb819",
+      "range": {
+        "startLine": 65,
+        "startChar": 3,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "763db8ed_fbf4f932",
@@ -144,6 +186,30 @@
       "writtenOn": "2021-06-02T17:28:52Z",
       "side": 1,
       "message": "If this is defining the selection color of the user chip, then use --chip-selected-background-color in both light and dark theme to be consistent with the Code-Owners chips.",
+      "range": {
+        "startLine": 86,
+        "startChar": 5,
+        "endLine": 86,
+        "endChar": 53
+      },
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c8545aa_afb5a3fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-04T11:11:01Z",
+      "side": 1,
+      "message": "Removed the code and used the same styling as AS chips from reply dialog.",
+      "parentUuid": "763db8ed_fbf4f932",
       "range": {
         "startLine": 86,
         "startChar": 5,

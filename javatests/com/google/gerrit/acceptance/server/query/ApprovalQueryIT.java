@@ -29,6 +29,8 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Inject;
@@ -38,6 +40,8 @@ import org.junit.Test;
 public class ApprovalQueryIT extends AbstractDaemonTest {
   @Inject private ApprovalQueryBuilder queryBuilder;
   @Inject private ChangeKindCreator changeKindCreator;
+  @Inject private ChangeNotes.Factory changeNotesFactory;
+  @Inject private ChangeKindCache changeKindCache;
 
   @Test
   public void magicValuePredicate() throws Exception {
@@ -201,6 +205,11 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
 
   private ApprovalContext contextForCodeReviewLabel(
       int value, PatchSet.Id psId, Account.Id approver) {
+    ChangeNotes changeNotes = changeNotesFactory.create(project, psId.changeId());
+    PatchSet.Id newPsId = PatchSet.id(psId.changeId(), psId.get() + 1);
+    ChangeKind changeKind =
+        changeKindCache.getChangeKind(
+            changeNotes.getChange(), changeNotes.getPatchSets().get(newPsId));
     PatchSetApproval approval =
         PatchSetApproval.builder()
             .postSubmit(false)
@@ -208,6 +217,6 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .key(PatchSetApproval.key(psId, approver, LabelId.create("Code-Review")))
             .value(value)
             .build();
-    return ApprovalContext.create(project, approval, PatchSet.id(psId.changeId(), psId.get() + 1));
+    return ApprovalContext.create(changeNotes, approval, newPsId, changeKind);
   }
 }

@@ -22,6 +22,30 @@
       },
       "revId": "b508b402bc55fc48eb0d2ff923378c05b5669820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8a1efd5_8ad47d86",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-04T11:59:16Z",
+      "side": 1,
+      "message": "Checked. Could not find any problem.",
+      "parentUuid": "5628e352_b485780c",
+      "range": {
+        "startLine": 848,
+        "startChar": 10,
+        "endLine": 848,
+        "endChar": 17
+      },
+      "revId": "b508b402bc55fc48eb0d2ff923378c05b5669820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

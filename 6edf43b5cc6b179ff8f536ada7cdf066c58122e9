@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df3c236d_d8446c4b",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T15:12:00Z",
+      "side": 1,
+      "message": "optional: alternatively, you can pass a flag such that you just ignore visibility.",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 335,
+        "endChar": 66
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f4cce8f_1380d8e4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T15:12:00Z",
+      "side": 1,
+      "message": "I guess the user can\u0027t see the admin as the default, make it explicit?",
+      "range": {
+        "startLine": 165,
+        "startChar": 14,
+        "endLine": 165,
+        "endChar": 54
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11e585cb_2fc02631",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T15:12:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand this test and the below one.\nShouldn\u0027t this be true? The uploader of ps2 is the admin, no?",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 15
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "192f0c28_bf21a4fd",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T15:12:00Z",
+      "side": 1,
+      "message": "Not sure it matters in the context of this test but patchset 2 doesn\u0027t even exist, so this confused me a bit.\n\nAlso nit: add /* xx\u003d */ comments for the integers.",
+      "range": {
+        "startLine": 167,
+        "startChar": 67,
+        "endLine": 167,
+        "endChar": 68
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

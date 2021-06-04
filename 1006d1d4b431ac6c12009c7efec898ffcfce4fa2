@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db984a26_31518a7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-04T07:37:30Z",
+      "side": 1,
+      "message": "Nice change! Almost LGTM.",
+      "revId": "1006d1d4b431ac6c12009c7efec898ffcfce4fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5920492a_4712d663",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-04T07:37:30Z",
+      "side": 1,
+      "message": "I missed that in the original review:\n\nplease add one additional test for unset_copy_condition.",
+      "revId": "1006d1d4b431ac6c12009c7efec898ffcfce4fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

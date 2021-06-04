@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70277444_9bd4fc67",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-04T11:35:01Z",
+      "side": 1,
+      "message": "Is that refs/changes/meta or refs/meta/config?\n\nThe name was a bit confusing to me. I assume that\u0027s refs/meta/config that\u0027s storing configs of copyIf?",
+      "range": {
+        "startLine": 82,
+        "startChar": 69,
+        "endLine": 82,
+        "endChar": 86
+      },
+      "revId": "97b1aee6c01d6575e35f01f81372bedc24d37bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "209c55f5_194dd521",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1425,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-04T11:35:01Z",
+      "side": 1,
+      "message": "Javadocs need to be fixed.",
+      "range": {
+        "startLine": 1422,
+        "startChar": 92,
+        "endLine": 1425,
+        "endChar": 51
+      },
+      "revId": "97b1aee6c01d6575e35f01f81372bedc24d37bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "401dc028_37804717",
+        "filename": "proto/cache.proto",
+        "patchSetId": 6
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-04T11:35:01Z",
+      "side": 1,
+      "message": "nit: 5",
+      "range": {
+        "startLine": 691,
+        "startChar": 12,
+        "endLine": 691,
+        "endChar": 13
+      },
+      "revId": "97b1aee6c01d6575e35f01f81372bedc24d37bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -641,6 +641,9 @@ export class GrChecksResults extends GrLitElement {
             var(--spacing-xl);
           border-bottom: 1px solid var(--border-color);
         }
+        .header.notLatest {
+          background-color: var(--emphasis-color);
+        }
         .headerTopRow,
         .headerBottomRow {
           max-width: 1600px;
@@ -672,9 +675,19 @@ export class GrChecksResults extends GrLitElement {
         .headerBottomRow {
           margin-top: var(--spacing-s);
         }
+        .headerTopRow .right,
         .headerBottomRow .right {
           display: flex;
           align-items: center;
+        }
+        .headerTopRow .right .goToLatest {
+          display: none;
+        }
+        .notLatest .headerTopRow .right .goToLatest {
+          display: block;
+        }
+        .headerTopRow .right .goToLatest gr-button {
+          margin-right: var(--spacing-m);
         }
         .headerBottomRow iron-icon {
           color: var(--link-color);
@@ -827,8 +840,22 @@ export class GrChecksResults extends GrLitElement {
   }
 
   render() {
-    return html`
-      <div class="header">
+    // To pass CSS mixins for @apply to Polymer components, they need to appear
+    // in <style> inside the template.
+    const style = html`<style>
+      .headerTopRow .right .goToLatest gr-button {
+        --gr-button: {
+          padding: var(--spacing-s) var(--spacing-m);
+          text-transform: none;
+        }
+      }
+    </style>`;
+    const headerClasses = classMap({
+      header: true,
+      notLatest: !!this.checksPatchsetNumber,
+    });
+    return html`${style}
+      <div class="${headerClasses}">
         <div class="headerTopRow">
           <div class="left">
             <h2 class="heading-2">Results</h2>
@@ -838,6 +865,11 @@ export class GrChecksResults extends GrLitElement {
             </div>
           </div>
           <div class="right">
+            <div class="goToLatest">
+              <gr-button @click="${this.goToLatestPatchset}" link
+                >Go to latest patchset</gr-button
+              >
+            </div>
             <gr-dropdown-list
               value="${this.checksPatchsetNumber ?? this.latestPatchsetNumber}"
               .items="${this.createPatchsetDropdownItems()}"
@@ -962,6 +994,10 @@ export class GrChecksResults extends GrLitElement {
     const patchset = Number(e.detail.value);
     check(!isNaN(patchset), 'selected patchset must be a number');
     this.checksService.setPatchset(patchset as PatchSetNumber);
+  }
+
+  private goToLatestPatchset() {
+    this.checksService.setPatchset(undefined);
   }
 
   private createPatchsetDropdownItems() {

@@ -16,10 +16,6 @@ package com.google.gerrit.server.query.approval;
 
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.server.change.ChangeKindCache;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -28,36 +24,21 @@ import java.util.Objects;
  * patch set is of a certain kind.
  */
 public class ChangeKindPredicate extends ApprovalPredicate {
-  public interface Factory {
-    ChangeKindPredicate create(ChangeKind changeKind);
-  }
-
-  private final ChangeData.Factory changeDataFactory;
-  private final ChangeKindCache changeKindCache;
   private final ChangeKind changeKind;
 
-  @Inject
-  ChangeKindPredicate(
-      ChangeData.Factory changeDataFactory,
-      ChangeKindCache changeKindCache,
-      @Assisted ChangeKind changeKind) {
+  ChangeKindPredicate(ChangeKind changeKind) {
     this.changeKind = changeKind;
-    this.changeKindCache = changeKindCache;
-    this.changeDataFactory = changeDataFactory;
   }
 
   @Override
   public boolean match(ApprovalContext ctx) {
-    ChangeData cd = changeDataFactory.create(ctx.project(), ctx.target().changeId());
-    ChangeKind actualChangeKind =
-        changeKindCache.getChangeKind(null, null, cd, cd.patchSet(ctx.target()));
-    return actualChangeKind.equals(changeKind);
+    return ctx.changeKind().equals(changeKind);
   }
 
   @Override
   public Predicate<ApprovalContext> copy(
       Collection<? extends Predicate<ApprovalContext>> children) {
-    return new ChangeKindPredicate(changeDataFactory, changeKindCache, changeKind);
+    return new ChangeKindPredicate(changeKind);
   }
 
   @Override

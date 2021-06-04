@@ -19,22 +19,26 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
-import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.server.notedb.ChangeNotes;
 
 /** Entity representing all required information to match predicates for copying approvals. */
 @AutoValue
 public abstract class ApprovalContext {
-  /** Project that approvals are copied in. */
-  public abstract Project.NameKey project();
-
   /** Approval on the source patch set to be copied. */
   public abstract PatchSetApproval patchSetApproval();
 
   /** Target change and patch set for the approval. */
   public abstract PatchSet.Id target();
 
+  /** {@link ChangeNotes} of the change in question. */
+  public abstract ChangeNotes changeNotes();
+
+  /** {@link ChangeKind} of the delta between the origin and target patch set. */
+  public abstract ChangeKind changeKind();
+
   public static ApprovalContext create(
-      Project.NameKey project, PatchSetApproval psa, PatchSet.Id id) {
+      ChangeNotes changeNotes, PatchSetApproval psa, PatchSet.Id id, ChangeKind changeKind) {
     checkState(
         psa.patchSetId().changeId().equals(id.changeId()),
         "approval and target must be the same change. got: %s, %s",
@@ -45,6 +49,6 @@ public abstract class ApprovalContext {
         "approvals can only be copied to the next consecutive patch set. got: %s, %s",
         psa.patchSetId(),
         id);
-    return new AutoValue_ApprovalContext(project, psa, id);
+    return new AutoValue_ApprovalContext(psa, id, changeNotes, changeKind);
   }
 }

@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7cb31b65_fb7607ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-04T10:23:03Z",
+      "side": 1,
+      "message": "We want consistency with the *attention set* and *OWNERS* chips in the reply dialog.\n\nhttps://gerrit.googlesource.com/gerrit/+/62552866b45aaf1605a5ee6e2837fde5b167d1fa/polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts#461",
+      "parentUuid": "8c6eef81_6134eb5a",
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cde43f63_103fb819",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
         "patchSetId": 5

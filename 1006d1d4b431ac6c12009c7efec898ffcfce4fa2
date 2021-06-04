@@ -33,6 +33,24 @@
       "message": "I missed that in the original review:\n\nplease add one additional test for unset_copy_condition.",
       "revId": "1006d1d4b431ac6c12009c7efec898ffcfce4fa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d48e524_bc834dc6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-04T07:37:51Z",
+      "side": 1,
+      "message": "Marking unresolved.",
+      "parentUuid": "5920492a_4712d663",
+      "revId": "1006d1d4b431ac6c12009c7efec898ffcfce4fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

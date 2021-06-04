@@ -88,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "388078ff_560e4133",
+        "filename": "java/com/google/gerrit/server/query/approval/UserInPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T15:44:31Z",
+      "side": 1,
+      "message": "Sounds like a nice optimization! I\u0027ll send you a separate change.",
+      "parentUuid": "b8347342_8e9d2411",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 38
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f4cce8f_1380d8e4",
@@ -111,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f78c083_9eca5886",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T15:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f4cce8f_1380d8e4",
+      "range": {
+        "startLine": 165,
+        "startChar": 14,
+        "endLine": 165,
+        "endChar": 54
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c90255f_632b335e",
@@ -124,6 +172,30 @@
       "writtenOn": "2021-06-04T15:33:13Z",
       "side": 1,
       "message": "nit: same test for CreateLabelIT?",
+      "range": {
+        "startLine": 532,
+        "startChar": 14,
+        "endLine": 532,
+        "endChar": 83
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97e2a15d_5ee651cb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/SetLabelIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T15:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c90255f_632b335e",
       "range": {
         "startLine": 532,
         "startChar": 14,
@@ -205,6 +277,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06dc49ec_2ee632e0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T15:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b639cb8a_5756e4b4",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 15
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "192f0c28_bf21a4fd",
@@ -218,6 +314,30 @@
       "writtenOn": "2021-06-04T15:12:00Z",
       "side": 1,
       "message": "Not sure it matters in the context of this test but patchset 2 doesn\u0027t even exist, so this confused me a bit.\n\nAlso nit: add /* xx\u003d */ comments for the integers.",
+      "range": {
+        "startLine": 167,
+        "startChar": 67,
+        "endLine": 167,
+        "endChar": 68
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb369810_4a810c32",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T15:44:31Z",
+      "side": 1,
+      "message": "It does not matter, but I created it anyway to be consistent.\n\nDone.",
+      "parentUuid": "192f0c28_bf21a4fd",
       "range": {
         "startLine": 167,
         "startChar": 67,

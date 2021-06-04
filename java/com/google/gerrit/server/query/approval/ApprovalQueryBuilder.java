@@ -29,7 +29,6 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   private static final QueryBuilder.Definition<ApprovalContext, ApprovalQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ApprovalQueryBuilder.class);
 
-  private final ChangeKindPredicate.Factory changeKindPredicateFactory;
   private final MagicValuePredicate.Factory magicValuePredicate;
   private final UserInPredicate.Factory userInPredicate;
   private final GroupResolver groupResolver;
@@ -37,13 +36,11 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
 
   @Inject
   protected ApprovalQueryBuilder(
-      ChangeKindPredicate.Factory changeKindPredicateFactory,
       MagicValuePredicate.Factory magicValuePredicate,
       UserInPredicate.Factory userInPredicate,
       GroupResolver groupResolver,
       GroupControl.Factory groupControl) {
     super(mydef, null);
-    this.changeKindPredicateFactory = changeKindPredicateFactory;
     this.magicValuePredicate = magicValuePredicate;
     this.userInPredicate = userInPredicate;
     this.groupResolver = groupResolver;
@@ -52,7 +49,7 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
 
   @Operator
   public Predicate<ApprovalContext> changeKind(String term) throws QueryParseException {
-    return changeKindPredicateFactory.create(toEnumValue(ChangeKind.class, term));
+    return new ChangeKindPredicate(toEnumValue(ChangeKind.class, term));
   }
 
   @Operator

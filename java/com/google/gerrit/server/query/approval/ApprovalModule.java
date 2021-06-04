@@ -21,7 +21,6 @@ public class ApprovalModule extends FactoryModule {
 
   @Override
   protected void configure() {
-    factory(ChangeKindPredicate.Factory.class);
     factory(MagicValuePredicate.Factory.class);
     factory(UserInPredicate.Factory.class);
   }

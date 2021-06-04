@@ -96,6 +96,9 @@ export class GrAccountLabel extends PolymerElement {
   @property({type: Object})
   _config?: ServerInfo;
 
+  @property({type: Boolean, reflectToAttribute: true})
+  showBackground = false;
+
   @property({
     type: Boolean,
     reflectToAttribute: true,

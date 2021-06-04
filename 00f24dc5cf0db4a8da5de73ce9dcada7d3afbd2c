@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "605f331f_97232c68",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-04T08:47:18Z",
+      "side": 1,
+      "message": "I am just curious why OtherPrimaryLinks are limited to 4, but secondary links are not in https://gerrit-review.googlesource.com/c/gerrit/+/308308/2?\n\nIs there a data model that makes sure there is not many secondary links?\n\nI would expect either\nrenderAllOtherPrimaryLinks() and same renderAllSeconderyLinks()\n\nOr some limitation in rendering - like renderOtherPrimary + renderSecondary have max 6 links.",
+      "range": {
+        "startLine": 535,
+        "startChar": 13,
+        "endLine": 535,
+        "endChar": 33
+      },
+      "revId": "00f24dc5cf0db4a8da5de73ce9dcada7d3afbd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d19efb7_a4937e56",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-04T08:47:18Z",
+      "side": 1,
+      "message": "NIT: I assume this is intention to have\n\u003cdiv class\u003d\"links\"\u003eprimaryLink\u003c/div\u003e\n\u003cdiv class\u003d\"links\"\u003eotherPrimaryLinks\u003c/div\u003e\n\u003cdiv class\u003d\"links\"\u003eSecondaryLinks\u003c/div\u003e\nInstead of\n\u003cdiv class\u003d\"links\"\u003e\nprimaryLink\notherPrimaryLinks\nSecondaryLinks\n\u003c/div\u003e\n\n\nI am fine with current solution, for second one, I can a code like this\n\u003cdiv class\u003d\"links\"\u003e\n[firstPrimaryLink(this.result)].concat(otherPrimaryLinks(this.result)).concat(secondaryLinks(this.result)).map(links.map(link \u003d\u003e this.renderLink(link))\n\u003c/div\u003e",
+      "range": {
+        "startLine": 558,
+        "startChar": 28,
+        "endLine": 558,
+        "endChar": 33
+      },
+      "revId": "00f24dc5cf0db4a8da5de73ce9dcada7d3afbd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

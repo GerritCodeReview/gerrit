@@ -22,6 +22,30 @@
       },
       "revId": "8ba89d398258a406ccfa36ea24c81c4694a63930",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91ac3ddc_11d6a867",
+        "filename": "polygerrit-ui/app/services/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-04T09:50:31Z",
+      "side": 1,
+      "message": "That is where I have copied from. :-D But the problem here is that we don\u0027t want `link` to be unique, but `link.icon`. I was not sure whether it is possible to write a utility for that that would be easier to read.",
+      "parentUuid": "1cbcf9aa_a269ec14",
+      "range": {
+        "startLine": 329,
+        "startChar": 6,
+        "endLine": 332,
+        "endChar": 7
+      },
+      "revId": "8ba89d398258a406ccfa36ea24c81c4694a63930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48f5bfee_f52cac1a",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T13:41:32Z",
+      "side": 1,
+      "message": "test for serializer/deserializer? Maybe just copy paste from InternalGroupSerializerTest.java",
+      "range": {
+        "startLine": 89,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 21
+      },
+      "revId": "86090eca8789aca10f794aede348a54377b4a8f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b8a9e6b_589eda91",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T13:41:32Z",
+      "side": 1,
+      "message": "nit:\n/* revWalk\u003d */",
+      "revId": "86090eca8789aca10f794aede348a54377b4a8f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff73c11b_86dd9586",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T13:41:32Z",
+      "side": 1,
+      "message": "this looks confusing and error prone that you\u0027re not checking the cache here but you are checking the cache in the other method below.\n\nI see also that we have a class internally that uses this with \"nulls\" which skips the cache. Also, I see this method is still used e.g in MergedSender. Is that on purpose?\n\nMaybe add:\n\nif (rw \u003d\u003d null \u0026\u0026 repoConfig \u003d\u003d null) {\n  byPatchset(notes, psId);\n}\n\nAlternatively, can we find a way to get rid of this method fully? Is that really needed to get the patchset based on a specific revision walk and repo config?",
+      "range": {
+        "startLine": 344,
+        "startChar": 11,
+        "endLine": 344,
+        "endChar": 70
+      },
+      "revId": "86090eca8789aca10f794aede348a54377b4a8f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

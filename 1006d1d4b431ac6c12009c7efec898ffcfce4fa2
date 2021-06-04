@@ -69,6 +69,24 @@
       "parentUuid": "8d48e524_bc834dc6",
       "revId": "1006d1d4b431ac6c12009c7efec898ffcfce4fa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d9d9e6e_3e7eb885",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-04T12:17:09Z",
+      "side": 1,
+      "message": "Right, thanks.",
+      "parentUuid": "05047f74_6405a350",
+      "revId": "1006d1d4b431ac6c12009c7efec898ffcfce4fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c7d3531_f694310d",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T15:18:38Z",
+      "side": 1,
+      "message": "Unfortunately, I can\u0027t because the query parser is generic (just takes a string and is the same for change, project, ... search).",
+      "parentUuid": "df3c236d_d8446c4b",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 335,
+        "endChar": 66
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f4cce8f_1380d8e4",
@@ -60,6 +84,30 @@
       "writtenOn": "2021-06-04T15:12:00Z",
       "side": 1,
       "message": "I\u0027m not sure I understand this test and the below one.\nShouldn\u0027t this be true? The uploader of ps2 is the admin, no?",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 15
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df848095_9b73ef1f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T15:18:38Z",
+      "side": 1,
+      "message": "The test api is probably confusing here and can be improved.\n\nThis is checking if an approval can be copied from PS2 (provided as arg) to PS2+1 \u003d PS3.\n\nWhat would help to make this more understandable?",
+      "parentUuid": "11e585cb_2fc02631",
       "range": {
         "startLine": 140,
         "startChar": 4,

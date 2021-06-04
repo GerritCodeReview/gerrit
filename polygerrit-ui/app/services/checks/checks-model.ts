@@ -299,7 +299,7 @@ export const fakeRun0: CheckRun = {
       internalResultId: 'f0r1',
       category: Category.ERROR,
       summary: 'Running the mighty test has failed by crashing.',
-      message: 'Btw, 1 is also not equal to 3. Did you know?',
+      message: `Btw, 1 is also not equal to 3. Did you know?`,
       actions: [
         {
           name: 'Ignore',

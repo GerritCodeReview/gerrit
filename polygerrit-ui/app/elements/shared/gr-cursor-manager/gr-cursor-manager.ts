@@ -245,6 +245,7 @@ export class GrCursorManager {
     this.index = -1;
     this.target = null;
     this._targetHeight = null;
+    this.stops = [];
   }
 
   /** Returns true if there are no stops, or we are on the first stop. */

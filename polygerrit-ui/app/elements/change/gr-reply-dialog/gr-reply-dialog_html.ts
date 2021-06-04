@@ -393,6 +393,7 @@ export const htmlTemplate = html`
                   selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
                   deselected="[[!_computeHasNewAttention(account, _newAttentionSet)]]"
                   hide-hovercard=""
+                  show-background
                   on-click="_handleAttentionClick"
                 ></gr-account-label>
               </template>
@@ -464,6 +465,7 @@ export const htmlTemplate = html`
               selected="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
               deselected="[[!_computeHasNewAttention(_owner, _newAttentionSet)]]"
               hide-hovercard=""
+              show-background
               on-click="_handleAttentionClick"
             >
             </gr-account-label>
@@ -479,6 +481,7 @@ export const htmlTemplate = html`
                 selected="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
                 deselected="[[!_computeHasNewAttention(_uploader, _newAttentionSet)]]"
                 hide-hovercard=""
+                show-background
                 on-click="_handleAttentionClick"
               >
               </gr-account-label>
@@ -499,6 +502,7 @@ export const htmlTemplate = html`
                 selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
                 deselected="[[!_computeHasNewAttention(account, _newAttentionSet)]]"
                 hide-hovercard=""
+                show-background
                 on-click="_handleAttentionClick"
               >
               </gr-account-label>
@@ -520,6 +524,7 @@ export const htmlTemplate = html`
                   selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
                   deselected="[[!_computeHasNewAttention(account, _newAttentionSet)]]"
                   hide-hovercard=""
+                  show-background
                   on-click="_handleAttentionClick"
                 >
                 </gr-account-label>

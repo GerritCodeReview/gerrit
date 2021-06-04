@@ -97,6 +97,13 @@ export class GrAccountLabel extends PolymerElement {
   _config?: ServerInfo;
 
   @property({type: Boolean, reflectToAttribute: true})
+  showBackground = false;
+
+  @property({
+    type: Boolean,
+    reflectToAttribute: true,
+    observer: 'selectedChanged',
+  })
   selected = false;
 
   @property({type: Boolean, reflectToAttribute: true})

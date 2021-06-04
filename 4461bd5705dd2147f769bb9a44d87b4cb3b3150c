@@ -169,6 +169,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82aeabb5_56d44a61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T08:24:58Z",
+      "side": 1,
+      "message": "It\u0027s not just the meta refs, there are plenty of other refs. E.g, during submit, we return the new and old SHA-1 of the destination branch. Also, when creating accounts there are multiple refs getting updated (refs/sequences/accounts, refs/users, refs/meta/external-ids).\n\nSpecifically what we need right now is to improve the submit endpoint (also because submit endpoint is a bit broken since it returns only one ChangeInfo object instead of a list, and changing this is backwards incompatible), but we thought it\u0027s much better to do it generically like this (return all meta refs of all submitted changes and all the destination branch).",
+      "parentUuid": "65df485e_16267aeb",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "4461bd5705dd2147f769bb9a44d87b4cb3b3150c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89c5c054_e43d2a3c",
         "filename": "java/com/google/gerrit/httpd/WebSession.java",
         "patchSetId": 5

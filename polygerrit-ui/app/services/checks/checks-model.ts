@@ -560,14 +560,44 @@ export const fakeLinks: Link[] = [
   {
     url: 'https://www.google.com',
     primary: true,
-    tooltip: 'Tooltip for Bug Report Fake Link',
+    tooltip: 'Fake Bug Report 1',
     icon: LinkIcon.REPORT_BUG,
   },
   {
     url: 'https://www.google.com',
-    primary: false,
-    tooltip: 'Tooltip for External Fake Link',
+    primary: true,
+    tooltip: 'Fake Bug Report 2',
+    icon: LinkIcon.REPORT_BUG,
+  },
+  {
+    url: 'https://www.google.com',
+    primary: true,
+    tooltip: 'Fake Link 1',
     icon: LinkIcon.EXTERNAL,
+  },
+  {
+    url: 'https://www.google.com',
+    primary: false,
+    tooltip: 'Fake Link 2',
+    icon: LinkIcon.EXTERNAL,
+  },
+  {
+    url: 'https://www.google.com',
+    primary: true,
+    tooltip: 'Fake Code Link',
+    icon: LinkIcon.CODE,
+  },
+  {
+    url: 'https://www.google.com',
+    primary: true,
+    tooltip: 'Fake Image Link',
+    icon: LinkIcon.IMAGE,
+  },
+  {
+    url: 'https://www.google.com',
+    primary: true,
+    tooltip: 'Fake Help Link',
+    icon: LinkIcon.HELP_PAGE,
   },
 ];
 

@@ -962,7 +962,14 @@ export class GrChecksResults extends GrLitElement {
   private renderLinks() {
     const links = this.links ?? [];
     if (links.length === 0) return;
-    const primaryLinks = links.filter(a => a.primary).slice(0, 4);
+    const primaryLinks = links
+      .filter(a => a.primary)
+      // Showing the same icons twice without text is super confusing.
+      .filter(
+        (link: Link, index: number, array: Link[]) =>
+          array.findIndex(other => link.icon === other.icon) === index
+      )
+      .slice(0, 4);
     const overflowLinks = links.filter(a => !primaryLinks.includes(a));
     return html`
       ${primaryLinks.map(this.renderLink)}

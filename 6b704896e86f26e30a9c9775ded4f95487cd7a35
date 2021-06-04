@@ -51,6 +51,24 @@
       "parentUuid": "390ef50b_e6b53456",
       "revId": "6b704896e86f26e30a9c9775ded4f95487cd7a35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fbfc51a_82e2ec06",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-04T13:20:27Z",
+      "side": 1,
+      "message": "ah, clever.",
+      "parentUuid": "e767f4a9_8c628de4",
+      "revId": "6b704896e86f26e30a9c9775ded4f95487cd7a35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

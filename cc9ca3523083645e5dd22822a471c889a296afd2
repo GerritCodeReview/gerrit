@@ -22,6 +22,30 @@
       },
       "revId": "cc9ca3523083645e5dd22822a471c889a296afd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d01bb626_2b587334",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T07:14:43Z",
+      "side": 1,
+      "message": "I also don\u0027t understand this comment :-)\n\nI think as a whole, this isn\u0027t true anymore. Since we don\u0027t cache ProjectState, it can contain values from parents. ProjectState is newly created whenever requested from ProjectCache",
+      "parentUuid": "32023ff7_b7918750",
+      "range": {
+        "startLine": 66,
+        "startChar": 89,
+        "endLine": 67,
+        "endChar": 21
+      },
+      "revId": "cc9ca3523083645e5dd22822a471c889a296afd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

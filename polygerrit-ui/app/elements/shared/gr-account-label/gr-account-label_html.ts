@@ -37,13 +37,13 @@ export const htmlTemplate = html`
     :host::after {
       content: var(--account-label-suffix);
     }
-    :host([deselected]) {
+    :host([deselected][selection-chip-style]) {
       background-color: var(--background-color-primary);
       border: 1px solid var(--comment-separator-color);
       border-radius: 8px;
       color: var(--deemphasized-text-color);
     }
-    :host([selected]) {
+    :host([selected][selection-chip-style]) {
       background-color: var(--chip-selected-background-color);
       border: 1px solid var(--chip-selected-background-color);
       border-radius: 8px;

@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c6eef81_6134eb5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-04T10:20:10Z",
+      "side": 1,
+      "message": "gr-account-label does not have the linking but it also does not have the styling of the chip as well.\n\nhttps://imgur.com/a/7yGQY6A\n\nThe styling is coming from gr-account-chip which is also what\u0027s being used in the reply dialog.\n\nI\u0027m not really sure what \"selection\" chips are but if we want consistency with the reply dialog then I guess we need to use gr-account-chip?\n\nShould I add the option to add styling to gr-account-label? Or are we fine with the chips without the border and the background?",
+      "parentUuid": "79f9fe42_6706548c",
+      "revId": "18756605d60ff661c3eb97854262d5b85363be20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cde43f63_103fb819",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
         "patchSetId": 5

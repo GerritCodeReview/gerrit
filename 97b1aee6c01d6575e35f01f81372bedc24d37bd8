@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "788ffad1_93904911",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-04T13:11:17Z",
+      "side": 1,
+      "message": "Thanks for discussing this on GVC: We discussed including refs/meta/config in the cache key as well.\n\nSince refs/meta/config is not part of the cache key, changing copyCondition in project.config will not cause a re-evaluation of the copied labels that are already cached. This behaviour is different from what we have today: the copied label scores are evaluated on the fly every time the change page is loaded, so if the label.copyAllScoresOn* has changed, any previous labels can still be copied for opened changes.\n\nStoring refs/meta/config in the cache key will require storing ref IDs for all parent projects as well, since labels can be inherited.\n\nWe agreed that the current change is fine: changing copyIf won\u0027t result in updating open changes (unless refs/changes/../meta was updated due to an added comment, etc...). This behaviour is also undocumented in our docs.\n\nAlso as per the commit message: as a future enhancement, we\u0027d like to persist copied labels in NoteDb on patchset creation time to avoid re-evaluating this logic.",
+      "parentUuid": "9b0d2b70_a6d6741b",
+      "range": {
+        "startLine": 82,
+        "startChar": 69,
+        "endLine": 82,
+        "endChar": 86
+      },
+      "revId": "97b1aee6c01d6575e35f01f81372bedc24d37bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "209c55f5_194dd521",

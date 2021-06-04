@@ -33,6 +33,24 @@
       "message": "revert this :-)",
       "revId": "6b704896e86f26e30a9c9775ded4f95487cd7a35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e767f4a9_8c628de4",
+        "filename": "plugins/reviewnotes",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T13:18:49Z",
+      "side": 1,
+      "message": "This is fine :-) It makes the CI pass and the submodule would move to this commit anyway.",
+      "parentUuid": "390ef50b_e6b53456",
+      "revId": "6b704896e86f26e30a9c9775ded4f95487cd7a35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

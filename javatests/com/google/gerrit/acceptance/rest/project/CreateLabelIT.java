@@ -430,6 +430,30 @@ public class CreateLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createWithCopyCondition() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.copyCondition = "is:MAX";
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(createdLabel.copyCondition).isEqualTo("is:MAX");
+  }
+
+  @Test
+  public void createWithInvalidCopyCondition() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.copyCondition = "blarg::asd";
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(project.get()).label("Bar").create(input));
+    assertThat(thrown).hasMessageThat().contains("unable to parse copy condition");
+  }
+
+  @Test
   public void createWithCopyMaxScore() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");

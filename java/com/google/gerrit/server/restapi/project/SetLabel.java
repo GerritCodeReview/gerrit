@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.project.LabelDefinitionJson;
 import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -45,6 +47,7 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
   private final MetaDataUpdate.User updateFactory;
   private final ProjectConfig.Factory projectConfigFactory;
   private final ProjectCache projectCache;
+  private final ApprovalQueryBuilder approvalQueryBuilder;
 
   @Inject
   public SetLabel(
@@ -52,12 +55,14 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       PermissionBackend permissionBackend,
       MetaDataUpdate.User updateFactory,
       ProjectConfig.Factory projectConfigFactory,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ApprovalQueryBuilder approvalQueryBuilder) {
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.projectConfigFactory = projectConfigFactory;
     this.projectCache = projectCache;
+    this.approvalQueryBuilder = approvalQueryBuilder;
   }
 
   @Override
@@ -171,6 +176,25 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
 
     if (input.canOverride != null) {
       labelTypeBuilder.setCanOverride(input.canOverride);
+      dirty = true;
+    }
+
+    input.copyCondition = Strings.emptyToNull(input.copyCondition);
+    if (input.copyCondition != null) {
+      try {
+        approvalQueryBuilder.parse(input.copyCondition);
+      } catch (QueryParseException e) {
+        throw new BadRequestException(
+            "unable to parse copy condition. got: " + input.copyCondition, e);
+      }
+      labelTypeBuilder.setCopyCondition(input.copyCondition);
+      dirty = true;
+      if (Boolean.TRUE.equals(input.unsetCopyCondition)) {
+        throw new BadRequestException("can't set and unset copyCondition in the same request");
+      }
+    }
+    if (Boolean.TRUE.equals(input.unsetCopyCondition)) {
+      labelTypeBuilder.setCopyCondition(null);
       dirty = true;
     }
 

@@ -268,6 +268,32 @@ Defaults to true.
 If true, any score for the label is copied forward when a new patch
 set is uploaded. Defaults to false.
 
+[[label_copyCondition]]
+=== `label.Label-Name.copyCondition`
+
+If set, Gerrit matches patch set approvals against the provided query
+string. If the query matches, the approval is copied from one patch set
+to the next. The query language is the same as for
+link:user-search.html[other queries].
+
+This logic is triggered whenever a new patch set is uploaded.
+
+Gerrit currently supports the following predicates:
+
+==== change-kind:{REWORK,TRIVIAL_REBASE,MERGE_FIRST_PARENT_UPDATE,NO_CODE_CHANGE,NO_CHANGE}
+
+Matches if the diff between two patch sets was of a certain change kind.
+
+==== is:{MIN,MAX,ANY}
+
+Matches votes that are equal to the minimal or maximal voting range. Or any votes.
+
+==== Example
+
+----
+copyCondition = is:MIN OR -change-kind:REWORK
+----
+
 [[label_copyMinScore]]
 === `label.Label-Name.copyMinScore`
 

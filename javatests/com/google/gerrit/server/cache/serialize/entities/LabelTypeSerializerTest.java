@@ -35,6 +35,7 @@ public class LabelTypeSerializerTest {
           .setIgnoreSelfApproval(!LabelType.DEF_IGNORE_SELF_APPROVAL)
           .setRefPatterns(ImmutableList.of("refs/heads/*", "refs/tags/*"))
           .setDefaultValue((short) 1)
+          .setCopyCondition("is:ANY")
           .setCopyAnyScore(!LabelType.DEF_COPY_ANY_SCORE)
           .setCopyMaxScore(!LabelType.DEF_COPY_MAX_SCORE)
           .setCopyMinScore(!LabelType.DEF_COPY_MIN_SCORE)
@@ -57,7 +58,8 @@ public class LabelTypeSerializerTest {
 
   @Test
   public void roundTripWithMinimalValues() {
-    LabelType autoValue = ALL_VALUES_SET.toBuilder().setRefPatterns(null).build();
+    LabelType autoValue =
+        ALL_VALUES_SET.toBuilder().setRefPatterns(null).setCopyCondition(null).build();
     assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
   }
 }

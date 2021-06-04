@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -51,6 +53,7 @@ public class CreateLabel
   private final MetaDataUpdate.User updateFactory;
   private final ProjectConfig.Factory projectConfigFactory;
   private final ProjectCache projectCache;
+  private final ApprovalQueryBuilder approvalQueryBuilder;
 
   @Inject
   public CreateLabel(
@@ -58,12 +61,14 @@ public class CreateLabel
       PermissionBackend permissionBackend,
       MetaDataUpdate.User updateFactory,
       ProjectConfig.Factory projectConfigFactory,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ApprovalQueryBuilder approvalQueryBuilder) {
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.projectConfigFactory = projectConfigFactory;
     this.projectCache = projectCache;
+    this.approvalQueryBuilder = approvalQueryBuilder;
   }
 
   @Override
@@ -164,6 +169,22 @@ public class CreateLabel
 
     if (input.copyAnyScore != null) {
       labelType.setCopyAnyScore(input.copyAnyScore);
+    }
+
+    if (input.copyCondition != null) {
+      try {
+        approvalQueryBuilder.parse(input.copyCondition);
+      } catch (QueryParseException e) {
+        throw new BadRequestException(
+            "unable to parse copy condition. got: " + input.copyCondition, e);
+      }
+      if (Boolean.TRUE.equals(input.unsetCopyCondition)) {
+        throw new BadRequestException("can't set and unset copyCondition in the same request");
+      }
+      labelType.setCopyCondition(Strings.emptyToNull(input.copyCondition));
+    }
+    if (Boolean.TRUE.equals(input.unsetCopyCondition)) {
+      labelType.setCopyCondition(null);
     }
 
     if (input.copyMinScore != null) {

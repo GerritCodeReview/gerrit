@@ -79,6 +79,8 @@ import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.query.approval.ChangeKindPredicate;
+import com.google.gerrit.server.query.approval.MagicValuePredicate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.restapi.group.GroupModule;
@@ -148,6 +150,8 @@ public class BatchProgramModule extends FactoryModule {
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);
+    factory(ChangeKindPredicate.Factory.class);
+    factory(MagicValuePredicate.Factory.class);
 
     // As Reindex is a batch program, don't assume the index is available for
     // the change cache.

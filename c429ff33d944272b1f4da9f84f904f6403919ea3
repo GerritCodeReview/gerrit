@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9b9740b_a9bb3468",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-04T12:17:09Z",
+      "side": 1,
+      "message": "LGTM from my side.\n\nAdding Edwin for +2.",
+      "revId": "c429ff33d944272b1f4da9f84f904f6403919ea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

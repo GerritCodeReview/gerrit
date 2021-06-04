@@ -183,6 +183,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd2953d6_fa0f38a1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T16:03:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0a85ed02_cbc7b2e0",
+      "range": {
+        "startLine": 165,
+        "startChar": 14,
+        "endLine": 165,
+        "endChar": 54
+      },
+      "revId": "6edf43b5cc6b179ff8f536ada7cdf066c58122e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c90255f_632b335e",

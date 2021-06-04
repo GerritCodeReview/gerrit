@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62d4c99a_6ed99494",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-04T13:29:22Z",
+      "side": 1,
+      "message": "Tested on Owners/AS reply dialog, change log and dashboard.",
+      "revId": "6459e850f83064ab0954d7c088cfb0d0e11954a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

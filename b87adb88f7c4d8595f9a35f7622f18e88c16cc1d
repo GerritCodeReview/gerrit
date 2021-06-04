@@ -51,6 +51,24 @@
       "parentUuid": "305096fe_dddd66be",
       "revId": "b87adb88f7c4d8595f9a35f7622f18e88c16cc1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f470ae5c_df8f66be",
+        "filename": "e2e-tests/src/test/resources/hooks/commit-msg",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-04T01:39:43Z",
+      "side": 1,
+      "message": "Sure, makes sense.",
+      "parentUuid": "598476a4_399d5d18",
+      "revId": "b87adb88f7c4d8595f9a35f7622f18e88c16cc1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9058a500_551e3a11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T07:21:49Z",
+      "side": 1,
+      "message": "That\u0027s right and the commit message tries to explain it a bit:\n\ncopyConditions work alongside existing configs. If any of these\ncontrols allows copying the label, we copy.\n\nI don\u0027t think it\u0027s a conflict, though. It\u0027s just various conditions OR\u0027d together. You can think of your example as:\n\nlabel.copyCondition \u003d (-change-kind:TRIVIAL_REBASE AND ...) OR change-kind:TRIVIAL_REBASE\n\nWhich the user can also specify as query in the new language even though it does not make a lot of sense :-)",
+      "parentUuid": "c6bbf057_c7b22f16",
+      "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffaace1f_e22f0041",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-06-02T19:23:11Z",
       "side": 1,
       "message": "I thought Optional in args was usually discouraged? https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#_optional_nullable",
+      "range": {
+        "startLine": 245,
+        "startChar": 45,
+        "endLine": 245,
+        "endChar": 75
+      },
+      "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "194880e6_8531ce54",
+        "filename": "java/com/google/gerrit/entities/LabelType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T07:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffaace1f_e22f0041",
       "range": {
         "startLine": 245,
         "startChar": 45,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbf4fdb8_2b83acd7",
+        "filename": "java/com/google/gerrit/extensions/common/LabelDefinitionInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T07:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98bbf20b_bcbaa713",
+      "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81c4c46e_a7014e73",
@@ -71,6 +131,30 @@
       "writtenOn": "2021-06-02T19:23:11Z",
       "side": 1,
       "message": "nit: Put this just below canCopyBasedOnBooleanLabelConfigs ?",
+      "range": {
+        "startLine": 421,
+        "startChar": 18,
+        "endLine": 421,
+        "endChar": 45
+      },
+      "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "806f7bb5_f981d197",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T07:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81c4c46e_a7014e73",
       "range": {
         "startLine": 421,
         "startChar": 18,
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16f81903_e43a2094",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T07:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8d56cff_ef6cb7f7",
+      "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aae1c714_55d4777b",
@@ -111,6 +213,30 @@
       "writtenOn": "2021-06-02T10:01:20Z",
       "side": 1,
       "message": "nit: Did you mean \u0027Or\u0027?",
+      "range": {
+        "startLine": 189,
+        "startChar": 44,
+        "endLine": 189,
+        "endChar": 47
+      },
+      "revId": "9f33c8799e9022551879d684576fab8ad9004a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81e57e2c_6ce8bd55",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T07:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aae1c714_55d4777b",
       "range": {
         "startLine": 189,
         "startChar": 44,

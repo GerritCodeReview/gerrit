@@ -16,6 +16,24 @@
       "message": "Should we backport this to stable-3.4?",
       "revId": "6cc7e7b595bd9c4a8ebcc82f89274ed10615871d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3feeb5de_3d6a8bfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-04T09:43:15Z",
+      "side": 1,
+      "message": "We have a ton of checks improvements that we could backport. But I would prefer waiting a bit more and then potentially do a concerted effort. Just porting this change individually is too risky IMO, because we might see some inconsistencies.",
+      "parentUuid": "127928ef_43487c4b",
+      "revId": "6cc7e7b595bd9c4a8ebcc82f89274ed10615871d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

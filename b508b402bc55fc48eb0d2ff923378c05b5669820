@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5628e352_b485780c",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-04T10:48:29Z",
+      "side": 1,
+      "message": "Can you check if this change is not change buttons in reply dialog or in diff? this is specially important for buttons that are not always show.\n\nmore context: https://gerrit-review.googlesource.com/c/gerrit/+/301474",
+      "range": {
+        "startLine": 848,
+        "startChar": 10,
+        "endLine": 848,
+        "endChar": 17
+      },
+      "revId": "b508b402bc55fc48eb0d2ff923378c05b5669820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

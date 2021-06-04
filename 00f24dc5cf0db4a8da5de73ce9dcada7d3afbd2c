@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d22ed197_e0c23e13",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-04T10:19:22Z",
+      "side": 1,
+      "message": "Thanks for pointing this out.\n\nOtherPrimaryLinks should only be limited to 4 in the collapsed state of the row. Here we should render all of them.\n\nDone.",
+      "parentUuid": "605f331f_97232c68",
+      "range": {
+        "startLine": 535,
+        "startChar": 13,
+        "endLine": 535,
+        "endChar": 33
+      },
+      "revId": "00f24dc5cf0db4a8da5de73ce9dcada7d3afbd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d19efb7_a4937e56",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-04T08:47:18Z",
       "side": 1,
       "message": "NIT: I assume this is intention to have\n\u003cdiv class\u003d\"links\"\u003eprimaryLink\u003c/div\u003e\n\u003cdiv class\u003d\"links\"\u003eotherPrimaryLinks\u003c/div\u003e\n\u003cdiv class\u003d\"links\"\u003eSecondaryLinks\u003c/div\u003e\nInstead of\n\u003cdiv class\u003d\"links\"\u003e\nprimaryLink\notherPrimaryLinks\nSecondaryLinks\n\u003c/div\u003e\n\n\nI am fine with current solution, for second one, I can a code like this\n\u003cdiv class\u003d\"links\"\u003e\n[firstPrimaryLink(this.result)].concat(otherPrimaryLinks(this.result)).concat(secondaryLinks(this.result)).map(links.map(link \u003d\u003e this.renderLink(link))\n\u003c/div\u003e",
+      "range": {
+        "startLine": 558,
+        "startChar": 28,
+        "endLine": 558,
+        "endChar": 33
+      },
+      "revId": "00f24dc5cf0db4a8da5de73ce9dcada7d3afbd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d941d0b0_b8275a13",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-04T10:19:22Z",
+      "side": 1,
+      "message": "It is intentional to have a \u003cdiv\u003e (and thus a line-break) for each group of links.",
+      "parentUuid": "7d19efb7_a4937e56",
       "range": {
         "startLine": 558,
         "startChar": 28,

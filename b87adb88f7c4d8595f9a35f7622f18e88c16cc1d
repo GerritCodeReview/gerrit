@@ -33,6 +33,24 @@
       "message": "Unrelated: do we really need to have a copy\u0026paste of the commit-msg? Why not just putting a symlink?\n\nGoing to address as a follow-up",
       "revId": "b87adb88f7c4d8595f9a35f7622f18e88c16cc1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "598476a4_399d5d18",
+        "filename": "e2e-tests/src/test/resources/hooks/commit-msg",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1124260
+      },
+      "writtenOn": "2021-06-04T01:22:34Z",
+      "side": 1,
+      "message": "Agreed, I think a symlink for the e2e test would be ideal, but I didn\u0027t want to make more than one logical change in this CL.",
+      "parentUuid": "305096fe_dddd66be",
+      "revId": "b87adb88f7c4d8595f9a35f7622f18e88c16cc1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

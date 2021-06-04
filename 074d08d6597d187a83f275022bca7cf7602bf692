@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0279b0b_14b942e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-04T09:29:26Z",
+      "side": 1,
+      "message": "Based on comments on previous change, added styles to match the patchset picker dropdown.",
+      "revId": "074d08d6597d187a83f275022bca7cf7602bf692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

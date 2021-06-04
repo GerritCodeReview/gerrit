@@ -96,11 +96,7 @@ export class GrAccountLabel extends PolymerElement {
   @property({type: Object})
   _config?: ServerInfo;
 
-  @property({
-    type: Boolean,
-    reflectToAttribute: true,
-    observer: 'selectedChanged',
-  })
+  @property({type: Boolean, reflectToAttribute: true})
   selected = false;
 
   @property({type: Boolean, reflectToAttribute: true})
@@ -128,10 +124,6 @@ export class GrAccountLabel extends PolymerElement {
       // For re-evaluation of everything that depends on 'change'.
       this.change = {...this.change};
     });
-  }
-
-  selectedChanged(selected?: boolean) {
-    this.deselected = !selected;
   }
 
   _isAttentionSetEnabled(

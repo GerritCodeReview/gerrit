@@ -607,7 +607,6 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Test
   public void reindex() throws Exception {
     AccountInfo user1 = newAccountWithFullName("tester", "Test Usre");
-
     // update account without reindex so that account index is stale
     Account.Id accountId = Account.id(user1._accountId);
     String newName = "Test User";
@@ -621,10 +620,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
           .setAccountDelta(AccountDelta.builder().setFullName(newName).build())
           .commit(md);
     }
-
-    assertQuery("name:" + quote(user1.name), user1);
-    assertQuery("name:" + quote(newName));
-
+    // Querying for the account here will not result in a stale document because
+    // we load AccountStates from the cache after reading documents from the index
+    // which means we always read fresh data when matching.
+    //
+    // Reindex document
     gApi.accounts().id(user1.username).index();
     assertQuery("name:" + quote(user1.name));
     assertQuery("name:" + quote(newName), user1);

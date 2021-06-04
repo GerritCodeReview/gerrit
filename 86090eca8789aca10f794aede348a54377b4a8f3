@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d778bb5_bca8c696",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T15:11:35Z",
+      "side": 1,
+      "message": "The value de/serialization is already tested because I am 100% reusing logic from the entity package :-)\n\nFor the value, this covers autovalue -\u003e proto -\u003e byte conversion.\n\nFor the key, this covers proto -\u003e byte conversion.\n\nWe could test the key autovalue/args -\u003e proto serialization but we are using these values in the cache loader, so that would not work, loading any value would fail (which is tested many times in various integration tests).",
+      "parentUuid": "48f5bfee_f52cac1a",
+      "range": {
+        "startLine": 89,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 21
+      },
+      "revId": "86090eca8789aca10f794aede348a54377b4a8f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b8a9e6b_589eda91",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27aabd5d_935c085f",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T15:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b8a9e6b_589eda91",
+      "revId": "86090eca8789aca10f794aede348a54377b4a8f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff73c11b_86dd9586",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-06-04T13:41:32Z",
       "side": 1,
       "message": "this looks confusing and error prone that you\u0027re not checking the cache here but you are checking the cache in the other method below.\n\nI see also that we have a class internally that uses this with \"nulls\" which skips the cache. Also, I see this method is still used e.g in MergedSender. Is that on purpose?\n\nMaybe add:\n\nif (rw \u003d\u003d null \u0026\u0026 repoConfig \u003d\u003d null) {\n  byPatchset(notes, psId);\n}\n\nAlternatively, can we find a way to get rid of this method fully? Is that really needed to get the patchset based on a specific revision walk and repo config?",
+      "range": {
+        "startLine": 344,
+        "startChar": 11,
+        "endLine": 344,
+        "endChar": 70
+      },
+      "revId": "86090eca8789aca10f794aede348a54377b4a8f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f24ebedd_39d82f9c",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2021-06-04T15:11:35Z",
+      "side": 1,
+      "message": "\u003e you\u0027re not checking the cache here but you are checking the cache in the other method below.\n\nIn other words: not all code paths are cached. There are code paths - after an update to the Git storage that are uncached. This is when a non-null RevWalk is provided. The reason is that in these cases, you need the RevWalk to read the newly created change notes. That doesn\u0027t work with the cache, because you\u0027d need to pass in the RevWalk in the key (not possible because the key needs to be serializable) or on the side (ugly).\n\nI went with the alternative: These few write paths are just uncached. The cache is a performance optimization that we need in places we call often, but can spare in places not called that often. Write paths are the latter.\n\nI fixed MergedSender, thanks for the pointer and double-checking!\n\nPlease LMK if you have concerns with that.",
+      "parentUuid": "ff73c11b_86dd9586",
       "range": {
         "startLine": 344,
         "startChar": 11,

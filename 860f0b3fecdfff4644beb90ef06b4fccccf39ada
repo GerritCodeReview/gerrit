@@ -16,6 +16,63 @@
       "message": "   d",
       "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70d606cf_9956ef65",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-04T11:38:08Z",
+      "side": 1,
+      "message": "assertIsDefined",
+      "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70e440a2_179fa120",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-04T11:38:08Z",
+      "side": 1,
+      "message": "Can a group create a comment? I think using _account_id should be sufficient here and below.",
+      "range": {
+        "startLine": 220,
+        "startChar": 46,
+        "endLine": 220,
+        "endChar": 63
+      },
+      "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cec6e9d5_a913c452",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-04T11:38:08Z",
+      "side": 1,
+      "message": "Why call `resortThreads`?\n\nShould `selectedAuthors` be a parameter of `_shouldShowThread()`?",
+      "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

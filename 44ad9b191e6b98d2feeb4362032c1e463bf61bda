@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c71a528_8621fbc8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCommit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "good point..done!",
+      "parentUuid": "b03c2948_ca189d82",
+      "range": {
+        "startLine": 138,
+        "startChar": 18,
+        "endLine": 138,
+        "endChar": 42
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e198f9ef_77bb289d",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-02T05:54:15Z",
       "side": 1,
       "message": "nit: not sure if that logic belongs here as it is responsible for storing the changenotes commit and countTowardsMaxUpdatesLimit is independent from the rest of the changes here ;)",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 3
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e89c5c07_7353a342",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCommit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Not sure where else to put it, it seemed to me a good fit since it is he object providing the footer lines and can do assumptions on those. Do you have any suggestion on where else to move this logic?",
+      "parentUuid": "e198f9ef_77bb289d",
       "range": {
         "startLine": 133,
         "startChar": 0,
@@ -96,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b657a595_f34d1960",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Yep, I agree with Gal",
+      "parentUuid": "f9466a3f_8ae2a144",
+      "range": {
+        "startLine": 362,
+        "startChar": 12,
+        "endLine": 362,
+        "endChar": 28
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfb1f260_4750e789",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 8
@@ -107,6 +179,30 @@
       "writtenOn": "2021-06-05T00:30:51Z",
       "side": 1,
       "message": "It would be best to rename it addToAllChangeMessages() and return the boolean of the \u0027add()\u0027 operation at L718, so that the method name and the return value make more sense.",
+      "range": {
+        "startLine": 702,
+        "startChar": 18,
+        "endLine": 702,
+        "endChar": 36
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcb7d01d_a6e71674",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "I agree, the naming is not the best. However I decided to keep it as it is for consistency with the rest of the methods. As yo can see in the list of the methods below, there are already several methods called \"parse*\" with a return value.\n\nIf we want to rename it I think we should do it in a separate ticket and consistently rename all the methods. WDYT?\n\n      private Account.Id parseIdent(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private Account.Id parseIdent(PersonIdent ident) throws ConfigInvalidException {\n      private Account.Id parseRealAccountId(ChangeNotesCommit commit, Account.Id effectiveAccountId)\n      private Change.Id parseRevertOf(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private Change.Status parseStatus(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private ConfigInvalidException parseException(String fmt, Object... args) {\n      private ObjectId parseRevision(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private PatchSet.Id parseCherryPickOf(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private PatchSet.Id parsePatchSetId(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private PatchSetApproval.Builder parseAddApproval(\n      private PatchSetApproval.Builder parseRemoveApproval(\n      private PatchSetState parsePatchSetState(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private String parseBranch(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private String parseChangeId(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private String parseExactlyOneFooter(ChangeNotesCommit commit, FooterKey footerKey)\n      private String parseOneFooter(ChangeNotesCommit commit, FooterKey footerKey)\n      private String parseSubject(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private String parseSubmissionId(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private String parseTopic(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private boolean parseChangeMessage(\n      private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private void parseApproval(\n      private void parseAssigneeUpdates(Timestamp ts, ChangeNotesCommit commit)\n      private void parseAttentionSetUpdates(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private void parseCurrentPatchSet(PatchSet.Id psId, ChangeNotesCommit commit)\n      private void parseDescription(PatchSet.Id psId, ChangeNotesCommit commit)\n      private void parseGroups(PatchSet.Id psId, ChangeNotesCommit commit)\n      private void parseHashtags(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private void parseIsPrivate(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private void parseNotes() throws IOException, ConfigInvalidException {\n      private void parsePatchSet(PatchSet.Id psId, ObjectId rev, Account.Id accountId, Timestamp ts)\n      private void parseReviewer(Timestamp ts, ReviewerStateInternal state, String line)\n      private void parseReviewerByEmail(Timestamp ts, ReviewerStateInternal state, String line)\n      private void parseSubmitRecords(List\u003cString\u003e lines) throws ConfigInvalidException {\n      private void parseTag(ChangeNotesCommit commit) throws ConfigInvalidException {\n      private void parseWorkInProgress(ChangeNotesCommit commit) throws ConfigInvalidException {",
+      "parentUuid": "dfb1f260_4750e789",
       "range": {
         "startLine": 702,
         "startChar": 18,
@@ -140,6 +236,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d9200e3_7eb9b7e9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36e0501a_3fc2e227",
+      "range": {
+        "startLine": 718,
+        "startChar": 0,
+        "endLine": 719,
+        "endChar": 16
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b66292a9_58c2058f",
@@ -153,6 +273,24 @@
       "writtenOn": "2021-06-05T00:30:51Z",
       "side": 1,
       "message": "We should also assert that adding to the attention-set should not change the update TS of the change.",
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97f25774_40012887",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Why shouldn\u0027t it? We still keep track of the additions/removals to/from the AS. We just don\u0027t count them towards the limit. If we would like not to keep track of the history anymore that\u0027s a major change in the logic,  out of the scope of this change.",
+      "parentUuid": "b66292a9_58c2058f",
       "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -193,6 +331,24 @@
       "writtenOn": "2021-06-05T00:30:51Z",
       "side": 1,
       "message": "We should also assert that the change update TS has been updated.",
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eec5bbf_5bb0ae36",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "see above comment",
+      "parentUuid": "ac830089_3ac98906",
       "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -244,6 +400,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e7e0762_a1bddebd",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b306919_4e8caa2d",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 48
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbbfbcb9_434fe537",
@@ -257,6 +437,30 @@
       "writtenOn": "2021-06-05T00:30:51Z",
       "side": 1,
       "message": "All of these can be DRY-ed up into an overridden setUpTestEnvironment().\n\nExample:\n\n  @Override\n  public void setUpTestEnvironment() throws Exception {\n    super.setUpTestEnvironment();\n    fakeChainedReceiveCommands \u003d new FakeChainedReceiveCommands(repo);\n  }",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 97
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c70ba58_b3e6a291",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbbfbcb9_434fe537",
       "range": {
         "startLine": 42,
         "startChar": 0,
@@ -313,6 +517,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cd9db9e_1d8c6202",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e10df1a9_e1ca7f86",
+      "range": {
+        "startLine": 43,
+        "startChar": 24,
+        "endLine": 43,
+        "endChar": 87
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81fc73fb_bab1e681",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1001b77_082913af",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f79b70c6_cc10abfd",
@@ -326,6 +578,30 @@
       "writtenOn": "2021-06-05T00:30:51Z",
       "side": 1,
       "message": "Same as above.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 97
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed6d5f09_1fd7b121",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f79b70c6_cc10abfd",
       "range": {
         "startLine": 57,
         "startChar": 0,
@@ -382,6 +658,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ef0b79a_6286554d",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "216261d6_e060dfd3",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 21
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebd2b360_3993c103",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e7b7e58_567694eb",
+      "range": {
+        "startLine": 58,
+        "startChar": 24,
+        "endLine": 58,
+        "endChar": 87
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9eec7fc_f6e8b783",
@@ -395,6 +719,30 @@
       "writtenOn": "2021-06-05T00:30:51Z",
       "side": 1,
       "message": "Same as above.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 97
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4eb6f64f_098473b7",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9eec7fc_f6e8b783",
       "range": {
         "startLine": 80,
         "startChar": 0,
@@ -451,6 +799,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39ea4b36_7f4a1808",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87dcad68_a039012b",
+      "range": {
+        "startLine": 81,
+        "startChar": 13,
+        "endLine": 81,
+        "endChar": 21
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa004d23_23cc8b34",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dcfb686_1e3f5d0d",
+      "range": {
+        "startLine": 81,
+        "startChar": 24,
+        "endLine": 81,
+        "endChar": 87
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "525a8532_655c5505",
@@ -464,6 +860,30 @@
       "writtenOn": "2021-06-04T15:57:57Z",
       "side": 1,
       "message": "update1 is missing, what were the two updates the count towards the operation count?",
+      "range": {
+        "startLine": 85,
+        "startChar": 17,
+        "endLine": 85,
+        "endChar": 24
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2240adc5_e187ccfb",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "I think the wrong numbering was just a copy and paste mistake. Fixed",
+      "parentUuid": "525a8532_655c5505",
       "range": {
         "startLine": 85,
         "startChar": 17,
@@ -497,6 +917,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c5e9b08_1bc1bbd4",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24764692_74ab57ae",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 97
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52ee3761_e742902d",
@@ -510,6 +954,30 @@
       "writtenOn": "2021-06-05T00:30:51Z",
       "side": 1,
       "message": "Resource leak",
+      "range": {
+        "startLine": 106,
+        "startChar": 13,
+        "endLine": 106,
+        "endChar": 21
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9be39c86_4650b196",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T08:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52ee3761_e742902d",
       "range": {
         "startLine": 106,
         "startChar": 13,

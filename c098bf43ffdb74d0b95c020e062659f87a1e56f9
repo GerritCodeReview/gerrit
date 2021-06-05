@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b87f57e_a051337e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-05T09:26:25Z",
+      "side": 1,
+      "message": "Given that the regression was introduced on stable-3.1 branch and included in all recent releases, what\u0027s the point to fix it only on Gerrit@HEAD? See issue 14639. It should have been fixed on stable-3.1 branch, where the regression was introduced, and merged up to master.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "c098bf43ffdb74d0b95c020e062659f87a1e56f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

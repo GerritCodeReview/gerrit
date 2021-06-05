@@ -96,6 +96,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dfb1f260_4750e789",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "It would be best to rename it addToAllChangeMessages() and return the boolean of the \u0027add()\u0027 operation at L718, so that the method name and the return value make more sense.",
+      "range": {
+        "startLine": 702,
+        "startChar": 18,
+        "endLine": 702,
+        "endChar": 36
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36e0501a_3fc2e227",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "return allChangeMessages.add(changeMessage);",
+      "range": {
+        "startLine": 718,
+        "startChar": 0,
+        "endLine": 719,
+        "endChar": 16
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b66292a9_58c2058f",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "We should also assert that adding to the attention-set should not change the update TS of the change.",
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1343b2dc_39a88e47",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
         "patchSetId": 8
@@ -113,6 +176,23 @@
         "endLine": 519,
         "endChar": 22
       },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac830089_3ac98906",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "We should also assert that the change update TS has been updated.",
       "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -142,6 +222,237 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b306919_4e8caa2d",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "I would still conform to the assertThrows() for consistency with the rest of the code.",
+      "parentUuid": "0116aaa4_b4700e8d",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 48
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbbfbcb9_434fe537",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "All of these can be DRY-ed up into an overridden setUpTestEnvironment().\n\nExample:\n\n  @Override\n  public void setUpTestEnvironment() throws Exception {\n    super.setUpTestEnvironment();\n    fakeChainedReceiveCommands \u003d new FakeChainedReceiveCommands(repo);\n  }",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 97
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e10df1a9_e1ca7f86",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "DRY-out\n\nExample:\n\n  private OpenRepo openRepo() {\n    return new OpenRepo(repo, rw, null, fakeChainedReceiveCommands, false);\n  }",
+      "range": {
+        "startLine": 43,
+        "startChar": 24,
+        "endLine": 43,
+        "endChar": 87
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1001b77_082913af",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "resource leak: needs to be auto-closed.",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f79b70c6_cc10abfd",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 97
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e7b7e58_567694eb",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "DRY-out",
+      "range": {
+        "startLine": 58,
+        "startChar": 24,
+        "endLine": 58,
+        "endChar": 87
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "216261d6_e060dfd3",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "Resource leak.",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 21
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9eec7fc_f6e8b783",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 97
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dcfb686_1e3f5d0d",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "DRY-out",
+      "range": {
+        "startLine": 81,
+        "startChar": 24,
+        "endLine": 81,
+        "endChar": 87
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87dcad68_a039012b",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "Resource leak.",
+      "range": {
+        "startLine": 81,
+        "startChar": 13,
+        "endLine": 81,
+        "endChar": 21
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "525a8532_655c5505",
         "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
         "patchSetId": 8
@@ -158,6 +469,52 @@
         "startChar": 17,
         "endLine": 85,
         "endChar": 24
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24764692_74ab57ae",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 97
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52ee3761_e742902d",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-05T00:30:51Z",
+      "side": 1,
+      "message": "Resource leak",
+      "range": {
+        "startLine": 106,
+        "startChar": 13,
+        "endLine": 106,
+        "endChar": 21
       },
       "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

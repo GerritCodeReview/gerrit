@@ -320,6 +320,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "699cc054_71fd43ed",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-05T09:18:51Z",
+      "side": 1,
+      "message": "Which case do you think we should cover? Can you give me an example?",
+      "parentUuid": "1343b2dc_39a88e47",
+      "range": {
+        "startLine": 519,
+        "startChar": 0,
+        "endLine": 519,
+        "endChar": 22
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac830089_3ac98906",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
         "patchSetId": 8

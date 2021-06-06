@@ -104,7 +104,7 @@ suite('gr-repo-list tests', () => {
       const repoStub = stubRestApi('getRepos');
       repoStub.returns(Promise.resolve(repos));
       const value = {
-        filter: 'test',
+        filter: 'TeSt',
         offset: 25,
       };
       await element._paramsChanged(value);

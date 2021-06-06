@@ -33,6 +33,24 @@
       "message": "We should also amend the test at polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.html but possibly as a follow-up change. That would prevent this regression happening again.",
       "revId": "69d2f0bf53066f9be37b186ae88ed454f2afa251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6db5ddfc_f78ef4a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-06T10:31:39Z",
+      "side": 1,
+      "message": "Confirmed, that using the docker CI image:\n\n  $ docker run -it docker.io/gerritforge/gerrit-ci-slave-bazel-docker:debian-buster-69.0.3497.92 /bin/bash\n\nThe tests were successful:\n\n  $ WCT_HEADLESS_MODE\u003d1 ./polygerrit-ui/app/run_test.sh \nINFO: Invocation ID: a2c65b9d-66ca-4d3c-aeb9-b4424bc2ec8b\nINFO: Build option --test_env has changed, discarding analysis cache.\nINFO: Analyzed 2 targets (0 packages loaded, 1276 targets configured).\nINFO: Found 2 test targets...\nINFO: Elapsed time: 388.273s, Critical Path: 387.76s\nINFO: 3 processes: 4 local.\nINFO: Build completed successfully, 3 total actions\n//polygerrit-ui/app:embed_test                                           PASSED in 22.8s\n//polygerrit-ui/app:wct_test                                             PASSED in 387.7s",
+      "parentUuid": "61a4c3d9_7cd02dca",
+      "revId": "69d2f0bf53066f9be37b186ae88ed454f2afa251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

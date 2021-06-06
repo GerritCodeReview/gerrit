@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb7e8f8_1ce21c51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-06T08:58:31Z",
+      "side": 1,
+      "message": "We should first add yet another change to amend the test polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.html",
+      "revId": "1e96deacacd22d2521fb4e0cfc84a71a09c57dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

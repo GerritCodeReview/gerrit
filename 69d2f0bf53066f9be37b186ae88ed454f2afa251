@@ -16,6 +16,23 @@
       "message": "@DavidO can you verify manually? v3.1 isn\u0027t supported anymore and we don\u0027t have a CI on it.",
       "revId": "69d2f0bf53066f9be37b186ae88ed454f2afa251",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e5889b1_1bb37408",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-06T08:57:56Z",
+      "side": 1,
+      "message": "We should also amend the test at polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.html but possibly as a follow-up change. That would prevent this regression happening again.",
+      "revId": "69d2f0bf53066f9be37b186ae88ed454f2afa251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

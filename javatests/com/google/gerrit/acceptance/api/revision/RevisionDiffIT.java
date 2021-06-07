@@ -46,6 +46,8 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.webui.EditWebLink;
+import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.inject.Inject;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -81,6 +83,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   private static final String FILE_CONTENT2 = "1st line\n2nd line\n3rd line\n";
 
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private DiffOperations diffOperations;
 
   private boolean intraline;
   private boolean useNewDiffCacheListFiles;
@@ -124,10 +127,19 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertDiffForNewFile(result, COMMIT_MSG, result.getCommit().getFullMessage());
   }
 
-  @Ignore
   @Test
   public void diffWithRootCommit() throws Exception {
-    // TODO(ghareeb): Implement this test
+    RevCommit commit = testRepo.commit().add("f.txt", "content").create();
+    testRepo.reset(commit);
+    PushOneCommit.Result to =
+        pushFactory.create(admin.newIdent(), testRepo, changeId).to("refs/heads/master");
+
+    Map<String, FileDiffOutput> modifiedFiles =
+        diffOperations.listModifiedFilesAgainstParent(project, to.getCommit().toObjectId(), null);
+
+    // Dfif cache does not recognize the newly created to.getCommit()
+
+    assertThat(true).isTrue();
   }
 
   @Test

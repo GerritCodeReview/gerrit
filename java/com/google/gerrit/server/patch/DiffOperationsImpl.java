@@ -221,7 +221,10 @@ public class DiffOperationsImpl implements DiffOperations {
     try {
       Project.NameKey project = diffParams.project();
       ObjectId newCommit = diffParams.newCommit();
-      ObjectId oldCommit = diffParams.baseCommit();
+      ObjectId oldCommit =
+          diffParams.baseCommit() == null
+              ? FileDiffCacheImpl.EMPTY_TREE_ID
+              : diffParams.baseCommit();
       ComparisonType cmp = diffParams.comparisonType();
 
       ImmutableList<ModifiedFile> modifiedFiles =
@@ -341,6 +344,11 @@ public class DiffOperationsImpl implements DiffOperations {
 
     abstract ObjectId newCommit();
 
+    /**
+     * Base commit represents the old commit of the diff. If null, then {@link #newCommit()} is a
+     * root commit.
+     */
+    @Nullable
     abstract ObjectId baseCommit();
 
     abstract ComparisonType comparisonType();
@@ -363,7 +371,7 @@ public class DiffOperationsImpl implements DiffOperations {
 
       abstract Builder newCommit(ObjectId newCommit);
 
-      abstract Builder baseCommit(ObjectId baseCommit);
+      abstract Builder baseCommit(@Nullable ObjectId baseCommit);
 
       abstract Builder parent(@Nullable Integer parent);
 
@@ -386,6 +394,11 @@ public class DiffOperationsImpl implements DiffOperations {
       return result.build();
     }
     int numParents = baseCommitUtil.getNumParents(project, newCommit);
+    if (numParents == 0) { // Root commit
+      result.baseCommit(null);
+      result.comparisonType(ComparisonType.againstParent(1)); // Don't care
+      return result.build();
+    }
     if (numParents == 1) {
       result.baseCommit(baseCommitUtil.getBaseCommit(project, newCommit, parent));
       result.comparisonType(ComparisonType.againstParent(1));

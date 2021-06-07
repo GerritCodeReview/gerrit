@@ -78,6 +78,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class FileDiffCacheImpl implements FileDiffCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public static final ObjectId EMPTY_TREE_ID =
+      ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904");
+
   private static final String DIFF = "gerrit_file_diff";
 
   private final LoadingCache<FileDiffCacheKey, FileDiffOutput> cache;

@@ -296,6 +296,12 @@ Matches votes granted by a user who is a member of `groupUUID`.
 
 Matches votes where the new patch set was uploaded by a member of `groupUUID`.
 
+==== has:unchanged-files
+
+Matches when the new patch-set includes the same files as the old patch-set.
+
+Only 'unchanged-files' is supported for 'has'.
+
 ==== Example
 
 ----

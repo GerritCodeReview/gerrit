@@ -33,6 +33,24 @@
       "message": "This has probably introduced a regression: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d14624",
       "revId": "4384d79b174be7516e5cb0fec437988fe1ae862d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "449bb017_f4ddbb2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-07T11:44:58Z",
+      "side": 1,
+      "message": "fixed in https://gerrit-review.googlesource.com/c/gerrit/+/308619",
+      "parentUuid": "a832c7ed_6e1fb66d",
+      "revId": "4384d79b174be7516e5cb0fec437988fe1ae862d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

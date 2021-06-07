@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f99f0aad_91c0bcf7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-07T10:51:04Z",
+      "side": 1,
+      "message": "this has been the correct type all along, just strange. It\u0027s from iron-a11y-key-behavior: https://github.com/PolymerElements/iron-a11y-keys-behavior/blob/master/iron-a11y-keys-behavior.js#L477",
+      "range": {
+        "startLine": 230,
+        "startChar": 23,
+        "endLine": 230,
+        "endChar": 66
+      },
+      "revId": "974e1f7fb8674ac5147a7f4b43f4aa9d54a6f7d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

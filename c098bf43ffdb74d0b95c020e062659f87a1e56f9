@@ -22,6 +22,30 @@
       },
       "revId": "c098bf43ffdb74d0b95c020e062659f87a1e56f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8fa60d2_237f6b0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-07T15:42:14Z",
+      "side": 1,
+      "message": "Sorry, I am developing on master and I am not looking into versioning much. Next time I will try to cherry-pick or fix issue on stable branch as well.",
+      "parentUuid": "8b87f57e_a051337e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "c098bf43ffdb74d0b95c020e062659f87a1e56f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

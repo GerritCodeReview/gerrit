@@ -33,18 +33,21 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   private final UserInPredicate.Factory userInPredicate;
   private final GroupResolver groupResolver;
   private final GroupControl.Factory groupControl;
+  private final ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate;
 
   @Inject
   protected ApprovalQueryBuilder(
       MagicValuePredicate.Factory magicValuePredicate,
       UserInPredicate.Factory userInPredicate,
       GroupResolver groupResolver,
-      GroupControl.Factory groupControl) {
+      GroupControl.Factory groupControl,
+      ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate) {
     super(mydef, null);
     this.magicValuePredicate = magicValuePredicate;
     this.userInPredicate = userInPredicate;
     this.groupResolver = groupResolver;
     this.groupControl = groupControl;
+    this.listOfFilesUnchangedPredicate = listOfFilesUnchangedPredicate;
   }
 
   @Operator
@@ -65,6 +68,17 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   @Operator
   public Predicate<ApprovalContext> uploaderin(String group) throws QueryParseException {
     return userInPredicate.create(UserInPredicate.Field.UPLOADER, parseGroupOrThrow(group));
+  }
+
+  @Operator
+  public Predicate<ApprovalContext> fileList(String fileList) throws QueryParseException {
+    if (fileList.equals("no-change")) {
+      return listOfFilesUnchangedPredicate;
+    }
+    throw error(
+        String.format(
+            "'%s' is not a supported operator for fileList. only 'no-change' is supported",
+            fileList));
   }
 
   private static <T extends Enum<T>> T toEnumValue(Class<T> clazz, String term)

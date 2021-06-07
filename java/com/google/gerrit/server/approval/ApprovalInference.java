@@ -26,7 +26,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
-import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
@@ -47,6 +46,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
+import com.google.gerrit.server.query.approval.ListOfFilesUnchangedPredicate;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
@@ -75,6 +75,7 @@ public class ApprovalInference {
   private final PatchListCache patchListCache;
   private final ApprovalQueryBuilder approvalQueryBuilder;
   private final OneOffRequestContext requestContext;
+  private final ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate;
 
   @Inject
   ApprovalInference(
@@ -83,13 +84,15 @@ public class ApprovalInference {
       LabelNormalizer labelNormalizer,
       PatchListCache patchListCache,
       ApprovalQueryBuilder approvalQueryBuilder,
-      OneOffRequestContext requestContext) {
+      OneOffRequestContext requestContext,
+      ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate) {
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.patchListCache = patchListCache;
     this.approvalQueryBuilder = approvalQueryBuilder;
     this.requestContext = requestContext;
+    this.listOfFilesUnchangedPredicate = listOfFilesUnchangedPredicate;
   }
 
   /**
@@ -116,7 +119,7 @@ public class ApprovalInference {
     }
   }
 
-  private static boolean canCopyBasedOnBooleanLabelConfigs(
+  private boolean canCopyBasedOnBooleanLabelConfigs(
       ProjectState project,
       PatchSetApproval psa,
       PatchSet.Id psId,
@@ -183,12 +186,7 @@ public class ApprovalInference {
           project.getName());
       return true;
     } else if (type.isCopyAllScoresIfListOfFilesDidNotChange()
-        && patchList.getPatches().stream()
-            .noneMatch(
-                p ->
-                    p.getChangeType() == ChangeType.ADDED
-                        || p.getChangeType() == ChangeType.DELETED
-                        || p.getChangeType() == ChangeType.RENAMED)) {
+        && listOfFilesUnchangedPredicate.match(patchList)) {
       logger.atFine().log(
           "approval %d on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set "

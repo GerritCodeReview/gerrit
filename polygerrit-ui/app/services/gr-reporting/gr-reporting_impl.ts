@@ -508,11 +508,12 @@ export class GrReporting implements ReportingService {
     }
   }
 
-  changeDisplayed() {
+  changeDisplayed(eventDetails?: EventDetails) {
+    eventDetails = {...eventDetails, ...this._pageLoadDetails()};
     if (hasOwnProperty(this._baselines, Timing.STARTUP_CHANGE_DISPLAYED)) {
-      this.timeEnd(Timing.STARTUP_CHANGE_DISPLAYED, this._pageLoadDetails());
+      this.timeEnd(Timing.STARTUP_CHANGE_DISPLAYED, eventDetails);
     } else {
-      this.timeEnd(Timing.CHANGE_DISPLAYED, this._pageLoadDetails());
+      this.timeEnd(Timing.CHANGE_DISPLAYED, eventDetails);
     }
   }
 

@@ -174,13 +174,16 @@ export function changeStatuses(
   return states;
 }
 
-export function isOwner(change?: ChangeInfo, account?: AccountInfo): boolean {
+export function isOwner(
+  change?: ChangeInfo | ParsedChangeInfo,
+  account?: AccountInfo
+): boolean {
   if (!change || !account) return false;
   return change.owner?._account_id === account._account_id;
 }
 
 export function isReviewer(
-  change?: ChangeInfo,
+  change?: ChangeInfo | ParsedChangeInfo,
   account?: AccountInfo
 ): boolean {
   if (!change || !account) return false;

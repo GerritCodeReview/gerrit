@@ -112,7 +112,7 @@ export class GrThreadList extends PolymerElement {
   }
 
   _computeEmptyThreadsMessage(threads: CommentThread[]) {
-    return !threads.length ? 'No comments.' : 'No unresolved comments';
+    return !threads.length ? 'No comments' : 'No unresolved comments';
   }
 
   _showPartyPopper(threads: CommentThread[]) {

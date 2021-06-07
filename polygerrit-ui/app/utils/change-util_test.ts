@@ -15,16 +15,24 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
+import {ChangeStatus} from '../constants/constants';
+import '../test/common-test-setup-karma';
+import {createChange, createRevisions} from '../test/test-data-generators';
+import {
+  AccountId,
+  CommitId,
+  NumericChangeId,
+  PatchSetNum,
+} from '../types/common';
 import {
   changeBaseURL,
   changePath,
   changeStatuses,
   isRemovableReviewer,
-} from './change-util.js';
+} from './change-util';
 
 suite('change-util tests', () => {
-  let originalCanonicalPath;
+  let originalCanonicalPath: string | undefined;
 
   suiteSetup(() => {
     originalCanonicalPath = window.CANONICAL_PATH;
@@ -37,72 +45,58 @@ suite('change-util tests', () => {
 
   test('changeBaseURL', () => {
     assert.deepEqual(
-        changeBaseURL('test/project', '1', '2'),
-        '/r/changes/test%2Fproject~1/revisions/2'
+      changeBaseURL('test/project', 1 as NumericChangeId, '2' as PatchSetNum),
+      '/r/changes/test%2Fproject~1/revisions/2'
     );
   });
 
   test('changePath', () => {
-    assert.deepEqual(changePath('1'), '/r/c/1');
+    assert.deepEqual(changePath(1 as NumericChangeId), '/r/c/1');
   });
 
   test('Open status', () => {
     const change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      revisions: {
-        rev1: {_number: 1},
-      },
-      current_revision: 'rev1',
-      status: 'NEW',
-      labels: {},
+      ...createChange(),
+      revisions: createRevisions(1),
+      current_revision: 'rev1' as CommitId,
       mergeable: true,
     };
     let statuses = changeStatuses(change);
     assert.deepEqual(statuses, []);
 
     change.submittable = false;
-    statuses = changeStatuses(change,
-        {includeDerived: true});
+    statuses = changeStatuses(change, {mergeable: true, submitEnabled: false});
     assert.deepEqual(statuses, ['Active']);
 
     // With no missing labels but no submitEnabled option.
     change.submittable = true;
-    statuses = changeStatuses(change,
-        {includeDerived: true});
+    statuses = changeStatuses(change, {mergeable: true, submitEnabled: false});
     assert.deepEqual(statuses, ['Active']);
 
     // Without missing labels and enabled submit
-    statuses = changeStatuses(change,
-        {includeDerived: true, submitEnabled: true});
+    statuses = changeStatuses(change, {mergeable: true, submitEnabled: true});
     assert.deepEqual(statuses, ['Ready to submit']);
 
     change.mergeable = false;
     change.submittable = true;
-    statuses = changeStatuses(change,
-        {includeDerived: true});
+    statuses = changeStatuses(change, {mergeable: false, submitEnabled: false});
     assert.deepEqual(statuses, ['Merge Conflict']);
 
-    delete change.mergeable;
-    change.submittable = true;
-    statuses = changeStatuses(change,
-        {includeDerived: true, mergeable: true, submitEnabled: true});
+    change.mergeable = true;
+    statuses = changeStatuses(change, {mergeable: true, submitEnabled: true});
     assert.deepEqual(statuses, ['Ready to submit']);
 
     change.submittable = true;
-    statuses = changeStatuses(change,
-        {includeDerived: true, mergeable: false});
+    statuses = changeStatuses(change, {mergeable: false, submitEnabled: false});
     assert.deepEqual(statuses, ['Merge Conflict']);
   });
 
   test('Merge conflict', () => {
     const change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      revisions: {
-        rev1: {_number: 1},
-      },
-      current_revision: 'rev1',
-      status: 'NEW',
-      labels: {},
+      ...createChange(),
+      revisions: createRevisions(1),
+      current_revision: 'rev1' as CommitId,
+      status: ChangeStatus.NEW,
       mergeable: false,
     };
     const statuses = changeStatuses(change);
@@ -111,13 +105,10 @@ suite('change-util tests', () => {
 
   test('mergeable prop undefined', () => {
     const change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      revisions: {
-        rev1: {_number: 1},
-      },
-      current_revision: 'rev1',
-      status: 'NEW',
-      labels: {},
+      ...createChange(),
+      revisions: createRevisions(1),
+      current_revision: 'rev1' as CommitId,
+      status: ChangeStatus.NEW,
     };
     const statuses = changeStatuses(change);
     assert.deepEqual(statuses, []);
@@ -125,13 +116,10 @@ suite('change-util tests', () => {
 
   test('Merged status', () => {
     const change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      revisions: {
-        rev1: {_number: 1},
-      },
-      current_revision: 'rev1',
-      status: 'MERGED',
-      labels: {},
+      ...createChange(),
+      revisions: createRevisions(1),
+      current_revision: 'rev1' as CommitId,
+      status: ChangeStatus.MERGED,
     };
     const statuses = changeStatuses(change);
     assert.deepEqual(statuses, ['Merged']);
@@ -139,13 +127,11 @@ suite('change-util tests', () => {
 
   test('Abandoned status', () => {
     const change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      revisions: {
-        rev1: {_number: 1},
-      },
-      current_revision: 'rev1',
-      status: 'ABANDONED',
-      labels: {},
+      ...createChange(),
+      revisions: createRevisions(1),
+      current_revision: 'rev1' as CommitId,
+      status: ChangeStatus.ABANDONED,
+      mergeable: false,
     };
     const statuses = changeStatuses(change);
     assert.deepEqual(statuses, ['Abandoned']);
@@ -153,16 +139,14 @@ suite('change-util tests', () => {
 
   test('Open status with private and wip', () => {
     const change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      revisions: {
-        rev1: {_number: 1},
-      },
-      current_revision: 'rev1',
-      status: 'NEW',
+      ...createChange(),
+      revisions: createRevisions(1),
+      current_revision: 'rev1' as CommitId,
+      status: ChangeStatus.NEW,
+      mergeable: true,
       is_private: true,
       work_in_progress: true,
       labels: {},
-      mergeable: true,
     };
     const statuses = changeStatuses(change);
     assert.deepEqual(statuses, ['WIP', 'Private']);
@@ -170,16 +154,14 @@ suite('change-util tests', () => {
 
   test('Merge conflict with private and wip', () => {
     const change = {
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-      revisions: {
-        rev1: {_number: 1},
-      },
-      current_revision: 'rev1',
-      status: 'NEW',
+      ...createChange(),
+      revisions: createRevisions(1),
+      current_revision: 'rev1' as CommitId,
+      status: ChangeStatus.NEW,
+      mergeable: false,
       is_private: true,
       work_in_progress: true,
       labels: {},
-      mergeable: false,
     };
     const statuses = changeStatuses(change);
     assert.deepEqual(statuses, ['Merge Conflict', 'WIP', 'Private']);
@@ -187,16 +169,25 @@ suite('change-util tests', () => {
 
   test('isRemovableReviewer', () => {
     let change = {
-      removable_reviewers: [{_account_id: 1}],
+      ...createChange(),
+      revisions: createRevisions(1),
+      current_revision: 'rev1' as CommitId,
+      status: ChangeStatus.NEW,
+      mergeable: false,
+      removable_reviewers: [{_account_id: 1 as AccountId}],
     };
-    const reviewer = {_account_id: 1};
+    const reviewer = {_account_id: 1 as AccountId};
 
     assert.equal(isRemovableReviewer(change, reviewer), true);
 
     change = {
-      removable_reviewers: [{_account_id: 2}],
+      ...createChange(),
+      revisions: createRevisions(1),
+      current_revision: 'rev1' as CommitId,
+      status: ChangeStatus.NEW,
+      mergeable: false,
+      removable_reviewers: [{_account_id: 2 as AccountId}],
     };
     assert.equal(isRemovableReviewer(change, reviewer), false);
   });
 });
-

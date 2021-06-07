@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c6d06d3_1235462f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-07T07:00:27Z",
+      "side": 1,
+      "message": "LGTM, but maybe wait with the submission until Youssef also had a look.",
+      "revId": "6759a9569bd5e55cc821d178e2cfb90ce5174ba8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

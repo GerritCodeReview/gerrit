@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f0d526a_b36ccb89",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCommit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-06-07T08:10:48Z",
+      "side": 1,
+      "message": "was thinking about moving it to `ChangeNotesParser` as it is basically needed there, right?",
+      "parentUuid": "e89c5c07_7353a342",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 3
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7f1ff43c_2007237e",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 8
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "Yep, I agree with Gal",
       "parentUuid": "f9466a3f_8ae2a144",
+      "range": {
+        "startLine": 362,
+        "startChar": 12,
+        "endLine": 362,
+        "endChar": 28
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfcac133_624cac61",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-06-07T08:10:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b657a595_f34d1960",
       "range": {
         "startLine": 362,
         "startChar": 12,

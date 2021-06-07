@@ -230,6 +230,26 @@ suite('gr-textarea tests', () => {
     assert.deepEqual(indentCommand.args[0], ['insertText', false, '\n    ']);
   });
 
+  test('ctrl+enter and meta+enter do not indent', async () => {
+    const indentCommand = sinon.stub(document, 'execCommand');
+    element.$.textarea.value = '    a';
+    element._handleEnterByKey(
+        new CustomEvent('keydown', {
+          detail: {keyboardEvent: {keyCode: 13, ctrlKey: true}},
+        })
+    );
+    await flush();
+    assert.isTrue(indentCommand.notCalled);
+
+    element._handleEnterByKey(
+        new CustomEvent('keydown', {
+          detail: {keyboardEvent: {keyCode: 13, metaKey: true}},
+        })
+    );
+    await flush();
+    assert.isTrue(indentCommand.notCalled);
+  });
+
   test('emoji dropdown is closed when iron-overlay-closed is fired', () => {
     const resetSpy = sinon.spy(element, '_resetEmojiDropdown');
     element.$.emojiSuggestions.dispatchEvent(

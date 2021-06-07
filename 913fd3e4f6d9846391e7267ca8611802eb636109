@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c7ffd34_8c6d243d",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-07T06:34:57Z",
+      "side": 1,
+      "message": "@Youssef I\u0027m using the old diff cache, cause it\u0027s my understanding the new one is not fully ready yet? I\u0027m not sure.",
+      "range": {
+        "startLine": 53,
+        "startChar": 34,
+        "endLine": 53,
+        "endChar": 37
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

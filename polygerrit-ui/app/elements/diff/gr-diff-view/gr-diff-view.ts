@@ -910,16 +910,10 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _getReviewedStatus(
-    editMode?: boolean,
-    changeNum?: NumericChangeId,
-    patchNum?: PatchSetNum,
     path?: string
   ) {
-    if (editMode || !path) {
-      return Promise.resolve(false);
-    }
-    return this._getReviewedFiles(changeNum, patchNum).then(files =>
-      files.has(path)
+    return Array.from(this._reviewedFiles).includes(file =>
+      file === path;
     );
   }
 
@@ -1199,45 +1193,58 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
-  @observe('_loggedIn', 'params.*', '_prefs', '_patchRange.*')
+  @observe('_path', '_prefs')
+  pathChanged(path?: string, prefs?: DiffPreferencesInfo,) {
+    if (prefs === undefined) return;
+    if (path === undefined) return;
+    if (prefs.manual_review) {
+      // Checkbox state needs to be set explicitly only when manual_review
+      // is specified.
+      this.$.reviewed.checked = this._getReviewedStatus(
+        this._path
+      );
+    } else {
+      this._setReviewed(true);
+    }
+  }
+
+  @observe('_loggedIn', '_changeNum', '_editMode', '_prefs', '_patchRange.*', '_path')
   _setReviewedObserver(
     _loggedIn?: boolean,
-    paramsRecord?: ElementPropertyDeepChange<GrDiffView, 'params'>,
+    _changeNum?: NumericChangeId,
     _prefs?: DiffPreferencesInfo,
-    patchRangeRecord?: ElementPropertyDeepChange<GrDiffView, '_patchRange'>
+    patchRangeRecord?: ElementPropertyDeepChange<GrDiffView, '_patchRange'>,
+    _path?: string,
   ) {
     if (_loggedIn === undefined) return;
-    if (paramsRecord === undefined) return;
+    if (_changeNum === undefined) return;
     if (_prefs === undefined) return;
     if (patchRangeRecord === undefined) return;
     if (patchRangeRecord.base === undefined) return;
+    if (_path === undefined) return;
 
     const patchRange = patchRangeRecord.base;
     if (!_loggedIn) {
       return;
     }
 
+    // shift + m navigates to next unreviewed file so request list of reviewed
+    // files even if manual review is not set
+    this._getReviewedFiles(this._changeNum, patchRange.patchNum);
+
     if (_prefs.manual_review) {
       // Checkbox state needs to be set explicitly only when manual_review
       // is specified.
 
       if (patchRange.patchNum) {
-        this._getReviewedStatus(
-          this._editMode,
-          this._changeNum,
-          patchRange.patchNum,
+        this.$.reviewed.checked = this._getReviewedStatus(
           this._path
-        ).then((status: boolean) => {
-          this.$.reviewed.checked = status;
-        });
-      }
+        );
+       }
       return;
     }
-    // shift + m navigates to next unreviewed file so request list of reviewed
-    // files even if manual review is not set
-    this._getReviewedFiles(this._changeNum, patchRange.patchNum);
 
-    if (paramsRecord.base?.view === GerritNav.View.DIFF) {
+    if (this.params?.view === GerritNav.View.DIFF) {
       this._setReviewed(true);
     }
   }

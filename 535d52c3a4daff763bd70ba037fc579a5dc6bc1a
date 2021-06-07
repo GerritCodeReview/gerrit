@@ -56,6 +56,30 @@
       },
       "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58a87244_ea9cc69c",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-07T09:34:44Z",
+      "side": 1,
+      "message": "note that ~ is already forbidden for branch names.",
+      "parentUuid": "f252c4d0_9636e063",
+      "range": {
+        "startLine": 254,
+        "startChar": 26,
+        "endLine": 254,
+        "endChar": 38
+      },
+      "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

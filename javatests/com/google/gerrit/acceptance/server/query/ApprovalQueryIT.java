@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
@@ -42,6 +43,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   @Inject private ChangeKindCreator changeKindCreator;
   @Inject private ChangeNotes.Factory changeNotesFactory;
   @Inject private ChangeKindCache changeKindCache;
+  @Inject private ChangeOperations changeOperations;
 
   @Test
   public void magicValuePredicate() throws Exception {
@@ -196,6 +198,47 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
                     .asMatchable()
                     .match(contextForCodeReviewLabel(2)));
     assertThat(thrown).hasMessageThat().contains("Group foobar not found");
+  }
+
+  @Test
+  public void fileListUnchangedPredicate() throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+
+    // can copy approval from patch-set 1 -> 2
+    assertTrue(
+        queryBuilder
+            .parse("filelist:no-change")
+            .asMatchable()
+            .match(
+                contextForCodeReviewLabel(
+                    2 /* value */, PatchSet.id(changeId, 1 /* psId */), admin.id())));
+    changeOperations.change(changeId).newPatchset().file("file").delete().create();
+
+    // can not copy approval from patch-set 2 -> 3
+    assertFalse(
+        queryBuilder
+            .parse("filelist:no-change")
+            .asMatchable()
+            .match(
+                contextForCodeReviewLabel(
+                    2 /* value */, PatchSet.id(changeId, 2 /* psId */), admin.id())));
+  }
+
+  @Test
+  public void fileListUnchangedPredicate_unsupportedOperator() {
+    QueryParseException thrown =
+        assertThrows(
+            QueryParseException.class,
+            () ->
+                queryBuilder
+                    .parse("filelist:invalid")
+                    .asMatchable()
+                    .match(contextForCodeReviewLabel(2)));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("'invalid' is not a supported value for fileList. only 'no-change' is supported");
   }
 
   private ApprovalContext contextForCodeReviewLabel(int value) throws Exception {

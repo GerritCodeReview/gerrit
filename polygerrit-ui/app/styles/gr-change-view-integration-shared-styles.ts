@@ -22,6 +22,15 @@ export {};
 
 const $_documentContainer = document.createElement('template');
 
+/*
+  These are shared styles for change-view-integration endpoints.
+  All plugins that registered that endpoint should include this in
+  the component to have a consistent UX:
+
+  <style include="gr-change-view-integration-shared-styles"></style>
+
+  And use those defined class to apply these styles.
+*/
 $_documentContainer.innerHTML = `<dom-module id="gr-change-view-integration-shared-styles">
   <template>
     <style include="shared-styles">
@@ -61,18 +70,3 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-view-integration-shar
 </dom-module>`;
 
 document.head.appendChild($_documentContainer.content);
-
-/*
-  This is shared styles for change-view-integration endpoints.
-  All plugins that registered that endpoint should include this in
-  the component to have a consistent UX:
-
-  <style include="gr-change-view-integration-shared-styles"></style>
-
-  And use those defined class to apply these styles.
-*/
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/

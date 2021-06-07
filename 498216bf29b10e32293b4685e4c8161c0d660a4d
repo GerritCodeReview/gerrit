@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1673c6b2_5c1e8198",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-07T11:36:45Z",
+      "side": 1,
+      "message": "move to comment-util",
+      "range": {
+        "startLine": 202,
+        "startChar": 2,
+        "endLine": 214,
+        "endChar": 3
+      },
+      "revId": "498216bf29b10e32293b4685e4c8161c0d660a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80cfabef_5a43c9d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-07T11:36:45Z",
+      "side": 1,
+      "message": "isSelected?",
+      "range": {
+        "startLine": 229,
+        "startChar": 2,
+        "endLine": 229,
+        "endChar": 15
+      },
+      "revId": "498216bf29b10e32293b4685e4c8161c0d660a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4fc6b9e_30ad3119",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-07T11:36:45Z",
+      "side": 1,
+      "message": "Nit and Opt: Would be nice to have a `authorIsAnyOf(thread, this.selectedAuthors)` utility for this in commnet-util.ts.",
+      "range": {
+        "startLine": 463,
+        "startChar": 7,
+        "endLine": 470,
+        "endChar": 9
+      },
+      "revId": "498216bf29b10e32293b4685e4c8161c0d660a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

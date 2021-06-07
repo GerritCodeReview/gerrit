@@ -102,6 +102,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a93d8457_834138e2",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-07T11:36:45Z",
+      "side": 1,
+      "message": "I don\u0027t think we will ever have groups as comment authors. I find it odd to read `accountOrGroupKey` everywhere for something that clearly does not have anything to do with groups. So yes, I would prefer _account_id.",
+      "parentUuid": "73d739b1_e908d315",
+      "range": {
+        "startLine": 220,
+        "startChar": 46,
+        "endLine": 220,
+        "endChar": 63
+      },
+      "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cec6e9d5_a913c452",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
         "patchSetId": 9
@@ -131,6 +155,24 @@
       "side": 1,
       "message": "_shouldShowThread is triggered when sortedThreads is updated so that\u0027s why the call to resortThreads.\n\nI agree it\u0027s not the most efficient since we don\u0027t necessarily need to resort the threads but that allows this change to be simpler.",
       "parentUuid": "cec6e9d5_a913c452",
+      "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e22fe71_25528c05",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-07T11:36:45Z",
+      "side": 1,
+      "message": "What about my suggestion?\n\n\u003e Should `selectedAuthors` be a parameter of `_shouldShowThread()`?",
+      "parentUuid": "7b5b9f05_8d74b046",
       "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -344,6 +344,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a12c72a_18509470",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-07T06:32:39Z",
+      "side": 1,
+      "message": "All of your tests have the footer: patchset and attention set.\nBut you have a condition:\nfooterLines\n            .keySet()\n            .equals(\n                Sets.newHashSet(\n                    FOOTER_PATCH_SET.getName().toLowerCase(),\n                    FOOTER_ATTENTION.getName().toLowerCase()))\n                    \nI was suggesting to test this condition by also having a test with different footers.",
+      "parentUuid": "699cc054_71fd43ed",
+      "range": {
+        "startLine": 519,
+        "startChar": 0,
+        "endLine": 519,
+        "endChar": 22
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac830089_3ac98906",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
         "patchSetId": 8

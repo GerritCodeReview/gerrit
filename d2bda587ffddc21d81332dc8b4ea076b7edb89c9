@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c274d0_af02acf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-07T13:04:36Z",
+      "side": 1,
+      "message": "I have also created gerrit-bazel bucket on GCloud and uploaded the rbe_autoconfig artifact there as well:\n\n  https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v2.0.0.tar.gz",
+      "parentUuid": "0cd62a38_86122f65",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "d2bda587ffddc21d81332dc8b4ea076b7edb89c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "738d35d0_b05ae491",

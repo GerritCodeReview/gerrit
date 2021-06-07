@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "598822f8_25aa0fc9",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-07T13:04:36Z",
+      "side": 1,
+      "message": "We could also create this repository on gerrit-review, and then synchronize (like it\u0027s the case for all repositories) to GitHub and conduct there the releases. In this case the URLs would be:\n\n  https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v2.0.0.tar.gz\n  https://github.com/gerritcodereview/rbe_autoconfig/archive/v2.0.0.tar.gz\n  \nAdvantage: All gerrit maintainers have write access to GerritCodeReview organization on GitHub. We could do that later, though.",
+      "range": {
+        "startLine": 40,
+        "startChar": 9,
+        "endLine": 40,
+        "endChar": 50
+      },
+      "revId": "0499e512fd6904027a06f9851fb38f4d08d6c6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

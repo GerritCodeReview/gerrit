@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
@@ -42,6 +43,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   @Inject private ChangeKindCreator changeKindCreator;
   @Inject private ChangeNotes.Factory changeNotesFactory;
   @Inject private ChangeKindCache changeKindCache;
+  @Inject private ChangeOperations changeOperations;
 
   @Test
   public void magicValuePredicate() throws Exception {
@@ -66,60 +68,66 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   public void changeKindPredicate_noCodeChange() throws Exception {
     String change = changeKindCreator.createChange(ChangeKind.NO_CODE_CHANGE, testRepo, admin);
     changeKindCreator.updateChange(change, ChangeKind.NO_CODE_CHANGE, testRepo, admin, project);
-    PatchSet.Id ps1 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), 1 /* psId */);
+    PatchSet.Id ps1 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* psId= */ 1);
     assertTrue(
         queryBuilder
             .parse("changekind:no-code-change")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2 /* value */, ps1, admin.id())));
+            .match(contextForCodeReviewLabel(/* value= */ -2, ps1, admin.id())));
 
     changeKindCreator.updateChange(change, ChangeKind.TRIVIAL_REBASE, testRepo, admin, project);
-    PatchSet.Id ps2 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), 2 /* psId */);
+    PatchSet.Id ps2 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* psId= */ 2);
     assertFalse(
         queryBuilder
             .parse("changekind:no-code-change")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2 /* value */, ps2, admin.id())));
+            .match(contextForCodeReviewLabel(/* value= */ -2, ps2, admin.id())));
   }
 
   @Test
   public void changeKindPredicate_trivialRebase() throws Exception {
     String change = changeKindCreator.createChange(ChangeKind.TRIVIAL_REBASE, testRepo, admin);
     changeKindCreator.updateChange(change, ChangeKind.TRIVIAL_REBASE, testRepo, admin, project);
-    PatchSet.Id ps1 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), 1 /* psId */);
+    PatchSet.Id ps1 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* psId= */ 1);
     assertTrue(
         queryBuilder
             .parse("changekind:trivial-rebase")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2 /* value */, ps1, admin.id())));
+            .match(contextForCodeReviewLabel(/* value= */ -2, ps1, admin.id())));
 
     changeKindCreator.updateChange(change, ChangeKind.REWORK, testRepo, admin, project);
-    PatchSet.Id ps2 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), 2 /* psId */);
+    PatchSet.Id ps2 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* psId= */ 2);
     assertFalse(
         queryBuilder
             .parse("changekind:trivial-rebase")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2 /* value */, ps2, admin.id())));
+            .match(contextForCodeReviewLabel(/* value= */ -2, ps2, admin.id())));
   }
 
   @Test
   public void changeKindPredicate_reworkAndNotRework() throws Exception {
     String change = changeKindCreator.createChange(ChangeKind.REWORK, testRepo, admin);
     changeKindCreator.updateChange(change, ChangeKind.REWORK, testRepo, admin, project);
-    PatchSet.Id ps1 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), 1 /* psId */);
+    PatchSet.Id ps1 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* psId= */ 1);
     assertTrue(
         queryBuilder
             .parse("changekind:rework")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2 /* value */, ps1, admin.id())));
+            .match(contextForCodeReviewLabel(/* value= */ -2, ps1, admin.id())));
 
     changeKindCreator.updateChange(change, ChangeKind.REWORK, testRepo, admin, project);
-    PatchSet.Id ps2 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), 2 /* psId */);
+    PatchSet.Id ps2 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* psId= */ 2);
     assertFalse(
         queryBuilder
             .parse("-changekind:rework")
             .asMatchable()
-            .match(contextForCodeReviewLabel(-2 /* value */, ps2, admin.id())));
+            .match(contextForCodeReviewLabel(/* value= */ -2, ps2, admin.id())));
   }
 
   @Test
@@ -141,8 +149,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .asMatchable()
             .match(
                 contextForCodeReviewLabel(
-                    2 /* value */,
-                    PatchSet.id(pushResult.getChange().getId(), 1 /* psId */),
+                    /* value= */ 2,
+                    PatchSet.id(pushResult.getChange().getId(), /* psId= */ 1),
                     admin.id())));
     // can not copy approval from patchset 2 -> 3
     assertFalse(
@@ -151,8 +159,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .asMatchable()
             .match(
                 contextForCodeReviewLabel(
-                    2 /* value */,
-                    PatchSet.id(pushResult.getChange().getId(), 2 /* psId */),
+                    /* value= */ 2,
+                    PatchSet.id(pushResult.getChange().getId(), /* psId= */ 2),
                     admin.id())));
   }
 
@@ -170,8 +178,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .asMatchable()
             .match(
                 contextForCodeReviewLabel(
-                    2 /* value */,
-                    PatchSet.id(pushResult.getChange().getId(), 1 /* psId */),
+                    /* value= */ 2,
+                    PatchSet.id(pushResult.getChange().getId(), /* psId= */ 1),
                     admin.id())));
     // can not copy approval from patchset 2 -> 3
     assertFalse(
@@ -180,8 +188,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .asMatchable()
             .match(
                 contextForCodeReviewLabel(
-                    2 /* value */,
-                    PatchSet.id(pushResult.getChange().getId(), 2 /* psId */),
+                    /* value= */ 2,
+                    PatchSet.id(pushResult.getChange().getId(), /* psId= */ 2),
                     user.id())));
   }
 
@@ -194,8 +202,50 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
                 queryBuilder
                     .parse("uploaderin:foobar")
                     .asMatchable()
-                    .match(contextForCodeReviewLabel(2)));
+                    .match(contextForCodeReviewLabel(/* value= */ 2)));
     assertThat(thrown).hasMessageThat().contains("Group foobar not found");
+  }
+
+  @Test
+  public void hasChangedFilesPredicate() throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+
+    // can copy approval from patch-set 1 -> 2
+    assertTrue(
+        queryBuilder
+            .parse("has:unchanged-files")
+            .asMatchable()
+            .match(
+                contextForCodeReviewLabel(
+                    /* value= */ 2, PatchSet.id(changeId, /* psId= */ 1), admin.id())));
+    changeOperations.change(changeId).newPatchset().file("file").delete().create();
+
+    // can not copy approval from patch-set 2 -> 3
+    assertFalse(
+        queryBuilder
+            .parse("has:unchanged-files")
+            .asMatchable()
+            .match(
+                contextForCodeReviewLabel(
+                    /* value= */ 2, PatchSet.id(changeId, /* psId= */ 2), admin.id())));
+  }
+
+  @Test
+  public void hasChangedFilesPredicate_unsupportedOperator() {
+    QueryParseException thrown =
+        assertThrows(
+            QueryParseException.class,
+            () ->
+                queryBuilder
+                    .parse("has:invalid")
+                    .asMatchable()
+                    .match(contextForCodeReviewLabel(/* value= */ 2)));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "'invalid' is not a supported argument for has. only 'unchanged-files' is supported");
   }
 
   private ApprovalContext contextForCodeReviewLabel(int value) throws Exception {

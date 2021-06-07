@@ -91,7 +91,6 @@ suite('gr-diff-view tests', () => {
     }
 
     let getDiffChangeDetailStub;
-    let getReviewedFilesStub;
     setup(async () => {
       clock = sinon.useFakeTimers();
       stubRestApi('getConfig').returns(Promise.resolve({change: {}}));
@@ -105,8 +104,6 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getPortedComments').returns(Promise.resolve({}));
-      getReviewedFilesStub = stubRestApi('getReviewedFiles').returns(
-          Promise.resolve([]));
 
       element = basicFixture.instantiate();
       element._changeNum = '42';
@@ -1157,10 +1154,11 @@ suite('gr-diff-view tests', () => {
       const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
           .callsFake(() => Promise.resolve());
       const getReviewedStub = sinon.stub(element, '_getReviewedStatus')
-          .callsFake(() => Promise.resolve());
+          .returns(false);
 
       sinon.stub(element.$.diffHost, 'reload');
       element._loggedIn = true;
+      element._prefs = {manual_review: true};
       element.params = {
         view: GerritNav.View.DIFF,
         changeNum: '42',
@@ -1172,17 +1170,19 @@ suite('gr-diff-view tests', () => {
         patchNum: 2,
         basePatchNum: 1,
       };
-      element._prefs = {manual_review: true};
       flush();
 
       assert.isFalse(saveReviewedStub.called);
       assert.isTrue(getReviewedStub.called);
 
+      const oldCount = getReviewedStub.callCount;
+
       element._prefs = {};
+      element._path = 'abcd';
       flush();
 
       assert.isTrue(saveReviewedStub.called);
-      assert.isTrue(getReviewedStub.calledOnce);
+      assert.equal(getReviewedStub.callCount, oldCount);
     });
 
     test('file review status', () => {
@@ -1202,6 +1202,7 @@ suite('gr-diff-view tests', () => {
         patchNum: 2,
         basePatchNum: 1,
       };
+      element._path = 'abcd';
       element._prefs = {};
       flush();
 
@@ -1671,25 +1672,6 @@ suite('gr-diff-view tests', () => {
       assert.equal(element._computeFileNumClass(0, []), '');
       assert.equal(element._computeFileNumClass(1,
           [{value: '/foo'}, {value: '/bar'}]), 'show');
-    });
-
-    test('_getReviewedStatus', () => {
-      const promises = [];
-      getReviewedFilesStub.returns(Promise.resolve(['path']));
-
-      promises.push(element._getReviewedStatus(true, null, null, 'path')
-          .then(reviewed => assert.isFalse(reviewed)));
-
-      promises.push(element._getReviewedStatus(false, null, null, 'otherPath')
-          .then(reviewed => assert.isFalse(reviewed)));
-
-      promises.push(element._getReviewedStatus(false, null, null, 'path')
-          .then(reviewed => assert.isFalse(reviewed)));
-
-      promises.push(element._getReviewedStatus(false, 3, 5, 'path')
-          .then(reviewed => assert.isTrue(reviewed)));
-
-      return Promise.all(promises);
     });
 
     test('f open file dropdown', () => {

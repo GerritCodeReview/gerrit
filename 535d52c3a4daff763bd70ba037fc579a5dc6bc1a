@@ -16,6 +16,23 @@
       "message": "Change LGTM",
       "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33a8f2fd_20a72ff7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-07T06:41:02Z",
+      "side": 1,
+      "message": "@Nasser do you have any further comments before we submit it? I know Patrick was waiting for your reply before +2ing.",
+      "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e14c414c_7f19802a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCommit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-07T14:46:28Z",
+      "side": 1,
+      "message": "I looked at the code again. I thought of moving \"countTowardsMaxUpdatesLimit\"  in the \"ChangeNotesParser\" and leave here \"isAttentionSetCommitOnly\"\n\nReason being, to move everything, I would have to expose the \"footerLines\" keys as well, which I don\u0027t think the ChangeNotesCommit should do., hence I believe it makes sense to leave the logic to decide if a commit has to count or not towards the limit in the ChangeNotesParser, but the commit itself knows if it is an AS change only. WDYT?",
+      "parentUuid": "3f0d526a_b36ccb89",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 3
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7f1ff43c_2007237e",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 8
@@ -345,6 +369,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "792432ec_aa3e45b8",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-07T14:46:28Z",
+      "side": 1,
+      "message": "Oh, I see your point now. Are you ok to do it in a follow up change?",
+      "parentUuid": "97f25774_40012887",
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1343b2dc_39a88e47",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
         "patchSetId": 8
@@ -404,6 +446,30 @@
       "side": 1,
       "message": "All of your tests have the footer: patchset and attention set.\nBut you have a condition:\nfooterLines\n            .keySet()\n            .equals(\n                Sets.newHashSet(\n                    FOOTER_PATCH_SET.getName().toLowerCase(),\n                    FOOTER_ATTENTION.getName().toLowerCase()))\n                    \nI was suggesting to test this condition by also having a test with different footers.",
       "parentUuid": "699cc054_71fd43ed",
+      "range": {
+        "startLine": 519,
+        "startChar": 0,
+        "endLine": 519,
+        "endChar": 22
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cde5d616_eb75a284",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-07T14:46:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a12c72a_18509470",
       "range": {
         "startLine": 519,
         "startChar": 0,

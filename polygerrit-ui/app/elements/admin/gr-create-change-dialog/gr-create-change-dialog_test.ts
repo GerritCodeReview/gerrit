@@ -118,19 +118,15 @@ suite('gr-create-change-dialog tests', () => {
     assert.isTrue(saveStub.called);
   });
 
-  test('_getRepoBranchesSuggestions empty', done => {
-    element._getRepoBranchesSuggestions('nonexistent').then(branches => {
-      assert.equal(branches.length, 0);
-      done();
-    });
+  test('_getRepoBranchesSuggestions empty', async () => {
+    const branches = await element._getRepoBranchesSuggestions('nonexistent');
+    assert.equal(branches.length, 0);
   });
 
-  test('_getRepoBranchesSuggestions non-empty', done => {
-    element._getRepoBranchesSuggestions('test-branch').then(branches => {
-      assert.equal(branches.length, 1);
-      assert.equal(branches[0].name, 'test-branch');
-      done();
-    });
+  test('_getRepoBranchesSuggestions non-empty', async () => {
+    const branches = await element._getRepoBranchesSuggestions('test-branch');
+    assert.equal(branches.length, 1);
+    assert.equal(branches[0].name, 'test-branch');
   });
 
   test('_computeBranchClass', () => {

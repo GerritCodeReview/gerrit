@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa7690e9_5b6b7447",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-07T08:45:23Z",
+      "side": 1,
+      "message": "I swear I ran fix..",
+      "parentUuid": "83306877_66a498b3",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 31
+      },
+      "revId": "aa0fbec33586347f80d7cfceb7cd43f5d72729a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47aed538_28642770",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-07T08:20:17Z",
       "side": 1,
       "message": "maybe a follow up change(I can do it if you prefer),  perhaps unify ChangeStatus and ChangeStates and keep only one name in the codebase?\nKeep ChangeState everywhere?",
+      "range": {
+        "startLine": 432,
+        "startChar": 2,
+        "endLine": 432,
+        "endChar": 32
+      },
+      "revId": "aa0fbec33586347f80d7cfceb7cd43f5d72729a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e353f6c_893a60ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-07T08:45:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure what the right improvement should be. Some of the values require extra requests for each change (ready to submit, merge conflict) so they\u0027re only computed within the change page and not dashboard, search pages. It\u0027d be nice if those values weren\u0027t possible until the areas where they were computable. If anything the names could be swapped 😄",
+      "parentUuid": "47aed538_28642770",
       "range": {
         "startLine": 432,
         "startChar": 2,

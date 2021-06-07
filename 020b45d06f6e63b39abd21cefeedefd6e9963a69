@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bea96be1_b2f7f48c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-07T12:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14a24bcb_965594bd",
+      "revId": "020b45d06f6e63b39abd21cefeedefd6e9963a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59215d0b_1d9d1305",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93354183_f6832617",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-07T12:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59215d0b_1d9d1305",
+      "range": {
+        "startLine": 917,
+        "startChar": 6,
+        "endLine": 917,
+        "endChar": 50
+      },
+      "revId": "020b45d06f6e63b39abd21cefeedefd6e9963a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26c6c9cf_8edddf0d",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-06-07T12:45:17Z",
       "side": 1,
       "message": "Don\u0027t you have to keep watching `_patchRange.*`?",
+      "range": {
+        "startLine": 1229,
+        "startChar": 39,
+        "endLine": 1229,
+        "endChar": 50
+      },
+      "revId": "020b45d06f6e63b39abd21cefeedefd6e9963a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2938fb1_dfcdaeaf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1229,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-07T12:59:07Z",
+      "side": 1,
+      "message": "In diff view patchRange is completely assigned(in paramsChanged).\nThere is no assignment of patchRange.patchNum so I decided to make it simpler.",
+      "parentUuid": "26c6c9cf_8edddf0d",
       "range": {
         "startLine": 1229,
         "startChar": 39,

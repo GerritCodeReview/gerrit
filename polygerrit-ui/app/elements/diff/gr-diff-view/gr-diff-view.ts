@@ -71,7 +71,6 @@ import {
   ConfigInfo,
   EditInfo,
   EditPatchSetNum,
-  ElementPropertyDeepChange,
   FileInfo,
   NumericChangeId,
   ParentPatchSetNum,
@@ -275,6 +274,11 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Number})
   _focusLineNum?: number;
 
+  private getReviewedParams: {
+    changeNum?: NumericChangeId;
+    patchNum?: PatchSetNum;
+  } = {};
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -455,8 +459,13 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
   _setReviewed(reviewed: boolean) {
     if (this._editMode) return;
     this.$.reviewed.checked = reviewed;
-    if (!this._patchRange?.patchNum) return;
+    if (!this._patchRange?.patchNum || !this._path) return;
+    const path = this._path;
+    if (reviewed) this._reviewedFiles.add(path);
+    else this._reviewedFiles.delete(path);
     this._saveReviewedState(reviewed).catch(err => {
+      if (this._reviewedFiles.has(path)) this._reviewedFiles.delete(path);
+      else this._reviewedFiles.add(path);
       fireAlert(this, ERR_REVIEW_STATUS);
       throw err;
     });
@@ -901,6 +910,15 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     patchNum?: PatchSetNum
   ): Promise<Set<string>> {
     if (!changeNum || !patchNum) return Promise.resolve(new Set<string>());
+    if (
+      this.getReviewedParams.changeNum === changeNum &&
+      this.getReviewedParams.patchNum === patchNum
+    )
+      return Promise.resolve(this._reviewedFiles);
+    this.getReviewedParams = {
+      changeNum,
+      patchNum,
+    };
     return this.restApiService
       .getReviewedFiles(changeNum, patchNum)
       .then(files => {
@@ -909,18 +927,9 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
       });
   }
 
-  _getReviewedStatus(
-    editMode?: boolean,
-    changeNum?: NumericChangeId,
-    patchNum?: PatchSetNum,
-    path?: string
-  ) {
-    if (editMode || !path) {
-      return Promise.resolve(false);
-    }
-    return this._getReviewedFiles(changeNum, patchNum).then(files =>
-      files.has(path)
-    );
+  _getReviewedStatus(path: string) {
+    if (this._editMode) return false;
+    return this._reviewedFiles.has(path);
   }
 
   _initLineOfInterestAndCursor(leftSide: boolean) {
@@ -1199,47 +1208,39 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
-  @observe('_loggedIn', 'params.*', '_prefs', '_patchRange.*')
+  @observe('_path', '_prefs', '_reviewedFiles')
   _setReviewedObserver(
+    path?: string,
+    prefs?: DiffPreferencesInfo,
+    reviewedFiles?: Set<string>
+  ) {
+    if (prefs === undefined) return;
+    if (path === undefined) return;
+    if (reviewedFiles === undefined) return;
+    if (prefs.manual_review) {
+      // Checkbox state needs to be set explicitly only when manual_review
+      // is specified.
+      this.$.reviewed.checked = this._getReviewedStatus(path);
+    } else {
+      this._setReviewed(true);
+    }
+  }
+
+  @observe('_loggedIn', '_changeNum', '_patchRange')
+  getReviewedFiles(
     _loggedIn?: boolean,
-    paramsRecord?: ElementPropertyDeepChange<GrDiffView, 'params'>,
-    _prefs?: DiffPreferencesInfo,
-    patchRangeRecord?: ElementPropertyDeepChange<GrDiffView, '_patchRange'>
+    _changeNum?: NumericChangeId,
+    patchRange?: PatchRange
   ) {
     if (_loggedIn === undefined) return;
-    if (paramsRecord === undefined) return;
-    if (_prefs === undefined) return;
-    if (patchRangeRecord === undefined) return;
-    if (patchRangeRecord.base === undefined) return;
+    if (_changeNum === undefined) return;
+    if (patchRange === undefined) return;
 
-    const patchRange = patchRangeRecord.base;
     if (!_loggedIn) {
       return;
     }
 
-    if (_prefs.manual_review) {
-      // Checkbox state needs to be set explicitly only when manual_review
-      // is specified.
-
-      if (patchRange.patchNum) {
-        this._getReviewedStatus(
-          this._editMode,
-          this._changeNum,
-          patchRange.patchNum,
-          this._path
-        ).then((status: boolean) => {
-          this.$.reviewed.checked = status;
-        });
-      }
-      return;
-    }
-    // shift + m navigates to next unreviewed file so request list of reviewed
-    // files even if manual review is not set
     this._getReviewedFiles(this._changeNum, patchRange.patchNum);
-
-    if (paramsRecord.base?.view === GerritNav.View.DIFF) {
-      this._setReviewed(true);
-    }
   }
 
   /**

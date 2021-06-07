@@ -16,9 +16,7 @@
  */
 import {html} from 'lit-html';
 import {GrLitElement} from '../../lit/gr-lit-element';
-import {customElement, property} from 'lit-element';
-import {cssTemplate} from './gr-key-binding-display.css';
-import {sharedStyles} from '../../../styles/shared-styles';
+import {css, customElement, property} from 'lit-element';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,7 +27,20 @@ declare global {
 @customElement('gr-key-binding-display')
 export class GrKeyBindingDisplay extends GrLitElement {
   static get styles() {
-    return [sharedStyles, cssTemplate];
+    return [
+      css`
+        .key {
+          background-color: var(--chip-background-color);
+          color: var(--primary-text-color);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          display: inline-block;
+          font-weight: var(--font-weight-bold);
+          padding: var(--spacing-xxs) var(--spacing-m);
+          text-align: center;
+        }
+      `,
+    ];
   }
 
   render() {

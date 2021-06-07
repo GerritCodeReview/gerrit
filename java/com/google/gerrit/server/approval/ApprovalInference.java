@@ -67,7 +67,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * submit time, or refreshed on demand, as when reading approvals from the NoteDb.
  */
 @Singleton
-public class ApprovalInference {
+class ApprovalInference {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ProjectCache projectCache;

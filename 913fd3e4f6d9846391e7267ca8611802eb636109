@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "108c15a9_71281307",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-07T06:53:17Z",
+      "side": 1,
+      "message": "The link doesn\u0027t work, is this ID correct?",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aba9a1f1_63a7b59f",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-07T06:53:17Z",
+      "side": 1,
+      "message": "maybe \"value\" as \"fileList\" is the operator",
+      "range": {
+        "startLine": 80,
+        "startChar": 37,
+        "endLine": 80,
+        "endChar": 45
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c7ffd34_8c6d243d",
         "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
         "patchSetId": 1

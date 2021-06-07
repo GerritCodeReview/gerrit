@@ -429,7 +429,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     type: String,
     computed: '_computeChangeStatusChips(_change, _mergeable, _submitEnabled)',
   })
-  _changeStatuses?: string[];
+  _changeStatuses?: ChangeStates[];
 
   /** If false, then the "Show more" button was used to expand. */
   @property({type: Boolean})

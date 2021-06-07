@@ -24,6 +24,7 @@ import {
   RelatedChangeAndCommitInfo,
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
+import {ChangeStates} from '../elements/shared/gr-change-status/gr-change-status';
 
 // This can be wrong! See WARNING above
 interface ChangeStatusesOptions {
@@ -134,28 +135,27 @@ export function changeIsOpen(change?: ChangeInfo | ParsedChangeInfo) {
   return change?.status === ChangeStatus.NEW;
 }
 
-// TODO(TS): use enum ChangeStates in gr-change-status
 export function changeStatuses(
   change: ChangeInfo,
   opt_options?: ChangeStatusesOptions
-) {
+): ChangeStates[] {
   const states = [];
   if (change.status === ChangeStatus.MERGED) {
-    states.push('Merged');
+    states.push(ChangeStates.MERGED);
   } else if (change.status === ChangeStatus.ABANDONED) {
-    states.push('Abandoned');
+    states.push(ChangeStates.ABANDONED);
   } else if (
     change.mergeable === false ||
     (opt_options && opt_options.mergeable === false)
   ) {
     // 'mergeable' prop may not always exist (@see Issue 6819)
-    states.push('Merge Conflict');
+    states.push(ChangeStates.MERGE_CONFLICT);
   }
   if (change.work_in_progress) {
-    states.push('WIP');
+    states.push(ChangeStates.WIP);
   }
   if (change.is_private) {
-    states.push('Private');
+    states.push(ChangeStates.PRIVATE);
   }
 
   // If there are any pre-defined statuses, only return those. Otherwise,
@@ -166,10 +166,10 @@ export function changeStatuses(
 
   // If no missing requirements, either active or ready to submit.
   if (change.submittable && opt_options.submitEnabled) {
-    states.push('Ready to submit');
+    states.push(ChangeStates.READY_TO_SUBMIT);
   } else {
     // Otherwise it is active.
-    states.push('Active');
+    states.push(ChangeStates.ACTIVE);
   }
   return states;
 }

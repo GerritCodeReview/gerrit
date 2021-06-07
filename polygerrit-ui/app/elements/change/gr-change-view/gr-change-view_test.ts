@@ -1222,7 +1222,7 @@ suite('gr-change-view tests', () => {
       },
     };
     element._mergeable = true;
-    const expectedStatuses = ['Merged', 'WIP'];
+    const expectedStatuses = [ChangeStates.MERGED, ChangeStates.WIP];
     assert.deepEqual(element._changeStatuses, expectedStatuses);
     flush();
     const statusChips = element.shadowRoot!.querySelectorAll(

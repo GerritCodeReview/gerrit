@@ -87,7 +87,7 @@ export const htmlTemplate = html`
   >
     <template
       is="dom-if"
-      if="[[!!hasStatusLink(revertedChange, resolveWeblinks, status)]]">
+      if="[[hasStatusLink(revertedChange, resolveWeblinks, status)]]">
       <a class="status-link"
          href="[[getStatusLink(revertedChange, resolveWeblinks, status)]]">
         <div class="chip" aria-label$="Label: [[status]]">
@@ -100,7 +100,7 @@ export const htmlTemplate = html`
         </div>
       </a>
     </template>
-    <template is="dom-if" if="[[!hasStatusLink(revertedChange)]]">
+    <template is="dom-if" if="[[!hasStatusLink(revertedChange, resolveWeblinks, status)]]">
       <div class="chip" aria-label$="Label: [[status]]">
         [[_computeStatusString(status)]]
       </div>

@@ -93,8 +93,12 @@ export class GrChangeStatus extends PolymerElement {
     resolveWeblinks?: GeneratedWebLink[],
     status?: ChangeStates
   ): boolean {
+    const isRevertCreatedOrSubmitted =
+      (status === ChangeStates.REVERT_SUBMITTED ||
+        status === ChangeStates.REVERT_CREATED) &&
+      revertedChange !== undefined;
     return (
-      revertedChange !== undefined ||
+      isRevertCreatedOrSubmitted ||
       !!(status === ChangeStates.MERGE_CONFLICT && resolveWeblinks?.length)
     );
   }

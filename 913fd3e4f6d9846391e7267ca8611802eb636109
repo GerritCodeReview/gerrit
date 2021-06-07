@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd275b8_fb2c989c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-07T08:09:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef97277d_5235eb99",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "108c15a9_71281307",
@@ -166,6 +190,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27fd529c_aae7ea20",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-07T08:09:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ba545da_09a79fc0",
+      "range": {
+        "startLine": 80,
+        "startChar": 37,
+        "endLine": 80,
+        "endChar": 45
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a761c07e_dbc01de2",
@@ -179,6 +227,30 @@
       "writtenOn": "2021-06-07T07:48:28Z",
       "side": 1,
       "message": "ListOfUnchangedFilesPredicate is probably a better name?",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a5f753f_055993df",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-07T08:09:47Z",
+      "side": 1,
+      "message": "I don\u0027t think so, since we don\u0027t return the list of files that were changed/unchanged here, we only return whether any files were changed.\nI could make it \"HasListOfFilesUnchangedPredicate\" but I think that\u0027s just longer for no reason. Can we keep as is?",
+      "parentUuid": "a761c07e_dbc01de2",
       "range": {
         "startLine": 34,
         "startChar": 13,
@@ -253,6 +325,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa8e15e0_2f5ab6e8",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-07T08:09:47Z",
+      "side": 1,
+      "message": "this is required since I\u0027m overriding \"Predicate\", and those are abstract methods there, so I\u0027d rather not rewrite how \"Predicate\" works since it\u0027s too much reformatting work for this.",
+      "parentUuid": "f0f75ee8_779dc382",
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98606e66_14d100ad",
@@ -266,6 +356,30 @@
       "writtenOn": "2021-06-07T07:48:28Z",
       "side": 1,
       "message": "Better for readability: /* value\u003d */ 2\n\nSame for psId",
+      "range": {
+        "startLine": 216,
+        "startChar": 20,
+        "endLine": 216,
+        "endChar": 33
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcbbb59e_6337fe3d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-07T08:09:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98606e66_14d100ad",
       "range": {
         "startLine": 216,
         "startChar": 20,

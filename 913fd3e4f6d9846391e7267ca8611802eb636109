@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "534c7dde_006e644f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-07T07:48:28Z",
+      "side": 1,
+      "message": "Since this predicate is always only taking one argument: \"no-change\", I\u0027d prefer using the \"has\" predicate instead (similar to what we do for change predicates), e.g.\n\n\u003e has:changed-files\n\nUnless there are plans to support other args for this predicate in the future. WDYT?",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "108c15a9_71281307",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -97,6 +120,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ba545da_09a79fc0",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-07T07:48:28Z",
+      "side": 1,
+      "message": "nit: Maybe \"argument\" is more accurate?\n\nI used to refer to them as: predicate\u0027s arguments. Also docs support that:\nhttps://gerrit-review.googlesource.com/Documentation/user-search.html#_argument_quoting",
+      "parentUuid": "d8696423_d0ddb161",
+      "range": {
+        "startLine": 80,
+        "startChar": 37,
+        "endLine": 80,
+        "endChar": 45
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a761c07e_dbc01de2",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-07T07:48:28Z",
+      "side": 1,
+      "message": "ListOfUnchangedFilesPredicate is probably a better name?",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c7ffd34_8c6d243d",
         "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
         "patchSetId": 1
@@ -113,6 +183,70 @@
         "startChar": 34,
         "endLine": 53,
         "endChar": 37
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "294a4c10_1ebe1025",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-07T07:48:28Z",
+      "side": 1,
+      "message": "Thanks for mentioning.\n\nNo worries, I\u0027m revisiting all changes this month and will change it very soon.",
+      "parentUuid": "6c7ffd34_8c6d243d",
+      "range": {
+        "startLine": 53,
+        "startChar": 34,
+        "endLine": 53,
+        "endChar": 37
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0f75ee8_779dc382",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-07T07:48:28Z",
+      "side": 1,
+      "message": "Why are hashcode() and equals() needed? This class is a singleton and I don\u0027t expect we need to do any sort of comparisons on objects, right?\n\nCan we remove both methods?",
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98606e66_14d100ad",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-07T07:48:28Z",
+      "side": 1,
+      "message": "Better for readability: /* value\u003d */ 2\n\nSame for psId",
+      "range": {
+        "startLine": 216,
+        "startChar": 20,
+        "endLine": 216,
+        "endChar": 33
       },
       "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0da3dc8b_d6c5344f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-07T09:34:25Z",
+      "side": 1,
+      "message": "\u003e I think you would have to modify the actual responses.\n\nYou\u0027d also have to adapt all of the implementations to populate the fields, which is another place where functionality may go missing. \n\n\u003e This approach has the downside that it does further diverge SSH and REST functionality. It seems like that has been the trend for a while now. I get it that Google isn\u0027t running sshd at all for Gerrit and so there\u0027s just going to be less of a focus on it from that alone. However, are we really ok with features that intentionally diverge it? That seems like it puts us on a path to eventually removing the SSH apis.\n\nI am afraid you are right. We are trying to not break the current SSH API gratuitously, to not make upgrading gerrit even more difficult, but the API lacks structure that is needed to make it a principled (extensible, predictable etc) mechanism for interacting with Gerrit.\n\nWe could fix this by introducing a new, v2 API of the SSH API, but you\u0027d have to let go of backward compatibility. If we\u0027re not bound by compatibility, we\u0027re basically building something from scratch, in which case we\u0027d probably want to use something completely different instead (eg. gRPC).",
+      "parentUuid": "acac0fba_7e056bc1",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "4461bd5705dd2147f769bb9a44d87b4cb3b3150c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14a44d3b_829813a0",

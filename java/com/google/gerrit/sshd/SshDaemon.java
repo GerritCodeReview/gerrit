@@ -28,6 +28,7 @@ import static org.apache.sshd.core.CoreModuleProperties.SERVER_IDENTIFICATION;
 import static org.apache.sshd.core.CoreModuleProperties.WAIT_FOR_SPACE_TIMEOUT;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Version;
@@ -83,6 +84,7 @@ import org.apache.sshd.common.io.IoServiceFactory;
 import org.apache.sshd.common.io.IoServiceFactoryFactory;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
+import org.apache.sshd.common.kex.BuiltinDHFactories;
 import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.mac.Mac;
@@ -478,8 +480,17 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     return r.toString();
   }
 
+  @SuppressWarnings("deprecation")
   private void initKeyExchanges(Config cfg) {
-    List<KeyExchangeFactory> a = ServerBuilder.setUpDefaultKeyExchanges(true);
+    ImmutableList.Builder<BuiltinDHFactories> factories = new ImmutableList.Builder<>();
+    factories.addAll(BaseBuilder.DEFAULT_KEX_PREFERENCE);
+
+    if (cfg.getBoolean("sshd", null, "enableDeprecatedKexAlgorithms", false)) {
+      factories.add(BuiltinDHFactories.dhg1, BuiltinDHFactories.dhg14, BuiltinDHFactories.dhgex);
+    }
+
+    List<KeyExchangeFactory> a =
+        NamedFactory.setUpTransformedFactories(false, factories.build(), ServerBuilder.DH2KEX);
     setKeyExchangeFactories(filter(cfg, "kex", a.toArray(new KeyExchangeFactory[a.size()])));
   }
 

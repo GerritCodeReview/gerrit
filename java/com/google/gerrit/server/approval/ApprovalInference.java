@@ -29,7 +29,6 @@ import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -322,11 +321,15 @@ class ApprovalInference {
   }
 
   private boolean canCopyBasedOnCopyCondition(
-      Project.NameKey project, PatchSetApproval psa, PatchSet.Id psId, LabelType type) {
+      ChangeNotes changeNotes,
+      PatchSetApproval psa,
+      PatchSet.Id psId,
+      LabelType type,
+      ChangeKind changeKind) {
     if (!type.getCopyCondition().isPresent()) {
       return false;
     }
-    ApprovalContext ctx = ApprovalContext.create(project, psa, psId);
+    ApprovalContext ctx = ApprovalContext.create(changeNotes, psa, psId, changeKind);
     try {
       // Use a request context to run checks as an internal user with expanded visibility. This is
       // so that the output of the copy condition does not depend on who is running the current
@@ -414,7 +417,7 @@ class ApprovalInference {
         patchList = getPatchList(project, ps, priorPatchSet);
       }
       if (!canCopyBasedOnBooleanLabelConfigs(project, psa, ps.id(), kind, type, patchList)
-          && !canCopyBasedOnCopyCondition(project.getNameKey(), psa, ps.id(), type)) {
+          && !canCopyBasedOnCopyCondition(notes, psa, ps.id(), type, kind)) {
         continue;
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));

@@ -52,10 +52,14 @@ public class MagicValuePredicate extends ApprovalPredicate {
       case ANY:
         return true;
       case MIN:
-        pValue = getLabelType(ctx.project(), ctx.patchSetApproval().labelId()).getMaxNegative();
+        pValue =
+            getLabelType(ctx.changeNotes().getProjectName(), ctx.patchSetApproval().labelId())
+                .getMaxNegative();
         break;
       case MAX:
-        pValue = getLabelType(ctx.project(), ctx.patchSetApproval().labelId()).getMaxPositive();
+        pValue =
+            getLabelType(ctx.changeNotes().getProjectName(), ctx.patchSetApproval().labelId())
+                .getMaxPositive();
         break;
       default:
         throw new IllegalArgumentException("unrecognized label value: " + value);

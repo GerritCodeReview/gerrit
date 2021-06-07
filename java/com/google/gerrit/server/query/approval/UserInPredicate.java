@@ -5,7 +5,6 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
@@ -23,18 +22,15 @@ public class UserInPredicate extends ApprovalPredicate {
   }
 
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final Field field;
   private final AccountGroup.UUID group;
 
   @Inject
   UserInPredicate(
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      ChangeNotes.Factory changeNotesFactory,
       @Assisted Field field,
       @Assisted AccountGroup.UUID group) {
     this.identifiedUserFactory = identifiedUserFactory;
-    this.changeNotesFactory = changeNotesFactory;
     this.field = field;
     this.group = group;
   }
@@ -43,8 +39,7 @@ public class UserInPredicate extends ApprovalPredicate {
   public boolean match(ApprovalContext ctx) {
     Account.Id accountId;
     if (field == Field.UPLOADER) {
-      ChangeNotes notes = changeNotesFactory.createChecked(ctx.project(), ctx.target().changeId());
-      PatchSet patchSet = notes.getPatchSets().get(ctx.target());
+      PatchSet patchSet = ctx.changeNotes().getPatchSets().get(ctx.target());
       accountId = patchSet.uploader();
     } else if (field == Field.APPROVER) {
       accountId = ctx.patchSetApproval().accountId();
@@ -57,7 +52,7 @@ public class UserInPredicate extends ApprovalPredicate {
   @Override
   public Predicate<ApprovalContext> copy(
       Collection<? extends Predicate<ApprovalContext>> children) {
-    return new UserInPredicate(identifiedUserFactory, changeNotesFactory, field, group);
+    return new UserInPredicate(identifiedUserFactory, field, group);
   }
 
   @Override

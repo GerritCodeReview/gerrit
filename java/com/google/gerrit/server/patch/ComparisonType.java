@@ -30,7 +30,7 @@ public abstract class ComparisonType {
 
   /**
    * 1-based parent. Available if the old commit is the parent of the new commit and old commit is
-   * not the auto-merge.
+   * not the auto-merge. If set to 0, then comparison is for a root commit.
    */
   abstract Optional<Integer> parentNum();
 
@@ -46,6 +46,10 @@ public abstract class ComparisonType {
 
   public static ComparisonType againstAutoMerge() {
     return new AutoValue_ComparisonType(Optional.empty(), true);
+  }
+
+  public static ComparisonType againstRoot() {
+    return new AutoValue_ComparisonType(Optional.of(0), false);
   }
 
   private static ComparisonType create(Optional<Integer> parent, boolean automerge) {

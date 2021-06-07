@@ -282,6 +282,11 @@ public class PushOneCommit {
     return this;
   }
 
+  public PushOneCommit noParent() throws Exception {
+    commitBuilder.noParents();
+    return this;
+  }
+
   public PushOneCommit addSymlink(String path, String target) throws Exception {
     RevBlob blobId = testRepo.blob(target);
     commitBuilder.edit(

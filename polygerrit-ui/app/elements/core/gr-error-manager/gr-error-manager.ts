@@ -217,6 +217,8 @@ export class GrErrorManager extends PolymerElement {
             url,
             trace,
           });
+        } else if (response.status === 429) {
+          this._showQuotaExceeded({status, statusText});
         } else {
           this._showErrorDialog(
             this._constructServerErrorMsg({
@@ -258,6 +260,19 @@ export class GrErrorManager extends PolymerElement {
         }
       );
     });
+  }
+
+  _showQuotaExceeded({status, statusText}: ErrorMsg) {
+    const tip = 'Try again later';
+    const errorText = 'Too many requests from this client';
+    this._showErrorDialog(
+      this._constructServerErrorMsg({
+        status,
+        statusText,
+        errorText,
+        tip,
+      })
+    );
   }
 
   _constructServerErrorMsg({

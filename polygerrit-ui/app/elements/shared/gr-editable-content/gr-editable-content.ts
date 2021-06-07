@@ -25,6 +25,7 @@ import {appContext} from '../../../services/app-context';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {queryAndAssert} from '../../../utils/common-util';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import {Interaction} from '../../../constants/reporting';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -232,7 +233,7 @@ export class GrEditableContent extends PolymerElement {
 
   _toggleCommitCollapsed() {
     this._commitCollapsed = !this._commitCollapsed;
-    this.reporting.reportInteraction('toggle show all button', {
+    this.reporting.reportInteraction(Interaction.TOGGLE_SHOW_ALL_BUTTON, {
       sectionName: 'Commit message',
       toState: !this._commitCollapsed ? 'Show all' : 'Show less',
     });

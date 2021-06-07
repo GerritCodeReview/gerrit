@@ -35,6 +35,7 @@ import {
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {appContext} from '../../../services/app-context';
 import {labelCompare} from '../../../utils/label-util';
+import {Interaction} from '../../../constants/reporting';
 
 interface ChangeRequirement extends Requirement {
   satisfied: boolean;
@@ -181,7 +182,7 @@ class GrChangeRequirements extends PolymerElement {
 
   _handleShowHide() {
     this._showOptionalLabels = !this._showOptionalLabels;
-    this.reporting.reportInteraction('toggle show all button', {
+    this.reporting.reportInteraction(Interaction.TOGGLE_SHOW_ALL_BUTTON, {
       sectionName: 'optional labels',
       toState: this._showOptionalLabels ? 'Show all' : 'Show less',
     });

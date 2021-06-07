@@ -18,7 +18,12 @@
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
-import {Execution, LifeCycle, Timing} from '../../constants/reporting';
+import {
+  Execution,
+  Interaction,
+  LifeCycle,
+  Timing,
+} from '../../constants/reporting';
 
 export type EventValue = string | number | {error?: Error};
 
@@ -104,7 +109,10 @@ export interface ReportingService {
     object: string,
     method: string
   ): void;
-  reportInteraction(eventName: string, details?: EventDetails): void;
+  reportInteraction(
+    eventName: string | Interaction,
+    details?: EventDetails
+  ): void;
   /**
    * A draft interaction was started. Update the time-between-draft-actions
    * timer.

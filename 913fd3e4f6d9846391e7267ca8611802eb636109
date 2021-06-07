@@ -261,6 +261,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2604a50b_6fec9e88",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-07T08:29:40Z",
+      "side": 1,
+      "message": "Oh, my bad, you\u0027re right. My rename is misleading then.\n\nI\u0027m fine leaving as is.",
+      "parentUuid": "6a5f753f_055993df",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c7ffd34_8c6d243d",
@@ -339,6 +363,24 @@
       "side": 1,
       "message": "this is required since I\u0027m overriding \"Predicate\", and those are abstract methods there, so I\u0027d rather not rewrite how \"Predicate\" works since it\u0027s too much reformatting work for this.",
       "parentUuid": "f0f75ee8_779dc382",
+      "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "706345c5_1219a738",
+        "filename": "java/com/google/gerrit/server/query/approval/ListOfFilesUnchangedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-07T08:29:40Z",
+      "side": 1,
+      "message": "I see. LGTM.\n\nhint: I just found other change predicates inheriting from OperatorPredicate which overrides hashcode() and equals() -\u003e moving the logic to parent. But that kind of refactoring is not needed for this change.",
+      "parentUuid": "fa8e15e0_2f5ab6e8",
       "revId": "913fd3e4f6d9846391e7267ca8611802eb636109",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

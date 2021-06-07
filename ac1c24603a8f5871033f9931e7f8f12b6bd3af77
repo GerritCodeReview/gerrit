@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9f5d53c_c408360f",
+        "filename": "polygerrit-ui/app/utils/patch-set-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-07T12:17:36Z",
+      "side": 1,
+      "message": "git seemed to know this file was renamed, but gerrit is showing it as delete .js \u0026 add .ts. The main change was refactoring this compute method, and filling in missing test data fields to match types ex: ...createChange()",
+      "range": {
+        "startLine": 66,
+        "startChar": 10,
+        "endLine": 66,
+        "endChar": 17
+      },
+      "revId": "ac1c24603a8f5871033f9931e7f8f12b6bd3af77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

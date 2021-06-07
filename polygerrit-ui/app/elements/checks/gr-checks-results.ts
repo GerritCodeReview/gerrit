@@ -40,24 +40,24 @@ import {
 } from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {
+  CheckRun,
+  checksSelectedPatchsetNumber$,
+  RunResult,
+  someProvidersAreLoadingSelected$,
   topLevelActionsSelected$,
   topLevelLinksSelected$,
-  CheckRun,
-  RunResult,
-  checksSelectedPatchsetNumber$,
-  someProvidersAreLoadingSelected$,
 } from '../../services/checks/checks-model';
 import {
   allResults,
   fireActionTriggered,
+  firstPrimaryLink,
   hasCompletedWithoutResults,
   iconForCategory,
   iconForLink,
   otherPrimaryLinks,
-  firstPrimaryLink,
   primaryRunAction,
-  tooltipForLink,
   secondaryLinks,
+  tooltipForLink,
 } from '../../services/checks/checks-util';
 import {assertIsDefined, check} from '../../utils/common-util';
 import {toggleClass, whenVisible} from '../../utils/dom-util';
@@ -928,10 +928,14 @@ export class GrChecksResults extends GrLitElement {
   private scrollElIntoView(selector: string) {
     this.updateComplete.then(() => {
       let el = this.shadowRoot?.querySelector(selector);
-      // <gr-result-row> has display:contents and cannot be scrolled into view
-      // itself. Thus we are preferring to scroll the first child into view.
-      el = el?.shadowRoot?.firstElementChild ?? el;
-      el?.scrollIntoView({block: 'center'});
+      // el might be a <gr-result-row> with an empty shadowRoot. Let's wait a
+      // moment before trying to find a child element in it.
+      setTimeout(() => {
+        // <gr-result-row> has display:contents and cannot be scrolled into view
+        // itself. Thus we are preferring to scroll the first child into view.
+        el = el?.shadowRoot?.firstElementChild ?? el;
+        el?.scrollIntoView({block: 'center'});
+      }, 0);
     });
   }
 

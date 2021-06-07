@@ -83,6 +83,7 @@ import org.apache.sshd.common.io.IoServiceFactory;
 import org.apache.sshd.common.io.IoServiceFactoryFactory;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
+import org.apache.sshd.common.kex.BuiltinDHFactories;
 import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.mac.Mac;
@@ -479,7 +480,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initKeyExchanges(Config cfg) {
-    List<KeyExchangeFactory> a = ServerBuilder.setUpDefaultKeyExchanges(true);
+    List<KeyExchangeFactory> a =
+        NamedFactory.setUpTransformedFactories(
+            true,
+            cfg.getBoolean("sshd", null, "enableDeprecatedKexAlgorithms", false)
+                ? BuiltinDHFactories.VALUES
+                : BaseBuilder.DEFAULT_KEX_PREFERENCE,
+            ServerBuilder.DH2KEX);
     setKeyExchangeFactories(filter(cfg, "kex", a.toArray(new KeyExchangeFactory[a.size()])));
   }
 

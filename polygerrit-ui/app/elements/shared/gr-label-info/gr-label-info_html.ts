@@ -88,7 +88,7 @@ export const htmlTemplate = html`
   <p
     class$="placeholder [[_computeShowPlaceholder(labelInfo, change.labels.*)]]"
   >
-    No votes.
+    No votes
   </p>
   <table>
     <template

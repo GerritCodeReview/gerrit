@@ -80,7 +80,7 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
    */
   private setEl(el?: GrChangeActionsElement) {
     if (!el) {
-      console.warn('changeActions() is not ready');
+      this.reporting.error(new Error(`changeActions() API is not ready`));
       return;
     }
     this.el = el;

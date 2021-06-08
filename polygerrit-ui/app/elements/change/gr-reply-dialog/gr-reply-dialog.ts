@@ -758,7 +758,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     if (changeReviewers) {
       for (const key of Object.keys(changeReviewers)) {
         if (key !== 'REVIEWER' && key !== 'CC') {
-          console.warn('unexpected reviewer state:', key);
+          this.reporting.error(new Error(`Unexpected reviewer state: ${key}`));
           continue;
         }
         if (!changeReviewers[key]) continue;
@@ -1085,9 +1085,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
       } else if (isReviewerGroupSuggestion(suggestion)) {
         entry = suggestion.group;
       } else {
-        console.warn(
-          'received suggestion that was neither account nor group:',
-          suggestion
+        this.reporting.error(
+          new Error(`Suggestion is neither account nor group: ${suggestion}`)
         );
         return false;
       }

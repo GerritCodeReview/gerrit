@@ -706,7 +706,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     const index = this._indexOf(comment, this.comments);
     if (index === -1) {
       // This should never happen: comment belongs to another thread.
-      console.warn('Comment update for another comment thread.');
+      this.reporting.error(
+        new Error(`Comment update for another comment thread: ${comment}`)
+      );
       return;
     }
     this.set(['comments', index], comment);

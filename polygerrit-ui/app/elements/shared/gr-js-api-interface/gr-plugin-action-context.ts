@@ -22,6 +22,7 @@ import {UIActionInfo} from './gr-change-actions-js-api';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {PopupPluginApi} from '../../../api/popup';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface';
+import {appContext} from '../../../services/app-context';
 
 interface ButtonCallBacks {
   onclick: (event: Event) => boolean;
@@ -29,6 +30,8 @@ interface ButtonCallBacks {
 
 export class GrPluginActionContext {
   private popups: PopupPluginApi[] = [];
+
+  private readonly reporting = appContext.reportingService;
 
   constructor(
     public readonly plugin: PluginApi,
@@ -108,7 +111,9 @@ export class GrPluginActionContext {
   call(payload: RequestPayload, onSuccess: (result: unknown) => void) {
     if (!this.action.method) return;
     if (!this.action.__url) {
-      console.warn(`Unable to ${this.action.method} to ${this.action.__key}!`);
+      this.reporting.error(
+        new Error(`Unable to ${this.action.method} to ${this.action.__key}!`)
+      );
       return;
     }
     this.plugin

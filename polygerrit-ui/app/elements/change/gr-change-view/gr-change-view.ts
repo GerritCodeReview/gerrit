@@ -634,7 +634,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
           this._dynamicTabContentEndpoints.length !==
           this._dynamicTabHeaderEndpoints.length
         ) {
-          console.warn('Different number of tab headers and tab content.');
+          this.reporting.error(new Error('Mismatch of headers and content.'));
         }
       })
       .then(() => this._initActiveTabs(this.params));
@@ -767,7 +767,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       }
     }
     if (activeIndex === -1) {
-      console.warn('tab not found with given info', activeDetails);
+      this.reporting.error(new Error(`tab not found for ${activeDetails}`));
       return;
     }
     const tabName = tabs[activeIndex].dataset['name'];

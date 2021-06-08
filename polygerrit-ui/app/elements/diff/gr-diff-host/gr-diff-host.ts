@@ -398,7 +398,7 @@ export class GrDiffHost extends PolymerElement {
       if (e instanceof Response) {
         this._handleGetDiffError(e);
       } else {
-        console.warn('Error encountered loading diff:', e);
+        this.reporting.error(e);
       }
     } finally {
       this.reporting.timeEnd(Timing.DIFF_TOTAL);
@@ -483,12 +483,12 @@ export class GrDiffHost extends PolymerElement {
               });
             })
             .catch(err => {
-              console.warn('Applying coverage from provider failed: ', err);
+              this.reporting.error(err);
             });
         });
       })
       .catch(err => {
-        console.warn('Loading coverage ranges failed: ', err);
+        this.reporting.error(err);
       });
   }
 

@@ -231,7 +231,7 @@ export class GrErrorManager extends PolymerElement {
           );
         }
       }
-      console.info(`server error: ${errorText}`);
+      this.reporting.error(new Error(`Server error: ${errorText}`));
     });
   };
 
@@ -319,7 +319,7 @@ export class GrErrorManager extends PolymerElement {
 
   private readonly handleNetworkError = (e: NetworkErrorEvent) => {
     this._showAlert('Server unavailable');
-    console.error(e.detail.error.message);
+    this.reporting.error(new Error(`network error: ${e.detail.error.message}`));
   };
 
   // TODO(dhruvsr): allow less priority alerts to override high priority alerts

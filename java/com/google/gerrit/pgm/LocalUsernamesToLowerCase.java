@@ -36,6 +36,9 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Optional;
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -108,8 +111,38 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
                 extId.accountId(),
                 extId.email(),
                 extId.password());
+        replaceIfNotExists(extIdNotes, extId, extIdLowerCase);
+      }
+    }
+  }
+
+  private void replaceIfNotExists(
+      ExternalIdNotes extIdNotes, ExternalId extId, ExternalId extIdLowerCase) throws IOException {
+    try {
+      Optional<ExternalId> existingExternalId =
+          extIdNotes
+              .get(extIdLowerCase.key())
+              .filter(eid -> eid.accountId().equals(extIdLowerCase.accountId()))
+              .filter(eid -> StringUtils.equalsIgnoreCase(eid.email(), extId.email()))
+              .filter(eid -> StringUtils.equalsIgnoreCase(eid.password(), extId.password()));
+      if (existingExternalId.isPresent()) {
+        System.err.println(
+            "WARNING: external-id "
+                + extIdLowerCase
+                + " already exists with the same account-id "
+                + extId.accountId()
+                + " :"
+                + "removing the duplicate external-id "
+                + extId.key());
+        extIdNotes.delete(extId);
+      } else {
         extIdNotes.replace(extId, extIdLowerCase);
       }
+    } catch (ConfigInvalidException e) {
+      throw new IOException(
+          "Unable to parse external id definition when looking for current external-id "
+              + extIdLowerCase,
+          e);
     }
   }
 

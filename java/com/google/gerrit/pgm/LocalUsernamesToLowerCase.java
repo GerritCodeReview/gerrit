@@ -36,6 +36,7 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Locale;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -108,8 +109,24 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
                 extId.accountId(),
                 extId.email(),
                 extId.password());
+        replaceIfNotExists(extIdNotes, extId, extIdLowerCase);
+      }
+    }
+  }
+
+  private void replaceIfNotExists(
+      ExternalIdNotes extIdNotes, ExternalId extId, ExternalId extIdLowerCase) throws IOException {
+    try {
+      if (extIdNotes.get(extIdLowerCase.key()).isPresent()) {
+    	  System.err.println("WARNING: external-id " + extIdLowerCase + " already exists:" + 
+      "removing the duplicate external-id " + extId);
+        extIdNotes.delete(extId);
+      } else {
         extIdNotes.replace(extId, extIdLowerCase);
       }
+    } catch (ConfigInvalidException e) {
+      throw new IOException(
+          "Unable to parse external id definition when looking for current external-id", e);
     }
   }
 

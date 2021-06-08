@@ -27,7 +27,7 @@ import {
 } from '../../services/checks/checks-model';
 import './gr-checks-runs';
 import './gr-checks-results';
-import {changeNum$} from '../../services/change/change-model';
+import {changeNum$, latestPatchNum$} from '../../services/change/change-model';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {ActionTriggeredEvent} from '../../services/checks/checks-util';
 import {AttemptSelectedEvent, RunSelectedEvent} from './gr-checks-util';
@@ -56,6 +56,9 @@ export class GrChecksTab extends GrLitElement {
   checksPatchsetNumber: PatchSetNumber | undefined = undefined;
 
   @property()
+  latestPatchsetNumber: PatchSetNumber | undefined = undefined;
+
+  @property()
   changeNum: NumericChangeId | undefined = undefined;
 
   @state()
@@ -75,6 +78,7 @@ export class GrChecksTab extends GrLitElement {
     this.subscribe('runs', allRunsSelectedPatchset$);
     this.subscribe('results', allResultsSelected$);
     this.subscribe('checksPatchsetNumber', checksSelectedPatchsetNumber$);
+    this.subscribe('latestPatchsetNumber', latestPatchNum$);
     this.subscribe('changeNum', changeNum$);
 
     this.addEventListener('action-triggered', (e: ActionTriggeredEvent) =>
@@ -135,10 +139,11 @@ export class GrChecksTab extends GrLitElement {
 
   handleActionTriggered(action: Action, run?: CheckRun) {
     if (!this.changeNum) return;
-    if (!this.checksPatchsetNumber) return;
+    const patchSet = this.checksPatchsetNumber ?? this.latestPatchsetNumber;
+    if (!patchSet) return;
     const promise = action.callback(
       this.changeNum,
-      this.checksPatchsetNumber,
+      patchSet,
       run?.attempt,
       run?.externalId,
       run?.checkName,

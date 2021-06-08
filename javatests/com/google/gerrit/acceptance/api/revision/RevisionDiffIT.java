@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
@@ -25,6 +26,7 @@ import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
+import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -35,7 +37,10 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -46,6 +51,8 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.webui.EditWebLink;
+import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.inject.Inject;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -57,6 +64,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
 import org.eclipse.jgit.lib.ObjectId;
@@ -81,11 +89,14 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   private static final String FILE_CONTENT2 = "1st line\n2nd line\n3rd line\n";
 
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private DiffOperations diffOperations;
+  @Inject private ProjectOperations projectOperations;
 
   private boolean intraline;
   private boolean useNewDiffCacheListFiles;
   private boolean useNewDiffCacheGetDiff;
 
+  private ObjectId initialCommit;
   private ObjectId commit1;
   private String changeId;
   private String initialPatchSetId;
@@ -104,6 +115,8 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         baseConfig.getBoolean("cache", "diff_cache", "runNewDiffCache_GetDiff", false);
 
     ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
+    initialCommit = headCommit;
+
     commit1 =
         addCommit(headCommit, ImmutableMap.of(FILE_NAME, FILE_CONTENT, FILE_NAME2, FILE_CONTENT2));
 
@@ -124,10 +137,33 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertDiffForNewFile(result, COMMIT_MSG, result.getCommit().getFullMessage());
   }
 
-  @Ignore
   @Test
   public void diffWithRootCommit() throws Exception {
-    // TODO(ghareeb): Implement this test
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/*").group(adminGroupUuid()).force(true))
+        .update();
+
+    testRepo.reset(initialCommit);
+    PushOneCommit push =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "subject", ImmutableMap.of("f.txt", "content"))
+            .noParent();
+    push.setForce(true);
+    PushOneCommit.Result result = push.to("refs/heads/master");
+
+    Map<String, FileDiffOutput> modifiedFiles =
+        diffOperations.listModifiedFilesAgainstParent(project, result.getCommit(), null);
+
+    assertThat(modifiedFiles.keySet()).containsExactly("/COMMIT_MSG", "f.txt");
+    assertThat(
+            modifiedFiles.values().stream()
+                .map(FileDiffOutput::oldCommitId)
+                .collect(Collectors.toSet()))
+        .containsExactly(EMPTY_TREE_ID);
+    assertThat(modifiedFiles.get("/COMMIT_MSG").changeType()).isEqualTo(Patch.ChangeType.ADDED);
+    assertThat(modifiedFiles.get("f.txt").changeType()).isEqualTo(Patch.ChangeType.ADDED);
   }
 
   @Test

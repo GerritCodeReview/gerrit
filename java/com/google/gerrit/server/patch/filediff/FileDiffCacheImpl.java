@@ -26,6 +26,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -93,7 +94,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         persist(DIFF, FileDiffCacheKey.class, FileDiffOutput.class)
             .maximumWeight(10 << 20)
             .weigher(FileDiffWeigher.class)
-            .version(4)
+            .version(5)
             .keySerializer(FileDiffCacheKey.Serializer.INSTANCE)
             .valueSerializer(FileDiffOutput.Serializer.INSTANCE)
             .loader(FileDiffLoader.class);
@@ -189,6 +190,9 @@ public class FileDiffCacheImpl implements FileDiffCache {
     private ComparisonType getComparisonType(
         RevWalk rw, ObjectReader reader, ObjectId oldCommitId, ObjectId newCommitId)
         throws IOException {
+      if (oldCommitId.equals(EMPTY_TREE_ID)) {
+        return ComparisonType.againstRoot();
+      }
       RevCommit oldCommit = DiffUtil.getRevCommit(rw, oldCommitId);
       RevCommit newCommit = DiffUtil.getRevCommit(rw, newCommitId);
       for (int i = 0; i < newCommit.getParentCount(); i++) {
@@ -211,7 +215,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
     }
 
     /**
-     * Creates a {@link FileDiffOutput} entry for the "Commit message" and "Merge list" file paths.
+     * Creates a {@link FileDiffOutput} entry for the "Commit message" or "Merge list" magic paths.
      */
     private FileDiffOutput createMagicPathEntry(
         FileDiffCacheKey key, ObjectReader reader, RevWalk rw, MagicPath magicPath) {
@@ -219,7 +223,10 @@ public class FileDiffCacheImpl implements FileDiffCache {
         RawTextComparator cmp = comparatorFor(key.whitespace());
         ComparisonType comparisonType =
             getComparisonType(rw, reader, key.oldCommit(), key.newCommit());
-        RevCommit aCommit = DiffUtil.getRevCommit(rw, key.oldCommit());
+        RevCommit aCommit =
+            key.oldCommit().equals(EMPTY_TREE_ID)
+                ? null
+                : DiffUtil.getRevCommit(rw, key.oldCommit());
         RevCommit bCommit = DiffUtil.getRevCommit(rw, key.newCommit());
         return magicPath == MagicPath.COMMIT
             ? createCommitEntry(reader, aCommit, bCommit, comparisonType, cmp, key.diffAlgorithm())
@@ -248,16 +255,19 @@ public class FileDiffCacheImpl implements FileDiffCache {
       }
     }
 
+    /**
+     * Creates a commit entry. {@code oldCommit} is null if the comparison is against a root commit.
+     */
     private FileDiffOutput createCommitEntry(
         ObjectReader reader,
-        RevCommit oldCommit,
+        @Nullable RevCommit oldCommit,
         RevCommit newCommit,
         ComparisonType comparisonType,
         RawTextComparator rawTextComparator,
         GitFileDiffCacheImpl.DiffAlgorithm diffAlgorithm)
         throws IOException {
       Text aText =
-          comparisonType.isAgainstParentOrAutoMerge()
+          oldCommit == null || comparisonType.isAgainstParentOrAutoMerge()
               ? Text.EMPTY
               : Text.forCommit(reader, oldCommit);
       Text bText = Text.forCommit(reader, newCommit);
@@ -272,16 +282,20 @@ public class FileDiffCacheImpl implements FileDiffCache {
           diffAlgorithm);
     }
 
+    /**
+     * Creates a merge list entry. {@code oldCommit} is null if the comparison is against a root
+     * commit.
+     */
     private FileDiffOutput createMergeListEntry(
         ObjectReader reader,
-        RevCommit oldCommit,
+        @Nullable RevCommit oldCommit,
         RevCommit newCommit,
         ComparisonType comparisonType,
         RawTextComparator rawTextComparator,
         GitFileDiffCacheImpl.DiffAlgorithm diffAlgorithm)
         throws IOException {
       Text aText =
-          comparisonType.isAgainstParentOrAutoMerge()
+          oldCommit == null || comparisonType.isAgainstParentOrAutoMerge()
               ? Text.EMPTY
               : Text.forMergeList(comparisonType, reader, oldCommit);
       Text bText = Text.forMergeList(comparisonType, reader, newCommit);
@@ -297,7 +311,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
     }
 
     private static FileDiffOutput createMagicFileDiffOutput(
-        ObjectId oldCommit,
+        @Nullable ObjectId oldCommit,
         ObjectId newCommit,
         ComparisonType comparisonType,
         RawTextComparator rawTextComparator,
@@ -317,7 +331,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
       FileHeader fileHeader = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
       Patch.ChangeType changeType = FileHeaderUtil.getChangeType(fileHeader);
       return FileDiffOutput.builder()
-          .oldCommitId(oldCommit)
+          .oldCommitId(oldCommit == null ? EMPTY_TREE_ID : oldCommit)
           .newCommitId(newCommit)
           .comparisonType(comparisonType)
           .oldPath(FileHeaderUtil.getOldPath(fileHeader))

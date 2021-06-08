@@ -101,6 +101,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b1800d5_21fac216",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-08T12:43:43Z",
+      "side": 1,
+      "message": "mmm, I have pass/fail, match/mismatch or fulfilled/unfulfilled in mind.\n\nI agree. I\u0027ve just realized right now that \"fail\" is probably not the best name for it, as it might feel as \"exception\" or \"failure\". Maybe I can change it in a follow up change.",
+      "parentUuid": "de8747d5_f8a55ce0",
+      "revId": "65b96b2f2e8c369669146ce73388b99224f938c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b318f706_94173196",

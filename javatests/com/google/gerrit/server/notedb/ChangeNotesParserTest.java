@@ -497,6 +497,73 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void attentionSetOnlyShouldNotCountTowardsMaxUpdatesLimit() throws Exception {
+    RevCommit commit =
+        writeCommit(
+            "Update patch set 1\n"
+                + "\n"
+                + "Patch-set: 1\n"
+                + "Attention: {\"person_ident\":\"Gerrit User 1000000 \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}",
+            false);
+    ChangeNotesParser changeNotesParser = newParser(commit);
+    changeNotesParser.parseAll();
+    final boolean hasChangeMessage = false;
+    assertThat(
+            changeNotesParser.countTowardsMaxUpdatesLimit(
+                (ChangeNotesCommit) commit, hasChangeMessage))
+        .isEqualTo(false);
+  }
+
+  @Test
+  public void attentionSetWithExtraFooterShouldCountTowardsMaxUpdatesLimit() throws Exception {
+    RevCommit commit =
+        writeCommit(
+            "Update patch set 1\n"
+                + "\n"
+                + "Patch-set: 1\n"
+                + "Subject: Change subject\n"
+                + "Attention: {\"person_ident\":\"Gerrit User 1000000 \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}",
+            false);
+    ChangeNotesParser changeNotesParser = newParser(commit);
+    changeNotesParser.parseAll();
+    final boolean hasChangeMessage = false;
+    assertThat(
+            changeNotesParser.countTowardsMaxUpdatesLimit(
+                (ChangeNotesCommit) commit, hasChangeMessage))
+        .isEqualTo(true);
+  }
+
+  @Test
+  public void changeWithoutAttentionSetShouldCountTowardsMaxUpdatesLimit() throws Exception {
+    RevCommit commit = writeCommit("Update WIP change\n" + "\n" + "Patch-set: 1\n", true);
+    ChangeNotesParser changeNotesParser = newParser(commit);
+    changeNotesParser.parseAll();
+    final boolean hasChangeMessage = false;
+    assertThat(
+            changeNotesParser.countTowardsMaxUpdatesLimit(
+                (ChangeNotesCommit) commit, hasChangeMessage))
+        .isEqualTo(true);
+  }
+
+  @Test
+  public void attentionSetWithCommentShouldCountTowardsMaxUpdatesLimit() throws Exception {
+    RevCommit commit =
+        writeCommit(
+            "Update patch set 1\n"
+                + "\n"
+                + "Patch-set: 1\n"
+                + "Attention: {\"person_ident\":\"Gerrit User 1000000 \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}",
+            false);
+    ChangeNotesParser changeNotesParser = newParser(commit);
+    changeNotesParser.parseAll();
+    final boolean hasChangeMessage = true;
+    assertThat(
+            changeNotesParser.countTowardsMaxUpdatesLimit(
+                (ChangeNotesCommit) commit, hasChangeMessage))
+        .isEqualTo(true);
+  }
+
+  @Test
   public void caseInsensitiveFooters() throws Exception {
     assertParseSucceeds(
         "Update change\n"

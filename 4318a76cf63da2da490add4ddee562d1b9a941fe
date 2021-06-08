@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5ba8566_92a9b7f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-08T10:55:31Z",
+      "side": 1,
+      "message": "We could also remove dot from the \"No comments.\" zero state in the Comments tab. ",
+      "revId": "4318a76cf63da2da490add4ddee562d1b9a941fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

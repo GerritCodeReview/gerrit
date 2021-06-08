@@ -55,6 +55,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1955a63_01f2a2f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-08T08:41:07Z",
+      "side": 1,
+      "message": "Here is a test: https://gerrit-review.googlesource.com/c/gerrit/+/308794",
+      "revId": "34c1f916ac8b9de6a3696b2cf49b8ea8aceef12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d7dd16e8_e0589bdc",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.html",
         "patchSetId": 2

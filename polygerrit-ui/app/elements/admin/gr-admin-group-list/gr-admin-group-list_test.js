@@ -104,10 +104,11 @@ suite('gr-admin-group-list tests', () => {
   });
 
   suite('test with less then 25 groups', () => {
-    setup(done => {
+    setup(async () => {
       groups = _.times(25, groupGenerator);
       stubRestApi('getGroups').returns(Promise.resolve(groups));
-      element._paramsChanged(value).then(() => { flush(done); });
+      await element._paramsChanged(value);
+      await flush();
     });
 
     test('_shownGroups', () => {

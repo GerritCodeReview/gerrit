@@ -423,7 +423,7 @@ suite('gr-access-section tests', () => {
             1);
       });
 
-      test('edit section reference', done => {
+      test('edit section reference', async () => {
         element.canUpload = true;
         element.ownerOf = [];
         element.section = {id: 'refs/for/bar', value: {permissions: {}}};
@@ -433,15 +433,13 @@ suite('gr-access-section tests', () => {
         assert.isFalse(element._editingRef);
         MockInteractions.tap(element.$.editBtn);
         element.editRefInput().bindValue='new/ref';
-        setTimeout(() => {
-          assert.equal(element.section.id, 'new/ref');
-          assert.isTrue(element._editingRef);
-          assert.isTrue(element.$.section.classList.contains('editingRef'));
-          element.editing = false;
-          assert.isFalse(element._editingRef);
-          assert.equal(element.section.id, 'refs/for/bar');
-          done();
-        });
+        await flush();
+        assert.equal(element.section.id, 'new/ref');
+        assert.isTrue(element._editingRef);
+        assert.isTrue(element.$.section.classList.contains('editingRef'));
+        element.editing = false;
+        assert.isFalse(element._editingRef);
+        assert.equal(element.section.id, 'refs/for/bar');
       });
 
       test('_handleValueChange', () => {

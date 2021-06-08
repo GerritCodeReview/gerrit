@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb3ff0e_ef33376a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T06:57:08Z",
+      "side": 1,
+      "message": "This was originally uploaded to stable-3.1 branch and should be submitted there and merged up to master. The reason it was re-uploaded to master, is to have Gerrit CI verification. This change should be abandoned.",
+      "revId": "ae9f04e099fcb9c4a4f083faf45bef63067fddbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

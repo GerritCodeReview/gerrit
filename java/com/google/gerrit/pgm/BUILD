@@ -54,5 +54,6 @@ java_library(
         "//lib/prolog:cafeteria",
         "//lib/prolog:compiler",
         "//lib/prolog:runtime",
+        "@commons-lang//jar",
     ],
 )

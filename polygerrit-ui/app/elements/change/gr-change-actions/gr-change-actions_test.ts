@@ -30,6 +30,7 @@ import {
 } from '../../../test/test-data-generators';
 import {ChangeStatus, HttpMethod} from '../../../constants/constants';
 import {
+  mockPromise,
   query,
   queryAll,
   queryAndAssert,
@@ -144,13 +145,11 @@ suite('gr-change-actions tests', () => {
       return element.reload();
     });
 
-    test('show-revision-actions event should fire', done => {
+    test('show-revision-actions event should fire', async () => {
       const spy = sinon.spy(element, '_sendShowRevisionActions');
       element.reload();
-      flush(() => {
-        assert.isTrue(spy.called);
-        done();
-      });
+      await flush();
+      assert.isTrue(spy.called);
     });
 
     test('primary and secondary actions split properly', () => {
@@ -198,7 +197,7 @@ suite('gr-change-actions tests', () => {
       );
     });
 
-    test('plugin revision actions', done => {
+    test('plugin revision actions', async () => {
       const stub = stubRestApi('getChangeActionURL').returns(
         Promise.resolve('the-url')
       );
@@ -206,20 +205,18 @@ suite('gr-change-actions tests', () => {
         'plugin~action': {},
       };
       assert.isOk(element.revisionActions['plugin~action']);
-      flush(() => {
-        assert.isTrue(
-          stub.calledWith(
-            element.changeNum,
-            element.latestPatchNum,
-            '/plugin~action'
-          )
-        );
-        assert.equal(
-          (element.revisionActions['plugin~action'] as UIActionInfo)!.__url,
-          'the-url'
-        );
-        done();
-      });
+      await flush();
+      assert.isTrue(
+        stub.calledWith(
+          element.changeNum,
+          element.latestPatchNum,
+          '/plugin~action'
+        )
+      );
+      assert.equal(
+        (element.revisionActions['plugin~action'] as UIActionInfo)!.__url,
+        'the-url'
+      );
     });
 
     test('plugin change actions', async () => {
@@ -266,71 +263,61 @@ suite('gr-change-actions tests', () => {
       );
     });
 
-    test('hide revision action', done => {
-      flush(() => {
-        const buttonEl = queryAndAssert(element, '[data-action-key="submit"]');
-        assert.isOk(buttonEl);
-        element.setActionHidden(
-          element.ActionType.REVISION,
-          element.RevisionActions.SUBMIT,
-          true
-        );
-        assert.lengthOf(element._hiddenActions, 1);
-        element.setActionHidden(
-          element.ActionType.REVISION,
-          element.RevisionActions.SUBMIT,
-          true
-        );
-        assert.lengthOf(element._hiddenActions, 1);
-        flush(() => {
-          const buttonEl = element.shadowRoot?.querySelector(
-            '[data-action-key="submit"]'
-          );
-          assert.isNotOk(buttonEl);
+    test('hide revision action', async () => {
+      await flush();
+      let buttonEl: Element | undefined = queryAndAssert(
+        element,
+        '[data-action-key="submit"]'
+      );
+      assert.isOk(buttonEl);
+      element.setActionHidden(
+        element.ActionType.REVISION,
+        element.RevisionActions.SUBMIT,
+        true
+      );
+      assert.lengthOf(element._hiddenActions, 1);
+      element.setActionHidden(
+        element.ActionType.REVISION,
+        element.RevisionActions.SUBMIT,
+        true
+      );
+      assert.lengthOf(element._hiddenActions, 1);
+      await flush();
+      buttonEl = query(element, '[data-action-key="submit"]');
+      assert.isNotOk(buttonEl);
 
-          element.setActionHidden(
-            element.ActionType.REVISION,
-            element.RevisionActions.SUBMIT,
-            false
-          );
-          flush(() => {
-            const buttonEl = queryAndAssert(
-              element,
-              '[data-action-key="submit"]'
-            );
-            assert.isFalse(buttonEl.hasAttribute('hidden'));
-            done();
-          });
-        });
-      });
+      element.setActionHidden(
+        element.ActionType.REVISION,
+        element.RevisionActions.SUBMIT,
+        false
+      );
+      await flush();
+      buttonEl = queryAndAssert(element, '[data-action-key="submit"]');
+      assert.isFalse(buttonEl.hasAttribute('hidden'));
     });
 
-    test('buttons exist', done => {
+    test('buttons exist', async () => {
       element._loading = false;
-      flush(() => {
-        const buttonEls = queryAll(element, 'gr-button');
-        const menuItems = element.$.moreActions.items;
+      await flush();
+      const buttonEls = queryAll(element, 'gr-button');
+      const menuItems = element.$.moreActions.items;
 
-        // Total button number is one greater than the number of total actions
-        // due to the existence of the overflow menu trigger.
-        assert.equal(
-          buttonEls!.length + menuItems!.length,
-          element._allActionValues.length + 1
-        );
-        assert.isFalse(element.hidden);
-        done();
-      });
+      // Total button number is one greater than the number of total actions
+      // due to the existence of the overflow menu trigger.
+      assert.equal(
+        buttonEls!.length + menuItems!.length,
+        element._allActionValues.length + 1
+      );
+      assert.isFalse(element.hidden);
     });
 
-    test('delete buttons have explicit labels', done => {
-      flush(() => {
-        const deleteItems = element.$.moreActions.items!.filter(item =>
-          item.id!.startsWith('delete')
-        );
-        assert.equal(deleteItems.length, 1);
-        assert.equal(deleteItems[0].name, 'Delete change');
-        done();
-      });
+    test('delete buttons have explicit labels', async () => {
+      await flush();
+      const deleteItems = element.$.moreActions.items!.filter(item =>
+        item.id!.startsWith('delete')
+      );
+      assert.equal(deleteItems.length, 1);
+      assert.equal(deleteItems[0].name, 'Delete change');
     });
 
     test('get revision object from change', () => {
@@ -369,7 +356,7 @@ suite('gr-change-actions tests', () => {
       assert.deepEqual(result, actions);
     });
 
-    test('submit change', () => {
+    test('submit change', async () => {
       const showSpy = sinon.spy(element, '_showActionDialog');
       stubRestApi('getFromProjectLookup').returns(
         Promise.resolve('test' as RepoName)
@@ -390,12 +377,15 @@ suite('gr-change-actions tests', () => {
       );
       tap(submitButton);
 
-      flush();
+      await flush();
       assert.isTrue(showSpy.calledWith(element.$.confirmSubmitDialog));
     });
 
-    test('submit change, tap on icon', done => {
-      sinon.stub(element.$.confirmSubmitDialog, 'resetFocus').callsFake(done);
+    test('submit change, tap on icon', async () => {
+      const submitted = mockPromise();
+      sinon
+        .stub(element.$.confirmSubmitDialog, 'resetFocus')
+        .callsFake(() => submitted.resolve());
       stubRestApi('getFromProjectLookup').returns(
         Promise.resolve('test' as RepoName)
       );
@@ -414,6 +404,7 @@ suite('gr-change-actions tests', () => {
         'gr-button[data-action-key="submit"] iron-icon'
       );
       tap(submitIcon);
+      await submitted;
     });
 
     test('_handleSubmitConfirm', () => {
@@ -435,19 +426,16 @@ suite('gr-change-actions tests', () => {
       assert.isFalse(fireStub.called);
     });
 
-    test('submit change with plugin hook', done => {
+    test('submit change with plugin hook', async () => {
       sinon.stub(element, '_canSubmitChange').callsFake(() => false);
       const fireActionStub = sinon.stub(element, '_fireAction');
-      flush(() => {
-        const submitButton = queryAndAssert(
-          element,
-          'gr-button[data-action-key="submit"]'
-        );
-        tap(submitButton);
-        assert.equal(fireActionStub.callCount, 0);
-
-        done();
-      });
+      await flush();
+      const submitButton = queryAndAssert(
+        element,
+        'gr-button[data-action-key="submit"]'
+      );
+      tap(submitButton);
+      assert.equal(fireActionStub.callCount, 0);
     });
 
     test('chain state', () => {
@@ -490,55 +478,51 @@ suite('gr-change-actions tests', () => {
       );
     });
 
-    test('rebase change', done => {
+    test('rebase change', async () => {
       const fireActionStub = sinon.stub(element, '_fireAction');
       const fetchChangesStub = sinon
         .stub(element.$.confirmRebase, 'fetchRecentChanges')
         .returns(Promise.resolve([]));
       element._hasKnownChainState = true;
-      flush(() => {
-        const rebaseButton = queryAndAssert(
-          element,
-          'gr-button[data-action-key="rebase"]'
-        );
-        tap(rebaseButton);
-        const rebaseAction = {
-          __key: 'rebase',
-          __type: 'revision',
-          __primary: false,
-          enabled: true,
-          label: 'Rebase',
-          method: HttpMethod.POST,
-          title: 'Rebase onto tip of branch or parent change',
-        };
-        assert.isTrue(fetchChangesStub.called);
-        element._handleRebaseConfirm(
-          new CustomEvent('', {detail: {base: '1234'}})
-        );
-        assert.deepEqual(fireActionStub.lastCall.args, [
-          '/rebase',
-          assertUIActionInfo(rebaseAction),
-          true,
-          {base: '1234'},
-        ]);
-        done();
-      });
+      await flush();
+      const rebaseButton = queryAndAssert(
+        element,
+        'gr-button[data-action-key="rebase"]'
+      );
+      tap(rebaseButton);
+      const rebaseAction = {
+        __key: 'rebase',
+        __type: 'revision',
+        __primary: false,
+        enabled: true,
+        label: 'Rebase',
+        method: HttpMethod.POST,
+        title: 'Rebase onto tip of branch or parent change',
+      };
+      assert.isTrue(fetchChangesStub.called);
+      element._handleRebaseConfirm(
+        new CustomEvent('', {detail: {base: '1234'}})
+      );
+      assert.deepEqual(fireActionStub.lastCall.args, [
+        '/rebase',
+        assertUIActionInfo(rebaseAction),
+        true,
+        {base: '1234'},
+      ]);
     });
 
-    test('rebase change fires reload event', done => {
+    test('rebase change fires reload event', async () => {
       const eventStub = sinon.stub(element, 'dispatchEvent');
       element._handleResponse(
         {__key: 'rebase', __type: ActionType.CHANGE, label: 'l'},
         new Response()
       );
-      flush(() => {
-        assert.isTrue(eventStub.called);
-        assert.equal(eventStub.lastCall.args[0].type, 'reload');
-        done();
-      });
+      await flush();
+      assert.isTrue(eventStub.called);
+      assert.equal(eventStub.lastCall.args[0].type, 'reload');
     });
 
-    test("rebase dialog gets recent changes each time it's opened", done => {
+    test("rebase dialog gets recent changes each time it's opened", async () => {
       const fetchChangesStub = sinon
         .stub(element.$.confirmRebase, 'fetchRecentChanges')
         .returns(Promise.resolve([]));
@@ -550,17 +534,15 @@ suite('gr-change-actions tests', () => {
       tap(rebaseButton);
       assert.isTrue(fetchChangesStub.calledOnce);
 
-      flush(() => {
-        element.$.confirmRebase.dispatchEvent(
-          new CustomEvent('cancel', {
-            composed: true,
-            bubbles: true,
-          })
-        );
-        tap(rebaseButton);
-        assert.isTrue(fetchChangesStub.calledTwice);
-        done();
-      });
+      await flush();
+      element.$.confirmRebase.dispatchEvent(
+        new CustomEvent('cancel', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      tap(rebaseButton);
+      assert.isTrue(fetchChangesStub.calledTwice);
     });
 
     test('two dialogs are not shown at the same time', async () => {
@@ -624,7 +606,7 @@ suite('gr-change-actions tests', () => {
     });
 
     suite('change edits', () => {
-      test('disableEdit', () => {
+      test('disableEdit', async () => {
         element.set('editMode', false);
         element.set('editPatchsetLoaded', false);
         element.change = {
@@ -632,7 +614,7 @@ suite('gr-change-actions tests', () => {
           status: ChangeStatus.NEW,
         };
         element.set('disableEdit', true);
-        flush();
+        await flush();
 
         assert.isNotOk(
           query(element, 'gr-button[data-action-key="publishEdit"]')
@@ -647,7 +629,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
       });
 
-      test('shows confirm dialog for delete edit', () => {
+      test('shows confirm dialog for delete edit', async () => {
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
 
@@ -660,12 +642,12 @@ suite('gr-change-actions tests', () => {
             'gr-button[primary]'
           )
         );
-        flush();
+        await flush();
 
         assert.equal(fireActionStub.lastCall.args[0], '/edit');
       });
 
-      test('edit patchset is loaded, needs rebase', () => {
+      test('edit patchset is loaded, needs rebase', async () => {
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {
@@ -673,7 +655,7 @@ suite('gr-change-actions tests', () => {
           status: ChangeStatus.NEW,
         };
         element.editBasedOnCurrentPatchSet = false;
-        flush();
+        await flush();
 
         assert.isNotOk(
           query(element, 'gr-button[data-action-key="publishEdit"]')
@@ -684,7 +666,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
       });
 
-      test('edit patchset is loaded, does not need rebase', () => {
+      test('edit patchset is loaded, does not need rebase', async () => {
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {
@@ -692,7 +674,7 @@ suite('gr-change-actions tests', () => {
           status: ChangeStatus.NEW,
         };
         element.editBasedOnCurrentPatchSet = true;
-        flush();
+        await flush();
 
         assert.isOk(query(element, 'gr-button[data-action-key="publishEdit"]'));
         assert.isNotOk(
@@ -703,14 +685,14 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
       });
 
-      test('edit mode is loaded, no edit patchset', () => {
+      test('edit mode is loaded, no edit patchset', async () => {
         element.set('editMode', true);
         element.set('editPatchsetLoaded', false);
         element.change = {
           ...createChangeViewChange(),
           status: ChangeStatus.NEW,
         };
-        flush();
+        await flush();
 
         assert.isNotOk(
           query(element, 'gr-button[data-action-key="publishEdit"]')
@@ -725,14 +707,14 @@ suite('gr-change-actions tests', () => {
         assert.isOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
       });
 
-      test('normal patch set', () => {
+      test('normal patch set', async () => {
         element.set('editMode', false);
         element.set('editPatchsetLoaded', false);
         element.change = {
           ...createChangeViewChange(),
           status: ChangeStatus.NEW,
         };
-        flush();
+        await flush();
 
         assert.isNotOk(
           query(element, 'gr-button[data-action-key="publishEdit"]')
@@ -747,16 +729,17 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
       });
 
-      test('edit action', done => {
+      test('edit action', async () => {
+        const editTapped = mockPromise();
         element.addEventListener('edit-tap', () => {
-          done();
+          editTapped.resolve();
         });
         element.set('editMode', true);
         element.change = {
           ...createChangeViewChange(),
           status: ChangeStatus.NEW,
         };
-        flush();
+        await flush();
 
         assert.isNotOk(query(element, 'gr-button[data-action-key="edit"]'));
         assert.isOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
@@ -764,7 +747,7 @@ suite('gr-change-actions tests', () => {
           ...createChangeViewChange(),
           status: ChangeStatus.MERGED,
         };
-        flush();
+        await flush();
 
         assert.isNotOk(query(element, 'gr-button[data-action-key="edit"]'));
         element.change = {
@@ -772,13 +755,14 @@ suite('gr-change-actions tests', () => {
           status: ChangeStatus.NEW,
         };
         element.set('editMode', false);
-        flush();
+        await flush();
 
         const editButton = queryAndAssert(
           element,
           'gr-button[data-action-key="edit"]'
         );
         tap(editButton);
+        await editTapped;
       });
     });
 
@@ -896,62 +880,57 @@ suite('gr-change-actions tests', () => {
             status: ChangeStatus.NEW,
           },
         ];
-        setup(done => {
+        setup(async () => {
           stubRestApi('getChanges').returns(Promise.resolve(changes));
           element._handleCherrypickTap();
-          flush(() => {
-            const radioButtons = queryAll(
-              element.$.confirmCherrypick,
-              "input[name='cherryPickOptions']"
-            );
-            assert.equal(radioButtons.length, 2);
-            tap(radioButtons[1]);
-            flush(() => {
-              done();
-            });
-          });
+          await flush();
+          const radioButtons = queryAll(
+            element.$.confirmCherrypick,
+            "input[name='cherryPickOptions']"
+          );
+          assert.equal(radioButtons.length, 2);
+          tap(radioButtons[1]);
+          await flush();
         });
 
-        test('cherry pick topic dialog is rendered', done => {
+        test('cherry pick topic dialog is rendered', async () => {
           const dialog = element.$.confirmCherrypick;
-          flush(() => {
-            const changesTable = queryAndAssert(dialog, 'table');
-            const headers = Array.from(changesTable.querySelectorAll('th'));
-            const expectedHeadings = [
-              '',
-              'Change',
-              'Status',
-              'Subject',
-              'Project',
-              'Progress',
-              '',
-            ];
-            const headings = headers.map(header => header.innerText);
-            assert.equal(headings.length, expectedHeadings.length);
-            for (let i = 0; i < headings.length; i++) {
-              assert.equal(headings[i].trim(), expectedHeadings[i]);
-            }
-            const changeRows = queryAll(changesTable, 'tbody > tr');
-            const change = Array.from(changeRows[0].querySelectorAll('td')).map(
-              e => e.innerText
-            );
-            const expectedChange = [
-              '',
-              '1234567890',
-              'MERGED',
-              'random',
-              'A',
-              'NOT STARTED',
-              '',
-            ];
-            for (let i = 0; i < change.length; i++) {
-              assert.equal(change[i].trim(), expectedChange[i]);
-            }
-            done();
-          });
+          await flush();
+          const changesTable = queryAndAssert(dialog, 'table');
+          const headers = Array.from(changesTable.querySelectorAll('th'));
+          const expectedHeadings = [
+            '',
+            'Change',
+            'Status',
+            'Subject',
+            'Project',
+            'Progress',
+            '',
+          ];
+          const headings = headers.map(header => header.innerText);
+          assert.equal(headings.length, expectedHeadings.length);
+          for (let i = 0; i < headings.length; i++) {
+            assert.equal(headings[i].trim(), expectedHeadings[i]);
+          }
+          const changeRows = queryAll(changesTable, 'tbody > tr');
+          const change = Array.from(changeRows[0].querySelectorAll('td')).map(
+            e => e.innerText
+          );
+          const expectedChange = [
+            '',
+            '1234567890',
+            'MERGED',
+            'random',
+            'A',
+            'NOT STARTED',
+            '',
+          ];
+          for (let i = 0; i < change.length; i++) {
+            assert.equal(change[i].trim(), expectedChange[i]);
+          }
         });
 
-        test('changes with duplicate project show an error', done => {
+        test('changes with duplicate project show an error', async () => {
           const dialog = element.$.confirmCherrypick;
           const error = queryAndAssert(
             dialog,
@@ -974,13 +953,11 @@ suite('gr-change-actions tests', () => {
               project: 'A' as RepoName,
             },
           ]);
-          flush(() => {
-            assert.equal(
-              error.innerText,
-              'Two changes cannot be of the same' + ' project'
-            );
-            done();
-          });
+          await flush();
+          assert.equal(
+            error.innerText,
+            'Two changes cannot be of the same' + ' project'
+          );
         });
       });
     });
@@ -1021,24 +998,24 @@ suite('gr-change-actions tests', () => {
       });
     });
 
-    test('custom actions', done => {
+    test('custom actions', async () => {
       // Add a button with the same key as a server-based one to ensure
       // collisions are taken care of.
       const key = element.addActionButton(element.ActionType.REVISION, 'Bork!');
-      element.addEventListener(key + '-tap', e => {
+      const keyTapped = mockPromise();
+      element.addEventListener(key + '-tap', async e => {
         assert.equal(
           (e as CustomEvent).detail.node.getAttribute('data-action-key'),
           key
         );
         element.removeActionButton(key);
-        flush(() => {
-          assert.notOk(query(element, '[data-action-key="' + key + '"]'));
-          done();
-        });
+        await flush();
+        assert.notOk(query(element, '[data-action-key="' + key + '"]'));
+        keyTapped.resolve();
       });
-      flush(() => {
-        tap(queryAndAssert(element, '[data-action-key="' + key + '"]'));
-      });
+      await flush();
+      tap(queryAndAssert(element, '[data-action-key="' + key + '"]'));
+      await keyTapped;
     });
 
     test('_setLoadingOnButtonWithKey top-level', () => {
@@ -1095,32 +1072,28 @@ suite('gr-change-actions tests', () => {
         return element.reload();
       });
 
-      test('abandon change with message', done => {
+      test('abandon change with message', async () => {
         const newAbandonMsg = 'Test Abandon Message';
         element.$.confirmAbandonDialog.message = newAbandonMsg;
-        flush(() => {
-          const abandonButton = queryAndAssert(
-            element,
-            'gr-button[data-action-key="abandon"]'
-          );
-          tap(abandonButton);
+        await flush();
+        const abandonButton = queryAndAssert(
+          element,
+          'gr-button[data-action-key="abandon"]'
+        );
+        tap(abandonButton);
 
-          assert.equal(element.$.confirmAbandonDialog.message, newAbandonMsg);
-          done();
-        });
+        assert.equal(element.$.confirmAbandonDialog.message, newAbandonMsg);
       });
 
-      test('abandon change with no message', done => {
-        flush(() => {
-          const abandonButton = queryAndAssert(
-            element,
-            'gr-button[data-action-key="abandon"]'
-          );
-          tap(abandonButton);
+      test('abandon change with no message', async () => {
+        await flush();
+        const abandonButton = queryAndAssert(
+          element,
+          'gr-button[data-action-key="abandon"]'
+        );
+        tap(abandonButton);
 
-          assert.isUndefined(element.$.confirmAbandonDialog.message);
-          done();
-        });
+        assert.isUndefined(element.$.confirmAbandonDialog.message);
       });
 
       test('works', () => {
@@ -1173,7 +1146,7 @@ suite('gr-change-actions tests', () => {
         return element.reload();
       });
 
-      test('revert change with plugin hook', done => {
+      test('revert change with plugin hook', async () => {
         const newRevertMsg = 'Modified revert msg';
         sinon
           .stub(element.$.confirmRevertDialog, '_modifyRevertMsg')
@@ -1204,17 +1177,14 @@ suite('gr-change-actions tests', () => {
             '_populateRevertSubmissionMessage'
           )
           .callsFake(() => 'original msg');
-        flush(() => {
-          const revertButton = queryAndAssert(
-            element,
-            'gr-button[data-action-key="revert"]'
-          );
-          tap(revertButton);
-          flush(() => {
-            assert.equal(element.$.confirmRevertDialog._message, newRevertMsg);
-            done();
-          });
-        });
+        await flush();
+        const revertButton = queryAndAssert(
+          element,
+          'gr-button[data-action-key="revert"]'
+        );
+        tap(revertButton);
+        await flush();
+        assert.equal(element.$.confirmRevertDialog._message, newRevertMsg);
       });
 
       suite('revert change submitted together', () => {
@@ -1243,60 +1213,56 @@ suite('gr-change-actions tests', () => {
           );
         });
 
-        test('confirm revert dialog shows both options', done => {
+        test('confirm revert dialog shows both options', async () => {
           const revertButton = queryAndAssert(
             element,
             'gr-button[data-action-key="revert"]'
           );
           tap(revertButton);
-          flush(() => {
-            assert.equal(getChangesStub.args[0][1], 'submissionid: "199 0"');
-            const confirmRevertDialog = element.$.confirmRevertDialog;
-            const revertSingleChangeLabel = queryAndAssert(
-              confirmRevertDialog,
-              '.revertSingleChange'
-            ) as HTMLLabelElement;
-            const revertSubmissionLabel = queryAndAssert(
-              confirmRevertDialog,
-              '.revertSubmission'
-            ) as HTMLLabelElement;
-            assert(
-              revertSingleChangeLabel.innerText.trim() ===
-                'Revert single change'
-            );
-            assert(
-              revertSubmissionLabel.innerText.trim() ===
-                'Revert entire submission (2 Changes)'
-            );
-            let expectedMsg =
-              'Revert submission 199 0' +
-              '\n\n' +
-              'Reason for revert: <INSERT REASONING HERE>' +
-              '\n' +
-              'Reverted Changes:' +
-              '\n' +
-              '1234567890:random' +
-              '\n' +
-              '23456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
-              '\n';
-            assert.equal(confirmRevertDialog._message, expectedMsg);
-            const radioInputs = queryAll(
-              confirmRevertDialog,
-              'input[name="revertOptions"]'
-            );
-            tap(radioInputs[0]);
-            flush(() => {
-              expectedMsg =
-                'Revert "random commit message"\n\nThis reverts ' +
-                'commit 2000.\n\nReason' +
-                ' for revert: <INSERT REASONING HERE>\n';
-              assert.equal(confirmRevertDialog._message, expectedMsg);
-              done();
-            });
-          });
+          await flush();
+          assert.equal(getChangesStub.args[0][1], 'submissionid: "199 0"');
+          const confirmRevertDialog = element.$.confirmRevertDialog;
+          const revertSingleChangeLabel = queryAndAssert(
+            confirmRevertDialog,
+            '.revertSingleChange'
+          ) as HTMLLabelElement;
+          const revertSubmissionLabel = queryAndAssert(
+            confirmRevertDialog,
+            '.revertSubmission'
+          ) as HTMLLabelElement;
+          assert(
+            revertSingleChangeLabel.innerText.trim() === 'Revert single change'
+          );
+          assert(
+            revertSubmissionLabel.innerText.trim() ===
+              'Revert entire submission (2 Changes)'
+          );
+          let expectedMsg =
+            'Revert submission 199 0' +
+            '\n\n' +
+            'Reason for revert: <INSERT REASONING HERE>' +
+            '\n' +
+            'Reverted Changes:' +
+            '\n' +
+            '1234567890:random' +
+            '\n' +
+            '23456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
+            '\n';
+          assert.equal(confirmRevertDialog._message, expectedMsg);
+          const radioInputs = queryAll(
+            confirmRevertDialog,
+            'input[name="revertOptions"]'
+          );
+          tap(radioInputs[0]);
+          await flush();
+          expectedMsg =
+            'Revert "random commit message"\n\nThis reverts ' +
+            'commit 2000.\n\nReason' +
+            ' for revert: <INSERT REASONING HERE>\n';
+          assert.equal(confirmRevertDialog._message, expectedMsg);
         });
 
-        test('submit fails if message is not edited', done => {
+        test('submit fails if message is not edited', async () => {
           const revertButton = queryAndAssert(
             element,
             'gr-button[data-action-key="revert"]'
@@ -1304,69 +1270,58 @@ suite('gr-change-actions tests', () => {
           const confirmRevertDialog = element.$.confirmRevertDialog;
           tap(revertButton);
           const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
-          flush(() => {
-            const confirmButton = queryAndAssert(
-              queryAndAssert(element.$.confirmRevertDialog, 'gr-dialog'),
-              '#confirm'
-            );
-            tap(confirmButton);
-            flush(() => {
-              assert.isTrue(confirmRevertDialog._showErrorMessage);
-              assert.isFalse(fireStub.called);
-              done();
-            });
-          });
+          await flush();
+          const confirmButton = queryAndAssert(
+            queryAndAssert(element.$.confirmRevertDialog, 'gr-dialog'),
+            '#confirm'
+          );
+          tap(confirmButton);
+          await flush();
+          assert.isTrue(confirmRevertDialog._showErrorMessage);
+          assert.isFalse(fireStub.called);
         });
 
-        test('message modification is retained on switching', done => {
+        test('message modification is retained on switching', async () => {
           const revertButton = queryAndAssert(
             element,
             'gr-button[data-action-key="revert"]'
           );
           const confirmRevertDialog = element.$.confirmRevertDialog;
           tap(revertButton);
-          flush(() => {
-            const radioInputs = queryAll(
-              confirmRevertDialog,
-              'input[name="revertOptions"]'
-            );
-            const revertSubmissionMsg =
-              'Revert submission 199 0' +
-              '\n\n' +
-              'Reason for revert: <INSERT REASONING HERE>' +
-              '\n' +
-              'Reverted Changes:' +
-              '\n' +
-              '1234567890:random' +
-              '\n' +
-              '23456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
-              '\n';
-            const singleChangeMsg =
-              'Revert "random commit message"\n\nThis reverts ' +
-              'commit 2000.\n\nReason' +
-              ' for revert: <INSERT REASONING HERE>\n';
-            assert.equal(confirmRevertDialog._message, revertSubmissionMsg);
-            const newRevertMsg = revertSubmissionMsg + 'random';
-            const newSingleChangeMsg = singleChangeMsg + 'random';
-            confirmRevertDialog._message = newRevertMsg;
-            tap(radioInputs[0]);
-            flush(() => {
-              assert.equal(confirmRevertDialog._message, singleChangeMsg);
-              confirmRevertDialog._message = newSingleChangeMsg;
-              tap(radioInputs[1]);
-              flush(() => {
-                assert.equal(confirmRevertDialog._message, newRevertMsg);
-                tap(radioInputs[0]);
-                flush(() => {
-                  assert.equal(
-                    confirmRevertDialog._message,
-                    newSingleChangeMsg
-                  );
-                  done();
-                });
-              });
-            });
-          });
+          await flush();
+          const radioInputs = queryAll(
+            confirmRevertDialog,
+            'input[name="revertOptions"]'
+          );
+          const revertSubmissionMsg =
+            'Revert submission 199 0' +
+            '\n\n' +
+            'Reason for revert: <INSERT REASONING HERE>' +
+            '\n' +
+            'Reverted Changes:' +
+            '\n' +
+            '1234567890:random' +
+            '\n' +
+            '23456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
+            '\n';
+          const singleChangeMsg =
+            'Revert "random commit message"\n\nThis reverts ' +
+            'commit 2000.\n\nReason' +
+            ' for revert: <INSERT REASONING HERE>\n';
+          assert.equal(confirmRevertDialog._message, revertSubmissionMsg);
+          const newRevertMsg = revertSubmissionMsg + 'random';
+          const newSingleChangeMsg = singleChangeMsg + 'random';
+          confirmRevertDialog._message = newRevertMsg;
+          tap(radioInputs[0]);
+          await flush();
+          assert.equal(confirmRevertDialog._message, singleChangeMsg);
+          confirmRevertDialog._message = newSingleChangeMsg;
+          tap(radioInputs[1]);
+          await flush();
+          assert.equal(confirmRevertDialog._message, newRevertMsg);
+          tap(radioInputs[0]);
+          await flush();
+          assert.equal(confirmRevertDialog._message, newSingleChangeMsg);
         });
       });
 
@@ -1389,7 +1344,7 @@ suite('gr-change-actions tests', () => {
           );
         });
 
-        test('submit fails if message is not edited', done => {
+        test('submit fails if message is not edited', async () => {
           const revertButton = queryAndAssert(
             element,
             'gr-button[data-action-key="revert"]'
@@ -1397,55 +1352,46 @@ suite('gr-change-actions tests', () => {
           const confirmRevertDialog = element.$.confirmRevertDialog;
           tap(revertButton);
           const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
-          flush(() => {
-            const confirmButton = queryAndAssert(
-              queryAndAssert(element.$.confirmRevertDialog, 'gr-dialog'),
-              '#confirm'
-            );
-            tap(confirmButton);
-            flush(() => {
-              assert.isTrue(confirmRevertDialog._showErrorMessage);
-              assert.isFalse(fireStub.called);
-              done();
-            });
-          });
+          await flush();
+          const confirmButton = queryAndAssert(
+            queryAndAssert(element.$.confirmRevertDialog, 'gr-dialog'),
+            '#confirm'
+          );
+          tap(confirmButton);
+          await flush();
+          assert.isTrue(confirmRevertDialog._showErrorMessage);
+          assert.isFalse(fireStub.called);
         });
 
-        test('confirm revert dialog shows no radio button', done => {
+        test('confirm revert dialog shows no radio button', async () => {
           const revertButton = queryAndAssert(
             element,
             'gr-button[data-action-key="revert"]'
           );
           tap(revertButton);
-          flush(() => {
-            const confirmRevertDialog = element.$.confirmRevertDialog;
-            const radioInputs = queryAll(
-              confirmRevertDialog,
-              'input[name="revertOptions"]'
-            );
-            assert.equal(radioInputs.length, 0);
-            const msg =
-              'Revert "random commit message"\n\n' +
-              'This reverts commit 2000.\n\nReason ' +
-              'for revert: <INSERT REASONING HERE>\n';
-            assert.equal(confirmRevertDialog._message, msg);
-            const editedMsg = msg + 'hello';
-            confirmRevertDialog._message += 'hello';
-            const confirmButton = queryAndAssert(
-              queryAndAssert(element.$.confirmRevertDialog, 'gr-dialog'),
-              '#confirm'
-            );
-            tap(confirmButton);
-            flush(() => {
-              assert.equal(fireActionStub.getCall(0).args[0], '/revert');
-              assert.equal(fireActionStub.getCall(0).args[1].__key, 'revert');
-              assert.equal(
-                fireActionStub.getCall(0).args[3].message,
-                editedMsg
-              );
-              done();
-            });
-          });
+          await flush();
+          const confirmRevertDialog = element.$.confirmRevertDialog;
+          const radioInputs = queryAll(
+            confirmRevertDialog,
+            'input[name="revertOptions"]'
+          );
+          assert.equal(radioInputs.length, 0);
+          const msg =
+            'Revert "random commit message"\n\n' +
+            'This reverts commit 2000.\n\nReason ' +
+            'for revert: <INSERT REASONING HERE>\n';
+          assert.equal(confirmRevertDialog._message, msg);
+          const editedMsg = msg + 'hello';
+          confirmRevertDialog._message += 'hello';
+          const confirmButton = queryAndAssert(
+            queryAndAssert(element.$.confirmRevertDialog, 'gr-dialog'),
+            '#confirm'
+          );
+          tap(confirmButton);
+          await flush();
+          assert.equal(fireActionStub.getCall(0).args[0], '/revert');
+          assert.equal(fireActionStub.getCall(0).args[1].__key, 'revert');
+          assert.equal(fireActionStub.getCall(0).args[3].message, editedMsg);
         });
       });
     });
@@ -1477,27 +1423,23 @@ suite('gr-change-actions tests', () => {
       test(
         'make sure the mark private change button is not outside of the ' +
           'overflow menu',
-        done => {
-          flush(() => {
-            assert.isNotOk(query(element, '[data-action-key="private"]'));
-            done();
-          });
+        async () => {
+          await flush();
+          assert.isNotOk(query(element, '[data-action-key="private"]'));
         }
       );
 
-      test('private change', done => {
-        flush(() => {
-          assert.isOk(
-            query(element.$.moreActions, 'span[data-id="private-change"]')
-          );
-          element.setActionOverflow(ActionType.CHANGE, 'private', false);
-          flush();
-          assert.isOk(query(element, '[data-action-key="private"]'));
-          assert.isNotOk(
-            query(element.$.moreActions, 'span[data-id="private-change"]')
-          );
-          done();
-        });
+      test('private change', async () => {
+        await flush();
+        assert.isOk(
+          query(element.$.moreActions, 'span[data-id="private-change"]')
+        );
+        element.setActionOverflow(ActionType.CHANGE, 'private', false);
+        await flush();
+        assert.isOk(query(element, '[data-action-key="private"]'));
+        assert.isNotOk(
+          query(element.$.moreActions, 'span[data-id="private-change"]')
+        );
       });
     });
 
@@ -1528,35 +1470,23 @@ suite('gr-change-actions tests', () => {
       test(
         'make sure the unmark private change button is not outside of the ' +
           'overflow menu',
-        done => {
-          flush(() => {
-            assert.isNotOk(
-              query(element, '[data-action-key="private.delete"]')
-            );
-            done();
-          });
+        async () => {
+          await flush();
+          assert.isNotOk(query(element, '[data-action-key="private.delete"]'));
         }
       );
 
-      test('unmark the private change', done => {
-        flush(() => {
-          assert.isOk(
-            query(
-              element.$.moreActions,
-              'span[data-id="private.delete-change"]'
-            )
-          );
-          element.setActionOverflow(ActionType.CHANGE, 'private.delete', false);
-          flush();
-          assert.isOk(query(element, '[data-action-key="private.delete"]'));
-          assert.isNotOk(
-            query(
-              element.$.moreActions,
-              'span[data-id="private.delete-change"]'
-            )
-          );
-          done();
-        });
+      test('unmark the private change', async () => {
+        await flush();
+        assert.isOk(
+          query(element.$.moreActions, 'span[data-id="private.delete-change"]')
+        );
+        element.setActionOverflow(ActionType.CHANGE, 'private.delete', false);
+        await flush();
+        assert.isOk(query(element, '[data-action-key="private.delete"]'));
+        assert.isNotOk(
+          query(element.$.moreActions, 'span[data-id="private.delete-change"]')
+        );
       });
     });
 
@@ -1586,7 +1516,7 @@ suite('gr-change-actions tests', () => {
         assert.isFalse(fireActionStub.called);
       });
 
-      test('shows confirm dialog', () => {
+      test('shows confirm dialog', async () => {
         element._handleDeleteTap();
         assert.isFalse(
           (queryAndAssert(element, '#confirmDeleteDialog') as GrDialog).hidden
@@ -1597,11 +1527,11 @@ suite('gr-change-actions tests', () => {
             'gr-button[primary]'
           )
         );
-        flush();
+        await flush();
         assert.isTrue(fireActionStub.calledWith('/', deleteAction, false));
       });
 
-      test('hides delete confirm on cancel', () => {
+      test('hides delete confirm on cancel', async () => {
         element._handleDeleteTap();
         tap(
           queryAndAssert(
@@ -1609,7 +1539,7 @@ suite('gr-change-actions tests', () => {
             'gr-button:not([primary])'
           )
         );
-        flush();
+        await flush();
         assert.isTrue(
           (queryAndAssert(element, '#confirmDeleteDialog') as GrDialog).hidden
         );
@@ -1618,7 +1548,7 @@ suite('gr-change-actions tests', () => {
     });
 
     suite('ignore change', () => {
-      setup(done => {
+      setup(async () => {
         sinon.stub(element, '_fireAction');
 
         const IgnoreAction = {
@@ -1638,19 +1568,18 @@ suite('gr-change-actions tests', () => {
         element.changeNum = 2 as NumericChangeId;
         element.latestPatchNum = 2 as PatchSetNum;
 
-        element.reload().then(() => {
-          flush(done);
-        });
+        await element.reload();
+        await flush();
       });
 
       test('make sure the ignore button is not outside of the overflow menu', () => {
         assert.isNotOk(query(element, '[data-action-key="ignore"]'));
       });
 
-      test('ignoring change', () => {
+      test('ignoring change', async () => {
         queryAndAssert(element.$.moreActions, 'span[data-id="ignore-change"]');
         element.setActionOverflow(ActionType.CHANGE, 'ignore', false);
-        flush();
+        await flush();
         queryAndAssert(element, '[data-action-key="ignore"]');
         assert.isNotOk(
           query(element.$.moreActions, 'span[data-id="ignore-change"]')
@@ -1659,7 +1588,7 @@ suite('gr-change-actions tests', () => {
     });
 
     suite('unignore change', () => {
-      setup(done => {
+      setup(async () => {
         sinon.stub(element, '_fireAction');
 
         const UnignoreAction = {
@@ -1679,21 +1608,20 @@ suite('gr-change-actions tests', () => {
         element.changeNum = 2 as NumericChangeId;
         element.latestPatchNum = 2 as PatchSetNum;
 
-        element.reload().then(() => {
-          flush(done);
-        });
+        await element.reload();
+        await flush();
       });
 
       test('unignore button is not outside of the overflow menu', () => {
         assert.isNotOk(query(element, '[data-action-key="unignore"]'));
       });
 
-      test('unignoring change', () => {
+      test('unignoring change', async () => {
         assert.isOk(
           query(element.$.moreActions, 'span[data-id="unignore-change"]')
         );
         element.setActionOverflow(ActionType.CHANGE, 'unignore', false);
-        flush();
+        await flush();
         assert.isOk(query(element, '[data-action-key="unignore"]'));
         assert.isNotOk(
           query(element.$.moreActions, 'span[data-id="unignore-change"]')
@@ -1702,7 +1630,7 @@ suite('gr-change-actions tests', () => {
     });
 
     suite('quick approve', () => {
-      setup(() => {
+      setup(async () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -1719,7 +1647,7 @@ suite('gr-change-actions tests', () => {
             foo: ['-1', ' 0', '+1'],
           },
         };
-        flush();
+        await flush();
       });
 
       test('added when can approve', () => {
@@ -1730,7 +1658,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotNull(approveButton);
       });
 
-      test('hide quick approve', () => {
+      test('hide quick approve', async () => {
         const approveButton = query(
           element,
           "gr-button[data-action-key='review']"
@@ -1740,7 +1668,7 @@ suite('gr-change-actions tests', () => {
 
         // Assert approve button gets removed from list of buttons.
         element.hideQuickApproveAction();
-        flush();
+        await flush();
         const approveButtonUpdated = query(
           element,
           "gr-button[data-action-key='review']"
@@ -1756,18 +1684,21 @@ suite('gr-change-actions tests', () => {
         assert.equal(approveButton!.getAttribute('data-label'), 'foo+1');
       });
 
-      test('not added when change is merged', () => {
-        element.change!.status = ChangeStatus.MERGED;
-        flush(() => {
-          const approveButton = query(
-            element,
-            "gr-button[data-action-key='review']"
-          );
-          assert.isNotOk(approveButton);
-        });
+      test('not added when change is merged', async () => {
+        element.change = {
+          ...element.change!,
+          status: ChangeStatus.MERGED,
+        };
+
+        await flush();
+        const approveButton = query(
+          element,
+          "gr-button[data-action-key='review']"
+        );
+        assert.isNotOk(approveButton);
       });
 
-      test('not added when already approved', () => {
+      test('not added when already approved', async () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -1781,7 +1712,7 @@ suite('gr-change-actions tests', () => {
             foo: [' 0', '+1'],
           },
         };
-        flush();
+        await flush();
         const approveButton = query(
           element,
           "gr-button[data-action-key='review']"
@@ -1789,7 +1720,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(approveButton);
       });
 
-      test('not added when label not permitted', () => {
+      test('not added when label not permitted', async () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -1800,7 +1731,7 @@ suite('gr-change-actions tests', () => {
             bar: [],
           },
         };
-        flush();
+        await flush();
         const approveButton = query(
           element,
           "gr-button[data-action-key='review']"
@@ -1808,17 +1739,17 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(approveButton);
       });
 
-      test('approves when tapped', () => {
+      test('approves when tapped', async () => {
         const fireActionStub = sinon.stub(element, '_fireAction');
         tap(queryAndAssert(element, "gr-button[data-action-key='review']"));
-        flush();
+        await flush();
         assert.isTrue(fireActionStub.called);
         assert.isTrue(fireActionStub.calledWith('/review'));
         const payload = fireActionStub.lastCall.args[3];
         assert.deepEqual((payload as ReviewInput).labels, {foo: 1});
       });
 
-      test('not added when multiple labels are required without code review', () => {
+      test('not added when multiple labels are required without code review', async () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -1831,7 +1762,7 @@ suite('gr-change-actions tests', () => {
             bar: [' 0', '+1', '+2'],
           },
         };
-        flush();
+        await flush();
         const approveButton = query(
           element,
           "gr-button[data-action-key='review']"
@@ -1839,7 +1770,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(approveButton);
       });
 
-      test('code review shown with multiple missing approval', () => {
+      test('code review shown with multiple missing approval', async () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -1861,7 +1792,7 @@ suite('gr-change-actions tests', () => {
             'Code-Review': [' 0', '+1', '+2'],
           },
         };
-        flush();
+        await flush();
         const approveButton = queryAndAssert(
           element,
           "gr-button[data-action-key='review']"
@@ -1869,7 +1800,7 @@ suite('gr-change-actions tests', () => {
         assert.isOk(approveButton);
       });
 
-      test('button label for missing approval', () => {
+      test('button label for missing approval', async () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -1887,7 +1818,7 @@ suite('gr-change-actions tests', () => {
             bar: [' 0', '+1', '+2'],
           },
         };
-        flush();
+        await flush();
         const approveButton = queryAndAssert(
           element,
           "gr-button[data-action-key='review']"
@@ -1895,7 +1826,7 @@ suite('gr-change-actions tests', () => {
         assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
       });
 
-      test('no quick approve if score is not maximal for a label', () => {
+      test('no quick approve if score is not maximal for a label', async () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -1913,7 +1844,7 @@ suite('gr-change-actions tests', () => {
             bar: [' 0', '+1'],
           },
         };
-        flush();
+        await flush();
         const approveButton = query(
           element,
           "gr-button[data-action-key='review']"
@@ -1921,7 +1852,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(approveButton);
       });
 
-      test('approving label with a non-max score', () => {
+      test('approving label with a non-max score', async () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -1939,7 +1870,7 @@ suite('gr-change-actions tests', () => {
             bar: [' 0', '+1', '+2'],
           },
         };
-        flush();
+        await flush();
         const approveButton = queryAndAssert(
           element,
           "gr-button[data-action-key='review']"
@@ -1947,7 +1878,7 @@ suite('gr-change-actions tests', () => {
         assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
       });
 
-      test('added when can approve an already-approved code review label', () => {
+      test('added when can approve an already-approved code review label', async () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -1965,7 +1896,7 @@ suite('gr-change-actions tests', () => {
             'Code-Review': [' 0', '+1', '+2'],
           },
         };
-        flush();
+        await flush();
         const approveButton = queryAndAssert(
           element,
           "gr-button[data-action-key='review']"
@@ -1973,7 +1904,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotNull(approveButton);
       });
 
-      test('not added when the user has already approved', () => {
+      test('not added when the user has already approved', async () => {
         const vote = {
           ...createApproval(),
           _account_id: 123 as AccountId,
@@ -1998,7 +1929,7 @@ suite('gr-change-actions tests', () => {
             'Code-Review': [' 0', '+1', '+2'],
           },
         };
-        flush();
+        await flush();
         const approveButton = query(
           element,
           "gr-button[data-action-key='review']"
@@ -2006,7 +1937,7 @@ suite('gr-change-actions tests', () => {
         assert.isNotOk(approveButton);
       });
 
-      test('not added when user owns the change', () => {
+      test('not added when user owns the change', async () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -2025,7 +1956,7 @@ suite('gr-change-actions tests', () => {
             'Code-Review': [' 0', '+1', '+2'],
           },
         };
-        flush();
+        await flush();
         const approveButton = query(
           element,
           "gr-button[data-action-key='review']"
@@ -2034,12 +1965,12 @@ suite('gr-change-actions tests', () => {
       });
     });
 
-    test('adds download revision action', () => {
+    test('adds download revision action', async () => {
       const handler = sinon.stub();
       element.addEventListener('download-tap', handler);
       assert.ok(element.revisionActions.download);
       element._handleDownloadTap();
-      flush();
+      await flush();
 
       assert.isTrue(handler.called);
     });
@@ -2061,14 +1992,14 @@ suite('gr-change-actions tests', () => {
     });
 
     suite('setActionOverflow', () => {
-      test('move action from overflow', () => {
+      test('move action from overflow', async () => {
         assert.isNotOk(query(element, '[data-action-key="cherrypick"]'));
         assert.strictEqual(
           element.$.moreActions!.items![0].id,
           'cherrypick-revision'
         );
         element.setActionOverflow(ActionType.REVISION, 'cherrypick', false);
-        flush();
+        await flush();
         assert.isOk(query(element, '[data-action-key="cherrypick"]'));
         assert.notEqual(
           element.$.moreActions!.items![0].id,
@@ -2076,10 +2007,10 @@ suite('gr-change-actions tests', () => {
         );
       });
 
-      test('move action to overflow', () => {
+      test('move action to overflow', async () => {
         assert.isOk(query(element, '[data-action-key="submit"]'));
         element.setActionOverflow(ActionType.REVISION, 'submit', true);
-        flush();
+        await flush();
         assert.isNotOk(query(element, '[data-action-key="submit"]'));
         assert.strictEqual(
           element.$.moreActions.items![3].id,
@@ -2233,31 +2164,24 @@ suite('gr-change-actions tests', () => {
             );
           });
 
-          test('revert submission single change', done => {
-            element
-              ._send(
-                HttpMethod.POST,
-                {message: 'Revert submission'},
-                '/revert_submission',
-                false,
-                cleanup,
-                {} as UIActionInfo
-              )
-              .then(() => {
-                element
-                  ._handleResponse(
-                    {
-                      __key: 'revert_submission',
-                      __type: ActionType.CHANGE,
-                      label: 'l',
-                    },
-                    new Response()
-                  )!
-                  .then(() => {
-                    assert.isTrue(navigateToSearchQueryStub.called);
-                    done();
-                  });
-              });
+          test('revert submission single change', async () => {
+            await element._send(
+              HttpMethod.POST,
+              {message: 'Revert submission'},
+              '/revert_submission',
+              false,
+              cleanup,
+              {} as UIActionInfo
+            );
+            await element._handleResponse(
+              {
+                __key: 'revert_submission',
+                __type: ActionType.CHANGE,
+                label: 'l',
+              },
+              new Response()
+            );
+            assert.isTrue(navigateToSearchQueryStub.called);
           });
         });
 
@@ -2280,55 +2204,42 @@ suite('gr-change-actions tests', () => {
             );
           });
 
-          test('revert submission multiple change', done => {
-            element
-              ._send(
-                HttpMethod.POST,
-                {message: 'Revert submission'},
-                '/revert_submission',
-                false,
-                cleanup,
-                {} as UIActionInfo
-              )
-              .then(() => {
-                element
-                  ._handleResponse(
-                    {
-                      __key: 'revert_submission',
-                      __type: ActionType.CHANGE,
-                      label: 'l',
-                    },
-                    new Response()
-                  )!
-                  .then(() => {
-                    assert.isFalse(showActionDialogStub.called);
-                    assert.isTrue(
-                      navigateToSearchQueryStub.calledWith('topic: T')
-                    );
-                    done();
-                  });
-              });
+          test('revert submission multiple change', async () => {
+            await element._send(
+              HttpMethod.POST,
+              {message: 'Revert submission'},
+              '/revert_submission',
+              false,
+              cleanup,
+              {} as UIActionInfo
+            );
+            await element._handleResponse(
+              {
+                __key: 'revert_submission',
+                __type: ActionType.CHANGE,
+                label: 'l',
+              },
+              new Response()
+            );
+            assert.isFalse(showActionDialogStub.called);
+            assert.isTrue(navigateToSearchQueryStub.calledWith('topic: T'));
           });
         });
 
-        test('revision action', done => {
-          element
-            ._send(
-              HttpMethod.DELETE,
-              payload,
-              '/endpoint',
-              true,
-              cleanup,
-              {} as UIActionInfo
-            )
-            .then(() => {
-              assert.isFalse(onShowError.called);
-              assert.isTrue(cleanup.calledOnce);
-              assert.isTrue(
-                sendStub.calledWith(42, 'DELETE', '/endpoint', 12, payload)
-              );
-              done();
-            });
+        test('revision action', async () => {
+          await element._send(
+            HttpMethod.DELETE,
+            payload,
+            '/endpoint',
+            true,
+            cleanup,
+            {} as UIActionInfo
+          );
+          assert.isFalse(onShowError.called);
+          assert.isTrue(cleanup.calledOnce);
+          assert.isTrue(
+            sendStub.calledWith(42, 'DELETE', '/endpoint', 12, payload)
+          );
         });
       });
 

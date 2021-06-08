@@ -309,6 +309,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "073d4191_2148d08c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T12:16:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fcb7d01d_a6e71674",
+      "range": {
+        "startLine": 702,
+        "startChar": 18,
+        "endLine": 702,
+        "endChar": 36
+      },
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36e0501a_3fc2e227",
@@ -405,6 +429,24 @@
       "side": 1,
       "message": "Oh, I see your point now. Are you ok to do it in a follow up change?",
       "parentUuid": "97f25774_40012887",
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe7f6030_99d29565",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T12:16:04Z",
+      "side": 1,
+      "message": "Yes, it must be separate. I did a bit of analysis tomorrow and it is something more for master.",
+      "parentUuid": "792432ec_aa3e45b8",
       "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -535,6 +577,24 @@
       "side": 1,
       "message": "see above comment",
       "parentUuid": "ac830089_3ac98906",
+      "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdd1cccc_2ac285fa",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T12:16:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0eec5bbf_5bb0ae36",
       "revId": "44ad9b191e6b98d2feeb4362032c1e463bf61bda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea1e4d65_634a252a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T17:35:46Z",
+      "side": 1,
+      "message": "Nope, as we still support Java 8 on Gerrit v3.2",
+      "parentUuid": "2d31ee8c_4df481ba",
+      "revId": "ffef3d898da1d9d3cb02f08a6c14d7405b83bcdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac7a444b_088d81f9",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8af638b1_29e68f42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T21:02:24Z",
+      "side": 1,
+      "message": "Thanks, everyone, for the feedback and suggestions.\nI believe I have addressed all comments except one: what do you think?",
+      "revId": "19c65455a87154ce3eff41aee3e2fc5d83b35926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

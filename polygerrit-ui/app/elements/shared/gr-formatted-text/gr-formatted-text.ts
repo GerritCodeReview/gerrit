@@ -20,6 +20,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-formatted-text_html';
 import {CommentLinks} from '../../../types/common';
+import {appContext} from '../../../services/app-context';
 
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 
@@ -56,6 +57,8 @@ export class GrFormattedText extends PolymerElement {
 
   @property({type: Boolean})
   noTrailingMargin = false;
+
+  private readonly reporting = appContext.reportingService;
 
   static get observers() {
     return ['_contentOrConfigChanged(content, config)'];
@@ -304,7 +307,7 @@ export class GrFormattedText extends PolymerElement {
         return ul;
       }
 
-      console.warn('Unrecognized type.');
+      this.reporting.error(new Error(`Unrecognized block type: ${block.type}`));
       return document.createElement('span');
     });
   }

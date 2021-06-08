@@ -79,9 +79,10 @@ export class Plugin implements PluginApi {
     this.domHooks = new GrDomHooksManager(this);
 
     if (!url) {
-      console.warn(
-        'Plugin not being loaded from /plugins base path.',
-        'Unable to determine name.'
+      this.report.error(
+        new Error(
+          `Plugin not being loaded from /plugins base path. Unable to determine name.`
+        )
       );
       return this;
     }

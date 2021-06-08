@@ -270,7 +270,9 @@ export class GrMessagesList extends KeyboardShortcutMixin(PolymerElement) {
       | undefined;
 
     if (!el && this._showAllActivity) {
-      console.warn(`Failed to scroll to message: ${messageID}`);
+      this.reporting.error(
+        new Error(`Failed to scroll to message: ${messageID}`)
+      );
       return;
     }
     if (!el) {

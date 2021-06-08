@@ -611,7 +611,7 @@ suite('gr-thread-list tests', () => {
     test('default empty message should show', () => {
       assert.isTrue(
           element.shadowRoot.querySelector('#threads').textContent.trim()
-              .includes('No comments.'));
+              .includes('No comments'));
     });
   });
 });

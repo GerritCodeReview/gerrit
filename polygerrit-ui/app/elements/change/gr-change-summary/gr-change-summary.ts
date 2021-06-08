@@ -327,10 +327,9 @@ export class GrChangeSummary extends GrLitElement {
           margin-bottom: var(--spacing-m);
         }
         .zeroState {
-          color: var(--primary-text-color);
+          color: var(--deemphasized-text-color);
         }
         .loading.zeroState {
-          color: var(--deemphasized-text-color);
           margin-right: var(--spacing-m);
         }
         div.error {

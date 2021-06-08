@@ -15,9 +15,12 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Sets;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
 import java.io.IOException;
@@ -126,5 +129,15 @@ public class ChangeNotesCommit extends RevCommit {
       }
     }
     return footerLines.get(key.getName().toLowerCase());
+  }
+
+  public boolean isAttentionSetCommitOnly(boolean hasChangeMessage) {
+    return !hasChangeMessage
+        && footerLines
+            .keySet()
+            .equals(
+                Sets.newHashSet(
+                    FOOTER_PATCH_SET.getName().toLowerCase(),
+                    FOOTER_ATTENTION.getName().toLowerCase()));
   }
 }

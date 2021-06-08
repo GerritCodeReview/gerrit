@@ -132,7 +132,7 @@ export class PluginLoader {
       try {
         url = new URL(url);
       } catch (e) {
-        console.warn(e);
+        this._getReporting().error(e);
         return false;
       }
     }

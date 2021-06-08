@@ -385,25 +385,19 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
           this._dynamicHeaderEndpoints.length !==
           this._dynamicContentEndpoints.length
         ) {
-          console.warn(
-            'Different number of dynamic file-list header and content.'
-          );
+          this.reporting.error(new Error('dynamic header/content mismatch'));
         }
         if (
           this._dynamicPrependedHeaderEndpoints.length !==
           this._dynamicPrependedContentEndpoints.length
         ) {
-          console.warn(
-            'Different number of dynamic file-list header and content.'
-          );
+          this.reporting.error(new Error('dynamic header/content mismatch'));
         }
         if (
           this._dynamicHeaderEndpoints.length !==
           this._dynamicSummaryEndpoints.length
         ) {
-          console.warn(
-            'Different number of dynamic file-list headers and summary.'
-          );
+          this.reporting.error(new Error('dynamic header/content mismatch'));
         }
       });
   }
@@ -1429,7 +1423,9 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
         console.info('Expanding diff', iter, 'of', initialCount, ':', path);
         const diffElem = this._findDiffByPath(path, diffElements);
         if (!diffElem) {
-          console.warn(`Did not find <gr-diff-host> element for ${path}`);
+          this.reporting.error(
+            new Error(`Did not find <gr-diff-host> element for ${path}`)
+          );
           return Promise.resolve();
         }
         if (!this.changeComments || !this.patchRange || !this.diffPrefs) {

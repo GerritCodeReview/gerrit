@@ -326,7 +326,9 @@ export class GrAccountList extends PolymerElement {
         return;
       }
     }
-    console.warn('received remove event for missing account', toRemove);
+    this.reporting.error(
+      new Error(`Received "remove" event for missing account: ${toRemove}`)
+    );
   }
 
   _getNativeInput(paperInput: PaperInputElementExt) {

@@ -207,7 +207,6 @@ suite('gr-error-manager tests', () => {
     });
 
     test('show network error', done => {
-      const consoleErrorStub = sinon.stub(console, 'error');
       const showAlertStub = sinon.stub(element, '_showAlert');
       element.dispatchEvent(
           new CustomEvent('network-error', {
@@ -218,8 +217,6 @@ suite('gr-error-manager tests', () => {
         assert.isTrue(showAlertStub.calledOnce);
         assert.isTrue(showAlertStub.lastCall.calledWithExactly(
             'Server unavailable'));
-        assert.isTrue(consoleErrorStub.calledOnce);
-        assert.isTrue(consoleErrorStub.lastCall.calledWithExactly('ZOMG'));
         done();
       });
     });

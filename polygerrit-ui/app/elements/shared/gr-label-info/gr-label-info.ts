@@ -81,6 +81,8 @@ export class GrLabelInfo extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly reporting = appContext.reportingService;
+
   // TODO(TS): not used, remove later
   _xhrPromise?: Promise<void>;
 
@@ -209,7 +211,7 @@ export class GrLabelInfo extends PolymerElement {
         }
       })
       .catch(err => {
-        console.warn(err);
+        this.reporting.error(err);
         target.disabled = false;
         return;
       });

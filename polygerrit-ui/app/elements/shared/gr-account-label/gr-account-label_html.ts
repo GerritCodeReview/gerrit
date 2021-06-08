@@ -128,7 +128,7 @@ export const htmlTemplate = html`
     class$="[[_computeHasAttentionClass(highlightAttention, account, change, forceAttention)]]"
   >
     <template is="dom-if" if="[[!hideAvatar]]">
-      <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
+      <gr-avatar account="[[account]]" imageSize="32"></gr-avatar>
     </template>
     <span class="text">
       <span class="name">[[_computeName(account, _config, firstName)]]</span>

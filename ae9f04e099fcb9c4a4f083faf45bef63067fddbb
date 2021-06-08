@@ -34,6 +34,24 @@
       "parentUuid": "ecb3ff0e_ef33376a",
       "revId": "ae9f04e099fcb9c4a4f083faf45bef63067fddbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e46eca92_57357598",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T07:31:15Z",
+      "side": 1,
+      "message": "Same test failure as on stable-3.1 branch:\n\n  FAILED TESTS:\n  gr-repo-list tests\n    filter\n      ��� _paramsChanged\n        HeadlessChrome 69.0.3497 (Linux 0.0.0)\n      AssertionError: expected false to be true\n\n      + expected - actual\n\n      -false\n      +true\n      \n    at Context.test (polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.js:111:14)",
+      "parentUuid": "51843262_f1613efc",
+      "revId": "ae9f04e099fcb9c4a4f083faf45bef63067fddbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

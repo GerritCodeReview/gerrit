@@ -16,6 +16,24 @@
       "message": "This was originally uploaded to stable-3.1 branch and should be submitted there and merged up to master. The reason it was re-uploaded to master, is to have Gerrit CI verification. This change should be abandoned.",
       "revId": "ae9f04e099fcb9c4a4f083faf45bef63067fddbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51843262_f1613efc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T07:01:51Z",
+      "side": 1,
+      "message": "Just to clarify: there are no tests for case-insensitive project search.\n\nThe goal is to have test in place, so that if this fix in change 301202 is reverted, the tests must be red, so that we will not regress again.",
+      "parentUuid": "ecb3ff0e_ef33376a",
+      "revId": "ae9f04e099fcb9c4a4f083faf45bef63067fddbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

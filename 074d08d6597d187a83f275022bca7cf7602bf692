@@ -33,6 +33,92 @@
       "message": "Waiting for Delphine\u0027s approval.",
       "revId": "074d08d6597d187a83f275022bca7cf7602bf692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88e29a83_a4956d45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-08T10:50:39Z",
+      "side": 1,
+      "message": "LGTM on the dropdown menu, left some comments on adding spacing.",
+      "revId": "074d08d6597d187a83f275022bca7cf7602bf692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c5a2fb1_f289a1fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-08T10:50:39Z",
+      "side": 1,
+      "message": "add spacing",
+      "range": {
+        "startLine": 164,
+        "startChar": 24,
+        "endLine": 164,
+        "endChar": 26
+      },
+      "revId": "074d08d6597d187a83f275022bca7cf7602bf692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be5796bc_a6686550",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-08T10:50:39Z",
+      "side": 1,
+      "message": "add spacing",
+      "range": {
+        "startLine": 168,
+        "startChar": 17,
+        "endLine": 168,
+        "endChar": 19
+      },
+      "revId": "074d08d6597d187a83f275022bca7cf7602bf692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c7737fd_efc8ea51",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-08T10:50:39Z",
+      "side": 1,
+      "message": "add spacing",
+      "range": {
+        "startLine": 174,
+        "startChar": 20,
+        "endLine": 174,
+        "endChar": 22
+      },
+      "revId": "074d08d6597d187a83f275022bca7cf7602bf692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

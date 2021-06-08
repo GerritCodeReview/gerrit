@@ -16,6 +16,24 @@
       "message": "Why we need to include JGit module update in this cherry-pick? JGit stamping is an optional operation. All it does is to include STABLE_BUILD_GERRIT_LABEL into bazel-out/stable-status.txt.\n\n  $ grep JGIT bazel-out/stable-status.txt \n  STABLE_BUILD_JGIT_LABEL v5.12.0.202105051250-m2-3-ga9579ba60\n  \nWhether or not this label is actually used depends on JGit version used. So that we could de-couple stamping from actual JGit version bump. We could, but must not use JGit version that depends on the version stamping label be listed in bazel-out/stable-status.txt.",
       "revId": "7c133f2cee1535ca9540356177921a55b6da72ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfaddbac_d3a7ed33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-08T11:43:06Z",
+      "side": 1,
+      "message": "The original change, bumps up jgit together with the jgit stamping operation [1], so I thought they have to go together.\n\nShall I remove the updating of the jgit module from this cherry-pick and do it as a follow up?\n\n\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/272505",
+      "parentUuid": "31c051ba_b48cf95c",
+      "revId": "7c133f2cee1535ca9540356177921a55b6da72ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,6 +34,24 @@
       "parentUuid": "31c051ba_b48cf95c",
       "revId": "7c133f2cee1535ca9540356177921a55b6da72ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aa4a6e4_a068a953",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T20:49:35Z",
+      "side": 1,
+      "message": "\u003e The original change, bumps up jgit together with the jgit stamping operation [1], so I thought they have to go together.\n\u003e \n\u003e Shall I remove the updating of the jgit module from this cherry-pick and do it as a follow up?\n\nYeah, I would say so.\n\n\u003e \n\u003e [1]https://gerrit-review.googlesource.com/c/gerrit/+/272505",
+      "parentUuid": "dfaddbac_d3a7ed33",
+      "revId": "7c133f2cee1535ca9540356177921a55b6da72ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

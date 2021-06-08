@@ -20,7 +20,7 @@ export const htmlTemplate = html`
   <style include="gr-voting-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
-  <style include="shared-styles">
+  <style>
     :host {
       display: block;
       position: relative;
@@ -148,6 +148,7 @@ export const htmlTemplate = html`
       vertical-align: top;
     }
     .score {
+      box-sizing: border-box;
       border-radius: var(--border-radius);
       color: var(--vote-text-color);
       display: inline-block;
@@ -198,6 +199,10 @@ export const htmlTemplate = html`
       --gr-account-label-text-style: {
         font-weight: var(--font-weight-bold);
       }
+    }
+    iron-icon {
+      --iron-icon-height: 20px;
+      --iron-icon-width: 20px;
     }
     @media screen and (max-width: 50em) {
       .expanded .content {

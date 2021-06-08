@@ -163,6 +163,24 @@
       "message": "What\u0027s the purpose of having two separate options for configuring timeout for ssh and http ? It seems a single one would be sufficient since both http and ssh daemon run in the same process.",
       "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c53dd04b_bfd73f45",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T21:02:24Z",
+      "side": 1,
+      "message": "That is a very good point, nevertheless we have two options at the moment.\nCan you raise this as a separate bug so that we can trace it and fix it on master?\n\nOn stable-3.2 I wouldn\u0027t change the current configuration settings, but on master I am more than happy to review it.",
+      "parentUuid": "1ad84546_2dab6c4a",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

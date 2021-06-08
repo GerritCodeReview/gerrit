@@ -57,7 +57,7 @@ export class GrEventHelper implements EventHelperPluginApi {
         try {
           mayContinue = callback(e);
         } catch (exception) {
-          console.warn(`Plugin error handing event: ${exception}`);
+          this.reporting.error(exception);
         }
         if (mayContinue === false) {
           e.stopImmediatePropagation();

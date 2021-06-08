@@ -1099,7 +1099,9 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     // the top-level change info view) and therefore undefined in `params`.
     // If route is of type /comment/<commentId>/ then no patchNum is present
     if (!value.patchNum && !value.commentLink) {
-      console.warn('invalid url, no patchNum found');
+      this.reporting.error(
+        new Error(`Invalid diff view URL, no patchNum found: ${value}`)
+      );
       return;
     }
 

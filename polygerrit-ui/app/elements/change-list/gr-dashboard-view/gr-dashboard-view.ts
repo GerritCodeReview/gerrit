@@ -252,7 +252,7 @@ export class GrDashboardView extends PolymerElement {
       })
       .catch(err => {
         fireTitleChange(this, title || this._computeTitle(user));
-        console.warn(err);
+        this.reporting.error(err);
       })
       .then(() => {
         this._loading = false;

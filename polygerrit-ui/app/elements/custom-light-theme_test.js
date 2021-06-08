@@ -25,7 +25,7 @@ const basicFixture = fixtureFromElement('gr-app');
 
 suite('gr-app custom light theme tests', () => {
   let element;
-  setup(done => {
+  setup(async () => {
     window.localStorage.removeItem('dark-theme');
     stubRestApi('getConfig').returns(Promise.resolve({test: 'config'}));
     stubRestApi('getAccount').returns(Promise.resolve({}));
@@ -34,8 +34,8 @@ suite('gr-app custom light theme tests', () => {
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
     element = basicFixture.instantiate();
     getPluginLoader().loadPlugins([]);
-    getPluginLoader().awaitPluginsLoaded()
-        .then(() => flush(done));
+    await getPluginLoader().awaitPluginsLoaded();
+    await flush();
   });
   teardown(() => {
     // The app sends requests to server. This can lead to

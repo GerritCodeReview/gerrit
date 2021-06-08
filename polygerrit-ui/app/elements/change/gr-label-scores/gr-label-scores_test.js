@@ -24,7 +24,7 @@ const basicFixture = fixtureFromElement('gr-label-scores');
 suite('gr-label-scores tests', () => {
   let element;
 
-  setup(done => {
+  setup(async () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
     element.change = {
@@ -81,7 +81,7 @@ suite('gr-label-scores tests', () => {
         '+1',
       ],
     };
-    flush(done);
+    await flush();
   });
 
   test('get and set label scores', () => {

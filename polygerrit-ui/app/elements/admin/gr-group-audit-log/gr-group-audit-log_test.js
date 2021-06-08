@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-audit-log.js';
-import {stubRestApi, addListenerForTest} from '../../../test/test-utils.js';
+import {stubRestApi, addListenerForTest, mockPromise} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-group-audit-log');
 
@@ -76,20 +76,24 @@ suite('gr-group-audit-log tests', () => {
   });
 
   suite('404', () => {
-    test('fires page-error', done => {
+    test('fires page-error', async () => {
       element.groupId = 1;
+      await flush();
 
       const response = {status: 404};
       stubRestApi('getGroupAuditLog').callsFake((group, errFn) => {
         errFn(response);
+        return Promise.resolve(undefined);
       });
 
+      const pageErrorCalled = mockPromise();
       addListenerForTest(document, 'page-error', e => {
         assert.deepEqual(e.detail.response, response);
-        done();
+        pageErrorCalled.resolve();
       });
 
       element._getAuditLogs();
+      await pageErrorCalled;
     });
   });
 });

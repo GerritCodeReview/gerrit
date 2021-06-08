@@ -33,6 +33,29 @@
       "message": "I will merge it up to master and wait for verification there. Please wait with submitting this series, until we get VRFY+1 from CI on stable-3.2, stable-3.3, stable-3.4 and master for the whole series.",
       "revId": "69546c4d3c1762553aa76ae23b64f31c47062c4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e3a7e57_cd6d6a85",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T18:37:38Z",
+      "side": 1,
+      "message": "The attempt to merge this to stable-3.2 branch, is failing there with this lint error:\n\n   55:29  error  Unexpected block statement surrounding arrow body; move the returned value immediately after the `\u003d\u003e`  arrow-body-style\n\n  ✖ 1 problem (1 error, 0 warnings)\n  1 error and 0 warnings potentially fixable with the `--fix` option.\n\nRunning lint with --fix option, changed it to the one-liner:\n\n  const repoGenerator \u003d () \u003d\u003e createRepo(\u0027test\u0027, ++counter);",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 4
+      },
+      "revId": "69546c4d3c1762553aa76ae23b64f31c47062c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

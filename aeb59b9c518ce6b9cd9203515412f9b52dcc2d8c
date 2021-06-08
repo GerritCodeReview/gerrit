@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f107301a_372c3d6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T09:34:02Z",
+      "side": 1,
+      "message": "CI failure seems to be related:\n\n  /home/jenkins/.cache/bazel/_bazel_jenkins/1678ab5d651d6116cf0d320f4af2a3c9/execroot/gerrit/bazel-out/k8-fastbuild/bin/polygerrit-ui/app/lint_test.sh.runfiles/gerrit/polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.js\n  41:29  error  Unexpected block statement surrounding arrow body; move the returned value immediately after the `\u003d\u003e`  arrow-body-style\n\n��� 1 problem (1 error, 0 warnings)\n  1 error and 0 warnings potentially fixable with the `--fix` option.",
+      "revId": "aeb59b9c518ce6b9cd9203515412f9b52dcc2d8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

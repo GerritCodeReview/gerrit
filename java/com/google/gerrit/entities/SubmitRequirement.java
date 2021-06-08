@@ -29,23 +29,23 @@ public abstract class SubmitRequirement {
   /**
    * Expression of the condition that makes the requirement applicable. The expression should be
    * evaluated for a specific {@link Change} and if it returns false, the requirement becomes
-   * irrelevant for the change (i.e. {@link #blockingExpression()} and {@link #overrideExpression()}
-   * become irrelevant).
+   * irrelevant for the change (i.e. {@link #submittabilityExpression()} and {@link
+   * #overrideExpression()} become irrelevant).
    *
    * <p>An empty {@link Optional} indicates that the requirement is applicable for any change.
    */
   public abstract Optional<SubmitRequirementExpression> applicabilityExpression();
 
   /**
-   * Expression of the condition that blocks the submission of a change. The expression should be
-   * evaluated for a specific {@link Change} and if it returns false, the requirement becomes
+   * Expression of the condition that allows the submission of a change. The expression should be
+   * evaluated for a specific {@link Change} and if it returns true, the requirement becomes
    * fulfilled for the change.
    */
-  public abstract SubmitRequirementExpression blockingExpression();
+  public abstract SubmitRequirementExpression submittabilityExpression();
 
   /**
    * Expression that, if evaluated to true, causes the submit requirement to be fulfilled,
-   * regardless of the blocking expression. This expression should be evaluated for a specific
+   * regardless of the submittability expression. This expression should be evaluated for a specific
    * {@link Change}.
    *
    * <p>An empty {@link Optional} indicates that the requirement is not overridable.
@@ -72,7 +72,8 @@ public abstract class SubmitRequirement {
     public abstract Builder setApplicabilityExpression(
         Optional<SubmitRequirementExpression> applicabilityExpression);
 
-    public abstract Builder setBlockingExpression(SubmitRequirementExpression blockingExpression);
+    public abstract Builder setSubmittabilityExpression(
+        SubmitRequirementExpression submittabilityExpression);
 
     public abstract Builder setOverrideExpression(
         Optional<SubmitRequirementExpression> overrideExpression);

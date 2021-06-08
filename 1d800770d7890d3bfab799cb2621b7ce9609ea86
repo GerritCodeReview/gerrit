@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc8913d7_258fd2d6",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T07:20:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c23c14f6_7d3d8ba1",
+      "revId": "1d800770d7890d3bfab799cb2621b7ce9609ea86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "711cce42_b6cd6f3c",
@@ -102,6 +120,30 @@
       "writtenOn": "2021-06-08T06:40:43Z",
       "side": 1,
       "message": "\u0027ignoreUnsupported\u0027 was \u0027true\u0027 before.",
+      "range": {
+        "startLine": 495,
+        "startChar": 47,
+        "endLine": 495,
+        "endChar": 52
+      },
+      "revId": "1d800770d7890d3bfab799cb2621b7ce9609ea86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e1e3d0b_0f52b80c",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T07:20:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "711cce42_b6cd6f3c",
       "range": {
         "startLine": 495,
         "startChar": 47,

@@ -34,6 +34,24 @@
       "parentUuid": "42e68173_ef696bc9",
       "revId": "37a8caf38a9e5e93bde510d8eeac00be4400018c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b61f1ed2_09dbb340",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T11:22:47Z",
+      "side": 1,
+      "message": "//polygerrit-ui/app:embed_test                             PASSED in 23.1s\n  //polygerrit-ui/app:wct_test                               PASSED in 401.3s",
+      "parentUuid": "2c8f2762_139342a9",
+      "revId": "37a8caf38a9e5e93bde510d8eeac00be4400018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

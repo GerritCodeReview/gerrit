@@ -16,6 +16,24 @@
       "message": "The test is failing (I tried twice):\n\n  chrome 69                ✖ elements/admin/gr-repo-list/gr-repo-list_test.html » gr-repo-list tests » filter » _paramsChanged\n",
       "revId": "34c1f916ac8b9de6a3696b2cf49b8ea8aceef12e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "292f113a_5f9b8fe5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-08T07:40:26Z",
+      "side": 1,
+      "message": "the test tests the request, the fix manipulates the response",
+      "parentUuid": "117478d3_93d22dcc",
+      "revId": "34c1f916ac8b9de6a3696b2cf49b8ea8aceef12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6928e36d_c44dc4f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-08T11:33:22Z",
+      "side": 1,
+      "message": "The submit and the SHA-1 retrieval occur in the same REST request and the same datacenter, and we also don\u0027t need to check NoteDb for the SHA-1 (since it\u0027s computed during the submit). Am I missing something?",
+      "parentUuid": "3265d9cd_7c9c3a45",
+      "range": {
+        "startLine": 29,
+        "startChar": 42,
+        "endLine": 29,
+        "endChar": 69
+      },
+      "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ed948427_22e73441",
@@ -95,6 +119,30 @@
       "side": 1,
       "message": "note that ~ is already forbidden for branch names.",
       "parentUuid": "f252c4d0_9636e063",
+      "range": {
+        "startLine": 254,
+        "startChar": 26,
+        "endLine": 254,
+        "endChar": 38
+      },
+      "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4e4ddc4_915acf23",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-08T11:33:22Z",
+      "side": 1,
+      "message": "if I\u0027m encrypting the project name I think it\u0027s best to also encrypt branch name just to be consistent.\n\nI created a test that ensures it works and Tilde is encoded to %7E. I don\u0027t know why it didn\u0027t work in the go code, but it looks fine?\n\nAs a follow-up that isn\u0027t relevant, I was thinking to disallow creating project names with the same method that is used for branches (Repository.isValidRefName), WDYT?",
+      "parentUuid": "58a87244_ea9cc69c",
       "range": {
         "startLine": 254,
         "startChar": 26,

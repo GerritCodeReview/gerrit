@@ -16,6 +16,23 @@
       "message": "I did it already. The issue is merge upstream because it broke RBE.",
       "revId": "465a6a17b0ad3bfc7977b45bc8afacbf19c2a347",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79657e5b_758f17d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2021-06-08T14:54:36Z",
+      "side": 1,
+      "message": "Ok, thanks.",
+      "revId": "465a6a17b0ad3bfc7977b45bc8afacbf19c2a347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

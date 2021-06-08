@@ -70,6 +70,24 @@
       "parentUuid": "e46eca92_57357598",
       "revId": "ae9f04e099fcb9c4a4f083faf45bef63067fddbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3811027_b07f10e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T07:44:23Z",
+      "side": 1,
+      "message": "Right, so we need a different test, that verifies that the response is not erroneously rejected. Is this easily doable? If not, we could file a new issue, and  merge the fix without the test for now.",
+      "parentUuid": "d3f3ffc4_2b6517bf",
+      "revId": "ae9f04e099fcb9c4a4f083faf45bef63067fddbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

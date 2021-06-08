@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31c051ba_b48cf95c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T11:37:57Z",
+      "side": 1,
+      "message": "Why we need to include JGit module update in this cherry-pick? JGit stamping is an optional operation. All it does is to include STABLE_BUILD_GERRIT_LABEL into bazel-out/stable-status.txt.\n\n  $ grep JGIT bazel-out/stable-status.txt \n  STABLE_BUILD_JGIT_LABEL v5.12.0.202105051250-m2-3-ga9579ba60\n  \nWhether or not this label is actually used depends on JGit version used. So that we could de-couple stamping from actual JGit version bump. We could, but must not use JGit version that depends on the version stamping label be listed in bazel-out/stable-status.txt.",
+      "revId": "7c133f2cee1535ca9540356177921a55b6da72ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

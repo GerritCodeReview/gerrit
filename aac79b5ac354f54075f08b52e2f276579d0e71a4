@@ -16,6 +16,24 @@
       "message": "Why?",
       "revId": "aac79b5ac354f54075f08b52e2f276579d0e71a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee5629ad_7561bf07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-08T07:44:29Z",
+      "side": 1,
+      "message": "This method is being triggered from a button click and not from the any keyboard press.\nMentioned in the commit message.",
+      "parentUuid": "ab2a67c2_09d98ecb",
+      "revId": "aac79b5ac354f54075f08b52e2f276579d0e71a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

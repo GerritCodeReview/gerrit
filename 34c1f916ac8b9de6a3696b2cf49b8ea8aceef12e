@@ -34,6 +34,29 @@
       "parentUuid": "117478d3_93d22dcc",
       "revId": "34c1f916ac8b9de6a3696b2cf49b8ea8aceef12e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7dd16e8_e0589bdc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T07:46:08Z",
+      "side": 1,
+      "message": "See Ben Rohlfs\u0027s comment on change 308791:\n\n  the test tests the request, the fix manipulates the response",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 11
+      },
+      "revId": "34c1f916ac8b9de6a3696b2cf49b8ea8aceef12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

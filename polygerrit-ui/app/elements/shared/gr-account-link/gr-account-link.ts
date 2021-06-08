@@ -16,19 +16,12 @@
  */
 
 import '../gr-account-label/gr-account-label';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-account-link_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {AccountInfo, ChangeInfo} from '../../../types/common';
+import {css, customElement, html, LitElement, property} from 'lit-element';
 
 @customElement('gr-account-link')
-class GrAccountLink extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+class GrAccountLink extends LitElement {
   @property({type: String})
   voteableText?: string;
 
@@ -69,6 +62,45 @@ class GrAccountLink extends PolymerElement {
    */
   @property({type: Boolean})
   firstName = false;
+
+  static get styles() {
+    return [
+      css`
+        :host {
+          display: inline-block;
+          vertical-align: top;
+        }
+        a {
+          color: var(--primary-text-color);
+          text-decoration: none;
+        }
+        gr-account-label {
+          --gr-account-label-text-hover-style: {
+            text-decoration: underline;
+          }
+        }
+      `,
+    ];
+  }
+
+  render() {
+    if (!this.account) return;
+    return html`<span>
+      <a href="${this._computeOwnerLink(this.account)}">
+        <gr-account-label
+          .account="${this.account}"
+          .change="${this.change}"
+          ?force-attention=${this.forceAttention}
+          ?highlight-attention=${this.highlightAttention}
+          ?hide-avatar=${this.hideAvatar}
+          ?hide-status=${this.hideStatus}
+          ?first-name=${this.firstName}
+          .voteable-text=${this.voteableText}
+        >
+        </gr-account-label>
+      </a>
+    </span>`;
+  }
 
   _computeOwnerLink(account?: AccountInfo) {
     if (!account) {

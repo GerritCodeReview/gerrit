@@ -16,6 +16,24 @@
       "message": "We could also remove dot from the \"No comments.\" zero state in the Comments tab. ",
       "revId": "4318a76cf63da2da490add4ddee562d1b9a941fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07949116_2a8453f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-08T14:02:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5ba8566_92a9b7f7",
+      "revId": "4318a76cf63da2da490add4ddee562d1b9a941fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

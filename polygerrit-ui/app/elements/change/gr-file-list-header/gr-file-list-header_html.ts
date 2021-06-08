@@ -173,6 +173,7 @@ export const htmlTemplate = html`
           class="download"
           title="[[createTitle(Shortcut.OPEN_DOWNLOAD_DIALOG,
                 ShortcutSection.ACTIONS)]]"
+          has-tooltip=""
           on-click="_handleDownloadTap"
           >Download</gr-button
         >
@@ -186,6 +187,7 @@ export const htmlTemplate = html`
           link=""
           title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
                 ShortcutSection.FILE_LIST)]]"
+          has-tooltip=""
           on-click="_expandAllDiffs"
           >Expand All</gr-button
         >
@@ -195,6 +197,7 @@ export const htmlTemplate = html`
           on-click="_collapseAllDiffs"
           title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
           ShortcutSection.FILE_LIST)]]"
+          has-tooltip=""
           >Collapse All</gr-button
         >
       </template>

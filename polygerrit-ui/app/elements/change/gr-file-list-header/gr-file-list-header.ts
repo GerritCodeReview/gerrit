@@ -44,6 +44,7 @@ import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-
 import {DiffViewMode} from '../../../constants/constants';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fireEvent} from '../../../utils/event-util';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -60,7 +61,7 @@ export interface GrFileListHeader {
 }
 
 @customElement('gr-file-list-header')
-export class GrFileListHeader extends PolymerElement {
+export class GrFileListHeader extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }

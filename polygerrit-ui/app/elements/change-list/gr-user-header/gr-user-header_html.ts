@@ -29,7 +29,7 @@ export const htmlTemplate = html`
   </style>
   <gr-avatar
     account="[[_accountDetails]]"
-    image-size="100"
+    imageSize="100"
     aria-label="Account avatar"
   ></gr-avatar>
   <div class="info">

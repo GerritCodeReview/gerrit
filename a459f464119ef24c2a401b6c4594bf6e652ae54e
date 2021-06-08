@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b738b16b_4acc26e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-08T12:06:55Z",
+      "side": 1,
+      "message": "Cool, thanks!",
+      "revId": "a459f464119ef24c2a401b6c4594bf6e652ae54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "efcef5d7_e025c2f9",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
         "patchSetId": 3

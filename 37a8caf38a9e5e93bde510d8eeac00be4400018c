@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42e68173_ef696bc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T09:54:11Z",
+      "side": 1,
+      "message": "The test is failing:\n\n  chrome 69                Beginning tests via http://localhost:8081/components/tmp.8AyW89xOGF/generated-index.html?cli_browser_id\u003d0\nchrome failed to maximize\nchrome 69                ✖ elements/admin/gr-repo-list/gr-repo-list_test.html » gr-repo-list tests » filter » filter is case insensitive\n\n  stubRestApi is not defined\n    \u003cunknown\u003e at   Context.test at gr-repo-list_test.html:157:0\n\nchrome 69                Tests failed: 1 failed tests\nTest run ended in failure: 1 failed tests\n\nI started the Gerrit CI:\n\n  $ docker run -it gerritforge/gerrit-ci-slave-bazel-docker:debian-buster-69.0.3497.92 /bin/bash\n  \napplied this series on stable-3.1 branch and ran:\n  \n  $ WCT_HEADLESS_MODE\u003d1 ./polygerrit-ui/app/run_test.sh",
+      "revId": "37a8caf38a9e5e93bde510d8eeac00be4400018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

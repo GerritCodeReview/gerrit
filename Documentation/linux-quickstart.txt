@@ -19,8 +19,7 @@ Be sure you have:
 
 . A Unix-based server, including any Linux flavor, MacOS, or Berkeley Software
     Distribution (BSD).
-. Java SE Runtime Environment version 1.8. Gerrit is not compatible with Java
-    9 or newer yet.
+. Java SE Runtime Environment version 11 and up.
 
 == Download Gerrit
 

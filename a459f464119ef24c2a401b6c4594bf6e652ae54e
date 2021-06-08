@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efcef5d7_e025c2f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1688,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-08T11:53:39Z",
+      "side": 1,
+      "message": "This test was actually failing because the deep .status path was not observed. The failure was covered up because the test didn\u0027t use done() or async/await to ensure that the assert runs, so the test completed without asserting and passed.",
+      "range": {
+        "startLine": 1688,
+        "startChar": 8,
+        "endLine": 1688,
+        "endChar": 15
+      },
+      "revId": "a459f464119ef24c2a401b6c4594bf6e652ae54e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

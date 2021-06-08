@@ -45,7 +45,7 @@ export const htmlTemplate = html`
       account="[[account]]"
       hidden$="[[!_hasAvatars]]"
       hidden=""
-      image-size="56"
+      imagesize="56"
       aria-label="Account avatar"
     ></gr-avatar>
   </gr-dropdown>

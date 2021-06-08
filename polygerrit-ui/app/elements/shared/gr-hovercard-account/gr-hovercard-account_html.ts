@@ -75,7 +75,7 @@ export const htmlTemplate = html`
     <template is="dom-if" if="[[_isShowing]]">
       <div class="top">
         <div class="avatar">
-          <gr-avatar account="[[account]]" image-size="56"></gr-avatar>
+          <gr-avatar account="[[account]]" imagesize="56"></gr-avatar>
         </div>
         <div class="account">
           <h3 class="name heading-3">[[account.name]]</h3>

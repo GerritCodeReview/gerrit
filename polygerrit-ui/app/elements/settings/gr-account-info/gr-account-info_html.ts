@@ -35,7 +35,7 @@ export const htmlTemplate = html`
     <section>
       <span class="title"></span>
       <span class="value">
-        <gr-avatar account="[[_account]]" image-size="120"></gr-avatar>
+        <gr-avatar account="[[_account]]" imagesize="120"></gr-avatar>
       </span>
     </section>
     <section class$="[[_hideAvatarChangeUrl(_avatarChangeUrl)]]">

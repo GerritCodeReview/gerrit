@@ -561,7 +561,7 @@ export class GrChangeSummary extends GrLitElement {
                   account =>
                     html`<gr-avatar
                       .account="${account}"
-                      image-size="32"
+                      imagesize="32"
                     ></gr-avatar>`
                 )}
                 ${countUnresolvedComments} unresolved</gr-summary-chip

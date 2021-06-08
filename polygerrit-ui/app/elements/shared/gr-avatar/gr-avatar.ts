@@ -14,51 +14,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-avatar_html';
 import {getBaseUrl} from '../../../utils/url-util';
 import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
-import {customElement, property} from '@polymer/decorators';
 import {AccountInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
+import {GrLitElement} from '../../lit/gr-lit-element';
+import {css, customElement, html, property} from 'lit-element';
 
 @customElement('gr-avatar')
-export class GrAvatar extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: Object, observer: '_accountChanged'})
+export class GrAvatar extends GrLitElement {
+  @property({type: Object})
   account?: AccountInfo;
 
-  @property({type: Number})
-  imageSize = 16;
+  @property({type: Number, attribute: true})
+  imagesize = 16;
 
   @property({type: Boolean})
   _hasAvatars = false;
 
   private readonly restApiService = appContext.restApiService;
 
+  static get styles() {
+    return [
+      css`
+        :host {
+          display: inline-block;
+          border-radius: 50%;
+          background-size: cover;
+          background-color: var(
+            --avatar-background-color,
+            var(--gray-background)
+          );
+        }
+      `,
+    ];
+  }
+
+  render() {
+    this._updateAvatarURL();
+    return html``;
+  }
+
   /** @override */
   connectedCallback() {
     super.connectedCallback();
     Promise.all([
-      this._getConfig(),
+      this.restApiService.getConfig(),
       getPluginLoader().awaitPluginsLoaded(),
     ]).then(([cfg]) => {
       this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
 
       this._updateAvatarURL();
     });
-  }
-
-  _getConfig() {
-    return this.restApiService.getConfig();
-  }
-
-  _accountChanged() {
-    this._updateAvatarURL();
   }
 
   _updateAvatarURL() {
@@ -80,7 +87,7 @@ export class GrAvatar extends PolymerElement {
     );
   }
 
-  _buildAvatarURL(account: AccountInfo) {
+  _buildAvatarURL(account?: AccountInfo) {
     if (!account) {
       return '';
     }
@@ -91,7 +98,7 @@ export class GrAvatar extends PolymerElement {
       return '';
     }
     for (let i = 0; i < avatars.length; i++) {
-      if (avatars[i].height === this.imageSize) {
+      if (avatars[i].height === this.imagesize) {
         return avatars[i].url;
       }
     }
@@ -102,7 +109,7 @@ export class GrAvatar extends PolymerElement {
     return (
       `${getBaseUrl()}/accounts/` +
       encodeURIComponent(`${this._getAccounts(account)}`) +
-      `/avatar?s=${this.imageSize}`
+      `/avatar?s=${this.imagesize}`
     );
   }
 }

@@ -17,7 +17,7 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
-  <style include="shared-styles">
+  <style>
     :host {
       display: block;
     }
@@ -29,6 +29,9 @@ export const htmlTemplate = html`
       color: inherit;
       text-decoration: none;
       pointer-events: none;
+    }
+    a {
+      color: var(--link-color);
     }
   </style>
   <span id="output"></span>

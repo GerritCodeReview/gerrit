@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c0dc92d_3c7e551a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T21:00:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7112693d_f52709d8",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 62
+      },
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0cc31f1_436d2113",
@@ -61,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76077500_50dad4c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T21:00:40Z",
+      "side": 1,
+      "message": "Killing an in-flight clone isn\u0027t a problem, but killing an in-flight push *IS* a big problem because it may left behind locks on the filesystem.\n\nThere is already tolerance of a few seconds in the gerrit.sh script before killing, but are you suggesting yet another timeout configuration in gerrit.config for the graceful stop of the forced shutdown? I believe it would be a bit overkill for that.\n\nWDYT?",
+      "parentUuid": "9bd51b19_3ab73e63",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "816abdbf_1641be24",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 5
@@ -72,6 +114,30 @@
       "writtenOn": "2021-05-31T06:05:47Z",
       "side": 1,
       "message": "nit: this could be moved to a DEFAULT_TIMEOUT variable",
+      "range": {
+        "startLine": 352,
+        "startChar": 91,
+        "endLine": 352,
+        "endChar": 93
+      },
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77b8c7b0_6d4176e2",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T21:00:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "816abdbf_1641be24",
       "range": {
         "startLine": 352,
         "startChar": 91,

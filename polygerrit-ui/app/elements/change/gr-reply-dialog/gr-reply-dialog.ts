@@ -113,7 +113,7 @@ import {
 import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
-import {Timing} from '../../../constants/reporting';
+import {Interaction, Timing} from '../../../constants/reporting';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -820,12 +820,12 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
 
     if (this._newAttentionSet.has(id)) {
       this._newAttentionSet.delete(id);
-      this.reporting.reportInteraction('attention-set-chip', {
+      this.reporting.reportInteraction(Interaction.ATTENTION_SET_CHIP, {
         action: `REMOVE${self}${role}`,
       });
     } else {
       this._newAttentionSet.add(id);
-      this.reporting.reportInteraction('attention-set-chip', {
+      this.reporting.reportInteraction(Interaction.ATTENTION_SET_CHIP, {
         action: `ADD${self}${role}`,
       });
     }

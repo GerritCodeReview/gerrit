@@ -90,3 +90,9 @@ export enum Timing {
   // This measures the same interval as ExpandAllDiffs, but the result is divided by the number of diffs expanded.
   FILE_EXPAND_ALL_AVG = 'ExpandAllPerDiff',
 }
+
+export enum Interaction {
+  TOGGLE_SHOW_ALL_BUTTON = 'toggle show all button',
+  SHOW_TAB = 'show-tab',
+  ATTENTION_SET_CHIP = 'attention-set-chip',
+}

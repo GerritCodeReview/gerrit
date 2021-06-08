@@ -21,7 +21,12 @@ import {hasOwnProperty} from '../../utils/common-util';
 import {NumericChangeId} from '../../types/common';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
-import {Execution, LifeCycle, Timing} from '../../constants/reporting';
+import {
+  Execution,
+  Interaction,
+  LifeCycle,
+  Timing,
+} from '../../constants/reporting';
 
 // Latency reporting constants.
 
@@ -773,7 +778,7 @@ export class GrReporting implements ReportingService {
     );
   }
 
-  reportInteraction(eventName: string, details: EventDetails) {
+  reportInteraction(eventName: string | Interaction, details: EventDetails) {
     this.reporter(
       INTERACTION.TYPE,
       INTERACTION.CATEGORY.DEFAULT,

@@ -172,7 +172,7 @@ import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {Timing} from '../../../constants/reporting';
+import {Interaction, Timing} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 
@@ -777,7 +777,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     if (paperTabs.selected !== activeIndex) {
       // paperTabs.selected is undefined during rendering
       if (paperTabs.selected !== undefined) {
-        this.reporting.reportInteraction('show-tab', {tabName, src});
+        this.reporting.reportInteraction(Interaction.SHOW_TAB, {tabName, src});
       }
       paperTabs.selected = activeIndex;
     }
@@ -840,7 +840,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       if (hasUnresolvedThreads) this.unresolvedOnly = true;
     }
 
-    this.reporting.reportInteraction('show-tab', {
+    this.reporting.reportInteraction(Interaction.SHOW_TAB, {
       tabName,
       src: 'paper-tab-click',
     });

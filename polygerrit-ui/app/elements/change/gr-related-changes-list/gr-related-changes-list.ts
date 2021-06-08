@@ -40,6 +40,7 @@ import {
   getRevisionKey,
   isChangeInfo,
 } from '../../../utils/change-util';
+import {Interaction} from '../../../constants/reporting';
 
 /** What is the maximum number of shown changes in collapsed list? */
 const DEFALT_NUM_CHANGES_WHEN_COLLAPSED = 3;
@@ -746,7 +747,7 @@ export class GrRelatedCollapse extends GrLitElement {
   private toggle(e: MouseEvent) {
     e.stopPropagation();
     this.showAll = !this.showAll;
-    this.reporting.reportInteraction('toggle show all button', {
+    this.reporting.reportInteraction(Interaction.TOGGLE_SHOW_ALL_BUTTON, {
       sectionName: this.title,
       toState: this.showAll ? 'Show all' : 'Show less',
     });

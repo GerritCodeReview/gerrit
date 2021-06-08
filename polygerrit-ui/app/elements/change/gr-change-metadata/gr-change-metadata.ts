@@ -86,6 +86,7 @@ import {
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
+import {Interaction} from '../../../constants/reporting';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -619,7 +620,7 @@ export class GrChangeMetadata extends PolymerElement {
 
   _onShowAllClick() {
     this._showAllSections = !this._showAllSections;
-    this.reporting.reportInteraction('toggle show all button', {
+    this.reporting.reportInteraction(Interaction.TOGGLE_SHOW_ALL_BUTTON, {
       sectionName: 'metadata',
       toState: this._showAllSections ? 'Show all' : 'Show less',
     });

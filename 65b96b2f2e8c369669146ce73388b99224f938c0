@@ -83,6 +83,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de8747d5_f8a55ce0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-08T12:01:37Z",
+      "side": 1,
+      "message": "Ah, I see. I guess what confused me is the term \"fail\". The expression is not really failing, but just not passing / evaluating to false. But since it\u0027s returning Status.FAIL this test name makes sense now. (still wonder if we might want to consider renaming that status)",
+      "parentUuid": "c70596c3_3a984867",
+      "revId": "65b96b2f2e8c369669146ce73388b99224f938c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b318f706_94173196",

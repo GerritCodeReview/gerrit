@@ -22,6 +22,30 @@
       },
       "revId": "1d800770d7890d3bfab799cb2621b7ce9609ea86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10fd574e_239da590",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-08T06:09:03Z",
+      "side": 1,
+      "message": "Yeah, it is misleading. We keep them disabled per default but rather provide an option to re-enable them again. Let me re-phrase it.",
+      "parentUuid": "e97bbc50_28d515f4",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "1d800770d7890d3bfab799cb2621b7ce9609ea86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

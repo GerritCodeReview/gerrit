@@ -43,7 +43,7 @@ export interface ReportingService {
   beforeLocationChanged(): void;
   locationChanged(page: string): void;
   dashboardDisplayed(): void;
-  changeDisplayed(): void;
+  changeDisplayed(eventDetails?: EventDetails): void;
   changeFullyLoaded(): void;
   diffViewDisplayed(): void;
   diffViewFullyLoaded(): void;

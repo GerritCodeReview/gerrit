@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c58281_c42320e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-08T13:17:21Z",
+      "side": 1,
+      "message": "Thanks David for handling the feedback and resolving the conflicts.\n\nMoving to reviewer: Edwin, could you please approve this change?",
+      "revId": "4f5f59bc94b73eea311f5269b246cdf8720134dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

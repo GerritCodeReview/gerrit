@@ -22,20 +22,22 @@ import 'lodash/lodash.js';
 
 const basicFixture = fixtureFromElement('gr-repo-list');
 
-let counter;
-const repoGenerator = () => {
+function createRepo(name, counter) {
   return {
-    id: `test${++counter}`,
-    name: `test`,
+    id: `${name}${counter}`,
+    name: `${name}`,
     state: 'ACTIVE',
     web_links: [
       {
         name: 'diffusion',
-        url: `https://phabricator.example.org/r/project/test${counter}`,
+        url: `https://phabricator.example.org/r/project/${name}${counter}`,
       },
     ],
   };
-};
+}
+
+let counter;
+const repoGenerator = () => createRepo('test', ++counter);
 
 suite('gr-repo-list tests', () => {
   let element;
@@ -134,6 +136,15 @@ suite('gr-repo-list tests', () => {
         assert.deepEqual(element._repos, []);
         done();
       });
+    });
+
+    test('filter is case insensitive', async () => {
+      const repoStub = sinon.stub(element.$.restAPI, 'getRepos');
+      const repos = [createRepo('aSDf', 0)];
+      repoStub.withArgs('asdf').returns(Promise.resolve(repos));
+      element._filter = 'asdf';
+      await element._getRepos('asdf', 25, 0);
+      assert.equal(element._repos.length, 1);
     });
   });
 

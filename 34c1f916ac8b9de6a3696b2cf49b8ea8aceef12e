@@ -36,6 +36,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4741441_2c698db4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-08T07:58:20Z",
+      "side": 1,
+      "message": "I got the test from the change that introduces the feature: Change-Id: I5078237a9.\nHow can we test this? How was it tested initially when the fix was introduced?",
+      "revId": "34c1f916ac8b9de6a3696b2cf49b8ea8aceef12e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7dd16e8_e0589bdc",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23453a34_2faee2ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-09T14:09:58Z",
+      "side": 1,
+      "message": "Could we update to https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/6dc3506b52efa6edae4a8c5b838227164e806795 (or more recent commits)?\n\nI\u0027d like to use that fix in Gerrit code; specifically to disable content rename detection for binary files.",
+      "revId": "b54cfff6df607f8f51d135f982b40774b39fec7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

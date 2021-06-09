@@ -20,6 +20,7 @@ import {CancelablePromise, util} from '../../../scripts/util';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener, HighlightJS} from '../../../types/types';
 import {GrLibLoader} from '../../shared/gr-lib-loader/gr-lib-loader';
+import {HLJS_LIBRARY_CONFIG} from '../../shared/gr-lib-loader/highlightjs_config';
 import {Side} from '../../../constants/constants';
 
 const LANGUAGE_MAP = new Map<string, string>([
@@ -576,8 +577,8 @@ export class GrSyntaxLayer implements DiffLayer {
   }
 
   _loadHLJS() {
-    return this.libLoader.getHLJS().then(hljs => {
-      this.hljs = hljs;
+    return this.libLoader.getLibrary(HLJS_LIBRARY_CONFIG).then(hljs => {
+      this.hljs = hljs as HighlightJS;
     });
   }
 }

@@ -45,21 +45,19 @@ public class ConvertRefStorage extends SshCommand {
     refdir,
   }
 
-  @Option(
-      name = "--format",
-      usage = "storage format to convert to (reftable or refdir) (default: reftable)")
+  @Option(name = "--format", usage = "storage format to convert to (reftable or refdir)")
   private StorageFormatOption storageFormat = StorageFormatOption.reftable;
 
   @Option(
       name = "--backup",
       aliases = {"-b"},
-      usage = "create backup of old ref storage format (default: true)")
+      usage = "create backup of old ref storage format")
   private boolean backup = true;
 
   @Option(
       name = "--reflogs",
       aliases = {"-r"},
-      usage = "write reflogs to reftable (default: true)")
+      usage = "write reflogs to reftable")
   private boolean writeLogs = true;
 
   @Option(

@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-linked-chip.js';
+import '../../../test/common-test-setup-karma';
+import './gr-linked-chip';
+import {GrLinkedChip} from './gr-linked-chip';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-linked-chip');
 
 suite('gr-linked-chip tests', () => {
-  let element;
+  let element: GrLinkedChip;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -35,4 +37,3 @@ suite('gr-linked-chip tests', () => {
     assert.isTrue(spy.called);
   });
 });
-

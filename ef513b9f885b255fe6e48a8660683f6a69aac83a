@@ -16,6 +16,24 @@
       "message": "[optional] Add @Nullable annotation here to signal that this method may return null.",
       "revId": "ef513b9f885b255fe6e48a8660683f6a69aac83a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cee14586_c483a0a2",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-09T12:49:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de898a57_ce5bcc9f",
+      "revId": "ef513b9f885b255fe6e48a8660683f6a69aac83a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -130,6 +130,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3891e75f_814f58b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-06-09T16:09:58Z",
+      "side": 1,
+      "message": "No sorry, got busy before leaving for vacation. I should have clarified that my questions were forward thinking and not intended to block/slow this. Thanks for answering them and looking for my replies.",
+      "parentUuid": "33a8f2fd_20a72ff7",
+      "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f252c4d0_9636e063",

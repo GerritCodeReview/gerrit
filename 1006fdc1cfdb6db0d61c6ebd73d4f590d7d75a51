@@ -95,6 +95,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c37f8979_3bc52176",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-09T07:55:07Z",
+      "side": 1,
+      "message": "Right, I should say *same account id*",
+      "parentUuid": "9519ab34_2cd482ed",
+      "range": {
+        "startLine": 19,
+        "startChar": 44,
+        "endLine": 19,
+        "endChar": 66
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a47b3629_36c86a78",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -106,6 +130,30 @@
       "writtenOn": "2021-06-09T06:47:29Z",
       "side": 1,
       "message": "Which one does it get deleted? Does it matter? is it deterministically removing the same one every time?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0f56127_2dc09323",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-09T07:55:07Z",
+      "side": 1,
+      "message": "Two IDs that converted to lowercase are the same: I don\u0027t know which one will get removed, because they are the same, so removing one or the other doesn\u0027t really matter, isn\u0027t it?",
+      "parentUuid": "a47b3629_36c86a78",
       "range": {
         "startLine": 21,
         "startChar": 0,

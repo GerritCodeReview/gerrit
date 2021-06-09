@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a1b49c5_08234766",
+        "filename": "java/com/google/gerrit/sshd/commands/ConvertRefStorage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-09T12:56:51Z",
+      "side": 1,
+      "message": "I don\u0027t understand how you change the value here:\n\n```\nhanwen@hanwen1:~/vc/git$ ssh -p 29418 admin@localhost  gerrit  convert-ref-storage -p zoekt --format refdir --no-backup\nfatal: \"--no-backup\" is not a valid option\nhanwen@hanwen1:~/vc/git$ ssh -p 29418 admin@localhost  gerrit  convert-ref-storage -p zoekt --format refdir --backup\u003dfalse\nfatal: No argument is allowed: false\n```",
+      "range": {
+        "startLine": 55,
+        "startChar": 27,
+        "endLine": 55,
+        "endChar": 31
+      },
+      "revId": "a3230b6fe17a4d9ecd7f934d619fb7777a9dd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

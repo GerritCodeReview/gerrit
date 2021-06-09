@@ -19,78 +19,49 @@ import {EventType} from '../../../api/plugin';
 import {HighlightJS} from '../../../types/types';
 import {appContext} from '../../../services/app-context';
 
-// preloaded in PolyGerritIndexHtml.soy
-const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
-
-type HljsCallback = (value?: HighlightJS) => void;
-
-interface HljsState {
-  configured: boolean;
-  loading: boolean;
-  callbacks: HljsCallback[];
+interface LibraryConfig {
+  src: string;
+  configureCallback: () => void;
 }
 
-export class GrLibLoader {
-  private readonly jsAPI = appContext.jsApiService;
+// TODO(hermannloose): Move into separate file.
+const HLJS_LIBRARY_CONFIG: LibraryConfig = {
+  // preloaded in PolyGerritIndexHtml.soy
+  src: 'bower_components/highlightjs/highlight.min.js',
+  configureCallback: () => {
+    window.hljs!.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
+    appContext.jsApiService.handleEvent(EventType.HIGHLIGHTJS_LOADED, {
+      hljs: window.hljs,
+    });
+  },
+};
 
-  _hljsState: HljsState = {
-    configured: false,
-    loading: false,
-    callbacks: [],
-  };
+export class GrLibLoader {
+  private readonly libraries = new Map<LibraryConfig, Promise<unknown>>();
+
+  _getPath(src: string) {
+    const root = this._getLibRoot();
+    return root ? root + src : null;
+  }
+
+  getLibrary(config: LibraryConfig): Promise<unknown> {
+    if (!this.libraries.has(config)) {
+      const configured = this._loadScript(this._getPath(config.src)).then(
+        config.configureCallback
+      );
+      this.libraries.set(config, configured);
+    }
+    return this.libraries.get(config)!;
+  }
 
   /**
    * Get the HLJS library. Returns a promise that resolves with a reference to
    * the library after it's been loaded. The promise resolves immediately if
    * it's already been loaded.
    */
+  // TODO(hermannloose): Update callers to use getLibrary() directly.
   getHLJS(): Promise<HighlightJS | undefined> {
-    return new Promise<HighlightJS | undefined>((resolve, reject) => {
-      // If the lib is totally loaded, resolve immediately.
-      if (this._getHighlightLib()) {
-        resolve(this._getHighlightLib());
-        return;
-      }
-
-      // If the library is not currently being loaded, then start loading it.
-      if (!this._hljsState.loading) {
-        this._hljsState.loading = true;
-        this._loadScript(this._getHLJSUrl())
-          .then(() => this._onHLJSLibLoaded())
-          .catch(reject);
-      }
-
-      this._hljsState.callbacks.push(resolve);
-    });
-  }
-
-  /**
-   * Execute callbacks awaiting the HLJS lib load.
-   */
-  _onHLJSLibLoaded() {
-    const lib = this._getHighlightLib();
-    this._hljsState.loading = false;
-    this.jsAPI.handleEvent(EventType.HIGHLIGHTJS_LOADED, {
-      hljs: lib,
-    });
-    for (const cb of this._hljsState.callbacks) {
-      cb(lib);
-    }
-    this._hljsState.callbacks = [];
-  }
-
-  /**
-   * Get the HLJS library, assuming it has been loaded. Configure the library
-   * if it hasn't already been configured.
-   */
-  _getHighlightLib(): HighlightJS | undefined {
-    const lib = window.hljs;
-    if (lib && !this._hljsState.configured) {
-      this._hljsState.configured = true;
-
-      lib.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
-    }
-    return lib;
+    return this.getLibrary(HLJS_LIBRARY_CONFIG).then(() => window.hljs);
   }
 
   /**
@@ -125,13 +96,5 @@ export class GrLibLoader {
       script.onerror = reject;
       document.head.appendChild(script);
     });
-  }
-
-  _getHLJSUrl() {
-    const root = this._getLibRoot();
-    if (!root) {
-      return null;
-    }
-    return root + HLJS_PATH;
   }
 }

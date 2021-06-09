@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
-import {isServiceUser, removeServiceUsers} from './account-util.js';
-import {AccountTag} from '../constants/constants.js';
+import '../test/common-test-setup-karma';
+import {isServiceUser, removeServiceUsers} from './account-util';
+import {AccountTag} from '../constants/constants';
 
 const EMPTY = {};
 const ERNIE = {name: 'Ernie'};
-const KERMIT = {name: 'Kermit', tags: ['FROG']};
 const SERVY = {name: 'Servy', tags: [AccountTag.SERVICE_USER]};
 const BOTTY = {name: 'Botty', tags: [AccountTag.SERVICE_USER]};
 
@@ -30,17 +29,17 @@ suite('account-util tests 3', () => {
     assert.isFalse(isServiceUser());
     assert.isFalse(isServiceUser(EMPTY));
     assert.isFalse(isServiceUser(ERNIE));
-    assert.isFalse(isServiceUser(KERMIT));
     assert.isTrue(isServiceUser(SERVY));
     assert.isTrue(isServiceUser(BOTTY));
   });
 
   test('removeServiceUsers', () => {
     assert.sameMembers(removeServiceUsers([]), []);
-    assert.sameMembers(removeServiceUsers([EMPTY, ERNIE, KERMIT]),
-        [EMPTY, ERNIE, KERMIT]);
+    assert.sameMembers(removeServiceUsers([EMPTY, ERNIE]), [EMPTY, ERNIE]);
     assert.sameMembers(removeServiceUsers([SERVY, BOTTY]), []);
-    assert.sameMembers(removeServiceUsers([EMPTY, SERVY, ERNIE, BOTTY, KERMIT]),
-        [EMPTY, ERNIE, KERMIT]);
+    assert.sameMembers(removeServiceUsers([EMPTY, SERVY, ERNIE, BOTTY]), [
+      EMPTY,
+      ERNIE,
+    ]);
   });
 });

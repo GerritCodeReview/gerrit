@@ -167,6 +167,30 @@ export const htmlTemplate = html`
           <span class="separator"></span>
         </span>
       </template>
+      <div class="fileViewActions">
+        <span class="separator"></span>
+        <span class="fileViewActionsLabel">Diff view:</span>
+        <gr-diff-mode-selector
+          id="modeSelect"
+          mode="{{diffViewMode}}"
+          save-on-change="[[!diffPrefsDisabled]]"
+        ></gr-diff-mode-selector>
+        <span
+          id="diffPrefsContainer"
+          class="hideOnEdit"
+          hidden$="[[_computePrefsButtonHidden(diffPrefs, diffPrefsDisabled)]]"
+          hidden=""
+        >
+          <gr-button
+            link=""
+            has-tooltip=""
+            title="Diff preferences"
+            class="prefsButton desktop"
+            on-click="_handlePrefsTap"
+            ><iron-icon icon="gr-icons:settings"></iron-icon
+          ></gr-button>
+        </span>
+      </div>
       <span class="downloadContainer desktop">
         <gr-button
           link=""
@@ -209,30 +233,6 @@ export const htmlTemplate = html`
           Bulk actions disabled because there are too many files.
         </div>
       </template>
-      <div class="fileViewActions">
-        <span class="separator"></span>
-        <span class="fileViewActionsLabel">Diff view:</span>
-        <gr-diff-mode-selector
-          id="modeSelect"
-          mode="{{diffViewMode}}"
-          save-on-change="[[!diffPrefsDisabled]]"
-        ></gr-diff-mode-selector>
-        <span
-          id="diffPrefsContainer"
-          class="hideOnEdit"
-          hidden$="[[_computePrefsButtonHidden(diffPrefs, diffPrefsDisabled)]]"
-          hidden=""
-        >
-          <gr-button
-            link=""
-            has-tooltip=""
-            title="Diff preferences"
-            class="prefsButton desktop"
-            on-click="_handlePrefsTap"
-            ><iron-icon icon="gr-icons:settings"></iron-icon
-          ></gr-button>
-        </span>
-      </div>
     </div>
   </div>
 `;

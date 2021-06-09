@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d1fdad2_34f332ac",
+        "filename": "polygerrit-ui/app/utils/account-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-09T15:01:46Z",
+      "side": 0,
+      "message": "case is not possible, the only AccountTag enum value is SERVICE_USER",
+      "range": {
+        "startLine": 24,
+        "startChar": 40,
+        "endLine": 24,
+        "endChar": 44
+      },
+      "revId": "ffec0585ef9142be1776ad356ed55e9fc9363a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "AutoMerger isn\u0027t a singleton. E.g. it contains a personIdent that contains a timestamp. This means all auto-merge commits would be created with the same timestamp (the timestamp of when the AutoMerger instance was created). I guess you can fix this by storing a Provider\u003cPersonIdent\u003e in AutoMerger instead.",
       "revId": "4d30e9bda45f307baabefb640a0c7e1b7be34d60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9fe500d_b53b4c74",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-09T12:43:50Z",
+      "side": 1,
+      "message": "Thanks Edwin. I also found [1] confirming your claim.\n\nDone.\n\nHint: is it OK to have ThreeyWayMergeStrategy on the next line?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/GerritPersonIdent.java#26",
+      "parentUuid": "2cf708d7_af455d82",
+      "revId": "4d30e9bda45f307baabefb640a0c7e1b7be34d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

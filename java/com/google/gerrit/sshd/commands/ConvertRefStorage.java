@@ -31,6 +31,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
@@ -51,13 +52,15 @@ public class ConvertRefStorage extends SshCommand {
   @Option(
       name = "--backup",
       aliases = {"-b"},
-      usage = "create backup of old ref storage format")
+      usage = "create backup of old ref storage format",
+      handler = ExplicitBooleanOptionHandler.class)
   private boolean backup = true;
 
   @Option(
       name = "--reflogs",
       aliases = {"-r"},
-      usage = "write reflogs to reftable")
+      usage = "write reflogs to reftable",
+      handler = ExplicitBooleanOptionHandler.class)
   private boolean writeLogs = true;
 
   @Option(

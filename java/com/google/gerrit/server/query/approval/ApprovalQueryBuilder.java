@@ -51,7 +51,7 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   }
 
   @Operator
-  public Predicate<ApprovalContext> changeKind(String term) throws QueryParseException {
+  public Predicate<ApprovalContext> changekind(String term) throws QueryParseException {
     return new ChangeKindPredicate(toEnumValue(ChangeKind.class, term));
   }
 

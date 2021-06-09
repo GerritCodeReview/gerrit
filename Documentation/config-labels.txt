@@ -280,7 +280,7 @@ This logic is triggered whenever a new patch set is uploaded.
 
 Gerrit currently supports the following predicates:
 
-==== change-kind:{REWORK,TRIVIAL_REBASE,MERGE_FIRST_PARENT_UPDATE,NO_CODE_CHANGE,NO_CHANGE}
+==== changekind:{REWORK,TRIVIAL_REBASE,MERGE_FIRST_PARENT_UPDATE,NO_CODE_CHANGE,NO_CHANGE}
 
 Matches if the diff between two patch sets was of a certain change kind.
 

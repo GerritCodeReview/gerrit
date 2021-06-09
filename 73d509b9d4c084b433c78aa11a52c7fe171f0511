@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df90325e_24449591",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-09T12:17:31Z",
+      "side": 1,
+      "message": "Ah right. This means that line was not working as expected then.\n\nI anyway rebased the series on top of trunk, removed that line and kept yours from change 307829.",
+      "parentUuid": "21cf08f9_b4fa38d5",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 11
+      },
+      "revId": "73d509b9d4c084b433c78aa11a52c7fe171f0511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04261a06_3388a691",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab63a616_495ee521",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-09T12:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04261a06_3388a691",
+      "range": {
+        "startLine": 440,
+        "startChar": 56,
+        "endLine": 440,
+        "endChar": 60
+      },
+      "revId": "73d509b9d4c084b433c78aa11a52c7fe171f0511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8791e4d8_75c54519",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-06-09T08:19:57Z",
       "side": 1,
       "message": "Do you need to handle the case where the modifiedFiles map is empty?",
+      "range": {
+        "startLine": 441,
+        "startChar": 13,
+        "endLine": 441,
+        "endChar": 53
+      },
+      "revId": "73d509b9d4c084b433c78aa11a52c7fe171f0511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "996a4bcc_b8d923b6",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-09T12:17:31Z",
+      "side": 1,
+      "message": "Done.\n\nIn that case, I return null, which is converted by parent to Optional.empty() and further callers up in the hierarchy handle this case or throw an exception.",
+      "parentUuid": "8791e4d8_75c54519",
       "range": {
         "startLine": 441,
         "startChar": 13,

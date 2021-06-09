@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9fc5289_531d7d79",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-09T09:57:05Z",
+      "side": 1,
+      "message": "see comment in gr-repo_test.js",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 42
+      },
+      "revId": "742a78e7df809e0b3c7d4b09f6401a86dc0b1b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86678695_aa315895",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-09T09:57:05Z",
+      "side": 1,
+      "message": "element._loadRepo() expects the REST API to return Promises. This was apparently not necessary when using done(), probably because the test is immediately considered complete and doesn\u0027t care about any execution or errors of the later parts of _loadRepo.",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 40
+      },
+      "revId": "742a78e7df809e0b3c7d4b09f6401a86dc0b1b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f22207b9_0c245b0c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-09T09:57:05Z",
+      "side": 1,
+      "message": "It would be nice for these test utils to return promises or similar so tests don\u0027t have to manage it.",
+      "range": {
+        "startLine": 241,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 53
+      },
+      "revId": "742a78e7df809e0b3c7d4b09f6401a86dc0b1b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

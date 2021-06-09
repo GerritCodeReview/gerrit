@@ -25,7 +25,7 @@ const basicFixture = fixtureFromElement('gr-agreements-list');
 suite('gr-agreements-list tests', () => {
   let element: GrAgreementsList;
 
-  setup(done => {
+  setup(async () => {
     const agreements: ContributorAgreementInfo[] = [
       {
         url: 'some url',
@@ -38,9 +38,8 @@ suite('gr-agreements-list tests', () => {
 
     element = basicFixture.instantiate();
 
-    element.loadData().then(() => {
-      flush(done);
-    });
+    await element.loadData();
+    await flush();
   });
 
   test('renders', () => {

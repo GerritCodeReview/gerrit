@@ -939,7 +939,7 @@ suite('gr-change-metadata tests', () => {
   });
 
   suite('plugin endpoints', () => {
-    test('endpoint params', done => {
+    test('endpoint params', async () => {
       element.change = createParsedChange();
       element.revision = createRevision();
       interface MetadataGrEndpointDecorator extends GrEndpointDecorator {
@@ -961,12 +961,10 @@ suite('gr-change-metadata tests', () => {
         'http://some/plugins/url.js'
       );
       getPluginLoader().loadPlugins([]);
-      flush(() => {
-        assert.strictEqual(hookEl!.plugin, plugin);
-        assert.strictEqual(hookEl!.change, element.change);
-        assert.strictEqual(hookEl!.revision, element.revision);
-        done();
-      });
+      await flush();
+      assert.strictEqual(hookEl!.plugin, plugin!);
+      assert.strictEqual(hookEl!.change, element.change);
+      assert.strictEqual(hookEl!.revision, element.revision);
     });
   });
 });

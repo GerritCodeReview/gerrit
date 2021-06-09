@@ -125,16 +125,15 @@ suite('gr-cla-view tests', () => {
     },
   ];
 
-  setup(done => {
+  setup(async () => {
     stubRestApi('getConfig').returns(Promise.resolve(config));
     stubRestApi('getAccountGroups').returns(Promise.resolve(groups));
     stubRestApi('getAccountAgreements').returns(
       Promise.resolve(signedAgreements)
     );
     element = basicFixture.instantiate();
-    element.loadData().then(() => {
-      flush(done);
-    });
+    await element.loadData();
+    await flush();
   });
 
   test('renders as expected with signed agreement', () => {

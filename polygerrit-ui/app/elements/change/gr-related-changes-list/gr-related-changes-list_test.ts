@@ -599,7 +599,7 @@ suite('gr-related-changes-list', () => {
       resetPlugins();
     });
 
-    test('endpoint params', done => {
+    test('endpoint params', async () => {
       element.change = {...createParsedChange(), labels: {}};
       interface RelatedChangesListGrEndpointDecorator
         extends GrEndpointDecorator {
@@ -620,11 +620,9 @@ suite('gr-related-changes-list', () => {
         'http://some/plugins/url1.js'
       );
       getPluginLoader().loadPlugins([]);
-      flush(() => {
-        assert.strictEqual(hookEl.plugin, plugin);
-        assert.strictEqual(hookEl.change, element.change);
-        done();
-      });
+      await flush();
+      assert.strictEqual(hookEl!.plugin, plugin!);
+      assert.strictEqual(hookEl!.change, element.change);
     });
   });
 });

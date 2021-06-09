@@ -17,7 +17,11 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-reviewer-list';
-import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {
+  mockPromise,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
 import {GrReviewerList} from './gr-reviewer-list';
 import {
   createAccountDetailWithId,
@@ -53,12 +57,14 @@ suite('gr-reviewer-list tests', () => {
     );
   });
 
-  test('add reviewer button opens reply dialog', done => {
+  test('add reviewer button opens reply dialog', async () => {
+    const dialogShown = mockPromise();
     element.addEventListener('show-reply-dialog', () => {
-      done();
+      dialogShown.resolve();
     });
-    flush();
+    await flush();
     tap(queryAndAssert(element, '.addReviewer'));
+    await dialogShown;
   });
 
   test('only show remove for removable reviewers', () => {

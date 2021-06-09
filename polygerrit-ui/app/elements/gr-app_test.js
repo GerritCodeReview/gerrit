@@ -28,7 +28,7 @@ suite('gr-app tests', () => {
   let element;
   let configStub;
 
-  setup(done => {
+  setup(async () => {
     sinon.stub(appContext.reportingService, 'appStarted');
     stub('gr-account-dropdown', '_getTopContent');
     stub('gr-router', 'start');
@@ -45,7 +45,7 @@ suite('gr-app tests', () => {
     stubRestApi('probePath').returns(Promise.resolve(42));
 
     element = basicFixture.instantiate();
-    flush(done);
+    await flush();
   });
 
   const appElement = () => element.$['app-element'];

@@ -33,7 +33,7 @@ suite('gr-create-repo-dialog tests', () => {
     assert.isFalse(element.$.parentRepo.bindValue);
   });
 
-  test('repo created', done => {
+  test('repo created', async () => {
     const configInputObj = {
       name: 'test-repo',
       create_empty_commit: true,
@@ -67,16 +67,14 @@ suite('gr-create-repo-dialog tests', () => {
 
     assert.deepEqual(element._repoConfig, configInputObj);
 
-    element.handleCreateRepo().then(() => {
-      assert.isTrue(saveStub.lastCall.calledWithExactly(
-          {
-            ...configInputObj,
-            owners: ['testId'],
-            branches: ['main'],
-          }
-      ));
-      done();
-    });
+    await element.handleCreateRepo();
+    assert.isTrue(saveStub.lastCall.calledWithExactly(
+        {
+          ...configInputObj,
+          owners: ['testId'],
+          branches: ['main'],
+        }
+    ));
   });
 });
 

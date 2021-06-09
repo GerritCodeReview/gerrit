@@ -25,13 +25,13 @@ const basicFixture = fixtureFromElement('gr-app');
 
 suite('gr-app custom dark theme tests', () => {
   let element;
-  setup(done => {
+  setup(async () => {
     window.localStorage.setItem('dark-theme', 'true');
 
     element = basicFixture.instantiate();
     getPluginLoader().loadPlugins([]);
-    getPluginLoader().awaitPluginsLoaded()
-        .then(() => flush(done));
+    await getPluginLoader().awaitPluginsLoaded();
+    await flush();
   });
 
   teardown(() => {

@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo.js';
+import {mockPromise} from '../../../test/test-utils.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
 
@@ -226,21 +227,24 @@ suite('gr-repo tests', () => {
     ]);
   });
 
-  test('fires page-error', done => {
+  test('fires page-error', async () => {
     repoStub.restore();
 
     element.repo = 'test';
 
+    const pageErrorFired = mockPromise();
     const response = {status: 404};
     stubRestApi('getProjectConfig').callsFake((repo, errFn) => {
       errFn(response);
+      return Promise.resolve(undefined);
     });
     addListenerForTest(document, 'page-error', e => {
       assert.deepEqual(e.detail.response, response);
-      done();
+      pageErrorFired.resolve();
     });
 
     element._loadRepo();
+    await pageErrorFired;
   });
 
   suite('admin', () => {

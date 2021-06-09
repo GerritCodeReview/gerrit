@@ -20,7 +20,7 @@ import './gr-admin-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';
+import {mockPromise, stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';
 import {GerritView} from '../../../services/router/router-model.js';
 
 const basicFixture = fixtureFromElement('gr-admin-view');
@@ -36,12 +36,13 @@ function createAdminCapabilities() {
 suite('gr-admin-view tests', () => {
   let element;
 
-  setup(done => {
+  setup(async () => {
     element = basicFixture.instantiate();
     stubRestApi('getProjectConfig').returns(Promise.resolve({}));
     const pluginsLoaded = Promise.resolve();
     sinon.stub(getPluginLoader(), 'awaitPluginsLoaded').returns(pluginsLoaded);
-    pluginsLoaded.then(() => flush(done));
+    await pluginsLoaded;
+    await flush();
   });
 
   test('_computeURLHelper', () => {
@@ -87,25 +88,23 @@ suite('gr-admin-view tests', () => {
         .querySelector('gr-admin-create-repo'));
   });
 
-  test('_filteredLinks admin', done => {
+  test('_filteredLinks admin', async () => {
     stubRestApi('getAccount').returns(Promise.resolve({
       name: 'test-user',
     }));
     stubRestApi('getAccountCapabilities').returns(
         Promise.resolve(createAdminCapabilities()));
-    element.reload().then(() => {
-      assert.equal(element._filteredLinks.length, 3);
+    await element.reload();
+    assert.equal(element._filteredLinks.length, 3);
 
-      // Repos
-      assert.isNotOk(element._filteredLinks[0].subsection);
+    // Repos
+    assert.isNotOk(element._filteredLinks[0].subsection);
 
-      // Groups
-      assert.isNotOk(element._filteredLinks[0].subsection);
+    // Groups
+    assert.isNotOk(element._filteredLinks[0].subsection);
 
-      // Plugins
-      assert.isNotOk(element._filteredLinks[0].subsection);
-      done();
-    });
+    // Plugins
+    assert.isNotOk(element._filteredLinks[0].subsection);
   });
 
   test('_filteredLinks non admin authenticated', async () => {
@@ -154,25 +153,23 @@ suite('gr-admin-view tests', () => {
     });
   });
 
-  test('Repo shows up in nav', done => {
+  test('Repo shows up in nav', async () => {
     element._repoName = 'Test Repo';
     stubRestApi('getAccount').returns(Promise.resolve({
       name: 'test-user',
     }));
     stubRestApi('getAccountCapabilities').returns(
         Promise.resolve(createAdminCapabilities()));
-    element.reload().then(() => {
-      flush();
-      assert.equal(dom(element.root)
-          .querySelectorAll('.sectionTitle').length, 3);
-      assert.equal(element.shadowRoot
-          .querySelector('.breadcrumbText').innerText, 'Test Repo');
-      assert.equal(
-          element.shadowRoot.querySelector('#pageSelect').items.length,
-          6
-      );
-      done();
-    });
+    await element.reload();
+    await flush();
+    assert.equal(dom(element.root)
+        .querySelectorAll('.sectionTitle').length, 3);
+    assert.equal(element.shadowRoot
+        .querySelector('.breadcrumbText').innerText, 'Test Repo');
+    assert.equal(
+        element.shadowRoot.querySelector('#pageSelect').items.length,
+        6
+    );
   });
 
   test('Group shows up in nav', async () => {
@@ -218,23 +215,24 @@ suite('gr-admin-view tests', () => {
     assert.equal(element.reload.callCount, 1);
   });
 
-  test('Nav is reloaded when group name changes', done => {
+  test('Nav is reloaded when group name changes', async () => {
     const newName = 'newName';
+    const reloadCalled = mockPromise();
     sinon.stub(element, '_computeGroupName');
     sinon.stub(element, 'reload').callsFake(() => {
       assert.equal(element._groupName, newName);
-      assert.isTrue(element.reload.called);
-      done();
+      reloadCalled.resolve();
     });
     element.params = {group: 1, view: GerritNav.View.GROUP};
     element._groupName = 'oldName';
-    flush();
+    await flush();
     element.shadowRoot
         .querySelector('gr-group').dispatchEvent(
             new CustomEvent('name-changed', {
               detail: {name: newName},
               composed: true, bubbles: true,
             }));
+    await reloadCalled;
   });
 
   test('dropdown displays if there is a subsection', () => {
@@ -261,7 +259,7 @@ suite('gr-admin-view tests', () => {
         'none');
   });
 
-  test('Dropdown only triggers navigation on explicit select', done => {
+  test('Dropdown only triggers navigation on explicit select', async () => {
     element._repoName = 'my-repo';
     element.params = {
       repo: 'my-repo',
@@ -271,7 +269,7 @@ suite('gr-admin-view tests', () => {
     stubRestApi('getAccountCapabilities').returns(
         Promise.resolve(createAdminCapabilities()));
     stubRestApi('getAccount').returns(Promise.resolve({_id: 1}));
-    flush();
+    await flush();
     const expectedFilteredLinks = [
       {
         name: 'Repositories',
@@ -386,23 +384,21 @@ suite('gr-admin-view tests', () => {
     sinon.stub(GerritNav, 'navigateToRelativeUrl');
     sinon.spy(element, '_selectedIsCurrentPage');
     sinon.spy(element, '_handleSubsectionChange');
-    element.reload().then(() => {
-      assert.deepEqual(element._filteredLinks, expectedFilteredLinks);
-      assert.deepEqual(element._subsectionLinks, expectedSubsectionLinks);
-      assert.equal(
-          element.shadowRoot.querySelector('#pageSelect').value,
-          'repoaccess'
-      );
-      assert.isTrue(element._selectedIsCurrentPage.calledOnce);
-      // Doesn't trigger navigation from the page select menu.
-      assert.isFalse(GerritNav.navigateToRelativeUrl.called);
+    await element.reload();
+    assert.deepEqual(element._filteredLinks, expectedFilteredLinks);
+    assert.deepEqual(element._subsectionLinks, expectedSubsectionLinks);
+    assert.equal(
+        element.shadowRoot.querySelector('#pageSelect').value,
+        'repoaccess'
+    );
+    assert.isTrue(element._selectedIsCurrentPage.calledOnce);
+    // Doesn't trigger navigation from the page select menu.
+    assert.isFalse(GerritNav.navigateToRelativeUrl.called);
 
-      // When explicitly changed, navigation is called
-      element.shadowRoot.querySelector('#pageSelect').value = 'repo';
-      assert.isTrue(element._selectedIsCurrentPage.calledTwice);
-      assert.isTrue(GerritNav.navigateToRelativeUrl.calledOnce);
-      done();
-    });
+    // When explicitly changed, navigation is called
+    element.shadowRoot.querySelector('#pageSelect').value = 'repo';
+    assert.isTrue(element._selectedIsCurrentPage.calledTwice);
+    assert.isTrue(GerritNav.navigateToRelativeUrl.calledOnce);
   });
 
   test('_selectedIsCurrentPage', () => {

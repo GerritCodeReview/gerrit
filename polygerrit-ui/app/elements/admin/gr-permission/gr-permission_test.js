@@ -187,35 +187,31 @@ suite('gr-permission tests', () => {
           groupsWithRules);
     });
 
-    test('_getGroupSuggestions without existing rules', done => {
+    test('_getGroupSuggestions without existing rules', async () => {
       element._groupsWithRules = {};
 
-      element._getGroupSuggestions().then(groups => {
-        assert.deepEqual(groups, [
-          {
-            name: 'Administrators',
-            value: '4c97682e6ce61b7247f3381b6f1789356666de7f',
-          }, {
-            name: 'Anonymous Users',
-            value: 'global%3AAnonymous-Users',
-          },
-        ]);
-        done();
-      });
+      const groups = await element._getGroupSuggestions();
+      assert.deepEqual(groups, [
+        {
+          name: 'Administrators',
+          value: '4c97682e6ce61b7247f3381b6f1789356666de7f',
+        }, {
+          name: 'Anonymous Users',
+          value: 'global%3AAnonymous-Users',
+        },
+      ]);
     });
 
-    test('_getGroupSuggestions with existing rules filters them', done => {
+    test('_getGroupSuggestions with existing rules filters them', async () => {
       element._groupsWithRules = {
         '4c97682e6ce61b7247f3381b6f1789356666de7f': true,
       };
 
-      element._getGroupSuggestions().then(groups => {
-        assert.deepEqual(groups, [{
-          name: 'Anonymous Users',
-          value: 'global%3AAnonymous-Users',
-        }]);
-        done();
-      });
+      const groups = await element._getGroupSuggestions();
+      assert.deepEqual(groups, [{
+        name: 'Anonymous Users',
+        value: 'global%3AAnonymous-Users',
+      }]);
     });
 
     test('_handleRemovePermission', () => {

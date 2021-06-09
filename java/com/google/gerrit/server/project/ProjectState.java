@@ -63,8 +63,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 /**
- * Cached information on a project. Must not contain any data derived from parents other than its
- * immediate parent's {@link com.google.gerrit.entities.Project.NameKey}.
+ * State of a project, aggregated from the project and its parents. This is obtained from the {@link
+ * ProjectCache}. It should not be persisted across requests
  */
 public class ProjectState {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

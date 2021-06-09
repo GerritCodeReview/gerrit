@@ -34,6 +34,24 @@
       "parentUuid": "0ee6b929_732126b9",
       "revId": "cc5ceefef7d138c338c082e6577c5ccb32a9bdc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f045438_b09a29f6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/gr-lib-loader.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-06-09T16:12:55Z",
+      "side": 0,
+      "message": "That\u0027s how I understand it. First caller of getHLJS() sees their promise rejected if the loading fails and any other callers will see their promise never resolve.",
+      "parentUuid": "bd473b65_28ca02da",
+      "revId": "cc5ceefef7d138c338c082e6577c5ccb32a9bdc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

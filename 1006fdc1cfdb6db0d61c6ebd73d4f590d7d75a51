@@ -156,6 +156,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68d9fef5_4a789f9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-09T06:48:38Z",
+      "side": 1,
+      "message": "The LocalUsernamesToLowercase already exists in 3.2 [1], should we address 3.2 for this change?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.2/java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fe4c23f_d7be679e",

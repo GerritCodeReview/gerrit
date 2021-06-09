@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
@@ -108,5 +109,17 @@ public class DeleteLabelIT extends AbstractDaemonTest {
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())
         .isEqualTo("Delete Code-Review label");
+  }
+
+  @Test
+  public void deletedLabelDoesNotThrowExceptions_approvalInference() throws Exception {
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+    gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).delete();
+
+    amendChange(changeId);
+
+    // Assert no throws.
+    gApi.changes().id(changeId).get(DETAILED_LABELS);
   }
 }

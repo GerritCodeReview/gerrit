@@ -406,17 +406,26 @@ export declare interface GrAnnotation {
   ): void;
 }
 
-// The current setup requires API users to register GrDiff instances with the
-// cursor, but we do not at this point want to expose the API that GrDiffCursor
-// uses to the public as it is likely to change. So for now, we allow any type
-// and cast. This works fine so long as API users do provide whatever the
-// gr-diff tag creates.
-export type GrDiff = unknown;
+/** An instance of the GrDiff Webcomponent */
+export interface GrDiff extends HTMLElement {
+  /**
+   * Return line number element for reading only,
+   *
+   * This is useful e.g. to determine where on screen certain lines are,
+   * whether they are covered up etc.
+   */
+  getLineNumEls(side: Side): readonly HTMLElement[];
+}
 
 /** A service to interact with the line cursor in gr-diff instances. */
 export declare interface GrDiffCursor {
-  replaceDiffs(diffs: GrDiff[]): void;
-  unregisterDiff(diff: GrDiff): void;
+  // The current setup requires API users to register GrDiff instances with the
+  // cursor, but we do not at this point want to expose the API that GrDiffCursor
+  // uses to the public as it is likely to change. So for now, we allow any type
+  // and cast. This works fine so long as API users do provide whatever the
+  // gr-diff tag creates.
+  replaceDiffs(diffs: unknown[]): void;
+  unregisterDiff(diff: unknown): void;
 
   isAtStart(): boolean;
   isAtEnd(): boolean;

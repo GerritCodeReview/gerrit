@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cf708d7_af455d82",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-09T12:25:22Z",
+      "side": 1,
+      "message": "AutoMerger isn\u0027t a singleton. E.g. it contains a personIdent that contains a timestamp. This means all auto-merge commits would be created with the same timestamp (the timestamp of when the AutoMerger instance was created). I guess you can fix this by storing a Provider\u003cPersonIdent\u003e in AutoMerger instead.",
+      "revId": "4d30e9bda45f307baabefb640a0c7e1b7be34d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

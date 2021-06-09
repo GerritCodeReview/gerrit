@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {FlagsServiceImplementation} from './flags_impl.js';
+import '../../test/common-test-setup-karma';
+import {FlagsServiceImplementation} from './flags_impl';
 
 suite('flags tests', () => {
-  let originalEnabledExperiments;
-  let flags;
+  let originalEnabledExperiments: string[];
+  let flags: FlagsServiceImplementation;
 
   suiteSetup(() => {
     originalEnabledExperiments = window.ENABLED_EXPERIMENTS;

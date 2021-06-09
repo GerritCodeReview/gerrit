@@ -41,4 +41,3 @@ suite('flags tests', () => {
     assert.deepEqual(flags.enabledExperiments, ['a']);
   });
 });
-

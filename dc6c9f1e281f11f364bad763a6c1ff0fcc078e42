@@ -22,6 +22,30 @@
       },
       "revId": "dc6c9f1e281f11f364bad763a6c1ff0fcc078e42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01c42420_aa8b5213",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/gr-lib-loader.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-06-09T19:49:15Z",
+      "side": 1,
+      "message": "I don\u0027t think I can make that work regarding typing this.libraries and the return value of getLibrary()? ... maybe getLibrary() could return a Promise\u003cT\u003e based on the LibraryConfig, but this.libraries has to store promises of different types, so I would have to cast after the lookup, I guess?",
+      "parentUuid": "43f27277_483c7d9f",
+      "range": {
+        "startLine": 64,
+        "startChar": 47,
+        "endLine": 64,
+        "endChar": 71
+      },
+      "revId": "dc6c9f1e281f11f364bad763a6c1ff0fcc078e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

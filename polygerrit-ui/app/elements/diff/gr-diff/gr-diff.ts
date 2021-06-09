@@ -69,6 +69,7 @@ import {AbortStop} from '../../../api/core';
 import {
   CreateCommentEventDetail as CreateCommentEventDetailApi,
   RenderPreferences,
+  GrDiff as GrDiffApi,
 } from '../../../api/diff';
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -109,7 +110,7 @@ export interface CreateCommentEventDetail extends CreateCommentEventDetailApi {
 }
 
 @customElement('gr-diff')
-export class GrDiff extends PolymerElement {
+export class GrDiff extends PolymerElement implements GrDiffApi {
   static get template() {
     return htmlTemplate;
   }
@@ -320,6 +321,12 @@ export class GrDiff extends PolymerElement {
     this._unobserveIncrementalNodes();
     this._unobserveNodes();
     super.disconnectedCallback();
+  }
+
+  getLineNumEls(side: Side): HTMLElement[] {
+    return Array.from(
+      this.root?.querySelectorAll<HTMLElement>(`.lineNum.${side}`) ?? []
+    );
   }
 
   showNoChangeMessage(

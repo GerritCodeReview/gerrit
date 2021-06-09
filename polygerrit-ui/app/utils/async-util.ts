@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+const THROTTLE_INTERVAL_MS = 500;
+
 /**
  * @param fn An iteratee function to be passed each element of
  *     the array in order. Must return a promise, and the following
@@ -109,4 +111,18 @@ export function debounce(
 ) {
   existingTask?.cancel();
   return new DelayedTask(callback, waitMs);
+}
+
+export function throttleWrap(fn: (e: Event) => void) {
+  let lastCall: number | undefined;
+  return (e: Event) => {
+    if (
+      lastCall !== undefined &&
+      Date.now() - lastCall < THROTTLE_INTERVAL_MS
+    ) {
+      return;
+    }
+    lastCall = Date.now();
+    fn(e);
+  };
 }

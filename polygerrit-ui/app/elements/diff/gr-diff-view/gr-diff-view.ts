@@ -106,6 +106,7 @@ import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {toggleClass, getKeyboardEvent} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
+import {throttleWrap} from '../../../utils/async-util';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -342,7 +343,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
   /** @override */
   connectedCallback() {
     super.connectedCallback();
-    this._throttledToggleFileReviewed = this._throttleWrap(e =>
+    this._throttledToggleFileReviewed = throttleWrap(e =>
       this._handleToggleFileReviewed(e as CustomKeyboardEvent)
     );
     this._getLoggedIn().then(loggedIn => {

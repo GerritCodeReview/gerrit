@@ -17,8 +17,11 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-alert.js';
+import {GrAlert} from './gr-alert.js';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+
 suite('gr-alert tests', () => {
-  let element;
+  let element: GrAlert;
 
   setup(() => {
     element = document.createElement('gr-alert');
@@ -32,7 +35,7 @@ suite('gr-alert tests', () => {
 
   test('show/hide', () => {
     assert.isNull(element.parentNode);
-    element.show();
+    element.show('Alert text');
     assert.equal(element.parentNode, document.body);
     element.updateStyles({'--gr-alert-transition-duration': '0ms'});
     element.hide();
@@ -41,11 +44,10 @@ suite('gr-alert tests', () => {
 
   test('action event', () => {
     const spy = sinon.spy();
-    element.show();
+    element.show('Alert text');
     element._actionCallback = spy;
     assert.isFalse(spy.called);
-    MockInteractions.tap(element.shadowRoot.querySelector('.action'));
+    MockInteractions.tap(element.shadowRoot!.querySelector('.action')!);
     assert.isTrue(spy.called);
   });
 });
-

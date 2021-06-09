@@ -16,6 +16,24 @@
       "message": "Could we update to https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/6dc3506b52efa6edae4a8c5b838227164e806795 (or more recent commits)?\n\nI\u0027d like to use that fix in Gerrit code; specifically to disable content rename detection for binary files.",
       "revId": "b54cfff6df607f8f51d135f982b40774b39fec7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "865f5ca8_c5a8ed91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-09T14:22:19Z",
+      "side": 1,
+      "message": "Gerrit-3.2 uses jgit stable-5.9, the sha1 you provided is for stable-5.12.\n\nThis changes updates to the current tip of stable-5.9[1]\n\nhttps://gerrit.googlesource.com/jgit/+/refs/heads/stable-5.9",
+      "parentUuid": "23453a34_2faee2ee",
+      "revId": "b54cfff6df607f8f51d135f982b40774b39fec7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

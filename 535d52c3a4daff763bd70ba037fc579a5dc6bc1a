@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a172f21_57854bd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-09T07:22:49Z",
+      "side": 1,
+      "message": "no you are not missing, but the lag that causes the problem earlier (some other datacenter is behind) will still occur. We\u0027re just no longer bothered by it, because we don\u0027t have to do the follow-up request. Maybe \"we are not impacted by replication lag .. \"",
+      "parentUuid": "6928e36d_c44dc4f2",
+      "range": {
+        "startLine": 29,
+        "startChar": 42,
+        "endLine": 29,
+        "endChar": 69
+      },
+      "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ed948427_22e73441",
@@ -143,6 +167,30 @@
       "side": 1,
       "message": "if I\u0027m encrypting the project name I think it\u0027s best to also encrypt branch name just to be consistent.\n\nI created a test that ensures it works and Tilde is encoded to %7E. I don\u0027t know why it didn\u0027t work in the go code, but it looks fine?\n\nAs a follow-up that isn\u0027t relevant, I was thinking to disallow creating project names with the same method that is used for branches (Repository.isValidRefName), WDYT?",
       "parentUuid": "58a87244_ea9cc69c",
+      "range": {
+        "startLine": 254,
+        "startChar": 26,
+        "endLine": 254,
+        "endChar": 38
+      },
+      "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5b055f7_09552ead",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-09T07:22:49Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t know why it didn\u0027t work in the go code, but it looks fine?\n \naccording to the RFC, the ~ doesn\u0027t have to be encoded in URL encodings. That is why I am suggesting to say \"the ~ should be encoded as %7E\" rather \"URL-encoded\".\n \n\u003e As a follow-up that isn\u0027t relevant, I was thinking to disallow creating project names with the same method that is used for branches (Repository.isValidRefName), WDYT?\n\nWe only gain the benefit of simplifying some APIs if we can also forbid it for existing repositories, which might cause upgrade issues. Maybe something to discuss with community? Also, gather some internal stats to see what kind of nmaes we have on googlesource.com.",
+      "parentUuid": "e4e4ddc4_915acf23",
       "range": {
         "startLine": 254,
         "startChar": 26,

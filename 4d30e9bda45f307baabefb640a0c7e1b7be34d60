@@ -34,6 +34,24 @@
       "parentUuid": "2cf708d7_af455d82",
       "revId": "4d30e9bda45f307baabefb640a0c7e1b7be34d60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a0b64a5_c802f1de",
+        "filename": "java/com/google/gerrit/server/patch/BaseCommitUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-09T12:56:50Z",
+      "side": 1,
+      "message": "I think ThreeWayMergeStrategy should be fine, since it\u0027s creation only depends on the Gerrit config which doesn\u0027t change during the lifetime of the singleton object (it can only be updated via a restart/rollout, but then the singleton instance gets recreated too).",
+      "parentUuid": "f9fe500d_b53b4c74",
+      "revId": "4d30e9bda45f307baabefb640a0c7e1b7be34d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

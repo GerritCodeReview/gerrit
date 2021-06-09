@@ -22,6 +22,30 @@
       },
       "revId": "a3230b6fe17a4d9ecd7f934d619fb7777a9dd6c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85d4d60f_f84bbf13",
+        "filename": "java/com/google/gerrit/sshd/commands/ConvertRefStorage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-09T12:59:36Z",
+      "side": 1,
+      "message": "looks like this can be done with ExplicitBooleanOptionHandler.",
+      "parentUuid": "1a1b49c5_08234766",
+      "range": {
+        "startLine": 55,
+        "startChar": 27,
+        "endLine": 55,
+        "endChar": 31
+      },
+      "revId": "a3230b6fe17a4d9ecd7f934d619fb7777a9dd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

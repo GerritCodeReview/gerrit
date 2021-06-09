@@ -31,6 +31,7 @@ import {
   RepoName,
 } from '../../../types/common';
 import {GrDownloadDialog} from './gr-download-dialog';
+import {mockPromise} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-download-dialog');
 
@@ -168,14 +169,16 @@ suite('gr-download-dialog', () => {
       );
     });
 
-    test('close event', done => {
+    test('close event', async () => {
+      const closeCalled = mockPromise();
       element.addEventListener('close', () => {
-        done();
+        closeCalled.resolve();
       });
       const closeButton = element.shadowRoot!.querySelector(
         '.closeButtonContainer gr-button'
       );
       tap(closeButton!);
+      await closeCalled;
     });
   });
 

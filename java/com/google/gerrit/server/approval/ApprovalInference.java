@@ -129,18 +129,7 @@ class ApprovalInference {
     int n = psa.key().patchSetId().get();
     checkArgument(n != psId.get());
 
-    if (type == null) {
-      logger.atFine().log(
-          "approval %d on label %s of patch set %d of change %d cannot be copied"
-              + " to patch set %d because the label no longer exists on project %s",
-          psa.value(),
-          psa.label(),
-          n,
-          psa.key().patchSetId().changeId().get(),
-          psId.get(),
-          project.getName());
-      return false;
-    } else if (type.isCopyMinScore() && type.isMaxNegative(psa)) {
+    if (type.isCopyMinScore() && type.isMaxNegative(psa)) {
       logger.atFine().log(
           "veto approval %s on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set copyMinScore = true on project %s",
@@ -413,6 +402,18 @@ class ApprovalInference {
       // Only compute patchList if there is a relevant label, since this is expensive.
       if (patchList == null && type != null && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
         patchList = getPatchList(project, ps, priorPatchSet);
+      }
+      if (type == null) {
+        logger.atFine().log(
+            "approval %d on label %s of patch set %d of change %d cannot be copied"
+                + " to patch set %d because the label no longer exists on project %s",
+            psa.value(),
+            psa.label(),
+            psa.key().patchSetId().get(),
+            psa.key().patchSetId().changeId().get(),
+            psId.get(),
+            project.getName());
+        continue;
       }
       if (!canCopyBasedOnBooleanLabelConfigs(project, psa, ps.id(), kind, type, patchList)
           && !canCopyBasedOnCopyCondition(notes, psa, ps.id(), type, kind)) {

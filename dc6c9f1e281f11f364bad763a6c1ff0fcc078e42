@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43f27277_483c7d9f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/gr-lib-loader.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-06-09T18:23:02Z",
+      "side": 1,
+      "message": "Maybe that part should also be part of the LibraryConfig?\n\ninterface LibraryConfig\u003cT\u003e {\n  ...\n  get: () \u003d\u003e T\n}\n\n?",
+      "range": {
+        "startLine": 64,
+        "startChar": 47,
+        "endLine": 64,
+        "endChar": 71
+      },
+      "revId": "dc6c9f1e281f11f364bad763a6c1ff0fcc078e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

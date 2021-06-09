@@ -410,6 +410,30 @@
       },
       "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a5b38e_25460c2e",
+        "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-09T21:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70c7f2b3_3ce56fd1",
+      "range": {
+        "startLine": 120,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

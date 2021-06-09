@@ -44,6 +44,7 @@ import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgorithm;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,7 @@ import org.eclipse.jgit.lib.ObjectId;
  * Provides different file diff operations. Uses the underlying Git/Gerrit caches to speed up the
  * diff computation.
  */
+@Singleton
 public class DiffOperationsImpl implements DiffOperations {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c25ae94_57f3b2b1",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-09T08:23:07Z",
+      "side": 1,
+      "message": "I know what you want to say, but this makes it more confusing.\n\n\n  The project and ref names are URL-encoded, and must use %7E for \u0027~\u0027",
+      "range": {
+        "startLine": 254,
+        "startChar": 39,
+        "endLine": 254,
+        "endChar": 73
+      },
+      "revId": "c4f42332d5bec3b2455568d113ad1e2a960ebea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

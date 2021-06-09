@@ -49,6 +49,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9519ab34_2cd482ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-09T06:47:29Z",
+      "side": 1,
+      "message": "Doesn\u0027t that depend on the `accountId` value, which might or might not be the same?\n\nWhat if you have:\n\n```\n[externalIds \"gerrit:MyUsername\"]\n   accountId \u003d \"10000001\"\n```\n\nand\n\n\n```\n[externalIds \"gerrit:MyUSERNAME\"]\n   accountId \u003d \"10000002\"\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 44,
+        "endLine": 19,
+        "endChar": 66
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c2d5b7f_e7566d29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-09T06:47:29Z",
+      "side": 1,
+      "message": "associated",
+      "range": {
+        "startLine": 19,
+        "startChar": 33,
+        "endLine": 19,
+        "endChar": 43
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a47b3629_36c86a78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-09T06:47:29Z",
+      "side": 1,
+      "message": "Which one does it get deleted? Does it matter? is it deterministically removing the same one every time?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "022b5329_b798e2ab",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -66,6 +135,23 @@
         "endLine": 23,
         "endChar": 62
       },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08834563_f5533c1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-09T06:47:29Z",
+      "side": 1,
+      "message": "I think we should mention this behaviour in the relevant documentation [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/changes/51/308851/2/Documentation/pgm-LocalUsernamesToLowerCase.txt",
       "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

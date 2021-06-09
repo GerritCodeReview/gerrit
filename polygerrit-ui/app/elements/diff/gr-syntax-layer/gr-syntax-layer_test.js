@@ -52,6 +52,12 @@ suite('gr-syntax-layer tests', () => {
     element.diff = diff;
   });
 
+  teardown(() => {
+    if (window.hljs) {
+      delete window.hljs;
+    }
+  });
+
   test('annotate without range does nothing', () => {
     const annotationSpy = sinon.spy(GrAnnotation, 'annotateElement');
     const el = document.createElement('div');
@@ -171,9 +177,8 @@ suite('gr-syntax-layer tests', () => {
     element.diff.meta_b.content_type = 'application/json';
 
     const mockHLJS = getMockHLJS();
+    window.hljs = mockHLJS;
     const highlightSpy = sinon.spy(mockHLJS, 'highlight');
-    sinon.stub(element.libLoader, 'getHLJS').callsFake(
-        () => Promise.resolve(mockHLJS));
     const processNextSpy = sinon.spy(element, '_processNextLine');
     const processPromise = element.process();
 

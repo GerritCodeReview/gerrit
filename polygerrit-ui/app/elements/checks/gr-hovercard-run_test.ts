@@ -18,24 +18,25 @@
 import '../../test/common-test-setup-karma.js';
 import './gr-hovercard-run.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {GrHovercardRun} from './gr-hovercard-run.js';
 
 const basicFixture = fixtureFromTemplate(html`
-<gr-hovercard-run class="hovered"></gr-hovercard-run>
+  <gr-hovercard-run class="hovered"></gr-hovercard-run>
 `);
 
 suite('gr-hovercard-run tests', () => {
-  let element;
+  let element: GrHovercardRun;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = basicFixture.instantiate() as GrHovercardRun;
     await flush();
   });
 
   teardown(() => {
-    element.hide({});
+    element.hide();
   });
 
   test('hovercard is shown', () => {
+    assert.equal(element.computeIcon(), '');
   });
 });
-

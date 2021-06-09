@@ -16,25 +16,27 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import './gr-create-commands-dialog.js';
+import './gr-shell-command.js';
+import {GrShellCommand} from './gr-shell-command.js';
 
-const basicFixture = fixtureFromElement('gr-create-commands-dialog');
+const basicFixture = fixtureFromElement('gr-shell-command');
 
-suite('gr-create-commands-dialog tests', () => {
-  let element;
+suite('gr-shell-command tests', () => {
+  let element: GrShellCommand;
 
   setup(() => {
     element = basicFixture.instantiate();
+    element.command = `git fetch http://gerrit@localhost:8080/a/test-project
+        refs/changes/05/5/1 && git checkout FETCH_HEAD`;
+    flush();
   });
 
-  test('_computePushCommand', () => {
-    element.branch = 'master';
-    assert.equal(element._pushCommand,
-        'git push origin HEAD:refs/for/master');
-
-    element.branch = 'stable-2.15';
-    assert.equal(element._pushCommand,
-        'git push origin HEAD:refs/for/stable-2.15');
+  test('focusOnCopy', () => {
+    const focusStub = sinon.stub(
+      element.shadowRoot!.querySelector('gr-copy-clipboard')!,
+      'focusOnCopy'
+    );
+    element.focusOnCopy();
+    assert.isTrue(focusStub.called);
   });
 });
-

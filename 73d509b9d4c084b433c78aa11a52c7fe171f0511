@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21cf08f9_b4fa38d5",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-09T08:19:57Z",
+      "side": 1,
+      "message": "why not: modules.add(...) ?\n\nWasn\u0027t this already done by [1]?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/307829",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 11
+      },
+      "revId": "73d509b9d4c084b433c78aa11a52c7fe171f0511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04261a06_3388a691",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-09T08:19:57Z",
+      "side": 1,
+      "message": "nit: maybe add a comment with the parameter name here, to make this more readable",
+      "range": {
+        "startLine": 440,
+        "startChar": 56,
+        "endLine": 440,
+        "endChar": 60
+      },
+      "revId": "73d509b9d4c084b433c78aa11a52c7fe171f0511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8791e4d8_75c54519",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-09T08:19:57Z",
+      "side": 1,
+      "message": "Do you need to handle the case where the modifiedFiles map is empty?",
+      "range": {
+        "startLine": 441,
+        "startChar": 13,
+        "endLine": 441,
+        "endChar": 53
+      },
+      "revId": "73d509b9d4c084b433c78aa11a52c7fe171f0511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

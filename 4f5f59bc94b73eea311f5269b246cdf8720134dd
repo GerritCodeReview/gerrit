@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb2c6dc4_ca83ecdb",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-09T12:17:31Z",
+      "side": 1,
+      "message": "Yes, all these classes can be marked as singletons.\n\nDone.",
+      "parentUuid": "73858cb0_1674b025",
+      "revId": "4f5f59bc94b73eea311f5269b246cdf8720134dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a018f10_a697befb",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-06-09T08:15:05Z",
       "side": 1,
       "message": "AFAIK this is not needed if the @Singleton annotation is used.",
+      "range": {
+        "startLine": 82,
+        "startChar": 63,
+        "endLine": 82,
+        "endChar": 85
+      },
+      "revId": "4f5f59bc94b73eea311f5269b246cdf8720134dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d489dc25_8de2b4f5",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-09T12:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a018f10_a697befb",
       "range": {
         "startLine": 82,
         "startChar": 63,

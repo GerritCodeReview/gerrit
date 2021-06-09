@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4adc9279_21bb389d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-09T08:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a172f21_57854bd0",
+      "range": {
+        "startLine": 29,
+        "startChar": 42,
+        "endLine": 29,
+        "endChar": 69
+      },
+      "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ed948427_22e73441",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -191,6 +215,30 @@
       "side": 1,
       "message": "\u003e I don\u0027t know why it didn\u0027t work in the go code, but it looks fine?\n \naccording to the RFC, the ~ doesn\u0027t have to be encoded in URL encodings. That is why I am suggesting to say \"the ~ should be encoded as %7E\" rather \"URL-encoded\".\n \n\u003e As a follow-up that isn\u0027t relevant, I was thinking to disallow creating project names with the same method that is used for branches (Repository.isValidRefName), WDYT?\n\nWe only gain the benefit of simplifying some APIs if we can also forbid it for existing repositories, which might cause upgrade issues. Maybe something to discuss with community? Also, gather some internal stats to see what kind of nmaes we have on googlesource.com.",
       "parentUuid": "e4e4ddc4_915acf23",
+      "range": {
+        "startLine": 254,
+        "startChar": 26,
+        "endLine": 254,
+        "endChar": 38
+      },
+      "revId": "535d52c3a4daff763bd70ba037fc579a5dc6bc1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0571ba33_8074e5bd",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-09T08:19:34Z",
+      "side": 1,
+      "message": "added that to the docs, and ack, I\u0027ll follow-up.",
+      "parentUuid": "e5b055f7_09552ead",
       "range": {
         "startLine": 254,
         "startChar": 26,

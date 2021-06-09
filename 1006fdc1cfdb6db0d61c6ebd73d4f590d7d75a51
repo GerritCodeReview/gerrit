@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "353894ca_3235fab5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-09T21:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1eb3e5d9_9f7ac1f7",
+      "range": {
+        "startLine": 13,
+        "startChar": 31,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5d5fe5a_dcf9f22f",
@@ -117,6 +141,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afe7cf55_c2ecd423",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-09T21:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c37f8979_3bc52176",
+      "range": {
+        "startLine": 19,
+        "startChar": 44,
+        "endLine": 19,
+        "endChar": 66
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e671ab97_c36b665b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-09T21:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5d5fe5a_dcf9f22f",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 15
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37535a1d_dddee8d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-09T21:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c2d5b7f_e7566d29",
+      "range": {
+        "startLine": 19,
+        "startChar": 33,
+        "endLine": 19,
+        "endChar": 43
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a47b3629_36c86a78",
@@ -164,6 +260,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9450623_ef645bbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-09T21:27:48Z",
+      "side": 1,
+      "message": "I\u0027ve clarified that in the commit message.",
+      "parentUuid": "f0f56127_2dc09323",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "022b5329_b798e2ab",
@@ -177,6 +297,30 @@
       "writtenOn": "2021-06-09T05:33:23Z",
       "side": 1,
       "message": "To be compatible with the previous release should we not remove the identities automagically, but continue to fail, and add new option, e.g.: --force or --remove-duplicates?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 62
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b5b5403_ffa5b106",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-09T21:27:48Z",
+      "side": 1,
+      "message": "I believe we do have already so many options and configs. I consider this a bug and not a feature: why would you like to fail when you collapse the two following identities \"JDoe\" and \"jdoe\" to a single \"jdoe\"?\n\nCan you find any useful use-case for failing that?",
+      "parentUuid": "022b5329_b798e2ab",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -234,6 +378,30 @@
       "writtenOn": "2021-06-09T05:33:23Z",
       "side": 1,
       "message": "Just to be sure, can we also check, that the another external id really belongs to the same account, e.g. compare the accounts IDs and refuse replcaement, in case their differ. We have seen so many different metadata corruptions and we don\u0027t really know, what authentication scheme is used.",
+      "range": {
+        "startLine": 120,
+        "startChar": 6,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70c7f2b3_3ce56fd1",
+        "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-09T21:27:48Z",
+      "side": 1,
+      "message": "Oh man, that\u0027s a very good catch! If the account-id *ISN\u0027T* the same, then we cannot remove safely the duplicate and *WE HAVE* to fail.\n\nThanks for the input, well spotted.",
+      "parentUuid": "8fe4c23f_d7be679e",
       "range": {
         "startLine": 120,
         "startChar": 6,

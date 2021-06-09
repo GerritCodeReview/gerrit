@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53ac8c80_0e53f961",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-09T11:45:23Z",
+      "side": 1,
+      "message": "I would like to have Delphine\u0027s input, but I tend to agree with this change.",
+      "revId": "95f3031c132019bcad80a7b02710e56798d3a361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -121,6 +121,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "907c93bd_d5d02fa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-06-09T16:16:51Z",
+      "side": 1,
+      "message": "\u003e Maybe we should detect and auto-cleanup stale locks during start ?\n\nWe\u0027re getting off topic for this change, but... 😊\n\nDefining \"stale\" is challenging here, especially with multi-primary setups. If we really want to solve this, I think it should be a discussion with the git community on transactional support for updates in git. I think we need it eventually (especially in cloud-native use cases) and that\u0027s going to be the only robust way to solve stale locks.\n\nYou can get by with some hacks where you use information from other processes in your cluster (or lack thereof) to do time-based staleness, but it\u0027s always going to be risky.",
+      "parentUuid": "1d7ca9ef_4aa2a37e",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "816abdbf_1641be24",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 5

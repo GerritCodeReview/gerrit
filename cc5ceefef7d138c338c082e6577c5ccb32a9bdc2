@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ee6b929_732126b9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/gr-lib-loader.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-06-09T15:07:32Z",
+      "side": 0,
+      "message": "Not very familiar with promises, but this looks to me also as if previously only the first call to getHLJS() would ever see a rejected promise, while later calls would just never resolve?",
+      "revId": "cc5ceefef7d138c338c082e6577c5ccb32a9bdc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

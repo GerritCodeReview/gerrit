@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d8cd85d_993ba40f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-actions-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-09T10:22:09Z",
+      "side": 1,
+      "message": "eslintfix kept fixing this and the other non-test file so I though I\u0027d include it.",
+      "range": {
+        "startLine": 83,
+        "startChar": 36,
+        "endLine": 83,
+        "endChar": 38
+      },
+      "revId": "a51deba7e62c2fcb34ed83385b1e315130a027df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

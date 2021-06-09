@@ -103,6 +103,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d7ca9ef_4aa2a37e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-09T11:28:27Z",
+      "side": 1,
+      "message": "Maybe we should detect and auto-cleanup stale locks during start ?\n\nI wouldn\u0027t add another timeout option for the startup script.",
+      "parentUuid": "76077500_50dad4c6",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "816abdbf_1641be24",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 5
@@ -179,6 +197,24 @@
       "side": 1,
       "message": "That is a very good point, nevertheless we have two options at the moment.\nCan you raise this as a separate bug so that we can trace it and fix it on master?\n\nOn stable-3.2 I wouldn\u0027t change the current configuration settings, but on master I am more than happy to review it.",
       "parentUuid": "1ad84546_2dab6c4a",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbe8be26_805a03e0",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-09T11:28:27Z",
+      "side": 1,
+      "message": "I filed\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d14654\nto track this",
+      "parentUuid": "c53dd04b_bfd73f45",
       "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

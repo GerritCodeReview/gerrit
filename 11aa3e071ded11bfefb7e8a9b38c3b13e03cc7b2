@@ -20,7 +20,7 @@
       "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/107266/console",
       "started": "2021-06-09T10:41:10Z",
-      "finished": "2021-06-09T11:01:06Z",
+      "finished": "2021-06-09T11:01:07Z",
       "created": "2021-06-09T10:07:55Z",
       "updated": "2021-06-09T10:59:42Z"
     }

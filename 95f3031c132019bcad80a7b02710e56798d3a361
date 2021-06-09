@@ -16,6 +16,46 @@
       "message": "I would like to have Delphine\u0027s input, but I tend to agree with this change.",
       "revId": "95f3031c132019bcad80a7b02710e56798d3a361",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2db36411_0300ab04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-09T17:43:04Z",
+      "side": 1,
+      "message": "I like this change because users still have control over the button in the two states. Added a comment about UI polish.\n",
+      "revId": "95f3031c132019bcad80a7b02710e56798d3a361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e8d304b_26f556c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-09T17:43:04Z",
+      "side": 1,
+      "message": "We\u0027ll need to move the separator between the Diff preference icon and the Download button to help differentiate the Text buttons from the Diff view icon buttons",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 39
+      },
+      "revId": "95f3031c132019bcad80a7b02710e56798d3a361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

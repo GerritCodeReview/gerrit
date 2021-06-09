@@ -171,7 +171,7 @@ import {GerritView} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
-import {debounce, DelayedTask} from '../../../utils/async-util';
+import {debounce, DelayedTask, throttleWrap} from '../../../utils/async-util';
 import {Interaction, Timing} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
@@ -603,7 +603,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   /** @override */
   connectedCallback() {
     super.connectedCallback();
-    this._throttledToggleChangeStar = this._throttleWrap(e =>
+    this._throttledToggleChangeStar = throttleWrap(e =>
       this._handleToggleChangeStar(e as CustomKeyboardEvent)
     );
     this._getServerConfig().then(config => {

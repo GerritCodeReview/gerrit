@@ -261,10 +261,13 @@ export const allResultsSelected$ = checksSelected$.pipe(
 
 // Must only be used by the checks service or whatever is in control of this
 // model.
-export function updateStateSetProvider(pluginName: string) {
+export function updateStateSetProvider(
+  pluginName: string,
+  patchset: ChecksPatchset
+) {
   const nextState = {...privateState$.getValue()};
-  nextState.pluginStateLatest = {...nextState.pluginStateLatest};
-  nextState.pluginStateLatest[pluginName] = {
+  const pluginState = getPluginState(nextState, patchset);
+  pluginState[pluginName] = {
     pluginName,
     loading: false,
     runs: [],

@@ -118,7 +118,8 @@ export class ChecksService {
   ) {
     this.providers[pluginName] = provider;
     this.reloadSubjects[pluginName] = new BehaviorSubject<void>(undefined);
-    updateStateSetProvider(pluginName);
+    updateStateSetProvider(pluginName, ChecksPatchset.LATEST);
+    updateStateSetProvider(pluginName, ChecksPatchset.SELECTED);
     this.initFetchingOfData(pluginName, config, ChecksPatchset.LATEST);
     this.initFetchingOfData(pluginName, config, ChecksPatchset.SELECTED);
   }

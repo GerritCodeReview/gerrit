@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec981850_5a272097",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T06:43:31Z",
+      "side": 1,
+      "message": "The change is ready for review.\n\n@Edwin: Appreciate if you could review this change for me.",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

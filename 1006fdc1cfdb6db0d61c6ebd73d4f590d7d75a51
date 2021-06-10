@@ -367,6 +367,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b8671e1_6115806e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-10T07:11:40Z",
+      "side": 1,
+      "message": "Unresolving for visibility",
+      "parentUuid": "08834563_f5533c1e",
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8fe4c23f_d7be679e",
         "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
         "patchSetId": 2

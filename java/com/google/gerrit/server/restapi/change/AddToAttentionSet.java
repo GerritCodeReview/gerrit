@@ -91,7 +91,8 @@ public class AddToAttentionSet
     try (BatchUpdate bu =
         updateFactory.create(
             changeResource.getChange().getProject(), changeResource.getUser(), TimeUtil.nowTs())) {
-      AddToAttentionSetOp op = opFactory.create(attentionUserId, input.reason, true);
+      AddToAttentionSetOp op =
+          opFactory.create(attentionUserId, input.reason, true, /* attentionSetUpdateOnly= */ true);
       bu.addOp(changeResource.getId(), op);
       NotifyHandling notify = input.notify == null ? NotifyHandling.OWNER : input.notify;
       NotifyResolver.Result notifyResult = notifyResolver.resolve(notify, input.notifyDetails);

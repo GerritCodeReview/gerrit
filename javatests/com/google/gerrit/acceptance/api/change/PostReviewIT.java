@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -45,6 +46,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
@@ -355,6 +357,127 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
     assertThat(getRobotComments(r.getChangeId())).hasSize(1);
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxUpdates", value = "1")
+  public void restrictNumberOfUpdates_exceedLimit() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+    String filePath = r.getChange().currentFilePaths().get(0);
+    CommentInput commentInput = new CommentInput();
+    commentInput.line = 1;
+    commentInput.message = "foo";
+    commentInput.path = filePath;
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(filePath, ImmutableList.of(commentInput));
+
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().review(reviewInput));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains(
+            "Change 1 may not exceed 1 updates. It may still be abandoned, submitted and you can add/remove "
+                + "reviewers to/from the attention-set. To continue working on this change, recreate it with a new Change-Id"
+                + ", then abandon this one.");
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxUpdates", value = "2")
+  public void restrictNumberOfUpdates_belowLimit() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+    String filePath = r.getChange().currentFilePaths().get(0);
+    CommentInput commentInput = new CommentInput();
+    commentInput.line = 1;
+    commentInput.message = "foo";
+    commentInput.path = filePath;
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(filePath, ImmutableList.of(commentInput));
+
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxUpdates", value = "1")
+  public void restrictNumberOfUpdates_exceedLimitAddingToAttentionSet() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.addToAttentionSet =
+        ImmutableList.of(new AttentionSetInput(user.username(), "Add pure AS"));
+
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(0);
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxUpdates", value = "1")
+  public void restrictNumberOfUpdates_exceedLimitRemovingFromAttentionSet() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.removeFromAttentionSet =
+        ImmutableList.of(new AttentionSetInput(user.username(), "Remove pure AS"));
+
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(0);
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxUpdates", value = "1")
+  public void restrictNumberOfUpdates_exceedLimitDraftsPublish() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH;
+
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().review(reviewInput));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains(
+            "Change 1 may not exceed 1 updates. It may still be abandoned, submitted and you can add/remove "
+                + "reviewers to/from the attention-set. To continue working on this change, recreate it with a new Change-Id"
+                + ", then abandon this one.");
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxUpdates", value = "1")
+  public void restrictNumberOfUpdates_exceedLimitDraftsPublishAllRevisions() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().review(reviewInput));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains(
+            "Change 1 may not exceed 1 updates. It may still be abandoned, submitted and you can add/remove "
+                + "reviewers to/from the attention-set. To continue working on this change, recreate it with a new Change-Id"
+                + ", then abandon this one.");
   }
 
   @Test

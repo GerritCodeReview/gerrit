@@ -38,7 +38,11 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    AddToAttentionSetOp create(Account.Id attentionUserId, String reason, boolean notify);
+    AddToAttentionSetOp create(
+        Account.Id attentionUserId,
+        String reason,
+        @Assisted("notify") boolean notify,
+        @Assisted("attentionSetUpdateOnly") boolean attentionSetUpdateOnly);
   }
 
   private final ChangeData.Factory changeDataFactory;
@@ -48,6 +52,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
 
   private final Account.Id attentionUserId;
   private final String reason;
+  private final boolean attentionSetUpdateOnly;
 
   private Change change;
   private boolean notify;
@@ -67,7 +72,8 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
       AttentionSetEmail.Factory attentionSetEmailFactory,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
-      @Assisted boolean notify) {
+      @Assisted("notify") boolean notify,
+      @Assisted("attentionSetUpdateOnly") boolean attentionSetUpdateOnly) {
     this.changeDataFactory = changeDataFactory;
     this.addToAttentionSetSender = addToAttentionSetSender;
     this.messageIdGenerator = messageIdGenerator;
@@ -76,6 +82,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
     this.notify = notify;
+    this.attentionSetUpdateOnly = attentionSetUpdateOnly;
   }
 
   @Override
@@ -97,6 +104,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
     update.addToPlannedAttentionSetUpdates(
         AttentionSetUpdate.createForWrite(
             attentionUserId, AttentionSetUpdate.Operation.ADD, reason));
+    update.setAttentionSetOnly(attentionSetUpdateOnly);
     return true;
   }
 

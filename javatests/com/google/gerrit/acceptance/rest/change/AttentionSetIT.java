@@ -135,6 +135,20 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.maxUpdates", value = "1")
+  public void addUserDoNotExceedMaxUpdatesLimit() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "first"));
+
+    AttentionSetUpdate expectedAttentionSetUpdate =
+        AttentionSetUpdate.createFromRead(
+            fakeClock.now(), user.id(), AttentionSetUpdate.Operation.ADD, "first");
+    assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
+  }
+
+  @Test
   public void addMultipleUsers() throws Exception {
     PushOneCommit.Result r = createChange();
     Instant timestamp1 = fakeClock.now();
@@ -184,6 +198,22 @@ public class AttentionSetIT extends AbstractDaemonTest {
             user.fullName()
                 + " removed themselves from the attention set of this change.\n"
                 + " The reason is: removed.");
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxUpdates", value = "1")
+  public void removeUserDoNotExceedMaxUpdatesLimit() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "added"));
+    requestScopeOperations.setApiUser(user.id());
+    fakeClock.advance(Duration.ofSeconds(42));
+
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed"));
+
+    AttentionSetUpdate expectedAttentionSetUpdate =
+        AttentionSetUpdate.createFromRead(
+            fakeClock.now(), user.id(), AttentionSetUpdate.Operation.REMOVE, "removed");
+    assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
   }
 
   @Test

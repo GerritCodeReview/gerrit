@@ -331,6 +331,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fac8adc_1959a587",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-10T18:48:56Z",
+      "side": 1,
+      "message": "Ping @DavidO?",
+      "parentUuid": "6b5b5403_ffa5b106",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 62
+      },
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "08834563_f5533c1e",
@@ -379,6 +403,24 @@
       "side": 1,
       "message": "Unresolving for visibility",
       "parentUuid": "08834563_f5533c1e",
+      "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f98a4d69_46ffcd39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-10T18:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b8671e1_6115806e",
       "revId": "1006fdc1cfdb6db0d61c6ebd73d4f590d7d75a51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

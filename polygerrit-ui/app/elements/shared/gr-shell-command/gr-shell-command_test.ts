@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-shell-command.js';
-import {GrShellCommand} from './gr-shell-command.js';
+import '../../../test/common-test-setup-karma';
+import './gr-shell-command';
+import {GrShellCommand} from './gr-shell-command';
 
 const basicFixture = fixtureFromElement('gr-shell-command');
 

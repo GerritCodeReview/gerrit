@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-create-commands-dialog.js';
-import {GrCreateCommandsDialog} from './gr-create-commands-dialog.js';
+import '../../../test/common-test-setup-karma';
+import './gr-create-commands-dialog';
+import {GrCreateCommandsDialog} from './gr-create-commands-dialog';
 
 const basicFixture = fixtureFromElement('gr-create-commands-dialog');
 

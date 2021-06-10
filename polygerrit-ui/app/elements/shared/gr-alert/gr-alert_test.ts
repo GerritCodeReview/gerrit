@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-alert.js';
-import {GrAlert} from './gr-alert.js';
+import '../../../test/common-test-setup-karma';
+import './gr-alert';
+import {GrAlert} from './gr-alert';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 suite('gr-alert tests', () => {

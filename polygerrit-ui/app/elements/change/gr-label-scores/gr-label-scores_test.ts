@@ -15,20 +15,28 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-label-scores.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-label-scores';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {GrLabelScores} from './gr-label-scores';
+import {AccountId} from '../../../types/common';
+import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
+import {
+  createAccountWithId,
+  createChange,
+} from '../../../test/test-data-generators';
 
 const basicFixture = fixtureFromElement('gr-label-scores');
 
 suite('gr-label-scores tests', () => {
-  let element;
+  const accountId = 123 as AccountId;
+  let element: GrLabelScores;
 
   setup(async () => {
-    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
+    stubRestApi('getLoggedIn').resolves(false);
     element = basicFixture.instantiate();
     element.change = {
-      _number: '123',
+      ...createChange(),
       labels: {
         'Code-Review': {
           values: {
@@ -40,12 +48,14 @@ suite('gr-label-scores tests', () => {
           },
           default_value: 0,
           value: 1,
-          all: [{
-            _account_id: 123,
-            value: 1,
-          }],
+          all: [
+            {
+              _account_id: accountId,
+              value: 1,
+            },
+          ],
         },
-        'Verified': {
+        Verified: {
           values: {
             '0': 'No score',
             '+1': 'good',
@@ -55,50 +65,42 @@ suite('gr-label-scores tests', () => {
           },
           default_value: 0,
           value: 1,
-          all: [{
-            _account_id: 123,
-            value: 1,
-          }],
+          all: [
+            {
+              _account_id: accountId,
+              value: 1,
+            },
+          ],
         },
       },
     };
 
-    element.account = {
-      _account_id: 123,
-    };
+    element.account = createAccountWithId(accountId);
 
     element.permittedLabels = {
-      'Code-Review': [
-        '-2',
-        '-1',
-        ' 0',
-        '+1',
-        '+2',
-      ],
-      'Verified': [
-        '-1',
-        ' 0',
-        '+1',
-      ],
+      'Code-Review': ['-2', '-1', ' 0', '+1', '+2'],
+      Verified: ['-1', ' 0', '+1'],
     };
     await flush();
   });
 
   test('get and set label scores', () => {
-    for (const label of Object.keys(element.permittedLabels)) {
-      const row = element.shadowRoot
-          .querySelector('gr-label-score-row[name="' + label + '"]');
-      row.setSelectedValue(-1);
+    for (const label of Object.keys(element.permittedLabels!)) {
+      const row = queryAndAssert<GrLabelScoreRow>(
+        element,
+        'gr-label-score-row[name="' + label + '"]'
+      );
+      row.setSelectedValue('-1');
     }
     assert.deepEqual(element.getLabelValues(), {
       'Code-Review': -1,
-      'Verified': -1,
+      Verified: -1,
     });
   });
 
   test('getLabelValues includeDefaults', async () => {
     element.change = {
-      _number: '123',
+      ...createChange(),
       labels: {
         'Code-Review': {
           values: {'0': 'meh', '+1': 'good', '-1': 'bad'},
@@ -114,9 +116,14 @@ suite('gr-label-scores tests', () => {
 
   test('_getVoteForAccount', () => {
     const labelName = 'Code-Review';
-    assert.strictEqual(element._getVoteForAccount(
-        element.change.labels, labelName, element.account),
-    '+1');
+    assert.strictEqual(
+      element._getVoteForAccount(
+        element.change!.labels,
+        labelName,
+        element.account
+      ),
+      '+1'
+    );
   });
 
   test('_computeColumns', () => {
@@ -132,26 +139,30 @@ suite('gr-label-scores tests', () => {
 
   test('_computeLabelAccessClass undefined case', () => {
     assert.strictEqual(
-        element._computeLabelAccessClass(undefined, undefined), '');
-    assert.strictEqual(
-        element._computeLabelAccessClass('', undefined), '');
-    assert.strictEqual(
-        element._computeLabelAccessClass(undefined, {}), '');
+      element._computeLabelAccessClass(undefined, undefined),
+      ''
+    );
+    assert.strictEqual(element._computeLabelAccessClass('', undefined), '');
+    assert.strictEqual(element._computeLabelAccessClass(undefined, {}), '');
   });
 
   test('_computeLabelAccessClass has access', () => {
     assert.strictEqual(
-        element._computeLabelAccessClass('foo', {foo: ['']}), 'access');
+      element._computeLabelAccessClass('foo', {foo: ['']}),
+      'access'
+    );
   });
 
   test('_computeLabelAccessClass no access', () => {
     assert.strictEqual(
-        element._computeLabelAccessClass('zap', {foo: ['']}), 'no-access');
+      element._computeLabelAccessClass('zap', {foo: ['']}),
+      'no-access'
+    );
   });
 
   test('changes in label score are reflected in _labels', () => {
     element.change = {
-      _number: '123',
+      ...createChange(),
       labels: {
         'Code-Review': {
           values: {
@@ -163,7 +174,7 @@ suite('gr-label-scores tests', () => {
           },
           default_value: 0,
         },
-        'Verified': {
+        Verified: {
           values: {
             '0': 'No score',
             '+1': 'good',
@@ -175,15 +186,17 @@ suite('gr-label-scores tests', () => {
         },
       },
     };
-    assert.deepEqual(element._labels [
-        ({name: 'Code-Review', value: null}, {name: 'Verified', value: null})
+    assert.deepEqual(element._labels, [
+      {name: 'Code-Review', value: null},
+      {name: 'Verified', value: null},
     ]);
-    element.set(['change', 'labels', 'Verified', 'all'],
-        [{_account_id: 123, value: 1}]);
+    element.set(
+      ['change', 'labels', 'Verified', 'all'],
+      [{_account_id: accountId, value: 1}]
+    );
     assert.deepEqual(element._labels, [
       {name: 'Code-Review', value: null},
       {name: 'Verified', value: '+1'},
     ]);
   });
 });
-

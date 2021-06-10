@@ -75,6 +75,37 @@ export interface GrErrorManager {
   };
 }
 
+export function constructServerErrorMsg({
+  errorText,
+  status,
+  statusText,
+  url,
+  trace,
+  tip,
+}: ErrorMsg) {
+  let err = '';
+  if (tip) {
+    err += `${tip}\n\n`;
+  }
+  err += `Error ${status}`;
+  if (statusText) {
+    err += ` (${statusText})`;
+  }
+  if (errorText || url) {
+    err += ': ';
+  }
+  if (errorText) {
+    err += errorText;
+  }
+  if (url) {
+    err += `\nEndpoint: ${url}`;
+  }
+  if (trace) {
+    err += `\nTrace Id: ${trace}`;
+  }
+  return err;
+}
+
 @customElement('gr-error-manager')
 export class GrErrorManager extends PolymerElement {
   static get template() {
@@ -221,7 +252,7 @@ export class GrErrorManager extends PolymerElement {
           this._showQuotaExceeded({status, statusText});
         } else {
           this._showErrorDialog(
-            this._constructServerErrorMsg({
+            constructServerErrorMsg({
               status,
               statusText,
               errorText,
@@ -247,7 +278,7 @@ export class GrErrorManager extends PolymerElement {
         ? 'You might have not enough privileges.'
         : 'You might have not enough privileges. Sign in and try again.';
       this._showErrorDialog(
-        this._constructServerErrorMsg({
+        constructServerErrorMsg({
           status,
           statusText,
           errorText,
@@ -266,44 +297,13 @@ export class GrErrorManager extends PolymerElement {
     const tip = 'Try again later';
     const errorText = 'Too many requests from this client';
     this._showErrorDialog(
-      this._constructServerErrorMsg({
+      constructServerErrorMsg({
         status,
         statusText,
         errorText,
         tip,
       })
     );
-  }
-
-  _constructServerErrorMsg({
-    errorText,
-    status,
-    statusText,
-    url,
-    trace,
-    tip,
-  }: ErrorMsg) {
-    let err = '';
-    if (tip) {
-      err += `${tip}\n\n`;
-    }
-    err += `Error ${status}`;
-    if (statusText) {
-      err += ` (${statusText})`;
-    }
-    if (errorText || url) {
-      err += ': ';
-    }
-    if (errorText) {
-      err += errorText;
-    }
-    if (url) {
-      err += `\nEndpoint: ${url}`;
-    }
-    if (trace) {
-      err += `\nTrace Id: ${trace}`;
-    }
-    return err;
   }
 
   private readonly handleShowAlert = (e: CustomEvent<ShowAlertEventDetail>) => {

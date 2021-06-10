@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7c535f0_b761c87a",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-10T12:51:20Z",
+      "side": 1,
+      "message": "it\u0027s crazy what js will accept without causing a error 😂\ntypescript had multiple concerns with the comma missing",
+      "range": {
+        "startLine": 189,
+        "startChar": 36,
+        "endLine": 189,
+        "endChar": 37
+      },
+      "revId": "7d68d3b5a15a0698d4122a362c41e6cc69645289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

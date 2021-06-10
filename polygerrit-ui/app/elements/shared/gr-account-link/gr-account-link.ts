@@ -21,7 +21,7 @@ import {AccountInfo, ChangeInfo} from '../../../types/common';
 import {css, customElement, html, LitElement, property} from 'lit-element';
 
 @customElement('gr-account-link')
-class GrAccountLink extends LitElement {
+export class GrAccountLink extends LitElement {
   @property({type: String})
   voteableText?: string;
 

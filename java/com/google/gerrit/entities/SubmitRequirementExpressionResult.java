@@ -98,7 +98,7 @@ public abstract class SubmitRequirementExpressionResult {
   public abstract static class PredicateResult {
     abstract ImmutableList<PredicateResult> childPredicateResults();
 
-    abstract String predicateString();
+    public abstract String predicateString();
 
     /** true if the predicate is passing for a given change. */
     abstract boolean status();

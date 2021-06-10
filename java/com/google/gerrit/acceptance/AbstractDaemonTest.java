@@ -71,6 +71,7 @@ import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -1593,6 +1594,14 @@ public abstract class AbstractDaemonTest {
   protected RevCommit parseCurrentRevision(RevWalk rw, String changeId) throws Exception {
     return rw.parseCommit(
         ObjectId.fromString(get(changeId, ListChangesOption.CURRENT_REVISION).currentRevision));
+  }
+
+  protected void configSubmitRequirement(
+      Project.NameKey project, SubmitRequirement submitRequirement) throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().upsertSubmitRequirement(submitRequirement);
+      u.save();
+    }
   }
 
   protected void configLabel(String label, LabelFunction func) throws Exception {

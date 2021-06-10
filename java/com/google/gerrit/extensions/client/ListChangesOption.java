@@ -85,7 +85,10 @@ public enum ListChangesOption implements ListOption {
    * Skip diffstat computation that compute the insertions field (number of lines inserted) and
    * deletions field (number of lines deleted)
    */
-  SKIP_DIFFSTAT(23);
+  SKIP_DIFFSTAT(23),
+
+  /** Include the evaluated submit requirements for the caller. */
+  SUBMIT_REQUIREMENTS(24);
 
   private final int value;
 

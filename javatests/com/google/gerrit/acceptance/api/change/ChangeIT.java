@@ -100,6 +100,8 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
@@ -142,6 +144,8 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -3990,6 +3994,192 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirementIsSatisfied_whenSubmittabilityExpressionIsFulfilled()
+      throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("verified")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:verified=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+    assertSubmitRequirementStatus(change.submitRequirements, "verified", Status.UNSATISFIED);
+
+    voteLabel(changeId, "code-review", 2);
+
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(2);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+    assertSubmitRequirementStatus(change.submitRequirements, "verified", Status.UNSATISFIED);
+  }
+
+  @Test
+  public void submitRequirementIsNotApplicable_whenApplicabilityExpressionIsNotFulfilled()
+      throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setApplicabilityExpression(SubmitRequirementExpression.of("project:foo"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.NOT_APPLICABLE);
+  }
+
+  @Test
+  public void submitRequirementIsOverridden_whenOverrideExpressionIsFulfilled() throws Exception {
+    configLabel("build-cop-override", LabelFunction.MAX_WITH_BLOCK);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel("build-cop-override")
+                .ref("refs/heads/master")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+
+    voteLabel(changeId, "build-cop-override", 1);
+
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.OVERRIDDEN);
+  }
+
+  @Test
+  public void submitRequirement_overriddenInChildProject() throws Exception {
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+1"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
+    // Override submit requirement in child project (requires code-review=+2 instead of +1)
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+
+    voteLabel(changeId, "code-review", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+
+    voteLabel(changeId, "code-review", 2);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+  }
+
+  @Test
+  public void submitRequirement_inheritedFromParentProject() throws Exception {
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+1"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+
+    voteLabel(changeId, "code-review", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+  }
+
+  @Test
+  public void submitRequirement_ignoredInChildProject_ifParentDoesNotAllowOverride()
+      throws Exception {
+    configSubmitRequirement(
+        allProjects,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+1"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    // Override submit requirement in child project (requires code-review=+2 instead of +1).
+    // Will have no effect since parent does not allow override.
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setOverrideExpression(SubmitRequirementExpression.of("label:build-cop-override=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+
+    voteLabel(changeId, "code-review", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    // +1 was enough to fulfill the requirement: override in child project was ignored
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));
@@ -4629,5 +4819,22 @@ public class ChangeIT extends AbstractDaemonTest {
       this.wip =
           event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
     }
+  }
+
+  private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
+    gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
+  }
+
+  private void assertSubmitRequirementStatus(
+      Collection<SubmitRequirementResultInfo> results,
+      String requirementName,
+      SubmitRequirementResultInfo.Status status) {
+    for (SubmitRequirementResultInfo result : results) {
+      if (result.name.equals(requirementName) && result.status == status) {
+        return;
+      }
+    }
+    throw new AssertionError(
+        "Could not find submit requirement  " + requirementName + " with status " + status);
   }
 }

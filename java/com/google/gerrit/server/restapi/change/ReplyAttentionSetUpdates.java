@@ -280,7 +280,7 @@ public class ReplyAttentionSetUpdates {
   private void addToAttentionSet(
       BatchUpdate bu, ChangeNotes changeNotes, Account.Id user, String reason, boolean notify) {
     AddToAttentionSetOp addOwnerToAttentionSet =
-        addToAttentionSetOpFactory.create(user, reason, notify);
+        addToAttentionSetOpFactory.create(user, reason, notify, false);
     bu.addOp(changeNotes.getChangeId(), addOwnerToAttentionSet);
   }
 
@@ -296,7 +296,7 @@ public class ReplyAttentionSetUpdates {
   private void removeFromAttentionSet(
       BatchUpdate bu, ChangeNotes changeNotes, Account.Id user, String reason, boolean notify) {
     RemoveFromAttentionSetOp removeFromAttentionSetOp =
-        removeFromAttentionSetOpFactory.create(user, reason, notify);
+        removeFromAttentionSetOpFactory.create(user, reason, notify, false);
     bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
   }
 

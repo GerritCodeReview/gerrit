@@ -40,7 +40,11 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    RemoveFromAttentionSetOp create(Account.Id attentionUserId, String reason, boolean notify);
+    RemoveFromAttentionSetOp create(
+        Account.Id attentionUserId,
+        String reason,
+        @Assisted("notify") boolean notify,
+        @Assisted("attentionSetUpdateOnly") boolean attentionSetUpdateOnly);
   }
 
   private final ChangeData.Factory changeDataFactory;
@@ -50,6 +54,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
 
   private final Account.Id attentionUserId;
   private final String reason;
+  private final boolean attentionSetUpdateOnly;
 
   private Change change;
   private boolean notify;
@@ -69,7 +74,8 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
       AttentionSetEmail.Factory attentionSetEmailFactory,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
-      @Assisted boolean notify) {
+      @Assisted("notify") boolean notify,
+      @Assisted("attentionSetUpdateOnly") boolean attentionSetUpdateOnly) {
     this.changeDataFactory = changeDataFactory;
     this.messageIdGenerator = messageIdGenerator;
     this.removeFromAttentionSetSender = removeFromAttentionSetSenderFactory;
@@ -77,6 +83,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
     this.notify = notify;
+    this.attentionSetUpdateOnly = attentionSetUpdateOnly;
   }
 
   @Override
@@ -97,6 +104,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     update.addToPlannedAttentionSetUpdates(
         AttentionSetUpdate.createForWrite(attentionUserId, Operation.REMOVE, reason));
+    update.setAttentionSetOnly(attentionSetUpdateOnly);
     return true;
   }
 

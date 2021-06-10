@@ -19,9 +19,8 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
-import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
@@ -70,11 +69,7 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
       ChangeUpdate update = newUpdate(c, changeOwner);
       update.setStatus(Change.Status.NEW);
 
-      // Add to attention set
-      AttentionSetUpdate attentionSetUpdate =
-          AttentionSetUpdate.createForWrite(
-              otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
-      update.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+      update.setAttentionSetOnly(true);
 
       ListMultimap<String, ChangeUpdate> changeUpdates =
           new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("one", update).build();
@@ -130,11 +125,8 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
       Change c1 = newChange();
 
       ChangeUpdate update1 = newUpdateForNewChange(c1, changeOwner);
-      // Add to attention set
-      AttentionSetUpdate attentionSetUpdate =
-          AttentionSetUpdate.createForWrite(
-              otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
-      update1.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+      update1.setAttentionSetOnly(true);
+      update1.commit();
 
       ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
       update2.setStatus(Change.Status.NEW);
@@ -145,6 +137,74 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
       openRepo.addUpdates(changeUpdates, ONLY_TWO_UPDATES, MAX_PATCH_SETS);
 
       assertThat(fakeChainedReceiveCommands.commands.size()).isEqualTo(1);
+    }
+  }
+
+  @Test
+  public void attentionSetAndReviewerUpdateShouldContributeToOperationsCount() throws Exception {
+    try (OpenRepo openRepo = openRepo()) {
+      Change c1 = newChange();
+
+      ChangeUpdate update1 = newUpdateForNewChange(c1, changeOwner);
+      update1.setAttentionSetOnly(false);
+      update1.putReviewer(otherUserId, ReviewerStateInternal.REVIEWER);
+      update1.commit();
+
+      ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
+      update2.setStatus(Change.Status.NEW);
+
+      ListMultimap<String, ChangeUpdate> changeUpdates =
+          new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("two", update2).build();
+
+      assertThrows(
+          LimitExceededException.class,
+          () -> openRepo.addUpdates(changeUpdates, NO_UPDATES_AT_ALL, MAX_PATCH_SETS));
+    }
+  }
+
+  @Test
+  public void attentionSetAndReviewerByEmailUpdateShouldContributeToOperationsCount()
+      throws Exception {
+    try (OpenRepo openRepo = openRepo()) {
+      Change c1 = newChange();
+
+      ChangeUpdate update1 = newUpdateForNewChange(c1, changeOwner);
+      update1.setAttentionSetOnly(false);
+      update1.putReviewerByEmail(
+          Address.create("anyEmail@mail.com"), ReviewerStateInternal.REVIEWER);
+      update1.commit();
+
+      ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
+      update2.setStatus(Change.Status.NEW);
+
+      ListMultimap<String, ChangeUpdate> changeUpdates =
+          new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("two", update2).build();
+
+      assertThrows(
+          LimitExceededException.class,
+          () -> openRepo.addUpdates(changeUpdates, NO_UPDATES_AT_ALL, MAX_PATCH_SETS));
+    }
+  }
+
+  @Test
+  public void attentionSetAndWIPUpdateShouldContributeToOperationsCount() throws Exception {
+    try (OpenRepo openRepo = openRepo()) {
+      Change c1 = newChange();
+
+      ChangeUpdate update1 = newUpdateForNewChange(c1, changeOwner);
+      update1.setAttentionSetOnly(true);
+      update1.setWorkInProgress(true);
+      update1.commit();
+
+      ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
+      update2.setStatus(Change.Status.NEW);
+
+      ListMultimap<String, ChangeUpdate> changeUpdates =
+          new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("two", update2).build();
+
+      assertThrows(
+          LimitExceededException.class,
+          () -> openRepo.addUpdates(changeUpdates, NO_UPDATES_AT_ALL, MAX_PATCH_SETS));
     }
   }
 

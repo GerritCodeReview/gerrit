@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
-import {safeTypesBridge, _testOnly_SafeUrl} from './safe-types-util.js';
+import '../test/common-test-setup-karma';
+import {safeTypesBridge, _testOnly_SafeUrl} from './safe-types-util';
 
 suite('safe-types-util tests', () => {
   test('SafeUrl accepts valid urls', () => {
-    function accepts(url) {
+    function accepts(url: string) {
       const safeUrl = new _testOnly_SafeUrl(url);
       assert.isOk(safeUrl);
       assert.equal(url, safeUrl.toString());
@@ -35,8 +35,10 @@ suite('safe-types-util tests', () => {
   });
 
   test('SafeUrl rejects invalid urls', () => {
-    function rejects(url) {
-      assert.throws(() => { new _testOnly_SafeUrl(url); });
+    function rejects(url: string) {
+      assert.throws(() => {
+        new _testOnly_SafeUrl(url);
+      });
     }
     rejects('javascript://alert("evil");');
     rejects('ftp:example.com');
@@ -44,13 +46,14 @@ suite('safe-types-util tests', () => {
   });
 
   suite('safeTypesBridge', () => {
-    function acceptsString(value, type) {
-      assert.equal(safeTypesBridge(value, type),
-          value);
+    function acceptsString(value: string, type: string) {
+      assert.equal(safeTypesBridge(value, type), value);
     }
 
-    function rejects(value, type) {
-      assert.throws(() => { safeTypesBridge(value, type); });
+    function rejects(value: unknown, type: string) {
+      assert.throws(() => {
+        safeTypesBridge(value, type);
+      });
     }
 
     test('accepts valid URL strings', () => {

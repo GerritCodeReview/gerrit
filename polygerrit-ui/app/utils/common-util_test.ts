@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
-import {hasOwnProperty, areSetsEqual, containsAll} from './common-util.js';
+import '../test/common-test-setup-karma';
+import {hasOwnProperty, areSetsEqual, containsAll} from './common-util';
 
 suite('common-util tests', () => {
   suite('hasOwnProperty', () => {
     test('object with the default prototype', () => {
       const obj = {
-        'abc': 3,
+        abc: 3,
         'name with spaces': 5,
       };
       assert.isTrue(hasOwnProperty(obj, 'abc'));
@@ -30,13 +30,15 @@ suite('common-util tests', () => {
       assert.isFalse(hasOwnProperty(obj, 'def'));
     });
     test('object prototype has overridden hasOwnProperty', () => {
-      const F = function() {
-        this.abc = 23;
-      };
-      F.prototype.hasOwnProperty = function(key) {
-        return true;
-      };
-      const obj = new F();
+      class MyObject {
+        abc = 123;
+
+        hasOwnProperty(_key: PropertyKey) {
+          return true;
+        }
+      }
+
+      const obj = new MyObject();
       assert.isTrue(hasOwnProperty(obj, 'abc'));
       assert.isFalse(hasOwnProperty(obj, 'def'));
     });

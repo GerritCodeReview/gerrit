@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b3dfe5a_82fdd033",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-10T18:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abe42fa6_6d379519",
+      "range": {
+        "startLine": 19,
+        "startChar": 15,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "e578b4da574d3d64aa7afd39a424e479859c5949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63f7848e_e03674c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-10T18:48:56Z",
+      "side": 1,
+      "message": "Yep, done.",
+      "parentUuid": "92283dcf_2366c3fa",
+      "range": {
+        "startLine": 19,
+        "startChar": 59,
+        "endLine": 19,
+        "endChar": 70
+      },
+      "revId": "e578b4da574d3d64aa7afd39a424e479859c5949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c377de3_2250dd13",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-06-10T07:11:40Z",
       "side": 1,
       "message": "nit: account-id for consistency",
+      "range": {
+        "startLine": 26,
+        "startChar": 46,
+        "endLine": 26,
+        "endChar": 53
+      },
+      "revId": "e578b4da574d3d64aa7afd39a424e479859c5949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10e6feba_8cbc090e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-10T18:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c377de3_2250dd13",
       "range": {
         "startLine": 26,
         "startChar": 46,
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52705567_476e1c2f",
+        "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-10T18:48:56Z",
+      "side": 1,
+      "message": "That is not the duplicated one, but the existing one.\nThe duplicate id is actually the extId, as you can see that is logged at L129.",
+      "parentUuid": "b9ea85eb_b2ebc0ab",
+      "range": {
+        "startLine": 128,
+        "startChar": 10,
+        "endLine": 128,
+        "endChar": 28
+      },
+      "revId": "e578b4da574d3d64aa7afd39a424e479859c5949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "153ae5fd_6f8ea1d6",
@@ -106,6 +202,30 @@
       "writtenOn": "2021-06-10T07:11:40Z",
       "side": 1,
       "message": "nit: perhaps it would be useful to log the extId here.",
+      "range": {
+        "startLine": 143,
+        "startChar": 67,
+        "endLine": 143,
+        "endChar": 86
+      },
+      "revId": "e578b4da574d3d64aa7afd39a424e479859c5949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d97fc3fb_ef522735",
+        "filename": "java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-10T18:48:56Z",
+      "side": 1,
+      "message": "Good idea, done.",
+      "parentUuid": "153ae5fd_6f8ea1d6",
       "range": {
         "startLine": 143,
         "startChar": 67,

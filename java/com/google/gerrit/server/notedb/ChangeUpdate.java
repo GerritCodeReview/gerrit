@@ -151,6 +151,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private boolean currentPatchSet;
   private Boolean isPrivate;
   private Boolean workInProgress;
+  private boolean attentionSetOnly = false;
   private Integer revertOf;
   private String cherryPickOf;
 
@@ -570,17 +571,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @Override
   protected boolean bypassMaxUpdates() {
-    return isAbandonChange() || isAttentionSetChangeOnly();
+    return isAbandonChange() || attentionSetOnly;
   }
 
   private boolean isAbandonChange() {
     return status != null && status.isClosed();
-  }
-
-  private boolean isAttentionSetChangeOnly() {
-    return (plannedAttentionSetUpdates != null
-        && plannedAttentionSetUpdates.size() > 0
-        && comments.isEmpty());
   }
 
   @Override
@@ -942,6 +937,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setWorkInProgress(boolean workInProgress) {
     this.workInProgress = workInProgress;
+  }
+
+  public void setAttentionSetOnly(boolean attentionSetOnly) {
+    this.attentionSetOnly = attentionSetOnly;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

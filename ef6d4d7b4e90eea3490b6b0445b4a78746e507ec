@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1269086f_097a9f11",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-10T09:34:05Z",
+      "side": 1,
+      "message": "This should be /** */.",
+      "revId": "ef6d4d7b4e90eea3490b6b0445b4a78746e507ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

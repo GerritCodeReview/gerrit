@@ -44,7 +44,7 @@ import {
   tap,
   pressAndReleaseKeyOn,
 } from '@polymer/iron-test-helpers/mock-interactions';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {stubRestApi, stubStorage} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');

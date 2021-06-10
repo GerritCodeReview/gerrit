@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import './gr-hovercard-run.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {GrHovercardRun} from './gr-hovercard-run.js';
+import '../../test/common-test-setup-karma';
+import './gr-hovercard-run';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {GrHovercardRun} from './gr-hovercard-run';
 
 const basicFixture = fixtureFromTemplate(html`
   <gr-hovercard-run class="hovered"></gr-hovercard-run>

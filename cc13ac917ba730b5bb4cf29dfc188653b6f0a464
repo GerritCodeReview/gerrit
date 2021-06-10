@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "139b6ae5_17a2286f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-10T18:08:37Z",
+      "side": 1,
+      "message": "I still need to go through a extensive manual testing but this is the direction I am heading to.\n\nCan you think of a better way of understanding if a change only contains AS changes?\n\nCan you think of other cases I didn\u0027t cover?",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

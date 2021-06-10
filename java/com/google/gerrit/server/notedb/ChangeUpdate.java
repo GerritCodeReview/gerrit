@@ -580,7 +580,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private boolean isAttentionSetChangeOnly() {
     return (plannedAttentionSetUpdates != null
         && plannedAttentionSetUpdates.size() > 0
-        && comments.isEmpty());
+        && doesNotHaveChangesAffectingAttentionSet());
+  }
+
+  private boolean doesNotHaveChangesAffectingAttentionSet() {
+    return comments.isEmpty()
+        && reviewers.isEmpty()
+        && reviewersByEmail.isEmpty()
+        && (workInProgress == null || !workInProgress);
   }
 
   @Override

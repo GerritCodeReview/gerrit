@@ -19,37 +19,13 @@ import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../../lit/gr-lit-element';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {appContext} from '../../../services/app-context';
-import {
-  allRunsLatestPatchsetLatestAttempt$,
-  aPluginHasRegistered$,
-  CheckResult,
-  CheckRun,
-  errorMessageLatest$,
-  loginCallbackLatest$,
-  someProvidersAreLoadingLatest$,
-} from '../../../services/checks/checks-model';
+import {allRunsLatestPatchsetLatestAttempt$, aPluginHasRegistered$, CheckResult, CheckRun, errorMessageLatest$, loginCallbackLatest$, someProvidersAreLoadingLatest$,} from '../../../services/checks/checks-model';
 import {Category, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import '../../shared/gr-avatar/gr-avatar';
-import {
-  firstPrimaryLink,
-  getResultsOf,
-  hasCompletedWithoutResults,
-  hasResultsOf,
-  iconForCategory,
-  iconForStatus,
-  isRunning,
-  isRunningOrHasCompleted,
-} from '../../../services/checks/checks-util';
+import {firstPrimaryLink, getResultsOf, hasCompletedWithoutResults, hasResultsOf, iconForCategory, iconForStatus, isRunning, isRunningOrHasCompleted,} from '../../../services/checks/checks-util';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {
-  CommentThread,
-  getFirstComment,
-  hasHumanReply,
-  isResolved,
-  isRobotThread,
-  isUnresolved,
-} from '../../../utils/comment-util';
+import {CommentThread, getFirstComment, hasHumanReply, isResolved, isRobotThread, isUnresolved,} from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {AccountInfo} from '../../../types/common';
 import {notUndefined} from '../../../types/types';
@@ -451,7 +427,8 @@ export class GrChangeSummary extends GrLitElement {
     const hasDetailChipAlready = runs.some(run =>
       this.detailsCheckNames.includes(run.checkName)
     );
-    if (!hasDetailChipAlready && runs.length <= this.detailsQuota) {
+    const notInfo = statusOrCategory !== Category.INFO;
+    if (!hasDetailChipAlready && notInfo && runs.length <= this.detailsQuota) {
       this.detailsQuota -= runs.length;
       return runs.map(run => {
         this.detailsCheckNames.push(run.checkName);

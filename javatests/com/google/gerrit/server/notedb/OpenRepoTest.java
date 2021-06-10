@@ -19,9 +19,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
-import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
@@ -36,7 +34,6 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
 
   private final Optional<Integer> NO_UPDATES_AT_ALL = Optional.of(0);
   private final Optional<Integer> ONLY_ONE_UPDATE = Optional.of(1);
-  private final Optional<Integer> ONLY_TWO_UPDATES = Optional.of(2);
   private final Optional<Integer> MAX_PATCH_SETS = Optional.empty();
 
   private FakeChainedReceiveCommands fakeChainedReceiveCommands;
@@ -70,11 +67,7 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
       ChangeUpdate update = newUpdate(c, changeOwner);
       update.setStatus(Change.Status.NEW);
 
-      // Add to attention set
-      AttentionSetUpdate attentionSetUpdate =
-          AttentionSetUpdate.createForWrite(
-              otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
-      update.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+      update.setAttentionSetOnly(true);
 
       ListMultimap<String, ChangeUpdate> changeUpdates =
           new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("one", update).build();
@@ -119,30 +112,6 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
           new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("one", update).build();
 
       openRepo.addUpdates(changeUpdates, NO_UPDATES_AT_ALL, MAX_PATCH_SETS);
-
-      assertThat(fakeChainedReceiveCommands.commands.size()).isEqualTo(1);
-    }
-  }
-
-  @Test
-  public void attentionSetUpdateShouldNotContributeToOperationsCount() throws Exception {
-    try (OpenRepo openRepo = openRepo()) {
-      Change c1 = newChange();
-
-      ChangeUpdate update1 = newUpdateForNewChange(c1, changeOwner);
-      // Add to attention set
-      AttentionSetUpdate attentionSetUpdate =
-          AttentionSetUpdate.createForWrite(
-              otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
-      update1.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
-
-      ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
-      update2.setStatus(Change.Status.NEW);
-
-      ListMultimap<String, ChangeUpdate> changeUpdates =
-          new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("two", update2).build();
-
-      openRepo.addUpdates(changeUpdates, ONLY_TWO_UPDATES, MAX_PATCH_SETS);
 
       assertThat(fakeChainedReceiveCommands.commands.size()).isEqualTo(1);
     }

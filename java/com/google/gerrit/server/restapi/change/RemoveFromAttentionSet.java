@@ -86,7 +86,7 @@ public class RemoveFromAttentionSet
         updateFactory.create(
             changeResource.getProject(), changeResource.getUser(), TimeUtil.nowTs())) {
       RemoveFromAttentionSetOp op =
-          opFactory.create(attentionResource.getAccountId(), input.reason, true);
+          opFactory.create(attentionResource.getAccountId(), input.reason, true, true);
       bu.addOp(changeResource.getId(), op);
       NotifyHandling notify = input.notify == null ? NotifyHandling.OWNER : input.notify;
       NotifyResolver.Result notifyResult = notifyResolver.resolve(notify, input.notifyDetails);

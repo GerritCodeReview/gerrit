@@ -228,4 +228,48 @@ public class ReviewInput {
   public static ReviewInput create() {
     return new ReviewInput();
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ReviewInput that = (ReviewInput) o;
+    return omitDuplicateComments == that.omitDuplicateComments
+        && workInProgress == that.workInProgress
+        && ready == that.ready
+        && ignoreAutomaticAttentionSetRules == that.ignoreAutomaticAttentionSetRules
+        && Objects.equals(message, that.message)
+        && Objects.equals(tag, that.tag)
+        && Objects.equals(labels, that.labels)
+        && Objects.equals(comments, that.comments)
+        && Objects.equals(robotComments, that.robotComments)
+        && drafts == that.drafts
+        && notify == that.notify
+        && Objects.equals(notifyDetails, that.notifyDetails)
+        && Objects.equals(onBehalfOf, that.onBehalfOf)
+        && Objects.equals(reviewers, that.reviewers)
+        && Objects.equals(addToAttentionSet, that.addToAttentionSet)
+        && Objects.equals(removeFromAttentionSet, that.removeFromAttentionSet);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        message,
+        tag,
+        labels,
+        comments,
+        robotComments,
+        drafts,
+        notify,
+        notifyDetails,
+        omitDuplicateComments,
+        onBehalfOf,
+        reviewers,
+        workInProgress,
+        ready,
+        addToAttentionSet,
+        removeFromAttentionSet,
+        ignoreAutomaticAttentionSetRules);
+  }
 }

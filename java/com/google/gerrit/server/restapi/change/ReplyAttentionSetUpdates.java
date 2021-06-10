@@ -102,7 +102,8 @@ public class ReplyAttentionSetUpdates {
         changeNotes,
         readyForReview,
         currentUser,
-        commentsToBePublished.stream().collect(toImmutableSet()));
+        commentsToBePublished.stream().collect(toImmutableSet()),
+        false);
   }
 
   /**
@@ -133,7 +134,17 @@ public class ReplyAttentionSetUpdates {
         changeNotes,
         isReadyForReview(changeNotes, input),
         currentUser,
-        getAllNewComments(changeNotes, input, currentUser));
+        getAllNewComments(changeNotes, input, currentUser),
+        isPureAttentionSet(input));
+  }
+
+  private boolean isPureAttentionSet(ReviewInput input) {
+    ReviewInput pureAS = new ReviewInput();
+    pureAS.addToAttentionSet = input.addToAttentionSet;
+    pureAS.removeFromAttentionSet = input.removeFromAttentionSet;
+    pureAS.drafts = input.drafts;
+    pureAS.notify = input.notify;
+    return pureAS.equals(input);
   }
 
   private ImmutableSet<HumanComment> getAllNewComments(
@@ -179,9 +190,11 @@ public class ReplyAttentionSetUpdates {
       ChangeNotes changeNotes,
       boolean readyForReview,
       CurrentUser currentUser,
-      ImmutableSet<HumanComment> allNewComments) {
+      ImmutableSet<HumanComment> allNewComments,
+      boolean isPureAttentionSet) {
     // Replying removes the publishing user from the attention set.
-    removeFromAttentionSet(bu, changeNotes, currentUser.getAccountId(), "removed on reply", false);
+    removeFromAttentionSet(
+        bu, changeNotes, currentUser.getAccountId(), "removed on reply", false, isPureAttentionSet);
 
     Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
     Account.Id owner = changeNotes.getChange().getOwner();
@@ -190,7 +203,8 @@ public class ReplyAttentionSetUpdates {
     if (changeNotes.getChange().getStatus().isClosed()) {
       // We still add the owner if a new comment thread was created, on closed changes.
       if (allNewComments.stream().anyMatch(c -> c.parentUuid == null)) {
-        addToAttentionSet(bu, changeNotes, owner, "A new comment thread was created", false);
+        addToAttentionSet(
+            bu, changeNotes, owner, "A new comment thread was created", false, isPureAttentionSet);
       }
       return;
     }
@@ -200,18 +214,28 @@ public class ReplyAttentionSetUpdates {
     }
 
     if (!currentUser.getAccountId().equals(owner)) {
-      addToAttentionSet(bu, changeNotes, owner, "Someone else replied on the change", false);
+      addToAttentionSet(
+          bu, changeNotes, owner, "Someone else replied on the change", false, isPureAttentionSet);
     }
     if (!owner.equals(uploader) && !currentUser.getAccountId().equals(uploader)) {
-      addToAttentionSet(bu, changeNotes, uploader, "Someone else replied on the change", false);
+      addToAttentionSet(
+          bu,
+          changeNotes,
+          uploader,
+          "Someone else replied on the change",
+          false,
+          isPureAttentionSet);
     }
 
-    addAllAuthorsOfCommentThreads(bu, changeNotes, allNewComments);
+    addAllAuthorsOfCommentThreads(bu, changeNotes, allNewComments, isPureAttentionSet);
   }
 
   /** Adds all authors of all comment threads that received a reply during this update */
   private void addAllAuthorsOfCommentThreads(
-      BatchUpdate bu, ChangeNotes changeNotes, ImmutableSet<HumanComment> allNewComments) {
+      BatchUpdate bu,
+      ChangeNotes changeNotes,
+      ImmutableSet<HumanComment> allNewComments,
+      boolean isPureAttentionSet) {
     List<HumanComment> publishedComments = commentsUtil.publishedHumanCommentsByChange(changeNotes);
     ImmutableSet<CommentThread<HumanComment>> repliedToCommentThreads =
         CommentThreads.forComments(publishedComments).getThreadsForChildren(allNewComments);
@@ -227,7 +251,12 @@ public class ReplyAttentionSetUpdates {
 
     for (Account.Id user : usersToAdd) {
       addToAttentionSet(
-          bu, changeNotes, user, "Someone else replied on a comment you posted", false);
+          bu,
+          changeNotes,
+          user,
+          "Someone else replied on a comment you posted",
+          false,
+          isPureAttentionSet);
     }
   }
 
@@ -239,7 +268,8 @@ public class ReplyAttentionSetUpdates {
     // If we specify a user to remove, and the user is in the attention set, we remove it.
     if (input.removeFromAttentionSet != null) {
       for (AttentionSetInput remove : input.removeFromAttentionSet) {
-        removeFromAttentionSet(bu, changeNotes, remove, accountsChangedInCommit);
+        removeFromAttentionSet(
+            bu, changeNotes, remove, accountsChangedInCommit, isPureAttentionSet(input));
       }
     }
 
@@ -247,7 +277,7 @@ public class ReplyAttentionSetUpdates {
     // added if they are not in the attention set yet.
     if (input.addToAttentionSet != null) {
       for (AttentionSetInput add : input.addToAttentionSet) {
-        addToAttentionSet(bu, changeNotes, add, accountsChangedInCommit);
+        addToAttentionSet(bu, changeNotes, add, accountsChangedInCommit, isPureAttentionSet(input));
       }
     }
   }
@@ -261,9 +291,21 @@ public class ReplyAttentionSetUpdates {
     if (input.labels != null && input.labels.values().stream().anyMatch(vote -> vote < 0)) {
       Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
       Account.Id owner = changeNotes.getChange().getOwner();
-      addToAttentionSet(bu, changeNotes, owner, "A robot voted negatively on a label", false);
+      addToAttentionSet(
+          bu,
+          changeNotes,
+          owner,
+          "A robot voted negatively on a label",
+          false,
+          isPureAttentionSet(input));
       if (!owner.equals(uploader)) {
-        addToAttentionSet(bu, changeNotes, uploader, "A robot voted negatively on a label", false);
+        addToAttentionSet(
+            bu,
+            changeNotes,
+            uploader,
+            "A robot voted negatively on a label",
+            false,
+            isPureAttentionSet(input));
       }
     }
   }
@@ -278,9 +320,14 @@ public class ReplyAttentionSetUpdates {
    * @param notify whether or not to notify about this addition
    */
   private void addToAttentionSet(
-      BatchUpdate bu, ChangeNotes changeNotes, Account.Id user, String reason, boolean notify) {
+      BatchUpdate bu,
+      ChangeNotes changeNotes,
+      Account.Id user,
+      String reason,
+      boolean notify,
+      boolean isPureAttentionSet) {
     AddToAttentionSetOp addOwnerToAttentionSet =
-        addToAttentionSetOpFactory.create(user, reason, notify);
+        addToAttentionSetOpFactory.create(user, reason, notify, isPureAttentionSet);
     bu.addOp(changeNotes.getChangeId(), addOwnerToAttentionSet);
   }
 
@@ -294,9 +341,14 @@ public class ReplyAttentionSetUpdates {
    * @param notify whether or not to notify about this removal.
    */
   private void removeFromAttentionSet(
-      BatchUpdate bu, ChangeNotes changeNotes, Account.Id user, String reason, boolean notify) {
+      BatchUpdate bu,
+      ChangeNotes changeNotes,
+      Account.Id user,
+      String reason,
+      boolean notify,
+      boolean isPureAttentionSet) {
     RemoveFromAttentionSetOp removeFromAttentionSetOp =
-        removeFromAttentionSetOpFactory.create(user, reason, notify);
+        removeFromAttentionSetOpFactory.create(user, reason, notify, isPureAttentionSet);
     bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
   }
 
@@ -308,28 +360,31 @@ public class ReplyAttentionSetUpdates {
       BatchUpdate bu,
       ChangeNotes changeNotes,
       AttentionSetInput add,
-      Set<Account.Id> accountsChangedInCommit)
+      Set<Account.Id> accountsChangedInCommit,
+      boolean isPureAttentionSet)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
     AttentionSetUtil.validateInput(add);
     Account.Id attentionUserId =
         getAccountIdAndValidateUser(changeNotes, add.user, accountsChangedInCommit);
 
-    addToAttentionSet(bu, changeNotes, attentionUserId, add.reason, false);
+    addToAttentionSet(bu, changeNotes, attentionUserId, add.reason, false, isPureAttentionSet);
   }
 
   private void removeFromAttentionSet(
       BatchUpdate bu,
       ChangeNotes changeNotes,
       AttentionSetInput remove,
-      Set<Account.Id> accountsChangedInCommit)
+      Set<Account.Id> accountsChangedInCommit,
+      boolean isPureAttentionSet)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
     AttentionSetUtil.validateInput(remove);
     Account.Id attentionUserId =
         getAccountIdAndValidateUser(changeNotes, remove.user, accountsChangedInCommit);
 
-    removeFromAttentionSet(bu, changeNotes, attentionUserId, remove.reason, false);
+    removeFromAttentionSet(
+        bu, changeNotes, attentionUserId, remove.reason, false, isPureAttentionSet);
   }
 
   private Account.Id getAccountId(ChangeNotes changeNotes, String user)

@@ -104,6 +104,24 @@
       "parentUuid": "32c28ef3_090f2cea",
       "revId": "0bc68109a3ab1010a5d3c8946ddaa97306ec4e0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52c3e148_1161f7be",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-10T16:02:10Z",
+      "side": 1,
+      "message": "Abandoning this means that we actually accept new features also on unsupported branches: this change was for clarifying that we do not.\n\nWe could also create a new change saying that more categorically: \"no new features on any stable branch\".\n\nWDYT?",
+      "parentUuid": "13b0332a_e667d35c",
+      "revId": "0bc68109a3ab1010a5d3c8946ddaa97306ec4e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

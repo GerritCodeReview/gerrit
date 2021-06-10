@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-error-manager.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
-import {__testOnly_ErrorType} from './gr-error-manager.js';
+import {constructServerErrorMsg, __testOnly_ErrorType} from './gr-error-manager.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {appContext} from '../../../services/app-context.js';
 import {createPreferences} from '../../../test/test-data-generators.js';
@@ -132,27 +132,26 @@ suite('gr-error-manager tests', () => {
       });
     });
 
-    test('_constructServerErrorMsg', () => {
+    test('constructServerErrorMsg', () => {
       const errorText = 'change conflicts';
       const status = 409;
       const statusText = 'Conflict';
       const url = '/my/test/url';
 
-      assert.equal(element._constructServerErrorMsg({status}),
+      assert.equal(constructServerErrorMsg({status}),
           'Error 409');
-      assert.equal(element._constructServerErrorMsg({status, url}),
+      assert.equal(constructServerErrorMsg({status, url}),
           'Error 409: \nEndpoint: /my/test/url');
-      assert.equal(element.
-          _constructServerErrorMsg({status, statusText, url}),
-      'Error 409 (Conflict): \nEndpoint: /my/test/url');
-      assert.equal(element._constructServerErrorMsg({
+      assert.equal(constructServerErrorMsg({status, statusText, url}),
+          'Error 409 (Conflict): \nEndpoint: /my/test/url');
+      assert.equal(constructServerErrorMsg({
         status,
         statusText,
         errorText,
         url,
       }), 'Error 409 (Conflict): change conflicts' +
       '\nEndpoint: /my/test/url');
-      assert.equal(element._constructServerErrorMsg({
+      assert.equal(constructServerErrorMsg({
         status,
         statusText,
         errorText,

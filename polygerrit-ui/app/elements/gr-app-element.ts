@@ -55,7 +55,10 @@ import {
   ElementPropertyDeepChange,
   ServerInfo,
 } from '../types/common';
-import {GrErrorManager} from './core/gr-error-manager/gr-error-manager';
+import {
+  constructServerErrorMsg,
+  GrErrorManager,
+} from './core/gr-error-manager/gr-error-manager';
 import {GrOverlay} from './shared/gr-overlay/gr-overlay';
 import {GrRegistrationDialog} from './settings/gr-registration-dialog/gr-registration-dialog';
 import {
@@ -565,7 +568,15 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
       err.emoji = 'o_O';
       if (response) {
         response.text().then(text => {
-          err.moreInfo = text;
+          const trace =
+            response.headers && response.headers.get('X-Gerrit-Trace');
+          const {status, statusText} = response;
+          err.moreInfo = constructServerErrorMsg({
+            status,
+            statusText,
+            errorText: text,
+            trace,
+          });
           this._lastError = err;
         });
       }

@@ -86,6 +86,24 @@
       "parentUuid": "b80d99eb_1a929ee1",
       "revId": "0bc68109a3ab1010a5d3c8946ddaa97306ec4e0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13b0332a_e667d35c",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-10T15:59:15Z",
+      "side": 1,
+      "message": "we decided to not have features on stable branches, so abandon?",
+      "parentUuid": "32c28ef3_090f2cea",
+      "revId": "0bc68109a3ab1010a5d3c8946ddaa97306ec4e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

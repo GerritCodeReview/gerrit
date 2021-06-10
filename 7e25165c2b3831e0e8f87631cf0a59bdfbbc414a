@@ -22,6 +22,30 @@
       },
       "revId": "7e25165c2b3831e0e8f87631cf0a59bdfbbc414a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81e491ba_cfc35066",
+        "filename": "polygerrit-ui/app/utils/common-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-10T18:53:29Z",
+      "side": 1,
+      "message": "The idea of the helper method is that it _will_ use Object.prototype.hasOwnProperty even when the obj in question has overridden it. So this assert.isFalse is ensuring that it\u0027s _not_ using MyObject\u0027s hasOwnProperty. Maybe it would be more clear if the override threw an error or something, but I\u0027m just keeping the existing way.\n\nWe have an eslint rule that will stop you from calling obj.hasOwnProperty(), so this helper is provided as a slight shorthand for Object.prototype.hasOwnProperty(obj, property);\n\nhttps://eslint.org/docs/rules/no-prototype-builtins",
+      "parentUuid": "a85051ac_580d4e5b",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 49
+      },
+      "revId": "7e25165c2b3831e0e8f87631cf0a59bdfbbc414a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,212 @@
       "message": "The change is ready for review.\n\n@Edwin: Appreciate if you could review this change for me.",
       "revId": "3cff1104a3619f1737170897637b853c32344d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a023b2a_9b10351d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6514,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T11:30:58Z",
+      "side": 1,
+      "message": "Since \u0027submit_requirements\u0027 is a mandatory field, you need to add it for all example responses above that contain a Change-Info.",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11744fa6_dbbcb724",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6516,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T11:30:58Z",
+      "side": 1,
+      "message": "Can we explain here better what\u0027s the difference between \u0027requirements\u0027 and \u0027submit_requirements\u0027? At the moment it\u0027s not clear when the one or the other is set.",
+      "range": {
+        "startLine": 6511,
+        "startChar": 0,
+        "endLine": 6516,
+        "endChar": 60
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70dc8c3f_8189f7b7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T11:30:58Z",
+      "side": 1,
+      "message": "better: \"Not set\"\n\nhere and below",
+      "range": {
+        "startLine": 8160,
+        "startChar": 66,
+        "endLine": 8160,
+        "endChar": 70
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69298037_74eee50a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T11:30:58Z",
+      "side": 1,
+      "message": "This section should be moved above \u0027SubmitRequirementResultInfo\u0027 so that the sections are kept in alphabetically order.",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e48e7bb_64569406",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8177,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T11:30:58Z",
+      "side": 1,
+      "message": "Can be\n\n  [options\u003d\"header\",cols\u003d\"1,6\"]\n  \nif all fields are mandatory.",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073bf2bb_2ee1537f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8185,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T11:30:58Z",
+      "side": 1,
+      "message": "passing_atoms",
+      "range": {
+        "startLine": 8185,
+        "startChar": 2,
+        "endLine": 8185,
+        "endChar": 14
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dc46748_62cb838d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T11:30:58Z",
+      "side": 1,
+      "message": "passing_atoms",
+      "range": {
+        "startLine": 8190,
+        "startChar": 45,
+        "endLine": 8190,
+        "endChar": 57
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5849b9d_1d24d7c7",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1606,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T11:30:58Z",
+      "side": 1,
+      "message": "Would it better to replace this with a SubmitRequirement?\n\nWe are having this nice fluent builder interface for creating SubmitRequirements and I think we should use it rather than having a method with n String args, where it\u0027s difficult for the reader of the code to understand which parameter is what.\n\nThen you can also drop the methods below.\n\nIf it\u0027s too much overhead for tests to wrap the expression in a SubmitRequirementExpression, I would suggest to rather add set*Expression methods to SubmitRequirement.Builder that accept a string.",
+      "range": {
+        "startLine": 1602,
+        "startChar": 6,
+        "endLine": 1606,
+        "endChar": 37
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "999ba561_7e9adcba",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T11:30:58Z",
+      "side": 1,
+      "message": "Should the result be cached in this class so that the requirements do not need to be newly calculated on each call of this method?",
+      "range": {
+        "startLine": 931,
+        "startChar": 4,
+        "endLine": 938,
+        "endChar": 26
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0fb420e_4b061a64",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 4077,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T11:30:58Z",
+      "side": 1,
+      "message": "Should we have another test like this one where allowOverride is false here to check that in this case the submit requirement in the child project is ignored?",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

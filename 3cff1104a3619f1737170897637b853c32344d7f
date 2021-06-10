@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c83bca4b_47e4e0ba",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6514,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T14:20:16Z",
+      "side": 1,
+      "message": "Well, looking at all callers, I think it\u0027s better to make it optional and only return submit requirements when requested via an input flag. Some of the APIs returning ChangeInfo may not need to submit requirements.\n\nI did that. Also updated the code\n  * Added a new flag to ListChangeOption\n  * Used that flag to return submit requirements only if it\u0027s set.",
+      "parentUuid": "6a023b2a_9b10351d",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11744fa6_dbbcb724",
@@ -48,6 +66,30 @@
       "writtenOn": "2021-06-10T11:30:58Z",
       "side": 1,
       "message": "Can we explain here better what\u0027s the difference between \u0027requirements\u0027 and \u0027submit_requirements\u0027? At the moment it\u0027s not clear when the one or the other is set.",
+      "range": {
+        "startLine": 6511,
+        "startChar": 0,
+        "endLine": 6516,
+        "endChar": 60
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce66c2eb_8a25bc2b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6516,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T14:20:16Z",
+      "side": 1,
+      "message": "requirements is to be deprecated in favour of the new submit_requirements. I added a sentence about that.\n\nDone.",
+      "parentUuid": "11744fa6_dbbcb724",
       "range": {
         "startLine": 6511,
         "startChar": 0,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e6aa01d_83a8cb17",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8160,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T14:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70dc8c3f_8189f7b7",
+      "range": {
+        "startLine": 8160,
+        "startChar": 66,
+        "endLine": 8160,
+        "endChar": 70
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69298037_74eee50a",
@@ -94,6 +160,24 @@
       "writtenOn": "2021-06-10T11:30:58Z",
       "side": 1,
       "message": "This section should be moved above \u0027SubmitRequirementResultInfo\u0027 so that the sections are kept in alphabetically order.",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "633ec945_a0e03791",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8173,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T14:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69298037_74eee50a",
       "revId": "3cff1104a3619f1737170897637b853c32344d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +199,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50cb0533_f5ba2c04",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8177,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T14:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e48e7bb_64569406",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "073bf2bb_2ee1537f",
@@ -128,6 +230,30 @@
       "writtenOn": "2021-06-10T11:30:58Z",
       "side": 1,
       "message": "passing_atoms",
+      "range": {
+        "startLine": 8185,
+        "startChar": 2,
+        "endLine": 8185,
+        "endChar": 14
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf5668dc_99ff717a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8185,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T14:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "073bf2bb_2ee1537f",
       "range": {
         "startLine": 8185,
         "startChar": 2,
@@ -161,6 +287,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84f61684_baff3207",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8190,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T14:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dc46748_62cb838d",
+      "range": {
+        "startLine": 8190,
+        "startChar": 45,
+        "endLine": 8190,
+        "endChar": 57
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5849b9d_1d24d7c7",
@@ -174,6 +324,30 @@
       "writtenOn": "2021-06-10T11:30:58Z",
       "side": 1,
       "message": "Would it better to replace this with a SubmitRequirement?\n\nWe are having this nice fluent builder interface for creating SubmitRequirements and I think we should use it rather than having a method with n String args, where it\u0027s difficult for the reader of the code to understand which parameter is what.\n\nThen you can also drop the methods below.\n\nIf it\u0027s too much overhead for tests to wrap the expression in a SubmitRequirementExpression, I would suggest to rather add set*Expression methods to SubmitRequirement.Builder that accept a string.",
+      "range": {
+        "startLine": 1602,
+        "startChar": 6,
+        "endLine": 1606,
+        "endChar": 37
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8749de2d_478fd71b",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1606,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T14:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5849b9d_1d24d7c7",
       "range": {
         "startLine": 1602,
         "startChar": 6,
@@ -207,6 +381,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba42a1b7_5d4ee4f0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T14:20:16Z",
+      "side": 1,
+      "message": "mmm I think that would be a good idea: both SubmitRequirement and SubmitRequirementResult are immutable: the cache key can contain {submit_requirement, change_id, sha1_of_refs/change/meta, sha1_of_refs/meta/config}.\n\nI can add a cache for it in a follow up change. Added a TODO.",
+      "parentUuid": "999ba561_7e9adcba",
+      "range": {
+        "startLine": 931,
+        "startChar": 4,
+        "endLine": 938,
+        "endChar": 26
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0fb420e_4b061a64",
@@ -220,6 +418,24 @@
       "writtenOn": "2021-06-10T11:30:58Z",
       "side": 1,
       "message": "Should we have another test like this one where allowOverride is false here to check that in this case the submit requirement in the child project is ignored?",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b90f3f32_1512c012",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 4077,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-10T14:20:16Z",
+      "side": 1,
+      "message": "allowOverride\u003dfalse means that the child project can not override this requirement, i.e. a request trying to create a submit requirement for it in the child project should fail (also if updated through a push to refs/meta/config). I\u0027m still not handling this case but I should do.\n\nif the requirement is defined in the parent project with allowOverride\u003dfalse, the requirement should still be listed and evaluated for the change. Test submitRequirement_inheritedFromParentProject is covering this case (I also changed the allowOverrideInChildProjects to false, the requirement is still evaluated).",
+      "parentUuid": "d0fb420e_4b061a64",
       "revId": "3cff1104a3619f1737170897637b853c32344d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a85051ac_580d4e5b",
+        "filename": "polygerrit-ui/app/utils/common-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-10T17:41:01Z",
+      "side": 1,
+      "message": "should this be true instead if the object prototype has overridden overridden?",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 49
+      },
+      "revId": "7e25165c2b3831e0e8f87631cf0a59bdfbbc414a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

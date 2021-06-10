@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.CommentRange;
@@ -95,6 +96,63 @@ public class ChangeUpdateTest extends AbstractChangeNotesTest {
             (short) 1,
             commit,
             false));
+    update.commit();
+
+    assertThat(update.bypassMaxUpdates()).isFalse();
+  }
+
+  @Test
+  public void bypassMaxUpdatesShouldBeFalseWhenReviewersAndChangesToAttentionSetCoexist()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+
+    // Add to attention set
+    AttentionSetUpdate attentionSetUpdate =
+        AttentionSetUpdate.createForWrite(
+            otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
+    update.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+
+    update.putReviewer(otherUserId, ReviewerStateInternal.REVIEWER);
+
+    update.commit();
+
+    assertThat(update.bypassMaxUpdates()).isFalse();
+  }
+
+  @Test
+  public void bypassMaxUpdatesShouldBeFalseWhenReviewersByEmailAndChangesToAttentionSetCoexist()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+
+    // Add to attention set
+    AttentionSetUpdate attentionSetUpdate =
+        AttentionSetUpdate.createForWrite(
+            otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
+    update.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+
+    update.putReviewerByEmail(Address.create("anyEmail@mail.com"), ReviewerStateInternal.REVIEWER);
+
+    update.commit();
+
+    assertThat(update.bypassMaxUpdates()).isFalse();
+  }
+
+  @Test
+  public void bypassMaxUpdatesShouldBeFalseWhenWIPAndChangesToAttentionSetCoexist()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+
+    // Add to attention set
+    AttentionSetUpdate attentionSetUpdate =
+        AttentionSetUpdate.createForWrite(
+            otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
+    update.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+
+    update.setWorkInProgress(true);
+
     update.commit();
 
     assertThat(update.bypassMaxUpdates()).isFalse();

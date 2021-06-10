@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a3dcaad_6dfa65f4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6514,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T14:49:21Z",
+      "side": 1,
+      "message": "Nice. Thanks!",
+      "parentUuid": "c83bca4b_47e4e0ba",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11744fa6_dbbcb724",
@@ -407,6 +425,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "164fafb9_f88316f2",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T14:49:21Z",
+      "side": 1,
+      "message": "Sorry, if I wasn\u0027t clear. I didn\u0027t mean adding a cache for this, but caching the result in a field in this class.\n\ne.g.:\n\n  if (submitRequirements \u003d\u003d null) {\n    ProjectState state \u003d projectCache.get(project()).orElseThrow(illegalState(project()));\n    Map\u003cString, SubmitRequirement\u003e requirements \u003d state.getSubmitRequirements();\n    ImmutableMap.Builder\u003cSubmitRequirement, SubmitRequirementResult\u003e result \u003d\n        ImmutableMap.builderWithExpectedSize(requirements.size());\n    for (SubmitRequirement requirement : requirements.values()) {\n      result.put(requirement, submitRequirementsEvaluator.evaluate(requirement, this));\n    }\n    submitRequirements \u003d result.build();\n  }\n  return submitRequirements;\n  \nSimilar how it\u0027s done for other methods in the class.",
+      "parentUuid": "ba42a1b7_5d4ee4f0",
+      "range": {
+        "startLine": 931,
+        "startChar": 4,
+        "endLine": 938,
+        "endChar": 26
+      },
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0fb420e_4b061a64",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 4
@@ -436,6 +478,24 @@
       "side": 1,
       "message": "allowOverride\u003dfalse means that the child project can not override this requirement, i.e. a request trying to create a submit requirement for it in the child project should fail (also if updated through a push to refs/meta/config). I\u0027m still not handling this case but I should do.\n\nif the requirement is defined in the parent project with allowOverride\u003dfalse, the requirement should still be listed and evaluated for the change. Test submitRequirement_inheritedFromParentProject is covering this case (I also changed the allowOverrideInChildProjects to false, the requirement is still evaluated).",
       "parentUuid": "d0fb420e_4b061a64",
+      "revId": "3cff1104a3619f1737170897637b853c32344d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e54913e_187ddcd0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 4077,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-10T14:49:21Z",
+      "side": 1,
+      "message": "\u003e allowOverride\u003dfalse means that the child project can not override this\n\u003e requirement, i.e. a request trying to create a submit requirement for\n\u003e it in the child project should fail\n\nWhat if allowOverride is true in the parent, then the child project creates a submit requirement that overrides it and afterwards allowOverride in the parent is changed to false?\n\n\u003e I\u0027m still not handling this case but I should do.\n\nI thought that you are handling this here [1], by ignoring the submit requirement in the child project if the submit requirement in the parent doesn\u0027t allow overriding it. So it seems just a test for this is missing?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/307825/5/java/com/google/gerrit/server/project/ProjectState.java#402",
+      "parentUuid": "b90f3f32_1512c012",
       "revId": "3cff1104a3619f1737170897637b853c32344d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

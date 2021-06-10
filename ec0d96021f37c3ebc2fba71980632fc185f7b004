@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "069f0bd9_bdc66c96",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-10T08:39:12Z",
+      "side": 1,
+      "message": "Done.\nI thought constants are all kept at the top? Is there any rule we are following for consistency? My IDE gives the value upon hovering so I don\u0027t mind much where it defined.",
+      "parentUuid": "3a3bac5f_de79f851",
+      "revId": "ec0d96021f37c3ebc2fba71980632fc185f7b004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9d165af_35d8314e",
         "filename": "polygerrit-ui/app/utils/async-util.ts",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2021-06-10T07:05:29Z",
       "side": 1,
       "message": "Maybe add a comment. I think it is important to note that the last event is completely swallowed, if it comes within THROTTLE_INTERVAL_MS.",
+      "revId": "ec0d96021f37c3ebc2fba71980632fc185f7b004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b12ee0b1_69f1abd1",
+        "filename": "polygerrit-ui/app/utils/async-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-10T08:39:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9d165af_35d8314e",
       "revId": "ec0d96021f37c3ebc2fba71980632fc185f7b004",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

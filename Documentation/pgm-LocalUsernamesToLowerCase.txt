@@ -28,9 +28,13 @@ Web UI.
 Please be aware that the conversion of the local usernames to lower
 case can't be undone.
 
-The program will produce errors if there are accounts that have the
+The program will produce errors if there are accounts with a different
+account-id or other properties (e.g. email, password) that have the
 same local username, but with different case. In this case the local
 username for these accounts is not converted to lower case.
+
+The program will automatically remove duplicates where the username
+differs only in case but all other attributes are identical.
 
 After all usernames have been migrated, the link:pgm-reindex.html[
 reindex] program is automatically invoked to reindex all accounts.

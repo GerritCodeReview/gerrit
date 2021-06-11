@@ -161,6 +161,10 @@ export class GrChecksRun extends GrLitElement {
           top: 3px;
           margin-right: var(--spacing-s);
         }
+        .statusLinkIcon {
+          color: var(--link-color);
+          margin-left: var(--spacing-s);
+        }
       `,
     ];
   }
@@ -228,6 +232,7 @@ export class GrChecksRun extends GrLitElement {
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
           <gr-checks-attempt .run="${this.run}"></gr-checks-attempt>
+          ${this.renderStatusLink()}
         </div>
         <div class="right">
           ${action
@@ -272,6 +277,22 @@ export class GrChecksRun extends GrLitElement {
     if (!this.isSelected(detail)) {
       fireAttemptSelected(this, this.run.checkName, detail.attempt);
     }
+  }
+
+  renderStatusLink() {
+    const link = this.run.statusLink;
+    if (!link) return;
+    if (this.run.status !== RunStatus.RUNNING) return;
+    return html`
+      <a href="${link}" target="_blank" @click="${this.onLinkClick}"
+        ><iron-icon class="statusLinkIcon" icon="gr-icons:launch"></iron-icon
+      ></a>
+    `;
+  }
+
+  private onLinkClick(e: MouseEvent) {
+    // Prevents handleChipClick() from reacting to <a> link clicks.
+    e.stopPropagation();
   }
 
   renderFilterIcon() {

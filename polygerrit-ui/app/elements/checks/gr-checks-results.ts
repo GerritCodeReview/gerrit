@@ -1204,13 +1204,13 @@ export class GrChecksResults extends GrLitElement {
               class="statusIcon ${catString}"
             ></iron-icon>
             <span class="title">${catString}</span>
+            <span class="count"
+              >${this.renderCount(all, selected, filtered)}</span
+            >
             <paper-tooltip offset="5"
               >${CATEGORY_TOOLTIPS.get(category)}</paper-tooltip
             >
           </div>
-          <span class="count"
-            >${this.renderCount(all, selected, filtered)}</span
-          >
         </h3>
         ${this.renderResults(
           all,

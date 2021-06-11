@@ -209,11 +209,11 @@ public class ProjectConfigTest {
             .add("groups", group(developers))
             .add(
                 "project.config",
-                "[submitRequirement \"Code-review\"]\n"
+                "[submit-requirement \"Code-review\"]\n"
                     + "  description =  At least one Code Review +2\n"
                     + "  applicabilityExpression = branch(refs/heads/master)\n"
                     + "  submittabilityExpression = label(code-review, +2)\n"
-                    + "[submitRequirement \"api-review\"]\n"
+                    + "[submit-requirement \"api-review\"]\n"
                     + "  description =  Additional review required for API modifications\n"
                     + "  applicabilityExpression = commit_filepath_contains(\\\"/api/.*\\\")\n"
                     + "  submittabilityExpression = label(api-review, +2)\n"
@@ -257,7 +257,7 @@ public class ProjectConfigTest {
             .add("groups", group(developers))
             .add(
                 "project.config",
-                "[submitRequirement \"code-review\"]\n"
+                "[submit-requirement \"code-review\"]\n"
                     + "  submittabilityExpression = label(code-review, +2)\n")
             .create();
 
@@ -281,10 +281,10 @@ public class ProjectConfigTest {
             .add("groups", group(developers))
             .add(
                 "project.config",
-                "[submitRequirement \"code-review\"]\n"
+                "[submit-requirement \"code-review\"]\n"
                     + "  description = At least one Code Review +2\n"
                     + "  submittabilityExpression = label(code-review, +2)\n"
-                    + "[submitRequirement \"Code-Review\"]\n"
+                    + "[submit-requirement \"Code-Review\"]\n"
                     + "  description = Another code review label\n"
                     + "  submittabilityExpression = label(code-review, +2)\n"
                     + "  canOverrideInChildProjects = true\n")
@@ -317,7 +317,7 @@ public class ProjectConfigTest {
             .add("groups", group(developers))
             .add(
                 "project.config",
-                "[submitRequirement \"code-review\"]\n"
+                "[submit-requirement \"code-review\"]\n"
                     + "  applicabilityExpression = label(code-review, +2)\n")
             .create();
 
@@ -943,7 +943,7 @@ public class ProjectConfigTest {
         tr.commit()
             .add(
                 "project.config",
-                "[submitRequirement \"code-review\"]\n"
+                "[submit-requirement \"code-review\"]\n"
                     + "  description =  At least one Code Review +2\n"
                     + "  applicabilityExpression = branch(refs/heads/master)\n"
                     + "  submittabilityExpression = label(code-review, +2)\n"

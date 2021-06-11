@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb29ef32_22583389",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-conflict-dialog/gr-confirm-cherrypick-conflict-dialog_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-11T10:27:35Z",
+      "side": 1,
+      "message": "Replace by `queryAndAssert`. Also everywhere else in the change.",
+      "revId": "ffcad7dc80b8d1cb7535642a3cf69dd625f30816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "771f9e2d_0d2817f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-conflict-dialog/gr-confirm-cherrypick-conflict-dialog_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-11T10:27:35Z",
+      "side": 1,
+      "message": "Replace by `fireEvent`.",
+      "range": {
+        "startLine": 53,
+        "startChar": 52,
+        "endLine": 53,
+        "endChar": 65
+      },
+      "revId": "ffcad7dc80b8d1cb7535642a3cf69dd625f30816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

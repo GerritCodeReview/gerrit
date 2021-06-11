@@ -144,3 +144,11 @@ export function toggleSetMembership<T>(set: Set<T>, value: T): void {
 export function unique<T>(item: T, index: number, array: T[]) {
   return array.indexOf(item) === index;
 }
+
+export function ordinal(n?: number): string {
+  if (n === undefined) return '';
+  if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;
+  if (n % 10 === 2 && n % 100 !== 12) return `${n}nd`;
+  if (n % 10 === 3 && n % 100 !== 13) return `${n}rd`;
+  return `${n}th`;
+}

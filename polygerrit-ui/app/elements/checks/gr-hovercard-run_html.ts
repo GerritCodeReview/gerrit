@@ -83,10 +83,15 @@ export const htmlTemplate = html`
       position: relative;
       top: 2px;
     }
+    div.sectionContent .attemptIcon iron-icon {
+      margin-right: 0;
+    }
+    .attemptIcon,
     .attemptNumber {
       margin-right: var(--spacing-s);
       color: var(--deemphasized-text-color);
       text-align: center;
+      width: 25px;
     }
     div.action {
       border-top: 1px solid var(--border-color);
@@ -155,7 +160,7 @@ export const htmlTemplate = html`
                   icon="gr-icons:[[item.icon]]"
                 ></iron-icon>
               </div>
-              <div class="attemptNumber">[[item.attempt]]</div>
+              <div class="attemptNumber">[[computeAttempt(item.attempt)]]</div>
             </div>
           </template>
         </div>

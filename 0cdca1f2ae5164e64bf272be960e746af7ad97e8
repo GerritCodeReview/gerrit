@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7490eee0_3538420b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-06-11T17:08:45Z",
+      "side": 1,
+      "message": "while you work on this, it would probably make sense if you gave https://crbug.com/gerrit/3288 and https://crbug.com/gerrit/2685 some thought as well.",
+      "revId": "0cdca1f2ae5164e64bf272be960e746af7ad97e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

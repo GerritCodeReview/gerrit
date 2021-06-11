@@ -69,6 +69,42 @@
       "parentUuid": "e310bede_c11c78b2",
       "revId": "a3837bf6251d58a78cd251e1cbb3c1a0f7154c2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87f5f078_ef4c5c50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-11T08:06:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1594eb43_9f27eaab",
+      "revId": "a3837bf6251d58a78cd251e1cbb3c1a0f7154c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "462f7b78_0f49e6da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-11T08:06:52Z",
+      "side": 1,
+      "message": "I have reduced the font-size of the attempt number in the hovercard.\n\nIn the run chip icon the font-size was already small. So keep that as is?",
+      "parentUuid": "8d2e8c66_950c7309",
+      "revId": "a3837bf6251d58a78cd251e1cbb3c1a0f7154c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

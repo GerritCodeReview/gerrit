@@ -123,9 +123,6 @@ class GrResultRow extends GrLitElement {
           color: var(--link-color);
           margin-right: var(--spacing-s);
         }
-        td.iconCol {
-          padding-left: var(--spacing-l);
-        }
         td.nameCol div.flex {
           display: flex;
         }
@@ -152,6 +149,9 @@ class GrResultRow extends GrLitElement {
         td {
           white-space: nowrap;
           padding: var(--spacing-s);
+        }
+        td.nameCol {
+          padding-left: var(--spacing-m);
         }
         td .summary-cell {
           display: flex;
@@ -284,7 +284,6 @@ class GrResultRow extends GrLitElement {
     if (!this.shouldRender) {
       return html`
         <tr class="container">
-          <td class="iconCol"></td>
           <td class="nameCol">
             <div><span class="loading">Loading...</span></div>
           </td>
@@ -295,15 +294,10 @@ class GrResultRow extends GrLitElement {
     }
     return html`
       <tr class="${classMap({container: true, collapsed: !this.isExpanded})}">
-        <td class="iconCol" @click="${this.toggleExpanded}">
-          <div>${this.runningIcon()}</div>
-        </td>
         <td class="nameCol" @click="${this.toggleExpanded}">
           <div class="flex">
             <gr-hovercard-run .run="${this.result}"></gr-hovercard-run>
-            <div class="name">
-              ${this.result.checkName} ${this.renderStatus()}
-            </div>
+            <div class="name">${this.result.checkName}</div>
             <div class="space"></div>
             ${this.renderPrimaryRunAction()}
           </div>
@@ -343,7 +337,6 @@ class GrResultRow extends GrLitElement {
         </td>
       </tr>
       <tr class="${classMap({detailsRow: true, collapsed: !this.isExpanded})}">
-        <td></td>
         <td colspan="3">${this.renderExpanded()}</td>
       </tr>
     `;
@@ -375,16 +368,6 @@ class GrResultRow extends GrLitElement {
        the text itself getting shrunk with an ellipsis. -->
       <div class="summary" @click="${this.toggleExpanded}">${text}&nbsp;</div>
     `;
-  }
-
-  private renderStatus() {
-    if (this.result?.status !== RunStatus.RUNNING) return;
-    return html`<span>(Running)</span>`;
-  }
-
-  private runningIcon() {
-    if (this.result?.status !== RunStatus.RUNNING) return;
-    return html`<iron-icon icon="gr-icons:timelapse"></iron-icon>`;
   }
 
   renderLabel() {
@@ -871,16 +854,14 @@ export class GrChecksResults extends GrLitElement {
           font-weight: var(--font-weight-bold);
           padding: var(--spacing-s);
         }
-        th.iconCol {
-          width: 40px;
-        }
-        th.nameCol {
+        tr.headerRow th.nameCol {
           width: 200px;
+          padding-left: var(--spacing-m);
         }
-        th.summaryCol {
+        tr.headerRow th.summaryCol {
           width: 99%;
         }
-        th.expanderCol {
+        tr.headerRow th.expanderCol {
           width: 30px;
         }
 
@@ -1227,7 +1208,7 @@ export class GrChecksResults extends GrLitElement {
     const handler = () => this.toggleShowAll(category);
     return html`
       <tr class="showAllRow">
-        <td colspan="4">
+        <td colspan="3">
           <gr-button class="showAll" link @click="${handler}"
             >${message}</gr-button
           >
@@ -1267,7 +1248,6 @@ export class GrChecksResults extends GrLitElement {
       <table class="resultsTable">
         <thead>
           <tr class="headerRow">
-            <th class="iconCol"></th>
             <th class="nameCol">Run</th>
             <th class="summaryCol">Summary</th>
             <th class="expanderCol"></th>

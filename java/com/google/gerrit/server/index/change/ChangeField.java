@@ -43,11 +43,13 @@ import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.Files;
 import com.google.common.primitives.Longs;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
@@ -72,6 +74,7 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
+import com.google.gerrit.server.query.change.MagicLabelValue;
 import com.google.gson.Gson;
 import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
@@ -602,14 +605,33 @@ public class ChangeField {
     for (PatchSetApproval a : cd.currentApprovals()) {
       if (a.value() != 0 && !a.isLegacySubmit()) {
         allApprovals.add(formatLabel(a.label(), a.value(), a.accountId()));
+        LabelType labelType = cd.getLabelTypes().byLabel(a.labelId());
+        allApprovals.addAll(getMaxMinAnyLabels(a.label(), a.value(), labelType, a.accountId()));
         if (owners && cd.change().getOwner().equals(a.accountId())) {
           allApprovals.add(formatLabel(a.label(), a.value(), ChangeQueryBuilder.OWNER_ACCOUNT_ID));
+          allApprovals.addAll(
+              getMaxMinAnyLabels(
+                  a.label(), a.value(), labelType, ChangeQueryBuilder.OWNER_ACCOUNT_ID));
         }
         distinctApprovals.add(formatLabel(a.label(), a.value()));
+        distinctApprovals.addAll(getMaxMinAnyLabels(a.label(), a.value(), labelType, null));
       }
     }
     allApprovals.addAll(distinctApprovals);
     return allApprovals;
+  }
+
+  private static List<String> getMaxMinAnyLabels(
+      String label, short labelVal, LabelType labelType, @Nullable Account.Id accountId) {
+    List<String> labels = new ArrayList<>();
+    if (labelVal == labelType.getMaxPositive()) {
+      labels.add(formatLabel(label, MagicLabelValue.MAX.name(), accountId));
+    }
+    if (labelVal == labelType.getMaxNegative()) {
+      labels.add(formatLabel(label, MagicLabelValue.MIN.name(), accountId));
+    }
+    labels.add(formatLabel(label, MagicLabelValue.ANY.name(), accountId));
+    return labels;
   }
 
   public static Set<String> getAuthorParts(ChangeData cd) {
@@ -692,6 +714,17 @@ public class ChangeField {
   public static String formatLabel(String label, int value, Account.Id accountId) {
     return label.toLowerCase()
         + (value >= 0 ? "+" : "")
+        + value
+        + (accountId != null ? "," + formatAccount(accountId) : "");
+  }
+
+  public static String formatLabel(String label, String value) {
+    return formatLabel(label, value, null);
+  }
+
+  public static String formatLabel(String label, String value, @Nullable Account.Id accountId) {
+    return label.toLowerCase()
+        + "="
         + value
         + (accountId != null ? "," + formatAccount(accountId) : "");
   }

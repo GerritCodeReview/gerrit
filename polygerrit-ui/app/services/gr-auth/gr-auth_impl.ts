@@ -26,7 +26,7 @@ import {
   Token,
 } from './gr-auth';
 
-const MAX_AUTH_CHECK_WAIT_TIME_MS = 1000 * 30; // 30s
+export const MAX_AUTH_CHECK_WAIT_TIME_MS = 1000 * 30; // 30s
 const MAX_GET_TOKEN_RETRIES = 2;
 
 interface ValidToken extends Token {

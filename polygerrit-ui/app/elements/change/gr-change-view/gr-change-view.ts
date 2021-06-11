@@ -533,6 +533,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   restApiService = appContext.restApiService;
 
+  private resizeObserver?: ResizeObserver;
+
   keyboardShortcuts() {
     return {
       [Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
@@ -620,6 +622,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       }
       this._setDiffViewMode();
     });
+
+    this.resizeObserver = new ResizeObserver(() =>
+      this.$.replyOverlay.center()
+    );
+    this.resizeObserver.observe(this.$.replyDialog);
 
     getPluginLoader()
       .awaitPluginsLoaded()
@@ -1443,13 +1450,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
       if (this.viewState.showReplyDialog) {
         this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
-        // TODO(kaspern@): Find a better signal for when to call center.
-        setTimeout(() => {
-          this.$.replyOverlay.center();
-        }, 100);
-        setTimeout(() => {
-          this.$.replyOverlay.center();
-        }, 1000);
         this.set('viewState.showReplyDialog', false);
       }
     });
@@ -1786,8 +1786,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       // the following code should be executed no matter open succeed or not
       this._resetReplyOverlayFocusStops();
       this.$.replyDialog.open(section);
-      flush();
-      this.$.replyOverlay.center();
     });
     fireDialogChange(this, {opened: true});
     this._changeViewAriaHidden = true;

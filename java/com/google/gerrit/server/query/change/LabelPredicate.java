@@ -25,7 +25,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.util.LabelVote.VoteType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -94,6 +96,9 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
 
     try {
       LabelVote lv = LabelVote.parseWithEquals(v);
+      if (lv.voteType() != VoteType.NUMERIC) {
+        return Arrays.asList(onePredicate(args, lv.label(), lv.voteType()));
+      }
       parsed = new Parsed(lv.label(), "=", lv.value());
     } catch (IllegalArgumentException e) {
       // Try next format.
@@ -121,9 +126,14 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     return r;
   }
 
+  protected static Predicate<ChangeData> onePredicate(
+      Args args, String label, LabelVote.VoteType voteType) {
+    return equalsLabelPredicate(args, label, voteType, /* expVal= */ 0); // expVal is unused
+  }
+
   protected static Predicate<ChangeData> onePredicate(Args args, String label, int expVal) {
     if (expVal != 0) {
-      return equalsLabelPredicate(args, label, expVal);
+      return equalsLabelPredicate(args, label, VoteType.NUMERIC, expVal);
     }
     return noLabelQuery(args, label);
   }
@@ -131,19 +141,20 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   protected static Predicate<ChangeData> noLabelQuery(Args args, String label) {
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);
     for (int i = 1; i <= MAX_LABEL_VALUE; i++) {
-      r.add(equalsLabelPredicate(args, label, i));
-      r.add(equalsLabelPredicate(args, label, -i));
+      r.add(equalsLabelPredicate(args, label, VoteType.NUMERIC, i));
+      r.add(equalsLabelPredicate(args, label, VoteType.NUMERIC, -i));
     }
     return not(or(r));
   }
 
-  protected static Predicate<ChangeData> equalsLabelPredicate(Args args, String label, int expVal) {
+  protected static Predicate<ChangeData> equalsLabelPredicate(
+      Args args, String label, LabelVote.VoteType voteType, int expVal) {
     if (args.accounts == null || args.accounts.isEmpty()) {
-      return new EqualsLabelPredicate(args, label, expVal, null);
+      return new EqualsLabelPredicate(args, label, voteType, expVal, null);
     }
     List<Predicate<ChangeData>> r = new ArrayList<>();
     for (Account.Id a : args.accounts) {
-      r.add(new EqualsLabelPredicate(args, label, expVal, a));
+      r.add(new EqualsLabelPredicate(args, label, voteType, expVal, a));
     }
     return or(r);
   }

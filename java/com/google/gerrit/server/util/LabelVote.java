@@ -23,6 +23,21 @@ import com.google.gerrit.entities.LabelType;
 /** A single vote on a label, consisting of a label name and a value. */
 @AutoValue
 public abstract class LabelVote {
+  public enum VoteType {
+    /** The maximum positive label vote for this label is required. */
+    MAX,
+
+    /** The maximum negative label vote for this label is required. */
+    MIN,
+
+    /** Any vote for this label is required. */
+    ANY,
+
+    /** A specific numeric vote identified by {@link #value()} is required. */
+    NUMERIC
+  }
+
+  /** Parse label votes with format label+VALUE or label-value. value should be numeric. */
   public static LabelVote parse(String text) {
     checkArgument(!Strings.isNullOrEmpty(text), "Empty label vote");
     if (text.charAt(0) == '-') {
@@ -48,11 +63,24 @@ public abstract class LabelVote {
     return create(text.substring(0, i), (short) (sign * Short.parseShort(text.substring(i + 1))));
   }
 
+  /**
+   * Parse label votes with format label=+value or label=-value. value should be numeric. label=MAX,
+   * label=MIN, label=ANY are also allowed.
+   */
   public static LabelVote parseWithEquals(String text) {
     checkArgument(!Strings.isNullOrEmpty(text), "Empty label vote");
     int e = text.lastIndexOf('=');
     checkArgument(e >= 0, "Label vote missing '=': %s", text);
-    return create(text.substring(0, e), Short.parseShort(text.substring(e + 1)));
+    String voteValue = text.substring(e + 1);
+    try {
+      return create(text.substring(0, e), Short.parseShort(voteValue));
+    } catch (NumberFormatException exception) {
+      VoteType voteType = VoteType.valueOf(voteValue);
+      if (voteType == VoteType.NUMERIC) {
+        throw new IllegalArgumentException("\"Numeric\" is not allowed as vote value.", exception);
+      }
+      return create(text.substring(0, e), /* value= */ (short) 0, voteType);
+    }
   }
 
   public static StringBuilder appendTo(StringBuilder sb, String label, short value) {
@@ -65,12 +93,18 @@ public abstract class LabelVote {
   }
 
   public static LabelVote create(String label, short value) {
-    return new AutoValue_LabelVote(LabelType.checkNameInternal(label), value);
+    return new AutoValue_LabelVote(LabelType.checkNameInternal(label), value, VoteType.NUMERIC);
+  }
+
+  public static LabelVote create(String label, short value, VoteType voteType) {
+    return new AutoValue_LabelVote(LabelType.checkNameInternal(label), value, voteType);
   }
 
   public abstract String label();
 
   public abstract short value();
+
+  public abstract VoteType voteType();
 
   public String format() {
     // Max short string length is "-32768".length() == 6.

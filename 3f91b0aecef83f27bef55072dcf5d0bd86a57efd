@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "300f4bce_f7d047c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-11T08:59:26Z",
+      "side": 1,
+      "message": "What is the reason for removing running info? ",
+      "revId": "3f91b0aecef83f27bef55072dcf5d0bd86a57efd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

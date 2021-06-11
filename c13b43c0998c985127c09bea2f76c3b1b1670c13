@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f66a9cc_7a455ee4",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-11T12:56:55Z",
+      "side": 1,
+      "message": "Should we also return true here if\n\n  !hasVote \u0026\u0026 voteType \u003d\u003d VoteType.ANY\n  \n?",
+      "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1fc2df3_b03eaa43",
+        "filename": "java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-11T12:56:55Z",
+      "side": 1,
+      "message": "I\u0027m not sure yet if it\u0027s a good idea to extend LabelVote like this, as this class represents a vote on a label, so value() should always return the value that was applied to the label, but it seems this is not the case for voteType !\u003d NUMERIC.\n\nWould it be better to add a new LabelQuery type to represent a query on a label vote?",
+      "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87ea6261_0fd41cf6",
+        "filename": "java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-11T12:56:55Z",
+      "side": 1,
+      "message": "[optional Maybe extract this as a variable (\"label\"?) for better readability.",
+      "range": {
+        "startLine": 76,
+        "startChar": 20,
+        "endLine": 76,
+        "endChar": 40
+      },
+      "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deb0f1ba_905e0917",
+        "filename": "java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-11T12:56:55Z",
+      "side": 1,
+      "message": "I think you would only get here if the value was \u0027NUMERIC\u0027 since VoteType.valueOf is case sensitive, isn\u0027t it?",
+      "range": {
+        "startLine": 80,
+        "startChar": 46,
+        "endLine": 80,
+        "endChar": 53
+      },
+      "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

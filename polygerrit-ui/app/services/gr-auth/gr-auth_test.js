@@ -24,7 +24,7 @@ suite('gr-auth', () => {
   let auth;
 
   setup(() => {
-    auth = appContext.authService;
+    auth = new Auth(appContext.eventEmitter);
   });
 
   suite('Auth class methods', () => {

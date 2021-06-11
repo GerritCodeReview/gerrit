@@ -266,7 +266,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve(createServerInfo());
   },
   getDashboard(): Promise<DashboardInfo | undefined> {
-    throw new Error('getDashboard() not implemented by RestApiMock.');
+    return Promise.resolve(undefined);
   },
   getDefaultPreferences(): Promise<PreferencesInfo | undefined> {
     throw new Error('getDefaultPreferences() not implemented by RestApiMock.');

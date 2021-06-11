@@ -25,6 +25,8 @@ import {appContext} from '../services/app-context';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
 import {SinonSpy} from 'sinon/pkg/sinon-esm';
 import {StorageService} from '../services/storage/gr-storage';
+import {AuthService} from '../services/gr-auth/gr-auth';
+import {ReportingService} from '../services/gr-reporting/gr-reporting';
 
 export interface MockPromise extends Promise<unknown> {
   resolve: (value?: unknown) => void;
@@ -177,6 +179,14 @@ export function stubStorage<K extends keyof StorageService>(method: K) {
 
 export function spyStorage<K extends keyof StorageService>(method: K) {
   return sinon.spy(appContext.storageService, method);
+}
+
+export function stubAuth<K extends keyof AuthService>(method: K) {
+  return sinon.stub(appContext.authService, method);
+}
+
+export function stubReporting<K extends keyof ReportingService>(method: K) {
+  return sinon.stub(appContext.reportingService, method);
 }
 
 export type SinonSpyMember<F extends (...args: any) => any> = SinonSpy<

@@ -121,7 +121,7 @@ class GrResultRow extends GrLitElement {
         }
         iron-icon.link {
           color: var(--link-color);
-          margin-right: var(--spacing-m);
+          margin-right: var(--spacing-s);
         }
         td.iconCol {
           padding-left: var(--spacing-l);

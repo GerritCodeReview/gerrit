@@ -30,24 +30,24 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Optional;
 
-public class EqualsLabelPredicate extends ChangeIndexPredicate {
+public abstract class EqualsLabelPredicate extends ChangeIndexPredicate {
   protected final ProjectCache projectCache;
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;
   protected final String label;
-  protected final int expVal;
   protected final Account.Id account;
   protected final AccountGroup.UUID group;
 
+  protected LabelType labelType;
+
   public EqualsLabelPredicate(
-      LabelPredicate.Args args, String label, int expVal, Account.Id account) {
-    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
+      LabelPredicate.Args args, String label, Account.Id account, String format) {
+    super(ChangeField.LABEL, format);
     this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
     this.group = args.group;
     this.label = label;
-    this.expVal = expVal;
     this.account = account;
   }
 
@@ -67,7 +67,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       return false;
     }
 
-    LabelType labelType = type(project.get().getLabelTypes(), label);
+    labelType = type(project.get().getLabelTypes(), label);
     if (labelType == null) {
       return false; // Label is not defined by this project.
     }
@@ -83,7 +83,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       }
     }
 
-    if (!hasVote && expVal == 0) {
+    if (override(hasVote)) {
       return true;
     }
 
@@ -104,7 +104,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
   }
 
   protected boolean match(ChangeData cd, short value, Account.Id approver) {
-    if (value != expVal) {
+    if (!matchValue(value)) {
       return false;
     }
 
@@ -138,6 +138,11 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       return false;
     }
   }
+
+  abstract boolean matchValue(short value);
+
+  /** Sub-classes can implement this method to override matching in certain conditions. */
+  abstract boolean override(boolean hasVote);
 
   @Override
   public int getCost() {

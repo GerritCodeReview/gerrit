@@ -973,7 +973,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     int eq = name.indexOf('=');
     if (args.getSchema().hasField(ChangeField.SUBMIT_RECORD) && eq > 0) {
       String statusName = name.substring(eq + 1).toUpperCase();
-      if (!isInt(statusName)) {
+      if (!isInt(statusName) && !isMaxOrMinOrAny(statusName)) {
         SubmitRecord.Label.Status status =
             Enums.getIfPresent(SubmitRecord.Label.Status.class, statusName).orNull();
         if (status == null) {
@@ -983,6 +983,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       }
     }
 
+    // This handles code-review=+1 and also code-review=MAX, code-review=MIN or code-review=ANY
     return new LabelPredicate(args, name, accounts, group);
   }
 
@@ -994,6 +995,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       s = s.substring(1);
     }
     return Ints.tryParse(s) != null;
+  }
+
+  private static boolean isMaxOrMinOrAny(String s) {
+    return s.equals("MAX") || s.equals("MIN") || s.equals("ANY");
   }
 
   @Operator

@@ -973,7 +973,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     int eq = name.indexOf('=');
     if (args.getSchema().hasField(ChangeField.SUBMIT_RECORD) && eq > 0) {
       String statusName = name.substring(eq + 1).toUpperCase();
-      if (!isInt(statusName)) {
+      if (!isInt(statusName) && !MagicLabelValue.tryParse(statusName).isPresent()) {
         SubmitRecord.Label.Status status =
             Enums.getIfPresent(SubmitRecord.Label.Status.class, statusName).orNull();
         if (status == null) {

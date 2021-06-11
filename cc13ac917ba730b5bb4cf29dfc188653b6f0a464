@@ -34,6 +34,24 @@
       "parentUuid": "139b6ae5_17a2286f",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab2e8342_a01dfdc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-11T08:04:09Z",
+      "side": 1,
+      "message": "Good catch!\n\nMaybe after performing all the updates to \"msg\" in ChangeUpdate#applyImpl, you can check if msg contains anything other than attention set update.\n\nIf that doesn\u0027t work, you did miss a few cases, full list is here:\nhttps://gerrit-review.googlesource.com/Documentation/user-attention-set.html\n\nOne example is making a change WIP, abandoned, or submitted removes all users from the attention set. Another example is deleting a vote (maybe you should check if planned attention set updates includes only deletions from the attention set too?)\n\nAnyway it\u0027s a bit error prone so I suggest my other idea first :-)",
+      "parentUuid": "8dc4e506_a0a3f8e6",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

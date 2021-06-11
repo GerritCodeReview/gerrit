@@ -3994,6 +3994,86 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirement_withLabelEqualsMax() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:code-review=MAX"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+
+    voteLabel(changeId, "code-review", 2);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+  }
+
+  @Test
+  public void submitRequirement_withLabelEqualsMinBlockingSubmission() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("-label:code-review=MIN"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    // Requirement is satisfied because there are no votes
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+
+    voteLabel(changeId, "code-review", -1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    // Requirement is still satisfied because -1 is not the max negative value
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+
+    voteLabel(changeId, "code-review", -2);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    // Requirement is now unsatisfied because -2 is the max negative value
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+  }
+
+  @Test
+  public void submitRequirement_withLabelEqualsAny() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:code-review=ANY"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+
+    voteLabel(changeId, "code-review", 1);
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+  }
+
+  @Test
   public void submitRequirementIsSatisfied_whenSubmittabilityExpressionIsFulfilled()
       throws Exception {
     configSubmitRequirement(

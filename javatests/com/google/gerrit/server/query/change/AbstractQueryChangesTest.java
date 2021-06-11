@@ -992,6 +992,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     changes.put(-1, reviewMinus1Change);
     changes.put(-2, reviewMinus2Change);
 
+    assertQuery("label:Code-Review=MIN", reviewMinus2Change);
     assertQuery("label:Code-Review=-2", reviewMinus2Change);
     assertQuery("label:Code-Review-2", reviewMinus2Change);
     assertQuery("label:Code-Review=-1", reviewMinus1Change);
@@ -1003,6 +1004,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+2", reviewPlus2Change);
     assertQuery("label:Code-Review=2", reviewPlus2Change);
     assertQuery("label:Code-Review+2", reviewPlus2Change);
+    assertQuery("label:Code-Review=MAX", reviewPlus2Change);
+    assertQuery(
+        "label:Code-Review=ANY",
+        reviewPlus2Change,
+        reviewPlus1Change,
+        reviewMinus1Change,
+        reviewMinus2Change);
 
     assertQuery("label:Code-Review>-3", codeReviewInRange(changes, -2, 2));
     assertQuery("label:Code-Review>=-2", codeReviewInRange(changes, -2, 2));

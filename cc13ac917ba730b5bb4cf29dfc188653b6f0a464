@@ -52,6 +52,24 @@
       "parentUuid": "8dc4e506_a0a3f8e6",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8aa5b9_74993605",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-11T14:57:36Z",
+      "side": 1,
+      "message": "\u003e Good catch!\n\u003e \n\u003e Maybe after performing all the updates to \"msg\" in ChangeUpdate#applyImpl, you can check if msg contains anything other than attention set update.\n\nCurrently the call stack is the following: ChangeUpdate#addUpdates -\u003e AbstractChangeUpdate#apply -\u003e ChangeUpdate#applyImpl\n\nThat means ChangeUpdate#applyImpl is already called in the current stack.\nWhat I am doing in the ChangeUpdate#isAttentionSetChangeOnly is checking a subset of the possible ChangeUpdate parameters (which I agree with you is error prone).\n\nWas your suggestion to check them all, similarly to what ChangeUpdate#isEmpty is currently doing? Or did you have something else in mind?",
+      "parentUuid": "ab2e8342_a01dfdc9",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

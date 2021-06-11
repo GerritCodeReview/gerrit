@@ -16,6 +16,24 @@
       "message": "What is the reason for removing running info? ",
       "revId": "3f91b0aecef83f27bef55072dcf5d0bd86a57efd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e3c33d_a74ca54d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-11T10:31:05Z",
+      "side": 1,
+      "message": "From b/190495016:\n\nDelphine and I discussed this today and propose the following:\n\nKeep the \"Runs\" panel as is: So if a run is running, then it will be shown in a \"Running\" section with a \"running\" icon. And if that run has already produced results, then next to the \"running\" icon you will also see the icon of the most negative result (similar to what we do for COMPLETED runs).\n\nRemove any indication of \"running\" from the \"Results\" panel: Remove the \"running\" icon from all result rows, even if the associated run is still running. Also remove the \"(Running)\" text after the run name.\n\nThe goals is to clearly indicate that results are typically final. And that \"running\" is an attribute of a run, not a result.",
+      "parentUuid": "300f4bce_f7d047c5",
+      "revId": "3f91b0aecef83f27bef55072dcf5d0bd86a57efd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

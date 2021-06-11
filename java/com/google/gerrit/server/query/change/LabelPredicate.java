@@ -24,8 +24,10 @@ import com.google.gerrit.index.query.RangeUtil.Range;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.LabelVoteQuery.VoteType;
 import com.google.gerrit.server.util.LabelVote;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -93,7 +95,13 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     }
 
     try {
-      LabelVote lv = LabelVote.parseWithEquals(v);
+      LabelVoteQuery lv = LabelVoteQuery.parseWithEquals(v);
+      if (lv.voteType() != VoteType.NUMERIC) {
+        // If not NUMERIC, we can create the predicate immediately. Note that the last parameter
+        // `lv.value()` is not important and is not going to be used by the predicate, i.e. the
+        // predicate checks the value only if voteType is NUMERIC.
+        return Arrays.asList(onePredicate(args, lv.label(), lv.voteType(), lv.value()));
+      }
       parsed = new Parsed(lv.label(), "=", lv.value());
     } catch (IllegalArgumentException e) {
       // Try next format.
@@ -116,34 +124,36 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
 
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(max - min + 1);
     for (int i = min; i <= max; i++) {
-      r.add(onePredicate(args, prefix, i));
+      r.add(onePredicate(args, prefix, VoteType.NUMERIC, i));
     }
     return r;
   }
 
-  protected static Predicate<ChangeData> onePredicate(Args args, String label, int expVal) {
-    if (expVal != 0) {
-      return equalsLabelPredicate(args, label, expVal);
+  protected static Predicate<ChangeData> onePredicate(
+      Args args, String label, VoteType voteType, int expVal) {
+    if (voteType == VoteType.NUMERIC && expVal == 0) {
+      return noLabelQuery(args, label);
     }
-    return noLabelQuery(args, label);
+    return equalsLabelPredicate(args, label, voteType, expVal);
   }
 
   protected static Predicate<ChangeData> noLabelQuery(Args args, String label) {
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);
     for (int i = 1; i <= MAX_LABEL_VALUE; i++) {
-      r.add(equalsLabelPredicate(args, label, i));
-      r.add(equalsLabelPredicate(args, label, -i));
+      r.add(equalsLabelPredicate(args, label, VoteType.NUMERIC, i));
+      r.add(equalsLabelPredicate(args, label, VoteType.NUMERIC, -i));
     }
     return not(or(r));
   }
 
-  protected static Predicate<ChangeData> equalsLabelPredicate(Args args, String label, int expVal) {
+  protected static Predicate<ChangeData> equalsLabelPredicate(
+      Args args, String label, VoteType voteType, int expVal) {
     if (args.accounts == null || args.accounts.isEmpty()) {
-      return new EqualsLabelPredicate(args, label, expVal, null);
+      return new EqualsLabelPredicate(args, label, voteType, expVal, null);
     }
     List<Predicate<ChangeData>> r = new ArrayList<>();
     for (Account.Id a : args.accounts) {
-      r.add(new EqualsLabelPredicate(args, label, expVal, a));
+      r.add(new EqualsLabelPredicate(args, label, voteType, expVal, a));
     }
     return or(r);
   }

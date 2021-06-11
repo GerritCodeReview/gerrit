@@ -28,6 +28,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.LabelVoteQuery.VoteType;
 import java.util.Optional;
 
 public class EqualsLabelPredicate extends ChangeIndexPredicate {
@@ -35,18 +36,20 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;
   protected final String label;
+  protected final VoteType voteType;
   protected final int expVal;
   protected final Account.Id account;
   protected final AccountGroup.UUID group;
 
   public EqualsLabelPredicate(
-      LabelPredicate.Args args, String label, int expVal, Account.Id account) {
+      LabelPredicate.Args args, String label, VoteType voteType, int expVal, Account.Id account) {
     super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
     this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
     this.group = args.group;
     this.label = label;
+    this.voteType = voteType;
     this.expVal = expVal;
     this.account = account;
   }
@@ -77,13 +80,18 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;
-        if (match(object, p.value(), p.accountId())) {
+        if (match(
+            object,
+            p.value(),
+            labelType.getMaxPositive(),
+            labelType.getMaxNegative(),
+            p.accountId())) {
           return true;
         }
       }
     }
 
-    if (!hasVote && expVal == 0) {
+    if (!hasVote && voteType == VoteType.NUMERIC && expVal == 0) {
       return true;
     }
 
@@ -103,8 +111,17 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     return null;
   }
 
-  protected boolean match(ChangeData cd, short value, Account.Id approver) {
-    if (value != expVal) {
+  protected boolean match(
+      ChangeData cd, short value, short maxPositive, short maxNegative, Account.Id approver) {
+    if (voteType == VoteType.MAX && value != maxPositive) {
+      return false;
+    }
+
+    if (voteType == VoteType.MIN && value != maxNegative) {
+      return false;
+    }
+
+    if (voteType == VoteType.NUMERIC && value != expVal) {
       return false;
     }
 

@@ -107,6 +107,7 @@ import {
   RelatedChangeAndCommitInfo,
   RelatedChangesInfo,
   BasePatchSetNum,
+  ChangeViewChangeInfo,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrReplyDialog, FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
@@ -325,7 +326,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   _canStartReview?: boolean;
 
   @property({type: Object, observer: '_changeChanged'})
-  _change?: ChangeInfo | ParsedChangeInfo;
+  _change?: ChangeViewChangeInfo;
 
   @property({type: Object, computed: '_getRevisionInfo(_change)'})
   _revisionInfo?: RevisionInfoClass;
@@ -780,6 +781,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         this.reporting.reportInteraction(Interaction.SHOW_TAB, {tabName, src});
       }
       paperTabs.selected = activeIndex;
+      // this._change.primFF
     }
     return tabName;
   }

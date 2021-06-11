@@ -102,6 +102,11 @@ export const latestPatchNum$ = change$.pipe(
   distinctUntilChanged()
 );
 
+export const primaryTab$ = change$.pipe(
+  map(change => change?.primaryTab),
+  distinctUntilChanged()
+);
+
 /**
  * Emits the current patchset number. If the route does not define the current
  * patchset num, then this selector waits for the change to be defined and

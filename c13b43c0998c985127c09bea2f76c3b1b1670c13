@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "032a40e1_40735b65",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-11T16:22:00Z",
+      "side": 1,
+      "message": "I think not. This case is implicitly handled by the match() method (I also have a test for it in ChangeIT). In line 124, we check for the vote value only if the type was numeric; so if the vote type is ANY, we always consider the current vote as OK. The match() method also does extra checking on permissions, so we want to go through that logic anyway, right?\n\n\u003e !hasVote \u0026\u0026 voteType \u003d\u003d VoteType.ANY\n\nWe also can\u0027t do that because ANY requires at least one vote; if there are no votes the predicate is not yet fulfilled.",
+      "parentUuid": "8f66a9cc_7a455ee4",
+      "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1fc2df3_b03eaa43",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-06-11T12:56:55Z",
       "side": 1,
       "message": "I\u0027m not sure yet if it\u0027s a good idea to extend LabelVote like this, as this class represents a vote on a label, so value() should always return the value that was applied to the label, but it seems this is not the case for voteType !\u003d NUMERIC.\n\nWould it be better to add a new LabelQuery type to represent a query on a label vote?",
+      "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5218134b_377ff956",
+        "filename": "java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-11T16:22:00Z",
+      "side": 1,
+      "message": "I agree. I also didn\u0027t like my extension of LabelVote much.\n\n* I preferred LabelVoteQuery as a name (for better clarity), but LMK your opinion.\n* I tried to compose/extend LabelVoteQuery with LabelVote, since both classes have common logic in parsing and also have common fields. I ended up separating them in two different classes. LabelVoteQuery is only used from LabelPredicate for now. \n\nDone.",
+      "parentUuid": "f1fc2df3_b03eaa43",
       "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6d06618_37db3c71",
+        "filename": "java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-11T16:22:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87ea6261_0fd41cf6",
+      "range": {
+        "startLine": 76,
+        "startChar": 20,
+        "endLine": 76,
+        "endChar": 40
+      },
+      "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "deb0f1ba_905e0917",
@@ -71,6 +131,30 @@
       "writtenOn": "2021-06-11T12:56:55Z",
       "side": 1,
       "message": "I think you would only get here if the value was \u0027NUMERIC\u0027 since VoteType.valueOf is case sensitive, isn\u0027t it?",
+      "range": {
+        "startLine": 80,
+        "startChar": 46,
+        "endLine": 80,
+        "endChar": 53
+      },
+      "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "706bc09d_029112a1",
+        "filename": "java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-11T16:22:00Z",
+      "side": 1,
+      "message": "Right. This will happen if the user requested label:code-review\u003dNUMERIC.\n\nUpdated it to NUMERIC instead of Numeric.",
+      "parentUuid": "deb0f1ba_905e0917",
       "range": {
         "startLine": 80,
         "startChar": 46,

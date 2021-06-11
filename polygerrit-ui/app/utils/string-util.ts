@@ -30,3 +30,11 @@ export function addQuotesWhen(string: string, cond: boolean): string {
 export function charsOnly(s: string): string {
   return s.replace(/[^a-zA-Z]+/g, '');
 }
+
+export function ordinal(n?: number): string {
+  if (n === undefined) return '';
+  if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;
+  if (n % 10 === 2 && n % 100 !== 12) return `${n}nd`;
+  if (n % 10 === 3 && n % 100 !== 13) return `${n}rd`;
+  return `${n}th`;
+}

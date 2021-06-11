@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {DiffLayer as DiffLayerApi} from '../api/diff';
-import {DiffViewMode, MessageTag, Side} from '../constants/constants';
+import {DiffViewMode, MessageTag, PrimaryTab, Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
@@ -246,4 +246,5 @@ export interface ParsedChangeInfo
   extends Omit<ChangeViewChangeInfo, 'reviewer_updates' | 'revisions'> {
   revisions: {[revisionId: string]: RevisionInfo | EditRevisionInfo};
   reviewer_updates?: ReviewerUpdateInfo[] | FormattedReviewerUpdateInfo[];
+  primaryTab?: PrimaryTab;
 }

@@ -29,6 +29,7 @@ import {
 } from '../../services/checks/checks-util';
 import {durationString, fromNow} from '../../utils/date-util';
 import {RunStatus} from '../../api/checks';
+import {ordinal} from '../../utils/common-util';
 
 @customElement('gr-hovercard-run')
 export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
@@ -50,6 +51,10 @@ export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
 
   computeActions(run?: CheckRun) {
     return runActions(run);
+  }
+
+  computeAttempt(attempt?: number) {
+    return ordinal(attempt);
   }
 
   computeChipIcon(run?: CheckRun) {

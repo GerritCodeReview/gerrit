@@ -14,30 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import '../test/common-test-setup-karma.js';
-import {hasOwnProperty, areSetsEqual, containsAll} from './common-util.js';
+import '../test/common-test-setup-karma';
+import {
+  hasOwnProperty,
+  areSetsEqual,
+  containsAll,
+  ordinal,
+} from './common-util';
 
 suite('common-util tests', () => {
   suite('hasOwnProperty', () => {
     test('object with the default prototype', () => {
       const obj = {
-        'abc': 3,
+        abc: 3,
         'name with spaces': 5,
       };
       assert.isTrue(hasOwnProperty(obj, 'abc'));
       assert.isTrue(hasOwnProperty(obj, 'name with spaces'));
-      assert.isFalse(hasOwnProperty(obj, 'def'));
-    });
-    test('object prototype has overridden hasOwnProperty', () => {
-      const F = function() {
-        this.abc = 23;
-      };
-      F.prototype.hasOwnProperty = function(key) {
-        return true;
-      };
-      const obj = new F();
-      assert.isTrue(hasOwnProperty(obj, 'abc'));
       assert.isFalse(hasOwnProperty(obj, 'def'));
     });
   });
@@ -65,5 +58,19 @@ suite('common-util tests', () => {
     assert.isFalse(containsAll(new Set([1]), new Set([2])));
     assert.isFalse(containsAll(new Set([1, 2, 3, 4]), new Set([5])));
     assert.isFalse(containsAll(new Set([1, 2, 3, 4]), new Set([1, 2, 3, 5])));
+  });
+
+  test('ordinal', () => {
+    assert.equal(ordinal(0), '0th');
+    assert.equal(ordinal(1), '1st');
+    assert.equal(ordinal(2), '2nd');
+    assert.equal(ordinal(3), '3rd');
+    assert.equal(ordinal(4), '4th');
+    assert.equal(ordinal(10), '10th');
+    assert.equal(ordinal(11), '11th');
+    assert.equal(ordinal(12), '12th');
+    assert.equal(ordinal(13), '13th');
+    assert.equal(ordinal(44413), '44413th');
+    assert.equal(ordinal(44451), '44451st');
   });
 });

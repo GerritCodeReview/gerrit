@@ -18,6 +18,7 @@ import {html} from 'lit-html';
 import {css, customElement, property} from 'lit-element';
 import {GrLitElement} from '../lit/gr-lit-element';
 import {CheckRun} from '../../services/checks/checks-model';
+import {ordinal} from '../../utils/common-util';
 
 @customElement('gr-checks-attempt')
 class GrChecksAttempt extends GrLitElement {
@@ -65,7 +66,7 @@ class GrChecksAttempt extends GrLitElement {
     if (!this.run) return undefined;
     if (this.run.isSingleAttempt) return undefined;
     if (!this.run.attempt) return undefined;
-    const attempt = this.run.attempt;
+    const attempt = ordinal(this.run.attempt);
 
     return html`
       <span class="attempt">

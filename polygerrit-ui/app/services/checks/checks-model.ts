@@ -677,7 +677,7 @@ export function updateStateSetResults(
   for (const attemptInfo of attemptMap.values()) {
     // Per run only one attempt can be undefined, so the '?? -1' is not really
     // relevant for sorting.
-    attemptInfo.attempts.sort((a, b) => (b.attempt ?? -1) - (a.attempt ?? -1));
+    attemptInfo.attempts.sort((a, b) => (a.attempt ?? -1) - (b.attempt ?? -1));
   }
   const nextState = {...privateState$.getValue()};
   const pluginState = getPluginState(nextState, patchset);

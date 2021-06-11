@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3627784_d14e0c5a",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-11T11:18:36Z",
+      "side": 1,
+      "message": "Added a comment.\n\nA `run` cannot be an error. It can only be RUNNING or COMPLETED.",
+      "parentUuid": "97d4b4c8_3df19eba",
+      "range": {
+        "startLine": 285,
+        "startChar": 38,
+        "endLine": 285,
+        "endChar": 45
+      },
+      "revId": "41b1f892f0249aecc6516e654674641b665a0dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df58023f_d0367e50",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-11T09:35:50Z",
       "side": 1,
       "message": "Aria is missing. There is no label for this \u003ca\u003e",
+      "range": {
+        "startLine": 287,
+        "startChar": 7,
+        "endLine": 287,
+        "endChar": 13
+      },
+      "revId": "41b1f892f0249aecc6516e654674641b665a0dcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e605386_57b19ec3",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-11T11:18:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df58023f_d0367e50",
       "range": {
         "startLine": 287,
         "startChar": 7,

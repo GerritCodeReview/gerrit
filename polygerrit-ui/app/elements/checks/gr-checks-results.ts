@@ -396,7 +396,16 @@ class GrResultRow extends GrLitElement {
     const info = this.labels?.[label];
     const status = getLabelStatus(info).toLowerCase();
     const value = valueString(getRepresentativeValue(info));
-    return html`<div class="label ${status}">${label} ${value}</div>`;
+    return html`
+      <div class="label ${status}">
+        <span>${label} ${value}</span>
+        <paper-tooltip offset="5" fit-to-visible-bounds="true">
+          This is the label that the check typically votes on.<br>
+          So this check result may have directly influenced the current label
+          vote.
+        </paper-tooltip>
+      </div>
+    `;
   }
 
   renderLinks() {
@@ -487,7 +496,13 @@ class GrResultRow extends GrLitElement {
   }
 
   renderTag(tag: Tag) {
-    return html`<div class="tag ${tag.color}">${tag.name}</div>`;
+    return html`<div class="tag ${tag.color}">
+      <span>${tag.name}</span>
+      <paper-tooltip offset="5" fit-to-visible-bounds="true">
+        This is a tag that generally classifies this result to be of type
+        '${tag.name}'.
+      </paper-tooltip>
+    </div>`;
   }
 }
 

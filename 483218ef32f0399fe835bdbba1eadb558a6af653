@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0caed41f_0864496d",
+        "filename": "java/com/google/gerrit/pgm/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-06-11T06:40:07Z",
+      "side": 1,
+      "message": "This should be done using wrapper dependency (with License) instead of external Bazel repository: \n\n  //lib/commons:lang\n  \nor\n  \n  //lib/commons:lang3",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 29
+      },
+      "revId": "483218ef32f0399fe835bdbba1eadb558a6af653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

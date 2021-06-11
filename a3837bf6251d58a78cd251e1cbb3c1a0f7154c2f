@@ -33,6 +33,24 @@
       "message": "I propose we use --font-size-small for the numbers so that the icons are less spread apart.\nAlternative is to keep \"1\" as --font-size-normal: and \"st\" as --font-size-small but acknowledge that this is more complex. ",
       "revId": "a3837bf6251d58a78cd251e1cbb3c1a0f7154c2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1594eb43_9f27eaab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-11T07:34:48Z",
+      "side": 1,
+      "message": "Setting as unresolved.",
+      "parentUuid": "e94de2db_bdac1b48",
+      "revId": "a3837bf6251d58a78cd251e1cbb3c1a0f7154c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

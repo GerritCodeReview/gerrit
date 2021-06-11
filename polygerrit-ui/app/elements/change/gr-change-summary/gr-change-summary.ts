@@ -451,7 +451,8 @@ export class GrChangeSummary extends GrLitElement {
     const hasDetailChipAlready = runs.some(run =>
       this.detailsCheckNames.includes(run.checkName)
     );
-    if (!hasDetailChipAlready && runs.length <= this.detailsQuota) {
+    const notInfo = statusOrCategory !== Category.INFO;
+    if (!hasDetailChipAlready && notInfo && runs.length <= this.detailsQuota) {
       this.detailsQuota -= runs.length;
       return runs.map(run => {
         this.detailsCheckNames.push(run.checkName);

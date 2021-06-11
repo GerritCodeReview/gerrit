@@ -26,7 +26,7 @@ export const grAuthMock: AuthService = {
   baseUrl: '',
   isAuthed: false,
 
-  authCheck: () => Promise.resolve(false),
+  authCheck: () => Promise.resolve(this.isAuthed),
   clearCache: () => {},
   setup: (
     _getToken: GetTokenCallback,

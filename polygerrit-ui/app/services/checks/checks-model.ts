@@ -348,6 +348,7 @@ export const fakeRun0: CheckRun = {
 export const fakeRun1: CheckRun = {
   internalRunId: 'f1',
   checkName: 'FAKE Super Check',
+  statusLink: 'https://www.google.com/',
   patchset: 1,
   labelName: 'Verified',
   isSingleAttempt: true,

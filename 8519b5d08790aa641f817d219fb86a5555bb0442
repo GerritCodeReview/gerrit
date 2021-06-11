@@ -22,6 +22,30 @@
       },
       "revId": "8519b5d08790aa641f817d219fb86a5555bb0442",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e16f79e0_8b1d9d23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-11T08:00:22Z",
+      "side": 1,
+      "message": "Yes.\n\nEven if the run has warning *and* info results, then I think the user has indicated that they are in \"drill down mode\". So I think it is best to expand all sections, if the user selects specific runs. It is a longer tail use-case though, so I don\u0027t have a very strong opinion. It just seemed to be an obvious optimization to me.\n\nNote that *all* sections will expand when a run is selected.",
+      "parentUuid": "0dad6585_6a5cb1e2",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "8519b5d08790aa641f817d219fb86a5555bb0442",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

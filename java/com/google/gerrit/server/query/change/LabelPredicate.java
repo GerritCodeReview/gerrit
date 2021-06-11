@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -59,12 +60,12 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   protected static class Parsed {
     protected final String label;
     protected final String test;
-    protected final int expVal;
+    protected final int numericValue;
 
-    protected Parsed(String label, String test, int expVal) {
+    protected Parsed(String label, String test, int numericValue) {
       this.label = label;
       this.test = test;
-      this.expVal = expVal;
+      this.numericValue = numericValue;
     }
   }
 
@@ -83,6 +84,14 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
 
   protected static List<Predicate<ChangeData>> predicates(Args args) {
     String v = args.value;
+
+    try {
+      MagicLabelVote mlv = MagicLabelVote.parseWithEquals(v);
+      return ImmutableList.of(new MagicLabelPredicate(args, mlv));
+    } catch (IllegalArgumentException e) {
+      // Try next format.
+    }
+
     Parsed parsed = null;
 
     try {
@@ -108,7 +117,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     } else {
       range =
           RangeUtil.getRange(
-              parsed.label, parsed.test, parsed.expVal, -MAX_LABEL_VALUE, MAX_LABEL_VALUE);
+              parsed.label, parsed.test, parsed.numericValue, -MAX_LABEL_VALUE, MAX_LABEL_VALUE);
     }
     String prefix = range.prefix;
     int min = range.min;

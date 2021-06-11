@@ -150,6 +150,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
    */
   static final Schema<ChangeData> V63 = schema(V62, false);
 
+  /** Added support for MIN/MAX/ANY for {@link ChangeField#LABEL} */
+  static final Schema<ChangeData> V64 = schema(V62, false);
+
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.
    */

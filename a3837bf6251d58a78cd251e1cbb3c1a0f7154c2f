@@ -51,6 +51,24 @@
       "parentUuid": "e94de2db_bdac1b48",
       "revId": "a3837bf6251d58a78cd251e1cbb3c1a0f7154c2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d2e8c66_950c7309",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-11T07:38:14Z",
+      "side": 1,
+      "message": "I proposed to reduce the font size instead and I think using --primary-text-color will make it more readable per accessibility standard (WCAG AA).",
+      "parentUuid": "e310bede_c11c78b2",
+      "revId": "a3837bf6251d58a78cd251e1cbb3c1a0f7154c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

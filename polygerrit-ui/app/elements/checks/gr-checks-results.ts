@@ -191,10 +191,6 @@ class GrResultRow extends GrLitElement {
         tr.container.collapsed td .summary-cell .actions {
           display: none;
         }
-        tr.container.collapsed:hover .summary-cell .hoverHide.tags,
-        tr.container.collapsed:hover .summary-cell .hoverHide.label {
-          display: none;
-        }
         tr.detailsRow.collapsed {
           display: none;
         }
@@ -319,10 +315,11 @@ class GrResultRow extends GrLitElement {
             <div class="message" @click="${this.toggleExpanded}">
               ${this.isExpanded ? '' : this.result.message}
             </div>
-            <div class="tags ${this.hasLinksOrActions() ? 'hoverHide' : ''}">
+            ${this.renderLinks()} ${this.renderActions()}
+            <div class="tags">
               ${(this.result.tags ?? []).map(t => this.renderTag(t))}
             </div>
-            ${this.renderLabel()} ${this.renderLinks()} ${this.renderActions()}
+            ${this.renderLabel()}
           </div>
         </td>
         <td class="expanderCol" @click="${this.toggleExpanded}">
@@ -406,9 +403,8 @@ class GrResultRow extends GrLitElement {
     const info = this.labels?.[label];
     const status = getLabelStatus(info).toLowerCase();
     const value = valueString(getRepresentativeValue(info));
-    const hover = this.hasLinksOrActions() ? 'hoverHide' : '';
     return html`
-      <div class="label ${status} ${hover}">${label} ${value}</div>
+      <div class="label ${status}">${label} ${value}</div>
     `;
   }
 

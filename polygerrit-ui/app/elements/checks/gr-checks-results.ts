@@ -1143,6 +1143,9 @@ export class GrChecksResults extends GrLitElement {
 
   renderSection(category: Category) {
     const catString = category.toString().toLowerCase();
+    const isScrollTarget = category === this.tabState?.statusOrCategory;
+    const isWarningOrError =
+      category === Category.WARNING || category === Category.ERROR;
     const allRuns = this.runs.filter(run =>
       isAttemptSelected(this.selectedAttempts, run)
     );
@@ -1153,6 +1156,7 @@ export class GrChecksResults extends GrLitElement {
       ],
       []
     );
+    const isSelection = this.selectedRuns.length > 0;
     const selected = all.filter(result => this.isRunSelected(result));
     const filtered = selected.filter(
       result =>
@@ -1163,19 +1167,21 @@ export class GrChecksResults extends GrLitElement {
     let expanded = this.isSectionExpanded.get(category);
     const expandedByUser = this.isSectionExpandedByUser.get(category) ?? false;
     if (!expandedByUser || expanded === undefined) {
-      expanded = selected.length > 0;
+      expanded =
+        selected.length > 0 &&
+        (isWarningOrError || isSelection || isScrollTarget);
       this.isSectionExpanded.set(category, expanded);
     }
     const expandedClass = expanded ? 'expanded' : 'collapsed';
     const icon = expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
     const isShowAll = this.isShowAll.get(category) ?? false;
-    const showAllThreshold = SHOW_ALL_THRESHOLDS.get(category) ?? 5;
+    const threshold = SHOW_ALL_THRESHOLDS.get(category) ?? 5;
     const resultCount = filtered.length;
-    const resultLimit = isShowAll ? 1000 : showAllThreshold;
+    const resultLimit = isShowAll ? 1000 : isScrollTarget ? 25 : threshold;
     const showAllButton = this.renderShowAllButton(
       category,
       isShowAll,
-      showAllThreshold,
+      resultLimit,
       resultCount
     );
     return html`

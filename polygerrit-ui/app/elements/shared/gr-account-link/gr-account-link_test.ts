@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-account-link.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../test/common-test-setup-karma';
+import './gr-account-link';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {GrAccountLink} from './gr-account-link';
+import {createAccountWithId} from '../../../test/test-data-generators';
+import {AccountId, AccountInfo, EmailAddress} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-account-link');
 
 suite('gr-account-link tests', () => {
-  let element;
+  let element: GrAccountLink;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -31,11 +34,12 @@ suite('gr-account-link tests', () => {
   test('computed fields', () => {
     const url = 'test/url';
     const urlStub = sinon.stub(GerritNav, 'getUrlForOwner').returns(url);
-    const account = {
-      email: 'email',
+    const account: AccountInfo = {
+      ...createAccountWithId(),
+      email: 'email' as EmailAddress,
       username: 'username',
       name: 'name',
-      _account_id: '_account_id',
+      _account_id: 5 as AccountId,
     };
     assert.isNotOk(element._computeOwnerLink());
     assert.equal(element._computeOwnerLink(account), url);
@@ -51,7 +55,6 @@ suite('gr-account-link tests', () => {
 
     delete account.name;
     assert.equal(element._computeOwnerLink(account), url);
-    assert.isTrue(urlStub.lastCall.calledWithExactly('_account_id'));
+    assert.isTrue(urlStub.lastCall.calledWithExactly('5'));
   });
 });
-

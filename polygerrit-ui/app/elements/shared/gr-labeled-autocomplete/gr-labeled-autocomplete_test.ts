@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-labeled-autocomplete.js';
+import '../../../test/common-test-setup-karma';
+import './gr-labeled-autocomplete';
+import {GrLabeledAutocomplete} from './gr-labeled-autocomplete';
 
 const basicFixture = fixtureFromElement('gr-labeled-autocomplete');
 
 suite('gr-labeled-autocomplete tests', () => {
-  let element;
+  let element: GrLabeledAutocomplete;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -29,17 +30,16 @@ suite('gr-labeled-autocomplete tests', () => {
 
   test('tapping trigger focuses autocomplete', () => {
     const e = {stopPropagation: () => undefined};
-    sinon.stub(e, 'stopPropagation');
-    sinon.stub(element.$.autocomplete, 'focus');
-    element._handleTriggerClick(e);
-    assert.isTrue(e.stopPropagation.calledOnce);
-    assert.isTrue(element.$.autocomplete.focus.calledOnce);
+    const stopPropagationStub = sinon.stub(e, 'stopPropagation');
+    const autocompleteStub = sinon.stub(element.$.autocomplete, 'focus');
+    element._handleTriggerClick(e as Event);
+    assert.isTrue(stopPropagationStub.calledOnce);
+    assert.isTrue(autocompleteStub.calledOnce);
   });
 
   test('setText', () => {
-    sinon.stub(element.$.autocomplete, 'setText');
+    const setTextStub = sinon.stub(element.$.autocomplete, 'setText');
     element.setText('foo-bar');
-    assert.isTrue(element.$.autocomplete.setText.calledWith('foo-bar'));
+    assert.isTrue(setTextStub.calledWith('foo-bar'));
   });
 });
-

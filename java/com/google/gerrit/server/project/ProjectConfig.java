@@ -129,9 +129,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String SUBMIT_REQUIREMENT = "submit-requirement";
   public static final String KEY_SR_NAME = "name";
   public static final String KEY_SR_DESCRIPTION = "description";
-  public static final String KEY_SR_APPLICABILITY_EXPRESSION = "applicabilityExpression";
-  public static final String KEY_SR_SUBMITTABILITY_EXPRESSION = "submittabilityExpression";
-  public static final String KEY_SR_OVERRIDE_EXPRESSION = "overrideExpression";
+  public static final String KEY_SR_APPLICABILITY_EXPRESSION = "applicableIf";
+  public static final String KEY_SR_SUBMITTABILITY_EXPRESSION = "submittableIf";
+  public static final String KEY_SR_OVERRIDE_EXPRESSION = "overrideIf";
   public static final String KEY_SR_OVERRIDE_IN_CHILD_PROJECTS = "canOverrideInChildProjects";
 
   public static final String KEY_MATCH = "match";

@@ -211,13 +211,13 @@ public class ProjectConfigTest {
                 "project.config",
                 "[submit-requirement \"Code-review\"]\n"
                     + "  description =  At least one Code Review +2\n"
-                    + "  applicabilityExpression = branch(refs/heads/master)\n"
-                    + "  submittabilityExpression = label(code-review, +2)\n"
+                    + "  applicableIf =branch(refs/heads/master)\n"
+                    + "  submittableIf =  label(code-review, +2)\n"
                     + "[submit-requirement \"api-review\"]\n"
                     + "  description =  Additional review required for API modifications\n"
-                    + "  applicabilityExpression = commit_filepath_contains(\\\"/api/.*\\\")\n"
-                    + "  submittabilityExpression = label(api-review, +2)\n"
-                    + "  overrideExpression = label(build-cop-override, +1)\n"
+                    + "  applicableIf =commit_filepath_contains(\\\"/api/.*\\\")\n"
+                    + "  submittableIf =  label(api-review, +2)\n"
+                    + "  overrideIf =  label(build-cop-override, +1)\n"
                     + "  canOverrideInChildProjects = true\n")
             .create();
 
@@ -258,7 +258,7 @@ public class ProjectConfigTest {
             .add(
                 "project.config",
                 "[submit-requirement \"code-review\"]\n"
-                    + "  submittabilityExpression = label(code-review, +2)\n")
+                    + "  submittableIf =  label(code-review, +2)\n")
             .create();
 
     ProjectConfig cfg = read(rev);
@@ -283,10 +283,10 @@ public class ProjectConfigTest {
                 "project.config",
                 "[submit-requirement \"code-review\"]\n"
                     + "  description = At least one Code Review +2\n"
-                    + "  submittabilityExpression = label(code-review, +2)\n"
+                    + "  submittableIf =  label(code-review, +2)\n"
                     + "[submit-requirement \"Code-Review\"]\n"
                     + "  description = Another code review label\n"
-                    + "  submittabilityExpression = label(code-review, +2)\n"
+                    + "  submittableIf =  label(code-review, +2)\n"
                     + "  canOverrideInChildProjects = true\n")
             .create();
 
@@ -318,7 +318,7 @@ public class ProjectConfigTest {
             .add(
                 "project.config",
                 "[submit-requirement \"code-review\"]\n"
-                    + "  applicabilityExpression = label(code-review, +2)\n")
+                    + "  applicableIf =label(code-review, +2)\n")
             .create();
 
     ProjectConfig cfg = read(rev);
@@ -945,8 +945,8 @@ public class ProjectConfigTest {
                 "project.config",
                 "[submit-requirement \"code-review\"]\n"
                     + "  description =  At least one Code Review +2\n"
-                    + "  applicabilityExpression = branch(refs/heads/master)\n"
-                    + "  submittabilityExpression = label(code-review, +2)\n"
+                    + "  applicableIf =branch(refs/heads/master)\n"
+                    + "  submittableIf =  label(code-review, +2)\n"
                     + "[notify \"name\"]\n"
                     + "  email = example@example.com\n")
             .create();

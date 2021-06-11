@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dad6585_6a5cb1e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-11T07:42:10Z",
+      "side": 1,
+      "message": "So if a run is selected in the Runs side panel and has info results, then the section will expand to show the results in the info section (the run could also have some warnings). Is this how it will behave?",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "8519b5d08790aa641f817d219fb86a5555bb0442",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

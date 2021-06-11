@@ -126,7 +126,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_CAN_OVERRIDE = "canOverride";
   public static final String KEY_BRANCH = "branch";
 
-  public static final String SUBMIT_REQUIREMENT = "submitRequirement";
+  public static final String SUBMIT_REQUIREMENT = "submit-requirement";
   public static final String KEY_SR_NAME = "name";
   public static final String KEY_SR_DESCRIPTION = "description";
   public static final String KEY_SR_APPLICABILITY_EXPRESSION = "applicabilityExpression";

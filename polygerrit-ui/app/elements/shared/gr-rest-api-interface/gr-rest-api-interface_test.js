@@ -16,7 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import {addListenerForTest, mockPromise} from '../../../test/test-utils.js';
+import {addListenerForTest, mockPromise, stubAuth} from '../../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {ListChangesOption} from '../../../utils/change-util.js';
 import {appContext} from '../../../services/app-context.js';
@@ -264,7 +264,7 @@ suite('gr-rest-api-interface tests', () => {
 
   test('server error', () => {
     const getResponseObjectStub = sinon.stub(element, 'getResponseObject');
-    window.fetch.returns(Promise.resolve({ok: false}));
+    stubAuth('fetch').returns(Promise.resolve({ok: false}));
     const serverErrorEventPromise = new Promise(resolve => {
       addListenerForTest(document, 'server-error', resolve);
     });
@@ -832,7 +832,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('gerrit auth is used', () => {
-    sinon.stub(appContext.authService, 'fetch').returns(Promise.resolve());
+    stubAuth('fetch').returns(Promise.resolve());
     element._restApiHelper.fetchJSON({url: 'foo'});
     assert(appContext.authService.fetch.called);
   });

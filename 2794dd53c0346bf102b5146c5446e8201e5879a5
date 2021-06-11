@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e53d7a3_a124bf66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-11T09:06:34Z",
+      "side": 1,
+      "message": "All the use-cases mentioned in the commit message have been tested and work E2E.",
+      "revId": "2794dd53c0346bf102b5146c5446e8201e5879a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

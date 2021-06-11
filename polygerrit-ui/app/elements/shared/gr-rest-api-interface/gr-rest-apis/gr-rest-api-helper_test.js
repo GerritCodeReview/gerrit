@@ -18,6 +18,7 @@
 import '../../../../test/common-test-setup-karma.js';
 import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-api-helper.js';
 import {appContext} from '../../../../services/app-context.js';
+import {stubAuth} from '../../../../test/test-utils.js';
 
 suite('gr-rest-api-helper tests', () => {
   let helper;
@@ -25,6 +26,7 @@ suite('gr-rest-api-helper tests', () => {
   let cache;
   let fetchPromisesCache;
   let originalCanonicalPath;
+  let authFetchStub;
 
   setup(() => {
     cache = new SiteBasedCache();
@@ -38,7 +40,7 @@ suite('gr-rest-api-helper tests', () => {
     };
 
     const testJSON = ')]}\'\n{"hello": "bonjour"}';
-    sinon.stub(window, 'fetch').returns(Promise.resolve({
+    authFetchStub = stubAuth('fetch').returns(Promise.resolve({
       ok: true,
       text() {
         return Promise.resolve(testJSON);
@@ -55,8 +57,6 @@ suite('gr-rest-api-helper tests', () => {
 
   suite('fetchJSON()', () => {
     test('Sets header to accept application/json', () => {
-      const authFetchStub = sinon.stub(helper._auth, 'fetch')
-          .returns(Promise.resolve());
       helper.fetchJSON({url: '/dummy/url'});
       assert.isTrue(authFetchStub.called);
       assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
@@ -64,8 +64,6 @@ suite('gr-rest-api-helper tests', () => {
     });
 
     test('Use header option accept when provided', () => {
-      const authFetchStub = sinon.stub(helper._auth, 'fetch')
-          .returns(Promise.resolve());
       const headers = new Headers();
       headers.append('Accept', '*/*');
       const fetchOptions = {headers};
@@ -142,7 +140,7 @@ suite('gr-rest-api-helper tests', () => {
 
   test('request callbacks can be canceled', () => {
     let cancelCalled = false;
-    window.fetch.returns(Promise.resolve({
+    authFetchStub.returns(Promise.resolve({
       body: {
         cancel() { cancelCalled = true; },
       },

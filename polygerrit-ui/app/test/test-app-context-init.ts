@@ -21,6 +21,7 @@ import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
 import {AppContext, appContext} from '../services/app-context';
 import {grRestApiMock} from './mocks/gr-rest-api_mock';
 import {grStorageMock} from '../services/storage/gr-storage_mock';
+import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 
 export function _testOnlyInitAppContext() {
   initAppContext();
@@ -38,4 +39,5 @@ export function _testOnlyInitAppContext() {
   setMock('reportingService', grReportingMock);
   setMock('restApiService', grRestApiMock);
   setMock('storageService', grStorageMock);
+  setMock('authService', new GrAuthMock(appContext.eventEmitter));
 }

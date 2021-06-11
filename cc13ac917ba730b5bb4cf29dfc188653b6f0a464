@@ -70,6 +70,24 @@
       "parentUuid": "ab2e8342_a01dfdc9",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04023be3_d1dd0354",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-11T15:13:30Z",
+      "side": 1,
+      "message": "nevermind, you\u0027re right, my suggestion is only possible with a deeper refactor.\n\nYou could do that - only reject after going through creating the message. However, I guess in that case I would just cover all the cases in https://gerrit-review.googlesource.com/Documentation/user-attention-set.html",
+      "parentUuid": "7c8aa5b9_74993605",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

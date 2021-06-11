@@ -18,39 +18,49 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-tooltip.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {GrTooltip} from './gr-tooltip.js';
 
-const basicFixture = fixtureFromTemplate(html`
-<gr-tooltip>
-    </gr-tooltip>
-`);
+const basicFixture = fixtureFromTemplate(html` <gr-tooltip> </gr-tooltip> `);
 
 suite('gr-tooltip tests', () => {
-  let element;
+  let element: GrTooltip;
   setup(() => {
-    element = basicFixture.instantiate();
+    element = basicFixture.instantiate() as GrTooltip;
   });
 
   test('max-width is respected if set', () => {
-    element.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
-        ', sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
+    element.text =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
+      ', sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
     element.maxWidth = '50px';
     assert.equal(getComputedStyle(element).width, '50px');
   });
 
   test('the correct arrow is displayed', () => {
-    assert.equal(getComputedStyle(element.shadowRoot
-        .querySelector('.arrowPositionBelow')).display,
-    'none');
-    assert.notEqual(getComputedStyle(element.shadowRoot
-        .querySelector('.arrowPositionAbove'))
-        .display, 'none');
+    assert.equal(
+      getComputedStyle(
+        element.shadowRoot!.querySelector('.arrowPositionBelow')!
+      ).display,
+      'none'
+    );
+    assert.notEqual(
+      getComputedStyle(
+        element.shadowRoot!.querySelector('.arrowPositionAbove')!
+      ).display,
+      'none'
+    );
     element.positionBelow = true;
-    assert.notEqual(getComputedStyle(element.shadowRoot
-        .querySelector('.arrowPositionBelow'))
-        .display, 'none');
-    assert.equal(getComputedStyle(element.shadowRoot
-        .querySelector('.arrowPositionAbove'))
-        .display, 'none');
+    assert.notEqual(
+      getComputedStyle(
+        element.shadowRoot!.querySelector('.arrowPositionBelow')!
+      ).display,
+      'none'
+    );
+    assert.equal(
+      getComputedStyle(
+        element.shadowRoot!.querySelector('.arrowPositionAbove')!
+      ).display,
+      'none'
+    );
   });
 });
-

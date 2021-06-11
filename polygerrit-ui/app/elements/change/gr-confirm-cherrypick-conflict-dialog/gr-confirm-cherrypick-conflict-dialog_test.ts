@@ -17,12 +17,13 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-confirm-cherrypick-conflict-dialog.js';
+import { GrConfirmCherrypickConflictDialog } from './gr-confirm-cherrypick-conflict-dialog.js';
 
 const basicFixture =
     fixtureFromElement('gr-confirm-cherrypick-conflict-dialog');
 
 suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
-  let element;
+  let element: GrConfirmCherrypickConflictDialog;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -31,31 +32,31 @@ suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
   test('_handleConfirmTap', () => {
     const confirmHandler = sinon.stub();
     element.addEventListener('confirm', confirmHandler);
-    sinon.spy(element, '_handleConfirmTap');
-    element.shadowRoot
-        .querySelector('gr-dialog').dispatchEvent(
+    const confirmTapStub = sinon.spy(element, '_handleConfirmTap');
+    element.shadowRoot!
+        .querySelector('gr-dialog')!.dispatchEvent(
             new CustomEvent('confirm', {
               composed: true, bubbles: true,
             }));
     assert.isTrue(confirmHandler.called);
     assert.isTrue(confirmHandler.calledOnce);
-    assert.isTrue(element._handleConfirmTap.called);
-    assert.isTrue(element._handleConfirmTap.calledOnce);
+    assert.isTrue(confirmTapStub.called);
+    assert.isTrue(confirmTapStub.calledOnce);
   });
 
   test('_handleCancelTap', () => {
     const cancelHandler = sinon.stub();
     element.addEventListener('cancel', cancelHandler);
-    sinon.spy(element, '_handleCancelTap');
-    element.shadowRoot
-        .querySelector('gr-dialog').dispatchEvent(
+    const cancelTapStub = sinon.spy(element, '_handleCancelTap');
+    element.shadowRoot!
+        .querySelector('gr-dialog')!.dispatchEvent(
             new CustomEvent('cancel', {
               composed: true, bubbles: true,
             }));
     assert.isTrue(cancelHandler.called);
     assert.isTrue(cancelHandler.calledOnce);
-    assert.isTrue(element._handleCancelTap.called);
-    assert.isTrue(element._handleCancelTap.calledOnce);
+    assert.isTrue(cancelTapStub.called);
+    assert.isTrue(cancelTapStub.calledOnce);
   });
 });
 

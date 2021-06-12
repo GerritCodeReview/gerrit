@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e9e5585_e097ca9d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-12T00:36:48Z",
+      "side": 1,
+      "message": "I personally find hard to read with all these double-negations:\n- ! in front of hasChangesAffectingAttentionSet\n- ! in front of comments.isEmpty()\n\n... that translates to comments.isEmpty(), which is how it was before.\n\nI would say:\n\n    [...]\n    \u0026\u0026 doesNotHaveChangesAffectingAttentionSet();\n  }\n\n  private boolean doesNotHaveChangesAffectingAttentionSet() {\n    return comments.isEmpty()\n      \u0026\u0026 reviewers.isEmpty()\n      \u0026\u0026 reviewersByEmail.isEmpty()\n      \u0026\u0026 (workInProgress \u003d\u003d null || workInProgress);\n  }",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 589,
+        "endChar": 38
+      },
+      "revId": "1fa6e32f16c5d09bed70e72798668d29dba4e83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7a2210f_c04b89a7",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeUpdateTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-12T00:36:48Z",
+      "side": 1,
+      "message": "If you DRY this out to a method called \u0027addToAttentionSet()\u0027 you would achieve two things:\n\n1. Avoid code duplication across tests\n2. Avoid using a comment that could become stale: the method name would be self-explanatory",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 80
+      },
+      "revId": "1fa6e32f16c5d09bed70e72798668d29dba4e83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

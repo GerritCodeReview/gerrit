@@ -70,6 +70,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
             .weigher(GitFileDiffWeigher.class)
             .keySerializer(GitFileDiffCacheKey.Serializer.INSTANCE)
             .valueSerializer(GitFileDiff.Serializer.INSTANCE)
+            .version(2)
             .loader(GitFileDiffCacheImpl.Loader.class);
       }
     };
@@ -236,6 +237,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
           diffFormatter.getRenameDetector().setRenameScore(diffOptions.renameScore());
         }
         diffFormatter.setDiffAlgorithm(DiffAlgorithmFactory.create(diffOptions.diffAlgorithm()));
+        diffFormatter.getRenameDetector().setSkipContentRenamesForBinaryFiles(true);
         return diffFormatter;
       }
     }

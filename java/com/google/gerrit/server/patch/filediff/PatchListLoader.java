@@ -193,6 +193,7 @@ public class PatchListLoader implements Callable<PatchList> {
       df.setReader(reader, repo.getConfig());
       df.setDiffComparator(cmp);
       df.setDetectRenames(true);
+      df.getRenameDetector().setSkipContentRenamesForBinaryFiles(true);
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
       EditsDueToRebaseResult editsDueToRebaseResult =

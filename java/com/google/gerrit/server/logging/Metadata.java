@@ -72,6 +72,9 @@ public abstract class Metadata {
   /** The SHA1 of a commit. */
   public abstract Optional<String> commit();
 
+  /** Diff algorithm used in diff computation. */
+  public abstract Optional<String> diffAlgorithm();
+
   /** The type of an event. */
   public abstract Optional<String> eventType();
 
@@ -294,6 +297,8 @@ public abstract class Metadata {
     public abstract Builder commentSide(int side);
 
     public abstract Builder commit(@Nullable String commit);
+
+    public abstract Builder diffAlgorithm(@Nullable String diffAlgorithm);
 
     public abstract Builder eventType(@Nullable String eventType);
 

@@ -9,12 +9,9 @@
       "updated": "2021-06-14T15:16:23Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/107494/console",
-      "started": "2021-06-14T15:15:56Z",
-      "finished": "2021-06-14T15:39:17Z",
+      "state": "NOT_STARTED",
       "created": "2021-06-14T15:13:48Z",
-      "updated": "2021-06-14T15:37:48Z"
+      "updated": "2021-06-14T23:44:19Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",

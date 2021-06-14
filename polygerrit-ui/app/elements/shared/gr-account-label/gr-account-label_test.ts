@@ -15,69 +15,70 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-account-label.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-account-label';
+import {queryAndAssert, spyRestApi, stubRestApi} from '../../../test/test-utils';
+import {GrAccountLabel} from './gr-account-label';
+import {AccountDetailInfo, ServerInfo} from '../../../types/common';
+import {
+  createAccountDetailWithId,
+  createChange,
+  createServerInfo,
+} from '../../../test/test-data-generators';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-account-label');
 
 suite('gr-account-label tests', () => {
-  let element;
-  const kermit = createAccount('kermit', 31);
-
-  function createAccount(name, id) {
-    return {name, _account_id: id};
-  }
+  let element: GrAccountLabel;
+  const kermit: AccountDetailInfo = {
+    ...createAccountDetailWithId(31),
+    name: 'kermit',
+  };
 
   setup(() => {
     stubRestApi('getAccount').callsFake(() => Promise.resolve(kermit));
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = basicFixture.instantiate();
     element._config = {
+      ...createServerInfo(),
       user: {
         anonymous_coward_name: 'Anonymous Coward',
       },
     };
   });
 
-  test('null guard', () => {
-    assert.doesNotThrow(() => {
-      element.account = null;
-    });
-  });
-
   suite('_computeName', () => {
     test('not showing anonymous', () => {
       const account = {name: 'Wyatt'};
-      assert.deepEqual(element._computeName(account, null), 'Wyatt');
+      assert.deepEqual(element._computeName(account), 'Wyatt');
     });
 
     test('showing anonymous but no config', () => {
       const account = {};
-      assert.deepEqual(element._computeName(account, null),
-          'Anonymous');
+      assert.deepEqual(element._computeName(account), 'Anonymous');
     });
 
     test('test for Anonymous Coward user and replace with Anonymous', () => {
-      const config = {
+      const config: ServerInfo = {
+        ...createServerInfo(),
         user: {
           anonymous_coward_name: 'Anonymous Coward',
         },
       };
       const account = {};
-      assert.deepEqual(element._computeName(account, config),
-          'Anonymous');
+      assert.deepEqual(element._computeName(account, config), 'Anonymous');
     });
 
     test('test for anonymous_coward_name', () => {
       const config = {
+        ...createServerInfo(),
         user: {
           anonymous_coward_name: 'TestAnon',
         },
       };
       const account = {};
-      assert.deepEqual(element._computeName(account, config),
-          'TestAnon');
+      assert.deepEqual(element._computeName(account, config), 'TestAnon');
     });
   });
 
@@ -85,12 +86,21 @@ suite('gr-account-label tests', () => {
     setup(async () => {
       element.highlightAttention = true;
       element._config = {
+        ...createServerInfo(),
         user: {anonymous_coward_name: 'Anonymous Coward'},
       };
       element._selfAccount = kermit;
-      element.account = createAccount('ernie', 42);
+      element.account = {
+        ...createAccountDetailWithId(42),
+        name: 'ernie',
+      };
       element.change = {
-        attention_set: {42: {}},
+        ...createChange(),
+        attention_set: {
+          42: {
+            account: createAccountDetailWithId(42),
+          },
+        },
         owner: kermit,
         reviewers: {},
       };
@@ -98,22 +108,19 @@ suite('gr-account-label tests', () => {
     });
 
     test('show attention button', () => {
-      const button = element.shadowRoot.querySelector('#attentionButton');
+      const button = queryAndAssert(element, '#attentionButton');
       assert.ok(button);
       assert.isNull(button.getAttribute('disabled'));
     });
 
     test('tap attention button', async () => {
-      const apiStub = stubRestApi(
-          'removeFromAttentionSet')
-          .callsFake(() => Promise.resolve());
-      const button = element.shadowRoot.querySelector('#attentionButton');
+      const apiSpy = spyRestApi('removeFromAttentionSet');
+      const button = queryAndAssert(element, '#attentionButton');
       assert.ok(button);
       assert.isNull(button.getAttribute('disabled'));
       MockInteractions.tap(button);
-      assert.isTrue(apiStub.calledOnce);
-      assert.equal(apiStub.lastCall.args[1], 42);
+      assert.isTrue(apiSpy.calledOnce);
+      assert.equal(apiSpy.lastCall.args[1], 42);
     });
   });
 });
-

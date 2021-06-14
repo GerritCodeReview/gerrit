@@ -26,6 +26,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
@@ -34,6 +35,10 @@ import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.TypeLiteral;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Nullable;
@@ -102,6 +107,62 @@ public class H2CacheTest {
                 }))
         .isEqualTo("bar");
     assertWithMessage("Callable was called").that(called.get()).isFalse();
+  }
+
+  @Test
+  public void getAll_WithLoadingCache_LoaderNotImplementingLoadAll() throws ExecutionException {
+    Cache<String, ValueHolder<String>> mem =
+        CacheBuilder.newBuilder()
+            .build(
+                new CacheLoader<String, ValueHolder<String>>() {
+                  @Override
+                  public ValueHolder<String> load(String s) throws Exception {
+                    return new ValueHolder<>(s + "_loaded", Instant.now());
+                  }
+                });
+
+    H2CacheImpl<String, String> impl =
+        newH2CacheImpl(newStore(nextDbId(), DEFAULT_VERSION, null, null), mem);
+
+    assertThat(impl.getAll(Arrays.asList("S1", "S2")))
+        .containsExactlyEntriesIn(ImmutableMap.of("S1", "S1_loaded", "S2", "S2_loaded"));
+
+    // Make sure the values were cached
+    assertWithMessage("in-memory value").that(impl.getIfPresent("S1")).isEqualTo("S1_loaded");
+    assertWithMessage("in-memory value").that(impl.getIfPresent("S2")).isEqualTo("S2_loaded");
+  }
+
+  @Test
+  public void getAll_WithLoadingCache_LoaderImplementingLoadAll() throws ExecutionException {
+    Cache<String, ValueHolder<String>> mem =
+        CacheBuilder.newBuilder()
+            .build(
+                new CacheLoader<String, ValueHolder<String>>() {
+                  @Override
+                  public ValueHolder<String> load(String s) throws Exception {
+                    return new ValueHolder<>(s + "_loaded", Instant.now());
+                  }
+
+                  @Override
+                  public Map<String, ValueHolder<String>> loadAll(Iterable<? extends String> keys)
+                      throws Exception {
+                    Map<String, ValueHolder<String>> result = new HashMap<>();
+                    for (String k : keys) {
+                      result.put(k, load(k));
+                    }
+                    return result;
+                  }
+                });
+
+    H2CacheImpl<String, String> impl =
+        newH2CacheImpl(newStore(nextDbId(), DEFAULT_VERSION, null, null), mem);
+
+    assertThat(impl.getAll(Arrays.asList("S1", "S2")))
+        .containsExactlyEntriesIn(ImmutableMap.of("S1", "S1_loaded", "S2", "S2_loaded"));
+
+    // Make sure the values were cached
+    assertWithMessage("in-memory value").that(impl.getIfPresent("S1")).isEqualTo("S1_loaded");
+    assertWithMessage("in-memory value").that(impl.getIfPresent("S2")).isEqualTo("S2_loaded");
   }
 
   @Test

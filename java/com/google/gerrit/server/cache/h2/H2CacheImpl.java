@@ -20,6 +20,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.CacheStats;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.BloomFilter;
@@ -44,7 +45,10 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -132,6 +136,23 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         asLoadingCache.refresh(key);
       }
       return valueHolder.value;
+    }
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
+    if (mem instanceof LoadingCache) {
+      ImmutableMap.Builder<K, V> result = ImmutableMap.builder();
+      LoadingCache<K, ValueHolder<V>> asLoadingCache = (LoadingCache<K, ValueHolder<V>>) mem;
+      ImmutableMap<K, ValueHolder<V>> values = asLoadingCache.getAll(keys);
+      for (Map.Entry<K, ValueHolder<V>> entry : values.entrySet()) {
+        result.put(entry.getKey(), entry.getValue().value);
+        if (store.needsRefresh(entry.getValue().created)) {
+          asLoadingCache.refresh(entry.getKey());
+        }
+      }
+      return result.build();
     }
     throw new UnsupportedOperationException();
   }
@@ -265,6 +286,40 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     @Override
+    public Map<K, ValueHolder<V>> loadAll(Iterable<? extends K> keys) throws Exception {
+      try (TraceTimer timer = TraceContext.newTimer("Loading multiple values from cache")) {
+        List<K> notInMemory = new ArrayList<>();
+        Map<K, ValueHolder<V>> result = new HashMap<>();
+        for (K key : keys) {
+          if (!store.mightContain(key)) {
+            notInMemory.add(key);
+            continue;
+          }
+          ValueHolder<V> h = store.getIfPresent(key);
+          if (h != null) {
+            result.put(key, h);
+          } else {
+            notInMemory.add(key);
+          }
+        }
+        try {
+          Map<K, V> remaining = loader.loadAll(notInMemory);
+          Instant instant = Instant.ofEpochMilli(TimeUtil.nowMs());
+          storeInDatabase(remaining, instant);
+          remaining
+              .entrySet()
+              .forEach(e -> result.put(e.getKey(), new ValueHolder<>(e.getValue(), instant)));
+        } catch (UnsupportedLoadingOperationException e) {
+          // Fallback to the default load() if loadAll() is not implemented
+          for (K k : notInMemory) {
+            result.put(k, load(k)); // No need to storeInDatabase here; load(k) does that.
+          }
+        }
+        return result;
+      }
+    }
+
+    @Override
     public ListenableFuture<ValueHolder<V>> reload(K key, ValueHolder<V> oldValue)
         throws Exception {
       ListenableFuture<V> reloadedValue = loader.reload(key, oldValue.value);
@@ -284,6 +339,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           executor);
 
       return Futures.transform(reloadedValue, v -> new ValueHolder<>(v, TimeUtil.now()), executor);
+    }
+
+    private void storeInDatabase(Map<K, V> entries, Instant instant) {
+      executor.execute(
+          () -> {
+            for (Map.Entry<K, V> entry : entries.entrySet()) {
+              store.put(entry.getKey(), new ValueHolder<>(entry.getValue(), instant));
+            }
+          });
     }
   }
 

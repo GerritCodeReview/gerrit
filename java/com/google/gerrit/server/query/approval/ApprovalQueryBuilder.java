@@ -91,7 +91,8 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
       throw new QueryParseException(
           String.format(
               "%s is not a valid term. valid options: %s",
-              term, Arrays.asList(clazz.getEnumConstants())));
+              term, Arrays.asList(clazz.getEnumConstants())),
+          unused);
     }
   }
 

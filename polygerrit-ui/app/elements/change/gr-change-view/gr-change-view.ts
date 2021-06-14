@@ -176,7 +176,7 @@ import {Interaction, Timing} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 
-const MIN_LINES_FOR_COMMIT_COLLAPSE = 17;
+const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
 const REVIEWERS_REGEX = /^(R|CC)=/gm;
 const MIN_CHECK_INTERVAL_SECS = 0;

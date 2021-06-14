@@ -16,6 +16,52 @@
       "message": "while you work on this, it would probably make sense if you gave https://crbug.com/gerrit/3288 and https://crbug.com/gerrit/2685 some thought as well.",
       "revId": "0cdca1f2ae5164e64bf272be960e746af7ad97e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97923c9b_6ef9d9ca",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-14T07:18:10Z",
+      "side": 1,
+      "message": "Maybe rename this variable, as this is no longer a LabelVote (\u003d lv) but a LabelVoteQuery (\u003d lvq)?",
+      "range": {
+        "startLine": 98,
+        "startChar": 21,
+        "endLine": 98,
+        "endChar": 23
+      },
+      "revId": "0cdca1f2ae5164e64bf272be960e746af7ad97e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b9ecd9e_d32a4cea",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-14T07:18:10Z",
+      "side": 1,
+      "message": "This sounds like value in LabelVoteQuery should actually be an Optional.\n\nInstead of extending EqualsLabelPredicate to handle MAX/MIN/ANY, would it be better to add a dedicated predicate for this case which doesn\u0027t get a value as input that is then ignored?",
+      "range": {
+        "startLine": 100,
+        "startChar": 67,
+        "endLine": 102,
+        "endChar": 66
+      },
+      "revId": "0cdca1f2ae5164e64bf272be960e746af7ad97e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

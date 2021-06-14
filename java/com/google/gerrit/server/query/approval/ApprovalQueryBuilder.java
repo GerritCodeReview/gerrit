@@ -51,7 +51,7 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   }
 
   @Operator
-  public Predicate<ApprovalContext> changekind(String term) throws QueryParseException {
+  public Predicate<ApprovalContext> changeKind(String term) throws QueryParseException {
     return new ChangeKindPredicate(toEnumValue(ChangeKind.class, term));
   }
 
@@ -85,13 +85,11 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
       throws QueryParseException {
     try {
       return Enum.valueOf(clazz, term.toUpperCase().replace('-', '_'));
-    } catch (
-        @SuppressWarnings("UnusedException")
-        IllegalArgumentException unused) {
+    } catch (IllegalArgumentException e) {
       throw new QueryParseException(
           String.format(
               "%s is not a valid term. valid options: %s",
-              term, Arrays.asList(clazz.getEnumConstants())));
+              term, Arrays.asList(clazz.getEnumConstants(), e)));
     }
   }
 

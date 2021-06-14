@@ -15,65 +15,43 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-account-entry.js';
+import '../../../test/common-test-setup-karma';
+import './gr-account-entry';
+import {GrAccountEntry} from './gr-account-entry';
 
 const basicFixture = fixtureFromElement('gr-account-entry');
 
 suite('gr-account-entry tests', () => {
-  let element;
-
-  const suggestion1 = {
-    email: 'email1@example.com',
-    _account_id: 1,
-    some_property: 'value',
-  };
-  const suggestion2 = {
-    email: 'email2@example.com',
-    _account_id: 2,
-  };
-  const suggestion3 = {
-    email: 'email25@example.com',
-    _account_id: 25,
-    some_other_property: 'other value',
-  };
+  let element: GrAccountEntry;
 
   setup(() => {
     element = basicFixture.instantiate();
   });
 
-  suite('stubbed values for querySuggestions', () => {
-    setup(() => {
-      element.querySuggestions = input => Promise.resolve([
-        suggestion1,
-        suggestion2,
-        suggestion3,
-      ]);
-    });
-  });
-
-  test('account-text-changed fired when input text changed and allowAnyInput',
-      () => {
-        // Spy on query, as that is called when _updateSuggestions proceeds.
-        const changeStub = sinon.stub();
-        element.allowAnyInput = true;
-        element.querySuggestions = input => Promise.resolve([]);
-        element.addEventListener('account-text-changed', changeStub);
-        element.$.input.text = 'a';
-        assert.isTrue(changeStub.calledOnce);
-        element.$.input.text = 'ab';
-        assert.isTrue(changeStub.calledTwice);
-      });
-
-  test('account-text-changed not fired when input text changed without ' +
-      'allowAnyInput', () => {
+  test('account-text-changed fired when input text changed and allowAnyInput', () => {
     // Spy on query, as that is called when _updateSuggestions proceeds.
     const changeStub = sinon.stub();
-    element.querySuggestions = input => Promise.resolve([]);
+    element.allowAnyInput = true;
+    element.querySuggestions = () => Promise.resolve([]);
     element.addEventListener('account-text-changed', changeStub);
     element.$.input.text = 'a';
-    assert.isFalse(changeStub.called);
+    assert.isTrue(changeStub.calledOnce);
+    element.$.input.text = 'ab';
+    assert.isTrue(changeStub.calledTwice);
   });
+
+  test(
+    'account-text-changed not fired when input text changed without ' +
+      'allowAnyInput',
+    () => {
+      // Spy on query, as that is called when _updateSuggestions proceeds.
+      const changeStub = sinon.stub();
+      element.querySuggestions = () => Promise.resolve([]);
+      element.addEventListener('account-text-changed', changeStub);
+      element.$.input.text = 'a';
+      assert.isFalse(changeStub.called);
+    }
+  );
 
   test('setText', () => {
     // Spy on query, as that is called when _updateSuggestions proceeds.
@@ -85,4 +63,3 @@ suite('gr-account-entry tests', () => {
     assert.isFalse(suggestSpy.called);
   });
 });
-

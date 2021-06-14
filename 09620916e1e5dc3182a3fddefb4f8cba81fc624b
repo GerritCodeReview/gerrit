@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t this be:\n\n  throw new QueryParseException(\n          String.format(\n              \"%s is not a valid term. valid options: %s\",\n              term, Arrays.asList(clazz.getEnumConstants())), e);\n              \nSo that the exception is passed in as a cause for QueryParseException?",
       "revId": "09620916e1e5dc3182a3fddefb4f8cba81fc624b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4883b25e_8d32484e",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-14T14:46:53Z",
+      "side": 1,
+      "message": "Definitely. Was a typo from my side. Thanks Edwin.\n\nDone.",
+      "parentUuid": "02e6953d_145c23f6",
+      "revId": "09620916e1e5dc3182a3fddefb4f8cba81fc624b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

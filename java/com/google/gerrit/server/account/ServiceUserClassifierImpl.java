@@ -63,8 +63,12 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
 
   @Override
   public boolean isServiceUser(Account.Id user) {
+    logger.atFine().log("Checking if account %d is a service user", user.get());
+
     Optional<InternalGroup> maybeGroup = groupCache.get(AccountGroup.nameKey("Service Users"));
     if (!maybeGroup.isPresent()) {
+      logger.atFine().log(
+          "Account %d is not service user because 'Service Users' group was not found", user.get());
       return false;
     }
     List<AccountGroup.UUID> toTraverse = new ArrayList<>();
@@ -75,6 +79,8 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
           groupCache
               .get(toTraverse.remove(0))
               .orElseThrow(() -> new IllegalStateException("invalid subgroup"));
+      logger.atFine().log("Checking account %d against group %s", user.get(), currentGroup);
+
       if (seen.contains(currentGroup.getGroupUUID())) {
         logger.atWarning().log(
             "Skipping %s because it's a cyclic subgroup", currentGroup.getGroupUUID());
@@ -83,6 +89,8 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
       seen.add(currentGroup.getGroupUUID());
       if (currentGroup.getMembers().contains(user)) {
         // The user is a member of the 'Service Users' group or a subgroup.
+        logger.atFine().log(
+            "Account %d is a service user because belongs to group %s", user.get(), currentGroup);
         return true;
       }
       boolean hasExternalSubgroup =
@@ -91,6 +99,10 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
         // 'Service Users or a subgroup of Service User' contains an external subgroup, so we have
         // to default to the more expensive evaluation of getting all of the user's group
         // memberships.
+        logger.atFine().log(
+            "Group %s has subgroups: checking if account %d is a member of any of them",
+            currentGroup, user.get());
+
         return identifiedUserFactory
             .create(user)
             .getEffectiveGroups()

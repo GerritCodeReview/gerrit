@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eebc2fae_a20fb383",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-14T08:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e9e5585_e097ca9d",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 589,
+        "endChar": 38
+      },
+      "revId": "1fa6e32f16c5d09bed70e72798668d29dba4e83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7a2210f_c04b89a7",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-12T00:36:48Z",
       "side": 1,
       "message": "If you DRY this out to a method called \u0027addToAttentionSet()\u0027 you would achieve two things:\n\n1. Avoid code duplication across tests\n2. Avoid using a comment that could become stale: the method name would be self-explanatory",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 80
+      },
+      "revId": "1fa6e32f16c5d09bed70e72798668d29dba4e83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66d63972_1e9bb083",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeUpdateTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-14T08:50:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7a2210f_c04b89a7",
       "range": {
         "startLine": 110,
         "startChar": 0,

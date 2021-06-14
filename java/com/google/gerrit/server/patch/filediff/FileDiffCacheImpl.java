@@ -32,6 +32,9 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.patch.ComparisonType;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
@@ -154,39 +157,48 @@ public class FileDiffCacheImpl implements FileDiffCache {
 
     @Override
     public FileDiffOutput load(FileDiffCacheKey key) throws IOException, DiffNotAvailableException {
-      return loadAll(ImmutableList.of(key)).get(key);
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Loading a single key from file diff cache",
+              Metadata.builder().filePath(key.newFilePath()).build())) {
+        return loadAll(ImmutableList.of(key)).get(key);
+      }
     }
 
     @Override
     public Map<FileDiffCacheKey, FileDiffOutput> loadAll(Iterable<? extends FileDiffCacheKey> keys)
         throws DiffNotAvailableException {
-      ImmutableMap.Builder<FileDiffCacheKey, FileDiffOutput> result = ImmutableMap.builder();
+      try (TraceTimer timer = TraceContext.newTimer("Loading multiple keys from file diff cache")) {
+        ImmutableMap.Builder<FileDiffCacheKey, FileDiffOutput> result = ImmutableMap.builder();
 
-      Map<Project.NameKey, List<FileDiffCacheKey>> keysByProject =
-          Streams.stream(keys).distinct().collect(Collectors.groupingBy(FileDiffCacheKey::project));
+        Map<Project.NameKey, List<FileDiffCacheKey>> keysByProject =
+            Streams.stream(keys)
+                .distinct()
+                .collect(Collectors.groupingBy(FileDiffCacheKey::project));
 
-      for (Project.NameKey project : keysByProject.keySet()) {
-        List<FileDiffCacheKey> fileKeys = new ArrayList<>();
+        for (Project.NameKey project : keysByProject.keySet()) {
+          List<FileDiffCacheKey> fileKeys = new ArrayList<>();
 
-        try (Repository repo = repoManager.openRepository(project);
-            ObjectReader reader = repo.newObjectReader();
-            RevWalk rw = new RevWalk(reader)) {
+          try (Repository repo = repoManager.openRepository(project);
+              ObjectReader reader = repo.newObjectReader();
+              RevWalk rw = new RevWalk(reader)) {
 
-          for (FileDiffCacheKey key : keysByProject.get(project)) {
-            if (key.newFilePath().equals(Patch.COMMIT_MSG)) {
-              result.put(key, createMagicPathEntry(key, reader, rw, MagicPath.COMMIT));
-            } else if (key.newFilePath().equals(Patch.MERGE_LIST)) {
-              result.put(key, createMagicPathEntry(key, reader, rw, MagicPath.MERGE_LIST));
-            } else {
-              fileKeys.add(key);
+            for (FileDiffCacheKey key : keysByProject.get(project)) {
+              if (key.newFilePath().equals(Patch.COMMIT_MSG)) {
+                result.put(key, createMagicPathEntry(key, reader, rw, MagicPath.COMMIT));
+              } else if (key.newFilePath().equals(Patch.MERGE_LIST)) {
+                result.put(key, createMagicPathEntry(key, reader, rw, MagicPath.MERGE_LIST));
+              } else {
+                fileKeys.add(key);
+              }
             }
+            result.putAll(createFileEntries(reader, fileKeys, rw));
+          } catch (IOException e) {
+            logger.atWarning().log("Failed to open the repository %s: %s", project, e.getMessage());
           }
-          result.putAll(createFileEntries(reader, fileKeys, rw));
-        } catch (IOException e) {
-          logger.atWarning().log("Failed to open the repository %s: %s", project, e.getMessage());
         }
+        return result.build();
       }
-      return result.build();
     }
 
     private ComparisonType getComparisonType(

@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.LazyArg;
 import com.google.common.flogger.LazyArgs;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgorithm;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -71,6 +72,9 @@ public abstract class Metadata {
 
   /** The SHA1 of a commit. */
   public abstract Optional<String> commit();
+
+  /** Diff algorithm used in diff computation. */
+  public abstract Optional<DiffAlgorithm> diffAlgorithm();
 
   /** The type of an event. */
   public abstract Optional<String> eventType();
@@ -294,6 +298,8 @@ public abstract class Metadata {
     public abstract Builder commentSide(int side);
 
     public abstract Builder commit(@Nullable String commit);
+
+    public abstract Builder diffAlgorithm(@Nullable DiffAlgorithm diffAlgorithm);
 
     public abstract Builder eventType(@Nullable String eventType);
 

@@ -28,6 +28,9 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -136,35 +139,47 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
 
     @Override
     public GitFileDiff load(GitFileDiffCacheKey key) throws IOException {
-      return loadAll(ImmutableList.of(key)).get(key);
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Loading a single key from git file diff cache",
+              Metadata.builder()
+                  .diffAlgorithm(key.diffAlgorithm())
+                  .filePath(key.newFilePath())
+                  .build())) {
+        return loadAll(ImmutableList.of(key)).get(key);
+      }
     }
 
     @Override
     public Map<GitFileDiffCacheKey, GitFileDiff> loadAll(
         Iterable<? extends GitFileDiffCacheKey> keys) throws IOException {
-      ImmutableMap.Builder<GitFileDiffCacheKey, GitFileDiff> result =
-          ImmutableMap.builderWithExpectedSize(Iterables.size(keys));
+      try (TraceTimer timer =
+          TraceContext.newTimer("Loading multiple keys from git file diff cache")) {
+        ImmutableMap.Builder<GitFileDiffCacheKey, GitFileDiff> result =
+            ImmutableMap.builderWithExpectedSize(Iterables.size(keys));
 
-      Map<Project.NameKey, List<GitFileDiffCacheKey>> byProject =
-          Streams.stream(keys)
-              .distinct()
-              .collect(Collectors.groupingBy(GitFileDiffCacheKey::project));
+        Map<Project.NameKey, List<GitFileDiffCacheKey>> byProject =
+            Streams.stream(keys)
+                .distinct()
+                .collect(Collectors.groupingBy(GitFileDiffCacheKey::project));
 
-      for (Map.Entry<Project.NameKey, List<GitFileDiffCacheKey>> entry : byProject.entrySet()) {
-        try (Repository repo = repoManager.openRepository(entry.getKey());
-            ObjectReader reader = repo.newObjectReader()) {
+        for (Map.Entry<Project.NameKey, List<GitFileDiffCacheKey>> entry : byProject.entrySet()) {
+          try (Repository repo = repoManager.openRepository(entry.getKey());
+              ObjectReader reader = repo.newObjectReader()) {
 
-          // Grouping keys by diff options because each group of keys will be processed with a
-          // separate call to JGit using the DiffFormatter object.
-          Map<DiffOptions, List<GitFileDiffCacheKey>> optionsGroups =
-              entry.getValue().stream().collect(Collectors.groupingBy(DiffOptions::fromKey));
+            // Grouping keys by diff options because each group of keys will be processed with a
+            // separate call to JGit using the DiffFormatter object.
+            Map<DiffOptions, List<GitFileDiffCacheKey>> optionsGroups =
+                entry.getValue().stream().collect(Collectors.groupingBy(DiffOptions::fromKey));
 
-          for (Map.Entry<DiffOptions, List<GitFileDiffCacheKey>> group : optionsGroups.entrySet()) {
-            result.putAll(loadAllImpl(repo, reader, group.getKey(), group.getValue()));
+            for (Map.Entry<DiffOptions, List<GitFileDiffCacheKey>> group :
+                optionsGroups.entrySet()) {
+              result.putAll(loadAllImpl(repo, reader, group.getKey(), group.getValue()));
+            }
           }
         }
+        return result.build();
       }
-      return result.build();
     }
 
     /**

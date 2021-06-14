@@ -60,11 +60,14 @@ import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-end
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {DiffViewMode} from '../../../api/diff';
-import {PrimaryTab, SecondaryTab} from '../../../constants/constants';
+import {
+  ChangeStatus,
+  PrimaryTab,
+  SecondaryTab,
+} from '../../../constants/constants';
 
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages';
 import {appContext} from '../../../services/app-context';
-import {ChangeStatus} from '../../../constants/constants';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -74,7 +77,7 @@ import {
 } from '../../../utils/patch-set-util';
 import {changeStatuses, isOwner, isReviewer} from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
-import {customElement, property, observe} from '@polymer/decorators';
+import {customElement, observe, property} from '@polymer/decorators';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
@@ -84,60 +87,60 @@ import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrChangeActions} from '../gr-change-actions/gr-change-actions';
 import {
   AccountDetailInfo,
-  ChangeInfo,
-  NumericChangeId,
-  PatchRange,
   ActionNameToActionInfoMap,
-  CommitId,
-  PatchSetNum,
-  ParentPatchSetNum,
-  EditPatchSetNum,
-  ServerInfo,
-  ConfigInfo,
-  PreferencesInfo,
-  CommitInfo,
-  RevisionInfo,
-  EditInfo,
-  LabelNameToInfoMap,
-  UrlEncodedCommentId,
-  QuickLabelInfo,
   ApprovalInfo,
-  ElementPropertyDeepChange,
+  BasePatchSetNum,
   ChangeId,
+  ChangeInfo,
+  CommitId,
+  CommitInfo,
+  ConfigInfo,
+  EditInfo,
+  EditPatchSetNum,
+  ElementPropertyDeepChange,
+  LabelNameToInfoMap,
+  NumericChangeId,
+  ParentPatchSetNum,
+  PatchRange,
+  PatchSetNum,
+  PreferencesInfo,
+  QuickLabelInfo,
   RelatedChangeAndCommitInfo,
   RelatedChangesInfo,
-  BasePatchSetNum,
+  RevisionInfo,
+  ServerInfo,
+  UrlEncodedCommentId,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
-import {GrReplyDialog, FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
+import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
 import {
-  GrCommentApi,
   ChangeComments,
+  GrCommentApi,
 } from '../../diff/gr-comment-api/gr-comment-api';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
-  UIDraft,
   DraftInfo,
   isDraftThread,
   isRobot,
   isUnresolved,
+  UIDraft,
 } from '../../../utils/comment-util';
 import {
   PolymerDeepPropertyChange,
-  PolymerSpliceChange,
   PolymerSplice,
+  PolymerSpliceChange,
 } from '@polymer/polymer/interfaces';
 import {AppElementChangeViewParams} from '../../gr-app-types';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {
-  GrFileList,
   DEFAULT_NUM_FILES_SHOWN,
+  GrFileList,
 } from '../gr-file-list/gr-file-list';
 import {
   ChangeViewState,
@@ -146,28 +149,28 @@ import {
   ParsedChangeInfo,
 } from '../../../types/types';
 import {
+  CloseFixPreviewEvent,
   CustomKeyboardEvent,
   EditableContentSaveEvent,
+  EventType,
   OpenFixPreviewEvent,
   ShowAlertEventDetail,
   SwitchTabEvent,
-  ThreadListModifiedEvent,
   TabState,
-  EventType,
-  CloseFixPreviewEvent,
+  ThreadListModifiedEvent,
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
   fireAlert,
+  fireDialogChange,
   fireEvent,
   firePageError,
-  fireDialogChange,
-  fireTitleChange,
   fireReload,
+  fireTitleChange,
 } from '../../../utils/event-util';
-import {GerritView} from '../../../services/router/router-model';
+import {GerritView, routerView$} from '../../../services/router/router-model';
 import {takeUntil} from 'rxjs/operators';
 import {aPluginHasRegistered$} from '../../../services/checks/checks-model';
 import {Subject} from 'rxjs';
@@ -519,6 +522,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   _showChecksTab = false;
 
+  @property({type: Boolean})
+  private isViewCurrent = false;
+
   @property({type: String})
   _tabState?: TabState;
 
@@ -568,6 +574,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     super.ready();
     aPluginHasRegistered$.pipe(takeUntil(this.disconnected$)).subscribe(b => {
       this._showChecksTab = b;
+    });
+    routerView$.pipe(takeUntil(this.disconnected$)).subscribe(view => {
+      this.isViewCurrent = view === GerritView.CHANGE;
     });
   }
 
@@ -2370,6 +2379,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     }
 
     this._updateCheckTimerHandle = window.setTimeout(() => {
+      if (!this.isViewCurrent) {
+        this._startUpdateCheckTimer();
+        return;
+      }
       assertIsDefined(this._change, '_change');
       const change = this._change;
       this.changeService.fetchChangeUpdates(change).then(result => {
@@ -2394,7 +2407,12 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         // reply, or the change might have been reloaded, or it could be in the
         // process of being reloaded.
         const changeWasReloaded = change !== this._change;
-        if (!toastMessage || this._loading || changeWasReloaded) {
+        if (
+          !toastMessage ||
+          this._loading ||
+          changeWasReloaded ||
+          !this.isViewCurrent
+        ) {
           this._startUpdateCheckTimer();
           return;
         }

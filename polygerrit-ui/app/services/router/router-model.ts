@@ -65,6 +65,11 @@ export function updateState(
   });
 }
 
+export const routerView$ = routerState$.pipe(
+  map(state => state.view),
+  distinctUntilChanged()
+);
+
 export const routerChangeNum$ = routerState$.pipe(
   map(state => state.changeNum),
   distinctUntilChanged()

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7b2e45e_cd04599f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-14T16:37:17Z",
+      "side": 1,
+      "message": "Hi Oswald, thanks for the references. I will keep on my list while working on submit requirements.",
+      "parentUuid": "7490eee0_3538420b",
+      "revId": "0cdca1f2ae5164e64bf272be960e746af7ad97e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97923c9b_6ef9d9ca",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "191d4ff0_43701fee",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-14T16:37:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97923c9b_6ef9d9ca",
+      "range": {
+        "startLine": 98,
+        "startChar": 21,
+        "endLine": 98,
+        "endChar": 23
+      },
+      "revId": "0cdca1f2ae5164e64bf272be960e746af7ad97e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b9ecd9e_d32a4cea",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-06-14T07:18:10Z",
       "side": 1,
       "message": "This sounds like value in LabelVoteQuery should actually be an Optional.\n\nInstead of extending EqualsLabelPredicate to handle MAX/MIN/ANY, would it be better to add a dedicated predicate for this case which doesn\u0027t get a value as input that is then ignored?",
+      "range": {
+        "startLine": 100,
+        "startChar": 67,
+        "endLine": 102,
+        "endChar": 66
+      },
+      "revId": "0cdca1f2ae5164e64bf272be960e746af7ad97e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be4bf4c8_f99b8e47",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-14T16:37:17Z",
+      "side": 1,
+      "message": "Done.\n\nIn order not to duplicate code, I made EqualsLabelPredicate abstract and allowed extending it to match a specific value. I sub-classed it with MaxLabelPredicate, MinLabelPredicate, AnyLabelPredicate and NumericLabelPredicate.",
+      "parentUuid": "4b9ecd9e_d32a4cea",
       "range": {
         "startLine": 100,
         "startChar": 67,

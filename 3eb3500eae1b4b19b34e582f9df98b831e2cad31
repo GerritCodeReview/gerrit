@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "635d71f3_1e580f6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-14T06:00:06Z",
+      "side": 1,
+      "message": "The name or the comment should mention the reply dialog.",
+      "revId": "3eb3500eae1b4b19b34e582f9df98b831e2cad31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35c440ed_058908f9",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-14T14:48:30Z",
+      "side": 1,
+      "message": "Metadata can only use basic types. So you would need to use String here.",
+      "range": {
+        "startLine": 77,
+        "startChar": 27,
+        "endLine": 77,
+        "endChar": 40
+      },
+      "revId": "64518ab83a5c277b44520b075735347039fe8907",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

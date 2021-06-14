@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98b4bdc0_9ca7e685",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-14T07:18:10Z",
+      "side": 1,
+      "message": "\u003e We also can\u0027t do that because ANY requires at least one vote;\n\u003e if there are no votes the predicate is not yet fulfilled.\n\nAh OK, that answers my question. Thanks.",
+      "parentUuid": "032a40e1_40735b65",
+      "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1fc2df3_b03eaa43",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "I agree. I also didn\u0027t like my extension of LabelVote much.\n\n* I preferred LabelVoteQuery as a name (for better clarity), but LMK your opinion.\n* I tried to compose/extend LabelVoteQuery with LabelVote, since both classes have common logic in parsing and also have common fields. I ended up separating them in two different classes. LabelVoteQuery is only used from LabelPredicate for now. \n\nDone.",
       "parentUuid": "f1fc2df3_b03eaa43",
+      "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a69c4046_1d1b4c34",
+        "filename": "java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-14T07:18:10Z",
+      "side": 1,
+      "message": "Thanks, sounds good to me.",
+      "parentUuid": "5218134b_377ff956",
       "revId": "c13b43c0998c985127c09bea2f76c3b1b1670c13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

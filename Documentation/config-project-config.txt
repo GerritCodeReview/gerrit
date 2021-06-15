@@ -165,21 +165,21 @@ for pushing a commit for review. If this option is set, trying to push
 a commit for review that doesn't contain a Change-Id in the commit
 message fails with link:error-missing-changeid.html[missing Change-Id
 in commit message footer].
-
++
 It is recommended to set this option and use a
 link:user-changeid.html#create[commit-msg hook] (or other client side
 tooling like EGit) to automatically generate Change-Id's for new
 commits. This way the Change-Id is automatically in place when changes
 are reworked or rebased and uploading new patch sets gets easy.
-
++
 If this option is not set, commits can be uploaded without a Change-Id,
 but then users have to remember to copy the assigned Change-Id from the
 change screen and insert it manually into the commit message when they
 want to upload a second patch set.
-
++
 Default is `INHERIT`, which means that this property is inherited from
 the parent project. The global default for new hosts is `true`
-
++
 This option is deprecated and future releases will behave as if this
 is always `true`.
 
@@ -262,18 +262,18 @@ the parent project.
 
 [[receive.createNewChangeForAllNotInTarget]]receive.createNewChangeForAllNotInTarget::
 +
-The `create-new-change-for-all-not-in-target` option provides a
-convenience for selecting link:user-upload.html#base[the merge base]
-by setting it automatically to the target branch's tip so you can
-create new changes for all commits not in the target branch.
-
+This option provides a convenience for selecting
+link:user-upload.html#base[the merge base] by setting it automatically
+to the target branch's tip so you can create new changes for all
+commits not in the target branch.
++
 This option is disabled if the tip of the push is a merge commit.
-
++
 This option also only works if there are no merge commits in the
 commit chain, in such cases it fails warning the user that such
 pushes can only be performed by manually specifying
 link:user-upload.html#base[bases]
-
++
 This option is useful if you want to push a change to your personal
 branch first and for review to another branch for example. Or in cases
 where a commit is already merged into a branch and you want to create
@@ -494,9 +494,9 @@ A branch name, typically multiple values will be defined. The order of branch
 names in this section defines the branch order. The topmost is considered to be
 the least stable branch (typically the master branch) and the last one the
 most stable (typically the last maintained release branch).
-
++
 Example:
-
++
 ----
 [branchOrder]
   branch = master
@@ -504,13 +504,13 @@ Example:
   branch = stable-2.8
   branch = stable-2.7
 ----
-
++
 The `branchOrder` section is inheritable. This is useful when multiple or all
 projects follow the same branch rules. A `branchOrder` section in a child
 project completely overrides any `branchOrder` section from a parent i.e. there
 is no merging of `branchOrder` sections. A present but empty `branchOrder`
 section removes all inherited branch order.
-
++
 Branches not listed in this section will not be included in the mergeability
 check. If the `branchOrder` section is not defined then the mergeability of a
 change into other branches will not be done.
@@ -525,9 +525,9 @@ reviewers and CCs by email.
 +
 A boolean indicating if reviewers and CCs that do not currently have a Gerrit
 account can be added to a change by providing their email address.
-
++
 This setting only takes affect for changes that are readable by anonymous users.
-
++
 Default is `INHERIT`, which means that this property is inherited from
 the parent project. If the property is not set in any parent project, the
 default value is `FALSE`.

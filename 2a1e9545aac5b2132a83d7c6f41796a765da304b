@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dc54704_f3f13d13",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-15T09:16:05Z",
+      "side": 1,
+      "message": "can you add a comment in #updateAttentionSet that links here, suggesting to remember to update this method whenever updateAttentionSet is updated?",
+      "revId": "2a1e9545aac5b2132a83d7c6f41796a765da304b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4be90562_5df36c7e",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeUpdateTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-15T09:16:05Z",
+      "side": 1,
+      "message": "more tests:\nbypassMaxUpdatesShouldBeFalseWhenAbandoningAndChangesToAttentionSetCoexist\nbypassMaxUpdatesShouldBeFalseWhenDeletingVotesAndChangesToAttentionSetCoexist\nbypassMaxUpdatesShouldBeFalseWhenVotingAndChangesToAttentionSetCoexist",
+      "range": {
+        "startLine": 121,
+        "startChar": 14,
+        "endLine": 121,
+        "endChar": 81
+      },
+      "revId": "2a1e9545aac5b2132a83d7c6f41796a765da304b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da311f85_b78d74fb",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-15T09:16:05Z",
+      "side": 1,
+      "message": "separate change would be better for those 2 tests here",
+      "range": {
+        "startLine": 86,
+        "startChar": 14,
+        "endLine": 86,
+        "endChar": 54
+      },
+      "revId": "2a1e9545aac5b2132a83d7c6f41796a765da304b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -49,7 +49,14 @@ export interface SuggestionItem {
   value: SuggestedReviewerInfo;
 }
 
-export class GrReviewerSuggestionsProvider {
+export interface ReviewerSuggestionsProvider {
+  init(): void;
+  getSuggestions(input: string): Promise<Suggestion[]>;
+  makeSuggestionItem(suggestion: Suggestion): SuggestionItem;
+}
+
+export class GrReviewerSuggestionsProvider
+  implements ReviewerSuggestionsProvider {
   static create(
     restApi: RestApiService,
     changeNumber: NumericChangeId,

@@ -14,46 +14,78 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import '../../../test/common-test-setup-karma.js';
-import './gr-account-list.js';
+import '../../../test/common-test-setup-karma';
+import './gr-account-list';
+import {
+  AccountInfoInput,
+  GrAccountList,
+  RawAccountInput,
+} from './gr-account-list';
+import {
+  AccountId,
+  AccountInfo,
+  EmailAddress,
+  GroupId,
+  GroupInfo,
+  SuggestedReviewerAccountInfo,
+  Suggestion,
+} from '../../../types/common';
+import {queryAll} from '../../../test/test-utils';
+import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-account-list');
 
-class MockSuggestionsProvider {
-  getSuggestions(input) {
+class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
+  init() {}
+
+  getSuggestions(_: string): Promise<Suggestion[]> {
     return Promise.resolve([]);
   }
 
-  makeSuggestionItem(item) {
-    return item;
+  makeSuggestionItem(_: Suggestion) {
+    return {
+      name: 'test',
+      value: {
+        account: {
+          _account_id: 1 as AccountId,
+        } as AccountInfo,
+        count: 1,
+      } as SuggestedReviewerAccountInfo,
+    };
   }
 }
 
 suite('gr-account-list tests', () => {
   let _nextAccountId = 0;
-  const makeAccount = function() {
+  const makeAccount: () => AccountInfo = function () {
     const accountId = ++_nextAccountId;
     return {
-      _account_id: accountId,
+      _account_id: accountId as AccountId,
     };
   };
-  const makeGroup = function() {
-    const groupId = 'group' + (++_nextAccountId);
+  const makeGroup: () => GroupInfo = function () {
+    const groupId = `group${++_nextAccountId}`;
     return {
-      id: groupId,
+      id: groupId as GroupId,
       _group: true,
     };
   };
 
-  let existingAccount1;
-  let existingAccount2;
+  let existingAccount1: AccountInfo;
+  let existingAccount2: AccountInfo;
 
-  let element;
-  let suggestionsProvider;
+  let element: GrAccountList;
+  let suggestionsProvider: MockSuggestionsProvider;
 
   function getChips() {
-    return element.root.querySelectorAll('gr-account-chip');
+    return queryAll(element, 'gr-account-chip');
+  }
+
+  function handleAdd(value: RawAccountInput) {
+    element._handleAdd(
+      new CustomEvent<{value: RawAccountInput}>('add', {detail: {value}})
+    );
   }
 
   setup(() => {
@@ -84,13 +116,7 @@ suite('gr-account-list tests', () => {
 
     // New accounts are added to end with pendingAdd class.
     const newAccount = makeAccount();
-    element._handleAdd({
-      detail: {
-        value: {
-          account: newAccount,
-        },
-      },
-    });
+    handleAdd({account: newAccount});
     flush();
     chips = getChips();
     assert.equal(chips.length, 3);
@@ -100,10 +126,12 @@ suite('gr-account-list tests', () => {
 
     // Removed accounts are taken out of the list.
     element.dispatchEvent(
-        new CustomEvent('remove', {
-          detail: {account: existingAccount1},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('remove', {
+        detail: {account: existingAccount1},
+        composed: true,
+        bubbles: true,
+      })
+    );
     flush();
     chips = getChips();
     assert.equal(chips.length, 2);
@@ -112,15 +140,19 @@ suite('gr-account-list tests', () => {
 
     // Invalid remove is ignored.
     element.dispatchEvent(
-        new CustomEvent('remove', {
-          detail: {account: existingAccount1},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('remove', {
+        detail: {account: existingAccount1},
+        composed: true,
+        bubbles: true,
+      })
+    );
     element.dispatchEvent(
-        new CustomEvent('remove', {
-          detail: {account: newAccount},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('remove', {
+        detail: {account: newAccount},
+        composed: true,
+        bubbles: true,
+      })
+    );
     flush();
     chips = getChips();
     assert.equal(chips.length, 1);
@@ -128,13 +160,7 @@ suite('gr-account-list tests', () => {
 
     // New groups are added to end with pendingAdd and group classes.
     const newGroup = makeGroup();
-    element._handleAdd({
-      detail: {
-        value: {
-          group: newGroup,
-        },
-      },
-    });
+    handleAdd({group: newGroup, confirm: false});
     flush();
     chips = getChips();
     assert.equal(chips.length, 2);
@@ -143,10 +169,12 @@ suite('gr-account-list tests', () => {
 
     // Removed groups are taken out of the list.
     element.dispatchEvent(
-        new CustomEvent('remove', {
-          detail: {account: newGroup},
-          composed: true, bubbles: true,
-        }));
+      new CustomEvent('remove', {
+        detail: {account: newGroup},
+        composed: true,
+        bubbles: true,
+      })
+    );
     flush();
     chips = getChips();
     assert.equal(chips.length, 1);
@@ -154,54 +182,67 @@ suite('gr-account-list tests', () => {
   });
 
   test('_getSuggestions uses filter correctly', () => {
-    const originalSuggestions = [
+    const originalSuggestions: Suggestion[] = [
       {
-        email: 'abc@example.com',
+        email: 'abc@example.com' as EmailAddress,
         text: 'abcd',
-        _account_id: 3,
-      },
+        _account_id: 3 as AccountId,
+      } as AccountInfo,
       {
-        email: 'qwe@example.com',
+        email: 'qwe@example.com' as EmailAddress,
         text: 'qwer',
-        _account_id: 1,
-      },
+        _account_id: 1 as AccountId,
+      } as AccountInfo,
       {
-        email: 'xyz@example.com',
+        email: 'xyz@example.com' as EmailAddress,
         text: 'aaaaa',
-        _account_id: 25,
-      },
+        _account_id: 25 as AccountId,
+      } as AccountInfo,
     ];
-    sinon.stub(suggestionsProvider, 'getSuggestions')
-        .returns(Promise.resolve(originalSuggestions));
-    sinon.stub(suggestionsProvider, 'makeSuggestionItem')
-        .callsFake( suggestion => {
-          return {
-            name: suggestion.email,
-            value: suggestion._account_id,
-          };
-        });
+    sinon
+      .stub(suggestionsProvider, 'getSuggestions')
+      .returns(Promise.resolve(originalSuggestions));
+    sinon
+      .stub(suggestionsProvider, 'makeSuggestionItem')
+      .callsFake(suggestion => {
+        return {
+          name: ((suggestion as AccountInfo).email as string) ?? '',
+          value: {
+            account: suggestion as AccountInfo,
+            count: 1,
+          },
+        };
+      });
 
-    return element._getSuggestions().then(suggestions => {
-      // Default is no filtering.
-      assert.equal(suggestions.length, 3);
+    return element
+      ._getSuggestions('')
+      .then(suggestions => {
+        // Default is no filtering.
+        assert.equal(suggestions.length, 3);
 
-      // Set up filter that only accepts suggestion1.
-      const accountId = originalSuggestions[0]._account_id;
-      element.filter = function(suggestion) {
-        return suggestion._account_id === accountId;
-      };
+        // Set up filter that only accepts suggestion1.
+        const accountId = (originalSuggestions[0] as AccountInfo)._account_id;
+        element.filter = function (suggestion) {
+          return (suggestion as AccountInfo)._account_id === accountId;
+        };
 
-      return element._getSuggestions();
-    })
-        .then(suggestions => {
-          assert.deepEqual(suggestions,
-              [{name: originalSuggestions[0].email,
-                value: originalSuggestions[0]._account_id}]);
-        });
+        return element._getSuggestions('');
+      })
+      .then(suggestions => {
+        assert.deepEqual(suggestions, [
+          {
+            name: (originalSuggestions[0] as AccountInfo).email as string,
+            value: {
+              account: originalSuggestions[0] as AccountInfo,
+              count: 1,
+            },
+          },
+        ]);
+      });
   });
 
   test('_computeChipClass', () => {
-    const account = makeAccount();
+    const account = makeAccount() as AccountInfoInput;
     assert.equal(element._computeChipClass(account), '');
     account._pendingAdd = true;
     assert.equal(element._computeChipClass(account), 'pendingAdd');
@@ -212,7 +253,7 @@ suite('gr-account-list tests', () => {
   });
 
   test('_computeRemovable', () => {
-    const newAccount = makeAccount();
+    const newAccount = makeAccount() as AccountInfoInput;
     newAccount._pendingAdd = true;
     element.readonly = false;
     element.removableValues = [];
@@ -250,28 +291,19 @@ suite('gr-account-list tests', () => {
     // When entry is valid, return true and clear text.
     assert.isTrue(element.submitEntryText());
     assert.isTrue(clearStub.called);
-    assert.equal(element.additions()[0].account.email, 'test@test');
+    assert.equal(
+      element.additions()[0].account?.email,
+      'test@test' as EmailAddress
+    );
   });
 
   test('additions returns sanitized new accounts and groups', () => {
     assert.equal(element.additions().length, 0);
 
     const newAccount = makeAccount();
-    element._handleAdd({
-      detail: {
-        value: {
-          account: newAccount,
-        },
-      },
-    });
+    handleAdd({account: newAccount});
     const newGroup = makeGroup();
-    element._handleAdd({
-      detail: {
-        value: {
-          group: newGroup,
-        },
-      },
-    });
+    handleAdd({group: newGroup, confirm: false});
 
     assert.deepEqual(element.additions(), [
       {
@@ -300,11 +332,7 @@ suite('gr-account-list tests', () => {
       count: 10,
       confirm: true,
     };
-    element._handleAdd({
-      detail: {
-        value: reviewer,
-      },
-    });
+    handleAdd(reviewer);
 
     assert.deepEqual(element.pendingConfirmation, reviewer);
     assert.deepEqual(element.additions(), []);
@@ -334,35 +362,30 @@ suite('gr-account-list tests', () => {
   test('max-count', () => {
     element.maxCount = 1;
     const acct = makeAccount();
-    element._handleAdd({
-      detail: {
-        value: {
-          account: acct,
-        },
-      },
-    });
+    handleAdd({account: acct});
     flush();
     assert.isTrue(element.$.entry.hasAttribute('hidden'));
   });
 
   test('enter text calls suggestions provider', async () => {
-    const suggestions = [
+    const suggestions: Suggestion[] = [
       {
-        email: 'abc@example.com',
+        email: 'abc@example.com' as EmailAddress,
         text: 'abcd',
-      },
+      } as AccountInfo,
       {
-        email: 'qwe@example.com',
+        email: 'qwe@example.com' as EmailAddress,
         text: 'qwer',
-      },
+      } as AccountInfo,
     ];
-    const getSuggestionsStub =
-        sinon.stub(suggestionsProvider, 'getSuggestions')
-            .returns(Promise.resolve(suggestions));
+    const getSuggestionsStub = sinon
+      .stub(suggestionsProvider, 'getSuggestions')
+      .returns(Promise.resolve(suggestions));
 
-    const makeSuggestionItemStub =
-        sinon.stub(suggestionsProvider, 'makeSuggestionItem')
-            .callsFake( item => item);
+    const makeSuggestionItemSpy = sinon.spy(
+      suggestionsProvider,
+      'makeSuggestionItem'
+    );
 
     const input = element.$.entry.$.input;
 
@@ -372,28 +395,29 @@ suite('gr-account-list tests', () => {
     await flush();
     assert.isTrue(getSuggestionsStub.calledOnce);
     assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
-    assert.equal(makeSuggestionItemStub.getCalls().length, 2);
+    assert.equal(makeSuggestionItemSpy.getCalls().length, 2);
   });
 
   test('suggestion on empty', async () => {
     element.skipSuggestOnEmpty = false;
-    const suggestions = [
+    const suggestions: Suggestion[] = [
       {
-        email: 'abc@example.com',
+        email: 'abc@example.com' as EmailAddress,
         text: 'abcd',
-      },
+      } as AccountInfo,
       {
-        email: 'qwe@example.com',
+        email: 'qwe@example.com' as EmailAddress,
         text: 'qwer',
-      },
+      } as AccountInfo,
     ];
-    const getSuggestionsStub =
-        sinon.stub(suggestionsProvider, 'getSuggestions')
-            .returns(Promise.resolve(suggestions));
+    const getSuggestionsStub = sinon
+      .stub(suggestionsProvider, 'getSuggestions')
+      .returns(Promise.resolve(suggestions));
 
-    const makeSuggestionItemStub =
-        sinon.stub(suggestionsProvider, 'makeSuggestionItem')
-            .callsFake( item => item);
+    const makeSuggestionItemSpy = sinon.spy(
+      suggestionsProvider,
+      'makeSuggestionItem'
+    );
 
     const input = element.$.entry.$.input;
 
@@ -403,14 +427,14 @@ suite('gr-account-list tests', () => {
     await flush();
     assert.isTrue(getSuggestionsStub.calledOnce);
     assert.equal(getSuggestionsStub.lastCall.args[0], '');
-    assert.equal(makeSuggestionItemStub.getCalls().length, 2);
+    assert.equal(makeSuggestionItemSpy.getCalls().length, 2);
   });
 
   test('skip suggestion on empty', async () => {
     element.skipSuggestOnEmpty = true;
-    const getSuggestionsStub =
-        sinon.stub(suggestionsProvider, 'getSuggestions')
-            .returns(Promise.resolve([]));
+    const getSuggestionsStub = sinon
+      .stub(suggestionsProvider, 'getSuggestions')
+      .returns(Promise.resolve([]));
 
     const input = element.$.entry.$.input;
 
@@ -428,15 +452,18 @@ suite('gr-account-list tests', () => {
 
     test('adds emails', () => {
       const accountLen = element.accounts.length;
-      element._handleAdd({detail: {value: 'test@test'}});
+      handleAdd('test@test');
       assert.equal(element.accounts.length, accountLen + 1);
-      assert.equal(element.accounts[accountLen].email, 'test@test');
+      assert.equal(
+        (element.accounts[accountLen] as AccountInfoInput).email,
+        'test@test' as EmailAddress
+      );
     });
 
     test('toasts on invalid email', () => {
       const toastHandler = sinon.stub();
       element.addEventListener('show-alert', toastHandler);
-      element._handleAdd({detail: {value: 'test'}});
+      handleAdd('test');
       assert.isTrue(toastHandler.called);
     });
   });
@@ -449,18 +476,21 @@ suite('gr-account-list tests', () => {
       await flush();
       // Next line is a workaround for Firefox not moving cursor
       // on input field update
-      assert.equal(
-          element._getNativeInput(input.$.input).selectionStart, 0);
+      assert.equal(element._getNativeInput(input.$.input).selectionStart, 0);
       input.text = 'test';
       MockInteractions.focus(input.$.input);
       flush();
       assert.equal(element.accounts.length, 2);
       MockInteractions.pressAndReleaseKeyOn(
-          element._getNativeInput(input.$.input), 8); // Backspace
+        element._getNativeInput(input.$.input),
+        8
+      ); // Backspace
       assert.equal(element.accounts.length, 2);
       input.text = '';
       MockInteractions.pressAndReleaseKeyOn(
-          element._getNativeInput(input.$.input), 8); // Backspace
+        element._getNativeInput(input.$.input),
+        8
+      ); // Backspace
       flush();
       assert.equal(element.accounts.length, 1);
     });
@@ -490,15 +520,12 @@ suite('gr-account-list tests', () => {
       flush();
       const focusSpy = sinon.spy(element.accountChips[1], 'focus');
       const removeSpy = sinon.spy(element, 'removeAccount');
-      MockInteractions.pressAndReleaseKeyOn(
-          element.accountChips[0], 8); // Backspace
+      MockInteractions.pressAndReleaseKeyOn(element.accountChips[0], 8); // Backspace
       assert.isTrue(focusSpy.called);
       assert.isTrue(removeSpy.calledOnce);
 
-      MockInteractions.pressAndReleaseKeyOn(
-          element.accountChips[1], 46); // Delete
+      MockInteractions.pressAndReleaseKeyOn(element.accountChips[1], 46); // Delete
       assert.isTrue(removeSpy.calledTwice);
     });
   });
 });
-

@@ -67,6 +67,8 @@ import {
   RelatedChangesInfo,
   FixSuggestionInfo,
   FixId,
+  GroupInfo,
+  GroupId,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -621,5 +623,11 @@ export function createFixSuggestionInfo(fixId = 'fix_1'): FixSuggestionInfo {
     fix_id: fixId as FixId,
     description: `Fix ${fixId}`,
     replacements: [],
+  };
+}
+
+export function createGroupInfo(id = 'id'): GroupInfo {
+  return {
+    id: id as GroupId,
   };
 }

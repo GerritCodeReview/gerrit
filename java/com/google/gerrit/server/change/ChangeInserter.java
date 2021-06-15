@@ -131,6 +131,7 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean isPrivate;
   private boolean workInProgress;
   private List<String> groups = Collections.emptyList();
+  private ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
   private boolean validate = true;
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
@@ -307,6 +308,16 @@ public class ChangeInserter implements InsertChangeOp {
     requireNonNull(groups, "groups may not be empty");
     checkState(patchSet == null, "setGroups(List<String>) only valid before creating change");
     this.groups = groups;
+    return this;
+  }
+
+  public ChangeInserter setValidationOptions(
+      ImmutableListMultimap<String, String> validationOptions) {
+    checkState(
+        patchSet == null,
+        "setValidationOptions(ImmutableListMultimap<String, String>) only valid before creating a"
+            + " change");
+    this.validationOptions = validationOptions;
     return this;
   }
 
@@ -563,7 +574,7 @@ public class ChangeInserter implements InsertChangeOp {
               cmd,
               projectState.getProject(),
               change.getDest().branch(),
-              ImmutableListMultimap.of(),
+              validationOptions,
               ctx.getRepoView().getConfig(),
               ctx.getRevWalk().getObjectReader(),
               commitId,

@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52f0135b_0f4fad76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-06-15T12:22:17Z",
+      "side": 1,
+      "message": "i\u0027d append a comma here, to make the sentence more easily parseable.",
+      "range": {
+        "startLine": 20,
+        "startChar": 68,
+        "endLine": 20,
+        "endChar": 69
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d044c675_889d15e5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +65,75 @@
         "startChar": 26,
         "endLine": 21,
         "endChar": 30
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698895b5_8f0a23dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-06-15T12:22:17Z",
+      "side": 1,
+      "message": "\"m\"!",
+      "range": {
+        "startLine": 21,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0c99723_62b3349f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-06-15T12:22:17Z",
+      "side": 1,
+      "message": "+\"for\" maybe? otherwise the \"now\" should just go away.",
+      "range": {
+        "startLine": 21,
+        "startChar": 37,
+        "endLine": 21,
+        "endChar": 38
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aff5a4f_698f4864",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-06-15T12:22:17Z",
+      "side": 1,
+      "message": "shouldn\u0027t this come with some \"domain specifier\"?",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 14
       },
       "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -46,6 +46,30 @@
       },
       "revId": "f43220d5a0b10ff79862fb76cd4840c19b3c39ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "524dd69b_6ae918c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-15T15:01:01Z",
+      "side": 1,
+      "message": "\u003e the case of someone creating another group wouldn\u0027t take over,\n\u003e but rather it would break the query (which is also bad :/)\n\nI meant if a group was renamed and the reference got stale, only then someone could create another group to take this over.\n\n\u003e Having something like uploaderin:deadbeefdeadbeefdeadbeefdeadbeefdeadbeef feels\n\u003e very ugly, but maybe it\u0027s best to at least suggest/warn in the documentation to\n\u003e use this.\n\nThis is why we have the \u0027groups\u0027 file which maps group UUIDs to local group names. Using local group names as we do for ACLs would be safe and readable.",
+      "parentUuid": "275f1840_85c1870f",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "f43220d5a0b10ff79862fb76cd4840c19b3c39ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

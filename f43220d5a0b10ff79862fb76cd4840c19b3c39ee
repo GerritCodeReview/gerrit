@@ -22,6 +22,30 @@
       },
       "revId": "f43220d5a0b10ff79862fb76cd4840c19b3c39ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "275f1840_85c1870f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-15T14:57:01Z",
+      "side": 1,
+      "message": "the case of someone creating another group wouldn\u0027t take over, but rather it would break the query (which is also bad :/)\n\nHaving something like uploaderin:deadbeefdeadbeefdeadbeefdeadbeefdeadbeef feels very ugly, but maybe it\u0027s best to at least suggest/warn in the documentation to use this.",
+      "parentUuid": "71a679b4_15d26933",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "f43220d5a0b10ff79862fb76cd4840c19b3c39ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

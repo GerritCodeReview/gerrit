@@ -22,6 +22,30 @@
       },
       "revId": "ec56444f77907ac615f99a6ec624aec7c5c35827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c965b7dd_b5368c66",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-15T13:39:52Z",
+      "side": 1,
+      "message": "Done\n\nI also wrapped the line since it was too long.",
+      "parentUuid": "b2eccb0e_38ac70f5",
+      "range": {
+        "startLine": 318,
+        "startChar": 95,
+        "endLine": 318,
+        "endChar": 96
+      },
+      "revId": "ec56444f77907ac615f99a6ec624aec7c5c35827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

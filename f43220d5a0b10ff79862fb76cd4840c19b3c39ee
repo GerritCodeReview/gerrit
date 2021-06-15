@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71a679b4_15d26933",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-15T14:48:58Z",
+      "side": 1,
+      "message": "Not related to this change, but maybe it would be better not to support group names at all. E.g. groups can be renamed and then the reference here gets stale. Even worse in this case anyone can create another group with that name and thus take over the approverin/uploaderin conditions.",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "f43220d5a0b10ff79862fb76cd4840c19b3c39ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

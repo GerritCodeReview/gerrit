@@ -161,6 +161,29 @@
       },
       "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aba50239_8ac88c56",
+        "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-15T12:41:38Z",
+      "side": 1,
+      "message": "That\u0027s more accurate than current implementation.\n\nI commented to Patrick before (see https://gerrit-review.googlesource.com/c/gerrit/+/307246/comment/cdb283f4_598ecea4/) that this matching behaviour is not accurate, because index engines like lucene and elastic preserve the order of words. For example, PhraseQuery in Lucene matches documents using positional information [1].\n\nI considered it OK because I thought the querying logic goes through the index backends, e.g. Lucene (or Elastic, etc...) and not through our predicates\u0027 match() logic. I assumed predicates\u0027 match() is only used in tests. But if that\u0027s not true, then we may need to implement a better logic for matching (considering positional info)?\n\n[1] https://lucene.apache.org/core/5_0_0/core/org/apache/lucene/search/package-summary.html#package_description",
+      "range": {
+        "startLine": 108,
+        "startChar": 28,
+        "endLine": 108,
+        "endChar": 39
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

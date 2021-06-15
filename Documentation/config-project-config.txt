@@ -262,10 +262,10 @@ the parent project.
 
 [[receive.createNewChangeForAllNotInTarget]]receive.createNewChangeForAllNotInTarget::
 +
-The `create-new-change-for-all-not-in-target` option provides a
-convenience for selecting link:user-upload.html#base[the merge base]
-by setting it automatically to the target branch's tip so you can
-create new changes for all commits not in the target branch.
+This option provides a convenience for selecting
+link:user-upload.html#base[the merge base] by setting it automatically
+to the target branch's tip so you can create new changes for all
+commits not in the target branch.
 
 This option is disabled if the tip of the push is a merge commit.
 

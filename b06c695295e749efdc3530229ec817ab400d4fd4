@@ -22,6 +22,30 @@
       },
       "revId": "b06c695295e749efdc3530229ec817ab400d4fd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e235ae55_f05103b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-15T09:52:04Z",
+      "side": 1,
+      "message": "`$` is Polymer legacy, so I am just trying to be proactive and get rid of as many `$` usages as I can. :-)",
+      "parentUuid": "d6743252_631781fe",
+      "range": {
+        "startLine": 46,
+        "startChar": 38,
+        "endLine": 46,
+        "endChar": 51
+      },
+      "revId": "b06c695295e749efdc3530229ec817ab400d4fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

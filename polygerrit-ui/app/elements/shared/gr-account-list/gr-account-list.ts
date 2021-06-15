@@ -29,7 +29,7 @@ import {
   EmailAddress,
 } from '../../../types/common';
 import {
-  GrReviewerSuggestionsProvider,
+  ReviewerSuggestionsProvider,
   SuggestionItem,
 } from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
@@ -145,7 +145,7 @@ export class GrAccountList extends PolymerElement {
    * Returns suggestions and convert them to list item
    */
   @property({type: Object})
-  suggestionsProvider?: GrReviewerSuggestionsProvider;
+  suggestionsProvider?: ReviewerSuggestionsProvider;
 
   /**
    * Needed for template checking since value is initially set to null.

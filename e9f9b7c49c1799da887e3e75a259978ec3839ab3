@@ -16,6 +16,24 @@
       "message": "Mention here and may be explain why cache version is bumped, so that this change would invalidate the diff caches:\n\n* git_file_diff\n* gerrit_file_diff",
       "revId": "e9f9b7c49c1799da887e3e75a259978ec3839ab3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c206f3c_959dc767",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-15T07:10:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27f447df_a58ec23e",
+      "revId": "e9f9b7c49c1799da887e3e75a259978ec3839ab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

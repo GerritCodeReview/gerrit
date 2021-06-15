@@ -14,57 +14,70 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import '../../../test/common-test-setup-karma.js';
-import './gr-autocomplete.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {flush as flush$0} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import '../../../test/common-test-setup-karma';
+import './gr-autocomplete';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {flush as flush$0} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {AutocompleteSuggestion, GrAutocomplete} from './gr-autocomplete';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {assertIsDefined} from '../../../utils/common-util';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
+import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
 
 const basicFixture = fixtureFromTemplate(
-    html`<gr-autocomplete no-debounce></gr-autocomplete>`);
+  html`<gr-autocomplete no-debounce></gr-autocomplete>`
+);
 
 suite('gr-autocomplete tests', () => {
-  let element;
+  let element: GrAutocomplete;
 
-  const focusOnInput = element => {
-    MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
-        'enter');
+  const focusOnInput = () => {
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
   };
 
+  const suggestionsEl = () =>
+    queryAndAssert<GrAutocompleteDropdown>(element, '#suggestions');
+
+  const inputEl = () => queryAndAssert<HTMLInputElement>(element, '#input');
+
   setup(() => {
-    element = basicFixture.instantiate();
+    element = basicFixture.instantiate() as GrAutocomplete;
   });
 
   test('renders', () => {
-    let promise;
-    const queryStub = sinon.spy(input => promise = Promise.resolve([
-      {name: input + ' 0', value: 0},
-      {name: input + ' 1', value: 1},
-      {name: input + ' 2', value: 2},
-      {name: input + ' 3', value: 3},
-      {name: input + ' 4', value: 4},
-    ]));
+    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
+    const queryStub = sinon.spy(
+      (input: string) =>
+        (promise = Promise.resolve([
+          {name: input + ' 0', value: '0'},
+          {name: input + ' 1', value: '1'},
+          {name: input + ' 2', value: '2'},
+          {name: input + ' 3', value: '3'},
+          {name: input + ' 4', value: '4'},
+        ] as AutocompleteSuggestion[]))
+    );
     element.query = queryStub;
-    assert.isTrue(element.$.suggestions.isHidden);
-    assert.equal(element.$.suggestions.cursor.index, -1);
+    assert.isTrue(suggestionsEl().isHidden);
+    assert.equal(suggestionsEl().cursor.index, -1);
 
-    focusOnInput(element);
+    focusOnInput();
     element.text = 'blah';
 
     assert.isTrue(queryStub.called);
     element._focused = true;
 
+    assertIsDefined(promise);
     return promise.then(() => {
-      assert.isFalse(element.$.suggestions.isHidden);
-      const suggestions =
-          element.$.suggestions.root.querySelectorAll('li');
+      assert.isFalse(suggestionsEl().isHidden);
+      const suggestions = queryAll<HTMLElement>(suggestionsEl(), 'li');
       assert.equal(suggestions.length, 5);
 
       for (let i = 0; i < 5; i++) {
-        assert.equal(suggestions[i].innerText.trim(), 'blah ' + i);
+        assert.equal(suggestions[i].innerText.trim(), `blah ${i}`);
       }
 
-      assert.notEqual(element.$.suggestions.cursor.index, -1);
+      assert.notEqual(suggestionsEl().cursor.index, -1);
     });
   });
 
@@ -76,104 +89,108 @@ suite('gr-autocomplete tests', () => {
     element.selectAll();
     assert.isFalse(selectionStub.called);
 
-    element.$.input.value = 'test';
+    inputEl().value = 'test';
     element.selectAll();
     assert.isTrue(selectionStub.called);
   });
 
   test('esc key behavior', () => {
-    let promise;
-    const queryStub = sinon.spy(() => promise = Promise.resolve([
-      {name: 'blah', value: 123},
-    ]));
+    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
+    const queryStub = sinon.spy(
+      (_: string) =>
+        (promise = Promise.resolve([
+          {name: 'blah', value: '123'},
+        ] as AutocompleteSuggestion[]))
+    );
     element.query = queryStub;
 
-    assert.isTrue(element.$.suggestions.isHidden);
+    assert.isTrue(suggestionsEl().isHidden);
 
     element._focused = true;
     element.text = 'blah';
 
     return promise.then(() => {
-      assert.isFalse(element.$.suggestions.isHidden);
+      assert.isFalse(suggestionsEl().isHidden);
 
       const cancelHandler = sinon.spy();
       element.addEventListener('cancel', cancelHandler);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 27, null, 'esc');
       assert.isFalse(cancelHandler.called);
-      assert.isTrue(element.$.suggestions.isHidden);
+      assert.isTrue(suggestionsEl().isHidden);
       assert.equal(element._suggestions.length, 0);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 27, null, 'esc');
       assert.isTrue(cancelHandler.called);
     });
   });
 
   test('emits commit and handles cursor movement', () => {
-    let promise;
-    const queryStub = sinon.spy(input => promise = Promise.resolve([
-      {name: input + ' 0', value: 0},
-      {name: input + ' 1', value: 1},
-      {name: input + ' 2', value: 2},
-      {name: input + ' 3', value: 3},
-      {name: input + ' 4', value: 4},
-    ]));
+    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
+    const queryStub = sinon.spy(
+      (input: string) =>
+        (promise = Promise.resolve([
+          {name: input + ' 0', value: '0'},
+          {name: input + ' 1', value: '1'},
+          {name: input + ' 2', value: '2'},
+          {name: input + ' 3', value: '3'},
+          {name: input + ' 4', value: '4'},
+        ] as AutocompleteSuggestion[]))
+    );
     element.query = queryStub;
 
-    assert.isTrue(element.$.suggestions.isHidden);
-    assert.equal(element.$.suggestions.cursor.index, -1);
+    assert.isTrue(suggestionsEl().isHidden);
+    assert.equal(suggestionsEl().cursor.index, -1);
     element._focused = true;
     element.text = 'blah';
 
     return promise.then(() => {
-      assert.isFalse(element.$.suggestions.isHidden);
+      assert.isFalse(suggestionsEl().isHidden);
 
       const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
-      assert.equal(element.$.suggestions.cursor.index, 0);
+      assert.equal(suggestionsEl().cursor.index, 0);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 40, null,
-          'down');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 40, null, 'down');
 
-      assert.equal(element.$.suggestions.cursor.index, 1);
+      assert.equal(suggestionsEl().cursor.index, 1);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 40, null,
-          'down');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 40, null, 'down');
 
-      assert.equal(element.$.suggestions.cursor.index, 2);
+      assert.equal(suggestionsEl().cursor.index, 2);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 38, null, 'up');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 38, null, 'up');
 
-      assert.equal(element.$.suggestions.cursor.index, 1);
+      assert.equal(suggestionsEl().cursor.index, 1);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
-          'enter');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
 
-      assert.equal(element.value, 1);
+      assert.equal(element.value, '1');
       assert.isTrue(commitHandler.called);
       assert.equal(commitHandler.getCall(0).args[0].detail.value, 1);
-      assert.isTrue(element.$.suggestions.isHidden);
+      assert.isTrue(suggestionsEl().isHidden);
       assert.isTrue(element._focused);
     });
   });
 
   test('clear-on-commit behavior (off)', () => {
-    let promise;
+    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
     const queryStub = sinon.spy(() => {
-      promise = Promise.resolve([{name: 'suggestion', value: 0}]);
+      promise = Promise.resolve([
+        {name: 'suggestion', value: '0'},
+      ] as AutocompleteSuggestion[]);
       return promise;
     });
     element.query = queryStub;
-    focusOnInput(element);
+    focusOnInput();
     element.text = 'blah';
 
     return promise.then(() => {
       const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
-          'enter');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
 
       assert.isTrue(commitHandler.called);
       assert.equal(element.text, 'suggestion');
@@ -181,13 +198,15 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('clear-on-commit behavior (on)', () => {
-    let promise;
+    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
     const queryStub = sinon.spy(() => {
-      promise = Promise.resolve([{name: 'suggestion', value: 0}]);
+      promise = Promise.resolve([
+        {name: 'suggestion', value: '0'},
+      ] as AutocompleteSuggestion[]);
       return promise;
     });
     element.query = queryStub;
-    focusOnInput(element);
+    focusOnInput();
     element.text = 'blah';
     element.clearOnCommit = true;
 
@@ -195,8 +214,7 @@ suite('gr-autocomplete tests', () => {
       const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
-          'enter');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
 
       assert.isTrue(commitHandler.called);
       assert.equal(element.text, '');
@@ -204,10 +222,12 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('threshold guards the query', () => {
-    const queryStub = sinon.spy(() => Promise.resolve([]));
+    const queryStub = sinon.spy(() =>
+      Promise.resolve([] as AutocompleteSuggestion[])
+    );
     element.query = queryStub;
     element.threshold = 2;
-    focusOnInput(element);
+    focusOnInput();
     element.text = 'a';
     assert.isFalse(queryStub.called);
     element.text = 'ab';
@@ -216,10 +236,12 @@ suite('gr-autocomplete tests', () => {
 
   test('noDebounce=false debounces the query', () => {
     const clock = sinon.useFakeTimers();
-    const queryStub = sinon.spy(() => Promise.resolve([]));
+    const queryStub = sinon.spy(() =>
+      Promise.resolve([] as AutocompleteSuggestion[])
+    );
     element.query = queryStub;
     element.noDebounce = false;
-    focusOnInput(element);
+    focusOnInput();
     element.text = 'a';
 
     // not called right away
@@ -237,19 +259,21 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('undefined or empty text results in no suggestions', () => {
-    element._updateSuggestions(undefined, 0, null);
+    element._updateSuggestions(undefined, 0, undefined);
     assert.equal(element._suggestions.length, 0);
   });
 
   test('when focused', () => {
-    let promise;
-    const queryStub = sinon.stub()
-        .returns(promise = Promise.resolve([
-          {name: 'suggestion', value: 0},
-        ]));
+    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
+    const queryStub = sinon
+      .stub()
+      .returns(
+        (promise = Promise.resolve([
+          {name: 'suggestion', value: '0'},
+        ] as AutocompleteSuggestion[]))
+      );
     element.query = queryStub;
-    element.suggestOnlyWhenFocus = true;
-    focusOnInput(element);
+    focusOnInput();
     element.text = 'bla';
     assert.equal(element._focused, true);
     flush();
@@ -260,13 +284,15 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('when not focused', () => {
-    let promise;
-    const queryStub = sinon.stub()
-        .returns(promise = Promise.resolve([
-          {name: 'suggestion', value: 0},
-        ]));
+    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
+    const queryStub = sinon
+      .stub()
+      .returns(
+        (promise = Promise.resolve([
+          {name: 'suggestion', value: '0'},
+        ] as AutocompleteSuggestion[]))
+      );
     element.query = queryStub;
-    element.suggestOnlyWhenFocus = true;
     element.text = 'bla';
     assert.equal(element._focused, false);
     flush();
@@ -276,13 +302,16 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('suggestions should not carry over', () => {
-    let promise;
-    const queryStub = sinon.stub()
-        .returns(promise = Promise.resolve([
-          {name: 'suggestion', value: 0},
-        ]));
+    let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
+    const queryStub = sinon
+      .stub()
+      .returns(
+        (promise = Promise.resolve([
+          {name: 'suggestion', value: '0'},
+        ] as AutocompleteSuggestion[]))
+      );
     element.query = queryStub;
-    focusOnInput(element);
+    focusOnInput();
     element.text = 'bla';
     flush();
     return promise.then(() => {
@@ -294,12 +323,15 @@ suite('gr-autocomplete tests', () => {
 
   test('multi completes only the last part of the query', () => {
     let promise;
-    const queryStub = sinon.stub()
-        .returns(promise = Promise.resolve([
-          {name: 'suggestion', value: 0},
-        ]));
+    const queryStub = sinon
+      .stub()
+      .returns(
+        (promise = Promise.resolve([
+          {name: 'suggestion', value: '0'},
+        ] as AutocompleteSuggestion[]))
+      );
     element.query = queryStub;
-    focusOnInput(element);
+    focusOnInput();
     element.text = 'blah blah';
     element.multi = true;
 
@@ -307,8 +339,7 @@ suite('gr-autocomplete tests', () => {
       const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
-          'enter');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
 
       assert.isTrue(commitHandler.called);
       assert.equal(element.text, 'blah 0');
@@ -323,16 +354,16 @@ suite('gr-autocomplete tests', () => {
     const commitSpy = sinon.spy(element, '_commit');
     element._focused = true;
 
-    element._suggestions = ['tunnel snakes rule!'];
+    element._suggestions = [{text: 'tunnel snakes rule!'}];
     element.tabComplete = false;
-    MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
     assert.isFalse(commitHandler.called);
     assert.isFalse(commitSpy.called);
     assert.isFalse(element._focused);
 
     element.tabComplete = true;
     element._focused = true;
-    MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
     assert.isFalse(commitHandler.called);
     assert.isTrue(commitSpy.called);
     assert.isTrue(element._focused);
@@ -341,33 +372,35 @@ suite('gr-autocomplete tests', () => {
   test('_focused flag properly triggered', () => {
     flush();
     assert.isFalse(element._focused);
-    const input = element.shadowRoot
-        .querySelector('paper-input').inputElement;
+    const input = queryAndAssert<PaperInputElement>(element, 'paper-input')
+      .inputElement;
     MockInteractions.focus(input);
     assert.isTrue(element._focused);
   });
 
   test('search icon shows with showSearchIcon property', () => {
     flush();
-    assert.equal(getComputedStyle(element.shadowRoot
-        .querySelector('iron-icon')).display,
-    'none');
+    assert.equal(
+      getComputedStyle(queryAndAssert(element, 'iron-icon')).display,
+      'none'
+    );
     element.showSearchIcon = true;
-    assert.notEqual(getComputedStyle(element.shadowRoot
-        .querySelector('iron-icon')).display,
-    'none');
+    assert.notEqual(
+      getComputedStyle(queryAndAssert(element, 'iron-icon')).display,
+      'none'
+    );
   });
 
   test('vertical offset overridden by param if it exists', () => {
-    assert.equal(element.$.suggestions.verticalOffset, 31);
+    assert.equal(suggestionsEl().verticalOffset, 31);
     element.verticalOffset = 30;
-    assert.equal(element.$.suggestions.verticalOffset, 30);
+    assert.equal(suggestionsEl().verticalOffset, 30);
   });
 
   test('_focused flag shows/hides the suggestions', () => {
-    const openStub = sinon.stub(element.$.suggestions, 'open');
-    const closedStub = sinon.stub(element.$.suggestions, 'close');
-    element._suggestions = ['hello', 'its me'];
+    const openStub = sinon.stub(suggestionsEl(), 'open');
+    const closedStub = sinon.stub(suggestionsEl(), 'close');
+    element._suggestions = [{text: 'hello'}, {text: 'its me'}];
     assert.isFalse(openStub.called);
     assert.isTrue(closedStub.calledOnce);
     element._focused = true;
@@ -377,72 +410,76 @@ suite('gr-autocomplete tests', () => {
     assert.isTrue(openStub.calledOnce);
   });
 
-  test('_handleInputCommit with autocomplete hidden does nothing without' +
-        'without allowNonSuggestedValues', () => {
-    const commitStub = sinon.stub(element, '_commit');
-    element.$.suggestions.isHidden = true;
-    element._handleInputCommit();
-    assert.isFalse(commitStub.called);
-  });
+  test(
+    '_handleInputCommit with autocomplete hidden does nothing without' +
+      'without allowNonSuggestedValues',
+    () => {
+      const commitStub = sinon.stub(element, '_commit');
+      suggestionsEl().isHidden = true;
+      element._handleInputCommit();
+      assert.isFalse(commitStub.called);
+    }
+  );
 
-  test('_handleInputCommit with autocomplete hidden with' +
-        'allowNonSuggestedValues', () => {
-    const commitStub = sinon.stub(element, '_commit');
-    element.allowNonSuggestedValues = true;
-    element.$.suggestions.isHidden = true;
-    element._handleInputCommit();
-    assert.isTrue(commitStub.called);
-  });
+  test(
+    '_handleInputCommit with autocomplete hidden with' +
+      'allowNonSuggestedValues',
+    () => {
+      const commitStub = sinon.stub(element, '_commit');
+      element.allowNonSuggestedValues = true;
+      suggestionsEl().isHidden = true;
+      element._handleInputCommit();
+      assert.isTrue(commitStub.called);
+    }
+  );
 
   test('_handleInputCommit with autocomplete open calls commit', () => {
     const commitStub = sinon.stub(element, '_commit');
-    element.$.suggestions.isHidden = false;
+    suggestionsEl().isHidden = false;
     element._handleInputCommit();
     assert.isTrue(commitStub.calledOnce);
   });
 
-  test('_handleInputCommit with autocomplete open calls commit' +
-        'with allowNonSuggestedValues', () => {
-    const commitStub = sinon.stub(element, '_commit');
-    element.allowNonSuggestedValues = true;
-    element.$.suggestions.isHidden = false;
-    element._handleInputCommit();
-    assert.isTrue(commitStub.calledOnce);
-  });
+  test(
+    '_handleInputCommit with autocomplete open calls commit' +
+      'with allowNonSuggestedValues',
+    () => {
+      const commitStub = sinon.stub(element, '_commit');
+      element.allowNonSuggestedValues = true;
+      suggestionsEl().isHidden = false;
+      element._handleInputCommit();
+      assert.isTrue(commitStub.calledOnce);
+    }
+  );
 
   test('issue 8655', () => {
-    function makeSuggestion(s) { return {name: s, text: s, value: s}; }
+    function makeSuggestion(s: string) {
+      return {name: s, text: s, value: s};
+    }
     const keydownSpy = sinon.spy(element, '_handleKeydown');
     element.setText('file:');
-    element._suggestions =
-        [makeSuggestion('file:'), makeSuggestion('-file:')];
-    MockInteractions.pressAndReleaseKeyOn(element.$.input, 88, null, 'x');
+    element._suggestions = [makeSuggestion('file:'), makeSuggestion('-file:')];
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 88, null, 'x');
     // Must set the value, because the MockInteraction does not.
-    element.$.input.value = 'file:x';
+    inputEl().value = 'file:x';
     assert.isTrue(keydownSpy.calledOnce);
-    MockInteractions.pressAndReleaseKeyOn(
-        element.$.input,
-        13,
-        null,
-        'enter'
-    );
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
     assert.isTrue(keydownSpy.calledTwice);
     assert.equal(element.text, 'file:x');
   });
 
   suite('focus', () => {
-    let commitSpy;
-    let focusSpy;
+    let commitSpy: sinon.SinonSpy;
+    let focusSpy: sinon.SinonSpy;
 
     setup(() => {
       commitSpy = sinon.spy(element, '_commit');
     });
 
     test('enter does not call focus', () => {
-      element._suggestions = ['sugar bombs'];
+      element._suggestions = [{text: 'sugar bombs'}];
       focusSpy = sinon.spy(element, 'focus');
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
-          'enter');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
       flush();
 
       assert.isTrue(commitSpy.called);
@@ -455,8 +492,8 @@ suite('gr-autocomplete tests', () => {
       const commitHandler = sinon.stub();
       element.addEventListener('commit', commitHandler);
       element.tabComplete = true;
-      element._suggestions = ['tunnel snakes drool'];
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
+      element._suggestions = [{text: 'tunnel snakes drool'}];
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
       flush();
 
       assert.isTrue(commitSpy.called);
@@ -466,9 +503,9 @@ suite('gr-autocomplete tests', () => {
     });
 
     test('tab in input, tabComplete = false', () => {
-      element._suggestions = ['sugar bombs'];
+      element._suggestions = [{text: 'sugar bombs'}];
       focusSpy = sinon.spy(element, 'focus');
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
+      MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
       flush();
 
       assert.isFalse(commitSpy.called);
@@ -483,11 +520,14 @@ suite('gr-autocomplete tests', () => {
       element.tabComplete = false;
       focusSpy = sinon.spy(element, 'focus');
       flush$0();
-      assert.isFalse(element.$.suggestions.isHidden);
+      assert.isFalse(suggestionsEl().isHidden);
 
       MockInteractions.pressAndReleaseKeyOn(
-          element.$.suggestions.shadowRoot
-              .querySelector('li:first-child'), 9, null, 'tab');
+        queryAndAssert(suggestionsEl(), 'li:first-child'),
+        9,
+        null,
+        'tab'
+      );
       flush();
       assert.isFalse(commitSpy.called);
       assert.isFalse(element._focused);
@@ -500,11 +540,14 @@ suite('gr-autocomplete tests', () => {
       element.tabComplete = true;
       focusSpy = sinon.spy(element, 'focus');
       flush$0();
-      assert.isFalse(element.$.suggestions.isHidden);
+      assert.isFalse(suggestionsEl().isHidden);
 
       MockInteractions.pressAndReleaseKeyOn(
-          element.$.suggestions.shadowRoot
-              .querySelector('li:first-child'), 9, null, 'tab');
+        queryAndAssert(suggestionsEl(), 'li:first-child'),
+        9,
+        null,
+        'tab'
+      );
       flush();
 
       assert.isTrue(commitSpy.called);
@@ -516,21 +559,20 @@ suite('gr-autocomplete tests', () => {
       element._focused = true;
       element._suggestions = [{name: 'first suggestion'}];
       flush$0();
-      assert.isFalse(element.$.suggestions.isHidden);
-      MockInteractions.tap(element.$.suggestions.shadowRoot
-          .querySelector('li:first-child'));
+      assert.isFalse(suggestionsEl().isHidden);
+      MockInteractions.tap(queryAndAssert(suggestionsEl(), 'li:first-child'));
       flush();
 
       assert.isFalse(focusSpy.called);
       assert.isTrue(commitSpy.called);
-      assert.isTrue(element.$.suggestions.isHidden);
+      assert.isTrue(suggestionsEl().isHidden);
     });
   });
 
   test('input-keydown event fired', () => {
     const listener = sinon.spy();
     element.addEventListener('input-keydown', listener);
-    MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
     flush();
     assert.isTrue(listener.called);
   });
@@ -538,41 +580,39 @@ suite('gr-autocomplete tests', () => {
   test('enter with modifier does not complete', () => {
     const handleSpy = sinon.spy(element, '_handleKeydown');
     const commitStub = sinon.stub(element, '_handleInputCommit');
-    MockInteractions.pressAndReleaseKeyOn(
-        element.$.input, 13, 'ctrl', 'enter');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, 'ctrl', 'enter');
     assert.isTrue(handleSpy.called);
     assert.isFalse(commitStub.called);
-    MockInteractions.pressAndReleaseKeyOn(
-        element.$.input, 13, null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(inputEl(), 13, null, 'enter');
     assert.isTrue(commitStub.called);
   });
 
   suite('warnUncommitted', () => {
-    let inputClassList;
+    let inputClassList: DOMTokenList;
     setup(() => {
-      inputClassList = element.$.input.classList;
+      inputClassList = inputEl().classList;
     });
 
     test('enabled', () => {
       element.warnUncommitted = true;
       element.text = 'blah blah blah';
-      MockInteractions.blur(element.$.input);
+      MockInteractions.blur(inputEl());
       assert.isTrue(inputClassList.contains('warnUncommitted'));
-      MockInteractions.focus(element.$.input);
+      MockInteractions.focus(inputEl());
       assert.isFalse(inputClassList.contains('warnUncommitted'));
     });
 
     test('disabled', () => {
       element.warnUncommitted = false;
       element.text = 'blah blah blah';
-      MockInteractions.blur(element.$.input);
+      MockInteractions.blur(inputEl());
       assert.isFalse(inputClassList.contains('warnUncommitted'));
     });
 
     test('no text', () => {
       element.warnUncommitted = true;
       element.text = '';
-      MockInteractions.blur(element.$.input);
+      MockInteractions.blur(inputEl());
       assert.isFalse(inputClassList.contains('warnUncommitted'));
     });
   });

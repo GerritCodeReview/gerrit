@@ -93,7 +93,8 @@ export class GrAutocompleteDropdown extends IronFitMixin(
     };
   }
 
-  private cursor = new GrCursorManager();
+  // visible for testing
+  cursor = new GrCursorManager();
 
   constructor() {
     super();

@@ -341,7 +341,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
     return this.$.suggestions.close();
   }
 
-  _computeClass(borderless: boolean) {
+  _computeClass(borderless?: boolean) {
     return borderless ? 'borderless' : '';
   }
 

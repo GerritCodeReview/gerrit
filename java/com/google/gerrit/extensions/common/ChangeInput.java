@@ -33,6 +33,7 @@ public class ChangeInput {
   public String baseChange;
   public String baseCommit;
   public Boolean newBranch;
+  public Map<String, String> validationOptions;
   public MergeInput merge;
 
   public AccountInput author;

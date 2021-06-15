@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc9600b6_38f137df",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-15T11:13:19Z",
+      "side": 1,
+      "message": "Good idea. I have actually added a link to #isAttentionSetChangeOnly since that\u0027s the entry point of the logic. WDYT?",
+      "parentUuid": "0dc54704_f3f13d13",
+      "revId": "2a1e9545aac5b2132a83d7c6f41796a765da304b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4be90562_5df36c7e",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeUpdateTest.java",
         "patchSetId": 6
@@ -31,6 +49,30 @@
       "writtenOn": "2021-06-15T09:16:05Z",
       "side": 1,
       "message": "more tests:\nbypassMaxUpdatesShouldBeFalseWhenAbandoningAndChangesToAttentionSetCoexist\nbypassMaxUpdatesShouldBeFalseWhenDeletingVotesAndChangesToAttentionSetCoexist\nbypassMaxUpdatesShouldBeFalseWhenVotingAndChangesToAttentionSetCoexist",
+      "range": {
+        "startLine": 121,
+        "startChar": 14,
+        "endLine": 121,
+        "endChar": 81
+      },
+      "revId": "2a1e9545aac5b2132a83d7c6f41796a765da304b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a05d2d70_690cbdd7",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeUpdateTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-15T11:13:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be90562_5df36c7e",
       "range": {
         "startLine": 121,
         "startChar": 14,
@@ -54,6 +96,30 @@
       "writtenOn": "2021-06-15T09:16:05Z",
       "side": 1,
       "message": "separate change would be better for those 2 tests here",
+      "range": {
+        "startLine": 86,
+        "startChar": 14,
+        "endLine": 86,
+        "endChar": 54
+      },
+      "revId": "2a1e9545aac5b2132a83d7c6f41796a765da304b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27f159eb_863bd63f",
+        "filename": "javatests/com/google/gerrit/server/notedb/OpenRepoTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-15T11:13:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da311f85_b78d74fb",
       "range": {
         "startLine": 86,
         "startChar": 14,

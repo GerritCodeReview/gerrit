@@ -22,6 +22,30 @@
       },
       "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eaf7c01_59a715cf",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-15T08:17:05Z",
+      "side": 1,
+      "message": "\u003e Would it be possible to just use EqualsNumericLabelVotePredicate for these two cases?\n\nI considered using that option before implementing the Max/Min predicates, but the logic turned out to be complex:\n\nIn EqualsLabelPredicate#match, we use the project cache to get a ProjectState (for a specific project, depending on the ChangeData that is passed as input param), then we use ProjectState to get the label type. At the time we create the predicate (here), we don\u0027t know which ChangeData (and/or project) to lookup.\n\nWDYT? Could there be a shortcut to get label types?",
+      "parentUuid": "a92e152f_d3928ce9",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 176,
+        "endChar": 69
+      },
+      "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -137,6 +137,30 @@
       },
       "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f81876b4_14e0fe28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-15T12:37:49Z",
+      "side": 1,
+      "message": "Yeah, this line should be dropped. We cannot reference Google-internal issues.",
+      "parentUuid": "0aff5a4f_698f4864",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

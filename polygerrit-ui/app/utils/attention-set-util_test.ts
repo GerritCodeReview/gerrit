@@ -15,40 +15,38 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
+import '../test/common-test-setup-karma';
+import {createChange} from '../test/test-data-generators';
 import {
-  hasAttention, getReason,
-} from './attention-set-util.js';
+  AccountId,
+  AccountInfo,
+  ChangeInfo,
+  EmailAddress,
+} from '../types/common';
+import {hasAttention, getReason} from './attention-set-util';
 
-const KERMIT = {
-  email: 'kermit@gmail.com',
+const KERMIT: AccountInfo = {
+  email: 'kermit@gmail.com' as EmailAddress,
   username: 'kermit',
   name: 'Kermit The Frog',
-  _account_id: '31415926535',
+  _account_id: 31415926535 as AccountId,
+};
+const change: ChangeInfo = {
+  ...createChange(),
+  attention_set: {
+    '31415926535': {
+      account: KERMIT,
+      reason: 'a good reason',
+    },
+  },
 };
 
 suite('attention-set-util', () => {
   test('hasAttention', () => {
-    const change = {
-      attention_set: {
-        31415926535: {
-          reason: 'a good reason',
-        },
-      },
-    };
-
     assert.isTrue(hasAttention(KERMIT, change));
   });
 
   test('getReason', () => {
-    const change = {
-      attention_set: {
-        31415926535: {
-          reason: 'a good reason',
-        },
-      },
-    };
-
     assert.equal(getReason(KERMIT, change), 'a good reason');
   });
 });

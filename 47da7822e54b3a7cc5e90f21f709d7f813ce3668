@@ -423,6 +423,30 @@
       },
       "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f56f7a15_c91d29a7",
+        "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-15T13:05:37Z",
+      "side": 1,
+      "message": "Yes, sour comment is absolutely valid, but I do not think we can fully match the behavior of query index in predicate (because it is also index-specific). I think it should be enough to mitigate for now.",
+      "parentUuid": "f2c2219b_5eb10fb0",
+      "range": {
+        "startLine": 108,
+        "startChar": 28,
+        "endLine": 108,
+        "endChar": 39
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -19,7 +19,6 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.index.FieldDef;
@@ -36,7 +35,7 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
    * complexity was reduced to the bare minimum at the cost of small discrepancies to the Unicode
    * spec.
    */
-  private static final Splitter FULL_TEXT_SPLITTER = Splitter.on(CharMatcher.anyOf(" ,.-\\/_\n"));
+  private static final Splitter FULL_TEXT_SPLITTER = Splitter.on(CharMatcher.anyOf(" ,.-:\\/_\n"));
 
   private final FieldDef<I, ?> def;
 
@@ -106,7 +105,7 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
     } else if (fieldTypeName.equals(FieldType.FULL_TEXT.getName())) {
       Set<String> tokenizedField = tokenizeString(String.valueOf(fieldValueFromObject));
       Set<String> tokenizedValue = tokenizeString(value);
-      return !Sets.intersection(tokenizedField, tokenizedValue).isEmpty();
+      return !tokenizedValue.isEmpty() && tokenizedField.containsAll(tokenizedValue);
     } else if (fieldTypeName.equals(FieldType.STORED_ONLY.getName())) {
       throw new IllegalStateException("can't filter for storedOnly field " + getField().getName());
     } else if (fieldTypeName.equals(FieldType.TIMESTAMP.getName())) {

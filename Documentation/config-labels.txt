@@ -288,13 +288,25 @@ Matches if the diff between two patch sets was of a certain change kind.
 
 Matches votes that are equal to the minimal or maximal voting range. Or any votes.
 
-==== approverin:`groupUUID`
+==== approverin:link:rest-api-groups.html#group-id[\{group-id\}]
 
-Matches votes granted by a user who is a member of `groupUUID`.
+Matches votes granted by a user who is a member of
+link:rest-api-groups.html#group-id[\{group-id\}].
 
-==== uploaderin:`groupUUID`
+Avoid using a group name with spaces (if it has spaces, use the group uuid).
+Although supported for convenience, it's better to use group uuid than group
+name since using names only works as long as the names are unique (and future
+groups with the same name will break the query).
 
-Matches votes where the new patch set was uploaded by a member of `groupUUID`.
+==== uploaderin:link:rest-api-groups.html#group-id[\{group-id\}]
+
+Matches votes where the new patch set was uploaded by a member of
+link:rest-api-groups.html#group-id[\{group-id\}].
+
+Avoid using a group name with spaces (if it has spaces, use the group uuid).
+Although supported for convenience, it's better to use group uuid than group
+name since using names only works as long as the names are unique (and future
+groups with the same name will break the query).
 
 ==== has:unchanged-files
 

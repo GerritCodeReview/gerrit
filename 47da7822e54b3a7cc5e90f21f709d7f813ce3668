@@ -70,6 +70,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92462aa0_a14822d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-15T12:49:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff32307a_8fcdeff8",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 35
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8d06870_2780c1ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-15T12:49:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52f0135b_0f4fad76",
+      "range": {
+        "startLine": 20,
+        "startChar": 68,
+        "endLine": 20,
+        "endChar": 69
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d044c675_889d15e5",
@@ -139,6 +187,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b39e76ad_e9888ebb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-15T12:49:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "698895b5_8f0a23dc",
+      "range": {
+        "startLine": 21,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4d104f2_0d931dd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-15T12:49:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d044c675_889d15e5",
+      "range": {
+        "startLine": 21,
+        "startChar": 26,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5775b20_f890f240",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-15T12:49:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0c99723_62b3349f",
+      "range": {
+        "startLine": 21,
+        "startChar": 37,
+        "endLine": 21,
+        "endChar": 38
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0aff5a4f_698f4864",
@@ -186,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62bc1758_4ba82ab9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-15T12:49:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f81876b4_14e0fe28",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aba50239_8ac88c56",
@@ -222,6 +366,30 @@
       "writtenOn": "2021-06-15T12:48:42Z",
       "side": 1,
       "message": "OK, ProjectWatch#filterMatch uses Predicate matching directly.\n\nI\u0027m OK with merging the change to mitigate the issue, though I think my comment is still valid.",
+      "parentUuid": "aba50239_8ac88c56",
+      "range": {
+        "startLine": 108,
+        "startChar": 28,
+        "endLine": 108,
+        "endChar": 39
+      },
+      "revId": "47da7822e54b3a7cc5e90f21f709d7f813ce3668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2c2219b_5eb10fb0",
+        "filename": "java/com/google/gerrit/index/query/IndexPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-15T12:49:37Z",
+      "side": 1,
+      "message": "Ack",
       "parentUuid": "aba50239_8ac88c56",
       "range": {
         "startLine": 108,

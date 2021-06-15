@@ -106,6 +106,24 @@
       "parentUuid": "04023be3_d1dd0354",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dba8cc51_410007fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-15T11:45:04Z",
+      "side": 1,
+      "message": "rather than trying to infer which is a pure A/S update, wouldn\u0027t it be easier to have a \"ignoreMaxUpdateLimit\" setting on the ChangeUpdate, and set that flag from the REST endpoints that update the attention set?",
+      "parentUuid": "35330678_bee8e7da",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

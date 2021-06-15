@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a92e152f_d3928ce9",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-15T07:49:00Z",
+      "side": 1,
+      "message": "Would it be possible to just use EqualsNumericLabelVotePredicate for these two cases?\n\nJust lookup the label type and then for MAX create new EqualsNumericLabelVotePredicate(args, label, labelType.getMaxPositive(), account) and for MIN create new EqualsNumericLabelVotePredicate(args, label, labelType.getMaxNegative(), account).\n\nThen EqualsNumericLabelVotePredicate could be named EqualsLabelVotePredicate and EqualsAnyLabelVotePredicate could be renamed to AnyLabelVotePredicate.\n\nI would then also change this method to \n\n  private static Predicate\u003cChangeData\u003e createEqualsLabelPredicate(\n      Args args, String label, VoteType voteType, short expVal, Account.Id account)\n\nand let the caller do the creation of AnyLabelVotePredicate.\n\nWDYT?",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 176,
+        "endChar": 69
+      },
+      "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

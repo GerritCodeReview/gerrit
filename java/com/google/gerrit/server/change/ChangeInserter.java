@@ -305,7 +305,7 @@ public class ChangeInserter implements InsertChangeOp {
 
   public ChangeInserter setGroups(List<String> groups) {
     requireNonNull(groups, "groups may not be empty");
-    checkState(patchSet == null, "setGroups(Iterable<String>) only valid before creating change");
+    checkState(patchSet == null, "setGroups(List<String>) only valid before creating change");
     this.groups = groups;
     return this;
   }

@@ -1286,9 +1286,6 @@ export class GrChecksResults extends GrLitElement {
     if (all.length === filtered.length) {
       return html`(${all.length})`;
     }
-    if (all.length !== selected.length) {
-      return html`<span class="filtered"> - filtered</span>`;
-    }
     return html`(${filtered.length} of ${all.length})`;
   }
 

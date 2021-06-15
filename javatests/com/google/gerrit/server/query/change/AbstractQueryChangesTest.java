@@ -934,6 +934,21 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void fullTextMultipleTerms() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().message("Signed-off: owner").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    RevCommit commit2 = repo.parseBody(repo.commit().message("Signed by owner").create());
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+    RevCommit commit3 = repo.parseBody(repo.commit().message("This change is off").create());
+    Change change3 = insert(repo, newChangeForCommit(repo, commit3));
+
+    assertQuery("message:\"Signed-off: owner\"", change1);
+    assertQuery("message:\"Signed\"", change2, change1);
+    assertQuery("message:\"off\"", change3, change1);
+  }
+
+  @Test
   public void byMessageMixedCase() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().message("Hello gerrit").create());

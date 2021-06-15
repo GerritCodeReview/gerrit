@@ -14,30 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import '../../../test/common-test-setup-karma.js';
-import './gr-autocomplete-dropdown.js';
+import '../../../test/common-test-setup-karma';
+import './gr-autocomplete-dropdown';
+import {GrAutocompleteDropdown} from './gr-autocomplete-dropdown';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const basicFixture = fixtureFromElement('gr-autocomplete-dropdown');
 
 suite('gr-autocomplete-dropdown', () => {
-  let element;
+  let element: GrAutocompleteDropdown;
 
-  setup(() => {
+  const suggestionsEl = () => queryAndAssert(element, '#suggestions');
+
+  setup(async () => {
     element = basicFixture.instantiate();
     element.open();
     element.suggestions = [
-      {dataValue: 'test value 1', name: 'test name 1', text: 1, label: 'hi'},
-      {dataValue: 'test value 2', name: 'test name 2', text: 2}];
-    flush();
+      {dataValue: 'test value 1', name: 'test name 1', text: '1', label: 'hi'},
+      {dataValue: 'test value 2', name: 'test name 2', text: '2'},
+    ];
+    await flush();
   });
 
   teardown(() => {
-    if (element.isOpen) element.close();
+    element.close();
   });
 
   test('shows labels', () => {
-    const els = element.$.suggestions.querySelectorAll('li');
+    const els = queryAll<HTMLElement>(suggestionsEl(), 'li');
     assert.equal(els[0].innerText.trim(), '1\nhi');
     assert.equal(els[1].innerText.trim(), '2');
   });
@@ -106,24 +112,25 @@ suite('gr-autocomplete-dropdown', () => {
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
 
-    MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[1]);
+    MockInteractions.tap(suggestionsEl().querySelectorAll('li')[1]);
     flush();
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'click',
-      selected: element.$.suggestions.querySelectorAll('li')[1],
+      selected: suggestionsEl().querySelectorAll('li')[1],
     });
   });
 
   test('tapping child still selects item', () => {
     const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
-
-    MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[0]
-        .lastElementChild);
+    const lastElChild = queryAll<HTMLElement>(suggestionsEl(), 'li')[0]
+      ?.lastElementChild;
+    assertIsDefined(lastElChild);
+    MockInteractions.tap(lastElChild);
     flush();
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'click',
-      selected: element.$.suggestions.querySelectorAll('li')[0],
+      selected: queryAll<HTMLElement>(suggestionsEl(), 'li')[0],
     });
   });
 
@@ -133,4 +140,3 @@ suite('gr-autocomplete-dropdown', () => {
     assert.isTrue(resetStopsSpy.called);
   });
 });
-

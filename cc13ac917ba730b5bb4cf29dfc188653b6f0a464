@@ -268,6 +268,24 @@
       "parentUuid": "624e97ee_b2d0f5a2",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d76756d_31838d61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-16T22:10:48Z",
+      "side": 1,
+      "message": "\u003e \u003e We could do something like that: \n\u003e \n\u003e that\u0027s really complicated.\n\u003e  \n\u003e  filtered \u003d new ReviewInput()\n\u003e  filtered.add_attention_set \u003d input.add_attention_set\n\u003e  filtered.rm_attention_set \u003d input.rm_attention_set\n\u003e  boolean pure_as \u003d filtered.equals(input)\n\nOuch! That is definitively neater 😊\n\nHowever, it won\u0027t be enough checking {add_to,remove_from}_attention_set. There are some other parameters defaulted. \n\nFollowing an example of ReviewInput coming from a call like this (which I was expecting to only populate {add_to,remove_from}_attention_set):\n\n    curl \u0027http://localhost:8080/changes/test~61/revisions/1/review\u0027 --data-raw \u0027{\"add_to_attention_set\":[],\"remove_from_attention_set\":[{\"user\":1000001,\"reason\":\"Administrator replied on the change\"}]}\u0027\n\nAnd the corresponding ReviewInput:\n\n    message \u003d null\n    tag \u003d null\n    labels \u003d null\n    comments \u003d null\n    robotComments \u003d null\n    drafts \u003d null\n    notify \u003d null\n    notifyDetails \u003d null\n    omitDuplicateComments \u003d false\n    onBehalfOf \u003d null\n    reviewers \u003d null\n    workInProgress \u003d false\n    ready \u003d false\n    addToAttentionSet \u003d {ArrayList@18210}  size \u003d 0\n    removeFromAttentionSet \u003d {ArrayList@18211}  size \u003d 1\n    ignoreAutomaticAttentionSetRules \u003d false \n    \nIt is still doable but it is not going to be as neat as I thought.",
+      "parentUuid": "ab0841d7_966c66d3",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

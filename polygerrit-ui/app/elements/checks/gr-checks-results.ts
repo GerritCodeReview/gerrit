@@ -502,7 +502,7 @@ class GrResultExpanded extends GrLitElement {
       css`
         .links {
           white-space: normal;
-          padding: var(--spacing-s) 0;
+          padding: var(--spacing-s);
         }
         .links a {
           display: inline-block;
@@ -512,7 +512,8 @@ class GrResultExpanded extends GrLitElement {
           margin-right: var(--spacing-xs);
         }
         .message {
-          padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
+          padding: var(--spacing-m) var(--spacing-m) var(--spacing-m)
+            var(--spacing-s);
         }
       `,
     ];

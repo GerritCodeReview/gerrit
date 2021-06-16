@@ -150,8 +150,13 @@ class GrResultRow extends GrLitElement {
           white-space: nowrap;
           padding: var(--spacing-s);
         }
+        td.expandedCol,
         td.nameCol {
-          padding-left: var(--spacing-m);
+          padding-left: var(--spacing-l);
+        }
+        td.expandedCol,
+        td.expanderCol {
+          padding-right: var(--spacing-l);
         }
         td .summary-cell {
           display: flex;
@@ -337,7 +342,7 @@ class GrResultRow extends GrLitElement {
         </td>
       </tr>
       <tr class="${classMap({detailsRow: true, collapsed: !this.isExpanded})}">
-        <td colspan="3">${this.renderExpanded()}</td>
+        <td class="expandedCol" colspan="3">${this.renderExpanded()}</td>
       </tr>
     `;
   }
@@ -502,7 +507,6 @@ class GrResultExpanded extends GrLitElement {
       css`
         .links {
           white-space: normal;
-          padding: var(--spacing-s) 0;
         }
         .links a {
           display: inline-block;
@@ -512,7 +516,7 @@ class GrResultExpanded extends GrLitElement {
           margin-right: var(--spacing-xs);
         }
         .message {
-          padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
+          padding: var(--spacing-m) 0;
         }
       `,
     ];
@@ -868,13 +872,14 @@ export class GrChecksResults extends GrLitElement {
         }
         tr.headerRow th.nameCol {
           width: 200px;
-          padding-left: var(--spacing-m);
+          padding-left: var(--spacing-l);
         }
         tr.headerRow th.summaryCol {
           width: 99%;
         }
         tr.headerRow th.expanderCol {
           width: 30px;
+          padding-right: var(--spacing-l);
         }
 
         gr-button.showAll {

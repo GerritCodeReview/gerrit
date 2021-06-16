@@ -225,8 +225,8 @@ export class GrChecksRun extends GrLitElement {
 
     return html`
       <div @click="${this.handleChipClick}" class="${classMap(classes)}">
-        <gr-hovercard-run .run="${this.run}"></gr-hovercard-run>
         <div class="left">
+          <gr-hovercard-run .run="${this.run}"></gr-hovercard-run>
           ${this.renderFilterIcon()}
           <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
           ${this.renderAdditionalIcon()}

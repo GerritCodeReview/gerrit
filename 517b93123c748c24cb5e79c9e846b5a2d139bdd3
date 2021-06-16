@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07e17748_da614802",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-16T12:08:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3723ea9_3e20f60a",
+      "revId": "517b93123c748c24cb5e79c9e846b5a2d139bdd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4baf3e7_4b4a4e8e",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89397e73_8e45074a",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-16T12:08:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4baf3e7_4b4a4e8e",
+      "range": {
+        "startLine": 505,
+        "startChar": 19,
+        "endLine": 505,
+        "endChar": 36
+      },
+      "revId": "517b93123c748c24cb5e79c9e846b5a2d139bdd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e6ecde8_366dd7ee",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-06-16T11:14:42Z",
       "side": 1,
       "message": "--spacing-l",
+      "range": {
+        "startLine": 516,
+        "startChar": 12,
+        "endLine": 516,
+        "endChar": 29
+      },
+      "revId": "517b93123c748c24cb5e79c9e846b5a2d139bdd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "481cdf8b_1677af17",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-16T12:08:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e6ecde8_366dd7ee",
       "range": {
         "startLine": 516,
         "startChar": 12,

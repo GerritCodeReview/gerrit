@@ -214,6 +214,24 @@
       "parentUuid": "e575c985_6038bfc3",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64d8bfa1_3d1411ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-16T16:21:25Z",
+      "side": 1,
+      "message": "\u003e Just check if the input has only {add_to,remove_from}_attention_set defined.\n\nI think this can be done in the PostReview#apply. There are a bunch of checks on ReviewInput to see which fields have been set. We could do something like that: \n\n      public Response\u003cReviewResult\u003e apply(RevisionResource revision, ReviewInput input, Timestamp ts)\n      throws ... {\n      boolean attentionSetUpdateOnly \u003d true;\n      ...\n      ...\n      \n      if (input.onBehalfOf !\u003d null) {\n        revision \u003d onBehalfOf(revision, labelTypes, input);\n        attentionSetUpdateOnly \u003d false;\n      }\n      if (input.labels !\u003d null) {\n        checkLabels(revision, labelTypes, input.labels);\n        attentionSetUpdateOnly \u003d false;\n      }\n      if (input.comments !\u003d null) {\n        input.comments \u003d cleanUpComments(input.comments);\n        checkComments(revision, input.comments);\n        attentionSetUpdateOnly \u003d false;\n      }\n      ...\n      \nNot really nice, but I think it will work. @Han-Wen Is that what you meant by \"has only {add_to,remove_from}_attention_set\"?\n\nAn alternative would be considering the case of a change to the A/S via the PostReview endpoint *not* a \"pure A/S update\". It might be a rare case...unfortunately I don\u0027t have data to prove/disprove it.",
+      "parentUuid": "e8e27360_1ab49d55",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -14,7 +14,14 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import org.junit.Test;
+
 public class HttpPushLightweightTagIT extends AbstractHttpPushTag {
+  @Override
+  @Test
+  public void createTagForExistingCommit() throws Exception {
+    super.createTagForExistingCommit();
+  }
 
   @Override
   protected TagType getTagType() {

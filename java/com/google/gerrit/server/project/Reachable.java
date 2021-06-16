@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -27,11 +29,13 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -73,14 +77,25 @@ public class Reachable {
               .orElse(permissionBackend.currentUser())
               .project(project)
               .filter(refs, repo, RefFilterOptions.defaults());
+      Collection<RevCommit> visible = new ArrayList<>();
+      for (Ref r : filtered) {
+        visible.add(rw.parseCommit(r.getObjectId()));
+      }
 
       // The filtering above already produces a voluminous trace. To separate the permission check
       // from the reachability check, do the trace here:
       try (TraceTimer timer =
           TraceContext.newTimer(
-              "IncludedInResolver.includedInAny",
+              "ReachabilityChecker.areAllReachable",
               Metadata.builder().projectName(project.get()).resourceCount(refs.size()).build())) {
-        return IncludedInResolver.includedInAny(repo, rw, commit, filtered);
+        ReachabilityChecker checker = rw.getObjectReader().createReachabilityChecker(rw);
+        Optional<RevCommit> unreachable =
+            checker.areAllReachable(ImmutableList.of(commit), visible.stream());
+        boolean reachable1 = !unreachable.isPresent();
+        boolean reachable2 = IncludedInResolver.includedInAny(repo, rw, commit, filtered);
+
+        Preconditions.checkState(reachable2 == reachable1, "oops");
+        return reachable1;
       }
     } catch (IOException | PermissionBackendException e) {
       logger.atSevere().withCause(e).log(

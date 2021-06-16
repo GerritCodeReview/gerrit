@@ -250,6 +250,24 @@
       "parentUuid": "64d8bfa1_3d1411ff",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab0841d7_966c66d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-16T18:06:30Z",
+      "side": 1,
+      "message": "\u003e We could do something like that: \n\nthat\u0027s really complicated.\n\n \n filtered \u003d new ReviewInput()\n filtered.add_attention_set \u003d input.add_attention_set\n filtered.rm_attention_set \u003d input.rm_attention_set\n boolean pure_as \u003d filtered.equals(input)",
+      "parentUuid": "624e97ee_b2d0f5a2",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

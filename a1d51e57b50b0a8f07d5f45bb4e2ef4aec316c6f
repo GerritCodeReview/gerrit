@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02eae365_bfca2d96",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5141,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-16T07:36:13Z",
+      "side": 0,
+      "message": "isn\u0027t that recommendation still valid ?",
+      "revId": "a1d51e57b50b0a8f07d5f45bb4e2ef4aec316c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

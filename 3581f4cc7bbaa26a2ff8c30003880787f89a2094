@@ -16,6 +16,24 @@
       "message": "this will cause a cache flush. I can\u0027t remember the last time we did this, but it might increase latencies when we roll this out. Check with SRE ?\n\nMight be interesting if we could ramp this up using experiment framework, selecting on task number. (Not sure if that\u0027s possible though, I think the experimental settings are per-request?) ",
       "revId": "3581f4cc7bbaa26a2ff8c30003880787f89a2094",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7736219_5936d56b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-16T12:44:41Z",
+      "side": 1,
+      "message": "We discussed it offline and agreed not to update it in old diff cache, so I reverted the change in PatchListLoader. The change will have effect when all callers use DiffOperations (the new diff cache), which I\u0027m currently working on.",
+      "parentUuid": "1bb1cca1_fcc67dbc",
+      "revId": "3581f4cc7bbaa26a2ff8c30003880787f89a2094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

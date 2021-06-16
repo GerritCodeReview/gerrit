@@ -160,6 +160,24 @@
       "parentUuid": "b492e112_16e0c2ed",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ac39677_5e7120ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-16T08:33:44Z",
+      "side": 1,
+      "message": "PostReview could be used as an attention set endpoint; You can remove users from the attention set via the \"reply\" dialog without doing anything else just by specifying remove_from_attention_set in ReviewInput (https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-input).",
+      "parentUuid": "9cda311c_08d2a87c",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

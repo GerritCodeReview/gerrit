@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.api.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
@@ -4835,6 +4836,12 @@ public class ChangeIT extends AbstractDaemonTest {
       }
     }
     throw new AssertionError(
-        "Could not find submit requirement  " + requirementName + " with status " + status);
+        String.format(
+            "Could not find submit requirement %s with status %s (results = %s)",
+            requirementName,
+            status,
+            results.stream()
+                .map(r -> String.format("%s=%s", r.name, r.status))
+                .collect(toImmutableList())));
   }
 }

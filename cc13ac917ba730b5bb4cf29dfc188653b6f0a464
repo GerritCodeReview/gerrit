@@ -178,6 +178,24 @@
       "parentUuid": "9cda311c_08d2a87c",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e575c985_6038bfc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-16T08:37:12Z",
+      "side": 1,
+      "message": "hmm.. isn\u0027t it be easy to infer what a pure A/S upadte on PostReview, though? Just check if the input has only {add_to,remove_from}_attention_set defined.",
+      "parentUuid": "2ac39677_5e7120ff",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

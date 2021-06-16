@@ -142,6 +142,24 @@
       "parentUuid": "dba8cc51_410007fe",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cda311c_08d2a87c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-16T08:24:12Z",
+      "side": 1,
+      "message": "My suggestion is to only let A/S endpoints (ie. https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#attention-set-endpoints) bypass the max update setting (ie. removing yourself from A/S), but not PostReview.\n\nwhat is the use-case for PostReview on a change that is already at its maximum number of updates? If the change isn\u0027t submitted yet, you wouldn\u0027t be able to submit it, because the submit is another update.",
+      "parentUuid": "b492e112_16e0c2ed",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

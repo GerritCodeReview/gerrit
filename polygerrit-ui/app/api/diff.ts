@@ -407,7 +407,7 @@ export declare interface GrAnnotation {
 }
 
 /** An instance of the GrDiff Webcomponent */
-export interface GrDiff extends HTMLElement {
+export declare interface GrDiff extends HTMLElement {
   /**
    * Return line number element for reading only,
    *

@@ -39,6 +39,7 @@ export class GrChecksAction extends GrLitElement {
       css`
         :host {
           display: inline-block;
+          white-space: nowrap;
         }
         gr-button {
           /* It is not fully understood why this is needed, but otherwise the
@@ -52,6 +53,9 @@ export class GrChecksAction extends GrLitElement {
         }
         gr-button paper-tooltip {
           text-transform: none;
+          text-align: center;
+          white-space: normal;
+          width: 200px;
         }
       `,
     ];

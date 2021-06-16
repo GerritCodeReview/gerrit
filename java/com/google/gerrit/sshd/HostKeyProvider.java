@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -22,11 +23,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 class HostKeyProvider implements Provider<KeyPairProvider> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final SitePaths site;
 
   @Inject
@@ -63,7 +66,11 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     if (Files.exists(objKey)) {
       if (stdKeys.isEmpty()) {
         SimpleGeneratorHostKeyProvider p = new SimpleGeneratorHostKeyProvider();
+        p.setAlgorithm(KeyUtils.RSA_ALGORITHM);
         p.setPath(objKey.toAbsolutePath());
+        logger.atWarning().log(
+            "Defaulting to RSA algorithm for SSH key exchange."
+                + "This is a weak security setting, consider changing it (see 'sshd.kex' documentation section).");
         return p;
       }
       // Both formats of host key exist, we don't know which format

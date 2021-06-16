@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cf6ecd5_ec7074e2",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperations.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-16T09:30:38Z",
+      "side": 1,
+      "message": "Handling of root commits was implemented with Idde88f70d9e7f173.\n\nMarking resolved.",
+      "parentUuid": "1e8502d9_07baa270",
+      "range": {
+        "startLine": 47,
+        "startChar": 70,
+        "endLine": 48,
+        "endChar": 74
+      },
+      "revId": "9b1cec5011c5c6282a5e88f3d6f6ce7440c5c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19ad23b5_12725d76",

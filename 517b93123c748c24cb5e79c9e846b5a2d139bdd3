@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3723ea9_3e20f60a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-16T11:14:42Z",
+      "side": 1,
+      "message": "Thanks for proposing this change, I think the Run column looks a bit cramped in the data table toay.\n\nI propose we make the Run column title, the Check name and the message and links use --spacing-l on the left side of the data table.\n\nAlso use --spacing-l for the right side of the table (with the arrow expanders).",
+      "revId": "517b93123c748c24cb5e79c9e846b5a2d139bdd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4baf3e7_4b4a4e8e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-16T11:14:42Z",
+      "side": 1,
+      "message": "--spacing-l",
+      "range": {
+        "startLine": 505,
+        "startChar": 19,
+        "endLine": 505,
+        "endChar": 36
+      },
+      "revId": "517b93123c748c24cb5e79c9e846b5a2d139bdd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e6ecde8_366dd7ee",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-16T11:14:42Z",
+      "side": 1,
+      "message": "--spacing-l",
+      "range": {
+        "startLine": 516,
+        "startChar": 12,
+        "endLine": 516,
+        "endChar": 29
+      },
+      "revId": "517b93123c748c24cb5e79c9e846b5a2d139bdd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

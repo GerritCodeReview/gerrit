@@ -16,6 +16,23 @@
       "message": "@Milutin needs LC",
       "revId": "78019ae22afeb8ba2c5fab8ac5ca54b423b1c0f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "208c71a2_a4d39a7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-16T15:27:18Z",
+      "side": 1,
+      "message": "Looks like Highlightjs 11 removes the deprecated API so we really need to migrate... but i\u0027m not sure exactly how to migrate.",
+      "revId": "78019ae22afeb8ba2c5fab8ac5ca54b423b1c0f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

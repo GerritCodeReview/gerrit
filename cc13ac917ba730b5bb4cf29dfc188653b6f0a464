@@ -124,6 +124,24 @@
       "parentUuid": "35330678_bee8e7da",
       "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b492e112_16e0c2ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-16T08:14:32Z",
+      "side": 1,
+      "message": "Then we would need to infer which is a pure attention set update on the \"PostReview\" endpoint, so I don\u0027t think so.",
+      "parentUuid": "dba8cc51_410007fe",
+      "revId": "cc13ac917ba730b5bb4cf29dfc188653b6f0a464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

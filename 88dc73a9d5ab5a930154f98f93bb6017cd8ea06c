@@ -16,6 +16,23 @@
       "message": "Thank you, I think this comment really sheds some light!",
       "revId": "88dc73a9d5ab5a930154f98f93bb6017cd8ea06c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a77745fc_f0d65c56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-16T14:47:08Z",
+      "side": 1,
+      "message": "Apologies for the noise, I was trying to reproduce an issues with multiple email addresses.",
+      "revId": "88dc73a9d5ab5a930154f98f93bb6017cd8ea06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

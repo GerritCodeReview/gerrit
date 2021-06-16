@@ -16,6 +16,46 @@
       "message": "Hm, I swear I moved Ben from CC to reviewers earlier already?",
       "revId": "426e12fe4f1f4315c07fbab22f34c3481e7c3b39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df6482f_26ea8793",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-16T08:29:03Z",
+      "side": 1,
+      "message": "Maybe the configureCallback() can return `window.hljs`? Then you don\u0027t have to access window here.",
+      "range": {
+        "startLine": 580,
+        "startChar": 63,
+        "endLine": 580,
+        "endChar": 65
+      },
+      "revId": "426e12fe4f1f4315c07fbab22f34c3481e7c3b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab080604_454d1550",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/gr-lib-loader.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-16T08:29:03Z",
+      "side": 1,
+      "message": "It would be great to document the value of this map here, namely that the return value of `configureCallback()` is stored. That could also be documented as the return value of `getLibrary()` and could be mentioned in the doc of `configureCallback`.\n\nOr was the intention to return a `Promise\u003cvoid\u003e`?",
+      "revId": "426e12fe4f1f4315c07fbab22f34c3481e7c3b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

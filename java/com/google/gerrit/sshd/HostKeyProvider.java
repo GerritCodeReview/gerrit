@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
@@ -63,6 +64,7 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     if (Files.exists(objKey)) {
       if (stdKeys.isEmpty()) {
         SimpleGeneratorHostKeyProvider p = new SimpleGeneratorHostKeyProvider();
+        p.setAlgorithm(KeyUtils.RSA_ALGORITHM);
         p.setPath(objKey.toAbsolutePath());
         return p;
       }

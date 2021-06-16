@@ -22,101 +22,182 @@ import {GrLibLoader} from './gr-lib-loader.js';
 suite('gr-lib-loader tests', () => {
   let grLibLoader;
   let resolveLoad;
+  let rejectLoad;
   let loadStub;
 
   setup(() => {
     grLibLoader = new GrLibLoader();
 
     loadStub = sinon.stub(grLibLoader, '_loadScript').callsFake(() =>
-      new Promise(resolve => resolveLoad = resolve)
+      new Promise((resolve, reject) => {
+        resolveLoad = resolve;
+        rejectLoad = reject;
+      })
     );
-
-    // Assert preconditions:
-    assert.isFalse(grLibLoader._hljsState.loading);
   });
 
-  teardown(() => {
-    if (window.hljs) {
-      delete window.hljs;
-    }
+  test('notifies all callers when loaded', async () => {
+    const libraryConfig = {src: 'foo.js'};
 
-    // Because the element state is a singleton, clean it up.
-    grLibLoader._hljsState.configured = false;
-    grLibLoader._hljsState.loading = false;
-    grLibLoader._hljsState.callbacks = [];
-  });
+    const loaded1 = sinon.stub();
+    const loaded2 = sinon.stub();
 
-  test('only load once', async () => {
-    sinon.stub(grLibLoader, '_getHLJSUrl').returns('');
-    const firstCallHandler = sinon.stub();
-    grLibLoader.getHLJS().then(firstCallHandler);
+    grLibLoader.getLibrary(libraryConfig).then(loaded1);
+    grLibLoader.getLibrary(libraryConfig).then(loaded2);
 
-    // It should now be in the loading state.
-    assert.isTrue(loadStub.called);
-    assert.isTrue(grLibLoader._hljsState.loading);
-    assert.isFalse(firstCallHandler.called);
-
-    const secondCallHandler = sinon.stub();
-    grLibLoader.getHLJS().then(secondCallHandler);
-
-    // No change in state.
-    assert.isTrue(grLibLoader._hljsState.loading);
-    assert.isFalse(firstCallHandler.called);
-    assert.isFalse(secondCallHandler.called);
-
-    // Now load the library.
     resolveLoad();
     await flush();
-    // The state should be loaded and both handlers called.
-    assert.isFalse(grLibLoader._hljsState.loading);
-    assert.isTrue(firstCallHandler.called);
-    assert.isTrue(secondCallHandler.called);
+
+    const lateLoaded = sinon.stub();
+    grLibLoader.getLibrary(libraryConfig).then(lateLoaded);
+
+    await flush();
+
+    assert.isTrue(loaded1.calledOnce);
+    assert.isTrue(loaded2.calledOnce);
+    assert.isTrue(lateLoaded.calledOnce);
+  });
+
+  test('notifies all callers when failed', async () => {
+    const libraryConfig = {src: 'foo.js'};
+
+    const failed1 = sinon.stub();
+    const failed2 = sinon.stub();
+
+    grLibLoader.getLibrary(libraryConfig).catch(failed1);
+    grLibLoader.getLibrary(libraryConfig).catch(failed2);
+
+    rejectLoad();
+    await flush();
+
+    const lateFailed = sinon.stub();
+    grLibLoader.getLibrary(libraryConfig).catch(lateFailed);
+
+    await flush();
+
+    assert.isTrue(failed1.calledOnce);
+    assert.isTrue(failed2.calledOnce);
+    assert.isTrue(lateFailed.calledOnce);
+  });
+
+  test('runs library configuration only once', async () => {
+    const configureCallback = sinon.stub();
+    const libraryConfig = {
+      src: 'foo.js',
+      configureCallback,
+    };
+
+    const loaded1 = sinon.stub();
+    const loaded2 = sinon.stub();
+
+    grLibLoader.getLibrary(libraryConfig).then(loaded1);
+    grLibLoader.getLibrary(libraryConfig).then(loaded2);
+
+    resolveLoad();
+    await flush();
+
+    const lateLoaded = sinon.stub();
+    grLibLoader.getLibrary(libraryConfig).then(lateLoaded);
+
+    await flush();
+
+    assert.isTrue(configureCallback.calledOnce);
+  });
+
+  test('resolves to result of configureCallback, if any', async () => {
+    const library = {someFunction: () => 'foobar'};
+
+    const libraryConfig = {
+      src: 'foo.js',
+      configureCallback: () => window.library,
+    };
+
+    const loaded1 = sinon.stub();
+    const loaded2 = sinon.stub();
+
+    grLibLoader.getLibrary(libraryConfig).then(loaded1);
+    grLibLoader.getLibrary(libraryConfig).then(loaded2);
+
+    window.library = library;
+    resolveLoad();
+    await flush();
+
+    assert.isTrue(loaded1.calledWith(library));
+    assert.isTrue(loaded2.calledWith(library));
+
+    const lateLoaded = sinon.stub();
+    grLibLoader.getLibrary(libraryConfig).then(lateLoaded);
+
+    await flush();
+
+    assert.isTrue(lateLoaded.calledWith(library));
   });
 
   suite('preloaded', () => {
-    let hljsStub;
-
     setup(() => {
-      hljsStub = {
-        configure: sinon.stub(),
+      window.library = {
+        initialize: sinon.stub(),
       };
-      window.hljs = hljsStub;
     });
 
     teardown(() => {
-      delete window.hljs;
+      delete window.library;
     });
 
-    test('returns hljs', async () => {
-      const firstCallHandler = sinon.stub();
-      grLibLoader.getHLJS().then(firstCallHandler);
+    test('does not load library again if detected present', async () => {
+      const libraryConfig = {
+        src: 'foo.js',
+        checkPresent: () => window.library !== undefined,
+      };
+
+      const loaded1 = sinon.stub();
+      const loaded2 = sinon.stub();
+
+      grLibLoader.getLibrary(libraryConfig).then(loaded1);
+      grLibLoader.getLibrary(libraryConfig).then(loaded2);
+
+      resolveLoad();
       await flush();
-      assert.isTrue(firstCallHandler.called);
-      assert.isTrue(firstCallHandler.calledWith(hljsStub));
+
+      const lateLoaded = sinon.stub();
+      grLibLoader.getLibrary(libraryConfig).then(lateLoaded);
+
+      await flush();
+
+      assert.isFalse(loadStub.called);
+      assert.isTrue(loaded1.called);
+      assert.isTrue(loaded2.called);
+      assert.isTrue(lateLoaded.called);
     });
 
-    test('configures hljs', () => grLibLoader.getHLJS().then(() => {
-      assert.isTrue(window.hljs.configure.calledOnce);
-    }));
-  });
+    test('runs configuration for externally loaded library', async () => {
+      const libraryConfig = {
+        src: 'foo.js',
+        checkPresent: () => window.library !== undefined,
+        configureCallback: () => window.library.initialize(),
+      };
 
-  suite('_getHLJSUrl', () => {
-    suite('checking _getLibRoot', () => {
-      let root;
+      grLibLoader.getLibrary(libraryConfig);
 
-      setup(() => {
-        sinon.stub(grLibLoader, '_getLibRoot').callsFake(() => root);
-      });
+      resolveLoad();
+      await flush();
 
-      test('with no root', () => {
-        assert.isNull(grLibLoader._getHLJSUrl());
-      });
+      assert.isTrue(window.library.initialize.calledOnce);
+    });
 
-      test('with root', () => {
-        root = 'test-root.com/';
-        assert.equal(grLibLoader._getHLJSUrl(),
-            'test-root.com/bower_components/highlightjs/highlight.min.js');
-      });
+    test('loads library again if not detected present', async () => {
+      window.library = undefined;
+      const libraryConfig = {
+        src: 'foo.js',
+        checkPresent: () => window.library !== undefined,
+      };
+
+      grLibLoader.getLibrary(libraryConfig);
+
+      resolveLoad();
+      await flush();
+
+      assert.isTrue(loadStub.called);
     });
   });
 });

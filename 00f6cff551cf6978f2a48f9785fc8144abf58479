@@ -16,6 +16,24 @@
       "message": "@Hanwen, could you please re-approve the change? ",
       "revId": "00f6cff551cf6978f2a48f9785fc8144abf58479",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25b9e51a_d7014ff1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-16T12:47:11Z",
+      "side": 1,
+      "message": "due to the magic of approval copying, it\u0027s already approved :-)",
+      "parentUuid": "b075144e_d321224c",
+      "revId": "00f6cff551cf6978f2a48f9785fc8144abf58479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

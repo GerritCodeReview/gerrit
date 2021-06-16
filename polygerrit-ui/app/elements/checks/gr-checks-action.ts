@@ -41,6 +41,13 @@ export class GrChecksAction extends GrLitElement {
           display: inline-block;
         }
         gr-button {
+          /* It is not fully understood why this is needed, but otherwise the
+             paper-tooltip may render under some iron-icons of the content
+             below. Maybe this has to do with a z-index:0 setting for
+             paper-button, such that a stacking context is created. And the high
+             z-index of the paper-tooltip will then only be interpreted within
+             that stacking context. */
+          z-index: 1;
           --padding: var(--spacing-s) var(--spacing-m);
         }
         gr-button paper-tooltip {

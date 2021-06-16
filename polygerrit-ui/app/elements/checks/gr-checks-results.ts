@@ -1190,9 +1190,7 @@ export class GrChecksResults extends GrLitElement {
               class="statusIcon ${catString}"
             ></iron-icon>
             <span class="title">${catString}</span>
-            <span class="count"
-              >${this.renderCount(all, selected, filtered)}</span
-            >
+            <span class="count">${this.renderCount(all, filtered)}</span>
             <paper-tooltip offset="5"
               >${CATEGORY_TOOLTIPS.get(category)}</paper-tooltip
             >
@@ -1282,12 +1280,9 @@ export class GrChecksResults extends GrLitElement {
     `;
   }
 
-  renderCount(all: RunResult[], selected: RunResult[], filtered: RunResult[]) {
+  renderCount(all: RunResult[], filtered: RunResult[]) {
     if (all.length === filtered.length) {
       return html`(${all.length})`;
-    }
-    if (all.length !== selected.length) {
-      return html`<span class="filtered"> - filtered</span>`;
     }
     return html`(${filtered.length} of ${all.length})`;
   }

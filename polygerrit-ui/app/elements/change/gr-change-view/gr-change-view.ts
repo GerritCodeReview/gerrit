@@ -75,7 +75,12 @@ import {
   hasEditPatchsetLoaded,
   PatchSet,
 } from '../../../utils/patch-set-util';
-import {changeStatuses, isOwner, isReviewer} from '../../../utils/change-util';
+import {
+  changeStatuses,
+  isCc,
+  isOwner,
+  isReviewer,
+} from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, observe, property} from '@polymer/decorators';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -2140,6 +2145,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
           this.reporting.changeDisplayed({
             isOwner: isOwner(this._change, this._account),
             isReviewer: isReviewer(this._change, this._account),
+            isCc: isCc(this._change, this._account),
           });
         }
       });

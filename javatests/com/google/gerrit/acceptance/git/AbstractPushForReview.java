@@ -66,6 +66,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
@@ -97,6 +98,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.TopicEditedListener;
+import com.google.gerrit.extensions.restapi.testing.AttentionSetUpdateSubject;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -2829,6 +2831,37 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     push.setPushOptions(ImmutableList.of(PUSH_OPTION_SKIP_VALIDATION));
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertErrorStatus("\"--skip-validation\" option is only supported for direct push");
+  }
+
+  @Test
+  public void pushWithReviewerAddsToAttentionSet() throws Exception {
+    String pushSpec = "refs/for/master%r=" + user.email();
+    PushOneCommit.Result r = pushTo(pushSpec);
+    r.assertOkStatus();
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    AttentionSetUpdateSubject.assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    AttentionSetUpdateSubject.assertThat(attentionSet)
+        .hasOperationThat()
+        .isEqualTo(AttentionSetUpdate.Operation.ADD);
+    AttentionSetUpdateSubject.assertThat(attentionSet)
+        .hasReasonThat()
+        .isEqualTo("Reviewer was added");
+  }
+
+  @Test
+  public void pushWithReviewerAndIgnoreAttentionSetDoesNotAddToAttentionSet() throws Exception {
+    // Create a change
+    String pushSpec = "refs/for/master%r=" + user.email() + ",-ignore-attention-set";
+    PushOneCommit.Result r = pushTo(pushSpec);
+    r.assertOkStatus();
+    assertThat(r.getChange().attentionSet()).isEmpty();
+
+    // push a new patch-set with another reviewer
+    pushSpec = "refs/for/master%r=" + accountCreator.user2().email() + ",-ignore-attention-set";
+    r = pushTo(pushSpec);
+    r.assertOkStatus();
+    assertThat(r.getChange().attentionSet()).isEmpty();
   }
 
   private DraftInput newDraft(String path, int line, String message) {

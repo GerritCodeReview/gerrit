@@ -305,6 +305,9 @@ public class ReplaceOp implements BatchUpdateOp {
         change.setWorkInProgress(true);
         update.setWorkInProgress(true);
       }
+      if (magicBranch.ignoreAttentionSet) {
+        update.ignoreFurtherAttentionSetUpdates();
+      }
     }
 
     newPatchSet =

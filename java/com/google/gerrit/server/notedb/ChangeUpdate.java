@@ -56,6 +56,7 @@ import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
@@ -762,9 +763,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
     }
 
-    if (plannedAttentionSetUpdates != null) {
-      updateAttentionSet(msg);
-    }
+    updateAttentionSet(msg);
 
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage(msg.toString());
@@ -842,7 +841,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    */
   private void updateAttentionSet(StringBuilder msg) {
     if (plannedAttentionSetUpdates == null) {
-      return;
+      plannedAttentionSetUpdates = new HashMap<>();
     }
     Set<Account.Id> currentUsersInAttentionSet =
         AttentionSetUtil.additionsOnly(getNotes().getAttentionSet()).stream()
@@ -863,6 +862,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             .filter(r -> r.getValue().asReviewerState() == ReviewerState.REMOVED)
             .map(r -> r.getKey())
             .collect(ImmutableSet.toImmutableSet()));
+
+    removeInactiveUsersFromAttentionSet(currentReviewers);
 
     for (AttentionSetUpdate attentionSetUpdate : plannedAttentionSetUpdates.values()) {
       if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
@@ -899,6 +900,38 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
+  }
+
+  private void removeInactiveUsersFromAttentionSet(Set<Account.Id> currentReviewers) {
+    Set<Account.Id> inActiveUsersInTheAttentionSet =
+        // get the current attention set.
+        getNotes().getAttentionSet().stream()
+            .filter(a -> a.operation().equals(Operation.ADD))
+            .map(a -> a.account())
+            // remove users that are currently being removed from the attention set.
+            .filter(
+                a ->
+                    plannedAttentionSetUpdates.getOrDefault(a, /*defaultValue= */ null) == null
+                        || plannedAttentionSetUpdates.get(a).operation().equals(Operation.REMOVE))
+            // remove users that are still active on the change.
+            .filter(a -> !isActiveOnChange(currentReviewers, a))
+            .collect(ImmutableSet.toImmutableSet());
+
+    // We override the flag, as we never want such users in the attention set.
+    ignoreFurtherAttentionSetUpdates = false;
+
+    addToPlannedAttentionSetUpdates(
+        inActiveUsersInTheAttentionSet.stream()
+            .map(
+                a ->
+                    AttentionSetUpdate.createForWrite(
+                        a,
+                        Operation.REMOVE,
+                        /* reason= */ "Only change owner, uploader, reviewers, and cc can "
+                            + "be in the attention set"))
+            .collect(ImmutableSet.toImmutableSet()));
+
+    ignoreFurtherAttentionSetUpdates = true;
   }
 
   /**

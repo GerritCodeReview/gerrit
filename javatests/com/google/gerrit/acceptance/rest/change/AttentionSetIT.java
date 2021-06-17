@@ -1758,6 +1758,31 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void usersNotPartOfTheChangeAreNeverInTheAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+
+    AttentionSetUpdate attentionSetUpdate =
+        Iterables.getOnlyElement(getAttentionSetUpdates(r.getChange().getId()));
+    assertThat(attentionSetUpdate).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSetUpdate).hasOperationThat().isEqualTo(Operation.ADD);
+
+    ReviewInput reviewInput = ReviewInput.create();
+    reviewInput.reviewer(user.email(), ReviewerState.REMOVED, /* confirmed= */ true);
+    reviewInput.ignoreAutomaticAttentionSetRules = true;
+    change(r).current().review(reviewInput);
+
+    // user removed from the attention set although we ignored automatic attention set rules.
+    attentionSetUpdate = Iterables.getOnlyElement(getAttentionSetUpdates(r.getChange().getId()));
+    assertThat(attentionSetUpdate).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSetUpdate).hasOperationThat().isEqualTo(Operation.REMOVE);
+    assertThat(attentionSetUpdate)
+        .hasReasonThat()
+        .isEqualTo(
+            "Only change owner, uploader, " + "reviewers, and cc can be in the attention set");
+  }
+
+  @Test
   @GerritConfig(name = "accounts.visibility", value = "NONE")
   public void canModifyAttentionSetForInvisibleUsersOnVisibleChanges() throws Exception {
     PushOneCommit.Result r = createChange();

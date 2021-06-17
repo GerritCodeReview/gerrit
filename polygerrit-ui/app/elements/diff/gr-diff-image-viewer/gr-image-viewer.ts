@@ -25,6 +25,9 @@ import '@polymer/paper-listbox/paper-listbox';
 import './gr-overview-image';
 import './gr-zoomed-image';
 
+import {GrLibLoader} from '../../shared/gr-lib-loader/gr-lib-loader';
+import {RESEMBLEJS_LIBRARY_CONFIG} from '../../shared/gr-lib-loader/resemblejs_config';
+
 import {
   css,
   customElement,
@@ -124,6 +127,12 @@ export class GrImageViewer extends LitElement {
 
   @state() protected grabbing = false;
 
+  @state() protected canHighlightDiffs = false;
+
+  @state() protected diffHighlightSrc?: string;
+
+  @state() protected showHighlight = false;
+
   private ownsMouseDown = false;
 
   private centerOnDown: Point = {x: 0, y: 0};
@@ -158,6 +167,9 @@ export class GrImageViewer extends LitElement {
   ];
 
   private automaticBlinkTimer?: ReturnType<typeof setInterval>;
+
+  // TODO(hermannloose): Make GrLibLoader a singleton.
+  private static readonly libLoader = new GrLibLoader();
 
   static styles = css`
     :host {
@@ -255,7 +267,7 @@ export class GrImageViewer extends LitElement {
     #version-switcher {
       display: flex;
       align-items: center;
-      margin: var(--spacing-xl);
+      margin: var(--spacing-xl) var(--spacing-xl) var(--spacing-m);
       /* Start a stacking context to contain FAB below. */
       z-index: 0;
     }
@@ -281,11 +293,15 @@ export class GrImageViewer extends LitElement {
     #version-explanation {
       color: var(--deemphasized-text-color);
       text-align: center;
-      margin: var(--spacing-xl);
+      margin: var(--spacing-xl) var(--spacing-xl) var(--spacing-m);
+    }
+    #highlight-changes {
+      margin: var(--spacing-m) var(--spacing-xl);
     }
     gr-overview-image {
       min-width: 200px;
       min-height: 150px;
+      margin-top: var(--spacing-m);
     }
     #zoom-control {
       margin: 0 var(--spacing-xl);
@@ -332,6 +348,14 @@ export class GrImageViewer extends LitElement {
       width: 100%;
       height: 100%;
       box-sizing: border-box;
+    }
+    #source-plus-highlight-container {
+      position: relative;
+    }
+    #source-plus-highlight-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
     }
   `;
 
@@ -388,6 +412,19 @@ export class GrImageViewer extends LitElement {
       />
     `;
 
+    const sourceImageWithHighlight = html`
+      <div id="source-plus-highlight-container">
+        ${sourceImage}
+        <img
+          id="highlight-image"
+          style="${styleMap({
+            opacity: this.showHighlight ? '1' : '0',
+          })}"
+          src="${this.diffHighlightSrc}"
+        />
+      </div>
+    `;
+
     const versionExplanation = html`
       <div id="version-explanation">
         This file is being ${this.revisionUrl ? 'added' : 'deleted'}.
@@ -422,6 +459,18 @@ export class GrImageViewer extends LitElement {
     const versionSwitcher = html`
       ${this.baseUrl && this.revisionUrl ? versionToggle : versionExplanation}
     `;
+
+    const highlightSwitcher = this.diffHighlightSrc
+      ? html`
+          <paper-checkbox
+            id="highlight-changes"
+            ?checked="${this.showHighlight}"
+            @change="${this.showHighlightChanged}"
+          >
+            Highlight differences
+          </paper-checkbox>
+        `
+      : '';
 
     const overviewImage = html`
       <gr-overview-image
@@ -557,13 +606,13 @@ export class GrImageViewer extends LitElement {
           @mouseleave="${this.mouseleaveMagnifier}"
           @dragstart="${this.dragstartMagnifier}"
         >
-          ${sourceImage}
+          ${sourceImageWithHighlight}
         </gr-zoomed-image>
         ${this.baseUrl && this.revisionUrl ? automaticBlink : ''} ${spacer}
       </div>
 
       <paper-card class="controls">
-        ${versionSwitcher} ${overviewImage} ${zoomControl}
+        ${versionSwitcher} ${highlightSwitcher} ${overviewImage} ${zoomControl}
         ${!this.scaledSelected ? followMouse : ''} ${backgroundPicker}
       </paper-card>
     `;
@@ -571,6 +620,10 @@ export class GrImageViewer extends LitElement {
 
   firstUpdated() {
     this.resizeObserver.observe(this.imageArea, {box: 'content-box'});
+    GrImageViewer.libLoader.getLibrary(RESEMBLEJS_LIBRARY_CONFIG).then(() => {
+      this.canHighlightDiffs = true;
+      this.computeDiffImage();
+    });
   }
 
   // We don't want property changes in updateSizes() to trigger infinite update
@@ -592,6 +645,22 @@ export class GrImageViewer extends LitElement {
     if (changedProperties.has('automaticBlink')) {
       this.updateAutomaticBlink();
     }
+    if (
+      this.canHighlightDiffs &&
+      (changedProperties.has('baseUrl') || changedProperties.has('revisionUrl'))
+    ) {
+      this.computeDiffImage();
+    }
+  }
+
+  private computeDiffImage() {
+    if (!(this.baseUrl && this.revisionUrl)) return;
+    window
+      .resemble(this.baseUrl)
+      .compareTo(this.revisionUrl)
+      .onComplete(data => {
+        this.diffHighlightSrc = data.getImageDataUrl();
+      });
   }
 
   selectBase() {
@@ -652,6 +721,16 @@ export class GrImageViewer extends LitElement {
       clearInterval(this.automaticBlinkTimer);
       this.automaticBlinkTimer = undefined;
     }
+  }
+
+  showHighlightChanged() {
+    this.showHighlight = !this.showHighlight;
+    this.dispatchEvent(
+      createEvent({
+        type: 'highlight-changes-changed',
+        value: this.showHighlight,
+      })
+    );
   }
 
   zoomControlChanged(event: CustomEvent) {

@@ -35,7 +35,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     private readonly _baseImage: ImageInfo | null,
     private readonly _revisionImage: ImageInfo | null,
     renderPrefs?: RenderPreferences,
-    private readonly _useNewImageDiffUi: boolean = false
+    private readonly _useNewImageDiffUi: boolean = true
   ) {
     super(diff, prefs, outputEl, [], renderPrefs);
   }

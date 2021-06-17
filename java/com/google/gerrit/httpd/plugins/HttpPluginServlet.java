@@ -358,6 +358,33 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     return cachedResource != null && cachedResource.isUnchanged(lastUpdateTime);
   }
 
+  private void appendPageAsSection(
+      PluginContentScanner scanner, PluginEntry pluginEntry, String sectionTitle, StringBuilder md)
+      throws IOException {
+    InputStreamReader isr = new InputStreamReader(scanner.getInputStream(pluginEntry), UTF_8);
+    StringBuilder content = new StringBuilder();
+    try (BufferedReader reader = new BufferedReader(isr)) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        line = StringUtils.stripEnd(line, null);
+        if (line.isEmpty()) {
+          content.append("\n");
+        } else {
+          content.append(line).append("\n");
+        }
+      }
+    }
+
+    // Only append the section if there was anything in it
+    if (content.toString().trim().length() > 0) {
+      md.append("## ");
+      md.append(sectionTitle);
+      md.append(" ##\n");
+      md.append("\n").append(content);
+      md.append("\n");
+    }
+  }
+
   private void appendEntriesSection(
       PluginContentScanner scanner,
       List<PluginEntry> entries,
@@ -400,6 +427,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     List<PluginEntry> restApis = new ArrayList<>();
     List<PluginEntry> docs = new ArrayList<>();
     PluginEntry about = null;
+    PluginEntry toc = null;
 
     Predicate<PluginEntry> filter =
         entry -> {
@@ -437,6 +465,14 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
               "Plugin %s: Multiple 'about' documents found; using %s",
               pluginName, about.getName().substring(prefix.length()));
         }
+      } else if (name.startsWith("toc.")) {
+        if (toc == null) {
+          toc = entry;
+        } else {
+          logger.atWarning().log(
+              "Plugin %s: Multiple 'toc' documents found; using %s",
+              pluginName, toc.getName().substring(prefix.length()));
+        }
       } else {
         docs.add(entry);
       }
@@ -451,31 +487,17 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     appendPluginInfoTable(md, scanner.getManifest().getMainAttributes());
 
     if (about != null) {
-      InputStreamReader isr = new InputStreamReader(scanner.getInputStream(about), UTF_8);
-      StringBuilder aboutContent = new StringBuilder();
-      try (BufferedReader reader = new BufferedReader(isr)) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-          line = StringUtils.stripEnd(line, null);
-          if (line.isEmpty()) {
-            aboutContent.append("\n");
-          } else {
-            aboutContent.append(line).append("\n");
-          }
-        }
-      }
-
-      // Only append the About section if there was anything in it
-      if (aboutContent.toString().trim().length() > 0) {
-        md.append("## About ##\n");
-        md.append("\n").append(aboutContent);
-      }
+      appendPageAsSection(scanner, about, "About", md);
     }
 
-    appendEntriesSection(scanner, docs, "Documentation", md, prefix, 0);
-    appendEntriesSection(scanner, servlets, "Servlets", md, prefix, "servlet-".length());
-    appendEntriesSection(scanner, restApis, "REST APIs", md, prefix, "rest-api-".length());
-    appendEntriesSection(scanner, cmds, "Commands", md, prefix, "cmd-".length());
+    if (toc != null) {
+      appendPageAsSection(scanner, toc, "Documentaion", md);
+    } else {
+      appendEntriesSection(scanner, docs, "Documentation", md, prefix, 0);
+      appendEntriesSection(scanner, servlets, "Servlets", md, prefix, "servlet-".length());
+      appendEntriesSection(scanner, restApis, "REST APIs", md, prefix, "rest-api-".length());
+      appendEntriesSection(scanner, cmds, "Commands", md, prefix, "cmd-".length());
+    }
 
     sendMarkdownAsHtml(md.toString(), pluginName, cacheKey, res, lastModifiedTime);
   }

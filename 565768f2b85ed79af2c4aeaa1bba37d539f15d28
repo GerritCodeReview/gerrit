@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a87d5225_8399796b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-17T09:43:37Z",
+      "side": 1,
+      "message": "And if approval copying is *not* set? I think I would prefer keeping the message and change it to \"... may have no effect.\".",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "565768f2b85ed79af2c4aeaa1bba37d539f15d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

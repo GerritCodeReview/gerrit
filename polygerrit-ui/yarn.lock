@@ -1229,6 +1229,11 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
 
+"@types/resemblejs@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@types/resemblejs/-/resemblejs-3.2.0.tgz#a2093fd6ae027d39b56ae279f362a4d83e00788f"
+  integrity sha512-YUBCCipw3DG0/FUswHAiamZcs+JBZlRr1aNs1T19AkfLZNtzV4VphmRLy6wJ3m1i9QxIfiBe3RnzVjHbjRqLaA==
+
 "@types/resolve@0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-0.0.8.tgz#f26074d238e02659e323ce1a13d041eee280e194"

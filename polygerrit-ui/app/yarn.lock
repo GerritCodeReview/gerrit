@@ -395,6 +395,11 @@
   dependencies:
     "@webcomponents/shadycss" "^1.9.1"
 
+"@types/resemblejs@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@types/resemblejs/-/resemblejs-3.2.0.tgz#a2093fd6ae027d39b56ae279f362a4d83e00788f"
+  integrity sha512-YUBCCipw3DG0/FUswHAiamZcs+JBZlRr1aNs1T19AkfLZNtzV4VphmRLy6wJ3m1i9QxIfiBe3RnzVjHbjRqLaA==
+
 "@types/resize-observer-browser@^0.1.5":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@types/resize-observer-browser/-/resize-observer-browser-0.1.5.tgz#36d897708172ac2380cd486da7a3daf1161c1e23"

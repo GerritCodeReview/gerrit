@@ -252,6 +252,8 @@ export class GrImageViewer extends LitElement {
       display: flex;
       align-items: center;
       margin: var(--spacing-xl);
+      /* Start a stacking context to contain FAB below. */
+      z-index: 0;
     }
     #version-switcher paper-button {
       flex-grow: 1;
@@ -264,7 +266,7 @@ export class GrImageViewer extends LitElement {
     }
     #version-switcher paper-fab {
       /* Round button overlaps Base and Revision buttons. */
-      z-index: 10;
+      z-index: 1;
       margin: 0 -12px;
       /* Styled as an outlined button. */
       color: var(--primary-button-background-color);

@@ -56,6 +56,30 @@
       },
       "revId": "f806724fe656599fec8f0abfedede2cbdf9856c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09f2f884_72573207",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-17T09:51:45Z",
+      "side": 1,
+      "message": "No, if the query is empty we return \u0027true\u0027 for any active account, see \ndefaultReviewerSuggestion test, that pass.",
+      "parentUuid": "dc5ed19d_b89514d0",
+      "range": {
+        "startLine": 237,
+        "startChar": 10,
+        "endLine": 237,
+        "endChar": 31
+      },
+      "revId": "f806724fe656599fec8f0abfedede2cbdf9856c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -322,6 +322,7 @@ export declare type ImageDiffAction =
   | {type: 'magnifier-clicked'}
   | {type: 'magnifier-dragged'}
   | {type: 'version-switcher-clicked'; button: 'base' | 'revision' | 'switch'}
+  | {type: 'highlight-changes-changed'; value: boolean}
   | {type: 'zoom-level-changed'; scale: number | 'fit'}
   | {type: 'follow-mouse-changed'; value: boolean}
   | {type: 'background-color-changed'; value: string}

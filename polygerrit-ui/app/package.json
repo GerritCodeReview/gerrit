@@ -45,5 +45,6 @@
     "rxjs": "^6.6.7"
   },
   "license": "Apache-2.0",
-  "private": true
+  "private": true,
+  "devDependencies": {}
 }

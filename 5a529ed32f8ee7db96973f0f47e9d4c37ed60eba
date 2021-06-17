@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d568f704_36695644",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeUpdateTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-17T12:33:44Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "95afa265_9b4f4e0d",
+      "range": {
+        "startLine": 134,
+        "startChar": 59,
+        "endLine": 134,
+        "endChar": 87
+      },
+      "revId": "5a529ed32f8ee7db96973f0f47e9d4c37ed60eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3683a34f_f9ccaa44",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-15T11:28:25Z",
       "side": 1,
       "message": "I think this test and the next one should switch names (the other one deletes votes, this doesn\u0027t).",
+      "range": {
+        "startLine": 147,
+        "startChar": 14,
+        "endLine": 147,
+        "endChar": 91
+      },
+      "revId": "5a529ed32f8ee7db96973f0f47e9d4c37ed60eba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a490b81_c95d21c9",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeUpdateTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-17T12:33:44Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "3683a34f_f9ccaa44",
       "range": {
         "startLine": 147,
         "startChar": 14,

@@ -217,6 +217,24 @@
       "parentUuid": "4e22fe71_25528c05",
       "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44fbac40_48f9793b",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-17T13:14:48Z",
+      "side": 1,
+      "message": "No, it is not independent.\n\nYou said that you just call `resortThreads` to trigger something. And I thought that assigning `this.selectedAuthors \u003d ...` will now trigger the same thing. So do we still need the call to `resortThreads()`?",
+      "parentUuid": "069b77a9_eb155ef4",
+      "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

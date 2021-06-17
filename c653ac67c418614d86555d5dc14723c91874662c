@@ -46,6 +46,30 @@
       },
       "revId": "c653ac67c418614d86555d5dc14723c91874662c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2f95301_2e6e5b51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-17T11:34:39Z",
+      "side": 1,
+      "message": "I can just add another alias to make it clearer, done.",
+      "parentUuid": "8df9c551_a92feeff",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "c653ac67c418614d86555d5dc14723c91874662c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

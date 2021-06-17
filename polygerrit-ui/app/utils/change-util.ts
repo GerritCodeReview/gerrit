@@ -187,11 +187,15 @@ export function isReviewer(
   account?: AccountInfo
 ): boolean {
   if (!change || !account) return false;
+  if (isOwner(change, account)) return false;
   const reviewers = change.reviewers.REVIEWER ?? [];
   return reviewers.some(r => r._account_id === account._account_id);
 }
 
-export function isCc(change?: ChangeInfo, account?: AccountInfo): boolean {
+export function isCc(
+  change?: ChangeInfo | ParsedChangeInfo,
+  account?: AccountInfo
+): boolean {
   if (!change || !account) return false;
   const ccs = change.reviewers.CC ?? [];
   return ccs.some(r => r._account_id === account._account_id);

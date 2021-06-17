@@ -3209,6 +3209,7 @@ This software is provided "as is", without any warranty.
 [[DefinitelyTyped]]
 DefinitelyTyped
 
+* @types/resemblejs
 * @types/resize-observer-browser
 
 [[DefinitelyTyped_license]]

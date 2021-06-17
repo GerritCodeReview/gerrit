@@ -622,6 +622,20 @@ exactly `my-merged-commit`. It doesn't walk all of history up to that
 point, which could be slow and create lots of unintended new changes.
 To create multiple new changes, run push multiple times.
 
+[[ignore-attention-set]]
+=== Ignore automatic attention set rules
+
+Normally, we add users to the attention set based on several rules such as adding
+reviewers, replying, and many others. The full rule list is in
+link:user-attention-set.html[Attention Set].
+
+--ignore-automatic-attention-set-rules (also known as -ias and
+-ignore-attention-set) can be used to keep the attention set as it were before
+the push.
+
+----
+  git push ssh://john.doe@git.example.com:29418/kernel/common my-merged-commit:refs/for/master%ias
+----
 
 == repo upload
 

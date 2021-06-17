@@ -111,6 +111,7 @@ import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.approval.ApprovalsUtil;
+import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.SetHashtagsOp;
@@ -1662,6 +1663,12 @@ class ReceiveCommits {
     @Option(name = "--create-cod-token", usage = "create a token for consistency-on-demand")
     private boolean createCodToken;
 
+    @Option(
+        name = "--ignore-automatic-attention-set-rules",
+        aliases = {"-ias", "-ignore-attention-set"},
+        usage = "do not change the attention set on this push")
+    boolean ignoreAttentionSet;
+
     MagicBranchInput(
         IdentifiedUser user, ProjectState projectState, ReceiveCommand cmd, LabelTypes labelTypes) {
       this.user = user;
@@ -2651,6 +2658,9 @@ class ReceiveCommits {
           }
           if (!Strings.isNullOrEmpty(magicBranch.topic)) {
             bu.addOp(changeId, setTopicFactory.create(magicBranch.topic));
+          }
+          if (magicBranch.ignoreAttentionSet) {
+            bu.addOp(changeId, new AttentionSetUnchangedOp());
           }
           bu.addOp(
               changeId,

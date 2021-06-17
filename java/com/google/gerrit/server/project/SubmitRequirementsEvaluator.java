@@ -66,6 +66,7 @@ public class SubmitRequirementsEvaluator {
             : Optional.empty();
 
     return SubmitRequirementResult.builder()
+        .submitRequirement(sr)
         .submittabilityExpressionResult(blockingResult)
         .applicabilityExpressionResult(applicabilityResult)
         .overrideExpressionResult(overrideResult)
@@ -79,9 +80,9 @@ public class SubmitRequirementsEvaluator {
       Predicate<ChangeData> predicate =
           changeQueryBuilderProvider.get().parse(expression.expressionString());
       PredicateResult predicateResult = evaluatePredicateTree(predicate, changeData);
-      return SubmitRequirementExpressionResult.create(predicateResult);
+      return SubmitRequirementExpressionResult.create(expression, predicateResult);
     } catch (QueryParseException e) {
-      return SubmitRequirementExpressionResult.error(e.getMessage());
+      return SubmitRequirementExpressionResult.error(expression, e.getMessage());
     }
   }
 

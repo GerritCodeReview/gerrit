@@ -22,51 +22,58 @@ import java.util.Optional;
 @AutoValue
 public abstract class SubmitRequirementExpressionResult {
 
-  /**
-   * Entity detailing the result of evaluating a Submit requirement expression. Contains an empty
-   * {@link Optional} if {@link #status()} is equal to {@link Status#ERROR}.
-   */
-  public abstract Optional<PredicateResult> predicateResult();
+  /** Submit requirement expression for which this result is evaluated. */
+  public abstract SubmitRequirementExpression expression();
 
+  /** Status of evaluation. */
+  public abstract Status status();
+
+  /**
+   * Optional error message. Populated if the evaluator fails to evaluate the expression for a
+   * certain change.
+   */
   public abstract Optional<String> errorMessage();
 
-  public Status status() {
-    if (predicateResult().isPresent()) {
-      return predicateResult().get().status() ? Status.PASS : Status.FAIL;
-    }
-    return Status.ERROR;
-  }
-
-  public static SubmitRequirementExpressionResult create(PredicateResult predicateResult) {
-    return new AutoValue_SubmitRequirementExpressionResult(
-        Optional.of(predicateResult), Optional.empty());
-  }
-
-  public static SubmitRequirementExpressionResult error(String errorMessage) {
-    return new AutoValue_SubmitRequirementExpressionResult(
-        Optional.empty(), Optional.of(errorMessage));
-  }
+  /**
+   * List leaf predicates that are fulfilled, for example the expression
+   *
+   * <p><i>label:code-review=+2 and branch:refs/heads/master</i>
+   *
+   * <p>has two leaf predicates:
+   *
+   * <ul>
+   *   <li>label:code-review=+2
+   *   <li>branch:refs/heads/master
+   * </ul>
+   *
+   * This method will return the leaf predicates that were fulfilled, for example if only the first
+   * predicate was fulfilled, the returned list will be equal to ["label:code-review=+2"].
+   */
+  public abstract ImmutableList<String> passingAtoms();
 
   /**
-   * Returns a list of leaf predicate results whose {@link PredicateResult#status()} is true. If
-   * {@link #status()} is equal to {@link Status#ERROR}, an empty list is returned.
+   * List of leaf predicates that are not fulfilled. See {@link #passingAtoms()} for more details.
    */
-  public ImmutableList<PredicateResult> getPassingAtoms() {
-    if (predicateResult().isPresent()) {
-      return predicateResult().get().getAtoms(/* status= */ true);
-    }
-    return ImmutableList.of();
+  public abstract ImmutableList<String> failingAtoms();
+
+  public static SubmitRequirementExpressionResult create(
+      SubmitRequirementExpression expression, PredicateResult predicateResult) {
+    return new AutoValue_SubmitRequirementExpressionResult(
+        expression,
+        predicateResult.status() ? Status.PASS : Status.FAIL,
+        Optional.empty(),
+        predicateResult.getPassingAtoms(),
+        predicateResult.getFailingAtoms());
   }
 
-  /**
-   * Returns a list of leaf predicate results whose {@link PredicateResult#status()} is false. If
-   * {@link #status()} is equal to {@link Status#ERROR}, an empty list is returned.
-   */
-  public ImmutableList<PredicateResult> getFailingAtoms() {
-    if (predicateResult().isPresent()) {
-      return predicateResult().get().getAtoms(/* status= */ false);
-    }
-    return ImmutableList.of();
+  public static SubmitRequirementExpressionResult error(
+      SubmitRequirementExpression expression, String errorMessage) {
+    return new AutoValue_SubmitRequirementExpressionResult(
+        expression,
+        Status.ERROR,
+        Optional.of(errorMessage),
+        ImmutableList.of(),
+        ImmutableList.of());
   }
 
   public enum Status {
@@ -103,11 +110,25 @@ public abstract class SubmitRequirementExpressionResult {
     /** true if the predicate is passing for a given change. */
     abstract boolean status();
 
+    /** Returns a list of leaf predicate results whose {@link PredicateResult#status()} is true. */
+    ImmutableList<String> getPassingAtoms() {
+      return getAtoms(/* status= */ true).stream()
+          .map(PredicateResult::predicateString)
+          .collect(ImmutableList.toImmutableList());
+    }
+
+    /** Returns a list of leaf predicate results whose {@link PredicateResult#status()} is false. */
+    ImmutableList<String> getFailingAtoms() {
+      return getAtoms(/* status= */ false).stream()
+          .map(PredicateResult::predicateString)
+          .collect(ImmutableList.toImmutableList());
+    }
+
     /**
      * Returns the list of leaf {@link PredicateResult} whose {@link #status()} is equal to the
      * {@code status} parameter.
      */
-    ImmutableList<PredicateResult> getAtoms(boolean status) {
+    private ImmutableList<PredicateResult> getAtoms(boolean status) {
       ImmutableList.Builder<PredicateResult> atomsList = ImmutableList.builder();
       getAtomsRecursively(atomsList, status);
       return atomsList.build();

@@ -29,7 +29,6 @@ import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
-import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -102,25 +101,14 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     assertThat(result.status()).isEqualTo(Status.PASS);
 
-    assertThat(result.getPassingAtoms())
-        .containsExactly(
-            PredicateResult.builder()
-                .predicateString(String.format("project:%s", project.get()))
-                .status(true)
-                .build(),
-            PredicateResult.builder()
-                .predicateString("message:\"Fix a bug\"")
-                .status(true)
-                .build());
+    assertThat(result.passingAtoms())
+        .containsExactly(String.format("project:%s", project.get()), "message:\"Fix a bug\"");
 
-    assertThat(result.getFailingAtoms())
+    assertThat(result.failingAtoms())
         .containsExactly(
-            PredicateResult.builder()
-                // TODO(ghareeb): querying "branch:" creates a RefPredicate. Fix names so that they
-                // match
-                .predicateString(String.format("ref:refs/heads/foo"))
-                .status(false)
-                .build());
+            // TODO(ghareeb): querying "branch:" creates a RefPredicate. Fix names so that they
+            // match
+            String.format("ref:refs/heads/foo"));
   }
 
   @Test

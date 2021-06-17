@@ -63,7 +63,6 @@ import com.google.gerrit.entities.SubmitRecord.Status;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
-import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -411,10 +410,8 @@ public class ChangeJson {
     SubmitRequirementExpressionInfo info = new SubmitRequirementExpressionInfo();
     info.expression = expression.expressionString();
     info.fulfilled = result.status().equals(SubmitRequirementExpressionResult.Status.PASS);
-    info.passingAtoms =
-        result.getPassingAtoms().stream().map(PredicateResult::predicateString).collect(toList());
-    info.failingAtoms =
-        result.getFailingAtoms().stream().map(PredicateResult::predicateString).collect(toList());
+    info.passingAtoms = result.passingAtoms();
+    info.failingAtoms = result.failingAtoms();
     return info;
   }
 

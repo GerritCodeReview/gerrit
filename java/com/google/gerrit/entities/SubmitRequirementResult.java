@@ -22,6 +22,9 @@ import java.util.Optional;
 /** Result of evaluating a {@link SubmitRequirement} on a given Change. */
 @AutoValue
 public abstract class SubmitRequirementResult {
+  /** Submit requirement for which this result is evaluated. */
+  public abstract SubmitRequirement submitRequirement();
+
   /** Result of evaluating a {@link SubmitRequirement#applicabilityExpression()} on a change. */
   public abstract Optional<SubmitRequirementExpressionResult> applicabilityExpressionResult();
 
@@ -85,6 +88,7 @@ public abstract class SubmitRequirementResult {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    public abstract Builder submitRequirement(SubmitRequirement submitRequirement);
 
     public abstract Builder applicabilityExpressionResult(
         Optional<SubmitRequirementExpressionResult> value);

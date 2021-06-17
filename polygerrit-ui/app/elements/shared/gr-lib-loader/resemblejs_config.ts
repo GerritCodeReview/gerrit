@@ -19,7 +19,7 @@ import {LibraryConfig} from './gr-lib-loader';
 export const RESEMBLEJS_LIBRARY_CONFIG: LibraryConfig = {
   // TODO(hermannloose): Set up serving for this.
   src: 'NOT_YET_IMPLEMENTED',
-  checkPresent: () =>  window.resemble !== undefined,
+  checkPresent: () => window.resemble !== undefined,
   configureCallback: () => {
     window.resemble!.outputSettings({
       errorColor: {red: 255, green: 0, blue: 255},

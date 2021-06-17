@@ -22,6 +22,9 @@ import com.google.inject.Singleton;
 /**
  * Stores the updated refs whenever they are updated, so that we can export this information in the
  * response headers.
+ *
+ * <p>This is only working for HTTP requests. {@link WebSession} is not bound outside of HTTP
+ * requests.
  */
 @Singleton
 public class GitReferenceUpdatedTracker implements GitReferenceUpdatedListener {
@@ -35,7 +38,15 @@ public class GitReferenceUpdatedTracker implements GitReferenceUpdatedListener {
 
   @Override
   public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
-    WebSession currentSession = webSession.get();
+    WebSession currentSession = null;
+    try {
+      currentSession = webSession.get();
+    } catch (Exception ex) {
+      // We couldn't bind the current session properly. This is expected to happen at any point we
+      // perform ref updates without an HTTP request (git push for example).
+      // If we can't get a WebSession, we don't need to track the updated references.
+      return;
+    }
     if (currentSession != null) {
       currentSession.addRefUpdatedEvents(event);
     }

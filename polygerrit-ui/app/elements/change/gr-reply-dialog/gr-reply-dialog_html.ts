@@ -552,7 +552,7 @@ export const htmlTemplate = html`
             id="notLatestLabel"
             hidden$="[[!_isState(knownLatestState, 'not-latest')]]"
           >
-            [[_computePatchSetWarning(patchNum, _labelsChanged)]]
+            [[_computePatchSetWarning(patchNum)]]
             <gr-button link="" on-click="_reload">Reload</gr-button>
           </span>
         </div>

@@ -1322,11 +1322,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _computePatchSetWarning(patchNum?: PatchSetNum, labelsChanged?: boolean) {
-    let str = `Patch ${patchNum} is not latest.`;
-    if (labelsChanged) {
-      str += ' Voting will have no effect.';
-    }
+  _computePatchSetWarning(patchNum?: PatchSetNum) {
+    const str = `Patch ${patchNum} is not latest.`;
     return str;
   }
 

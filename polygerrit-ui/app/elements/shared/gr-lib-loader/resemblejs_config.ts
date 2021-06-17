@@ -17,7 +17,7 @@
 import {LibraryConfig} from './gr-lib-loader';
 
 export const RESEMBLEJS_LIBRARY_CONFIG: LibraryConfig = {
-  src: '/bower_components/resemblejs/resemble.js',
+  src: 'bower_components/resemblejs/resemble.js',
   checkPresent: () => window.resemble !== undefined,
   configureCallback: () => {
     window.resemble!.outputSettings({

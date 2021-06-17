@@ -16,6 +16,46 @@
       "message": "nice",
       "revId": "f806724fe656599fec8f0abfedede2cbdf9856c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a65e7dc_e5d050da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-17T09:40:58Z",
+      "side": 1,
+      "message": "Could you please add context in the commit message to why this change is needed?\n\n",
+      "revId": "f806724fe656599fec8f0abfedede2cbdf9856c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc5ed19d_b89514d0",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-17T09:40:58Z",
+      "side": 1,
+      "message": "Is this doing what\u0027s intended?\n\nIf account is active and query is empty (or null), then now with this change we don\u0027t get suggestions. I believe we don\u0027t want to do that.",
+      "range": {
+        "startLine": 237,
+        "startChar": 10,
+        "endLine": 237,
+        "endChar": 31
+      },
+      "revId": "f806724fe656599fec8f0abfedede2cbdf9856c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

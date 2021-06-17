@@ -70,6 +70,30 @@
       },
       "revId": "c653ac67c418614d86555d5dc14723c91874662c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8a77300_a99b7a4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-06-17T12:13:53Z",
+      "side": 1,
+      "message": "\"ignore\" refers to perception (\u003d\u003d input), while this is about (not) affecting an action (\u003d\u003d output). so you can\u0027t use \"ignore\" when the rules are not explicitly mentioned. specifically the formulation \"ignore ... update\" simply makes no semantic sense here - it suggests that some notification about an actually performed update is being ignored.\n\ni think it would be preferable to add a \"more correct\" alias to the pre-existing api instead. but i don\u0027t think a short non-ambiguous name is even possible; \"skip-attention-set\" would suggest ignoring even explicitly provided updates, which is obviously not meant.",
+      "parentUuid": "d2f95301_2e6e5b51",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "c653ac67c418614d86555d5dc14723c91874662c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

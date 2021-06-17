@@ -124,6 +124,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17b01b40_4dfe20c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-17T07:42:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a93d8457_834138e2",
+      "range": {
+        "startLine": 220,
+        "startChar": 46,
+        "endLine": 220,
+        "endChar": 63
+      },
+      "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cec6e9d5_a913c452",
@@ -173,6 +197,24 @@
       "side": 1,
       "message": "What about my suggestion?\n\n\u003e Should `selectedAuthors` be a parameter of `_shouldShowThread()`?",
       "parentUuid": "7b5b9f05_8d74b046",
+      "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "069b77a9_eb155ef4",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-17T07:42:48Z",
+      "side": 1,
+      "message": "I guess that is independent of the call to resortThreads?\nAdded as a parameter.",
+      "parentUuid": "4e22fe71_25528c05",
       "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

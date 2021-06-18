@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "633b45d2_e52d85a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-18T00:35:27Z",
+      "side": 1,
+      "message": "I believe this change is getting too big: the approach of changing all APIs that are using the attention-set for adding this extra flag looks very invasive.\nThe initial approach looked better, or am I missing something?",
+      "revId": "d8f6637950e81077ce42f31a028f628d523d3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

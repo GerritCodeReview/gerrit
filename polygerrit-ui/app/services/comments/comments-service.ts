@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-import {NumericChangeId, RevisionId} from '../../types/common';
+import {NumericChangeId, PatchSetNum, RevisionId} from '../../types/common';
+import {UndoDiscardEvent} from '../../types/events';
 import {DraftInfo} from '../../utils/comment-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
@@ -27,6 +28,8 @@ import {
   updateStateDrafts,
   updateStatePortedComments,
   updateStatePortedDrafts,
+  updateStateUndoDiscardedDraft,
+  getDiscardedDraft,
 } from './comments-model';
 
 export class CommentsService {
@@ -56,6 +59,19 @@ export class CommentsService {
     this.restApiService
       .getPortedDrafts(changeNum, revision)
       .then(portedDrafts => updateStatePortedDrafts(portedDrafts));
+  }
+
+  restoreDraft(changeNum: NumericChangeId, patchNum: PatchSetNum, draftID: string) {
+    const draft = getDiscardedDraft(draftID);
+    if (!draft) throw new Error('discarded draft not found');
+    delete draft.id;
+    this.restApiService.saveDiffDraft(changeNum, patchNum, draft).then(result => {
+      if (!result.ok) {
+        // show alert here that saving the draft failed
+        return;
+      }
+      updateStateUndoDiscardedDraft(draftID);
+    })
   }
 
   addDraft(draft: DraftInfo) {

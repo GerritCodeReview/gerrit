@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f225e49b_5e86aced",
+        "filename": "java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-18T13:15:46Z",
+      "side": 1,
+      "message": "nit: The argument for Patch.isMagic() isn\u0027t @Nullable, so \"\" seems a bit more accurate.",
+      "range": {
+        "startLine": 116,
+        "startChar": 59,
+        "endLine": 116,
+        "endChar": 63
+      },
+      "revId": "13cbdf3c6ef7655bd4ce80d63c110751109db43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

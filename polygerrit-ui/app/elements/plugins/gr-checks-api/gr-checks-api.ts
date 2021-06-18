@@ -18,7 +18,7 @@ import {PluginApi} from '../../../api/plugin';
 import {
   ChecksApiConfig,
   ChecksProvider,
-  ChecksPluginApi,
+  ChecksPluginApi, CheckResult, CheckRun,
 } from '../../../api/checks';
 import {appContext} from '../../../services/app-context';
 
@@ -52,6 +52,13 @@ export class GrChecksApi implements ChecksPluginApi {
   announceUpdate() {
     this.reporting.trackApi(this.plugin, 'checks', 'announceUpdate');
     this.checksService.reload(this.plugin.getPluginName());
+  }
+
+  updateResult(run: CheckRun, result: CheckResult) {
+    if (result.externalId === undefined) {
+      throw new Error('ChecksApi.updateResult() was called without externalId');
+    }
+    this.checksService.updateResult(this.plugin.getPluginName(), run, result);
   }
 
   register(provider: ChecksProvider, config?: ChecksApiConfig): void {

@@ -24,7 +24,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import {
-  ChangeData,
+  ChangeData, CheckResult, CheckRun,
   ChecksApiConfig,
   ChecksProvider,
   FetchResponse,
@@ -40,7 +40,7 @@ import {
   updateStateSetNotLoggedIn,
   updateStateSetPatchset,
   updateStateSetProvider,
-  updateStateSetResults,
+  updateStateSetResults, updateStateUpdateResult,
 } from './checks-model';
 import {
   BehaviorSubject,
@@ -109,6 +109,11 @@ export class ChecksService {
     if (!checkName) return;
     const plugin = this.checkToPluginMap.get(checkName);
     if (plugin) this.reload(plugin);
+  }
+
+  updateResult(pluginName: string, run: CheckRun, result: CheckResult) {
+    updateStateUpdateResult(pluginName, run, result, ChecksPatchset.LATEST);
+    updateStateUpdateResult(pluginName, run, result, ChecksPatchset.SELECTED);
   }
 
   register(

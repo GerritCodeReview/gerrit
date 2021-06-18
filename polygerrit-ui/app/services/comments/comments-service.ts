@@ -16,6 +16,7 @@
  */
 
 import {NumericChangeId, RevisionId} from '../../types/common';
+import {UndoDiscardEvent} from '../../types/events';
 import {DraftInfo} from '../../utils/comment-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
@@ -27,10 +28,15 @@ import {
   updateStateDrafts,
   updateStatePortedComments,
   updateStatePortedDrafts,
+  updateStateUndoDiscardedDraft,
 } from './comments-model';
 
 export class CommentsService {
-  constructor(readonly restApiService: RestApiService) {}
+  constructor(readonly restApiService: RestApiService) {
+    document.addEventListener('undo-discard-draft', (e: UndoDiscardEvent) => {
+      updateStateUndoDiscardedDraft(e.detail.draftID);
+    });
+  }
 
   /**
    * Load all comments (with drafts and robot comments) for the given change

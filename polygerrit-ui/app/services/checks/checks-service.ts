@@ -57,6 +57,7 @@ import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {routerPatchNum$} from '../router/router-model';
+import {Execution} from '../../constants/reporting';
 
 export class ChecksService {
   private readonly providers: {[name: string]: ChecksProvider} = {};
@@ -173,17 +174,24 @@ export class ChecksService {
           // the Observable has terminated and we won't recover from that. No
           // further attempts to fetch results for this plugin will be made.
           this.reporting.error(e, `checks-service crash for ${pluginName}`);
-          return of(this.createErrorResponse(pluginName, `${e}`));
+          return of(this.createErrorResponse(pluginName, e));
         })
       )
       .subscribe(response => {
         switch (response.responseCode) {
           case ResponseCode.ERROR:
             assertIsDefined(response.errorMessage, 'errorMessage');
+            this.reporting.reportExecution(Execution.CHECKS_API_ERROR, {
+              plugin: pluginName,
+              message: response.errorMessage,
+            });
             updateStateSetError(pluginName, response.errorMessage, patchset);
             break;
           case ResponseCode.NOT_LOGGED_IN:
             assertIsDefined(response.loginCallback, 'loginCallback');
+            this.reporting.reportExecution(Execution.CHECKS_API_NOT_LOGGED_IN, {
+              plugin: pluginName,
+            });
             updateStateSetNotLoggedIn(
               pluginName,
               response.loginCallback,
@@ -212,11 +220,13 @@ export class ChecksService {
 
   private createErrorResponse(
     pluginName: string,
-    message: string
+    message: object
   ): FetchResponse {
     return {
       responseCode: ResponseCode.ERROR,
-      errorMessage: `Error message from plugin '${pluginName}': ${message}`,
+      errorMessage:
+        `Error message from plugin '${pluginName}':` +
+        ` ${JSON.stringify(message)}`,
     };
   }
 
@@ -234,7 +244,7 @@ export class ChecksService {
         return response;
       });
     return from(fetchPromise).pipe(
-      catchError(e => of(this.createErrorResponse(pluginName, `${e}`)))
+      catchError(e => of(this.createErrorResponse(pluginName, e)))
     );
   }
 }

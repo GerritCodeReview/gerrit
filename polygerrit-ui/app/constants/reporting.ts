@@ -30,6 +30,8 @@ export enum Execution {
   PLUGIN_API = 'plugin-api',
   REACHABLE_CODE = 'reachable code',
   METHOD_USED = 'method used',
+  CHECKS_API_NOT_LOGGED_IN = 'checks-api not-logged-in',
+  CHECKS_API_ERROR = 'checks-api error',
 }
 
 export enum Timing {

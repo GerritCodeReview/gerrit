@@ -16,6 +16,24 @@
       "message": "For some reason, refs/heads/master is still included in the result. Is there something wrong that I don\u0027t understand with ref permissions?",
       "revId": "7a87b2d6b54bbdba1ba44b94f61dd62ac2fb592f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c37aa4e2_d55a8b9a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-18T13:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bea1e196_d5822a77",
+      "revId": "7a87b2d6b54bbdba1ba44b94f61dd62ac2fb592f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -28,9 +28,9 @@ export const htmlTemplate = html`
       border-radius: var(--border-radius);
       box-shadow: var(--elevation-level-2);
       color: var(--tooltip-text-color);
-      left: 1.25rem;
+      left: 50%;
       position: fixed;
-      transform: translateY(5rem);
+      transform: translateX(-50%) translateY(5rem);
       transition: transform var(--gr-alert-transition-duration, 80ms) ease-out;
       z-index: 1000;
     }

@@ -17,9 +17,13 @@ package com.google.gerrit.server.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.entities.RefNames.REFS_TAGS;
 
+import com.google.common.truth.Correspondence;
+import com.google.gerrit.truth.NullAwareCorrespondence;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -112,8 +116,12 @@ public class IncludedInResolverTest {
     IncludedInResolver.Result detail = resolve(commit_v2_5);
 
     // Check that only tags and branches which refer the tip are returned
-    assertThat(detail.tags()).containsExactly(TAG_2_5, TAG_2_5_ANNOTATED, TAG_2_5_ANNOTATED_TWICE);
-    assertThat(detail.branches()).containsExactly(BRANCH_2_5);
+    assertThat(detail.tags())
+        .comparingElementsUsing(hasShortName())
+        .containsExactly(TAG_2_5, TAG_2_5_ANNOTATED, TAG_2_5_ANNOTATED_TWICE);
+    assertThat(detail.branches())
+        .comparingElementsUsing(hasShortName())
+        .containsExactly(BRANCH_2_5);
   }
 
   @Test
@@ -123,6 +131,7 @@ public class IncludedInResolverTest {
 
     // Check whether all tags and branches are returned
     assertThat(detail.tags())
+        .comparingElementsUsing(hasShortName())
         .containsExactly(
             TAG_1_0,
             TAG_1_0_1,
@@ -133,6 +142,7 @@ public class IncludedInResolverTest {
             TAG_2_5_ANNOTATED,
             TAG_2_5_ANNOTATED_TWICE);
     assertThat(detail.branches())
+        .comparingElementsUsing(hasShortName())
         .containsExactly(BRANCH_MASTER, BRANCH_1_0, BRANCH_1_3, BRANCH_2_0, BRANCH_2_5);
   }
 
@@ -143,8 +153,11 @@ public class IncludedInResolverTest {
 
     // Check whether all succeeding tags and branches are returned
     assertThat(detail.tags())
+        .comparingElementsUsing(hasShortName())
         .containsExactly(TAG_1_3, TAG_2_5, TAG_2_5_ANNOTATED, TAG_2_5_ANNOTATED_TWICE);
-    assertThat(detail.branches()).containsExactly(BRANCH_1_3, BRANCH_2_5);
+    assertThat(detail.branches())
+        .comparingElementsUsing(hasShortName())
+        .containsExactly(BRANCH_1_3, BRANCH_2_5);
   }
 
   private IncludedInResolver.Result resolve(RevCommit commit) throws Exception {
@@ -153,5 +166,10 @@ public class IncludedInResolverTest {
 
   private RevTag tag(String name, RevObject dest) throws Exception {
     return tr.update(REFS_TAGS + name, tr.tag(name, dest));
+  }
+
+  private static Correspondence<Ref, String> hasShortName() {
+    return NullAwareCorrespondence.transforming(
+        ref -> Repository.shortenRefName(ref.getName()), "has short name");
   }
 }

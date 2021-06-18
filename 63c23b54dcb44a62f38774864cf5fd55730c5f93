@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b733c0d_702d8842",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-18T11:09:57Z",
+      "side": 1,
+      "message": "Seems like the tabbing options jump over the Actions attached to the check run name in the result\u0027s row and also jumps over the actions (and links if any). \n\nWhen the user tab into the row, show focus on the check name and then show on focus all the actions and links available as users are tabbing. ",
+      "revId": "63c23b54dcb44a62f38774864cf5fd55730c5f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ba86323_88506c57",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-18T11:09:57Z",
+      "side": 1,
+      "message": "At the moment, the focus state has a lighter blue compared to the hover state. Focus has a darker color than hover.\n\nThe focus state is --blue-700 at 12% opacity, we have this color defined as --info-background-focus in the app theme",
+      "range": {
+        "startLine": 183,
+        "startChar": 26,
+        "endLine": 183,
+        "endChar": 54
+      },
+      "revId": "63c23b54dcb44a62f38774864cf5fd55730c5f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cac50acb_18de41e3",
         "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
         "patchSetId": 1

@@ -22,6 +22,98 @@
       },
       "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "870cbdc5_d92b706a",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1016062
+      },
+      "writtenOn": "2021-06-18T17:25:26Z",
+      "side": 1,
+      "message": "nit: curious about inconsistency: type annotation is present here, but not in L750.",
+      "range": {
+        "startLine": 744,
+        "startChar": 12,
+        "endLine": 744,
+        "endChar": 24
+      },
+      "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73361bc1_8be5a76e",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1016062
+      },
+      "writtenOn": "2021-06-18T17:25:26Z",
+      "side": 1,
+      "message": "seems redundant? if it is falsy, then it is not \u003d\u003d\u003d ?",
+      "range": {
+        "startLine": 751,
+        "startChar": 10,
+        "endLine": 751,
+        "endChar": 31
+      },
+      "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2b8ef06_123e8cf6",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1016062
+      },
+      "writtenOn": "2021-06-18T17:25:26Z",
+      "side": 1,
+      "message": "FWIU, this means that if updatedResult does not include property X, then X\u0027s value is taken from the previous version of the CheckResult?\n\nCurrently it is not obvious from the documentation in checks.ts.\nCould you document this behavior?",
+      "range": {
+        "startLine": 754,
+        "startChar": 14,
+        "endLine": 754,
+        "endChar": 44
+      },
+      "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7897bb0_0570ab97",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1016062
+      },
+      "writtenOn": "2021-06-18T17:25:26Z",
+      "side": 1,
+      "message": "curious, why do we need to create the whole object (and also above)?\nas opposed to just updating its \"runs\" attribute.",
+      "range": {
+        "startLine": 762,
+        "startChar": 4,
+        "endLine": 762,
+        "endChar": 7
+      },
+      "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be33b419_1729d37c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-18T08:52:13Z",
+      "side": 1,
+      "message": "I totally agree, I think it is becoming too invasive. I am moving back to the initial approach. Even if not perfect at least it will be less invasive.",
+      "parentUuid": "6394efe4_3271d8b3",
+      "revId": "d8f6637950e81077ce42f31a028f628d523d3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c1fc170_e77250a4",

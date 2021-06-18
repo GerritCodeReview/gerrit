@@ -235,6 +235,24 @@
       "parentUuid": "069b77a9_eb155ef4",
       "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52b515bc_09cbd33d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-18T08:37:44Z",
+      "side": 1,
+      "message": "Removed the unnecessary call to resortThreads.\n\nIdeally we remove this method and let updateSortedThreads observe on dropdownState but the method has this hacky check of thread length, where it doesn\u0027t trigger the sorting if the length doesn\u0027t change so I kept this method to trigger re-sorting.\n\nMentioned this as a comment.",
+      "parentUuid": "44fbac40_48f9793b",
+      "revId": "860f0b3fecdfff4644beb90ef06b4fccccf39ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

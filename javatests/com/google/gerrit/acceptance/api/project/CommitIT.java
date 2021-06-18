@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
@@ -93,6 +95,51 @@ public class CommitIT extends AbstractDaemonTest {
 
     assertThat(getIncludedIn(result.getCommit().getId()).branches)
         .containsExactly("master", "test-branch");
+  }
+
+  @Test
+  public void includedInMergedChange_filtersOutNonVisibleBranches() throws Exception {
+    Result baseChange = createChange();
+    gApi.changes()
+        .id(baseChange.getChangeId())
+        .revision(baseChange.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(baseChange.getChangeId()).revision(baseChange.getCommit().name()).submit();
+
+    createBranch(BranchNameKey.create(project, "test-branch-1"));
+    createBranch(BranchNameKey.create(project, "test-branch-2"));
+
+    Result changeBranch1 = createChange("refs/for/test-branch-1");
+    gApi.changes()
+        .id(changeBranch1.getChangeId())
+        .revision(changeBranch1.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(changeBranch1.getChangeId())
+        .revision(changeBranch1.getCommit().name())
+        .submit();
+
+    Result changeBranch2 = createChange("refs/for/test-branch-2");
+    gApi.changes()
+        .id(changeBranch2.getChangeId())
+        .revision(changeBranch2.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(changeBranch2.getChangeId())
+        .revision(changeBranch2.getCommit().name())
+        .submit();
+
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).branches)
+        .containsExactly("master", "test-branch-1", "test-branch-2");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/test-branch-1").group(REGISTERED_USERS))
+        .update();
+
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).branches)
+        .containsExactly("master", "test-branch-2");
   }
 
   @Test

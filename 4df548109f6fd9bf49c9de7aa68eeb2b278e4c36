@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "586427fb_a053c16d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-18T09:07:51Z",
+      "side": 1,
+      "message": "Updated to match the style of patchset picker dropdown.",
+      "parentUuid": "ed900311_8f271aa5",
+      "range": {
+        "startLine": 59,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 18
+      },
+      "revId": "4df548109f6fd9bf49c9de7aa68eeb2b278e4c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b490c3fd_9ec1efe6",
@@ -71,6 +95,30 @@
       "writtenOn": "2021-06-02T17:28:30Z",
       "side": 1,
       "message": "Currently, in the screenshot, it shows as \"Unresolved(2)\" \nWe would need to add a spacing between Unresolved and (2) to show \"Unresolved (2)\"",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 33
+      },
+      "revId": "4df548109f6fd9bf49c9de7aa68eeb2b278e4c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b684a3ac_cfdce01d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-18T09:07:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b490c3fd_9ec1efe6",
       "range": {
         "startLine": 117,
         "startChar": 0,
@@ -98,6 +146,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f825ad0c_44f0e31c",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-18T09:07:51Z",
+      "side": 1,
+      "message": "Now updated to use same style as Patchset picker dropdown.",
+      "parentUuid": "edf08e7e_2002ffc1",
+      "revId": "4df548109f6fd9bf49c9de7aa68eeb2b278e4c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "807c19df_df1d3268",
@@ -111,6 +177,30 @@
       "writtenOn": "2021-06-02T17:28:30Z",
       "side": 1,
       "message": "To align with the proposed mocks we would need to add a divider between filters and fix the spacing. \nPTAL at the specs links in the bug for spacing between dropdowns and also between \"Filter by\" text and dropdown.",
+      "range": {
+        "startLine": 68,
+        "startChar": 5,
+        "endLine": 78,
+        "endChar": 27
+      },
+      "revId": "4df548109f6fd9bf49c9de7aa68eeb2b278e4c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccda2367_e1b41a07",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-18T09:07:51Z",
+      "side": 1,
+      "message": "Done\nUpdated screenshots as well.",
+      "parentUuid": "807c19df_df1d3268",
       "range": {
         "startLine": 68,
         "startChar": 5,

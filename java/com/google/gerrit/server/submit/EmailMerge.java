@@ -16,7 +16,6 @@ package com.google.gerrit.server.submit;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -42,7 +41,7 @@ class EmailMerge implements Runnable, RequestContext {
     EmailMerge create(
         Project.NameKey project,
         Change change,
-        Account.Id submitter,
+        IdentifiedUser submitter,
         NotifyResolver.Result notify,
         RepoView repoView,
         String stickyApprovalDiff);
@@ -51,12 +50,11 @@ class EmailMerge implements Runnable, RequestContext {
   private final ExecutorService sendEmailsExecutor;
   private final MergedSender.Factory mergedSenderFactory;
   private final ThreadLocalRequestContext requestContext;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final MessageIdGenerator messageIdGenerator;
 
   private final Project.NameKey project;
   private final Change change;
-  private final Account.Id submitter;
+  private final IdentifiedUser submitter;
   private final NotifyResolver.Result notify;
   private final RepoView repoView;
   private final String stickyApprovalDiff;
@@ -66,18 +64,16 @@ class EmailMerge implements Runnable, RequestContext {
       @SendEmailExecutor ExecutorService executor,
       MergedSender.Factory mergedSenderFactory,
       ThreadLocalRequestContext requestContext,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
       MessageIdGenerator messageIdGenerator,
       @Assisted Project.NameKey project,
       @Assisted Change change,
-      @Assisted @Nullable Account.Id submitter,
+      @Assisted @Nullable IdentifiedUser submitter,
       @Assisted NotifyResolver.Result notify,
       @Assisted RepoView repoView,
       @Assisted String stickyApprovalDiff) {
     this.sendEmailsExecutor = executor;
     this.mergedSenderFactory = mergedSenderFactory;
     this.requestContext = requestContext;
-    this.identifiedUserFactory = identifiedUserFactory;
     this.messageIdGenerator = messageIdGenerator;
     this.project = project;
     this.change = change;
@@ -99,7 +95,7 @@ class EmailMerge implements Runnable, RequestContext {
       MergedSender emailSender =
           mergedSenderFactory.create(project, change.getId(), Optional.of(stickyApprovalDiff));
       if (submitter != null) {
-        emailSender.setFrom(submitter);
+        emailSender.setFrom(submitter.getAccountId());
       }
       emailSender.setNotify(notify);
       emailSender.setMessageId(
@@ -120,7 +116,7 @@ class EmailMerge implements Runnable, RequestContext {
   @Override
   public CurrentUser getUser() {
     if (submitter != null) {
-      return identifiedUserFactory.create(submitter).getRealUser();
+      return submitter;
     }
     throw new OutOfScopeException("No user on email thread");
   }

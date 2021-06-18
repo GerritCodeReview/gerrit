@@ -920,7 +920,10 @@ suite('gr-comment tests', () => {
 
       element.comment!.message = '';
       element._messageText = '';
-      const eraseMessageDraftSpy = sinon.spy(element, '_eraseDraftComment');
+      const eraseMessageDraftSpy = sinon.spy(
+        element,
+        '_eraseDraftCommentFromStorage'
+      );
 
       // Save should be disabled on an empty message.
       let disabled = queryAndAssert(element, '.save').hasAttribute('disabled');
@@ -951,7 +954,10 @@ suite('gr-comment tests', () => {
 
     test('draft discard removes message from storage', done => {
       element._messageText = '';
-      const eraseMessageDraftSpy = sinon.spy(element, '_eraseDraftComment');
+      const eraseMessageDraftSpy = sinon.spy(
+        element,
+        '_eraseDraftCommentFromStorage'
+      );
       sinon.stub(element, '_closeConfirmDiscardOverlay');
 
       element.addEventListener('comment-discard', () => {
@@ -966,7 +972,7 @@ suite('gr-comment tests', () => {
 
     test('storage is cleared only after save success', () => {
       element._messageText = 'test';
-      const eraseStub = sinon.stub(element, '_eraseDraftComment');
+      const eraseStub = sinon.stub(element, '_eraseDraftCommentFromStorage');
       stubRestApi('getResponseObject').returns(
         Promise.resolve({...(createDraft() as ParsedJSON)})
       );

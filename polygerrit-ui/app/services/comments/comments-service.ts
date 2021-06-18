@@ -27,10 +27,15 @@ import {
   updateStateDrafts,
   updateStatePortedComments,
   updateStatePortedDrafts,
+  updateStateRemoveDiscardedDraft,
 } from './comments-model';
 
 export class CommentsService {
-  constructor(readonly restApiService: RestApiService) {}
+  constructor(readonly restApiService: RestApiService) {
+    document.addEventListener('undo-discard-draft', (e: CustomEvent) => {
+      updateStateRemoveDiscardedDraft(e.detail.draftId)
+    });
+  }
 
   /**
    * Load all comments (with drafts and robot comments) for the given change

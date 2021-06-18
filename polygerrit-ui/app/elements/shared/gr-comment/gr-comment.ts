@@ -772,26 +772,8 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     e.preventDefault();
     this.reporting.recordDraftInteraction();
 
-    if (!this._messageText) {
-      this._discardDraft();
-      return;
-    }
-
-    this._openOverlay(this.confirmDiscardOverlay).then(() => {
-      const dialog = this.confirmDiscardOverlay?.querySelector(
-        '#confirmDiscardDialog'
-      ) as GrDialog | null;
-      if (dialog) dialog.resetFocus();
-    });
-  }
-
-  _handleConfirmDiscard(e: Event) {
-    e.preventDefault();
-    const timer = this.reporting.getTimer(REPORT_DISCARD_DRAFT);
-    this._closeConfirmDiscardOverlay();
-    return this._discardDraft().then(() => {
-      timer.end();
-    });
+    this._discardDraft();
+    fireAlert(this, 'Draft discarded');
   }
 
   _discardDraft() {
@@ -826,10 +808,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       });
 
     return this._xhrPromise;
-  }
-
-  _closeConfirmDiscardOverlay() {
-    this._closeOverlay(this.confirmDiscardOverlay);
   }
 
   _getSavingMessage(numPending: number, requestFailed?: boolean) {

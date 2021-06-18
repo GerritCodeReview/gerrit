@@ -15,7 +15,10 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
@@ -26,6 +29,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -39,8 +43,15 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.inject.Inject;
 import java.util.Iterator;
 import java.util.List;
+import org.eclipse.jgit.api.TagCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 @NoHttpd
@@ -93,6 +104,85 @@ public class CommitIT extends AbstractDaemonTest {
 
     assertThat(getIncludedIn(result.getCommit().getId()).branches)
         .containsExactly("master", "test-branch");
+  }
+
+  @Test
+  public void includedInMergedChange_filtersOutNonVisibleBranches() throws Exception {
+    Result baseChange = createAndSubmitChange("refs/for/master");
+
+    createBranch(BranchNameKey.create(project, "test-branch-1"));
+    createBranch(BranchNameKey.create(project, "test-branch-2"));
+    createAndSubmitChange("refs/for/test-branch-1");
+    createAndSubmitChange("refs/for/test-branch-2");
+
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).branches)
+        .containsExactly("master", "test-branch-1", "test-branch-2");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/test-branch-1").group(REGISTERED_USERS))
+        .update();
+
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).branches)
+        .containsExactly("master", "test-branch-2");
+  }
+
+  private Result createAndSubmitChange(String branch) throws Exception {
+    Result r = createChange(branch);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    return r;
+  }
+
+  @Test
+  public void includedInMergedChange_filtersOutNonVisibleTags() throws Exception {
+    String tagBase = "tag_base";
+    String tagBranch1 = "tag_1";
+
+    Result baseChange = createAndSubmitChange("refs/for/master");
+    createLightWeightTag(tagBase);
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).tags).containsExactly(tagBase);
+
+    createBranch(BranchNameKey.create(project, "test-branch-1"));
+    createAndSubmitChange("refs/for/test-branch-1");
+    createLightWeightTag(tagBranch1);
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).tags)
+        .containsExactly(tagBase, tagBranch1);
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref(RefNames.REFS_TAGS + tagBranch1).group(REGISTERED_USERS))
+        .update();
+    assertThat(getIncludedIn(baseChange.getCommit().getId()).tags).containsExactly(tagBase);
+  }
+
+  private void createLightWeightTag(String tagName) throws Exception {
+    pushHead(testRepo, RefNames.REFS_TAGS + tagName, false, false);
+  }
+
+  private RevCommit getRevCommit(String commitish) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      ObjectId id = repo.resolve(commitish);
+      return rw.parseCommit(id);
+    }
+  }
+
+  private static Ref createAnnotatedTag(
+      TestRepository testRepo, String name, PersonIdent tagger, RevCommit revCommit)
+      throws GitAPIException {
+    TagCommand cmd =
+        testRepo
+            .git()
+            .tag()
+            .setName(name)
+            .setAnnotated(true)
+            .setObjectId(revCommit)
+            .setMessage(name)
+            .setTagger(tagger);
+    return cmd.call();
   }
 
   @Test

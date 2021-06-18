@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c9e9a8_b87d10e5",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-18T13:01:55Z",
+      "side": 1,
+      "message": "individual",
+      "range": {
+        "startLine": 33,
+        "startChar": 16,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

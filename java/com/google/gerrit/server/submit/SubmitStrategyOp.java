@@ -503,7 +503,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
           .create(
               ctx.getProject(),
               toMerge.change(),
-              submitter.accountId(),
+              args.caller,
               ctx.getNotify(getId()),
               ctx.getRepoView(),
               stickyApprovalDiff)

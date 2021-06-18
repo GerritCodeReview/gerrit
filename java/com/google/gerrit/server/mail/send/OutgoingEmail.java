@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.mail.MailHeader;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -127,18 +128,40 @@ public abstract class OutgoingEmail {
         Optional<AccountState> fromUser = args.accountCache.get(fromId);
         if (fromUser.isPresent()) {
           GeneralPreferencesInfo senderPrefs = fromUser.get().generalPreferences();
+          CurrentUser user = args.currentUserProvider.get();
+          boolean isImpersonating = user.isIdentifiedUser() && user.isImpersonating();
+          if (isImpersonating && user.getAccountId() != fromId) {
+            // This should not be possible, if this is the case it means the RequestContext is not
+            // set up correctly.
+            throw new EmailException(
+                String.format(
+                    "User %s is sending email from %s, while acting on behalf of %s",
+                    user.asIdentifiedUser().getRealUser().getAccountId(),
+                    fromId,
+                    user.getAccountId()));
+          }
           if (senderPrefs != null && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
-            // If we are impersonating a user, make sure they receive a CC of
-            // this message so they can always review and audit what we sent
-            // on their behalf to others.
+            // Include the sender in email if they enabled email notifications on their own
+            // comments.
             //
             logger.atFine().log(
                 "CC email sender %s because the email strategy of this user is %s",
                 fromUser.get().account().id(), CC_ON_OWN_COMMENTS);
             add(RecipientType.CC, fromId);
+          } else if (isImpersonating) {
+            // If we are impersonating a user, make sure they receive a CC of
+            // this message regardless of email strategy, unless email notifications are explicitly
+            // disabled for this user. This way they can always review and audit what we sent
+            // on their behalf to others.
+            logger.atFine().log(
+                "CC email sender %s because the email is sent on behalf of and email notifications"
+                    + " are enabled for this user.",
+                fromUser.get().account().id());
+            add(RecipientType.CC, fromId);
+
           } else if (!notify.accounts().containsValue(fromId) && rcptTo.remove(fromId)) {
             // If they don't want a copy, but we queued one up anyway,
-            // drop them from the recipient lists.
+            // drop them from the recipient lists, but only if the user is not being impersonated.
             //
             logger.atFine().log(
                 "Not CCing email sender %s because the email strategy of this user is not %s but %s",

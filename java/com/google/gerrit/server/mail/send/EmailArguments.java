@@ -18,6 +18,7 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
@@ -95,6 +96,7 @@ public class EmailArguments {
   final OutgoingEmailValidator validator;
   final boolean addInstanceNameInSubject;
   final Provider<String> instanceNameProvider;
+  final Provider<CurrentUser> currentUserProvider;
 
   @Inject
   EmailArguments(
@@ -126,7 +128,8 @@ public class EmailArguments {
       Provider<InternalAccountQuery> accountQueryProvider,
       OutgoingEmailValidator validator,
       @GerritInstanceName Provider<String> instanceNameProvider,
-      @GerritServerConfig Config cfg) {
+      @GerritServerConfig Config cfg,
+      Provider<CurrentUser> currentUserProvider) {
     this.server = server;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
@@ -157,5 +160,6 @@ public class EmailArguments {
     this.instanceNameProvider = instanceNameProvider;
 
     this.addInstanceNameInSubject = cfg.getBoolean("sendemail", "addInstanceNameInSubject", false);
+    this.currentUserProvider = currentUserProvider;
   }
 }

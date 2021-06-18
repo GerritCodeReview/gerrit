@@ -89,6 +89,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .forUpdate()
         .add(allow(Permission.FORGE_COMMITTER).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.SUBMIT_AS).ref("refs/*").group(REGISTERED_USERS))
         .add(allow(Permission.ABANDON).ref("refs/*").group(REGISTERED_USERS))
         .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/*").group(REGISTERED_USERS).range(-2, +2))
         .update();
@@ -1623,6 +1624,75 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender).didNotSend();
   }
 
+  @Test
+  public void mergeOnBehalfOfEmailEnabled_impersonatedOwnerNotified() throws Exception {
+    StagedChange sc = stageChangeReadyForMerge();
+    // If notification is enabled, onBehalfOfUser is always notified.
+    setEmailStrategy(sc.owner, ENABLED);
+    merge(sc.changeId, other, sc.owner, ALL);
+    assertThat(sender)
+        .sent("merged", sc)
+        .to(sc.owner)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void mergeOnBehalfOfEmailEnabled_impersonatedReviewerNotified() throws Exception {
+    StagedChange sc = stageChangeReadyForMerge();
+    // If notification is enabled, onBehalfOfUser is always notified.
+    setEmailStrategy(sc.reviewer, ENABLED);
+    merge(sc.changeId, other, sc.reviewer, ALL);
+    assertThat(sender)
+        .sent("merged", sc)
+        .to(sc.owner)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS, SUBMITTED_CHANGES)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void mergeOnBehalfOfReviewerNotifyOwner_impersonatedReviewerInCC() throws Exception {
+    StagedChange sc = stageChangeReadyForMerge();
+    setEmailStrategy(sc.reviewer, ENABLED);
+    // Even though Submit strategy is OWNER, impersonated reviewer is added to CC.
+    merge(sc.changeId, other, sc.reviewer, OWNER);
+    assertThat(sender).sent("merged", sc).to(sc.owner).cc(sc.reviewer).noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void mergeOnBehalfOfOtherNotifyOwner_impersonatedOtherInCC() throws Exception {
+    StagedChange sc = stageChangeReadyForMerge();
+    // Unrelated impersonated user is added to CC.
+    merge(sc.changeId, sc.reviewer, other, OWNER);
+    assertThat(sender).sent("merged", sc).to(sc.owner).cc(other).noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void mergeOnBehalfOfEmailDisabled_doesNotNotify() throws Exception {
+    StagedChange sc = stageChangeReadyForMerge();
+    setEmailStrategy(other, EmailStrategy.DISABLED);
+    merge(sc.changeId, sc.reviewer, other, OWNER);
+    assertThat(sender).sent("merged", sc).to(sc.owner).noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void mergeOnBehalfOfNotifyNone() throws Exception {
+    StagedChange sc = stageChangeReadyForMerge();
+    merge(sc.changeId, other, sc.owner, NONE);
+    assertThat(sender).didNotSend();
+  }
+
   private void merge(String changeId, TestAccount by) throws Exception {
     merge(changeId, by, ENABLED);
   }
@@ -1645,6 +1715,20 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     requestScopeOperations.setApiUser(by.id());
     SubmitInput in = new SubmitInput();
     in.notify = notify;
+    gApi.changes().id(changeId).current().submit(in);
+  }
+
+  private void merge(String changeId, TestAccount by, TestAccount onBehalfOf) throws Exception {
+    merge(changeId, by, onBehalfOf, /*notify=*/ null);
+  }
+
+  private void merge(
+      String changeId, TestAccount by, TestAccount onBehalfOf, @Nullable NotifyHandling notify)
+      throws Exception {
+    requestScopeOperations.setApiUser(by.id());
+    SubmitInput in = new SubmitInput();
+    in.notify = notify;
+    in.onBehalfOf = onBehalfOf.id().toString();
     gApi.changes().id(changeId).current().submit(in);
   }
 

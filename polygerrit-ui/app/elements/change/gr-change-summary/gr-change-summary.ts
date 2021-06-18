@@ -251,11 +251,11 @@ export class GrChecksChip extends GrLitElement {
     const chipClass = `checksChip font-small ${this.icon}`;
     const grIcon = `gr-icons:${this.icon}`;
     return html`
-      <div class="${chipClass}" role="button">
+      <button class="${chipClass}">
         <iron-icon icon="${grIcon}"></iron-icon>
         <div class="text">${this.text}</div>
         <slot></slot>
-      </div>
+      </button>
     `;
   }
 }

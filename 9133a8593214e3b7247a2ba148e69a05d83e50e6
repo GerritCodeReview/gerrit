@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79bd74f9_8a2524a1",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-18T08:59:53Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we rather fallback to the default implementation here:\n\n  return super.getAll(keys)\n  \n?",
+      "revId": "9133a8593214e3b7247a2ba148e69a05d83e50e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,63 @@
       "message": "I believe this change is getting too big: the approach of changing all APIs that are using the attention-set for adding this extra flag looks very invasive.\nThe initial approach looked better, or am I missing something?",
       "revId": "d8f6637950e81077ce42f31a028f628d523d3120",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6394efe4_3271d8b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-18T07:49:20Z",
+      "side": 1,
+      "message": "I feel like this change became too controversial about how to do it best. I added comments on how to make it work the current way but if this is getting too complicated, IMO feel free to revert to the previous idea.\n\nI think with this idea we didn\u0027t anticipate the problems with draft comments (are there comments + getting posted, or not?) so that is making this approach more complicated.",
+      "revId": "d8f6637950e81077ce42f31a028f628d523d3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c1fc170_e77250a4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-18T07:49:20Z",
+      "side": 1,
+      "message": "another test: passes with \"KEEP\"\n\nSorry, 2 more tests below, they are not trivial: we need to check whether the drafts are in the current patch-set and drafthandling \u003d PUBLISH, or if there any drafts whatsoever and drafthandling \u003d PUBLISH_ALL.\n\nanother test: doesn\u0027t pass with draft comments that are going to be published \nanother test: passes with draft comments that aren\u0027t going to be published.",
+      "revId": "d8f6637950e81077ce42f31a028f628d523d3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb84dd7b_d2454d6b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-18T07:49:20Z",
+      "side": 1,
+      "message": "I think this is anyway the default, and there are no drafts on this change. Can you add some draft comments? (see comment above)",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 469,
+        "endChar": 61
+      },
+      "revId": "d8f6637950e81077ce42f31a028f628d523d3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t we rather fallback to the default implementation here:\n\n  return super.getAll(keys)\n  \n?",
       "revId": "9133a8593214e3b7247a2ba148e69a05d83e50e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac156f49_f718933a",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-18T09:16:24Z",
+      "side": 1,
+      "message": "I believe this implementation is correct. We cannot invoke the loader if the underlying in-memory cache is not a loading cache.\n\nCalling super.getAll(keys) should be correct: it would fallback to the default implementation of calling get() for each key [1]. This will invoke our get() method (see line 131) that would throw the exception anyway. So we are saving a few hops by throwing the exception here.\n\n[1] https://guava.dev/releases/18.0/api/docs/src-html/com/google/common/cache/AbstractLoadingCache.html#line.44",
+      "parentUuid": "79bd74f9_8a2524a1",
+      "revId": "9133a8593214e3b7247a2ba148e69a05d83e50e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

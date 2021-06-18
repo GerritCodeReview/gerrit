@@ -912,15 +912,13 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     if (this.changeNum === undefined || this.patchNum === undefined) {
       throw new Error('undefined changeNum or patchNum');
     }
-    this._showStartRequest();
+    fireAlert(this, 'Discarding draft...');
     if (!draft.id) throw new Error('Missing id in comment draft.');
     return this.restApiService
       .deleteDiffDraft(this.changeNum, this.patchNum, {id: draft.id})
       .then(result => {
         if (result.ok) {
-          this._showEndRequest();
-        } else {
-          this._handleFailedDraftRequest();
+          fireAlert(this, 'Draft successfully discarded');
         }
         return result;
       });

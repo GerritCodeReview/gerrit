@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25562e44_4419aa80",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-18T09:51:40Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "0c1fc170_e77250a4",
+      "revId": "d8f6637950e81077ce42f31a028f628d523d3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb84dd7b_d2454d6b",
@@ -83,6 +101,30 @@
       "writtenOn": "2021-06-18T07:49:20Z",
       "side": 1,
       "message": "I think this is anyway the default, and there are no drafts on this change. Can you add some draft comments? (see comment above)",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 469,
+        "endChar": 61
+      },
+      "revId": "d8f6637950e81077ce42f31a028f628d523d3120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b19e2d55_19e88803",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-18T09:51:40Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "bb84dd7b_d2454d6b",
       "range": {
         "startLine": 469,
         "startChar": 0,

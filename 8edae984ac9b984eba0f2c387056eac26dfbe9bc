@@ -139,6 +139,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58a37ed2_a4d29988",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-18T01:00:17Z",
+      "side": 1,
+      "message": "I believe the discussion is diverging :-) \nThis change is for fixing a serious bug we have at the moment: you request Gerrit to wait 15 minutes for incoming traffic to drain, but the process is killed with -9 after 30 seconds.\n\nWe had repos corruptions with files and locks left behind because of that, it would be useful to fix the issue and then making it even better and more clever.",
+      "parentUuid": "907c93bd_d5d02fa1",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "816abdbf_1641be24",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 5

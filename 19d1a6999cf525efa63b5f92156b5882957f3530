@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f47e62fa_21cbad1d",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-18T09:51:40Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "9f2a19b9_b6577b91",
+      "revId": "19d1a6999cf525efa63b5f92156b5882957f3530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11d784f7_f34b676d",
@@ -132,6 +150,30 @@
       "side": 1,
       "message": "you covered \"if draft policy is KEEP\" but not \"if there are no drafts\".",
       "parentUuid": "4fdbb797_3d8b4c91",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 33
+      },
+      "revId": "19d1a6999cf525efa63b5f92156b5882957f3530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a99352_b818ee88",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-18T09:51:40Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "1d8a2f2f_f5b37bf7",
       "range": {
         "startLine": 145,
         "startChar": 0,

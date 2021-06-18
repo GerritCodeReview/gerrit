@@ -613,12 +613,6 @@ class GrResultExpanded extends GrLitElement {
   }
 }
 
-const SHOW_ALL_THRESHOLDS: Map<Category, number> = new Map();
-SHOW_ALL_THRESHOLDS.set(Category.ERROR, 20);
-SHOW_ALL_THRESHOLDS.set(Category.WARNING, 10);
-SHOW_ALL_THRESHOLDS.set(Category.INFO, 5);
-SHOW_ALL_THRESHOLDS.set(Category.SUCCESS, 5);
-
 const CATEGORY_TOOLTIPS: Map<Category, string> = new Map();
 CATEGORY_TOOLTIPS.set(Category.ERROR, 'Must be fixed and is blocking submit');
 CATEGORY_TOOLTIPS.set(
@@ -1173,9 +1167,8 @@ export class GrChecksResults extends GrLitElement {
     const expandedClass = expanded ? 'expanded' : 'collapsed';
     const icon = expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
     const isShowAll = this.isShowAll.get(category) ?? false;
-    const threshold = SHOW_ALL_THRESHOLDS.get(category) ?? 5;
     const resultCount = filtered.length;
-    const resultLimit = isShowAll ? 1000 : isScrollTarget ? 25 : threshold;
+    const resultLimit = isShowAll ? 1000 : 20;
     const showAllButton = this.renderShowAllButton(
       category,
       isShowAll,

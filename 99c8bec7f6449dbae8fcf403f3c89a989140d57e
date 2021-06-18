@@ -16,6 +16,24 @@
       "message": "I propose we make checks chips use the focus states defined in the app theme:\n --warning-background-focus / --error-background-focus ...\n \nHave you implemented the a11y labels and ARIA role for the checks chips? I have added the Greenlines to the bug. ",
       "revId": "99c8bec7f6449dbae8fcf403f3c89a989140d57e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d391f94_3057814a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-18T10:15:25Z",
+      "side": 1,
+      "message": "Setting this comment as unresolved",
+      "parentUuid": "6aeed3a6_b0e4b274",
+      "revId": "99c8bec7f6449dbae8fcf403f3c89a989140d57e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

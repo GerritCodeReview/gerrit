@@ -48,14 +48,16 @@ import {
 } from '../../../types/common';
 import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
-import {GrDialog} from '../gr-dialog/gr-dialog';
 import {
   isDraft,
   UIComment,
   UIDraft,
   UIRobot,
 } from '../../../utils/comment-util';
-import {OpenFixPreviewEventDetail} from '../../../types/events';
+import {
+  OpenFixPreviewEventDetail,
+  ShowAlertEventDetail,
+} from '../../../types/events';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -478,7 +480,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
           return;
         }
 
-        this._eraseDraftComment();
+        this._eraseDraftCommentFromStorage();
         return this.restApiService.getResponseObject(response).then(obj => {
           const resComment = (obj as unknown) as UIDraft;
           if (!isDraft(this.comment)) throw new Error('Can only save drafts.');
@@ -502,7 +504,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     return this._xhrPromise;
   }
 
-  _eraseDraftComment() {
+  _eraseDraftCommentFromStorage() {
     // Prevents a race condition in which removing the draft comment occurs
     // prior to it being saved.
     this.storeTask?.cancel();
@@ -786,26 +788,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     e.preventDefault();
     this.reporting.recordDraftInteraction();
 
-    if (!this._messageText) {
-      this._discardDraft();
-      return;
-    }
-
-    this._openOverlay(this.confirmDiscardOverlay).then(() => {
-      const dialog = this.confirmDiscardOverlay?.querySelector(
-        '#confirmDiscardDialog'
-      ) as GrDialog | null;
-      if (dialog) dialog.resetFocus();
-    });
-  }
-
-  _handleConfirmDiscard(e: Event) {
-    e.preventDefault();
-    const timer = this.reporting.getTimer(REPORT_DISCARD_DRAFT);
-    this._closeConfirmDiscardOverlay();
-    return this._discardDraft().then(() => {
-      timer.end();
-    });
+    this._discardDraft();
   }
 
   _discardDraft() {
@@ -814,9 +797,10 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       return Promise.reject(new Error('Cannot discard a non-draft comment.'));
     }
     this.discarding = true;
+    const timer = this.reporting.getTimer(REPORT_DISCARD_DRAFT);
     this.editing = false;
     this.disabled = true;
-    this._eraseDraftComment();
+    this._eraseDraftCommentFromStorage();
 
     if (!this.comment.id) {
       this.disabled = false;
@@ -830,7 +814,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
         if (!response.ok) {
           this.discarding = false;
         }
-
+        timer.end();
         this._fireDiscard();
         return response;
       })
@@ -840,10 +824,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       });
 
     return this._xhrPromise;
-  }
-
-  _closeConfirmDiscardOverlay() {
-    this._closeOverlay(this.confirmDiscardOverlay);
   }
 
   _getSavingMessage(numPending: number, requestFailed?: boolean) {
@@ -927,12 +907,28 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       throw new Error('undefined changeNum or patchNum');
     }
     fireAlert(this, 'Discarding draft...');
-    if (!draft.id) throw new Error('Missing id in comment draft.');
+    const draftID = draft.id;
+    if (!draftID) throw new Error('Missing id in comment draft.');
     return this.restApiService
-      .deleteDiffDraft(this.changeNum, this.patchNum, {id: draft.id})
+      .deleteDiffDraft(this.changeNum, this.patchNum, {id: draftID})
       .then(result => {
         if (result.ok) {
-          fireAlert(this, 'Draft successfully discarded');
+          this.dispatchEvent(
+            new CustomEvent<ShowAlertEventDetail>('show-alert', {
+              detail: {
+                message: 'Draft Discarded',
+                action: 'Undo',
+                callback: () =>
+                  document.dispatchEvent(
+                    new CustomEvent('undo-discard-draft', {
+                      detail: {draftID},
+                    })
+                  ),
+              },
+              composed: true,
+              bubbles: true,
+            })
+          );
         }
         return result;
       });

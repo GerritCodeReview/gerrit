@@ -14,19 +14,26 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collection;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -37,12 +44,16 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 public class IncludedIn {
   private final GitRepositoryManager repoManager;
+  private final PermissionBackend permissionBackend;
   private final PluginSetContext<ExternalIncludedIn> externalIncludedIn;
 
   @Inject
   IncludedIn(
-      GitRepositoryManager repoManager, PluginSetContext<ExternalIncludedIn> externalIncludedIn) {
+      GitRepositoryManager repoManager,
+      PermissionBackend permissionBackend,
+      PluginSetContext<ExternalIncludedIn> externalIncludedIn) {
     this.repoManager = repoManager;
+    this.permissionBackend = permissionBackend;
     this.externalIncludedIn = externalIncludedIn;
   }
 
@@ -72,7 +83,32 @@ public class IncludedIn {
           });
 
       return new IncludedInInfo(
-          d.branches(), d.tags(), (!external.isEmpty() ? external.asMap() : null));
+          filterReadableBranches(project, d.branches()),
+          d.tags(),
+          (!external.isEmpty() ? external.asMap() : null));
     }
+  }
+
+  /**
+   * Filter readable branches according to ref read permissions.
+   *
+   * @param project specific Gerrit project.
+   * @param inputRefs a list of branches (in short name) as strings
+   */
+  private ImmutableList<String> filterReadableBranches(
+      Project.NameKey project, Collection<String> inputRefs) {
+    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(project);
+    ImmutableList.Builder<String> out = ImmutableList.builder();
+    for (String ref : inputRefs) {
+      try {
+        // Note that we convert the input refs to their full names since IncludedInResolver
+        // shortens the branch and tag names.
+        perm.ref(RefNames.fullName(ref)).check(RefPermission.READ);
+        out.add(ref);
+      } catch (@SuppressWarnings("unused") AuthException | PermissionBackendException e) {
+        // Do nothing, just skip this ref
+      }
+    }
+    return out.build();
   }
 }

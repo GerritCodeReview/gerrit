@@ -28,6 +28,23 @@ export declare interface ChecksPluginApi {
    * polling interval to pass.
    */
   announceUpdate(): void;
+
+  /**
+   * Updates an individual result.
+   *
+   * This can be used for lazy loading detailed information. For example, if you
+   * are using the `check-result-expanded` endpoint, then you can load more
+   * result details when the user expands a result row.
+   *
+   * The parameter `run` is only used to *find* the correct run for updating the
+   * result. It will only be used for comparing `change`, `patchset`, `attempt`
+   * and `checkName`. Its properties other than `results` will not be updated.
+   *
+   * For us being able to identify the result that you want to update you have
+   * to set the `externalId` property. An undefined `externalId` will result in
+   * an error.
+   */
+  updateResult(run: CheckRun, result: CheckResult): void;
 }
 
 export declare interface ChecksApiConfig {

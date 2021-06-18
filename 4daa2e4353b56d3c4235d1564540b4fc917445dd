@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e818fb23_0ab69470",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-18T11:44:04Z",
+      "side": 1,
+      "message": "yeah, missed that part.\nWill tackle in a follow up change.",
+      "parentUuid": "9716ae62_0b85b921",
+      "revId": "4daa2e4353b56d3c4235d1564540b4fc917445dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ad7f0ad_c48a36bd",
@@ -43,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96feac25_7c9275cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-18T11:44:04Z",
+      "side": 1,
+      "message": "updated top and bottom padding to be spacing-s instead of spacing-m.\n\nLMK if that is what you wanted. Or do you prefer the spacing-m and reduce the font-size of the dropdown instead?\n\nhttps://imgur.com/a/mBS93UE",
+      "parentUuid": "4ad7f0ad_c48a36bd",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 13
+      },
+      "revId": "4daa2e4353b56d3c4235d1564540b4fc917445dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7835c706_05ec32ba",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
         "patchSetId": 13
@@ -54,6 +96,30 @@
       "writtenOn": "2021-06-18T10:49:42Z",
       "side": 1,
       "message": "I propose we use --primary-text-color for the dropdown list (Files / Unresolved (1)...) and --deemphasized-text-color for the text before the dropdowns (Sort by: and Filter by:).\n\nThis will put more emphasis to the dropdown.",
+      "range": {
+        "startLine": 64,
+        "startChar": 19,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "4daa2e4353b56d3c4235d1564540b4fc917445dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9de6919e_9712368e",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-18T11:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7835c706_05ec32ba",
       "range": {
         "startLine": 64,
         "startChar": 19,

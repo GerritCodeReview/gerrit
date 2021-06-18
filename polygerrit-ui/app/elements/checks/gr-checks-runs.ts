@@ -33,7 +33,7 @@ import {
   AttemptDetail,
   compareByWorstCategory,
   fireActionTriggered,
-  iconForCategory,
+  iconFor,
   iconForRun,
   PRIMARY_STATUS_ACTIONS,
   primaryRunAction,
@@ -317,7 +317,7 @@ export class GrChecksRun extends GrLitElement {
     if (this.run.status !== RunStatus.RUNNING) return nothing;
     const category = worstCategory(this.run);
     if (!category) return nothing;
-    const icon = iconForCategory(category);
+    const icon = iconFor(category);
     return html`
       <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
     `;

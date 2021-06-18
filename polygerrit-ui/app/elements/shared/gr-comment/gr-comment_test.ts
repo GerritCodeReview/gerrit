@@ -360,7 +360,6 @@ suite('gr-comment tests', () => {
 
       setup(() => {
         sinon.stub(element, 'save').returns(Promise.resolve({}));
-        sinon.stub(element, '_discardDraft').returns(Promise.resolve({}));
         endStub = sinon.stub();
         const mockTimer = new MockTimer();
         mockTimer.end = endStub;
@@ -370,6 +369,7 @@ suite('gr-comment tests', () => {
       test('create', () => {
         element.patchNum = 1 as PatchSetNum;
         element.comment = {};
+        sinon.stub(element, '_discardDraft').returns(Promise.resolve({}));
         return element._handleSave(mockEvent)!.then(() => {
           assert.equal(
             (queryAndAssert(
@@ -391,6 +391,7 @@ suite('gr-comment tests', () => {
           ...createComment(),
           id: ('abc_123' as UrlEncodedCommentId) as UrlEncodedCommentId,
         };
+        sinon.stub(element, '_discardDraft').returns(Promise.resolve({}));
         return element._handleSave(mockEvent)!.then(() => {
           assert.isTrue(endStub.calledOnce);
           assert.isTrue(getTimerStub.calledOnce);
@@ -403,8 +404,13 @@ suite('gr-comment tests', () => {
           ...createComment(),
           id: ('abc_123' as UrlEncodedCommentId) as UrlEncodedCommentId,
         };
-        sinon.stub(element, '_closeConfirmDiscardOverlay');
-        return element._handleConfirmDiscard(mockEvent).then(() => {
+        element.comment = createDraft();
+        sinon.stub(element, '_fireDiscard');
+        sinon.stub(element, '_eraseDraftCommentFromStorage');
+        sinon
+          .stub(element, '_deleteDraft')
+          .returns(Promise.resolve(new Response()));
+        return element._discardDraft().then(() => {
           assert.isTrue(endStub.calledOnce);
           assert.isTrue(getTimerStub.calledOnce);
           assert.equal(getTimerStub.lastCall.args[0], 'DiscardDraftComment');
@@ -422,7 +428,13 @@ suite('gr-comment tests', () => {
 
     test('discard reports interaction', () => {
       const reportStub = stubReporting('recordDraftInteraction');
+      sinon.stub(element, '_eraseDraftCommentFromStorage');
+      sinon.stub(element, '_fireDiscard');
+      sinon
+        .stub(element, '_deleteDraft')
+        .returns(Promise.resolve(new Response()));
       element.draft = true;
+      element.comment = createDraft();
       flush();
       tap(queryAndAssert(element, '.discard'));
       assert.isTrue(reportStub.calledOnce);
@@ -920,7 +932,10 @@ suite('gr-comment tests', () => {
 
       element.comment!.message = '';
       element._messageText = '';
-      const eraseMessageDraftSpy = sinon.spy(element, '_eraseDraftComment');
+      const eraseMessageDraftSpy = sinon.spy(
+        element,
+        '_eraseDraftCommentFromStorage'
+      );
 
       // Save should be disabled on an empty message.
       let disabled = queryAndAssert(element, '.save').hasAttribute('disabled');
@@ -951,14 +966,16 @@ suite('gr-comment tests', () => {
 
     test('draft discard removes message from storage', done => {
       element._messageText = '';
-      const eraseMessageDraftSpy = sinon.spy(element, '_eraseDraftComment');
-      sinon.stub(element, '_closeConfirmDiscardOverlay');
+      const eraseMessageDraftSpy = sinon.spy(
+        element,
+        '_eraseDraftCommentFromStorage'
+      );
 
       element.addEventListener('comment-discard', () => {
         assert.isTrue(eraseMessageDraftSpy.called);
         done();
       });
-      element._handleConfirmDiscard({
+      element._handleDiscard({
         ...new Event('click'),
         preventDefault: sinon.stub(),
       });
@@ -966,7 +983,7 @@ suite('gr-comment tests', () => {
 
     test('storage is cleared only after save success', () => {
       element._messageText = 'test';
-      const eraseStub = sinon.stub(element, '_eraseDraftComment');
+      const eraseStub = sinon.stub(element, '_eraseDraftCommentFromStorage');
       stubRestApi('getResponseObject').returns(
         Promise.resolve({...(createDraft() as ParsedJSON)})
       );
@@ -1006,32 +1023,6 @@ suite('gr-comment tests', () => {
       assert.equal(element._computeSaveDisabled('test', comment, true), false);
       assert.equal(element._computeSaveDisabled('', comment, true), true);
       assert.equal(element._computeSaveDisabled('', comment, false), true);
-    });
-
-    suite('confirm discard', () => {
-      let discardStub: sinon.SinonStub;
-      let overlayStub: sinon.SinonStub;
-      const mockEvent = {...new Event('click'), preventDefault: sinon.stub()};
-      setup(() => {
-        discardStub = sinon.stub(element, '_discardDraft');
-        overlayStub = sinon
-          .stub(element, '_openOverlay')
-          .returns(Promise.resolve());
-      });
-
-      test('confirms discard of comments with message text', () => {
-        element._messageText = 'test';
-        element._handleDiscard(mockEvent);
-        assert.isTrue(overlayStub.calledWith(element.confirmDiscardOverlay));
-        assert.isFalse(discardStub.called);
-      });
-
-      test('no confirmation for comments without message text', () => {
-        element._messageText = '';
-        element._handleDiscard(mockEvent);
-        assert.isFalse(overlayStub.called);
-        assert.isTrue(discardStub.calledOnce);
-      });
     });
 
     test('ctrl+s saves comment', done => {

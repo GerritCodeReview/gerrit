@@ -49,6 +49,7 @@ export enum EventType {
   SHOW_SECONDARY_TAB = 'show-secondary-tab',
   TAP_ITEM = 'tap-item',
   TITLE_CHANGE = 'title-change',
+  UNDO_DISCARD_DRAFT = 'undo-discard-draft',
 }
 
 declare global {
@@ -97,6 +98,7 @@ declare global {
     'server-error': ServerErrorEvent;
     'show-alert': ShowAlertEvent;
     'show-error': ShowErrorEvent;
+    'undo-discard-draft': UndoDiscardEvent;
   }
 }
 
@@ -153,6 +155,11 @@ export interface NetworkErrorEventDetail {
   error: Error;
 }
 export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
+
+export interface UndoDiscardDraftEventDetail {
+  draftID: string;
+}
+export type UndoDiscardEvent = CustomEvent<UndoDiscardDraftEventDetail>;
 
 export interface OpenFixPreviewEventDetail {
   patchNum?: PatchSetNum;

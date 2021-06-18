@@ -498,19 +498,5 @@ export const htmlTemplate = html`
       >
       </gr-confirm-delete-comment-dialog>
     </gr-overlay>
-    <gr-overlay id="confirmDiscardOverlay" with-backdrop="">
-      <gr-dialog
-        id="confirmDiscardDialog"
-        confirm-label="Discard"
-        confirm-on-enter=""
-        on-confirm="_handleConfirmDiscard"
-        on-cancel="_closeConfirmDiscardOverlay"
-      >
-        <div class="header" slot="header">Discard comment</div>
-        <div class="main" slot="main">
-          Are you sure you want to discard this draft comment?
-        </div>
-      </gr-dialog>
-    </gr-overlay>
   </template>
 `;

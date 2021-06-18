@@ -55,7 +55,7 @@ import {
   UIDraft,
   UIRobot,
 } from '../../../utils/comment-util';
-import {OpenFixPreviewEventDetail} from '../../../types/events';
+import {OpenFixPreviewEventDetail, ShowAlertEventDetail} from '../../../types/events';
 import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -772,26 +772,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
     e.preventDefault();
     this.reporting.recordDraftInteraction();
 
-    if (!this._messageText) {
-      this._discardDraft();
-      return;
-    }
-
-    this._openOverlay(this.confirmDiscardOverlay).then(() => {
-      const dialog = this.confirmDiscardOverlay?.querySelector(
-        '#confirmDiscardDialog'
-      ) as GrDialog | null;
-      if (dialog) dialog.resetFocus();
-    });
-  }
-
-  _handleConfirmDiscard(e: Event) {
-    e.preventDefault();
-    const timer = this.reporting.getTimer(REPORT_DISCARD_DRAFT);
-    this._closeConfirmDiscardOverlay();
-    return this._discardDraft().then(() => {
-      timer.end();
-    });
+    this._discardDraft();
   }
 
   _discardDraft() {
@@ -826,10 +807,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       });
 
     return this._xhrPromise;
-  }
-
-  _closeConfirmDiscardOverlay() {
-    this._closeOverlay(this.confirmDiscardOverlay);
   }
 
   _getSavingMessage(numPending: number, requestFailed?: boolean) {
@@ -908,6 +885,8 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       });
   }
 
+
+
   _deleteDraft(draft: UIComment) {
     if (this.changeNum === undefined || this.patchNum === undefined) {
       throw new Error('undefined changeNum or patchNum');
@@ -918,7 +897,16 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
       .deleteDiffDraft(this.changeNum, this.patchNum, {id: draft.id})
       .then(result => {
         if (result.ok) {
-          fireAlert(this, 'Draft successfully discarded');
+          this.dispatchEvent(
+            new CustomEvent<ShowAlertEventDetail>('show-alert', {
+              detail: {
+                message: 'Draft Discarded',
+                action: 'Undo',
+                callback: () => document.dispatchEvent(new CustomEvent('undo-discard-draft')),
+              },
+              composed: true,
+              bubbles: true,
+            })
         }
         return result;
       });

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9716ae62_0b85b921",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-18T10:49:42Z",
+      "side": 1,
+      "message": "Will you add the title to \"Latest timestamp sorting\" in a follow-up change?\n\nIn the proposal, we decided to add titles to group comments such as Today, Tomorrow, April 21, (see in bug). \n\n",
+      "revId": "4daa2e4353b56d3c4235d1564540b4fc917445dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ad7f0ad_c48a36bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-18T10:49:42Z",
+      "side": 1,
+      "message": "The header looks bigger after this change.\n\nI propose we keep the header as 36px height (with padding --spacing-m and the dropdown container as 20px like it is implemented)",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 13
+      },
+      "revId": "4daa2e4353b56d3c4235d1564540b4fc917445dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7835c706_05ec32ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-18T10:49:42Z",
+      "side": 1,
+      "message": "I propose we use --primary-text-color for the dropdown list (Files / Unresolved (1)...) and --deemphasized-text-color for the text before the dropdowns (Sort by: and Filter by:).\n\nThis will put more emphasis to the dropdown.",
+      "range": {
+        "startLine": 64,
+        "startChar": 19,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "4daa2e4353b56d3c4235d1564540b4fc917445dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -31,6 +31,7 @@ interface CommentState {
   drafts: {[path: string]: DraftInfo[]};
   portedComments: PathToCommentsInfoMap;
   portedDrafts: PathToCommentsInfoMap;
+  discardedDrafts: DraftInfo[];
 }
 
 const initialState: CommentState = {
@@ -39,6 +40,7 @@ const initialState: CommentState = {
   drafts: {},
   portedComments: {},
   portedDrafts: {},
+  discardedDrafts: [],
 };
 
 const privateState$ = new BehaviorSubject(initialState);
@@ -103,6 +105,25 @@ export function updateStatePortedDrafts(portedDrafts?: PathToCommentsInfoMap) {
   privateState$.next(nextState);
 }
 
+export function updateStateAddDiscardedDraft(draft: DraftInfo) {
+  const nextState = {...privateState$.getValue()};
+  nextState.discardedDrafts = [...nextState.discardedDrafts, draft];
+  privateState$.next(nextState);
+}
+
+export function updateStateRemoveDiscardedDraft(draftId?: string) {
+  const nextState = {...privateState$.getValue()};
+  const drafts = [...nextState.discardedDrafts];
+  const index = drafts.findIndex(d => d.__draftID === draftId);
+  if (index === -1) {
+    throw new Error('discarded draft not found');
+  }
+  updateStateAddDraft(drafts.splice(index, 1)[0]);
+  nextState.discardedDrafts = drafts;
+  privateState$.next(nextState);
+}
+
+
 export function updateStateAddDraft(draft: DraftInfo) {
   const nextState = {...privateState$.getValue()};
   if (!draft.path) throw new Error('draft path undefined');
@@ -130,6 +151,8 @@ export function updateStateDeleteDraft(draft: DraftInfo) {
     d => d.__draftID === draft.__draftID || d.id === draft.id
   );
   if (index === -1) return;
+  const discardedDraft = drafts[draft.path][index];
+  updateStateAddDiscardedDraft(discardedDraft);
   drafts[draft.path] = [...drafts[draft.path]].splice(index, 1);
   privateState$.next(nextState);
 }

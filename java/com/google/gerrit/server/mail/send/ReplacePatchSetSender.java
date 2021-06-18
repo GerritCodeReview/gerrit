@@ -56,10 +56,10 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   protected void init() throws EmailException {
     super.init();
 
-    if (fromId != null) {
+    if (getFromId() != null) {
       // Don't call yourself a reviewer of your own patch set.
       //
-      reviewers.remove(fromId);
+      reviewers.remove(getFromId());
     }
     if (args.settings.sendNewPatchsetEmails) {
       if (notify.handling() == NotifyHandling.ALL
@@ -85,7 +85,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   public List<String> getReviewerNames() {
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
-      if (id.equals(fromId)) {
+      if (id.equals(getFromId())) {
         continue;
       }
       names.add(getNameFor(id));

@@ -296,7 +296,6 @@ public class PatchSetInserter implements BatchUpdateOp {
       try {
         ReplacePatchSetSender emailSender =
             replacePatchSetFactory.create(ctx.getProject(), change.getId());
-        emailSender.setFrom(ctx.getAccountId());
         emailSender.setPatchSet(patchSet, patchSetInfo);
         emailSender.setChangeMessage(mailMessage, ctx.getWhen());
         emailSender.addReviewers(oldReviewers.byState(REVIEWER));

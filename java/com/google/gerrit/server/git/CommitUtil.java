@@ -314,7 +314,6 @@ public class CommitUtil {
           ctx.getChangeData(change), ctx.getChangeData(ins.getChange()), ctx.getWhen());
       try {
         RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());
-        emailSender.setFrom(ctx.getAccountId());
         emailSender.setNotify(ctx.getNotify(change.getId()));
         emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));

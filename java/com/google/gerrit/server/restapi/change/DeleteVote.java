@@ -243,7 +243,6 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
         if (notify.shouldNotify()) {
           ReplyToChangeSender emailSender =
               deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
-          emailSender.setFrom(user.getAccountId());
           emailSender.setChangeMessage(mailMessage, ctx.getWhen());
           emailSender.setNotify(notify);
           emailSender.setMessageId(

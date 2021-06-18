@@ -98,20 +98,15 @@ public abstract class ChangeEmail extends NotificationEmail {
     this.changeData = changeData;
     this.change = changeData.change();
     this.emailOnlyAuthors = false;
-    this.emailOnlyAttentionSetIfEnabled = true;
-    this.currentAttentionSet = getAttentionSet();
-  }
-
-  @Override
-  public void setFrom(Account.Id id) {
-    super.setFrom(id);
-
     /** Is the from user in an email squelching group? */
     try {
-      args.permissionBackend.absentUser(id).check(GlobalPermission.EMAIL_REVIEWERS);
+      if (getFromId() != null)
+        args.permissionBackend.absentUser(getFromId()).check(GlobalPermission.EMAIL_REVIEWERS);
     } catch (AuthException | PermissionBackendException e) {
       emailOnlyAuthors = true;
     }
+    this.emailOnlyAttentionSetIfEnabled = true;
+    this.currentAttentionSet = getAttentionSet();
   }
 
   public void setPatchSet(PatchSet ps) {
@@ -464,8 +459,8 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     soyContext.put("changeId", change.getKey().get());
     soyContext.put("coverLetter", getCoverLetter());
-    soyContext.put("fromName", getNameFor(fromId));
-    soyContext.put("fromEmail", getNameEmailFor(fromId));
+    soyContext.put("fromName", getNameFor(getFromId()));
+    soyContext.put("fromEmail", getNameEmailFor(getFromId()));
     soyContext.put("diffLines", getDiffTemplateData());
 
     soyContextEmailData.put("unifiedDiff", getUnifiedDiff());

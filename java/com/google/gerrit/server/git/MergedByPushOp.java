@@ -193,7 +193,6 @@ public class MergedByPushOp implements BatchUpdateOp {
                               ctx.getProject(),
                               psId.changeId(),
                               /* stickyApprovalDiff= */ Optional.empty());
-                      emailSender.setFrom(ctx.getAccountId());
                       emailSender.setPatchSet(patchSet, info);
                       emailSender.setMessageId(
                           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));

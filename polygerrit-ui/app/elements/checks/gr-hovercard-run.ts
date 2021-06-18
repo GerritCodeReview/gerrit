@@ -22,8 +22,7 @@ import {customElement, property} from '@polymer/decorators';
 import './gr-checks-action';
 import {CheckRun} from '../../services/checks/checks-model';
 import {
-  iconForCategory,
-  iconForStatus,
+  iconFor,
   runActions,
   worstCategory,
 } from '../../services/checks/checks-util';
@@ -43,9 +42,9 @@ export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
   computeIcon(run?: CheckRun) {
     if (!run) return '';
     const category = worstCategory(run);
-    if (category) return iconForCategory(category);
+    if (category) return iconFor(category);
     return run.status === RunStatus.COMPLETED
-      ? iconForStatus(RunStatus.COMPLETED)
+      ? iconFor(RunStatus.COMPLETED)
       : '';
   }
 

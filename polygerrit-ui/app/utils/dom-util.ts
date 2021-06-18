@@ -294,6 +294,11 @@ export function toggleClass(el: Element, className: string, bool?: boolean) {
   }
 }
 
+export function modifierPressed(e: KeyboardEvent) {
+  return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
+}
+
+// Deprecated. Try using "normal" KeyboardEvent and modifierPressed() above.
 export function isModifierPressed(event: CustomKeyboardEvent) {
   const e = getKeyboardEvent(event);
   return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;

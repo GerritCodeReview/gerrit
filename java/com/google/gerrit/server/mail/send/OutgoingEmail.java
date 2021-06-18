@@ -73,16 +73,21 @@ public abstract class OutgoingEmail {
   protected List<String> footers;
   protected final EmailArguments args;
   protected Account.Id fromId;
+  protected CurrentUser sender;
   protected NotifyResolver.Result notify = NotifyResolver.Result.all();
 
   protected OutgoingEmail(EmailArguments args, String messageClass) {
     this.args = args;
     this.messageClass = messageClass;
     this.headers = new LinkedHashMap<>();
+    CurrentUser sender = args.currentUserProvider.get();
+    if (sender != null && sender.isIdentifiedUser()) {
+      this.fromId = sender.getAccountId();
+    }
   }
 
-  public void setFrom(Account.Id id) {
-    fromId = id;
+  public Account.Id getFromId() {
+    return fromId;
   }
 
   public void setNotify(NotifyResolver.Result notify) {
@@ -128,17 +133,17 @@ public abstract class OutgoingEmail {
         Optional<AccountState> fromUser = args.accountCache.get(fromId);
         if (fromUser.isPresent()) {
           GeneralPreferencesInfo senderPrefs = fromUser.get().generalPreferences();
-          CurrentUser user = args.currentUserProvider.get();
-          boolean isImpersonating = user.isIdentifiedUser() && user.isImpersonating();
-          if (isImpersonating && user.getAccountId() != fromId) {
+          boolean isImpersonating =
+              sender != null && sender.isIdentifiedUser() && sender.isImpersonating();
+          if (isImpersonating && sender.getAccountId() != fromId) {
             // This should not be possible, if this is the case it means the RequestContext is not
             // set up correctly.
             throw new EmailException(
                 String.format(
                     "User %s is sending email from %s, while acting on behalf of %s",
-                    user.asIdentifiedUser().getRealUser().getAccountId(),
+                    sender.asIdentifiedUser().getRealUser().getAccountId(),
                     fromId,
-                    user.getAccountId()));
+                    sender.getAccountId()));
           }
           if (senderPrefs != null && senderPrefs.getEmailStrategy() == CC_ON_OWN_COMMENTS) {
             // Include the sender in email if they enabled email notifications on their own

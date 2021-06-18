@@ -122,7 +122,6 @@ public class SetAssigneeOp implements BatchUpdateOp {
       SetAssigneeSender emailSender =
           setAssigneeSenderFactory.create(
               change.getProject(), change.getId(), newAssignee.getAccountId());
-      emailSender.setFrom(user.get().getAccountId());
       emailSender.setMessageId(
           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
       emailSender.send();

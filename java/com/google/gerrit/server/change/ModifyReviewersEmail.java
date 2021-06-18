@@ -93,7 +93,6 @@ public class ModifyReviewersEmail {
                 ModifyReviewerSender emailSender =
                     addReviewerSenderFactory.create(projectNameKey, cId);
                 emailSender.setNotify(notify);
-                emailSender.setFrom(userId);
                 emailSender.addReviewers(immutableToMail);
                 emailSender.addReviewersByEmail(immutableAddedByEmail);
                 emailSender.addExtraCC(immutableToCopy);

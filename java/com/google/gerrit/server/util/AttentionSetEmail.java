@@ -18,7 +18,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.AttentionSetSender;
@@ -90,11 +89,6 @@ public class AttentionSetEmail implements Runnable, RequestContext {
   @Override
   public void run() {
     try {
-      AccountState accountState =
-          ctx.getUser().isIdentifiedUser() ? ctx.getUser().asIdentifiedUser().state() : null;
-      if (accountState != null) {
-        sender.setFrom(accountState.account().id());
-      }
       sender.setNotify(ctx.getNotify(change.getId()));
       sender.setAttentionSetUser(attentionUserId);
       sender.setReason(reason);

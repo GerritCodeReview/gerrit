@@ -241,7 +241,6 @@ public class DeleteReviewerOp extends ReviewerOp {
     }
     DeleteReviewerSender emailSender =
         deleteReviewerSenderFactory.create(projectName, change.getId());
-    emailSender.setFrom(userId);
     emailSender.addReviewers(Collections.singleton(reviewer.id()));
     emailSender.setChangeMessage(mailMessage, timestamp);
     emailSender.setNotify(notify);

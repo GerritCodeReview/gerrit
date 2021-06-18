@@ -94,9 +94,6 @@ class EmailMerge implements Runnable, RequestContext {
     try {
       MergedSender emailSender =
           mergedSenderFactory.create(project, change.getId(), Optional.of(stickyApprovalDiff));
-      if (submitter != null) {
-        emailSender.setFrom(submitter.getAccountId());
-      }
       emailSender.setNotify(notify);
       emailSender.setMessageId(
           messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));

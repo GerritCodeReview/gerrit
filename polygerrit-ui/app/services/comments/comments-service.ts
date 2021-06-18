@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 
-import {NumericChangeId, RevisionId} from '../../types/common';
-import {DraftInfo} from '../../utils/comment-util';
+import {NumericChangeId, PatchSetNum, RevisionId} from '../../types/common';
+import {DraftInfo, UIDraft} from '../../utils/comment-util';
+import {fireAlert} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {
@@ -27,10 +28,18 @@ import {
   updateStateDrafts,
   updateStatePortedComments,
   updateStatePortedDrafts,
+  updateStateUndoDiscardedDraft,
+  discardedDrafts$,
 } from './comments-model';
 
 export class CommentsService {
-  constructor(readonly restApiService: RestApiService) {}
+  private discardedDrafts?: UIDraft[] = [];
+
+  constructor(readonly restApiService: RestApiService) {
+    discardedDrafts$.subscribe(
+      discardedDrafts => (this.discardedDrafts = discardedDrafts)
+    );
+  }
 
   /**
    * Load all comments (with drafts and robot comments) for the given change
@@ -56,6 +65,26 @@ export class CommentsService {
     this.restApiService
       .getPortedDrafts(changeNum, revision)
       .then(portedDrafts => updateStatePortedDrafts(portedDrafts));
+  }
+
+  restoreDraft(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    draftID: string
+  ) {
+    const draft = {...this.discardedDrafts?.find(d => d.id === draftID)};
+    if (!draft) throw new Error('discarded draft not found');
+    // delete draft ID since we want to treat this as a new draft creation
+    delete draft.id;
+    this.restApiService
+      .saveDiffDraft(changeNum, patchNum, draft)
+      .then(result => {
+        if (!result.ok) {
+          fireAlert(document, 'Unable to restore draft');
+          return;
+        }
+        updateStateUndoDiscardedDraft(draftID);
+      });
   }
 
   addDraft(draft: DraftInfo) {

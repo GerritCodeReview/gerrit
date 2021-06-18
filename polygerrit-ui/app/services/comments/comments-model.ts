@@ -31,6 +31,12 @@ interface CommentState {
   drafts: {[path: string]: DraftInfo[]};
   portedComments: PathToCommentsInfoMap;
   portedDrafts: PathToCommentsInfoMap;
+  /**
+   * If a draft is discarded by the user, then we temporarily keep it in this
+   * array in case the user decides to Undo the discard operation and bring the
+   * draft back. Once restored, the draft is removed from this array.
+   */
+  discardedDrafts: DraftInfo[];
 }
 
 const initialState: CommentState = {
@@ -39,23 +45,34 @@ const initialState: CommentState = {
   drafts: {},
   portedComments: {},
   portedDrafts: {},
+  discardedDrafts: [],
 };
 
 // Mutable for testing
 let privateState$ = new BehaviorSubject(initialState);
 
 export function _testOnly_resetState() {
-  const newPrivateState$ = new BehaviorSubject(initialState);
-  const oldPrivateState$ = privateState$;
-  privateState$ = newPrivateState$;
-  newPrivateState$.subscribe(state => oldPrivateState$.next(state));
+  privateState$.next(initialState);
 }
 
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const commentState$: Observable<CommentState> = privateState$;
 
+export function _testOnly_getState() {
+  return privateState$.getValue();
+}
+
+export function _testOnly_setState(state: CommentState) {
+  privateState$.next(state);
+}
+
 export const drafts$ = commentState$.pipe(
   map(commentState => commentState.drafts),
+  distinctUntilChanged()
+);
+
+export const discardedDrafts$ = commentState$.pipe(
+  map(commentState => commentState.discardedDrafts),
   distinctUntilChanged()
 );
 
@@ -111,6 +128,25 @@ export function updateStatePortedDrafts(portedDrafts?: PathToCommentsInfoMap) {
   privateState$.next(nextState);
 }
 
+export function updateStateAddDiscardedDraft(draft: DraftInfo) {
+  const nextState = {...privateState$.getValue()};
+  nextState.discardedDrafts = [...nextState.discardedDrafts, draft];
+  privateState$.next(nextState);
+}
+
+export function updateStateUndoDiscardedDraft(draftID?: string) {
+  const nextState = {...privateState$.getValue()};
+  const drafts = [...nextState.discardedDrafts];
+  const index = drafts.findIndex(d => d.id === draftID);
+  if (index === -1) {
+    throw new Error('discarded draft not found');
+  }
+  const draft = drafts.splice(index, 1)[0];
+  nextState.discardedDrafts = drafts;
+  privateState$.next(nextState);
+  updateStateAddDraft(draft);
+}
+
 export function updateStateAddDraft(draft: DraftInfo) {
   const nextState = {...privateState$.getValue()};
   if (!draft.path) throw new Error('draft path undefined');
@@ -142,7 +178,9 @@ export function updateStateDeleteDraft(draft: DraftInfo) {
       (d.id && d.id === draft.id)
   );
   if (index === -1) return;
+  const discardedDraft = drafts[draft.path][index];
   drafts[draft.path] = [...drafts[draft.path]];
   drafts[draft.path].splice(index, 1);
   privateState$.next(nextState);
+  updateStateAddDiscardedDraft(discardedDraft);
 }

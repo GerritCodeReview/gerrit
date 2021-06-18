@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d54693_e5937bc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-18T12:59:50Z",
+      "side": 1,
+      "message": "Are you confident we don\u0027t need to gate these rollouts with a Mendel flag?",
+      "revId": "9a97133733924650a9efb7fc7a36c90242792247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

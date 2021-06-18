@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.IncludedIn;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -38,7 +39,8 @@ public class ChangeIncludedIn implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Response<IncludedInInfo> apply(ChangeResource rsrc) throws RestApiException, IOException {
+  public Response<IncludedInInfo> apply(ChangeResource rsrc)
+      throws RestApiException, IOException, PermissionBackendException {
     PatchSet ps = psUtil.current(rsrc.getNotes());
     return Response.ok(includedIn.apply(rsrc.getProject(), ps.commitId().name()));
   }

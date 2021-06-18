@@ -14,13 +14,11 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
 import static java.util.Comparator.comparing;
-import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -171,13 +169,12 @@ public class IncludedInResolver {
    * Returns the short names of refs which are as well in the matchingRefs list as well as in the
    * allRef list.
    */
-  private static ImmutableSortedSet<String> getMatchingRefNames(
+  private static ImmutableSet<Ref> getMatchingRefNames(
       Set<String> matchingRefs, Collection<Ref> allRefs) {
     return allRefs.stream()
-        .map(Ref::getName)
-        .filter(matchingRefs::contains)
-        .map(Repository::shortenRefName)
-        .collect(toImmutableSortedSet(naturalOrder()));
+        // .map(Ref::getName)
+        .filter(r -> matchingRefs.contains(r.getName()))
+        .collect(ImmutableSet.toImmutableSet());
   }
 
   /** Parse commit of ref and store the relation between ref and commit. */
@@ -211,8 +208,8 @@ public class IncludedInResolver {
 
   @AutoValue
   public abstract static class Result {
-    public abstract ImmutableSortedSet<String> branches();
+    public abstract ImmutableSet<Ref> branches();
 
-    public abstract ImmutableSortedSet<String> tags();
+    public abstract ImmutableSet<Ref> tags();
   }
 }

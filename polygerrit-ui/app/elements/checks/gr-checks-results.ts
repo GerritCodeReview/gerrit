@@ -60,7 +60,7 @@ import {
   tooltipForLink,
 } from '../../services/checks/checks-util';
 import {assertIsDefined, check} from '../../utils/common-util';
-import {toggleClass, whenVisible} from '../../utils/dom-util';
+import {modifierPressed, toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
 import {isAttemptSelected} from './gr-checks-util';
@@ -83,6 +83,9 @@ import {GerritNav} from '../core/gr-navigation/gr-navigation';
 
 @customElement('gr-result-row')
 class GrResultRow extends GrLitElement {
+  @query('td.nameCol div.name')
+  nameEl?: HTMLElement;
+
   @property()
   result?: RunResult;
 
@@ -130,6 +133,7 @@ class GrResultRow extends GrLitElement {
           overflow: hidden;
           text-overflow: ellipsis;
           margin-right: var(--spacing-s);
+          outline-offset: var(--spacing-xs);
         }
         td.nameCol .space {
           flex-grow: 1;
@@ -174,6 +178,9 @@ class GrResultRow extends GrLitElement {
         }
         tr.container:hover {
           background: var(--hover-background-color);
+        }
+        tr.container:focus-within {
+          background: var(--selection-background-color);
         }
         tr.container td .summary-cell .links,
         tr.container td .summary-cell .actions,
@@ -273,6 +280,10 @@ class GrResultRow extends GrLitElement {
     super.update(changedProperties);
   }
 
+  focus() {
+    if (this.nameEl) this.nameEl.focus();
+  }
+
   firstUpdated() {
     const loading = this.shadowRoot?.querySelector('.container');
     assertIsDefined(loading, '"Loading" element');
@@ -294,10 +305,18 @@ class GrResultRow extends GrLitElement {
     }
     return html`
       <tr class="${classMap({container: true, collapsed: !this.isExpanded})}">
-        <td class="nameCol" @click="${this.toggleExpanded}">
+        <td class="nameCol" @click="${this.toggleExpandedClick}">
           <div class="flex">
             <gr-hovercard-run .run="${this.result}"></gr-hovercard-run>
-            <div class="name">${this.result.checkName}</div>
+            <div
+              class="name"
+              role="button"
+              tabindex="0"
+              @click="${this.toggleExpandedClick}"
+              @keydown="${this.toggleExpandedPress}"
+            >
+              ${this.result.checkName}
+            </div>
             <div class="space"></div>
             ${this.renderPrimaryRunAction()}
           </div>
@@ -306,7 +325,7 @@ class GrResultRow extends GrLitElement {
           <div class="summary-cell">
             ${this.renderLink(firstPrimaryLink(this.result))}
             ${this.renderSummary(this.result.summary)}
-            <div class="message" @click="${this.toggleExpanded}">
+            <div class="message" @click="${this.toggleExpandedClick}">
               ${this.isExpanded ? '' : this.result.message}
             </div>
             ${this.renderLinks()} ${this.renderActions()}
@@ -316,7 +335,7 @@ class GrResultRow extends GrLitElement {
             ${this.renderLabel()}
           </div>
         </td>
-        <td class="expanderCol" @click="${this.toggleExpanded}">
+        <td class="expanderCol" @click="${this.toggleExpandedClick}">
           <div
             class="show-hide"
             role="switch"
@@ -326,7 +345,7 @@ class GrResultRow extends GrLitElement {
             aria-label="${this.isExpanded
               ? 'Collapse result row'
               : 'Expand result row'}"
-            @keydown="${this.toggleExpanded}"
+            @keydown="${this.toggleExpandedPress}"
           >
             <iron-icon
               icon="${this.isExpanded
@@ -354,6 +373,23 @@ class GrResultRow extends GrLitElement {
     return html`<gr-result-expanded
       .result="${this.result}"
     ></gr-result-expanded>`;
+  }
+
+  private toggleExpandedClick(e: MouseEvent) {
+    if (!this.isExpandable) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.toggleExpanded();
+  }
+
+  private toggleExpandedPress(e: KeyboardEvent) {
+    if (!this.isExpandable) return;
+    if (modifierPressed(e)) return;
+    // Only react to `return` and `space`.
+    if (e.keyCode !== 13 && e.keyCode !== 32) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.toggleExpanded();
   }
 
   private toggleExpanded() {
@@ -898,7 +934,7 @@ export class GrChecksResults extends GrLitElement {
       ) {
         let cat = statusOrCategory.toString().toLowerCase();
         if (statusOrCategory === RunStatus.COMPLETED) cat = 'success';
-        this.scrollElIntoView(`.categoryHeader .${cat}`);
+        this.scrollElIntoView(`.categoryHeader.${cat} + table gr-result-row`);
       } else if (checkName) {
         this.scrollElIntoView(`gr-result-row.${charsOnly(checkName)}`);
       }
@@ -911,6 +947,7 @@ export class GrChecksResults extends GrLitElement {
       // el might be a <gr-result-row> with an empty shadowRoot. Let's wait a
       // moment before trying to find a child element in it.
       setTimeout(() => {
+        if (el) (el as HTMLElement).focus();
         // <gr-result-row> has display:contents and cannot be scrolled into view
         // itself. Thus we are preferring to scroll the first child into view.
         el = el?.shadowRoot?.firstElementChild ?? el;

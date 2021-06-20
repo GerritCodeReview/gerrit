@@ -157,6 +157,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb2f10b7_d5cd8bfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-20T12:08:18Z",
+      "side": 1,
+      "message": "I agree, I think the change looks good. Though we should mitigate the situation Thomas mentioned. How about adding 10sec to the configured timeout for that ?",
+      "parentUuid": "58a37ed2_a4d29988",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "816abdbf_1641be24",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 5

@@ -263,7 +263,7 @@ public class ChangeField {
       StringBuilder directory = new StringBuilder();
       r.add(directory.toString());
       String nextPart = null;
-      for (String part : s.split(path)) {
+      for (String part : s.split(path.toLowerCase(Locale.US))) {
         if (nextPart != null) {
           r.add(nextPart);
 

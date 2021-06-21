@@ -22,6 +22,30 @@
       },
       "revId": "f0b0850c60f3adeffd217a423b4694133c00beb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d2d70b5_d867ebe6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4088,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-21T13:55:57Z",
+      "side": 1,
+      "message": "\u003e are we tracking how to fix this?\n\nCreated b/191645706 for tracking.\n\n\u003e Why is this flaky?\n\nI still don\u0027t know why. The test fails flakily in TAP presubmits; a couple reruns make the test pass.\n\n\u003e If we\u0027re not running the test, why not delete it?\n\nI prefer keeping the test and fixing it. It exercises an important behaviour around submit requirements inheritance and it\u0027s good to ensure the logic is (and remains) correct.\n\n\u003e (uneducated guess: something to do with project cache eviction)\nYeah, could be. Or also could be due to votes not being immediately visible for some reason. This test method has logic that is quite similar to other tests (i.e. configuring a submit requirement, voting on labels, etc...) but this one particularly fails. Others always pass.",
+      "parentUuid": "43f10fcd_059fb050",
+      "range": {
+        "startLine": 4088,
+        "startChar": 2,
+        "endLine": 4088,
+        "endChar": 26
+      },
+      "revId": "f0b0850c60f3adeffd217a423b4694133c00beb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

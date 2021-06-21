@@ -496,7 +496,7 @@ export const htmlTemplate = html`
               <gr-account-label
                 account="[[account]]"
                 force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                selected="[[_computeHasNewAttention(account, _newAttentionSet)]]
+                selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
                 hide-hovercard=""
                 selection-chip-style
                 on-click="_handleAttentionClick"

@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37d8ff43_18987d23",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsMaxLabelVotePredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-21T12:05:11Z",
+      "side": 1,
+      "message": "I think this doesn\u0027t work.\n\nIIUC, this is the value that is passed to the index to do the matching on the LABEL field. Since the change documents in the index never have \"MAX\" as value, this predicate will never match any index document and hence the match / matchValue method will never be invoked.\n\nTo make this work you would need to store MAX as a value for the LABEL field in the change index, at the moment when the change is being indexed.",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 60
+      },
+      "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a92e152f_d3928ce9",
         "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
         "patchSetId": 3
@@ -61,6 +84,47 @@
         "endLine": 176,
         "endChar": 69
       },
+      "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6489803a_0b6861ec",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-21T12:05:11Z",
+      "side": 1,
+      "message": "Ah, I see. The problem is that labelType can only be looked up when we are inside the match method (where we know the change and hence the project).\n\nStill I think this can be written cleaner. My attempt to do so is here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/309804\n\nPlease note that it has the same issue as commented at:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/309067/3/java/com/google/gerrit/server/query/change/EqualsMaxLabelVotePredicate.java\n\nSo also my change doesn\u0027t work yet.",
+      "parentUuid": "3eaf7c01_59a715cf",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 176,
+        "endChar": 69
+      },
+      "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "170ee8e5_c2cf83f3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3997,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-21T12:05:11Z",
+      "side": 1,
+      "message": "There should also be query tests in AbstractQueryChangesTest.\n\nAdding these tests reveals the issue that I pointed out at:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/309067/3/java/com/google/gerrit/server/query/change/EqualsMaxLabelVotePredicate.java",
       "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

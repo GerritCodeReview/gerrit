@@ -16,6 +16,24 @@
       "message": "Should this also be implemented for tags?",
       "revId": "36181b5707f07f2a4eef8203cc5bdad2972f89ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc50c89a_33210e5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-21T08:22:01Z",
+      "side": 1,
+      "message": "not sure. Write a test? tag visibility is governed by branch visibility. It might be that that you have to provide the list of branches to return as input to the tag visibility filtering.",
+      "parentUuid": "2b19732d_6337c5cb",
+      "revId": "36181b5707f07f2a4eef8203cc5bdad2972f89ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

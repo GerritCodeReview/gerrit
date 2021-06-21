@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71a003ec_d2ca57ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-21T08:22:01Z",
+      "side": 1,
+      "message": "this is arguably a (security) bugfix. This should go onto the oldest support stable release. ",
+      "revId": "fd008f90fe55ed7d3cb8e7efc27306277c69f9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

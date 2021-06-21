@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce59fab6_8600a23c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-21T16:26:58Z",
+      "side": 1,
+      "message": "@Hanwen: change still requires a non-uploader approval (because I uploaded a new PS with style fix). Could you try to +2?",
+      "revId": "05c0836204d7d4a7c8fe20e081495090d720184e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

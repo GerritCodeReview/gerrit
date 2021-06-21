@@ -46,6 +46,30 @@
       },
       "revId": "f0b0850c60f3adeffd217a423b4694133c00beb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9739d26e_bfbda433",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4088,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-21T13:58:02Z",
+      "side": 1,
+      "message": "Another data point: I didn\u0027t see this test failing with our CI on gerrit-review.googlesource.com; it only fails internally.",
+      "parentUuid": "3d2d70b5_d867ebe6",
+      "range": {
+        "startLine": 4088,
+        "startChar": 2,
+        "endLine": 4088,
+        "endChar": 26
+      },
+      "revId": "f0b0850c60f3adeffd217a423b4694133c00beb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

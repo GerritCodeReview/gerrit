@@ -26,7 +26,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -88,17 +87,6 @@ public class IncludedInResolver {
     return new AutoValue_IncludedInResolver_Result(
         getMatchingRefNames(allMatchingTagsAndBranches, branches),
         getMatchingRefNames(allMatchingTagsAndBranches, tags));
-  }
-
-  private boolean includedInOne(Collection<Ref> refs) throws IOException {
-    parseCommits(refs);
-    List<RevCommit> before = new ArrayList<>();
-    List<RevCommit> after = new ArrayList<>();
-    partition(before, after);
-    rw.reset();
-    // It is highly likely that the target is reachable from the "after" set
-    // Within the "before" set we are trying to handle cases arising from clock skew
-    return !includedIn(after, 1).isEmpty() || !includedIn(before, 1).isEmpty();
   }
 
   /** Resolves which tip refs include the target commit. */

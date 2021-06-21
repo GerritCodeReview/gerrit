@@ -1511,6 +1511,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         insert(repo, newChangeWithFiles(repo, "documentation/training/slides/README.txt"));
     Change change4 = insert(repo, newChangeWithFiles(repo, "a.txt"));
     Change change5 = insert(repo, newChangeWithFiles(repo, "a/b/c/d/e/foo.txt"));
+    Change change6 = insert(repo, newChangeWithFiles(repo, "all/caps/DIRECTORY/file.txt"));
 
     // matching by directory prefix works
     assertQuery("directory:src", change2, change1);
@@ -1526,6 +1527,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // case doesn't matter
     assertQuery("directory:Documentation/TrAiNiNg/SLIDES", change3);
+    assertQuery("directory:all/caps/directory", change6);
 
     // leading and trailing '/' doesn't matter
     assertQuery("directory:/documentation/training/slides", change3);
@@ -1537,8 +1539,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("directory:documentation/training/slides/README.txt");
 
     // root directory matches all changes
-    assertQuery("directory:/", change5, change4, change3, change2, change1);
-    assertQuery("directory:\"\"", change5, change4, change3, change2, change1);
+    assertQuery("directory:/", change6, change5, change4, change3, change2, change1);
+    assertQuery("directory:\"\"", change6, change5, change4, change3, change2, change1);
     assertFailingQuery("directory:");
 
     // matching single directory segments works

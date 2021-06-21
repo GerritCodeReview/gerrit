@@ -462,6 +462,8 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     this.$.reviewed.checked = reviewed;
     if (!this._patchRange?.patchNum || !this._path) return;
     const path = this._path;
+    // if file is already reviewed then do not make a saveReview request
+    if (this._reviewedFiles.has(path) && reviewed) return;
     if (reviewed) this._reviewedFiles.add(path);
     else this._reviewedFiles.delete(path);
     this._saveReviewedState(reviewed).catch(err => {

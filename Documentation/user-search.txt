@@ -702,6 +702,19 @@ Instead of a numeric vote, you can provide a label status corresponding
 to one of the fields in the
 link:rest-api-changes.html#submit-record[SubmitRecord] REST API entity.
 
+
+`label:Code-Review=MAX`::
++
+Matches changes with label voted with the highest possible score.
+
+`label:Code-Review=MIN`::
++
+Matches changes with label voted with the lowest possible score.
+
+`label:Code-Review=ANY`::
++
+Matches changes with label voted with any score.
+
 `label:Non-Author-Code-Review=need`::
 +
 Matches changes where the submit rules indicate that a label named

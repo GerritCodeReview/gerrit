@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77519d22_d97e765e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-21T08:03:58Z",
+      "side": 1,
+      "message": "I am conflicted about this change. I think this is about a specific user complaining they didn\u0027t get an email, but I fear that if you make this change we\u0027ll get other users complaining they get spammed by current automation that submits stuff on their behalf and they don\u0027t care about it.\n\nOther ideas (didn\u0027t think deeply about them but I prefer them over the current change):\n1. Add a new account preference for that.\n2. Add a new email strategy (a bit bad, since we will have strange email strategies combinations).\n3. suggest user changes email strategy to receive own comments (and do nothing else).\n4. suggest the automation to stop submitting on behalf of users, why are they not just giving the automation the right permission? (probably not worth the effort though, and a bit controversial).",
+      "revId": "8906949834ba40fbdea8ae3f53a83b72b48a75be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e5dfd95_d86de2b0",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-21T08:03:58Z",
+      "side": 1,
+      "message": "did you forget to check this?\nthere is also the \"send only when in attention set strategy\" that it might be good to check here, but I think this might be tricky in this part of the code.",
+      "range": {
+        "startLine": 153,
+        "startChar": 58,
+        "endLine": 154,
+        "endChar": 37
+      },
+      "revId": "8906949834ba40fbdea8ae3f53a83b72b48a75be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

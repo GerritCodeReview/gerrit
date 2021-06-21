@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "29afc0e7_e3d9927f",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-21T10:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34c9e9a8_b87d10e5",
+      "range": {
+        "startLine": 33,
+        "startChar": 16,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "870cbdc5_d92b706a",
         "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-18T17:25:26Z",
       "side": 1,
       "message": "nit: curious about inconsistency: type annotation is present here, but not in L750.",
+      "range": {
+        "startLine": 744,
+        "startChar": 12,
+        "endLine": 744,
+        "endChar": 24
+      },
+      "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc06d676_6aff3879",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-21T10:45:34Z",
+      "side": 1,
+      "message": "There is no strict style rule for it. Sometimes it is just a bit nicer to read the code when the types are explicitly mentioned. But often the inferred type is just fine and adding the type would be clutter. I have made it consistent and added the type to L750, as well.",
+      "parentUuid": "870cbdc5_d92b706a",
       "range": {
         "startLine": 744,
         "startChar": 12,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ee4b31_a684996e",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-21T10:45:34Z",
+      "side": 1,
+      "message": "If\n  result.externalId \u003d\u003d\u003d undefined\nand\n  updatedResult.externalId \u003d\u003d\u003d undefined\nthen\n  result.externalId \u003d\u003d\u003d updatedResult.externalId\n  \n  \nThat is the case that I would like to avoid. The externalId must be defined *and* must be equal to the result in question.",
+      "parentUuid": "73361bc1_8be5a76e",
+      "range": {
+        "startLine": 751,
+        "startChar": 10,
+        "endLine": 751,
+        "endChar": 31
+      },
+      "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2b8ef06_123e8cf6",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "429aa8bf_39a3f53b",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-21T10:45:34Z",
+      "side": 1,
+      "message": "That is a fair point.\n\nActually we only want to ensure that the `internalResultId` is copied over. Made this explicit and remove the `...result` spread.",
+      "parentUuid": "f2b8ef06_123e8cf6",
+      "range": {
+        "startLine": 754,
+        "startChar": 14,
+        "endLine": 754,
+        "endChar": 44
+      },
+      "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7897bb0_0570ab97",
@@ -106,6 +202,30 @@
       "writtenOn": "2021-06-18T17:25:26Z",
       "side": 1,
       "message": "curious, why do we need to create the whole object (and also above)?\nas opposed to just updating its \"runs\" attribute.",
+      "range": {
+        "startLine": 762,
+        "startChar": 4,
+        "endLine": 762,
+        "endChar": 7
+      },
+      "revId": "e345d08673ee69aa2fe3bf9e44e92ff143fcf819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d7efc3c_4bddcc31",
+        "filename": "polygerrit-ui/app/services/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-21T10:45:34Z",
+      "side": 1,
+      "message": "Our state management uses immutable objects only. Updating a property of a state object is not allowed. I think this is a common pattern these days for state management in web UIs.\n\nSo far we have avoided to buy into any kind of framework for state management or for handling immutability, because we are still somewhat in an exploratory phase. We should probably start using \u0027immer\u0027 ...",
+      "parentUuid": "c7897bb0_0570ab97",
       "range": {
         "startLine": 762,
         "startChar": 4,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d0c4bae_d9d66a0d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-21T10:04:34Z",
+      "side": 1,
+      "message": "Maybe add a comment before this line to explain or rewrite it to\n\n```\nconst skipAlreadyReviewedFile \u003d this._reviewedFiles.has(path) \u0026\u0026 reviewed;\nif (skipAlreadyReviewedFile) return;\n```",
+      "range": {
+        "startLine": 465,
+        "startChar": 25,
+        "endLine": 465,
+        "endChar": 56
+      },
+      "revId": "ce71f19240dfc6cebf1812f4715c12438ea67f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

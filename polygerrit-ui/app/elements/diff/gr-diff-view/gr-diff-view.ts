@@ -1206,15 +1206,17 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
-  @observe('_path', '_prefs', '_reviewedFiles')
+  @observe('_path', '_prefs', '_reviewedFiles', '_patchRange')
   _setReviewedObserver(
     path?: string,
     prefs?: DiffPreferencesInfo,
-    reviewedFiles?: Set<string>
+    reviewedFiles?: Set<string>,
+    patchRange?: PatchRange
   ) {
     if (prefs === undefined) return;
     if (path === undefined) return;
     if (reviewedFiles === undefined) return;
+    if (patchRange === undefined) return;
     if (prefs.manual_review) {
       // Checkbox state needs to be set explicitly only when manual_review
       // is specified.

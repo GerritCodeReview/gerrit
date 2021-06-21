@@ -73,6 +73,8 @@ public abstract class FileDiffCacheKey {
     return new AutoValue_FileDiffCacheKey.Builder();
   }
 
+  public abstract Builder toBuilder();
+
   @AutoValue.Builder
   public abstract static class Builder {
 

@@ -17,12 +17,10 @@ package com.google.gerrit.server.query.approval;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -32,11 +30,11 @@ import java.util.Objects;
 /** Predicate that matches when the new patch-set includes the same files as the old patch-set. */
 @Singleton
 public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
-  private final PatchListCache patchListCache;
+  private final DiffOperations diffOperations;
 
   @Inject
-  public ListOfFilesUnchangedPredicate(PatchListCache patchListCache) {
-    this.patchListCache = patchListCache;
+  public ListOfFilesUnchangedPredicate(DiffOperations diffOperations) {
+    this.diffOperations = diffOperations;
   }
 
   @Override
@@ -44,14 +42,13 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
     PatchSet currentPatchset = ctx.changeNotes().getCurrentPatchSet();
     Map.Entry<PatchSet.Id, PatchSet> priorPatchSet =
         ctx.changeNotes().getPatchSets().lowerEntry(currentPatchset.id());
-    PatchListKey key =
-        PatchListKey.againstCommit(
-            priorPatchSet.getValue().commitId(),
-            currentPatchset.commitId(),
-            DiffPreferencesInfo.Whitespace.IGNORE_NONE);
     try {
-      return match(patchListCache.get(key, ctx.changeNotes().getProjectName()));
-    } catch (PatchListNotAvailableException ex) {
+      return match(
+          diffOperations.listModifiedFiles(
+              ctx.changeNotes().getProjectName(),
+              priorPatchSet.getValue().commitId(),
+              currentPatchset.commitId()));
+    } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"
               + " votes on labels even if list of files is the same and "
@@ -60,24 +57,24 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
     }
   }
 
-  public boolean match(PatchList patchList) {
-    return patchList.getPatches().stream()
+  public boolean match(Map<String, FileDiffOutput> modifiedFiles) {
+    return modifiedFiles.values().stream()
         .noneMatch(
             p ->
-                p.getChangeType() == ChangeType.ADDED
-                    || p.getChangeType() == ChangeType.DELETED
-                    || p.getChangeType() == ChangeType.RENAMED);
+                p.changeType() == ChangeType.ADDED
+                    || p.changeType() == ChangeType.DELETED
+                    || p.changeType() == ChangeType.RENAMED);
   }
 
   @Override
   public Predicate<ApprovalContext> copy(
       Collection<? extends Predicate<ApprovalContext>> children) {
-    return new ListOfFilesUnchangedPredicate(patchListCache);
+    return new ListOfFilesUnchangedPredicate(diffOperations);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(patchListCache);
+    return Objects.hash(diffOperations);
   }
 
   @Override
@@ -86,6 +83,6 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
       return false;
     }
     ListOfFilesUnchangedPredicate o = (ListOfFilesUnchangedPredicate) other;
-    return Objects.equals(o.patchListCache, patchListCache);
+    return Objects.equals(o.diffOperations, diffOperations);
   }
 }

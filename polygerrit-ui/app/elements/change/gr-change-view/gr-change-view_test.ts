@@ -1547,14 +1547,19 @@ suite('gr-change-view tests', () => {
       changeNum: 1 as NumericChangeId,
     };
     flush();
+    element._change = change;
+    flush();
     assert.equal(element.viewState.diffMode, DiffViewMode.UNIFIED);
     assert.equal(element.viewState.changeNum, 1);
 
     element._changeNum = 2 as NumericChangeId;
+    change._number = 2 as NumericChangeId;
     element.params = {
       ...createAppElementChangeViewParams(),
       changeNum: 2 as NumericChangeId,
     };
+    flush();
+    element._change = change;
     flush();
     assert.equal(element.viewState.diffMode, DiffViewMode.UNIFIED);
     assert.equal(element.viewState.changeNum, 2);
@@ -1614,7 +1619,7 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  test('don’t reload entire page when patchRange changes', () => {
+  test.only('don’t reload entire page when patchRange changes', () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve([]));

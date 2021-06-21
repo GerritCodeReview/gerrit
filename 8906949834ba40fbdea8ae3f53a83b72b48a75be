@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8d222a17_14258cc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-21T10:13:57Z",
+      "side": 1,
+      "message": "Thank you for review and sorry for somewhat long comment!\n\nI think this is concerning, that we have this kind of permission, that allows acting on behalf of the user, without a way for them to audit what is sent on their behalf.\n\nThat is why I went for a change in OutgoingEmail, rather than only fixing Submit endpoint.\n\nWith this change, the user will get notification only if impersonated and we are trying to send something on their behalf (i.e. nothing changes if we sent from gerrit server, which is internal user).\n\nAs a user, I am normally interested to know if my change was merged or not, so I would not complain. If we start getting more complains about the spam, we can revisit this.\n\nRe Option #1, #3: IMHO the email strategy \u0027Own comments\u0027 has unexpected behaviour here. If smth. was done on my behalf, this is not my action? I would fix the existing preference, rather then introducing a new one.\n\nRe Option #2: I was thinking to just add default [1] notifyDetails for the \u0027onBehalfOf\u0027 user in Submit endpoint[2], if we go for fixing this for Submit endpoint only. But as I explained above, I wonder if we have other actions, that have similar behaivour.\nRe Option #4: I wonder if there cases, other than automation, when SUBMIT_AS permission is useful? Should we just deprecate it in such case?\n\nSo 2 main questions remaining:\n1) Should we suggest a workaround for the user or fix \u0027On behalf of\u0027 emails.\n2) Should we only fix Submit endpoint, or try to catch other cases.\n\nLet me know if you would like to raise the wider discussion/gather opinions before proceeding with this change. \n\n[1]https://gerrit.googlesource.com/gerrit/+/bc69bccb/java/com/google/gerrit/extensions/api/changes/SubmitInput.java#26\n[2]https://gerrit.googlesource.com/gerrit/+/bc69bccb/java/com/google/gerrit/server/restapi/change/Submit.java#177",
+      "parentUuid": "77519d22_d97e765e",
+      "revId": "8906949834ba40fbdea8ae3f53a83b72b48a75be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e5dfd95_d86de2b0",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 4
@@ -31,6 +49,30 @@
       "writtenOn": "2021-06-21T08:03:58Z",
       "side": 1,
       "message": "did you forget to check this?\nthere is also the \"send only when in attention set strategy\" that it might be good to check here, but I think this might be tricky in this part of the code.",
+      "range": {
+        "startLine": 153,
+        "startChar": 58,
+        "endLine": 154,
+        "endChar": 37
+      },
+      "revId": "8906949834ba40fbdea8ae3f53a83b72b48a75be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcf30f50_267a9469",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-21T10:13:57Z",
+      "side": 1,
+      "message": "The \u0027disabled\u0027 email strategy is explicitly filtered out in line #160 (also covered by test)",
+      "parentUuid": "7e5dfd95_d86de2b0",
       "range": {
         "startLine": 153,
         "startChar": 58,

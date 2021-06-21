@@ -214,6 +214,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
+import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
@@ -4084,6 +4085,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore("Test is flaky")
   public void submitRequirement_overriddenInChildProject() throws Exception {
     configSubmitRequirement(
         allProjects,

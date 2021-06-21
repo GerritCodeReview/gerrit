@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "954788c7_d1032434",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-21T16:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5057110_a22aa872",
+      "range": {
+        "startLine": 191,
+        "startChar": 12,
+        "endLine": 191,
+        "endChar": 59
+      },
+      "revId": "1c812c53189006d662584ecb3e2e3a1fb3757398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3730c8b1_c19ce3eb",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7acb9b8f_28206f80",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-21T16:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3730c8b1_c19ce3eb",
+      "range": {
+        "startLine": 207,
+        "startChar": 22,
+        "endLine": 207,
+        "endChar": 33
+      },
+      "revId": "1c812c53189006d662584ecb3e2e3a1fb3757398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2402eead_8f392541",
@@ -60,6 +108,24 @@
       "writtenOn": "2021-06-21T14:38:04Z",
       "side": 1,
       "message": "nit: chain with previous Builder calls.",
+      "revId": "1c812c53189006d662584ecb3e2e3a1fb3757398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d63ae0bb_06afe711",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-21T16:44:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2402eead_8f392541",
       "revId": "1c812c53189006d662584ecb3e2e3a1fb3757398",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

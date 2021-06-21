@@ -16,6 +16,24 @@
       "message": "Are you confident we don\u0027t need to gate these rollouts with a Mendel flag?",
       "revId": "9a97133733924650a9efb7fc7a36c90242792247",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da7fcbdd_b21dc52d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-21T09:10:54Z",
+      "side": 1,
+      "message": "Yes, I\u0027m confident about the correctness of the new logic.",
+      "parentUuid": "25d54693_e5937bc0",
+      "revId": "9a97133733924650a9efb7fc7a36c90242792247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

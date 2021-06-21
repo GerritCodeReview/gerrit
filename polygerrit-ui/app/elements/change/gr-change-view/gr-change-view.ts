@@ -989,7 +989,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       .sort((a, b) => (b.value as number) - (a.value as number));
   }
 
-  _handleCurrentRevisionUpdate(currentRevision: RevisionInfo) {
+  _handleCurrentRevisionUpdate(currentRevision?: RevisionInfo) {
+    if (!currentRevision) return;
     this._currentRobotCommentsPatchSet = currentRevision._number;
   }
 
@@ -1260,6 +1261,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       return;
     }
 
+    this._change = undefined;
     // Everything in the change view is tied to the change. It seems better to
     // force the re-creation of the change view when the change number changes.
     const changeChanged = this._changeNum !== value.changeNum;
@@ -1542,7 +1544,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return 'PARENT';
   }
 
-  _computeChangeUrl(change: ChangeInfo) {
+  _computeChangeUrl(change?: ChangeInfo) {
+    if (!change) return;
     return GerritNav.getUrlForChange(change);
   }
 
@@ -2341,12 +2344,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _computeCanStartReview(change: ChangeInfo) {
-    return !!(
-      change.actions &&
-      change.actions.ready &&
-      change.actions.ready.enabled
-    );
+  _computeCanStartReview(change?: ChangeInfo) {
+    return !!change?.actions?.ready?.enabled;
   }
 
   _computeChangePermalinkAriaLabel(changeNum: NumericChangeId) {
@@ -2357,7 +2356,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    * Returns the text to be copied when
    * click the copy icon next to change subject
    */
-  _computeCopyTextForTitle(change: ChangeInfo) {
+  _computeCopyTextForTitle(change?: ChangeInfo) {
+    if (!change) return '';
     return (
       `${change._number}: ${change.subject} | ` +
       `${location.protocol}//${location.host}` +

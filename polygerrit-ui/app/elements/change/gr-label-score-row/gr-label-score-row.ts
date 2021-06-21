@@ -271,15 +271,14 @@ export class GrLabelScoreRow extends PolymerElement {
   }
 
   _computeLabelValueTitle(
-    labels: LabelNameToInfoMap,
-    label: string,
-    value: string
+    labels?: LabelNameToInfoMap,
+    label?: string,
+    value?: string
   ) {
+    if (labels === undefined || label === undefined || value === undefined) {
+      return;
+    }
     // TODO(TS): maybe add a type guard for DetailedLabelInfo and QuickLabelInfo
-    return (
-      labels[label] &&
-      (labels[label] as DetailedLabelInfo).values &&
-      (labels[label] as DetailedLabelInfo).values![value]
-    );
+    return (labels?.[label] as DetailedLabelInfo)?.values![value];
   }
 }

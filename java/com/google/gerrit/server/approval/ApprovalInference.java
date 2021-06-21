@@ -30,7 +30,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
@@ -40,7 +39,6 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
-import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -433,11 +431,6 @@ class ApprovalInference {
    */
   private Map<String, FileDiffOutput> listModifiedFiles(
       ProjectState project, PatchSet ps, Map.Entry<PatchSet.Id, PatchSet> priorPatchSet) {
-    PatchListKey key =
-        PatchListKey.againstCommit(
-            priorPatchSet.getValue().commitId(),
-            ps.commitId(),
-            DiffPreferencesInfo.Whitespace.IGNORE_NONE);
     try {
       return diffOperations.listModifiedFiles(
           project.getNameKey(), priorPatchSet.getValue().commitId(), ps.commitId());

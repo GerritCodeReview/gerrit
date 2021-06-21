@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3ccf131_93393791",
+        "filename": "java/com/google/gerrit/server/restapi/change/Files.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-21T09:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d02cfc9_28eee55d",
+      "revId": "dd0a11c797ac7858ad487ec9c5b3e760806e8a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fc9f72c_6b8528d2",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-06-18T12:49:52Z",
       "side": 1,
       "message": "You could use Iterables.getFirst() here.",
+      "revId": "dd0a11c797ac7858ad487ec9c5b3e760806e8a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "607a49e7_f5fd2678",
+        "filename": "java/com/google/gerrit/server/restapi/change/Files.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-21T09:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fc9f72c_6b8528d2",
       "revId": "dd0a11c797ac7858ad487ec9c5b3e760806e8a14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2762dd75_c10e4cdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-21T09:30:44Z",
+      "side": 1,
+      "message": "I wonder if this makes sense for a 3.4 change as well. \n\nI suspect 3.5 will require an index update, which will be expensive because all the diff cache computations have to be done again.\n\nCC\u0027ing Luca in case he has an opinion.",
+      "revId": "c3288c451d09f0633a70c2e40ca20c60529bb710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

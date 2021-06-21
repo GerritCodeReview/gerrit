@@ -347,9 +347,9 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     };
   }
 
-  private fileCursor = new GrCursorManager();
+  fileCursor = new GrCursorManager();
 
-  private diffCursor = new GrDiffCursor();
+  diffCursor = new GrDiffCursor();
 
   constructor() {
     super();
@@ -534,7 +534,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     return this.restApiService.getPreferences();
   }
 
-  private _toggleFileExpanded(file: PatchSetFile) {
+  _toggleFileExpanded(file: PatchSetFile) {
     // Is the path in the list of expanded diffs? IF so remove it, otherwise
     // add it to the list.
     const pathIndex = this._expandedFiles.findIndex(f => f.path === file.path);
@@ -672,7 +672,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     return commentThreadCount === 0 ? '' : `${commentThreadCount}c`;
   }
 
-  private _reviewFile(path: string, reviewed?: boolean) {
+  _reviewFile(path: string, reviewed?: boolean) {
     if (this.editMode) {
       return Promise.resolve();
     }
@@ -1376,7 +1376,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
     this.diffCursor.reInitAndUpdateStops();
   }
 
-  private _clearCollapsedDiffs(collapsedDiffs: GrDiffHost[]) {
+  _clearCollapsedDiffs(collapsedDiffs: GrDiffHost[]) {
     for (const diff of collapsedDiffs) {
       diff.cancel();
       diff.clearDiffContent();
@@ -1391,7 +1391,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
    * @param initialCount The total number of paths in the pass. This
    * is used to generate log messages.
    */
-  private _renderInOrder(
+  _renderInOrder(
     files: PatchSetFile[],
     diffElements: GrDiffHost[],
     initialCount: number

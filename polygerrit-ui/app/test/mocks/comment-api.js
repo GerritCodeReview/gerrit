@@ -22,7 +22,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
  * This is an "abstract" class for tests. The descendant must define a template
  * for this element and a tagName - see createCommentApiMockWithTemplateElement below
  */
-class CommentApiMock extends LegacyElementMixin(PolymerElement) {
+export class CommentApiMock extends LegacyElementMixin(PolymerElement) {
   static get properties() {
     return {
       _changeComments: Object,

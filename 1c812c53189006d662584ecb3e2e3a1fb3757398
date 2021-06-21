@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5057110_a22aa872",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-21T14:38:04Z",
+      "side": 1,
+      "message": "I find these two enums a bit confusing. WDYT about sth like:\n\nHISTOGRAM_WITH_FALLBACK_MYERS and\nHISTOGRAM_WITHOUT_FALLBACK\n\nThat would put MYERS into the case where it\u0027s used, and would also indicate that a fallback is configured in the first place. Currently the meaning of HISTOGRAM can only be inferred in conjunction with HISTOGRAM_WITHOUT_MYERS_FALLBACK.",
+      "range": {
+        "startLine": 191,
+        "startChar": 12,
+        "endLine": 191,
+        "endChar": 59
+      },
+      "revId": "1c812c53189006d662584ecb3e2e3a1fb3757398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3730c8b1_c19ce3eb",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-21T14:38:04Z",
+      "side": 1,
+      "message": "nit: It isn\u0027t recomputing but retrying.",
+      "range": {
+        "startLine": 207,
+        "startChar": 22,
+        "endLine": 207,
+        "endChar": 33
+      },
+      "revId": "1c812c53189006d662584ecb3e2e3a1fb3757398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2402eead_8f392541",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-21T14:38:04Z",
+      "side": 1,
+      "message": "nit: chain with previous Builder calls.",
+      "revId": "1c812c53189006d662584ecb3e2e3a1fb3757398",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

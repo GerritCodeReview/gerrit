@@ -66,7 +66,8 @@ public class DiffOperationsImpl implements DiffOperations {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final int RENAME_SCORE = 60;
-  private static final DiffAlgorithm DEFAULT_DIFF_ALGORITHM = DiffAlgorithm.HISTOGRAM;
+  private static final DiffAlgorithm DEFAULT_DIFF_ALGORITHM =
+      DiffAlgorithm.HISTOGRAM_WITH_FALLBACK_MYERS;
   private static final Whitespace DEFAULT_WHITESPACE = Whitespace.IGNORE_NONE;
 
   private final ModifiedFilesCache modifiedFilesCache;
@@ -132,6 +133,7 @@ public class DiffOperationsImpl implements DiffOperations {
             .newCommit(newCommit)
             .baseCommit(oldCommit)
             .comparisonType(ComparisonType.againstOtherPatchSet())
+            .diffAlgorithm(DEFAULT_DIFF_ALGORITHM)
             .build();
     return listModifiedFilesWithTimeout(params);
   }
@@ -147,7 +149,13 @@ public class DiffOperationsImpl implements DiffOperations {
     try {
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
       FileDiffCacheKey key =
-          createFileDiffCacheKey(project, diffParams.baseCommit(), newCommit, fileName, whitespace);
+          createFileDiffCacheKey(
+              project,
+              diffParams.baseCommit(),
+              newCommit,
+              fileName,
+              diffParams.diffAlgorithm(),
+              whitespace);
       return getModifiedFileWithTimeout(key, diffParams);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
@@ -169,12 +177,20 @@ public class DiffOperationsImpl implements DiffOperations {
             .baseCommit(oldCommit)
             .newCommit(newCommit)
             .comparisonType(ComparisonType.againstOtherPatchSet())
+            .diffAlgorithm(DEFAULT_DIFF_ALGORITHM)
             .build();
     FileDiffCacheKey key =
-        createFileDiffCacheKey(project, oldCommit, newCommit, fileName, whitespace);
+        createFileDiffCacheKey(
+            project, oldCommit, newCommit, fileName, params.diffAlgorithm(), whitespace);
     return getModifiedFileWithTimeout(key, params);
   }
 
+  /**
+   * Computes the list of modified files between two commits using the {@link
+   * DiffAlgorithm#HISTOGRAM_WITH_FALLBACK_MYERS} diff algorithm. The computation runs with the
+   * timeout specified by {@link #timeoutMillis} milliseconds. If the timeout is reached, this
+   * method falls back to the {@link DiffAlgorithm#HISTOGRAM_NO_FALLBACK}.
+   */
   private Map<String, FileDiffOutput> listModifiedFilesWithTimeout(DiffParameters params)
       throws DiffNotAvailableException {
     Future<DiffResult> task =
@@ -183,40 +199,57 @@ public class DiffOperationsImpl implements DiffOperations {
               ImmutableMap<String, FileDiffOutput> modifiedFiles = getModifiedFiles(params);
               return DiffResult.create(null, modifiedFiles);
             });
-    DiffResult diffResult = execDiffWithTimeout(task, params);
-    return diffResult.modifiedFiles();
-  }
-
-  private FileDiffOutput getModifiedFileWithTimeout(FileDiffCacheKey key, DiffParameters params)
-      throws DiffNotAvailableException {
-    Future<DiffResult> task =
-        diffExecutor.submit(
-            () -> {
-              Map<String, FileDiffOutput> diffList = getModifiedFilesForKeys(ImmutableList.of(key));
-              FileDiffOutput fileDiffOutput =
-                  diffList.containsKey(key.newFilePath())
-                      ? diffList.get(key.newFilePath())
-                      : FileDiffOutput.empty(key.newFilePath(), key.oldCommit(), key.newCommit());
-              return DiffResult.create(fileDiffOutput, null);
-            });
-    DiffResult result = execDiffWithTimeout(task, params);
-    return result.fileDiff();
-  }
-
-  /** Executes a diff task by employing a timeout. */
-  private DiffResult execDiffWithTimeout(Future<DiffResult> task, DiffParameters params)
-      throws DiffNotAvailableException {
     try {
-      return task.get(timeoutMillis, TimeUnit.MILLISECONDS);
+      return task.get(timeoutMillis, TimeUnit.MILLISECONDS).modifiedFiles();
     } catch (InterruptedException | TimeoutException e) {
-      throw new DiffNotAvailableException(
+      logger.atWarning().withCause(e).log(
           String.format(
-              "Timeout reached while computing diff for project %s, old commit %s, new commit %s",
-              params.project(), params.baseCommit().name(), params.newCommit().name()),
-          e);
+              "Timeout reached while computing diff for project %s, old commit %s, new commit %s."
+                  + " Retrying using the fallback algorithm.",
+              params.project(), params.baseCommit().name(), params.newCommit().name()));
+      task.cancel(/* mayInterruptIfRunning= */ true);
+      DiffParameters newParams =
+          params.toBuilder().diffAlgorithm(DiffAlgorithm.HISTOGRAM_NO_FALLBACK).build();
+      ImmutableMap<String, FileDiffOutput> modifiedFiles = getModifiedFiles(newParams);
+      return DiffResult.create(null, modifiedFiles).modifiedFiles();
     } catch (ExecutionException e) {
       throw new DiffNotAvailableException(e);
     }
+  }
+
+  /**
+   * Computes the file diff for a single file using the {@link
+   * DiffAlgorithm#HISTOGRAM_WITH_FALLBACK_MYERS} diff algorithm. The computation runs with the
+   * timeout specified by {@link #timeoutMillis} milliseconds. If the timeout is reached, this
+   * method falls back to the {@link DiffAlgorithm#HISTOGRAM_NO_FALLBACK}.
+   */
+  private FileDiffOutput getModifiedFileWithTimeout(FileDiffCacheKey key, DiffParameters params)
+      throws DiffNotAvailableException {
+    Future<DiffResult> task = diffExecutor.submit(() -> getModifiedFileForKey(key));
+    try {
+      return task.get(timeoutMillis, TimeUnit.MILLISECONDS).fileDiff();
+    } catch (InterruptedException | TimeoutException e) {
+      logger.atWarning().withCause(e).log(
+          String.format(
+              "Timeout reached while computing diff for project %s, old commit %s, new commit %s."
+                  + " Recomputing using the fallback algorithm.",
+              params.project(), params.baseCommit().name(), params.newCommit().name()));
+      task.cancel(/* mayInterruptIfRunning= */ true);
+      FileDiffCacheKey newKey =
+          key.toBuilder().diffAlgorithm(DiffAlgorithm.HISTOGRAM_NO_FALLBACK).build();
+      return getModifiedFileForKey(newKey).fileDiff();
+    } catch (ExecutionException e) {
+      throw new DiffNotAvailableException(e);
+    }
+  }
+
+  private DiffResult getModifiedFileForKey(FileDiffCacheKey key) throws DiffNotAvailableException {
+    Map<String, FileDiffOutput> diffList = getModifiedFilesForKeys(ImmutableList.of(key));
+    FileDiffOutput fileDiffOutput =
+        diffList.containsKey(key.newFilePath())
+            ? diffList.get(key.newFilePath())
+            : FileDiffOutput.empty(key.newFilePath(), key.oldCommit(), key.newCommit());
+    return DiffResult.create(fileDiffOutput, null);
   }
 
   private ImmutableMap<String, FileDiffOutput> getModifiedFiles(DiffParameters diffParams)
@@ -233,12 +266,22 @@ public class DiffOperationsImpl implements DiffOperations {
       List<FileDiffCacheKey> fileCacheKeys = new ArrayList<>();
       fileCacheKeys.add(
           createFileDiffCacheKey(
-              project, oldCommit, newCommit, COMMIT_MSG, /* whitespace= */ null));
+              project,
+              oldCommit,
+              newCommit,
+              COMMIT_MSG,
+              diffParams.diffAlgorithm(),
+              /* whitespace= */ null));
 
       if (cmp.isAgainstAutoMerge() || isMergeAgainstParent(cmp, project, newCommit)) {
         fileCacheKeys.add(
             createFileDiffCacheKey(
-                project, oldCommit, newCommit, MERGE_LIST, /*whitespace = */ null));
+                project,
+                oldCommit,
+                newCommit,
+                MERGE_LIST,
+                diffParams.diffAlgorithm(),
+                /*whitespace = */ null));
       }
 
       if (diffParams.skipFiles() == null) {
@@ -252,6 +295,7 @@ public class DiffOperationsImpl implements DiffOperations {
                         entity.newPath().isPresent()
                             ? entity.newPath().get()
                             : entity.oldPath().get(),
+                        diffParams.diffAlgorithm(),
                         /* whitespace= */ null))
             .forEach(fileCacheKeys::add);
       }
@@ -305,6 +349,7 @@ public class DiffOperationsImpl implements DiffOperations {
       ObjectId aCommit,
       ObjectId bCommit,
       String newPath,
+      DiffAlgorithm diffAlgorithm,
       @Nullable Whitespace whitespace) {
     whitespace = whitespace == null ? DEFAULT_WHITESPACE : whitespace;
     return FileDiffCacheKey.builder()
@@ -313,16 +358,12 @@ public class DiffOperationsImpl implements DiffOperations {
         .newCommit(bCommit)
         .newFilePath(newPath)
         .renameScore(RENAME_SCORE)
-        .diffAlgorithm(DEFAULT_DIFF_ALGORITHM)
+        .diffAlgorithm(diffAlgorithm)
         .whitespace(whitespace)
         .build();
   }
 
-  /**
-   * All interface methods create their results using this class. This is used so that the timeout
-   * method {@link #execDiffWithTimeout(Future, DiffParameters)} could be reused by all interface
-   * methods.
-   */
+  /** All interface methods create their results using this class. */
   @AutoValue
   abstract static class DiffResult {
     static DiffResult create(
@@ -359,9 +400,13 @@ public class DiffOperationsImpl implements DiffOperations {
     @Nullable
     abstract Boolean skipFiles();
 
+    abstract DiffAlgorithm diffAlgorithm();
+
     static Builder builder() {
       return new AutoValue_DiffOperationsImpl_DiffParameters.Builder();
     }
+
+    abstract Builder toBuilder();
 
     @AutoValue.Builder
     abstract static class Builder {
@@ -376,6 +421,8 @@ public class DiffOperationsImpl implements DiffOperations {
 
       abstract Builder skipFiles(@Nullable Boolean skipFiles);
 
+      abstract Builder diffAlgorithm(DiffAlgorithm diffAlgorithm);
+
       abstract Builder comparisonType(ComparisonType comparisonType);
 
       public abstract DiffParameters build();
@@ -386,7 +433,11 @@ public class DiffOperationsImpl implements DiffOperations {
   private DiffParameters computeDiffParameters(
       Project.NameKey project, ObjectId newCommit, Integer parent) throws IOException {
     DiffParameters.Builder result =
-        DiffParameters.builder().project(project).newCommit(newCommit).parent(parent);
+        DiffParameters.builder()
+            .project(project)
+            .newCommit(newCommit)
+            .parent(parent)
+            .diffAlgorithm(DEFAULT_DIFF_ALGORITHM);
     if (parent != null) {
       result.baseCommit(baseCommitUtil.getBaseCommit(project, newCommit, parent));
       result.comparisonType(ComparisonType.againstParent(parent));

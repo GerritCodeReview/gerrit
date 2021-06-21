@@ -38,7 +38,7 @@ public class GitFileDiffKeySerializerTest {
             .newTree(TREE_ID_2)
             .newFilePath("some_file.txt")
             .renameScore(65)
-            .diffAlgorithm(DiffAlgorithm.HISTOGRAM)
+            .diffAlgorithm(DiffAlgorithm.HISTOGRAM_WITH_FALLBACK_MYERS)
             .whitespace(Whitespace.IGNORE_ALL)
             .build();
 

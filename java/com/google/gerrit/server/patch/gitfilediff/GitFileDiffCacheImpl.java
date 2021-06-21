@@ -78,15 +78,15 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
 
   /** Enum for the supported diff algorithms for the file diff computation. */
   public enum DiffAlgorithm {
-    HISTOGRAM,
-    HISTOGRAM_WITHOUT_MYERS_FALLBACK
+    HISTOGRAM_WITH_FALLBACK_MYERS,
+    HISTOGRAM_NO_FALLBACK
   }
 
   /** Creates a new JGit diff algorithm instance using the Gerrit's {@link DiffAlgorithm} enum. */
   public static class DiffAlgorithmFactory {
     public static org.eclipse.jgit.diff.DiffAlgorithm create(DiffAlgorithm diffAlgorithm) {
       HistogramDiff result = new HistogramDiff();
-      if (diffAlgorithm.equals(DiffAlgorithm.HISTOGRAM_WITHOUT_MYERS_FALLBACK)) {
+      if (diffAlgorithm.equals(DiffAlgorithm.HISTOGRAM_NO_FALLBACK)) {
         result.setFallbackAlgorithm(null);
       }
       return result;

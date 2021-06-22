@@ -114,7 +114,20 @@ const initialState: ChecksState = {
   pluginStateSelected: {},
 };
 
-const privateState$ = new BehaviorSubject(initialState);
+// Mutable for testing
+let privateState$ = new BehaviorSubject(initialState);
+
+export function _testOnly_resetState() {
+  privateState$ = new BehaviorSubject(initialState);
+}
+
+export function _testOnly_setState(state: ChecksState) {
+  privateState$.next(state);
+}
+
+export function _testOnly_getState() {
+  return privateState$.getValue();
+}
 
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const checksState$: Observable<ChecksState> = privateState$;
@@ -533,6 +546,14 @@ export const fakeRun4_4: CheckRun = {
       internalResultId: 'f44r0',
       category: Category.INFO,
       summary: 'Dont be afraid. All TODOs will be eliminated.',
+      actions: [
+        {
+          name: 'Re-Run',
+          tooltip: 'More powerful run than before with a long tooltip, really.',
+          primary: true,
+          callback: () => Promise.resolve({message: 'fake "re-run" triggered'}),
+        },
+      ],
     },
   ],
 };
@@ -707,6 +728,42 @@ export function updateStateSetResults(
     }),
     actions: [...actions],
     links: [...links],
+  };
+  privateState$.next(nextState);
+}
+
+export function updateStateUpdateResult(
+  pluginName: string,
+  updatedRun: CheckRunApi,
+  updatedResult: CheckResultApi,
+  patchset: ChecksPatchset
+) {
+  const nextState = {...privateState$.getValue()};
+  const pluginState = getPluginState(nextState, patchset);
+  let runUpdated = false;
+  const runs: CheckRun[] = pluginState[pluginName].runs.map(run => {
+    if (run.change !== updatedRun.change) return run;
+    if (run.patchset !== updatedRun.patchset) return run;
+    if (run.attempt !== updatedRun.attempt) return run;
+    if (run.checkName !== updatedRun.checkName) return run;
+    let resultUpdated = false;
+    const results: CheckResult[] = (run.results ?? []).map(result => {
+      if (result.externalId && result.externalId === updatedResult.externalId) {
+        runUpdated = true;
+        resultUpdated = true;
+        return {
+          ...updatedResult,
+          internalResultId: result.internalResultId,
+        };
+      }
+      return result;
+    });
+    return resultUpdated ? {...run, results} : run;
+  });
+  if (!runUpdated) return;
+  pluginState[pluginName] = {
+    ...pluginState[pluginName],
+    runs,
   };
   privateState$.next(nextState);
 }

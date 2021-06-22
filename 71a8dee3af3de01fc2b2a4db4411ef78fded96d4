@@ -22,6 +22,30 @@
       },
       "revId": "71a8dee3af3de01fc2b2a4db4411ef78fded96d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "641aa047_314de2a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1276,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-22T19:38:05Z",
+      "side": 1,
+      "message": "We do not want to check `view \u003d\u003d\u003d CHANGE`, because we want to keep the view alive in the background. If you go to the diff view, then come back to the change view, then we don\u0027t want to re-create the change view (iff the change number is still the same).\n\nThe change view currently does not maintain `project` as a local variable, so we would have to add that. I would prefer waiting with that until we have more decent state management and a change view relying on that. For the time being I am willing to accept the very slim chance of a user switching from one change to another with the same change number, but in different projects.",
+      "parentUuid": "8220fe7e_988fb00b",
+      "range": {
+        "startLine": 1276,
+        "startChar": 31,
+        "endLine": 1276,
+        "endChar": 43
+      },
+      "revId": "71a8dee3af3de01fc2b2a4db4411ef78fded96d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

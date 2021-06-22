@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8220fe7e_988fb00b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1276,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-22T15:35:11Z",
+      "side": 1,
+      "message": "Do you think it makes sense to check other params properties like view \u003d\u003d\u003d CHANGE \u0026\u0026 project is same project?",
+      "range": {
+        "startLine": 1276,
+        "startChar": 31,
+        "endLine": 1276,
+        "endChar": 43
+      },
+      "revId": "71a8dee3af3de01fc2b2a4db4411ef78fded96d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -178,11 +178,12 @@ export class ChecksService {
       )
       .subscribe(response => {
         switch (response.responseCode) {
-          case ResponseCode.ERROR:
-            assertIsDefined(response.errorMessage, 'errorMessage');
-            updateStateSetError(pluginName, response.errorMessage, patchset);
+          case ResponseCode.ERROR: {
+            const errorMessage = response.errorMessage ?? '-';
+            updateStateSetError(pluginName, errorMessage, patchset);
             break;
-          case ResponseCode.NOT_LOGGED_IN:
+          }
+          case ResponseCode.NOT_LOGGED_IN: {
             assertIsDefined(response.loginCallback, 'loginCallback');
             updateStateSetNotLoggedIn(
               pluginName,
@@ -190,7 +191,8 @@ export class ChecksService {
               patchset
             );
             break;
-          case ResponseCode.OK:
+          }
+          case ResponseCode.OK: {
             updateStateSetResults(
               pluginName,
               response.runs ?? [],
@@ -199,6 +201,7 @@ export class ChecksService {
               patchset
             );
             break;
+          }
         }
       });
   }

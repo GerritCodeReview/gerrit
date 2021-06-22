@@ -46,6 +46,30 @@
       },
       "revId": "bd093a632c201e8f371a76d0a430a2e32851a03d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb395c6b_13c29bf8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-22T12:29:51Z",
+      "side": 1,
+      "message": "I am using \u003cbutton\u003e in GrSummaryChip which is almost same chip. Does this works with enter/space? \n\nI am ok with \u003cdiv\u003e if you have a reason to have \u003cdiv\u003e",
+      "parentUuid": "56d12e56_c427a526",
+      "range": {
+        "startLine": 285,
+        "startChar": 7,
+        "endLine": 285,
+        "endChar": 10
+      },
+      "revId": "bd093a632c201e8f371a76d0a430a2e32851a03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

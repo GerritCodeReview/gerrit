@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "019662b9_e2ddbdf4",
+        "filename": "polygerrit-ui/app/services/checks/checks-service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-22T12:12:02Z",
+      "side": 1,
+      "message": "Is this a new js-feature? I see it first time.",
+      "range": {
+        "startLine": 182,
+        "startChar": 34,
+        "endLine": 182,
+        "endChar": 36
+      },
+      "revId": "63ce0f2123053a05ed978839efe53e0ef481abb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

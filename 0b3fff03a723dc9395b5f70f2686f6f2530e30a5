@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a950bcde_952d2ebc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-22T08:52:47Z",
+      "side": 1,
+      "message": "This means for upstream we need to add a new index version in ChangeSchemaDefinitions.",
+      "revId": "0b3fff03a723dc9395b5f70f2686f6f2530e30a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17fd17b0_80a9928a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-22T08:52:47Z",
+      "side": 1,
+      "message": "Thanks, the fix looks good, but you still need to add a new index version in ChangeSchemaDefinitions.",
+      "revId": "0b3fff03a723dc9395b5f70f2686f6f2530e30a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

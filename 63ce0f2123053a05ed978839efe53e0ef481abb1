@@ -22,6 +22,30 @@
       },
       "revId": "63ce0f2123053a05ed978839efe53e0ef481abb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55a5bcc2_0b647b31",
+        "filename": "polygerrit-ui/app/services/checks/checks-service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-22T13:06:47Z",
+      "side": 1,
+      "message": "eslint told me that when I want to define a const variable inside the case block, then I should add curly brackets. So that is what I did. :-)",
+      "parentUuid": "019662b9_e2ddbdf4",
+      "range": {
+        "startLine": 182,
+        "startChar": 34,
+        "endLine": 182,
+        "endChar": 36
+      },
+      "revId": "63ce0f2123053a05ed978839efe53e0ef481abb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

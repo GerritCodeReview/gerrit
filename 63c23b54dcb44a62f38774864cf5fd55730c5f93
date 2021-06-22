@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cabdcae2_4812b234",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-22T12:40:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b733c0d_702d8842",
+      "revId": "63c23b54dcb44a62f38774864cf5fd55730c5f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ba86323_88506c57",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-06-18T11:09:57Z",
       "side": 1,
       "message": "At the moment, the focus state has a lighter blue compared to the hover state. Focus has a darker color than hover.\n\nThe focus state is --blue-700 at 12% opacity, we have this color defined as --info-background-focus in the app theme",
+      "range": {
+        "startLine": 183,
+        "startChar": 26,
+        "endLine": 183,
+        "endChar": 54
+      },
+      "revId": "63c23b54dcb44a62f38774864cf5fd55730c5f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc5d5d36_1f9090b3",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-22T12:40:13Z",
+      "side": 1,
+      "message": "As discussed offline, let\u0027s keep as is (for now) for consistency with the dashboard and the file list.",
+      "parentUuid": "1ba86323_88506c57",
       "range": {
         "startLine": 183,
         "startChar": 26,
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "46d7015d_06be5e4c",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-22T12:40:13Z",
+      "side": 1,
+      "message": "Same answer as in change 309742:\n\nBecause \u003cbutton\u003e comes along with a bunch of (unwanted) built-in css rules from the browser.\n\nI am undecided which one is better, \u003cbutton\u003e or \u003cdiv role\u003d\"button\"\u003e. Let me know if you have a preference and some pros and cons. Happy to learn from your experience.",
+      "parentUuid": "cac50acb_18de41e3",
+      "range": {
+        "startLine": 311,
+        "startChar": 13,
+        "endLine": 311,
+        "endChar": 16
+      },
+      "revId": "63c23b54dcb44a62f38774864cf5fd55730c5f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "11ac8daf_7b4428e4",
         "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
         "patchSetId": 1
@@ -77,6 +143,30 @@
       "writtenOn": "2021-06-18T11:00:27Z",
       "side": 1,
       "message": "Just checking my understanding: Is this selecting table that is sibling of .categoryHeader.",
+      "range": {
+        "startLine": 937,
+        "startChar": 54,
+        "endLine": 937,
+        "endChar": 56
+      },
+      "revId": "63c23b54dcb44a62f38774864cf5fd55730c5f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f41af16_3599c640",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-22T12:40:13Z",
+      "side": 1,
+      "message": "Yes, direct sibling.",
+      "parentUuid": "11ac8daf_7b4428e4",
       "range": {
         "startLine": 937,
         "startChar": 54,

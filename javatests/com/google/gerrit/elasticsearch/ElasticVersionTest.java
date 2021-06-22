@@ -22,9 +22,6 @@ import org.junit.Test;
 public class ElasticVersionTest {
   @Test
   public void supportedVersion() throws Exception {
-    assertThat(ElasticVersion.forVersion("7.5.0")).isEqualTo(ElasticVersion.V7_5);
-    assertThat(ElasticVersion.forVersion("7.5.1")).isEqualTo(ElasticVersion.V7_5);
-
     assertThat(ElasticVersion.forVersion("7.6.0")).isEqualTo(ElasticVersion.V7_6);
     assertThat(ElasticVersion.forVersion("7.6.1")).isEqualTo(ElasticVersion.V7_6);
 

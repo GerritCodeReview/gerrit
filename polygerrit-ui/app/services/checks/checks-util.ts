@@ -17,11 +17,11 @@
 import {
   Action,
   Category,
-  CheckRun as CheckRunApi,
   CheckResult as CheckResultApi,
+  CheckRun as CheckRunApi,
+  Link,
   LinkIcon,
   RunStatus,
-  Link,
 } from '../../api/checks';
 import {assertNever} from '../../utils/common-util';
 import {CheckResult, CheckRun} from './checks-model';
@@ -92,8 +92,37 @@ export function worstCategory(run: CheckRun) {
   return undefined;
 }
 
-export function iconForCategory(category: Category) {
-  switch (category) {
+export function isStatus(catStat: Category | RunStatus) {
+  return (
+    catStat === RunStatus.COMPLETED ||
+    catStat === RunStatus.RUNNABLE ||
+    catStat === RunStatus.RUNNING
+  );
+}
+
+export function labelFor(catStat: Category | RunStatus) {
+  switch (catStat) {
+    case Category.ERROR:
+      return 'error';
+    case Category.INFO:
+      return 'info';
+    case Category.WARNING:
+      return 'warning';
+    case Category.SUCCESS:
+      return 'success';
+    case RunStatus.COMPLETED:
+      return 'completed';
+    case RunStatus.RUNNABLE:
+      return 'runnable';
+    case RunStatus.RUNNING:
+      return 'running';
+    default:
+      assertNever(catStat, `Unsupported category/status: ${catStat}`);
+  }
+}
+
+export function iconFor(catStat: Category | RunStatus) {
+  switch (catStat) {
     case Category.ERROR:
       return 'error';
     case Category.INFO:
@@ -102,8 +131,15 @@ export function iconForCategory(category: Category) {
       return 'warning';
     case Category.SUCCESS:
       return 'check-circle-outline';
+    // Note that this is only for COMPLETED without results!
+    case RunStatus.COMPLETED:
+      return 'check-circle-outline';
+    case RunStatus.RUNNABLE:
+      return 'placeholder';
+    case RunStatus.RUNNING:
+      return 'timelapse';
     default:
-      assertNever(category, `Unsupported category: ${category}`);
+      assertNever(catStat, `Unsupported category/status: ${catStat}`);
   }
 }
 
@@ -151,24 +187,10 @@ export function runActions(run?: CheckRun): Action[] {
 
 export function iconForRun(run: CheckRun) {
   if (run.status !== RunStatus.COMPLETED) {
-    return iconForStatus(run.status);
+    return iconFor(run.status);
   } else {
     const category = worstCategory(run);
-    return category ? iconForCategory(category) : iconForStatus(run.status);
-  }
-}
-
-export function iconForStatus(status: RunStatus) {
-  switch (status) {
-    // Note that this is only for COMPLETED without results!
-    case RunStatus.COMPLETED:
-      return 'check-circle-outline';
-    case RunStatus.RUNNABLE:
-      return 'placeholder';
-    case RunStatus.RUNNING:
-      return 'timelapse';
-    default:
-      assertNever(status, `Unsupported status: ${status}`);
+    return category ? iconFor(category) : iconFor(run.status);
   }
 }
 

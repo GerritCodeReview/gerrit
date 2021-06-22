@@ -36,10 +36,11 @@ import {
   getResultsOf,
   hasCompletedWithoutResults,
   hasResultsOf,
-  iconForCategory,
-  iconForStatus,
+  iconFor,
   isRunning,
   isRunningOrHasCompleted,
+  isStatus,
+  labelFor,
 } from '../../../services/checks/checks-util';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
@@ -57,6 +58,7 @@ import {uniqueDefinedAvatar} from '../../../utils/account-util';
 import {PrimaryTab} from '../../../constants/constants';
 import {ChecksTabState, CommentTabState} from '../../../types/events';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
+import {modifierPressed} from '../../../utils/dom-util';
 
 export enum SummaryChipStyles {
   INFO = 'info',
@@ -106,6 +108,9 @@ export class GrSummaryChip extends GrLitElement {
           background: var(--warning-background-hover);
           box-shadow: var(--elevation-level-1);
         }
+        .summaryChip.warning:focus-within {
+          background: var(--warning-background-focus);
+        }
         .summaryChip.warning iron-icon {
           color: var(--warning-foreground);
         }
@@ -116,6 +121,9 @@ export class GrSummaryChip extends GrLitElement {
         .summaryChip.check:hover {
           background: var(--gray-background-hover);
           box-shadow: var(--elevation-level-1);
+        }
+        .summaryChip.check:focus-within {
+          background: var(--gray-background-focus);
         }
         .summaryChip.check iron-icon {
           color: var(--gray-foreground);
@@ -148,7 +156,7 @@ export class GrSummaryChip extends GrLitElement {
 @customElement('gr-checks-chip')
 export class GrChecksChip extends GrLitElement {
   @property()
-  icon = '';
+  statusOrCategory?: Category | RunStatus;
 
   @property()
   text = '';
@@ -193,6 +201,9 @@ export class GrChecksChip extends GrLitElement {
           background: var(--error-background-hover);
           box-shadow: var(--elevation-level-1);
         }
+        .checksChip.error:focus-within {
+          background: var(--error-background-focus);
+        }
         .checksChip.error iron-icon {
           color: var(--error-foreground);
         }
@@ -203,6 +214,9 @@ export class GrChecksChip extends GrLitElement {
         .checksChip.warning:hover {
           background: var(--warning-background-hover);
           box-shadow: var(--elevation-level-1);
+        }
+        .checksChip.warning:focus-within {
+          background: var(--warning-background-focus);
         }
         .checksChip.warning iron-icon {
           color: var(--warning-foreground);
@@ -215,6 +229,9 @@ export class GrChecksChip extends GrLitElement {
           background: var(--info-background-hover);
           box-shadow: var(--elevation-level-1);
         }
+        .checksChip.info-outline:focus-within {
+          background: var(--info-background-focus);
+        }
         .checksChip.info-outline iron-icon {
           color: var(--info-foreground);
         }
@@ -225,6 +242,9 @@ export class GrChecksChip extends GrLitElement {
         .checksChip.check-circle-outline:hover {
           background: var(--success-background-hover);
           box-shadow: var(--elevation-level-1);
+        }
+        .checksChip.check-circle-outline:focus-within {
+          background: var(--success-background-focus);
         }
         .checksChip.check-circle-outline iron-icon {
           color: var(--success-foreground);
@@ -239,6 +259,9 @@ export class GrChecksChip extends GrLitElement {
           background: var(--gray-background-hover);
           box-shadow: var(--elevation-level-1);
         }
+        .checksChip.timelapse:focus-within {
+          background: var(--gray-background-focus);
+        }
         .checksChip.timelapse iron-icon {
           color: var(--gray-foreground);
         }
@@ -248,10 +271,25 @@ export class GrChecksChip extends GrLitElement {
 
   render() {
     if (!this.text) return;
-    const chipClass = `checksChip font-small ${this.icon}`;
-    const grIcon = `gr-icons:${this.icon}`;
+    if (!this.statusOrCategory) return;
+    const icon = iconFor(this.statusOrCategory);
+    const label = labelFor(this.statusOrCategory);
+    const count = Number(this.text);
+    let ariaLabel = label;
+    if (!isNaN(count)) {
+      const type = isStatus(this.statusOrCategory) ? 'run' : 'result';
+      const plural = count > 1 ? 's' : '';
+      ariaLabel = `${this.text} ${label} ${type}${plural}`;
+    }
+    const chipClass = `checksChip font-small ${icon}`;
+    const grIcon = `gr-icons:${icon}`;
     return html`
-      <div class="${chipClass}" role="button">
+      <div
+        class="${chipClass}"
+        role="link"
+        tabindex="0"
+        aria-label="${ariaLabel}"
+      >
         <iron-icon icon="${grIcon}"></iron-icon>
         <div class="text">${this.text}</div>
         <slot></slot>
@@ -411,18 +449,17 @@ export class GrChangeSummary extends GrLitElement {
     if (this.errorMessage || this.loginCallback) return;
     if (this.runs.some(isRunningOrHasCompleted)) return;
     const msg = this.someProvidersAreLoading ? 'Loading results' : 'No results';
-    return html`<span class="loading zeroState">${msg}</span>`;
+    return html`<span role="status" class="loading zeroState">${msg}</span>`;
   }
 
   renderChecksChipForCategory(category: Category) {
     if (this.errorMessage || this.loginCallback) return;
-    const icon = iconForCategory(category);
     const runs = this.runs.filter(run => {
       if (hasResultsOf(run, category)) return true;
       return category === Category.SUCCESS && hasCompletedWithoutResults(run);
     });
     const count = (run: CheckRun) => getResultsOf(run, category);
-    return this.renderChecksChip(icon, runs, category, count);
+    return this.renderChecksChip(runs, category, count);
   }
 
   renderChecksChipForStatus(
@@ -430,13 +467,11 @@ export class GrChangeSummary extends GrLitElement {
     filter: (run: CheckRun) => boolean
   ) {
     if (this.errorMessage || this.loginCallback) return;
-    const icon = iconForStatus(status);
     const runs = this.runs.filter(filter);
-    return this.renderChecksChip(icon, runs, status, () => []);
+    return this.renderChecksChip(runs, status, () => []);
   }
 
   renderChecksChip(
-    icon: string,
     runs: CheckRun[],
     statusOrCategory: RunStatus | Category,
     resultFilter: (run: CheckRun) => CheckResult[]
@@ -462,13 +497,19 @@ export class GrChangeSummary extends GrLitElement {
         const links = allPrimaryLinks.length === 1 ? allPrimaryLinks : [];
         const text = `${run.checkName}`;
         return html`<gr-checks-chip
-          class="${icon}"
-          .icon="${icon}"
+          .statusOrCategory="${statusOrCategory}"
           .text="${text}"
           @click="${() => this.onChipClick({checkName: run.checkName})}"
+          @keydown="${(e: KeyboardEvent) =>
+            this.onChipKeyDown(e, {checkName: run.checkName})}"
           >${links.map(
             link => html`
-              <a href="${link.url}" target="_blank" @click="${this.onLinkClick}"
+              <a
+                href="${link.url}"
+                target="_blank"
+                @click="${this.onLinkClick}"
+                @keydown="${this.onLinkKeyDown}"
+                aria-label="Link to check details"
                 ><iron-icon class="launch" icon="gr-icons:launch"></iron-icon
               ></a>
             `
@@ -484,17 +525,32 @@ export class GrChangeSummary extends GrLitElement {
     );
     if (sum === 0) return;
     return html`<gr-checks-chip
-      class="${icon}"
-      .icon="${icon}"
+      .statusOrCategory="${statusOrCategory}"
       .text="${sum}"
       @click="${() => this.onChipClick({statusOrCategory})}"
+      @keydown="${(e: KeyboardEvent) =>
+        this.onChipKeyDown(e, {statusOrCategory})}"
     ></gr-checks-chip>`;
+  }
+
+  private onChipKeyDown(e: KeyboardEvent, state: ChecksTabState) {
+    if (modifierPressed(e)) return;
+    // Only react to `return` and `space`.
+    if (e.keyCode !== 13 && e.keyCode !== 32) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.onChipClick(state);
   }
 
   private onChipClick(state: ChecksTabState) {
     fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
       checksTab: state,
     });
+  }
+
+  private onLinkKeyDown(e: KeyboardEvent) {
+    // Prevents onConChipKeyDown() from reacting to <a> link keyboard events.
+    e.stopPropagation();
   }
 
   private onLinkClick(e: MouseEvent) {

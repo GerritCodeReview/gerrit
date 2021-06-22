@@ -52,7 +52,7 @@ import {
   fireActionTriggered,
   firstPrimaryLink,
   hasCompletedWithoutResults,
-  iconForCategory,
+  iconFor,
   iconForLink,
   otherPrimaryLinks,
   primaryRunAction,
@@ -1184,7 +1184,7 @@ export class GrChecksResults extends GrLitElement {
           <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
           <div class="statusIconWrapper">
             <iron-icon
-              icon="gr-icons:${iconForCategory(category)}"
+              icon="gr-icons:${iconFor(category)}"
               class="statusIcon ${catString}"
             ></iron-icon>
             <span class="title">${catString}</span>

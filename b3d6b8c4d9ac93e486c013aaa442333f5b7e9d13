@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e0898e8_193ba83e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1285,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-22T09:39:32Z",
+      "side": 1,
+      "message": "I might be missing something, but if the issue was refreshing the change unnecessarily when I\u0027m already on a different change page, doesn\u0027t that mean this should *not* recreate the change if the change is obsolete (e.g change the if condition to !this.isChangeObsolete()?",
+      "range": {
+        "startLine": 1285,
+        "startChar": 0,
+        "endLine": 1285,
+        "endChar": 34
+      },
+      "revId": "b3d6b8c4d9ac93e486c013aaa442333f5b7e9d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

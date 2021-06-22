@@ -70,6 +70,30 @@
       },
       "revId": "bd093a632c201e8f371a76d0a430a2e32851a03d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4d45695_0f8df6b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-22T13:05:41Z",
+      "side": 1,
+      "message": "The reason is simply that I am hesitant to inherit the css styles that are attached to a button.\n\nAlso, Delphine defined the chips to be of role\u003dlink, not of role\u003dlink.",
+      "parentUuid": "eb395c6b_13c29bf8",
+      "range": {
+        "startLine": 285,
+        "startChar": 7,
+        "endLine": 285,
+        "endChar": 10
+      },
+      "revId": "bd093a632c201e8f371a76d0a430a2e32851a03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

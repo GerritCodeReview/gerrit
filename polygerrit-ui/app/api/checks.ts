@@ -450,4 +450,5 @@ export enum LinkIcon {
   HELP_PAGE = 'help_page',
   REPORT_BUG = 'report_bug',
   CODE = 'code',
+  FILE_PRESENT = 'file_present',
 }

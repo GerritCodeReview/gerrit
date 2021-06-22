@@ -45,6 +45,8 @@ export function iconForLink(linkIcon?: LinkIcon) {
       return 'bug';
     case LinkIcon.CODE:
       return 'code';
+    case LinkIcon.FILE_PRESENT:
+      return 'file-present';
     default:
       // We don't throw an assertion error here, because plugins don't have to
       // be written in TypeScript, so we may encounter arbitrary strings for
@@ -70,6 +72,10 @@ export function tooltipForLink(linkIcon?: LinkIcon) {
       return 'Link to help page';
     case LinkIcon.REPORT_BUG:
       return 'Link for reporting a problem';
+    case LinkIcon.CODE:
+      return 'Link to code';
+    case LinkIcon.FILE_PRESENT:
+      return 'Link to file';
     default:
       // We don't throw an assertion error here, because plugins don't have to
       // be written in TypeScript, so we may encounter arbitrary strings for

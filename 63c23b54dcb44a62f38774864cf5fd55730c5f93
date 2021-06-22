@@ -154,6 +154,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a12b9898_17c83579",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-22T14:24:32Z",
+      "side": 1,
+      "message": "Correct, but the argument with the unwanted built-in css rules still applies. :-)",
+      "parentUuid": "33d85925_a3ae9f4f",
+      "range": {
+        "startLine": 311,
+        "startChar": 13,
+        "endLine": 311,
+        "endChar": 16
+      },
+      "revId": "63c23b54dcb44a62f38774864cf5fd55730c5f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11ac8daf_7b4428e4",

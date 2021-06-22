@@ -1249,16 +1249,35 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     this.$.fileList.collapseAllDiffs();
   }
 
+  /**
+   * ChangeView is never re-used for different changes. It is safer and simpler
+   * to just re-create another change view when the user switches to a new
+   * change page. Thus we need a reliable way to detect that the change view
+   * does not match the current change number anymore.
+   *
+   * If this method returns true, then the change view should not do anything
+   * anymore. The app element makes sure that an obsolete change view is not
+   * shown anymore, so if the change view is still and doing some update to
+   * itself, then that is not dangerous. But for example it should not call
+   * navigateToChange() anymore. That would very likely cause erroneous
+   * behavior.
+   */
+  private isChangeObsolete() {
+    // While this._changeNum is undefined the change view is fresh and has just
+    // not updated it to params.changeNum yet. Not obsolete in that case.
+    if (this._changeNum === undefined) return false;
+    // this.params reflects the current state of the URL. If this._changeNum
+    // does not match it anymore, then this view must be considered obsolete.
+    return this._changeNum !== this.params?.changeNum;
+  }
+
   _paramsChanged(value: AppElementChangeViewParams) {
     if (value.view !== GerritView.CHANGE) {
       this._initialLoadComplete = false;
       return;
     }
 
-    // Everything in the change view is tied to the change. It seems better to
-    // force the re-creation of the change view when the change number changes.
-    const changeChanged = this._changeNum !== value.changeNum;
-    if (this._changeNum !== undefined && changeChanged) {
+    if (this.isChangeObsolete()) {
       fireEvent(this, EventType.RECREATE_CHANGE_VIEW);
       return;
     }
@@ -1293,7 +1312,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
     // If the change has already been loaded and the parameter change is only
     // in the patch range, then don't do a full reload.
-    if (!changeChanged && patchChanged && patchKnown) {
+    if (this._changeNum !== undefined && patchChanged && patchKnown) {
       if (!patchRange.patchNum) {
         patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
         rightPatchNumChanged = true;
@@ -2111,6 +2130,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    * promise resolves.
    */
   loadData(isLocationChange?: boolean, clearPatchset?: boolean) {
+    if (this.isChangeObsolete()) return Promise.resolve([]);
     if (clearPatchset && this._change) {
       GerritNav.navigateToChange(this._change);
       return Promise.resolve([]);

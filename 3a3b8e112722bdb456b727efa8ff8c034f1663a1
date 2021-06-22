@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92c74669_4b81ab6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-22T11:57:02Z",
+      "side": 1,
+      "message": "I am still missing tests for the implemented backfilling, and backfilling for some of the cases. Also, attention set case still needs to be fixed.\n\nI think it would make sense to submit part of the implementation, to try the dry-run?\nIt would be easier to see what is missed once we try it out.\n\nIf this sounds good, I would add the missing tests for what is already implemented in this change and add missing backfilling in a later change (after I try dry-run).",
+      "parentUuid": "4a5281c3_3d0e8a76",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "465aaf9f_0ee7c7bc",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 8
@@ -48,6 +66,24 @@
       "writtenOn": "2021-05-17T17:12:30Z",
       "side": 1,
       "message": "Why is this necessary? Shouldn\u0027t the project cache be unaffected?",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24ab93cd_6d5aeaca",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-22T11:57:02Z",
+      "side": 1,
+      "message": "Correct, project cache should not be affected and should not be used (Same as InternalChangeQuery). I change to provider, because it was bound to \u0027null\u0027 in tests. Change to No-Op binding it tests for both.",
+      "parentUuid": "465aaf9f_0ee7c7bc",
       "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d6f0371_9de03569",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-22T11:57:02Z",
+      "side": 1,
+      "message": "Done. Basically, if we would need a per-change endpoint, it would make sense, but we intend to run by project.",
+      "parentUuid": "e6fb22c7_95138cda",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15fe33f0_b798a238",
@@ -82,6 +136,24 @@
       "writtenOn": "2021-05-17T17:14:39Z",
       "side": 1,
       "message": "Wouldn\u0027t we also want to see the actual output to make sure it is sane? That might be large though. But I don\u0027t see how we can have sufficient confidence otherwise.",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "220c707d_e18a2c93",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-22T11:57:02Z",
+      "side": 1,
+      "message": "With the comprehensive test coverage, this should not be needed.\nI agree we do not have a way to guarantee comprehensive test coverage, so I suggest to output diff only.\n\nLet me know if it looks sane.",
+      "parentUuid": "15fe33f0_b798a238",
       "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +175,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "515d3fa4_7e882fe3",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-22T11:57:02Z",
+      "side": 1,
+      "message": "Renamed to \u0027isValidAfterFix\u0027.\n\nCorrect, the idea is that we want to verify the history after fixes are applied, to find any cases we have missed.\nWith the list of the refs that failed verification even after rewrite, we can checkout the history and see what was missed. We can do this in dry-run first, so we do not have to rewrite history multiple times.",
+      "parentUuid": "089eaa21_78930b06",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01455590_33f363ed",
@@ -116,6 +206,24 @@
       "writtenOn": "2021-05-17T17:12:30Z",
       "side": 1,
       "message": "I like the idea of verification, but I\u0027m not sure we\u0027d be able to rely on this. Users can change/remove their name and preferred email. In fact, Wipeout has already started that :-| Should I maybe hold off on rolling it out further? (Current status: 100% gerrit, 1% chromium)\n\nWDYT about searching for regular expressions that match names followed by email addresses? Or is there no suitable pattern to the occurrences?",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a37e617c_7c25f9fd",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-22T11:57:02Z",
+      "side": 1,
+      "message": "Discussed offline:\nCorrect, we can not rely on account data being unchanged since the moment when the commit was written.\nThus, the verification is not meant to be comprehensive, we only need it to find the cases that the rewriter could have missed/recent regression on most recent changes.\n\nWith the email address regexp, we would miss already discovered cases, where we used to write Name/Full name.",
+      "parentUuid": "01455590_33f363ed",
       "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -137,6 +245,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bec61c17_6f26c07f",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-22T11:57:02Z",
+      "side": 1,
+      "message": "We have already existing endpoints, that rewrite the history and change sha-1 of commits, so I am not too concerned about it.\n\nAs far as I know, the only significant dependency is ChangeNotesCache, but the new keys will be added automatically, once the history is rewritten. and meta ref points at the new commit.\n\nWe also return \u0027meta_rev_id\u0027 as a part of ChangeInfo, and we have /changes/{change-id}/meta_diff endpoint, but I could not find any usages.\n\nI think the best way to find out is to try on test host.",
+      "parentUuid": "094e5109_ecaeac8e",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c8fdaa4_4cb05c8d",
@@ -150,6 +276,24 @@
       "writtenOn": "2021-05-17T17:12:30Z",
       "side": 1,
       "message": "It seems safer to initialize this to false.",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da390e2a_cbbf74f6",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-22T11:57:02Z",
+      "side": 1,
+      "message": "Ack. We go commit by commit and flip to false once the verification is failed (covered by test).\nI think introducing additional counters wight make it less readable. Feel free to reopen if you feel strong about it.",
+      "parentUuid": "7c8fdaa4_4cb05c8d",
       "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

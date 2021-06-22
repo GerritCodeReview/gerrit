@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8aca9804_1884152c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-22T13:29:43Z",
+      "side": 1,
+      "message": "\u003e I am still missing tests for the implemented backfilling, and backfilling for some of the cases. Also, attention set case still needs to be fixed.\n\nDo you plan to add that in this change before submitting it?\n \n\u003e I think it would make sense to submit part of the implementation, to try the dry-run?\n\u003e It would be easier to see what is missed once we try it out.\n\u003e \n\u003e If this sounds good, I would add the missing tests for what is already implemented in this change and add missing backfilling in a later change (after I try dry-run).\n\nAs long as we only dry-run it, SGTM. Can you hard code dryRun\u003dtrue?",
+      "parentUuid": "92c74669_4b81ab6f",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "465aaf9f_0ee7c7bc",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 8
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Correct, project cache should not be affected and should not be used (Same as InternalChangeQuery). I change to provider, because it was bound to \u0027null\u0027 in tests. Change to No-Op binding it tests for both.",
       "parentUuid": "465aaf9f_0ee7c7bc",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb71f372_2df15cdb",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-22T13:29:43Z",
+      "side": 1,
+      "message": "I don\u0027t understand the last sentence.",
+      "parentUuid": "24ab93cd_6d5aeaca",
       "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

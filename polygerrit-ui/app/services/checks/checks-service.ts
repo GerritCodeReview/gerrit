@@ -187,15 +187,16 @@ export class ChecksService {
       )
       .subscribe(response => {
         switch (response.responseCode) {
-          case ResponseCode.ERROR:
-            assertIsDefined(response.errorMessage, 'errorMessage');
+          case ResponseCode.ERROR: {
+            const message = response.errorMessage ?? '-';
             this.reporting.reportExecution(Execution.CHECKS_API_ERROR, {
               plugin: pluginName,
-              message: response.errorMessage,
+              message,
             });
-            updateStateSetError(pluginName, response.errorMessage, patchset);
+            updateStateSetError(pluginName, message, patchset);
             break;
-          case ResponseCode.NOT_LOGGED_IN:
+          }
+          case ResponseCode.NOT_LOGGED_IN: {
             assertIsDefined(response.loginCallback, 'loginCallback');
             this.reporting.reportExecution(Execution.CHECKS_API_NOT_LOGGED_IN, {
               plugin: pluginName,
@@ -206,7 +207,8 @@ export class ChecksService {
               patchset
             );
             break;
-          case ResponseCode.OK:
+          }
+          case ResponseCode.OK: {
             updateStateSetResults(
               pluginName,
               response.runs ?? [],
@@ -215,6 +217,7 @@ export class ChecksService {
               patchset
             );
             break;
+          }
         }
       });
   }

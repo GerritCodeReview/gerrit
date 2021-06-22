@@ -1614,7 +1614,7 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  test('don’t reload entire page when patchRange changes', () => {
+  test('don’t reload entire page when patchRange changes', async () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve([]));
@@ -1629,7 +1629,8 @@ suite('gr-change-view tests', () => {
       view: GerritView.CHANGE,
       patchNum: 1 as RevisionPatchSetNum,
     };
-    element._paramsChanged(value);
+    element.params = value;
+    await flush();
     assert.isTrue(reloadStub.calledOnce);
 
     element._initialLoadComplete = true;
@@ -1643,13 +1644,14 @@ suite('gr-change-view tests', () => {
 
     value.basePatchNum = 1 as BasePatchSetNum;
     value.patchNum = 2 as RevisionPatchSetNum;
-    element._paramsChanged(value);
+    element.params = {...value};
+    await flush();
     assert.isFalse(reloadStub.calledTwice);
     assert.isTrue(reloadPatchDependentStub.calledOnce);
     assert.isTrue(collapseStub.calledTwice);
   });
 
-  test('reload ported comments when patchNum changes', () => {
+  test('reload ported comments when patchNum changes', async () => {
     sinon.stub(element, 'loadData').callsFake(() => Promise.resolve([]));
     sinon.stub(element, '_getCommitInfo');
     sinon.stub(element.$.fileList, 'reload');
@@ -1665,7 +1667,8 @@ suite('gr-change-view tests', () => {
       view: GerritView.CHANGE,
       patchNum: 1 as RevisionPatchSetNum,
     };
-    element._paramsChanged(value);
+    element.params = value;
+    await flush();
 
     element._initialLoadComplete = true;
     element._change = {
@@ -1678,22 +1681,40 @@ suite('gr-change-view tests', () => {
 
     value.basePatchNum = 1 as BasePatchSetNum;
     value.patchNum = 2 as RevisionPatchSetNum;
-    element._paramsChanged(value);
+    element.params = {...value};
+    await flush();
     assert.isTrue(reloadPortedCommentsStub.calledOnce);
   });
 
-  test('reload entire page when patchRange doesnt change', () => {
+  test('reload entire page when patchRange doesnt change', async () => {
     const reloadStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve([]));
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
     const value: AppElementChangeViewParams = createAppElementChangeViewParams();
-    element._paramsChanged(value);
+    element.params = value;
+    await flush();
     assert.isTrue(reloadStub.calledOnce);
     element._initialLoadComplete = true;
-    element._paramsChanged(value);
+    element.params = {...value};
+    await flush();
     assert.isTrue(reloadStub.calledTwice);
     assert.isTrue(collapseStub.calledTwice);
+  });
+
+  test('do not handle new change numbers', async () => {
+    const recreateSpy = sinon.spy();
+    element.addEventListener('recreate-change-view', recreateSpy);
+
+    const value: AppElementChangeViewParams = createAppElementChangeViewParams();
+    element.params = value;
+    await flush();
+    assert.isFalse(recreateSpy.calledOnce);
+
+    value.changeNum = 555111333 as NumericChangeId;
+    element.params = {...value};
+    await flush();
+    assert.isTrue(recreateSpy.calledOnce);
   });
 
   test('related changes are not updated after other action', done => {
@@ -2026,7 +2047,7 @@ suite('gr-change-view tests', () => {
       element.handleScroll();
     });
 
-    test('scrollTop is set correctly', () => {
+    test('scrollTop is set correctly', async () => {
       element.viewState = {scrollTop: TEST_SCROLL_TOP_PX};
 
       sinon.stub(element, 'loadData').callsFake(() => {
@@ -2039,7 +2060,8 @@ suite('gr-change-view tests', () => {
 
       // simulate reloading component, which is done when route
       // changes to match a regex of change view type.
-      element._paramsChanged({...createAppElementChangeViewParams()});
+      element.params = {...createAppElementChangeViewParams()};
+      await flush();
     });
 
     test('scrollTop is reset when new change is loaded', () => {
@@ -2591,7 +2613,7 @@ suite('gr-change-view tests', () => {
       });
     });
 
-    test('report changeDisplayed on _paramsChanged', done => {
+    test('report changeDisplayed on _paramsChanged', async () => {
       const changeDisplayStub = sinon.stub(
         appContext.reportingService,
         'changeDisplayed'
@@ -2600,16 +2622,14 @@ suite('gr-change-view tests', () => {
         appContext.reportingService,
         'changeFullyLoaded'
       );
-      element._paramsChanged({
+      element.params = {
         ...createAppElementChangeViewParams(),
         changeNum: TEST_NUMERIC_CHANGE_ID,
         project: TEST_PROJECT_NAME,
-      });
-      flush(() => {
-        assert.isTrue(changeDisplayStub.called);
-        assert.isTrue(changeFullyLoadedStub.called);
-        done();
-      });
+      };
+      await flush();
+      assert.isTrue(changeDisplayStub.called);
+      assert.isTrue(changeFullyLoadedStub.called);
     });
   });
 

@@ -19,6 +19,11 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-thread-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
+import {CommentTabState} from '../../../types/events.js';
+import {__testOnly_SortDropdownState} from './gr-thread-list.js';
+import {queryAll} from '../../../test/test-utils.js';
+import {accountOrGroupKey} from '../../../utils/account-util.js';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-thread-list');
 
@@ -45,14 +50,14 @@ suite('gr-thread-list tests', () => {
           {
             path: '/COMMIT_MSG',
             author: {
-              _account_id: 1000000,
+              _account_id: 1000001,
               name: 'user',
               username: 'user',
             },
             patch_set: 4,
             id: 'ecf0b9fa_fe1a5f62',
             line: 5,
-            updated: '2018-02-08 18:49:18.000000000',
+            updated: '1',
             message: 'test',
             unresolved: true,
           },
@@ -61,7 +66,7 @@ suite('gr-thread-list tests', () => {
             path: '/COMMIT_MSG',
             line: 5,
             in_reply_to: 'ecf0b9fa_fe1a5f62',
-            updated: '2018-02-13 22:48:48.018000000',
+            updated: '1',
             message: 'draft',
             unresolved: true,
             __draft: true,
@@ -74,21 +79,21 @@ suite('gr-thread-list tests', () => {
         path: '/COMMIT_MSG',
         line: 5,
         rootId: 'ecf0b9fa_fe1a5f62',
-        start_datetime: '2018-02-08 18:49:18.000000000',
+        updated: '1',
       },
       {
         comments: [
           {
             path: 'test.txt',
             author: {
-              _account_id: 1000000,
+              _account_id: 1000002,
               name: 'user',
               username: 'user',
             },
             patch_set: 3,
             id: '09a9fb0a_1484e6cf',
             side: 'PARENT',
-            updated: '2018-02-13 22:47:19.000000000',
+            updated: '2',
             message: 'Some comment on another patchset.',
             unresolved: false,
           },
@@ -96,7 +101,7 @@ suite('gr-thread-list tests', () => {
         patchNum: 3,
         path: 'test.txt',
         rootId: '09a9fb0a_1484e6cf',
-        start_datetime: '2018-02-13 22:47:19.000000000',
+        updated: '2',
         commentSide: 'PARENT',
       },
       {
@@ -104,13 +109,13 @@ suite('gr-thread-list tests', () => {
           {
             path: '/COMMIT_MSG',
             author: {
-              _account_id: 1000000,
+              _account_id: 1000002,
               name: 'user',
               username: 'user',
             },
             patch_set: 2,
             id: '8caddf38_44770ec1',
-            updated: '2018-02-13 22:48:40.000000000',
+            updated: '3',
             message: 'Another unresolved comment',
             unresolved: false,
           },
@@ -118,21 +123,21 @@ suite('gr-thread-list tests', () => {
         patchNum: 2,
         path: '/COMMIT_MSG',
         rootId: '8caddf38_44770ec1',
-        start_datetime: '2018-02-13 22:48:40.000000000',
+        updated: '3',
       },
       {
         comments: [
           {
             path: '/COMMIT_MSG',
             author: {
-              _account_id: 1000000,
+              _account_id: 1000003,
               name: 'user',
               username: 'user',
             },
             patch_set: 2,
             id: 'scaddf38_44770ec1',
             line: 4,
-            updated: '2018-02-14 22:48:40.000000000',
+            updated: '4',
             message: 'Yet another unresolved comment',
             unresolved: true,
           },
@@ -141,7 +146,7 @@ suite('gr-thread-list tests', () => {
         path: '/COMMIT_MSG',
         line: 4,
         rootId: 'scaddf38_44770ec1',
-        start_datetime: '2018-02-14 22:48:40.000000000',
+        updated: '4',
       },
       {
         comments: [
@@ -149,7 +154,7 @@ suite('gr-thread-list tests', () => {
             id: 'zcf0b9fa_fe1a5f62',
             path: '/COMMIT_MSG',
             line: 6,
-            updated: '2018-02-15 22:48:48.018000000',
+            updated: '5',
             message: 'resolved draft',
             unresolved: false,
             __draft: true,
@@ -162,14 +167,14 @@ suite('gr-thread-list tests', () => {
         path: '/COMMIT_MSG',
         line: 6,
         rootId: 'zcf0b9fa_fe1a5f62',
-        start_datetime: '2018-02-09 18:49:18.000000000',
+        updated: '5',
       },
       {
         comments: [
           {
             id: 'patchset_level_1',
             path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
-            updated: '2018-02-15 22:48:48.018000000',
+            updated: '6',
             message: 'patchset comment 1',
             unresolved: false,
             __editing: false,
@@ -179,14 +184,14 @@ suite('gr-thread-list tests', () => {
         patchNum: 2,
         path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
         rootId: 'patchset_level_1',
-        start_datetime: '2018-02-09 18:49:18.000000000',
+        updated: '6',
       },
       {
         comments: [
           {
             id: 'patchset_level_2',
             path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
-            updated: '2018-02-15 22:48:48.018000000',
+            updated: '7',
             message: 'patchset comment 2',
             unresolved: false,
             __editing: false,
@@ -196,7 +201,7 @@ suite('gr-thread-list tests', () => {
         patchNum: 3,
         path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
         rootId: 'patchset_level_2',
-        start_datetime: '2018-02-09 18:49:18.000000000',
+        updated: '7',
       },
       {
         comments: [
@@ -210,7 +215,7 @@ suite('gr-thread-list tests', () => {
             patch_set: 4,
             id: 'rc1',
             line: 5,
-            updated: '2019-02-08 18:49:18.000000000',
+            updated: '8',
             message: 'test',
             unresolved: true,
             robot_id: 'rc1',
@@ -220,7 +225,7 @@ suite('gr-thread-list tests', () => {
         path: '/COMMIT_MSG',
         line: 5,
         rootId: 'rc1',
-        start_datetime: '2019-02-08 18:49:18.000000000',
+        updated: '8',
       },
       {
         comments: [
@@ -234,7 +239,7 @@ suite('gr-thread-list tests', () => {
             patch_set: 4,
             id: 'rc2',
             line: 7,
-            updated: '2019-03-08 18:49:18.000000000',
+            updated: '9',
             message: 'test',
             unresolved: true,
             robot_id: 'rc2',
@@ -249,7 +254,7 @@ suite('gr-thread-list tests', () => {
             patch_set: 4,
             id: 'c2_1',
             line: 5,
-            updated: '2019-03-08 18:49:18.000000000',
+            updated: '10',
             message: 'test',
             unresolved: true,
           },
@@ -258,7 +263,7 @@ suite('gr-thread-list tests', () => {
         path: '/COMMIT_MSG',
         line: 7,
         rootId: 'rc2',
-        start_datetime: '2019-03-08 18:49:18.000000000',
+        updated: '10',
       },
     ];
 
@@ -270,15 +275,15 @@ suite('gr-thread-list tests', () => {
     });
   });
 
-  test('draft toggle only appears when logged in', () => {
+  test('draft dropdown item only appears when logged in', () => {
     element.loggedIn = false;
-    assert.equal(getComputedStyle(element.shadowRoot
-        .querySelector('#draftsRadio')).display,
-    'none');
+    flush();
+    assert.equal(element.getCommentsDropdownEntires(element.threads,
+        element.loggedIn).length, 2);
     element.loggedIn = true;
-    assert.notEqual(getComputedStyle(element.shadowRoot
-        .querySelector('#draftsRadio')).display,
-    'none');
+    flush();
+    assert.equal(element.getCommentsDropdownEntires(element.threads,
+        element.loggedIn).length, 3);
   });
 
   test('show all threads by default', () => {
@@ -298,13 +303,16 @@ suite('gr-thread-list tests', () => {
   });
 
   test('showing file name takes visible threads into account', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
         element._sortedThreads[2], element.unresolvedOnly, element._draftsOnly,
-        element.onlyShowRobotCommentsWithHumanReply), true);
+        element.onlyShowRobotCommentsWithHumanReply, element.selectedAuthors),
+    true);
     element.unresolvedOnly = true;
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
         element._sortedThreads[2], element.unresolvedOnly, element._draftsOnly,
-        element.onlyShowRobotCommentsWithHumanReply), false);
+        element.onlyShowRobotCommentsWithHumanReply, element.selectedAuthors),
+    false);
   });
 
   test('onlyShowRobotCommentsWithHumanReply ', () => {
@@ -317,6 +325,10 @@ suite('gr-thread-list tests', () => {
   });
 
   suite('_compareThreads', () => {
+    setup(() => {
+      element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
+    });
+
     test('patchset comes before any other file', () => {
       const t1 = {thread: {path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS}};
       const t2 = {thread: {path: SpecialFilePath.COMMIT_MESSAGE}};
@@ -448,6 +460,7 @@ suite('gr-thread-list tests', () => {
   });
 
   test('_computeSortedThreads', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     assert.equal(element._sortedThreads.length, 9);
     const expectedSortedRootIds = [
       'patchset_level_2', // Posted on Patchset 3
@@ -465,7 +478,68 @@ suite('gr-thread-list tests', () => {
     });
   });
 
+  test('_computeSortedThreads with timestamp', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.TIMESTAMP;
+    element.resortThreads(element.threads);
+    assert.equal(element._sortedThreads.length, 9);
+    const expectedSortedRootIds = [
+      'rc2',
+      'rc1',
+      'patchset_level_2',
+      'patchset_level_1',
+      'zcf0b9fa_fe1a5f62',
+      'scaddf38_44770ec1',
+      '8caddf38_44770ec1',
+      '09a9fb0a_1484e6cf',
+      'ecf0b9fa_fe1a5f62',
+    ];
+    element._sortedThreads.forEach((thread, index) => {
+      assert.equal(thread.rootId, expectedSortedRootIds[index]);
+    });
+  });
+
+  test('tapping single author chips', () => {
+    const chips = queryAll(element, 'gr-account-label');
+    const authors = Array.from(chips).map(
+        chip => accountOrGroupKey(chip.account))
+        .sort();
+    assert.deepEqual(authors, [1000000, 1000001, 1000002, 1000003]);
+    assert.equal(element.threads.length, 9);
+    assert.equal(element._displayedThreads.length, 9);
+
+    tap(chips[0]); // accountId 1000001
+    flush();
+
+    assert.equal(element.threads.length, 9);
+    assert.equal(element._displayedThreads.length, 1);
+    assert.equal(element._displayedThreads[0].comments[0].author._account_id,
+        1000001);
+
+    tap(chips[0]); // tapping again resets
+    flush();
+    assert.equal(element.threads.length, 9);
+    assert.equal(element._displayedThreads.length, 9);
+  });
+
+  test('tapping multiple author chips', () => {
+    const chips = queryAll(element, 'gr-account-label');
+
+    tap(chips[0]); // accountId 1000001
+    tap(chips[1]); // accountId 1000002
+    flush();
+
+    assert.equal(element.threads.length, 9);
+    assert.equal(element._displayedThreads.length, 3);
+    assert.equal(element._displayedThreads[0].comments[0].author._account_id,
+        1000002);
+    assert.equal(element._displayedThreads[1].comments[0].author._account_id,
+        1000002);
+    assert.equal(element._displayedThreads[2].comments[0].author._account_id,
+        1000001);
+  });
+
   test('thread removal and sort again', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     threadElements[1].dispatchEvent(
         new CustomEvent('thread-discard', {
           detail: {rootId: 'rc2'},
@@ -489,6 +563,7 @@ suite('gr-thread-list tests', () => {
   });
 
   test('modification on thread shold not trigger sort again', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     const currentSortedThreads = [...element._sortedThreads];
     for (const thread of currentSortedThreads) {
       thread.comments = [...thread.comments];
@@ -526,6 +601,7 @@ suite('gr-thread-list tests', () => {
 
   test('non-equal length of sortThreads and threads' +
     ' should trigger sort again', () => {
+    element.sortDropdownValue = __testOnly_SortDropdownState.FILES;
     const modifiedThreads = [...element.threads];
     const currentSortedThreads = [...element._sortedThreads];
     element._sortedThreads = [];
@@ -549,22 +625,23 @@ suite('gr-thread-list tests', () => {
     });
   });
 
-  test('toggle all shows all all comments', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector(
-        '#allRadio'));
+  test('show all comments', () => {
+    element.handleCommentsDropdownValueChange({detail: {
+      value: CommentTabState.SHOW_ALL}});
     flush();
     assert.equal(getVisibleThreads().length, 9);
   });
 
-  test('toggle unresolved shows all unresolved comments', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector(
-        '#unresolvedRadio'));
+  test('unresolved shows all unresolved comments', () => {
+    element.handleCommentsDropdownValueChange({detail: {
+      value: CommentTabState.UNRESOLVED}});
     flush();
     assert.equal(getVisibleThreads().length, 4);
   });
 
   test('toggle drafts only shows threads with draft comments', () => {
-    MockInteractions.tap(element.shadowRoot.querySelector('#draftsRadio'));
+    element.handleCommentsDropdownValueChange({detail: {
+      value: CommentTabState.DRAFTS}});
     flush();
     assert.equal(getVisibleThreads().length, 2);
   });

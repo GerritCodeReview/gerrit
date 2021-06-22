@@ -22,6 +22,30 @@
       },
       "revId": "bd093a632c201e8f371a76d0a430a2e32851a03d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56d12e56_c427a526",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-22T12:13:24Z",
+      "side": 1,
+      "message": "Because \u003cbutton\u003e comes along with a bunch of (unwanted) built-in css rules from the browser.\n\nI am undecided which one is better, \u003cbutton\u003e or \u003cdiv role\u003d\"button\"\u003e. Let me know if you have a preference and some pros and cons. Happy to learn from your experience.",
+      "parentUuid": "fd7d1b79_1f1170f2",
+      "range": {
+        "startLine": 285,
+        "startChar": 7,
+        "endLine": 285,
+        "endChar": 10
+      },
+      "revId": "bd093a632c201e8f371a76d0a430a2e32851a03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

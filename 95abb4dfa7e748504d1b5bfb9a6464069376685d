@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df760858_5b0a931c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-23T17:36:29Z",
+      "side": 1,
+      "message": "Why do we care about not being work in progress? I imagined that checking workInProgress \u003d\u003d null would have been enough, or am I missing something?",
+      "range": {
+        "startLine": 591,
+        "startChar": 38,
+        "endLine": 591,
+        "endChar": 53
+      },
+      "revId": "95abb4dfa7e748504d1b5bfb9a6464069376685d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

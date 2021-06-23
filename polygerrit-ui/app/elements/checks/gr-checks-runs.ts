@@ -43,6 +43,7 @@ import {
   allRunsSelectedPatchset$,
   CheckRun,
   ChecksPatchset,
+  errorMessageLatest$,
   fakeActions,
   fakeLinks,
   fakeRun0,
@@ -53,6 +54,7 @@ import {
   fakeRun4_2,
   fakeRun4_3,
   fakeRun4_4,
+  loginCallbackLatest$,
   updateStateSetResults,
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
@@ -357,6 +359,12 @@ export class GrChecksRuns extends GrLitElement {
   @property()
   tabState?: ChecksTabState;
 
+  @property()
+  errorMessage?: string;
+
+  @property()
+  loginCallback?: () => void;
+
   private isSectionExpanded = new Map<RunStatus, boolean>();
 
   private flagService = appContext.flagsService;
@@ -364,6 +372,8 @@ export class GrChecksRuns extends GrLitElement {
   constructor() {
     super();
     this.subscribe('runs', allRunsSelectedPatchset$);
+    this.subscribe('errorMessage', errorMessageLatest$);
+    this.subscribe('loginCallback', loginCallbackLatest$);
   }
 
   static get styles() {
@@ -434,6 +444,22 @@ export class GrChecksRuns extends GrLitElement {
         .testing:hover * {
           visibility: visible;
         }
+        .login {
+          background: var(--info-background);
+          padding: var(--spacing-m);
+          color: var(--primary-text-color);
+          margin-top: var(--spacing-m);
+        }
+        .login iron-icon {
+          color: var(--info-foreground);
+        }
+        .login .buttonRow {
+          text-align: right;
+          margin-top: var(--spacing-xl);
+        }
+        .login gr-button {
+          margin: 0 var(--spacing-s);
+        }
       `,
     ];
   }
@@ -465,6 +491,7 @@ export class GrChecksRuns extends GrLitElement {
         <div class="flex-space"></div>
         ${this.renderTitleButtons()} ${this.renderCollapseButton()}
       </h2>
+      ${this.renderSignIn()}
       <input
         id="filterInput"
         type="text"
@@ -475,6 +502,24 @@ export class GrChecksRuns extends GrLitElement {
       ${this.renderSection(RunStatus.RUNNING)}
       ${this.renderSection(RunStatus.COMPLETED)}
       ${this.renderSection(RunStatus.RUNNABLE)} ${this.renderFakeControls()}
+    `;
+  }
+
+  private renderSignIn() {
+    if (this.errorMessage || !this.loginCallback) return;
+    return html`
+      <div class="login">
+        <div>
+          <iron-icon
+            class="info-outline"
+            icon="gr-icons:info-outline"
+          ></iron-icon>
+          Sign in to Checks Plugin to see runs and results
+        </div>
+        <div class="buttonRow">
+          <gr-button @click="${this.loginCallback}" link>Sign in</gr-button>
+        </div>
+      </div>
     `;
   }
 

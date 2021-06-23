@@ -77,7 +77,19 @@ public class Reachable {
               .filter(refs, repo, RefFilterOptions.defaults());
       Collection<RevCommit> visible = new ArrayList<>();
       for (Ref r : filtered) {
-        visible.add(rw.parseCommit(r.getObjectId()));
+        try {
+          visible.add(rw.parseCommit(r.getObjectId()));
+        } catch (org.eclipse.jgit.errors.IncorrectObjectTypeException notCommit) {
+          // Its OK for a tag reference to point to a blob or a tree, this
+          // is common in the Linux kernel or git.git repository.
+          continue;
+        } catch (org.eclipse.jgit.errors.MissingObjectException notHere) {
+          // Log the problem with this branch, but keep processing.
+          logger.atWarning().log(
+              "Reference %s in %s points to dangling object %s",
+              r.getName(), repo.getDirectory(), r.getObjectId());
+          continue;
+        }
       }
 
       // The filtering above already produces a voluminous trace. To separate the permission check

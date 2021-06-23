@@ -26,7 +26,6 @@ import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
-import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -161,7 +160,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             modifiedFiles.values().stream()
                 .map(FileDiffOutput::oldCommitId)
                 .collect(Collectors.toSet()))
-        .containsExactly(EMPTY_TREE_ID);
+        .containsExactly(ObjectId.zeroId());
     assertThat(modifiedFiles.get("/COMMIT_MSG").changeType()).isEqualTo(Patch.ChangeType.ADDED);
     assertThat(modifiedFiles.get("f.txt").changeType()).isEqualTo(Patch.ChangeType.ADDED);
   }

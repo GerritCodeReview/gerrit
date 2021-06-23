@@ -39,6 +39,7 @@ import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -132,7 +133,7 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
         }
         // The scan method only returns the file paths that are different. Callers may choose to
         // format these paths themselves.
-        return df.scan(key.aTree(), key.bTree());
+        return df.scan(key.aTree().equals(ObjectId.zeroId()) ? null : key.aTree(), key.bTree());
       }
     }
 

@@ -219,7 +219,9 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         throws IOException {
       Set<String> filePathsSet = ImmutableSet.copyOf(filePaths);
       List<DiffEntry> diffEntries =
-          diffFormatter.scan(diffOptions.oldTree(), diffOptions.newTree());
+          diffFormatter.scan(
+              diffOptions.oldTree().equals(ObjectId.zeroId()) ? null : diffOptions.oldTree(),
+              diffOptions.newTree());
 
       return diffEntries.stream()
           .filter(d -> filePathsSet.contains(pathExtractor.apply(d)))

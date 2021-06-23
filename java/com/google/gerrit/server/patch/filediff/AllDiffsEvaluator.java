@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.patch.filediff;
 
-import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
@@ -203,7 +201,7 @@ class AllDiffsEvaluator {
       FileDiffCacheKey key, ObjectId aCommit, ObjectId bCommit, String pathNew, RevWalk rw)
       throws IOException {
     ObjectId oldTreeId =
-        aCommit.equals(EMPTY_TREE_ID) ? EMPTY_TREE_ID : DiffUtil.getTreeId(rw, aCommit);
+        aCommit.equals(ObjectId.zeroId()) ? ObjectId.zeroId() : DiffUtil.getTreeId(rw, aCommit);
     ObjectId newTreeId = DiffUtil.getTreeId(rw, bCommit);
     return GitFileDiffCacheKey.builder()
         .project(key.project())

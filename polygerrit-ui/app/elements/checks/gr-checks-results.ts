@@ -424,10 +424,14 @@ class GrResultRow extends GrLitElement {
     if (!this.result?.isLatestAttempt) return;
     const info = this.labels?.[label];
     const status = getLabelStatus(info).toLowerCase();
-    const value = valueString(getRepresentativeValue(info));
+    const value = getRepresentativeValue(info);
+    // A neutral vote is not interesting for the user to see and is just
+    // cluttering the UI.
+    if (value === 0) return;
+    const valueStr = valueString(value);
     return html`
       <div class="label ${status}">
-        <span>${label} ${value}</span>
+        <span>${label} ${valueStr}</span>
         <paper-tooltip offset="5" fit-to-visible-bounds="true">
           The check result has (probably) influenced this label vote.
         </paper-tooltip>

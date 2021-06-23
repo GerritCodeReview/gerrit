@@ -156,6 +156,24 @@
       "message": "nit: too long line, prefer wrap at 100 chars",
       "revId": "8906949834ba40fbdea8ae3f53a83b72b48a75be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6b4ca68_bcb9b30d",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-23T13:45:07Z",
+      "side": 1,
+      "message": "s/prefer/please",
+      "parentUuid": "261d9f5c_9326f376",
+      "revId": "8906949834ba40fbdea8ae3f53a83b72b48a75be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

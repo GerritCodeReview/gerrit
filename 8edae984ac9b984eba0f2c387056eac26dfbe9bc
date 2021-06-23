@@ -175,6 +175,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "51acca61_591923a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-06-23T07:22:23Z",
+      "side": 1,
+      "message": "The shutdown time of Gerrit might differ depending on the system. 10s might not always be enough. However, I definitely agree that we should avoid yet another timeout option. So adding a fixed delay would indeed be the easiest way to go. Why not keep the 30s used already?",
+      "parentUuid": "cb2f10b7_d5cd8bfb",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "816abdbf_1641be24",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 5

@@ -211,6 +211,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fc61a702_85b934f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-23T22:23:18Z",
+      "side": 1,
+      "message": "the idea is to add 30sec for the start script\u0027s timeout to prevent that the start scripts forcefully kills the Java process before the respective ssh/http daemon noticed that the gracetimeout expired and can gracefully close the connection",
+      "parentUuid": "639fe4e2_e7724d88",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "816abdbf_1641be24",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 5

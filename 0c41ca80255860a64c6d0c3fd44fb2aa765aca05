@@ -39,6 +39,30 @@
       },
       "revId": "0c41ca80255860a64c6d0c3fd44fb2aa765aca05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "114cb36a_ade47e2e",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-23T15:49:09Z",
+      "side": 1,
+      "message": "Thanks for catching and reporting this. Added https://gerrit-review.googlesource.com/c/gerrit/+/310048 for a fix.",
+      "parentUuid": "2ae0de52_9c888e4f",
+      "range": {
+        "startLine": 347,
+        "startChar": 24,
+        "endLine": 347,
+        "endChar": 45
+      },
+      "revId": "0c41ca80255860a64c6d0c3fd44fb2aa765aca05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

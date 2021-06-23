@@ -99,25 +99,26 @@ public class CommentContextCacheImpl implements CommentContextCache {
       Iterable<CommentContextKey> inputKeys) {
     ImmutableMap.Builder<CommentContextKey, CommentContext> result = ImmutableMap.builder();
 
-    List<CommentContextKey> adjustedKeys =
+    // We do two transformations to the input keys: first we adjust the max context padding, and
+    // second we hash the file path. The transformed keys are used to request context from the
+    // cache. Keeping a map of the original inputKeys to the transformed keys
+    Map<CommentContextKey, CommentContextKey> inputKeysToCacheKeys =
         Streams.stream(inputKeys)
-            .map(CommentContextCacheImpl::adjustMaxContextPadding)
-            .collect(ImmutableList.toImmutableList());
-
-    // Convert the input keys to the same keys but with their file paths hashed
-    Map<CommentContextKey, CommentContextKey> keysToCacheKeys =
-        adjustedKeys.stream()
             .collect(
                 Collectors.toMap(
                     Function.identity(),
-                    k -> k.toBuilder().path(Loader.hashPath(k.path())).build()));
+                    k ->
+                        adjustMaxContextPadding(k)
+                            .toBuilder()
+                            .path(Loader.hashPath(k.path()))
+                            .build()));
 
     try {
       ImmutableMap<CommentContextKey, CommentContext> allContext =
-          contextCache.getAll(keysToCacheKeys.values());
+          contextCache.getAll(inputKeysToCacheKeys.values());
 
       for (CommentContextKey inputKey : inputKeys) {
-        CommentContextKey cacheKey = keysToCacheKeys.get(adjustMaxContextPadding(inputKey));
+        CommentContextKey cacheKey = inputKeysToCacheKeys.get(inputKey);
         result.put(inputKey, allContext.get(cacheKey));
       }
       return result.build();

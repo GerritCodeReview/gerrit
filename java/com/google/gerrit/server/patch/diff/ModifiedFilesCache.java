@@ -28,8 +28,8 @@ import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
  * files.
  *
  * <p>If the {@link ModifiedFilesCacheKey#aCommit()} is equal to {@link
- * org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID}, the diff will be evaluated against the empty tree,
- * and the result will be exactly the same as the caller can get from {@link
+ * org.eclipse.jgit.lib.ObjectId#zeroId()}, the diff will be evaluated against the empty tree, and
+ * the result will be exactly the same as the caller can get from {@link
  * GitModifiedFilesCache#get(GitModifiedFilesCacheKey)}
  */
 public interface ModifiedFilesCache {

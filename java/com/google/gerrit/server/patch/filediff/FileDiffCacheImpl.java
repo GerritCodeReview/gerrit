@@ -16,7 +16,6 @@ package com.google.gerrit.server.patch.filediff;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -76,9 +75,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * Cache for the single file diff between two commits for a single file path. This cache adds extra
  * Gerrit logic such as identifying edits due to rebase.
  *
- * <p>If the {@link FileDiffCacheKey#oldCommit()} is equal to {@link
- * org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID}, the git diff will be evaluated against the empty
- * tree.
+ * <p>If the {@link FileDiffCacheKey#oldCommit()} is equal to {@link ObjectId#zeroId()}, the git
+ * diff will be evaluated against the empty tree.
  */
 @Singleton
 public class FileDiffCacheImpl implements FileDiffCache {
@@ -204,7 +202,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
     private ComparisonType getComparisonType(
         RevWalk rw, ObjectReader reader, ObjectId oldCommitId, ObjectId newCommitId)
         throws IOException {
-      if (oldCommitId.equals(EMPTY_TREE_ID)) {
+      if (oldCommitId.equals(ObjectId.zeroId())) {
         return ComparisonType.againstRoot();
       }
       RevCommit oldCommit = DiffUtil.getRevCommit(rw, oldCommitId);
@@ -238,7 +236,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         ComparisonType comparisonType =
             getComparisonType(rw, reader, key.oldCommit(), key.newCommit());
         RevCommit aCommit =
-            key.oldCommit().equals(EMPTY_TREE_ID)
+            key.oldCommit().equals(ObjectId.zeroId())
                 ? null
                 : DiffUtil.getRevCommit(rw, key.oldCommit());
         RevCommit bCommit = DiffUtil.getRevCommit(rw, key.newCommit());
@@ -345,7 +343,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
       FileHeader fileHeader = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
       Patch.ChangeType changeType = FileHeaderUtil.getChangeType(fileHeader);
       return FileDiffOutput.builder()
-          .oldCommitId(oldCommit == null ? EMPTY_TREE_ID : oldCommit)
+          .oldCommitId(oldCommit == null ? ObjectId.zeroId() : oldCommit)
           .newCommitId(newCommit)
           .comparisonType(comparisonType)
           .oldPath(FileHeaderUtil.getOldPath(fileHeader))
@@ -399,12 +397,14 @@ public class FileDiffCacheImpl implements FileDiffCache {
         }
         List<Edit> rebaseEdits = rebaseFileEdits.edits();
 
-        RevTree aTree = rw.parseTree(allDiffs.mainDiff().gitKey().oldTree());
+        ObjectId oldTreeId = allDiffs.mainDiff().gitKey().oldTree();
+
+        RevTree aTree = oldTreeId.equals(ObjectId.zeroId()) ? null : rw.parseTree(oldTreeId);
         RevTree bTree = rw.parseTree(allDiffs.mainDiff().gitKey().newTree());
         GitFileDiff mainGitDiff = allDiffs.mainDiff().gitDiff();
 
         Long oldSize =
-            mainGitDiff.oldMode().isPresent() && mainGitDiff.oldPath().isPresent()
+            aTree != null && mainGitDiff.oldMode().isPresent() && mainGitDiff.oldPath().isPresent()
                 ? new FileSizeEvaluator(reader, aTree)
                     .compute(
                         mainGitDiff.oldId(),
@@ -453,7 +453,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
     private List<AugmentedFileDiffCacheKey> wrapKeys(List<FileDiffCacheKey> keys, RevWalk rw) {
       List<AugmentedFileDiffCacheKey> result = new ArrayList<>();
       for (FileDiffCacheKey key : keys) {
-        if (key.oldCommit().equals(EMPTY_TREE_ID)) {
+        if (key.oldCommit().equals(ObjectId.zeroId())) {
           result.add(AugmentedFileDiffCacheKey.builder().key(key).ignoreRebase(true).build());
           continue;
         }

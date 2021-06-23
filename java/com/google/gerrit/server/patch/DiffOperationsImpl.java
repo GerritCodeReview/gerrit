@@ -16,7 +16,6 @@ package com.google.gerrit.server.patch;
 
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
-import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -346,7 +345,7 @@ public class DiffOperationsImpl implements DiffOperations {
 
     /**
      * Base commit represents the old commit of the diff. For diffs against the root commit, this
-     * should be set to {@code EMPTY_TREE_ID}.
+     * should be set to {@link ObjectId#zeroId()}.
      */
     abstract ObjectId baseCommit();
 
@@ -394,7 +393,7 @@ public class DiffOperationsImpl implements DiffOperations {
     }
     int numParents = baseCommitUtil.getNumParents(project, newCommit);
     if (numParents == 0) {
-      result.baseCommit(EMPTY_TREE_ID);
+      result.baseCommit(ObjectId.zeroId());
       result.comparisonType(ComparisonType.againstRoot());
       return result.build();
     }

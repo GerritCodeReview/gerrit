@@ -15,7 +15,6 @@
 package com.google.gerrit.server.patch.diff;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -52,10 +51,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>The loader of this cache wraps a {@link GitModifiedFilesCache} to retrieve the git modified
  * files.
  *
- * <p>If the {@link ModifiedFilesCacheKey#aCommit()} is equal to {@link
- * org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID}, the diff will be evaluated against the empty tree,
- * and the result will be exactly the same as the caller can get from {@link
- * GitModifiedFilesCache#get(GitModifiedFilesCacheKey)}
+ * <p>If the {@link ModifiedFilesCacheKey#aCommit()} is equal to {@link ObjectId#zeroId()}, the diff
+ * will be evaluated against the empty tree, and the result will be exactly the same as the caller
+ * can get from {@link GitModifiedFilesCache#get(GitModifiedFilesCacheKey)}
  */
 @Singleton
 public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
@@ -130,7 +128,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     private ImmutableList<ModifiedFile> loadModifiedFiles(ModifiedFilesCacheKey key, RevWalk rw)
         throws IOException, DiffNotAvailableException {
       ObjectId aTree =
-          key.aCommit().equals(EMPTY_TREE_ID)
+          key.aCommit().equals(ObjectId.zeroId())
               ? key.aCommit()
               : DiffUtil.getTreeId(rw, key.aCommit());
       ObjectId bTree = DiffUtil.getTreeId(rw, key.bCommit());
@@ -142,7 +140,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
               .renameScore(key.renameScore())
               .build();
       List<ModifiedFile> modifiedFiles = gitCache.get(gitKey);
-      if (key.aCommit().equals(EMPTY_TREE_ID)) {
+      if (key.aCommit().equals(ObjectId.zeroId())) {
         return ImmutableList.copyOf(modifiedFiles);
       }
       RevCommit revCommitA = DiffUtil.getRevCommit(rw, key.aCommit());

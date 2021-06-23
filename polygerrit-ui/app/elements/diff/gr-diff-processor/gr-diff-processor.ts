@@ -61,7 +61,7 @@ export interface KeyLocations {
  * _asyncThreshold of 64, but feel free to tune this constant to your
  * performance needs.
  */
-const MAX_GROUP_SIZE = 120;
+const MAX_GROUP_SIZE = 10000;
 
 /**
  * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
@@ -100,7 +100,7 @@ export class GrDiffProcessor extends PolymerElement {
   keyLocations: KeyLocations = {left: {}, right: {}};
 
   @property({type: Number})
-  _asyncThreshold = 64;
+  _asyncThreshold = 5000;
 
   @property({type: Number})
   _nextStepHandle: number | null = null;
@@ -112,6 +112,10 @@ export class GrDiffProcessor extends PolymerElement {
   _isScrolling?: boolean;
 
   private resetIsScrollingTask?: DelayedTask;
+
+  private firstTime?: number;
+
+  private lastTime?: number;
 
   /** @override */
   connectedCallback() {
@@ -171,15 +175,22 @@ export class GrDiffProcessor extends PolymerElement {
         let currentBatch = 0;
         const nextStep = () => {
           if (this._isScrolling) {
+            console.log(`xxx isScrolling`);
             this._nextStepHandle = window.setTimeout(nextStep, 100);
             return;
           }
           // If we are done, resolve the promise.
           if (state.chunkIndex >= chunks.length) {
+            console.log(`xxx process DONE ${(this.lastTime ?? 0) - (this.firstTime ?? 0)}`);
             resolve();
             this._nextStepHandle = null;
             return;
           }
+          if (this.lastTime) {
+            // console.log(`xxx process chunk ${new Date().getTime() - this.lastTime}`);
+          }
+          this.lastTime = new Date().getTime();
+          if (!this.firstTime) this.firstTime = this.lastTime;
 
           // Process the next chunk and incorporate the result.
           const stateUpdate = this._processNext(state, chunks);
@@ -193,6 +204,7 @@ export class GrDiffProcessor extends PolymerElement {
           // Increment the index and recurse.
           state.chunkIndex = stateUpdate.newChunkIndex;
           if (currentBatch >= this._asyncThreshold) {
+            console.log(`xxx process async ${currentBatch}`);
             currentBatch = 0;
             this._nextStepHandle = window.setTimeout(nextStep, 1);
           } else {

@@ -241,20 +241,7 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   _setupAnnotationLayers() {
-    const layers: DiffLayer[] = [
-      this._createTrailingWhitespaceLayer(),
-      this._createIntralineLayer(),
-      this._createTabIndicatorLayer(),
-      this._createSpecialCharacterIndicatorLayer(),
-      this.$.rangeLayer,
-      this.$.coverageLayerLeft,
-      this.$.coverageLayerRight,
-    ];
-
-    if (this.layers) {
-      layers.push(...this.layers);
-    }
-    this._layers = layers;
+    this._layers = [];
   }
 
   getContentTdByLine(lineNumber: LineNumber, side?: Side, root?: Element) {
@@ -392,9 +379,11 @@ export class GrDiffBuilderElement extends PolymerElement {
       return;
     }
     for (const splice of changeRecord.indexSplices) {
+      // console.log(`xxx _groupsChanged ${splice.addedCount}`);
       let group;
       for (let i = 0; i < splice.addedCount; i++) {
         group = splice.object[splice.index + i];
+        // console.log(`xxx emit group ${group.lines.length} ${group.adds.length} ${group.removes.length}`);
         this._builder.groups.push(group);
         this._builder.emitGroup(group, null);
       }

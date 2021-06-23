@@ -17,7 +17,7 @@
 import {ReportingService, Timer} from './gr-reporting';
 import {EventDetails} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
-import {Execution, Interaction} from '../../constants/reporting';
+import {Execution, Interaction, Timing} from '../../constants/reporting';
 
 export class MockTimer implements Timer {
   end(): this {
@@ -83,6 +83,8 @@ export const grReportingMock: ReportingService = {
   setRepoName: () => {},
   setChangeId: () => {},
   time: () => {},
-  timeEnd: () => {},
+  timeEnd: (name: Timing, details?: EventDetails) => {
+    log(`timeEnd '${name}': ${JSON.stringify(details)}`);
+  },
   timeEndWithAverage: () => {},
 };

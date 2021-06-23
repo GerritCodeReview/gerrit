@@ -39,6 +39,30 @@
       },
       "revId": "19c65455a87154ce3eff41aee3e2fc5d83b35926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de063d8e_01173275",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-23T19:18:28Z",
+      "side": 1,
+      "message": "Yes and they are different in what they do accept. That is quite confusing for users as they need to remember which syntax goes where.\n\nMarking this as resolved as this should be addressed in Gerrit core with its own change.",
+      "parentUuid": "efee76b5_1a334504",
+      "range": {
+        "startLine": 99,
+        "startChar": 22,
+        "endLine": 99,
+        "endChar": 44
+      },
+      "revId": "19c65455a87154ce3eff41aee3e2fc5d83b35926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

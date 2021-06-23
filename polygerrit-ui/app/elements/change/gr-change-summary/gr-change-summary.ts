@@ -371,9 +371,11 @@ export class GrChangeSummary extends GrLitElement {
           margin-right: var(--spacing-m);
         }
         div.error {
+          color: var(--primary-text-color);
           background-color: var(--error-background);
           display: flex;
           padding: var(--spacing-s);
+          width: 490px;
         }
         div.error iron-icon {
           color: var(--error-foreground);

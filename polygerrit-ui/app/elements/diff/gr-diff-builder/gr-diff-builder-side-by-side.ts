@@ -22,6 +22,8 @@ import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {RenderPreferences} from '../../../api/diff';
+import {GrDiffRow} from './gr-diff-row';
+import './gr-diff-row';
 
 export class GrDiffBuilderSideBySide extends GrDiffBuilder {
   constructor(
@@ -43,21 +45,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
   }
 
   buildSectionElement(group: GrDiffGroup) {
-    const sectionEl = this._createElement('tbody', 'section');
-    sectionEl.classList.add(group.type);
-    if (this._isTotal(group)) {
-      sectionEl.classList.add('total');
-    }
-    if (group.dueToRebase) {
-      sectionEl.classList.add('dueToRebase');
-    }
-    if (group.moveDetails) {
-      sectionEl.classList.add('dueToMove');
-      sectionEl.appendChild(this._buildMoveControls(group));
-    }
-    if (group.ignoredWhitespaceOnly) {
-      sectionEl.classList.add('ignoredWhitespaceOnly');
-    }
+    const sectionEl = document.createElement('tbody');
     if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
       this._createContextControls(
         sectionEl,
@@ -101,18 +89,12 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     outputEl.appendChild(colgroup);
   }
 
-  _createRow(leftLine: GrDiffLine, rightLine: GrDiffLine) {
-    const row = this._createElement('tr');
-    row.classList.add('diff-row', 'side-by-side');
-    row.setAttribute('left-type', leftLine.type);
-    row.setAttribute('right-type', rightLine.type);
-    // TabIndex makes screen reader read a row when navigating with j/k
-    row.tabIndex = -1;
-
-    row.appendChild(this._createBlameCell(leftLine.beforeNumber));
-
-    this._appendPair(row, leftLine, leftLine.beforeNumber, Side.LEFT);
-    this._appendPair(row, rightLine, rightLine.afterNumber, Side.RIGHT);
+  _createRow(_1: GrDiffLine, _2: GrDiffLine) {
+    const row = document.createElement('gr-diff-row') as GrDiffRow;
+    // row.leftText = leftLine.text;
+    // row.leftNumber = leftLine.beforeNumber;
+    // row.rightText = rightLine.text;
+    // row.rightNumber = rightLine.beforeNumber;
     return row;
   }
 

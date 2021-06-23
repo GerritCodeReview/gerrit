@@ -17,7 +17,6 @@
 import {
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
-  LineNumberEventDetail,
   MovedLinkClickedEventDetail,
   RenderPreferences,
 } from '../../../api/diff';
@@ -416,77 +415,13 @@ export abstract class GrDiffBuilder {
   }
 
   _createLineEl(
-    line: GrDiffLine,
+    _1: GrDiffLine,
     number: LineNumber,
-    type: GrDiffLineType,
-    side: Side
+    _2: GrDiffLineType,
+    _3: Side
   ) {
-    const td = this._createElement('td');
-    td.classList.add(side);
-    if (line.type === GrDiffLineType.BLANK) {
-      return td;
-    }
-    if (line.type === GrDiffLineType.BOTH || line.type === type) {
-      td.classList.add('lineNum');
-      td.dataset['value'] = number.toString();
-
-      if (
-        ((this._prefs.show_file_comment_button === false ||
-          this._renderPrefs?.show_file_comment_button === false) &&
-          number === 'FILE') ||
-        number === 'LOST'
-      ) {
-        return td;
-      }
-
-      const button = this._createElement('button');
-      td.appendChild(button);
-      button.tabIndex = -1;
-      button.classList.add('lineNumButton');
-      button.classList.add(side);
-      button.dataset['value'] = number.toString();
-      button.textContent = number === 'FILE' ? 'File' : number.toString();
-      if (number === 'FILE') {
-        button.setAttribute('aria-label', 'Add file comment');
-      }
-
-      // Add aria-labels for valid line numbers.
-      // For unified diff, this method will be called with number set to 0 for
-      // the empty line number column for added/removed lines. This should not
-      // be announced to the screenreader.
-      if (number > 0) {
-        if (line.type === GrDiffLineType.REMOVE) {
-          button.setAttribute('aria-label', `${number} removed`);
-        } else if (line.type === GrDiffLineType.ADD) {
-          button.setAttribute('aria-label', `${number} added`);
-        }
-      }
-      button.addEventListener('mouseenter', () => {
-        button.dispatchEvent(
-          new CustomEvent<LineNumberEventDetail>('line-number-mouse-enter', {
-            detail: {
-              lineNum: number,
-              side,
-            },
-            composed: true,
-            bubbles: true,
-          })
-        );
-      });
-      button.addEventListener('mouseleave', () => {
-        button.dispatchEvent(
-          new CustomEvent<LineNumberEventDetail>('line-number-mouse-leave', {
-            detail: {
-              lineNum: number,
-              side,
-            },
-            composed: true,
-            bubbles: true,
-          })
-        );
-      });
-    }
-
+    const td = document.createElement('td');
+    td.textContent = number === 'FILE' ? 'File' : number.toString();
     return td;
   }
 
@@ -495,7 +430,11 @@ export abstract class GrDiffBuilder {
     line: GrDiffLine,
     side?: Side
   ) {
-    const td = this._createElement('td');
+    const td = document.createElement('td');
+    if (true) {
+      if (line.text) td.appendChild(document.createTextNode(line.text));
+      return td;
+    }
     if (line.type !== GrDiffLineType.BLANK) {
       td.classList.add('content');
     }
@@ -518,13 +457,14 @@ export abstract class GrDiffBuilder {
       );
 
       if (side) {
-        contentText.setAttribute('data-side', side);
+        contentText.setAttribute('data-side', side ?? Side.LEFT);
       }
 
       if (lineNumberEl && side) {
+        const x: HTMLElement = lineNumberEl ?? this._createElement('td');
         for (const layer of this.layers) {
           if (typeof layer.annotate === 'function') {
-            layer.annotate(contentText, lineNumberEl, line, side);
+            layer.annotate(contentText, x, line, side ?? Side.LEFT);
           }
         }
       } else {
@@ -550,6 +490,8 @@ export abstract class GrDiffBuilder {
    */
   _formatText(text: string, tabSize: number, lineLimit: number): HTMLElement {
     const contentText = this._createElement('div', 'contentText');
+    contentText.appendChild(document.createTextNode(text));
+    if (true) return contentText;
 
     let columnPos = 0;
     let textOffset = 0;
@@ -641,6 +583,7 @@ export abstract class GrDiffBuilder {
   }
 
   _handleLayerUpdate(start: LineNumber, end: LineNumber, side: Side) {
+    console.log(`xxx _handleLayerUpdate ${side} ${start}`);
     this._renderContentByRange(start, end, side);
   }
 
@@ -868,18 +811,8 @@ ${commit.commit_msg}`;
    * Create a blame cell for the given base line. Blame information will be
    * included in the cell if available.
    */
-  _createBlameCell(lineNumber: LineNumber): HTMLTableDataCellElement {
-    const blameTd = this._createElement(
-      'td',
-      'blame'
-    ) as HTMLTableDataCellElement;
-    blameTd.setAttribute('data-line-number', lineNumber.toString());
-    if (lineNumber) {
-      const content = this._getBlameForBaseLine(lineNumber);
-      if (content) {
-        blameTd.appendChild(content);
-      }
-    }
+  _createBlameCell(_: LineNumber): HTMLTableDataCellElement {
+    const blameTd = document.createElement('td') as HTMLTableDataCellElement;
     return blameTd;
   }
 

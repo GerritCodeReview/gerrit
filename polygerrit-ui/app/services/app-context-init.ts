@@ -16,7 +16,6 @@
  */
 import {appContext, AppContext} from './app-context';
 import {FlagsServiceImplementation} from './flags/flags_impl';
-import {GrReporting} from './gr-reporting/gr-reporting_impl';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
 import {GrRestApiInterface} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
@@ -25,6 +24,7 @@ import {ChecksService} from './checks/checks-service';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
 import {ConfigService} from './config/config-service';
+import {grReportingMock} from './gr-reporting/gr-reporting_mock';
 
 type ServiceName = keyof AppContext;
 type ServiceCreator<T> = () => T;
@@ -68,7 +68,7 @@ export function initAppContext() {
 
   populateAppContext({
     flagsService: () => new FlagsServiceImplementation(),
-    reportingService: () => new GrReporting(appContext.flagsService),
+    reportingService: () => grReportingMock,
     eventEmitter: () => new EventEmitter(),
     authService: () => new Auth(appContext.eventEmitter),
     restApiService: () => new GrRestApiInterface(appContext.authService),

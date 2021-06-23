@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fdf74c5_e09b7b4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-23T15:13:59Z",
+      "side": 1,
+      "message": "Thanks for double checking me.",
+      "parentUuid": "5e3330ad_af9c28b5",
+      "revId": "3c0b91904ab3b0283b91ee050011318100965d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a03ed45b_ea4ef18c",
@@ -48,6 +66,24 @@
       "writtenOn": "2021-06-23T15:03:06Z",
       "side": 1,
       "message": "nit: if a class is only referenced from javadoc, but not used in the code, it is a best practice to not import it, but rather use the fully qualified class name in the javadoc.",
+      "revId": "3c0b91904ab3b0283b91ee050011318100965d6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d1205cd_48e013de",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-23T15:13:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a03ed45b_ea4ef18c",
       "revId": "3c0b91904ab3b0283b91ee050011318100965d6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

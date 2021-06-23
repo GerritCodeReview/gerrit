@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
@@ -79,11 +81,11 @@ public class Reachable {
       for (Ref r : filtered) {
         try {
           visible.add(rw.parseCommit(r.getObjectId()));
-        } catch (org.eclipse.jgit.errors.IncorrectObjectTypeException notCommit) {
+        } catch (IncorrectObjectTypeException notCommit) {
           // Its OK for a tag reference to point to a blob or a tree, this
           // is common in the Linux kernel or git.git repository.
           continue;
-        } catch (org.eclipse.jgit.errors.MissingObjectException notHere) {
+        } catch (MissingObjectException notHere) {
           // Log the problem with this branch, but keep processing.
           logger.atWarning().log(
               "Reference %s in %s points to dangling object %s",

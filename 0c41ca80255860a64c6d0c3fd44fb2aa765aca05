@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3030fce1_e844496a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-23T12:39:10Z",
+      "side": 1,
+      "message": "FYI, this doesn\u0027t seem to work in all cases, e.g. in the code-owners plugin, I see this issue:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/310162",
+      "revId": "0c41ca80255860a64c6d0c3fd44fb2aa765aca05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ae0de52_9c888e4f",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-23T12:39:10Z",
+      "side": 1,
+      "message": "Looking at this again, I think it\u0027s maybe not a good idea to use EMPTY_TREE_ID here as a commit ID, since Git trees and Git commits are different object types.",
+      "range": {
+        "startLine": 347,
+        "startChar": 24,
+        "endLine": 347,
+        "endChar": 45
+      },
+      "revId": "0c41ca80255860a64c6d0c3fd44fb2aa765aca05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

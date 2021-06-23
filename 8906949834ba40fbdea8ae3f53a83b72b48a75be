@@ -73,6 +73,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3aecee7_d29a5889",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-23T13:44:16Z",
+      "side": 1,
+      "message": "can this condition be dropped?",
+      "range": {
+        "startLine": 151,
+        "startChar": 21,
+        "endLine": 151,
+        "endChar": 44
+      },
+      "revId": "8906949834ba40fbdea8ae3f53a83b72b48a75be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e5dfd95_d86de2b0",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 4
@@ -114,6 +137,23 @@
         "endLine": 154,
         "endChar": 37
       },
+      "revId": "8906949834ba40fbdea8ae3f53a83b72b48a75be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "261d9f5c_9326f376",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-23T13:44:16Z",
+      "side": 1,
+      "message": "nit: too long line, prefer wrap at 100 chars",
       "revId": "8906949834ba40fbdea8ae3f53a83b72b48a75be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

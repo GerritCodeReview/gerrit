@@ -370,10 +370,15 @@ export class GrChangeSummary extends GrLitElement {
         .loading.zeroState {
           margin-right: var(--spacing-m);
         }
+        div.error,
+        .login {
+          display: flex;
+          color: var(--primary-text-color);
+          padding: var(--spacing-s);
+          width: 490px;
+        }
         div.error {
           background-color: var(--error-background);
-          display: flex;
-          padding: var(--spacing-s);
         }
         div.error iron-icon {
           color: var(--error-foreground);
@@ -384,12 +389,8 @@ export class GrChangeSummary extends GrLitElement {
           margin-right: var(--spacing-s);
         }
         .login {
-          display: flex;
           justify-content: space-between;
-          width: 490px;
           background: var(--info-background);
-          padding: var(--spacing-s);
-          color: var(--primary-text-color);
         }
         .login iron-icon {
           color: var(--info-foreground);

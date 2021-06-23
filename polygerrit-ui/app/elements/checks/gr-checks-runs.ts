@@ -444,11 +444,22 @@ export class GrChecksRuns extends GrLitElement {
         .testing:hover * {
           visibility: visible;
         }
-        .login {
-          background: var(--info-background);
+        .login,
+        .error {
           padding: var(--spacing-m);
           color: var(--primary-text-color);
           margin-top: var(--spacing-m);
+        }
+        .error {
+          display: flex;
+          background-color: var(--error-background);
+        }
+        .error iron-icon {
+          color: var(--error-foreground);
+          margin-right: var(--spacing-m);
+        }
+        .login {
+          background: var(--info-background);
         }
         .login iron-icon {
           color: var(--info-foreground);
@@ -491,7 +502,7 @@ export class GrChecksRuns extends GrLitElement {
         <div class="flex-space"></div>
         ${this.renderTitleButtons()} ${this.renderCollapseButton()}
       </h2>
-      ${this.renderSignIn()}
+      ${this.renderError()} ${this.renderSignIn()}
       <input
         id="filterInput"
         type="text"
@@ -502,6 +513,21 @@ export class GrChecksRuns extends GrLitElement {
       ${this.renderSection(RunStatus.RUNNING)}
       ${this.renderSection(RunStatus.COMPLETED)}
       ${this.renderSection(RunStatus.RUNNABLE)} ${this.renderFakeControls()}
+    `;
+  }
+
+  private renderError() {
+    if (!this.errorMessage) return;
+    return html`
+      <div class="error">
+        <div class="left">
+          <iron-icon icon="gr-icons:error"></iron-icon>
+        </div>
+        <div class="right">
+          <div>Error while fetching check results</div>
+          <div>${this.errorMessage}</div>
+        </div>
+      </div>
     `;
   }
 

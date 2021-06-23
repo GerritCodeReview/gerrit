@@ -193,6 +193,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "639fe4e2_e7724d88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-23T19:16:06Z",
+      "side": 1,
+      "message": "\u003e The shutdown time of Gerrit might differ depending on the system. 10s might not always be enough. However, I definitely agree that we should avoid yet another timeout option. So adding a fixed delay would indeed be the easiest way to go. Why not keep the 30s used already?\n\nThe whole point is using what is configured and NOT an hardcoded value, such as 30s. Or do you mean adding 30s to the configured timeout?",
+      "parentUuid": "51acca61_591923a3",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "816abdbf_1641be24",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 5

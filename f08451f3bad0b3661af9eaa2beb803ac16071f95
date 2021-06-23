@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "793f038a_86473f4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-23T10:16:58Z",
+      "side": 1,
+      "message": "Check for tag visibility:\n\nWrite a test? tag visibility is governed by branch visibility. It might be that that you have to provide the list of branches to return as input to the tag visibility filtering.",
+      "revId": "f08451f3bad0b3661af9eaa2beb803ac16071f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

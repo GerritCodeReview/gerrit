@@ -103,14 +103,16 @@ export const htmlTemplate = html`
         items="[[getCommentsDropdownEntires(threads, loggedIn)]]"
       >
       </gr-dropdown-list>
-      <span class="author-text">From:</span>
-      <template is="dom-repeat" items="[[getCommentAuthors(threads)]]">
-        <gr-account-label
-          account="[[item]]"
-          on-click="handleAccountClicked"
-          selection-chip-style
-          selected="[[isSelected(item, selectedAuthors)]]"
-        > </gr-account-label>
+      <template is="dom-if" if="[[threads.length]]">
+        <span class="author-text">From:</span>
+        <template is="dom-repeat" items="[[getCommentAuthors(threads)]]">
+          <gr-account-label
+            account="[[item]]"
+            on-click="handleAccountClicked"
+            selection-chip-style
+            selected="[[isSelected(item, selectedAuthors)]]"
+          > </gr-account-label>
+        </template>
       </template>
     </div>
   </template>

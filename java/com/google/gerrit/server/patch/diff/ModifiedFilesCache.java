@@ -20,6 +20,7 @@ import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * A cache for the list of Git modified files between 2 commits (patchsets) with extra Gerrit logic.
@@ -27,10 +28,9 @@ import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
  * <p>The loader uses the underlying {@link GitModifiedFilesCacheImpl} to retrieve the git modified
  * files.
  *
- * <p>If the {@link ModifiedFilesCacheKey#aCommit()} is equal to {@link
- * org.eclipse.jgit.lib.Constants#EMPTY_TREE_ID}, the diff will be evaluated against the empty tree,
- * and the result will be exactly the same as the caller can get from {@link
- * GitModifiedFilesCache#get(GitModifiedFilesCacheKey)}
+ * <p>If the {@link ModifiedFilesCacheKey#aCommit()} is equal to {@link ObjectId#zeroId()}, the diff
+ * will be evaluated against the empty tree, and the result will be exactly the same as the caller
+ * can get from {@link GitModifiedFilesCache#get(GitModifiedFilesCacheKey)}
  */
 public interface ModifiedFilesCache {
 

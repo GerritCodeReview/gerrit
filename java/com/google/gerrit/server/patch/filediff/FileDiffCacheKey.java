@@ -26,7 +26,6 @@ import com.google.gerrit.server.cache.proto.Cache.FileDiffKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgorithm;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Cache key for the {@link FileDiffCache}. */
@@ -38,7 +37,7 @@ public abstract class FileDiffCacheKey {
 
   /**
    * The 20 bytes SHA-1 commit ID of the old commit used in the diff. If set to {@link
-   * Constants#EMPTY_TREE_ID}, the diff is performed against the root commit.
+   * ObjectId#zeroId()}, an empty tree is used for the diff.
    */
   public abstract ObjectId oldCommit();
 

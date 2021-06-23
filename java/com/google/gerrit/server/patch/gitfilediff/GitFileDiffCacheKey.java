@@ -34,7 +34,11 @@ public abstract class GitFileDiffCacheKey {
   /** A specific git project / repository. */
   public abstract Project.NameKey project();
 
-  /** The old 20 bytes SHA-1 git tree ID used in the git tree diff */
+  /**
+   * The old 20 bytes SHA-1 git tree ID used in the git tree diff. If equals to {@link
+   * ObjectId#zeroId()}, a null tree is used for the diff scan, and {@link #newTree()} ()} is
+   * treated as an added tree.
+   */
   public abstract ObjectId oldTree();
 
   /** The new 20 bytes SHA-1 git tree ID used in the git tree diff */

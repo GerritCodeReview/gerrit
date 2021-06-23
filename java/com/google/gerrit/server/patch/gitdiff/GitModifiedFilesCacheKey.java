@@ -37,7 +37,8 @@ public abstract class GitModifiedFilesCacheKey {
 
   /**
    * The git SHA-1 {@link ObjectId} of the first git tree object for which the diff should be
-   * computed.
+   * computed. If equals to {@link ObjectId#zeroId()}, a null tree is used for the diff scan, and
+   * {@link #bTree()} is treated as an added tree.
    */
   public abstract ObjectId aTree();
 

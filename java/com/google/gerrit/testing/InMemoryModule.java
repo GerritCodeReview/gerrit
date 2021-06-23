@@ -250,7 +250,7 @@ public class InMemoryModule extends FactoryModule {
     install(new RestApiModule());
     install(new OAuthRestModule());
     install(new DefaultProjectNameLockManager.Module());
-    install(new FileInfoJsonModule());
+    install(new FileInfoJsonModule(cfg));
 
     bind(ProjectOperations.class).to(ProjectOperationsImpl.class);
   }

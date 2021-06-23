@@ -16,6 +16,29 @@
       "message": "I expect this broke in production? (bugnumber?)\n\nI wonder how that happened, because normally only branches (not tags) are input to the visibility check. \n\n\nShould probably have a test, but as this is copying over code from IncludedInResolver, +2. \n\n\n ",
       "revId": "f2488a15f642aeb4e26cb0ebbf51adf61740fbd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2fadc79_9ba750ad",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-23T10:23:54Z",
+      "side": 1,
+      "message": "Instead of using the fully qualified class name here, we should just import these classes. Done in https://gerrit-review.googlesource.com/c/gerrit/+/310043",
+      "range": {
+        "startLine": 82,
+        "startChar": 17,
+        "endLine": 82,
+        "endChar": 69
+      },
+      "revId": "f2488a15f642aeb4e26cb0ebbf51adf61740fbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

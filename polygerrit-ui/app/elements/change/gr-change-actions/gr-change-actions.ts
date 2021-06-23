@@ -380,7 +380,7 @@ export class GrChangeActions
 
   RevisionActions = RevisionActions;
 
-  reporting = appContext.reportingService;
+  private readonly reporting = appContext.reportingService;
 
   private readonly jsAPI = appContext.jsApiService;
 

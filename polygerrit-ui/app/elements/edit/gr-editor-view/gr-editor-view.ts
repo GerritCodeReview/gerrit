@@ -119,7 +119,7 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
 
   private storeTask?: DelayedTask;
 
-  reporting = appContext.reportingService;
+  private readonly reporting = appContext.reportingService;
 
   get keyBindings() {
     return {

@@ -45,7 +45,11 @@ import {
   pressAndReleaseKeyOn,
 } from '@polymer/iron-test-helpers/mock-interactions';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
-import {stubRestApi, stubStorage} from '../../../test/test-utils';
+import {
+  stubReporting,
+  stubRestApi,
+  stubStorage,
+} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
 
@@ -362,7 +366,7 @@ suite('comment action tests with unresolved thread', () => {
 
   test('reply', () => {
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
-    const reportStub = sinon.stub(element.reporting, 'recordDraftInteraction');
+    const reportStub = stubReporting('recordDraftInteraction');
     assert.ok(commentEl);
 
     const replyBtn = element.$.replyBtn;
@@ -381,7 +385,7 @@ suite('comment action tests with unresolved thread', () => {
 
   test('quote reply', () => {
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
-    const reportStub = sinon.stub(element.reporting, 'recordDraftInteraction');
+    const reportStub = stubReporting('recordDraftInteraction');
     assert.ok(commentEl);
 
     const quoteBtn = element.$.quoteBtn;
@@ -399,7 +403,7 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('quote reply multiline', () => {
-    const reportStub = sinon.stub(element.reporting, 'recordDraftInteraction');
+    const reportStub = stubReporting('recordDraftInteraction');
     element.comments = [
       {
         author: {
@@ -436,7 +440,7 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('ack', done => {
-    const reportStub = sinon.stub(element.reporting, 'recordDraftInteraction');
+    const reportStub = stubReporting('recordDraftInteraction');
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
 
@@ -461,7 +465,7 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('done', done => {
-    const reportStub = sinon.stub(element.reporting, 'recordDraftInteraction');
+    const reportStub = stubReporting('recordDraftInteraction');
     element.changeNum = 42 as NumericChangeId;
     element.patchNum = 1 as PatchSetNum;
     const commentEl = element.shadowRoot?.querySelector('gr-comment');

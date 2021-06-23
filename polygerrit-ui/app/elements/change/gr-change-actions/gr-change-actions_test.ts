@@ -34,6 +34,7 @@ import {
   query,
   queryAll,
   queryAndAssert,
+  stubReporting,
   stubRestApi,
 } from '../../../test/test-utils';
 import {assertUIActionInfo, GrChangeActions} from './gr-change-actions';
@@ -2314,7 +2315,7 @@ suite('gr-change-actions tests', () => {
       sinon.stub(element, '_fireAction');
       sinon.stub(element, '_handleChangeAction');
 
-      const reportStub = sinon.stub(element.reporting, 'reportInteraction');
+      const reportStub = stubReporting('reportInteraction');
       element._handleAction(ActionType.CHANGE, 'key');
       assert.isTrue(reportStub.called);
       assert.equal(reportStub.lastCall.args[0], 'change-key');

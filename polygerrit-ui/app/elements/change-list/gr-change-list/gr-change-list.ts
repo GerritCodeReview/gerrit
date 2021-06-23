@@ -138,7 +138,7 @@ export class GrChangeList extends ChangeTableMixin(
   @property({type: Object})
   _config?: ServerInfo;
 
-  flagsService = appContext.flagsService;
+  private readonly flagsService = appContext.flagsService;
 
   private readonly restApiService = appContext.restApiService;
 

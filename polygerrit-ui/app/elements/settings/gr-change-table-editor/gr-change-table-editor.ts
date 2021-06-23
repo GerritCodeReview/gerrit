@@ -44,7 +44,7 @@ export class GrChangeTableEditor extends ChangeTableMixin(PolymerElement) {
   @property({type: Array})
   defaultColumns: string[] = [];
 
-  flagsService = appContext.flagsService;
+  private readonly flagsService = appContext.flagsService;
 
   @observe('serverConfig')
   _configChanged(config: ServerInfo) {

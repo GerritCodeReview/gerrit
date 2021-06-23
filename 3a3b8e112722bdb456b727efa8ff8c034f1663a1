@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d867860c_195c8964",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-23T13:34:20Z",
+      "side": 1,
+      "message": "I added tests for the already implemented backfilling in the latest patch set.\nAdded TODO for other knoen cases, that are missing backfilling implementation in this change. Once I dry run, I will see what else is missing and add it in the later change, if it sounds good?",
+      "parentUuid": "8aca9804_1884152c",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "465aaf9f_0ee7c7bc",
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "I don\u0027t understand the last sentence.",
       "parentUuid": "24ab93cd_6d5aeaca",
+      "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3517e2b5_83af4c3f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-23T13:34:20Z",
+      "side": 1,
+      "message": "I just meant I bound  InternalChangeQuery and ProjectCache to the instances, that always throw, to make sure they are actually never called.",
+      "parentUuid": "bb71f372_2df15cdb",
       "revId": "3a3b8e112722bdb456b727efa8ff8c034f1663a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45da728c_a9d9cb10",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-23T13:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aea26b1a_e6359920",
+      "range": {
+        "startLine": 92,
+        "startChar": 74,
+        "endLine": 92,
+        "endChar": 81
+      },
+      "revId": "fdd3f47a6f8e239d80349151c52a51536d69da79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cb88ab9_96a51635",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-22T13:29:43Z",
       "side": 1,
       "message": "nit: remove both commas",
+      "range": {
+        "startLine": 106,
+        "startChar": 65,
+        "endLine": 106,
+        "endChar": 84
+      },
+      "revId": "fdd3f47a6f8e239d80349151c52a51536d69da79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "308c38f5_c8d1eec9",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-23T13:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cb88ab9_96a51635",
       "range": {
         "startLine": 106,
         "startChar": 65,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c63e3538_1ed83541",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-23T13:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d09e0c76_84dee9ed",
+      "range": {
+        "startLine": 329,
+        "startChar": 34,
+        "endLine": 329,
+        "endChar": 41
+      },
+      "revId": "fdd3f47a6f8e239d80349151c52a51536d69da79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4510cc53_bdedc169",
@@ -83,6 +155,30 @@
       "writtenOn": "2021-06-22T13:29:43Z",
       "side": 1,
       "message": "\"Whether all commits seen...\"",
+      "range": {
+        "startLine": 684,
+        "startChar": 7,
+        "endLine": 684,
+        "endChar": 27
+      },
+      "revId": "fdd3f47a6f8e239d80349151c52a51536d69da79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93a37379_951add79",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-23T13:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4510cc53_bdedc169",
       "range": {
         "startLine": 684,
         "startChar": 7,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83daf695_385d317f",
+        "filename": "java/com/google/gerrit/server/project/NullProjectCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-23T13:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "062d73ac_bc7d0b54",
+      "revId": "fdd3f47a6f8e239d80349151c52a51536d69da79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7305d1ff_8905972b",
@@ -123,6 +237,24 @@
       "writtenOn": "2021-06-22T13:29:43Z",
       "side": 1,
       "message": "Is this so it fails more explicitly than before?",
+      "revId": "fdd3f47a6f8e239d80349151c52a51536d69da79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "270810ec_69eb200a",
+        "filename": "javatests/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-23T13:34:20Z",
+      "side": 1,
+      "message": "I think it is UnsupportedOperationException is more descriptive. Previpously, we would get NullPointerException is tests if we tried to access it.",
+      "parentUuid": "7305d1ff_8905972b",
       "revId": "fdd3f47a6f8e239d80349151c52a51536d69da79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

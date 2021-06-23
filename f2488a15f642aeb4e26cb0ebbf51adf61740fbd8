@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dce2debf_47f8a471",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-23T09:17:18Z",
+      "side": 1,
+      "message": "I expect this broke in production? (bugnumber?)\n\nI wonder how that happened, because normally only branches (not tags) are input to the visibility check. \n\n\nShould probably have a test, but as this is copying over code from IncludedInResolver, +2. \n\n\n ",
+      "revId": "f2488a15f642aeb4e26cb0ebbf51adf61740fbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,23 @@
       "message": "This is the issues that is caused the test failures for https://gerrit-review.googlesource.com/c/plugins/code-owners/+/304438",
       "revId": "e11da52729dfd848e989f51e8a74464574c1f792",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de3c40fb_03b54022",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-23T15:52:50Z",
+      "side": 1,
+      "message": "This got fixed by:\n- 310048: Diff against root commits: use ObjectId#zeroId instead of EMPTY_TREE_ID | https://gerrit-review.googlesource.com/c/gerrit/+/310048",
+      "revId": "e11da52729dfd848e989f51e8a74464574c1f792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

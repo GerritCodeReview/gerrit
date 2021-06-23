@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0620dc77_a93a5ae2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-06-23T13:09:00Z",
+      "side": 1,
+      "message": "agreed that it\u0027s better readability, but not sure it fixes the bug.\nWorth a shot, though :)",
+      "revId": "6eaa89988af4b3b34c9c3391f382ca78c5536236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

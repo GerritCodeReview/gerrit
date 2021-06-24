@@ -66,6 +66,7 @@ import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
+import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
@@ -250,7 +251,8 @@ public class InMemoryModule extends FactoryModule {
     install(new RestApiModule());
     install(new OAuthRestModule());
     install(new DefaultProjectNameLockManager.Module());
-    install(new FileInfoJsonModule(cfg));
+    install(new FileInfoJsonModule());
+    install(new ConfigExperimentFeatures.Module());
 
     bind(ProjectOperations.class).to(ProjectOperationsImpl.class);
   }

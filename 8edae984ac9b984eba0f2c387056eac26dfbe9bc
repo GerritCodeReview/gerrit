@@ -229,6 +229,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d8bd4f6_7eb3c92c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-06-24T05:52:02Z",
+      "side": 1,
+      "message": "I indeed meant adding the 30s that were used so far as an additional wait time to the configured timeout value for the reason Matthias mentioned in his last comment.",
+      "parentUuid": "fc61a702_85b934f5",
+      "revId": "8edae984ac9b984eba0f2c387056eac26dfbe9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "816abdbf_1641be24",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 5

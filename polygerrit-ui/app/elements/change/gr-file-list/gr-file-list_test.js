@@ -33,8 +33,7 @@ import {createChangeComments} from '../../../test/test-data-generators.js';
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
     <gr-file-list id="fileList"
-        change-comments="[[_changeComments]]"
-        on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
+        change-comments="[[_changeComments]]"></gr-file-list>
     <gr-comment-api id="commentAPI"></gr-comment-api>
 `);
 
@@ -51,7 +50,6 @@ suite('gr-file-list tests', () => {
   let commentApiWrapper;
 
   let saveStub;
-  let loadCommentSpy;
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
@@ -94,7 +92,6 @@ suite('gr-file-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
-      loadCommentSpy = sinon.spy(commentApiWrapper.$.commentAPI, 'loadAll');
 
       // Stub methods on the changeComments object after changeComments has
       // been initialized.
@@ -1026,7 +1023,6 @@ suite('gr-file-list tests', () => {
       ], diffs, 3)
           .then(() => {
             assert.isFalse(reviewStub.called);
-            assert.isTrue(loadCommentSpy.called);
             done();
           });
     });
@@ -1417,7 +1413,6 @@ suite('gr-file-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
-      loadCommentSpy = sinon.spy(commentApiWrapper.$.commentAPI, 'loadAll');
       element.diffPrefs = {};
       element.change = {_number: 42, project: 'testRepo'};
       sinon.stub(element, '_reviewFile');

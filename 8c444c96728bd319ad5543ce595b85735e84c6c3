@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b531ee86_b02e60e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2171,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-06-24T16:53:52Z",
+      "side": 1,
+      "message": "Without waiting for detailCompletes, fileList.reload() won\u0027t have _change populated the first time the page loads and I cannot determine whether the change is a merge commit, it would only appear when changing patchset manually after everything is loaded.",
+      "range": {
+        "startLine": 2171,
+        "startChar": 35,
+        "endLine": 2171,
+        "endChar": 50
+      },
+      "revId": "8c444c96728bd319ad5543ce595b85735e84c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import {UrlEncodedCommentId} from '../types/common';
 import {FetchRequest} from '../types/types';
 import {
   DialogChangeEventDetail,
@@ -106,17 +105,6 @@ export function fireDialogChange(
 
 export function fireIronAnnounce(target: EventTarget, text: string) {
   fire(target, EventType.IRON_ANNOUNCE, {text});
-}
-
-export function fireThreadListModifiedEvent(
-  target: EventTarget,
-  rootId: UrlEncodedCommentId,
-  path: string
-) {
-  fire(target, EventType.THREAD_LIST_MODIFIED, {
-    rootId,
-    path,
-  });
 }
 
 export function fireShowPrimaryTab(

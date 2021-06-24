@@ -651,23 +651,6 @@ suite('gr-thread-list tests', () => {
     assert.equal(getVisibleThreads().length, 2);
   });
 
-  test('modification events are consumed and displatched', () => {
-    sinon.spy(element, '_handleCommentsChanged');
-    const dispatchSpy = sinon.stub();
-    element.addEventListener('thread-list-modified', dispatchSpy);
-    threadElements[0].dispatchEvent(
-        new CustomEvent('thread-changed', {
-          detail: {
-            rootId: 'ecf0b9fa_fe1a5f62', path: '/COMMIT_MSG'},
-          composed: true, bubbles: true,
-        }));
-    assert.isTrue(element._handleCommentsChanged.called);
-    assert.isTrue(dispatchSpy.called);
-    assert.equal(dispatchSpy.lastCall.args[0].detail.rootId,
-        'ecf0b9fa_fe1a5f62');
-    assert.equal(dispatchSpy.lastCall.args[0].detail.path, '/COMMIT_MSG');
-  });
-
   suite('hideDropdown', () => {
     setup(done => {
       element.hideDropdown = true;

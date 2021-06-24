@@ -1,0 +1,97 @@
+:linkattrs:
+= Gerrit Code Review - Reviewer States
+
+[what-are-reviewer-states]
+== What are the reviewer states?
+Reviewer states describe the relationships you may have towards a Change
+besides Change Owner. The reviewer state is an expression of expectation
+and may also dictate the level of notification.
+
+[[reviewer-state-cc]]
+== CC
+Being a CC means that this change may interest you and you (may) want to keep
+track of its progress.
+
+=== Automatic transitions
+If you as a non-reviewer make a comment you are automatically added as CC to
+the change.
+
+=== Expectations/Intent
+As a CC you aren't expected to, or do not currently intend to, take active part
+in the review-process.
+
+=== Dashboard
+Changes for which you are CC show up in your dashboard under the "CCed on"
+section.
+
+[[reviewer-state-cc-plus-as]]
+== CC + link:user-attention-set.html[Attention-set]
+As a CC there are two reasons for why you may end up in the Attention-Set:
+
+1. You made a comment and someone replied to that comment.
+2. Someone manually added you to the Attention-Set.
+
+=== Automatic transitions
+If you make a comment and someone replies to that comment you are added to the
+Attention-Set as a CC.
+
+=== Expectations/Intent
+Expectations and intent differs depending on how you were added to the
+Attention-Set:
+
+1. Someone replied to your comment:
++
+You are expected to read the reply and respond if necessary.
+
+2. Someone manually added you:
++
+It is not clear what the expectations intent is in this case.
+
+=== Dashboard
+Changes for which you are CC and in the Attention-Set show up under the
+"Your Turn" section of the dashboard.
+
+[[reviewer-state-reviewer]]
+== Reviewer
+Being a Reviewer while not being in the Attention-Set means that you are an
+active participant that is not currently expected to take action on the change.
+* You may have posted a comment and are waiting for a reply.
+* You may have already done what is required of you and, unless an action from
+  you is once more requested, there's nothing more for you to do on the change.
+
+=== Automatic transitions
+If you, as a Reviewer in the Attention-Set, make a comment and/or vote on a
+label you are automatically removed from the Attention-Set.
+
+=== Expectations/Intent
+There are currently no expectations on you.
+However being a Reviewer shows others that you are a valuable stakeholder in
+this particular change and that you should be notified (be put back into the
+Attention-Set) if the situation changes or a question arises.
+
+=== Dashboard
+Changes for which you are Reviewer, but not in the Attention-Set, show up
+under the "Incoming reviews" section of the dashboard.
+
+[[reviewer-state-reviewer-plus-as]]
+== Reviewer + link:user-attention-set.html[Attention-Set]
+Being a Reviewer in the Attention-Set means that someone requires your action.
+For more information about Attention-Set, see
+link:user-attention-set.html[the Attention-Set documentation].
+
+=== Automatic transitions
+When you are added as a Reviewer you are automatically also added to the
+Attention-Set. For an explanation about the other automatic transitions see
+link:user-attention-set.html[the Attention-Set documentation].
+
+=== Expectations/Intent
+As a Reviewer in the Attention-Set the expectations are that you prioritize
+taking action on the change.
+If you aren't currently able to prioritize the change you should express this
+by manually removing yourself from the Attention-Set while making a comment
+that you don't have the possibility to act on it at the moment so that the
+change owner may require action from other Reviewers or plan accordingly.
+
+=== Dashboard
+Changes for which you are CC and in the Attention-Set show up under the
+"Your Turn" section of the dashboard.

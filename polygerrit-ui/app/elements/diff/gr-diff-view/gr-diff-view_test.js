@@ -21,7 +21,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {TestKeyboardShortcutBinder, stubRestApi} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {ChangeComments, _testOnly_findCommentById, _testOnly_getCommentsForPath} from '../gr-comment-api/gr-comment-api.js';
+import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
 import {GerritView} from '../../../services/router/router-model.js';
 import {
   createChange,
@@ -114,32 +114,21 @@ suite('gr-diff-view tests', () => {
         patchNum: 77,
         basePatchNum: 'PARENT',
       };
-      sinon.stub(element.$.commentAPI, 'loadAll').returns(Promise.resolve({
-        _comments: {'/COMMIT_MSG': [
-          {
-            ...createComment(),
-            id: 'c1',
-            line: 10,
-            patch_set: 2,
-            path: '/COMMIT_MSG',
-          }, {
-            ...createComment(),
-            id: 'c3',
-            line: 10,
-            patch_set: 'PARENT',
-            path: '/COMMIT_MSG',
-          },
-        ]},
-        computeCommentThreadCount: () => {},
-        computeCommentsString: () => '',
-        computeUnresolvedNum: () => {},
-        getPaths: () => {},
-        getThreadsBySideForFile: () => [],
-        getCommentsForPath: _testOnly_getCommentsForPath,
-        findCommentById: _testOnly_findCommentById,
-
-      }));
-      await element._loadComments();
+      element._changeComments = new ChangeComments({'/COMMIT_MSG': [
+        {
+          ...createComment(),
+          id: 'c1',
+          line: 10,
+          patch_set: 2,
+          path: '/COMMIT_MSG',
+        }, {
+          ...createComment(),
+          id: 'c3',
+          line: 10,
+          patch_set: 'PARENT',
+          path: '/COMMIT_MSG',
+        },
+      ]});
       await flush();
     });
 

@@ -144,13 +144,6 @@ export const htmlTemplate = html`
           <div class="title">Message</div>
           <div>[[run.statusDescription]]</div>
         </div>
-      </div>
-    </div>
-    <div class="section" hidden$="[[hideAttemptSection(run)]]">
-      <div class="sectionIcon">
-        <iron-icon class="small" icon="gr-icons:schedule"></iron-icon>
-      </div>
-      <div class="sectionContent">
         <div hidden$="[[hideAttempts(run)]]" class="row">
           <div class="title">Attempt</div>
           <template is="dom-repeat" items="[[run.attemptDetails]]">
@@ -165,6 +158,13 @@ export const htmlTemplate = html`
             </div>
           </template>
         </div>
+      </div>
+    </div>
+    <div class="section" hidden$="[[hideAttemptSection(run)]]">
+      <div class="sectionIcon">
+        <iron-icon class="small" icon="gr-icons:schedule"></iron-icon>
+      </div>
+      <div class="sectionContent">
         <div hidden$="[[hideScheduled(run)]]" class="row">
           <div class="title">Scheduled</div>
           <div>[[computeDuration(run.scheduledTimestamp)]]</div>

@@ -28,27 +28,6 @@ class CommentApiMock extends LegacyElementMixin(PolymerElement) {
       _changeComments: Object,
     };
   }
-
-  loadComments() {
-    return this._reloadComments();
-  }
-
-  /**
-   * For the purposes of the mock, _reloadDrafts is not included because its
-   * response is the same type as reloadComments, just makes less API
-   * requests. Since this is for test purposes/mocked data anyway, keep this
-   * file simpler by just using _reloadComments here instead.
-   */
-  _reloadDraftsWithCallback(e) {
-    return this._reloadComments().then(() => e.detail.resolve());
-  }
-
-  _reloadComments() {
-    return this.$.commentAPI.loadAll(this._changeNum)
-        .then(comments => {
-          this._changeComments = this.$.commentAPI._changeComments;
-        });
-  }
 }
 
 /**

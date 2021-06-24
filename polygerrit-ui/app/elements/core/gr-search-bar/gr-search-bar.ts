@@ -104,6 +104,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'project:',
   'projects:',
   'query:',
+  'repo:',
   'ref:',
   'reviewedby:',
   'reviewer:',

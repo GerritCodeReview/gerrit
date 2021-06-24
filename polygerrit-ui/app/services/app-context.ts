@@ -24,6 +24,7 @@ import {ChecksService} from './checks/checks-service';
 import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {StorageService} from './storage/gr-storage';
 import {ConfigService} from './config/config-service';
+import {CommentsService} from './comments/comments-service';
 
 export interface AppContext {
   flagsService: FlagsService;
@@ -32,6 +33,7 @@ export interface AppContext {
   authService: AuthService;
   restApiService: RestApiService;
   changeService: ChangeService;
+  commentsService: CommentsService;
   checksService: ChecksService;
   jsApiService: JsApiService;
   storageService: StorageService;

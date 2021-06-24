@@ -211,9 +211,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     };
   }
 
-  reporting = appContext.reportingService;
+  private readonly reporting = appContext.reportingService;
 
-  flagsService = appContext.flagsService;
+  private readonly flagsService = appContext.flagsService;
 
   readonly storage = appContext.storageService;
 
@@ -349,9 +349,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   _getLayers(diff?: DiffInfo) {
     if (!diff) return [];
     const layers = [];
-    if (
-      appContext.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)
-    ) {
+    if (this.flagsService.isEnabled(KnownExperimentId.TOKEN_HIGHLIGHTING)) {
       layers.push(new TokenHighlightLayer());
     }
     layers.push(this.syntaxLayer);

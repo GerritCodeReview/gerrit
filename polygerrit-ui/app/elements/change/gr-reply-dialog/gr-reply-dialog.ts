@@ -213,11 +213,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
 
   FocusTarget = FocusTarget;
 
-  reporting = appContext.reportingService;
+  private readonly reporting = appContext.reportingService;
 
-  flagsService = appContext.flagsService;
-
-  changeService = appContext.changeService;
+  private readonly changeService = appContext.changeService;
 
   @property({type: Object})
   change?: ChangeInfo;

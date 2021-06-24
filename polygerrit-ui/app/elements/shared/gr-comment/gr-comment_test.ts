@@ -27,6 +27,7 @@ import {
   spyStorage,
   query,
   isVisible,
+  stubReporting,
 } from '../../../test/test-utils';
 import {
   AccountId,
@@ -363,9 +364,7 @@ suite('gr-comment tests', () => {
         endStub = sinon.stub();
         const mockTimer = new MockTimer();
         mockTimer.end = endStub;
-        getTimerStub = sinon
-          .stub(element.reporting, 'getTimer')
-          .returns(mockTimer);
+        getTimerStub = stubReporting('getTimer').returns(mockTimer);
       });
 
       test('create', () => {
@@ -414,10 +413,7 @@ suite('gr-comment tests', () => {
     });
 
     test('edit reports interaction', () => {
-      const reportStub = sinon.stub(
-        element.reporting,
-        'recordDraftInteraction'
-      );
+      const reportStub = stubReporting('recordDraftInteraction');
       element.draft = true;
       flush();
       tap(queryAndAssert(element, '.edit'));
@@ -425,10 +421,7 @@ suite('gr-comment tests', () => {
     });
 
     test('discard reports interaction', () => {
-      const reportStub = sinon.stub(
-        element.reporting,
-        'recordDraftInteraction'
-      );
+      const reportStub = stubReporting('recordDraftInteraction');
       element.draft = true;
       flush();
       tap(queryAndAssert(element, '.discard'));

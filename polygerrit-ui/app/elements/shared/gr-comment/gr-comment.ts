@@ -271,7 +271,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly storage = appContext.storageService;
 
-  reporting = appContext.reportingService;
+  private readonly reporting = appContext.reportingService;
 
   private fireUpdateTask?: DelayedTask;
 

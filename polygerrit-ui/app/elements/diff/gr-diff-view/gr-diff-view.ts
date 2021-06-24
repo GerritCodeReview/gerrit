@@ -328,9 +328,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     };
   }
 
-  reporting = appContext.reportingService;
-
-  flagsService = appContext.flagsService;
+  private readonly reporting = appContext.reportingService;
 
   private readonly restApiService = appContext.restApiService;
 

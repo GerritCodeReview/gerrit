@@ -37,6 +37,7 @@ import com.google.inject.Inject;
 import java.util.ArrayDeque;
 import java.util.Map;
 import org.apache.commons.lang.RandomStringUtils;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -281,7 +282,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
   public void updateManySubmodules() throws Exception {
     final int NUM = 3;
     Project.NameKey subKey[] = new Project.NameKey[NUM];
-    TestRepository<?> sub[] = new TestRepository[NUM];
+    TestRepository<?> sub[] = new TestRepository<InMemoryRepository>[NUM];
     String prefix = RandomStringUtils.randomAlphabetic(8);
     for (int i = 0; i < subKey.length; i++) {
       subKey[i] =

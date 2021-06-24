@@ -92,7 +92,18 @@ export function worstCategory(run: CheckRun) {
   return undefined;
 }
 
-export function isStatus(catStat: Category | RunStatus) {
+export function isCategory(
+  catStat?: Category | RunStatus
+): catStat is Category {
+  return (
+    catStat === Category.ERROR ||
+    catStat === Category.WARNING ||
+    catStat === Category.INFO ||
+    catStat === Category.SUCCESS
+  );
+}
+
+export function isStatus(catStat?: Category | RunStatus): catStat is RunStatus {
   return (
     catStat === RunStatus.COMPLETED ||
     catStat === RunStatus.RUNNABLE ||

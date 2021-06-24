@@ -496,12 +496,15 @@ export class GrChangeSummary extends GrLitElement {
           .filter(notUndefined);
         const links = allPrimaryLinks.length === 1 ? allPrimaryLinks : [];
         const text = `${run.checkName}`;
+        const tabState: ChecksTabState = {
+          checkName: run.checkName,
+          statusOrCategory,
+        };
         return html`<gr-checks-chip
           .statusOrCategory="${statusOrCategory}"
           .text="${text}"
-          @click="${() => this.onChipClick({checkName: run.checkName})}"
-          @keydown="${(e: KeyboardEvent) =>
-            this.onChipKeyDown(e, {checkName: run.checkName})}"
+          @click="${() => this.onChipClick(tabState)}"
+          @keydown="${(e: KeyboardEvent) => this.onChipKeyDown(e, tabState)}"
           >${links.map(
             link => html`
               <a

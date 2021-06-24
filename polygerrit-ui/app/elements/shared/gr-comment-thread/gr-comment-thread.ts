@@ -215,6 +215,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly flagsService = appContext.flagsService;
 
+  private readonly commentsService = appContext.commentsService;
+
   readonly storage = appContext.storageService;
 
   private readonly syntaxLayer = new GrSyntaxLayer();
@@ -636,6 +638,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
         d.parent = this.parentIndex;
       }
     }
+    this.commentsService.addDraft(d);
     return d;
   }
 
@@ -670,7 +673,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     if (this.comments.length === 0) {
       this.fireRemoveSelf();
     }
-    this._handleCommentSavedOrDiscarded();
 
     // Check to see if there are any other open comments getting edited and
     // set the local storage value to its message value.
@@ -688,15 +690,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
         );
       }
     }
-  }
-
-  _handleCommentSavedOrDiscarded() {
-    this.dispatchEvent(
-      new CustomEvent('thread-changed', {
-        detail: {rootId: this.rootId, path: this.path},
-        bubbles: false,
-      })
-    );
   }
 
   _handleCommentUpdate(e: CustomEvent) {

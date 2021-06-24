@@ -70,6 +70,30 @@
       },
       "revId": "91736f05eee71106a651d0b8ae5108f0cd1f87ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03749ba6_c978d977",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-24T14:44:49Z",
+      "side": 1,
+      "message": "Sounds good",
+      "parentUuid": "11e68e2c_79942506",
+      "range": {
+        "startLine": 517,
+        "startChar": 10,
+        "endLine": 517,
+        "endChar": 49
+      },
+      "revId": "91736f05eee71106a651d0b8ae5108f0cd1f87ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

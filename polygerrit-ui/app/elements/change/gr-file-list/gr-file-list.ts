@@ -17,6 +17,7 @@
 import '../../../styles/shared-styles';
 import '../../diff/gr-diff-cursor/gr-diff-cursor';
 import '../../diff/gr-diff-host/gr-diff-host';
+import '../../diff/gr-comment-api/gr-comment-api';
 import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import '../../shared/gr-button/gr-button';
@@ -76,10 +77,20 @@ import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-
 import {GrDiffCursor} from '../../diff/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {
+  ChangeComments,
+  GrCommentApi,
+} from '../../diff/gr-comment-api/gr-comment-api';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Timing} from '../../../constants/reporting';
+import {
+  changeComments$,
+  drafts$,
+} from '../../../services/comments/comments-model';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {UIDraft} from '../../../utils/comment-util';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -95,6 +106,7 @@ const FILE_ROW_CLASS = 'file-row';
 export interface GrFileList {
   $: {
     diffPreferencesDialog: GrDiffPreferencesDialog;
+    commentAPI: GrCommentApi;
   };
 }
 
@@ -172,12 +184,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   static get template() {
     return htmlTemplate;
   }
-
-  /**
-   * Fired when a draft refresh should get triggered
-   *
-   * @event reload-drafts
-   */
 
   @property({type: Object})
   patchRange?: PatchRange;
@@ -310,6 +316,9 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Array})
   _dynamicPrependedContentEndpoints?: string[];
 
+  @property({type: Object})
+  diffDrafts?: {[path: string]: UIDraft[]} = {};
+
   private readonly reporting = appContext.reportingService;
 
   private readonly restApiService = appContext.restApiService;
@@ -319,6 +328,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       esc: '_handleEscKey',
     };
   }
+
+  disconnected$ = new Subject();
 
   keyboardShortcuts() {
     return {
@@ -362,6 +373,14 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   /** @override */
   connectedCallback() {
     super.connectedCallback();
+    drafts$.pipe(takeUntil(this.disconnected$)).subscribe(drafts => {
+      this.diffDrafts = drafts;
+    });
+    changeComments$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(changeComments => {
+        this.changeComments = changeComments;
+      });
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -404,6 +423,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
+    this.disconnected$.next();
     this.diffCursor.dispose();
     this.fileCursor.unsetCursor();
     this._cancelDiffs();
@@ -1406,66 +1426,54 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       }
     }
 
-    return new Promise(resolve => {
-      this.dispatchEvent(
-        new CustomEvent('reload-drafts', {
-          detail: {resolve},
-          composed: true,
-          bubbles: true,
-        })
+    asyncForeach(files, (file, cancel) => {
+      const path = file.path;
+      this._cancelForEachDiff = cancel;
+
+      iter++;
+      console.info('Expanding diff', iter, 'of', initialCount, ':', path);
+      const diffElem = this._findDiffByPath(path, diffElements);
+      if (!diffElem) {
+        this.reporting.error(
+          new Error(`Did not find <gr-diff-host> element for ${path}`)
+        );
+        return Promise.resolve();
+      }
+      if (!this.changeComments || !this.patchRange || !this.diffPrefs) {
+        throw new Error('changeComments, patchRange and diffPrefs must be set');
+      }
+
+      diffElem.threads = this.changeComments.getThreadsBySideForFile(
+        file,
+        this.patchRange
       );
-    }).then(() =>
-      asyncForeach(files, (file, cancel) => {
-        const path = file.path;
-        this._cancelForEachDiff = cancel;
+      const promises: Array<Promise<unknown>> = [diffElem.reload()];
+      if (this._loggedIn && !this.diffPrefs.manual_review) {
+        promises.push(this._reviewFile(path, true));
+      }
+      return Promise.all(promises);
+    }).then(() => {
+      this._cancelForEachDiff = undefined;
+      console.info('Finished expanding', initialCount, 'diff(s)');
+      this.reporting.timeEndWithAverage(
+        Timing.FILE_EXPAND_ALL,
+        Timing.FILE_EXPAND_ALL_AVG,
+        initialCount
+      );
+      /* Block diff cursor from auto scrolling after files are done rendering.
+      * This prevents the bug where the screen jumps to the first diff chunk
+      * after files are done being rendered after the user has already begun
+      * scrolling.
+      * This also however results in the fact that the cursor does not auto
+      * focus on the first diff chunk on a small screen. This is however, a use
+      * case we are willing to not support for now.
 
-        iter++;
-        console.info('Expanding diff', iter, 'of', initialCount, ':', path);
-        const diffElem = this._findDiffByPath(path, diffElements);
-        if (!diffElem) {
-          this.reporting.error(
-            new Error(`Did not find <gr-diff-host> element for ${path}`)
-          );
-          return Promise.resolve();
-        }
-        if (!this.changeComments || !this.patchRange || !this.diffPrefs) {
-          throw new Error(
-            'changeComments, patchRange and diffPrefs must be set'
-          );
-        }
-
-        diffElem.threads = this.changeComments.getThreadsBySideForFile(
-          file,
-          this.patchRange
-        );
-        const promises: Array<Promise<unknown>> = [diffElem.reload()];
-        if (this._loggedIn && !this.diffPrefs.manual_review) {
-          promises.push(this._reviewFile(path, true));
-        }
-        return Promise.all(promises);
-      }).then(() => {
-        this._cancelForEachDiff = undefined;
-        console.info('Finished expanding', initialCount, 'diff(s)');
-        this.reporting.timeEndWithAverage(
-          Timing.FILE_EXPAND_ALL,
-          Timing.FILE_EXPAND_ALL_AVG,
-          initialCount
-        );
-        /* Block diff cursor from auto scrolling after files are done rendering.
-       * This prevents the bug where the screen jumps to the first diff chunk
-       * after files are done being rendered after the user has already begun
-       * scrolling.
-       * This also however results in the fact that the cursor does not auto
-       * focus on the first diff chunk on a small screen. This is however, a use
-       * case we are willing to not support for now.
-
-       * Using handleDiffUpdate resulted in diffCursor.row being set which
-       * prevented the issue of scrolling to top when we expand the second
-       * file individually.
-       */
-        this.diffCursor.reInitAndUpdateStops();
-      })
-    );
+      * Using handleDiffUpdate resulted in diffCursor.row being set which
+      * prevented the issue of scrolling to top when we expand the second
+      * file individually.
+      */
+      this.diffCursor.reInitAndUpdateStops();
+    });
   }
 
   /** Cancel the rendering work of every diff in the list */

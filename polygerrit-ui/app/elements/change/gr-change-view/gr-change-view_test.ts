@@ -26,7 +26,6 @@ import {
   HttpMethod,
   MessageTag,
   PrimaryTab,
-  SecondaryTab,
 } from '../../../constants/constants';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
@@ -94,13 +93,7 @@ import {AppElementChangeViewParams} from '../../gr-app-types';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon/pkg/sinon-esm';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {CustomKeyboardEvent} from '../../../types/events';
-import {
-  CommentThread,
-  DraftInfo,
-  UIDraft,
-  UIRobot,
-} from '../../../utils/comment-util';
-import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {CommentThread, UIRobot} from '../../../utils/comment-util';
 import {GerritView} from '../../../services/router/router-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
@@ -865,179 +858,6 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  suite('reloading drafts', () => {
-    let reloadStub: SinonStubbedMember<
-      typeof element.$.commentAPI.reloadDrafts
-    >;
-    const drafts: {[path: string]: UIDraft[]} = {
-      'testfile.txt': [
-        {
-          patch_set: 5 as PatchSetNum,
-          id: 'dd2982f5_c01c9e6a' as UrlEncodedCommentId,
-          line: 1,
-          updated: '2017-11-08 18:47:45.000000000' as Timestamp,
-          message: 'test',
-          unresolved: true,
-        },
-      ],
-    };
-    setup(() => {
-      // Fake computeDraftCount as its required for ChangeComments,
-      // see gr-comment-api#reloadDrafts.
-      reloadStub = sinon.stub(element.$.commentAPI, 'reloadDrafts').returns(
-        Promise.resolve({
-          drafts,
-          getAllThreadsForChange: () => [] as CommentThread[],
-          computeDraftCount: () => 1,
-        } as ChangeComments)
-      );
-      element._changeNum = 1 as NumericChangeId;
-    });
-
-    test('drafts are reloaded when reload-drafts fired', done => {
-      element.$.fileList.dispatchEvent(
-        new CustomEvent('reload-drafts', {
-          detail: {
-            resolve: () => {
-              assert.isTrue(reloadStub.called);
-              assert.deepEqual(element._diffDrafts, drafts);
-              done();
-            },
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
-    });
-
-    test('drafts are reloaded when comment-refresh fired', () => {
-      element.dispatchEvent(
-        new CustomEvent('comment-refresh', {
-          composed: true,
-          bubbles: true,
-        })
-      );
-      assert.isTrue(reloadStub.called);
-    });
-  });
-
-  suite('_recomputeComments', () => {
-    setup(() => {
-      element._changeNum = TEST_NUMERIC_CHANGE_ID;
-      element._change = createChangeViewChange();
-      flush();
-      // Fake computeDraftCount as its required for ChangeComments,
-      // see gr-comment-api#reloadDrafts.
-      sinon.stub(element.$.commentAPI, 'reloadDrafts').returns(
-        Promise.resolve({
-          drafts: {},
-          getAllThreadsForChange: () => THREADS,
-          computeDraftCount: () => 0,
-        } as ChangeComments)
-      );
-      element._change = createChangeViewChange();
-      element._changeNum = element._change._number;
-    });
-
-    test('draft threads should be a new copy with correct states', done => {
-      element.$.fileList.dispatchEvent(
-        new CustomEvent('reload-drafts', {
-          detail: {
-            resolve: () => {
-              assert.equal(element._draftCommentThreads!.length, 2);
-              assert.equal(
-                element._draftCommentThreads![0].rootId,
-                THREADS[0].rootId
-              );
-              assert.notEqual(
-                element._draftCommentThreads![0].comments,
-                THREADS[0].comments
-              );
-              assert.notEqual(
-                element._draftCommentThreads![0].comments[0],
-                THREADS[0].comments[0]
-              );
-              assert.isTrue(
-                element
-                  ._draftCommentThreads![0].comments.slice(0, 2)
-                  .every(c => c.collapsed === true)
-              );
-
-              assert.isTrue(
-                element._draftCommentThreads![0].comments[2].collapsed === false
-              );
-              done();
-            },
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
-    });
-  });
-
-  test('diff comments modified', () => {
-    const reloadThreadsSpy = sinon.spy(element, '_handleReloadCommentThreads');
-    return element._reloadComments().then(() => {
-      element.dispatchEvent(
-        new CustomEvent('diff-comments-modified', {
-          composed: true,
-          bubbles: true,
-        })
-      );
-      assert.isTrue(reloadThreadsSpy.called);
-    });
-  });
-
-  test('thread list modified', () => {
-    const reloadDiffSpy = sinon.spy(element, '_handleReloadDiffComments');
-    element._activeTabs = [PrimaryTab.COMMENT_THREADS, SecondaryTab.CHANGE_LOG];
-    flush();
-
-    return element._reloadComments().then(() => {
-      element.threadList!.dispatchEvent(
-        new CustomEvent('thread-list-modified', {
-          composed: true,
-          bubbles: true,
-        })
-      );
-      assert.isTrue(reloadDiffSpy.called);
-
-      let draftStub = sinon
-        .stub(element._changeComments!, 'computeDraftCount')
-        .returns(1);
-      assert.equal(
-        element._computeTotalCommentCounts(5, element._changeComments!),
-        '5 unresolved, 1 draft'
-      );
-      assert.equal(
-        element._computeTotalCommentCounts(0, element._changeComments!),
-        '1 draft'
-      );
-      draftStub.restore();
-      draftStub = sinon
-        .stub(element._changeComments!, 'computeDraftCount')
-        .returns(0);
-      assert.equal(
-        element._computeTotalCommentCounts(0, element._changeComments!),
-        ''
-      );
-      assert.equal(
-        element._computeTotalCommentCounts(1, element._changeComments!),
-        '1 unresolved'
-      );
-      draftStub.restore();
-      draftStub = sinon
-        .stub(element._changeComments!, 'computeDraftCount')
-        .returns(2);
-      assert.equal(
-        element._computeTotalCommentCounts(1, element._changeComments!),
-        '1 unresolved, 2 drafts'
-      );
-      draftStub.restore();
-    });
-  });
-
   suite('thread list and change log tabs', () => {
     setup(() => {
       element._changeNum = TEST_NUMERIC_CHANGE_ID;
@@ -1476,48 +1296,6 @@ suite('gr-change-view tests', () => {
     };
     assert.equal(getLabel(changeRecord, false), 'Reply (3)');
     assert.equal(getLabel(changeRecord, true), 'Start Review (3)');
-  });
-
-  test('comment events properly update diff drafts', () => {
-    element._patchRange = {
-      basePatchNum: ParentPatchSetNum,
-      patchNum: 2 as RevisionPatchSetNum,
-    };
-    const draft: DraftInfo = {
-      __draft: true,
-      id: 'id1' as UrlEncodedCommentId,
-      path: '/foo/bar.txt',
-      message: 'hello',
-    };
-    element._handleCommentSave(new CustomEvent('', {detail: {comment: draft}}));
-    draft.patch_set = 2 as PatchSetNum;
-    assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
-    draft.patch_set = undefined;
-    draft.message = 'hello, there';
-    element._handleCommentSave(new CustomEvent('', {detail: {comment: draft}}));
-    draft.patch_set = 2 as PatchSetNum;
-    assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft]});
-    const draft2: DraftInfo = {
-      __draft: true,
-      id: 'id2' as UrlEncodedCommentId,
-      path: '/foo/bar.txt',
-      message: 'hola',
-    };
-    element._handleCommentSave(
-      new CustomEvent('', {detail: {comment: draft2}})
-    );
-    draft2.patch_set = 2 as PatchSetNum;
-    assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft, draft2]});
-    draft.patch_set = undefined;
-    element._handleCommentDiscard(
-      new CustomEvent('', {detail: {comment: draft}})
-    );
-    draft.patch_set = 2 as PatchSetNum;
-    assert.deepEqual(element._diffDrafts, {'/foo/bar.txt': [draft2]});
-    element._handleCommentDiscard(
-      new CustomEvent('', {detail: {comment: draft2}})
-    );
-    assert.deepEqual(element._diffDrafts, {});
   });
 
   test('change num change', () => {
@@ -2588,7 +2366,6 @@ suite('gr-change-view tests', () => {
       };
       sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(false));
       sinon.stub(element, '_getProjectConfig').returns(Promise.resolve());
-      sinon.stub(element, '_reloadComments').returns(Promise.resolve());
       sinon.stub(element, '_getMergeability').returns(Promise.resolve());
       sinon.stub(element, '_getLatestCommitMessage').returns(Promise.resolve());
       sinon

@@ -167,7 +167,6 @@ export const htmlTemplate = html`
         patch-num="[[thread.patchNum]]"
         path="[[thread.path]]"
         root-id="{{thread.rootId}}"
-        on-thread-changed="_handleCommentsChanged"
         on-thread-discard="_handleThreadDiscard"
       ></gr-comment-thread>
     </template>

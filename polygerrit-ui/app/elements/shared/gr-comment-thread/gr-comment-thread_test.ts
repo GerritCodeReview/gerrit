@@ -495,21 +495,10 @@ suite('comment action tests with unresolved thread', () => {
     const commentEl = element.shadowRoot?.querySelector('gr-comment');
     assert.ok(commentEl);
 
-    const saveOrDiscardStub = sinon.stub();
-    element.addEventListener('thread-changed', saveOrDiscardStub);
     element.shadowRoot?.querySelector('gr-comment')?._fireSave();
 
     flush(() => {
-      assert.isTrue(saveOrDiscardStub.called);
-      assert.equal(
-        saveOrDiscardStub.lastCall.args[0].detail.rootId,
-        'baf0414d_60047215'
-      );
       assert.equal(element.rootId, 'baf0414d_60047215' as UrlEncodedCommentId);
-      assert.equal(
-        saveOrDiscardStub.lastCall.args[0].detail.path,
-        '/path/to/file.txt'
-      );
       done();
     });
   });
@@ -556,22 +545,11 @@ suite('comment action tests with unresolved thread', () => {
     );
     flush();
 
-    const saveOrDiscardStub = sinon.stub();
-    element.addEventListener('thread-changed', saveOrDiscardStub);
     const draftEl = element.root?.querySelectorAll('gr-comment')[1];
     assert.ok(draftEl);
     draftEl!.addEventListener('comment-discard', () => {
       const drafts = element.comments.filter(c => isDraft(c));
       assert.equal(drafts.length, 0);
-      assert.isTrue(saveOrDiscardStub.called);
-      assert.equal(
-        saveOrDiscardStub.lastCall.args[0].detail.rootId,
-        element.rootId
-      );
-      assert.equal(
-        saveOrDiscardStub.lastCall.args[0].detail.path,
-        element.path
-      );
       done();
     });
     draftEl!.dispatchEvent(
@@ -593,18 +571,10 @@ suite('comment action tests with unresolved thread', () => {
     const rootId = element.rootId;
     assert.isOk(rootId);
 
-    const saveOrDiscardStub = sinon.stub();
-    element.addEventListener('thread-changed', saveOrDiscardStub);
     const draftEl = element.root?.querySelectorAll('gr-comment')[0];
     assert.ok(draftEl);
     draftEl!.addEventListener('comment-discard', () => {
       assert.equal(element.comments.length, 0);
-      assert.isTrue(saveOrDiscardStub.called);
-      assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId, rootId);
-      assert.equal(
-        saveOrDiscardStub.lastCall.args[0].detail.path,
-        element.path
-      );
       done();
     });
     draftEl!.dispatchEvent(

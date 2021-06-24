@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eaf2b8b_6e1c49f8",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-24T09:37:56Z",
+      "side": 1,
+      "message": "NIT:\nI am not sure if this sounds good in English. \nI think you want to say: `Sign in \"to do something\"`\n\nBut usually I see online:\n`Sign in to youtube with google account`\n`Sign in to your account`\n\nI can be wrong, I am not good in english writing :)",
+      "range": {
+        "startLine": 517,
+        "startChar": 10,
+        "endLine": 517,
+        "endChar": 49
+      },
+      "revId": "91736f05eee71106a651d0b8ae5108f0cd1f87ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

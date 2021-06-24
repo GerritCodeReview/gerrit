@@ -52,6 +52,7 @@ import {appContext} from '../../../services/app-context';
 import {CommentSide, Side} from '../../../constants/constants';
 import {pluralize} from '../../../utils/string-util';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
+import {changeCommentsUpdate} from '../../../services/comments/comments-service';
 
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
@@ -84,6 +85,7 @@ export class ChangeComments {
     this._drafts = this._addPath(drafts);
     this._portedComments = portedComments || {};
     this._portedDrafts = portedDrafts || {};
+    changeCommentsUpdate(this);
   }
 
   /**

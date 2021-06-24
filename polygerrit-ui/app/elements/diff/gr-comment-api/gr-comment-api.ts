@@ -68,6 +68,8 @@ export class ChangeComments {
 
   private readonly _portedDrafts: PathToCommentsInfoMap;
 
+  private readonly commentsService = appContext.commentsService;
+
   /**
    * Construct a change comments object, which can be data-bound to child
    * elements of that which uses the gr-comment-api.
@@ -84,6 +86,7 @@ export class ChangeComments {
     this._drafts = this._addPath(drafts);
     this._portedComments = portedComments || {};
     this._portedDrafts = portedDrafts || {};
+    this.commentsService.changeCommentsUpdate(this);
   }
 
   /**

@@ -423,7 +423,8 @@ export const htmlTemplate = html`
               <span class="drafts"
                 ><!-- This comments ensure that span is empty when the function
                 returns empty string.
-              -->[[_computeDraftsString(changeComments, patchRange, file)]]<!-- This comments ensure that span is empty when
+              -->[[_computeDraftsString(changeComments, diffDrafts, patchRange,
+                file)]]<!-- This comments ensure that span is empty when
                 the function returns empty string.
            --></span
               >

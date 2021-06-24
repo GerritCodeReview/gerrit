@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PatchSetNum, UrlEncodedCommentId} from './common';
+import {PatchSetNum} from './common';
 import {UIComment} from '../utils/comment-util';
 import {FetchRequest} from './types';
 import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
@@ -46,7 +46,6 @@ export enum EventType {
   SHOW_PRIMARY_TAB = 'show-primary-tab',
   SHOW_SECONDARY_TAB = 'show-secondary-tab',
   TAP_ITEM = 'tap-item',
-  THREAD_LIST_MODIFIED = 'thread-list-modified',
   TITLE_CHANGE = 'title-change',
 }
 
@@ -76,7 +75,6 @@ declare global {
     'show-primary-tab': SwitchTabEvent;
     'show-secondary-tab': SwitchTabEvent;
     'tap-item': TapItemEvent;
-    'thread-list-modified': ThreadListModifiedEvent;
     'title-change': TitleChangeEvent;
   }
 }
@@ -220,12 +218,6 @@ export interface ChecksTabState {
 export type SwitchTabEvent = CustomEvent<SwitchTabEventDetail>;
 
 export type TapItemEvent = CustomEvent;
-
-export interface ThreadListModifiedDetail {
-  rootId: UrlEncodedCommentId;
-  path: string;
-}
-export type ThreadListModifiedEvent = CustomEvent<ThreadListModifiedDetail>;
 
 export interface TitleChangeEventDetail {
   title: string;

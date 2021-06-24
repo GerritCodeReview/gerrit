@@ -104,6 +104,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'project:',
   'projects:',
   'query:',
+  'repo:',
   'ref:',
   'reviewedby:',
   'reviewer:',
@@ -310,6 +311,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(PolymerElement) {
 
       case 'parentproject':
       case 'project':
+      case 'repo':
         // Fetch projects.
         return this.projectSuggestions(predicate, expression);
 

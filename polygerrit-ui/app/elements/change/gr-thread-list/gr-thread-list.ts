@@ -47,7 +47,6 @@ import {
   UIComment,
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
-import {fireThreadListModifiedEvent} from '../../../utils/event-util';
 import {assertIsDefined, assertNever} from '../../../utils/common-util';
 import {CommentTabState} from '../../../types/events';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
@@ -569,10 +568,6 @@ export class GrThreadList extends PolymerElement {
 
   _handleThreadDiscard(e: CustomEvent) {
     this.removeThread(e.detail.rootId);
-  }
-
-  _handleCommentsChanged(e: CustomEvent) {
-    fireThreadListModifiedEvent(this, e.detail.rootId, e.detail.path);
   }
 
   _isOnParent(side?: CommentSide) {

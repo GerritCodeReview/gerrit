@@ -122,6 +122,7 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventsMetrics;
 import com.google.gerrit.server.events.UserScopedEventListener;
+import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.ChangeMessageModifier;
@@ -271,9 +272,10 @@ public class GerritGlobalModule extends FactoryModule {
     install(new IgnoreSelfApprovalRule.Module());
     install(new ReceiveCommitsModule());
     install(new SshAddressesModule());
-    install(new FileInfoJsonModule(cfg));
+    install(new FileInfoJsonModule());
     install(ThreadLocalRequestContext.module());
     install(new ApprovalModule());
+    install(new ConfigExperimentFeatures.Module());
 
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);

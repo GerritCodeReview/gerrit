@@ -107,6 +107,9 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {toggleClass, getKeyboardEvent} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {throttleWrap} from '../../../utils/async-util';
+import {changeComments$} from '../../../services/comments/comments-model';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -332,11 +335,15 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly commentsService = appContext.commentsService;
+
   _throttledToggleFileReviewed?: EventListener;
 
   _onRenderHandler?: EventListener;
 
   private cursor = new GrDiffCursor();
+
+  disconnected$ = new Subject();
 
   /** @override */
   connectedCallback() {
@@ -347,7 +354,18 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
-
+    changeComments$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(changeComments => {
+        this._changeComments = changeComments;
+        // TODO(dhruvsri): check if basePath should be set here
+        assertIsDefined(this._path, '_path');
+        assertIsDefined(this._patchRange, '_patchRange');
+        this.$.diffHost.threads = this._changeComments.getThreadsBySideForFile(
+          {path: this._path},
+          this._patchRange
+        );
+      });
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
@@ -358,6 +376,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
+    this.disconnected$.next();
     this.cursor.dispose();
     if (this._onRenderHandler) {
       this.$.diffHost.removeEventListener('render', this._onRenderHandler);
@@ -1117,7 +1136,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     );
 
     promises.push(this._getChangeDetail(this._changeNum));
-    promises.push(this._loadComments(value.patchNum));
+    this._loadComments(value.patchNum);
 
     promises.push(this._getChangeEdit());
 
@@ -1129,17 +1148,6 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
         this._loading = false;
         this._initPatchRange();
         this._initCommitRange();
-
-        assertIsDefined(this._path, '_path');
-        if (!this._changeComments)
-          throw new Error('change comments must be defined');
-        assertIsDefined(this._patchRange, '_patchRange');
-
-        // TODO(dhruvsri): check if basePath should be set here
-        this.$.diffHost.threads = this._changeComments.getThreadsBySideForFile(
-          {path: this._path},
-          this._patchRange
-        );
 
         const edit = r[4] as EditInfo | undefined;
         if (edit) {
@@ -1558,15 +1566,18 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   _loadComments(patchSet?: PatchSetNum) {
     assertIsDefined(this._changeNum, '_changeNum');
-    return this.$.commentAPI
-      .loadAll(this._changeNum, patchSet)
-      .then(comments => {
-        this._changeComments = comments;
-      });
+    return this.commentsService.loadAll(this._changeNum, patchSet);
   }
 
-  @observe('_files.changeFilesByPath', '_path', '_patchRange', '_projectConfig')
+  @observe(
+    '_changeComments',
+    '_files.changeFilesByPath',
+    '_path',
+    '_patchRange',
+    '_projectConfig'
+  )
   _recomputeComments(
+    changeComments?: ChangeComments,
     files?: {[path: string]: FileInfo},
     path?: string,
     patchRange?: PatchRange,
@@ -1576,11 +1587,11 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
     if (!path) return;
     if (!patchRange) return;
     if (!projectConfig) return;
-    if (!this._changeComments) return;
+    if (!changeComments) return;
 
     const file = files[path];
     if (file && file.old_path) {
-      this.$.diffHost.threads = this._changeComments.getThreadsBySideForFile(
+      this.$.diffHost.threads = changeComments.getThreadsBySideForFile(
         {path, basePath: file.old_path},
         patchRange
       );

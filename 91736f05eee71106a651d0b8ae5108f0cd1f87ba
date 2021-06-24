@@ -46,6 +46,30 @@
       },
       "revId": "91736f05eee71106a651d0b8ae5108f0cd1f87ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11e68e2c_79942506",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-24T12:01:17Z",
+      "side": 1,
+      "message": "What about\n\n  Sign in to Checks Plugin to see runs and results\n  \n?",
+      "parentUuid": "5c2bfa15_0307cd64",
+      "range": {
+        "startLine": 517,
+        "startChar": 10,
+        "endLine": 517,
+        "endChar": 49
+      },
+      "revId": "91736f05eee71106a651d0b8ae5108f0cd1f87ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

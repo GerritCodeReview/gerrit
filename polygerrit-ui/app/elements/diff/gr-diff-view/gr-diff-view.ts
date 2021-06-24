@@ -332,6 +332,8 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
+  private readonly commentsService = appContext.commentsService;
+
   _throttledToggleFileReviewed?: EventListener;
 
   _onRenderHandler?: EventListener;
@@ -1558,7 +1560,7 @@ export class GrDiffView extends KeyboardShortcutMixin(PolymerElement) {
 
   _loadComments(patchSet?: PatchSetNum) {
     assertIsDefined(this._changeNum, '_changeNum');
-    return this.$.commentAPI
+    return this.commentsService
       .loadAll(this._changeNum, patchSet)
       .then(comments => {
         this._changeComments = comments;

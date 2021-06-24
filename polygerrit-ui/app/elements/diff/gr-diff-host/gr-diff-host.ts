@@ -284,12 +284,6 @@ export class GrDiffHost extends PolymerElement {
       'create-comment',
       e => this._handleCreateComment(e)
     );
-    this.addEventListener('comment-discard', () =>
-      this._handleCommentSaveOrDiscard()
-    );
-    this.addEventListener('comment-save', () =>
-      this._handleCommentSaveOrDiscard()
-    );
     this.addEventListener('render-start', () => this._handleRenderStart());
     this.addEventListener('render-content', () => this._handleRenderContent());
     this.addEventListener('normalize-range', event =>
@@ -1010,10 +1004,6 @@ export class GrDiffHost extends PolymerElement {
       : null;
   }
 
-  _handleCommentSaveOrDiscard() {
-    fireEvent(this, 'diff-comments-modified');
-  }
-
   _syntaxHighlightingEnabledChanged(_syntaxHighlightingEnabled: boolean) {
     this.syntaxLayer.setEnabled(_syntaxHighlightingEnabled);
   }
@@ -1168,7 +1158,6 @@ declare global {
     'normalize-range': CustomEvent;
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent;
-    'comment-discard': CustomEvent;
     'comment-update': CustomEvent;
     'comment-save': CustomEvent;
     'root-id-changed': CustomEvent;

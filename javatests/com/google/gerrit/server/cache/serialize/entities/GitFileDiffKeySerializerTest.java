@@ -40,6 +40,7 @@ public class GitFileDiffKeySerializerTest {
             .renameScore(65)
             .diffAlgorithm(DiffAlgorithm.HISTOGRAM_WITH_FALLBACK_MYERS)
             .whitespace(Whitespace.IGNORE_ALL)
+            .useTimeout(true)
             .build();
 
     byte[] serialized = GitFileDiffCacheKey.Serializer.INSTANCE.serialize(key);

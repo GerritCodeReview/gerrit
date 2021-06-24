@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch.gitfilediff;
 import static java.util.function.Function.identity;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
@@ -27,10 +28,13 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -42,6 +46,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -50,9 +58,11 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /** Implementation of the {@link GitFileDiffCache} */
@@ -70,7 +80,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
             .weigher(GitFileDiffWeigher.class)
             .keySerializer(GitFileDiffCacheKey.Serializer.INSTANCE)
             .valueSerializer(GitFileDiff.Serializer.INSTANCE)
-            .version(2)
+            .version(3)
             .loader(GitFileDiffCacheImpl.Loader.class);
       }
     };
@@ -132,10 +142,24 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
                 : entry.getNewPath();
 
     private final GitRepositoryManager repoManager;
+    private final ExecutorService diffExecutor;
+    private final long timeoutMillis;
 
     @Inject
-    public Loader(GitRepositoryManager repoManager) {
+    public Loader(
+        @GerritServerConfig Config cfg,
+        GitRepositoryManager repoManager,
+        @DiffExecutor ExecutorService de) {
       this.repoManager = repoManager;
+      this.diffExecutor = de;
+      this.timeoutMillis =
+          ConfigUtil.getTimeUnit(
+              cfg,
+              "cache",
+              "diff",
+              "timeout",
+              TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
+              TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -200,16 +224,18 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
       Map<String, DiffEntry> diffEntries = loadDiffEntries(formatter, options, filePaths.values());
       for (GitFileDiffCacheKey key : filePaths.keySet()) {
         String newFilePath = filePaths.get(key);
-        if (diffEntries.containsKey(newFilePath)) {
-          result.put(key, GitFileDiff.create(diffEntries.get(newFilePath), formatter));
+        if (!diffEntries.containsKey(newFilePath)) {
+          result.put(
+              key,
+              GitFileDiff.empty(
+                  AbbreviatedObjectId.fromObjectId(key.oldTree()),
+                  AbbreviatedObjectId.fromObjectId(key.newTree()),
+                  newFilePath));
           continue;
         }
-        result.put(
-            key,
-            GitFileDiff.empty(
-                AbbreviatedObjectId.fromObjectId(key.oldTree()),
-                AbbreviatedObjectId.fromObjectId(key.newTree()),
-                newFilePath));
+        DiffEntry diffEntry = diffEntries.get(newFilePath);
+        GitFileDiff gitFileDiff = createGitFileDiff(diffEntry, formatter, key);
+        result.put(key, gitFileDiff);
       }
       return result.build();
     }
@@ -256,6 +282,52 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         case IGNORE_NONE:
         default:
           return RawTextComparator.DEFAULT;
+      }
+    }
+
+    /**
+     * Create a {@link GitFileDiff}. The result depends on the value of the {@code useTimeout} field
+     * of the {@code key} parameter.
+     *
+     * <ul>
+     *   <li>If {@code useTimeouts} is true, the computation is performed with timeout enforcement
+     *       (identified by {@link #timeoutMillis}). If the timeout is exceeded, this method returns
+     *       a negative result using {@link GitFileDiff#createNegative(AbbreviatedObjectId,
+     *       AbbreviatedObjectId, String)}.
+     *   <li>If {@code useTimeouts} is false, the computation is performed synchronously without
+     *       timeout enforcement.
+     */
+    private GitFileDiff createGitFileDiff(
+        DiffEntry diffEntry, DiffFormatter formatter, GitFileDiffCacheKey key) throws IOException {
+      if (!key.useTimeout()) {
+        FileHeader fileHeader = formatter.toFileHeader(diffEntry);
+        return GitFileDiff.create(diffEntry, fileHeader);
+      }
+      Future<FileHeader> fileHeaderFuture =
+          diffExecutor.submit(
+              () -> {
+                synchronized (diffEntry) {
+                  return formatter.toFileHeader(diffEntry);
+                }
+              });
+      try {
+        // We employ the timeout because of a bug in Myers diff in JGit. See
+        // bugs.chromium.org/p/gerrit/issues/detail?id=487 for more details. The bug may happen
+        // if the algorithm used in diffs is HISTOGRAM_WITH_FALLBACK_MYERS.
+        fileHeaderFuture.get(timeoutMillis, TimeUnit.MILLISECONDS);
+        FileHeader fileHeader = formatter.toFileHeader(diffEntry);
+        return GitFileDiff.create(diffEntry, fileHeader);
+      } catch (InterruptedException | TimeoutException e) {
+        // If timeout happens, create a negative result
+        return GitFileDiff.createNegative(
+            AbbreviatedObjectId.fromObjectId(key.oldTree()),
+            AbbreviatedObjectId.fromObjectId(key.newTree()),
+            key.newFilePath());
+      } catch (ExecutionException e) {
+        // If there was an error computing the result, carry it
+        // up to the caller so the cache knows this key is invalid.
+        Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
+        throw new IOException(e.getMessage(), e.getCause());
       }
     }
   }

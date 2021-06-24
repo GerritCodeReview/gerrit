@@ -29,11 +29,9 @@ import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.patch.filediff.Edit;
 import com.google.protobuf.Descriptors.FieldDescriptor;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.patch.FileHeader;
@@ -65,8 +63,7 @@ public abstract class GitFileDiff {
    * Creates a {@link GitFileDiff} using the {@code diffEntry} and the {@code diffFormatter}
    * parameters.
    */
-  static GitFileDiff create(DiffEntry diffEntry, DiffFormatter diffFormatter) throws IOException {
-    FileHeader fileHeader = diffFormatter.toFileHeader(diffEntry);
+  static GitFileDiff create(DiffEntry diffEntry, FileHeader fileHeader) {
     ImmutableList<Edit> edits =
         fileHeader.toEditList().stream().map(Edit::fromJGitEdit).collect(toImmutableList());
 
@@ -102,6 +99,15 @@ public abstract class GitFileDiff {
         .build();
   }
 
+  /**
+   * Create a negative result to be cached, i.e. if the diff computation did not finish in a
+   * reasonable amount of time.
+   */
+  static GitFileDiff createNegative(
+      AbbreviatedObjectId oldId, AbbreviatedObjectId newId, String newFilePath) {
+    return empty(oldId, newId, newFilePath).toBuilder().negative(Optional.of(true)).build();
+  }
+
   /** An {@link ImmutableList} of the modified regions in the file. */
   public abstract ImmutableList<Edit> edits();
 
@@ -133,11 +139,25 @@ public abstract class GitFileDiff {
   public abstract Optional<PatchType> patchType();
 
   /**
+   * Returns {@code true} if the diff computation was not able to compute a diff. We cache negative
+   * result in this case.
+   */
+  public abstract Optional<Boolean> negative();
+
+  /**
    * Returns true if the object was created using the {@link #empty(AbbreviatedObjectId,
    * AbbreviatedObjectId, String)} method.
    */
   public boolean isEmpty() {
     return edits().isEmpty();
+  }
+
+  /**
+   * Returns {@code true} if the diff computation was not able to compute a diff. We cache negative
+   * result in this case.
+   */
+  public boolean isNegative() {
+    return negative().isPresent() && negative().get();
   }
 
   /** Returns the size of the object in bytes. */
@@ -161,12 +181,17 @@ public abstract class GitFileDiff {
     if (newMode().isPresent()) {
       result += 4;
     }
+    if (negative().isPresent()) {
+      result += 1;
+    }
     return result;
   }
 
   public static Builder builder() {
     return new AutoValue_GitFileDiff.Builder();
   }
+
+  public abstract Builder toBuilder();
 
   @AutoValue.Builder
   public abstract static class Builder {
@@ -191,6 +216,8 @@ public abstract class GitFileDiff {
 
     public abstract Builder patchType(Optional<PatchType> value);
 
+    public abstract Builder negative(Optional<Boolean> value);
+
     public abstract GitFileDiff build();
   }
 
@@ -211,6 +238,9 @@ public abstract class GitFileDiff {
 
     private static final FieldDescriptor PATCH_TYPE_DESCRIPTOR =
         GitFileDiffProto.getDescriptor().findFieldByNumber(10);
+
+    private static final FieldDescriptor NEGATIVE_DESCRIPTOR =
+        GitFileDiffProto.getDescriptor().findFieldByNumber(11);
 
     @Override
     public byte[] serialize(GitFileDiff gitFileDiff) {
@@ -246,6 +276,9 @@ public abstract class GitFileDiff {
       if (gitFileDiff.patchType().isPresent()) {
         builder.setPatchType(gitFileDiff.patchType().get().name());
       }
+      if (gitFileDiff.negative().isPresent()) {
+        builder.setNegative(gitFileDiff.negative().get());
+      }
       return Protos.toByteArray(builder.build());
     }
 
@@ -278,6 +311,9 @@ public abstract class GitFileDiff {
       }
       if (proto.hasField(PATCH_TYPE_DESCRIPTOR)) {
         builder.patchType(Optional.of(Patch.PatchType.valueOf(proto.getPatchType())));
+      }
+      if (proto.hasField(NEGATIVE_DESCRIPTOR)) {
+        builder.negative(Optional.of(proto.getNegative()));
       }
       return builder.build();
     }

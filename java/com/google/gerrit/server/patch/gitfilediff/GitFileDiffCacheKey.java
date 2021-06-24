@@ -53,13 +53,17 @@ public abstract class GitFileDiffCacheKey {
 
   public abstract DiffPreferencesInfo.Whitespace whitespace();
 
+  /** Employ a timeout on the git computation while formatting the file header. */
+  public abstract boolean useTimeout();
+
   public int weight() {
     return stringSize(project().get())
         + 20 * 2 // oldTree and newTree
         + stringSize(newFilePath())
         + 4 // renameScore
         + 4 // diffAlgorithm
-        + 4; // whitespace
+        + 4 // whitespace
+        + 1; // useTimeout
   }
 
   public static Builder builder() {
@@ -88,6 +92,8 @@ public abstract class GitFileDiffCacheKey {
 
     public abstract Builder whitespace(Whitespace value);
 
+    public abstract Builder useTimeout(boolean value);
+
     public abstract GitFileDiffCacheKey build();
   }
 
@@ -106,6 +112,7 @@ public abstract class GitFileDiffCacheKey {
               .setRenameScore(key.renameScore())
               .setDiffAlgorithm(key.diffAlgorithm().name())
               .setWhitepsace(key.whitespace().name())
+              .setUseTimeout(key.useTimeout())
               .build());
     }
 
@@ -121,6 +128,7 @@ public abstract class GitFileDiffCacheKey {
           .renameScore(proto.getRenameScore())
           .diffAlgorithm(DiffAlgorithm.valueOf(proto.getDiffAlgorithm()))
           .whitespace(Whitespace.valueOf(proto.getWhitepsace()))
+          .useTimeout(proto.getUseTimeout())
           .build();
     }
   }

@@ -213,6 +213,7 @@ class AllDiffsEvaluator {
         .renameScore(key.renameScore())
         .diffAlgorithm(key.diffAlgorithm())
         .whitespace(key.whitespace())
+        .useTimeout(key.useTimeout())
         .build();
   }
 }

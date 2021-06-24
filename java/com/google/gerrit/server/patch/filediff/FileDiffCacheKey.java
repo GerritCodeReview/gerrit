@@ -59,6 +59,9 @@ public abstract class FileDiffCacheKey {
 
   public abstract DiffPreferencesInfo.Whitespace whitespace();
 
+  /** Employ a timeout on the git computation while formatting the file header. */
+  public abstract boolean useTimeout();
+
   /** Number of bytes that this entity occupies. */
   public int weight() {
     return stringSize(project().get())
@@ -66,7 +69,8 @@ public abstract class FileDiffCacheKey {
         + stringSize(newFilePath())
         + 4 // renameScore
         + 4 // diffAlgorithm
-        + 4; // whitespace
+        + 4 // whitespace
+        + 1; // useTimeout
   }
 
   public static FileDiffCacheKey.Builder builder() {
@@ -97,6 +101,8 @@ public abstract class FileDiffCacheKey {
 
     public abstract FileDiffCacheKey.Builder whitespace(Whitespace value);
 
+    public abstract FileDiffCacheKey.Builder useTimeout(boolean value);
+
     public abstract FileDiffCacheKey build();
   }
 
@@ -115,6 +121,7 @@ public abstract class FileDiffCacheKey {
               .setRenameScore(key.renameScore())
               .setDiffAlgorithm(key.diffAlgorithm().name())
               .setWhitespace(key.whitespace().name())
+              .setUseTimeout(key.useTimeout())
               .build());
     }
 
@@ -130,6 +137,7 @@ public abstract class FileDiffCacheKey {
           .renameScore(proto.getRenameScore())
           .diffAlgorithm(DiffAlgorithm.valueOf(proto.getDiffAlgorithm()))
           .whitespace(Whitespace.valueOf(proto.getWhitespace()))
+          .useTimeout(proto.getUseTimeout())
           .build();
     }
   }

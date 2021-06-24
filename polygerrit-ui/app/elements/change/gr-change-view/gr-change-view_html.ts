@@ -554,7 +554,6 @@ export const htmlTemplate = html`
           file-list-increment="{{_numFilesShown}}"
           on-files-shown-changed="_setShownFiles"
           on-file-action-tap="_handleFileActionTap"
-          on-reload-drafts="_reloadDraftsWithCallback"
           observer-target="[[_computeObserverTarget()]]"
         >
         </gr-file-list>

@@ -54,6 +54,7 @@ import {
   hasCompletedWithoutResults,
   iconFor,
   iconForLink,
+  isCategory,
   otherPrimaryLinks,
   primaryRunAction,
   secondaryLinks,
@@ -935,16 +936,19 @@ export class GrChecksResults extends GrLitElement {
     super.updated(changedProperties);
     if (changedProperties.has('tabState') && this.tabState) {
       const {statusOrCategory, checkName} = this.tabState;
-      if (
+      if (isCategory(statusOrCategory)) {
+        const expanded = this.isSectionExpanded.get(statusOrCategory);
+        if (!expanded) this.toggleExpanded(statusOrCategory);
+      }
+      if (checkName) {
+        this.scrollElIntoView(`gr-result-row.${charsOnly(checkName)}`);
+      } else if (
         statusOrCategory &&
         statusOrCategory !== RunStatus.RUNNING &&
         statusOrCategory !== RunStatus.RUNNABLE
       ) {
-        let cat = statusOrCategory.toString().toLowerCase();
-        if (statusOrCategory === RunStatus.COMPLETED) cat = 'success';
+        const cat = statusOrCategory.toString().toLowerCase();
         this.scrollElIntoView(`.categoryHeader.${cat} + table gr-result-row`);
-      } else if (checkName) {
-        this.scrollElIntoView(`gr-result-row.${charsOnly(checkName)}`);
       }
     }
   }
@@ -1181,7 +1185,6 @@ export class GrChecksResults extends GrLitElement {
 
   renderSection(category: Category) {
     const catString = category.toString().toLowerCase();
-    const isScrollTarget = category === this.tabState?.statusOrCategory;
     const isWarningOrError =
       category === Category.WARNING || category === Category.ERROR;
     const allRuns = this.runs.filter(run =>
@@ -1205,9 +1208,7 @@ export class GrChecksResults extends GrLitElement {
     let expanded = this.isSectionExpanded.get(category);
     const expandedByUser = this.isSectionExpandedByUser.get(category) ?? false;
     if (!expandedByUser || expanded === undefined) {
-      expanded =
-        selected.length > 0 &&
-        (isWarningOrError || isSelection || isScrollTarget);
+      expanded = selected.length > 0 && (isWarningOrError || isSelection);
       this.isSectionExpanded.set(category, expanded);
     }
     const expandedClass = expanded ? 'expanded' : 'collapsed';

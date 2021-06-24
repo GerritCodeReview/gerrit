@@ -22,6 +22,30 @@
       },
       "revId": "91736f05eee71106a651d0b8ae5108f0cd1f87ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c2bfa15_0307cd64",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-24T10:15:18Z",
+      "side": 1,
+      "message": "We could change the UX writing to:\n\nAlternative 1: Sign in to Checks systems with your email \n\n(Which entity are users providing their credential to? the CI systems ?)\n\nAlternative 2: Sign in with Google (if users are required to sign in with a Google or gmail account which might not be the case)",
+      "parentUuid": "0eaf2b8b_6e1c49f8",
+      "range": {
+        "startLine": 517,
+        "startChar": 10,
+        "endLine": 517,
+        "endChar": 49
+      },
+      "revId": "91736f05eee71106a651d0b8ae5108f0cd1f87ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

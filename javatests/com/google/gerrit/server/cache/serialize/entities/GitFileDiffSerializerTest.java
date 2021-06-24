@@ -51,6 +51,7 @@ public class GitFileDiffSerializerTest {
             .patchType(Optional.of(PatchType.UNIFIED))
             .oldMode(Optional.of(FileMode.REGULAR_FILE))
             .newMode(Optional.of(FileMode.REGULAR_FILE))
+            .negative(Optional.of(true))
             .build();
 
     byte[] serialized = Serializer.INSTANCE.serialize(gitFileDiff);

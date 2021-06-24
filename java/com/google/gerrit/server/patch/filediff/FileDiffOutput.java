@@ -79,6 +79,12 @@ public abstract class FileDiffOutput implements Serializable {
   /** Difference in file size between the old and new commits. */
   public abstract long sizeDelta();
 
+  /**
+   * Returns {@code true} if the diff computation was not able to compute a diff, i.e. for diffs
+   * taking a very long time to compute. We cache negative result in this case.
+   */
+  public abstract Optional<Boolean> negative();
+
   /** A boolean indicating if all underlying edits of the file diff are due to rebase. */
   public boolean allEditsDueToRebase() {
     return !edits().isEmpty() && edits().stream().allMatch(TaggedEdit::dueToRebase);
@@ -122,12 +128,29 @@ public abstract class FileDiffOutput implements Serializable {
         .build();
   }
 
+  public static FileDiffOutput createNegative(
+      String filePath, ObjectId oldCommitId, ObjectId newCommitId) {
+    return empty(filePath, oldCommitId, newCommitId).toBuilder().build();
+  }
+
   /** Returns true if this entity represents an unchanged file between two commits. */
   public boolean isEmpty() {
     return headerLines().isEmpty() && edits().isEmpty();
   }
 
+  /**
+   * Returns {@code true} if the diff computation was not able to compute a diff. We cache negative
+   * result in this case.
+   */
+  public boolean isNegative() {
+    return negative().isPresent() && negative().get();
+  }
+
   public static Builder builder() {
+    return new AutoValue_FileDiffOutput.Builder();
+  }
+
+  public static Builder toBuilder() {
     return new AutoValue_FileDiffOutput.Builder();
   }
 
@@ -150,6 +173,9 @@ public abstract class FileDiffOutput implements Serializable {
     result += 20 * edits().size(); // each edit is 4 Integers + boolean = 4 * 4 + 4 = 20
     for (String s : headerLines()) {
       s += stringSize(s);
+    }
+    if (negative().isPresent()) {
+      result += 1;
     }
     return result;
   }
@@ -179,6 +205,8 @@ public abstract class FileDiffOutput implements Serializable {
 
     public abstract Builder sizeDelta(long value);
 
+    public abstract Builder negative(Optional<Boolean> value);
+
     public abstract FileDiffOutput build();
   }
 
@@ -193,6 +221,9 @@ public abstract class FileDiffOutput implements Serializable {
 
     private static final FieldDescriptor PATCH_TYPE_DESCRIPTOR =
         FileDiffOutputProto.getDescriptor().findFieldByNumber(4);
+
+    private static final FieldDescriptor NEGATIVE_DESCRIPTOR =
+        FileDiffOutputProto.getDescriptor().findFieldByNumber(12);
 
     @Override
     public byte[] serialize(FileDiffOutput fileDiff) {
@@ -234,6 +265,10 @@ public abstract class FileDiffOutput implements Serializable {
         builder.setPatchType(fileDiff.patchType().get().name());
       }
 
+      if (fileDiff.negative().isPresent()) {
+        builder.setNegative(fileDiff.negative().get());
+      }
+
       return Protos.toByteArray(builder.build());
     }
 
@@ -271,6 +306,9 @@ public abstract class FileDiffOutput implements Serializable {
       }
       if (proto.hasField(PATCH_TYPE_DESCRIPTOR)) {
         builder.patchType(Optional.of(Patch.PatchType.valueOf(proto.getPatchType())));
+      }
+      if (proto.hasField(NEGATIVE_DESCRIPTOR)) {
+        builder.negative(Optional.of(proto.getNegative()));
       }
       return builder.build();
     }

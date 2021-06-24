@@ -31,7 +31,7 @@ import {
 } from '../types/common';
 import {CommentSide, Side, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
-import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
+import {FILE, LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
 import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
@@ -345,4 +345,48 @@ export function getCommentAuthors(threads?: CommentThread[]) {
     })
   );
   return authors;
+}
+
+export function createNewDraft(
+  comments?: UIComment[],
+  path?: string,
+  patchNum?: PatchSetNum,
+  side?: CommentSide,
+  parentIndex?: number | null,
+  lineNum?: LineNumber,
+  range?: CommentRange
+) {
+  const d: UIDraft = {
+    __draft: true,
+    __draftID: Math.random().toString(36),
+    __date: new Date(),
+  };
+  if (lineNum === 'LOST') throw new Error('invalid lineNum lost');
+  // For replies, always use same meta info as root.
+  if (comments && comments.length >= 1) {
+    const rootComment = comments[0];
+    if (rootComment.path !== undefined) d.path = rootComment.path;
+    if (rootComment.patch_set !== undefined)
+      d.patch_set = rootComment.patch_set;
+    if (rootComment.side !== undefined) d.side = rootComment.side;
+    if (rootComment.line !== undefined) d.line = rootComment.line;
+    if (rootComment.range !== undefined) d.range = rootComment.range;
+    if (rootComment.parent !== undefined) d.parent = rootComment.parent;
+  } else {
+    // Set meta info for root comment.
+    d.path = path;
+    d.patch_set = patchNum;
+    d.side = side;
+
+    if (lineNum && lineNum !== FILE) {
+      d.line = lineNum;
+    }
+    if (range) {
+      d.range = range;
+    }
+    if (parentIndex) {
+      d.parent = parentIndex;
+    }
+  }
+  return d;
 }

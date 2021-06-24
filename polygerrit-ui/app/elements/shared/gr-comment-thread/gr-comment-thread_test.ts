@@ -25,6 +25,7 @@ import {
   UIRobot,
   isDraft,
   UIDraft,
+  createNewDraft,
 } from '../../../utils/comment-util';
 import {GrCommentThread} from './gr-comment-thread';
 import {
@@ -812,16 +813,16 @@ suite('comment action tests with unresolved thread', () => {
     assert.equal(element.comments[0].unresolved, true);
   });
 
-  test('_newDraft with root', () => {
-    const draft = element._newDraft();
+  test('createNewDraft with root', () => {
+    const draft = createNewDraft();
     assert.equal(draft.patch_set, 3 as PatchSetNum);
   });
 
-  test('_newDraft with no root', () => {
+  test('createNewDraft with no root', () => {
     element.comments = [];
     element.diffSide = Side.RIGHT;
     element.patchNum = 2 as PatchSetNum;
-    const draft = element._newDraft();
+    const draft = createNewDraft();
     assert.equal(draft.patch_set, 2 as PatchSetNum);
   });
 

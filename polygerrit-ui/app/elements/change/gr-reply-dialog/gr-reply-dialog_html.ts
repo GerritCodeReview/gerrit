@@ -283,19 +283,12 @@ export const htmlTemplate = html`
     </section>
     <section class="textareaContainer">
       <gr-endpoint-decorator name="reply-text">
-        <gr-textarea
-          id="textarea"
-          class="message"
-          autocomplete="on"
-          placeholder="[[_messagePlaceholder]]"
-          fixed-position-dropdown=""
-          hide-border="true"
-          monospace="true"
-          disabled="{{disabled}}"
-          rows="4"
-          text="{{draft}}"
-          on-bind-value-changed="_handleHeightChanged"
-        >
+        <gr-comment-thread
+          comments="[[patchsetLevelComments]]"
+          change-num="[[change._number]]"
+          project-name="[[change.project]]"
+          patch-num="[[patchNum]]"
+        ></gr-comment-thread>
         </gr-textarea>
       </gr-endpoint-decorator>
     </section>

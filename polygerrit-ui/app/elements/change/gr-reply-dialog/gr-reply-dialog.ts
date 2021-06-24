@@ -93,7 +93,7 @@ import {
   assertIsDefined,
   containsAll,
 } from '../../../utils/common-util';
-import {CommentThread, isUnresolved} from '../../../utils/comment-util';
+import {CommentThread, createNewDraft, DraftInfo, isUnresolved} from '../../../utils/comment-util';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -114,6 +114,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Interaction, Timing} from '../../../constants/reporting';
+import { createDraft } from '../../../test/test-data-generators';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -357,6 +358,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Array, computed: '_computeAllReviewers(_reviewers.*)'})
   _allReviewers: (AccountInfo | GroupInfo)[] = [];
 
+  @property({type: Array})
+  patchsetLevelComments?: DraftInfo[];
+
   private readonly restApiService = appContext.restApiService;
 
   private readonly storage = appContext.storageService;
@@ -406,6 +410,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener('remove-reviewer', e => {
       this.$.reviewers.removeAccount((e as CustomEvent).detail.reviewer);
     });
+    // check if a PS level draft already exists
+    this.patchsetLevelComments = [createNewDraft(undefined, SpecialFilePath.PATCHSET_LEVEL_COMMENTS, 1 as PatchSetNum)]
   }
 
   /** @override */
@@ -654,10 +660,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     if (!section || section === FocusTarget.ANY) {
       section = this._chooseFocusTarget();
     }
-    if (section === FocusTarget.BODY) {
-      const textarea = this.$.textarea;
-      setTimeout(() => textarea.getNativeTextarea().focus());
-    } else if (section === FocusTarget.REVIEWERS) {
+    if (section === FocusTarget.REVIEWERS) {
       const reviewerEntry = this.$.reviewers.focusStart;
       setTimeout(() => reviewerEntry.focus());
     } else if (section === FocusTarget.CCS) {
@@ -1119,7 +1122,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
         bubbles: false,
       })
     );
-    this.$.textarea.closeDropdown();
     this.$.reviewers.clearPendingRemovals();
     this._rebuildReviewerArrays(this.change.reviewers, this._owner);
   }

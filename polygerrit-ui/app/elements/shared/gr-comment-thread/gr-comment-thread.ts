@@ -23,6 +23,7 @@ import {htmlTemplate} from './gr-comment-thread_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
   computeDiffFromContext,
+  createNewDraft,
   isDraft,
   isRobot,
   sortComments,
@@ -296,7 +297,15 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   addDraft(lineNum?: LineNumber, range?: CommentRange, unresolved?: boolean) {
-    const draft = this._newDraft(lineNum, range);
+    const draft = createNewDraft(
+      this.comments,
+      this.path,
+      this.patchNum,
+      this._getSide(this.isOnParent),
+      this.parentIndex,
+      lineNum,
+      range
+    );
     draft.__editing = true;
     draft.unresolved = unresolved === false ? unresolved : true;
     this.push('comments', draft);
@@ -594,49 +603,19 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     message?: string,
     unresolved?: boolean
   ) {
-    const d = this._newDraft();
+    const d = createNewDraft(
+      this.comments,
+      this.path,
+      this.patchNum,
+      this._getSide(this.isOnParent),
+      this.parentIndex
+    );
     d.in_reply_to = inReplyTo;
     if (message !== undefined) {
       d.message = message;
     }
     if (unresolved !== undefined) {
       d.unresolved = unresolved;
-    }
-    return d;
-  }
-
-  _newDraft(lineNum?: LineNumber, range?: CommentRange) {
-    const d: UIDraft = {
-      __draft: true,
-      __draftID: Math.random().toString(36),
-      __date: new Date(),
-    };
-    if (lineNum === 'LOST') throw new Error('invalid lineNum lost');
-    // For replies, always use same meta info as root.
-    if (this.comments && this.comments.length >= 1) {
-      const rootComment = this.comments[0];
-      if (rootComment.path !== undefined) d.path = rootComment.path;
-      if (rootComment.patch_set !== undefined)
-        d.patch_set = rootComment.patch_set;
-      if (rootComment.side !== undefined) d.side = rootComment.side;
-      if (rootComment.line !== undefined) d.line = rootComment.line;
-      if (rootComment.range !== undefined) d.range = rootComment.range;
-      if (rootComment.parent !== undefined) d.parent = rootComment.parent;
-    } else {
-      // Set meta info for root comment.
-      d.path = this.path;
-      d.patch_set = this.patchNum;
-      d.side = this._getSide(this.isOnParent);
-
-      if (lineNum && lineNum !== FILE) {
-        d.line = lineNum;
-      }
-      if (range) {
-        d.range = range;
-      }
-      if (this.parentIndex) {
-        d.parent = this.parentIndex;
-      }
     }
     return d;
   }

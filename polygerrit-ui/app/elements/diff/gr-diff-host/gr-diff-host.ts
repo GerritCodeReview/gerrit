@@ -87,6 +87,10 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {DiffContextExpandedEventDetail} from '../gr-diff-builder/gr-diff-builder';
 import {TokenHighlightLayer} from '../gr-diff-builder/token-highlight-layer';
 import {Timing} from '../../../constants/reporting';
+import {changeComments$} from '../../../services/comments/comments-model';
+import {takeUntil} from 'rxjs/operators';
+import {ChangeComments} from '../gr-comment-api/gr-comment-api';
+import {Subject} from 'rxjs';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -238,6 +242,9 @@ export class GrDiffHost extends PolymerElement {
   diff?: DiffInfo;
 
   @property({type: Object})
+  changeComments?: ChangeComments;
+
+  @property({type: Object})
   _fetchDiffPromise: Promise<DiffInfo> | null = null;
 
   @property({type: Object})
@@ -272,6 +279,8 @@ export class GrDiffHost extends PolymerElement {
 
   private readonly syntaxLayer = new GrSyntaxLayer();
 
+  disconnected$ = new Subject();
+
   constructor() {
     super();
     this.addEventListener(
@@ -283,12 +292,6 @@ export class GrDiffHost extends PolymerElement {
       // to keep in sync.
       'create-comment',
       e => this._handleCreateComment(e)
-    );
-    this.addEventListener('comment-discard', () =>
-      this._handleCommentSaveOrDiscard()
-    );
-    this.addEventListener('comment-save', () =>
-      this._handleCommentSaveOrDiscard()
     );
     this.addEventListener('render-start', () => this._handleRenderStart());
     this.addEventListener('render-content', () => this._handleRenderContent());
@@ -314,10 +317,16 @@ export class GrDiffHost extends PolymerElement {
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
+    changeComments$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(changeComments => {
+        this.changeComments = changeComments;
+      });
   }
 
   /** @override */
   disconnectedCallback() {
+    this.disconnected$.next();
     this.clear();
     super.disconnectedCallback();
   }
@@ -500,6 +509,16 @@ export class GrDiffHost extends PolymerElement {
       this.path,
       {weblinks: diff?.edit_web_links}
     );
+  }
+
+  @observe('changeComments', 'patchRange', 'file')
+  computeFileThreads(
+    changeComments?: ChangeComments,
+    patchRange?: PatchRange,
+    file?: PatchSetFile
+  ) {
+    if (!changeComments || !patchRange || !file) return;
+    this.threads = changeComments.getThreadsBySideForFile(file, patchRange);
   }
 
   _getFilesWeblinks(diff: DiffInfo) {
@@ -1010,10 +1029,6 @@ export class GrDiffHost extends PolymerElement {
       : null;
   }
 
-  _handleCommentSaveOrDiscard() {
-    fireEvent(this, 'diff-comments-modified');
-  }
-
   _syntaxHighlightingEnabledChanged(_syntaxHighlightingEnabled: boolean) {
     this.syntaxLayer.setEnabled(_syntaxHighlightingEnabled);
   }
@@ -1168,7 +1183,6 @@ declare global {
     'normalize-range': CustomEvent;
     'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent;
-    'comment-discard': CustomEvent;
     'comment-update': CustomEvent;
     'comment-save': CustomEvent;
     'root-id-changed': CustomEvent;

@@ -16,13 +16,11 @@
  */
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-api_html';
-import {CURRENT} from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {
   CommentBasics,
   PatchRange,
   PatchSetNum,
-  PathToRobotCommentsInfoMap,
   RobotCommentInfo,
   UrlEncodedCommentId,
   NumericChangeId,
@@ -642,56 +640,11 @@ export class GrCommentApi extends PolymerElement {
 
   private readonly restApiService = appContext.restApiService;
 
-  /**
-   * Load all comments (with drafts and robot comments) for the given change
-   * number. The returned promise resolves when the comments have loaded, but
-   * does not yield the comment data.
-   */
-  loadAll(changeNum: NumericChangeId, patchNum?: PatchSetNum) {
-    const revision = patchNum || CURRENT;
-    const commentsPromise = [
-      this.restApiService.getDiffComments(changeNum),
-      this.restApiService.getDiffRobotComments(changeNum),
-      this.restApiService.getDiffDrafts(changeNum),
-      this.restApiService.getPortedComments(changeNum, revision),
-      this.restApiService.getPortedDrafts(changeNum, revision),
-    ];
-
-    return Promise.all(commentsPromise).then(
-      ([comments, robotComments, drafts, portedComments, portedDrafts]) => {
-        this._changeComments = new ChangeComments(
-          comments,
-          // TS 4.0.5 fails without 'as'
-          robotComments as PathToRobotCommentsInfoMap | undefined,
-          drafts,
-          portedComments,
-          portedDrafts
-        );
-        return this._changeComments;
-      }
-    );
-  }
-
-  /**
-   * Re-initialize _changeComments with a new ChangeComments object, that
-   * uses the previous values for comments and robot comments, but fetches
-   * updated draft comments.
-   */
-  reloadDrafts(changeNum: NumericChangeId) {
-    if (!this._changeComments) {
-      return this.loadAll(changeNum);
-    }
-    return this.restApiService.getDiffDrafts(changeNum).then(drafts => {
-      this._changeComments = this._changeComments!.cloneWithUpdatedDrafts(
-        drafts
-      );
-      return this._changeComments;
-    });
-  }
+  private readonly commentsService = appContext.commentsService;
 
   reloadPortedComments(changeNum: NumericChangeId, patchNum: PatchSetNum) {
     if (!this._changeComments) {
-      this.loadAll(changeNum);
+      this.commentsService.loadAll(changeNum);
       return Promise.resolve();
     }
     return Promise.all([

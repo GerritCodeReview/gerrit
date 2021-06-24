@@ -120,12 +120,6 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
    */
 
   /**
-   * Fired when this comment is discarded.
-   *
-   * @event comment-discard
-   */
-
-  /**
    * Fired when this comment is saved.
    *
    * @event comment-save
@@ -272,6 +266,8 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   private readonly storage = appContext.storageService;
 
   private readonly reporting = appContext.reportingService;
+
+  private readonly commentsService = appContext.commentsService;
 
   private fireUpdateTask?: DelayedTask;
 
@@ -477,6 +473,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
           if (this.comment?.__draftID) {
             resComment.__draftID = this.comment.__draftID;
           }
+          if (!resComment.patch_set) resComment.patch_set = this.patchNum;
           this.comment = resComment;
           this._fireSave();
           return obj;
@@ -533,6 +530,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _fireSave() {
+    if (this.comment) this.commentsService.addDraft(this.comment);
     this.dispatchEvent(
       new CustomEvent('comment-save', {
         detail: this._getEventPayload(),
@@ -734,6 +732,7 @@ export class GrComment extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _fireDiscard() {
+    if (this.comment) this.commentsService.deleteDraft(this.comment);
     this.fireUpdateTask?.cancel();
     this.dispatchEvent(
       new CustomEvent('comment-discard', {

@@ -114,7 +114,6 @@ import {
   RelatedChangesInfo,
   RevisionInfo,
   ServerInfo,
-  UrlEncodedCommentId,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
@@ -129,7 +128,6 @@ import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
-  DraftInfo,
   isDraftThread,
   isRobot,
   isUnresolved,
@@ -162,7 +160,6 @@ import {
   ShowAlertEventDetail,
   SwitchTabEvent,
   TabState,
-  ThreadListModifiedEvent,
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
@@ -183,6 +180,10 @@ import {debounce, DelayedTask, throttleWrap} from '../../../utils/async-util';
 import {Interaction, Timing} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
+import {
+  commentState$,
+  drafts$,
+} from '../../../services/comments/comments-model';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -544,6 +545,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
   restApiService = appContext.restApiService;
 
+  private readonly commentsService = appContext.commentsService;
+
   private replyDialogResizeObserver?: ResizeObserver;
 
   keyboardShortcuts() {
@@ -585,6 +588,14 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     routerView$.pipe(takeUntil(this.disconnected$)).subscribe(view => {
       this.isViewCurrent = view === GerritView.CHANGE;
     });
+    drafts$.pipe(takeUntil(this.disconnected$)).subscribe(drafts => {
+      this._diffDrafts = drafts;
+    });
+    commentState$
+      .pipe(takeUntil(this.disconnected$))
+      .subscribe(commentState => {
+        this._changeComments = {...commentState, ...this._changeComments};
+      });
   }
 
   constructor() {
@@ -602,15 +613,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
 
     this.addEventListener('fullscreen-overlay-closed', () =>
       this._handleShowBackgroundContent()
-    );
-
-    this.addEventListener('diff-comments-modified', () =>
-      this._handleReloadCommentThreads()
-    );
-
-    this.addEventListener(
-      'thread-list-modified',
-      (e: ThreadListModifiedEvent) => this._handleReloadDiffComments(e)
     );
 
     this.addEventListener('open-reply-dialog', () => this._openReplyDialog());
@@ -660,11 +662,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       })
       .then(() => this._initActiveTabs(this.params));
 
-    this.addEventListener('comment-save', e => this._handleCommentSave(e));
-    this.addEventListener('comment-refresh', () => this._reloadDrafts());
-    this.addEventListener('comment-discard', e =>
-      this._handleCommentDiscard(e)
-    );
     this.addEventListener('change-message-deleted', () => fireReload(this));
     this.addEventListener('editable-content-save', e =>
       this._handleCommitMessageSave(e)
@@ -1028,30 +1025,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     );
   }
 
-  _handleReloadCommentThreads() {
-    // Get any new drafts that have been saved in the diff view and show
-    // in the comment thread view.
-    this._reloadDrafts().then(() => {
-      this._commentThreads = this._changeComments?.getAllThreadsForChange();
-      flush();
-    });
-  }
-
-  _handleReloadDiffComments(
-    e: CustomEvent<{rootId: UrlEncodedCommentId; path: string}>
-  ) {
-    // Keeps the file list counts updated.
-    this._reloadDrafts().then(() => {
-      // Get any new drafts that have been saved in the thread view and show
-      // in the diff view.
-      this.$.fileList.reloadCommentsForThreadWithRootId(
-        e.detail.rootId,
-        e.detail.path
-      );
-      flush();
-    });
-  }
-
   _computeTotalCommentCounts(
     unresolvedCount: number,
     changeComments: ChangeComments
@@ -1068,79 +1041,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       (unresolvedString && draftString ? ', ' : '') +
       draftString
     );
-  }
-
-  _handleCommentSave(e: CustomEvent<{comment: DraftInfo}>) {
-    const draft = e.detail.comment;
-    if (!draft.__draft || !draft.path) return;
-    if (!this._patchRange)
-      throw new Error('missing required _patchRange property');
-
-    draft.patch_set = draft.patch_set || this._patchRange.patchNum;
-
-    // The use of path-based notification helpers (set, push) can’t be used
-    // because the paths could contain dots in them. A new object must be
-    // created to satisfy Polymer’s dirty checking.
-    // https://github.com/Polymer/polymer/issues/3127
-    const diffDrafts = {...this._diffDrafts};
-    if (!diffDrafts[draft.path]) {
-      diffDrafts[draft.path] = [draft];
-      this._diffDrafts = diffDrafts;
-      return;
-    }
-    for (let i = 0; i < diffDrafts[draft.path].length; i++) {
-      if (diffDrafts[draft.path][i].id === draft.id) {
-        diffDrafts[draft.path][i] = draft;
-        this._diffDrafts = diffDrafts;
-        return;
-      }
-    }
-    diffDrafts[draft.path].push(draft);
-    diffDrafts[draft.path].sort(
-      (c1, c2) =>
-        // No line number means that it’s a file comment. Sort it above the
-        // others.
-        (c1.line || -1) - (c2.line || -1)
-    );
-    this._diffDrafts = diffDrafts;
-  }
-
-  _handleCommentDiscard(e: CustomEvent<{comment: DraftInfo}>) {
-    const draft = e.detail.comment;
-    if (!draft.__draft || !draft.path) {
-      return;
-    }
-
-    if (!this._diffDrafts || !this._diffDrafts[draft.path]) {
-      return;
-    }
-    let index = -1;
-    for (let i = 0; i < this._diffDrafts[draft.path].length; i++) {
-      if (this._diffDrafts[draft.path][i].id === draft.id) {
-        index = i;
-        break;
-      }
-    }
-    if (index === -1) {
-      // It may be a draft that hasn’t been added to _diffDrafts since it was
-      // never saved.
-      return;
-    }
-
-    if (!this._patchRange)
-      throw new Error('missing required _patchRange property');
-    draft.patch_set = draft.patch_set || this._patchRange.patchNum;
-
-    // The use of path-based notification helpers (set, push) can’t be used
-    // because the paths could contain dots in them. A new object must be
-    // created to satisfy Polymer’s dirty checking.
-    // https://github.com/Polymer/polymer/issues/3127
-    const diffDrafts = {...this._diffDrafts};
-    diffDrafts[draft.path].splice(index, 1);
-    if (diffDrafts[draft.path].length === 0) {
-      delete diffDrafts[draft.path];
-    }
-    this._diffDrafts = diffDrafts;
   }
 
   _handleReplyTap(e: MouseEvent) {
@@ -1964,9 +1864,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         // Slice returns a number as a string, convert to an int.
         this._lineHeight = Number(lineHeight.slice(0, lineHeight.length - 2));
 
+        this.changeService.updateChange(change);
         this._change = change;
         this.computeRevertSubmitted(change);
-        this.changeService.updateChange(change);
         if (
           !this._patchRange ||
           !this._patchRange.patchNum ||
@@ -2064,10 +1964,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       });
   }
 
-  _reloadDraftsWithCallback(e: CustomEvent<{resolve: () => void}>) {
-    return this._reloadDrafts().then(() => e.detail.resolve());
-  }
-
   /**
    * Fetches a new changeComment object, and data for all types of comments
    * (comments, robot comments, draft comments) is requested.
@@ -2077,38 +1973,21 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     // a new change being loaded and then paired with outdated comments.
     this._changeComments = undefined;
     this._commentThreads = undefined;
-    this._diffDrafts = undefined;
     this._draftCommentThreads = undefined;
     this._robotCommentThreads = undefined;
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
 
-    return this.$.commentAPI
-      .loadAll(this._changeNum, this._patchRange?.patchNum)
-      .then(comments => {
-        this._recomputeComments(comments);
-      });
+    return this.commentsService.loadAll(
+      this._changeNum,
+      this._patchRange?.patchNum
+    );
   }
 
-  /**
-   * Fetches a new changeComment object, but only updated data for drafts is
-   * requested.
-   *
-   * TODO(taoalpha): clean up this and _reloadComments, as single comment
-   * can be a thread so it does not make sense to only update drafts
-   * without updating threads
-   */
-  _reloadDrafts() {
-    if (!this._changeNum)
-      throw new Error('missing required changeNum property');
-    return this.$.commentAPI
-      .reloadDrafts(this._changeNum)
-      .then(comments => this._recomputeComments(comments));
-  }
-
-  _recomputeComments(comments: ChangeComments) {
+  @observe('_changeComments')
+  changeCommentsChanged(comments?: ChangeComments) {
+    if (!comments) return;
     this._changeComments = comments;
-    this._diffDrafts = {...this._changeComments.drafts};
     this._commentThreads = this._changeComments.getAllThreadsForChange();
     this._draftCommentThreads = this._commentThreads
       .filter(isDraftThread)

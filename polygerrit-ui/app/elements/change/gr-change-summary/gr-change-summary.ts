@@ -383,6 +383,17 @@ export class GrChangeSummary extends GrLitElement {
           top: 2px;
           margin-right: var(--spacing-s);
         }
+        .login {
+          display: flex;
+          justify-content: space-between;
+          width: 490px;
+          background: var(--info-background);
+          padding: var(--spacing-s);
+          color: var(--primary-text-color);
+        }
+        .login iron-icon {
+          color: var(--info-foreground);
+        }
         .login gr-button {
           margin: -4px var(--spacing-s);
         }
@@ -438,9 +449,17 @@ export class GrChangeSummary extends GrLitElement {
   renderChecksLogin() {
     if (this.errorMessage || !this.loginCallback) return;
     return html`
-      <div class="login zeroState">
-        Not logged in
-        <gr-button @click="${this.loginCallback}" link>Sign in</gr-button>
+      <div class="login">
+        <div class="left">
+          <iron-icon
+            class="info-outline"
+            icon="gr-icons:info-outline"
+          ></iron-icon>
+          Not logged in
+        </div>
+        <div class="right">
+          <gr-button @click="${this.loginCallback}" link>Sign in</gr-button>
+        </div>
       </div>
     `;
   }

@@ -607,7 +607,7 @@ message ModifiedFilesProto {
 
 // Serialized form of a collection of
 // com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.Key
-// Next ID: 8
+// Next ID: 9
 message GitFileDiffKeyProto {
   string project = 1;
   bytes a_tree = 2;
@@ -616,10 +616,11 @@ message GitFileDiffKeyProto {
   int32 rename_score = 5;
   string diff_algorithm = 6; // ENUM as string
   string whitepsace = 7; // ENUM as string
+  bool useTimeout = 8;
 }
 
 // Serialized form of com.google.gerrit.server.patch.gitfilediff.GitFileDiff
-// Next ID: 11
+// Next ID: 12
 message GitFileDiffProto {
   message Edit {
     int32 begin_a = 1;
@@ -637,11 +638,12 @@ message GitFileDiffProto {
   string new_mode = 8; // ENUM as string
   string change_type = 9; // ENUM as string
   string patch_type = 10; // ENUM as string
+  bool negative = 11;
 }
 
 // Serialized form of
 // com.google.gerrit.server.patch.fileDiff.FileDiffCacheKey
-// Next ID: 8
+// Next ID: 9
 message FileDiffKeyProto {
   string project = 1;
   bytes old_commit = 2;
@@ -650,11 +652,12 @@ message FileDiffKeyProto {
   int32 rename_score = 5;
   string diff_algorithm = 6;
   string whitespace = 7;
+  bool useTimeout = 8;
 }
 
 // Serialized form of
 // com.google.gerrit.server.patch.filediff.FileDiffOutput
-// Next ID: 12
+// Next ID: 13
 message FileDiffOutputProto {
   // Next ID: 5
   message Edit {
@@ -685,6 +688,7 @@ message FileDiffOutputProto {
   bytes old_commit = 9;
   bytes new_commit = 10;
   ComparisonType comparison_type = 11;
+  bool negative = 12;
 }
 
 // Serialized form of com.google.gerrit.server.approval.ApprovalCacheImpl.Key.

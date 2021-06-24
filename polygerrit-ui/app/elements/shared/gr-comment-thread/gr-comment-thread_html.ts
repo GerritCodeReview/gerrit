@@ -165,7 +165,6 @@ export const htmlTemplate = html`
           project-config="[[_projectConfig]]"
           on-create-fix-comment="_handleCommentFix"
           on-comment-discard="_handleCommentDiscard"
-          on-comment-save="_handleCommentSavedOrDiscarded"
           on-copy-comment-link="handleCopyLink"
         ></gr-comment>
       </template>

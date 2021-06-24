@@ -49,8 +49,7 @@ import {queryAndAssert} from '../../../utils/common-util.js';
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
     <gr-file-list id="fileList"
-        change-comments="[[_changeComments]]"
-        on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
+        change-comments="[[_changeComments]]"></gr-file-list>
     <gr-comment-api id="commentAPI"></gr-comment-api>
 `);
 
@@ -67,7 +66,6 @@ suite('gr-file-list tests', () => {
   let commentApiWrapper;
 
   let saveStub;
-  let loadCommentSpy;
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
@@ -109,14 +107,7 @@ suite('gr-file-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
-      loadCommentSpy = sinon.spy(commentApiWrapper.$.commentAPI, 'loadAll');
 
-      // Stub methods on the changeComments object after changeComments has
-      // been initialized.
-      commentApiWrapper.loadComments().then(() => {
-        sinon.stub(element.changeComments, 'getPaths').returns({});
-        done();
-      });
       element._loading = false;
       element.diffPrefs = {};
       element.numFilesShown = 200;
@@ -126,6 +117,7 @@ suite('gr-file-list tests', () => {
       };
       saveStub = sinon.stub(element, '_saveReviewedState').callsFake(
           () => Promise.resolve());
+      done();
     });
 
     test('correct number of files are shown', () => {
@@ -1008,7 +1000,7 @@ suite('gr-file-list tests', () => {
           FilesExpandedState.ALL);
     });
 
-    test('_renderInOrder', done => {
+    test('_renderInOrder', async () => {
       const reviewStub = sinon.stub(element, '_reviewFile');
       let callCount = 0;
       const diffs = [{
@@ -1038,15 +1030,12 @@ suite('gr-file-list tests', () => {
       }];
       element._renderInOrder([
         {path: 'p2'}, {path: 'p1'}, {path: 'p0'},
-      ], diffs, 3)
-          .then(() => {
-            assert.isFalse(reviewStub.called);
-            assert.isTrue(loadCommentSpy.called);
-            done();
-          });
+      ], diffs, 3);
+      await flush();
+      assert.isFalse(reviewStub.called);
     });
 
-    test('_renderInOrder logged in', done => {
+    test('_renderInOrder logged in', async () => {
       element._loggedIn = true;
       const reviewStub = sinon.stub(element, '_reviewFile');
       let callCount = 0;
@@ -1080,14 +1069,12 @@ suite('gr-file-list tests', () => {
       }];
       element._renderInOrder([
         {path: 'p2'}, {path: 'p1'}, {path: 'p0'},
-      ], diffs, 3)
-          .then(() => {
-            assert.equal(reviewStub.callCount, 3);
-            done();
-          });
+      ], diffs, 3);
+      await flush();
+      assert.equal(reviewStub.callCount, 3);
     });
 
-    test('_renderInOrder respects diffPrefs.manual_review', () => {
+    test('_renderInOrder respects diffPrefs.manual_review', async () => {
       element._loggedIn = true;
       element.diffPrefs = {manual_review: true};
       const reviewStub = sinon.stub(element, '_reviewFile');
@@ -1098,14 +1085,14 @@ suite('gr-file-list tests', () => {
         reload() { return Promise.resolve(); },
       }];
 
-      return element._renderInOrder([{path: 'p'}], diffs, 1).then(() => {
-        assert.isFalse(reviewStub.called);
-        delete element.diffPrefs.manual_review;
-        return element._renderInOrder([{path: 'p'}], diffs, 1).then(() => {
-          assert.isTrue(reviewStub.called);
-          assert.isTrue(reviewStub.calledWithExactly('p', true));
-        });
-      });
+      element._renderInOrder([{path: 'p'}], diffs, 1);
+      await flush();
+      assert.isFalse(reviewStub.called);
+      delete element.diffPrefs.manual_review;
+      element._renderInOrder([{path: 'p'}], diffs, 1);
+      await flush();
+      assert.isTrue(reviewStub.called);
+      assert.isTrue(reviewStub.calledWithExactly('p', true));
     });
 
     test('_loadingChanged fired from reload in debouncer', async () => {
@@ -1504,14 +1491,12 @@ suite('gr-file-list tests', () => {
         ignore_whitespace: 'IGNORE_NONE',
       };
       diff.diff = getMockDiffResponse();
-      commentApiWrapper.loadComments().then(() => {
-        sinon.stub(element.changeComments, 'getCommentsForPath')
-            .withArgs('/COMMIT_MSG', {
-              basePatchNum: 'PARENT',
-              patchNum: 2,
-            })
-            .returns(diff.comments);
-      });
+      sinon.stub(diff.changeComments, 'getCommentsForPath')
+          .withArgs('/COMMIT_MSG', {
+            basePatchNum: 'PARENT',
+            patchNum: 2,
+          })
+          .returns(diff.comments);
       await listenOnce(diff, 'render');
     }
 
@@ -1543,17 +1528,10 @@ suite('gr-file-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
-      loadCommentSpy = sinon.spy(commentApiWrapper.$.commentAPI, 'loadAll');
       element.diffPrefs = {};
       element.change = {_number: 42, project: 'testRepo'};
       sinon.stub(element, '_reviewFile');
 
-      // Stub methods on the changeComments object after changeComments has
-      // been initialized.
-      commentApiWrapper.loadComments().then(() => {
-        sinon.stub(element.changeComments, 'getPaths').returns({});
-        done();
-      });
       element._loading = false;
       element.numFilesShown = 75;
       element.selectedIndex = 0;
@@ -1581,6 +1559,7 @@ suite('gr-file-list tests', () => {
       };
       sinon.stub(window, 'fetch').callsFake(() => Promise.resolve());
       flush();
+      done();
     });
 
     test('cursor with individually opened files', async () => {
@@ -1804,110 +1783,6 @@ suite('gr-file-list tests', () => {
                   .querySelectorAll('.row:not(.header-row)'))
               .map(row => row.querySelector('gr-edit-file-controls'));
       assert.isTrue(editControls[0].classList.contains('invisible'));
-    });
-
-    test('reloadCommentsForThreadWithRootId', async () => {
-      // Expand the commit message diff
-      MockInteractions.keyUpOn(element, 73, 'shift', 'i');
-      const diffs = await renderAndGetNewDiffs(0);
-      flush();
-
-      // Two comment threads should be generated by renderAndGetNewDiffs
-      const threadEls = diffs[0].getThreadEls();
-      assert.equal(threadEls.length, 2);
-      const threadElsByRootId = new Map(
-          threadEls.map(threadEl => [threadEl.rootId, threadEl]));
-
-      const thread1 = threadElsByRootId.get('503008e2_0ab203ee');
-      assert.equal(thread1.comments.length, 1);
-      assert.equal(thread1.comments[0].message, 'a comment');
-      assert.equal(thread1.comments[0].line, 10);
-
-      const thread2 = threadElsByRootId.get('ecf0b9fa_fe1a5f62');
-      assert.equal(thread2.comments.length, 2);
-      assert.isTrue(thread2.comments[0].unresolved);
-      assert.equal(thread2.comments[0].message, 'another comment');
-      assert.equal(thread2.comments[0].line, 20);
-
-      const commentStub =
-          sinon.stub(element.changeComments, 'getCommentsForThread');
-      const commentStubRes1 = [
-        {
-          patch_set: 2,
-          path: '/p',
-          id: '503008e2_0ab203ee',
-          line: 20,
-          updated: '2018-02-08 18:49:18.000000000',
-          message: 'edited text',
-          unresolved: false,
-        },
-      ];
-      const commentStubRes2 = [
-        {
-          patch_set: 2,
-          path: '/p',
-          id: 'ecf0b9fa_fe1a5f62',
-          line: 20,
-          updated: '2018-02-08 18:49:18.000000000',
-          message: 'another comment',
-          unresolved: true,
-        },
-        {
-          patch_set: 2,
-          path: '/p',
-          id: '503008e2_0ab203ee',
-          line: 10,
-          in_reply_to: 'ecf0b9fa_fe1a5f62',
-          updated: '2018-02-14 22:07:43.000000000',
-          message: 'response',
-          unresolved: true,
-        },
-        {
-          patch_set: 2,
-          path: '/p',
-          id: '503008e2_0ab203ef',
-          line: 20,
-          in_reply_to: '503008e2_0ab203ee',
-          updated: '2018-02-15 22:07:43.000000000',
-          message: 'a third comment in the thread',
-          unresolved: true,
-        },
-      ];
-      commentStub.withArgs('503008e2_0ab203ee').returns(
-          commentStubRes1);
-      commentStub.withArgs('ecf0b9fa_fe1a5f62').returns(
-          commentStubRes2);
-
-      // Reload comments from the first comment thread, which should have a
-      // an updated message and a toggled resolve state.
-      element.reloadCommentsForThreadWithRootId('503008e2_0ab203ee',
-          '/COMMIT_MSG');
-      assert.equal(thread1.comments.length, 1);
-      assert.isFalse(thread1.comments[0].unresolved);
-      assert.equal(thread1.comments[0].message, 'edited text');
-
-      // Reload comments from the second comment thread, which should have a new
-      // reply.
-      element.reloadCommentsForThreadWithRootId('ecf0b9fa_fe1a5f62',
-          '/COMMIT_MSG');
-      assert.equal(thread2.comments.length, 3);
-
-      const commentStubCount = commentStub.callCount;
-      const getThreadsSpy = sinon.spy(diffs[0], 'getThreadEls');
-
-      // Should not be getting threads when the file is not expanded.
-      element.reloadCommentsForThreadWithRootId('ecf0b9fa_fe1a5f62',
-          'other/file');
-      assert.isFalse(getThreadsSpy.called);
-      assert.equal(commentStubCount, commentStub.callCount);
-
-      // Should be query selecting diffs when the file is expanded.
-      // Should not be fetching change comments when the rootId is not found
-      // to match.
-      element.reloadCommentsForThreadWithRootId('acf0b9fa_fe1a5f62',
-          '/COMMIT_MSG');
-      assert.isTrue(getThreadsSpy.called);
-      assert.equal(commentStubCount, commentStub.callCount);
     });
   });
 });

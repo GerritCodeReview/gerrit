@@ -34,107 +34,11 @@ suite('gr-comment-api tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('loads logged-out', () => {
-    const changeNum = 1234;
-
-    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-    const diffCommentsSpy = stubRestApi('getDiffComments').returns(
-        Promise.resolve({
-          'foo.c': [{id: '123', message: 'foo bar', in_reply_to: '321'}],
-        }));
-    const diffRobotCommentsSpy = stubRestApi('getDiffRobotComments').returns(
-        Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
-    const diffDraftsSpy = stubRestApi('getDiffDrafts').returns(
-        Promise.resolve({}));
-
-    return element.loadAll(changeNum).then(() => {
-      assert.isTrue(diffCommentsSpy.calledWithExactly(changeNum));
-      assert.isTrue(diffRobotCommentsSpy.calledWithExactly(changeNum));
-      assert.isTrue(diffDraftsSpy.calledWithExactly(changeNum));
-      assert.isOk(element._changeComments._comments);
-      assert.isOk(element._changeComments._robotComments);
-      assert.deepEqual(element._changeComments._drafts, {});
-    });
-  });
-
-  test('loads logged-in', () => {
-    const changeNum = 1234;
-
-    const getCommentsStub = stubRestApi('getDiffComments').returns(
-        Promise.resolve({
-          'foo.c': [{id: '123', message: 'foo bar', in_reply_to: '321'}],
-        })
-    );
-    const getRobotCommentsStub = stubRestApi('getDiffRobotComments')
-        .returns(Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
-    const getDraftsStub = stubRestApi('getDiffDrafts')
-        .returns(Promise.resolve({'foo.c': [{id: '555', message: 'ack'}]}));
-
-    return element.loadAll(changeNum).then(() => {
-      assert.isTrue(getCommentsStub.calledWithExactly(changeNum));
-      assert.isTrue(getRobotCommentsStub.calledWithExactly(changeNum));
-      assert.isTrue(getDraftsStub.calledWithExactly(changeNum));
-      assert.isOk(element._changeComments._comments);
-      assert.isOk(element._changeComments._robotComments);
-      assert.notDeepEqual(element._changeComments._drafts, {});
-    });
-  });
-
-  suite('reloadDrafts', () => {
-    let commentStub;
-    let robotCommentStub;
-    let draftStub;
-    setup(() => {
-      commentStub = stubRestApi('getDiffComments')
-          .returns(Promise.resolve({}));
-      robotCommentStub = stubRestApi(
-          'getDiffRobotComments').returns(Promise.resolve({}));
-      draftStub = stubRestApi('getDiffDrafts')
-          .returns(Promise.resolve({}));
-    });
-
-    test('without loadAll first', done => {
-      assert.isNotOk(element._changeComments);
-      sinon.spy(element, 'loadAll');
-      element.reloadDrafts().then(() => {
-        assert.isTrue(element.loadAll.called);
-        assert.isOk(element._changeComments);
-        assert.equal(commentStub.callCount, 1);
-        assert.equal(robotCommentStub.callCount, 1);
-        assert.equal(draftStub.callCount, 1);
-        done();
-      });
-    });
-
-    test('with loadAll first', done => {
-      assert.isNotOk(element._changeComments);
-      element.loadAll()
-          .then(() => {
-            assert.isOk(element._changeComments);
-            assert.equal(commentStub.callCount, 1);
-            assert.equal(robotCommentStub.callCount, 1);
-            assert.equal(draftStub.callCount, 1);
-            return element.reloadDrafts();
-          })
-          .then(() => {
-            assert.isOk(element._changeComments);
-            assert.equal(commentStub.callCount, 1);
-            assert.equal(robotCommentStub.callCount, 1);
-            assert.equal(draftStub.callCount, 2);
-            done();
-          });
-    });
-  });
-
   suite('_changeComment methods', () => {
-    setup(done => {
-      const changeNum = 1234;
+    setup(() => {
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
-      element.loadAll(changeNum).then(() => {
-        done();
-      });
     });
 
     suite('ported comments', () => {

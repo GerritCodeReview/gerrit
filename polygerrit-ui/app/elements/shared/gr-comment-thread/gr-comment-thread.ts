@@ -92,12 +92,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
    */
 
   /**
-   * Fired when a comment in the thread is permanently modified.
-   *
-   * @event thread-changed
-   */
-
-  /**
    * gr-comment-thread exposes the following attributes that allow a
    * diff widget like gr-diff to show the thread in the right location:
    *
@@ -718,7 +712,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     if (this.comments.length === 0) {
       this.fireRemoveSelf();
     }
-    this._handleCommentSavedOrDiscarded();
 
     // Check to see if there are any other open comments getting edited and
     // set the local storage value to its message value.
@@ -736,15 +729,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
         );
       }
     }
-  }
-
-  _handleCommentSavedOrDiscarded() {
-    this.dispatchEvent(
-      new CustomEvent('thread-changed', {
-        detail: {rootId: this.rootId, path: this.path},
-        bubbles: false,
-      })
-    );
   }
 
   _handleCommentUpdate(e: CustomEvent) {

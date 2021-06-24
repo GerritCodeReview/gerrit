@@ -63,7 +63,7 @@ suite('gr-patch-range-select tests', () => {
 
     // Stub methods on the changeComments object after changeComments has
     // been initialized.
-    return commentApiWrapper.loadComments();
+    element.changeComments = new ChangeComments();
   });
 
   test('enabled/disabled options', () => {
@@ -217,11 +217,10 @@ suite('gr-patch-range-select tests', () => {
         // Should be recomputed for each available patch
         sinon.stub(element, '_computeBaseDropdownContent');
         assert.equal(element._computeBaseDropdownContent.callCount, 0);
-        commentApiWrapper.loadComments().then()
-            .then(() => {
-              assert.equal(element._computeBaseDropdownContent.callCount, 1);
-              done();
-            });
+        element.changeComments = new ChangeComments();
+        flush();
+        assert.equal(element._computeBaseDropdownContent.callCount, 1);
+        done();
       });
 
   test('_computePatchDropdownContent called when basePatchNum updates', () => {
@@ -246,33 +245,6 @@ suite('gr-patch-range-select tests', () => {
     sinon.stub(element, '_computePatchDropdownContent');
     element.set('basePatchNum', 1);
     assert.equal(element._computePatchDropdownContent.callCount, 1);
-  });
-
-  test('_computePatchDropdownContent called when comments update', done => {
-    element.revisions = [
-      {commit: {parents: []}},
-      {commit: {parents: []}},
-      {commit: {parents: []}},
-      {commit: {parents: []}},
-    ];
-    element.revisionInfo = getInfo(element.revisions);
-    element.availablePatches = [
-      {num: 1, sha: '1'},
-      {num: 2, sha: '2'},
-      {num: 3, sha: '3'},
-      {num: 'edit', sha: '4'},
-    ];
-    element.patchNum = 2;
-    element.basePatchNum = 'PARENT';
-    flush();
-
-    // Should be recomputed for each available patch
-    sinon.stub(element, '_computePatchDropdownContent');
-    assert.equal(element._computePatchDropdownContent.callCount, 0);
-    commentApiWrapper.loadComments().then()
-        .then(() => {
-          done();
-        });
   });
 
   test('_computePatchDropdownContent', () => {

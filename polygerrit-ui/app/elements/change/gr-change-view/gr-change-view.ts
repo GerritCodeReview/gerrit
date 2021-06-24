@@ -604,15 +604,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       this._handleShowBackgroundContent()
     );
 
-    this.addEventListener('diff-comments-modified', () =>
-      this._handleReloadCommentThreads()
-    );
-
-    this.addEventListener(
-      'thread-list-modified',
-      (e: ThreadListModifiedEvent) => this._handleReloadDiffComments(e)
-    );
-
     this.addEventListener('open-reply-dialog', () => this._openReplyDialog());
   }
 
@@ -1026,30 +1017,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       0,
       showAllRobotComments ? undefined : ROBOT_COMMENTS_LIMIT
     );
-  }
-
-  _handleReloadCommentThreads() {
-    // Get any new drafts that have been saved in the diff view and show
-    // in the comment thread view.
-    this._reloadDrafts().then(() => {
-      this._commentThreads = this._changeComments?.getAllThreadsForChange();
-      flush();
-    });
-  }
-
-  _handleReloadDiffComments(
-    e: CustomEvent<{rootId: UrlEncodedCommentId; path: string}>
-  ) {
-    // Keeps the file list counts updated.
-    this._reloadDrafts().then(() => {
-      // Get any new drafts that have been saved in the thread view and show
-      // in the diff view.
-      this.$.fileList.reloadCommentsForThreadWithRootId(
-        e.detail.rootId,
-        e.detail.path
-      );
-      flush();
-    });
   }
 
   _computeTotalCommentCounts(
@@ -2064,10 +2031,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       });
   }
 
-  _reloadDraftsWithCallback(e: CustomEvent<{resolve: () => void}>) {
-    return this._reloadDrafts().then(() => e.detail.resolve());
-  }
-
   /**
    * Fetches a new changeComment object, and data for all types of comments
    * (comments, robot comments, draft comments) is requested.
@@ -2088,22 +2051,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       .then(comments => {
         this._recomputeComments(comments);
       });
-  }
-
-  /**
-   * Fetches a new changeComment object, but only updated data for drafts is
-   * requested.
-   *
-   * TODO(taoalpha): clean up this and _reloadComments, as single comment
-   * can be a thread so it does not make sense to only update drafts
-   * without updating threads
-   */
-  _reloadDrafts() {
-    if (!this._changeNum)
-      throw new Error('missing required changeNum property');
-    return this.$.commentAPI
-      .reloadDrafts(this._changeNum)
-      .then(comments => this._recomputeComments(comments));
   }
 
   _recomputeComments(comments: ChangeComments) {

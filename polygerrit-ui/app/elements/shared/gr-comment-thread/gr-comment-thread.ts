@@ -690,15 +690,6 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
-  _handleCommentSavedOrDiscarded() {
-    this.dispatchEvent(
-      new CustomEvent('thread-changed', {
-        detail: {rootId: this.rootId, path: this.path},
-        bubbles: false,
-      })
-    );
-  }
-
   _handleCommentUpdate(e: CustomEvent) {
     const comment = e.detail.comment;
     const index = this._indexOf(comment, this.comments);

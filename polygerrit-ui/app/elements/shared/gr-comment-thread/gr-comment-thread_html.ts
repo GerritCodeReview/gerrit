@@ -153,8 +153,6 @@ export const htmlTemplate = html`
           side="[[comment.side]]"
           project-config="[[_projectConfig]]"
           on-create-fix-comment="_handleCommentFix"
-          on-comment-discard="_handleCommentDiscard"
-          on-comment-save="_handleCommentSavedOrDiscarded"
         ></gr-comment>
       </template>
       <div

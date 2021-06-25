@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d0d222e_fcbc1c62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-25T23:24:28Z",
+      "side": 1,
+      "message": "Tested E2E and now there are 30s added to the graceful timeout.",
+      "revId": "a3d0b96090409a7a6976319c60134f769959ebff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "f2d5eddca7966fb83f91f2a317c92c77c17b374b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "873f0110_90556912",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-25T09:48:07Z",
+      "side": 1,
+      "message": "Right. Thanks for the comment.\n\nAdding the binding to InMemoryModule was sufficient to fix javatests/com/google/gerrit/acceptance/ssh:ssh.\n\nDone.",
+      "parentUuid": "2d6737b6_669377b2",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 51
+      },
+      "revId": "f2d5eddca7966fb83f91f2a317c92c77c17b374b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

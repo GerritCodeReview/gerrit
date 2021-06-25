@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30aef972_b063a17c",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-25T13:11:22Z",
+      "side": 1,
+      "message": "I think both are correct. For now, the only time we will get negative results is when a timeout happens in the git file diff cache loader.\n\nI replaced it with \"e.g.\" as per your suggestion.",
+      "parentUuid": "3169c363_612f1e56",
+      "range": {
+        "startLine": 232,
+        "startChar": 14,
+        "endLine": 232,
+        "endChar": 18
+      },
+      "revId": "bcbdac16d98cc0c1ce915b35efd092798cd2cb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f04edc99_0a356576",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-25T11:14:34Z",
       "side": 1,
       "message": "nit: remove",
+      "range": {
+        "startLine": 293,
+        "startChar": 33,
+        "endLine": 293,
+        "endChar": 34
+      },
+      "revId": "bcbdac16d98cc0c1ce915b35efd092798cd2cb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d69a2fc_588ad812",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-25T13:11:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f04edc99_0a356576",
       "range": {
         "startLine": 293,
         "startChar": 33,

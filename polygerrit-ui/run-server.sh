@@ -18,3 +18,5 @@ SCRIPTNAME=$(mktemp)
 trap "{ rm -f $SCRIPTNAME; }" EXIT
 bazel run --script_path="$SCRIPTNAME" //polygerrit-ui:devserver
 "$SCRIPTNAME" "$@"
+
+# test

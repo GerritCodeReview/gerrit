@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "856c1bc0_3b2601c0",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-25T12:17:00Z",
+      "side": 1,
+      "message": "Yes, we only ensure same footer keys. I used \u0027lines\u0027 in the comment, because we ensure same order and number of lines as a criteria.\nAdded to comment.",
+      "parentUuid": "09a095d2_115b10e9",
+      "range": {
+        "startLine": 354,
+        "startChar": 27,
+        "endLine": 354,
+        "endChar": 66
+      },
+      "revId": "522c0b304e13f71a8a3aac02f47a783665163b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e809b31_c4992c3d",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a384446c_002a6e8f",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-25T12:17:00Z",
+      "side": 1,
+      "message": "Sufficient, I just wanted to see what actually gets parsed from the footer lines in the commits that I faked.\n\nI will keep it, if you do not mind.",
+      "parentUuid": "2e809b31_c4992c3d",
+      "revId": "522c0b304e13f71a8a3aac02f47a783665163b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52166c18_c8c774db",
@@ -54,6 +96,30 @@
       "writtenOn": "2021-06-25T10:48:27Z",
       "side": 1,
       "message": "I hope we don\u0027t have meta messages yet ;-)",
+      "range": {
+        "startLine": 746,
+        "startChar": 29,
+        "endLine": 746,
+        "endChar": 43
+      },
+      "revId": "522c0b304e13f71a8a3aac02f47a783665163b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d6c9a9a_75bba0fc",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-25T12:17:00Z",
+      "side": 1,
+      "message": "Sorry, what do you mean? This test is for fixing change message, produced by DeleteChangeMessage endpoint. The message is shown exactly as it is recorded in commit body on UI. I renamed the method, if it makes it more clear.",
+      "parentUuid": "52166c18_c8c774db",
       "range": {
         "startLine": 746,
         "startChar": 29,

@@ -20,4 +20,5 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "@guava//jar",
     ],
+    visibility = ["//visibility:public"]
 )

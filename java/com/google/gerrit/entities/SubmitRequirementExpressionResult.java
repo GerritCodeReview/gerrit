@@ -16,6 +16,8 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import java.util.Optional;
 
 /** Result of evaluating a submit requirement expression on a given Change. */
@@ -74,6 +76,10 @@ public abstract class SubmitRequirementExpressionResult {
         Optional.of(errorMessage),
         ImmutableList.of(),
         ImmutableList.of());
+  }
+
+  public static TypeAdapter<SubmitRequirementExpressionResult> typeAdapter(Gson gson) {
+    return new AutoValue_SubmitRequirementExpressionResult.GsonTypeAdapter(gson);
   }
 
   /**

@@ -166,6 +166,7 @@ import com.google.gerrit.server.mail.send.MailTemplates;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.notedb.NoteDbModule;
+import com.google.gerrit.server.notedb.StoreSubmitRequirementsListener;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchScriptFactory;
@@ -338,6 +339,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CommentAddedListener.class);
     DynamicSet.setOf(binder(), HashtagsEditedListener.class);
     DynamicSet.setOf(binder(), ChangeMergedListener.class);
+    DynamicSet.bind(binder(), ChangeMergedListener.class).to(StoreSubmitRequirementsListener.class);
     bind(ChangeMergedListener.class)
         .annotatedWith(Exports.named("CreateGroupPermissionSyncer"))
         .to(CreateGroupPermissionSyncer.class);

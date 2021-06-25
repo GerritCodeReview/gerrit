@@ -82,6 +82,7 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.server.change.CommentsUtil;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -116,6 +117,7 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
@@ -170,6 +172,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.IntraLineDiff;
@@ -4178,6 +4181,41 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.submitRequirements).hasSize(1);
     // +1 was enough to fulfill the requirement: override in child project was ignored
     assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+  }
+
+  @Test
+  public void submitRequirement_storedForClosedChanges() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange("Add a file", "foo", "content");
+    String changeId = r.getChangeId();
+
+    voteLabel(changeId, "code-review", 2);
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+
+    // add some comments
+    ReviewInput input = new ReviewInput();
+    CommentInput comment = CommentsUtil.newComment("foo", Side.REVISION, 2, "comment 1", false);
+    input.comments = new HashMap<>();
+    input.comments.put(comment.path, Lists.newArrayList(comment));
+    revision(r).review(input);
+    // end add comments
+
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve());
+    revision.submit();
+
+    ChangeNotes changeNotes = notesFactory.create(project, r.getChange().getId());
+    System.out.println("Something");
   }
 
   @Test

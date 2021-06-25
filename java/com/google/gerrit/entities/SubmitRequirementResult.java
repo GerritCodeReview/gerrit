@@ -17,6 +17,8 @@ package com.google.gerrit.entities;
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import java.util.Optional;
 
 /** Result of evaluating a {@link SubmitRequirement} on a given Change. */
@@ -55,6 +57,10 @@ public abstract class SubmitRequirementResult {
 
   public static Builder builder() {
     return new AutoValue_SubmitRequirementResult.Builder();
+  }
+
+  public static TypeAdapter<SubmitRequirementResult> typeAdapter(Gson gson) {
+    return new AutoValue_SubmitRequirementResult.GsonTypeAdapter(gson);
   }
 
   public enum Status {

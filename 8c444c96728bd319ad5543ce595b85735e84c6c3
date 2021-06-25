@@ -22,6 +22,30 @@
       },
       "revId": "8c444c96728bd319ad5543ce595b85735e84c6c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e975a347_98773838",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2171,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-25T08:37:05Z",
+      "side": 1,
+      "message": "can you observe on the _change object in file-list then instead of waiting for this promise here?",
+      "parentUuid": "b531ee86_b02e60e8",
+      "range": {
+        "startLine": 2171,
+        "startChar": 35,
+        "endLine": 2171,
+        "endChar": 50
+      },
+      "revId": "8c444c96728bd319ad5543ce595b85735e84c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

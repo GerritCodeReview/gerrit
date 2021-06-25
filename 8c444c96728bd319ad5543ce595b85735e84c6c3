@@ -46,6 +46,30 @@
       },
       "revId": "8c444c96728bd319ad5543ce595b85735e84c6c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9446595e_963e437d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "I agree with Dhruv that we should try to find a way that keeps loading and initializing the file list without the change being available.\n\nI think it is ok, if the the row only appears a second later.\n\nObserving the `change` property in the file-list seems like a good option.",
+      "parentUuid": "e975a347_98773838",
+      "range": {
+        "startLine": 2171,
+        "startChar": 35,
+        "endLine": 2171,
+        "endChar": 50
+      },
+      "revId": "8c444c96728bd319ad5543ce595b85735e84c6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

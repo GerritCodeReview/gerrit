@@ -128,6 +128,30 @@
       },
       "revId": "522c0b304e13f71a8a3aac02f47a783665163b31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73dfa557_232a9140",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-25T13:00:40Z",
+      "side": 1,
+      "message": "I was just joking about the typo \"...MessageMessage\" ;-)",
+      "parentUuid": "5d6c9a9a_75bba0fc",
+      "range": {
+        "startLine": 746,
+        "startChar": 29,
+        "endLine": 746,
+        "endChar": 43
+      },
+      "revId": "522c0b304e13f71a8a3aac02f47a783665163b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

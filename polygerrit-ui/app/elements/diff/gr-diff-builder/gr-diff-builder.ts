@@ -78,7 +78,7 @@ export abstract class GrDiffBuilder {
 
   private readonly _prefs: DiffPreferencesInfo;
 
-  private readonly _renderPrefs?: RenderPreferences;
+  protected readonly _renderPrefs?: RenderPreferences;
 
   protected readonly _outputEl: HTMLElement;
 

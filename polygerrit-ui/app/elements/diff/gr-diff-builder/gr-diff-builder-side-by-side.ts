@@ -137,4 +137,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     }
     return null;
   }
+
+  /** @override */
+  updateRenderPrefs(_renderPrefs: RenderPreferences) {}
 }

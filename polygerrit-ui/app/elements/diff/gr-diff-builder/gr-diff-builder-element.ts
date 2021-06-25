@@ -522,6 +522,11 @@ export class GrDiffBuilderElement extends PolymerElement {
     if (!this._builder) return;
     this._builder.setBlame(blame);
   }
+
+  updateRenderPrefs(renderPrefs: RenderPreferences) {
+    if (!this._builder) return;
+    this._builder.updateRenderPrefs(renderPrefs);
+  }
 }
 
 declare global {

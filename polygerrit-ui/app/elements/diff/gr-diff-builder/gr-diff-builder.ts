@@ -895,4 +895,6 @@ ${commit.commit_msg}`;
     while (row && !row.classList.contains('diff-row')) row = row.parentElement;
     return row ? (row.querySelector('.lineNum.' + side) as HTMLElement) : null;
   }
+
+  updateRenderPrefs(_renderPrefs: RenderPreferences) {}
 }

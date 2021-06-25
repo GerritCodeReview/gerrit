@@ -152,6 +152,30 @@
       },
       "revId": "522c0b304e13f71a8a3aac02f47a783665163b31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcb062ff_f04a06d7",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-25T13:17:24Z",
+      "side": 1,
+      "message": "It was not a typo, I just could not come up with a better name :(",
+      "parentUuid": "73dfa557_232a9140",
+      "range": {
+        "startLine": 746,
+        "startChar": 29,
+        "endLine": 746,
+        "endChar": 43
+      },
+      "revId": "522c0b304e13f71a8a3aac02f47a783665163b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -96,6 +96,8 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
 
     imageViewer.baseUrl = this._getImageSrc(this._baseImage);
     imageViewer.revisionUrl = this._getImageSrc(this._revisionImage);
+    imageViewer.automaticBlink = !!this._renderPrefs?.image_diff_prefs
+      ?.automatic_blink;
 
     td.appendChild(imageViewer);
     tr.appendChild(td);

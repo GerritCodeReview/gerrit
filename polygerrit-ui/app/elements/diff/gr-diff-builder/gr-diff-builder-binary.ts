@@ -19,6 +19,7 @@ import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {queryAndAssert} from '../../../utils/common-util';
+import {RenderPreferences} from '../../../api/diff';
 
 export class GrDiffBuilderBinary extends GrDiffBuilderUnified {
   constructor(
@@ -38,4 +39,7 @@ export class GrDiffBuilderBinary extends GrDiffBuilderUnified {
     section.appendChild(fileRow);
     return section;
   }
+
+  /** @override */
+  updateRenderPrefs(_renderPrefs: RenderPreferences) {}
 }

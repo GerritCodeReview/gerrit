@@ -766,6 +766,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (renderPrefs.hide_line_length_indicator) {
       this.classList.add('hide-line-length-indicator');
     }
+    this.$.diffBuilder.updateRenderPrefs(renderPrefs);
   }
 
   _diffChanged(newValue?: DiffInfo) {

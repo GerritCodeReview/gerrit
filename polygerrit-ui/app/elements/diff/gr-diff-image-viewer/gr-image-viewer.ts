@@ -60,11 +60,17 @@ const AUTOMATIC_BLINK_BUTTON_ACTIVE_AREA_PIXELS = 350;
  */
 @customElement('gr-image-viewer')
 export class GrImageViewer extends LitElement {
-  // URL for the image to use as base.
+  /** URL for the image to use as base. */
   @property({type: String}) baseUrl = '';
 
-  // URL for the image to use as revision.
+  /** URL for the image to use as revision. */
   @property({type: String}) revisionUrl = '';
+
+  /**
+   * When true, cycle automatically between base and revision image, if both
+   * are available.
+   */
+  @property({type: Boolean}) protected automaticBlink = false;
 
   @state() protected baseSelected = false;
 
@@ -77,8 +83,6 @@ export class GrImageViewer extends LitElement {
   @state() protected checkerboardSelected = true;
 
   @state() protected backgroundColor = '';
-
-  @state() protected automaticBlink = false;
 
   @state() protected automaticBlinkShown = false;
 
@@ -585,6 +589,9 @@ export class GrImageViewer extends LitElement {
     ) {
       this.frameConstrainer.requestCenter({x: 0, y: 0});
     }
+    if (changedProperties.has('automaticBlink')) {
+      this.updateAutomaticBlink();
+    }
   }
 
   selectBase() {
@@ -618,27 +625,33 @@ export class GrImageViewer extends LitElement {
 
   toggleAutomaticBlink() {
     this.automaticBlink = !this.automaticBlink;
-    if (this.automaticBlink) {
-      this.toggleImage();
-      this.setBlinkInterval();
-    } else {
-      if (this.automaticBlinkTimer) {
-        clearInterval(this.automaticBlinkTimer);
-        this.automaticBlinkTimer = undefined;
-      }
-    }
+    this.updateAutomaticBlink();
     this.dispatchEvent(
       createEvent({type: 'automatic-blink-changed', value: this.automaticBlink})
     );
   }
 
-  private setBlinkInterval() {
-    if (this.automaticBlinkTimer) {
-      clearInterval(this.automaticBlinkTimer);
+  private updateAutomaticBlink() {
+    if (this.automaticBlink) {
+      this.toggleImage();
+      this.setBlinkInterval();
+    } else {
+      this.clearBlinkInterval();
     }
+  }
+
+  private setBlinkInterval() {
+    this.clearBlinkInterval();
     this.automaticBlinkTimer = setInterval(() => {
       this.toggleImage();
     }, DEFAULT_AUTOMATIC_BLINK_TIME_MS);
+  }
+
+  private clearBlinkInterval() {
+    if (this.automaticBlinkTimer) {
+      clearInterval(this.automaticBlinkTimer);
+      this.automaticBlinkTimer = undefined;
+    }
   }
 
   zoomControlChanged(event: CustomEvent) {

@@ -16,6 +16,24 @@
       "message": "log a warning that this is considered a weak security setting ?",
       "revId": "7ce57c40d18b44790ff1f4a140a5954b8359e9c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7abf08e4_c52721ad",
+        "filename": "java/com/google/gerrit/sshd/HostKeyProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-25T13:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcaf9ce6_1bd1cb1e",
+      "revId": "7ce57c40d18b44790ff1f4a140a5954b8359e9c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

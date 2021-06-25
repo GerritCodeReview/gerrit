@@ -16,6 +16,24 @@
       "message": "isn\u0027t that recommendation still valid ?",
       "revId": "a1d51e57b50b0a8f07d5f45bb4e2ef4aec316c6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27cd7957_68cb1ef3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5141,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-06-25T13:01:14Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "02eae365_bfca2d96",
+      "revId": "a1d51e57b50b0a8f07d5f45bb4e2ef4aec316c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

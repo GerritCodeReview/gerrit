@@ -16,6 +16,24 @@
       "message": "Where is the clock icon moved? Could you please share a screenshot in the bug? \nThe proposal was also to replace the clock icon with using an \"arrow forward\" in front of attempts, that will also highlight how attempts are now displayed (from first to latest)",
       "revId": "d811062557bf192557fca65f139cc2e0cec0bfa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba5b1d36_f64157cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T05:49:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b16088e_d1268cbf",
+      "revId": "d811062557bf192557fca65f139cc2e0cec0bfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

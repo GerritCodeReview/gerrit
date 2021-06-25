@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cdc597a_4a5af6d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-25T13:44:52Z",
+      "side": 1,
+      "message": "Sending for an early review. The implementation is working, the components(reply dialog, comments thread tab, file list diff) all update when a thread is updated in any of them.\n",
+      "revId": "b6ae2a19a968f64f641a35078b993f3d85093c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

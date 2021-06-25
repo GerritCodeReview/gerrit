@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c3f9f2f_4b0ed75e",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonExperimentImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-06-25T08:37:47Z",
+      "side": 1,
+      "message": "nit: this is line is self-descriptive, I would just inline",
+      "range": {
+        "startLine": 71,
+        "startChar": 11,
+        "endLine": 71,
+        "endChar": 71
+      },
+      "revId": "596de98178d4b4c719ad3b36cc5904820a4387a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

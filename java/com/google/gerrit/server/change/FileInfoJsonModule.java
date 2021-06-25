@@ -14,31 +14,13 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
-import org.eclipse.jgit.lib.Config;
 
 public class FileInfoJsonModule extends AbstractModule {
-  /** Use the new diff cache implementation {@link FileInfoJsonNewImpl}. */
-  private final boolean useNewDiffCache;
-
-  /** Used to dark launch the new diff cache with the list files endpoint. */
-  private final boolean runNewDiffCacheAsync;
-
-  public FileInfoJsonModule(@GerritServerConfig Config cfg) {
-    this.useNewDiffCache =
-        cfg.getBoolean("cache", "diff_cache", "runNewDiffCache_ListFiles", false);
-    this.runNewDiffCacheAsync =
-        cfg.getBoolean("cache", "diff_cache", "runNewDiffCacheAsync_listFiles", false);
-  }
 
   @Override
   public void configure() {
-    if (runNewDiffCacheAsync) {
-      bind(FileInfoJson.class).to(FileInfoJsonComparingImpl.class);
-      return;
-    }
-    bind(FileInfoJson.class)
-        .to(useNewDiffCache ? FileInfoJsonNewImpl.class : FileInfoJsonOldImpl.class);
+    // Binding to the experimental implementation to enable gradual rollout of the new diff cache.
+    bind(FileInfoJson.class).to(FileInfoJsonExperimentImpl.class);
   }
 }

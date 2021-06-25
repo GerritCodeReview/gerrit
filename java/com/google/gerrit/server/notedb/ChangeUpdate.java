@@ -590,7 +590,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private boolean isAttentionSetChangeOnly() {
     return (plannedAttentionSetUpdates != null
         && plannedAttentionSetUpdates.size() > 0
-        && comments.isEmpty());
+        && doesNotHaveChangesAffectingAttentionSet());
+  }
+
+  private boolean doesNotHaveChangesAffectingAttentionSet() {
+    return comments.isEmpty()
+        && reviewers.isEmpty()
+        && reviewersByEmail.isEmpty()
+        && approvals.isEmpty()
+        && workInProgress == null;
   }
 
   @Override
@@ -838,6 +846,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   /**
    * Any updates to the attention set must be done in {@link #addToPlannedAttentionSetUpdates}. This
    * method is called after all the updates are finished to do the updates once and for real.
+   *
+   * <p>Changing the behaviour of this method might affect the way a ChangeUpdate is considered to
+   * be an "Attention Set Change Only". Make sure the {@link #isAttentionSetChangeOnly} logic is
+   * amended as well if needed.
    */
   private void updateAttentionSet(StringBuilder msg) {
     if (plannedAttentionSetUpdates == null) {

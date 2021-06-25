@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ccd1d78d_4bd7b400",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "Add a comment.",
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b834417f_322f4b8d",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 4
@@ -19,6 +36,156 @@
         "startChar": 18,
         "endLine": 479,
         "endChar": 52
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "496c1094_f8f13232",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "Or use the `includes()` method instead of `indexOf()`.",
+      "parentUuid": "b834417f_322f4b8d",
+      "range": {
+        "startLine": 479,
+        "startChar": 18,
+        "endLine": 479,
+        "endChar": 52
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c187530_6e27d926",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "Maybe just do this unconditionally in line 449?",
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdc3aea9_de7ffdb3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "Maybe this is also an opportunity to tell the user what \"Parent 1\" actually means?",
+      "range": {
+        "startLine": 1209,
+        "startChar": 43,
+        "endLine": 1209,
+        "endChar": 51
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45a88af1_7872122e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1212,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "Maybe rename to `handleShowParent1()`.",
+      "range": {
+        "startLine": 1212,
+        "startChar": 2,
+        "endLine": 1212,
+        "endChar": 14
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c653313_4c49dab5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "Nit: Simple\n\n  if (...) return;\n  \nstatements better on one line without {}.",
+      "range": {
+        "startLine": 1213,
+        "startChar": 4,
+        "endLine": 1215,
+        "endChar": 5
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b7a0ca7_078610a2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "In the screenshot it looks like that the new row does not comply to the usual 20px height +4+4px padding. This can usually be addressed by squeezing the button into 20px line-height with a negative top and bottom margin.",
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f86316b5_d0bbd422",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "Maybe call a method `computeCleanlyMergedRow(_cleanlyMergedPaths)` here. Then you don\u0027t need a dedicated `_showNumCleanlyMerged` property.",
+      "range": {
+        "startLine": 647,
+        "startChar": 32,
+        "endLine": 647,
+        "endChar": 53
       },
       "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -49,6 +216,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5577065_3aca3ea0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "I think one important aspect of this change is being able to show OWNERS icons. And for that you would need this endpoint.",
+      "parentUuid": "d76a6c92_2e8266e0",
+      "range": {
+        "startLine": 656,
+        "startChar": 12,
+        "endLine": 656,
+        "endChar": 61
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "800e0729_8f75aadb",
         "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.ts",
         "patchSetId": 4
@@ -60,6 +251,30 @@
       "writtenOn": "2021-06-25T08:37:05Z",
       "side": 1,
       "message": "perhaps this should be in patch-set-util instead?\nWDYT?",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "575d06d6_f6c4c76e",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-25T09:13:32Z",
+      "side": 1,
+      "message": "All of RevisionInfo should actually be moved into patchset-util. :-) It is stateless and thus a utility. And it is probably not worthwhile having a revision-util and a patchset-util.",
+      "parentUuid": "800e0729_8f75aadb",
       "range": {
         "startLine": 66,
         "startChar": 2,

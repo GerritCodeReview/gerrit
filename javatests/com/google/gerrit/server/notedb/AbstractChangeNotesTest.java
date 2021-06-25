@@ -52,7 +52,9 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.NullProjectCache;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.AssertableExecutorService;
 import com.google.gerrit.testing.ConfigSuite;
@@ -63,7 +65,6 @@ import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.util.Providers;
 import java.sql.Timestamp;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
@@ -106,7 +107,7 @@ public abstract class AbstractChangeNotesTest {
 
   @Inject protected AbstractChangeNotes.Args args;
 
-  @Inject @GerritServerId private String serverId;
+  @Inject @GerritServerId protected String serverId;
 
   protected Injector injector;
   private String systemTimeZone;
@@ -144,7 +145,7 @@ public abstract class AbstractChangeNotesTest {
                 bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
                 bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
                 bind(GitRepositoryManager.class).toInstance(repoManager);
-                bind(ProjectCache.class).toProvider(Providers.of(null));
+                bind(ProjectCache.class).to(NullProjectCache.class);
                 bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(testConfig);
                 bind(String.class)
                     .annotatedWith(AnonymousCowardName.class)
@@ -167,6 +168,11 @@ public abstract class AbstractChangeNotesTest {
                     .annotatedWith(FanOutExecutor.class)
                     .toInstance(assertableFanOutExecutor);
                 bind(ServiceUserClassifier.class).to(ServiceUserClassifier.NoOp.class);
+                bind(InternalChangeQuery.class)
+                    .toProvider(
+                        () -> {
+                          throw new UnsupportedOperationException();
+                        });
               }
             });
 

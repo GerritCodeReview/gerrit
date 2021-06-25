@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.CommentRange;
@@ -32,12 +33,7 @@ public class ChangeUpdateTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
 
-    // Add to attention set
-    AttentionSetUpdate attentionSetUpdate =
-        AttentionSetUpdate.createForWrite(
-            otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
-    update.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
-
+    addToAttentionSet(update);
     update.commit();
 
     assertThat(update.bypassMaxUpdates()).isTrue();
@@ -72,12 +68,7 @@ public class ChangeUpdateTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
 
-    // Add to attention set
-    AttentionSetUpdate attentionSetUpdate =
-        AttentionSetUpdate.createForWrite(
-            otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
-    update.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
-
+    addToAttentionSet(update);
     // Add a comment
     RevCommit commit = tr.commit().message("PS2").create();
     update.putComment(
@@ -98,5 +89,104 @@ public class ChangeUpdateTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertThat(update.bypassMaxUpdates()).isFalse();
+  }
+
+  @Test
+  public void bypassMaxUpdatesShouldBeFalseWhenReviewersAndChangesToAttentionSetCoexist()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+
+    addToAttentionSet(update);
+    update.putReviewer(otherUserId, ReviewerStateInternal.REVIEWER);
+    update.commit();
+
+    assertThat(update.bypassMaxUpdates()).isFalse();
+  }
+
+  @Test
+  public void bypassMaxUpdatesShouldBeFalseWhenReviewersByEmailAndChangesToAttentionSetCoexist()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+
+    addToAttentionSet(update);
+    update.putReviewerByEmail(Address.create("anyEmail@mail.com"), ReviewerStateInternal.REVIEWER);
+    update.commit();
+
+    assertThat(update.bypassMaxUpdates()).isFalse();
+  }
+
+  @Test
+  public void bypassMaxUpdatesShouldBeFalseWhenWIPAndChangesToAttentionSetCoexist()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+
+    addToAttentionSet(update);
+    update.setWorkInProgress(true);
+    update.commit();
+
+    assertThat(update.bypassMaxUpdates()).isFalse();
+  }
+
+  @Test
+  public void bypassMaxUpdatesShouldBeFalseWhenNonWIPAndChangesToAttentionSetCoexist()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+
+    addToAttentionSet(update);
+    update.setWorkInProgress(false);
+    update.commit();
+
+    assertThat(update.bypassMaxUpdates()).isFalse();
+  }
+
+  @Test
+  public void bypassMaxUpdatesShouldBeTrueWhenAbandoningAndChangesToAttentionSetCoexist()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+
+    update.setStatus(Change.Status.ABANDONED);
+    addToAttentionSet(update);
+    update.commit();
+
+    assertThat(update.bypassMaxUpdates()).isTrue();
+  }
+
+  @Test
+  public void bypassMaxUpdatesShouldBeFalseWhenVotingAndChangesToAttentionSetCoexist()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+
+    update.putApproval("Code-Review", (short) 1);
+    addToAttentionSet(update);
+    update.commit();
+
+    assertThat(update.bypassMaxUpdates()).isFalse();
+  }
+
+  @Test
+  public void bypassMaxUpdatesShouldBeFalseWhenDeletingVotesAndChangesToAttentionSetCoexist()
+      throws Exception {
+    Change c = newChange();
+    ChangeUpdate updateWithVote = newUpdate(c, changeOwner);
+    updateWithVote.putApproval("Code-Review", (short) 1);
+    updateWithVote.commit();
+
+    updateWithVote.removeApproval("Code-Review");
+    addToAttentionSet(updateWithVote);
+
+    assertThat(updateWithVote.bypassMaxUpdates()).isFalse();
+  }
+
+  private void addToAttentionSet(ChangeUpdate update) {
+    AttentionSetUpdate attentionSetUpdate =
+        AttentionSetUpdate.createForWrite(
+            otherUser.getAccountId(), AttentionSetUpdate.Operation.ADD, "test");
+    update.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
   }
 }

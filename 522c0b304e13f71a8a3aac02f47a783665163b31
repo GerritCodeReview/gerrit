@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09a095d2_115b10e9",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-25T10:48:27Z",
+      "side": 1,
+      "message": "Doesn\u0027t that mean we only ensure the same footer _keys_?",
+      "range": {
+        "startLine": 354,
+        "startChar": 27,
+        "endLine": 354,
+        "endChar": 66
+      },
+      "revId": "522c0b304e13f71a8a3aac02f47a783665163b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e809b31_c4992c3d",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-25T10:48:27Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be sufficient to only compare approvals before and after, rather than comparing both to an explicit golden value?",
+      "revId": "522c0b304e13f71a8a3aac02f47a783665163b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52166c18_c8c774db",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-25T10:48:27Z",
+      "side": 1,
+      "message": "I hope we don\u0027t have meta messages yet ;-)",
+      "range": {
+        "startLine": 746,
+        "startChar": 29,
+        "endLine": 746,
+        "endChar": 43
+      },
+      "revId": "522c0b304e13f71a8a3aac02f47a783665163b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

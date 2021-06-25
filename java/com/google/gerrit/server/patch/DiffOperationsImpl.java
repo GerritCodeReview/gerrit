@@ -18,6 +18,7 @@ import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
@@ -28,8 +29,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey;
@@ -48,12 +47,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -65,14 +58,13 @@ public class DiffOperationsImpl implements DiffOperations {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final int RENAME_SCORE = 60;
-  private static final DiffAlgorithm DEFAULT_DIFF_ALGORITHM = DiffAlgorithm.HISTOGRAM;
+  private static final DiffAlgorithm DEFAULT_DIFF_ALGORITHM =
+      DiffAlgorithm.HISTOGRAM_WITH_FALLBACK_MYERS;
   private static final Whitespace DEFAULT_WHITESPACE = Whitespace.IGNORE_NONE;
 
   private final ModifiedFilesCache modifiedFilesCache;
   private final FileDiffCache fileDiffCache;
   private final BaseCommitUtil baseCommitUtil;
-  private final long timeoutMillis;
-  private final ExecutorService diffExecutor;
 
   public static Module module() {
     return new CacheModule() {
@@ -91,21 +83,10 @@ public class DiffOperationsImpl implements DiffOperations {
   public DiffOperationsImpl(
       ModifiedFilesCache modifiedFilesCache,
       FileDiffCache fileDiffCache,
-      BaseCommitUtil baseCommit,
-      @DiffExecutor ExecutorService executor,
-      @GerritServerConfig Config cfg) {
+      BaseCommitUtil baseCommit) {
     this.modifiedFilesCache = modifiedFilesCache;
     this.fileDiffCache = fileDiffCache;
     this.baseCommitUtil = baseCommit;
-    this.diffExecutor = executor;
-    this.timeoutMillis =
-        ConfigUtil.getTimeUnit(
-            cfg,
-            "cache",
-            "diff",
-            "timeout",
-            TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS),
-            TimeUnit.MILLISECONDS);
   }
 
   @Override
@@ -114,7 +95,7 @@ public class DiffOperationsImpl implements DiffOperations {
       throws DiffNotAvailableException {
     try {
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
-      return listModifiedFilesWithTimeout(diffParams);
+      return getModifiedFiles(diffParams);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
@@ -132,7 +113,7 @@ public class DiffOperationsImpl implements DiffOperations {
             .baseCommit(oldCommit)
             .comparisonType(ComparisonType.againstOtherPatchSet())
             .build();
-    return listModifiedFilesWithTimeout(params);
+    return getModifiedFiles(params);
   }
 
   @Override
@@ -146,8 +127,15 @@ public class DiffOperationsImpl implements DiffOperations {
     try {
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
       FileDiffCacheKey key =
-          createFileDiffCacheKey(project, diffParams.baseCommit(), newCommit, fileName, whitespace);
-      return getModifiedFileWithTimeout(key, diffParams);
+          createFileDiffCacheKey(
+              project,
+              diffParams.baseCommit(),
+              newCommit,
+              fileName,
+              DEFAULT_DIFF_ALGORITHM,
+              /* useTimeout= */ true,
+              whitespace);
+      return getModifiedFileForKey(key);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
@@ -162,60 +150,16 @@ public class DiffOperationsImpl implements DiffOperations {
       String fileName,
       @Nullable DiffPreferencesInfo.Whitespace whitespace)
       throws DiffNotAvailableException {
-    DiffParameters params = // used for logging only
-        DiffParameters.builder()
-            .project(project)
-            .baseCommit(oldCommit)
-            .newCommit(newCommit)
-            .comparisonType(ComparisonType.againstOtherPatchSet())
-            .build();
     FileDiffCacheKey key =
-        createFileDiffCacheKey(project, oldCommit, newCommit, fileName, whitespace);
-    return getModifiedFileWithTimeout(key, params);
-  }
-
-  private Map<String, FileDiffOutput> listModifiedFilesWithTimeout(DiffParameters params)
-      throws DiffNotAvailableException {
-    Future<DiffResult> task =
-        diffExecutor.submit(
-            () -> {
-              ImmutableMap<String, FileDiffOutput> modifiedFiles = getModifiedFiles(params);
-              return DiffResult.create(null, modifiedFiles);
-            });
-    DiffResult diffResult = execDiffWithTimeout(task, params);
-    return diffResult.modifiedFiles();
-  }
-
-  private FileDiffOutput getModifiedFileWithTimeout(FileDiffCacheKey key, DiffParameters params)
-      throws DiffNotAvailableException {
-    Future<DiffResult> task =
-        diffExecutor.submit(
-            () -> {
-              Map<String, FileDiffOutput> diffList = getModifiedFilesForKeys(ImmutableList.of(key));
-              FileDiffOutput fileDiffOutput =
-                  diffList.containsKey(key.newFilePath())
-                      ? diffList.get(key.newFilePath())
-                      : FileDiffOutput.empty(key.newFilePath(), key.oldCommit(), key.newCommit());
-              return DiffResult.create(fileDiffOutput, null);
-            });
-    DiffResult result = execDiffWithTimeout(task, params);
-    return result.fileDiff();
-  }
-
-  /** Executes a diff task by employing a timeout. */
-  private DiffResult execDiffWithTimeout(Future<DiffResult> task, DiffParameters params)
-      throws DiffNotAvailableException {
-    try {
-      return task.get(timeoutMillis, TimeUnit.MILLISECONDS);
-    } catch (InterruptedException | TimeoutException e) {
-      throw new DiffNotAvailableException(
-          String.format(
-              "Timeout reached while computing diff for project %s, old commit %s, new commit %s",
-              params.project(), params.baseCommit().name(), params.newCommit().name()),
-          e);
-    } catch (ExecutionException e) {
-      throw new DiffNotAvailableException(e);
-    }
+        createFileDiffCacheKey(
+            project,
+            oldCommit,
+            newCommit,
+            fileName,
+            DEFAULT_DIFF_ALGORITHM,
+            /* useTimeout= */ true,
+            whitespace);
+    return getModifiedFileForKey(key);
   }
 
   private ImmutableMap<String, FileDiffOutput> getModifiedFiles(DiffParameters diffParams)
@@ -232,12 +176,24 @@ public class DiffOperationsImpl implements DiffOperations {
       List<FileDiffCacheKey> fileCacheKeys = new ArrayList<>();
       fileCacheKeys.add(
           createFileDiffCacheKey(
-              project, oldCommit, newCommit, COMMIT_MSG, /* whitespace= */ null));
+              project,
+              oldCommit,
+              newCommit,
+              COMMIT_MSG,
+              DEFAULT_DIFF_ALGORITHM,
+              /* useTimeout= */ true,
+              /* whitespace= */ null));
 
       if (cmp.isAgainstAutoMerge() || isMergeAgainstParent(cmp, project, newCommit)) {
         fileCacheKeys.add(
             createFileDiffCacheKey(
-                project, oldCommit, newCommit, MERGE_LIST, /*whitespace = */ null));
+                project,
+                oldCommit,
+                newCommit,
+                MERGE_LIST,
+                DEFAULT_DIFF_ALGORITHM,
+                /* useTimeout= */ true,
+                /*whitespace = */ null));
       }
 
       if (diffParams.skipFiles() == null) {
@@ -251,6 +207,8 @@ public class DiffOperationsImpl implements DiffOperations {
                         entity.newPath().isPresent()
                             ? entity.newPath().get()
                             : entity.oldPath().get(),
+                        DEFAULT_DIFF_ALGORITHM,
+                        /* useTimeout= */ true,
                         /* whitespace= */ null))
             .forEach(fileCacheKeys::add);
       }
@@ -260,22 +218,71 @@ public class DiffOperationsImpl implements DiffOperations {
     }
   }
 
+  private FileDiffOutput getModifiedFileForKey(FileDiffCacheKey key)
+      throws DiffNotAvailableException {
+    Map<String, FileDiffOutput> diffList = getModifiedFilesForKeys(ImmutableList.of(key));
+    return diffList.containsKey(key.newFilePath())
+        ? diffList.get(key.newFilePath())
+        : FileDiffOutput.empty(key.newFilePath(), key.oldCommit(), key.newCommit());
+  }
+
+  /**
+   * Lookup the file diffs for the input {@code keys}. For results where the cache reports negative
+   * results, e.g. due to timeouts in the cache loader, this method requests the diff again using
+   * the fallback algorithm {@link DiffAlgorithm#HISTOGRAM_NO_FALLBACK}.
+   */
   private ImmutableMap<String, FileDiffOutput> getModifiedFilesForKeys(List<FileDiffCacheKey> keys)
       throws DiffNotAvailableException {
-    ImmutableMap.Builder<String, FileDiffOutput> files = ImmutableMap.builder();
     ImmutableMap<FileDiffCacheKey, FileDiffOutput> fileDiffs = fileDiffCache.getAll(keys);
+    List<FileDiffCacheKey> fallbackKeys = new ArrayList<>();
 
-    for (FileDiffOutput fileDiffOutput : fileDiffs.values()) {
+    ImmutableList.Builder<FileDiffOutput> result = ImmutableList.builder();
+
+    // Use the fallback diff algorithm for negative results
+    for (FileDiffCacheKey key : fileDiffs.keySet()) {
+      FileDiffOutput diff = fileDiffs.get(key);
+      if (diff.isNegative()) {
+        FileDiffCacheKey fallbackKey =
+            createFileDiffCacheKey(
+                key.project(),
+                key.oldCommit(),
+                key.newCommit(),
+                key.newFilePath(),
+                // Use the fallback diff algorithm
+                DiffAlgorithm.HISTOGRAM_NO_FALLBACK,
+                // We don't enforce timeouts with the fallback algorithm. Timeouts were introduced
+                // because of a bug in JGit that happens only when the histogram algorithm uses
+                // Myers as fallback. See https://bugs.chromium.org/p/gerrit/issues/detail?id=487
+                /* useTimeout= */ false,
+                key.whitespace());
+        fallbackKeys.add(fallbackKey);
+      } else {
+        result.add(diff);
+      }
+    }
+    result.addAll(fileDiffCache.getAll(fallbackKeys).values());
+    return mapByFilePath(result.build());
+  }
+
+  /**
+   * Map a collection of {@link FileDiffOutput} based on their file paths. The result map keys
+   * represent the old file path for deleted files, or the new path otherwise.
+   */
+  private ImmutableMap<String, FileDiffOutput> mapByFilePath(
+      ImmutableCollection<FileDiffOutput> fileDiffOutputs) {
+    ImmutableMap.Builder<String, FileDiffOutput> diffs = ImmutableMap.builder();
+
+    for (FileDiffOutput fileDiffOutput : fileDiffOutputs) {
       if (fileDiffOutput.isEmpty() || allDueToRebase(fileDiffOutput)) {
         continue;
       }
       if (fileDiffOutput.changeType() == ChangeType.DELETED) {
-        files.put(fileDiffOutput.oldPath().get(), fileDiffOutput);
+        diffs.put(fileDiffOutput.oldPath().get(), fileDiffOutput);
       } else {
-        files.put(fileDiffOutput.newPath().get(), fileDiffOutput);
+        diffs.put(fileDiffOutput.newPath().get(), fileDiffOutput);
       }
     }
-    return files.build();
+    return diffs.build();
   }
 
   private static boolean allDueToRebase(FileDiffOutput fileDiffOutput) {
@@ -304,6 +311,8 @@ public class DiffOperationsImpl implements DiffOperations {
       ObjectId aCommit,
       ObjectId bCommit,
       String newPath,
+      DiffAlgorithm diffAlgorithm,
+      boolean useTimeout,
       @Nullable Whitespace whitespace) {
     whitespace = whitespace == null ? DEFAULT_WHITESPACE : whitespace;
     return FileDiffCacheKey.builder()
@@ -312,29 +321,10 @@ public class DiffOperationsImpl implements DiffOperations {
         .newCommit(bCommit)
         .newFilePath(newPath)
         .renameScore(RENAME_SCORE)
-        .diffAlgorithm(DEFAULT_DIFF_ALGORITHM)
+        .diffAlgorithm(diffAlgorithm)
         .whitespace(whitespace)
+        .useTimeout(useTimeout)
         .build();
-  }
-
-  /**
-   * All interface methods create their results using this class. This is used so that the timeout
-   * method {@link #execDiffWithTimeout(Future, DiffParameters)} could be reused by all interface
-   * methods.
-   */
-  @AutoValue
-  abstract static class DiffResult {
-    static DiffResult create(
-        @Nullable FileDiffOutput fileDiff,
-        @Nullable ImmutableMap<String, FileDiffOutput> modifiedFiles) {
-      return new AutoValue_DiffOperationsImpl_DiffResult(fileDiff, modifiedFiles);
-    }
-
-    @Nullable
-    abstract FileDiffOutput fileDiff();
-
-    @Nullable
-    abstract ImmutableMap<String, FileDiffOutput> modifiedFiles();
   }
 
   @AutoValue

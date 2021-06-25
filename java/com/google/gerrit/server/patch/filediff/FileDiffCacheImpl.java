@@ -97,7 +97,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         persist(DIFF, FileDiffCacheKey.class, FileDiffOutput.class)
             .maximumWeight(10 << 20)
             .weigher(FileDiffWeigher.class)
-            .version(6)
+            .version(7)
             .keySerializer(FileDiffCacheKey.Serializer.INSTANCE)
             .valueSerializer(FileDiffOutput.Serializer.INSTANCE)
             .loader(FileDiffLoader.class);
@@ -390,6 +390,19 @@ public class FileDiffCacheImpl implements FileDiffCache {
 
       for (AugmentedFileDiffCacheKey augmentedKey : allFileDiffs.keySet()) {
         AllFileGitDiffs allDiffs = allFileDiffs.get(augmentedKey);
+        GitFileDiff mainGitDiff = allDiffs.mainDiff().gitDiff();
+
+        if (mainGitDiff.isNegative()) {
+          // If the result of the git diff computation was negative, i.e. due to timeout, cache a
+          // negative result.
+          result.put(
+              augmentedKey.key(),
+              FileDiffOutput.createNegative(
+                  mainGitDiff.newPath().orElse(""),
+                  augmentedKey.key().oldCommit(),
+                  augmentedKey.key().newCommit()));
+          continue;
+        }
 
         FileEdits rebaseFileEdits = FileEdits.empty();
         if (!augmentedKey.ignoreRebase()) {
@@ -401,7 +414,6 @@ public class FileDiffCacheImpl implements FileDiffCache {
 
         RevTree aTree = oldTreeId.equals(ObjectId.zeroId()) ? null : rw.parseTree(oldTreeId);
         RevTree bTree = rw.parseTree(allDiffs.mainDiff().gitKey().newTree());
-        GitFileDiff mainGitDiff = allDiffs.mainDiff().gitDiff();
 
         Long oldSize =
             aTree != null && mainGitDiff.oldMode().isPresent() && mainGitDiff.oldPath().isPresent()

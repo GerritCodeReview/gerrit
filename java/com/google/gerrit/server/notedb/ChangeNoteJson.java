@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Singleton;
@@ -26,6 +27,8 @@ public class ChangeNoteJson {
   static Gson newGson() {
     return new GsonBuilder()
         .registerTypeAdapter(Timestamp.class, new CommentTimestampAdapter().nullSafe())
+        .registerTypeAdapter(
+            SubmitRequirementResult.class, new SubmitRequirementResultAdapter().nullSafe())
         .setPrettyPrinting()
         .create();
   }

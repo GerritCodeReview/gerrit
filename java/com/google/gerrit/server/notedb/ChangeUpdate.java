@@ -64,6 +64,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.server.CurrentUser;
@@ -129,6 +130,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<HumanComment> comments = new ArrayList<>();
+  private final List<SubmitRequirementResult> submitRequirementResults = new ArrayList<>();
 
   private String commitSubject;
   private String subject;
@@ -300,6 +302,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setPsDescription(String psDescription) {
     this.psDescription = psDescription;
+  }
+
+  public void putSubmitRequirementResult(SubmitRequirementResult rs) {
+    submitRequirementResults.add(rs);
   }
 
   public void putComment(HumanComment.Status status, HumanComment c) {
@@ -497,6 +503,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     for (HumanComment c : comments) {
       c.tag = tag;
       cache.get(c.getCommitId()).putComment(c);
+    }
+    for (SubmitRequirementResult rs : submitRequirementResults) {
+      cache.get(getCommit()).putSubmitRequirementResult(rs);
     }
     if (pushCert != null) {
       checkState(commit != null);

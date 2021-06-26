@@ -27,6 +27,9 @@ import {
 } from '../types/common';
 import {
   changeBaseURL,
+  changeIsOpen,
+  changeIsMerged,
+  changeIsAbandoned,
   changePath,
   changeStatuses,
   isRemovableReviewer,
@@ -194,5 +197,32 @@ suite('change-util tests', () => {
       removable_reviewers: [{_account_id: 2 as AccountId}],
     };
     assert.equal(isRemovableReviewer(change, reviewer), false);
+  });
+
+  test('changeIsOpen', () => {
+    const change = {
+      status: ChangeStatus.NEW,
+    };
+    assert.isTrue(changeIsOpen(change));
+    change.status = ChangeStatus.MERGED;
+    assert.isFalse(changeIsOpen(change));
+  });
+
+  test('changeIsMerged', () => {
+    const change = {
+      status: ChangeStatus.MERGED,
+    };
+    assert.isTrue(changeIsMerged(change));
+    change.status = ChangeStatus.NEW;
+    assert.isFalse(changeIsMerged(change));
+  });
+
+  test('changeIsAbandoned', () => {
+    const change = {
+      status: ChangeStatus.ABANDONED,
+    };
+    assert.isTrue(changeIsAbandoned(change));
+    change.status = ChangeStatus.NEW;
+    assert.isFalse(changeIsAbandoned(change));
   });
 });

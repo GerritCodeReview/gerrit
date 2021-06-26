@@ -131,8 +131,16 @@ export function changePath(changeNum: NumericChangeId) {
   return `${getBaseUrl()}/c/${changeNum}`;
 }
 
-export function changeIsOpen(change?: ChangeInfo | ParsedChangeInfo) {
+export function changeIsOpen(change?: ChangeInfo | ParsedChangeInfo | null) {
   return change?.status === ChangeStatus.NEW;
+}
+
+export function changeIsMerged(change?: ChangeInfo | ParsedChangeInfo | null) {
+  return change?.status === ChangeStatus.MERGED;
+}
+
+export function changeIsAbandoned(change?: ChangeInfo | ParsedChangeInfo | null) {
+  return change?.status === ChangeStatus.ABANDONED;
 }
 
 export function changeStatuses(

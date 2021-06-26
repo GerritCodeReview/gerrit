@@ -1563,7 +1563,25 @@ class GrChangeView extends mixinBehaviors( [
    * @param {?Object} edit
    */
   _processEdit(change, edit) {
+    if ((this._change.status === this.ChangeStatus.MERGED ||
+        this._change.status === this.ChangeStatus.ABANDONED) &&
+      this._editMode
+    ) {
+      const message =
+        'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.';
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {message},
+          bubbles: true,
+          composed: true,
+        })
+      );
+      GerritNav.navigateToChange(change);
+      return;
+    }
+
     if (!edit) { return; }
+
     change.revisions[edit.commit.commit] = {
       _number: this.EDIT_NAME,
       basePatchNum: edit.base_patch_set_number,

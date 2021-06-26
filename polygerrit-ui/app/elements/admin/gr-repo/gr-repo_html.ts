@@ -41,6 +41,11 @@ export const htmlTemplate = html`
     #options .repositorySettings.showConfig {
       display: block;
     }
+    @media screen and (max-width: 50em) {
+      #downloadContent {
+        display: none;
+      }
+    }
   </style>
   <style include="gr-form-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */

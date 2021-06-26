@@ -71,6 +71,7 @@ import {
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {changeStatuses} from '../../../utils/change-util';
+import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, property, observe} from '@polymer/decorators';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -1804,9 +1805,23 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    * case an edit exists.
    */
   _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
+    if (
+      (changeIsMerged(change) || changeIsAbandoned(change)) &&
+      this._editMode
+    ) {
+      fireAlert(
+        this,
+        'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
+      );
+      GerritNav.navigateToChange(change);
+      return;
+    }
+
     if (!edit) return;
+
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
+
     if (!edit.commit.commit) throw new Error('undefined edit.commit.commit');
     const changeWithEdit = change;
     if (changeWithEdit.revisions)

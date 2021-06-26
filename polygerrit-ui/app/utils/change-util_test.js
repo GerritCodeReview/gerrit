@@ -18,6 +18,9 @@
 import '../test/common-test-setup-karma.js';
 import {
   changeBaseURL,
+  changeIsOpen,
+  changeIsMerged,
+  changeIsAbandoned,
   changePath,
   changeStatuses,
   isRemovableReviewer,
@@ -197,6 +200,60 @@ suite('change-util tests', () => {
       removable_reviewers: [{_account_id: 2}],
     };
     assert.equal(isRemovableReviewer(change, reviewer), false);
+  });
+
+  test('changeIsOpen', () => {
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1},
+      },
+      current_revision: 'rev1',
+      status: 'NEW',
+      is_private: true,
+      work_in_progress: true,
+      labels: {},
+      mergeable: false,
+    };
+    assert.isTrue(changeIsOpen(change));
+    change.status = 'MERGED';
+    assert.isFalse(changeIsOpen(change));
+  });
+
+  test('changeIsMerged', () => {
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1},
+      },
+      current_revision: 'rev1',
+      status: 'MERGED',
+      is_private: true,
+      work_in_progress: true,
+      labels: {},
+      mergeable: false,
+    };
+    assert.isTrue(changeIsMerged(change));
+    change.status = 'NEW';
+    assert.isFalse(changeIsMerged(change));
+  });
+
+  test('changeIsAbandoned', () => {
+    const change = {
+      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+      revisions: {
+        rev1: {_number: 1},
+      },
+      current_revision: 'rev1',
+      status: 'ABANDONED',
+      is_private: true,
+      work_in_progress: true,
+      labels: {},
+      mergeable: false,
+    };
+    assert.isTrue(changeIsAbandoned(change));
+    change.status = 'NEW';
+    assert.isFalse(changeIsAbandoned(change));
   });
 });
 

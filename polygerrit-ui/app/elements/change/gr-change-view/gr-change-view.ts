@@ -72,11 +72,24 @@ import {
   patchNumEquals,
   PatchSet,
 } from '../../../utils/patch-set-util';
+<<<<<<< HEAD   (6c5031 Update jgit to 24d6d605388c82201092cf1699b51095299380a2)
 import {changeStatuses, changeStatusString} from '../../../utils/change-util';
 import {EventType} from '../../plugins/gr-plugin-types';
 import {customElement, property, observe} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
+=======
+import {
+  changeIsMerged,
+  changeIsAbandoned,
+  changeStatuses,
+  isCc,
+  isOwner,
+  isReviewer,
+} from '../../../utils/change-util';
+import {EventType as PluginEventType} from '../../../api/plugin';
+import {customElement, observe, property} from '@polymer/decorators';
+>>>>>>> CHANGE (24d5b0 Redirect from change edit if change is merged or abandoned)
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
@@ -1930,9 +1943,23 @@ export class GrChangeView extends KeyboardShortcutMixin(
    * case an edit exists.
    */
   _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
+    if (
+      (changeIsMerged(change) || changeIsAbandoned(change)) &&
+      this._editMode
+    ) {
+      fireAlert(
+        this,
+        'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
+      );
+      GerritNav.navigateToChange(change);
+      return;
+    }
+
     if (!edit) return;
+
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
+
     if (!edit.commit.commit) throw new Error('undefined edit.commit.commit');
     const changeWithEdit = change;
     if (changeWithEdit.revisions)

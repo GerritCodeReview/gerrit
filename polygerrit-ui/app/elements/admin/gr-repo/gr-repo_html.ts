@@ -41,6 +41,11 @@ export const htmlTemplate = html`
     #options .repositorySettings.showConfig {
       display: block;
     }
+    @media screen and (max-width: 50em) {
+      .desktop {
+        display: none;
+      }
+    }
   </style>
   <style include="gr-form-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
@@ -66,7 +71,7 @@ export const htmlTemplate = html`
       Loading...
     </div>
     <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-      <div id="downloadContent" class$="[[_computeHideClass(_schemes)]]">
+      <div id="downloadContent" class$="desktop [[_computeHideClass(_schemes)]]">
         <h2 id="download" class="heading-2">Download</h2>
         <fieldset>
           <gr-download-commands

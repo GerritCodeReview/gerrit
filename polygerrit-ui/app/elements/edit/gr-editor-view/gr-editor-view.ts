@@ -37,7 +37,11 @@ import {
   NumericChangeId,
   EditPatchSetNum,
 } from '../../../types/common';
-import {HttpMethod, NotifyType} from '../../../constants/constants';
+import {
+  ChangeStatus,
+  HttpMethod,
+  NotifyType,
+} from '../../../constants/constants';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
@@ -74,7 +78,7 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object, observer: '_paramsChanged'})
   params?: GenerateUrlEditViewParameters;
 
-  @property({type: Object})
+  @property({type: Object, observer: '_editChange'})
   _change?: ChangeInfo | null;
 
   @property({type: Number})
@@ -186,6 +190,24 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
       this._getFileData(this._changeNum, this._path, this._patchNum)
     );
     return Promise.all(promises);
+  }
+
+  _editChange(value?: ChangeInfo | null) {
+    // If change is merged or abandoned, redirect to non edit mode and
+    // notify the user why.
+    if (
+      value &&
+      (value.status === ChangeStatus.MERGED ||
+        value.status === ChangeStatus.ABANDONED) &&
+      this._patchNum
+    ) {
+      fireAlert(
+        this,
+        'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
+      );
+      GerritNav.navigateToChange(value, this._patchNum);
+      return;
+    }
   }
 
   _getChangeDetail(changeNum: NumericChangeId) {

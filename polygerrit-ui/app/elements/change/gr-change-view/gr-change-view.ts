@@ -1863,9 +1863,28 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
    * case an edit exists.
    */
   _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
+    // If change is merged or abandoned, redirect to non edit mode and
+    // notify the user why.
+    if (
+      change &&
+      (change.status === ChangeStatus.MERGED ||
+        change.status === ChangeStatus.ABANDONED) &&
+      this._editMode &&
+      this._patchRange
+    ) {
+      fireAlert(
+        this,
+        'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.'
+      );
+      GerritNav.navigateToChange(change, this._patchRange.patchNum);
+      return;
+    }
+
     if (!edit) return;
+
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
+
     if (!edit.commit.commit) throw new Error('undefined edit.commit.commit');
     const changeWithEdit = change;
     if (changeWithEdit.revisions)
@@ -1937,7 +1956,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         if (!change) {
           return false;
         }
+
         this._processEdit(change, edit);
+
         // Issue 4190: Coalesce missing topics to null.
         // TODO(TS): code needs second thought,
         // it might be that nulls were assigned to trigger some bindings

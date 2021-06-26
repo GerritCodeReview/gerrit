@@ -195,4 +195,31 @@ suite('change-util tests', () => {
     };
     assert.equal(isRemovableReviewer(change, reviewer), false);
   });
+
+  test('changeIsOpen', () => {
+    const change = {
+      status: ChangeStatus.OPEN,
+    };
+    assert.isTrue(changeIsOpen(change));
+    change.status = ChangeStatus.MERGED;
+    assert.isFalse(changeIsOpen(change));
+  });
+
+  test('changeIsMerged', () => {
+    const change = {
+      status: ChangeStatus.MERGED,
+    };
+    assert.isTrue(changeIsMerged(change));
+    change.status = ChangeStatus.OPEN;
+    assert.isFalse(changeIsMerged(change));
+  });
+
+  test('changeIsAbandoned', () => {
+    const change = {
+      status: ChangeStatus.ABANDONED,
+    };
+    assert.isTrue(changeIsAbandoned(change));
+    change.status = ChangeStatus.OPEN;
+    assert.isFalse(changeIsAbandoned(change));
+  });
 });

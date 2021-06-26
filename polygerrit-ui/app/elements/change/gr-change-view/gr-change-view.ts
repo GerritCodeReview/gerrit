@@ -1937,6 +1937,16 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         if (!change) {
           return false;
         }
+
+        // If change is merged, redirect to non edit mode and
+        // notify the user why.
+        if (change?.status === ChangeStatus.MERGED && this._editMode && this._patchRange) {
+          fireAlert(this,
+              'Change edits cannot be created if change is merged. Redirected to non edit mode.');
+          GerritNav.navigateToChange(change, this._patchRange.patchNum);
+          return false;
+        }
+
         this._processEdit(change, edit);
         // Issue 4190: Coalesce missing topics to null.
         // TODO(TS): code needs second thought,

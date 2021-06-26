@@ -77,7 +77,10 @@ class GrEditorView extends mixinBehaviors( [
         observer: '_paramsChanged',
       },
 
-      _change: Object,
+      _change: {
+        type: Object,
+        observer: '_editChange',
+      },
       _changeEditDetail: Object,
       _changeNum: String,
       _patchNum: String,
@@ -167,6 +170,23 @@ class GrEditorView extends mixinBehaviors( [
     return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
       this._change = change;
     });
+  }
+
+  _editChange(value) {
+    if (!value) return;
+    if (value.status !== this.ChangeStatus.MERGED &&
+      value.status !== this.ChangeStatus.ABANDONED) return;
+    /* eslint-disable max-len */
+    const message =
+      'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.';
+    this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {message},
+          bubbles: true,
+          composed: true,
+        })
+    );
+    GerritNav.navigateToChange(value);
   }
 
   _handlePathChanged(e) {

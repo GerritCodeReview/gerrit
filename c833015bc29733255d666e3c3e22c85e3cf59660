@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd4b576f_95b686a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-26T01:25:02Z",
+      "side": 1,
+      "message": "@Jacek @Matthias I cannot merge this change anymore because I rebased it. Can someone else add a +2 to it?",
+      "revId": "c833015bc29733255d666e3c3e22c85e3cf59660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

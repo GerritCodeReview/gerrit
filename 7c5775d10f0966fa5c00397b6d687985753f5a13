@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75578ec0_18cf53c5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-26T19:56:04Z",
+      "side": 1,
+      "message": "Any idea why this causes the test to fail?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "7c5775d10f0966fa5c00397b6d687985753f5a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

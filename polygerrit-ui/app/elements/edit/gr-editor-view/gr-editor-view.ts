@@ -47,6 +47,7 @@ import {
 } from '../../../types/common';
 import {GrStorage} from '../../shared/gr-storage/gr-storage';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
+import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -86,7 +87,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
   @property({type: Object, observer: '_paramsChanged'})
   params?: GenerateUrlEditViewParameters;
 
-  @property({type: Object})
+  @property({type: Object, observer: '_editChange'})
   _change?: ChangeInfo | null;
 
   @property({type: Number})
@@ -198,6 +199,21 @@ export class GrEditorView extends KeyboardShortcutMixin(
     return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
       this._change = change;
     });
+  }
+
+  _editChange(value?: ChangeInfo | null) {
+    if (!changeIsMerged(value) && !changeIsAbandoned(value)) return;
+    if (!value) return;
+    const message =
+      'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.';
+    this.dispatchEvent(
+      new CustomEvent('show-alert', {
+        detail: {message},
+        bubbles: true,
+        composed: true,
+      })
+    );
+    GerritNav.navigateToChange(value);
   }
 
   _handlePathChanged(e: CustomEvent<string>) {

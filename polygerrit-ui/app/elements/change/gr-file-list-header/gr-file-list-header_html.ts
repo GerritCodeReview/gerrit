@@ -189,8 +189,8 @@ export const htmlTemplate = html`
             ><iron-icon icon="gr-icons:settings"></iron-icon
           ></gr-button>
         </span>
+        <span class="separator"></span>
       </div>
-      <span class="separator"></span>
       <span class="downloadContainer desktop">
         <gr-button
           link=""

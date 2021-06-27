@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6f7d01f_dfdc5a32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1138071
+      },
+      "writtenOn": "2021-06-27T20:44:51Z",
+      "side": 1,
+      "message": "305132: Add \u0027declare\u0027 to all API interfaces | https://gerrit-review.googlesource.com/c/gerrit/+/305132\nhttps://github.com/IchspontenEr/toolkit.git\nhttps://dev.to/new",
+      "revId": "d102205341044c703468a38246da1e636d127169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

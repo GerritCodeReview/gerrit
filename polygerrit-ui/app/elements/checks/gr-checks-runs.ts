@@ -58,7 +58,7 @@ import {
   updateStateSetResults,
 } from '../../services/checks/checks-model';
 import {assertIsDefined} from '../../utils/common-util';
-import {whenVisible} from '../../utils/dom-util';
+import {modifierPressed, whenVisible} from '../../utils/dom-util';
 import {
   fireAttemptSelected,
   fireRunSelected,
@@ -128,6 +128,12 @@ export class GrChecksRun extends GrLitElement {
         }
         iron-icon.check-circle-outline {
           color: var(--success-foreground);
+        }
+        div.chip:hover {
+          background-color: var(--hover-background-color);
+        }
+        div.chip:focus-within {
+          background-color: var(--selection-background-color);
         }
         /* Additional 'div' for increased specificity. */
         div.chip.selected {
@@ -226,7 +232,12 @@ export class GrChecksRun extends GrLitElement {
     const action = primaryRunAction(this.run);
 
     return html`
-      <div @click="${this.handleChipClick}" class="${classMap(classes)}">
+      <div
+        @click="${this.handleChipClick}"
+        @keydown="${this.handleChipKey}"
+        class="${classMap(classes)}"
+        tabindex="0"
+      >
         <div class="left">
           <gr-hovercard-run .run="${this.run}"></gr-hovercard-run>
           ${this.renderFilterIcon()}
@@ -328,6 +339,15 @@ export class GrChecksRun extends GrLitElement {
   private handleChipClick(e: MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
+    fireRunSelected(this, this.run.checkName);
+  }
+
+  private handleChipKey(e: KeyboardEvent) {
+    if (modifierPressed(e)) return;
+    // Only react to `return` and `space`.
+    if (e.keyCode !== 13 && e.keyCode !== 32) return;
+    e.preventDefault();
+    e.stopPropagation();
     fireRunSelected(this, this.run.checkName);
   }
 }

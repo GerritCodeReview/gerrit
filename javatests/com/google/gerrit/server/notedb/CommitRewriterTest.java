@@ -25,17 +25,23 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.notedb.ChangeNoteUtil.AttentionStatusInNoteDb;
 import com.google.gerrit.server.notedb.CommitRewriter.BackfillResult;
 import com.google.gerrit.server.notedb.CommitRewriter.RunOptions;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.util.List;
@@ -55,6 +61,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
   private @Inject CommitRewriter rewriter;
   @Inject private ChangeNoteUtil changeNoteUtil;
+
+  private static final Gson gson = OutputFormat.JSON_COMPACT.newGson();
 
   @Before
   public void setUp() throws Exception {}
@@ -653,7 +661,255 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
   @Test
   public void fixAttentionFooterIdent() throws Exception {
-    // TODO(mariasavtchouk): add once backfilling is implemented for this case.
+    Change c = newChange();
+    ImmutableList.Builder<ObjectId> commitsToFix = new ImmutableList.Builder<>();
+    // Only 'reason' fix is required
+    ChangeUpdate invalidAttentionSetUpdate = newUpdate(c, changeOwner);
+    invalidAttentionSetUpdate.putReviewer(otherUserId, REVIEWER);
+    invalidAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+        AttentionSetUpdate.createForWrite(
+            otherUserId,
+            Operation.ADD,
+            String.format("Added by %s using the hovercard menu", otherUser.getName())));
+    commitsToFix.add(invalidAttentionSetUpdate.commit());
+    ChangeUpdate invalidMultipleAttentionSetUpdate = newUpdate(c, changeOwner);
+    invalidMultipleAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+        AttentionSetUpdate.createForWrite(
+            changeOwner.getAccountId(),
+            Operation.ADD,
+            String.format("%s replied on the change", otherUser.getName())));
+    invalidMultipleAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+        AttentionSetUpdate.createForWrite(
+            otherUserId,
+            Operation.REMOVE,
+            String.format("Removed by %s using the hovercard menu", otherUser.getName())));
+    commitsToFix.add(invalidMultipleAttentionSetUpdate.commit());
+    String otherUserIdentToFix = getAccountIdentToFix(otherUser.getAccount());
+    String changeOwnerIdentToFix = getAccountIdentToFix(changeOwner.getAccount());
+    // Both 'reason' and 'person_ident' fix is required
+    commitsToFix.add(
+        writeUpdate(
+            RefNames.changeMetaRef(c.getId()),
+            getChangeUpdateBody(
+                c,
+                /*changeMessage=*/ null,
+                // Both only 'person_ident' fix is required
+                "Attention: "
+                    + gson.toJson(
+                        new AttentionStatusInNoteDb(
+                            otherUserIdentToFix,
+                            Operation.ADD,
+                            "Added by someone using the hovercard menu")),
+                // Both 'reason' and 'person_ident' fix is required
+                "Attention: "
+                    + gson.toJson(
+                        new AttentionStatusInNoteDb(
+                            changeOwnerIdentToFix,
+                            Operation.REMOVE,
+                            String.format("%s replied on the change", otherUser.getName())))),
+            getAuthorIdent(changeOwner.getAccount())));
+
+    ChangeUpdate validAttentionSetUpdate = newUpdate(c, changeOwner);
+    validAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+        AttentionSetUpdate.createForWrite(otherUserId, Operation.REMOVE, "Removed by someone"));
+    validAttentionSetUpdate.commit();
+
+    Ref metaRefBeforeRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
+
+    ImmutableList<RevCommit> commitsBeforeRewrite = logMetaRef(repo, metaRefBeforeRewrite);
+
+    ImmutableList<Integer> invalidCommits =
+        commitsToFix.build().stream()
+            .map(commit -> commitsBeforeRewrite.indexOf(commit))
+            .collect(toImmutableList());
+    ChangeNotes notesBeforeRewrite = newNotes(c);
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult result = rewriter.backfillProject(project, repo, options);
+    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
+    notesBeforeRewrite.getAttentionSetUpdates();
+    Timestamp updateTimestamp = new Timestamp(serverIdent.getWhen().getTime());
+    ImmutableList<AttentionSetUpdate> attentionSetUpdatesBeforeRewrite =
+        ImmutableList.of(
+            AttentionSetUpdate.createFromRead(
+                validAttentionSetUpdate.getWhen().toInstant(),
+                otherUserId,
+                Operation.REMOVE,
+                "Removed by someone"),
+            AttentionSetUpdate.createFromRead(
+                updateTimestamp.toInstant(),
+                changeOwner.getAccountId(),
+                Operation.REMOVE,
+                String.format("%s replied on the change", otherUser.getName())),
+            AttentionSetUpdate.createFromRead(
+                updateTimestamp.toInstant(),
+                otherUserId,
+                Operation.ADD,
+                "Added by someone using the hovercard menu"),
+            AttentionSetUpdate.createFromRead(
+                invalidMultipleAttentionSetUpdate.getWhen().toInstant(),
+                otherUserId,
+                Operation.REMOVE,
+                String.format("Removed by %s using the hovercard menu", otherUser.getName())),
+            AttentionSetUpdate.createFromRead(
+                invalidMultipleAttentionSetUpdate.getWhen().toInstant(),
+                changeOwner.getAccountId(),
+                Operation.ADD,
+                String.format("%s replied on the change", otherUser.getName())),
+            AttentionSetUpdate.createFromRead(
+                invalidAttentionSetUpdate.getWhen().toInstant(),
+                otherUserId,
+                Operation.ADD,
+                String.format("Added by %s using the hovercard menu", otherUser.getName())));
+
+    ImmutableList<AttentionSetUpdate> attentionSetUpdatesAfterRewrite =
+        ImmutableList.of(
+            AttentionSetUpdate.createFromRead(
+                validAttentionSetUpdate.getWhen().toInstant(),
+                otherUserId,
+                Operation.REMOVE,
+                "Removed by someone"),
+            AttentionSetUpdate.createFromRead(
+                updateTimestamp.toInstant(),
+                changeOwner.getAccountId(),
+                Operation.REMOVE,
+                "Someone replied on the change"),
+            AttentionSetUpdate.createFromRead(
+                updateTimestamp.toInstant(),
+                otherUserId,
+                Operation.ADD,
+                "Added by someone using the hovercard menu"),
+            AttentionSetUpdate.createFromRead(
+                invalidMultipleAttentionSetUpdate.getWhen().toInstant(),
+                otherUserId,
+                Operation.REMOVE,
+                "Removed by someone using the hovercard menu"),
+            AttentionSetUpdate.createFromRead(
+                invalidMultipleAttentionSetUpdate.getWhen().toInstant(),
+                changeOwner.getAccountId(),
+                Operation.ADD,
+                "Someone replied on the change"),
+            AttentionSetUpdate.createFromRead(
+                invalidAttentionSetUpdate.getWhen().toInstant(),
+                otherUserId,
+                Operation.ADD,
+                "Added by someone using the hovercard menu"));
+
+    ChangeNotes notesAfterRewrite = newNotes(c);
+
+    assertThat(notesBeforeRewrite.getAttentionSetUpdates())
+        .containsExactlyElementsIn(attentionSetUpdatesBeforeRewrite);
+    assertThat(notesAfterRewrite.getAttentionSetUpdates())
+        .containsExactlyElementsIn(attentionSetUpdatesAfterRewrite);
+
+    Ref metaRefAfterRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
+    assertThat(metaRefAfterRewrite.getObjectId()).isNotEqualTo(metaRefBeforeRewrite.getObjectId());
+
+    ImmutableList<RevCommit> commitsAfterRewrite = logMetaRef(repo, metaRefAfterRewrite);
+    assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
+
+    List<String> commitHistoryDiff = result.fixedRefDiff.get(RefNames.changeMetaRef(c.getId()));
+    assertThat(commitHistoryDiff).hasSize(3);
+    assertThat(commitHistoryDiff.get(0))
+        .isEqualTo(
+            "@@ -8 +8 @@\n"
+                + "-Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Other Account using the hovercard menu\"}\n"
+                + "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}\n");
+    assertThat(commitHistoryDiff.get(1))
+        .isEqualTo(
+            "@@ -7,2 +7,2 @@\n"
+                + "-Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Other Account replied on the change\"}\n"
+                + "-Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by Other Account using the hovercard menu\"}\n"
+                + "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Someone replied on the change\"}\n"
+                + "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Removed by someone using the hovercard menu\"}\n");
+    assertThat(commitHistoryDiff.get(2))
+        .isEqualTo(
+            "@@ -7,2 +7,2 @@\n"
+                + "-Attention: {\"person_ident\":\"Other Account \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}\n"
+                + "-Attention: {\"person_ident\":\"Change Owner \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Other Account replied on the change\"}\n"
+                + "+Attention: {\"person_ident\":\"Gerrit User 2 \\u003c2@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by someone using the hovercard menu\"}\n"
+                + "+Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"REMOVE\",\"reason\":\"Someone replied on the change\"}\n");
+  }
+
+  @Test
+  public void fixAttentionFooterIdent_okReason_noRewrite() throws Exception {
+    Change c = newChange();
+    ImmutableList<String> okAccountNames =
+        ImmutableList.of(
+            "Someone",
+            "Someone else",
+            "someone",
+            "someone else",
+            "Anonymous",
+            "anonymous",
+            "<GERRIT_ACCOUNT_1>",
+            "<GERRIT_ACCOUNT_2>");
+    ImmutableList.Builder<AttentionSetUpdate> attentionSetUpdatesBeforeRewrite =
+        new ImmutableList.Builder<>();
+    for (String okAccountName : okAccountNames) {
+      ChangeUpdate firstAttentionSetUpdate = newUpdate(c, changeOwner);
+      firstAttentionSetUpdate.putReviewer(otherUserId, REVIEWER);
+      firstAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+          AttentionSetUpdate.createForWrite(
+              otherUserId,
+              Operation.ADD,
+              String.format("Added by %s using the hovercard menu", okAccountName)));
+      firstAttentionSetUpdate.commit();
+      ChangeUpdate secondAttentionSetUpdate = newUpdate(c, changeOwner);
+      secondAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+          AttentionSetUpdate.createForWrite(
+              changeOwner.getAccountId(),
+              Operation.ADD,
+              String.format("%s replied on the change", okAccountName)));
+      secondAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+          AttentionSetUpdate.createForWrite(
+              otherUserId,
+              Operation.REMOVE,
+              String.format("Removed by %s using the hovercard menu", okAccountName)));
+      secondAttentionSetUpdate.commit();
+      ChangeUpdate clearAttentionSetUpdate = newUpdate(c, changeOwner);
+      clearAttentionSetUpdate.addToPlannedAttentionSetUpdates(
+          AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.REMOVE, "Clear"));
+      clearAttentionSetUpdate.commit();
+      attentionSetUpdatesBeforeRewrite.add(
+          AttentionSetUpdate.createFromRead(
+              clearAttentionSetUpdate.getWhen().toInstant(),
+              changeOwner.getAccountId(),
+              Operation.REMOVE,
+              "Clear"),
+          AttentionSetUpdate.createFromRead(
+              secondAttentionSetUpdate.getWhen().toInstant(),
+              otherUserId,
+              Operation.REMOVE,
+              String.format("Removed by %s using the hovercard menu", okAccountName)),
+          AttentionSetUpdate.createFromRead(
+              secondAttentionSetUpdate.getWhen().toInstant(),
+              changeOwner.getAccountId(),
+              Operation.ADD,
+              String.format("%s replied on the change", okAccountName)),
+          AttentionSetUpdate.createFromRead(
+              firstAttentionSetUpdate.getWhen().toInstant(),
+              otherUserId,
+              Operation.ADD,
+              String.format("Added by %s using the hovercard menu", okAccountName)));
+      clearAttentionSetUpdate.getNotes();
+    }
+
+    ChangeNotes notesBeforeRewrite = newNotes(c);
+    assertThat(notesBeforeRewrite.getAttentionSetUpdates())
+        .containsExactlyElementsIn(attentionSetUpdatesBeforeRewrite.build());
+
+    Ref metaRefBefore = repo.exactRef(RefNames.changeMetaRef(c.getId()));
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult backfillResult = rewriter.backfillProject(project, repo, options);
+    ChangeNotes notesAfterRewrite = newNotes(c);
+    Ref metaRefAfter = repo.exactRef(RefNames.changeMetaRef(c.getId()));
+
+    assertThat(notesBeforeRewrite.getMetaId()).isEqualTo(notesAfterRewrite.getMetaId());
+    assertThat(metaRefBefore.getObjectId()).isEqualTo(metaRefAfter.getObjectId());
+    assertThat(backfillResult.fixedRefDiff).isEmpty();
   }
 
   @Test
@@ -739,12 +995,81 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
   @Test
   public void fixSubmittedWithFooterIdent() throws Exception {
-    // TODO(mariasavtchouk): add once backfilling is implemented for this case.
+
+    Change c = newChange();
+
+    ChangeUpdate preSubmitUpdate = newUpdate(c, changeOwner);
+    preSubmitUpdate.setChangeMessage("Per-submit update");
+    preSubmitUpdate.commit();
+
+    String otherUserIdentToFix = getAccountIdentToFix(otherUser.getAccount());
+    String changeOwnerIdentToFix = getAccountIdentToFix(changeOwner.getAccount());
+    RevCommit invalidUpdateCommit =
+        writeUpdate(
+            RefNames.changeMetaRef(c.getId()),
+            getChangeUpdateBody(
+                c,
+                /*changeMessage=*/ null,
+                "Label: SUBM=+1",
+                "Submission-id: 5271-1496917120975-10a10df9",
+                "Submitted-with: NOT_READY",
+                "Submitted-with: NEED: Code-Review: " + otherUserIdentToFix,
+                "Submitted-with: OK: Code-Style",
+                "Submitted-with: OK: Verified: " + changeOwnerIdentToFix,
+                "Submitted-with: FORCED with error"),
+            getAuthorIdent(changeOwner.getAccount()));
+
+    ChangeUpdate postSubmitUpdate = newUpdate(c, changeOwner);
+    postSubmitUpdate.setChangeMessage("Per-submit update");
+    postSubmitUpdate.commit();
+    Ref metaRefBeforeRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
+
+    ImmutableList<RevCommit> commitsBeforeRewrite = logMetaRef(repo, metaRefBeforeRewrite);
+
+    int invalidCommitIndex = commitsBeforeRewrite.indexOf(invalidUpdateCommit);
+    ChangeNotes notesBeforeRewrite = newNotes(c);
+
+    RunOptions options = new RunOptions();
+    options.dryRun = false;
+    BackfillResult result = rewriter.backfillProject(project, repo, options);
+    assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
+
+    ChangeNotes notesAfterRewrite = newNotes(c);
+    ImmutableList<SubmitRecord> expectedRecords =
+        ImmutableList.of(
+            submitRecord(
+                "NOT_READY",
+                null,
+                submitLabel(CODE_REVIEW, "NEED", otherUserId),
+                submitLabel("Code-Style", "OK", null),
+                submitLabel(VERIFIED, "OK", changeOwner.getAccountId())),
+            submitRecord("FORCED", " with error"));
+    assertThat(notesBeforeRewrite.getSubmitRecords()).isEqualTo(expectedRecords);
+    assertThat(notesAfterRewrite.getSubmitRecords()).isEqualTo(expectedRecords);
+
+    Ref metaRefAfterRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
+    assertThat(metaRefAfterRewrite.getObjectId()).isNotEqualTo(metaRefBeforeRewrite.getObjectId());
+
+    ImmutableList<RevCommit> commitsAfterRewrite = logMetaRef(repo, metaRefAfterRewrite);
+    assertValidCommits(
+        commitsBeforeRewrite, commitsAfterRewrite, ImmutableList.of(invalidCommitIndex));
+
+    List<String> commitHistoryDiff = result.fixedRefDiff.get(RefNames.changeMetaRef(c.getId()));
+    assertThat(commitHistoryDiff).hasSize(1);
+    assertThat(commitHistoryDiff.get(0))
+        .isEqualTo(
+            "@@ -10 +10 @@\n"
+                + "-Submitted-with: NEED: Code-Review: Other Account <2@gerrit>\n"
+                + "+Submitted-with: NEED: Code-Review: Gerrit User 2 <2@gerrit>\n"
+                + "@@ -12 +12 @@\n"
+                + "-Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+                + "+Submitted-with: OK: Verified: Gerrit User 1 <1@gerrit>\n");
   }
 
   @Test
   public void fixDeleteChangeMessageCommitMessage() throws Exception {
     Change c = newChange();
+
     ImmutableList.Builder<ObjectId> commitsToFix = new ImmutableList.Builder<>();
     ChangeUpdate invalidDeleteChangeMessageUpdate = newUpdate(c, changeOwner);
     invalidDeleteChangeMessageUpdate.setChangeMessage(

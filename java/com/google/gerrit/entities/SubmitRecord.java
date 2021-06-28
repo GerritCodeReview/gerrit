@@ -202,8 +202,8 @@ public class SubmitRecord {
       SubmitRecord r = (SubmitRecord) o;
       return Objects.equals(status, r.status)
           && Objects.equals(labels, r.labels)
-          && Objects.equals(errorMessage, r.errorMessage)
-          && Objects.equals(requirements, r.requirements);
+          && Objects.equals(errorMessage, r.errorMessage);
+      // && Objects.equals(requirements, r.requirements);
     }
     return false;
   }

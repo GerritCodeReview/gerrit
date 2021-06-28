@@ -39,8 +39,6 @@ public class ElasticContainer extends ElasticsearchContainer {
 
   private static String getImageName(ElasticVersion version) {
     switch (version) {
-      case V7_5:
-        return "blacktop/elasticsearch:7.5.2";
       case V7_6:
         return "blacktop/elasticsearch:7.6.2";
       case V7_7:

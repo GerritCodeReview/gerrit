@@ -5114,6 +5114,16 @@ Supported MACs:
 +
 By default, all supported MACs are available.
 
+[[sshd.enableDeprecatedKexAlgorithms]]sshd.enableDeprecatedKexAlgorithms::
++
+Enable deprecated kex algorithms:
++
+* `diffie-hellman-group1-sha1`
+* `diffie-hellman-group14-sha1`
+* `diffie-hellman-group-exchange-sha1`
+
+By default, the deprecated kex algorithms are disabled.
+
 [[sshd.kex]]sshd.kex::
 +
 --
@@ -5124,24 +5134,20 @@ with `+` are enabled in addition to the default key exchange
 algorithms, key exchange algorithm names starting with `-` are
 removed from the default key exchange algorithms.
 
-In the following example configuration, support for the 1024-bit
-`diffie-hellman-group1-sha1` key exchange is disabled while leaving
-all of the other default algorithms enabled:
-
-----
-[sshd]
-  kex = -diffie-hellman-group1-sha1
-----
-
 Supported key exchange algorithms:
 
 * `ecdh-sha2-nistp521`
 * `ecdh-sha2-nistp384`
 * `ecdh-sha2-nistp256`
 * `diffie-hellman-group-exchange-sha256`
-* `diffie-hellman-group-exchange-sha1`
-* `diffie-hellman-group14-sha1`
-* `diffie-hellman-group1-sha1`
+* `diffie-hellman-group18-sha512`
+* `diffie-hellman-group17-sha512`
+* `diffie-hellman-group16-sha512`
+* `diffie-hellman-group15-sha512`
+* `diffie-hellman-group14-sha256`
+
+See link:#sshd.enableDeprecatedKexAlgorithms[sshd.enableDeprecatedKexAlgorithms]
+for deprecated key algorithms and how to enable them.
 
 By default, all supported key exchange algorithms are available.
 

@@ -88,13 +88,10 @@ export class GrHovercardRun extends hovercardBehaviorMixin(PolymerElement) {
     return !run.statusLink && !run.statusDescription;
   }
 
-  hideAttemptSection(run?: CheckRun) {
+  hideTimestampSection(run?: CheckRun) {
     if (!run) return true;
     return (
-      !run.startedTimestamp &&
-      !run.scheduledTimestamp &&
-      !run.finishedTimestamp &&
-      this.hideAttempts(run)
+      !run.startedTimestamp && !run.scheduledTimestamp && !run.finishedTimestamp
     );
   }
 

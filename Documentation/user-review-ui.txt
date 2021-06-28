@@ -564,7 +564,7 @@ diff against its base; reviewers that have reviewed an old patch
 version before, may see what has changed since that version by
 comparing the old patch against the current patch.
 
-image::images/gwt-user-review-ui-side-by-side-diff-screen-patch-sets.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-patch-sets.png"]
+image::images/user-review-ui-side-by-side-diff-screen-patch-sets.png[width=400, link="images/user-review-ui-side-by-side-diff-screen-patch-sets.png"]
 
 [[download-file]]
 The download icon next to the patch set list allows to download the

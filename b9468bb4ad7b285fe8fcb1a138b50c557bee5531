@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ff0f962_0772289b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-06-28T19:50:36Z",
+      "side": 1,
+      "message": "Which warnings?\n\nShould checking these be added to the build config? I think it checks some errorprone warnings already.",
+      "revId": "b9468bb4ad7b285fe8fcb1a138b50c557bee5531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

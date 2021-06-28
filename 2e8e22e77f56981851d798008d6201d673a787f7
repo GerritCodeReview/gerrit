@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0598ccb6_3d4e1000",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1957,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-28T18:17:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b94ac6e5_3d40b0f4",
+      "range": {
+        "startLine": 1941,
+        "startChar": 8,
+        "endLine": 1957,
+        "endChar": 0
+      },
+      "revId": "2e8e22e77f56981851d798008d6201d673a787f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fde74cea_6163369c",
@@ -37,6 +61,24 @@
       "writtenOn": "2021-06-28T14:12:11Z",
       "side": 1,
       "message": "Add an observer here (see `params` property above). Then move the code below into the observer.",
+      "revId": "2e8e22e77f56981851d798008d6201d673a787f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3badbb16_5fe5a8f1",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-28T18:17:35Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fde74cea_6163369c",
       "revId": "2e8e22e77f56981851d798008d6201d673a787f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

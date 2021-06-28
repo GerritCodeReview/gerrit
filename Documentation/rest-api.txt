@@ -246,6 +246,9 @@ investigate issues more easily.
 
 [[updated-refs]]
 === X-Gerrit-UpdatedRef
+This is only enabled when "X-Gerrit-UpdatedRef-Enabled" is set to "true" in the
+request header.
+
 For each write REST request, we return X-Gerrit-UpdatedRef headers as the refs
 that were updated in the current request (involved in a ref transaction in the
 current request).

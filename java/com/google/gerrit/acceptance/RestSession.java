@@ -119,6 +119,14 @@ public class RestSession extends HttpSession {
     return execute(Request.Delete(getUrl(endPoint)));
   }
 
+  public RestResponse deleteWithHeaders(String endPoint, Header... headers) throws IOException {
+    Request delete = Request.Delete(getUrl(endPoint));
+    if (headers != null) {
+      delete.setHeaders(headers);
+    }
+    return execute(delete);
+  }
+
   private String getUrl(String endPoint) {
     return url + (account != null ? "/a" : "") + endPoint;
   }

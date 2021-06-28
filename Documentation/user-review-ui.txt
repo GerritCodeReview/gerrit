@@ -418,7 +418,7 @@ The `Reply...` button in the change header allows to reply to the
 currently viewed patch set; one can add a summary comment, publish
 inline draft comments, and vote on the labels.
 
-image::images/gwt-user-review-ui-change-screen-reply.png[width=800, link="images/gwt-user-review-ui-change-screen-reply.png"]
+image::images/user-review-ui-change-screen-reply.png[width=800, link="images/user-review-ui-change-screen-reply.png"]
 
 Clicking on the `Reply...` button opens a popup panel.
 

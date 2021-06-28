@@ -577,7 +577,7 @@ If a file was renamed, the old and new file paths are shown in the
 header together with a similarity index that shows how much of the file
 content is unmodified.
 
-image::images/gwt-user-review-ui-side-by-side-diff-screen-rename.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-rename.png"]
+image::images/user-review-ui-side-by-side-diff-screen-rename.png[width=400, link="images/user-review-ui-side-by-side-diff-screen-rename.png"]
 
 [[inline-comments]]
 === Inline Comments

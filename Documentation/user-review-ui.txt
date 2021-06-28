@@ -602,26 +602,9 @@ Code blocks with comments may overlap. This means it is possible to
 attach several comments to the same code.
 
 [[line-links]]
-The lines of the patch file are linkable. To link to a certain line in
-the patch file, '@<line-number>' must be appended to the patch link,
-e.g. `http://host:8080/#/c/56857/2/Documentation/user-review-ui.txt@665`.
-To link to a line in the old file version, '@a<line-number>' must be
-appended to the patch link. These links can be used to directly link to
-certain inline comments.
-
-If the diff preference link:#expand-all-comments[Expand All Comments]
-is set to `Expand`, all inline comments will be automatically expanded.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-inline-comments.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-inline-comments.png"]
-
-[[comment]]
-In the header of the comment box, the name of the comment author and
-the timestamp of the comment are shown. If avatars are configured on
-the server, the avatar image of the comment author is displayed in the
-top left corner. Below the actual comment there are buttons to reply to
-the comment.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-comment-box.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-comment-box.png"]
+The lines of the patch file are linkable: simply append
+'#<linenumber>' to the URL, or click on the line-number. This not only
+opens a draft comment box, but also sets the URL fragment.
 
 [[reply-inline-comment]]
 Clicking on the `Reply` button opens an editor to type the reply.
@@ -631,32 +614,20 @@ comment that should be quoted and prefixing every line by "> ". Please
 note that for a correct rendering it is important to leave a blank line
 between a quoted block and the reply to it.
 
-Clicking on the `Save` button saves the comment as a draft. To make it
-visible to other users it must be published from the change screen by
-link:#reply[replying] to the change.
+image::images/user-review-ui-side-by-side-diff-screen-inline-comments.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-inline-comments.png"]
 
-The `Cancel` button cancels the editing and discards any changes to the
-draft comment.
-
-Clicking on the `Discard` button deletes the inline draft comment.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-comment-reply.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-comment-reply.png"]
-
-[[draft-inline-comment]]
-Draft comments are marked by the text "Draft" in the header in the
-place of the comment author.
-
-A draft comment can be edited by clicking on the `Edit` button, or
-deleted by clicking on the `Discard` button.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-comment-edit.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-comment-edit.png"]
+Comments are first saved as drafts, and you can revisit the drafts as
+you read through code review. Finally, they should be published by
+clicking the "Reply".
 
 [[done]]
-Clicking on the `Done` button is a quick way to reply with "Done" to a
-comment. This is used to mark a comment as addressed by a follow-up
-patch set.
+Comments can be unresolved (something should be changed) or resolved
+(informational). If you have addressed an unresolved comment in a next
+patchset, you can quickly resolve the comment by clicking "Done" (if it was
+resolved in a next patchset) or "Ack" (if you acknowledge the comment,
+but don't want to make changes).
 
-image::images/gwt-user-review-ui-side-by-side-diff-screen-replied-done.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-replied-done.png"]
+image::images/user-review-ui-side-by-side-diff-screen-replied-done.png[width=400, link="images/user-review-ui-side-by-side-diff-screen-replied-done.png"]
 
 [[add-inline-comment]]
 To add a new inline comment there are several possibilities:

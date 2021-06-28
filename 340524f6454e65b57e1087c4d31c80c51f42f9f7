@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33625f6d_3c26c5b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-28T12:53:00Z",
+      "side": 1,
+      "message": "The spread should not be necessary, because objects in the state are immutable anyway.",
+      "revId": "340524f6454e65b57e1087c4d31c80c51f42f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0778e92_5e230f00",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-28T12:53:00Z",
+      "side": 1,
+      "message": "The spread should not be necessary, because objects in the state are immutable anyway.",
+      "revId": "340524f6454e65b57e1087c4d31c80c51f42f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4b74947_08efaae2",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-28T12:53:00Z",
+      "side": 1,
+      "message": "State objects are always plain data objects and do not have methods. So just storing ChangeComments is not a good idea. Also, we would probably not want an additional hiearchy level between CommentState and list of comments.",
+      "revId": "340524f6454e65b57e1087c4d31c80c51f42f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd57dbac_749ab4de",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-28T12:53:00Z",
+      "side": 1,
+      "message": "The service should not need a reference to this.",
+      "revId": "340524f6454e65b57e1087c4d31c80c51f42f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fc92304_d89cb6ba",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-28T12:53:00Z",
+      "side": 1,
+      "message": "Can the service just listen to changeNum updates and reload events? Then you would never have to actively call the service. It would make sure to update its data itself.",
+      "revId": "340524f6454e65b57e1087c4d31c80c51f42f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99cbae9f_9a4cdd6b",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-28T12:53:00Z",
+      "side": 1,
+      "message": "Maybe the state could be updated slice by slice instead of all at once? Then you don\u0027t have to wait for all the promises to resolve before updating.",
+      "revId": "340524f6454e65b57e1087c4d31c80c51f42f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5fe6f78_d3472e71",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-28T12:53:00Z",
+      "side": 1,
+      "message": "State objects are immutable, so this would need a spread operator.\n\nImmutability is not (yet) enforced, but I guess we should start using \"immer\" ...",
+      "revId": "340524f6454e65b57e1087c4d31c80c51f42f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88288ed0_7985bbe5",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-28T12:53:00Z",
+      "side": 1,
+      "message": "The cloning and updating (i.e. reducing) should happen in the model file, not in the service.",
+      "revId": "340524f6454e65b57e1087c4d31c80c51f42f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

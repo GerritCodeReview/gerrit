@@ -948,7 +948,17 @@ yarn_install(
 
 yarn_install(
     name = "ui_npm",
-    args = ["--prod"],
+    args = [
+        "--prod",
+        # By default, yarn install all optional dependencies.
+        # In some cases, it installs a lot of additional dependencies which
+        # are not required (for example, "resemblejs" has one optional
+        # dependencies "canvas" that leads to tens of additional dependencies).
+        # Each additional dependency requires a license even if it is not used
+        # in our code.  We want to ensure that all optional dependencies are
+        # explicitly added to package.json.
+        "--ignore-optional",
+    ],
     frozen_lockfile = False,
     package_json = "//:polygerrit-ui/app/package.json",
     yarn_lock = "//:polygerrit-ui/app/yarn.lock",

@@ -208,6 +208,9 @@ public class RestApiServlet extends HttpServlet {
   @VisibleForTesting public static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
   @VisibleForTesting public static final String X_GERRIT_UPDATED_REF = "X-Gerrit-UpdatedRef";
 
+  @VisibleForTesting
+  public static final String X_GERRIT_UPDATED_REF_ENABLED = "X-Gerrit-UpdatedRef-Enabled";
+
   private static final String X_REQUESTED_WITH = "X-Requested-With";
   private static final String X_GERRIT_AUTH = "X-Gerrit-Auth";
   static final ImmutableSet<String> ALLOWED_CORS_METHODS =
@@ -595,8 +598,11 @@ public class RestApiServlet extends HttpServlet {
             } else {
               throw new ResourceNotFoundException();
             }
-
-            setXGerritUpdatedRefResponseHeaders(req, res);
+            String isUpdated_Ref_Enabled = req.getHeader(X_GERRIT_UPDATED_REF_ENABLED);
+            if (!Strings.isNullOrEmpty(isUpdated_Ref_Enabled)
+                && isUpdated_Ref_Enabled.equals("true")) {
+              setXGerritUpdatedRefResponseHeaders(req, res);
+            }
 
             if (response instanceof Response.Redirect) {
               CacheHeaders.setNotCacheable(res);

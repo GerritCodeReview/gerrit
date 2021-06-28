@@ -130,7 +130,7 @@ public class CorsIT extends AbstractDaemonTest {
     Result change = createChange();
     String origin = adminRestSession.url();
     RestResponse r =
-        adminRestSession.putWithHeaders(
+        adminRestSession.putWithHeader(
             "/changes/" + change.getChangeId() + "/topic",
             /* content = */ "A",
             new BasicHeader(ORIGIN, origin));
@@ -144,7 +144,7 @@ public class CorsIT extends AbstractDaemonTest {
     Result change = createChange();
     String origin = "http://example.com";
     RestResponse r =
-        adminRestSession.putWithHeaders(
+        adminRestSession.putWithHeader(
             "/changes/" + change.getChangeId() + "/topic",
             /* content = */ "A",
             new BasicHeader(ORIGIN, origin));

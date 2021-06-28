@@ -61,14 +61,14 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse put(String endPoint, Object content) throws IOException {
-    return putWithHeaders(endPoint, content);
+    return putWithHeader(endPoint, content);
   }
 
   public RestResponse putWithHeaders(String endPoint, Header... headers) throws IOException {
-    return putWithHeaders(endPoint, /* content= */ null, headers);
+    return putWithHeader(endPoint, /* content= */ null, headers);
   }
 
-  public RestResponse putWithHeaders(String endPoint, Object content, Header... headers)
+  public RestResponse putWithHeader(String endPoint, Object content, Header... headers)
       throws IOException {
     Request put = Request.Put(getUrl(endPoint));
     if (headers != null) {
@@ -117,6 +117,14 @@ public class RestSession extends HttpSession {
 
   public RestResponse delete(String endPoint) throws IOException {
     return execute(Request.Delete(getUrl(endPoint)));
+  }
+
+  public RestResponse deleteWithHeaders(String endPoint, Header... headers) throws IOException {
+    Request delete = Request.Delete(getUrl(endPoint));
+    if (headers != null) {
+      delete.setHeaders(headers);
+    }
+    return execute(delete);
   }
 
   private String getUrl(String endPoint) {

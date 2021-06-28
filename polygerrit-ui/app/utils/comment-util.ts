@@ -28,6 +28,7 @@ import {
   BasePatchSetNum,
   RevisionPatchSetNum,
   AccountInfo,
+  AccountDetailInfo,
 } from '../types/common';
 import {CommentSide, Side, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -332,12 +333,20 @@ export function computeDiffFromContext(
   return diff;
 }
 
-export function getCommentAuthors(threads?: CommentThread[]) {
-  if (!threads) return [];
+export function getCommentAuthors(
+  threads?: CommentThread[],
+  user?: AccountDetailInfo
+) {
+  if (!threads || !user) return [];
   const ids = new Set();
   const authors: AccountInfo[] = [];
   threads.forEach(t =>
     t.comments.forEach(c => {
+      if (isDraft(c) && !ids.has(user._account_id)) {
+        ids.add(user._account_id);
+        authors.push(user);
+        return;
+      }
       if (c.author && !ids.has(c.author._account_id)) {
         ids.add(c.author._account_id);
         authors.push(c.author);

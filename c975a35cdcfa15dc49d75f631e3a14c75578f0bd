@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88c24c7c_f17f5c28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-28T10:23:02Z",
+      "side": 1,
+      "message": "Wow, that would have made a nasty bug.\n\nI recall I introduced more than one toBuilder() last week, I will re-check them.\n\nThanks for the commit message, and for fixing the bug!",
+      "revId": "c975a35cdcfa15dc49d75f631e3a14c75578f0bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

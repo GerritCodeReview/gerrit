@@ -96,6 +96,36 @@ get_config() {
   fi
 }
 
+# Limited support for Gerrit's getTimeUnit() limited from seconds to days
+# because having gerrit startup/shutdown that wait for weeks or years would
+# not make so much sense.
+get_time_unit_sec() {
+  TIME_LC=`echo $1 | tr '[:upper:]' '[:lower:]'`
+  if [[ "$TIME_LC" =~ ^(0|[1-9][0-9]*)$ ]]
+  then
+    echo $TIME_LC
+  elif [[ "$TIME_LC" =~ ^[1-9][0-9]*\ *(s|sec|second|seconds)$ ]]
+  then
+    echo "$TIME_LC" | tr -d -c 0-9
+  elif [[ "$TIME_LC" =~ ^[1-9][0-9]*\ *(m|min|minute|minutes)$ ]]
+  then
+    expr `echo "$TIME_LC" | tr -d -c 0-9` '*' 60
+  elif [[ "$TIME_LC" =~ ^[1-9][0-9]*\ *(h|hr|hour|hours)$ ]]
+  then
+    expr `echo "$TIME_LC" | tr -d -c 0-9` '*' 3600
+  elif [[ "$TIME_LC" =~ ^[1-9][0-9]*\ *(d|day|days)$ ]]
+  then
+    expr `echo "$TIME_LC" | tr -d -c 0-9` '*' 86400
+  else
+    >&2 echo "Unsupported time format $1"
+    exit 1
+  fi
+}
+
+max() {
+  echo $(( $1 > $2 ? $1 : $2 ))
+}
+
 ##################################################
 # Get the action and options
 ##################################################
@@ -321,6 +351,15 @@ ulimit -v unlimited    ; # virtual memory
 ulimit -x >/dev/null 2>&1 && ulimit -x unlimited  ; # file locks
 
 #####################################################
+# Configure the maximum wait time for shutdown
+#####################################################
+EXTRA_STOP_TIMEOUT=30
+HTTPD_STOP_TIMEOUT=$(get_time_unit_sec "$(get_config --get httpd.gracefulStopTimeout || echo 0)")
+SSHD_STOP_TIMEOUT=$(get_time_unit_sec "$(get_config --get sshd.gracefulStopTimeout || echo 0)")
+
+STOP_TIMEOUT=`expr $(max $HTTPD_STOP_TIMEOUT $SSHD_STOP_TIMEOUT) '+' $EXTRA_STOP_TIMEOUT`
+
+#####################################################
 # This is how the Gerrit server will be started
 #####################################################
 
@@ -482,7 +521,7 @@ case "$ACTION" in
       if running "$GERRIT_PID" ; then
         sleep 3
         if running "$GERRIT_PID" ; then
-          sleep 30
+          sleep $STOP_TIMEOUT
           if running "$GERRIT_PID" ; then
             start-stop-daemon -K -p "$GERRIT_PID" -s KILL
           fi
@@ -492,7 +531,7 @@ case "$ACTION" in
       echo OK
     else
       PID=`cat "$GERRIT_PID" 2>/dev/null`
-      TIMEOUT=30
+      TIMEOUT=$STOP_TIMEOUT
       while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do
         kill $PID 2>/dev/null
         sleep 1

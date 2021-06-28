@@ -23,7 +23,10 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -33,11 +36,14 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.git.RefUpdateUtil;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.notedb.ChangeNoteUtil.AttentionStatusInNoteDb;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.CommitMessageRange;
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.ByteArrayOutputStream;
@@ -50,6 +56,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -57,6 +64,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.EditList;
@@ -130,12 +138,17 @@ public class CommitRewriter {
     public List<String> refsFailedToFix = new ArrayList<>();
   }
 
+  public static final String DEFAULT_ACCOUNT_REPLACEMENT = "Gerrit Account";
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final ChangeNotes.Factory changeNotesFactory;
   private final AccountCache accountCache;
-  private DiffAlgorithm diffAlgorithm = new HistogramDiff();
+  private final DiffAlgorithm diffAlgorithm = new HistogramDiff();
+  private static final Gson gson = OutputFormat.JSON_COMPACT.newGson();
 
   @Inject
-  public CommitRewriter(ChangeNotes.Factory changeNotesFactory, AccountCache accountCache) {
+  CommitRewriter(ChangeNotes.Factory changeNotesFactory, AccountCache accountCache) {
     this.changeNotesFactory = changeNotesFactory;
     this.accountCache = accountCache;
   }
@@ -164,11 +177,16 @@ public class CommitRewriter {
         if (changeId == null || !ref.getName().equals(RefNames.changeMetaRef(changeId))) {
           continue;
         }
-
-        ChangeNotes changeNotes = changeNotesFactory.create(project, changeId);
-        ImmutableSet<AccountState> accountsInChange =
-            options.verifyCommits ? collectAccounts(changeNotes) : ImmutableSet.of();
         try {
+          ImmutableSet<AccountState> accountsInChange = ImmutableSet.of();
+          if (options.verifyCommits) {
+            try {
+              ChangeNotes changeNotes = changeNotesFactory.create(project, changeId);
+              accountsInChange = collectAccounts(changeNotes);
+            } catch (Exception e) {
+              logger.atWarning().withCause(e).log("Failed to run verification on ref %s", ref);
+            }
+          }
           ChangeFixProgress changeFixProgress =
               backfillChange(revWalk, ins, ref, accountsInChange, options);
           if (changeFixProgress.anyFixesApplied) {
@@ -180,7 +198,8 @@ public class CommitRewriter {
           if (!changeFixProgress.isValidAfterFix) {
             result.refsStillInvalidAfterFix.add(ref.getName());
           }
-        } catch (ConfigInvalidException | IOException e) {
+        } catch (Exception e) {
+          logger.atWarning().withCause(e).log("Failed to fix ref %s", ref);
           result.refsFailedToFix.add(ref.getName());
         }
       }
@@ -192,6 +211,7 @@ public class CommitRewriter {
         }
       }
     } catch (IOException e) {
+      logger.atWarning().withCause(e).log("Failed to fix project %s", project.get());
       result.ok = false;
     }
 
@@ -209,8 +229,12 @@ public class CommitRewriter {
     Set<Account.Id> accounts = new HashSet<>();
     accounts.add(changeNotes.getChange().getOwner());
     for (PatchSetApproval patchSetApproval : changeNotes.getApprovals().values()) {
-      accounts.add(patchSetApproval.accountId());
-      accounts.add(patchSetApproval.realAccountId());
+      if (patchSetApproval.accountId() != null) {
+        accounts.add(patchSetApproval.accountId());
+      }
+      if (patchSetApproval.realAccountId() != null) {
+        accounts.add(patchSetApproval.realAccountId());
+      }
     }
     accounts.addAll(changeNotes.getAllPastReviewers());
     accounts.addAll(changeNotes.getPastAssignees());
@@ -218,15 +242,21 @@ public class CommitRewriter {
         .getAttentionSetUpdates()
         .forEach(attentionSetUpdate -> accounts.add(attentionSetUpdate.account()));
     for (SubmitRecord submitRecord : changeNotes.getSubmitRecords()) {
-      accounts.addAll(
-          submitRecord.labels.stream()
-              .map(label -> label.appliedBy)
-              .filter(Objects::nonNull)
-              .collect(Collectors.toSet()));
+      if (submitRecord.labels != null) {
+        accounts.addAll(
+            submitRecord.labels.stream()
+                .map(label -> label.appliedBy)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet()));
+      }
     }
     for (HumanComment comment : changeNotes.getHumanComments().values()) {
-      accounts.add(comment.author.getId());
-      accounts.add(comment.getRealAuthor().getId());
+      if (comment.author != null) {
+        accounts.add(comment.author.getId());
+      }
+      if (comment.getRealAuthor() != null) {
+        accounts.add(comment.getRealAuthor().getId());
+      }
     }
     return ImmutableSet.copyOf(accountCache.get(accounts).values());
   }
@@ -396,7 +426,7 @@ public class CommitRewriter {
 
   private boolean verifyPersonIdent(PersonIdent newIdent, PersonIdent originalIdent) {
     return newIdent.getTimeZoneOffset() == originalIdent.getTimeZoneOffset()
-        && newIdent.getWhen().equals(originalIdent.getWhen())
+        && newIdent.getWhen().getTime() == originalIdent.getWhen().getTime()
         && newIdent.getEmailAddress().equals(originalIdent.getEmailAddress());
   }
 
@@ -500,11 +530,122 @@ public class CommitRewriter {
   /**
    * Rewrites a code owners change message.
    *
-   * @param originalMessage the original change message
-   * @return the updated change message
+   * <p>See https://gerrit-review.googlesource.com/c/plugins/code-owners/+/305409
    */
-  private Optional<String> fixCodeOwnersChangeMessage(String originalMessage) {
-    // TODO(mariasavtchouk): backfill this case
+  private Optional<String> fixCodeOwnersOnAddReviewerChangeMessage(
+      ChangeFixProgress changeFixProgress, String originalMessage) {
+    if (Strings.isNullOrEmpty(originalMessage)) {
+      return Optional.empty();
+    }
+
+    Pattern onAddReviewerPattern =
+        Pattern.compile("(.*) who was added as reviewer owns the following files");
+    Matcher onAddReviewerMatcher = onAddReviewerPattern.matcher(originalMessage);
+    if (!onAddReviewerMatcher.find()
+        || onAddReviewerMatcher
+            .group(1)
+            .matches(DEFAULT_ACCOUNT_REPLACEMENT + "|" + ACCOUNT_TEMPLATE_REGEX)) {
+      return Optional.empty();
+    }
+
+    // Pre fix, try to replace with something meaningful.
+    // Retrieve reviewer accounts from cache and try to match by their name.
+    Map<Account.Id, AccountState> missingUserNameReviewers =
+        accountCache.get(
+            changeFixProgress.parsedReviewers.entrySet().stream()
+                .filter(entry -> entry.getValue().isEmpty())
+                .map(Map.Entry::getKey)
+                .collect(ImmutableSet.toImmutableSet()));
+    // TODO(mariasavtchouk): Adjust based on the dry run.
+    // We could just reset parsedReviewers here, because next message should only include the delta
+    changeFixProgress.parsedReviewers.putAll(
+        missingUserNameReviewers.entrySet().stream()
+            .collect(
+                ImmutableMap.toImmutableMap(
+                    Map.Entry::getKey, e -> e.getValue().account().getName())));
+    onAddReviewerMatcher.reset();
+    StringBuffer sb = new StringBuffer();
+    while (onAddReviewerMatcher.find()) {
+      String reviewerName = onAddReviewerMatcher.group(1);
+      Set<Account.Id> possibleReplacements =
+          changeFixProgress.parsedReviewers.entrySet().stream()
+              .filter(reviewer -> reviewer.getValue().equals(reviewerName))
+              .map(Entry::getKey)
+              .collect(ImmutableSet.toImmutableSet());
+      String replacementName = DEFAULT_ACCOUNT_REPLACEMENT;
+      if (possibleReplacements.size() == 0) {
+        logger.atWarning().log("Could not find reviewer account matching name %s", reviewerName);
+      } else if (possibleReplacements.size() > 1) {
+        logger.atWarning().log("Found multiple reviewer account matching name %s", reviewerName);
+      } else if (possibleReplacements.size() == 1) {
+        replacementName =
+            ChangeMessagesUtil.getAccountTemplate(Iterables.getOnlyElement(possibleReplacements));
+      }
+      onAddReviewerMatcher.appendReplacement(
+          sb, replacementName + " who was added as reviewer owns the following files");
+    }
+    onAddReviewerMatcher.appendTail(sb);
+    sb.append("\n");
+    return Optional.of(sb.toString());
+  }
+
+  private Optional<String> fixCodeOwnersOnReviewChangeMessage(
+      Account.Id reviewer, String originalMessage) {
+    if (Strings.isNullOrEmpty(originalMessage)) {
+      return Optional.empty();
+    }
+    Pattern onCodeOwnerApprovalPattern = Pattern.compile("code-owner approved by (.*):");
+    Matcher onCodeOwnerApprovalMatcher = onCodeOwnerApprovalPattern.matcher(originalMessage);
+    if (onCodeOwnerApprovalMatcher.find()
+        && !onCodeOwnerApprovalMatcher.group(1).matches(ACCOUNT_TEMPLATE_REGEX)) {
+      return Optional.of(
+          originalMessage.replace(
+                  "approved by " + onCodeOwnerApprovalMatcher.group(1),
+                  "approved by " + ChangeMessagesUtil.getAccountTemplate(reviewer))
+              + "\n");
+    }
+    Pattern onCodeOwnerOverridePattern =
+        Pattern.compile("code-owners submit requirement .* overridden by (.*):");
+    Matcher onCodeOwnerOverrideMatcher = onCodeOwnerOverridePattern.matcher(originalMessage);
+    if (onCodeOwnerOverrideMatcher.find()
+        && !onCodeOwnerOverrideMatcher.group(1).matches(ACCOUNT_TEMPLATE_REGEX)) {
+      return Optional.of(
+          originalMessage.replace(
+                  "overridden by " + onCodeOwnerOverrideMatcher.group(1),
+                  "overridden by " + ChangeMessagesUtil.getAccountTemplate(reviewer))
+              + "\n");
+    }
+
+    return Optional.empty();
+  }
+
+  private Optional<String> fixAttentionSetReason(String originalReason) {
+    if (Strings.isNullOrEmpty(originalReason)) {
+      return Optional.empty();
+    }
+    // Only the latest attention set updates are displayed on UI. As long as reason is
+    // human-readable, it does not meter what we rewrite it to.
+    String okAccountNamePattern =
+        "[Ss]omeone|[Ss]omeone [Ee]lse|[Aa]nonymous|" + ACCOUNT_TEMPLATE_REGEX;
+    Pattern replyByReasonPattern = Pattern.compile("(.*) replied on the change");
+    Matcher replyByReasonMatcher = replyByReasonPattern.matcher(originalReason);
+    if (replyByReasonMatcher.matches()
+        && !replyByReasonMatcher.group(1).matches(okAccountNamePattern)) {
+      return Optional.of("Someone replied on the change");
+    }
+    Pattern addedByReasonPattern = Pattern.compile("Added by (.*) using the hovercard menu");
+    Matcher addedByReasonMatcher = addedByReasonPattern.matcher(originalReason);
+    if (addedByReasonMatcher.matches()
+        && !addedByReasonMatcher.group(1).matches(okAccountNamePattern)) {
+      return Optional.of("Added by someone using the hovercard menu");
+    }
+    Pattern removedByReasonPattern = Pattern.compile("Removed by (.*) using the hovercard menu");
+    Matcher removedByReasonMatcher = removedByReasonPattern.matcher(originalReason);
+    if (removedByReasonMatcher.matches()
+        && !removedByReasonMatcher.group(1).matches(okAccountNamePattern)) {
+
+      return Optional.of("Removed by someone using the hovercard menu");
+    }
     return Optional.empty();
   }
 
@@ -544,7 +685,7 @@ public class CommitRewriter {
     for (FooterLine fl : footerLines) {
       String footerKey = fl.getKey();
       String footerValue = fl.getValue();
-      if (footerKey.equals(FOOTER_TAG.getName())) {
+      if (footerKey.equalsIgnoreCase(FOOTER_TAG.getName())) {
         if (footerValue.equals(ChangeMessagesUtil.TAG_MERGED)) {
           fixedChangeMessage = fixSubmitChangeMessage(originalChangeMessage);
         }
@@ -565,11 +706,10 @@ public class CommitRewriter {
           continue;
         }
       } else if (Arrays.stream(ReviewerStateInternal.values())
-          .filter(state -> footerKey.equalsIgnoreCase(state.getFooterKey().getName()))
-          .findAny()
-          .isPresent()) {
+          .anyMatch(state -> footerKey.equalsIgnoreCase(state.getFooterKey().getName()))) {
         fixedChangeMessage = fixReviewerChangeMessage(originalChangeMessage);
         FixIdentResult fixedReviewer = getFixedIdentString(footerValue);
+        fixProgress.parsedReviewers.putIfAbsent(fixedReviewer.accountId, "");
         if (fixedReviewer.fixedIdentString.isPresent()) {
           addFooter(footerLinesBuilder, footerKey, fixedReviewer.fixedIdentString.get());
           anyFootersFixed = true;
@@ -601,10 +741,42 @@ public class CommitRewriter {
           continue;
         }
       } else if (footerKey.equalsIgnoreCase(FOOTER_SUBMITTED_WITH.getName())) {
-        // TODO(mariasavtchouk): backfill this case
+        // Record format:
+        // Submitted-with: OK
+        // Submitted-with: OK: Code-Review: User Name <accountId@serverId>
+        int voterIdentStart = StringUtils.ordinalIndexOf(footerValue, ": ", 2);
+        if (voterIdentStart >= 0) {
+          String originalIdentString = footerValue.substring(voterIdentStart + 2);
+          FixIdentResult fixedVoter = getFixedIdentString(originalIdentString);
+          if (fixedVoter.fixedIdentString.isPresent()) {
+            String fixedLabelVote =
+                footerValue.substring(0, voterIdentStart)
+                    + ": "
+                    + fixedVoter.fixedIdentString.get();
+            addFooter(footerLinesBuilder, footerKey, fixedLabelVote);
+            anyFootersFixed = true;
+            continue;
+          }
+        }
 
       } else if (footerKey.equalsIgnoreCase(FOOTER_ATTENTION.getName())) {
-        // TODO(mariasavtchouk): backfill this case
+        AttentionStatusInNoteDb originalAttentionSetUpdate =
+            gson.fromJson(footerValue, AttentionStatusInNoteDb.class);
+        FixIdentResult fixedAttentionAccount =
+            getFixedIdentString(originalAttentionSetUpdate.personIdent);
+        Optional<String> fixedReason = fixAttentionSetReason(originalAttentionSetUpdate.reason);
+        if (fixedAttentionAccount.fixedIdentString.isPresent() || fixedReason.isPresent()) {
+          AttentionStatusInNoteDb fixedAttentionSetUpdate =
+              new AttentionStatusInNoteDb(
+                  fixedAttentionAccount.fixedIdentString.isPresent()
+                      ? fixedAttentionAccount.fixedIdentString.get()
+                      : originalAttentionSetUpdate.personIdent,
+                  originalAttentionSetUpdate.operation,
+                  fixedReason.isPresent() ? fixedReason.get() : originalAttentionSetUpdate.reason);
+          addFooter(footerLinesBuilder, footerKey, gson.toJson(fixedAttentionSetUpdate));
+          anyFootersFixed = true;
+          continue;
+        }
       }
       addFooter(footerLinesBuilder, footerKey, footerValue);
     }
@@ -613,7 +785,12 @@ public class CommitRewriter {
       fixedChangeMessage = fixDeleteChangeMessageCommitMessage(originalChangeMessage);
     }
     if (!fixedChangeMessage.isPresent()) {
-      fixedChangeMessage = fixCodeOwnersChangeMessage(originalChangeMessage);
+      fixedChangeMessage =
+          fixCodeOwnersOnReviewChangeMessage(fixProgress.updateAuthorId, originalChangeMessage);
+    }
+    if (!fixedChangeMessage.isPresent()) {
+      fixedChangeMessage =
+          fixCodeOwnersOnAddReviewerChangeMessage(fixProgress, originalChangeMessage);
     }
     if (!anyFootersFixed && !fixedChangeMessage.isPresent()) {
       return Optional.empty();
@@ -622,8 +799,7 @@ public class CommitRewriter {
     fixedCommitBuilder.append(changeSubject);
     fixedCommitBuilder.append("\n\n");
     if (commitMessageRange.get().hasChangeMessage()) {
-      fixedCommitBuilder.append(
-          fixedChangeMessage.isPresent() ? fixedChangeMessage.get() : originalChangeMessage);
+      fixedCommitBuilder.append(fixedChangeMessage.orElse(originalChangeMessage));
       fixedCommitBuilder.append("\n\n");
     }
     fixedCommitBuilder.append(footerLinesBuilder);
@@ -693,7 +869,9 @@ public class CommitRewriter {
   public static byte[] cutTreeAndParents(byte[] b) {
     final int sz = b.length;
     int ptr = 46; // skip the "tree ..." line.
-    while (ptr < sz && b[ptr] == 'p') ptr += 48; // skip this parent.
+    while (ptr < sz && b[ptr] == 'p') {
+      ptr += 48;
+    } // skip this parent.
     return Arrays.copyOfRange(b, ptr, b.length + 1);
   }
 
@@ -745,6 +923,13 @@ public class CommitRewriter {
 
     /** Author of the current commit update. */
     Account.Id updateAuthorId = null;
+
+    /**
+     * Reviewer accounts parsed so far together with their {@link Account#getName} extracted from
+     * {@link #accountCache} if needed by rewrite. Maps to empty string if was not requested from
+     * cache yet.
+     */
+    Map<Account.Id, String> parsedReviewers = new HashMap<>();
 
     /** Id of the current commit in rewriter walk. */
     ObjectId newTipId = null;

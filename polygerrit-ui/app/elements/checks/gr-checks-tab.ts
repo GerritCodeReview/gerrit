@@ -109,6 +109,7 @@ export class GrChecksTab extends GrLitElement {
       <div class="container">
         <gr-checks-runs
           class="runs"
+          ?collapsed="${this.offsetWidth < 1000}"
           .runs="${this.runs}"
           .selectedRuns="${this.selectedRuns}"
           .selectedAttempts="${this.selectedAttempts}"

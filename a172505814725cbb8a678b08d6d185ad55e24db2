@@ -46,6 +46,30 @@
       },
       "revId": "a172505814725cbb8a678b08d6d185ad55e24db2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d36fb0b0_0b739a24",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-28T16:19:57Z",
+      "side": 1,
+      "message": "(sigh)\n\nwhere is the facepalm emoji when you need it.",
+      "parentUuid": "4f21ed0a_714ceddd",
+      "range": {
+        "startLine": 257,
+        "startChar": 64,
+        "endLine": 257,
+        "endChar": 68
+      },
+      "revId": "a172505814725cbb8a678b08d6d185ad55e24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -115,7 +115,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public interface Factory {
     ChangeUpdate create(ChangeNotes notes, CurrentUser user, Date when);
 
-    @VisibleForTesting
     ChangeUpdate create(
         ChangeNotes notes, CurrentUser user, Date when, Comparator<String> labelNameComparator);
   }

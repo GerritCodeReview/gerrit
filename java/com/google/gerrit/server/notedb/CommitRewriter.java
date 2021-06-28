@@ -24,7 +24,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -96,8 +95,6 @@ import org.eclipse.jgit.util.RawParseUtils;
 @UsedAt(UsedAt.Project.GOOGLE)
 @Singleton
 public class CommitRewriter {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   /** Options to run {@link #backfillProject}. */
   public static class RunOptions {
     /** Whether to rewrite the commit history or only find refs that need to be fixed. */
@@ -500,6 +497,12 @@ public class CommitRewriter {
     return Optional.empty();
   }
 
+  /**
+   * Rewrites a code owners change message.
+   *
+   * @param originalMessage the original change message
+   * @return the updated change message
+   */
   private Optional<String> fixCodeOwnersChangeMessage(String originalMessage) {
     // TODO(mariasavtchouk): backfill this case
     return Optional.empty();
@@ -646,8 +649,7 @@ public class CommitRewriter {
    * Fixes {@code originalIdent} so it does not contain user data, see {@link
    * ChangeNoteUtil#getAccountIdAsUsername}.
    */
-  private PersonIdent getFixedIdent(PersonIdent originalIdent, Account.Id identAccount)
-      throws ConfigInvalidException {
+  private PersonIdent getFixedIdent(PersonIdent originalIdent, Account.Id identAccount) {
     return new PersonIdent(
         ChangeNoteUtil.getAccountIdAsUsername(identAccount),
         originalIdent.getEmailAddress(),
@@ -724,7 +726,7 @@ public class CommitRewriter {
    */
   private static class FixIdentResult {
 
-    /** {@link Account.Id} parsed from PersonIdent string. */
+    /** {@link com.google.gerrit.entities.Account.Id} parsed from PersonIdent string. */
     Account.Id accountId;
     /**
      * Fixed ident string, that does not contain user data, or {@link Optional#empty} if fix was not

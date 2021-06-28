@@ -395,11 +395,9 @@ public class DiffOperationsImpl implements DiffOperations {
     if (numParents > 2) {
       logger.atFine().log(
           "Diff against auto-merge for merge commits "
-              + "with more than two parents is not supported. Commit "
-              + newCommit
-              + " has "
-              + numParents
-              + " parents. Falling back to the diff against the first parent.");
+              + "with more than two parents is not supported. Commit %s has %d parents."
+              + " Falling back to the diff against the first parent.",
+          newCommit, numParents);
       result.baseCommit(baseCommitUtil.getBaseCommit(project, newCommit, 1).getId());
       result.comparisonType(ComparisonType.againstParent(1));
       result.skipFiles(true);

@@ -58,8 +58,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "auth.httpPasswordUrl", value = "https://example.com/password")
 
   // change
-  @GerritConfig(name = "change.replyTooltip", value = "Publish votes and draft comments")
-  @GerritConfig(name = "change.replyLabel", value = "Vote")
   @GerritConfig(name = "change.updateDelay", value = "50s")
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
   @GerritConfig(name = "change.enableAttentionSet", value = "true")
@@ -102,8 +100,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.auth.httpPasswordUrl).isNull();
 
     // change
-    assertThat(i.change.replyTooltip).startsWith("Publish votes and draft comments");
-    assertThat(i.change.replyLabel).isEqualTo("Vote\u2026");
     assertThat(i.change.updateDelay).isEqualTo(50);
     assertThat(i.change.disablePrivateChanges).isTrue();
     assertThat(i.change.enableAttentionSet).isTrue();
@@ -170,8 +166,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.auth.httpPasswordUrl).isNull();
 
     // change
-    assertThat(i.change.replyTooltip).startsWith("Reply and score");
-    assertThat(i.change.replyLabel).isEqualTo("Reply\u2026");
     assertThat(i.change.updateDelay).isEqualTo(300);
     assertThat(i.change.disablePrivateChanges).isNull();
     assertThat(i.change.submitWholeTopic).isNull();

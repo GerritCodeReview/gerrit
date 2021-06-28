@@ -805,8 +805,6 @@ export type CapabilityInfoMap = {[id: string]: CapabilityInfo};
 export interface ChangeConfigInfo {
   allow_blame?: boolean;
   large_change: number;
-  reply_label: string;
-  reply_tooltip: string;
   update_delay: number;
   submit_whole_topic?: boolean;
   disable_private_changes?: boolean;

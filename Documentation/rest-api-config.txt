@@ -1552,12 +1552,6 @@ section.
 |`allow_blame`        |not set if `false`|
 link:config-gerrit.html#change.allowBlame[Whether blame on side by side diff is
 allowed].
-|`reply_label`        ||
-link:config-gerrit.html#change.replyTooltip[Label name for the reply
-button].
-|`reply_tooltip`      ||
-link:config-gerrit.html#change.replyTooltip[Tooltip for the reply
-button].
 |`update_delay`       ||
 link:config-gerrit.html#change.updateDelay[How often in seconds the web
 interface should poll for updates to the currently open change].

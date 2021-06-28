@@ -571,11 +571,6 @@ The download icon next to the patch set list allows to download the
 patch. Unless the mime type of the file is configured as safe, the
 download file is a zip archive that contains the patch file.
 
-[[no-differences]]
-If the compared patches are identical, this is highlighted by a red
-`No Differences` label in the screen header.
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-no-differences.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-no-differences.png"]
 
 [[side-by-side-rename]]
 If a file was renamed, the old and new file paths are shown in the

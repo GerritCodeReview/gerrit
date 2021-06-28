@@ -167,11 +167,10 @@ public class CommitRewriter {
         if (changeId == null || !ref.getName().equals(RefNames.changeMetaRef(changeId))) {
           continue;
         }
-
-        ChangeNotes changeNotes = changeNotesFactory.create(project, changeId);
-        ImmutableSet<AccountState> accountsInChange =
-            options.verifyCommits ? collectAccounts(changeNotes) : ImmutableSet.of();
         try {
+          ChangeNotes changeNotes = changeNotesFactory.create(project, changeId);
+          ImmutableSet<AccountState> accountsInChange =
+              options.verifyCommits ? collectAccounts(changeNotes) : ImmutableSet.of();
           ChangeFixProgress changeFixProgress =
               backfillChange(revWalk, ins, ref, accountsInChange, options);
           if (changeFixProgress.anyFixesApplied) {

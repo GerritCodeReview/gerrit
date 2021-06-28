@@ -16,6 +16,24 @@
       "message": "It seems Google is still using highlightjs 10.6.0. I filed an issue for the frontend team to look into the upgrade to 10.7.2 so that this change can be unblocked.",
       "revId": "5c8b68657181c376773ff64cbc2a6f8b362a7cea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d43e9a5d_a6ef63a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-06-28T10:52:06Z",
+      "side": 1,
+      "message": "Google highlightjs is always behind of Gerrit open-source because of more complex update. You can see that highlighted js was always first updated on open-source than google catch up.",
+      "parentUuid": "dfefcb03_e927004f",
+      "revId": "5c8b68657181c376773ff64cbc2a6f8b362a7cea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

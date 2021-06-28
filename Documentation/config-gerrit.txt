@@ -1432,21 +1432,6 @@ link:https://bugs.chromium.org/p/gerrit/issues/detail?id=9877[issue
 +
 By default true.
 
-[[change.replyLabel]]change.replyLabel::
-+
-Label name for the reply button. In the user interface an ellipsis (…)
-is appended.
-+
-Default is "Reply". In the user interface it becomes "Reply…".
-
-[[change.replyTooltip]]change.replyTooltip::
-+
-Tooltip for the reply button. In the user interface a note about the
-keyboard shortcut is appended.
-+
-Default is "Reply and score". In the user interface it becomes "Reply
-and score (Shortcut: a)".
-
 [[change.robotCommentSizeLimit]]change.robotCommentSizeLimit::
 +
 Maximum allowed size in characters of a robot comment. Robot comments which

@@ -30,7 +30,11 @@ import {
   PolymerSpliceChange,
   PolymerDeepPropertyChange,
 } from '@polymer/polymer/interfaces';
-import {AccountInfo, ChangeInfo} from '../../../types/common';
+import {
+  AccountDetailInfo,
+  AccountInfo,
+  ChangeInfo,
+} from '../../../types/common';
 import {
   CommentThread,
   isDraft,
@@ -120,6 +124,9 @@ export class GrThreadList extends PolymerElement {
   @property({type: Array, notify: true})
   selectedAuthors: AccountInfo[] = [];
 
+  @property({type: Object})
+  account?: AccountDetailInfo;
+
   @computed('unresolvedOnly', '_draftsOnly')
   get commentsDropdownValue() {
     // set initial value and triggered when comment summary chips are clicked
@@ -199,8 +206,8 @@ export class GrThreadList extends PolymerElement {
     return items;
   }
 
-  getCommentAuthors(threads?: CommentThread[]) {
-    return getCommentAuthors(threads);
+  getCommentAuthors(threads?: CommentThread[], account?: AccountDetailInfo) {
+    return getCommentAuthors(threads, account);
   }
 
   handleAccountClicked(e: MouseEvent) {

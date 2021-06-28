@@ -24,6 +24,7 @@ import {__testOnly_SortDropdownState} from './gr-thread-list.js';
 import {queryAll} from '../../../test/test-utils.js';
 import {accountOrGroupKey} from '../../../utils/account-util.js';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
+import {createAccountDetailWithId} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-thread-list');
 
@@ -499,11 +500,13 @@ suite('gr-thread-list tests', () => {
   });
 
   test('tapping single author chips', () => {
+    element.account = createAccountDetailWithId(1);
+    flush();
     const chips = queryAll(element, 'gr-account-label');
     const authors = Array.from(chips).map(
         chip => accountOrGroupKey(chip.account))
         .sort();
-    assert.deepEqual(authors, [1000000, 1000001, 1000002, 1000003]);
+    assert.deepEqual(authors, [1, 1000000, 1000001, 1000002, 1000003]);
     assert.equal(element.threads.length, 9);
     assert.equal(element._displayedThreads.length, 9);
 
@@ -522,10 +525,12 @@ suite('gr-thread-list tests', () => {
   });
 
   test('tapping multiple author chips', () => {
+    element.account = createAccountDetailWithId(1);
+    flush();
     const chips = queryAll(element, 'gr-account-label');
 
     tap(chips[0]); // accountId 1000001
-    tap(chips[1]); // accountId 1000002
+    tap(chips[2]); // accountId 1000002
     flush();
 
     assert.equal(element.threads.length, 9);

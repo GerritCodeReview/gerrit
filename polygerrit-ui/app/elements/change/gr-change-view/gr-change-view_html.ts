@@ -570,6 +570,7 @@ export const htmlTemplate = html`
           change="[[_change]]"
           change-num="[[_changeNum]]"
           logged-in="[[_loggedIn]]"
+          account="[[_account]]"
           comment-tab-state="[[_tabState.commentTab]]"
           only-show-robot-comments-with-human-reply=""
           unresolved-only="[[unresolvedOnly]]"

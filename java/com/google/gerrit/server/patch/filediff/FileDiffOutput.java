@@ -85,6 +85,8 @@ public abstract class FileDiffOutput implements Serializable {
    */
   public abstract Optional<Boolean> negative();
 
+  public abstract Builder toBuilder();
+
   /** A boolean indicating if all underlying edits of the file diff are due to rebase. */
   public boolean allEditsDueToRebase() {
     return !edits().isEmpty() && edits().stream().allMatch(TaggedEdit::dueToRebase);
@@ -147,10 +149,6 @@ public abstract class FileDiffOutput implements Serializable {
   }
 
   public static Builder builder() {
-    return new AutoValue_FileDiffOutput.Builder();
-  }
-
-  public static Builder toBuilder() {
     return new AutoValue_FileDiffOutput.Builder();
   }
 

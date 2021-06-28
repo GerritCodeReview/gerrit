@@ -598,7 +598,6 @@ image::images/user-review-ui-side-by-side-diff-screen-replied-done.png[width=400
 To add a new inline comment there are several possibilities:
 
 - select a code block and press 'c'
-- select a code block and click on the popup comment icon
 - go to a line, by clicking on it or by link:#key-navigation[key
   navigation], and press 'c'
 - click on a line number
@@ -612,13 +611,6 @@ frequently used methods are:
 ** double-click and drag with the mouse to select a code block word-wise
 ** triple-click on a line to select it
 ** triple-click and drag with the mouse to select a code block line-wise
-
-- by keys (the same keys that are used for visual selection in Vim):
-** press 'v' + arrow keys (or 'h', 'j', 'k', 'l') to select a block
-** press 'V' + arrow keys (or 'j', 'k') to select a code block line-wise
-** type 'bvw' to select a word
-
-image::images/gwt-user-review-ui-side-by-side-diff-screen-comment.png[width=800, link="images/gwt-user-review-ui-side-by-side-diff-screen-comment.png"]
 
 For typing the new comment, a new comment box is shown under the code
 that is commented.

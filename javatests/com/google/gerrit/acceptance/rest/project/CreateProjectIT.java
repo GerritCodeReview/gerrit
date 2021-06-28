@@ -109,7 +109,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void createProjectHttpWhenProjectAlreadyExists_PreconditionFailed() throws Exception {
     adminRestSession
-        .putWithHeader(
+        .putWithHeaders(
             "/projects/" + allProjects.get(), new BasicHeader(HttpHeaders.IF_NONE_MATCH, "*"))
         .assertPreconditionFailed();
   }

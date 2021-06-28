@@ -436,7 +436,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void runAsValidUser() throws Exception {
     allowRunAs();
-    RestResponse res = adminRestSession.getWithHeader("/accounts/self", runAsHeader(user.id()));
+    RestResponse res = adminRestSession.getWithHeaders("/accounts/self", runAsHeader(user.id()));
     res.assertOK();
     AccountInfo account = newGson().fromJson(res.getEntityContent(), AccountInfo.class);
     assertThat(account._accountId).isEqualTo(user.id().get());
@@ -446,7 +446,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void runAsDisabledByConfig() throws Exception {
     allowRunAs();
-    RestResponse res = adminRestSession.getWithHeader("/changes/", runAsHeader(user.id()));
+    RestResponse res = adminRestSession.getWithHeaders("/changes/", runAsHeader(user.id()));
     res.assertForbidden();
     assertThat(res.getEntityContent())
         .isEqualTo("X-Gerrit-RunAs disabled by auth.enableRunAs = false");
@@ -454,7 +454,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Test
   public void runAsNotPermitted() throws Exception {
-    RestResponse res = adminRestSession.getWithHeader("/changes/", runAsHeader(user.id()));
+    RestResponse res = adminRestSession.getWithHeaders("/changes/", runAsHeader(user.id()));
     res.assertForbidden();
     assertThat(res.getEntityContent()).isEqualTo("not permitted to use X-Gerrit-RunAs");
   }
@@ -462,7 +462,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void runAsNeverPermittedForAnonymousUsers() throws Exception {
     allowRunAs();
-    RestResponse res = anonRestSession.getWithHeader("/changes/", runAsHeader(user.id()));
+    RestResponse res = anonRestSession.getWithHeaders("/changes/", runAsHeader(user.id()));
     res.assertForbidden();
     assertThat(res.getEntityContent()).isEqualTo("not permitted to use X-Gerrit-RunAs");
   }
@@ -470,7 +470,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void runAsInvalidUser() throws Exception {
     allowRunAs();
-    RestResponse res = adminRestSession.getWithHeader("/changes/", runAsHeader("doesnotexist"));
+    RestResponse res = adminRestSession.getWithHeaders("/changes/", runAsHeader("doesnotexist"));
     res.assertForbidden();
     assertThat(res.getEntityContent()).isEqualTo("no account matches X-Gerrit-RunAs");
   }
@@ -496,10 +496,10 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.message = "message";
     in.drafts = DraftHandling.PUBLISH;
     RestResponse res =
-        adminRestSession.postWithHeader(
+        adminRestSession.postWithHeaders(
             "/changes/" + r.getChangeId() + "/revisions/current/review",
-            runAsHeader(user.id()),
-            in);
+            in,
+            runAsHeader(user.id()));
     res.assertOK();
 
     ChangeMessageInfo m = Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages);
@@ -532,13 +532,13 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.message = "Message on behalf of";
 
     String endpoint = "/changes/" + r.getChangeId() + "/revisions/current/review";
-    RestResponse res = adminRestSession.postWithHeader(endpoint, runAsHeader(user2.id()), in);
+    RestResponse res = adminRestSession.postWithHeaders(endpoint, in, runAsHeader(user2.id()));
     res.assertForbidden();
     assertThat(res.getEntityContent())
         .isEqualTo("label required to post review on behalf of \"" + in.onBehalfOf + '"');
 
     in.label("Code-Review", 1);
-    adminRestSession.postWithHeader(endpoint, runAsHeader(user2.id()), in).assertOK();
+    adminRestSession.postWithHeaders(endpoint, in, runAsHeader(user2.id())).assertOK();
 
     PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
     assertThat(psa.patchSetId().get()).isEqualTo(1);

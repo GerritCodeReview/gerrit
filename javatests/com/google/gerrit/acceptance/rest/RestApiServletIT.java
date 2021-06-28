@@ -42,7 +42,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
 
   @Test
   public void restResponseBodyShouldBeCompactWithoutSpaces() throws Exception {
-    RestResponse response = adminRestSession.getWithHeader(ANY_REST_API, ACCEPT_STAR_HEADER);
+    RestResponse response = adminRestSession.getWithHeaders(ANY_REST_API, ACCEPT_STAR_HEADER);
     assertThat(response.getStatusCode()).isEqualTo(SC_OK);
 
     assertThat(contentWithoutMagicJson(response)).doesNotContainMatch(ANY_SPACE);
@@ -73,7 +73,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
 
   @Test
   public void xGerritUpdatedRefNotSetForReadRequests() throws Exception {
-    RestResponse response = adminRestSession.getWithHeader(ANY_REST_API, ACCEPT_STAR_HEADER);
+    RestResponse response = adminRestSession.getWithHeaders(ANY_REST_API, ACCEPT_STAR_HEADER);
     assertThat(response.getStatusCode()).isEqualTo(SC_OK);
     assertThat(response.getHeader(X_GERRIT_UPDATED_REF)).isNull();
   }
@@ -88,8 +88,10 @@ public class RestApiServletIT extends AbstractDaemonTest {
     ObjectId originalMetaRefSha1 = getMetaRefSha1(change);
 
     RestResponse response =
-        adminRestSession.putWithHeader(
-            "/changes/" + change.getChangeId() + "/topic", new BasicHeader(ORIGIN, origin), "A");
+        adminRestSession.putWithHeaders(
+            "/changes/" + change.getChangeId() + "/topic",
+            /* content= */ "A",
+            new BasicHeader(ORIGIN, origin));
     response.assertOK();
     assertThat(gApi.changes().id(change.getChangeId()).topic()).isEqualTo("A");
     ObjectId firstMetaRefSha1 = getMetaRefSha1(change);
@@ -105,8 +107,10 @@ public class RestApiServletIT extends AbstractDaemonTest {
                 firstMetaRefSha1.getName()));
 
     response =
-        adminRestSession.putWithHeader(
-            "/changes/" + change.getChangeId() + "/topic", new BasicHeader(ORIGIN, origin), "B");
+        adminRestSession.putWithHeaders(
+            "/changes/" + change.getChangeId() + "/topic",
+            /* content= */ "B",
+            new BasicHeader(ORIGIN, origin));
     response.assertOK();
     assertThat(gApi.changes().id(change.getChangeId()).topic()).isEqualTo("B");
 
@@ -267,7 +271,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
 
   private RestResponse prettyJsonRestResponse(String ppArgument, int ppValue) throws Exception {
     RestResponse response =
-        adminRestSession.getWithHeader(
+        adminRestSession.getWithHeaders(
             ANY_REST_API + "?" + ppArgument + "=" + ppValue, ACCEPT_STAR_HEADER);
     assertThat(response.getStatusCode()).isEqualTo(SC_OK);
 

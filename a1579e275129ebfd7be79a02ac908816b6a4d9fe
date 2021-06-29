@@ -34,6 +34,24 @@
       "parentUuid": "454917fb_5c5fafb2",
       "revId": "a1579e275129ebfd7be79a02ac908816b6a4d9fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af4ec112_666cfc8a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-29T10:51:01Z",
+      "side": 0,
+      "message": "But we are changing the order: votes before ps-level comment. That is quite substantial I find. I would only want to do this, if we have evidence that users are ok with it.\n\nThat said, I leave it up to you and Delphine to make the decision. But you will have to deal with the user feedback and potential rollbacks then. :-)",
+      "parentUuid": "4a34b221_ed5df2c6",
+      "revId": "a1579e275129ebfd7be79a02ac908816b6a4d9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

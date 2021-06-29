@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d58ea343_314b177d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-29T10:51:01Z",
+      "side": 1,
+      "message": "Needs an update.",
+      "revId": "a7bc9389999c3aca264decd4b0ba8d3e2986d53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57dcc8e6_073903e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-29T10:51:01Z",
+      "side": 1,
+      "message": "Waiting for Delphine\u0027s review.",
+      "revId": "a7bc9389999c3aca264decd4b0ba8d3e2986d53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

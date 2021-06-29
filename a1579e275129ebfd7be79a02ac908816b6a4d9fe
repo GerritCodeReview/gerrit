@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "454917fb_5c5fafb2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-29T09:35:43Z",
+      "side": 0,
+      "message": "Just removing this means we cannot run an experiment?",
+      "revId": "a1579e275129ebfd7be79a02ac908816b6a4d9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

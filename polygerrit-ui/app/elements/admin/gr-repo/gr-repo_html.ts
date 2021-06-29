@@ -18,7 +18,9 @@ import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
   <style include="shared-styles">
-    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    .info {
+      margin-bottom: var(--spacing-xl);
+    }
   </style>
   <style include="gr-subpage-styles">
     h2.edited:after {

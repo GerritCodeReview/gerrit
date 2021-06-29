@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69ce8608_5cebaa06",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-29T20:43:56Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ccd28c4d_1784ee77",
+      "revId": "ffc3b3b709dc728251ffb0d13de0a99dd2155fa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb5e290c_cf6e0e0f",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e71a248_01e275e0",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-29T20:43:56Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "cb5e290c_cf6e0e0f",
+      "revId": "ffc3b3b709dc728251ffb0d13de0a99dd2155fa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d157b352_be386301",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-06-29T09:23:47Z",
       "side": 1,
       "message": "Optional nit: I would not mind isMerged(change) and isAbandoned(change) util functions in change-util.ts. Condition would become shorter.",
+      "range": {
+        "startLine": 200,
+        "startChar": 7,
+        "endLine": 201,
+        "endChar": 47
+      },
+      "revId": "ffc3b3b709dc728251ffb0d13de0a99dd2155fa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29e0a6ed_d311bf49",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-29T20:43:56Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d157b352_be386301",
       "range": {
         "startLine": 200,
         "startChar": 7,

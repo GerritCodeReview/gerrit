@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a056ca5_ea6a68c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T07:00:27Z",
+      "side": 1,
+      "message": "It\u0027s way overdue IMO. Hopefully we can come to some sort of agreement without the definition being too broad to be useful :-)\nI believe this can be very useful for end-users.",
+      "parentUuid": "d59780c6_ac00831c",
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1be44ba6_726f1146",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-06-28T23:08:39Z",
       "side": 1,
       "message": "That isn\u0027t the reason why it was initially introduced: the use-case was for keeping informed people that may or may not be in the Gerrit accounts. Being in CC doesn\u0027t necessarily mean that you are a potential reviewer. If you don\u0027t have a Gerrit account you would never be able to review changes.",
+      "range": {
+        "startLine": 16,
+        "startChar": 36,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9be7527c_44d07644",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T07:00:27Z",
+      "side": 1,
+      "message": "Hence \"may be used\".",
+      "parentUuid": "1be44ba6_726f1146",
       "range": {
         "startLine": 16,
         "startChar": 36,
@@ -59,6 +101,53 @@
         "startChar": 3,
         "endLine": 18,
         "endChar": 64
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4aabe0e_f37c42b1",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T07:00:27Z",
+      "side": 1,
+      "message": "Thanks for bringing up your solution.\nIn the reviewers plugin the users are offered more control over who gets added to the attention-set.\nYou may have 5 users with context awareness and CR+2 rights in a particular project and 2 of them are experts (locally to the code-area or in the project) and does most of the reviews. If you add them as Reviewer and the other 3 as CC you have full control of who is primarily added as Reviewer and how many are initially added to the attention-set.\nIn this case you can use CC as a sort-of a \"Reviewer pool\" if the 2 users added to the Attention-Set aren\u0027t able to review.",
+      "parentUuid": "9d276ec7_b9babdac",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 64
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "649ad155_2b4ad285",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T07:00:27Z",
+      "side": 1,
+      "message": "This was a very clear use-case for me but if it is debatable I\u0027m all for removing it in the interest of having a definition that we all can agree on.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 80
       },
       "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

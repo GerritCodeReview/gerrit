@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "643a1d2c_c268b3de",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-29T09:47:41Z",
+      "side": 1,
+      "message": "You are only fixing this one instance of a checkbox being used. I think it would be better to fix all of them or none.\n\nYou could either start using paper-checkbox everywhere or create a common style file for checkboxes.\n\nRelative positioning for something that has vertical-align:baseline and a height that is browser dependent is very fragile. For checkboxes in the usual 20px line-height context I would instead recommend something like these styles:\n\n    position: relative;\n    top: 2px; /* (20px - 16p) / 2 */\n    vertical-align: top;\n    width: 16px;\n    height: 16px;\n    margin-right: var(--spacing-xs);",
+      "revId": "2a12a874fc9dc47183d0102c12bce18919a070c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

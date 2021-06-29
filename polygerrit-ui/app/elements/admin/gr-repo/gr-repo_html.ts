@@ -61,6 +61,7 @@ export const htmlTemplate = html`
           ><gr-button link>View Changes</gr-button></a
         >
       </div>
+      <br />
     </div>
     <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
       Loading...

@@ -52,9 +52,6 @@ export const htmlTemplate = html`
     iron-autogrow-textarea {
       position: relative;
     }
-    #textarea.noBorder {
-      border: none;
-    }
     #hiddenText {
       display: block;
       float: left;

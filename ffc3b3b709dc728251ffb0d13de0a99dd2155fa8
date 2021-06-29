@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccd28c4d_1784ee77",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-29T09:23:47Z",
+      "side": 1,
+      "message": "Revert the 4 extra new lines.",
+      "revId": "ffc3b3b709dc728251ffb0d13de0a99dd2155fa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb5e290c_cf6e0e0f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-29T09:23:47Z",
+      "side": 1,
+      "message": "Remove this comment. The code speaks for itself. Only use comments for explaining *why* you are doing somewhat not just for describing *what* you are doing.\n\nAlso in the other file.",
+      "revId": "ffc3b3b709dc728251ffb0d13de0a99dd2155fa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d157b352_be386301",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-29T09:23:47Z",
+      "side": 1,
+      "message": "Optional nit: I would not mind isMerged(change) and isAbandoned(change) util functions in change-util.ts. Condition would become shorter.",
+      "range": {
+        "startLine": 200,
+        "startChar": 7,
+        "endLine": 201,
+        "endChar": 47
+      },
+      "revId": "ffc3b3b709dc728251ffb0d13de0a99dd2155fa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

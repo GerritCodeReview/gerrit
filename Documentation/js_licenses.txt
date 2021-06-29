@@ -250,6 +250,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 [[DefinitelyTyped]]
 DefinitelyTyped
 
+* @types/resemblejs
 * @types/resize-observer-browser
 
 [[DefinitelyTyped_license]]

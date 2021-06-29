@@ -84,16 +84,7 @@ public class SubmitWithStickyApprovalDiff {
   public String apply(ChangeNotes notes, CurrentUser currentUser)
       throws AuthException, IOException, PermissionBackendException,
           InvalidChangeOperationException {
-    // In some submit strategies, the current patch-set doesn't exist yet as it's being created
-    // during the submit. Hence, we assign the current patch-set to be the last existing patch-set.
-    PatchSet currentPatchset =
-        notes.getPatchSets().values().stream()
-            .max((p1, p2) -> p1.id().get() - p2.id().get())
-            .orElseThrow(
-                () ->
-                    new IllegalStateException(
-                        String.format(
-                            "change %s can't load any patchset", notes.getChangeId().toString())));
+    PatchSet currentPatchset = notes.getCurrentPatchSet();
 
     PatchSet.Id latestApprovedPatchsetId = getLatestApprovedPatchsetId(notes);
     if (latestApprovedPatchsetId.get() == currentPatchset.id().get()) {

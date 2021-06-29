@@ -77,6 +77,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
@@ -106,6 +107,7 @@ import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -805,6 +807,28 @@ public class ChangeIT extends AbstractDaemonTest {
         assertThrows(
             ResourceConflictException.class, () -> gApi.changes().id(changeId).current().rebase());
     assertThat(thrown).hasMessageThat().contains("Change is already up to date");
+  }
+
+  @Test
+  public void rebaseAsUploaderInAttentionSet() throws Exception {
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Approve and submit the first change
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve());
+    revision.submit();
+
+    TestAccount admin2 = accountCreator.admin2();
+    requestScopeOperations.setApiUser(admin2.id());
+    amendChangeWithUploader(r2, project, admin2);
+    gApi.changes()
+        .id(r2.getChangeId())
+        .addToAttentionSet(new AttentionSetInput(admin2.id().toString(), "manual update"));
+
+    gApi.changes().id(r2.getChangeId()).rebase();
   }
 
   @Test

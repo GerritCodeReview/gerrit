@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static java.util.Comparator.comparing;
-import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -554,8 +553,20 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public PatchSet getCurrentPatchSet() {
     PatchSet.Id psId = change.currentPatchSetId();
-    return requireNonNull(
-        getPatchSets().get(psId), () -> String.format("missing current patch set %s", psId.get()));
+    if (psId == null || getPatchSets().get(psId) == null) {
+      // In some cases, the current patch-set doesn't exist yet as it's being created during the
+      // operation (e.g rebase).
+      PatchSet currentPatchset =
+          getPatchSets().values().stream()
+              .max((p1, p2) -> p1.id().get() - p2.id().get())
+              .orElseThrow(
+                  () ->
+                      new IllegalStateException(
+                          String.format(
+                              "change %s can't load any patchset", getChangeId().toString())));
+      return currentPatchset;
+    }
+    return getPatchSets().get(psId);
   }
 
   @Override

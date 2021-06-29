@@ -16,6 +16,24 @@
       "message": "Not sure if these actually help; polylint_test fails regardless, if I don\u0027t explicitly have the declare global above.",
       "revId": "8ef32304b4feece09534e619416ca0d9bcebcd3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f90bf014_c17a862b",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-06-29T08:08:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa81bb3_2f98c915",
+      "revId": "8ef32304b4feece09534e619416ca0d9bcebcd3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

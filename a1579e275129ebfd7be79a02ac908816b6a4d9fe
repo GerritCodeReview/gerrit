@@ -16,6 +16,24 @@
       "message": "Just removing this means we cannot run an experiment?",
       "revId": "a1579e275129ebfd7be79a02ac908816b6a4d9fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a34b221_ed5df2c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-29T10:40:48Z",
+      "side": 0,
+      "message": "Without any of the features of the comment, it\u0027s mostly an extra border on the textbox.\nNot worth the effort of an experiment IMO.\nI don\u0027t see any users complaining about an extra border, the workflow will remain the same.",
+      "parentUuid": "454917fb_5c5fafb2",
+      "revId": "a1579e275129ebfd7be79a02ac908816b6a4d9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -114,6 +114,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {StorageLocation} from '../../../services/storage/gr-storage';
 import {Interaction, Timing} from '../../../constants/reporting';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -352,6 +353,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Boolean})
   _isResolvedPatchsetLevelComment = true;
 
+  @property({type: Boolean})
+  showNewReplyDialog = false;
+
   @property({type: Array, computed: '_computeAllReviewers(_reviewers.*)'})
   _allReviewers: (AccountInfo | GroupInfo)[] = [];
 
@@ -404,6 +408,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     this.addEventListener('remove-reviewer', e => {
       this.$.reviewers.removeAccount((e as CustomEvent).detail.reviewer);
     });
+    this.showNewReplyDialog =
+      appContext.flagsService.isEnabled(KnownExperimentId.NEW_REPLY_DIALOG) ||
+      true;
   }
 
   /** @override */
@@ -469,7 +476,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   setLabelValue(label: string, value: string) {
-    const selectorEl = this.$.labelScores.shadowRoot?.querySelector(
+    const selectorEl = this.getLabelScores().shadowRoot?.querySelector(
       `gr-label-score-row[name="${label}"]`
     );
     if (!selectorEl) {
@@ -479,7 +486,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   getLabelValue(label: string) {
-    const selectorEl = this.$.labelScores.shadowRoot?.querySelector(
+    const selectorEl = this.getLabelScores().shadowRoot?.querySelector(
       `gr-label-score-row[name="${label}"]`
     );
     if (!selectorEl) {
@@ -540,9 +547,17 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
+  getContainerClass(showNewReplyDialog: boolean) {
+    return showNewReplyDialog ? 'newReplyDialog' : '';
+  }
+
+  getUnresolvedPatchsetLevelClass(isResolvedPatchsetLevelComment: boolean) {
+    return isResolvedPatchsetLevelComment ? 'resolved' : 'unresolved';
+  }
+
   send(includeComments: boolean, startReview: boolean) {
     this.reporting.time(Timing.SEND_REPLY);
-    const labels = this.$.labelScores.getLabelValues();
+    const labels = this.getLabelScores().getLabelValues();
 
     const reviewInput: ReviewInput = {
       drafts: includeComments
@@ -654,6 +669,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     }
     if (section === FocusTarget.BODY) {
       const textarea = this.$.textarea;
+      if (!textarea) return;
       setTimeout(() => textarea.getNativeTextarea().focus());
     } else if (section === FocusTarget.REVIEWERS) {
       const reviewerEntry = this.$.reviewers.focusStart;
@@ -1117,7 +1133,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
         bubbles: false,
       })
     );
-    this.$.textarea.closeDropdown();
+    this.$.textarea?.closeDropdown();
     this.$.reviewers.clearPendingRemovals();
     this._rebuildReviewerArrays(this.change.reviewers, this._owner);
   }
@@ -1247,9 +1263,15 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     fireEvent(this, 'autogrow');
   }
 
+  getLabelScores() {
+    return (
+      this.$.labelScores || this.shadowRoot?.querySelector('gr-label-scores')
+    );
+  }
+
   _handleLabelsChanged() {
     this._labelsChanged =
-      Object.keys(this.$.labelScores.getLabelValues(false)).length !== 0;
+      Object.keys(this.getLabelScores().getLabelValues(false)).length !== 0;
   }
 
   _isState(knownLatestState?: LatestPatchState, value?: LatestPatchState) {

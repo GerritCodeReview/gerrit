@@ -103,9 +103,6 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: String, notify: true, observer: '_handleTextChanged'})
   text?: string;
 
-  @property({type: Boolean})
-  hideBorder = false;
-
   /** Text input should be rendered in monospace font.  */
   @property({type: Boolean})
   monospace = false;
@@ -161,9 +158,6 @@ export class GrTextarea extends KeyboardShortcutMixin(PolymerElement) {
     }
     if (this.code) {
       this.classList.add('code');
-    }
-    if (this.hideBorder) {
-      this.$.textarea.classList.add('noBorder');
     }
   }
 

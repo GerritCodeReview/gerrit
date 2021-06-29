@@ -25,10 +25,6 @@ const monospaceFixture = fixtureFromTemplate(html`
 <gr-textarea monospace="true"></gr-textarea>
 `);
 
-const hideBorderFixture = fixtureFromTemplate(html`
-<gr-textarea hide-border="true"></gr-textarea>
-`);
-
 suite('gr-textarea tests', () => {
   let element;
 
@@ -39,10 +35,6 @@ suite('gr-textarea tests', () => {
 
   test('monospace is set properly', () => {
     assert.isFalse(element.classList.contains('monospace'));
-  });
-
-  test('hideBorder is set properly', () => {
-    assert.isFalse(element.$.textarea.classList.contains('noBorder'));
   });
 
   test('emoji selector is not open with the textarea lacks focus', () => {
@@ -349,24 +341,6 @@ suite('gr-textarea tests', () => {
 
     test('monospace is set properly', () => {
       assert.isTrue(element.classList.contains('monospace'));
-    });
-  });
-
-  suite('gr-textarea hideBorder', () => {
-  // gr-textarea set noBorder class in the ready() method.
-  // In Polymer2, ready() is called from the fixture(...) method,
-  // If ready() is called again later, some nested elements doesn't
-  // handle it correctly. A separate test-fixture is used to set
-  // properties before ready() is called.
-
-    let element;
-
-    setup(() => {
-      element = hideBorderFixture.instantiate();
-    });
-
-    test('hideBorder is set properly', () => {
-      assert.isTrue(element.$.textarea.classList.contains('noBorder'));
     });
   });
 });

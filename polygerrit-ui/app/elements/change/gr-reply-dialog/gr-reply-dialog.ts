@@ -540,6 +540,10 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     }
   }
 
+  getUnresolvedPatchsetLevelClass(isResolvedPatchsetLevelComment: boolean) {
+    return isResolvedPatchsetLevelComment ? 'resolved' : 'unresolved';
+  }
+
   send(includeComments: boolean, startReview: boolean) {
     this.reporting.time(Timing.SEND_REPLY);
     const labels = this.$.labelScores.getLabelValues();

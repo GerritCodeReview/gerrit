@@ -18,7 +18,11 @@ import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
   <style include="shared-styles">
-    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    :host {
+      /* Primarily for mobile where download commands/other things
+         overflow the page causing issues */
+      overflow-x: auto;
+    }
   </style>
   <style include="gr-menu-page-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */

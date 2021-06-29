@@ -41,6 +41,9 @@ export const htmlTemplate = html`
     #options .repositorySettings.showConfig {
       display: block;
     }
+    .info {
+      margin-bottom: var(--spacing-xl);
+    }
   </style>
   <style include="gr-form-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */

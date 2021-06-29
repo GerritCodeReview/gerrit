@@ -41,6 +41,9 @@ export const htmlTemplate = html`
     #options .repositorySettings.showConfig {
       display: block;
     }
+    .url {
+      margin-bottom: var(--spacing-xl);
+    }
   </style>
   <style include="gr-form-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
@@ -52,7 +55,7 @@ export const htmlTemplate = html`
     <div class="info">
       <h1 id="Title" class="heading-1">[[repo]]</h1>
       <hr />
-      <div>
+      <div class="url">
         <a href$="[[_computeBrowseUrl(weblinks)]]"
           ><gr-button link disabled="[[!_computeBrowseUrl(weblinks)]]"
             >Browse</gr-button

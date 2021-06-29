@@ -73,9 +73,6 @@ export const htmlTemplate = html`
       .subHeader {
         display: block;
       }
-      .rightControls {
-        float: right;
-      }
     }
   </style>
   <div class="stickyHeader">

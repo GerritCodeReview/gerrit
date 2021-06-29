@@ -16,7 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import {resetPlugins, stubRestApi} from '../../../test/test-utils.js';
+import {queryAndAssert, resetPlugins, stubRestApi} from '../../../test/test-utils.js';
 import './gr-reply-dialog.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
@@ -119,12 +119,12 @@ suite('gr-reply-dialog-it tests', () => {
     getPluginLoader().loadPlugins([]);
     await getPluginLoader().awaitPluginsLoaded();
     await flush();
-    const textarea = element.$.textarea.getNativeTextarea();
+    const textarea = queryAndAssert(element, 'gr-textarea').getNativeTextarea();
     textarea.value = 'LGTM';
     textarea.dispatchEvent(new CustomEvent(
         'input', {bubbles: true, composed: true}));
     await flush();
-    const labelScoreRows = element.$.labelScores.shadowRoot
+    const labelScoreRows = element.getLabelScores().shadowRoot
         .querySelector('gr-label-score-row[name="Code-Review"]');
     const selectedBtn = labelScoreRows.shadowRoot
         .querySelector('gr-button[data-value="+1"].iron-selected');

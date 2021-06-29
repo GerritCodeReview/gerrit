@@ -53,6 +53,9 @@ export const htmlTemplate = html`
       /* @see Issue 8602 */
       z-index: 1;
     }
+    .stickyBottom.newReplyDialog {
+      margin-top: unset;
+    }
     .actions {
       display: flex;
       justify-content: space-between;
@@ -99,11 +102,27 @@ export const htmlTemplate = html`
       min-height: 12em;
       position: relative;
     }
-    .textareaContainer,
+    .newReplyDialog.textareaContainer {
+      min-height: unset;
+    }
+    textareaContainer,
     #textarea,
     gr-endpoint-decorator[name='reply-text'] {
       display: flex;
       width: 100%;
+    }
+    .newReplyDialog .textareaContainer,
+    #textarea,
+    gr-endpoint-decorator[name='reply-text'] {
+      display: block;
+      width: unset;
+      font-family: var(--monospace-font-family);
+      font-size: var(--font-size-code);
+      line-height: calc(var(--font-size-code) + var(--spacing-s));
+      font-weight: var(--font-weight-normal);
+    }
+    .newReplyDialog#textarea {
+      padding: var(--spacing-m);
     }
     gr-endpoint-decorator[name='reply-text'] {
       flex-direction: column;
@@ -222,8 +241,25 @@ export const htmlTemplate = html`
     .attentionTip div iron-icon {
       margin-right: var(--spacing-s);
     }
+    .patchsetLevelContainer {
+      width: 80ch;
+      border-radius: var(--border-radius);
+      margin-left: var(--spacing-xl);
+      box-shadow: var(--elevation-level-2);
+    }
+    .patchsetLevelContainer.resolved{
+      background-color: var(--comment-background-color);
+    }
+    .patchsetLevelContainer.unresolved{
+      background-color: var(--unresolved-comment-background-color);
+    }
+    .labelContainer {
+      padding-left: var(--spacing-m);
+      padding-bottom: var(--spacing-l);
+    }
+
   </style>
-  <div class="container" tabindex="-1">
+  <div class$="container" tabindex="-1">
     <section class="peopleContainer">
       <gr-endpoint-decorator name="reply-reviewers">
         <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
@@ -281,55 +317,115 @@ export const htmlTemplate = html`
         </div>
       </gr-overlay>
     </section>
-    <section class="textareaContainer">
-      <gr-endpoint-decorator name="reply-text">
-        <gr-textarea
-          id="textarea"
-          class="message"
-          autocomplete="on"
-          placeholder="[[_messagePlaceholder]]"
-          fixed-position-dropdown=""
-          hide-border="true"
-          monospace="true"
-          disabled="{{disabled}}"
-          rows="4"
-          text="{{draft}}"
-          on-bind-value-changed="_handleHeightChanged"
-        >
-        </gr-textarea>
-      </gr-endpoint-decorator>
-    </section>
-    <section class="previewContainer">
-      <label>
-        <input
-          id="resolvedPatchsetLevelCommentCheckbox"
-          type="checkbox"
-          checked="{{_isResolvedPatchsetLevelComment::change}}"
-        />
-        Resolved
-      </label>
-      <label class="preview-formatting">
-        <input type="checkbox" checked="{{_previewFormatting::change}}" />
-        Preview formatting
-      </label>
-      <gr-formatted-text
-        content="[[draft]]"
-        hidden$="[[!_previewFormatting]]"
-        config="[[projectConfig.commentlinks]]"
-      ></gr-formatted-text>
-    </section>
-    <section class="labelsContainer">
-      <gr-endpoint-decorator name="reply-label-scores">
-        <gr-label-scores
-          id="labelScores"
-          account="[[_account]]"
-          change="[[change]]"
-          on-labels-changed="_handleLabelsChanged"
-          permitted-labels="[[permittedLabels]]"
-        ></gr-label-scores>
-      </gr-endpoint-decorator>
-      <div id="pluginMessage">[[_pluginMessage]]</div>
-    </section>
+
+    <template is="dom-if" if="[[showNewReplyDialog]]">
+      <section class="labelsContainer">
+        <gr-endpoint-decorator name="reply-label-scores">
+          <gr-label-scores
+            id="labelScores"
+            account="[[_account]]"
+            change="[[change]]"
+            on-labels-changed="_handleLabelsChanged"
+            permitted-labels="[[permittedLabels]]"
+          ></gr-label-scores>
+        </gr-endpoint-decorator>
+        <div id="pluginMessage">[[_pluginMessage]]</div>
+      </section>
+      <section class="newReplyDialog textareaContainer">
+        <div class$="patchsetLevelContainer [[getUnresolvedPatchsetLevelClass(_isResolvedPatchsetLevelComment)]]">
+          <gr-endpoint-decorator name="reply-text">
+            <gr-textarea
+              id="textarea"
+              class="message newReplyDialog"
+              autocomplete="on"
+              placeholder="[[_messagePlaceholder]]"
+              fixed-position-dropdown=""
+              monospace="true"
+              disabled="{{disabled}}"
+              rows="4"
+              text="{{draft}}"
+              on-bind-value-changed="_handleHeightChanged"
+            >
+            </gr-textarea>
+          </gr-endpoint-decorator>
+          <div class="labelContainer">
+            <label>
+              <input
+                id="resolvedPatchsetLevelCommentCheckbox"
+                type="checkbox"
+                checked="{{_isResolvedPatchsetLevelComment::change}}"
+              />
+              Resolved
+            </label>
+            <label class="preview-formatting">
+              <input type="checkbox" checked="{{_previewFormatting::change}}" />
+              Preview formatting
+            </label>
+          </div>
+        </div>
+      </section>
+      <template is="dom-if" if="[[_previewFormatting]]">
+        <section class="previewContainer">
+          <gr-formatted-text
+            content="[[draft]]"
+            config="[[projectConfig.commentlinks]]"
+          ></gr-formatted-text>
+      </template>
+      </section>
+    </template>
+
+    <template is="dom-if" if="[[!showNewReplyDialog]]">
+      <section class="textareaContainer">
+        <gr-endpoint-decorator name="reply-text">
+          <gr-textarea
+            id="textarea"
+            class="message"
+            autocomplete="on"
+            placeholder="[[_messagePlaceholder]]"
+            fixed-position-dropdown=""
+            hide-border="true"
+            monospace="true"
+            disabled="{{disabled}}"
+            rows="4"
+            text="{{draft}}"
+            on-bind-value-changed="_handleHeightChanged"
+          >
+          </gr-textarea>
+        </gr-endpoint-decorator>
+      </section>
+      <section class="previewContainer">
+        <label>
+          <input
+            id="resolvedPatchsetLevelCommentCheckbox"
+            type="checkbox"
+            checked="{{_isResolvedPatchsetLevelComment::change}}"
+          />
+          Resolved
+        </label>
+        <label class="preview-formatting">
+          <input type="checkbox" checked="{{_previewFormatting::change}}" />
+          Preview formatting
+        </label>
+        <gr-formatted-text
+          content="[[draft]]"
+          hidden$="[[!_previewFormatting]]"
+          config="[[projectConfig.commentlinks]]"
+        ></gr-formatted-text>
+      </section>
+      <section class="labelsContainer">
+        <gr-endpoint-decorator name="reply-label-scores">
+          <gr-label-scores
+            id="labelScores"
+            account="[[_account]]"
+            change="[[change]]"
+            on-labels-changed="_handleLabelsChanged"
+            permitted-labels="[[permittedLabels]]"
+          ></gr-label-scores>
+        </gr-endpoint-decorator>
+        <div id="pluginMessage">[[_pluginMessage]]</div>
+      </section>
+    </template>
+
     <section
       class="draftsContainer"
       hidden$="[[_computeHideDraftList(draftCommentThreads)]]"
@@ -361,7 +457,7 @@ export const htmlTemplate = html`
         Saving comments...
       </span>
     </section>
-    <div class="stickyBottom">
+    <div class$="stickyBottom [[getContainerClass(showNewReplyDialog)]]">
       <section
         hidden$="[[!_showAttentionSummary(_attentionExpanded)]]"
         class="attention"

@@ -222,6 +222,11 @@ export const htmlTemplate = html`
     .attentionTip div iron-icon {
       margin-right: var(--spacing-s);
     }
+    #resolvedPatchsetLevelCommentCheckbox,
+    #previewFormattingCheckbox {
+      position: relative;
+      top: 2px;
+    }
   </style>
   <div class="container" tabindex="-1">
     <section class="peopleContainer">
@@ -309,7 +314,11 @@ export const htmlTemplate = html`
         Resolved
       </label>
       <label class="preview-formatting">
-        <input type="checkbox" checked="{{_previewFormatting::change}}" />
+        <input
+          id="previewFormattingCheckbox"
+          type="checkbox"
+          checked="{{_previewFormatting::change}}"
+        />
         Preview formatting
       </label>
       <gr-formatted-text

@@ -93,6 +93,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7373ea6_39923a92",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51db63df_c4a2af6b",
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1be44ba6_726f1146",
@@ -210,6 +228,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26dd9dc7_99e55fcd",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "649ad155_2b4ad285",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 80
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3470fd50_5349cf2e",
@@ -233,6 +275,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f4139e7_588aa9ae",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3470fd50_5349cf2e",
+      "range": {
+        "startLine": 29,
+        "startChar": 29,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e6d2ff3_76639d2d",
@@ -246,6 +312,30 @@
       "writtenOn": "2021-06-29T10:15:53Z",
       "side": 1,
       "message": "your",
+      "range": {
+        "startLine": 47,
+        "startChar": 22,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f9f5985_90661fed",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e6d2ff3_76639d2d",
       "range": {
         "startLine": 47,
         "startChar": 22,
@@ -281,6 +371,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a643a2c1_5114282b",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "What sort of Expectations/Intent are being added to the Attention-Set as a CC trying to describe in your opinion?",
+      "parentUuid": "0b87cf67_6d30e002",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 0
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "408dc8aa_8bce2d93",
         "filename": "Documentation/user-reviewer-states.txt",
         "patchSetId": 1
@@ -292,6 +406,30 @@
       "writtenOn": "2021-06-29T10:15:53Z",
       "side": 1,
       "message": "show",
+      "range": {
+        "startLine": 56,
+        "startChar": 54,
+        "endLine": 56,
+        "endChar": 59
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53d3cdd7_dca893c3",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "408dc8aa_8bce2d93",
       "range": {
         "startLine": 56,
         "startChar": 54,
@@ -321,6 +459,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "753a1f78_b72988c9",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "I opted to sort them according to expected involvement ascending, you could of course sort them in any other order.",
+      "parentUuid": "6a26bf2e_a248c459",
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1a5ea646_78cd113d",
         "filename": "Documentation/user-reviewer-states.txt",
         "patchSetId": 1
@@ -332,6 +488,30 @@
       "writtenOn": "2021-06-29T10:15:53Z",
       "side": 1,
       "message": "For me a reviewer is also expected to eventually vote on a label that is blocking submission, typically the Code-Review label.",
+      "range": {
+        "startLine": 61,
+        "startChar": 73,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71907c4e_e35aaac4",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "That\u0027s more true for a Reviewer that is also in the Attention-Set, is it not?",
+      "parentUuid": "1a5ea646_78cd113d",
       "range": {
         "startLine": 61,
         "startChar": 73,
@@ -361,6 +541,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e2dedc4_df2d40ce",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "Someone who is added as a Reviewer is of course expected to eventually vote on a change, but not when the Reviewer isn\u0027t in the Attention-Set, right?\nIn this case the Reviewer has already voted and/or is waiting for action from the Change-Owner.",
+      "parentUuid": "5a7206ed_8f5c3e6f",
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1a0428d3_2389df2e",
         "filename": "Documentation/user-reviewer-states.txt",
         "patchSetId": 1
@@ -372,6 +570,30 @@
       "writtenOn": "2021-06-29T10:15:53Z",
       "side": 1,
       "message": "the",
+      "range": {
+        "startLine": 75,
+        "startChar": 18,
+        "endLine": 75,
+        "endChar": 27
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e6614f8_e27d3622",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a0428d3_2389df2e",
       "range": {
         "startLine": 75,
         "startChar": 18,
@@ -405,6 +627,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5513f65a_4a114268",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11e5938f_31155e74",
+      "range": {
+        "startLine": 78,
+        "startChar": 66,
+        "endLine": 78,
+        "endChar": 71
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3aaf973e_86a24bcc",
@@ -418,6 +664,30 @@
       "writtenOn": "2021-06-29T10:15:53Z",
       "side": 1,
       "message": "show",
+      "range": {
+        "startLine": 101,
+        "startChar": 54,
+        "endLine": 101,
+        "endChar": 59
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f28bfcbb_c3bf7809",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-29T10:53:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aaf973e_86a24bcc",
       "range": {
         "startLine": 101,
         "startChar": 54,

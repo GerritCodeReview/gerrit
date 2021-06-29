@@ -50,6 +50,11 @@ export const htmlTemplate = html`
     .hidden {
       display: none;
     }
+    @media only screen and (max-width: 50em) {
+      gr-shell-command {
+        width: auto;
+      }
+    }
   </style>
   <div class="schemes">
     <paper-tabs

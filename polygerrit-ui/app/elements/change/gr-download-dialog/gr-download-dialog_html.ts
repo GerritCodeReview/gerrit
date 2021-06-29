@@ -59,6 +59,14 @@ export const htmlTemplate = html`
     .hidden {
       display: none;
     }
+    gr-download-commands {
+      width: 60em;
+    }
+    @media only screen and (max-width: 50em) {
+      gr-download-commands {
+        width: auto;
+      }
+    }
   </style>
   <section>
     <h3 class="heading-3">

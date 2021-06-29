@@ -16,6 +16,24 @@
       "message": "Which warnings?\n\nShould checking these be added to the build config? I think it checks some errorprone warnings already.",
       "revId": "b9468bb4ad7b285fe8fcb1a138b50c557bee5531",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80781c2b_7adae1d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-29T07:30:44Z",
+      "side": 1,
+      "message": "they popped up on our internal build, but I forgot to note their names. Maybe they\u0027ll become part of public error-prone at some point?",
+      "parentUuid": "3ff0f962_0772289b",
+      "revId": "b9468bb4ad7b285fe8fcb1a138b50c557bee5531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -101,19 +101,19 @@ get_config() {
 # not make so much sense.
 get_time_unit_sec() {
   TIME_LC=`echo $1 | tr '[:upper:]' '[:lower:]'`
-  if [[ "$TIME_LC" =~ ^(0|[1-9][0-9]*)$ ]]
+  if echo "$TIME_LC" | grep -qE '^(0|[1-9][0-9]*)$'
   then
     echo $TIME_LC
-  elif [[ "$TIME_LC" =~ ^[1-9][0-9]*\ *(s|sec|second|seconds)$ ]]
+  elif echo "$TIME_LC" | grep -qE '^[1-9][0-9]*\ *(s|sec|second|seconds)$'
   then
     echo "$TIME_LC" | tr -d -c 0-9
-  elif [[ "$TIME_LC" =~ ^[1-9][0-9]*\ *(m|min|minute|minutes)$ ]]
+  elif echo "$TIME_LC" | grep -qE '^[1-9][0-9]*\ *(m|min|minute|minutes)$'
   then
     expr `echo "$TIME_LC" | tr -d -c 0-9` '*' 60
-  elif [[ "$TIME_LC" =~ ^[1-9][0-9]*\ *(h|hr|hour|hours)$ ]]
+  elif echo "$TIME_LC" | grep -qE '^[1-9][0-9]*\ *(h|hr|hour|hours)$'
   then
     expr `echo "$TIME_LC" | tr -d -c 0-9` '*' 3600
-  elif [[ "$TIME_LC" =~ ^[1-9][0-9]*\ *(d|day|days)$ ]]
+  elif echo "$TIME_LC" | grep -qE '^[1-9][0-9]*\ *(d|day|days)$'
   then
     expr `echo "$TIME_LC" | tr -d -c 0-9` '*' 86400
   else

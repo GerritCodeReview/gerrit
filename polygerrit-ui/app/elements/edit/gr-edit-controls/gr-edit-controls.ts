@@ -322,6 +322,11 @@ export class GrEditControls extends PolymerElement {
       fr.readAsDataURL(file);
     }
   }
+
+  _handleKeyPress(event: InputEvent) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
 }
 
 declare global {

@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0dd615f1_aff1a75a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-30T12:57:32Z",
+      "side": 1,
+      "message": "Thanks for updating the screenshot LGTM and ack that you will aligned the checkboxes in a follow-up change.",
+      "parentUuid": "93f4a09d_01f80725",
+      "revId": "a7bc9389999c3aca264decd4b0ba8d3e2986d53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "57dcc8e6_073903e4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4

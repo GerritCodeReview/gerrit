@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b6205bc_8e8349fb",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:35:58Z",
+      "side": 1,
+      "message": "I think it would be nice to also be able to navigate to the comments tab without going to a specific comment. So can the comment id maybe be optional?",
+      "revId": "4f25ec2f2a8c00f3a192673ff8e63b3dbe14f9dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

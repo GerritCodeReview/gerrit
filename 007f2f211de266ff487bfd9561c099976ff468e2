@@ -52,6 +52,24 @@
       "parentUuid": "569a8e9c_f7e83e2b",
       "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85216620_9906d8a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-30T14:00:19Z",
+      "side": 1,
+      "message": "What I mean is that the footer with the email is only added to the commit message if the external ID for that email is touched in that commit. Since the email for the external ID is stored as plain text, you will still be able to see the email from the commit content.\n\nBut maybe there are plans to to store the emails encrypted?",
+      "parentUuid": "0bc66206_f4bfc2da",
+      "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

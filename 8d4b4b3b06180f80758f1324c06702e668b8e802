@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79a255da_2d274714",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-06-30T08:39:34Z",
+      "side": 1,
+      "message": "This is the stuff that gets pulled in via the optional canvas dependency for Node.js, can we avoid that somehow?",
+      "revId": "8d4b4b3b06180f80758f1324c06702e668b8e802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

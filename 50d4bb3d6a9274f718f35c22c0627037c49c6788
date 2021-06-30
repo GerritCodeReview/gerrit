@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "171731a9_694fb427",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T00:07:06Z",
+      "side": 1,
+      "message": "I\u0027ve tested this in the inline editor which fixes https://phabricator.wikimedia.org/T282387.\n\nI\u0027ve also did some basic testing such as testing \"?\" and also testing other shortcuts as shown inside the dialog.\n\n(tested on a 3.4 install)",
+      "revId": "50d4bb3d6a9274f718f35c22c0627037c49c6788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -337,6 +337,9 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object, observer: '_changeChanged'})
   _change?: ChangeInfo | ParsedChangeInfo;
 
+  @property({type: Object})
+  _edit?: EditInfo | false;
+
   @property({type: Object, computed: '_getRevisionInfo(_change)'})
   _revisionInfo?: RevisionInfoClass;
 
@@ -372,8 +375,11 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: String})
   _diffAgainst?: string;
 
-  @property({type: String})
-  _latestCommitMessage: string | null = '';
+  @property({
+    type: String,
+    computed: '_computeCommitMessage(_patchRange.*, _change, _edit)',
+  })
+  _latestCommitMessage?: string;
 
   @property({type: Object})
   _constants = {
@@ -397,7 +403,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   _basePatchNum?: string;
 
   @property({type: Object})
-  _selectedRevision?: RevisionInfo | EditRevisionInfo;
+  _selectedRevision?: RevisionInfo | EditInfo | EditRevisionInfo;
 
   @property({type: Object})
   _currentRevisionActions?: ActionNameToActionInfoMap;
@@ -1963,17 +1969,12 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         if (!change.reviewer_updates) {
           change.reviewer_updates = (null as unknown) as undefined;
         }
-        const latestRevisionSha = this._getLatestRevisionSHA(change);
-        if (!latestRevisionSha)
-          throw new Error('Could not find latest Revision Sha');
-        const currentRevision = change.revisions[latestRevisionSha];
-        if (currentRevision.commit && currentRevision.commit.message) {
-          this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-            currentRevision.commit.message
-          );
-        } else {
-          this._latestCommitMessage = null;
-        }
+        const selectedRevision = this._getCurrentSelectedCommitMessage(
+          change,
+          this._patchRange,
+          edit
+        );
+        if (!selectedRevision) throw new Error('Could not find a revision Sha');
 
         const lineHeight = getComputedStyle(this).lineHeight;
 
@@ -1981,6 +1982,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         this._lineHeight = Number(lineHeight.slice(0, lineHeight.length - 2));
 
         this._change = change;
+        this._edit = edit;
         this.computeRevertSubmitted(change);
         this.changeService.updateChange(change);
         if (
@@ -1988,12 +1990,8 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
           !this._patchRange.patchNum ||
           this._patchRange.patchNum === currentRevision._number
         ) {
-          // CommitInfo.commit is optional, and may need patching.
-          if (currentRevision.commit && !currentRevision.commit.commit) {
-            currentRevision.commit.commit = latestRevisionSha as CommitId;
-          }
-          this._commitInfo = currentRevision.commit;
-          this._selectedRevision = currentRevision;
+          this._commitInfo = selectedRevision.commit;
+          this._selectedRevision = selectedRevision;
           // TODO: Fetch and process files.
         } else {
           if (!this._change?.revisions || !this._patchRange) return false;
@@ -2035,22 +2033,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
     return this.restApiService.getChangeEdit(this._changeNum, true);
   }
 
-  _getLatestCommitMessage() {
-    if (!this._changeNum)
-      throw new Error('missing required changeNum property');
-    const lastpatchNum = computeLatestPatchNum(this._allPatchSets);
-    if (lastpatchNum === undefined)
-      throw new Error('missing lastPatchNum property');
-    return this.restApiService
-      .getChangeCommitInfo(this._changeNum, lastpatchNum)
-      .then(commitInfo => {
-        if (!commitInfo) return;
-        this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-          commitInfo.message
-        );
-      });
-  }
-
   _getLatestRevisionSHA(change: ChangeInfo | ParsedChangeInfo) {
     if (change.current_revision) return change.current_revision;
     // current_revision may not be present in the case where the latest rev is
@@ -2064,6 +2046,63 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
       }
     }
     return latestRev;
+  }
+
+  _computeCommitMessage(
+    patchRangeRecord: PolymerDeepPropertyChange<
+      ChangeViewPatchRange,
+      ChangeViewPatchRange
+    >,
+    change?: ChangeInfo | ParsedChangeInfo,
+    edit?: EditInfo | false
+  ) {
+    if (!patchRangeRecord || !change) {
+      return undefined;
+    }
+
+    const patchRange = patchRangeRecord.base || {};
+    const currentRevision = this._getCurrentSelectedCommitMessage(
+      change,
+      patchRange,
+      edit
+    );
+    if (!currentRevision) return '';
+
+    return currentRevision.commit && currentRevision.commit.message
+      ? currentRevision.commit.message
+      : '';
+  }
+
+  _getCurrentSelectedCommitMessage(
+    change: ChangeInfo | ParsedChangeInfo,
+    patchRangeRecord?: ChangeViewPatchRange,
+    edit?: EditInfo | false
+  ) {
+    if (edit && patchRangeRecord?.patchNum === EditPatchSetNum) {
+      return edit;
+    }
+
+    let rev = null;
+    for (const [revNum, revInfo] of Object.entries(change.revisions ?? {})) {
+      if (revInfo._number === patchRangeRecord?.patchNum) {
+        rev = revInfo;
+        if (rev?.commit && !rev.commit.commit)
+          rev.commit.commit = revNum as CommitId;
+      }
+    }
+    if (rev === null) {
+      let latestPatchNum = -1 as PatchSetNum;
+      for (const [revNum, revInfo] of Object.entries(change.revisions ?? {})) {
+        if (revInfo._number > latestPatchNum) {
+          rev = revInfo;
+          if (rev?.commit && !rev.commit.commit) {
+            rev.commit.commit = revNum as CommitId;
+          }
+          latestPatchNum = revInfo._number;
+        }
+      }
+    }
+    return rev;
   }
 
   _getCommitInfo() {
@@ -2236,15 +2275,6 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
         this.$.fileList.reload()
       );
       allDataPromises.push(fileListReload);
-
-      const latestCommitMessageLoaded = loadingFlagSet.then(() => {
-        // If the latest commit message is known, there is nothing to do.
-        if (this._latestCommitMessage) {
-          return Promise.resolve();
-        }
-        return this._getLatestCommitMessage();
-      });
-      allDataPromises.push(latestCommitMessageLoaded);
 
       // Promise resolves when mergeability information has loaded.
       const mergeabilityLoaded = loadingFlagSet.then(() =>

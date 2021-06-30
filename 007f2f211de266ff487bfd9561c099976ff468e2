@@ -88,6 +88,24 @@
       "parentUuid": "85216620_9906d8a3",
       "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "454968d7_1a43dc29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-30T14:32:23Z",
+      "side": 1,
+      "message": "Yes, \"touched\" includes \"deleted\".\n\nAFAIK you can only GC commits that are no longer referenced. Since commit N references commit N-1 as its parent commit it will not be GCed. To GC it you would need to rewrite commit N and all it successors so that commit N becomes a new root commit. \n\nThis would basically be equivalent to not having any git history for refs/meta/external-ids, e.g. have a single commit that is always amended when external IDs are updated (I think we do this for the branches in All-Users that store the draft comments as we don\u0027t need to keep a history for these branches).\n\nBut if we do this we also lose the advantage of storing this data in NoteDb which is having the history available.",
+      "parentUuid": "14d02f87_eae4356a",
+      "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

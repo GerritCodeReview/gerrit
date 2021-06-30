@@ -16,6 +16,24 @@
       "message": "I think it would be nice to also be able to navigate to the comments tab without going to a specific comment. So can the comment id maybe be optional?",
       "revId": "4f25ec2f2a8c00f3a192673ff8e63b3dbe14f9dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a1249a_b9cd798f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T10:59:31Z",
+      "side": 1,
+      "message": "We already have a url ?tab\u003dcomments for it.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/307626?tab\u003dcomments\nDo you still prefer having this one for it or the existing one works?",
+      "parentUuid": "1b6205bc_8e8349fb",
+      "revId": "4f25ec2f2a8c00f3a192673ff8e63b3dbe14f9dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

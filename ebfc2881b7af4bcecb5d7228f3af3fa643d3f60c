@@ -137,6 +137,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e87a5f42_157cca16",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-30T13:07:08Z",
+      "side": 1,
+      "message": "I find that the spacing is a bit cramped between the patchset level comment card and the border with the checkbox to publish draft and the patchset level comment card shadow. Also the spacing between file comment and the border is at least --spacing-l (or maybe more than --spacing-l).",
+      "parentUuid": "343a27f1_f7108919",
+      "revId": "ebfc2881b7af4bcecb5d7228f3af3fa643d3f60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4716aecd_98d7dca3",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
         "patchSetId": 3

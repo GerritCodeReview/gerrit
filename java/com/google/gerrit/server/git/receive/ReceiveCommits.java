@@ -100,6 +100,9 @@ import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
@@ -188,6 +191,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
 import java.io.IOException;
@@ -310,6 +314,19 @@ class ReceiveCommits {
     return RestApiException.wrap("Error inserting change/patchset", e);
   }
 
+  @Singleton
+  private static class Metrics {
+    private final Counter0 psRevisionMissing;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      psRevisionMissing =
+          metricMaker.newCounter(
+              "receivecommits/ps_revision_missing",
+              new Description("errors due to patch set revision missing"));
+    }
+  }
+
   // ReceiveCommits has a lot of fields, sorry. Here and in the constructor they are split up
   // somewhat, and kept sorted lexicographically within sections, except where later assignments
   // depend on previous ones.
@@ -334,6 +351,7 @@ class ReceiveCommits {
   private final DynamicSet<PluginPushOption> pluginPushOptions;
   private final PluginSetContext<ReceivePackInitializer> initializers;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
+  private final Metrics metrics;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final DynamicSet<PerformanceLogger> performanceLoggers;
@@ -419,6 +437,7 @@ class ReceiveCommits {
       PluginSetContext<ReceivePackInitializer> initializers,
       PluginSetContext<CommentValidator> commentValidators,
       MergedByPushOp.Factory mergedByPushOpFactory,
+      Metrics metrics,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       DynamicSet<PerformanceLogger> performanceLoggers,
@@ -473,6 +492,7 @@ class ReceiveCommits {
     this.notesFactory = notesFactory;
     this.optionParserFactory = optionParserFactory;
     this.ormProvider = ormProvider;
+    this.metrics = metrics;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.permissionBackend = permissionBackend;
     this.pluginConfigEntries = pluginConfigEntries;
@@ -2862,6 +2882,7 @@ class ReceiveCommits {
         Change change = notes.getChange();
         priorPatchSet = change.currentPatchSetId();
         if (!revisions.containsValue(priorPatchSet)) {
+          metrics.psRevisionMissing.increment();
           logger.atWarning().log(
               "Change %d is missing revision for patch set %s"
                   + " (it has revisions for these patch sets: %s)",

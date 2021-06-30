@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89f7c842_51d80417",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-30T14:19:28Z",
+      "side": 1,
+      "message": "Quick self review: left minor comments.",
+      "revId": "79b07f7e69933a4fe73743abf35c9ef9e840105c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a30b6402_b65bd7b6",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2507,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-30T14:19:28Z",
+      "side": 1,
+      "message": "and tags",
+      "range": {
+        "startLine": 2507,
+        "startChar": 0,
+        "endLine": 2507,
+        "endChar": 8
+      },
+      "revId": "79b07f7e69933a4fe73743abf35c9ef9e840105c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15a80114_9f45716e",
+        "filename": "java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-30T14:19:28Z",
+      "side": 1,
+      "message": "nit: please remove",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 29
+      },
+      "revId": "79b07f7e69933a4fe73743abf35c9ef9e840105c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eec0f6b0_f3e6cb22",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-30T14:19:28Z",
+      "side": 1,
+      "message": "nit: F",
+      "range": {
+        "startLine": 103,
+        "startChar": 37,
+        "endLine": 103,
+        "endChar": 38
+      },
+      "revId": "79b07f7e69933a4fe73743abf35c9ef9e840105c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46a2fa30_16b644aa",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-30T14:19:28Z",
+      "side": 1,
+      "message": "nit: F",
+      "range": {
+        "startLine": 125,
+        "startChar": 37,
+        "endLine": 125,
+        "endChar": 38
+      },
+      "revId": "79b07f7e69933a4fe73743abf35c9ef9e840105c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaaad739_1c36d173",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-30T14:19:28Z",
+      "side": 1,
+      "message": "nit: w",
+      "range": {
+        "startLine": 239,
+        "startChar": 26,
+        "endLine": 239,
+        "endChar": 27
+      },
+      "revId": "79b07f7e69933a4fe73743abf35c9ef9e840105c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       },
       "revId": "3463c5b84a2fa15759b1970ba748fcfdfca83fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34bdfe2b_723fe6b9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-06-30T11:20:38Z",
+      "side": 1,
+      "message": "ugh, now you thoroughly confused me: the image diff builder still needs it to set the initial state when rendering.",
+      "parentUuid": "2b6e0b3d_3d0d4a4b",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 11
+      },
+      "revId": "3463c5b84a2fa15759b1970ba748fcfdfca83fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

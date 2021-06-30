@@ -692,6 +692,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f8bd8722_55aa841b",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-30T11:02:46Z",
+      "side": 1,
+      "message": "\u003e If we assume that we are writing documentation for the end-users it makes all the sense in the world to me. Why would we spread this information in two separate documents when there are different expectations on a Reviewer whether they are in the Attention-Set or not.\n\nTo elaborate on this answer:\nFrom my experience users are not interested in reading the entire documentation about a tool they are using, primarily they want something that quickly and tersely answers the questions:\n* Why did this happen? Why am I in this state?\n* What should I do to get out of it, get moving again?|What is expected of me?",
+      "parentUuid": "c0573366_970dc30a",
+      "range": {
+        "startLine": 61,
+        "startChar": 73,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a7206ed_8f5c3e6f",
         "filename": "Documentation/user-reviewer-states.txt",
         "patchSetId": 1

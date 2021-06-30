@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a88ea689_00a40f28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T01:03:34Z",
+      "side": 1,
+      "message": "I\u0027ve tested and this works... i can drag and drop and the browse button still works (including uploading).\n\nAlso added support for uploading multiple files seeing as we have the support in the JS anyways.",
+      "revId": "0eb9d344552bc956d426898b9bb4f81d73de9ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

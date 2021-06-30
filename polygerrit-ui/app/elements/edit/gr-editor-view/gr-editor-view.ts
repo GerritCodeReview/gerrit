@@ -76,7 +76,7 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
   params?: GenerateUrlEditViewParameters;
 
   @property({type: Object, observer: '_editChange'})
-  _change?: ChangeInfo | null;
+  _change?: ChangeInfo;
 
   @property({type: Number})
   _changeNum?: NumericChangeId;

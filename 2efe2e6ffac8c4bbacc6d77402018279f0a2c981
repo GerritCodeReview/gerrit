@@ -419,6 +419,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c21281d_11a87eda",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:32:01Z",
+      "side": 1,
+      "message": "The expectation is that you act/reply on the change as documented in the attention set docs.",
+      "parentUuid": "a643a2c1_5114282b",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 0
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "408dc8aa_8bce2d93",
         "filename": "Documentation/user-reviewer-states.txt",
         "patchSetId": 1
@@ -596,6 +620,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b8b077c_00aef1aa",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:32:01Z",
+      "side": 1,
+      "message": "I would prefer to have one document about reviewer states and one document (already exists) about attention set. I am not sure whether it helps to document the 2x2 matrix in one doc.\n\nThe definition of a reviewer being expected to eventually vote on a label is independent of the attention set state.",
+      "parentUuid": "cad4f5bd_2f9d85b1",
+      "range": {
+        "startLine": 61,
+        "startChar": 73,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a7206ed_8f5c3e6f",
         "filename": "Documentation/user-reviewer-states.txt",
         "patchSetId": 1
@@ -625,6 +673,24 @@
       "side": 1,
       "message": "Someone who is added as a Reviewer is of course expected to eventually vote on a change, but not when the Reviewer isn\u0027t in the Attention-Set, right?\nIn this case the Reviewer has already voted and/or is waiting for action from the Change-Owner.",
       "parentUuid": "5a7206ed_8f5c3e6f",
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "907c9535_b0cede97",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:32:01Z",
+      "side": 1,
+      "message": "I think the confusion comes from the fact that you don\u0027t have a section that explains what a reviewer is regardless of the attention set state.",
+      "parentUuid": "5e2dedc4_df2d40ce",
       "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

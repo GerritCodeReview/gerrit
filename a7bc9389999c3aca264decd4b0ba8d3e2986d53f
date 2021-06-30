@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e50603e_9831a7bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2021-06-30T07:55:31Z",
+      "side": 1,
+      "message": "Screenshot on comment #16 in the bug LGTM, as Ben mentioned, we would need to add a shadow to the comment card (same as file comments). Could you update the screenshot with the latest screenshot please?",
+      "parentUuid": "0e4abac4_71f21df2",
+      "revId": "a7bc9389999c3aca264decd4b0ba8d3e2986d53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "57dcc8e6_073903e4",

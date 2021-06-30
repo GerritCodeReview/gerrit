@@ -572,6 +572,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cad4f5bd_2f9d85b1",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-30T06:41:38Z",
+      "side": 1,
+      "message": "Continuing the ping-pong analogy. I hear Ben say \"I expect the reviewer to hit the ball\" and me replying \"Yes the reviewer is expected to hit the ball IF someone passes it to him (the reviewer is added to the attention-set)\". There are four reviewer states with different meaning:\n\n* CC\n* CC + Attention-Set\n* Reviewer\n* Reviewer + Attention-Set\n\nThis section is about being a \"Reviewer\" without being in the Attention-Set.\n\nI agree that if you add someone as a Reviewer you most likely do so because you expect them \"to \"eventually vote on a label that is blocking submission\".\nBut the state that is described here is when they aren\u0027t in the Attention-Set it\u0027s not their turn, at that point in time they aren\u0027t expected to do anything. They have already performed an action that has \"fulfilled the Attention contract\" and are removed from the Attention-Set because it\u0027s now someone else\u0027s turn to take action.\n\nDoes it make more sense now?",
+      "parentUuid": "951ceb87_8dcfcbee",
+      "range": {
+        "startLine": 61,
+        "startChar": 73,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a7206ed_8f5c3e6f",
         "filename": "Documentation/user-reviewer-states.txt",
         "patchSetId": 1

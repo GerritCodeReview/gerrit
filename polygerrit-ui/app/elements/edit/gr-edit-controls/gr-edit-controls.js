@@ -302,6 +302,11 @@ class GrEditControls extends mixinBehaviors( [
       fr.readAsDataURL(file);
     }
   }
+
+  _handleKeyPress(event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
 }
 
 customElements.define(GrEditControls.is, GrEditControls);

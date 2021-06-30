@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58880c97_1ce5ef6e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-06-30T15:21:56Z",
+      "side": 1,
+      "message": "When I don\u0027t do this, it complains about it being unused. I originally had it abstract in GrDiffBuilder, hence I needed to override it everywhere. I guess now I could remove it here, but the empty default implementation in GrDiffBuilder still has the problem of the unused parameter if I don\u0027t do this. Is there a different pattern for this situation?",
+      "parentUuid": "fced3ec5_9d3aa2e1",
+      "range": {
+        "startLine": 142,
+        "startChar": 20,
+        "endLine": 142,
+        "endChar": 32
+      },
+      "revId": "1a04601800b52beae576ced3d3eee4ac0e52608e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b362a4a_6d275745",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-30T15:18:20Z",
       "side": 1,
       "message": "Could you please point where it is used? I can\u0027t find any usage outside of this class.",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 11
+      },
+      "revId": "1a04601800b52beae576ced3d3eee4ac0e52608e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12259dc1_cb13a93f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-06-30T15:21:56Z",
+      "side": 1,
+      "message": "Dhruv had asked this before, and I had forgotten, but it\u0027s used in gr-diff-builder-image.ts in _emitImageViewer().",
+      "parentUuid": "2b362a4a_6d275745",
       "range": {
         "startLine": 81,
         "startChar": 2,

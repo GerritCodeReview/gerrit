@@ -34,6 +34,24 @@
       "parentUuid": "8a961b45_57139a21",
       "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bc66206_f4bfc2da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-30T13:45:26Z",
+      "side": 1,
+      "message": "Yes, it is still persisted in the previous commit - is that what you mean? That can be GC-ed eventually, so it should be OK, but LMK if I\u0027m missing something.",
+      "parentUuid": "569a8e9c_f7e83e2b",
+      "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

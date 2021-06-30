@@ -321,19 +321,14 @@ public abstract class ExternalId implements Serializable {
    */
   public static ExternalId parse(String noteId, byte[] raw, ObjectId blobId)
       throws ConfigInvalidException {
+    requireNonNull(blobId);
+
     Config externalIdConfig = new Config();
     try {
       externalIdConfig.fromText(new String(raw, UTF_8));
     } catch (ConfigInvalidException e) {
       throw invalidConfig(noteId, e.getMessage());
     }
-
-    return parse(noteId, externalIdConfig, blobId);
-  }
-
-  public static ExternalId parse(String noteId, Config externalIdConfig, ObjectId blobId)
-      throws ConfigInvalidException {
-    requireNonNull(blobId);
 
     Set<String> externalIdKeys = externalIdConfig.getSubsections(EXTERNAL_ID_SECTION);
     if (externalIdKeys.size() != 1) {

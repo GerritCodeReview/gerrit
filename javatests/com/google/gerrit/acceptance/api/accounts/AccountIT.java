@@ -2974,6 +2974,30 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(e).hasMessageThat().contains("foo:bar");
   }
 
+  @Test
+  public void externalIdBatchUpdates_commitMsg() throws Exception {
+    ExternalId extId1 =
+        ExternalId.createWithEmail(ExternalId.Key.parse("foo:bar"), admin.id(), "1@foo.com");
+    ExternalId extId2 =
+        ExternalId.createWithEmail(ExternalId.Key.parse("foo:baz"), user.id(), "2@foo.com");
+
+    AccountsUpdate.UpdateArguments ua1 =
+        new AccountsUpdate.UpdateArguments(
+            "first message", admin.id(), (a, u) -> u.addExternalId(extId1));
+    AccountsUpdate.UpdateArguments ua2 =
+        new AccountsUpdate.UpdateArguments(
+            "second message", user.id(), (a, u) -> u.addExternalId(extId2));
+    accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
+
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        RevWalk rw = new RevWalk(allUsersRepo)) {
+      RevCommit commit =
+          rw.parseCommit(allUsersRepo.exactRef(RefNames.REFS_EXTERNAL_IDS).getObjectId());
+
+      assertThat(commit.getFullMessage()).isEqualTo("Batch update for 2 accounts\n");
+    }
+  }
+
   private void createDraft(PushOneCommit.Result r, String path, String message) throws Exception {
     DraftInput in = new DraftInput();
     in.path = path;

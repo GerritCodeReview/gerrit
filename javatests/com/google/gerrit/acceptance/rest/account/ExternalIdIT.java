@@ -37,7 +37,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -79,8 +78,6 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.FooterLine;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -774,97 +771,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
     }
   }
 
-  @Test
-  public void footers() throws Exception {
-    // Insert external ID for different accounts
-    TestAccount user1 = accountCreator.create("user1");
-    TestAccount user2 = accountCreator.create("user2");
-    ExternalId extId1 = ExternalId.create("foo", "1", user1.id());
-    ExternalId extId2 = ExternalId.create("foo", "2", user1.id());
-    ExternalId extId3 = ExternalId.create("foo", "3", user2.id());
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
-      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
-      extIdNotes.insert(ImmutableSet.of(extId1, extId2, extId3));
-      RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.id(), "Account: " + user2.id())
-          .inOrder();
-    }
-
-    // Insert external ID with different emails
-    ExternalId extId4 = ExternalId.createWithEmail("foo", "4", user1.id(), "foo4@example.com");
-    ExternalId extId5 = ExternalId.createWithEmail("foo", "5", user2.id(), "foo5@example.com");
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
-      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
-      extIdNotes.insert(ImmutableSet.of(extId4, extId5));
-      RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c))
-          .containsExactly(
-              "Account: " + user1.id(),
-              "Account: " + user2.id(),
-              "Email: foo4@example.com",
-              "Email: foo5@example.com")
-          .inOrder();
-    }
-
-    // Update external ID - Add Email
-    ExternalId extId1a = ExternalId.createWithEmail("foo", "1", user1.id(), "foo1@example.com");
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
-      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
-      extIdNotes.upsert(extId1a);
-      RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.id(), "Email: foo1@example.com")
-          .inOrder();
-    }
-
-    // Update external ID - Remove Email
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
-      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
-      extIdNotes.upsert(extId1);
-      RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.id(), "Email: foo1@example.com")
-          .inOrder();
-    }
-
-    // Delete external IDs
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
-      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
-      extIdNotes.delete(ImmutableSet.of(extId1, extId5));
-      RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c))
-          .containsExactly(
-              "Account: " + user1.id(), "Account: " + user2.id(), "Email: foo5@example.com")
-          .inOrder();
-    }
-
-    // Delete external ID by key without email
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
-      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
-      extIdNotes.delete(extId2.accountId(), extId2.key());
-      RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c)).containsExactly("Account: " + user1.id()).inOrder();
-    }
-
-    // Delete external ID by key with email
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
-      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
-      extIdNotes.delete(extId4.accountId(), extId4.key());
-      RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.id(), "Email: foo4@example.com")
-          .inOrder();
-    }
-  }
-
   private boolean isPartialCacheReloadingEnabled() {
     return cfg.getBoolean("cache", "external_ids_map", "enablePartialReloads", true);
   }
@@ -913,10 +819,6 @@ public class ExternalIdIT extends AbstractDaemonTest {
       externalIdNotesFactory.updateExternalIdCacheAndMaybeReindexAccounts(
           extIdNotes, ImmutableList.of());
     }
-  }
-
-  private List<String> getFooters(RevCommit c) {
-    return c.getFooterLines().stream().map(FooterLine::toString).collect(toList());
   }
 
   private List<AccountExternalIdInfo> toExternalIdInfos(Collection<ExternalId> extIds) {

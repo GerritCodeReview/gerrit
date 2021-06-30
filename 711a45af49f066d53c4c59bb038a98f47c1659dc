@@ -16,6 +16,24 @@
       "message": "I think the overall better solution would be to add `flex-wrap:wrap` to `.header`. Then you can probably remove the entire special casing for small screens. WDYT?",
       "revId": "711a45af49f066d53c4c59bb038a98f47c1659dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "254d6bcf_82051796",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T13:54:24Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nI\u0027ve also noticed that subHeader is unused, should we remove?",
+      "parentUuid": "e281c866_b0ecc3a4",
+      "revId": "711a45af49f066d53c4c59bb038a98f47c1659dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -33,6 +33,24 @@
       "message": "Is change 305575 in stable-3.4?",
       "revId": "50d4bb3d6a9274f718f35c22c0627037c49c6788",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9bd007f_32776553",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T11:45:48Z",
+      "side": 1,
+      "message": "no, but I’ve tested this change and keyboard commands still work but also fixes an issue where you couldn’t type “/“ on mobiles inline editor.",
+      "parentUuid": "3ce9426a_9ec09d37",
+      "revId": "50d4bb3d6a9274f718f35c22c0627037c49c6788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

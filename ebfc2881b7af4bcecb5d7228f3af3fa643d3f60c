@@ -153,6 +153,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f20faf1_2cbd597b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T13:25:50Z",
+      "side": 1,
+      "message": "Reverted back to spacing-l",
+      "parentUuid": "e87a5f42_157cca16",
+      "revId": "ebfc2881b7af4bcecb5d7228f3af3fa643d3f60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4716aecd_98d7dca3",

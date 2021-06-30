@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f1efd0b_8a42a808",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:41:40Z",
+      "side": 1,
+      "message": "put this in {}, because the the `if` above also has it",
+      "range": {
+        "startLine": 1354,
+        "startChar": 34,
+        "endLine": 1354,
+        "endChar": 74
+      },
+      "revId": "96ee23b5595e41aed2b1349be764f75d00ae4ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fd8f5d9_99f6fbd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:41:40Z",
+      "side": 1,
+      "message": "If you call it `focus`, then you should also focus it, not just scroll into view. :-)",
+      "revId": "96ee23b5595e41aed2b1349be764f75d00ae4ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3b477ad_f8226c5b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:41:40Z",
+      "side": 1,
+      "message": "Why a resize observer?",
+      "revId": "96ee23b5595e41aed2b1349be764f75d00ae4ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fee6cb2f_755794d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:41:40Z",
+      "side": 1,
+      "message": "I think it would be nice, if the thread list could handle all this. That would have the advantage that we don\u0027t have to push comment ids into threads that don\u0027t have anything to do with it. And it is more of a reponsibility of the surrounding thread list to scroll the comment into view.",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 38
+      },
+      "revId": "96ee23b5595e41aed2b1349be764f75d00ae4ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

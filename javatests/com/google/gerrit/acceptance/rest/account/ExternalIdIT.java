@@ -801,11 +801,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       extIdNotes.insert(ImmutableSet.of(extId4, extId5));
       RevCommit c = extIdNotes.commit(md);
       assertThat(getFooters(c))
-          .containsExactly(
-              "Account: " + user1.id(),
-              "Account: " + user2.id(),
-              "Email: foo4@example.com",
-              "Email: foo5@example.com")
+          .containsExactly("Account: " + user1.id(), "Account: " + user2.id())
           .inOrder();
     }
 

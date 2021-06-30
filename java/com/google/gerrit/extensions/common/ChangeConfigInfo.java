@@ -19,8 +19,6 @@ public class ChangeConfigInfo {
   public Boolean allowBlame;
   public Boolean showAssigneeInChangesTable;
   public Boolean disablePrivateChanges;
-  public String replyLabel;
-  public String replyTooltip;
   public int updateDelay;
   public Boolean submitWholeTopic;
   public String mergeabilityComputationBehavior;

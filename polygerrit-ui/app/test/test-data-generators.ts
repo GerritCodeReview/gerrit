@@ -343,8 +343,6 @@ export function createAuth(): AuthInfo {
 export function createChangeConfig(): ChangeConfigInfo {
   return {
     large_change: 500,
-    reply_label: 'Reply',
-    reply_tooltip: 'Reply and score',
     // The default update_delay is 5 minutes, but we don't want to accidentally
     // start polling in tests
     update_delay: 0,

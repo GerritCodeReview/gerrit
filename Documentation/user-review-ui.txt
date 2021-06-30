@@ -418,7 +418,7 @@ The `Reply...` button in the change header allows to reply to the
 currently viewed patch set; one can add a summary comment, publish
 inline draft comments, and vote on the labels.
 
-image::images/gwt-user-review-ui-change-screen-reply.png[width=800, link="images/gwt-user-review-ui-change-screen-reply.png"]
+image::images/user-review-ui-change-screen-reply.png[width=800, link="images/user-review-ui-change-screen-reply.png"]
 
 Clicking on the `Reply...` button opens a popup panel.
 
@@ -429,11 +429,8 @@ indented lines preformatted, lines starting with "- " or "* " as list
 items, and lines starting with "> " as block quotes (also see replying to
 link:#reply-to-message[messages] and link:#reply-inline-comment[inline comments]).
 
-Note that you can set the text and tooltip of the button in
-link:config-gerrit.html#change.replyLabel[gerrit.config].
-
 [[vote]]
-If the current patch set is viewed, radio buttons are displayed for
+If the current patch set is viewed, buttons are displayed for
 each label on which the user is allowed to vote. Voting on non-current
 patch sets is not possible.
 
@@ -443,8 +440,6 @@ are links to navigate to the inline comments which can be used if a
 comment needs to be edited.
 
 The `Post` button publishes the comments and the votes.
-
-image::images/gwt-user-review-ui-change-screen-replying.png[width=800, link="images/gwt-user-review-ui-change-screen-replying.png"]
 
 [[quick-approve]]
 If a user can approve a label that is still required, a quick approve

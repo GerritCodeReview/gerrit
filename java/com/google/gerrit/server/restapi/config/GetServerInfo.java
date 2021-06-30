@@ -68,7 +68,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
@@ -222,13 +221,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.showAssigneeInChangesTable =
         toBoolean(
             config.getBoolean("change", "showAssigneeInChangesTable", false) && hasAssigneeInIndex);
-    info.replyTooltip =
-        Optional.ofNullable(config.getString("change", null, "replyTooltip"))
-                .orElse("Reply and score")
-            + " (Shortcut: a)";
-    info.replyLabel =
-        Optional.ofNullable(config.getString("change", null, "replyLabel")).orElse("Reply")
-            + "\u2026";
     info.updateDelay =
         (int) ConfigUtil.getTimeUnit(config, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
     info.submitWholeTopic = toBoolean(MergeSuperSet.wholeTopicEnabled(config));

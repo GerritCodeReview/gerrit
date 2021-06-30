@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb676c52_5df78402",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:57:06Z",
+      "side": 1,
+      "message": "Maybe consider rewriting as:\n\n    if (!changeIsMerged(value)) return;\n    if (!changeIsAbandoned(value)) return;\n    if (!this._patchNum) return;\n    if (!value) return;\n\n    fireAlert(...);\n    GerritNav.navigateToChange(value, this._patchNum);",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 5
+      },
+      "revId": "9448e66dee593d6b143efa288ea714606dbab9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

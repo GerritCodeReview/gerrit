@@ -226,7 +226,7 @@ export const grRestApiMock: RestApiService = {
   getChangeConflicts(): Promise<ChangeInfo[] | undefined> {
     return Promise.resolve([]);
   },
-  getChangeDetail(): Promise<ParsedChangeInfo | null | undefined> {
+  getChangeDetail(): Promise<ParsedChangeInfo | undefined> {
     return Promise.resolve(createChange() as ParsedChangeInfo);
   },
   getChangeEdit(): Promise<false | EditInfo | undefined> {
@@ -274,7 +274,7 @@ export const grRestApiMock: RestApiService = {
   getDiff(): Promise<DiffInfo | undefined> {
     throw new Error('getDiff() not implemented by RestApiMock.');
   },
-  getDiffChangeDetail(): Promise<ChangeInfo | undefined | null> {
+  getDiffChangeDetail(): Promise<ChangeInfo | undefined> {
     throw new Error('getDiffChangeDetail() not implemented by RestApiMock.');
   },
   getDiffComments() {

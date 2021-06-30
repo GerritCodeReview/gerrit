@@ -52,7 +52,7 @@ export function readResponsePayload(
     try {
       result = parsePrefixedJSON(text);
     } catch (_) {
-      result = null;
+      result = undefined;
     }
     // TODO(TS): readResponsePayload can assign null to the parsed property if
     // it can't parse input data. However polygerrit assumes in many places

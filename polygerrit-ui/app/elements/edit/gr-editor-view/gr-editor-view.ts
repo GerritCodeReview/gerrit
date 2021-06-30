@@ -90,7 +90,7 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
   params?: GenerateUrlEditViewParameters;
 
   @property({type: Object, observer: '_editChange'})
-  _change?: ChangeInfo | null;
+  _change?: ChangeInfo;
 
   @property({type: Number})
   _changeNum?: NumericChangeId;
@@ -206,11 +206,12 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
 
   _getChangeDetail(changeNum: NumericChangeId) {
     return this.restApiService.getDiffChangeDetail(changeNum).then(change => {
+      if (!change) throw new Error('Missing "change" in API response.');
       this._change = change;
     });
   }
 
-  _editChange(value?: ChangeInfo | null) {
+  _editChange(value?: ChangeInfo) {
     if (!changeIsMerged(value) && !changeIsAbandoned(value)) return;
     if (!value) return;
     fireAlert(

@@ -16,6 +16,29 @@
       "message": "I would prefer to not be involved in further review cycles. I don\u0027t feel that I have much to add as a reviewer and as said before, I am not comfortable granting a +2. Maybe you can find 1 or 2 other maintainers as reviewers?",
       "revId": "f212f943a9f47787da52aee4315fc711b5faae02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3641b53_8d984b87",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-30T10:57:17Z",
+      "side": 1,
+      "message": "Is the fact that I call it reviewers states (which in the code is either CC or Reviwer) causing some of the confusion? \nI did my best to try to come up with something better to use as label for the states that are being described. Should I use a different term?\nIf so, does anyone have a good suggestion?",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 32
+      },
+      "revId": "f212f943a9f47787da52aee4315fc711b5faae02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

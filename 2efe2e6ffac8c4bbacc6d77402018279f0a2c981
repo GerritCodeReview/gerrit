@@ -443,6 +443,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7400c0c6_a1f48d83",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-30T10:57:17Z",
+      "side": 1,
+      "message": "I\u0027m guessing you are referring to https://gerrit-review.googlesource.com/Documentation/user-attention-set.html\n\nI cannot find any mention of what the expectations are when you are a CC and in the Attention-Set in this document.\n\nThe only mention of CC is in the \"Assignee\" section where it says:\n\"If you don’t expect action from reviewers, then consider adding them to CC instead.\"\nWhich, in the case of CC+Attention-Set, directly contradicts the second sentence of the document:\n\"For every change Gerrit maintains an \"Attention Set\" with users that are currently expected to act on the change.\"\n\nCould you elaborate on what you mean?",
+      "parentUuid": "8c21281d_11a87eda",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 0
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "408dc8aa_8bce2d93",
         "filename": "Documentation/user-reviewer-states.txt",
         "patchSetId": 1
@@ -644,6 +668,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0573366_970dc30a",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-30T10:57:17Z",
+      "side": 1,
+      "message": "\u003e I would prefer to have one document about reviewer states and one document (already exists) about attention set. I am not sure whether it helps to document the 2x2 matrix in one doc.\n\nIf we assume that we are writing documentation for the end-users it makes all the sense in the world to me. Why would we spread this information in two separate documents when there are different expectations on a Reviewer whether they are in the Attention-Set or not.\n\n\u003e \n\u003e The definition of a reviewer being expected to eventually vote on a label is independent of the attention set state.\n\nIn my mind the expectations are very much linked to whether the user is in the Attention-Set or not, otherwise I might have totally misunderstood what \"who\u0027s turn is it\" means.\nIf I add you to a change of mine (hoping to get a CR+2) and you reply with a CR-1 with a comment about what needs to be fixed I don\u0027t expect you to do anything until I have at least replied to the comment and most likely also uploaded a new patch-set and marked the comment as Done.\n*Then* My expectations are that you review the change again.\n\nAn even more to the point example is I upload a change and you vote CR+2.\nWhy would my expectations still be that you should do something you have already done?",
+      "parentUuid": "9b8b077c_00aef1aa",
+      "range": {
+        "startLine": 61,
+        "startChar": 73,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a7206ed_8f5c3e6f",
         "filename": "Documentation/user-reviewer-states.txt",
         "patchSetId": 1
@@ -691,6 +739,24 @@
       "side": 1,
       "message": "I think the confusion comes from the fact that you don\u0027t have a section that explains what a reviewer is regardless of the attention set state.",
       "parentUuid": "5e2dedc4_df2d40ce",
+      "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b63700a2_aa0f5a2b",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-30T10:57:17Z",
+      "side": 1,
+      "message": "This document is not about the \"role\" Reviewer, it\u0027s not attempting to explain what being a Reviewer is (or what the Attention-Set is), only what is expected of you when you are in one of the 4 states, and how you ended up in that state.\nThe overarching basic principles of code-review are way beyond the scope of this document.",
+      "parentUuid": "907c9535_b0cede97",
       "revId": "2efe2e6ffac8c4bbacc6d77402018279f0a2c981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

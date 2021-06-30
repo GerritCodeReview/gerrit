@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8846539b_5971daa9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-30T17:52:06Z",
+      "side": 1,
+      "message": "@Han-Wen apologies for the delay of the validation of this change. The problem is caused by [1] and I had to schedule a manual build to recover the situation.\n\nHas the \u0027Re-run\u0027 button intentionally removed from the Gerrit UI? What is the rationale behind it?\nWe integrated the CI with the Checks API because of that button, but it looks like it isn\u0027t there anymore when a build is aborted, which is very unfortunate :-(\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d14724",
+      "revId": "cc64a63290ebb51c0b7d4ca59f6c5748eba28500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Seems like the space between the patchset level comment card and the border under the patchset level comment card is --spacing-m. I propose we make it --spacing-l so that it aligns with the proposed mocks.",
       "revId": "8d70afcc1007b747e63c973d9967a2803ad967ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be5e4a13_b5f63271",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T12:58:38Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/gerrit/+/310602/3..11/polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts#b239",
+      "parentUuid": "1354a084_da9a589c",
+      "revId": "8d70afcc1007b747e63c973d9967a2803ad967ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

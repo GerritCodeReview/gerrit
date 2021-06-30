@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5b43aa5_3cd9191f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:52:06Z",
+      "side": 1,
+      "message": "Add a screenshot.",
+      "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "166061b1_1957a70c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:52:06Z",
+      "side": 1,
+      "message": "Is this an unrelated fix?",
+      "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f96a3011_2612e414",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:52:06Z",
+      "side": 1,
+      "message": "This should appear in a UI component. Maybe move to GerritNav?",
+      "range": {
+        "startLine": 418,
+        "startChar": 5,
+        "endLine": 419,
+        "endChar": 32
+      },
+      "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bf2248c_67813915",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:52:06Z",
+      "side": 1,
+      "message": "Never use `vertical-align: middle`. It does not do what you think it does.\n\n\"Normal icons\" should be 20px height and fit into line-height.\n\nSmaller icons need to be positioned with `position:relative; top:xpx;`.\n\nSame below.",
+      "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698e30fe_32f8001a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:52:06Z",
+      "side": 1,
+      "message": "This should have `role\u003d\"button\"` or be wrapped in a \u003cbutton\u003e.\n\nIt should have a tabindex such that you can use this also a keyboard user.\n\nAlso below.",
+      "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

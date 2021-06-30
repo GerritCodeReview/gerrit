@@ -16,6 +16,24 @@
       "message": "Please add a screenshot.\n\nFor UX changes also add Delphine as reviewer.\n\nUse `margin` or `padding` instead of `\u003cbr\u003e` for creating more space.",
       "revId": "f9d030d4a49888f99afc44dacfb98a40975b0480",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d778fbe_b9144289",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T13:17:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0c6f1a14_1da95fd5",
+      "revId": "f9d030d4a49888f99afc44dacfb98a40975b0480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

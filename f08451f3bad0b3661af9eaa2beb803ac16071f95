@@ -134,6 +134,30 @@
       },
       "revId": "f08451f3bad0b3661af9eaa2beb803ac16071f95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82c2d1f5_365b7124",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2021-06-30T15:44:42Z",
+      "side": 1,
+      "message": "\u003e @Nasser I first made that change in master and abandoned it [1], so I can\u0027t mark the change in master as private anymore. Do you think this is severe that I still should go through the embargo process? hint: this is similar to some security fixes that I implemented earlier ([2], [3] \u0026 [4]).\n\nI\u0027m not sure where our threshold is. I think this should at least have a monorail bug associated with it with the Security label. Sounds like the ESC can make a determination about which releases need to be fixed and if it needs a CVE.\n\nAnd I think this is different from [2],[3],[4] in that it exposes information to a user they\u0027re not allowed to see.\n\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/c/gerrit/+/309745\n\u003e [2] https://gerrit-review.googlesource.com/c/gerrit/+/287351/\n\u003e [3] https://gerrit-review.googlesource.com/c/gerrit/+/287729/\n\u003e [4] https://gerrit-review.googlesource.com/c/gerrit/+/293962/",
+      "parentUuid": "9955a807_b4f4e30f",
+      "range": {
+        "startLine": 101,
+        "startChar": 14,
+        "endLine": 101,
+        "endChar": 65
+      },
+      "revId": "f08451f3bad0b3661af9eaa2beb803ac16071f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

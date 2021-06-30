@@ -910,9 +910,6 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   private static void addFooters(Set<String> footers, ExternalId extId) {
     footers.add("Account: " + extId.accountId().get());
-    if (extId.email() != null) {
-      footers.add("Email: " + extId.email());
-    }
   }
 
   private void checkExternalIdsDontExist(Collection<ExternalId> extIds)

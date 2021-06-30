@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c6f1a14_1da95fd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T11:19:48Z",
+      "side": 1,
+      "message": "Please add a screenshot.\n\nFor UX changes also add Delphine as reviewer.\n\nUse `margin` or `padding` instead of `\u003cbr\u003e` for creating more space.",
+      "revId": "f9d030d4a49888f99afc44dacfb98a40975b0480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

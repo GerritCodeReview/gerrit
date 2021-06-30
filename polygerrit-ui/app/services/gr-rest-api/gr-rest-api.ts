@@ -202,7 +202,7 @@ export interface RestApiService {
     changeNum: number | string,
     opt_errFn?: ErrorCallback,
     opt_cancelCondition?: Function
-  ): Promise<ParsedChangeInfo | null | undefined>;
+  ): Promise<ParsedChangeInfo | undefined>;
 
   getChange(
     changeNum: ChangeId | NumericChangeId,
@@ -400,7 +400,7 @@ export interface RestApiService {
 
   getDiffChangeDetail(
     changeNum: NumericChangeId
-  ): Promise<ChangeInfo | undefined | null>;
+  ): Promise<ChangeInfo | undefined>;
 
   getPortedComments(
     changeNum: NumericChangeId,

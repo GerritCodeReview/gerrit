@@ -70,6 +70,24 @@
       "parentUuid": "4132d811_96d413fe",
       "revId": "3d3e457c536fde42f94914bf99c1a72b7f2caa26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed0d3911_5ef5196e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-06-30T15:09:32Z",
+      "side": 1,
+      "message": "that problem is not relevant to Gerrit\u0027s use of asciidoctor. You could hang our CI, but there are much simpler ways to do that.",
+      "parentUuid": "0342b76c_3d2c7374",
+      "revId": "3d3e457c536fde42f94914bf99c1a72b7f2caa26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

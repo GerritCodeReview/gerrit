@@ -88,6 +88,24 @@
       "parentUuid": "0342b76c_3d2c7374",
       "revId": "3d3e457c536fde42f94914bf99c1a72b7f2caa26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64346c67_6ea397fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T15:14:17Z",
+      "side": 1,
+      "message": "Yeh, i did mention that in the commit message :)",
+      "parentUuid": "ed0d3911_5ef5196e",
+      "revId": "3d3e457c536fde42f94914bf99c1a72b7f2caa26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

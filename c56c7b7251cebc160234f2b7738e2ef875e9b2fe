@@ -52,6 +52,24 @@
       "parentUuid": "1a673550_a310b891",
       "revId": "c56c7b7251cebc160234f2b7738e2ef875e9b2fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03139c74_b84debb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T21:48:51Z",
+      "side": 1,
+      "message": "Oh i\u0027m wrong about the white background on the settings page. It has the same issue. Though my comment above still stands about adding overflow to settings \u0026 also keeping it for gr-repo? Or making the background white.",
+      "parentUuid": "9a5fa147_e7ad95c9",
+      "revId": "c56c7b7251cebc160234f2b7738e2ef875e9b2fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

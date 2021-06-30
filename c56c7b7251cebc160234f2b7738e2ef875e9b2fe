@@ -34,6 +34,24 @@
       "parentUuid": "66e5cf26_6b6af6ca",
       "revId": "c56c7b7251cebc160234f2b7738e2ef875e9b2fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a5fa147_e7ad95c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T13:14:33Z",
+      "side": 1,
+      "message": "I see this issue happens on the settings page, but not much an issue as the background is white. Maybe we can set this for the admin module? Looks better.\n\nOr we can add a overflow to the settings page and also set the admin module to have a white background too?\n\nThoughts?",
+      "parentUuid": "1a673550_a310b891",
+      "revId": "c56c7b7251cebc160234f2b7738e2ef875e9b2fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

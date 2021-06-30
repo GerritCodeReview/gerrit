@@ -34,6 +34,24 @@
       "parentUuid": "8f24c2cf_8111fc12",
       "revId": "a5215ad2d050b0cf470971c643ade3f8f119d5c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47dd1a3a_37678c55",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T13:41:33Z",
+      "side": 1,
+      "message": "Ack, will do in a follow up change.",
+      "parentUuid": "7bdaca45_0362d751",
+      "revId": "a5215ad2d050b0cf470971c643ade3f8f119d5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

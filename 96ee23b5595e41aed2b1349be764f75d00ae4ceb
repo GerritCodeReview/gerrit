@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f2ab9963_ce41a997",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T14:53:55Z",
+      "side": 1,
+      "message": "The scroll was being called before the element was added to the view and hence I needed resizeObserver to determine when it was being added.",
+      "parentUuid": "a3b477ad_f8226c5b",
+      "revId": "96ee23b5595e41aed2b1349be764f75d00ae4ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fee6cb2f_755794d1",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
         "patchSetId": 4
@@ -71,6 +89,30 @@
       "writtenOn": "2021-06-30T09:41:40Z",
       "side": 1,
       "message": "I think it would be nice, if the thread list could handle all this. That would have the advantage that we don\u0027t have to push comment ids into threads that don\u0027t have anything to do with it. And it is more of a reponsibility of the surrounding thread list to scroll the comment into view.",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 38
+      },
+      "revId": "96ee23b5595e41aed2b1349be764f75d00ae4ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17c96641_98621d9f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T14:53:55Z",
+      "side": 1,
+      "message": "The extra code is due to the timing issue, scrollIntoView needs to wait for  the ResizeObserver to tell it that it\u0027s now attached.\n\nThe alternative is removing focusCommentId from gr-comment-thread, firing an event to gr-thread-list upon attaching to DOM which calls scrollIntoView.\n\nNot sure that is much cleaner, though it does remove sending focusCommentId to gr-comment-thread.",
+      "parentUuid": "fee6cb2f_755794d1",
       "range": {
         "startLine": 234,
         "startChar": 4,

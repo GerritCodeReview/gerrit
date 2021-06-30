@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9319efaf_b73e091f",
+        "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-30T12:45:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0b513dd_865ca9d4",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 106,
+        "endChar": 12
+      },
+      "revId": "f08451f3bad0b3661af9eaa2beb803ac16071f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93c5135a_e1e61b0b",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-06-28T20:05:36Z",
       "side": 1,
       "message": "If this test fails on the tip, this is a security issue and we should follow https://gerrit-review.googlesource.com/Documentation/dev-processes.html#security-issues",
+      "range": {
+        "startLine": 101,
+        "startChar": 14,
+        "endLine": 101,
+        "endChar": 65
+      },
+      "revId": "f08451f3bad0b3661af9eaa2beb803ac16071f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9163babb_b8dd60a8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-06-30T12:45:38Z",
+      "side": 1,
+      "message": "Yes, this test fails on master. Thanks for the link.",
+      "parentUuid": "93c5135a_e1e61b0b",
       "range": {
         "startLine": 101,
         "startChar": 14,

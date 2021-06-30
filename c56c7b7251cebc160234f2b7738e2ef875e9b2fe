@@ -16,6 +16,24 @@
       "message": "Can you be more specific here? What is the before and after state?\n\nI have tried the new css on `Repo \u003e Access` and it made the scroll bar go away, which I guess is not intended?",
       "revId": "c56c7b7251cebc160234f2b7738e2ef875e9b2fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a673550_a310b891",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T12:55:45Z",
+      "side": 1,
+      "message": "Added a screenshot.\n\nAlso it seems that the scroll bar is moved to the bottom of the page rather then shown at the bottom of the window (with overflow).\n\nAny ideas for an alternative fix?",
+      "parentUuid": "66e5cf26_6b6af6ca",
+      "revId": "c56c7b7251cebc160234f2b7738e2ef875e9b2fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

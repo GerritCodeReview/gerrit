@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa034aef_e534e84e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T15:56:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5b43aa5_3cd9191f",
+      "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "166061b1_1957a70c",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-06-30T09:52:06Z",
       "side": 1,
       "message": "Is this an unrelated fix?",
+      "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde7afef_cb368c31",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T15:56:36Z",
+      "side": 1,
+      "message": "Comment context were not being rendered because some of the params were being called with undefined when directly navigating to the comments Tab",
+      "parentUuid": "166061b1_1957a70c",
       "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d26020f_6a13e395",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T15:56:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f96a3011_2612e414",
+      "range": {
+        "startLine": 418,
+        "startChar": 5,
+        "endLine": 419,
+        "endChar": 32
+      },
+      "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8bf2248c_67813915",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "056a8fb0_28a9d29c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T15:56:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bf2248c_67813915",
+      "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "698e30fe_32f8001a",
@@ -88,6 +166,24 @@
       "writtenOn": "2021-06-30T09:52:06Z",
       "side": 1,
       "message": "This should have `role\u003d\"button\"` or be wrapped in a \u003cbutton\u003e.\n\nIt should have a tabindex such that you can use this also a keyboard user.\n\nAlso below.",
+      "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c86c440_516d1873",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T15:56:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "698e30fe_32f8001a",
       "revId": "c3b4abd2ed057422e404d989cb6d0045d08f28cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

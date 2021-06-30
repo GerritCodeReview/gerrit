@@ -63,6 +63,30 @@
       },
       "revId": "f212f943a9f47787da52aee4315fc711b5faae02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62c2725f_0d6a8445",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-30T11:43:55Z",
+      "side": 1,
+      "message": "\u003e CC isn\u0027t a reviewer state: \n\nIt is according to the code [1], but I see what you are referring to in this context.\n\n\u003e What about: \"Levels of engagement with a change review\"?\nThat is undoubtedly more descriptive of what the document is trying to explain.\nI was hoping for a term that describes the states/levels better then \"reviewer-states\" but perhaps there are no such term...\n\n\u003e CC is a \"passive engagement\" (you just get notified) whilst Reviewer is an \"active engagement\". Attention-set can be mentioned and linked to the relevant documentation.\n\nAs I have stated before I\u0027m not attempting to describe what CC and/or Reviewer *is*, just what is expected of you if you are one. Whether you are in the Attention-Set or not IMO very much dictates your level of engagement.\nThere are numerous links to the Attention-Set as this document is not trying to describe what the Attention-Set *is* either.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/extensions/client/ReviewerState.java",
+      "parentUuid": "a4474b02_724cbae1",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 32
+      },
+      "revId": "f212f943a9f47787da52aee4315fc711b5faae02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

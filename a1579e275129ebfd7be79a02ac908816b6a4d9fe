@@ -70,6 +70,24 @@
       "parentUuid": "af4ec112_666cfc8a",
       "revId": "a1579e275129ebfd7be79a02ac908816b6a4d9fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cab12fe_7b086f45",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T12:09:41Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "2b5fc353_36407766",
+      "revId": "a1579e275129ebfd7be79a02ac908816b6a4d9fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

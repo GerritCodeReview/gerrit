@@ -16,6 +16,24 @@
       "message": "In this screenshot:\n\n1. The box shadow is missing.\n2. The \"Resolved\" has the wrong font.\n3. The check boxes are misaligned.",
       "revId": "ff88e6946e76891a262934366bd2e624996d91b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6253ade_bf4cc45c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-06-30T12:09:41Z",
+      "side": 1,
+      "message": "Check boxes were misaligned before as well.\nWill try and fix all occurrences in a separate change.\nFixed the other 2 issues.",
+      "parentUuid": "cf8fb093_d87f943c",
+      "revId": "ff88e6946e76891a262934366bd2e624996d91b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

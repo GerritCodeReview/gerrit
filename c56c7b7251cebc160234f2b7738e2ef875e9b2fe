@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66e5cf26_6b6af6ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T11:18:20Z",
+      "side": 1,
+      "message": "Can you be more specific here? What is the before and after state?\n\nI have tried the new css on `Repo \u003e Access` and it made the scroll bar go away, which I guess is not intended?",
+      "revId": "c56c7b7251cebc160234f2b7738e2ef875e9b2fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

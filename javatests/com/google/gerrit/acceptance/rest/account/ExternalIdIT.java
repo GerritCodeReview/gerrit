@@ -801,11 +801,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       extIdNotes.insert(ImmutableSet.of(extId4, extId5));
       RevCommit c = extIdNotes.commit(md);
       assertThat(getFooters(c))
-          .containsExactly(
-              "Account: " + user1.id(),
-              "Account: " + user2.id(),
-              "Email: foo4@example.com",
-              "Email: foo5@example.com")
+          .containsExactly("Account: " + user1.id(), "Account: " + user2.id())
           .inOrder();
     }
 
@@ -816,9 +812,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       extIdNotes.upsert(extId1a);
       RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.id(), "Email: foo1@example.com")
-          .inOrder();
+      assertThat(getFooters(c)).containsExactly("Account: " + user1.id());
     }
 
     // Update external ID - Remove Email
@@ -827,9 +821,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       extIdNotes.upsert(extId1);
       RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.id(), "Email: foo1@example.com")
-          .inOrder();
+      assertThat(getFooters(c)).containsExactly("Account: " + user1.id());
     }
 
     // Delete external IDs
@@ -839,8 +831,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       extIdNotes.delete(ImmutableSet.of(extId1, extId5));
       RevCommit c = extIdNotes.commit(md);
       assertThat(getFooters(c))
-          .containsExactly(
-              "Account: " + user1.id(), "Account: " + user2.id(), "Email: foo5@example.com")
+          .containsExactly("Account: " + user1.id(), "Account: " + user2.id())
           .inOrder();
     }
 
@@ -850,7 +841,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       extIdNotes.delete(extId2.accountId(), extId2.key());
       RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c)).containsExactly("Account: " + user1.id()).inOrder();
+      assertThat(getFooters(c)).containsExactly("Account: " + user1.id());
     }
 
     // Delete external ID by key with email
@@ -859,9 +850,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       extIdNotes.delete(extId4.accountId(), extId4.key());
       RevCommit c = extIdNotes.commit(md);
-      assertThat(getFooters(c))
-          .containsExactly("Account: " + user1.id(), "Email: foo4@example.com")
-          .inOrder();
+      assertThat(getFooters(c)).containsExactly("Account: " + user1.id());
     }
   }
 

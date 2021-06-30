@@ -208,12 +208,17 @@ export declare interface DiffPreferencesInfo {
   show_file_comment_button?: boolean;
 }
 
+export declare interface ImageDiffPreferences {
+  automatic_blink?: boolean;
+}
+
 export declare interface RenderPreferences {
   hide_left_side?: boolean;
   disable_context_control_buttons?: boolean;
   show_file_comment_button?: boolean;
   hide_line_length_indicator?: boolean;
   use_block_expansion?: boolean;
+  image_diff_prefs?: ImageDiffPreferences;
 }
 
 /**

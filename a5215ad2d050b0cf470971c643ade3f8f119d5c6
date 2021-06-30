@@ -16,6 +16,24 @@
       "message": "@Ben unrelated to this change, but any idea why we use null here? I doin\u0027t see anywhere where we set null for this. Is it safe to just remove this?",
       "revId": "a5215ad2d050b0cf470971c643ade3f8f119d5c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bdaca45_0362d751",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-06-30T09:57:06Z",
+      "side": 1,
+      "message": "Yes, we are trying to remove all `null`s everywhere. Removing it here should be fine.",
+      "parentUuid": "8f24c2cf_8111fc12",
+      "revId": "a5215ad2d050b0cf470971c643ade3f8f119d5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

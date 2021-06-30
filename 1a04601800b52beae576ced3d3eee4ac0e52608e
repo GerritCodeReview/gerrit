@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5363493c_39565054",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2021-06-30T15:35:08Z",
+      "side": 1,
+      "message": "I will leave these overrides in then, to make it very obvious that the other builder subclasses do not yet react to updated RenderPreferences.",
+      "parentUuid": "0069bd4e_f854a883",
+      "range": {
+        "startLine": 142,
+        "startChar": 20,
+        "endLine": 142,
+        "endChar": 32
+      },
+      "revId": "1a04601800b52beae576ced3d3eee4ac0e52608e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b362a4a_6d275745",

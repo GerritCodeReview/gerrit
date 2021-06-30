@@ -39,6 +39,30 @@
       },
       "revId": "f212f943a9f47787da52aee4315fc711b5faae02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4474b02_724cbae1",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-30T11:25:21Z",
+      "side": 1,
+      "message": "CC isn\u0027t a reviewer state: if we keep this document title we should drop the CC from it. If we keep the CC we should amend the title.\n\nWhat about: \"Levels of engagement with a change review\"?\nCC is a \"passive engagement\" (you just get notified) whilst Reviewer is an \"active engagement\". Attention-set can be mentioned and linked to the relevant documentation.",
+      "parentUuid": "b3641b53_8d984b87",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 32
+      },
+      "revId": "f212f943a9f47787da52aee4315fc711b5faae02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

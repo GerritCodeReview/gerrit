@@ -70,6 +70,24 @@
       "parentUuid": "0bc66206_f4bfc2da",
       "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14d02f87_eae4356a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-06-30T14:12:54Z",
+      "side": 1,
+      "message": "\u003e What I mean is that the footer with the email is only added to the commit message if the external ID for that email is touched in that commit. Since the email for the external ID is stored as plain text, you will still be able to see the email from the commit content.\n\nI think the problem is that \"touched\" includes \"deleted\", so what happens is that we delete the external ID to remove the email address, but then persist the very same email address in the commit message.\n\nIf we stop persisting the email in commit N, then IIUC GC-ing up to and including commit N-1 will make the email inaccessible, or is that not the case?",
+      "parentUuid": "85216620_9906d8a3",
+      "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

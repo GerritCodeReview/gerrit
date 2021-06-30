@@ -512,6 +512,7 @@ public class AccountsUpdate {
 
     BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
 
+    String externalIdUpdateMessage = "Batch update for " + updatedAccounts.size() + " accounts";
     for (UpdatedAccount updatedAccount : updatedAccounts) {
       // These updates are all for different refs (because batches never update the same account
       // more than once), so there can be multiple commits in the same batch, all with the same base
@@ -528,7 +529,7 @@ public class AccountsUpdate {
 
       // These update the same ref, so they need to be stacked on top of one another using the same
       // ExternalIdNotes instance.
-      commitExternalIdUpdates(updatedAccount.message, allUsersRepo, batchRefUpdate);
+      commitExternalIdUpdates(externalIdUpdateMessage, allUsersRepo, batchRefUpdate);
     }
 
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);

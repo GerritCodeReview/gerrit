@@ -1946,6 +1946,7 @@ export interface EditInfo {
   ref: GitRef;
   fetch?: ProtocolToFetchInfoMap;
   files?: FileNameToFileInfoMap;
+  _number: NumericChangeId;
 }
 
 export type ProtocolToFetchInfoMap = {[protocol: string]: FetchInfo};

@@ -215,6 +215,7 @@ export const htmlTemplate = html`
           href$="[[_feedbackURL]]"
           title="File a bug"
           aria-label="File a bug"
+          target="_blank"
           role="button"
         >
           <iron-icon icon="gr-icons:bug"></iron-icon>

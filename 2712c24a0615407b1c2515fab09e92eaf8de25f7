@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e34a9d17_905175cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-06-30T00:02:14Z",
+      "side": 1,
+      "message": "This seems to fix an issue with not being able to type \"/\" on mobiles inline editor.\n\nSee https://phabricator.wikimedia.org/T282387.\n\nTraced back that this change fixes it after noticing it worked on master.",
+      "revId": "2712c24a0615407b1c2515fab09e92eaf8de25f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

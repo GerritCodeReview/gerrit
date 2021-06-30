@@ -16,6 +16,24 @@
       "message": "Edwin, you added this code in 2018, LMK if you\u0027re OK with removing the \"Email: ...\" part.\nMarija, please review for the business logic.",
       "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "569a8e9c_f7e83e2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-06-30T13:36:35Z",
+      "side": 1,
+      "message": "It made issue investigations a little easier since you could just search for the email when looking at the git history, but I guess you can find git commands to also search for the email in the diffs. So removing it should be fine, but since the email is still present in the diffs it also means that you don\u0027t gain that much by removing them from the commit message.",
+      "parentUuid": "8a961b45_57139a21",
+      "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

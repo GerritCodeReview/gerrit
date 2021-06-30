@@ -110,6 +110,30 @@
       },
       "revId": "f212f943a9f47787da52aee4315fc711b5faae02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d03e0a0a_fe13d70c",
+        "filename": "Documentation/user-reviewer-states.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2021-06-30T12:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cee6de9_7bda8839",
+      "range": {
+        "startLine": 96,
+        "startChar": 26,
+        "endLine": 96,
+        "endChar": 28
+      },
+      "revId": "f212f943a9f47787da52aee4315fc711b5faae02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

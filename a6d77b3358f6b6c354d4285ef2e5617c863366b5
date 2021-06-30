@@ -22,6 +22,29 @@
       },
       "revId": "a6d77b3358f6b6c354d4285ef2e5617c863366b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b83e40a_90152940",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-30T20:25:30Z",
+      "side": 1,
+      "message": "This behaviour won\u0027t allow zero-downtime upgrades :-(\n\nImagine you have the v3.4 release active and you are upgrading three nodes in HA, one at a time. When you upgrade the nodes, some of the APIs will start being served by the new release but still having the GUI on the old release.\n\nThe result would be random exceptions saying that \u0027conflicts\u0027 operator isn\u0027t supported. The query for conflicts are done by the PolyGerrit GUI and you may expect existing GUIs loaded on the client making the query to the backend.\n\nWe may need a \"pre-fix\" on the GUI (also on v3.4) where we silently drop the exception on the client code, so that the rolling upgrade will be possible.",
+      "range": {
+        "startLine": 717,
+        "startChar": 0,
+        "endLine": 719,
+        "endChar": 5
+      },
+      "revId": "a6d77b3358f6b6c354d4285ef2e5617c863366b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

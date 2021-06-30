@@ -34,6 +34,24 @@
       "parentUuid": "8846539b_5971daa9",
       "revId": "cc64a63290ebb51c0b7d4ca59f6c5748eba28500",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b6befeb_1332461d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-30T18:47:43Z",
+      "side": 1,
+      "message": "You should look at the details of [1]. The re-run has been removed when the build is scheduled or is in-progress, which doesn\u0027t allow an aborted build to be re-run.",
+      "parentUuid": "fad57583_fba76c0e",
+      "revId": "cc64a63290ebb51c0b7d4ca59f6c5748eba28500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

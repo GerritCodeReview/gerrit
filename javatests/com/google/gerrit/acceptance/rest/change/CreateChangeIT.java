@@ -83,12 +83,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
+import org.junit.Before;
 import org.junit.Test;
 
 @UseClockStep
@@ -96,6 +100,20 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+
+  @Before
+  public void addNonCommitHead() throws Exception {
+    try (Repository repo = repoManager.openRepository(project)) {
+      ObjectInserter ins = repo.newObjectInserter();
+      ObjectId answer = ins.insert(Constants.OBJ_BLOB, new byte[] {42});
+      ins.flush();
+      ins.close();
+
+      RefUpdate update = repo.getRefDatabase().newUpdate("refs/heads/answer", false);
+      update.setNewObjectId(answer);
+      assertThat(update.forceUpdate()).isEqualTo(RefUpdate.Result.NEW);
+    }
+  }
 
   @Test
   public void createEmptyChange_MissingBranch() throws Exception {

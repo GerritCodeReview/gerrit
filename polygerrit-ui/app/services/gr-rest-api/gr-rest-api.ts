@@ -400,7 +400,7 @@ export interface RestApiService {
 
   getDiffChangeDetail(
     changeNum: NumericChangeId
-  ): Promise<ChangeInfo | undefined | null>;
+  ): Promise<ChangeInfo | undefined>;
 
   getPortedComments(
     changeNum: NumericChangeId,

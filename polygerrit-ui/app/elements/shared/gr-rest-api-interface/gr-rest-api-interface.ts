@@ -1194,7 +1194,7 @@ export class GrRestApiInterface
     optionsHex: string,
     errFn?: ErrorCallback,
     cancelCondition?: CancelConditionCallback
-  ): Promise<ChangeInfo | undefined | null> {
+  ): Promise<ChangeInfo | undefined> {
     return this.getChangeActionURL(changeNum, undefined, '/detail').then(
       url => {
         const params: FetchParams = {O: optionsHex};
@@ -1225,12 +1225,12 @@ export class GrRestApiInterface
           }
 
           if (!response) {
-            return Promise.resolve(null);
+            return Promise.resolve(undefined);
           }
 
           return readResponsePayload(response).then(payload => {
             if (!payload) {
-              return null;
+              return undefined;
             }
             this._etags.collect(urlWithParams, response, payload.raw);
             // TODO(TS): Why it is always change info?

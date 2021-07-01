@@ -52,6 +52,24 @@
       "parentUuid": "f8a1249a_b9cd798f",
       "revId": "4f25ec2f2a8c00f3a192673ff8e63b3dbe14f9dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47f69376_8a19c3df",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-01T11:31:09Z",
+      "side": 1,
+      "message": "Support is in general of primaryTabs \nso \n?tab\u003dchecks\n?tab\u003dfindings \nalso work so we probably won\u0027t be removing support only of ?tab\u003dcomments.",
+      "parentUuid": "3e5b4391_5b69ceae",
+      "revId": "4f25ec2f2a8c00f3a192673ff8e63b3dbe14f9dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

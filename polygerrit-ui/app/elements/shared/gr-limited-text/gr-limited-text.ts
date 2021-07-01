@@ -39,14 +39,14 @@ export class GrLimitedText extends TooltipMixin(PolymerElement) {
 
   /** The un-truncated text to display. */
   @property({type: String})
-  text = '';
+  text?: string;
 
   /** The maximum length for the text to display before truncating. */
   @property({type: Number})
-  limit: number | null = null;
+  limit?: number;
 
   @property({type: String})
-  tooltip = '';
+  tooltip?: string;
 
   /** Boolean property used by TooltipMixin. */
   @property({type: Boolean})
@@ -61,11 +61,10 @@ export class GrLimitedText extends TooltipMixin(PolymerElement) {
    * enabled.
    */
   @observe('text', 'tooltip', 'limit')
-  _updateTitle(text: string, tooltip: string, limit?: number) {
-    // Polymer 2: check for undefined
-    if ([text, limit, tooltip].includes(undefined)) {
-      return;
-    }
+  _updateTitle(text?: string, tooltip?: string, limit?: number) {
+    text = text ?? '';
+    tooltip = tooltip ?? '';
+    limit = limit ?? 0;
 
     this.hasTooltip = !!tooltip || (!!limit && text.length > limit);
     if (this.hasTooltip && !this.disableTooltip) {
@@ -80,7 +79,7 @@ export class GrLimitedText extends TooltipMixin(PolymerElement) {
     }
   }
 
-  _computeDisplayText(text: string, limit?: number) {
+  _computeDisplayText(text?: string, limit?: number) {
     if (!!limit && !!text && text.length > limit) {
       return text.substr(0, limit - 1) + '…';
     }

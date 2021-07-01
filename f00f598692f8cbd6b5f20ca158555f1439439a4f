@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c254634f_c775c931",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsMaxLabelVotePredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-01T17:31:32Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. Made the change to ChangeField#Label.\n\nDone.",
+      "parentUuid": "37d8ff43_18987d23",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 60
+      },
+      "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a92e152f_d3928ce9",
@@ -112,6 +136,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22488eb8_e29a71a3",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-01T17:31:32Z",
+      "side": 1,
+      "message": "Your attempt much cleaner than mine. Thanks for the idea.\n\nDone.",
+      "parentUuid": "6489803a_0b6861ec",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 176,
+        "endChar": 69
+      },
+      "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "170ee8e5_c2cf83f3",
@@ -125,6 +173,24 @@
       "writtenOn": "2021-06-21T12:05:11Z",
       "side": 1,
       "message": "There should also be query tests in AbstractQueryChangesTest.\n\nAdding these tests reveals the issue that I pointed out at:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/309067/3/java/com/google/gerrit/server/query/change/EqualsMaxLabelVotePredicate.java",
+      "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a4250f8_2cf3eab4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3997,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-01T17:31:32Z",
+      "side": 1,
+      "message": "Thanks for trying that with change I702f06baf93e952d. I added the assert statements in AbstractQueryChangesTest and fixed the index so that they work.",
+      "parentUuid": "170ee8e5_c2cf83f3",
       "revId": "f00f598692f8cbd6b5f20ca158555f1439439a4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -46,6 +46,30 @@
       },
       "revId": "d94231095cdf0ce94d71fe0012a19b767c5032cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a4b3f4_13899f56",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2021-07-01T10:23:39Z",
+      "side": 0,
+      "message": "updated commit msg.",
+      "parentUuid": "bf4f57d7_d50c8f78",
+      "range": {
+        "startLine": 494,
+        "startChar": 0,
+        "endLine": 497,
+        "endChar": 0
+      },
+      "revId": "d94231095cdf0ce94d71fe0012a19b767c5032cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -668,9 +668,9 @@ suite('gr-thread-list tests', () => {
     assert.equal(dispatchSpy.lastCall.args[0].detail.path, '/COMMIT_MSG');
   });
 
-  suite('hideToggleButtons', () => {
+  suite('hideDropdown', () => {
     setup(done => {
-      element.hideToggleButtons = true;
+      element.hideDropdown = true;
       flush(() => {
         done();
       });

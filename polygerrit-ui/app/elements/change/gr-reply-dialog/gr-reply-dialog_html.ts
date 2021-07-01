@@ -447,7 +447,7 @@ export const htmlTemplate = html`
         change="[[change]]"
         change-num="[[change._number]]"
         logged-in="true"
-        hide-toggle-buttons=""
+        hide-dropdown=""
       >
       </gr-thread-list>
       <span

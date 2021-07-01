@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../../styles/shared-styles';
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
@@ -113,7 +112,7 @@ export class GrThreadList extends PolymerElement {
   onlyShowRobotCommentsWithHumanReply = false;
 
   @property({type: Boolean})
-  hideToggleButtons = false;
+  hideDropdown = false;
 
   @property({type: Object, observer: '_commentTabStateChange'})
   commentTabState?: CommentTabState;
@@ -244,7 +243,10 @@ export class GrThreadList extends PolymerElement {
   }
 
   _compareThreads(c1: CommentThreadWithInfo, c2: CommentThreadWithInfo) {
-    if (this.sortDropdownValue === SortDropdownState.TIMESTAMP) {
+    if (
+      this.sortDropdownValue === SortDropdownState.TIMESTAMP &&
+      !this.hideDropdown
+    ) {
       if (c1.updated && c2.updated) return c1.updated > c2.updated ? -1 : 1;
     }
 

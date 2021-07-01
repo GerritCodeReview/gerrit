@@ -290,7 +290,7 @@ export const htmlTemplate = html`
               threads="[[message.commentThreads]]"
               change-num="[[changeNum]]"
               logged-in="[[_loggedIn]]"
-              hide-toggle-buttons
+              hide-dropdown
               show-comment-context
             >
             </gr-thread-list>

@@ -84,7 +84,7 @@ export const htmlTemplate = html`
       cursor: pointer;
     }
   </style>
-  <template is="dom-if" if="[[!hideToggleButtons]]">
+  <template is="dom-if" if="[[!hideDropdown]]">
     <div class="header">
       <span class="sort-text">Sort By:</span>
       <gr-dropdown-list

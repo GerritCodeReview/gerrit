@@ -67,6 +67,7 @@ public class SubmitRequirementsEvaluator {
 
     return SubmitRequirementResult.builder()
         .submitRequirement(sr)
+        .patchSetCommitId(cd.currentPatchSet().commitId())
         .submittabilityExpressionResult(blockingResult)
         .applicabilityExpressionResult(applicabilityResult)
         .overrideExpressionResult(overrideResult)

@@ -20,8 +20,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-download-dialog_html';
 import {changeBaseURL, getRevisionKey} from '../../../utils/change-util';
 import {customElement, property, computed, observe} from '@polymer/decorators';
-import {ChangeInfo, ServerInfo, PatchSetNum} from '../../../types/common';
-import {RevisionInfo} from '../../shared/revision-info/revision-info';
+import {ChangeInfo, DownloadInfo, PatchSetNum, RevisionInfo} from '../../../types/common';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {hasOwnProperty} from '../../../utils/common-util';
@@ -53,7 +52,7 @@ export class GrDownloadDialog extends KeyboardShortcutMixin(PolymerElement) {
   change: ChangeInfo | undefined;
 
   @property({type: Object})
-  config?: ServerInfo;
+  config?: DownloadInfo;
 
   @property({type: String})
   patchNum: PatchSetNum | undefined;

@@ -349,9 +349,13 @@ suite('gr-patch-range-select tests', () => {
     flush();
     const domApi = dom(element.root);
     assert.equal(
-        domApi.querySelector('a[href="f.oo"]').textContent, 'foo');
+        domApi.querySelector('a[href="f.oo"]').textContent,
+        'Browse with foo'
+    );
     assert.equal(
-        domApi.querySelector('a[href="ba.r"]').textContent, 'bar');
+        domApi.querySelector('a[href="ba.r"]').textContent,
+        'Browse with bar'
+    );
   });
 
   test('_computePatchSetCommentsString', () => {

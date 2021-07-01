@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55c70d17_43d28803",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-01T15:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccd1d78d_4bd7b400",
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b834417f_322f4b8d",
@@ -65,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba3efa5a_dab13a1c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-01T15:17:54Z",
+      "side": 1,
+      "message": "Oh great. For some reason I didn\u0027t think JS had this... now it just needs .isEmpty and .isNotEmpty 😊 Done.",
+      "parentUuid": "496c1094_f8f13232",
+      "range": {
+        "startLine": 479,
+        "startChar": 18,
+        "endLine": 479,
+        "endChar": 52
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c187530_6e27d926",
@@ -82,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70da57da_f3af7859",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-01T15:17:54Z",
+      "side": 1,
+      "message": "I didn\u0027t do that because Promise.all() type did not like it, but I figured out I can override the type on that. Done.",
+      "parentUuid": "8c187530_6e27d926",
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdc3aea9_de7ffdb3",
@@ -95,6 +155,30 @@
       "writtenOn": "2021-06-25T09:13:32Z",
       "side": 1,
       "message": "Maybe this is also an opportunity to tell the user what \"Parent 1\" actually means?",
+      "range": {
+        "startLine": 1209,
+        "startChar": 43,
+        "endLine": 1209,
+        "endChar": 51
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c464897_a95689a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-01T15:17:54Z",
+      "side": 1,
+      "message": "Discussed a bit in chat: seems that showing branch name is not yet feasible, and labeling this as target is not necessarily accurate.",
+      "parentUuid": "cdc3aea9_de7ffdb3",
       "range": {
         "startLine": 1209,
         "startChar": 43,
@@ -128,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d170624b_b7dd7c7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1212,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-01T15:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45a88af1_7872122e",
+      "range": {
+        "startLine": 1212,
+        "startChar": 2,
+        "endLine": 1212,
+        "endChar": 14
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c653313_4c49dab5",
@@ -141,6 +249,30 @@
       "writtenOn": "2021-06-25T09:13:32Z",
       "side": 1,
       "message": "Nit: Simple\n\n  if (...) return;\n  \nstatements better on one line without {}.",
+      "range": {
+        "startLine": 1213,
+        "startChar": 4,
+        "endLine": 1215,
+        "endChar": 5
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38c206c3_d8989e33",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-01T15:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c653313_4c49dab5",
       "range": {
         "startLine": 1213,
         "startChar": 4,
@@ -168,6 +300,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e530cd1f_1b5c5caa",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-01T15:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b7a0ca7_078610a2",
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f86316b5_d0bbd422",
@@ -181,6 +331,30 @@
       "writtenOn": "2021-06-25T09:13:32Z",
       "side": 1,
       "message": "Maybe call a method `computeCleanlyMergedRow(_cleanlyMergedPaths)` here. Then you don\u0027t need a dedicated `_showNumCleanlyMerged` property.",
+      "range": {
+        "startLine": 647,
+        "startChar": 32,
+        "endLine": 647,
+        "endChar": 53
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98463bf6_d8110c60",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-01T15:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f86316b5_d0bbd422",
       "range": {
         "startLine": 647,
         "startChar": 32,
@@ -299,6 +473,30 @@
       "side": 1,
       "message": "All of RevisionInfo should actually be moved into patchset-util. :-) It is stateless and thus a utility. And it is probably not worthwhile having a revision-util and a patchset-util.",
       "parentUuid": "800e0729_8f75aadb",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "674afeb975282c005fe3287b74290da1f77afc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9e771b4_5c1e28df",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-01T15:17:54Z",
+      "side": 1,
+      "message": "I\u0027ll merge RevisionInfo into patch-set-utils separately. Some components are passing RevisionInfo around, so it will be some work to clear that up.",
+      "parentUuid": "575d06d6_f6c4c76e",
       "range": {
         "startLine": 66,
         "startChar": 2,

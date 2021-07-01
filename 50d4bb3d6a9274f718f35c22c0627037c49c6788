@@ -87,6 +87,24 @@
       "parentUuid": "de3cbb43_24eeb56f",
       "revId": "50d4bb3d6a9274f718f35c22c0627037c49c6788",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "046090a3_ce8f480b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-01T15:23:30Z",
+      "side": 1,
+      "message": "That is not important enough for being fixed in stable-3.4, especially not if we don\u0027t understand the underlying reasons.",
+      "parentUuid": "ac46256f_21f5791d",
+      "revId": "50d4bb3d6a9274f718f35c22c0627037c49c6788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

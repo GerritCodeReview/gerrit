@@ -921,7 +921,7 @@ suite('gr-reply-dialog tests', () => {
     element.draft = 'I wholeheartedly disapprove';
     const saveReviewPromise = interceptSaveReview();
 
-    sinon.stub(element.$.labelScores, 'getLabelValues').callsFake(() => {
+    sinon.stub(element.getLabelScores(), 'getLabelValues').callsFake(() => {
       return {
         'Code-Review': -1,
         Verified: -1,

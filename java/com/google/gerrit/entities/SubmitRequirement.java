@@ -15,6 +15,8 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import java.util.Optional;
 
 /** Entity describing a requirement that should be met for a change to become submittable. */
@@ -60,6 +62,10 @@ public abstract class SubmitRequirement {
 
   public static SubmitRequirement.Builder builder() {
     return new AutoValue_SubmitRequirement.Builder();
+  }
+
+  public static TypeAdapter<SubmitRequirement> typeAdapter(Gson gson) {
+    return new AutoValue_SubmitRequirement.GsonTypeAdapter(gson);
   }
 
   @AutoValue.Builder

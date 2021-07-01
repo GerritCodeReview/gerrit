@@ -23,6 +23,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
@@ -106,6 +107,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -932,17 +934,31 @@ public class ChangeData {
     return messages;
   }
 
-  /** Get all submit requirements for this change, including those from parent projects. */
-  public Map<SubmitRequirement, SubmitRequirementResult> submitRequirements() {
+  /**
+   * Get all evaluated submit requirements for this change, including those from parent projects.
+   *
+   * @param fromNoteDb if true, the method returns the stored submit requirements from NoteDb.
+   *     Otherwise, submit requirements for this project (and parent projects) are evaluated and
+   *     returned.
+   */
+  public Map<SubmitRequirement, SubmitRequirementResult> submitRequirements(boolean fromNoteDb) {
     if (submitRequirements == null) {
-      ProjectState state = projectCache.get(project()).orElseThrow(illegalState(project()));
-      Map<String, SubmitRequirement> requirements = state.getSubmitRequirements();
-      ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> result =
-          ImmutableMap.builderWithExpectedSize(requirements.size());
-      for (SubmitRequirement requirement : requirements.values()) {
-        result.put(requirement, submitRequirementsEvaluator.evaluate(requirement, this));
+      if (fromNoteDb) {
+        ImmutableCollection<SubmitRequirementResult> stored =
+            notes().getSubmitRequirementsResult().values();
+        submitRequirements =
+            stored.stream()
+                .collect(Collectors.toMap(r -> r.submitRequirement(), Function.identity()));
+      } else {
+        ProjectState state = projectCache.get(project()).orElseThrow(illegalState(project()));
+        Map<String, SubmitRequirement> requirements = state.getSubmitRequirements();
+        ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> result =
+            ImmutableMap.builderWithExpectedSize(requirements.size());
+        for (SubmitRequirement requirement : requirements.values()) {
+          result.put(requirement, submitRequirementsEvaluator.evaluate(requirement, this));
+        }
+        submitRequirements = result.build();
       }
-      submitRequirements = result.build();
     }
     return submitRequirements;
   }

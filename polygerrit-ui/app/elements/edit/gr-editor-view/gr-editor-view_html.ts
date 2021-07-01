@@ -28,8 +28,7 @@ export const htmlTemplate = html`
       top: 0;
       z-index: 1;
     }
-    header,
-    .subHeader {
+    header {
       align-items: center;
       display: flex;
       flex-wrap: wrap;

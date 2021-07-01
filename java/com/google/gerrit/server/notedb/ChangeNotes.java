@@ -50,6 +50,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -410,6 +411,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   /** Returns all updates for the attention set. */
   public ImmutableList<AttentionSetUpdate> getAttentionSetUpdates() {
     return state.allAttentionSetUpdates();
+  }
+
+  /**
+   * Returns the evaluated submit requirements for the change. We only intend to store submit
+   * requirements in NoteDb for closed changes, hence the result will be empty for active changes,
+   * and contains a single entry (for the latest patchset) for closed changes.
+   */
+  public ImmutableList<SubmitRequirementResult> getSubmitRequirementsResult() {
+    return state.submitRequirementsResult();
   }
 
   /**

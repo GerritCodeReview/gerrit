@@ -48,16 +48,16 @@ export class GrChangeStar extends PolymerElement {
   @property({type: Object, notify: true})
   change?: ChangeInfo;
 
-  _computeStarClass(starred: boolean) {
+  _computeStarClass(starred?: boolean) {
     return starred ? 'active' : '';
   }
 
-  _computeStarIcon(starred: boolean) {
+  _computeStarIcon(starred?: boolean) {
     // Hollow star is used to indicate inactive state.
     return `gr-icons:star${starred ? '' : '-border'}`;
   }
 
-  _computeAriaLabel(starred: boolean) {
+  _computeAriaLabel(starred?: boolean) {
     return starred ? 'Unstar this change' : 'Star this change';
   }
 

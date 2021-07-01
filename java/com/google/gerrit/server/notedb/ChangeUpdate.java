@@ -61,10 +61,12 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.server.CurrentUser;
@@ -129,6 +131,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<HumanComment> comments = new ArrayList<>();
+  private final List<SubmitRequirementResult> submitRequirementResults = new ArrayList<>();
 
   private String commitSubject;
   private String subject;
@@ -157,6 +160,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   // If null, the update does not modify the field. Otherwise, it updates the field with the
   // new value or resets if cherryPickOf == Optional.empty().
   private Optional<String> cherryPickOf;
+
+  /** The latest patchset of this change, or null if we are inserting a new patchset. */
+  private PatchSet latestPatchSet;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -300,6 +306,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setPsDescription(String psDescription) {
     this.psDescription = psDescription;
+  }
+
+  public void putSubmitRequirementResult(SubmitRequirementResult rs) {
+    submitRequirementResults.add(rs);
   }
 
   public void putComment(HumanComment.Status status, HumanComment c) {
@@ -485,10 +495,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.cherryPickOf = Optional.empty();
   }
 
+  public void setLatestPatchSet(PatchSet latestPs) {
+    this.latestPatchSet = latestPs;
+  }
+
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {
-    if (comments.isEmpty() && pushCert == null) {
+    if (submitRequirementResults.isEmpty() && comments.isEmpty() && pushCert == null) {
       return null;
     }
     RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
@@ -497,6 +511,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     for (HumanComment c : comments) {
       c.tag = tag;
       cache.get(c.getCommitId()).putComment(c);
+    }
+    if (latestPatchSet != null) {
+      // This will only be null in the case of uploading a new patchset, e.g. while publishing
+      // comments. In this case, getNotes() returns the state of this change prior to this update,
+      // hence latestPatchSet (the PS that we are inserting) is not available yet. We will never
+      // store submit requirements in this case since SRs are only stored when the change is merged,
+      // which can't happen while a new patchset is being uploaded.
+      ObjectId currentCommitId = latestPatchSet.commitId();
+      for (SubmitRequirementResult rs : submitRequirementResults) {
+        cache.get(currentCommitId).putSubmitRequirementResult(rs);
+      }
     }
     if (pushCert != null) {
       checkState(commit != null);

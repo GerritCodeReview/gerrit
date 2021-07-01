@@ -21,7 +21,8 @@ import java.util.List;
 /**
  * Holds the raw data of a RevisionNote.
  *
- * <p>It is intended for deserialization from JSON only. It is used for human comments only.
+ * <p>It is intended for deserialization from JSON only. It is used for human comments. Submit
+ * requirements are also stored but only for closed changes.
  */
 class ChangeRevisionNoteData {
   String pushCert;

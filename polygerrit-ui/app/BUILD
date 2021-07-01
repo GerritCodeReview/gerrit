@@ -63,7 +63,6 @@ compiled_pg_srcs_with_tests = compile_ts(
 
 templates_with_known_problems = [
     "elements/admin/gr-access-section/gr-access-section_html.ts",
-    "elements/admin/gr-admin-group-list/gr-admin-group-list_html.ts",
     "elements/admin/gr-admin-view/gr-admin-view_html.ts",
     "elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_html.ts",
     "elements/admin/gr-create-change-dialog/gr-create-change-dialog_html.ts",
@@ -135,7 +134,6 @@ templates_with_known_problems = [
     "elements/shared/gr-account-label/gr-account-label_html.ts",
     "elements/shared/gr-account-list/gr-account-list_html.ts",
     "elements/shared/gr-autocomplete/gr-autocomplete_html.ts",
-    "elements/shared/gr-change-star/gr-change-star_html.ts",
     "elements/shared/gr-change-status/gr-change-status_html.ts",
     "elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
     "elements/shared/gr-comment/gr-comment_html.ts",

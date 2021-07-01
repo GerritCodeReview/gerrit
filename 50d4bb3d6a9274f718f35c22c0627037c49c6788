@@ -69,6 +69,24 @@
       "parentUuid": "e9bd007f_32776553",
       "revId": "50d4bb3d6a9274f718f35c22c0627037c49c6788",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac46256f_21f5791d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-01T12:59:09Z",
+      "side": 1,
+      "message": "I mean there is a point. It fixes the inline editor on mobiles to be able to type \"/\".",
+      "parentUuid": "de3cbb43_24eeb56f",
+      "revId": "50d4bb3d6a9274f718f35c22c0627037c49c6788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

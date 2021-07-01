@@ -148,8 +148,6 @@ templates_with_known_problems = [
     "elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
     "elements/shared/gr-label-info/gr-label-info_html.ts",
     "elements/shared/gr-labeled-autocomplete/gr-labeled-autocomplete_html.ts",
-    "elements/shared/gr-limited-text/gr-limited-text_html.ts",
-    "elements/shared/gr-linked-chip/gr-linked-chip_html.ts",
     "elements/shared/gr-list-view/gr-list-view_html.ts",
     "elements/shared/gr-repo-branch-picker/gr-repo-branch-picker_html.ts",
     "elements/shared/gr-textarea/gr-textarea_html.ts",

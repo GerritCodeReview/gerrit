@@ -57,7 +57,7 @@ interface DisableIdsRecord {
   base: string[];
 }
 
-interface Content {
+export interface DropdownContent {
   text: string;
   bold?: boolean;
 }
@@ -87,7 +87,7 @@ export class GrDropdown extends KeyboardShortcutMixin(PolymerElement) {
   downArrow?: boolean;
 
   @property({type: Array})
-  topContent?: Content[];
+  topContent?: DropdownContent[];
 
   @property({type: String})
   horizontalAlign = 'left';

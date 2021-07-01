@@ -25,6 +25,10 @@ import {customElement, property} from '@polymer/decorators';
 import {AccountInfo, ServerInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
+import {
+  DropdownContent,
+  DropdownLink,
+} from '../../shared/gr-dropdown/gr-dropdown';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 
@@ -47,10 +51,10 @@ export class GrAccountDropdown extends PolymerElement {
   config?: ServerInfo;
 
   @property({type: Array, computed: '_getLinks(_switchAccountUrl, _path)'})
-  links?: string[];
+  links?: DropdownLink[];
 
   @property({type: Array, computed: '_getTopContent(account)'})
-  topContent?: string[];
+  topContent?: DropdownContent[];
 
   @property({type: String})
   _path = '/';

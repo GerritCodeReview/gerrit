@@ -21,6 +21,7 @@ import {SinonSpyMember, stubRestApi} from '../../../test/test-utils';
 import {GrAccountInfo} from './gr-account-info';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {
+  createAccountDetailWithId,
   createAccountWithIdNameAndEmail,
   createPreferences,
   createServerInfo,
@@ -306,7 +307,7 @@ suite('gr-account-info tests', () => {
   });
 
   test('_usernameChanged compares usernames with loose equality', () => {
-    element._account = {};
+    element._account = createAccountDetailWithId();
     element._username = '';
     element._hasUsernameChange = false;
     element._loading = false;

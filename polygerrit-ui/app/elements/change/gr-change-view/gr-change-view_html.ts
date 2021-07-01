@@ -603,7 +603,7 @@ export const htmlTemplate = html`
           change="[[_change]]"
           change-num="[[_changeNum]]"
           logged-in="[[_loggedIn]]"
-          hide-toggle-buttons
+          hide-dropdown
           empty-thread-msg="[[_messages.NO_ROBOT_COMMENTS_THREADS_MSG]]"
         >
         </gr-thread-list>

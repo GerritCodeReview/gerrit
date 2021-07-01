@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4c6e609_439e3c7d",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-01T15:18:46Z",
+      "side": 1,
+      "message": "1. This breaks the consistency of gr-navigation. *All* getUrl... methods return a relative URL, but not this one? Maybe let the caller call a function in url-util.ts (which needs to created first) that converts a relative path into an absolute URL string.\n\n2. I think the best way is use `new URL(path, window.location.href).toString()`. Note that `path` needs a leading slash. Note that `window.location.href` could also `document.baseUri`, not sure which one is the better choice. Note that `.toString()` is the same as `.href` for URLs.",
+      "revId": "f405fb7a38343b11f5e6952a23e9474b2ece1203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "220aaf7c_c6cffadf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-01T15:18:46Z",
+      "side": 1,
+      "message": "4px is surprising. Is a `vertical-align:top;` maybe missing?\n\nIn a line-height:20px context top:4px would only make sense, if the height of the icon is 12px.",
+      "revId": "f405fb7a38343b11f5e6952a23e9474b2ece1203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

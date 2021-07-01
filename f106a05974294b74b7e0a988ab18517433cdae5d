@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5e1388e_afc21c82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-01T21:44:06Z",
+      "side": 1,
+      "message": "Waiting for all the stable-3.2 plugins builds to finish, to make sure that we didn\u0027t break any API contract with them. Then I\u0027ll be ready to release and press the SUBMIT button 😊",
+      "revId": "f106a05974294b74b7e0a988ab18517433cdae5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

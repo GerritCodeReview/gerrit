@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95a466a7_e4bc735c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-01T13:27:57Z",
+      "side": 1,
+      "message": "Note: I tried using change.isClosed() and eliminate the explicit \"fromNoteDb\" parameter but that didn\u0027t work.\n\nWhy?\n\nBecause at the time the change is being merged, StoreSubmitRequirementsOp calls this method, and it wants to go through the else branch (to evaluate SRs on the fly). However during that call, change.isClosed() evaluates to true (since merging the change and storing SRs are done within the same batch update, it looks like the \"closed\" boolean is flipped first).",
+      "range": {
+        "startLine": 942,
+        "startChar": 10,
+        "endLine": 942,
+        "endChar": 20
+      },
+      "revId": "894e11723254856a745f470152c86e05c9ef0b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

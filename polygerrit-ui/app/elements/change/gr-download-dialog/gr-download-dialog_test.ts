@@ -20,9 +20,9 @@ import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {
   createChange,
   createCommit,
+  createDownloadInfo,
   createRevision,
   createRevisions,
-  createServerInfo,
 } from '../../../test/test-data-generators';
 import {
   CommitId,
@@ -117,7 +117,7 @@ suite('gr-download-dialog', () => {
   setup(() => {
     element = basicFixture.instantiate();
     element.patchNum = 1 as PatchSetNum;
-    element.config = createServerInfo();
+    element.config = createDownloadInfo();
     flush();
   });
 

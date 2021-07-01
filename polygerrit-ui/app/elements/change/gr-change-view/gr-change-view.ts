@@ -77,6 +77,7 @@ import {EventType} from '../../plugins/gr-plugin-types';
 import {customElement, property, observe} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
+import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
@@ -1930,9 +1931,28 @@ export class GrChangeView extends KeyboardShortcutMixin(
    * case an edit exists.
    */
   _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
+    if (
+      (changeIsMerged(change) || changeIsAbandoned(change)) &&
+      this._editMode
+    ) {
+      const message =
+        'Change edits cannot be created if change is merged or abandoned. Redirected to non edit mode.';
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {message},
+          bubbles: true,
+          composed: true,
+        })
+      );
+      GerritNav.navigateToChange(change);
+      return;
+    }
+
     if (!edit) return;
+
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
+
     if (!edit.commit.commit) throw new Error('undefined edit.commit.commit');
     const changeWithEdit = change;
     if (changeWithEdit.revisions)

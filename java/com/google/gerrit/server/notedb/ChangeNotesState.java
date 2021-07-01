@@ -44,6 +44,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.converter.ChangeMessageProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
@@ -60,10 +61,14 @@ import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeCo
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerStatusUpdateProto;
+import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementResultProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
+import com.google.gerrit.server.cache.serialize.entities.SubmitRequirementExpressionResultSerializer;
+import com.google.gerrit.server.cache.serialize.entities.SubmitRequirementSerializer;
 import com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord;
 import com.google.gson.Gson;
+import com.google.protobuf.Descriptors.FieldDescriptor;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -89,6 +94,16 @@ import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
 public abstract class ChangeNotesState {
+
+  private static class Pair<T, V> {
+    T first;
+    V second;
+
+    Pair(T t, V v) {
+      first = t;
+      second = v;
+    }
+  }
 
   static ChangeNotesState empty(Change change) {
     return Builder.empty(change.getId()).build();
@@ -128,6 +143,7 @@ public abstract class ChangeNotesState {
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> changeMessages,
       ListMultimap<ObjectId, HumanComment> publishedComments,
+      ListMultimap<ObjectId, SubmitRequirementResult> submitRequirementResults,
       boolean isPrivate,
       boolean workInProgress,
       boolean reviewStarted,
@@ -181,6 +197,7 @@ public abstract class ChangeNotesState {
         .submitRecords(submitRecords)
         .changeMessages(changeMessages)
         .publishedComments(publishedComments)
+        .submitRequirementsResult(submitRequirementResults)
         .updateCount(updateCount)
         .mergedOn(mergedOn)
         .build();
@@ -326,6 +343,8 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableListMultimap<ObjectId, HumanComment> publishedComments();
 
+  abstract ImmutableListMultimap<ObjectId, SubmitRequirementResult> submitRequirementsResult();
+
   abstract int updateCount();
 
   @Nullable
@@ -404,6 +423,7 @@ public abstract class ChangeNotesState {
           .submitRecords(ImmutableList.of())
           .changeMessages(ImmutableList.of())
           .publishedComments(ImmutableListMultimap.of())
+          .submitRequirementsResult(ImmutableListMultimap.of())
           .updateCount(0);
     }
 
@@ -445,6 +465,9 @@ public abstract class ChangeNotesState {
 
     abstract Builder publishedComments(ListMultimap<ObjectId, HumanComment> publishedComments);
 
+    abstract Builder submitRequirementsResult(
+        ListMultimap<ObjectId, SubmitRequirementResult> submitRequirementsResult);
+
     abstract Builder updateCount(int updateCount);
 
     abstract Builder mergedOn(Timestamp mergedOn);
@@ -464,6 +487,11 @@ public abstract class ChangeNotesState {
         Enums.stringConverter(Change.Status.class);
     private static final Converter<String, ReviewerStateInternal> REVIEWER_STATE_CONVERTER =
         Enums.stringConverter(ReviewerStateInternal.class);
+
+    private static final FieldDescriptor SR_APPLICABILITY_EXPR_RESULT_FIELD =
+        SubmitRequirementResultProto.getDescriptor().findFieldByNumber(2);
+    private static final FieldDescriptor SR_OVERRIDE_EXPR_RESULT_FIELD =
+        SubmitRequirementResultProto.getDescriptor().findFieldByNumber(4);
 
     @Override
     public byte[] serialize(ChangeNotesState object) {
@@ -519,6 +547,13 @@ public abstract class ChangeNotesState {
           .changeMessages()
           .forEach(m -> b.addChangeMessage(ChangeMessageProtoConverter.INSTANCE.toProto(m)));
       object.publishedComments().values().forEach(c -> b.addPublishedComment(GSON.toJson(c)));
+      object
+          .submitRequirementsResult()
+          .entries()
+          .forEach(
+              sr ->
+                  b.addSubmitRequirementResult(
+                      toSubmitRequirementResultProto(sr.getKey(), sr.getValue())));
       b.setUpdateCount(object.updateCount());
       if (object.mergedOn() != null) {
         b.setMergedOnMillis(object.mergedOn().getTime());
@@ -613,6 +648,52 @@ public abstract class ChangeNotesState {
       return builder.build();
     }
 
+    private static SubmitRequirementResultProto toSubmitRequirementResultProto(
+        ObjectId objectId, SubmitRequirementResult r) {
+      SubmitRequirementResultProto.Builder builder = SubmitRequirementResultProto.newBuilder();
+      builder.setSubmitRequirement(SubmitRequirementSerializer.serialize(r.submitRequirement()));
+      if (r.applicabilityExpressionResult().isPresent()) {
+        builder.setApplicabilityExpressionResult(
+            SubmitRequirementExpressionResultSerializer.serialize(
+                r.applicabilityExpressionResult().get()));
+      }
+      builder.setSubmittabilityExpressionResult(
+          SubmitRequirementExpressionResultSerializer.serialize(
+              r.submittabilityExpressionResult()));
+      if (r.overrideExpressionResult().isPresent()) {
+        builder.setOverrideExpressionResult(
+            SubmitRequirementExpressionResultSerializer.serialize(
+                r.overrideExpressionResult().get()));
+      }
+      builder.setCommit(ObjectIdConverter.create().toByteString(objectId));
+      return builder.build();
+    }
+
+    private static Pair<ObjectId, SubmitRequirementResult> toSubmitRequirementResult(
+        SubmitRequirementResultProto proto) {
+      SubmitRequirementResult.Builder builder =
+          SubmitRequirementResult.builder()
+              .submitRequirement(
+                  SubmitRequirementSerializer.deserialize(proto.getSubmitRequirement()));
+      if (proto.hasField(SR_APPLICABILITY_EXPR_RESULT_FIELD)) {
+        builder.applicabilityExpressionResult(
+            Optional.of(
+                SubmitRequirementExpressionResultSerializer.deserialize(
+                    proto.getApplicabilityExpressionResult())));
+      }
+      builder.submittabilityExpressionResult(
+          SubmitRequirementExpressionResultSerializer.deserialize(
+              proto.getSubmittabilityExpressionResult()));
+      if (proto.hasField(SR_OVERRIDE_EXPR_RESULT_FIELD)) {
+        builder.overrideExpressionResult(
+            Optional.of(
+                SubmitRequirementExpressionResultSerializer.deserialize(
+                    proto.getOverrideExpressionResult())));
+      }
+      ObjectId objectId = ObjectIdConverter.create().fromByteString(proto.getCommit());
+      return new Pair(objectId, builder.build());
+    }
+
     @Override
     public ChangeNotesState deserialize(byte[] in) {
       ChangeNotesStateProto proto = Protos.parseUnchecked(ChangeNotesStateProto.parser(), in);
@@ -658,6 +739,10 @@ public abstract class ChangeNotesState {
                   proto.getPublishedCommentList().stream()
                       .map(r -> GSON.fromJson(r, HumanComment.class))
                       .collect(toImmutableListMultimap(HumanComment::getCommitId, c -> c)))
+              .submitRequirementsResult(
+                  proto.getSubmitRequirementResultList().stream()
+                      .map(sr -> toSubmitRequirementResult(sr))
+                      .collect(toImmutableListMultimap(pr -> pr.first, pr -> pr.second)))
               .updateCount(proto.getUpdateCount())
               .mergedOn(proto.getHasMergedOn() ? new Timestamp(proto.getMergedOnMillis()) : null);
       return b.build();

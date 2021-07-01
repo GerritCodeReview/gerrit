@@ -64,12 +64,14 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.validators.ValidationException;
@@ -129,6 +131,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<HumanComment> comments = new ArrayList<>();
+  private final List<SubmitRequirementResult> submitRequirementResults = new ArrayList<>();
 
   private String commitSubject;
   private String subject;
@@ -162,6 +165,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private RobotCommentUpdate robotCommentUpdate;
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
+  private final ChangeData.Factory changeDataFactory;
 
   @AssistedInject
   private ChangeUpdate(
@@ -172,6 +176,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
       ServiceUserClassifier serviceUserClassifier,
+      ChangeData.Factory changeDataFactory,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -183,6 +188,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
         serviceUserClassifier,
+        changeDataFactory,
         notes,
         user,
         when,
@@ -207,12 +213,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ServiceUserClassifier serviceUserClassifier,
+      ChangeData.Factory changeDataFactory,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
     super(notes, user, serverIdent, noteUtil, when);
+    this.changeDataFactory = changeDataFactory;
     this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -300,6 +308,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setPsDescription(String psDescription) {
     this.psDescription = psDescription;
+  }
+
+  public void putSubmitRequirementResult(SubmitRequirementResult rs) {
+    submitRequirementResults.add(rs);
   }
 
   public void putComment(HumanComment.Status status, HumanComment c) {
@@ -488,7 +500,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {
-    if (comments.isEmpty() && pushCert == null) {
+    if (submitRequirementResults.isEmpty() && comments.isEmpty() && pushCert == null) {
       return null;
     }
     RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
@@ -497,6 +509,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     for (HumanComment c : comments) {
       c.tag = tag;
       cache.get(c.getCommitId()).putComment(c);
+    }
+    ChangeData changeData = changeDataFactory.create(getChange());
+    ObjectId currentCommitId = changeData.currentPatchSet().commitId();
+    for (SubmitRequirementResult rs : submitRequirementResults) {
+      cache.get(currentCommitId).putSubmitRequirementResult(rs);
     }
     if (pushCert != null) {
       checkState(commit != null);

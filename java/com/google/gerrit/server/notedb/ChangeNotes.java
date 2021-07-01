@@ -51,6 +51,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -411,6 +412,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   /** Returns all updates for the attention set. */
   public ImmutableList<AttentionSetUpdate> getAttentionSetUpdates() {
     return state.allAttentionSetUpdates();
+  }
+
+  /**
+   * Returns all submit requirements for the change, or empty list if the change is not yet merged.
+   */
+  public ImmutableListMultimap<ObjectId, SubmitRequirementResult> getSubmitRequirementsResult() {
+    return state.submitRequirementsResult();
   }
 
   /**

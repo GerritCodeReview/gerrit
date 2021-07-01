@@ -78,7 +78,7 @@ message ChangeNotesKeyProto {
 // Instead, we just take the tedious yet simple approach of having a "has_foo"
 // field for each nullable field "foo", indicating whether or not foo is null.
 //
-// Next ID: 27
+// Next ID: 28
 message ChangeNotesStateProto {
   // Effectively required, even though the corresponding ChangeNotesState field
   // is optional, since the field is only absent when NoteDb is disabled, in
@@ -226,6 +226,8 @@ message ChangeNotesStateProto {
   // Epoch millis.
   int64 merged_on_millis = 25;
   bool has_merged_on = 26;
+
+  repeated SubmitRequirementResultProto submit_requirement_result = 27;
 }
 
 // Serialized form of com.google.gerrit.server.query.change.ConflictKey
@@ -478,6 +480,28 @@ message SubmitRequirementProto {
   string submittability_expression = 4;
   string override_expression = 5;
   bool allow_override_in_child_projects = 6;
+}
+
+// Serialized form of com.google.gerrit.entities.SubmitRequirementResult.
+// Next ID: 6
+message SubmitRequirementResultProto {
+  SubmitRequirementProto submit_requirement = 1;
+  SubmitRequirementExpressionResultProto applicability_expression_result = 2;
+  SubmitRequirementExpressionResultProto submittability_expression_result = 3;
+  SubmitRequirementExpressionResultProto override_expression_result = 4;
+
+  // Patchset commit ID at which the submit requirements are evaluated.
+  bytes commit = 5;
+}
+
+// Serialized form of com.google.gerrit.entities.SubmitRequirementExpressionResult.
+// Next ID: 6
+message SubmitRequirementExpressionResultProto {
+  string expression = 1;
+  string status = 2; // enum as string
+  string error_message = 3;
+  repeated string passing_atoms = 4;
+  repeated string failing_atoms = 5;
 }
 
 // Serialized form of com.google.gerrit.server.project.ConfiguredMimeTypes.

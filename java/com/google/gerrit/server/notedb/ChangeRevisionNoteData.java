@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import java.util.List;
 
 /**
@@ -22,7 +23,8 @@ import java.util.List;
  *
  * <p>It is intended for deserialization from JSON only. It is used for human comments only.
  */
-class HumanCommentsRevisionNoteData {
+class ChangeRevisionNoteData {
   String pushCert;
   List<HumanComment> comments;
+  List<SubmitRequirementResult> submitRequirementResults;
 }

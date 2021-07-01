@@ -4245,6 +4245,46 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirement_retrievedFromNoteDbForClosedChanges() throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:code-review=+2"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.UNSATISFIED);
+
+    voteLabel(changeId, "code-review", 2);
+
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+
+    gApi.changes().id(changeId).current().submit();
+
+    // Add new submit requirement
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("verified")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:verified=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    // The new "verified" submit requirement is not returned, since this change is closed
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(change.submitRequirements, "code-review", Status.SATISFIED);
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));

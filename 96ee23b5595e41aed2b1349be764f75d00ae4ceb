@@ -247,6 +247,30 @@
       },
       "revId": "96ee23b5595e41aed2b1349be764f75d00ae4ceb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "410dff02_be2a2478",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-01T15:48:04Z",
+      "side": 1,
+      "message": "Ok, then instead of passing `focusCommentId` as a property you should pass a `shouldScrollIntoView` boolean property.",
+      "parentUuid": "7726420a_d2703c0f",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 38
+      },
+      "revId": "96ee23b5595e41aed2b1349be764f75d00ae4ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

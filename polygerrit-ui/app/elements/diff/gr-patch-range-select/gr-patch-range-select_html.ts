@@ -59,8 +59,12 @@ export const htmlTemplate = html`
   </span>
   <span is="dom-if" if="[[filesWeblinks.meta_a]]" class="filesWeblinks">
     <template is="dom-repeat" items="[[filesWeblinks.meta_a]]" as="weblink">
-      <a target="_blank" rel="noopener" href$="[[weblink.url]]"
-        >[[weblink.name]]</a
+      <a
+        target="_blank"
+        rel="noopener"
+        href$="[[weblink.url]]"
+        aria-label$="Open this file at this patchset using [[weblink.name]]"
+        >Browse with [[weblink.name]]</a
       >
     </template>
   </span>
@@ -75,7 +79,13 @@ export const htmlTemplate = html`
     </gr-dropdown-list>
     <span is="dom-if" if="[[filesWeblinks.meta_b]]" class="filesWeblinks">
       <template is="dom-repeat" items="[[filesWeblinks.meta_b]]" as="weblink">
-        <a target="_blank" href$="[[weblink.url]]">[[weblink.name]]</a>
+        <a
+          target="_blank"
+          rel="noopener"
+          href$="[[weblink.url]]"
+          aria-label$="Open this file at this patchset using [[weblink.name]]"
+          >Browse with [[weblink.name]]</a
+        >
       </template>
     </span>
   </span>

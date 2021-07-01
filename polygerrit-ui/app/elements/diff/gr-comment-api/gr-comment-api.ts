@@ -29,6 +29,7 @@ import {
   PathToCommentsInfoMap,
   FileInfo,
   ParentPatchSetNum,
+  CommentInfo,
 } from '../../../types/common';
 import {
   Comment,
@@ -37,9 +38,6 @@ import {
   DraftInfo,
   isUnresolved,
   UIComment,
-  UIDraft,
-  UIHuman,
-  UIRobot,
   createCommentThreads,
   isInPatchRange,
   isDraftThread,
@@ -58,11 +56,11 @@ export type CommentIdToCommentThreadMap = {
 };
 
 export class ChangeComments {
-  private readonly _comments: {[path: string]: UIHuman[]};
+  private readonly _comments: {[path: string]: CommentInfo[]};
 
-  private readonly _robotComments: {[path: string]: UIRobot[]};
+  private readonly _robotComments: {[path: string]: RobotCommentInfo[]};
 
-  private readonly _drafts: {[path: string]: UIDraft[]};
+  private readonly _drafts: {[path: string]: DraftInfo[]};
 
   private readonly _portedComments: PathToCommentsInfoMap;
 
@@ -73,9 +71,9 @@ export class ChangeComments {
    * elements of that which uses the gr-comment-api.
    */
   constructor(
-    comments: {[path: string]: UIHuman[]} | undefined,
-    robotComments: {[path: string]: UIRobot[]} | undefined,
-    drafts: {[path: string]: UIDraft[]} | undefined,
+    comments: {[path: string]: CommentInfo[]} | undefined,
+    robotComments: {[path: string]: RobotCommentInfo[]} | undefined,
+    drafts: {[path: string]: DraftInfo[]} | undefined,
     portedComments: PathToCommentsInfoMap | undefined,
     portedDrafts: PathToCommentsInfoMap | undefined
   ) {
@@ -112,9 +110,13 @@ export class ChangeComments {
     return this._drafts;
   }
 
-  findCommentById(commentId?: UrlEncodedCommentId): UIComment | undefined {
+  findCommentById(
+    commentId?: UrlEncodedCommentId
+  ): CommentInfo | DraftInfo | undefined {
     if (!commentId) return undefined;
-    const findComment = (comments: {[path: string]: UIComment[]}) => {
+    const findComment = (comments: {
+      [path: string]: (CommentInfo | DraftInfo)[];
+    }) => {
       let comment;
       for (const path of Object.keys(comments)) {
         comment = comment || comments[path].find(c => c.id === commentId);
@@ -199,7 +201,7 @@ export class ChangeComments {
    */
   getAllDrafts(patchNum?: PatchSetNum) {
     const paths = this.getPaths();
-    const drafts: {[path: string]: UIDraft[]} = {};
+    const drafts: {[path: string]: DraftInfo[]} = {};
     for (const path of Object.keys(paths)) {
       drafts[path] = this.getAllDraftsForPath(path, patchNum);
     }
@@ -254,7 +256,7 @@ export class ChangeComments {
     return allComments;
   }
 
-  cloneWithUpdatedDrafts(drafts: {[path: string]: UIDraft[]} | undefined) {
+  cloneWithUpdatedDrafts(drafts: {[path: string]: DraftInfo[]} | undefined) {
     return new ChangeComments(
       this._comments,
       this._robotComments,

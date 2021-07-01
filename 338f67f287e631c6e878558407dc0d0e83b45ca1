@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fd86f25_71d543cb",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-01T10:14:23Z",
+      "side": 0,
+      "message": "seems unrelated?",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 623,
+        "endChar": 0
+      },
+      "revId": "338f67f287e631c6e878558407dc0d0e83b45ca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22f3886c_d8b35045",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-01T10:14:23Z",
+      "side": 0,
+      "message": "also delete this file",
+      "range": {
+        "startLine": 624,
+        "startChar": 0,
+        "endLine": 624,
+        "endChar": 159
+      },
+      "revId": "338f67f287e631c6e878558407dc0d0e83b45ca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8278120_083a4c55",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-01T10:14:23Z",
+      "side": 0,
+      "message": "seems unrelated, and also delete that file?",
+      "range": {
+        "startLine": 638,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 0
+      },
+      "revId": "338f67f287e631c6e878558407dc0d0e83b45ca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88175927_5da0bd0f",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2021-07-01T10:14:23Z",
+      "side": 0,
+      "message": "seems unrelated and also delete that file?",
+      "range": {
+        "startLine": 645,
+        "startChar": 0,
+        "endLine": 653,
+        "endChar": 0
+      },
+      "revId": "338f67f287e631c6e878558407dc0d0e83b45ca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

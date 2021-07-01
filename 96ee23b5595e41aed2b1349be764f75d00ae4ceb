@@ -78,6 +78,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "deab1fcb_c0ee30aa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-01T13:26:45Z",
+      "side": 1,
+      "message": "Add a comment.",
+      "parentUuid": "f2ab9963_ce41a997",
+      "revId": "96ee23b5595e41aed2b1349be764f75d00ae4ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fee6cb2f_755794d1",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
         "patchSetId": 4
@@ -113,6 +131,30 @@
       "side": 1,
       "message": "The extra code is due to the timing issue, scrollIntoView needs to wait for  the ResizeObserver to tell it that it\u0027s now attached.\n\nThe alternative is removing focusCommentId from gr-comment-thread, firing an event to gr-thread-list upon attaching to DOM which calls scrollIntoView.\n\nNot sure that is much cleaner, though it does remove sending focusCommentId to gr-comment-thread.",
       "parentUuid": "fee6cb2f_755794d1",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 242,
+        "endChar": 38
+      },
+      "revId": "96ee23b5595e41aed2b1349be764f75d00ae4ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10d1b661_114c823c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-01T13:26:45Z",
+      "side": 1,
+      "message": "I understand why you are using a ResizeObserver, but can\u0027t the thread-list create the observer instead of the thread itself?",
+      "parentUuid": "17c96641_98621d9f",
       "range": {
         "startLine": 234,
         "startChar": 4,

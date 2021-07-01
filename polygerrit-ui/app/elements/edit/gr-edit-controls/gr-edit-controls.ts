@@ -325,6 +325,11 @@ export class GrEditControls extends GestureEventListeners(
       fr.readAsDataURL(file);
     }
   }
+
+  _handleKeyPress(event: InputEvent) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
 }
 
 declare global {

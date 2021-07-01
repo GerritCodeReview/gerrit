@@ -371,7 +371,9 @@ public class ChangeJson {
 
   private static Collection<SubmitRequirementResultInfo> submitRequirementsFor(ChangeData cd) {
     Collection<SubmitRequirementResultInfo> reqInfos = new ArrayList<>();
-    Map<SubmitRequirement, SubmitRequirementResult> requirements = cd.submitRequirements();
+    Map<SubmitRequirement, SubmitRequirementResult> requirements =
+        // Submit requirements are retrieved from NoteDb for closed changes
+        cd.submitRequirements(/* fromNoteDb= */ cd.change().isClosed());
     for (Map.Entry<SubmitRequirement, SubmitRequirementResult> entry : requirements.entrySet()) {
       reqInfos.add(submitRequirementToInfo(entry.getKey(), entry.getValue()));
     }

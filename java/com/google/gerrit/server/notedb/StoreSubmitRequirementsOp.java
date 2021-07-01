@@ -15,13 +15,16 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import java.util.Map;
 
 /** A {@link BatchUpdateOp} that stores the evaluated submit requirements of a change in NoteDb. */
 public class StoreSubmitRequirementsOp implements BatchUpdateOp {
+
   private final ChangeData.Factory changeDataFactory;
 
   public StoreSubmitRequirementsOp(ChangeData.Factory changeDataFactory) {
@@ -34,9 +37,11 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
     ChangeData changeData = changeDataFactory.create(change);
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     update.setLatestPatchSet(changeData.currentPatchSet());
-    for (SubmitRequirementResult rs : changeData.submitRequirements().values()) {
+    Map<SubmitRequirement, SubmitRequirementResult> submitRequirements =
+        changeData.submitRequirements(/* fromNoteDb= */ false);
+    for (SubmitRequirementResult rs : submitRequirements.values()) {
       update.putSubmitRequirementResult(rs);
     }
-    return !changeData.submitRequirements().isEmpty();
+    return !submitRequirements.isEmpty();
   }
 }

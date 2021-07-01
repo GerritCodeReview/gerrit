@@ -39,11 +39,11 @@ export class GrLimitedText extends TooltipMixin(PolymerElement) {
 
   /** The un-truncated text to display. */
   @property({type: String})
-  text = '';
+  text?: string;
 
   /** The maximum length for the text to display before truncating. */
   @property({type: Number})
-  limit: number | null = null;
+  limit?: number;
 
   @property({type: String})
   tooltip = '';
@@ -80,7 +80,7 @@ export class GrLimitedText extends TooltipMixin(PolymerElement) {
     }
   }
 
-  _computeDisplayText(text: string, limit?: number) {
+  _computeDisplayText(text?: string, limit?: number) {
     if (!!limit && !!text && text.length > limit) {
       return text.substr(0, limit - 1) + '…';
     }

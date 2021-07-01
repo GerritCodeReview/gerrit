@@ -65,7 +65,7 @@ export class GrAdminGroupList extends ListViewMixin(PolymerElement) {
   readonly _path = '/admin/groups';
 
   @property({type: Boolean})
-  _hasNewGroupName?: boolean;
+  _hasNewGroupName = false;
 
   @property({type: Boolean})
   _createNewCapability = false;

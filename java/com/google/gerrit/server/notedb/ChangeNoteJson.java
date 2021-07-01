@@ -14,9 +14,17 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.EntitiesAdapterFactory;
+import com.google.gerrit.json.EnumTypeAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import java.io.IOException;
 import java.sql.Timestamp;
 
 @Singleton
@@ -26,11 +34,39 @@ public class ChangeNoteJson {
   static Gson newGson() {
     return new GsonBuilder()
         .registerTypeAdapter(Timestamp.class, new CommentTimestampAdapter().nullSafe())
+        .registerTypeAdapterFactory(new EnumTypeAdapterFactory())
+        .registerTypeAdapterFactory(EntitiesAdapterFactory.create())
+        .registerTypeAdapter(
+            new TypeLiteral<ImmutableList<String>>() {}.getType(),
+            new ImmutableListAdapter().nullSafe())
         .setPrettyPrinting()
         .create();
   }
 
   public Gson getGson() {
     return gson;
+  }
+
+  static class ImmutableListAdapter extends TypeAdapter<ImmutableList<String>> {
+
+    @Override
+    public void write(JsonWriter out, ImmutableList<String> value) throws IOException {
+      out.beginArray();
+      for (String v : value) {
+        out.value(v);
+      }
+      out.endArray();
+    }
+
+    @Override
+    public ImmutableList<String> read(JsonReader in) throws IOException {
+      ImmutableList.Builder<String> builder = ImmutableList.builder();
+      in.beginArray();
+      while (in.hasNext()) {
+        builder.add(in.nextString());
+      }
+      in.endArray();
+      return builder.build();
+    }
   }
 }

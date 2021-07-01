@@ -61,10 +61,12 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.server.CurrentUser;
@@ -78,6 +80,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -129,6 +132,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<HumanComment> comments = new ArrayList<>();
+  private final List<SubmitRequirementResult> submitRequirementResults = new ArrayList<>();
 
   private String commitSubject;
   private String subject;
@@ -300,6 +304,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setPsDescription(String psDescription) {
     this.psDescription = psDescription;
+  }
+
+  public void putSubmitRequirementResults(Collection<SubmitRequirementResult> rs) {
+    submitRequirementResults.addAll(rs);
   }
 
   public void putComment(HumanComment.Status status, HumanComment c) {
@@ -488,7 +496,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {
-    if (comments.isEmpty() && pushCert == null) {
+    if (submitRequirementResults.isEmpty() && comments.isEmpty() && pushCert == null) {
       return null;
     }
     RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
@@ -497,6 +505,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     for (HumanComment c : comments) {
       c.tag = tag;
       cache.get(c.getCommitId()).putComment(c);
+    }
+    if (!submitRequirementResults.isEmpty()) {
+      // Store submit requirements in change notes of the latest (current) patchset
+      cache.get(curr).putSubmitRequirementResults(submitRequirementResults);
     }
     if (pushCert != null) {
       checkState(commit != null);

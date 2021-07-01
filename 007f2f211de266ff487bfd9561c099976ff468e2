@@ -178,6 +178,24 @@
       "parentUuid": "134a5a1a_e7b34ea2",
       "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bef18bd1_d513197e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2021-07-01T16:46:09Z",
+      "side": 1,
+      "message": "We discussed offline with Joerg, regardless of the strategy, I think it is ok to remove those footers.\nI mostly rely on git log to find the relevant commits by email address/account id (which is contained in external id config file).\n\nAs for the garbage collection, I suggest we discuss non-FF strategy vs email encryption separately for pros and cons.\nLooks like non-FF should be preferable, while email encryption would require extra layer when reading external-ids and would make debugging for both existing and deleted accounts harder.",
+      "parentUuid": "e607bf5b_7001dd8e",
+      "revId": "007f2f211de266ff487bfd9561c099976ff468e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

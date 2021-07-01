@@ -67,6 +67,7 @@ import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -96,6 +97,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
@@ -654,6 +657,16 @@ public class MergeOp implements AutoCloseable {
               toSubmit, updateOrderCalculator, submoduleCommits, subscriptionGraph, dryrun);
       this.allProjects = updateOrderCalculator.getProjectsInOrder();
       List<BatchUpdate> batchUpdates = orm.batchUpdates(allProjects);
+      // Group batch updates by project
+      Map<Project.NameKey, BatchUpdate> batchUpdatesByProject =
+          batchUpdates.stream().collect(Collectors.toMap(b -> b.getProject(), Function.identity()));
+      for (Map.Entry<Change.Id, ChangeData> entry : cs.changesById().entrySet()) {
+        Project.NameKey project = entry.getValue().project();
+        Change.Id changeId = entry.getKey();
+        batchUpdatesByProject
+            .get(project)
+            .addOp(changeId, new StoreSubmitRequirementsOp(changeDataFactory));
+      }
       try {
         submissionExecutor.setAdditionalBatchUpdateListeners(
             ImmutableList.of(new SubmitStrategyListener(submitInput, strategies, commitStatus)));

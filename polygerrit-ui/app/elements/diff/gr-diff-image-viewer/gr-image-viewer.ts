@@ -658,6 +658,11 @@ export class GrImageViewer extends LitElement {
     window
       .resemble(this.baseUrl)
       .compareTo(this.revisionUrl)
+      // By default Resemble.js applies some color / alpha tolerance as well as
+      // min / max brightness beyond which to ignore changes. Until we have
+      // controls to let the user affect these options, always highlight all
+      // changed pixels.
+      .ignoreNothing()
       .onComplete(result => {
         this.diffHighlightSrc = result.getImageDataUrl();
       });

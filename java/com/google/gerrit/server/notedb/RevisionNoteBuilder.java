@@ -22,10 +22,12 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -65,6 +67,7 @@ class RevisionNoteBuilder {
   final Map<Comment.Key, Comment> put;
   private final Set<Comment.Key> delete;
 
+  private List<SubmitRequirementResult> submitRequirementResults;
   private String pushCert;
 
   private RevisionNoteBuilder(RevisionNote<? extends Comment> base) {
@@ -81,6 +84,7 @@ class RevisionNoteBuilder {
       put = new HashMap<>();
       pushCert = null;
     }
+    submitRequirementResults = new ArrayList<>();
     delete = new HashSet<>();
   }
 
@@ -97,6 +101,10 @@ class RevisionNoteBuilder {
   void putComment(Comment comment) {
     checkArgument(!delete.contains(comment.key), "cannot both delete and put %s", comment.key);
     put.put(comment.key, comment);
+  }
+
+  void putSubmitRequirementResult(SubmitRequirementResult result) {
+    submitRequirementResults.add(result);
   }
 
   void deleteComment(Comment.Key key) {
@@ -126,13 +134,16 @@ class RevisionNoteBuilder {
 
   private void buildNoteJson(ChangeNoteJson noteUtil, OutputStream out) throws IOException {
     ListMultimap<Integer, Comment> comments = buildCommentMap();
-    if (comments.isEmpty() && pushCert == null) {
+    if (submitRequirementResults.isEmpty() && comments.isEmpty() && pushCert == null) {
       return;
     }
 
     RevisionNoteData data = new RevisionNoteData();
     data.comments = COMMENT_ORDER.sortedCopy(comments.values());
     data.pushCert = pushCert;
+    if (!submitRequirementResults.isEmpty()) {
+      data.submitRequirementResults = submitRequirementResults;
+    }
 
     try (OutputStreamWriter osw = new OutputStreamWriter(out, UTF_8)) {
       noteUtil.getGson().toJson(data, osw);

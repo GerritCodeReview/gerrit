@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "329dbb90_e6a2d711",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2021-07-01T15:32:00Z",
+      "side": 1,
+      "message": "Approval inference was migrated to new diff cache with https://gerrit-review.googlesource.com/c/gerrit/+/299797.\n\nI think we can abandon this change.",
+      "revId": "12ef06c9409172ba371e7be30da4d4da0a7925d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3274e68_23cc8d27",

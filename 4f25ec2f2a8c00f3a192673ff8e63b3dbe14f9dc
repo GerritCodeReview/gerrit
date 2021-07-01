@@ -34,6 +34,24 @@
       "parentUuid": "1b6205bc_8e8349fb",
       "revId": "4f25ec2f2a8c00f3a192673ff8e63b3dbe14f9dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e5b4391_5b69ceae",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-01T11:26:48Z",
+      "side": 1,
+      "message": "I think once /comments works we should remove support of ?tab\u003dcomments",
+      "parentUuid": "f8a1249a_b9cd798f",
+      "revId": "4f25ec2f2a8c00f3a192673ff8e63b3dbe14f9dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

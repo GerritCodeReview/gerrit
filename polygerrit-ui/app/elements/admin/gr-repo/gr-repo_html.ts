@@ -21,6 +21,9 @@ export const htmlTemplate = html`
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
   <style include="gr-subpage-styles">
+    .info {
+      margin-bottom: var(--spacing-xl);
+    }
     h2.edited:after {
       color: var(--deemphasized-text-color);
       content: ' *';

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aacb927f_02cb7d3c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-01T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b80a2b87_00424055",
+      "revId": "aa635d6d7ac2f388f280ce09917e612eb15ee91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb3c37fe_2f196bfb",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-07-01T13:26:45Z",
       "side": 1,
       "message": "Maybe check `offsetHeight \u003e 0`?",
+      "revId": "aa635d6d7ac2f388f280ce09917e612eb15ee91c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a72ed9d_8bd85073",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-01T14:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb3c37fe_2f196bfb",
       "revId": "aa635d6d7ac2f388f280ce09917e612eb15ee91c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

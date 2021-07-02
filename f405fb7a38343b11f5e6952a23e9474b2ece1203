@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10a15948_d5a85676",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-02T13:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4c6e609_439e3c7d",
+      "revId": "f405fb7a38343b11f5e6952a23e9474b2ece1203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "220aaf7c_c6cffadf",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-07-01T15:18:46Z",
       "side": 1,
       "message": "4px is surprising. Is a `vertical-align:top;` maybe missing?\n\nIn a line-height:20px context top:4px would only make sense, if the height of the icon is 12px.",
+      "revId": "f405fb7a38343b11f5e6952a23e9474b2ece1203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eb4462b_17c61ec8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-02T13:13:58Z",
+      "side": 1,
+      "message": "iron-icon has vertical-align:top by default and it\u0027s being applied so it\u0027s not missing.\nTried adding that to other containers but the icon doesn\u0027t really move.",
+      "parentUuid": "220aaf7c_c6cffadf",
       "revId": "f405fb7a38343b11f5e6952a23e9474b2ece1203",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

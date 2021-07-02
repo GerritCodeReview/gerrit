@@ -14,17 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {updateRepoConfig} from './config-model';
+import {updateRepoConfig, updateServerConfig} from './config-model';
 import {repo$} from '../change/change-model';
 import {appContext} from '../app-context';
 import {switchMap} from 'rxjs/operators';
-import {ConfigInfo, RepoName} from '../../types/common';
+import {ConfigInfo, RepoName, ServerInfo} from '../../types/common';
 import {from, of} from 'rxjs';
 
 export class ConfigService {
   private readonly restApiService = appContext.restApiService;
 
   constructor() {
+    from(this.restApiService.getConfig()).subscribe((config?: ServerInfo) => {
+      updateServerConfig(config);
+    });
     repo$
       .pipe(
         switchMap((repo?: RepoName) => {

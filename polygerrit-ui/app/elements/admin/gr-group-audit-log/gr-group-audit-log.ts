@@ -29,12 +29,12 @@ import {
   AccountInfo,
   EncodedGroupId,
   GroupAuditEventInfo,
+  GroupAuditGroupEventInfo,
+  isGroupAuditGroupEventInfo,
 } from '../../../types/common';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
-
-const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
 @customElement('gr-group-audit-log')
 export class GrGroupAuditLog extends ListViewMixin(PolymerElement) {
@@ -103,8 +103,8 @@ export class GrGroupAuditLog extends ListViewMixin(PolymerElement) {
     return item;
   }
 
-  _isGroupEvent(type: string) {
-    return GROUP_EVENTS.indexOf(type) !== -1;
+  _isGroupEvent(event: GroupAuditEventInfo): event is GroupAuditGroupEventInfo {
+    return isGroupAuditGroupEventInfo(event);
   }
 
   _computeGroupUrl(group: GroupInfo) {

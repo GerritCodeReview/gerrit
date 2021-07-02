@@ -18,14 +18,20 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-audit-log.js';
 import {
-  stubRestApi,
   addListenerForTest,
   mockPromise,
+  stubRestApi,
 } from '../../../test/test-utils.js';
 import {GrGroupAuditLog} from './gr-group-audit-log.js';
-import {EncodedGroupId, GroupInfo, GroupName} from '../../../types/common.js';
+import {
+  EncodedGroupId,
+  GroupAuditEventType,
+  GroupInfo,
+  GroupName,
+} from '../../../types/common.js';
 import {
   createAccountWithId,
+  createGroupAuditEventInfo,
   createGroupInfo,
 } from '../../../test/test-data-generators.js';
 import {PageErrorEvent} from '../../../types/events.js';
@@ -52,11 +58,27 @@ suite('gr-group-audit-log tests', () => {
     });
 
     test('test _isGroupEvent', () => {
-      assert.isTrue(element._isGroupEvent('ADD_GROUP'));
-      assert.isTrue(element._isGroupEvent('REMOVE_GROUP'));
+      assert.isTrue(
+        element._isGroupEvent(
+          createGroupAuditEventInfo(GroupAuditEventType.ADD_GROUP)
+        )
+      );
+      assert.isTrue(
+        element._isGroupEvent(
+          createGroupAuditEventInfo(GroupAuditEventType.REMOVE_GROUP)
+        )
+      );
 
-      assert.isFalse(element._isGroupEvent('ADD_USER'));
-      assert.isFalse(element._isGroupEvent('REMOVE_USER'));
+      assert.isFalse(
+        element._isGroupEvent(
+          createGroupAuditEventInfo(GroupAuditEventType.ADD_USER)
+        )
+      );
+      assert.isFalse(
+        element._isGroupEvent(
+          createGroupAuditEventInfo(GroupAuditEventType.REMOVE_USER)
+        )
+      );
     });
   });
 

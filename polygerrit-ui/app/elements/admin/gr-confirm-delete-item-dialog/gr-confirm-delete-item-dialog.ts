@@ -79,7 +79,7 @@ export class GrConfirmDeleteItemDialog extends PolymerElement {
     );
   }
 
-  _computeItemName(detailType: DetailType) {
+  _computeItemName(detailType?: DetailType) {
     if (detailType === DetailType.BRANCHES) {
       return 'Branch';
     } else if (detailType === DetailType.TAGS) {

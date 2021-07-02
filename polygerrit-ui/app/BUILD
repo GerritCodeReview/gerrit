@@ -64,11 +64,9 @@ compiled_pg_srcs_with_tests = compile_ts(
 templates_with_known_problems = [
     "elements/admin/gr-access-section/gr-access-section_html.ts",
     "elements/admin/gr-admin-view/gr-admin-view_html.ts",
-    "elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_html.ts",
     "elements/admin/gr-create-change-dialog/gr-create-change-dialog_html.ts",
     "elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog_html.ts",
     "elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_html.ts",
-    "elements/admin/gr-group-audit-log/gr-group-audit-log_html.ts",
     "elements/admin/gr-group-members/gr-group-members_html.ts",
     "elements/admin/gr-group/gr-group_html.ts",
     "elements/admin/gr-permission/gr-permission_html.ts",

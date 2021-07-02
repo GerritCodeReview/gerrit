@@ -366,13 +366,50 @@ export interface AccountExternalIdInfo {
 
 /**
  * The GroupAuditEventInfo entity contains information about an auditevent of a group.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-audit-event-info
  */
-export interface GroupAuditEventInfo {
-  member: string;
-  type: string;
-  user: string;
-  date: string;
+export type GroupAuditEventInfo =
+  | GroupAuditAccountEventInfo
+  | GroupAuditGroupEventInfo;
+
+export enum GroupAuditEventType {
+  ADD_USER = 'ADD_USER',
+  REMOVE_USER = 'REMOVE_USER',
+  ADD_GROUP = 'ADD_GROUP',
+  REMOVE_GROUP = 'REMOVE_GROUP',
+}
+
+export interface GroupAuditEventInfoBase {
+  user: AccountInfo;
+  date: Timestamp;
+}
+
+export interface GroupAuditAccountEventInfo extends GroupAuditEventInfoBase {
+  type: GroupAuditEventType.ADD_USER | GroupAuditEventType.REMOVE_USER;
+  member: AccountInfo;
+}
+
+export interface GroupAuditGroupEventInfo extends GroupAuditEventInfoBase {
+  type: GroupAuditEventType.ADD_GROUP | GroupAuditEventType.REMOVE_GROUP;
+  member: GroupInfo;
+}
+
+export function isGroupAuditAccountEventInfo(
+  x: GroupAuditEventInfo
+): x is GroupAuditAccountEventInfo {
+  return (
+    x.type === GroupAuditEventType.ADD_USER ||
+    x.type === GroupAuditEventType.REMOVE_USER
+  );
+}
+
+export function isGroupAuditGroupEventInfo(
+  x: GroupAuditEventInfo
+): x is GroupAuditGroupEventInfo {
+  return (
+    x.type === GroupAuditEventType.ADD_GROUP ||
+    x.type === GroupAuditEventType.REMOVE_GROUP
+  );
 }
 
 /**

@@ -16,11 +16,13 @@
  */
 
 import {
+  AccountDetailInfo,
   AccountId,
   AccountInfo,
   AccountsConfigInfo,
   ApprovalInfo,
   AuthInfo,
+  BasePatchSetNum,
   BranchName,
   ChangeConfigInfo,
   ChangeId,
@@ -36,10 +38,16 @@ import {
   ConfigInfo,
   DownloadInfo,
   EditPatchSetNum,
-  GerritInfo,
   EmailAddress,
+  FixId,
+  FixSuggestionInfo,
+  GerritInfo,
   GitPersonInfo,
   GitRef,
+  GroupAuditEventInfo,
+  GroupAuditEventType,
+  GroupId,
+  GroupInfo,
   InheritedBooleanInfo,
   MaxObjectSizeLimitInfo,
   MergeableInfo,
@@ -47,34 +55,29 @@ import {
   PatchSetNum,
   PluginConfigInfo,
   PreferencesInfo,
+  RelatedChangeAndCommitInfo,
+  RelatedChangesInfo,
   RepoName,
+  Requirement,
+  RequirementType,
   Reviewers,
   RevisionInfo,
   SchemesInfoMap,
   ServerInfo,
+  SubmittedTogetherInfo,
   SubmitTypeInfo,
   SuggestInfo,
   Timestamp,
   TimezoneOffset,
-  UserConfigInfo,
-  AccountDetailInfo,
-  Requirement,
-  RequirementType,
   UrlEncodedCommentId,
-  BasePatchSetNum,
-  RelatedChangeAndCommitInfo,
-  SubmittedTogetherInfo,
-  RelatedChangesInfo,
-  FixSuggestionInfo,
-  FixId,
-  GroupInfo,
-  GroupId,
+  UserConfigInfo,
 } from '../types/common';
 import {
   AccountsVisibility,
   AppTheme,
   AuthType,
   ChangeStatus,
+  CommentSide,
   DateFormat,
   DefaultBase,
   DefaultDisplayNameConfig,
@@ -82,18 +85,17 @@ import {
   EmailStrategy,
   InheritedBooleanInfoConfiguredValue,
   MergeabilityComputationBehavior,
+  RequirementStatus,
   RevisionKind,
   SubmitType,
   TimeFormat,
-  RequirementStatus,
-  CommentSide,
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
 import {AppElementChangeViewParams} from '../elements/gr-app-types';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
-import {UIComment, UIDraft, createCommentThreads} from '../utils/comment-util';
+import {createCommentThreads, UIComment, UIDraft} from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
@@ -628,4 +630,27 @@ export function createGroupInfo(id = 'id'): GroupInfo {
   return {
     id: id as GroupId,
   };
+}
+
+export function createGroupAuditEventInfo(
+  type: GroupAuditEventType
+): GroupAuditEventInfo {
+  if (
+    type === GroupAuditEventType.ADD_USER ||
+    type === GroupAuditEventType.REMOVE_USER
+  ) {
+    return {
+      type,
+      member: createAccountWithId(10),
+      user: createAccountWithId(),
+      date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
+    };
+  } else {
+    return {
+      type,
+      member: createGroupInfo(),
+      user: createAccountWithId(),
+      date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
+    };
+  }
 }

@@ -619,11 +619,31 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     addToReviewInput(this.$.reviewers.additions(), ReviewerState.REVIEWER);
     addToReviewInput(this.$.ccs.additions(), ReviewerState.CC);
     addToReviewInput(
-      this.$.reviewers.removals().filter(r => isReviewerOrCC(change, r)),
+      this.$.reviewers.removals().filter(
+        r =>
+          isReviewerOrCC(change, r) &&
+          // ignore removal from reviewer request if being added to CC
+          !this.$.ccs
+            .additions()
+            .some(
+              account =>
+                mapReviewer(account).reviewer === mapReviewer(r).reviewer
+            )
+      ),
       ReviewerState.REMOVED
     );
     addToReviewInput(
-      this.$.ccs.removals().filter(r => isReviewerOrCC(change, r)),
+      this.$.ccs.removals().filter(
+        r =>
+          isReviewerOrCC(change, r) &&
+          // ignore removal from CC request if being added as reviewer
+          !this.$.reviewers
+            .additions()
+            .some(
+              account =>
+                mapReviewer(account).reviewer === mapReviewer(r).reviewer
+            )
+      ),
       ReviewerState.REMOVED
     );
 

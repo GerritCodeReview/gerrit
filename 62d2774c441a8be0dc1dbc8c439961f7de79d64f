@@ -16,6 +16,24 @@
       "message": "Need to have someone from the PolyGerrit Team to double-check",
       "revId": "62d2774c441a8be0dc1dbc8c439961f7de79d64f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9ca409c_e6532457",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-02T00:43:15Z",
+      "side": 1,
+      "message": "The PolyGerrit changes are correct seeing as i did it :) (you can easily compare it to the master commit)",
+      "parentUuid": "352e3f32_79015112",
+      "revId": "62d2774c441a8be0dc1dbc8c439961f7de79d64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

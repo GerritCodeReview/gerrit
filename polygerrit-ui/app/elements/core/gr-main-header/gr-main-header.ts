@@ -24,7 +24,7 @@ import {htmlTemplate} from './gr-main-header_html';
 import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAdminLinks, NavLink} from '../../../utils/admin-nav-util';
-import {customElement, property, observe} from '@polymer/decorators';
+import {customElement, property} from '@polymer/decorators';
 import {
   AccountDetailInfo,
   RequireProperties,
@@ -35,6 +35,11 @@ import {
 import {AuthType} from '../../../constants/constants';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {appContext} from '../../../services/app-context';
+import {Subject} from 'rxjs';
+import {serverConfig$} from '../../../services/config/config-model';
+import {takeUntil} from 'rxjs/operators';
+import {myTopMenuItems$} from '../../../services/user/user-model';
+import {assertIsDefined} from '../../../utils/common-util';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -154,6 +159,8 @@ export class GrMainHeader extends PolymerElement {
 
   private readonly jsAPI = appContext.jsApiService;
 
+  private readonly disconnected$ = new Subject();
+
   /** @override */
   ready() {
     super.ready();
@@ -162,13 +169,28 @@ export class GrMainHeader extends PolymerElement {
 
   /** @override */
   connectedCallback() {
+    assertIsDefined(appContext.userService);
+
     super.connectedCallback();
     this._loadAccount();
-    this._loadConfig();
+
+    myTopMenuItems$.pipe(takeUntil(this.disconnected$)).subscribe(items => {
+      this._userLinks = items.map(this._createHeaderLink);
+    });
+
+    serverConfig$.pipe(takeUntil(this.disconnected$)).subscribe(config => {
+      if (!config) return;
+      this._retrieveFeedbackURL(config);
+      this._retrieveRegisterURL(config);
+      getDocsBaseUrl(config, this.restApiService).then(docBaseUrl => {
+        this._docBaseUrl = docBaseUrl;
+      });
+    });
   }
 
   /** @override */
   disconnectedCallback() {
+    this.disconnected$.next();
     super.disconnectedCallback();
   }
 
@@ -290,34 +312,6 @@ export class GrMainHeader extends PolymerElement {
       ).then(res => {
         this._adminLinks = res.links;
       });
-    });
-  }
-
-  _loadConfig() {
-    this.restApiService
-      .getConfig()
-      .then(config => {
-        if (!config) {
-          throw new Error('getConfig returned undefined');
-        }
-        this._retrieveFeedbackURL(config);
-        this._retrieveRegisterURL(config);
-        return getDocsBaseUrl(config, this.restApiService);
-      })
-      .then(docBaseUrl => {
-        this._docBaseUrl = docBaseUrl;
-      });
-  }
-
-  @observe('_account')
-  _accountLoaded(account?: AccountDetailInfo) {
-    if (!account) {
-      return;
-    }
-
-    this.restApiService.getPreferences().then(prefs => {
-      this._userLinks =
-        prefs && prefs.my ? prefs.my.map(this._createHeaderLink) : [];
     });
   }
 

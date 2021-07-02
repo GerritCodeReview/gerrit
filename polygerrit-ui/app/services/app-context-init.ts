@@ -25,6 +25,7 @@ import {ChecksService} from './checks/checks-service';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
 import {ConfigService} from './config/config-service';
+import {UserService} from './user/user-service';
 
 type ServiceName = keyof AppContext;
 type ServiceCreator<T> = () => T;
@@ -77,5 +78,6 @@ export function initAppContext() {
     jsApiService: () => new GrJsApiInterface(),
     storageService: () => new GrStorageService(),
     configService: () => new ConfigService(),
+    userService: () => new UserService(),
   });
 }

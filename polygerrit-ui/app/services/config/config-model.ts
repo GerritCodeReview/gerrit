@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ConfigInfo} from '../../types/common';
+import {ConfigInfo, ServerInfo} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
 
 interface ConfigState {
   repoConfig?: ConfigInfo;
+  serverConfig?: ServerInfo;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -31,14 +32,22 @@ const privateState$ = new BehaviorSubject(initialState);
 // Re-exporting as Observable so that you can only subscribe, but not emit.
 export const configState$: Observable<ConfigState> = privateState$;
 
-// Must only be used by the change service or whatever is in control of this
-// model.
 export function updateRepoConfig(repoConfig?: ConfigInfo) {
   const current = privateState$.getValue();
   privateState$.next({...current, repoConfig});
 }
 
+export function updateServerConfig(serverConfig?: ServerInfo) {
+  const current = privateState$.getValue();
+  privateState$.next({...current, serverConfig});
+}
+
 export const repoConfig$ = configState$.pipe(
   map(configState => configState.repoConfig),
+  distinctUntilChanged()
+);
+
+export const serverConfig$ = configState$.pipe(
+  map(configState => configState.serverConfig),
   distinctUntilChanged()
 );

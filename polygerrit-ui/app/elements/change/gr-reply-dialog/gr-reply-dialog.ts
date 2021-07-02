@@ -75,6 +75,7 @@ import {
   ParsedJSON,
   PatchSetNum,
   ProjectInfo,
+  ReviewerInput,
   Reviewers,
   ReviewInput,
   ReviewResult,
@@ -556,6 +557,51 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
     return isResolvedPatchsetLevelComment ? 'resolved' : 'unresolved';
   }
 
+  computeReviewers(change: ChangeInfo) {
+    const reviewers: ReviewerInput[] = [];
+    const addToReviewInput = (
+      additions: AccountAddition[],
+      state?: ReviewerState
+    ) => {
+      additions.forEach(addition => {
+        const reviewer = mapReviewer(addition);
+        if (state) reviewer.state = state;
+        reviewers.push(reviewer);
+      });
+    };
+    addToReviewInput(this.$.reviewers.additions(), ReviewerState.REVIEWER);
+    addToReviewInput(this.$.ccs.additions(), ReviewerState.CC);
+    addToReviewInput(
+      this.$.reviewers.removals().filter(
+        r =>
+          isReviewerOrCC(change, r) &&
+          // ignore removal from reviewer request if being added to CC
+          !this.$.ccs
+            .additions()
+            .some(
+              account =>
+                mapReviewer(account).reviewer === mapReviewer(r).reviewer
+            )
+      ),
+      ReviewerState.REMOVED
+    );
+    addToReviewInput(
+      this.$.ccs.removals().filter(
+        r =>
+          isReviewerOrCC(change, r) &&
+          // ignore removal from CC request if being added as reviewer
+          !this.$.reviewers
+            .additions()
+            .some(
+              account =>
+                mapReviewer(account).reviewer === mapReviewer(r).reviewer
+            )
+      ),
+      ReviewerState.REMOVED
+    );
+    return reviewers;
+  }
+
   send(includeComments: boolean, startReview: boolean) {
     this.reporting.time(Timing.SEND_REPLY);
     const labels = this.getLabelScores().getLabelValues();
@@ -603,30 +649,8 @@ export class GrReplyDialog extends KeyboardShortcutMixin(PolymerElement) {
       };
     }
 
-    const addToReviewInput = (
-      additions: AccountAddition[],
-      state?: ReviewerState
-    ) => {
-      additions.forEach(addition => {
-        const reviewer = mapReviewer(addition);
-        if (state) reviewer.state = state;
-        reviewInput.reviewers?.push(reviewer);
-      });
-    };
-    reviewInput.reviewers = [];
     assertIsDefined(this.change, 'change');
-    const change = this.change;
-    addToReviewInput(this.$.reviewers.additions(), ReviewerState.REVIEWER);
-    addToReviewInput(this.$.ccs.additions(), ReviewerState.CC);
-    addToReviewInput(
-      this.$.reviewers.removals().filter(r => isReviewerOrCC(change, r)),
-      ReviewerState.REMOVED
-    );
-    addToReviewInput(
-      this.$.ccs.removals().filter(r => isReviewerOrCC(change, r)),
-      ReviewerState.REMOVED
-    );
-
+    reviewInput.reviewers = this.computeReviewers(this.change);
     this.disabled = true;
 
     const errFn = (r?: Response | null) => this._handle400Error(r);

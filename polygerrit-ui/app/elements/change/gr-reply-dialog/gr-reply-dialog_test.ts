@@ -1719,6 +1719,50 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
+  test('Ignore removal requests if being added as reviewer/CC', async () => {
+    flush();
+    const reviewers = queryAndAssert(element, '#reviewers') as GrAccountList;
+    const ccs = queryAndAssert(element, '#ccs') as GrAccountList;
+    const reviewer1 = makeAccount();
+    element._reviewers = [reviewer1];
+    element._ccs = [];
+
+    element.change!.reviewers = {
+      [ReviewerState.CC]: [],
+      [ReviewerState.REVIEWER]: [{_account_id: reviewer1._account_id}],
+    };
+
+    const mutations: ReviewerInput[] = [];
+
+    stubSaveReview((review: ReviewInput) => {
+      mutations.push(...review!.reviewers!);
+    });
+
+    // Remove and add to other field.
+    reviewers.dispatchEvent(
+      new CustomEvent('remove', {
+        detail: {account: reviewer1},
+        composed: true,
+        bubbles: true,
+      })
+    );
+    ccs.$.entry.dispatchEvent(
+      new CustomEvent('add', {
+        detail: {value: {account: reviewer1}},
+        composed: true,
+        bubbles: true,
+      })
+    );
+
+    await element.send(false, false);
+    expect(mutations).to.have.lengthOf(1);
+    // Only 1 account was initially part of the change
+    expect(mutations[0]).to.deep.equal({
+      reviewer: reviewer1._account_id,
+      state: ReviewerState.CC,
+    });
+  });
+
   test('emits cancel on esc key', () => {
     const cancelHandler = sinon.spy();
     element.addEventListener('cancel', cancelHandler);

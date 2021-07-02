@@ -35,6 +35,9 @@ import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants'
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {appContext} from '../../../services/app-context';
+import {Subject} from 'rxjs';
+import {repoConfig$} from '../../../services/config/config-model';
+import {takeUntil} from 'rxjs/operators';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -88,6 +91,8 @@ export class GrCreateChangeDialog extends PolymerElement {
 
   restApiService = appContext.restApiService;
 
+  disconnected$ = new Subject();
+
   constructor() {
     super();
     this._query = (input: string) => this._getRepoBranchesSuggestions(input);
@@ -96,31 +101,26 @@ export class GrCreateChangeDialog extends PolymerElement {
   /** @override */
   connectedCallback() {
     super.connectedCallback();
-    if (!this.repoName) {
-      return Promise.resolve();
-    }
+    if (!this.repoName) return;
 
-    const promises = [];
+    repoConfig$.pipe(takeUntil(this.disconnected$)).subscribe(config => {
+      this.privateByDefault = config?.private_by_default;
+    });
 
-    promises.push(
-      this.restApiService.getProjectConfig(this.repoName).then(config => {
-        if (!config) return;
-        this.privateByDefault = config.private_by_default;
-      })
-    );
+    this.restApiService.getConfig().then(config => {
+      if (!config) {
+        return;
+      }
 
-    promises.push(
-      this.restApiService.getConfig().then(config => {
-        if (!config) {
-          return;
-        }
+      this._privateChangesEnabled =
+        config && config.change && !config.change.disable_private_changes;
+    });
+  }
 
-        this._privateChangesEnabled =
-          config && config.change && !config.change.disable_private_changes;
-      })
-    );
-
-    return Promise.all(promises);
+  /** @override */
+  disconnectedCallback() {
+    this.disconnected$.next();
+    super.disconnectedCallback();
   }
 
   _computeBranchClass(baseChange: boolean) {

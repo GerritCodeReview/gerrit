@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d10ffb4c_eb56f714",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-03T15:53:37Z",
+      "side": 1,
+      "message": "This has caused gerrits ui to break with \"SyntaxError: Unexpected keyword \u0027export\u0027\". Reverting this fixed it.",
+      "revId": "fe294970d9f77119a2803b797bfedbbce26b5333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

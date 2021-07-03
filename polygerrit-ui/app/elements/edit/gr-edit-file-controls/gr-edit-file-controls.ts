@@ -28,7 +28,7 @@ interface EditAction {
 }
 
 @customElement('gr-edit-file-controls')
-export class GrEditFileControls extends PolymerElement {
+class GrEditFileControls extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

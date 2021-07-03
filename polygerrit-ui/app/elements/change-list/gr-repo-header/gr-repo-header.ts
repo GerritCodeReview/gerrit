@@ -27,7 +27,7 @@ import {WebLinkInfo} from '../../../types/diff';
 import {appContext} from '../../../services/app-context';
 
 @customElement('gr-repo-header')
-export class GrRepoHeader extends PolymerElement {
+class GrRepoHeader extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }

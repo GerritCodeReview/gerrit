@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c492741_8c5e8e5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-05T12:47:58Z",
+      "side": 1,
+      "message": "I think this may be causing \"Error: Server error: Not found: -1\" when using the inline editor on a merge change.",
+      "revId": "34a95ef2bfb7deb7b791bc314ff938b626829d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

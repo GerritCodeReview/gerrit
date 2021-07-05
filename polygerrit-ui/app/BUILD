@@ -77,7 +77,6 @@ ignore_templates_list = [
     "elements/admin/gr-group-members/gr-group-members_html.ts",
     "elements/admin/gr-group/gr-group_html.ts",
     "elements/admin/gr-permission/gr-permission_html.ts",
-    "elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor_html.ts",
     "elements/admin/gr-plugin-list/gr-plugin-list_html.ts",
     "elements/admin/gr-repo-access/gr-repo-access_html.ts",
     "elements/admin/gr-repo-commands/gr-repo-commands_html.ts",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b494b73_0dec9195",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-05T08:11:12Z",
+      "side": 1,
+      "message": "It would be nice, if these 42 lines of code could be extracted into its own function or method. \n\n  reviewInput.reviewers \u003d\n      computeReviewers(this.change, this.$.reviewers, this.$.ccs);\n      \nSuch a state independent function would also make it very easy to test. And I think it would be nice to test the regression that you are fixing.",
+      "range": {
+        "startLine": 606,
+        "startChar": 4,
+        "endLine": 648,
+        "endChar": 6
+      },
+      "revId": "06fe47c1a607d3abe9d418100693f9949b6b08a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

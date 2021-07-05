@@ -24,6 +24,7 @@ import {htmlTemplate} from './gr-copy-clipboard_html';
 import {GrButton} from '../gr-button/gr-button';
 import {customElement, property} from '@polymer/decorators';
 import {IronIconElement} from '@polymer/iron-icon';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const COPY_TIMEOUT_MS = 1000;
 
@@ -72,16 +73,9 @@ export class GrCopyClipboard extends PolymerElement {
     e.preventDefault();
     e.stopPropagation();
 
-    if (this.hideInput) {
-      this.$.input.style.display = 'block';
-    }
-    this.$.input.focus();
-    this.$.input.select();
-    document.execCommand('copy');
-    if (this.hideInput) {
-      this.$.input.style.display = 'none';
-    }
+    assertIsDefined(this.text, 'text');
     this.$.icon.icon = 'gr-icons:check';
+    navigator.clipboard.writeText(this.text);
     setTimeout(
       () => (this.$.icon.icon = 'gr-icons:content-copy'),
       COPY_TIMEOUT_MS

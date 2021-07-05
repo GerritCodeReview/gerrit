@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "704b140a_009d2703",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-05T10:25:06Z",
+      "side": 1,
+      "message": "Just curious, why `Browse with [[weblink.name]]` is not enough?",
+      "range": {
+        "startLine": 66,
+        "startChar": 21,
+        "endLine": 66,
+        "endChar": 53
+      },
+      "revId": "fe27d66763f417e4c33f52cfb9b981171f4d6687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

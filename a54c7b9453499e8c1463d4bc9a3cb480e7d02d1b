@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "595120dc_172c58a6",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T09:45:12Z",
+      "side": 1,
+      "message": "is this required?\nthere\u0027s no such assert in any other part of the codebase.",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 44
+      },
+      "revId": "a54c7b9453499e8c1463d4bc9a3cb480e7d02d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2adb1909_3dadc5b0",
+        "filename": "polygerrit-ui/app/services/user/user-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T09:45:12Z",
+      "side": 1,
+      "message": "why is this of(1) being used?",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 36
+      },
+      "revId": "a54c7b9453499e8c1463d4bc9a3cb480e7d02d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

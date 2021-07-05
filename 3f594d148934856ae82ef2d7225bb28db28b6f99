@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af751e2a_16c10b83",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-05T11:19:50Z",
+      "side": 1,
+      "message": "fire(this, \u0027close\u0027);",
+      "revId": "3f594d148934856ae82ef2d7225bb28db28b6f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

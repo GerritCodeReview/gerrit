@@ -34,6 +34,24 @@
       "parentUuid": "6c492741_8c5e8e5f",
       "revId": "34a95ef2bfb7deb7b791bc314ff938b626829d18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e922159_07997914",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-05T13:27:47Z",
+      "side": 1,
+      "message": "1. Create a merge change\n2. Open inline editor and create an edit (could just be changing a file or commit message)\n3. Close the editor.\n\nThen a alert is shown (you can also see it in the developer tools)",
+      "parentUuid": "9d14da78_c133b548",
+      "revId": "34a95ef2bfb7deb7b791bc314ff938b626829d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

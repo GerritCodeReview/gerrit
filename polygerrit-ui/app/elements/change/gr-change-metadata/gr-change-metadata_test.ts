@@ -347,8 +347,11 @@ suite('gr-change-metadata tests', () => {
             },
             commit: {
               ...createCommit(),
-              author: {...createGitPerson(), email: 'jkl@def'},
-              committer: {...createGitPerson(), email: 'ghi@def'},
+              author: {...createGitPerson(), email: 'jkl@def' as EmailAddress},
+              committer: {
+                ...createGitPerson(),
+                email: 'ghi@def' as EmailAddress,
+              },
             },
           },
         },
@@ -398,7 +401,7 @@ suite('gr-change-metadata tests', () => {
         change!.revisions.rev1.uploader!.email = 'ghh@def' as EmailAddress;
         assert.deepEqual(
           element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER),
-          {...createGitPerson(), email: 'ghi@def'}
+          {...createGitPerson(), email: 'ghi@def' as EmailAddress}
         );
       });
 
@@ -410,7 +413,7 @@ suite('gr-change-metadata tests', () => {
 
       test('_getNonOwnerRole that it does not return committer', () => {
         // Set the committer email to be the same as the owner.
-        change!.revisions.rev1.commit!.committer.email = 'abc@def';
+        change!.revisions.rev1.commit!.committer.email = 'abc@def' as EmailAddress;
         assert.isNotOk(
           element._getNonOwnerRole(change, element._CHANGE_ROLE.COMMITTER)
         );
@@ -428,13 +431,13 @@ suite('gr-change-metadata tests', () => {
       test('_getNonOwnerRole for author', () => {
         assert.deepEqual(
           element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR),
-          {...createGitPerson(), email: 'jkl@def'}
+          {...createGitPerson(), email: 'jkl@def' as EmailAddress}
         );
       });
 
       test('_getNonOwnerRole that it does not return author', () => {
         // Set the author email to be the same as the owner.
-        change!.revisions.rev1.commit!.author.email = 'abc@def';
+        change!.revisions.rev1.commit!.author.email = 'abc@def' as EmailAddress;
         assert.isNotOk(
           element._getNonOwnerRole(change, element._CHANGE_ROLE.AUTHOR)
         );

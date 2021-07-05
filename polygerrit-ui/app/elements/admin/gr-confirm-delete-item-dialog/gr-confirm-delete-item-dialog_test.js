@@ -56,15 +56,5 @@ suite('gr-confirm-delete-item-dialog tests', () => {
     assert.isTrue(element._handleCancelTap.called);
     assert.isTrue(element._handleCancelTap.calledOnce);
   });
-
-  test('_computeItemName function for branches', () => {
-    assert.deepEqual(element._computeItemName('branches'), 'Branch');
-    assert.notEqual(element._computeItemName('branches'), 'Tag');
-  });
-
-  test('_computeItemName function for tags', () => {
-    assert.deepEqual(element._computeItemName('tags'), 'Tag');
-    assert.notEqual(element._computeItemName('tags'), 'Branch');
-  });
 });
 

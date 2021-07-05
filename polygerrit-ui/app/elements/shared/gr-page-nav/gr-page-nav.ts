@@ -31,6 +31,12 @@ export interface GrPageNav {
   };
 }
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-page-nav': GrPageNav;
+  }
+}
+
 @customElement('gr-page-nav')
 export class GrPageNav extends PolymerElement {
   static get template() {

@@ -195,7 +195,7 @@ export const TEST_CHANGE_UPDATED = new Date(2020, 10, 6, 5, 12, 34);
 export function createGitPerson(name = 'Test name'): GitPersonInfo {
   return {
     name,
-    email: `${name}@`,
+    email: `${name}@` as EmailAddress,
     date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
     tz: 0 as TimezoneOffset,
   };

@@ -69,7 +69,7 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
   params?: AppElementRepoParams;
 
   @property({type: String})
-  detailType?: RepoDetailView;
+  detailType?: RepoDetailView.BRANCHES | RepoDetailView.TAGS;
 
   @property({type: Boolean})
   _editing = false;
@@ -89,8 +89,11 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
   @property({type: Array})
   _items?: BranchInfo[] | TagInfo[];
 
+  // _shownItems should be BranchInfo[] | TagInfo[],
+  // but TS incorrectly assumes that in the loop for(const item of _shownItems)
+  // item has type BranchInfo, not BranchInfo | TagInfo.
   @property({type: Array, computed: 'computeShownItems(_items)'})
-  _shownItems?: BranchInfo[] | TagInfo[];
+  _shownItems?: Array<BranchInfo | TagInfo>;
 
   @property({type: Number})
   _itemsPerPage = 25;
@@ -105,10 +108,10 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
   _refName?: GitRef;
 
   @property({type: Boolean})
-  _hasNewItemName?: boolean;
+  _hasNewItemName = false;
 
   @property({type: Boolean})
-  _isEditing?: boolean;
+  _isEditing = false;
 
   @property({type: String})
   _revisedRef?: GitRef;
@@ -204,11 +207,11 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     return Promise.reject(new Error('unknown detail type'));
   }
 
-  _getPath(repo: RepoName) {
-    return `/admin/repos/${encodeURL(repo, false)},${this.detailType}`;
+  _getPath(repo?: RepoName, detailType?: RepoDetailView) {
+    return `/admin/repos/${encodeURL(repo ?? '', false)},${detailType}`;
   }
 
-  _computeWeblink(repo: ProjectInfo) {
+  _computeWeblink(repo: ProjectInfo | BranchInfo | TagInfo) {
     if (!repo.web_links) {
       return '';
     }
@@ -216,7 +219,7 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     return webLinks.length ? webLinks : null;
   }
 
-  _computeFirstWebLink(repo: ProjectInfo) {
+  _computeFirstWebLink(repo: ProjectInfo | BranchInfo | TagInfo) {
     const webLinks = this._computeWeblink(repo);
     return webLinks ? webLinks[0].url : null;
   }
@@ -229,7 +232,7 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     return message.split(PGP_START)[0];
   }
 
-  _stripRefs(item: GitRef, detailType?: string) {
+  _stripRefs(item: GitRef, detailType?: RepoDetailView) {
     if (detailType === RepoDetailView.BRANCHES) {
       return item.replace('refs/heads/', '');
     } else if (detailType === RepoDetailView.TAGS) {
@@ -246,7 +249,12 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     return isEditing ? 'editing' : '';
   }
 
-  _computeCanEditClass(ref: GitRef, detailType: string, isOwner: boolean) {
+  _computeCanEditClass(
+    ref?: GitRef,
+    detailType?: RepoDetailView,
+    isOwner?: boolean
+  ) {
+    if (ref === undefined || detailType === undefined) return '';
     return isOwner && this._stripRefs(ref, detailType) === 'HEAD'
       ? 'canEdit'
       : '';
@@ -261,12 +269,16 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     this._isEditing = false;
   }
 
-  _handleSaveRevision(e: PolymerDomRepeatEvent<GitRef>) {
+  _handleSaveRevision(e: PolymerDomRepeatEvent<BranchInfo | TagInfo>) {
     if (this._revisedRef && this._repo)
       this._setRepoHead(this._repo, this._revisedRef, e);
   }
 
-  _setRepoHead(repo: RepoName, ref: GitRef, e: PolymerDomRepeatEvent<GitRef>) {
+  _setRepoHead(
+    repo: RepoName,
+    ref: GitRef,
+    e: PolymerDomRepeatEvent<BranchInfo | TagInfo>
+  ) {
     return this.restApiService.setRepoHead(repo, ref).then(res => {
       if (res.status < 400) {
         this._isEditing = false;
@@ -284,7 +296,8 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     });
   }
 
-  _computeItemName(detailType: string) {
+  _computeItemName(detailType?: RepoDetailView) {
+    if (detailType === undefined) return '';
     if (detailType === RepoDetailView.BRANCHES) {
       return 'Branch';
     } else if (detailType === RepoDetailView.TAGS) {
@@ -334,7 +347,7 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     this.$.overlay.close();
   }
 
-  _handleDeleteItem(e: PolymerDomRepeatEvent<GitRef>) {
+  _handleDeleteItem(e: PolymerDomRepeatEvent<BranchInfo | TagInfo>) {
     const name = this._stripRefs(
       e.model.get('item.ref'),
       this.detailType
@@ -346,7 +359,7 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     this.$.overlay.open();
   }
 
-  _computeHideDeleteClass(owner: boolean, canDelete: boolean) {
+  _computeHideDeleteClass(owner?: boolean, canDelete?: boolean) {
     if (canDelete || owner) {
       return 'show';
     }
@@ -367,7 +380,7 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     this.$.createOverlay.open();
   }
 
-  _hideIfBranch(type: string) {
+  _hideIfBranch(type?: RepoDetailView) {
     if (type === RepoDetailView.BRANCHES) {
       return 'hideItem';
     }
@@ -375,7 +388,7 @@ export class GrRepoDetailList extends ListViewMixin(PolymerElement) {
     return '';
   }
 
-  _computeHideTagger(tagger: GitPersonInfo) {
+  _computeHideTagger(tagger?: GitPersonInfo) {
     return tagger ? '' : 'hide';
   }
 }

@@ -98,7 +98,7 @@ export const htmlTemplate = html`
       on-confirm="_handleDeleteItemConfirm"
       on-cancel="_handleConfirmDialogCancel"
       item="[[_idName]]"
-      item-type="id"
+      item-type-name="ID"
     ></gr-confirm-delete-item-dialog>
   </gr-overlay>
 `;

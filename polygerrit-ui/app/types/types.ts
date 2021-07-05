@@ -123,8 +123,33 @@ export interface PolymerDomRepeatEventModel<T> {
    * The index of the element in the dom-repeat.
    */
   index: number;
-  get: (name: string) => T;
-  set: (name: string, val: T) => void;
+  get(name: 'item'): T;
+  // Typed get for item.prop_name
+  get<K extends keyof T>(name: `item.${K extends string ? K : never}`): T[K];
+  // Typed get for item.prop_name.nested_prop_name
+  get<K1 extends keyof T, K2 extends keyof T[K1]>(
+    name: `item.${K1 extends string ? K1 : never}.${K2 extends string
+      ? K2
+      : never}`
+  ): T[K1][K2];
+  // Untyped get for other cases
+  get(name: string): unknown; // force get(...) as Type for nested properties
+
+  set(name: 'item', val: T): void;
+  // Typed set for item.prop_name
+  set<K extends keyof T>(
+    name: `item.${K extends string ? K : never}`,
+    val: T[K]
+  ): void;
+  // Typed get for item.prop_name.nested_prop_name
+  set<K1 extends keyof T, K2 extends keyof T[K1]>(
+    name: `item.${K1 extends string ? K1 : never}.${K2 extends string
+      ? K2
+      : never}`,
+    val: T[K1][K2]
+  ): void;
+  // Untyped set for other cases
+  set(name: string, val: unknown): void;
 }
 
 /** https://highlightjs.readthedocs.io/en/latest/api.html */

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1570238a_a3a4a80d",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T15:23:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ba225f8_b692aaa6",
+      "revId": "38b013ccb098cfc5a6dae7f83da3724ed21f45a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e03b06fa_cfb0f7f5",
@@ -58,6 +76,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a9f2248_713a629e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T15:23:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e03b06fa_cfb0f7f5",
+      "revId": "38b013ccb098cfc5a6dae7f83da3724ed21f45a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bcf05b7_76d23c68",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T15:23:45Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/311263",
+      "parentUuid": "a63a4a2b_29f724f7",
+      "range": {
+        "startLine": 429,
+        "startChar": 14,
+        "endLine": 429,
+        "endChar": 34
+      },
+      "revId": "38b013ccb098cfc5a6dae7f83da3724ed21f45a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "266b362f_33b8377a",
@@ -71,6 +131,24 @@
       "writtenOn": "2021-07-05T07:42:30Z",
       "side": 1,
       "message": "Maybe add a comment that the primary use case for this is copying absolute URLs to the clipboard.",
+      "revId": "38b013ccb098cfc5a6dae7f83da3724ed21f45a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe35ee66_166e4ece",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T15:23:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "266b362f_33b8377a",
       "revId": "38b013ccb098cfc5a6dae7f83da3724ed21f45a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

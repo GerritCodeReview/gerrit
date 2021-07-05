@@ -16,6 +16,24 @@
       "message": "I think this may be causing \"Error: Server error: Not found: -1\" when using the inline editor on a merge change.",
       "revId": "34a95ef2bfb7deb7b791bc314ff938b626829d18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d14da78_c133b548",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-05T13:14:41Z",
+      "side": 1,
+      "message": "Can you share the steps to reproduce? I don\u0027t see the error when using edit mode on a merge change.",
+      "parentUuid": "6c492741_8c5e8e5f",
+      "revId": "34a95ef2bfb7deb7b791bc314ff938b626829d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

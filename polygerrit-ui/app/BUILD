@@ -63,7 +63,8 @@ polygerrit_bundle(
     name = "polygerrit_ui",
     srcs = compiled_pg_srcs,
     outs = ["polygerrit_ui.zip"],
-    entry_point = "_pg_ts_out/elements/gr-app.js",
+    app_name = "gr-app",
+    entry_point = "_pg_ts_out/elements/gr-app-entry-point.js",
 )
 
 filegroup(

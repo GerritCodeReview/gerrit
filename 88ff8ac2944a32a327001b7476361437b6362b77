@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6b2028c_8c3370d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-05T11:26:56Z",
+      "side": 1,
+      "message": "Testing `send()` is ok, but I think it would be much more efficient to test `computeReviewers()` directly.",
+      "revId": "88ff8ac2944a32a327001b7476361437b6362b77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d3a9204_fe370a79",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T20:39:30Z",
+      "side": 1,
+      "message": "can you explain this a bit?\nIs this all being done by fried-twinkie? Which 1:1 conversion is this talking about?",
+      "range": {
+        "startLine": 275,
+        "startChar": 51,
+        "endLine": 276,
+        "endChar": 53
+      },
+      "revId": "199151321526a350a979c21caf8d84d6e28145c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

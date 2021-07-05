@@ -20,7 +20,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {WebLinkInfo} from '../api/rest-api';
+import {
+  DiffInfo as DiffInfoApi,
+  DiffFileMetaInfo as DiffFileMetaInfoApi,
+  DiffContent as DiffContentApi,
+  DiffPreferencesInfo as DiffPreferenceInfoApi,
+} from '../api/diff';
 
+export {WebLinkInfo};
 export {
   ChangeType,
   MoveDetails,
@@ -28,13 +36,6 @@ export {
   MarkLength,
   DiffIntralineInfo,
   IgnoreWhitespaceType,
-} from '../api/diff';
-
-import {
-  DiffInfo as DiffInfoApi,
-  DiffFileMetaInfo as DiffFileMetaInfoApi,
-  DiffContent as DiffContentApi,
-  DiffPreferencesInfo as DiffPreferenceInfoApi,
 } from '../api/diff';
 
 export interface DiffInfo extends DiffInfoApi {
@@ -80,19 +81,6 @@ export declare interface DiffWebLinkInfo {
 export interface DiffFileMetaInfo extends DiffFileMetaInfoApi {
   /** Links to the file in external sites as a list of WebLinkInfo entries. */
   web_links?: WebLinkInfo[];
-}
-
-/**
- * The WebLinkInfo entity describes a link to an external site.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#web-link-info
- */
-export declare interface WebLinkInfo {
-  /** The link name. */
-  name: string;
-  /** The link URL. */
-  url: string;
-  /** URL to the icon of the link. */
-  image_url: string;
 }
 
 export interface DiffContent extends DiffContentApi {

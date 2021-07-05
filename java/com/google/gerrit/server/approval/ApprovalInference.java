@@ -124,7 +124,8 @@ class ApprovalInference {
       PatchSet.Id psId,
       ChangeKind kind,
       LabelType type,
-      @Nullable Map<String, FileDiffOutput> modifiedFiles) {
+      @Nullable Map<String, FileDiffOutput> modifiedFiles,
+      @Nullable Map<String, FileDiffOutput> modifiedFilesLastPatchSet) {
     int n = psa.key().patchSetId().get();
     checkArgument(n != psId.get());
 
@@ -174,7 +175,7 @@ class ApprovalInference {
           project.getName());
       return true;
     } else if (type.isCopyAllScoresIfListOfFilesDidNotChange()
-        && listOfFilesUnchangedPredicate.match(modifiedFiles)) {
+        && listOfFilesUnchangedPredicate.match(modifiedFiles, modifiedFilesLastPatchSet)) {
       logger.atFine().log(
           "approval %d on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set "
@@ -392,6 +393,7 @@ class ApprovalInference {
         "change kind for patch set %d of change %d against prior patch set %s is %s",
         ps.id().get(), ps.id().changeId().get(), priorPatchSet.getValue().id().changeId(), kind);
     Map<String, FileDiffOutput> modifiedFiles = null;
+    Map<String, FileDiffOutput> modifiedFilesLastPatchSet = null;
     LabelTypes labelTypes = project.getLabelTypes();
     for (PatchSetApproval psa : priorApprovals) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
@@ -402,7 +404,8 @@ class ApprovalInference {
       if (modifiedFiles == null
           && type != null
           && type.isCopyAllScoresIfListOfFilesDidNotChange()) {
-        modifiedFiles = listModifiedFiles(project, ps, priorPatchSet);
+        modifiedFiles = listModifiedFiles(project, ps);
+        modifiedFilesLastPatchSet = listModifiedFiles(project, priorPatchSet.getValue());
       }
       if (type == null) {
         logger.atFine().log(
@@ -416,7 +419,8 @@ class ApprovalInference {
             project.getName());
         continue;
       }
-      if (!canCopyBasedOnBooleanLabelConfigs(project, psa, ps.id(), kind, type, modifiedFiles)
+      if (!canCopyBasedOnBooleanLabelConfigs(
+              project, psa, ps.id(), kind, type, modifiedFiles, modifiedFilesLastPatchSet)
           && !canCopyBasedOnCopyCondition(notes, psa, ps.id(), type, kind)) {
         continue;
       }
@@ -429,11 +433,14 @@ class ApprovalInference {
    * Gets the modified files between the two latest patch-sets. Can be used to compute difference in
    * files between those two patch-sets .
    */
-  private Map<String, FileDiffOutput> listModifiedFiles(
-      ProjectState project, PatchSet ps, Map.Entry<PatchSet.Id, PatchSet> priorPatchSet) {
+  private Map<String, FileDiffOutput> listModifiedFiles(ProjectState project, PatchSet ps) {
     try {
-      return diffOperations.listModifiedFiles(
-          project.getNameKey(), priorPatchSet.getValue().commitId(), ps.commitId());
+      Integer parentNum =
+          listOfFilesUnchangedPredicate.isInitialCommit(project.getNameKey(), ps.commitId())
+              ? 0
+              : 1;
+      return diffOperations.listModifiedFilesAgainstParent(
+          project.getNameKey(), ps.commitId(), parentNum);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"

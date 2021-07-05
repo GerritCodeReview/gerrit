@@ -62,7 +62,7 @@ compiled_pg_srcs_with_tests = compile_ts(
 )
 
 templates_with_known_problems = [
-    "elements/admin/gr-access-section/gr-access-section_html.ts",
+    "elements/admin/gr-access-section/gr-access-section_html.ts",  # The editor is overcomplicated
     "elements/admin/gr-admin-view/gr-admin-view_html.ts",
     "elements/admin/gr-create-change-dialog/gr-create-change-dialog_html.ts",
     "elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog_html.ts",
@@ -74,8 +74,6 @@ templates_with_known_problems = [
     "elements/admin/gr-plugin-list/gr-plugin-list_html.ts",
     "elements/admin/gr-repo-access/gr-repo-access_html.ts",
     "elements/admin/gr-repo-commands/gr-repo-commands_html.ts",
-    "elements/admin/gr-repo-dashboards/gr-repo-dashboards_html.ts",
-    "elements/admin/gr-repo-detail-list/gr-repo-detail-list_html.ts",
     "elements/admin/gr-repo-plugin-config/gr-repo-plugin-config_html.ts",
     "elements/admin/gr-repo/gr-repo_html.ts",
     "elements/admin/gr-rule-editor/gr-rule-editor_html.ts",

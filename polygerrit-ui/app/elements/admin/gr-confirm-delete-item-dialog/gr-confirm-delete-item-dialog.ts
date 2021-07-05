@@ -20,13 +20,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-delete-item-dialog_html';
 import {customElement, property} from '@polymer/decorators';
 
-// TODO(TS): add description for this
-export enum DetailType {
-  BRANCHES = 'branches',
-  ID = 'id',
-  TAGS = 'tags',
-}
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-confirm-delete-item-dialog': GrConfirmDeleteItemDialog;
@@ -55,7 +48,7 @@ export class GrConfirmDeleteItemDialog extends PolymerElement {
   item?: string;
 
   @property({type: String})
-  itemType?: DetailType;
+  itemTypeName?: string;
 
   _handleConfirmTap(e: Event) {
     e.preventDefault();
@@ -77,18 +70,5 @@ export class GrConfirmDeleteItemDialog extends PolymerElement {
         bubbles: false,
       })
     );
-  }
-
-  _computeItemName(detailType?: DetailType) {
-    if (detailType === DetailType.BRANCHES) {
-      return 'Branch';
-    } else if (detailType === DetailType.TAGS) {
-      return 'Tag';
-    } else if (detailType === DetailType.ID) {
-      return 'ID';
-    }
-    // TODO(TS): should never happen, this is to pass:
-    // not all code returns value
-    return '';
   }
 }

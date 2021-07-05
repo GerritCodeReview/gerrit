@@ -24,18 +24,15 @@ export const htmlTemplate = html`
     }
   </style>
   <gr-dialog
-    confirm-label="Delete [[_computeItemName(itemType)]]"
+    confirm-label="Delete [[itemTypeName]]"
     confirm-on-enter=""
     on-confirm="_handleConfirmTap"
     on-cancel="_handleCancelTap"
   >
-    <div class="header" slot="header">
-      [[_computeItemName(itemType)]] Deletion
-    </div>
+    <div class="header" slot="header">[[itemTypeName]] Deletion</div>
     <div class="main" slot="main">
       <label for="branchInput">
-        Do you really want to delete the following
-        [[_computeItemName(itemType)]]?
+        Do you really want to delete the following [[itemTypeName]]?
       </label>
       <div>[[item]]</div>
     </div>

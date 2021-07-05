@@ -756,7 +756,7 @@ export interface GpgKeysInput {
  */
 export interface GitPersonInfo {
   name: string;
-  email: string;
+  email: EmailAddress;
   date: Timestamp;
   tz: TimezoneOffset;
 }

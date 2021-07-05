@@ -26,11 +26,7 @@ import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, property, observe} from '@polymer/decorators';
 import {BranchName, RepoName} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
-
-enum DetailType {
-  branches = 'branches',
-  tags = 'tags',
-}
+import {RepoDetailView} from '../../core/gr-navigation/gr-navigation';
 
 @customElement('gr-create-pointer-dialog')
 export class GrCreatePointerDialog extends PolymerElement {
@@ -48,7 +44,7 @@ export class GrCreatePointerDialog extends PolymerElement {
   hasNewItemName = false;
 
   @property({type: String})
-  itemDetail?: DetailType;
+  itemDetail?: RepoDetailView.BRANCHES | RepoDetailView.TAGS;
 
   @property({type: String})
   _itemName?: BranchName;
@@ -75,7 +71,7 @@ export class GrCreatePointerDialog extends PolymerElement {
     }
     const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
     const url = `${getBaseUrl()}/admin/repos/${encodeURL(this.repoName, true)}`;
-    if (this.itemDetail === DetailType.branches) {
+    if (this.itemDetail === RepoDetailView.BRANCHES) {
       return this.restApiService
         .createRepoBranch(this.repoName, this._itemName, {revision: USE_HEAD})
         .then(itemRegistered => {
@@ -83,7 +79,7 @@ export class GrCreatePointerDialog extends PolymerElement {
             page.show(`${url},branches`);
           }
         });
-    } else if (this.itemDetail === DetailType.tags) {
+    } else if (this.itemDetail === RepoDetailView.TAGS) {
       return this.restApiService
         .createRepoTag(this.repoName, this._itemName, {
           revision: USE_HEAD,
@@ -98,8 +94,8 @@ export class GrCreatePointerDialog extends PolymerElement {
     throw new Error(`Invalid itemDetail: ${this.itemDetail}`);
   }
 
-  _computeHideItemClass(type: DetailType) {
-    return type === DetailType.branches ? 'hideItem' : '';
+  _computeHideItemClass(type: RepoDetailView.BRANCHES | RepoDetailView.TAGS) {
+    return type === RepoDetailView.BRANCHES ? 'hideItem' : '';
   }
 }
 

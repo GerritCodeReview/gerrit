@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ba225f8_b692aaa6",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-05T07:42:30Z",
+      "side": 1,
+      "message": "The caller should call `generateAbsoluteUrl()`, not GerritNav. GerritNav should consistently produce relative URLs.",
+      "revId": "38b013ccb098cfc5a6dae7f83da3724ed21f45a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e03b06fa_cfb0f7f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-05T07:42:30Z",
+      "side": 1,
+      "message": "Optional: This could be a utility, including the `generateAbsoluteUrl()` call.",
+      "revId": "38b013ccb098cfc5a6dae7f83da3724ed21f45a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a63a4a2b_29f724f7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-05T07:42:30Z",
+      "side": 1,
+      "message": "FYI: It could be worthwhile to replace `document.execCommand(\u0027copy\u0027)` in gr-copy-clipboard with `navigator.clipboard.writeText(url)`.",
+      "range": {
+        "startLine": 429,
+        "startChar": 14,
+        "endLine": 429,
+        "endChar": 34
+      },
+      "revId": "38b013ccb098cfc5a6dae7f83da3724ed21f45a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "266b362f_33b8377a",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-05T07:42:30Z",
+      "side": 1,
+      "message": "Maybe add a comment that the primary use case for this is copying absolute URLs to the clipboard.",
+      "revId": "38b013ccb098cfc5a6dae7f83da3724ed21f45a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

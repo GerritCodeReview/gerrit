@@ -27,7 +27,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {GrOverlayStops} from '../../shared/gr-overlay/gr-overlay';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {fireAlert} from '../../../utils/event-util';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
 
 export interface GrDownloadDialog {
   $: {
@@ -100,6 +100,7 @@ export class GrDownloadDialog extends KeyboardShortcutMixin(PolymerElement) {
     if (index > commands.length) return;
     navigator.clipboard.writeText(commands[index].command).then(() => {
       fireAlert(this, `${commands[index].title} command copied to clipboard`);
+      fireEvent(this, 'close');
     });
   }
 
@@ -234,12 +235,7 @@ export class GrDownloadDialog extends KeyboardShortcutMixin(PolymerElement) {
   _handleCloseTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('close', {
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fireEvent(this, 'close');
   }
 
   @observe('_schemes')

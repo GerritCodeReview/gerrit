@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fc93137_913737ce",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T10:36:37Z",
+      "side": 1,
+      "message": "Yeah, I see the problem.\nNot sure what the better solution is supposed to be though.",
+      "parentUuid": "488ab511_4b504b66",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 44
+      },
+      "revId": "a54c7b9453499e8c1463d4bc9a3cb480e7d02d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2adb1909_3dadc5b0",

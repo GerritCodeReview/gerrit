@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd3f317_8acbcbba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-05T13:19:29Z",
+      "side": 1,
+      "message": "It seems, build rules should be updated to avoid this problem",
+      "revId": "066c465e3559b3bcbed4ed337cd60bb903a46ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

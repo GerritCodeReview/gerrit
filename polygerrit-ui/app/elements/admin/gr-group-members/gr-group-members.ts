@@ -48,12 +48,18 @@ import {
 } from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
+import {assertNever} from '../../../utils/common-util';
 
 const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT =
   'Group may not exist, or you may not have ' + 'permission to add it';
 
 const URL_REGEX = '^(?:[a-z]+:)?//';
+
+export enum ItemType {
+  MEMBER = 'member',
+  INCLUDED_GROUP = 'includedGroup',
+}
 
 export interface GrGroupMembers {
   $: {
@@ -94,10 +100,10 @@ export class GrGroupMembers extends PolymerElement {
   _includedGroups?: GroupInfo[];
 
   @property({type: String})
-  _itemName?: GroupInfo | AccountInfo;
+  _itemName?: string;
 
   @property({type: String})
-  _itemType?: string;
+  _itemType?: ItemType;
 
   @property({type: Object})
   _queryMembers: AutocompleteQuery;
@@ -229,7 +235,7 @@ export class GrGroupMembers extends PolymerElement {
       return Promise.reject(new Error('group name undefined'));
     }
     this.$.overlay.close();
-    if (this._itemType === 'member') {
+    if (this._itemType === ItemType.MEMBER) {
       return this.restApiService
         .deleteGroupMember(this._groupName, this._itemId! as AccountId)
         .then(itemDeleted => {
@@ -241,7 +247,7 @@ export class GrGroupMembers extends PolymerElement {
               });
           }
         });
-    } else if (this._itemType === 'includedGroup') {
+    } else if (this._itemType === ItemType.INCLUDED_GROUP) {
       return this.restApiService
         .deleteIncludedGroup(this._groupName, this._itemId! as GroupId)
         .then(itemDeleted => {
@@ -260,22 +266,34 @@ export class GrGroupMembers extends PolymerElement {
     return Promise.reject(new Error('Unrecognized item type'));
   }
 
+  _computeItemTypeName(itemType?: ItemType): string {
+    if (itemType === undefined) return '';
+    switch (itemType) {
+      case ItemType.INCLUDED_GROUP:
+        return 'Included Group';
+      case ItemType.MEMBER:
+        return 'Member';
+      default:
+        assertNever(itemType, 'unknown item type: ${itemType}');
+    }
+  }
+
   _handleConfirmDialogCancel() {
     this.$.overlay.close();
   }
 
   _handleDeleteMember(e: PolymerDomRepeatEvent<AccountInfo>) {
-    const id = (e.model.get('item._account_id') as unknown) as AccountId;
+    const id = e.model.get('item._account_id');
     const name = e.model.get('item.name');
     const username = e.model.get('item.username');
     const email = e.model.get('item.email');
-    const item = username || name || email || id;
+    const item = username || name || email || id?.toString();
     if (!item) {
       return;
     }
     this._itemName = item;
     this._itemId = id;
-    this._itemType = 'member';
+    this._itemType = ItemType.MEMBER;
     this.$.overlay.open();
   }
 
@@ -326,7 +344,7 @@ export class GrGroupMembers extends PolymerElement {
     }
     this._itemName = item;
     this._itemId = id;
-    this._itemType = 'includedGroup';
+    this._itemType = ItemType.INCLUDED_GROUP;
     this.$.overlay.open();
   }
 

@@ -51,17 +51,17 @@ export const htmlTemplate = html`
         <tr class="groupHeader">
           <td colspan="5">[[item.section]]</td>
         </tr>
-        <template is="dom-repeat" items="[[item.dashboards]]">
+        <template is="dom-repeat" items="[[item.dashboards]]" as="info">
           <tr class="table">
             <td class="name">
-              <a href$="[[_getUrl(item.project, item.id)]]">[[item.path]]</a>
+              <a href$="[[_getUrl(info.project, info.id)]]">[[info.path]]</a>
             </td>
-            <td class="title">[[item.title]]</td>
-            <td class="desc">[[item.description]]</td>
+            <td class="title">[[info.title]]</td>
+            <td class="desc">[[info.description]]</td>
             <td class="inherited">
-              [[_computeInheritedFrom(item.project, item.defining_project)]]
+              [[_computeInheritedFrom(info.project, info.defining_project)]]
             </td>
-            <td class="default">[[_computeIsDefault(item.is_default)]]</td>
+            <td class="default">[[_computeIsDefault(info.is_default)]]</td>
           </tr>
         </template>
       </template>

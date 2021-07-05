@@ -109,7 +109,7 @@ export class GrRepoDashboards extends PolymerElement {
     return project === definingProject ? '' : definingProject;
   }
 
-  _computeIsDefault(isDefault: boolean) {
+  _computeIsDefault(isDefault?: boolean) {
     return isDefault ? '✓' : '';
   }
 }

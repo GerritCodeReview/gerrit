@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-group-members.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {addListenerForTest, stubBaseUrl, stubRestApi} from '../../../test/test-utils.js';
+import {ItemType} from './gr-group-members.js';
 
 const basicFixture = fixtureFromElement('gr-group-members');
 
@@ -358,6 +359,12 @@ suite('gr-group-members tests', () => {
     });
 
     element._loadGroupDetails();
+  });
+
+  test('_computeItemName', () => {
+    assert.equal(element._computeItemTypeName(ItemType.MEMBER), 'Member');
+    assert.equal(element._computeItemTypeName(ItemType.INCLUDED_GROUP),
+        'Included Group');
   });
 });
 

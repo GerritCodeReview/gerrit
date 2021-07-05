@@ -21,6 +21,7 @@ import 'lodash/lodash.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {addListenerForTest, stubRestApi} from '../../../test/test-utils.js';
+import {RepoDetailView} from '../../core/gr-navigation/gr-navigation.js';
 
 const basicFixture = fixtureFromElement('gr-repo-detail-list');
 
@@ -507,6 +508,12 @@ suite('gr-repo-detail-list', () => {
       assert.deepEqual(element._computeHideDeleteClass(true, false), 'show');
       assert.deepEqual(element._computeHideDeleteClass(false, true), 'show');
       assert.deepEqual(element._computeHideDeleteClass(false, false), '');
+    });
+
+    test('_computeItemName', () => {
+      assert.equal(element._computeItemName(RepoDetailView.BRANCHES), 'Branch');
+      assert.equal(element._computeItemName(RepoDetailView.TAGS),
+          'Tag');
     });
   });
 });

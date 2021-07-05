@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c0983e8_8d0c746f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-05T08:16:29Z",
+      "side": 1,
+      "message": "Can you clarify when you get this error. I could not reproduce.",
+      "revId": "cfe89c8a7219e798e66f7e235c5de4bb07be6af9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

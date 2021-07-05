@@ -56,7 +56,7 @@ export class GrPluginConfigArrayEditor extends PolymerElement {
   pluginOption!: ArrayPluginOption;
 
   @property({type: Boolean, computed: '_computeDisabled(pluginOption.*)'})
-  disabled?: boolean;
+  disabled!: boolean; // _computeDisabled never returns null
 
   _computeDisabled(
     record: PolymerDeepPropertyChange<ArrayPluginOption, ArrayPluginOption>

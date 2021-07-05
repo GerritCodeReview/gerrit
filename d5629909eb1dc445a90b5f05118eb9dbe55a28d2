@@ -46,6 +46,30 @@
       },
       "revId": "d5629909eb1dc445a90b5f05118eb9dbe55a28d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32385f29_9b0d6a04",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T14:14:56Z",
+      "side": 1,
+      "message": "Actually just realised this would mean the \"/\" is now part of the capturing group containing the commentId so we need a new non-capturing optional group for the \"/\".",
+      "parentUuid": "fc7fa886_cfdb8ab7",
+      "range": {
+        "startLine": 198,
+        "startChar": 50,
+        "endLine": 198,
+        "endChar": 51
+      },
+      "revId": "d5629909eb1dc445a90b5f05118eb9dbe55a28d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

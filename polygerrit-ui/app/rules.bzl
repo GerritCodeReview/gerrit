@@ -81,7 +81,7 @@ def compile_ts(name, srcs, ts_outdir, include_tests = False):
 
     return generated_js
 
-def polygerrit_bundle(name, srcs, outs, entry_point):
+def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
     """Build .zip bundle from source code
 
     Args:
@@ -89,9 +89,9 @@ def polygerrit_bundle(name, srcs, outs, entry_point):
         srcs: source files
         outs: array with a single item - the output file name
         entry_point: application js entry-point
+        app_name: defines the application name. Bundled js code is added to .zip
+          archive with this name.
     """
-
-    app_name = entry_point.split(".js")[0].split("/").pop()  # eg: gr-app
 
     native.filegroup(
         name = app_name + "-full-src",

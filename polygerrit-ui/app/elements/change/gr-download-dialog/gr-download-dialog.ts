@@ -100,6 +100,12 @@ export class GrDownloadDialog extends KeyboardShortcutMixin(PolymerElement) {
     if (index > commands.length) return;
     navigator.clipboard.writeText(commands[index].command).then(() => {
       fireAlert(this, `${commands[index].title} command copied to clipboard`);
+      this.dispatchEvent(
+        new CustomEvent('close', {
+          composed: true,
+          bubbles: false,
+        })
+      );
     });
   }
 

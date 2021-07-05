@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50b8c0b4_02a8944e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T12:42:20Z",
+      "side": 1,
+      "message": "yeah, no need for it.\nremoved and moved to a local var.",
+      "parentUuid": "06600706_3330776a",
+      "revId": "b91e9c45e3ada5bd1c05ca3dda56dd79a849a829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36505b3b_6d2e5f77",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a582031_420f5ca2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T12:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36505b3b_6d2e5f77",
+      "revId": "b91e9c45e3ada5bd1c05ca3dda56dd79a849a829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e57a3f7d_0aedd1f6",
@@ -48,6 +84,30 @@
       "writtenOn": "2021-07-05T07:48:15Z",
       "side": 1,
       "message": "This could be moved into a util function.",
+      "range": {
+        "startLine": 237,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 35
+      },
+      "revId": "b91e9c45e3ada5bd1c05ca3dda56dd79a849a829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c098b55_e1746b4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-05T12:42:20Z",
+      "side": 1,
+      "message": "There are 4 occurrences, will change them all in a follow up change.",
+      "parentUuid": "e57a3f7d_0aedd1f6",
       "range": {
         "startLine": 237,
         "startChar": 6,

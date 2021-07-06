@@ -167,6 +167,24 @@
       "message": "Is this just a bug in Twinkie? Will this patch be removed sometime soon?",
       "revId": "199151321526a350a979c21caf8d84d6e28145c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "183a7043_ca7269d7",
+        "filename": "twinkie.patch",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T08:58:18Z",
+      "side": 1,
+      "message": "Well, maybe I should actually read the commit message ...",
+      "parentUuid": "a584bb1e_72636f3e",
+      "revId": "199151321526a350a979c21caf8d84d6e28145c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

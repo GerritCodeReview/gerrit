@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e6e717_e0b84c79",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 0,
+      "message": "This event is still being thrown.\n\nEither remove the `fireEvent` code or keep this comment.",
+      "revId": "ceeba2e9ab1eee41890439fc1c5c23da3a19148e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

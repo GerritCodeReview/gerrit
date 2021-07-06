@@ -699,7 +699,6 @@ export class GrImageViewer extends LitElement {
 
   toggleAutomaticBlink() {
     this.automaticBlink = !this.automaticBlink;
-    this.updateAutomaticBlink();
     this.dispatchEvent(
       createEvent({type: 'automatic-blink-changed', value: this.automaticBlink})
     );

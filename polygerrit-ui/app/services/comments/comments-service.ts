@@ -19,6 +19,7 @@ import {NumericChangeId, PatchSetNum} from '../../types/common';
 import {DraftInfo} from '../../utils/comment-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {appContext} from '../app-context';
+import { changeNum$ } from '../change/change-model';
 import {
   updateStateAddDraft,
   updateStateDeleteDraft,
@@ -32,6 +33,18 @@ import {
 export class CommentsService {
   private readonly restApiService = appContext.restApiService;
 
+  private changeNum?: NumericChangeId;
+
+  constructor() {
+    changeNum$.subscribe(changeNum => {
+      this.changeNum = changeNum;
+      this.loadAll()
+    })
+    document.addEventListener('reload', () => {
+      this.loadAll();
+    });
+  }
+
   /**
    * Load all comments (with drafts and robot comments) for the given change
    * number. The returned promise resolves when the comments have loaded, but
@@ -39,7 +52,8 @@ export class CommentsService {
    */
   // TODO(dhruvsri): listen to changeNum changes or reload event to update
   // automatically
-  loadAll(changeNum: NumericChangeId, patchNum?: PatchSetNum) {
+  loadAll(patchNum?: PatchSetNum) {
+    const changeNum = this.changeNum;
     if (!changeNum) throw new Error('changenum undefined');
     const revision = patchNum || CURRENT;
     this.restApiService

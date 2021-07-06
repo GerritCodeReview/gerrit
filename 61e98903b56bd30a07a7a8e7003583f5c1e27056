@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d9bddd92_3f2857a2",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T10:31:14Z",
+      "side": 1,
+      "message": "The user-state is responsible for:\n1. Defining the state object.\n2. Defining reducers (updateState... functions).\n3. Defining selectors (deriving data from the state object).\n\nThe user-state file does not have any dependencies on anything else (maybe other state objects, if a selector combines states from multiple domains).\n\nSo the user-state should not make Rest API calls. That is basically the main responsibility for the user-service: Making Rest API calls. The question is how to ensure that a user-service singleton is instantiated (when needed), and how the service decides when to make API calls.\n\nCurrently there is no direct dependency on userService, but we still rely on its constructor being executed. We could instantiate globally, but then userService is created also in every test.\n\nOnly making Rest API calls on subscription of the state object is a nice idea. I guess the model would emit some event or expose this as a state property. Then the service can listen on that. But it is not obvious to me how to implement that in a simple and straightforward fashion. Maybe it is ok for now to just always start fetching the account and prefs on startup.",
+      "parentUuid": "e161b007_70721110",
+      "range": {
+        "startLine": 175,
+        "startChar": 20,
+        "endLine": 175,
+        "endChar": 42
+      },
+      "revId": "61e98903b56bd30a07a7a8e7003583f5c1e27056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27ea78d3_00a6c766",
         "filename": "polygerrit-ui/app/services/app-context-init.ts",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2021-07-05T14:34:20Z",
       "side": 1,
       "message": "I think, it would be better to have\n\n```\nuserService: () \u003d\u003e new UserService(appContext.restApiService);\n```\n\nand remove\nprivate readonly restApiService \u003d appContext.restApiService;\nfrom userService",
+      "range": {
+        "startLine": 81,
+        "startChar": 27,
+        "endLine": 81,
+        "endChar": 38
+      },
+      "revId": "61e98903b56bd30a07a7a8e7003583f5c1e27056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75b4a348_fdbdc740",
+        "filename": "polygerrit-ui/app/services/app-context-init.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T10:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27ea78d3_00a6c766",
       "range": {
         "startLine": 81,
         "startChar": 27,

@@ -22,6 +22,30 @@
       },
       "revId": "199151321526a350a979c21caf8d84d6e28145c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0a18cf0_b50e3ed6",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-06T06:45:05Z",
+      "side": 1,
+      "message": "You are right, this is not very clear. WDYT about the following:\n---\nThe converted template usually quite straightforward, but in some cases additional functions are added.\nFor example, \u003celement x\u003d[[y.a]]\u003e converts into `el.x \u003d y!.a` if y is a simple type. However, if y has a union type, like - `y:A|B`, then the generated code looks like `el.x\u003d__f(y)!.a` (`y!.a` may result in a TS error if `a` is defined only in one type of a union). \n-----",
+      "parentUuid": "8d3a9204_fe370a79",
+      "range": {
+        "startLine": 275,
+        "startChar": 51,
+        "endLine": 276,
+        "endChar": 53
+      },
+      "revId": "199151321526a350a979c21caf8d84d6e28145c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

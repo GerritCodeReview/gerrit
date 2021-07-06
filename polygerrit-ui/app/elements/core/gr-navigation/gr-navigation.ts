@@ -257,6 +257,7 @@ export interface GenerateUrlChangeViewParameters {
   host?: string;
   messageHash?: string;
   queryMap?: Map<string, string> | URLSearchParams;
+  commentId?: UrlEncodedCommentId;
 
   // TODO(TS): querystring isn't set anywhere, try to remove
   querystring?: string;
@@ -689,6 +690,19 @@ export const GerritNav = {
   ) {
     return this._getUrlFor({
       view: GerritView.DIFF,
+      changeNum,
+      project,
+      commentId,
+    });
+  },
+
+  getUrlForCommentsTab(
+    changeNum: NumericChangeId,
+    project: RepoName,
+    commentId: UrlEncodedCommentId
+  ) {
+    return this._getUrlFor({
+      view: GerritView.CHANGE,
       changeNum,
       project,
       commentId,

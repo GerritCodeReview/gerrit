@@ -33,6 +33,7 @@ import {
   AccountDetailInfo,
   AccountInfo,
   ChangeInfo,
+  UrlEncodedCommentId,
 } from '../../../types/common';
 import {
   CommentThread,
@@ -42,6 +43,8 @@ import {
   isRobotThread,
   hasHumanReply,
   getCommentAuthors,
+  computeId,
+  UIComment,
 } from '../../../utils/comment-util';
 import {pluralize} from '../../../utils/string-util';
 import {fireThreadListModifiedEvent} from '../../../utils/event-util';
@@ -135,6 +138,9 @@ export class GrThreadList extends PolymerElement {
       : CommentTabState.SHOW_ALL;
   }
 
+  @property({type: String})
+  scrollCommentId?: UrlEncodedCommentId;
+
   _showEmptyThreadsMessage(
     threads: CommentThread[],
     displayedThreads: CommentThread[],
@@ -223,6 +229,15 @@ export class GrThreadList extends PolymerElement {
 
   isSelected(author: AccountInfo, selectedAuthors: AccountInfo[]) {
     return selectedAuthors.some(a => a._account_id === author._account_id);
+  }
+
+  computeShouldScrollIntoView(
+    comments: UIComment[],
+    scrollCommentId?: UrlEncodedCommentId
+  ) {
+    const comment = comments?.[0];
+    if (!comment) return false;
+    return computeId(comment) === scrollCommentId;
   }
 
   handleSortDropdownValueChange(e: CustomEvent) {

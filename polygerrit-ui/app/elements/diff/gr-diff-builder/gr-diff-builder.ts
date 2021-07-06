@@ -461,33 +461,40 @@ export abstract class GrDiffBuilder {
           button.setAttribute('aria-label', `${number} added`);
         }
       }
-      button.addEventListener('mouseenter', () => {
-        button.dispatchEvent(
-          new CustomEvent<LineNumberEventDetail>('line-number-mouse-enter', {
-            detail: {
-              lineNum: number,
-              side,
-            },
-            composed: true,
-            bubbles: true,
-          })
-        );
-      });
-      button.addEventListener('mouseleave', () => {
-        button.dispatchEvent(
-          new CustomEvent<LineNumberEventDetail>('line-number-mouse-leave', {
-            detail: {
-              lineNum: number,
-              side,
-            },
-            composed: true,
-            bubbles: true,
-          })
-        );
-      });
+      this._addLineMouseEnterLeaveEvents(td, number, side);
     }
-
     return td;
+  }
+
+  _addLineMouseEnterLeaveEvents(
+    el: HTMLElement,
+    number: LineNumber,
+    side: Side
+  ) {
+    el.addEventListener('mouseenter', () => {
+      el.dispatchEvent(
+        new CustomEvent<LineNumberEventDetail>('line-number-mouse-enter', {
+          detail: {
+            lineNum: number,
+            side,
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+    });
+    el.addEventListener('mouseleave', () => {
+      el.dispatchEvent(
+        new CustomEvent<LineNumberEventDetail>('line-number-mouse-leave', {
+          detail: {
+            lineNum: number,
+            side,
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+    });
   }
 
   _createTextEl(
@@ -507,7 +514,8 @@ export abstract class GrDiffBuilder {
     }
     td.classList.add(line.type);
 
-    if (line.beforeNumber !== 'FILE' && line.beforeNumber !== 'LOST') {
+    const {beforeNumber, afterNumber} = line;
+    if (beforeNumber !== 'FILE' && beforeNumber !== 'LOST') {
       const lineLimit = !this._prefs.line_wrapping
         ? this._prefs.line_length
         : Infinity;
@@ -519,6 +527,8 @@ export abstract class GrDiffBuilder {
 
       if (side) {
         contentText.setAttribute('data-side', side);
+        const number = side === Side.LEFT ? beforeNumber : afterNumber;
+        this._addLineMouseEnterLeaveEvents(td, number, side);
       }
 
       if (lineNumberEl && side) {

@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ab3a2f_b66636ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 2161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "Maybe add a comment that loading comments is not included in this latency report anymore.",
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51df2967_d01ba028",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "Why is this added? Is this used?",
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11985d6e_7a320778",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "Can you be sure that changeComments is set?",
+      "range": {
+        "startLine": 1499,
+        "startChar": 16,
+        "endLine": 1499,
+        "endChar": 30
+      },
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c209ccf1_ed96a324",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "You are not awaiting the loading of comments anymore. So throwing an error here is a mistake IMO.",
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86e3f390_c6fee75d",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "I am not a great fan of types like `PathToCommentsInfoMap`, but we should be consistent. Either use `PathToCommentsInfoMap` everywhere or use `{[path: string]: CommentInfo[]}` everywhere.",
+      "range": {
+        "startLine": 32,
+        "startChar": 19,
+        "endLine": 32,
+        "endChar": 40
+      },
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bf93f26_a3885eff",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "Not sure, but might be nicer to init with empty objects and make them required on the state?\n\n  {\n    comments: {},\n    robotComments: {},\n    drafts: {},\n    portedComments: {},\n    portedDrafts: {},\n  }",
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43f707e3_e6ecbce6",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "{...nextState.drafts}\n\nIf something changes within state.drafts, then state.drafts must be a new object.\n\nSame applies to `updateStateDeleteDraft`.",
+      "range": {
+        "startLine": 103,
+        "startChar": 21,
+        "endLine": 103,
+        "endChar": 38
+      },
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed63ef2b_3738f7fd",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "If you cannot find it, then you would still need to create a new array [...drafts[draf.path]].\n\nSame applies to `updateStateDeleteDraft`.",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 105,
+        "endChar": 26
+      },
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a88615b_206a3719",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "Pass other services in the constructor.",
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d19181ed_66e64a77",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "The parameter is required, so can this happen?",
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e67655_c4c98eec",
+        "filename": "polygerrit-ui/app/services/comments/comments-service.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T12:54:10Z",
+      "side": 1,
+      "message": "Default values of parameters can be set in the parameter declaration, see https://www.typescripttutorial.net/typescript-tutorial/typescript-default-parameters/.\n\n  loadAll(changeNum: NumericChangeId, patchNum \u003d CURRENT)",
+      "revId": "23703162ee1910e34282bd085e02d1218445c59a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

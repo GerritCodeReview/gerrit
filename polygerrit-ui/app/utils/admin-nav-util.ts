@@ -247,10 +247,10 @@ export interface NavLink {
   name: string;
   noBaseUrl: boolean;
   url: string;
-  view: string | null;
+  view?: GerritView | string;
   viewableToAll?: boolean;
   section?: string;
   capability?: string;
   target?: string | null;
-  subsection?: SubsectionInterface;
+  subsection: NavLink | ubsectionInterface;
 }

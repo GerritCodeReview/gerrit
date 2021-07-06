@@ -70,7 +70,6 @@ compiled_pg_srcs_with_tests = compile_ts(
 # TODO: fix problems reported by template checker in these files.
 ignore_templates_list = [
     "elements/admin/gr-access-section/gr-access-section_html.ts",
-    "elements/admin/gr-admin-view/gr-admin-view_html.ts",
     "elements/admin/gr-create-change-dialog/gr-create-change-dialog_html.ts",
     "elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog_html.ts",
     "elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_html.ts",

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "346aca99_9f6ef3e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-06T09:58:26Z",
+      "side": 1,
+      "message": "Added the spread because I wanted the _computeReplyButtonLabel function to be triggered.",
+      "parentUuid": "6cc45c88_89349636",
+      "revId": "340524f6454e65b57e1087c4d31c80c51f42f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0778e92_5e230f00",

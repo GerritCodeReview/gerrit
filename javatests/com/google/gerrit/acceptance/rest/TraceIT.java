@@ -160,7 +160,7 @@ public class TraceIT extends AbstractDaemonTest {
     try (Registration registration =
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response =
-          adminRestSession.putWithHeader(
+          adminRestSession.putWithHeaders(
               "/projects/new4", new BasicHeader(RestApiServlet.X_GERRIT_TRACE, null));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
       assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
@@ -177,7 +177,7 @@ public class TraceIT extends AbstractDaemonTest {
     try (Registration registration =
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response =
-          adminRestSession.putWithHeader(
+          adminRestSession.putWithHeaders(
               "/projects/new5", new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/123"));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
       assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
@@ -195,7 +195,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       // trace ID only specified by trace header
       RestResponse response =
-          adminRestSession.putWithHeader(
+          adminRestSession.putWithHeaders(
               "/projects/new6?trace", new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/123"));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
       assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
@@ -205,7 +205,7 @@ public class TraceIT extends AbstractDaemonTest {
 
       // trace ID only specified by trace request parameter
       response =
-          adminRestSession.putWithHeader(
+          adminRestSession.putWithHeaders(
               "/projects/new7?trace=issue/123",
               new BasicHeader(RestApiServlet.X_GERRIT_TRACE, null));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
@@ -216,7 +216,7 @@ public class TraceIT extends AbstractDaemonTest {
 
       // same trace ID specified by trace header and trace request parameter
       response =
-          adminRestSession.putWithHeader(
+          adminRestSession.putWithHeaders(
               "/projects/new8?trace=issue/123",
               new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/123"));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
@@ -227,7 +227,7 @@ public class TraceIT extends AbstractDaemonTest {
 
       // different trace IDs specified by trace header and trace request parameter
       response =
-          adminRestSession.putWithHeader(
+          adminRestSession.putWithHeaders(
               "/projects/new9?trace=issue/123",
               new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/456"));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);

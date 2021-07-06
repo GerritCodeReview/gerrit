@@ -37,17 +37,17 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse get(String endPoint) throws IOException {
-    return getWithHeader(endPoint, null);
+    return getWithHeaders(endPoint);
   }
 
   public RestResponse getJsonAccept(String endPoint) throws IOException {
-    return getWithHeader(endPoint, new BasicHeader(ACCEPT, "application/json"));
+    return getWithHeaders(endPoint, new BasicHeader(ACCEPT, "application/json"));
   }
 
-  public RestResponse getWithHeader(String endPoint, Header header) throws IOException {
+  public RestResponse getWithHeaders(String endPoint, Header... headers) throws IOException {
     Request get = Request.Get(getUrl(endPoint));
-    if (header != null) {
-      get.addHeader(header);
+    if (headers != null) {
+      get.setHeaders(headers);
     }
     return execute(get);
   }
@@ -57,22 +57,22 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse put(String endPoint) throws IOException {
-    return put(endPoint, null);
+    return put(endPoint, /* content = */ null);
   }
 
   public RestResponse put(String endPoint, Object content) throws IOException {
-    return putWithHeader(endPoint, null, content);
+    return putWithHeaders(endPoint, content);
   }
 
-  public RestResponse putWithHeader(String endPoint, Header header) throws IOException {
-    return putWithHeader(endPoint, header, null);
+  public RestResponse putWithHeaders(String endPoint, Header... headers) throws IOException {
+    return putWithHeaders(endPoint, /* content= */ null, headers);
   }
 
-  public RestResponse putWithHeader(String endPoint, Header header, Object content)
+  public RestResponse putWithHeaders(String endPoint, Object content, Header... headers)
       throws IOException {
     Request put = Request.Put(getUrl(endPoint));
-    if (header != null) {
-      put.addHeader(header);
+    if (headers != null) {
+      put.setHeaders(headers);
     }
     if (content != null) {
       addContentToRequest(put, content);
@@ -91,18 +91,18 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse post(String endPoint) throws IOException {
-    return post(endPoint, null);
+    return post(endPoint, /* content = */ null);
   }
 
   public RestResponse post(String endPoint, Object content) throws IOException {
-    return postWithHeader(endPoint, null, content);
+    return postWithHeaders(endPoint, content);
   }
 
-  public RestResponse postWithHeader(String endPoint, Header header, Object content)
+  public RestResponse postWithHeaders(String endPoint, Object content, Header... headers)
       throws IOException {
     Request post = Request.Post(getUrl(endPoint));
-    if (header != null) {
-      post.addHeader(header);
+    if (headers != null) {
+      post.setHeaders(headers);
     }
     if (content != null) {
       addContentToRequest(post, content);
@@ -117,6 +117,14 @@ public class RestSession extends HttpSession {
 
   public RestResponse delete(String endPoint) throws IOException {
     return execute(Request.Delete(getUrl(endPoint)));
+  }
+
+  public RestResponse deleteWithHeaders(String endPoint, Header... headers) throws IOException {
+    Request delete = Request.Delete(getUrl(endPoint));
+    if (headers != null) {
+      delete.setHeaders(headers);
+    }
+    return execute(delete);
   }
 
   private String getUrl(String endPoint) {

@@ -130,8 +130,10 @@ public class CorsIT extends AbstractDaemonTest {
     Result change = createChange();
     String origin = adminRestSession.url();
     RestResponse r =
-        adminRestSession.putWithHeader(
-            "/changes/" + change.getChangeId() + "/topic", new BasicHeader(ORIGIN, origin), "A");
+        adminRestSession.putWithHeaders(
+            "/changes/" + change.getChangeId() + "/topic",
+            /* content = */ "A",
+            new BasicHeader(ORIGIN, origin));
     r.assertOK();
     checkCors(r, false, origin);
     checkTopic(change, "A");
@@ -142,8 +144,10 @@ public class CorsIT extends AbstractDaemonTest {
     Result change = createChange();
     String origin = "http://example.com";
     RestResponse r =
-        adminRestSession.putWithHeader(
-            "/changes/" + change.getChangeId() + "/topic", new BasicHeader(ORIGIN, origin), "A");
+        adminRestSession.putWithHeaders(
+            "/changes/" + change.getChangeId() + "/topic",
+            /* content = */ "A",
+            new BasicHeader(ORIGIN, origin));
     r.assertOK();
     checkCors(r, true, origin);
   }
@@ -283,7 +287,7 @@ public class CorsIT extends AbstractDaemonTest {
       String url, boolean accept, String origin, RestSession restSession, int httpStatusCode)
       throws Exception {
     Header hdr = new BasicHeader(ORIGIN, origin);
-    RestResponse r = restSession.getWithHeader(url, hdr);
+    RestResponse r = restSession.getWithHeaders(url, hdr);
     r.assertStatus(httpStatusCode);
     checkCors(r, accept, origin);
   }

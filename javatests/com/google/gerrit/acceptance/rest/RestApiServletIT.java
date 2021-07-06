@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest;
 import static com.google.common.net.HttpHeaders.ORIGIN;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.X_GERRIT_UPDATED_REF;
+import static com.google.gerrit.httpd.restapi.RestApiServlet.X_GERRIT_UPDATED_REF_ENABLED;
 import static org.apache.http.HttpStatus.SC_OK;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -38,11 +39,13 @@ import org.junit.Test;
 public class RestApiServletIT extends AbstractDaemonTest {
   private static String ANY_REST_API = "/accounts/self/capabilities";
   private static BasicHeader ACCEPT_STAR_HEADER = new BasicHeader("Accept", "*/*");
+  private static BasicHeader X_GERRIT_UPDATED_REF_ENABLED_HEADER =
+      new BasicHeader(X_GERRIT_UPDATED_REF_ENABLED, "true");
   private static Pattern ANY_SPACE = Pattern.compile("\\s");
 
   @Test
   public void restResponseBodyShouldBeCompactWithoutSpaces() throws Exception {
-    RestResponse response = adminRestSession.getWithHeader(ANY_REST_API, ACCEPT_STAR_HEADER);
+    RestResponse response = adminRestSession.getWithHeaders(ANY_REST_API, ACCEPT_STAR_HEADER);
     assertThat(response.getStatusCode()).isEqualTo(SC_OK);
 
     assertThat(contentWithoutMagicJson(response)).doesNotContainMatch(ANY_SPACE);
@@ -72,8 +75,45 @@ public class RestApiServletIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void xGerritUpdatedRefNotSetByDefault() throws Exception {
+    Result change = createChange();
+    String origin = adminRestSession.url();
+
+    RestResponse response =
+        adminRestSession.putWithHeaders(
+            "/changes/" + change.getChangeId() + "/topic",
+            /* content= */ "A",
+            new BasicHeader(ORIGIN, origin));
+    response.assertOK();
+    assertThat(gApi.changes().id(change.getChangeId()).topic()).isEqualTo("A");
+
+    // Meta ref updated because of topic update, but updated refs are not set by default.
+    assertThat(response.getHeader(X_GERRIT_UPDATED_REF)).isNull();
+  }
+
+  @Test
+  public void xGerritUpdatedRefNotSetWhenUpdatedRefNotEnabled() throws Exception {
+    Result change = createChange();
+    String origin = adminRestSession.url();
+
+    RestResponse response =
+        adminRestSession.putWithHeaders(
+            "/changes/" + change.getChangeId() + "/topic",
+            /* content= */ "A",
+            new BasicHeader(ORIGIN, origin),
+            new BasicHeader(X_GERRIT_UPDATED_REF_ENABLED, "false"));
+    response.assertOK();
+    assertThat(gApi.changes().id(change.getChangeId()).topic()).isEqualTo("A");
+
+    // Meta ref updated because of topic update, but updated refs are not enabled.
+    assertThat(response.getHeader(X_GERRIT_UPDATED_REF)).isNull();
+  }
+
+  @Test
   public void xGerritUpdatedRefNotSetForReadRequests() throws Exception {
-    RestResponse response = adminRestSession.getWithHeader(ANY_REST_API, ACCEPT_STAR_HEADER);
+    RestResponse response =
+        adminRestSession.getWithHeaders(
+            ANY_REST_API, ACCEPT_STAR_HEADER, X_GERRIT_UPDATED_REF_ENABLED_HEADER);
     assertThat(response.getStatusCode()).isEqualTo(SC_OK);
     assertThat(response.getHeader(X_GERRIT_UPDATED_REF)).isNull();
   }
@@ -88,8 +128,11 @@ public class RestApiServletIT extends AbstractDaemonTest {
     ObjectId originalMetaRefSha1 = getMetaRefSha1(change);
 
     RestResponse response =
-        adminRestSession.putWithHeader(
-            "/changes/" + change.getChangeId() + "/topic", new BasicHeader(ORIGIN, origin), "A");
+        adminRestSession.putWithHeaders(
+            "/changes/" + change.getChangeId() + "/topic",
+            /* content= */ "A",
+            new BasicHeader(ORIGIN, origin),
+            X_GERRIT_UPDATED_REF_ENABLED_HEADER);
     response.assertOK();
     assertThat(gApi.changes().id(change.getChangeId()).topic()).isEqualTo("A");
     ObjectId firstMetaRefSha1 = getMetaRefSha1(change);
@@ -105,8 +148,11 @@ public class RestApiServletIT extends AbstractDaemonTest {
                 firstMetaRefSha1.getName()));
 
     response =
-        adminRestSession.putWithHeader(
-            "/changes/" + change.getChangeId() + "/topic", new BasicHeader(ORIGIN, origin), "B");
+        adminRestSession.putWithHeaders(
+            "/changes/" + change.getChangeId() + "/topic",
+            /* content= */ "B",
+            new BasicHeader(ORIGIN, origin),
+            X_GERRIT_UPDATED_REF_ENABLED_HEADER);
     response.assertOK();
     assertThat(gApi.changes().id(change.getChangeId()).topic()).isEqualTo("B");
 
@@ -137,7 +183,9 @@ public class RestApiServletIT extends AbstractDaemonTest {
     ObjectId originalMetaRefSha1 = getMetaRefSha1(change);
     ObjectId originalchangeRefSha1 = change.getCommit().getId();
 
-    RestResponse response = adminRestSession.delete("/changes/" + change.getChangeId());
+    RestResponse response =
+        adminRestSession.deleteWithHeaders(
+            "/changes/" + change.getChangeId(), X_GERRIT_UPDATED_REF_ENABLED_HEADER);
     response.assertNoContent();
 
     List<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
@@ -169,7 +217,9 @@ public class RestApiServletIT extends AbstractDaemonTest {
     ObjectId originalMetaRefSha1 = getMetaRefSha1(change);
     ObjectId originalchangeRefSha1 = change.getCommit().getId();
 
-    RestResponse response = adminRestSession.delete("/changes/" + change.getChangeId());
+    RestResponse response =
+        adminRestSession.deleteWithHeaders(
+            "/changes/" + change.getChangeId(), X_GERRIT_UPDATED_REF_ENABLED_HEADER);
     response.assertNoContent();
 
     List<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
@@ -213,7 +263,10 @@ public class RestApiServletIT extends AbstractDaemonTest {
           repository.resolve(change1.getChange().change().getDest().branch());
 
       RestResponse response =
-          adminRestSession.post("/changes/" + change2.getChangeId() + "/submit");
+          adminRestSession.postWithHeaders(
+              "/changes/" + change2.getChangeId() + "/submit",
+              /* content = */ null,
+              X_GERRIT_UPDATED_REF_ENABLED_HEADER);
       response.assertOK();
 
       ObjectId firstMetaRefSha1 = getMetaRefSha1(change1);
@@ -267,7 +320,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
 
   private RestResponse prettyJsonRestResponse(String ppArgument, int ppValue) throws Exception {
     RestResponse response =
-        adminRestSession.getWithHeader(
+        adminRestSession.getWithHeaders(
             ANY_REST_API + "?" + ppArgument + "=" + ppValue, ACCEPT_STAR_HEADER);
     assertThat(response.getStatusCode()).isEqualTo(SC_OK);
 

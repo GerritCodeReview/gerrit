@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d28d56c4_565b9bee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T08:57:36Z",
+      "side": 1,
+      "message": "Nice! Thank you!!",
+      "revId": "199151321526a350a979c21caf8d84d6e28145c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d85d2ad8_3fc7e771",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T08:57:36Z",
+      "side": 1,
+      "message": "Is that a separate check? Is that already set up?",
+      "range": {
+        "startLine": 235,
+        "startChar": 16,
+        "endLine": 235,
+        "endChar": 59
+      },
+      "revId": "199151321526a350a979c21caf8d84d6e28145c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d3a9204_fe370a79",
@@ -68,6 +108,63 @@
         "endLine": 276,
         "endChar": 53
       },
+      "revId": "199151321526a350a979c21caf8d84d6e28145c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "477937da_b5be0d06",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 17
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T08:57:36Z",
+      "side": 1,
+      "message": "Wow, this is quite a long list. How hard is it to fix all these? Are there also obscure unfixable errors? Or should it be easy to fix all of them one by one?",
+      "revId": "199151321526a350a979c21caf8d84d6e28145c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20824bf3_a80175ed",
+        "filename": "tools/js/template_checker.bzl",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T08:57:36Z",
+      "side": 1,
+      "message": "2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 16,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "199151321526a350a979c21caf8d84d6e28145c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a584bb1e_72636f3e",
+        "filename": "twinkie.patch",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T08:57:36Z",
+      "side": 1,
+      "message": "Is this just a bug in Twinkie? Will this patch be removed sometime soon?",
       "revId": "199151321526a350a979c21caf8d84d6e28145c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1abd08af_5feaee16",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-06T14:25:32Z",
+      "side": 1,
+      "message": "Sorry for not knowing rxjs that well, but is takeUntil - unsubscribing from observable? Wouldn\u0027t this leak this element? \n\n\nI would expect in disconnectedCallback: unsubscribe() of this observable.",
+      "range": {
+        "startLine": 106,
+        "startChar": 21,
+        "endLine": 106,
+        "endChar": 50
+      },
+      "revId": "0d231e9a58277b84ee915cc7b49f155fa2a3231b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

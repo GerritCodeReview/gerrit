@@ -279,6 +279,9 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Array})
   _cleanlyMergedPaths: string[] = [];
 
+  @property({type: Array})
+  _cleanlyMergedOldPaths: string[] = [];
+
   private _cancelForEachDiff?: () => void;
 
   loadingTask?: DelayedTask;
@@ -517,8 +520,12 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       this._cleanlyMergedPaths = Object.keys(allFilesByPath).filter(
         path => !conflictingPaths.includes(path)
       );
+      this._cleanlyMergedOldPaths = this._cleanlyMergedPaths
+        .map(path => allFilesByPath[path].old_path)
+        .filter((oldPath) : oldPath is string => !!oldPath);
     } else {
       this._cleanlyMergedPaths = [];
+      this._cleanlyMergedOldPaths = [];
     }
   }
 

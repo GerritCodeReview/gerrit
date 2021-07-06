@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2428bb6_ebd49461",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T15:48:51Z",
+      "side": 1,
+      "message": "Screenshot?",
+      "revId": "ddbc459c840323285483873e776913663d88f25a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa372646_53d37acc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T15:48:51Z",
+      "side": 1,
+      "message": "We don\u0027t use font-size 10px anywhere in the Gerrit UI. I would like to have this reviewed by Delphine, but she on vacation. :-/\n\nAll font-sizes in Gerrit are based on css vars `--font-size-...`.",
+      "revId": "ddbc459c840323285483873e776913663d88f25a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "734bf129_8b338336",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T15:48:51Z",
+      "side": 1,
+      "message": "All lin-heights in Gerrit are based on css vars `--line-height-...`.",
+      "revId": "ddbc459c840323285483873e776913663d88f25a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "060d53b1_e12a65af",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-06T15:48:51Z",
+      "side": 1,
+      "message": "border-radius: var(--border-radius, 4px);",
+      "revId": "ddbc459c840323285483873e776913663d88f25a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

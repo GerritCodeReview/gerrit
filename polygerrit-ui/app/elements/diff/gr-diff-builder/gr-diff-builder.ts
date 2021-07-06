@@ -17,11 +17,11 @@
 import {
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
-  LineNumberEventDetail,
   MovedLinkClickedEventDetail,
   RenderPreferences,
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
+import {fire} from '../../../utils/event-util';
 import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 
@@ -461,33 +461,18 @@ export abstract class GrDiffBuilder {
           button.setAttribute('aria-label', `${number} added`);
         }
       }
-      button.addEventListener('mouseenter', () => {
-        button.dispatchEvent(
-          new CustomEvent<LineNumberEventDetail>('line-number-mouse-enter', {
-            detail: {
-              lineNum: number,
-              side,
-            },
-            composed: true,
-            bubbles: true,
-          })
-        );
-      });
-      button.addEventListener('mouseleave', () => {
-        button.dispatchEvent(
-          new CustomEvent<LineNumberEventDetail>('line-number-mouse-leave', {
-            detail: {
-              lineNum: number,
-              side,
-            },
-            composed: true,
-            bubbles: true,
-          })
-        );
-      });
+      this._addLineNumberMouseEvents(td, number, side);
     }
-
     return td;
+  }
+
+  _addLineNumberMouseEvents(el: HTMLElement, number: LineNumber, side: Side) {
+    el.addEventListener('mouseenter', () => {
+      fire(el, 'line-mouse-enter', {lineNum: number, side});
+    });
+    el.addEventListener('mouseleave', () => {
+      fire(el, 'line-mouse-leave', {lineNum: number, side});
+    });
   }
 
   _createTextEl(
@@ -507,7 +492,8 @@ export abstract class GrDiffBuilder {
     }
     td.classList.add(line.type);
 
-    if (line.beforeNumber !== 'FILE' && line.beforeNumber !== 'LOST') {
+    const {beforeNumber, afterNumber} = line;
+    if (beforeNumber !== 'FILE' && beforeNumber !== 'LOST') {
       const lineLimit = !this._prefs.line_wrapping
         ? this._prefs.line_length
         : Infinity;
@@ -519,6 +505,8 @@ export abstract class GrDiffBuilder {
 
       if (side) {
         contentText.setAttribute('data-side', side);
+        const number = side === Side.LEFT ? beforeNumber : afterNumber;
+        this._addLineNumberMouseEvents(td, number, side);
       }
 
       if (lineNumberEl && side) {

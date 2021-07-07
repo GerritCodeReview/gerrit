@@ -21,6 +21,31 @@
 import {DiffViewMode} from '../api/diff';
 import {DiffPreferencesInfo} from '../types/diff';
 import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
+import {
+  AccountTag,
+  ChangeStatus,
+  FileInfoStatus,
+  GpgKeyInfoStatus,
+  HttpMethod,
+  ProblemInfoStatus,
+  RequirementStatus,
+  ReviewerState,
+  RevisionKind,
+  SubmitType,
+} from '../api/rest-api';
+
+export {
+  AccountTag,
+  ChangeStatus,
+  FileInfoStatus,
+  GpgKeyInfoStatus,
+  HttpMethod,
+  ProblemInfoStatus,
+  RequirementStatus,
+  ReviewerState,
+  RevisionKind,
+  SubmitType,
+};
 
 export enum PrimaryTab {
   FILES = 'files',
@@ -76,80 +101,12 @@ export enum ScrollMode {
 }
 
 /**
- * @desc Specifies status for a change
- */
-export enum ChangeStatus {
-  ABANDONED = 'ABANDONED',
-  MERGED = 'MERGED',
-  NEW = 'NEW',
-}
-
-/**
  * @desc Special file paths
  */
 export enum SpecialFilePath {
   PATCHSET_LEVEL_COMMENTS = '/PATCHSET_LEVEL',
   COMMIT_MESSAGE = '/COMMIT_MSG',
   MERGE_LIST = '/MERGE_LIST',
-}
-
-/**
- * @desc The reviewer state
- */
-export enum RequirementStatus {
-  OK = 'OK',
-  NOT_READY = 'NOT_READY',
-  RULE_ERROR = 'RULE_ERROR',
-}
-
-/**
- * @desc The reviewer state
- */
-export enum ReviewerState {
-  REVIEWER = 'REVIEWER',
-  CC = 'CC',
-  REMOVED = 'REMOVED',
-}
-
-/**
- * @desc The patchset kind
- */
-export enum RevisionKind {
-  REWORK = 'REWORK',
-  TRIVIAL_REBASE = 'TRIVIAL_REBASE',
-  MERGE_FIRST_PARENT_UPDATE = 'MERGE_FIRST_PARENT_UPDATE',
-  NO_CODE_CHANGE = 'NO_CODE_CHANGE',
-  NO_CHANGE = 'NO_CHANGE',
-}
-
-/**
- * @desc The status of fixing the problem
- */
-export enum ProblemInfoStatus {
-  FIXED = 'FIXED',
-  FIX_FAILED = 'FIX_FAILED',
-}
-
-/**
- * @desc The status of the file
- */
-export enum FileInfoStatus {
-  ADDED = 'A',
-  DELETED = 'D',
-  RENAMED = 'R',
-  COPIED = 'C',
-  REWRITTEN = 'W',
-  // Modifed = 'M', // but API not set it if the file was modified
-  UNMODIFIED = 'U', // Not returned by BE, but added by UI for certain files
-}
-
-/**
- * @desc The status of the file
- */
-export enum GpgKeyInfoStatus {
-  BAD = 'BAD',
-  OK = 'OK',
-  TRUSTED = 'TRUSTED',
 }
 
 /**
@@ -188,20 +145,6 @@ export enum ConfigParameterInfoType {
 }
 
 /**
- * All supported submit types.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#submit-type-info
- */
-export enum SubmitType {
-  MERGE_IF_NECESSARY = 'MERGE_IF_NECESSARY',
-  FAST_FORWARD_ONLY = 'FAST_FORWARD_ONLY',
-  REBASE_IF_NECESSARY = 'REBASE_IF_NECESSARY',
-  REBASE_ALWAYS = 'REBASE_ALWAYS',
-  MERGE_ALWAYS = 'MERGE_ALWAYS ',
-  CHERRY_PICK = 'CHERRY_PICK',
-  INHERIT = 'INHERIT',
-}
-
-/**
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#mergeable-info
  */
 export enum MergeStrategy {
@@ -220,10 +163,6 @@ export enum InheritedBooleanInfoConfiguredValue {
   TRUE = 'TRUE',
   FALSE = 'FALSE',
   INHERITED = 'INHERITED',
-}
-
-export enum AccountTag {
-  SERVICE_USER = 'SERVICE_USER',
 }
 
 /**
@@ -246,17 +185,6 @@ export enum PermissionAction {
 export enum UserPriority {
   BATCH = 'BATCH',
   INTERACTIVE = 'INTERACTIVE',
-}
-
-/**
- * Enum for all http methods used in Gerrit.
- */
-export enum HttpMethod {
-  HEAD = 'HEAD',
-  POST = 'POST',
-  GET = 'GET',
-  DELETE = 'DELETE',
-  PUT = 'PUT',
 }
 
 /**

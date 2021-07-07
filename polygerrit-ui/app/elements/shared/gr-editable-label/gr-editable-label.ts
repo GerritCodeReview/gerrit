@@ -67,7 +67,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
   editing = false;
 
   @property({type: String, notify: true, observer: '_updateTitle'})
-  value = '';
+  value?: string;
 
   @property({type: String})
   placeholder = '';

@@ -317,19 +317,14 @@ suite('gr-editor-view tests', () => {
     element._showAlert('test message');
   });
 
-  test('_viewEditInChangeView respects _patchNum', () => {
+  test('_viewEditInChangeView', () => {
     element._change = {};
     navigateStub.restore();
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
     element._patchNum = EditPatchSetNum;
     element._viewEditInChangeView();
-    assert.equal(navStub.lastCall.args[1], EditPatchSetNum);
-    element._patchNum = '1';
-    element._viewEditInChangeView();
-    assert.equal(navStub.lastCall.args[1], '1');
-    element._successfulSave = true;
-    element._viewEditInChangeView();
-    assert.equal(navStub.lastCall.args[1], EditPatchSetNum);
+    assert.equal(navStub.lastCall.args[1], undefined);
+    assert.equal(navStub.lastCall.args[3], true);
   });
 
   suite('keyboard shortcuts', () => {

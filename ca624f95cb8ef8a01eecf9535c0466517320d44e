@@ -24,6 +24,80 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15ec4525_61ce655a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-07-07T08:27:57Z",
+      "side": 1,
+      "message": "Just some nits.",
+      "revId": "ca624f95cb8ef8a01eecf9535c0466517320d44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80fd8bf3_e00165ee",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-07-07T08:27:57Z",
+      "side": 1,
+      "message": "(Optional) I find the distinction between types and interfaces a bit odd, especially for types like\nexport type LabelNameToValueMap \u003d {[labelName: string]: string[]};\n\nThat could equivalently be written as \nexport interface LabelNameToValueMap {\n  [labelName: string]: string[];\n}\n\nAnd would then be sorted differently. Similar situation with union types that can reference interfaces but would by this rule be at the top above them.\n\nI see why you might want to have enums separate though.\n\nI don\u0027t feel super strongly, just wanted to mention that it stood out to me a bit, and maybe I would find \n\nenums\n---\nall other types, from small to composite\n\nmore logical.",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "ca624f95cb8ef8a01eecf9535c0466517320d44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e04760a_d161c643",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-07-07T08:27:57Z",
+      "side": 1,
+      "message": "The sorting here is a bit weird. Here you have this unrelated import between the import and the export, below you use a `export {} from ...` statement which does both in one. Maybe we can establish some rules, for example:\n\n1) Always separate import and exporting, sort imports first, alphabetically sorted by path, then exports. \nor\n2) Use `export from` statement when you want to export all symbols, otherwise use an import directly followed by the corresponding export for a subset of the symbol you want to export.\n\nOr something like that. I am worried that it will quickly become messy to find all the exports, and where to put a new import, and so on.",
+      "revId": "ca624f95cb8ef8a01eecf9535c0466517320d44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6561eb7e_7207df02",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-07-07T08:27:57Z",
+      "side": 1,
+      "message": "Sort by name?",
+      "revId": "ca624f95cb8ef8a01eecf9535c0466517320d44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb78c745_22ff8b66",
@@ -43,6 +117,23 @@
         "endLine": 199,
         "endChar": 43
       },
+      "revId": "ca624f95cb8ef8a01eecf9535c0466517320d44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5397a385_ea61dc50",
+        "filename": "polygerrit-ui/app/types/diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-07-07T08:27:57Z",
+      "side": 1,
+      "message": "We do re-exports in the line below - why have this separate here?",
       "revId": "ca624f95cb8ef8a01eecf9535c0466517320d44e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

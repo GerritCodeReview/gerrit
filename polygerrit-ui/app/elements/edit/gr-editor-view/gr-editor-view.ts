@@ -238,6 +238,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
   }
 
   _viewEditInChangeView() {
+<<<<<<< HEAD   (ec8252 gr-download-commands: Make shell commands responsive accross)
     const patch = this._successfulSave
       ? (SPECIAL_PATCH_SET_NUM.EDIT as PatchSetNum)
       : this._patchNum;
@@ -248,6 +249,10 @@ export class GrEditorView extends KeyboardShortcutMixin(
         undefined,
         patch !== SPECIAL_PATCH_SET_NUM.EDIT
       );
+=======
+    if (this._change)
+      GerritNav.navigateToChange(this._change, undefined, undefined, true);
+>>>>>>> CHANGE (622903 Fix edit url when saving)
   }
 
   _getFileData(

@@ -55,8 +55,8 @@ declare global {
     'editable-content-save': EditableContentSaveEvent;
     'location-change': LocationChangeEvent;
     'iron-announce': IronAnnounceEvent;
-    'line-number-mouse-enter': LineNumberEvent;
-    'line-number-mouse-leave': LineNumberEvent;
+    'line-mouse-enter': LineNumberEvent;
+    'line-mouse-leave': LineNumberEvent;
     'line-cursor-moved-in': LineNumberEvent;
     'line-cursor-moved-out': LineNumberEvent;
     'moved-link-clicked': MovedLinkClickedEvent;

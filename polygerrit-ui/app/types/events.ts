@@ -23,6 +23,7 @@ import {Category, RunStatus} from '../api/checks';
 import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 
 export enum EventType {
+  CHANGED = 'changed',
   CHANGE_MESSAGE_DELETED = 'change-message-deleted',
   DIALOG_CHANGE = 'dialog-change',
   EDITABLE_CONTENT_SAVE = 'editable-content-save',
@@ -50,6 +51,7 @@ export enum EventType {
 
 declare global {
   interface HTMLElementEventMap {
+    'changed': ChangedEvent;
     'change-message-deleted': ChangeMessageDeletedEvent;
     'dialog-change': DialogChangeEvent;
     'editable-content-save': EditableContentSaveEvent;
@@ -88,6 +90,8 @@ declare global {
     'show-error': ShowErrorEvent;
   }
 }
+
+export type ChangedEvent = CustomEvent<string>;
 
 export interface ChangeMessageDeletedEventDetail {
   message: ChangeMessage;

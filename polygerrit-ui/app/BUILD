@@ -122,7 +122,6 @@ ignore_templates_list = [
     "elements/edit/gr-default-editor/gr-default-editor_html.ts",
     "elements/edit/gr-edit-controls/gr-edit-controls_html.ts",
     "elements/edit/gr-edit-file-controls/gr-edit-file-controls_html.ts",
-    "elements/edit/gr-editor-view/gr-editor-view_html.ts",
     "elements/gr-app-element_html.ts",
     "elements/settings/gr-cla-view/gr-cla-view_html.ts",
     "elements/settings/gr-edit-preferences/gr-edit-preferences_html.ts",

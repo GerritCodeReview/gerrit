@@ -42,7 +42,7 @@ export class GrDefaultEditor extends PolymerElement {
    */
 
   @property({type: String})
-  fileContent: string | null = null;
+  fileContent = '';
 
   _handleTextareaInput(e: Event) {
     this.dispatchEvent(

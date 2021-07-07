@@ -227,16 +227,8 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _viewEditInChangeView() {
-    const patch = this._successfulSave
-      ? (EditPatchSetNum as PatchSetNum)
-      : this._patchNum;
-    if (this._change && patch)
-      GerritNav.navigateToChange(
-        this._change,
-        patch,
-        undefined,
-        patch !== EditPatchSetNum
-      );
+    if (this._change)
+      GerritNav.navigateToChange(this._change, undefined, undefined, true);
   }
 
   _getFileData(

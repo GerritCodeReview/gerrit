@@ -100,6 +100,7 @@ import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {ChangeMessage} from '../elements/change/gr-message/gr-message';
+import {GenerateUrlEditViewParameters} from '../elements/core/gr-navigation/gr-navigation';
 
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
@@ -442,6 +443,16 @@ export function createAppElementChangeViewParams(): AppElementChangeViewParams {
   return {
     view: GerritView.CHANGE,
     changeNum: TEST_NUMERIC_CHANGE_ID,
+    project: TEST_PROJECT_NAME,
+  };
+}
+
+export function createGenerateUrlEditViewParameters(): GenerateUrlEditViewParameters {
+  return {
+    view: GerritView.EDIT,
+    changeNum: TEST_NUMERIC_CHANGE_ID,
+    patchNum: EditPatchSetNum as PatchSetNum,
+    path: 'foo/bar.baz',
     project: TEST_PROJECT_NAME,
   };
 }

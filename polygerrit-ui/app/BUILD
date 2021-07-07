@@ -145,7 +145,6 @@ ignore_templates_list = [
     "elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
     "elements/shared/gr-dropdown/gr-dropdown_html.ts",
     "elements/shared/gr-editable-content/gr-editable-content_html.ts",
-    "elements/shared/gr-editable-label/gr-editable-label_html.ts",
     "elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
     "elements/shared/gr-label-info/gr-label-info_html.ts",
     "elements/shared/gr-labeled-autocomplete/gr-labeled-autocomplete_html.ts",

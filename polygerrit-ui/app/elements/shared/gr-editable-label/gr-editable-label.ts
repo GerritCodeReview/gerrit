@@ -64,7 +64,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
    */
 
   @property({type: String})
-  labelText?: string;
+  labelText = '';
 
   @property({type: Boolean})
   editing = false;
@@ -85,7 +85,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
   maxLength?: number;
 
   @property({type: String})
-  _inputText?: string;
+  _inputText = '';
 
   // This is used to push the iron-input element up on the page, so
   // the input is placed in approximately the same position as the
@@ -100,7 +100,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
   autocomplete = false;
 
   @property({type: Object})
-  query?: AutocompleteQuery;
+  query: AutocompleteQuery = () => Promise.resolve([]);
 
   /** @override */
   ready() {
@@ -196,7 +196,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
     }
     this.$.dropdown.close();
     this.editing = false;
-    this._inputText = this.value;
+    this._inputText = this.value || '';
   }
 
   get _nativeInput(): HTMLInputElement {
@@ -251,3 +251,4 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
     return this.shadowRoot!.querySelector<GrAutocomplete>('#autocomplete');
   }
 }
+

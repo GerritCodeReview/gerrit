@@ -14,40 +14,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ConfigInfo, ServerInfo} from '../../types/common';
+import {AccountDetailInfo, PreferencesInfo} from '../../types/common';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
+import {createDefaultPreferences} from '../../constants/constants';
 
-interface ConfigState {
-  repoConfig?: ConfigInfo;
-  serverConfig?: ServerInfo;
+interface UserState {
+  /**
+   * Keeps being defined even when credentials have expired.
+   */
+  account?: AccountDetailInfo;
+  preferences: PreferencesInfo;
 }
 
-// TODO: Figure out how to best enforce immutability of all states. Use Immer?
-// Use DeepReadOnly?
-const initialState: ConfigState = {};
+const initialState: UserState = {
+  preferences: createDefaultPreferences(),
+};
 
 const privateState$ = new BehaviorSubject(initialState);
 
 // Re-exporting as Observable so that you can only subscribe, but not emit.
-export const configState$: Observable<ConfigState> = privateState$;
+export const userState$: Observable<UserState> = privateState$;
 
-export function updateRepoConfig(repoConfig?: ConfigInfo) {
+export function updateAccount(account?: AccountDetailInfo) {
   const current = privateState$.getValue();
-  privateState$.next({...current, repoConfig});
+  privateState$.next({...current, account});
 }
 
-export function updateServerConfig(serverConfig?: ServerInfo) {
+export function updatePreferences(preferences: PreferencesInfo) {
   const current = privateState$.getValue();
-  privateState$.next({...current, serverConfig});
+  privateState$.next({...current, preferences});
 }
 
-export const repoConfig$ = configState$.pipe(
-  map(configState => configState.repoConfig),
+export const account$ = userState$.pipe(
+  map(userState => userState.account),
   distinctUntilChanged()
 );
 
-export const serverConfig$ = configState$.pipe(
-  map(configState => configState.serverConfig),
+export const preferences$ = userState$.pipe(
+  map(userState => userState.preferences),
+  distinctUntilChanged()
+);
+
+export const myTopMenuItems$ = preferences$.pipe(
+  map(preferences => preferences?.my ?? []),
   distinctUntilChanged()
 );

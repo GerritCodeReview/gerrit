@@ -728,11 +728,16 @@ export class GrImageViewer extends LitElement {
   }
 
   showHighlightChanged() {
+    this.toggleHighlight('controls');
+  }
+
+  private toggleHighlight(source: 'controls'|'magnifier') {
     this.showHighlight = !this.showHighlight;
     this.dispatchEvent(
       createEvent({
         type: 'highlight-changes-changed',
         value: this.showHighlight,
+        source,
       })
     );
   }
@@ -813,6 +818,12 @@ export class GrImageViewer extends LitElement {
     if (!this.ownsMouseDown) return;
     this.grabbing = false;
     this.ownsMouseDown = false;
+
+    if (event.shiftKey && this.diffHighlightSrc) {
+      this.toggleHighlight('magnifier');
+      return;
+    }
+
     const offsetX = event.clientX - this.pointerOnDown.x;
     const offsetY = event.clientY - this.pointerOnDown.y;
     const distance = Math.max(Math.abs(offsetX), Math.abs(offsetY));

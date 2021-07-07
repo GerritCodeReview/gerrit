@@ -29,11 +29,6 @@ declare global {
       options: {callback: (text: string, href?: string) => void}
     ): void;
     ASSETS_PATH?: string;
-    // TODO(TS): define gerrit type
-    Gerrit?: {
-      Nav?: unknown;
-      Auth?: unknown;
-    };
     // TODO(TS): define polymer type
     Polymer: {
       IronFocusablesHelper: {

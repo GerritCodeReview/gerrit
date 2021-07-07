@@ -95,8 +95,6 @@ let testSetupTimestampMs = 0;
 
 setup(() => {
   testSetupTimestampMs = new Date().getTime();
-  window.Gerrit = {};
-  initGlobalVariables();
   addIronOverlayBackdropStyleEl();
 
   // If the following asserts fails - then window.stub is
@@ -106,6 +104,7 @@ setup(() => {
   // tests.
   TestKeyboardShortcutBinder.push();
   _testOnlyInitAppContext();
+  initGlobalVariables();
   _testOnly_initGerritPluginApi();
   const mgr = _testOnly_getShortcutManagerInstance();
   assert.isTrue(mgr._testOnly_isEmpty());

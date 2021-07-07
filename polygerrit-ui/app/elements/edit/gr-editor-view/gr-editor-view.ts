@@ -44,6 +44,9 @@ import {ErrorCallback} from '../../../api/rest';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {changeIsMerged, changeIsAbandoned} from '../../../utils/change-util';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrDefaultEditor} from '../gr-default-editor/gr-default-editor';
+import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -53,6 +56,17 @@ const PUBLISHING_EDIT_MSG = 'Publishing edit...';
 const PUBLISH_FAILED_MSG = 'Failed to publish edit';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
+
+// Used within the tests
+export interface GrEditorView {
+  $: {
+    close: GrButton;
+    editorEndpoint: GrEndpointDecorator;
+    file: GrDefaultEditor;
+    publish: GrButton;
+    save: GrButton;
+  };
+}
 
 @customElement('gr-editor-view')
 export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
@@ -118,9 +132,10 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly storage = appContext.storageService;
 
-  private storeTask?: DelayedTask;
-
   private readonly reporting = appContext.reportingService;
+
+  // Tests use this so needs to be non private
+  storeTask?: DelayedTask;
 
   get keyBindings() {
     return {

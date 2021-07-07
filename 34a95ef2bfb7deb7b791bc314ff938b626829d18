@@ -70,6 +70,23 @@
       "parentUuid": "2e922159_07997914",
       "revId": "34a95ef2bfb7deb7b791bc314ff938b626829d18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd5d58b4_ab9b6015",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-07T14:33:36Z",
+      "side": 1,
+      "message": "we could get it so when in the inline editor it doesn\u0027t execute that rest api call, what do you think?",
+      "revId": "34a95ef2bfb7deb7b791bc314ff938b626829d18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

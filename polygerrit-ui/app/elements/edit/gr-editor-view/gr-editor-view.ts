@@ -94,7 +94,7 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
   _content?: string;
 
   @property({type: String})
-  _newContent?: string;
+  _newContent!: string;
 
   @property({type: Boolean})
   _saving = false;

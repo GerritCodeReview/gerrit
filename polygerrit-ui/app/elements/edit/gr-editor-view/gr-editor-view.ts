@@ -233,9 +233,9 @@ export class GrEditorView extends KeyboardShortcutMixin(PolymerElement) {
     if (this._change && patch)
       GerritNav.navigateToChange(
         this._change,
-        patch,
         undefined,
-        patch !== EditPatchSetNum
+        undefined,
+        true
       );
   }
 

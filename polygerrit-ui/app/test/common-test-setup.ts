@@ -95,7 +95,6 @@ let testSetupTimestampMs = 0;
 
 setup(() => {
   testSetupTimestampMs = new Date().getTime();
-  window.Gerrit = {};
   initGlobalVariables();
   addIronOverlayBackdropStyleEl();
 

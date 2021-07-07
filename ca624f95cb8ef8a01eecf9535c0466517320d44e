@@ -244,6 +244,24 @@
       "message": "We do re-exports in the line below - why have this separate here?",
       "revId": "ca624f95cb8ef8a01eecf9535c0466517320d44e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "683a6758_78fa9c77",
+        "filename": "polygerrit-ui/app/types/diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-07T08:58:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5397a385_ea61dc50",
+      "revId": "ca624f95cb8ef8a01eecf9535c0466517320d44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

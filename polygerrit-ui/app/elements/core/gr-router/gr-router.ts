@@ -51,6 +51,7 @@ import {assertNever} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
   DashboardId,
+  EditPatchSetNum,
   GroupId,
   NumericChangeId,
   PatchSetNum,
@@ -1591,7 +1592,7 @@ export class GrRouter extends PolymerElement {
   _handleChangeRoute(ctx: PageContextWithQueryMap) {
     // Parameter order is based on the regex group number matched.
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    const params: GenerateUrlChangeViewParameters = {
+    let params: GenerateUrlChangeViewParameters = {
       project: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
@@ -1599,6 +1600,15 @@ export class GrRouter extends PolymerElement {
       view: GerritView.CHANGE,
       queryMap: ctx.queryMap,
     };
+
+    // We do not want to allow "edit" to be used as a
+    // patch number. Instead redirect to ,edit.
+    if (ctx.params[4] === EditPatchSetNum && !ctx.params[6]) {
+      params.basePatchNum = undefined;
+      params.edit = true;
+      this._redirect(this._generateUrl(params));
+      return;
+    }
 
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);

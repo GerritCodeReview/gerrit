@@ -173,9 +173,7 @@ export class GrImageViewer extends LitElement {
 
   static styles = css`
     :host {
-      display: grid;
-      grid-template-rows: auto auto;
-      grid-template-columns: 1fr auto;
+      display: flex;
       width: 100%;
       height: 100%;
       box-sizing: border-box;
@@ -184,8 +182,6 @@ export class GrImageViewer extends LitElement {
       --image-border-width: 2px;
     }
     .imageArea {
-      grid-row-start: 1;
-      grid-column-start: 1;
       box-sizing: border-box;
       flex-grow: 1;
       overflow: hidden;
@@ -246,21 +242,7 @@ export class GrImageViewer extends LitElement {
         var(--square-size) calc(-1 * var(--square-size)),
         calc(-1 * var(--square-size)) 0;
     }
-    .dimensions {
-      grid-row-start: 2;
-      justify-self: center;
-      align-self: center;
-      background: var(--primary-button-background-color);
-      color: var(--primary-button-text-color);
-      font-family: var(--font-family);
-      font-size: var(--font-size-small);
-      line-height: var(--line-height-small);
-      border-radius: var(--border-radius, 4px);
-      margin: var(--spacing-s);
-      padding: var(--spacing-xxs) var(--spacing-s);
-    }
     .controls {
-      grid-column-start: 2;
       flex-grow: 0;
       display: flex;
       flex-direction: column;
@@ -627,10 +609,6 @@ export class GrImageViewer extends LitElement {
           ${sourceImageWithHighlight}
         </gr-zoomed-image>
         ${this.baseUrl && this.revisionUrl ? automaticBlink : ''} ${spacer}
-      </div>
-
-      <div class="dimensions">
-        ${this.imageSize.width} x ${this.imageSize.height}
       </div>
 
       <paper-card class="controls">

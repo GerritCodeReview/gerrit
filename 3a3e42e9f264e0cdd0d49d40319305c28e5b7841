@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2c8eb68_59e51e44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2021-07-07T12:05:26Z",
+      "side": 1,
+      "message": "used in https://gerrit-review.googlesource.com/c/plugins/code-owners/+/311425",
+      "revId": "3a3e42e9f264e0cdd0d49d40319305c28e5b7841",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "There is a util for that in polygerrit/utils/event-util.ts:\n\n      fire(el, \u0027line-mouse-enter\u0027, {lineNum: number, side});\n\nSaves you 16 lines in this method. :-)",
       "revId": "6ba1d9e422805c5aad5cf827eeac4350e0df66cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cde83dd4_eeb7be40",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2021-07-07T09:00:26Z",
+      "side": 1,
+      "message": "thanks! done",
+      "parentUuid": "5859ac16_f04877b5",
+      "revId": "6ba1d9e422805c5aad5cf827eeac4350e0df66cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

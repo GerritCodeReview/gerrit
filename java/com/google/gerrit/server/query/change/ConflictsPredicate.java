@@ -19,6 +19,7 @@ import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -144,12 +146,15 @@ public class ConflictsPredicate {
                 projectState.is(BooleanProjectConfig.USE_CONTENT_MERGE));
         Boolean maybeConflicts = args.conflictsCache.getIfPresent(conflictsKey);
         if (maybeConflicts != null) {
+          logger.atFine().log("%s from cache: %s", conflictsKey, maybeConflicts);
           return maybeConflicts;
         }
 
+        boolean conflicts = false;
+        Stopwatch stopwatch = Stopwatch.createStarted();
         try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
             CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-          boolean conflicts =
+          conflicts =
               !args.submitDryRun.run(
                   null,
                   str.type,
@@ -161,6 +166,10 @@ public class ConflictsPredicate {
                   getAlreadyAccepted(repo, rw));
           args.conflictsCache.put(conflictsKey, conflicts);
           return conflicts;
+        } finally {
+          logger.atFine().log(
+              "%s calculated in %d ms: %s",
+              conflictsKey, stopwatch.elapsed(TimeUnit.MILLISECONDS), conflicts);
         }
       } catch (NoSuchProjectException | StorageException | IOException e) {
         ObjectId finalOther = other;

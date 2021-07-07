@@ -37,6 +37,9 @@ const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
 
 declare global {
+  interface HTMLElementEventMap {
+    'changed': CustomEvent;
+  }
   interface HTMLElementTagNameMap {
     'gr-editable-label': GrEditableLabel;
   }
@@ -67,7 +70,7 @@ export class GrEditableLabel extends KeyboardShortcutMixin(PolymerElement) {
   editing = false;
 
   @property({type: String, notify: true, observer: '_updateTitle'})
-  value = '';
+  value? = '';
 
   @property({type: String})
   placeholder = '';

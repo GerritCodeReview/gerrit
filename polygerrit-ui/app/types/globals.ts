@@ -29,11 +29,6 @@ declare global {
       options: {callback: (text: string, href?: string) => void}
     ): void;
     ASSETS_PATH?: string;
-    // TODO(TS): define gerrit type
-    Gerrit?: {
-      Nav?: unknown;
-      Auth?: unknown;
-    };
     // TODO(TS): define polymer type
     Polymer: {
       IronFocusablesHelper: {
@@ -56,8 +51,6 @@ declare global {
     PRELOADED_QUERIES?: {
       dashboardQuery?: string[];
     };
-
-    VERSION_INFO?: string;
 
     /** Enhancements on Gr elements or utils */
     // TODO(TS): should clean up those and removing them may break certain plugin behaviors

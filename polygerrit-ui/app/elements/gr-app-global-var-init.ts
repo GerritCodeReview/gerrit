@@ -24,15 +24,12 @@
 
 import {GrAnnotation} from './diff/gr-diff-highlight/gr-annotation';
 import {page} from '../utils/page-wrapper-utils';
-import {appContext} from '../services/app-context';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context';
-import {GerritNav} from './core/gr-navigation/gr-navigation';
+import {initGerritPluginApi} from './shared/gr-js-api-interface/gr-gerrit';
 
 export function initGlobalVariables() {
   window.GrAnnotation = GrAnnotation;
   window.page = page;
   window.GrPluginActionContext = GrPluginActionContext;
-  window.Gerrit = window.Gerrit || {};
-  window.Gerrit.Nav = GerritNav;
-  window.Gerrit.Auth = appContext.authService;
+  initGerritPluginApi();
 }

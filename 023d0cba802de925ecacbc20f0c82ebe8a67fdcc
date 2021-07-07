@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15a24f13_9057c75a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-07T06:55:51Z",
+      "side": 1,
+      "message": "Nit: \nbefore if config was undefined \u003d\u003e privateChangesEnabled was false\nnow if config is undefined \u003d\u003e privateChangesEnabled is true",
+      "range": {
+        "startLine": 114,
+        "startChar": 37,
+        "endLine": 114,
+        "endChar": 43
+      },
+      "revId": "023d0cba802de925ecacbc20f0c82ebe8a67fdcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

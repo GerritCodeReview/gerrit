@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a327c2b2_1d517c33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-07T02:39:26Z",
+      "side": 1,
+      "message": "we should redirect all /edit to ,edit tbh.",
+      "revId": "dcc0e2e5083734117ea6ee6d4d94f046988bc36f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

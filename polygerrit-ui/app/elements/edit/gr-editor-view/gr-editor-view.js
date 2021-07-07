@@ -184,9 +184,8 @@ class GrEditorView extends mixinBehaviors( [
   }
 
   _viewEditInChangeView() {
-    const patch = this._successfulSave ? this.EDIT_NAME : this._patchNum;
-    GerritNav.navigateToChange(this._change, patch, null,
-        patch !== this.EDIT_NAME);
+    if (this._change)
+      GerritNav.navigateToChange(this._change, undefined, undefined, true);
   }
 
   _getFileData(changeNum, path, patchNum) {

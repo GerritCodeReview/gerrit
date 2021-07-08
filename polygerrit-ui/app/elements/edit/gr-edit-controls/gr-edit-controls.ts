@@ -35,9 +35,11 @@ import {
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {appContext} from '../../../services/app-context';
+import {IronInputElement} from '@polymer/iron-input';
 
 export interface GrEditControls {
   $: {
+    newPathIronInput: IronInputElement;
     overlay: GrOverlay;
     openDialog: GrDialog;
     deleteDialog: GrDialog;
@@ -215,7 +217,7 @@ export class GrEditControls extends PolymerElement {
   _handleUploadConfirm(path: string, fileData: string) {
     if (!this.change || !path || !fileData) {
       this._closeDialog(this.$.openDialog, true);
-      return;
+      return Promise.resolve();
     }
     return this.restApiService
       .saveFileUploadChangeEdit(this.change._number, path, fileData)

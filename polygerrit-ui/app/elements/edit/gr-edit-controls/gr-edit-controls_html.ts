@@ -106,7 +106,6 @@ export const htmlTemplate = html`
           <p contenteditable="false">
             <iron-input>
               <input
-                is="iron-input"
                 id="fileUploadInput"
                 type="file"
                 on-change="_handleFileUploadChanged"
@@ -164,8 +163,6 @@ export const htmlTemplate = html`
         >
           <input
             class="newPathInput"
-            is="iron-input"
-            bind-value="{{_newPath}}"
             placeholder="Enter the new path."
           />
         </iron-input>
@@ -182,9 +179,10 @@ export const htmlTemplate = html`
       <div class="header" slot="header">Restore this file?</div>
       <div class="main" slot="main">
         <iron-input disabled="" bind-value="{{_path}}">
-          <input is="iron-input" disabled="" bind-value="{{_path}}" />
+          <input disabled="" />
         </iron-input>
       </div>
     </gr-dialog>
   </gr-overlay>
 `;
+

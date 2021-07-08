@@ -23,9 +23,11 @@ import {Category, RunStatus} from '../api/checks';
 import {ChangeMessage} from '../elements/change/gr-message/gr-message';
 
 export enum EventType {
+  CHANGE = 'change',
   CHANGED = 'changed',
   CHANGE_MESSAGE_DELETED = 'change-message-deleted',
   DIALOG_CHANGE = 'dialog-change',
+  DROP = 'drop',
   EDITABLE_CONTENT_SAVE = 'editable-content-save',
   GR_RPC_LOG = 'gr-rpc-log',
   LOCATION_CHANGE = 'location-change',
@@ -53,12 +55,18 @@ export enum EventType {
 declare global {
   interface HTMLElementEventMap {
     /* prettier-ignore */
+    'change': ChangeEvent;
+    /* prettier-ignore */
     'changed': ChangedEvent;
     'change-message-deleted': ChangeMessageDeletedEvent;
     'dialog-change': DialogChangeEvent;
+    /* prettier-ignore */
+    'drop': DropEvent;
     'editable-content-save': EditableContentSaveEvent;
     'location-change': LocationChangeEvent;
     'iron-announce': IronAnnounceEvent;
+    /* prettier-ignore */
+    'keypress': KeypressEvent;
     'line-mouse-enter': LineNumberEvent;
     'line-mouse-leave': LineNumberEvent;
     'line-cursor-moved-in': LineNumberEvent;
@@ -94,6 +102,8 @@ declare global {
   }
 }
 
+export type ChangeEvent = InputEvent;
+
 export type ChangedEvent = CustomEvent<string>;
 
 export interface ChangeMessageDeletedEventDetail {
@@ -108,6 +118,8 @@ export interface DialogChangeEventDetail {
   opened?: boolean;
 }
 export type DialogChangeEvent = CustomEvent<DialogChangeEventDetail>;
+
+export type DropEvent = DragEvent;
 
 export interface EditableContentSaveEventDetail {
   content: string;
@@ -126,6 +138,8 @@ export interface IronAnnounceEventDetail {
   text: string;
 }
 export type IronAnnounceEvent = CustomEvent<IronAnnounceEventDetail>;
+
+export type KeypressEvent = InputEvent;
 
 export interface LocationChangeEventDetail {
   hash: string;

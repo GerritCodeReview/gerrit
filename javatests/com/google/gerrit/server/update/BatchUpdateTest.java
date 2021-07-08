@@ -43,7 +43,12 @@ import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -344,6 +349,32 @@ public class BatchUpdateTest {
     return id;
   }
 
+  @Test
+  public void batchUpdateWithBatchRefSize() throws Exception {
+    int sizeOfBatch = 6;
+    int numberOfChanges = 10;
+    Map<Change.Id, ObjectId> changeIdsToMeta = new HashMap<>();
+    for (int i = 0; i < numberOfChanges; i++) {
+      Change.Id changeId = createChangeWithUpdates(1);
+      changeIdsToMeta.put(changeId, getMetaId(changeId));
+    }
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      for (Change.Id changeId : changeIdsToMeta.keySet()) {
+        bu.addRepoOnlyOp(new UpdateRepoOnly(RefNames.changeMetaRef(changeId), getMetaId(changeId)));
+      }
+      bu.executeInRefsBatches(Optional.of(sizeOfBatch), false, ImmutableList.of(), false);
+      ImmutableList<BatchRefUpdate> batchRefUpdates = bu.executedBatches();
+      assertThat(batchRefUpdates).hasSize(2);
+      assertThat(batchRefUpdates.get(0).getCommands()).hasSize(6);
+      assertThat(batchRefUpdates.get(1).getCommands()).hasSize(4);
+    }
+    for (Map.Entry<Change.Id, ObjectId> changeIdAndOldMeta : changeIdsToMeta.entrySet()) {
+      // all changes were updated
+      assertThat(repo.getRepository().exactRef(RefNames.changeMetaRef(changeIdAndOldMeta.getKey())))
+          .isEqualTo(null);
+    }
+  }
+
   private static class AddMessageOp implements BatchUpdateOp {
     private final String message;
     @Nullable private final PatchSet.Id psId;
@@ -396,6 +427,23 @@ public class BatchUpdateTest {
       update.merge(new SubmissionId(ctx.getChange()), ImmutableList.of(sr));
       update.setChangeMessage("Submitted");
       return true;
+    }
+  }
+
+  private static class UpdateRepoOnly implements RepoOnlyOp {
+
+    private final String ref;
+
+    private final ObjectId oldTip;
+
+    UpdateRepoOnly(String ref, ObjectId oldTip) {
+      this.ref = ref;
+      this.oldTip = oldTip;
+    }
+
+    @Override
+    public void updateRepo(RepoContext ctx) throws IOException, IOException {
+      ctx.addRefUpdate(oldTip, ObjectId.zeroId(), ref);
     }
   }
 }

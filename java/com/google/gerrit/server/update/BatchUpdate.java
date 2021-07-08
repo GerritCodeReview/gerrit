@@ -73,10 +73,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.function.Function;
@@ -136,9 +138,9 @@ public class BatchUpdate implements AutoCloseable {
 
     checkDifferentProject(updates);
 
+    List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
+    List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
     try {
-      List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
-      List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
       try {
         for (BatchUpdate u : updates) {
           u.executeUpdateRepo();
@@ -158,7 +160,6 @@ public class BatchUpdate implements AutoCloseable {
           h.close();
         }
       }
-
       Map<Change.Id, ChangeData> changeDatas =
           Futures.allAsList(indexFutures).get().stream()
               // filter out null values that were returned for change deletions
@@ -168,11 +169,12 @@ public class BatchUpdate implements AutoCloseable {
       // Fire ref update events only after all mutations are finished, since callers may assume a
       // patch set ref being created means the change was created, or a branch advancing meaning
       // some changes were closed.
-      updates.forEach(BatchUpdate::fireRefChangeEvent);
+
+      changesHandles.stream().forEach(ChangesHandle::fireRefChangeEvent);
 
       if (!dryrun) {
-        for (BatchUpdate u : updates) {
-          u.executePostOps(changeDatas);
+        for (ChangesHandle changesHandle : changesHandles) {
+          changesHandle.executePostOps(changeDatas);
         }
       }
     } catch (Exception e) {
@@ -275,14 +277,35 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private class RepoContextImpl extends ContextImpl implements RepoContext {
+    private ListMultimap<String, ReceiveCommand> pendingRefUpdates =
+        MultimapBuilder.hashKeys().arrayListValues().build();
+
     @Override
     public ObjectInserter getInserter() throws IOException {
       return getRepoView().getInserterWrapper();
     }
 
+    /**
+     * Update RepoView with command to make them visible to next updates via {@link RepoView#getRef}
+     * Only put in {@link #pendingRefUpdates} once verified that the command can be chained and
+     * apply later via {@link #applyUpdates}
+     */
     @Override
     public void addRefUpdate(ReceiveCommand cmd) throws IOException {
       getRepoView().getCommands().add(cmd);
+      // Only put in pending updates once verified this command can be chained
+      pendingRefUpdates.put(cmd.getRefName(), cmd);
+    }
+
+    private void applyUpdates(NoteDbUpdateManager manager) throws IOException {
+      pendingRefUpdates.forEach(manager::addRefUpdate);
+      clearPendingUpdates();
+    }
+
+    private void clearPendingUpdates() {
+      if (!pendingRefUpdates.isEmpty()) {
+        pendingRefUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
+      }
     }
   }
 
@@ -386,9 +409,10 @@ public class BatchUpdate implements AutoCloseable {
   private final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
   private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
 
+  private List<ChangesHandle> changeHandles = new ArrayList<>();
   private RepoView repoView;
-  private BatchRefUpdate batchRefUpdate;
-  private boolean executed;
+  private RepoContextImpl repoContext;
+
   private OnSubmitValidators onSubmitValidators;
   private PushCertificate pushCert;
   private String refLogMessage;
@@ -435,8 +459,105 @@ public class BatchUpdate implements AutoCloseable {
     execute(ImmutableList.of(this), ImmutableList.of(), false);
   }
 
+  private void executeRepoOnlyOpsInRefsBatches(
+      Optional<Integer> maxRefsInBatch,
+      boolean nonAtomic,
+      ImmutableList<BatchUpdateListener> batchUpdateListeners,
+      boolean dryRun)
+      throws Exception {
+    logDebug("Executing updateRepo on %d RepoOnlyOps", repoOnlyOps.size());
+    initRepository();
+    Repository repo = repoView.getRepository();
+    checkState(
+        nonAtomic || repo.getRefDatabase().performsAtomicTransactions(),
+        "cannot use NoteDb with a repository that does not support atomic batch ref updates: %s",
+        repo);
+    ChangesHandle handle = null;
+    int numberOfRefsInBatch = 0;
+    for (RepoOnlyOp op : repoOnlyOps) {
+      initRepoContextForUpdate();
+      op.updateRepo(repoContext);
+      int numberOfRefsInUpdate = repoContext.pendingRefUpdates.size();
+      if (handle != null && numberOfRefsInBatch + numberOfRefsInUpdate > maxRefsInBatch.get()) {
+        executeChangesHandle(handle, batchUpdateListeners, dryRun);
+        handle = null;
+      }
+      if (handle == null) {
+        handle =
+            new ChangesHandle(
+                updateManagerFactory
+                    .create(project, maxRefsInBatch, nonAtomic)
+                    .setBatchUpdateListeners(batchUpdateListeners)
+                    .setChangeRepo(repo, repoView.getRevWalk(), repoView.getInserter()),
+                dryRun);
+        if (user.isIdentifiedUser()) {
+          handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
+        }
+        handle.manager.setRefLogMessage(refLogMessage);
+        handle.manager.setPushCertificate(pushCert);
+        this.changeHandles.add(handle);
+        numberOfRefsInBatch = 0;
+      }
+      numberOfRefsInBatch += numberOfRefsInUpdate;
+      repoContext.applyUpdates(handle.manager);
+      checkState(
+          handle.manager.numberChangeRefsToUpdate() == numberOfRefsInBatch,
+          "Number of refs to be updated by NoteDb manager does not match number of refs in batch");
+    }
+    if (handle != null) {
+      executeChangesHandle(handle, batchUpdateListeners, dryRun);
+      handle = null;
+    }
+  }
+
+  private void executeChangesHandle(
+      ChangesHandle h, ImmutableList<BatchUpdateListener> listeners, boolean dryrun)
+      throws Exception {
+    h.execute();
+    // index what was already executed
+    List<ListenableFuture<ChangeData>> indexFutures = h.startIndexFutures();
+    // Notify batch was executed
+    notifyAfterUpdateRefs(listeners);
+    h.close();
+    // Index already executed ops to give to postUpdate
+    Map<Change.Id, ChangeData> changeDatas =
+        Futures.allAsList(indexFutures).get().stream()
+            // filter out null values that were returned for change deletions
+            .filter(Objects::nonNull)
+            .collect(toMap(cd -> cd.change().getId(), Function.identity()));
+    // Fire post update for everything already executed, in case next batch fails
+    if (!dryrun) {
+      h.executePostOps(changeDatas);
+    }
+    // Fire ref update events for everything that was already executed
+    h.fireRefChangeEvent();
+  }
+
+  public ImmutableList<BatchRefUpdate> executedBatches() {
+    return changeHandles.stream()
+        .filter(changesHandle -> changesHandle.batchRefUpdate != null)
+        .map(changesHandle -> changesHandle.batchRefUpdate)
+        .collect(ImmutableList.toImmutableList());
+  }
+
+  public void executeInRefsBatches(
+      Optional<Integer> maxRefsInBatch,
+      boolean nonAtomic,
+      ImmutableList<BatchUpdateListener> listeners,
+      boolean dryRun)
+      throws Exception {
+    checkState(
+        onSubmitValidators == null, "Submit validators not supported when executed in RefsBatches");
+    checkState(
+        repoOnlyOps.isEmpty() || ops.isEmpty(),
+        "execution of repoOnly ops and batchChangeUpdateOps in refs batches is not supported");
+    if (!repoOnlyOps.isEmpty()) {
+      executeRepoOnlyOpsInRefsBatches(maxRefsInBatch, nonAtomic, listeners, dryRun);
+    }
+  }
+
   public boolean isExecuted() {
-    return executed;
+    return changeHandles.stream().allMatch(handle -> handle.executed);
   }
 
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
@@ -552,18 +673,18 @@ public class BatchUpdate implements AutoCloseable {
   private void executeUpdateRepo() throws UpdateException, RestApiException {
     try {
       logDebug("Executing updateRepo on %d ops", ops.size());
-      RepoContextImpl ctx = new RepoContextImpl();
+      initRepoContextForUpdate();
       for (BatchUpdateOp op : ops.values()) {
         try (TraceContext.TraceTimer ignored =
             TraceContext.newTimer(
                 op.getClass().getSimpleName() + "#updateRepo", Metadata.empty())) {
-          op.updateRepo(ctx);
+          op.updateRepo(repoContext);
         }
       }
 
       logDebug("Executing updateRepo on %d RepoOnlyOps", repoOnlyOps.size());
       for (RepoOnlyOp op : repoOnlyOps) {
-        op.updateRepo(ctx);
+        op.updateRepo(repoContext);
       }
 
       if (onSubmitValidators != null && !getRefUpdates().isEmpty()) {
@@ -572,7 +693,7 @@ public class BatchUpdate implements AutoCloseable {
         // first update's executeRefUpdates has finished, hence after first repo's refs have been
         // updated, which is too late.
         onSubmitValidators.validate(
-            project, ctx.getRevWalk().getObjectReader(), repoView.getCommands());
+            project, repoContext.getRevWalk().getObjectReader(), repoView.getCommands());
       }
     } catch (Exception e) {
       Throwables.throwIfInstanceOf(e, RestApiException.class);
@@ -580,7 +701,7 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void fireRefChangeEvent() {
+  private void fireRefChangeEvent(BatchRefUpdate batchRefUpdate) {
     if (batchRefUpdate != null) {
       gitRefUpdated.fire(project, batchRefUpdate, getAccount().orElse(null));
     }
@@ -590,6 +711,9 @@ public class BatchUpdate implements AutoCloseable {
     private final NoteDbUpdateManager manager;
     private final boolean dryrun;
     private final Map<Change.Id, ChangeResult> results;
+    private final Set<RepoOnlyOp> executedOps = new HashSet<>();
+    private BatchRefUpdate batchRefUpdate;
+    private boolean executed;
 
     ChangesHandle(NoteDbUpdateManager manager, boolean dryrun) {
       this.manager = manager;
@@ -607,9 +731,24 @@ public class BatchUpdate implements AutoCloseable {
       checkArgument(old == null, "result for change %s already set: %s", id, old);
     }
 
+    void addExecutedOp(RepoOnlyOp op) {
+      executedOps.add(op);
+    }
+
+    void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
+      PostUpdateContextImpl ctx = new PostUpdateContextImpl(changeDatas);
+      for (BatchUpdateOp op : ops.values()) {
+        try (TraceContext.TraceTimer ignored =
+            TraceContext.newTimer(
+                op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+          op.postUpdate(ctx);
+        }
+      }
+    }
+
     void execute() throws IOException {
-      BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
-      BatchUpdate.this.executed = manager.isExecuted();
+      batchRefUpdate = manager.execute(dryrun);
+      executed = manager.isExecuted();
     }
 
     List<ListenableFuture<ChangeData>> startIndexFutures() {
@@ -635,6 +774,12 @@ public class BatchUpdate implements AutoCloseable {
       }
       return indexFutures;
     }
+
+    private void fireRefChangeEvent() {
+      if (batchRefUpdate != null) {
+        gitRefUpdated.fire(project, batchRefUpdate, getAccount().orElse(null));
+      }
+    }
   }
 
   private ChangesHandle executeChangeOps(
@@ -652,14 +797,14 @@ public class BatchUpdate implements AutoCloseable {
             updateManagerFactory
                 .create(project)
                 .setBatchUpdateListeners(batchUpdateListeners)
-                .setChangeRepo(
-                    repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
+                .setChangeRepo(repo, repoView.getRevWalk(), repoView.getInserter()),
             dryrun);
     if (user.isIdentifiedUser()) {
       handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
     }
     handle.manager.setRefLogMessage(refLogMessage);
     handle.manager.setPushCertificate(pushCert);
+    repoContext.applyUpdates(handle.manager);
     for (Map.Entry<Change.Id, Collection<BatchUpdateOp>> e : ops.asMap().entrySet()) {
       Change.Id id = e.getKey();
       ChangeContextImpl ctx = newChangeContext(id);
@@ -710,21 +855,14 @@ public class BatchUpdate implements AutoCloseable {
     return new ChangeContextImpl(notes);
   }
 
-  private void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
-    PostUpdateContextImpl ctx = new PostUpdateContextImpl(changeDatas);
-    for (BatchUpdateOp op : ops.values()) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
-      }
+  private void initRepoContextForUpdate() {
+    checkState(
+        repoContext == null || repoContext.pendingRefUpdates.isEmpty(),
+        "pending updates must be applied before starting new update");
+    if (repoContext == null) {
+      repoContext = new RepoContextImpl();
     }
-
-    for (RepoOnlyOp op : repoOnlyOps) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
-      }
-    }
+    repoContext.clearPendingUpdates();
   }
 
   private static void logDebug(String msg) {

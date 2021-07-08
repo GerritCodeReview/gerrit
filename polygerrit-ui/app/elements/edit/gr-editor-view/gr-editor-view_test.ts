@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
+import '../../../test/common-test-setup-karma';
 import {GrEditorView} from './gr-editor-view';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {HttpMethod} from '../../../constants/constants.js';
-import {stubRestApi, stubStorage} from '../../../test/test-utils.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {HttpMethod} from '../../../constants/constants';
+import {stubRestApi, stubStorage} from '../../../test/test-utils';
 import {
   EditPatchSetNum,
   NumericChangeId,
   PatchSetNum,
-} from '../../../types/common.js';
+} from '../../../types/common';
 import {
   createChangeViewChange,
   createGenerateUrlEditViewParameters,

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62e8e593_daecab5d",
+        "filename": "polygerrit-ui/app/api/gerrit.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-08T09:59:18Z",
+      "side": 1,
+      "message": "I cannot find any mentions of \"gerrit\" in the api/ folder.\n\nAlso, I think that would be an unrelated goal. :-)",
+      "parentUuid": "9451df78_8d8a0fb6",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "28c9210100807318044a514766d26d0b80654c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b52ca73_9a625ca3",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-07-08T08:48:55Z",
       "side": 1,
       "message": "nit: may be mark fields with \u0027public\u0027 to show that they can be used somewhere else (in plugins).",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 41
+      },
+      "revId": "28c9210100807318044a514766d26d0b80654c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d59b07b_3fe3ad3b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-08T09:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b52ca73_9a625ca3",
       "range": {
         "startLine": 114,
         "startChar": 0,

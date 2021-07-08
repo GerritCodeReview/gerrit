@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c512b869_8abaa34f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-08T09:07:43Z",
+      "side": 1,
+      "message": "Could you please add an explanation, why this property can\u0027t be null? As I can see, the property is not calculated and is not set in constructor. For example, if I place the editor like \u003cgr-editable-label\u003e then the labelText is empty (or maybe I miss something?)\n\nI know, that there are other elements that assumes some properties are always set, but it is not safe.",
+      "range": {
+        "startLine": 67,
+        "startChar": 11,
+        "endLine": 67,
+        "endChar": 12
+      },
+      "revId": "8bd069785f3aa94836ad1aee8364568f5088a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0daddceb_b751a4ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-08T09:07:43Z",
+      "side": 1,
+      "message": "Same as labelText",
+      "range": {
+        "startLine": 88,
+        "startChar": 12,
+        "endLine": 88,
+        "endChar": 13
+      },
+      "revId": "8bd069785f3aa94836ad1aee8364568f5088a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2425873_4cc86998",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-08T09:07:43Z",
+      "side": 1,
+      "message": "Same as labelText",
+      "range": {
+        "startLine": 103,
+        "startChar": 7,
+        "endLine": 103,
+        "endChar": 8
+      },
+      "revId": "8bd069785f3aa94836ad1aee8364568f5088a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

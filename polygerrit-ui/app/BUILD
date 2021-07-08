@@ -71,7 +71,6 @@ compiled_pg_srcs_with_tests = compile_ts(
 ignore_templates_list = [
     "elements/admin/gr-access-section/gr-access-section_html.ts",
     "elements/admin/gr-admin-view/gr-admin-view_html.ts",
-    "elements/admin/gr-create-change-dialog/gr-create-change-dialog_html.ts",
     "elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog_html.ts",
     "elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_html.ts",
     "elements/admin/gr-group-members/gr-group-members_html.ts",
@@ -153,6 +152,9 @@ ignore_templates_list = [
     "elements/shared/gr-list-view/gr-list-view_html.ts",
     "elements/shared/gr-repo-branch-picker/gr-repo-branch-picker_html.ts",
     "elements/shared/gr-textarea/gr-textarea_html.ts",
+
+    # The following items are fixed, but require a twinkie update
+    "elements/admin/gr-create-change-dialog/gr-create-change-dialog_html.ts",
 ]
 
 # Transform templates into a .ts files.

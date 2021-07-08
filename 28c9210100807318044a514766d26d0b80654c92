@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c8209da5_6e3ccb79",
+        "filename": "polygerrit-ui/app/api/gerrit.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2021-07-08T10:17:50Z",
+      "side": 1,
+      "message": "Back at my computer: It was for GrDiff, which is similar:\nhttp://google3/third_party/javascript/polygerrit/api/embed.ts?l\u003d27\u0026rcl\u003d376639736\n\nAgree that it could be seen as unrelated - I mostly wonder if now is not a good time because\na) folks that use the new paths could then also use the new namespace name, and not have to migrate the same usages twice\nb) I think we should strive to keep stuff in API more stable, so making the rename before moving it to api/ seems better that some point after.\n\nIn the end your choice though - I hope as users of GrDiff, we would never need to access anything in the Gerrit namespace. You could also register it with both names, and mark the all caps one as deprecated, to reduce churn for folks that prefer making this change slowly.",
+      "parentUuid": "62e8e593_daecab5d",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "28c9210100807318044a514766d26d0b80654c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b52ca73_9a625ca3",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.ts",
         "patchSetId": 7

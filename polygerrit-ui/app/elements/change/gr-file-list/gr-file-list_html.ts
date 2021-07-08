@@ -671,6 +671,11 @@ export const htmlTemplate = html`
                 value="[[_cleanlyMergedPaths]]"
               >
               </gr-endpoint-param>
+              <gr-endpoint-param
+                name="cleanlyMergedOldPaths"
+                value="[[_cleanlyMergedOldPaths]]"
+              >
+              </gr-endpoint-param>
             </gr-endpoint-decorator>
           </template>
         </template>

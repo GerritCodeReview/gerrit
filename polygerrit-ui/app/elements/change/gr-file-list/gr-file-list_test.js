@@ -1219,6 +1219,25 @@ suite('gr-file-list tests', () => {
 
         queryAndAssert(element, '.showParentButton');
       });
+
+      test('computes old paths for cleanly merged files', async () => {
+        filesStub.restore();
+        stubRestApi('getChangeOrEditFiles')
+            .onFirstCall()
+            .resolves({'conflictingFile.js': {}})
+            .onSecondCall()
+            .resolves({
+              'conflictingFile.js': {},
+              'cleanlyMergedFile.js': {old_path: 'cleanlyMergedFileOldName.js'},
+            });
+        await element.reload();
+        await flush();
+
+        assert.deepEqual(element._cleanlyMergedOldPaths, [
+          'cleanlyMergedFileOldName.js',
+        ]);
+      });
+
       test('not shown for non-Auto Merge base parents', async () => {
         element.patchRange = {basePatchNum: 1, patchNum: 2};
         await element.reload();

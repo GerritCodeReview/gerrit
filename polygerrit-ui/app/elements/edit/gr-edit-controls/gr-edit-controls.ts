@@ -215,7 +215,7 @@ export class GrEditControls extends PolymerElement {
   _handleUploadConfirm(path: string, fileData: string) {
     if (!this.change || !path || !fileData) {
       this._closeDialog(this.$.openDialog, true);
-      return;
+      return Promise.resolve();
     }
     return this.restApiService
       .saveFileUploadChangeEdit(this.change._number, path, fileData)
@@ -334,3 +334,4 @@ declare global {
     'gr-edit-controls': GrEditControls;
   }
 }
+

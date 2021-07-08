@@ -46,6 +46,30 @@
       },
       "revId": "20fb58bf46bc1de7450227e4c45d98b7368d4300",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5b9ba1c_4b6353e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-08T11:29:19Z",
+      "side": 1,
+      "message": "Oh sorry. I thought Dmitrii is also the change owner. And that was a message to me.\n\nYeah, default value should be undefined, if it can be undefined.",
+      "parentUuid": "03bd81a5_f13114f3",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 14
+      },
+      "revId": "20fb58bf46bc1de7450227e4c45d98b7368d4300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

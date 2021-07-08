@@ -21,10 +21,18 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-edit-file-controls_html';
 import {GrEditConstants} from '../gr-edit-constants';
 import {customElement, property} from '@polymer/decorators';
+import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
 
 interface EditAction {
   label: string;
   id: string;
+}
+
+// Used within the tests
+export interface GrEditFileControls {
+  $: {
+    actions: GrDropdown;
+  };
 }
 
 @customElement('gr-edit-file-controls')

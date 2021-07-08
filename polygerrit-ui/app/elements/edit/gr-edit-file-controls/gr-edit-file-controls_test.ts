@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import '../gr-edit-constants.js';
-import './gr-edit-file-controls.js';
-import {GrEditConstants} from '../gr-edit-constants.js';
+import '../../../test/common-test-setup-karma';
+import {GrEditFileControls} from './gr-edit-file-controls';
+import {GrEditConstants} from '../gr-edit-constants';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-edit-file-controls');
 
 suite('gr-edit-file-controls tests', () => {
-  let element;
+  let element: GrEditFileControls;
 
-  let fileActionHandler;
+  let fileActionHandler: sinon.SinonStub;
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -39,11 +39,13 @@ suite('gr-edit-file-controls tests', () => {
     actions._open();
     flush();
 
-    MockInteractions.tap(actions.shadowRoot
-        .querySelector('li [data-id="open"]'));
+    const row = actions.shadowRoot!.querySelector('li [data-id="open"]')!;
+    MockInteractions.tap(row);
     assert.isTrue(fileActionHandler.called);
-    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
-        {action: GrEditConstants.Actions.OPEN.id, path: 'foo'});
+    assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
+      action: GrEditConstants.Actions.OPEN.id,
+      path: 'foo',
+    });
   });
 
   test('delete tap emits event', () => {
@@ -52,11 +54,13 @@ suite('gr-edit-file-controls tests', () => {
     actions._open();
     flush();
 
-    MockInteractions.tap(actions.shadowRoot
-        .querySelector('li [data-id="delete"]'));
+    const row = actions.shadowRoot!.querySelector('li [data-id="delete"]')!;
+    MockInteractions.tap(row);
     assert.isTrue(fileActionHandler.called);
-    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
-        {action: GrEditConstants.Actions.DELETE.id, path: 'foo'});
+    assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
+      action: GrEditConstants.Actions.DELETE.id,
+      path: 'foo',
+    });
   });
 
   test('restore tap emits event', () => {
@@ -65,11 +69,13 @@ suite('gr-edit-file-controls tests', () => {
     actions._open();
     flush();
 
-    MockInteractions.tap(actions.shadowRoot
-        .querySelector('li [data-id="restore"]'));
+    const row = actions.shadowRoot!.querySelector('li [data-id="restore"]')!;
+    MockInteractions.tap(row);
     assert.isTrue(fileActionHandler.called);
-    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
-        {action: GrEditConstants.Actions.RESTORE.id, path: 'foo'});
+    assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
+      action: GrEditConstants.Actions.RESTORE.id,
+      path: 'foo',
+    });
   });
 
   test('rename tap emits event', () => {
@@ -78,15 +84,16 @@ suite('gr-edit-file-controls tests', () => {
     actions._open();
     flush();
 
-    MockInteractions.tap(actions.shadowRoot
-        .querySelector('li [data-id="rename"]'));
+    const row = actions.shadowRoot!.querySelector('li [data-id="rename"]')!;
+    MockInteractions.tap(row);
     assert.isTrue(fileActionHandler.called);
-    assert.deepEqual(fileActionHandler.lastCall.args[0].detail,
-        {action: GrEditConstants.Actions.RENAME.id, path: 'foo'});
+    assert.deepEqual(fileActionHandler.lastCall.args[0].detail, {
+      action: GrEditConstants.Actions.RENAME.id,
+      path: 'foo',
+    });
   });
 
   test('computed properties', () => {
     assert.equal(element._allFileActions.length, 4);
   });
 });
-

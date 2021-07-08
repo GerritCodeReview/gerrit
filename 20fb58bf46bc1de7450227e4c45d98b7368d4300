@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06ba2741_5eaa9966",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-08T08:59:57Z",
+      "side": 1,
+      "message": "We are trying to keep properties simple: if it is defined with \u0027?\u0027 - then the default value should be undefined.\nMaybe you can try another option for the fix: update other properties (in other elements) so they can\u0027t be undefined. This will make our code simpler.",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 14
+      },
+      "revId": "20fb58bf46bc1de7450227e4c45d98b7368d4300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

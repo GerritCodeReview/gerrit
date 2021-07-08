@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdb69e1a_fa00ea30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-08T07:58:34Z",
+      "side": 1,
+      "message": "Ping anyone? Could someone help me to get this merged to be able to release v3.3.5?",
+      "revId": "23c8a0d8badf0ab93da4e1750efe06a51dbc8858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

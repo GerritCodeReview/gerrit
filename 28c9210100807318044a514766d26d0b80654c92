@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9451df78_8d8a0fb6",
+        "filename": "polygerrit-ui/app/api/gerrit.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1071987
+      },
+      "writtenOn": "2021-07-08T08:54:35Z",
+      "side": 1,
+      "message": "On my phone, so cannot look it up, but I thought that somewhere else in Apu/ I tried to rename this global namespace lowercase gerrit, because that is more consistent with many JS conventions. also Gerrit named variables mostly with lower case letters and preserves capitals for types and so on. I wonder if this would be the time to make this change- or at least be consistent within api/.",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "28c9210100807318044a514766d26d0b80654c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b52ca73_9a625ca3",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.ts",
         "patchSetId": 7

@@ -29,6 +29,7 @@ import {PaperInputElementExt} from '../../../types/types';
 import {CustomKeyboardEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {PropertyType} from '../../../types/common';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -40,9 +41,9 @@ export interface GrAutocomplete {
   };
 }
 
-export type AutocompleteQuery = (
+export type AutocompleteQuery<T = string> = (
   text: string
-) => Promise<AutocompleteSuggestion[]>;
+) => Promise<Array<AutocompleteSuggestion<T>>>;
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -50,11 +51,11 @@ declare global {
   }
 }
 
-export interface AutocompleteSuggestion {
+export interface AutocompleteSuggestion<T = string> {
   name?: string;
   label?: string;
-  value?: string;
-  text?: string;
+  value?: T;
+  text?: T;
 }
 
 export interface AutocompleteCommitEventDetail {
@@ -98,7 +99,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
    *
    */
   @property({type: Object})
-  query: AutocompleteQuery = () => Promise.resolve([]);
+  query?: AutocompleteQuery = () => Promise.resolve([]);
 
   /**
    * The number of characters that must be typed before suggestions are
@@ -296,6 +297,12 @@ export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
     if (this._disableSuggestions) {
       return;
     }
+
+    const query = this.query;
+    if (!query) {
+      return;
+    }
+
     if (text.length < threshold) {
       this.value = '';
       return;
@@ -306,7 +313,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
     }
 
     const update = () => {
-      this.query(text).then(suggestions => {
+      query(text).then(suggestions => {
         if (text !== this.text) {
           // Late response.
           return;
@@ -502,4 +509,25 @@ export class GrAutocomplete extends KeyboardShortcutMixin(PolymerElement) {
   _computeShowSearchIconClass(showSearchIcon: boolean) {
     return showSearchIcon ? 'showSearchIcon' : '';
   }
+}
+
+/**
+ * Often gr-autocomplete is used for BranchName, RepoName, etc...
+ * GrTypedAutocomplete allows to define more precise typing in templates.
+ * For example, instead of
+ * $: {
+ *   branchSelect: GrAutocomplete
+ * }
+ * you can write
+ * $: {
+ *   branchSelect: GrTypedAutocomplete<BranchName>
+ * }
+ * And later user $.branchSelect.text without type conversion to BranchName.
+ */
+export interface GrTypedAutocomplete<
+  T extends PropertyType<GrAutocomplete, 'text'>
+> extends GrAutocomplete {
+  text: T;
+  value: T;
+  query?: AutocompleteQuery<T>;
 }

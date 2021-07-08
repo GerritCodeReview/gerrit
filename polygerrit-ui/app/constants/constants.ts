@@ -24,10 +24,13 @@ import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 import {
   AccountTag,
   ChangeStatus,
+  ConfigParameterInfoType,
   FileInfoStatus,
   GpgKeyInfoStatus,
   HttpMethod,
+  InheritedBooleanInfoConfiguredValue,
   ProblemInfoStatus,
+  ProjectState,
   RequirementStatus,
   ReviewerState,
   RevisionKind,
@@ -37,10 +40,13 @@ import {
 export {
   AccountTag,
   ChangeStatus,
+  ConfigParameterInfoType,
   FileInfoStatus,
   GpgKeyInfoStatus,
   HttpMethod,
+  InheritedBooleanInfoConfiguredValue,
   ProblemInfoStatus,
+  ProjectState,
   RequirementStatus,
   ReviewerState,
   RevisionKind,
@@ -118,31 +124,7 @@ export enum DefaultDisplayNameConfig {
   FULL_NAME = 'FULL_NAME',
 }
 
-/**
- * @desc The state of the projects
- */
-export enum ProjectState {
-  ACTIVE = 'ACTIVE',
-  READ_ONLY = 'READ_ONLY',
-  HIDDEN = 'HIDDEN',
-}
-
 export {Side} from '../api/diff';
-
-/**
- * The type in ConfigParameterInfo entity.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-parameter-info
- */
-export enum ConfigParameterInfoType {
-  // Should be kept in sync with
-  // gerrit/java/com/google/gerrit/extensions/api/projects/ProjectConfigEntryType.java.
-  STRING = 'STRING',
-  INT = 'INT',
-  LONG = 'LONG',
-  BOOLEAN = 'BOOLEAN',
-  LIST = 'LIST',
-  ARRAY = 'ARRAY',
-}
 
 /**
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#mergeable-info
@@ -153,16 +135,6 @@ export enum MergeStrategy {
   SIMPLE_TWO_WAY_IN_CORE = 'simple-two-way-in-core',
   OURS = 'ours',
   THEIRS = 'theirs',
-}
-
-/*
- * Enum for possible configured value in InheritedBooleanInfo.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#inherited-boolean-info
- */
-export enum InheritedBooleanInfoConfiguredValue {
-  TRUE = 'TRUE',
-  FALSE = 'FALSE',
-  INHERITED = 'INHERITED',
 }
 
 /**

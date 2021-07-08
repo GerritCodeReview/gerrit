@@ -21,7 +21,6 @@ import {
   ProjectState,
   SubmitType,
   InheritedBooleanInfoConfiguredValue,
-  ConfigParameterInfoType,
   PermissionAction,
   CommentSide,
   AppTheme,
@@ -55,8 +54,15 @@ import {
   ChangeMessageId,
   ChangeMessageInfo,
   ChangeSubmissionId,
+  CommentLinkInfo,
+  CommentLinks,
   CommitId,
   CommitInfo,
+  ConfigArrayParameterInfo,
+  ConfigInfo,
+  ConfigListParameterInfo,
+  ConfigParameterInfo,
+  ConfigParameterInfoBase,
   DetailedLabelInfo,
   EmailAddress,
   FetchInfo,
@@ -66,13 +72,17 @@ import {
   GpgKeyId,
   GpgKeyInfo,
   Hashtag,
+  InheritedBooleanInfo,
   LabelInfo,
   LabelNameToInfoMap,
   LabelNameToValueMap,
   LabelValueToDescriptionMap,
+  MaxObjectSizeLimitInfo,
   NumericChangeId,
   ParentCommitInfo,
   PatchSetNum,
+  PluginNameToPluginParametersMap,
+  PluginParameterToConfigParameterInfoMap,
   QuickLabelInfo,
   RepoName,
   Requirement,
@@ -82,6 +92,7 @@ import {
   ReviewerUpdateInfo,
   Reviewers,
   RevisionInfo,
+  SubmitTypeInfo,
   Timestamp,
   TimezoneOffset,
   TopicName,
@@ -108,8 +119,15 @@ export {
   ChangeMessageInfo,
   ChangeSubmissionId,
   CommentRange,
+  CommentLinkInfo,
+  CommentLinks,
   CommitId,
   CommitInfo,
+  ConfigArrayParameterInfo,
+  ConfigInfo,
+  ConfigListParameterInfo,
+  ConfigParameterInfo,
+  ConfigParameterInfoBase,
   DetailedLabelInfo,
   EmailAddress,
   FileInfo,
@@ -118,13 +136,17 @@ export {
   GpgKeyId,
   GpgKeyInfo,
   Hashtag,
+  InheritedBooleanInfo,
   LabelInfo,
   LabelNameToInfoMap,
   LabelNameToValueMap,
   LabelValueToDescriptionMap,
+  MaxObjectSizeLimitInfo,
   NumericChangeId,
   ParentCommitInfo,
   PatchSetNum,
+  PluginNameToPluginParametersMap,
+  PluginParameterToConfigParameterInfoMap,
   QuickLabelInfo,
   RepoName,
   Requirement,
@@ -133,6 +155,7 @@ export {
   ReviewerUpdateInfo,
   Reviewers,
   RevisionInfo,
+  SubmitTypeInfo,
   Timestamp,
   TimezoneOffset,
   TopicName,
@@ -937,114 +960,6 @@ export interface ImageInfo {
 }
 
 /**
- * A boolean value that can also be inherited.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#inherited-boolean-info
- */
-export interface InheritedBooleanInfo {
-  value: boolean;
-  configured_value: InheritedBooleanInfoConfiguredValue;
-  inherited_value?: boolean;
-}
-
-/**
- * The MaxObjectSizeLimitInfo entity contains information about the max object
- * size limit of a project.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#max-object-size-limit-info
- */
-export interface MaxObjectSizeLimitInfo {
-  value?: string;
-  configured_value?: string;
-  summary?: string;
-}
-
-/**
- * Information about the default submittype of a project, taking into account
- * project inheritance.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#submit-type-info
- */
-export interface SubmitTypeInfo {
-  value: Exclude<SubmitType, SubmitType.INHERIT>;
-  configured_value: SubmitType;
-  inherited_value: Exclude<SubmitType, SubmitType.INHERIT>;
-}
-
-/**
- * The CommentLinkInfo entity describes acommentlink.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#commentlink-info
- */
-export interface CommentLinkInfo {
-  match: string;
-  link?: string;
-  enabled?: boolean;
-  html?: string;
-}
-
-/**
- * The ConfigParameterInfo entity describes a project configurationparameter.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-parameter-info
- */
-export interface ConfigParameterInfoBase {
-  display_name?: string;
-  description?: string;
-  warning?: string;
-  type: ConfigParameterInfoType;
-  value?: string;
-  values?: string[];
-  editable?: boolean;
-  permitted_values?: string[];
-  inheritable?: boolean;
-  configured_value?: string;
-  inherited_value?: string;
-}
-
-export interface ConfigArrayParameterInfo extends ConfigParameterInfoBase {
-  type: ConfigParameterInfoType.ARRAY;
-  values: string[];
-}
-
-export interface ConfigListParameterInfo extends ConfigParameterInfoBase {
-  type: ConfigParameterInfoType.LIST;
-  permitted_values?: string[];
-}
-
-export type ConfigParameterInfo =
-  | ConfigParameterInfoBase
-  | ConfigArrayParameterInfo
-  | ConfigListParameterInfo;
-
-export interface CommentLinks {
-  [name: string]: CommentLinkInfo;
-}
-
-/**
- * The ConfigInfo entity contains information about the effective
- * project configuration.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-info
- */
-export interface ConfigInfo {
-  description?: string;
-  use_contributor_agreements?: InheritedBooleanInfo;
-  use_content_merge?: InheritedBooleanInfo;
-  use_signed_off_by?: InheritedBooleanInfo;
-  create_new_change_for_all_not_in_target?: InheritedBooleanInfo;
-  require_change_id?: InheritedBooleanInfo;
-  enable_signed_push?: InheritedBooleanInfo;
-  require_signed_push?: InheritedBooleanInfo;
-  reject_implicit_merges?: InheritedBooleanInfo;
-  private_by_default: InheritedBooleanInfo;
-  work_in_progress_by_default: InheritedBooleanInfo;
-  max_object_size_limit: MaxObjectSizeLimitInfo;
-  default_submit_type: SubmitTypeInfo;
-  submit_type: SubmitType;
-  match_author_to_committer_date?: InheritedBooleanInfo;
-  state?: ProjectState;
-  commentlinks: CommentLinks;
-  plugin_config?: PluginNameToPluginParametersMap;
-  actions?: {[viewName: string]: ActionInfo};
-  reject_empty_commit?: InheritedBooleanInfo;
-}
-
-/**
  * The ProjectAccessInfo entity contains information about the access rights for
  * a project.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#project-access-info
@@ -1152,17 +1067,6 @@ export interface ConfigInput {
   plugin_config_values?: PluginNameToPluginParametersMap;
   commentlinks?: ConfigInfoCommentLinks;
 }
-/**
- * Plugin configuration values as map which maps the plugin name to a map of parameter names to values
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-input
- */
-export type PluginNameToPluginParametersMap = {
-  [pluginName: string]: PluginParameterToConfigParameterInfoMap;
-};
-
-export type PluginParameterToConfigParameterInfoMap = {
-  [parameterName: string]: ConfigParameterInfo;
-};
 
 export type ConfigInfoCommentLinks = {
   [commentLinkName: string]: CommentLinkInfo;

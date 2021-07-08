@@ -11,9 +11,9 @@
       "updated": "2021-07-08T13:48:14Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "SCHEDULED",
       "created": "2021-07-08T13:13:25Z",
-      "updated": "2021-07-08T13:48:16Z"
+      "updated": "2021-07-08T13:48:29Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "NOT_STARTED",

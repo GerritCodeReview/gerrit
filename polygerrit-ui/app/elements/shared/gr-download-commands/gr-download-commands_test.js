@@ -121,5 +121,20 @@ suite('gr-download-commands', () => {
           repoTab.getAttribute('data-scheme'));
     });
   });
+  suite('authenticated', () => {
+    setup(async () => {
+      stubRestApi('getLoggedIn').returns(Promise.resolve(true));
+    });
+    test.only('loads scheme from preferences', async () => {
+      const stub = stubRestApi('getPreferences').returns(
+          Promise.resolve({download_scheme: 'repo'}));
+      const element = basicFixture.instantiate();
+      await flush();
+      
+      assert.isTrue(stub.called);
+      await stub.lastCall.returnValue;
+      assert.equal(element.selectedScheme, 'repo');
+    });
+  });
 });
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1539c1e_7debdc99",
+        "filename": "polygerrit-ui/app/elements/edit/gr-default-editor/gr-default-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-08T09:08:46Z",
+      "side": 1,
+      "message": "Same as https://gerrit-review.googlesource.com/c/gerrit/+/311543/3/polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts#67",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 14
+      },
+      "revId": "29067313a7043089e149e48355e7857f8fbbbf71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f06c421_6780d8c2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-08T09:08:46Z",
+      "side": 1,
+      "message": "Same as https://gerrit-review.googlesource.com/c/gerrit/+/311543/3/polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts#67",
+      "range": {
+        "startLine": 97,
+        "startChar": 13,
+        "endLine": 97,
+        "endChar": 14
+      },
+      "revId": "29067313a7043089e149e48355e7857f8fbbbf71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3bd0be3_e0815d64",
+        "filename": "polygerrit-ui/app/api/gerrit.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-08T10:26:06Z",
+      "side": 1,
+      "message": "Somehow Gerrit submitted while I was typing this reply. ???\n\nMy current plan is to migrate all plugins (and gr-diff users) to TypeScript first. That is the motivation for this change.\n\nThere are a lot of clean-ups that I can follow-up with once that is done. I am totally open to the Gerrit-\u003egerrit rename, but I would prefer to do that later.\n\nIf we do this, then I would expect to set both `Gerrit` and `gerrit` for a while until everyone is migrated.\n\nNote that we also have `window.Polymer`, which has a capital letter. Overall I agree with you, but I would say a smaller case `g` is not the biggest issue we have. :-)",
+      "parentUuid": "c8209da5_6e3ccb79",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "28c9210100807318044a514766d26d0b80654c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b52ca73_9a625ca3",

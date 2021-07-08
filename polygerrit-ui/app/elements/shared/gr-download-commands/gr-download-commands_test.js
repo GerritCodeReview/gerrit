@@ -18,6 +18,8 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-download-commands.js';
 import {isHidden, stubRestApi} from '../../../test/test-utils.js';
+import {updatePreferences} from '../../../services/user/user-model.js';
+import {createPreferences} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-download-commands');
 
@@ -84,26 +86,6 @@ suite('gr-download-commands', () => {
       assert.equal(element.$.downloadTabs.selected, '2');
     });
 
-    test('loads scheme from preferences', async () => {
-      const stub = stubRestApi('getPreferences').returns(
-          Promise.resolve({download_scheme: 'repo'}));
-      element._loggedIn = true;
-      await flush();
-      assert.isTrue(stub.called);
-      await stub.lastCall.returnValue;
-      assert.equal(element.selectedScheme, 'repo');
-    });
-
-    test('normalize scheme from preferences', async () => {
-      const stub = stubRestApi('getPreferences').returns(
-          Promise.resolve({download_scheme: 'REPO'}));
-      element._loggedIn = true;
-      await flush();
-      assert.isTrue(stub.called);
-      await stub.lastCall.returnValue;
-      assert.equal(element.selectedScheme, 'repo');
-    });
-
     test('saves scheme to preferences', () => {
       element._loggedIn = true;
       const savePrefsStub = stubRestApi('savePreferences').returns(
@@ -119,6 +101,33 @@ suite('gr-download-commands', () => {
       assert.isTrue(savePrefsStub.called);
       assert.equal(savePrefsStub.lastCall.args[0].download_scheme,
           repoTab.getAttribute('data-scheme'));
+    });
+  });
+  suite('authenticated', () => {
+    setup(async () => {
+      stubRestApi('getLoggedIn').returns(Promise.resolve(true));
+    });
+
+    test('loads scheme from preferences', async () => {
+      // const stub = stubRestApi('getPreferences').returns(
+      //     Promise.resolve({download_scheme: 'repo'}));
+      updatePreferences({
+        ...createPreferences(),
+        download_scheme: 'repo',
+      });
+      const element = basicFixture.instantiate();
+      await flush();
+      assert.equal(element.selectedScheme, 'repo');
+    });
+
+    test('normalize scheme from preferences', async () => {
+      updatePreferences({
+        ...createPreferences(),
+        download_scheme: 'REPO',
+      });
+      const element = basicFixture.instantiate();
+      await flush();
+      assert.equal(element.selectedScheme, 'repo');
     });
   });
 });

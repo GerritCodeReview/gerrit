@@ -25,7 +25,7 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 public interface BatchUpdateListener {
   BatchUpdateListener NONE = new BatchUpdateListener() {};
 
-  /** Called after updating all repositories and flushing objects but before updating any refs. */
+  /** Called after updating all repositories and flushing objects but before updating any refs. Only called with non-batched refs. */
   default void afterUpdateRepos() throws Exception {}
 
   /**

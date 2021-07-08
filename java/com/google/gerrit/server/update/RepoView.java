@@ -93,6 +93,8 @@ public class RepoView {
    * particular this includes any object returned by {@link #getRef(String)}, even taking into
    * account not-yet-executed commands.
    *
+   * Should not be used for traversing, only be used to read objects.
+   *
    * @return revwalk.
    */
   public RevWalk getRevWalk() {

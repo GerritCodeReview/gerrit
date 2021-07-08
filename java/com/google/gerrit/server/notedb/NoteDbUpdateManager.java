@@ -11,18 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 package com.google.gerrit.server.notedb;
-
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.logging.TraceContext.newTimer;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -38,12 +36,13 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -58,7 +57,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
-
 /**
  * Object to manage a single sequence of updates to NoteDb.
  *
@@ -72,11 +70,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private static final int MAX_UPDATES_DEFAULT = 1000;
   /** Limits the number of patch sets that can be created. Can be overridden in the config. */
   private static final int MAX_PATCH_SETS_DEFAULT = 1500;
-
   public interface Factory {
     NoteDbUpdateManager create(Project.NameKey projectName);
+    NoteDbUpdateManager create(
+        Project.NameKey projectName,
+        Optional<Integer> maxRefUpdates,
+        boolean executeNonAtomicBatch);
   }
-
   private final Provider<PersonIdent> serverIdent;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -84,12 +84,15 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final Project.NameKey projectName;
   private final int maxUpdates;
   private final int maxPatchSets;
+  private final Optional<Integer> maxRefUpdates;
+  private final boolean executeNonAtomicBatch;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
   private final ListMultimap<String, NoteDbRewriter> rewriters;
-  private final Set<Change.Id> changesToDelete;
-
+  private final Set<String> changesToDelete;
+  private final ListMultimap<String, ReceiveCommand> repoOnlyRefUpdates;
+  private final Set<String> refsToUpdate = new HashSet<>();
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
   private AllUsersAsyncUpdate updateAllUsersAsync;
@@ -98,8 +101,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private PersonIdent refLogIdent;
   private PushCertificate pushCert;
   private ImmutableList<BatchUpdateListener> batchUpdateListeners;
-
-  @Inject
+  // number of refs that will be updated in changeRepo. The limit does not apply to allUsersRepo
+  // (which might exceed the limit, with unlimited number of users that can have drafts on this
+  // change.
+  // private int refsToUpdate = 0;
+  @AssistedInject
   NoteDbUpdateManager(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
@@ -107,7 +113,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       AllUsersAsyncUpdate updateAllUsersAsync,
-      @Assisted Project.NameKey projectName) {
+      @Assisted Project.NameKey projectName,
+      @Assisted Optional<Integer> maxRefUpdates,
+      @Assisted boolean executeNonAtomicBatch) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -121,9 +129,31 @@ public class NoteDbUpdateManager implements AutoCloseable {
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     rewriters = MultimapBuilder.hashKeys().arrayListValues().build();
     changesToDelete = new HashSet<>();
+    repoOnlyRefUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     batchUpdateListeners = ImmutableList.of();
+    this.maxRefUpdates = maxRefUpdates;
+    this.executeNonAtomicBatch = executeNonAtomicBatch;
   }
-
+  @AssistedInject
+  NoteDbUpdateManager(
+      @GerritServerConfig Config cfg,
+      @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName,
+      NoteDbMetrics metrics,
+      AllUsersAsyncUpdate updateAllUsersAsync,
+      @Assisted Project.NameKey projectName) {
+    this(
+        cfg,
+        serverIdent,
+        repoManager,
+        allUsersName,
+        metrics,
+        updateAllUsersAsync,
+        projectName,
+        Optional.empty(),
+        false);
+  }
   @Override
   public void close() {
     try {
@@ -140,24 +170,23 @@ public class NoteDbUpdateManager implements AutoCloseable {
       }
     }
   }
-
   public NoteDbUpdateManager setChangeRepo(
-      Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
+      Repository repo,
+      RevWalk rw,
+      @Nullable ObjectInserter ins) {
     checkState(changeRepo == null, "change repo already initialized");
-    changeRepo = new OpenRepo(repo, rw, ins, cmds, false);
+    // note db manager starts with the fresh ChainedReceiveCommands, assumimg the caller will add al refs wihth #addRefUpdate before execution
+    changeRepo = new OpenRepo(repo, rw, ins, new ChainedReceiveCommands(repo), false);
     return this;
   }
-
   public NoteDbUpdateManager setRefLogMessage(String message) {
     this.refLogMessage = message;
     return this;
   }
-
   public NoteDbUpdateManager setRefLogIdent(PersonIdent ident) {
     this.refLogIdent = ident;
     return this;
   }
-
   /**
    * Set a push certificate for the push that originally triggered this NoteDb update.
    *
@@ -176,30 +205,25 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.pushCert = pushCert;
     return this;
   }
-
   public NoteDbUpdateManager setBatchUpdateListeners(
       ImmutableList<BatchUpdateListener> batchUpdateListeners) {
     checkNotNull(batchUpdateListeners);
     this.batchUpdateListeners = batchUpdateListeners;
     return this;
   }
-
   public boolean isExecuted() {
     return executed;
   }
-
   private void initChangeRepo() throws IOException {
     if (changeRepo == null) {
       changeRepo = OpenRepo.open(repoManager, projectName);
     }
   }
-
   private void initAllUsersRepo() throws IOException {
     if (allUsersRepo == null) {
       allUsersRepo = OpenRepo.open(repoManager, allUsersName);
     }
   }
-
   private boolean isEmpty() {
     return changeUpdates.isEmpty()
         && draftUpdates.isEmpty()
@@ -208,11 +232,16 @@ public class NoteDbUpdateManager implements AutoCloseable {
         && changesToDelete.isEmpty()
         && !hasCommands(changeRepo)
         && !hasCommands(allUsersRepo)
+        && repoOnlyRefUpdates.isEmpty()
         && updateAllUsersAsync.isEmpty();
   }
-
   private static boolean hasCommands(@Nullable OpenRepo or) {
     return or != null && !or.cmds.isEmpty();
+  }
+
+  public void addRefUpdate(String refName, ReceiveCommand refUpdate) {
+    refsToUpdate.add(refName);
+    repoOnlyRefUpdates.put(refName, refUpdate);
   }
 
   /**
@@ -234,13 +263,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
         !rewriters.containsKey(update.getRefName()),
         "cannot update & rewrite ref %s in one BatchUpdate",
         update.getRefName());
-
     ChangeDraftUpdate du = update.getDraftUpdate();
     if (du != null) {
       draftUpdates.put(du.getRefName(), du);
     }
     RobotCommentUpdate rcu = update.getRobotCommentUpdate();
     if (rcu != null) {
+      refsToUpdate.add(rcu.getRefName());
       robotCommentUpdates.put(rcu.getRefName(), rcu);
     }
     DeleteCommentRewriter deleteCommentRewriter = update.getDeleteCommentRewriter();
@@ -254,9 +283,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
           !rewriters.containsKey(deleteCommentRewriter.getRefName()),
           "cannot rewrite the same ref %s in one BatchUpdate",
           deleteCommentRewriter.getRefName());
+      refsToUpdate.add(deleteCommentRewriter.getRefName());
       rewriters.put(deleteCommentRewriter.getRefName(), deleteCommentRewriter);
     }
-
     DeleteChangeMessageRewriter deleteChangeMessageRewriter =
         update.getDeleteChangeMessageRewriter();
     if (deleteChangeMessageRewriter != null) {
@@ -269,22 +298,66 @@ public class NoteDbUpdateManager implements AutoCloseable {
           !rewriters.containsKey(deleteChangeMessageRewriter.getRefName()),
           "cannot rewrite the same ref %s in one BatchUpdate",
           deleteChangeMessageRewriter.getRefName());
+      refsToUpdate.add(deleteChangeMessageRewriter.getRefName());
       rewriters.put(deleteChangeMessageRewriter.getRefName(), deleteChangeMessageRewriter);
     }
-
     changeUpdates.put(update.getRefName(), update);
+    refsToUpdate.add(update.getRefName());
+  }
+  // public int numberRefsToUpdate(){
+  // return refsToUpdate;
+  // }
+  public int numberChangeRefsToUpdate() {
+    Set<String> allRefs = new HashSet<>();
+    allRefs.addAll(changeUpdates.keySet());
+    allRefs.addAll(rewriters.keySet());
+    allRefs.addAll(robotCommentUpdates.keySet());
+    allRefs.addAll(changesToDelete);
+    allRefs.addAll(repoOnlyRefUpdates.keySet());
+    return allRefs.size();
   }
 
+  public int refsToUpdateDelta(
+      Change.Id changeId,
+      List<ChangeUpdate> updates,
+      Set<String> repoOnlyUpdates,
+      boolean deleted) {
+    Set<String> refsInUpdate = new HashSet<>();
+    refsInUpdate.addAll(repoOnlyUpdates);
+    for (ChangeUpdate update : updates) {
+      refsInUpdate.add(update.getRefName());
+      if (update.getRobotCommentUpdate() != null) {
+        refsInUpdate.add(update.getRefName());
+      }
+      if (update.getDeleteChangeMessageRewriter() != null) {
+        refsInUpdate.add(update.getDeleteChangeMessageRewriter().getRefName());
+      }
+      if (update.getDeleteCommentRewriter() != null) {
+        refsInUpdate.add(update.getRobotCommentUpdate().getRefName());
+      }
+    }
+    if (deleted) {
+      refsInUpdate.add(RefNames.changeMetaRef(changeId));
+    }
+    int delta = 0;
+    for (String refInUpdate : refsInUpdate) {
+      if (!refsToUpdate.contains(refInUpdate)) {
+        delta++;
+      }
+    }
+    checkState(delta == Sets.difference(refsInUpdate, refsToUpdate).size());
+    return delta;
+  }
   public void add(ChangeDraftUpdate draftUpdate) {
+    // Why is this method needed?
     checkNotExecuted();
     draftUpdates.put(draftUpdate.getRefName(), draftUpdate);
   }
-
   public void deleteChange(Change.Id id) {
     checkNotExecuted();
-    changesToDelete.add(id);
+    String metaRef = RefNames.changeMetaRef(id);
+    changesToDelete.add(metaRef);
   }
-
   /**
    * Stage updates in the manager's internal list of commands.
    *
@@ -295,7 +368,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
       if (isEmpty()) {
         return;
       }
-
       initChangeRepo();
       if (!draftUpdates.isEmpty() || !changesToDelete.isEmpty()) {
         initAllUsersRepo();
@@ -303,12 +375,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
       addCommands();
     }
   }
-
   @Nullable
   public BatchRefUpdate execute() throws IOException {
     return execute(false);
   }
-
   @Nullable
   public BatchRefUpdate execute(boolean dryrun) throws IOException {
     checkNotExecuted();
@@ -318,6 +388,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
     try (Timer0.Context timer = metrics.updateLatency.start()) {
       stage();
+      if (executeNonAtomicBatch) {
+        checkCanExecuteNonAtomicBatch();
+      }
       // ChangeUpdates must execute before ChangeDraftUpdates.
       //
       // ChangeUpdate will automatically delete draft comments for any published
@@ -329,11 +402,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
       BatchRefUpdate result;
       try (TraceContext.TraceTimer ignored =
           newTimer("NoteDbUpdateManager#updateRepo", Metadata.empty())) {
-        result = execute(changeRepo, dryrun, pushCert);
+        result = execute(changeRepo, dryrun, pushCert, executeNonAtomicBatch);
       }
       try (TraceContext.TraceTimer ignored =
           newTimer("NoteDbUpdateManager#updateAllUsersSync", Metadata.empty())) {
-        execute(allUsersRepo, dryrun, null);
+        execute(allUsersRepo, dryrun, null, executeNonAtomicBatch);
       }
       if (!dryrun) {
         // Only execute the asynchronous operation if we are not in dry-run mode: The dry run would
@@ -348,8 +421,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
       close();
     }
   }
-
-  private BatchRefUpdate execute(OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert)
+  private BatchRefUpdate execute(
+      OpenRepo or,
+      boolean dryrun,
+      @Nullable PushCertificate pushCert,
+      boolean executeNonAtomicBatch)
       throws IOException {
     if (or == null || or.cmds.isEmpty()) {
       return null;
@@ -361,7 +437,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
       // inserter it previously passed via setChangeRepo.
       or.flushToFinalInserter();
     }
-
     BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
     bru.setPushCertificate(pushCert);
     if (refLogMessage != null) {
@@ -370,21 +445,27 @@ public class NoteDbUpdateManager implements AutoCloseable {
       bru.setRefLogMessage(
           firstNonNull(NoteDbUtil.guessRestApiHandler(), "Update NoteDb refs"), false);
     }
+    /*if (maxRefUpdates.isPresent()) {
+      bru.setMaxRefUpdates(maxRefUpdates);
+    }
+     */
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
-    bru.setAtomic(true);
+    // checked that can execute non-atomic in #checkCanExecuteNonAtomicBatch
+    bru.setAtomic(!executeNonAtomicBatch);
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
     for (BatchUpdateListener listener : batchUpdateListeners) {
       bru = listener.beforeUpdateRefs(bru);
     }
-
     if (!dryrun) {
       RefUpdateUtil.executeChecked(bru, or.rw);
     }
     return bru;
   }
-
   private void addCommands() throws IOException {
+    for (ReceiveCommand refUpdateCmd : repoOnlyRefUpdates.values()) {
+      changeRepo.cmds.add(refUpdateCmd);
+    }
     changeRepo.addUpdates(changeUpdates, Optional.of(maxUpdates), Optional.of(maxPatchSets));
     if (!draftUpdates.isEmpty()) {
       boolean publishOnly = draftUpdates.values().stream().allMatch(ChangeDraftUpdate::canRunAsync);
@@ -400,42 +481,65 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (!rewriters.isEmpty()) {
       addRewrites(rewriters, changeRepo);
     }
-
-    for (Change.Id id : changesToDelete) {
-      doDelete(id);
+    for (String changeMetaRef : changesToDelete) {
+      doDelete(changeMetaRef);
     }
   }
-
-  private void doDelete(Change.Id id) throws IOException {
-    String metaRef = RefNames.changeMetaRef(id);
+  private void doDelete(String metaRef) throws IOException {
     Optional<ObjectId> old = changeRepo.cmds.get(metaRef);
     old.ifPresent(
         objectId -> changeRepo.cmds.add(new ReceiveCommand(objectId, ObjectId.zeroId(), metaRef)));
-
     // Just scan repo for ref names, but get "old" values from cmds.
     for (Ref r :
-        allUsersRepo.repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(id))) {
+        allUsersRepo
+            .repo
+            .getRefDatabase()
+            .getRefsByPrefix(RefNames.refsDraftCommentsPrefix(Change.Id.fromRef(metaRef)))) {
       old = allUsersRepo.cmds.get(r.getName());
       old.ifPresent(
           objectId ->
               allUsersRepo.cmds.add(new ReceiveCommand(objectId, ObjectId.zeroId(), r.getName())));
     }
   }
-
   private void checkNotExecuted() {
     checkState(!executed, "update has already been executed");
   }
-
+  private void checkCanExecuteNonAtomicBatch() {
+    // batch ref update does not support non-atomic across multiple repos.
+    checkState(
+        changeRepo.cmds.isEmpty() || allUsersRepo.cmds.isEmpty(),
+        "attempted non-atomic batch ref update of changeRepo and allUsersRepo at the same time");
+    Set<Change.Id> changesInCmds = new HashSet<>();
+    for (String refName : changeRepo.cmds.getCommands().keySet()) {
+      Change.Id changeId = Change.Id.fromRef(refName);
+      if (changeId != null) {
+        // This is valid to attempt a non-atomic batch update of /meta refs that all belong to
+        // distinct changes. It is not valid to atempt a batch update of multiple refs per change.
+        checkState(
+            !changesInCmds.contains(changeId),
+            "non-atomic batch ref update only allows one ref per change");
+        changesInCmds.add(changeId);
+      }
+    }
+    Set<Change.Id> changesInAllUsersCmds = new HashSet<>();
+    for (String refName : allUsersRepo.cmds.getCommands().keySet()) {
+      Change.Id changeId = Change.Id.fromAllUsersRef(refName);
+      if (changeId != null) {
+        checkState(
+            !changesInAllUsersCmds.contains(changeId),
+            "non-atomic batch ref update only allows one ref per change");
+        changesInAllUsersCmds.add(changeId);
+      }
+    }
+  }
   private static void addRewrites(ListMultimap<String, NoteDbRewriter> rewriters, OpenRepo openRepo)
       throws IOException {
     for (Map.Entry<String, Collection<NoteDbRewriter>> entry : rewriters.asMap().entrySet()) {
       String refName = entry.getKey();
       ObjectId oldTip = openRepo.cmds.get(refName).orElse(ObjectId.zeroId());
-
       if (oldTip.equals(ObjectId.zeroId())) {
         throw new StorageException(String.format("Ref %s is empty", refName));
       }
-
       ObjectId currTip = oldTip;
       try {
         for (NoteDbRewriter noteDbRewriter : entry.getValue()) {
@@ -448,7 +552,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
       } catch (ConfigInvalidException e) {
         throw new StorageException("Cannot rewrite commit history", e);
       }
-
       if (!oldTip.equals(currTip)) {
         openRepo.cmds.add(new ReceiveCommand(oldTip, currTip, refName));
       }

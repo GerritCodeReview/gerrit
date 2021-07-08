@@ -20,7 +20,11 @@ import './gr-create-change-dialog';
 import {GrCreateChangeDialog} from './gr-create-change-dialog';
 import {BranchName, GitRef, RepoName} from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
-import {createChange, createConfig} from '../../../test/test-data-generators';
+import {
+  createChange,
+  createConfig,
+  TEST_CHANGE_ID,
+} from '../../../test/test-data-generators';
 import {stubRestApi} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-create-change-dialog');
@@ -130,8 +134,8 @@ suite('gr-create-change-dialog tests', () => {
   });
 
   test('_computeBranchClass', () => {
-    assert.equal(element._computeBranchClass(true), 'hide');
-    assert.equal(element._computeBranchClass(false), '');
+    assert.equal(element._computeBranchClass(TEST_CHANGE_ID), 'hide');
+    assert.equal(element._computeBranchClass(undefined), '');
   });
 
   test('_computePrivateSectionClass', () => {

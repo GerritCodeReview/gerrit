@@ -16,6 +16,24 @@
       "message": "`changed` needs quotes like\n\n  /* prettier-ignore */\n  \u0027reload\u0027: ReloadEvent;\n  \nCustomEvent is a bit generic. Maybe you can add the event type to `events.ts`?",
       "revId": "7dfdb29a56c60a8ee59e3077392d6a827243f85a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f07ef0a1_fcf0926a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2021-07-08T16:02:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c53647c0_d099136f",
+      "revId": "7dfdb29a56c60a8ee59e3077392d6a827243f85a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

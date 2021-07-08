@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b52ca73_9a625ca3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2021-07-08T08:48:55Z",
+      "side": 1,
+      "message": "nit: may be mark fields with \u0027public\u0027 to show that they can be used somewhere else (in plugins).",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 41
+      },
+      "revId": "28c9210100807318044a514766d26d0b80654c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

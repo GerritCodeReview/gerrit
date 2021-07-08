@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bfcc7b2_763f8fe9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-08T16:00:09Z",
+      "side": 1,
+      "message": "Why does this depend on being logged in?\n\nThe user service is responsible for triggering a pref update in that case.\n\nThis component can just listen to `preferences$` updates regardless.",
+      "revId": "bb7fb1eea4dc519ac7594e51b9c96863c4de3a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

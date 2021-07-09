@@ -101,7 +101,8 @@ public class Restore
     Op op = new Op(input);
     try (BatchUpdate u =
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
-      u.addOp(rsrc.getId(), op).execute();
+      u.addOp(rsrc.getId(), op);
+      u.execute();
     }
     return Response.ok(json.noOptions().format(op.change));
   }

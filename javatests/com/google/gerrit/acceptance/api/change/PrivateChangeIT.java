@@ -253,19 +253,19 @@ public class PrivateChangeIT extends AbstractDaemonTest {
         batchUpdateFactory.create(
             project, identifiedUserFactory.create(admin.id()), TimeUtil.nowTs())) {
       u.addOp(
-              changeId,
-              new BatchUpdateOp() {
-                @Override
-                public boolean updateChange(ChangeContext ctx) {
-                  ctx.getChange().setPrivate(true);
-                  ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-                  ctx.getChange().setPrivate(true);
-                  ctx.getChange().setLastUpdatedOn(ctx.getWhen());
-                  update.setPrivate(true);
-                  return true;
-                }
-              })
-          .execute();
+          changeId,
+          new BatchUpdateOp() {
+            @Override
+            public boolean updateChange(ChangeContext ctx) {
+              ctx.getChange().setPrivate(true);
+              ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+              ctx.getChange().setPrivate(true);
+              ctx.getChange().setLastUpdatedOn(ctx.getWhen());
+              update.setPrivate(true);
+              return true;
+            }
+          });
+      u.execute();
     }
     assertThat(gApi.changes().id(changeId.get()).get().isPrivate).isTrue();
   }

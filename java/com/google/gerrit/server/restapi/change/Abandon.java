@@ -122,7 +122,8 @@ public class Abandon
     AbandonOp op = abandonOpFactory.create(accountState, msgTxt);
     try (BatchUpdate u = updateFactory.create(notes.getProjectName(), user, TimeUtil.nowTs())) {
       u.setNotify(notify);
-      u.addOp(notes.getChangeId(), op).execute();
+      u.addOp(notes.getChangeId(), op);
+      u.execute();
     }
     return op.getChange();
   }

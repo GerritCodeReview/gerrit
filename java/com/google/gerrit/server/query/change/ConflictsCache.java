@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.common.Nullable;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 public interface ConflictsCache {
 
   void put(ConflictKey key, boolean value);
 
-  @Nullable
-  Boolean getIfPresent(ConflictKey key);
+  Boolean get(ConflictKey key, Callable<? extends Boolean> loader) throws ExecutionException;
 }

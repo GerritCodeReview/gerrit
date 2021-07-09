@@ -14,13 +14,33 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.flogger.LazyArgs.lazy;
+import static com.google.gerrit.server.query.change.ConflictsPredicate.warnWithOccasionalStackTrace;
+
 import com.google.common.cache.Cache;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitTypeRecord;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.serialize.BooleanCacheSerializer;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.submit.SubmitDryRun;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
 public class ConflictsCacheImpl implements ConflictsCache {
@@ -53,7 +73,76 @@ public class ConflictsCacheImpl implements ConflictsCache {
   }
 
   @Override
-  public Boolean getIfPresent(ConflictKey key) {
-    return conflictsCache.getIfPresent(key);
+  public Boolean get(ConflictKey key, Callable<? extends Boolean> loader)
+      throws ExecutionException {
+    return conflictsCache.get(key, loader);
+  }
+
+  static class Loader implements Callable<Boolean> {
+    private final Change otherChange;
+    private final SubmitTypeRecord str;
+    private final ConflictsPredicate.ChangeDataCache changeDataCache;
+    private final ObjectId other;
+    private final ChangeQueryBuilder.Arguments args;
+    private final Project.NameKey otherProject;
+    private final Change.Id id;
+
+    Loader(
+        Change otherChange,
+        SubmitTypeRecord str,
+        ConflictsPredicate.ChangeDataCache changeDataCache,
+        ObjectId other,
+        ChangeQueryBuilder.Arguments args,
+        Project.NameKey otherProject,
+        Change.Id id) {
+      super();
+      this.otherChange = otherChange;
+      this.str = str;
+      this.changeDataCache = changeDataCache;
+      this.other = other;
+      this.args = args;
+      this.otherProject = otherProject;
+      this.id = id;
+    }
+
+    @Override
+    public Boolean call() throws Exception {
+      try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
+          CodeReviewCommit.CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+        return !args.submitDryRun.run(
+            null,
+            str.type,
+            repo,
+            rw,
+            otherChange.getDest(),
+            changeDataCache.getTestAgainst(),
+            other,
+            getAlreadyAccepted(repo, rw));
+      } catch (NoSuchProjectException | IOException e) {
+        ObjectId finalOther = other;
+        warnWithOccasionalStackTrace(
+            e,
+            "Failure when loading conflicts of change %s in %s (%s): %s",
+            id,
+            firstNonNull(otherProject, "unknown project"),
+            lazy(() -> finalOther != null ? finalOther.name() : "unknown commit"),
+            e.getMessage());
+        return false;
+      }
+    }
+
+    private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) {
+      try {
+        Set<RevCommit> accepted = new HashSet<>();
+        SubmitDryRun.addCommits(changeDataCache.getAlreadyAccepted(repo), rw, accepted);
+        ObjectId tip = changeDataCache.getTestAgainst();
+        if (tip != null) {
+          accepted.add(rw.parseCommit(tip));
+        }
+        return accepted;
+      } catch (StorageException | IOException e) {
+        throw new StorageException("Failed to determine already accepted commits.", e);
+      }
+    }
   }
 }

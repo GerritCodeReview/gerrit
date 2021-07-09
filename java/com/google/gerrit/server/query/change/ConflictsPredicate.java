@@ -20,6 +20,7 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -29,8 +30,6 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -38,13 +37,11 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gerrit.server.submit.SubmitDryRun;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ConflictsPredicate {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -142,27 +139,11 @@ public class ConflictsPredicate {
                 other,
                 str.type,
                 projectState.is(BooleanProjectConfig.USE_CONTENT_MERGE));
-        Boolean maybeConflicts = args.conflictsCache.getIfPresent(conflictsKey);
-        if (maybeConflicts != null) {
-          return maybeConflicts;
-        }
-
-        try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
-            CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-          boolean conflicts =
-              !args.submitDryRun.run(
-                  null,
-                  str.type,
-                  repo,
-                  rw,
-                  otherChange.getDest(),
-                  changeDataCache.getTestAgainst(),
-                  other,
-                  getAlreadyAccepted(repo, rw));
-          args.conflictsCache.put(conflictsKey, conflicts);
-          return conflicts;
-        }
-      } catch (NoSuchProjectException | StorageException | IOException e) {
+        return args.conflictsCache.get(
+            conflictsKey,
+            new ConflictsCacheImpl.Loader(
+                otherChange, str, changeDataCache, other, args, otherProject, id));
+      } catch (StorageException | ExecutionException | UncheckedExecutionException e) {
         ObjectId finalOther = other;
         warnWithOccasionalStackTrace(
             e,
@@ -179,23 +160,9 @@ public class ConflictsPredicate {
     public int getCost() {
       return 5;
     }
-
-    private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) {
-      try {
-        Set<RevCommit> accepted = new HashSet<>();
-        SubmitDryRun.addCommits(changeDataCache.getAlreadyAccepted(repo), rw, accepted);
-        ObjectId tip = changeDataCache.getTestAgainst();
-        if (tip != null) {
-          accepted.add(rw.parseCommit(tip));
-        }
-        return accepted;
-      } catch (StorageException | IOException e) {
-        throw new StorageException("Failed to determine already accepted commits.", e);
-      }
-    }
   }
 
-  private static class ChangeDataCache {
+  static class ChangeDataCache {
     private final ChangeData cd;
     private final ProjectCache projectCache;
 
@@ -230,7 +197,8 @@ public class ConflictsPredicate {
     }
   }
 
-  private static void warnWithOccasionalStackTrace(Throwable cause, String format, Object... args) {
+  protected static void warnWithOccasionalStackTrace(
+      Throwable cause, String format, Object... args) {
     logger.atWarning().logVarargs(format, args);
     logger
         .atWarning()

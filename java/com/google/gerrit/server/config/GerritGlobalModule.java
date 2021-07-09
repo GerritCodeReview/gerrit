@@ -201,6 +201,7 @@ import com.google.gerrit.server.submit.MergeSuperSetComputation;
 import com.google.gerrit.server.submit.SubmitStrategy;
 import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.server.tools.ToolsCatalog;
+import com.google.gerrit.server.update.BatchOpsExecutor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -241,6 +242,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(AccountCacheImpl.module());
     install(ApprovalCacheImpl.module());
     install(BatchUpdate.module());
+    install(BatchOpsExecutor.module());
     install(ChangeKindCacheImpl.module());
     install(ChangeFinder.module());
     install(ConflictsCacheImpl.module());

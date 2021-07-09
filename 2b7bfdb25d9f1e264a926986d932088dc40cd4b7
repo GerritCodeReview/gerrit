@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d269e6_177f05a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-09T09:35:44Z",
+      "side": 1,
+      "message": "Note the only reason that the file-list is loading prefs is for feeding it into `_computeShowSizeBars()`.\n\nSo I think what we really want to do is creating a selector in user-model that specifically selects `size_bar_in_change_table` from the state.",
+      "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af39577d_a346f5fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-09T09:35:44Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence.",
+      "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34b9af91_098a737f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-09T09:35:44Z",
+      "side": 1,
+      "message": "preferences$ is based on a BehaviorSubject, which will emit its current value right away. So take(1) will maybe just return the initial state, not the one that was returned from the Rest API call.",
+      "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52f68409_da1e4b82",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-09T09:35:44Z",
+      "side": 1,
+      "message": "This is deprecated in favor of `firstValueFrom` and `lastValueFrom`, see https://indepth.dev/posts/1287/rxjs-heads-up-topromise-is-being-deprecated.",
+      "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8224ec7_6bc02219",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-09T09:35:44Z",
+      "side": 1,
+      "message": "Is it important to wait for the prefs? Maybe we can just start showing the file list, even if the prefs are still in its initial state with default preferences?\n\nIf not, then maybe add a util function to user-model like this:\n\n  export function prefsLoaded() {\n    return firstValueFrom(preferences$.pipe(\n      filter(p \u003d\u003e p !\u003d\u003d initialState.preferences)\n    ).then(() \u003d\u003e {});\n  }\n  \nBut I think the file list should not block loading on prefs.",
+      "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

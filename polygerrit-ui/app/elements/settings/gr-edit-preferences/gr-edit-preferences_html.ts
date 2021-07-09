@@ -29,22 +29,11 @@ export const htmlTemplate = html`
       <span class="value">
         <iron-input
           type="number"
-          prevent-invalid-input=""
           allowed-pattern="[0-9]"
-          bind-value="{{editPrefs.tab_size}}"
-          on-keypress="_handleEditPrefsChanged"
-          on-change="_handleEditPrefsChanged"
+          bind-value="[[_convertToString(editPrefs.tab_size)]]"
+          on-change="_handleEditTabWidthChanged"
         >
-          <input
-            is="iron-input"
-            id="editTabWidth"
-            type="number"
-            prevent-invalid-input=""
-            allowed-pattern="[0-9]"
-            bind-value="{{editPrefs.tab_size}}"
-            on-keypress="_handleEditPrefsChanged"
-            on-change="_handleEditPrefsChanged"
-          />
+          <input id="editTabWidth" type="number" />
         </iron-input>
       </span>
     </section>
@@ -53,22 +42,11 @@ export const htmlTemplate = html`
       <span class="value">
         <iron-input
           type="number"
-          prevent-invalid-input=""
           allowed-pattern="[0-9]"
-          bind-value="{{editPrefs.line_length}}"
-          on-keypress="_handleEditPrefsChanged"
-          on-change="_handleEditPrefsChanged"
+          bind-value="[[_convertToString(editPrefs.line_length)]]"
+          on-change="_handleEditLineLengthChanged"
         >
-          <input
-            id="editColumns"
-            is="iron-input"
-            type="number"
-            prevent-invalid-input=""
-            allowed-pattern="[0-9]"
-            bind-value="{{editPrefs.line_length}}"
-            on-keypress="_handleEditPrefsChanged"
-            on-change="_handleEditPrefsChanged"
-          />
+          <input id="editColumns" type="number" />
         </iron-input>
       </span>
     </section>
@@ -77,22 +55,11 @@ export const htmlTemplate = html`
       <span class="value">
         <iron-input
           type="number"
-          prevent-invalid-input=""
           allowed-pattern="[0-9]"
-          bind-value="{{editPrefs.indent_unit}}"
-          on-keypress="_handleEditPrefsChanged"
-          on-change="_handleEditPrefsChanged"
+          bind-value="[[_convertToString(editPrefs.indent_unit)]]"
+          on-change="_handleEditIndentUnitChanged"
         >
-          <input
-            is="iron-input"
-            id="indentUnit"
-            type="number"
-            prevent-invalid-input=""
-            allowed-pattern="[0-9]"
-            bind-value="{{editPrefs.indent_unit}}"
-            on-keypress="_handleEditPrefsChanged"
-            on-change="_handleEditPrefsChanged"
-          />
+          <input id="indentUnit" type="number" />
         </iron-input>
       </span>
     </section>

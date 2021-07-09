@@ -256,14 +256,17 @@ public class CommentContextCacheImpl implements CommentContextCache {
       List<HumanComment> allComments =
           Streams.concat(humanComments.stream(), drafts.stream()).collect(Collectors.toList());
       CommentContextLoader loader = factory.create(project);
-      Map<ContextInput, CommentContextKey> commentsToKeys = new HashMap<>();
+      Map<CommentContextKey, ContextInput> keysToComments = new HashMap<>();
       for (CommentContextKey key : keys) {
         Comment comment = getCommentForKey(allComments, key);
-        commentsToKeys.put(ContextInput.fromComment(comment, key.contextPadding()), key);
+        keysToComments.put(key, ContextInput.fromComment(comment, key.contextPadding()));
       }
-      Map<ContextInput, CommentContext> allContext = loader.getContext(commentsToKeys.keySet());
-      return allContext.entrySet().stream()
-          .collect(Collectors.toMap(e -> commentsToKeys.get(e.getKey()), Map.Entry::getValue));
+      Map<ContextInput, CommentContext> allContext =
+          loader.getContext(
+              keysToComments.values().stream().distinct().collect(Collectors.toList()));
+      return keys.stream()
+          .collect(
+              Collectors.toMap(Function.identity(), k -> allContext.get(keysToComments.get(k))));
     }
 
     /**

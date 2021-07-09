@@ -55,7 +55,7 @@ export class GrButton extends TooltipMixin(PolymerElement) {
   loading = false;
 
   @property({type: Boolean, reflectToAttribute: true})
-  disabled: boolean | null = null;
+  disabled: boolean | undefined | null = null;
 
   @property({type: String})
   tooltip = '';
@@ -78,7 +78,7 @@ export class GrButton extends TooltipMixin(PolymerElement) {
   ariaDisabled!: boolean;
 
   computeAriaDisabled() {
-    return this._disabled;
+    return this._disabled === undefined ? false : this._disabled;
   }
 
   private readonly reporting: ReportingService = appContext.reportingService;

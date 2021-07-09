@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74010aee_eb9883ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.ts",
+        "patchSetId": 34
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-09T05:48:24Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "4f660c53_0c9bcfad",
+      "revId": "f2f6a39c72cd11e0965077a11fb50e5e08d6215f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1846511_fbd794c5",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d2a9da4_f67cb346",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 34
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-09T05:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1846511_fbd794c5",
+      "revId": "f2f6a39c72cd11e0965077a11fb50e5e08d6215f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c4b9d20_8b5a5066",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-07-08T17:45:16Z",
       "side": 1,
       "message": "Maybe add a TODO or a warning here that you should better not subscribe to this, but instead to something more specific. This will emit a new value even when the content of one draft changes.",
+      "revId": "f2f6a39c72cd11e0965077a11fb50e5e08d6215f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a27bdfdd_50afe77c",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 34
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-09T05:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c4b9d20_8b5a5066",
       "revId": "f2f6a39c72cd11e0965077a11fb50e5e08d6215f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

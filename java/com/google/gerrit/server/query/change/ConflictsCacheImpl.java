@@ -21,6 +21,8 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 @Singleton
 public class ConflictsCacheImpl implements ConflictsCache {
@@ -55,5 +57,11 @@ public class ConflictsCacheImpl implements ConflictsCache {
   @Override
   public Boolean getIfPresent(ConflictKey key) {
     return conflictsCache.getIfPresent(key);
+  }
+
+  @Override
+  public Boolean get(ConflictKey key, Callable<? extends Boolean> loader)
+      throws ExecutionException {
+    return conflictsCache.get(key, loader);
   }
 }

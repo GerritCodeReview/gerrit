@@ -20,9 +20,11 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Id;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -41,6 +43,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -142,27 +146,10 @@ public class ConflictsPredicate {
                 other,
                 str.type,
                 projectState.is(BooleanProjectConfig.USE_CONTENT_MERGE));
-        Boolean maybeConflicts = args.conflictsCache.getIfPresent(conflictsKey);
-        if (maybeConflicts != null) {
-          return maybeConflicts;
-        }
-
-        try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
-            CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-          boolean conflicts =
-              !args.submitDryRun.run(
-                  null,
-                  str.type,
-                  repo,
-                  rw,
-                  otherChange.getDest(),
-                  changeDataCache.getTestAgainst(),
-                  other,
-                  getAlreadyAccepted(repo, rw));
-          args.conflictsCache.put(conflictsKey, conflicts);
-          return conflicts;
-        }
-      } catch (NoSuchProjectException | StorageException | IOException e) {
+        return args.conflictsCache.get(
+            conflictsKey,
+            new Loader(otherChange, str, changeDataCache, other, args, otherProject, id));
+      } catch (StorageException | ExecutionException | UncheckedExecutionException e) {
         ObjectId finalOther = other;
         warnWithOccasionalStackTrace(
             e,
@@ -175,27 +162,84 @@ public class ConflictsPredicate {
       }
     }
 
+    private static class Loader implements Callable<Boolean> {
+      private Change otherChange;
+      private SubmitTypeRecord str;
+      private ChangeDataCache changeDataCache;
+      private ObjectId other;
+      private Arguments args;
+      private Project.NameKey otherProject;
+      private Id id;
+
+      public Loader(
+          Change otherChange,
+          SubmitTypeRecord str,
+          ChangeDataCache changeDataCache,
+          ObjectId other,
+          Arguments args,
+          Project.NameKey otherProject,
+          Id id) {
+        super();
+        this.otherChange = otherChange;
+        this.str = str;
+        this.changeDataCache = changeDataCache;
+        this.other = other;
+        this.args = args;
+        this.otherProject = otherProject;
+        this.id = id;
+      }
+
+      @Override
+      public Boolean call() throws Exception {
+        try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
+            CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+          boolean conflicts =
+              !args.submitDryRun.run(
+                  null,
+                  str.type,
+                  repo,
+                  rw,
+                  otherChange.getDest(),
+                  changeDataCache.getTestAgainst(),
+                  other,
+                  getAlreadyAccepted(repo, rw));
+          return conflicts;
+
+        } catch (NoSuchProjectException | IOException e) {
+          ObjectId finalOther = other;
+          warnWithOccasionalStackTrace(
+              e,
+              "Merge failure checking conflicts of change %s in %s (%s): %s",
+              id,
+              firstNonNull(otherProject, "unknown project"),
+              lazy(() -> finalOther != null ? finalOther.name() : "unknown commit"),
+              e.getMessage());
+          return false;
+        }
+      }
+
+      private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) {
+        try {
+          Set<RevCommit> accepted = new HashSet<>();
+          SubmitDryRun.addCommits(changeDataCache.getAlreadyAccepted(repo), rw, accepted);
+          ObjectId tip = changeDataCache.getTestAgainst();
+          if (tip != null) {
+            accepted.add(rw.parseCommit(tip));
+          }
+          return accepted;
+        } catch (StorageException | IOException e) {
+          throw new StorageException("Failed to determine already accepted commits.", e);
+        }
+      }
+    }
+
     @Override
     public int getCost() {
       return 5;
     }
-
-    private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) {
-      try {
-        Set<RevCommit> accepted = new HashSet<>();
-        SubmitDryRun.addCommits(changeDataCache.getAlreadyAccepted(repo), rw, accepted);
-        ObjectId tip = changeDataCache.getTestAgainst();
-        if (tip != null) {
-          accepted.add(rw.parseCommit(tip));
-        }
-        return accepted;
-      } catch (StorageException | IOException e) {
-        throw new StorageException("Failed to determine already accepted commits.", e);
-      }
-    }
   }
 
-  private static class ChangeDataCache {
+  static class ChangeDataCache {
     private final ChangeData cd;
     private final ProjectCache projectCache;
 
@@ -230,7 +274,7 @@ public class ConflictsPredicate {
     }
   }
 
-  private static void warnWithOccasionalStackTrace(Throwable cause, String format, Object... args) {
+  static void warnWithOccasionalStackTrace(Throwable cause, String format, Object... args) {
     logger.atWarning().logVarargs(format, args);
     logger
         .atWarning()

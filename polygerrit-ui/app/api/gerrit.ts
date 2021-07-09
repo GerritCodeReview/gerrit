@@ -20,6 +20,7 @@ declare global {
   interface Window {
     Gerrit: Gerrit;
     VERSION_INFO?: string;
+    ENABLED_EXPERIMENTS?: string[];
   }
 }
 

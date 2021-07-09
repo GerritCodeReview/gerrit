@@ -110,12 +110,10 @@ public class MergeOpRepoManager implements AutoCloseable {
     public BatchUpdate getUpdate() {
       checkState(caller != null, "call setContext before getUpdate");
       if (update == null) {
-        update =
-            batchUpdateFactory
-                .create(getProjectName(), caller, ts)
-                .setRepository(repo, rw, ins)
-                .setNotify(notify)
-                .setOnSubmitValidators(onSubmitValidatorsFactory.create());
+        update = batchUpdateFactory.create(getProjectName(), caller, ts);
+        update.setRepository(repo, rw, ins);
+        update.setNotify(notify);
+        update.setOnSubmitValidators(onSubmitValidatorsFactory.create());
       }
       return update;
     }
@@ -210,7 +208,10 @@ public class MergeOpRepoManager implements AutoCloseable {
       throws NoSuchProjectException, IOException {
     List<BatchUpdate> updates = new ArrayList<>(projects.size());
     for (Project.NameKey project : projects) {
-      updates.add(getRepo(project).getUpdate().setNotify(notify).setRefLogMessage("merged"));
+      BatchUpdate update = getRepo(project).getUpdate();
+      update.setNotify(notify);
+      update.setRefLogMessage("merged");
+      updates.add(update);
     }
     return updates;
   }

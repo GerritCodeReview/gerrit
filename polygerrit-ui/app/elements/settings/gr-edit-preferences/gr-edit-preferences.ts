@@ -23,6 +23,7 @@ import {htmlTemplate} from './gr-edit-preferences_html';
 import {customElement, property} from '@polymer/decorators';
 import {EditPreferencesInfo} from '../../../types/common';
 import {appContext} from '../../../services/app-context';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 
 export interface GrEditPreferences {
   $: {
@@ -56,6 +57,27 @@ export class GrEditPreferences extends PolymerElement {
 
   _handleEditPrefsChanged() {
     this.hasUnsavedChanges = true;
+  }
+
+  _handleEditTabWidthChanged(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    if (!el || !el.value) return;
+    this.set('editPrefs.tab_size', Number(el.value));
+    this._handleEditPrefsChanged();
+  }
+
+  _handleEditLineLengthChanged(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    if (!el || !el.value) return;
+    this.set('editPrefs.line_length', Number(el.value));
+    this._handleEditPrefsChanged();
+  }
+
+  _handleEditIndentUnitChanged(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    if (!el || !el.value) return;
+    this.set('editPrefs.indent_unit', Number(el.value));
+    this._handleEditPrefsChanged();
   }
 
   _handleEditSyntaxHighlightingChanged() {
@@ -100,6 +122,17 @@ export class GrEditPreferences extends PolymerElement {
     return this.restApiService.saveEditPreferences(this.editPrefs).then(() => {
       this.hasUnsavedChanges = false;
     });
+  }
+
+  /**
+   * bind-value has type string so we have to convert
+   * anything inputed to string.
+   *
+   * This is so typescript checker doesn't fail.
+   */
+  _convertToString(key?: number) {
+    if (!key) return '';
+    return String(key);
   }
 }
 

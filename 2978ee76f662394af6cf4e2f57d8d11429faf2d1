@@ -16,6 +16,24 @@
       "message": "Sorry for not seeing this earlier, but these \"selectors\" should all have a final `distinctUntilChanged` operator. Otherwise `drafts$` would emit a new value even if commentState.drafts is still the identical value as before (e.g. when robot comments are changing).",
       "revId": "2978ee76f662394af6cf4e2f57d8d11429faf2d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd000ba1_6968f681",
+        "filename": "polygerrit-ui/app/services/comments/comments-model.ts",
+        "patchSetId": 36
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2021-07-09T10:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "953887e1_96ee4509",
+      "revId": "2978ee76f662394af6cf4e2f57d8d11429faf2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

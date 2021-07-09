@@ -48,7 +48,7 @@ export class GrDocumentationSearch extends ListViewMixin(PolymerElement) {
   _loading = true;
 
   @property({type: String})
-  _filter = '';
+  _filter?: string;
 
   private readonly restApiService = appContext.restApiService;
 

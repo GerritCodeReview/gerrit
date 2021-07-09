@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efc0a33d_ab3b6a59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-09T07:56:35Z",
+      "side": 1,
+      "message": "Thank you!",
+      "revId": "d4c9ed86c48f0721ff152f74c0523a89ac126dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d83df6d_c5825654",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-file-controls/gr-edit-file-controls_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-09T07:56:35Z",
+      "side": 1,
+      "message": "At some point in time we will want to migrate from Polymer to LitElement (or something else). Then all `element.$` usages will have to be migrated. So optionally you are welcome to replace them by\n\n  queryAndAssert(element, \u0027#actions\u0027)\n  \nExamples: https://cs.opensource.google/search?q\u003df:polygerrit-ui%20f:test%20queryAndAssert.*%23\u0026sq\u003d\n\n(Isn\u0027t cs.opensource.google cool?)",
+      "revId": "d4c9ed86c48f0721ff152f74c0523a89ac126dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bc085ce_bf577c7b",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-file-controls/gr-edit-file-controls_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2021-07-09T07:56:35Z",
+      "side": 1,
+      "message": "You can replace all usages of `querySelector` typically by calling the utility function `queryAndAssert`.",
+      "revId": "d4c9ed86c48f0721ff152f74c0523a89ac126dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

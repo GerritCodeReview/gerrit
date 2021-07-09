@@ -119,12 +119,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
 
       for (CommentContextKey inputKey : inputKeys) {
         CommentContextKey cacheKey = inputKeysToCacheKeys.get(inputKey);
-        CommentContext commentContext = allContext.get(cacheKey);
-        if (commentContext == null) {
-          logger.atSevere().log("comment context for cache key %s is missing", cacheKey);
-          continue;
-        }
-        result.put(inputKey, commentContext);
+        result.put(inputKey, allContext.get(cacheKey));
       }
       return result.build();
     } catch (ExecutionException e) {
@@ -240,13 +235,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
           result.putAll(context);
         }
       }
-      Map<CommentContextKey, CommentContext> allContexts = result.build();
-      if (allContexts.size() < Iterables.size(keys)) {
-        logger.atSevere().log(
-            "incomplete result: requested contexts for %s, got contexts for %s",
-            Iterables.toString(keys), allContexts.keySet());
-      }
-      return allContexts;
+      return result.build();
     }
 
     /**
@@ -273,15 +262,8 @@ public class CommentContextCacheImpl implements CommentContextCache {
         commentsToKeys.put(ContextInput.fromComment(comment, key.contextPadding()), key);
       }
       Map<ContextInput, CommentContext> allContext = loader.getContext(commentsToKeys.keySet());
-      Map<CommentContextKey, CommentContext> result =
-          allContext.entrySet().stream()
-              .collect(Collectors.toMap(e -> commentsToKeys.get(e.getKey()), Map.Entry::getValue));
-      if (result.size() < keys.size()) {
-        logger.atSevere().log(
-            "incomplete result: requested contexts for %s for change %s of project %s, got contexts for %s",
-            keys, changeId, project, result.keySet());
-      }
-      return result;
+      return allContext.entrySet().stream()
+          .collect(Collectors.toMap(e -> commentsToKeys.get(e.getKey()), Map.Entry::getValue));
     }
 
     /**

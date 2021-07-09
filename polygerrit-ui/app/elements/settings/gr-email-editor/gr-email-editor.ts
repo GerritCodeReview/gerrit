@@ -105,6 +105,10 @@ export class GrEmailEditor extends PolymerElement {
       }
     }
   }
+
+  _checkPreferred(preferred?: boolean) {
+    return preferred || false;
+  }
 }
 
 declare global {

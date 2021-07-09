@@ -19,7 +19,7 @@ import '../../test/common-test-setup-karma';
 import {FlagsServiceImplementation} from './flags_impl';
 
 suite('flags tests', () => {
-  let originalEnabledExperiments: string[];
+  let originalEnabledExperiments: string[] | undefined;
   let flags: FlagsServiceImplementation;
 
   suiteSetup(() => {

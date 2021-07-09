@@ -18,7 +18,7 @@ import {FlagsService} from './flags';
 
 declare global {
   interface Window {
-    ENABLED_EXPERIMENTS: string[];
+    ENABLED_EXPERIMENTS?: string[];
   }
 }
 
@@ -40,7 +40,7 @@ export class FlagsServiceImplementation implements FlagsService {
   }
 
   _loadExperiments(): Set<string> {
-    return new Set(window.ENABLED_EXPERIMENTS);
+    return new Set(window.ENABLED_EXPERIMENTS ?? []);
   }
 
   get enabledExperiments() {

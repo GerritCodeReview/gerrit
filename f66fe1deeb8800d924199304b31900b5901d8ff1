@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "143689c5_91eece5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-07-09T23:26:04Z",
+      "side": 1,
+      "message": "Ping: can someone help with releasing v3.3.5?",
+      "revId": "f66fe1deeb8800d924199304b31900b5901d8ff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

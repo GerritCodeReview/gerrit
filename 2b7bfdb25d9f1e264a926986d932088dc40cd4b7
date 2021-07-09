@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae481b61_350d9a81",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-09T13:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6d269e6_177f05a3",
+      "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af39577d_a346f5fd",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-07-09T09:35:44Z",
       "side": 1,
       "message": "I don\u0027t understand this sentence.",
+      "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78fb073d_f429474d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-09T13:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af39577d_a346f5fd",
       "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "470af253_b049a279",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-09T13:11:57Z",
+      "side": 1,
+      "message": "Good point",
+      "parentUuid": "34b9af91_098a737f",
+      "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52f68409_da1e4b82",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0e5c591_0092dad0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-09T13:11:57Z",
+      "side": 1,
+      "message": "Yes, but in rxjs 7 and we are in rxjs 6. In rxjs 6 there isn\u0027t firstValueFrom or lastValueFrom.",
+      "parentUuid": "52f68409_da1e4b82",
+      "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8224ec7_6bc02219",
@@ -82,6 +154,24 @@
       "writtenOn": "2021-07-09T09:35:44Z",
       "side": 1,
       "message": "Is it important to wait for the prefs? Maybe we can just start showing the file list, even if the prefs are still in its initial state with default preferences?\n\nIf not, then maybe add a util function to user-model like this:\n\n  export function prefsLoaded() {\n    return firstValueFrom(preferences$.pipe(\n      filter(p \u003d\u003e p !\u003d\u003d initialState.preferences)\n    ).then(() \u003d\u003e {});\n  }\n  \nBut I think the file list should not block loading on prefs.",
+      "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6554c66f_cfb19c56",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2021-07-09T13:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8224ec7_6bc02219",
       "revId": "2b7bfdb25d9f1e264a926986d932088dc40cd4b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

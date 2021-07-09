@@ -67,19 +67,19 @@ public class BatchUpdateTest {
             return cfg;
           });
 
-  @Inject private BatchUpdate.Factory batchUpdateFactory;
-  @Inject private ChangeInserter.Factory changeInserterFactory;
-  @Inject private ChangeNotes.Factory changeNotesFactory;
-  @Inject private GitRepositoryManager repoManager;
-  @Inject private PatchSetInserter.Factory patchSetInserterFactory;
-  @Inject private Provider<CurrentUser> user;
-  @Inject private Sequences sequences;
+  @Inject protected BatchUpdate.Factory batchUpdateFactory;
+  @Inject protected ChangeInserter.Factory changeInserterFactory;
+  @Inject protected ChangeNotes.Factory changeNotesFactory;
+  @Inject protected GitRepositoryManager repoManager;
+  @Inject protected PatchSetInserter.Factory patchSetInserterFactory;
+  @Inject protected Provider<CurrentUser> user;
+  @Inject protected Sequences sequences;
 
   @Inject
   private @Named("diff_summary") Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
 
-  private Project.NameKey project;
-  private TestRepository<Repository> repo;
+  protected Project.NameKey project;
+  protected TestRepository<Repository> repo;
 
   @Before
   public void setUp() throws Exception {
@@ -304,7 +304,7 @@ public class BatchUpdateTest {
     assertThat(diffSummaryCache.asMap()).hasSize(cacheSizeBefore + 1);
   }
 
-  private Change.Id createChangeWithUpdates(int totalUpdates) throws Exception {
+  protected Change.Id createChangeWithUpdates(int totalUpdates) throws Exception {
     checkArgument(totalUpdates > 0);
     checkArgument(totalUpdates <= MAX_UPDATES);
     Change.Id id = Change.id(sequences.nextChangeId());
@@ -325,7 +325,7 @@ public class BatchUpdateTest {
     return id;
   }
 
-  private Change.Id createChangeWithPatchSets(int patchSets) throws Exception {
+  protected Change.Id createChangeWithPatchSets(int patchSets) throws Exception {
     checkArgument(patchSets >= 2);
     Change.Id id = createChangeWithUpdates(MAX_UPDATES - 2);
     ChangeNotes notes = changeNotesFactory.create(project, id);
@@ -344,7 +344,7 @@ public class BatchUpdateTest {
     return id;
   }
 
-  private static class AddMessageOp implements BatchUpdateOp {
+  protected static class AddMessageOp implements BatchUpdateOp {
     private final String message;
     @Nullable private final PatchSet.Id psId;
 
@@ -374,15 +374,15 @@ public class BatchUpdateTest {
     }
   }
 
-  private int getUpdateCount(Change.Id changeId) {
+  protected int getUpdateCount(Change.Id changeId) {
     return changeNotesFactory.create(project, changeId).getUpdateCount();
   }
 
-  private ObjectId getMetaId(Change.Id changeId) throws Exception {
+  protected ObjectId getMetaId(Change.Id changeId) throws Exception {
     return repo.getRepository().exactRef(RefNames.changeMetaRef(changeId)).getObjectId();
   }
 
-  private static class SubmitOp implements BatchUpdateOp {
+  protected static class SubmitOp implements BatchUpdateOp {
     @Override
     public boolean updateChange(ChangeContext ctx) throws Exception {
       SubmitRecord sr = new SubmitRecord();

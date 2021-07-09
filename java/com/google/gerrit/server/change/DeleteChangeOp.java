@@ -136,10 +136,11 @@ public class DeleteChangeOp implements BatchUpdateOp {
     for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(changeRefPrefix).entrySet()) {
       removeRef(ctx, e, changeRefPrefix);
     }
-    removeUserEdits(ctx);
+    // removeUserEdits(ctx);
   }
 
   private void removeUserEdits(RepoContext ctx) throws IOException {
+    // This seems wrong, user edits live in AllUsers, this will update changeRepo?
     String prefix = RefNames.REFS_USERS;
     String editRef = String.format("/edit-%s/", id);
     for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(prefix).entrySet()) {

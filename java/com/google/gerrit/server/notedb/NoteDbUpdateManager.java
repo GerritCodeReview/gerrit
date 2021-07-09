@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.logging.TraceContext.newTimer;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
@@ -38,12 +39,13 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -75,6 +77,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   public interface Factory {
     NoteDbUpdateManager create(Project.NameKey projectName);
+
+    NoteDbUpdateManager create(Project.NameKey projectName, boolean nonAtomic);
   }
 
   private final Provider<PersonIdent> serverIdent;
@@ -82,6 +86,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final AllUsersName allUsersName;
   private final NoteDbMetrics metrics;
   private final Project.NameKey projectName;
+  private final boolean nonAtomic;
   private final int maxUpdates;
   private final int maxPatchSets;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
@@ -99,7 +104,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private PushCertificate pushCert;
   private ImmutableList<BatchUpdateListener> batchUpdateListeners;
 
-  @Inject
+  // number of refs that will be updated in changeRepo. The limit does not apply to allUsersRepo
+  // (which might exceed the limit, with unlimited number of users that can have drafts on this
+  // change.
+  // private int refsToUpdate = 0;
+
+  @AssistedInject
   NoteDbUpdateManager(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
@@ -107,7 +117,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       AllUsersAsyncUpdate updateAllUsersAsync,
-      @Assisted Project.NameKey projectName) {
+      @Assisted Project.NameKey projectName,
+      @Assisted boolean nonAtomic) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -122,6 +133,27 @@ public class NoteDbUpdateManager implements AutoCloseable {
     rewriters = MultimapBuilder.hashKeys().arrayListValues().build();
     changesToDelete = new HashSet<>();
     batchUpdateListeners = ImmutableList.of();
+    this.nonAtomic = nonAtomic;
+  }
+
+  @AssistedInject
+  NoteDbUpdateManager(
+      @GerritServerConfig Config cfg,
+      @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName,
+      NoteDbMetrics metrics,
+      AllUsersAsyncUpdate updateAllUsersAsync,
+      @Assisted Project.NameKey projectName) {
+    this(
+        cfg,
+        serverIdent,
+        repoManager,
+        allUsersName,
+        metrics,
+        updateAllUsersAsync,
+        projectName,
+        false);
   }
 
   @Override
@@ -280,6 +312,29 @@ public class NoteDbUpdateManager implements AutoCloseable {
     draftUpdates.put(draftUpdate.getRefName(), draftUpdate);
   }
 
+  public static ImmutableSet<String> refsInUpdate(
+      Change.Id changeId, List<ChangeUpdate> updates, boolean deleted) {
+    Set<String> refsInUpdate = new HashSet<>();
+    for (ChangeUpdate update : updates) {
+      if (!update.isEmpty()) {
+        refsInUpdate.add(update.getRefName());
+      }
+      if (update.getRobotCommentUpdate() != null) {
+        refsInUpdate.add(update.getRobotCommentUpdate().getRefName());
+      }
+      if (update.getDeleteChangeMessageRewriter() != null) {
+        refsInUpdate.add(update.getDeleteChangeMessageRewriter().getRefName());
+      }
+      if (update.getDeleteCommentRewriter() != null) {
+        refsInUpdate.add(update.getDeleteCommentRewriter().getRefName());
+      }
+    }
+    if (deleted) {
+      refsInUpdate.add(RefNames.changeMetaRef(changeId));
+    }
+    return ImmutableSet.copyOf(refsInUpdate);
+  }
+
   public void deleteChange(Change.Id id) {
     checkNotExecuted();
     changesToDelete.add(id);
@@ -318,6 +373,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
     try (Timer0.Context timer = metrics.updateLatency.start()) {
       stage();
+      if (nonAtomic) {
+        checkCanExecuteNonAtomic();
+      }
       // ChangeUpdates must execute before ChangeDraftUpdates.
       //
       // ChangeUpdate will automatically delete draft comments for any published
@@ -371,7 +429,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
           firstNonNull(NoteDbUtil.guessRestApiHandler(), "Update NoteDb refs"), false);
     }
     bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
-    bru.setAtomic(true);
+    bru.setAtomic(!nonAtomic);
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
     for (BatchUpdateListener listener : batchUpdateListeners) {
@@ -451,6 +509,40 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
       if (!oldTip.equals(currTip)) {
         openRepo.cmds.add(new ReceiveCommand(oldTip, currTip, refName));
+      }
+    }
+  }
+
+  private void checkCanExecuteNonAtomic() {
+    // batch ref update does not support non-atomic across multiple repos.
+    checkArgument(
+        !hasCommands(changeRepo) || !hasCommands(allUsersRepo),
+        "attempted non-atomic batch ref update of changeRepo and allUsersRepo at the same time");
+    if (hasCommands(changeRepo)) {
+      Set<Change.Id> changesInCmds = new HashSet<>();
+      for (String refName : changeRepo.cmds.getCommands().keySet()) {
+        Change.Id changeId = Change.Id.fromRef(refName);
+        if (changeId != null) {
+          // This is valid to attempt a non-atomic batch update of /meta refs that all belong to
+          // distinct changes. It is not valid to attempt a batch update of multiple refs per
+          // change.
+          checkArgument(
+              !changesInCmds.contains(changeId),
+              "non-atomic batch ref update only allows one ref per change");
+          changesInCmds.add(changeId);
+        }
+      }
+    }
+    if (hasCommands(allUsersRepo)) {
+      Set<Change.Id> changesInAllUsersCmds = new HashSet<>();
+      for (String refName : allUsersRepo.cmds.getCommands().keySet()) {
+        Change.Id changeId = Change.Id.fromAllUsersRef(refName);
+        if (changeId != null) {
+          checkArgument(
+              !changesInAllUsersCmds.contains(changeId),
+              "non-atomic batch ref update only allows one ref per change");
+          changesInAllUsersCmds.add(changeId);
+        }
       }
     }
   }

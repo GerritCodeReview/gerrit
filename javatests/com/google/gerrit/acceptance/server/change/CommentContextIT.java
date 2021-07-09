@@ -446,7 +446,7 @@ public class CommentContextIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listChangeCommentsWithContextEnabled_TwoRangeCommentsWithTheSameContext()
+  public void listChangeCommentsWithContextEnabled_twoRangeCommentsWithTheSameContext()
       throws Exception {
     PushOneCommit.Result r1 = createChange();
 

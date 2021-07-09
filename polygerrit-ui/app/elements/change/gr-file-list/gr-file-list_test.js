@@ -95,7 +95,6 @@ suite('gr-file-list tests', () => {
 
   suite('basic tests', () => {
     setup(done => {
-      stubRestApi('getPreferences').returns(Promise.resolve({}));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));

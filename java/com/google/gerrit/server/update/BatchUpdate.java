@@ -65,9 +65,9 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -159,22 +159,8 @@ public class BatchUpdate implements AutoCloseable {
         }
       }
 
-      Map<Change.Id, ChangeData> changeDatas =
-          Futures.allAsList(indexFutures).get().stream()
-              // filter out null values that were returned for change deletions
-              .filter(Objects::nonNull)
-              .collect(toMap(cd -> cd.change().getId(), Function.identity()));
+      executePostUpdate(updates, indexFutures, dryrun);
 
-      // Fire ref update events only after all mutations are finished, since callers may assume a
-      // patch set ref being created means the change was created, or a branch advancing meaning
-      // some changes were closed.
-      updates.forEach(BatchUpdate::fireRefChangeEvent);
-
-      if (!dryrun) {
-        for (BatchUpdate u : updates) {
-          u.executePostOps(changeDatas);
-        }
-      }
     } catch (Exception e) {
       wrapAndThrowException(e);
     }
@@ -210,7 +196,12 @@ public class BatchUpdate implements AutoCloseable {
         projectCounts);
   }
 
-  private static void wrapAndThrowException(Exception e) throws UpdateException, RestApiException {
+  protected void checkNotExecuted() {
+    checkState(!isExecuted(), "update already executed, start new update or call clear()");
+  }
+
+  protected static void wrapAndThrowException(Exception e)
+      throws UpdateException, RestApiException {
     // Convert common non-REST exception types with user-visible messages to corresponding REST
     // exception types.
     if (e instanceof InvalidChangeOperationException || e instanceof LimitExceededException) {
@@ -236,7 +227,7 @@ public class BatchUpdate implements AutoCloseable {
     throw new UpdateException(e);
   }
 
-  class ContextImpl implements Context {
+  protected class ContextImpl implements Context {
     @Override
     public RepoView getRepoView() throws IOException {
       return BatchUpdate.this.getRepoView();
@@ -274,7 +265,7 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private class RepoContextImpl extends ContextImpl implements RepoContext {
+  protected class RepoContextImpl extends ContextImpl implements RepoContext {
     @Override
     public ObjectInserter getInserter() throws IOException {
       return getRepoView().getInserterWrapper();
@@ -286,23 +277,25 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private class ChangeContextImpl extends ContextImpl implements ChangeContext {
+  protected class ChangeContextImpl extends ContextImpl implements ChangeContext {
     private final ChangeNotes notes;
 
     /**
      * Updates where the caller instructed us to create one NoteDb commit per update. Keyed by
      * PatchSet.Id only for convenience.
      */
-    private final Map<PatchSet.Id, ChangeUpdate> defaultUpdates;
+    protected final Map<PatchSet.Id, ChangeUpdate> defaultUpdates;
 
     /**
      * Updates where the caller allowed us to combine potentially multiple adjustments into a single
      * commit in NoteDb by re-using the same ChangeUpdate instance. Will still be one commit per
      * patch set.
      */
-    private final ListMultimap<Id, ChangeUpdate> distinctUpdates;
+    protected final ListMultimap<Id, ChangeUpdate> distinctUpdates;
 
-    private boolean deleted;
+    protected boolean deleted;
+
+    protected boolean dirty;
 
     ChangeContextImpl(ChangeNotes notes) {
       this.notes = requireNonNull(notes);
@@ -361,40 +354,40 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   /** Per-change result status from {@link #executeChangeOps}. */
-  private enum ChangeResult {
+  protected enum ChangeResult {
     SKIPPED,
     UPSERTED,
     DELETED
   }
 
-  private final GitRepositoryManager repoManager;
-  private final ChangeData.Factory changeDataFactory;
-  private final ChangeNotes.Factory changeNotesFactory;
-  private final ChangeUpdate.Factory changeUpdateFactory;
-  private final NoteDbUpdateManager.Factory updateManagerFactory;
-  private final ChangeIndexer indexer;
-  private final GitReferenceUpdated gitRefUpdated;
+  protected final GitRepositoryManager repoManager;
+  protected final ChangeData.Factory changeDataFactory;
+  protected final ChangeNotes.Factory changeNotesFactory;
+  protected final ChangeUpdate.Factory changeUpdateFactory;
+  protected final NoteDbUpdateManager.Factory updateManagerFactory;
+  protected final ChangeIndexer indexer;
+  protected final GitReferenceUpdated gitRefUpdated;
 
-  private final Project.NameKey project;
-  private final CurrentUser user;
-  private final Timestamp when;
-  private final TimeZone tz;
+  protected final Project.NameKey project;
+  protected final CurrentUser user;
+  protected final Timestamp when;
+  protected final TimeZone tz;
 
-  private final ListMultimap<Change.Id, BatchUpdateOp> ops =
+  protected final ListMultimap<Change.Id, BatchUpdateOp> ops =
       MultimapBuilder.linkedHashKeys().arrayListValues().build();
-  private final Map<Change.Id, Change> newChanges = new HashMap<>();
-  private final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
-  private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
+  protected final Map<Change.Id, Change> newChanges = new HashMap<>();
+  protected final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
+  protected final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
 
-  private RepoView repoView;
-  private BatchRefUpdate batchRefUpdate;
-  private boolean executed;
-  private OnSubmitValidators onSubmitValidators;
-  private PushCertificate pushCert;
-  private String refLogMessage;
-  private NotifyResolver.Result notify = NotifyResolver.Result.all();
+  protected RepoView repoView;
+  protected BatchRefUpdate batchRefUpdate;
+  protected boolean executed;
+  protected OnSubmitValidators onSubmitValidators;
+  protected PushCertificate pushCert;
+  protected String refLogMessage;
+  protected NotifyResolver.Result notify = NotifyResolver.Result.all();
 
-  @Inject
+  @AssistedInject
   BatchUpdate(
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverIdent,
@@ -428,10 +421,12 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public void execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
+    checkNotExecuted();
     execute(ImmutableList.of(this), ImmutableList.of(listener), false);
   }
 
   public void execute() throws UpdateException, RestApiException {
+    checkNotExecuted();
     execute(ImmutableList.of(this), ImmutableList.of(), false);
   }
 
@@ -494,18 +489,18 @@ public class BatchUpdate implements AutoCloseable {
     return project;
   }
 
-  private void initRepository() throws IOException {
+  protected void initRepository() throws IOException {
     if (repoView == null) {
       repoView = new RepoView(repoManager, project);
     }
   }
 
-  private RepoView getRepoView() throws IOException {
+  protected RepoView getRepoView() throws IOException {
     initRepository();
     return repoView;
   }
 
-  private Optional<AccountState> getAccount() {
+  protected Optional<AccountState> getAccount() {
     return user.isIdentifiedUser()
         ? Optional.of(user.asIdentifiedUser().state())
         : Optional.empty();
@@ -580,16 +575,16 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void fireRefChangeEvent() {
+  protected void fireRefChangeEvent() {
     if (batchRefUpdate != null) {
       gitRefUpdated.fire(project, batchRefUpdate, getAccount().orElse(null));
     }
   }
 
-  private class ChangesHandle implements AutoCloseable {
-    private final NoteDbUpdateManager manager;
-    private final boolean dryrun;
-    private final Map<Change.Id, ChangeResult> results;
+  protected class ChangesHandle implements AutoCloseable {
+    protected final NoteDbUpdateManager manager;
+    protected final boolean dryrun;
+    protected final Map<Change.Id, ChangeResult> results;
 
     ChangesHandle(NoteDbUpdateManager manager, boolean dryrun) {
       this.manager = manager;
@@ -635,9 +630,26 @@ public class BatchUpdate implements AutoCloseable {
       }
       return indexFutures;
     }
+
+    protected void applyUpdates(Change.Id changeId, ChangeContextImpl changeContext) {
+      if (!changeContext.dirty) {
+        logDebug("No ops reported dirty, short-circuiting");
+        setResult(changeId, ChangeResult.SKIPPED);
+        return;
+      }
+      changeContext.defaultUpdates.values().forEach(manager::add);
+      changeContext.distinctUpdates.values().forEach(manager::add);
+      if (changeContext.deleted) {
+        logDebug("Change %s was deleted", changeId);
+        manager.deleteChange(changeId);
+        setResult(changeId, ChangeResult.DELETED);
+      } else {
+        setResult(changeId, ChangeResult.UPSERTED);
+      }
+    }
   }
 
-  private ChangesHandle executeChangeOps(
+  protected ChangesHandle executeChangeOps(
       ImmutableList<BatchUpdateListener> batchUpdateListeners, boolean dryrun) throws Exception {
     logDebug("Executing change ops");
     initRepository();
@@ -663,7 +675,6 @@ public class BatchUpdate implements AutoCloseable {
     for (Map.Entry<Change.Id, Collection<BatchUpdateOp>> e : ops.asMap().entrySet()) {
       Change.Id id = e.getKey();
       ChangeContextImpl ctx = newChangeContext(id);
-      boolean dirty = false;
       logDebug(
           "Applying %d ops for change %s: %s",
           e.getValue().size(),
@@ -673,28 +684,15 @@ public class BatchUpdate implements AutoCloseable {
         try (TraceContext.TraceTimer ignored =
             TraceContext.newTimer(
                 op.getClass().getSimpleName() + "#updateChange", Metadata.empty())) {
-          dirty |= op.updateChange(ctx);
+          ctx.dirty |= op.updateChange(ctx);
         }
       }
-      if (!dirty) {
-        logDebug("No ops reported dirty, short-circuiting");
-        handle.setResult(id, ChangeResult.SKIPPED);
-        continue;
-      }
-      ctx.defaultUpdates.values().forEach(handle.manager::add);
-      ctx.distinctUpdates.values().forEach(handle.manager::add);
-      if (ctx.deleted) {
-        logDebug("Change %s was deleted", id);
-        handle.manager.deleteChange(id);
-        handle.setResult(id, ChangeResult.DELETED);
-      } else {
-        handle.setResult(id, ChangeResult.UPSERTED);
-      }
+      handle.applyUpdates(id, ctx);
     }
     return handle;
   }
 
-  private ChangeContextImpl newChangeContext(Change.Id id) {
+  protected ChangeContextImpl newChangeContext(Change.Id id) {
     logDebug("Opening change %s for update", id);
     Change c = newChanges.get(id);
     boolean isNew = c != null;
@@ -710,7 +708,7 @@ public class BatchUpdate implements AutoCloseable {
     return new ChangeContextImpl(notes);
   }
 
-  private void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
+  protected void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
     PostUpdateContextImpl ctx = new PostUpdateContextImpl(changeDatas);
     for (BatchUpdateOp op : ops.values()) {
       try (TraceContext.TraceTimer ignored =
@@ -727,7 +725,30 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private static void logDebug(String msg) {
+  protected static void executePostUpdate(
+      Collection<? extends BatchUpdate> updates,
+      Collection<ListenableFuture<ChangeData>> indexFutures,
+      boolean dryrun)
+      throws Exception {
+    updates.forEach(BatchUpdate::fireRefChangeEvent);
+    Map<Change.Id, ChangeData> changeDatas =
+        Futures.allAsList(indexFutures).get().stream()
+            // filter out null values that were returned for change deletions
+            .filter(Objects::nonNull)
+            .collect(toMap(cd -> cd.change().getId(), Function.identity()));
+
+    // Fire ref update events only after all mutations are finished, since callers may assume a
+    // patch set ref being created means the change was created, or a branch advancing meaning
+    // some changes were closed.
+
+    if (!dryrun) {
+      for (BatchUpdate u : updates) {
+        u.executePostOps(changeDatas);
+      }
+    }
+  }
+
+  protected static void logDebug(String msg) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
@@ -736,7 +757,7 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private static void logDebug(String msg, @Nullable Object arg) {
+  protected static void logDebug(String msg, @Nullable Object arg) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
@@ -745,7 +766,7 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private static void logDebug(
+  protected static void logDebug(
       String msg, @Nullable Object arg1, @Nullable Object arg2, @Nullable Object arg3) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be

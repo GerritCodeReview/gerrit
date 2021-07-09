@@ -47,6 +47,7 @@ public class RepoView {
   private final RevWalk rw;
   private final ObjectInserter inserter;
   private final ObjectInserter inserterWrapper;
+  private final Optional<ChainedReceiveCommands> baseCommands;
   private final ChainedReceiveCommands commands;
   private final boolean closeRepo;
 
@@ -55,6 +56,7 @@ public class RepoView {
     inserter = repo.newObjectInserter();
     inserterWrapper = new NonFlushingInserter(inserter);
     rw = new RevWalk(inserter.newReader());
+    baseCommands = Optional.empty();
     commands = new ChainedReceiveCommands(repo);
     closeRepo = true;
   }
@@ -69,7 +71,32 @@ public class RepoView {
     this.rw = requireNonNull(rw);
     this.inserter = requireNonNull(inserter);
     inserterWrapper = new NonFlushingInserter(inserter);
+    baseCommands = Optional.empty();
     commands = new ChainedReceiveCommands(repo);
+    closeRepo = false;
+  }
+
+  /**
+   * {@link #baseCommands} will be taken into account when callers inspect the refs via {@link
+   * #getRef}, but will not be modified by the write methods on {@link RepoContext}.
+   *
+   * <p>Same {@link com.google.gerrit.server.git.RepoRefCache} is shared by writable {@link
+   * #commands} and read-only {@link #baseCommands} to provide consistent view of underlying repo
+   * and minimize number of ref lookups.
+   */
+  RepoView(
+      Repository repo, RevWalk rw, ObjectInserter inserter, ChainedReceiveCommands baseCommands) {
+    checkArgument(
+        rw.getObjectReader().getCreatedFromInserter() == inserter,
+        "expected RevWalk %s to be created by ObjectInserter %s",
+        rw,
+        inserter);
+    this.repo = requireNonNull(repo);
+    this.rw = requireNonNull(rw);
+    this.inserter = requireNonNull(inserter);
+    inserterWrapper = new NonFlushingInserter(inserter);
+    this.baseCommands = Optional.of(baseCommands);
+    this.commands = new ChainedReceiveCommands(baseCommands.getRepoRefCache());
     closeRepo = false;
   }
 
@@ -115,7 +142,11 @@ public class RepoView {
    * @throws IOException if an error occurred.
    */
   public Optional<ObjectId> getRef(String name) throws IOException {
-    return getCommands().get(name);
+    // Lookup in most recent updates first
+    if (commands.getCommands().containsKey(name) || !baseCommands.isPresent()) {
+      return getCommands().get(name);
+    }
+    return baseCommands.get().get(name);
   }
 
   /**
@@ -152,7 +183,19 @@ public class RepoView {
         .getCachedRefs()
         .forEach((k, v) -> updateRefIfPrefixMatches(result, prefix, k, v));
 
-    // Second, overwrite with any pending commands.
+    // Overwrite with any base commands, if present.
+    if (baseCommands.isPresent()) {
+      baseCommands
+          .get()
+          .getCommands()
+          .values()
+          .forEach(
+              c ->
+                  updateRefIfPrefixMatches(
+                      result, prefix, c.getRefName(), toOptional(c.getNewId())));
+    }
+
+    // Last, overwrite with any pending (most recent) updates
     commands
         .getCommands()
         .values()

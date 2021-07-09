@@ -81,6 +81,9 @@ import {CustomKeyboardEvent} from '../../../types/events';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
+import {preferences$} from '../../../services/user/user-model';
+import {Subject} from 'rxjs';
+import {take, takeUntil} from 'rxjs/operators';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -321,6 +324,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   private readonly restApiService = appContext.restApiService;
 
+  disconnected$ = new Subject();
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -411,6 +416,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
+    this.disconnected$.next();
     this.diffCursor.dispose();
     this.fileCursor.unsetCursor();
     this._cancelDiffs();
@@ -476,10 +482,16 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       })
     );
 
+    const prefs$ = preferences$.pipe(takeUntil(this.disconnected$));
+    prefs$.subscribe(prefs => {
+      this._userPrefs = prefs;
+    });
+    // then(() => {}) for making Promise<void> required by Promise.all
     promises.push(
-      this._getPreferences().then(prefs => {
-        this._userPrefs = prefs;
-      })
+      prefs$
+        .pipe(take(1))
+        .toPromise()
+        .then(() => {})
     );
 
     return Promise.all(promises).then(() => {

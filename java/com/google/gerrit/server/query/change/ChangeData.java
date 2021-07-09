@@ -327,12 +327,16 @@ public class ChangeData {
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
   private Set<String> hashtags;
-  /** Map from {@link Account.Id} to the tip of the edit ref for this change and a given user. */
+  /**
+   * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the edit ref for this
+   * change and a given user.
+   */
   private Table<Account.Id, PatchSet.Id, ObjectId> editsByUser;
 
   private Set<Account.Id> reviewedBy;
   /**
-   * Map from {@link Account.Id} to the tip of the draft comments ref for this change and the user.
+   * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the draft comments ref for
+   * this change and the user.
    */
   private Map<Account.Id, ObjectId> draftsByUser;
 

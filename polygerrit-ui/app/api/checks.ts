@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {CommentRange} from './core';
+import {ChangeInfo} from './rest-api';
 
 export declare interface ChecksPluginApi {
   /**
@@ -62,8 +63,7 @@ export declare interface ChangeData {
   patchsetSha: string;
   repo: string;
   commmitMessage?: string;
-  /* TODO(brohlfs): Add dep to Rest API types and replace type by ChangeInfo. */
-  changeInfo: unknown;
+  changeInfo: ChangeInfo;
 }
 
 export declare interface ChecksProvider {

@@ -67,7 +67,6 @@ import {
   FileNameToFileInfoMap,
   NumericChangeId,
   PatchRange,
-  PreferencesInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
@@ -81,6 +80,9 @@ import {CustomKeyboardEvent} from '../../../types/events';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Timing} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
+import {preferences$} from '../../../services/user/user-model';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -225,9 +227,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object, notify: true, observer: '_updateDiffPreferences'})
   diffPrefs?: DiffPreferencesInfo;
 
-  @property({type: Object})
-  _userPrefs?: PreferencesInfo;
-
   @property({type: Boolean})
   _showInlineDiffs?: boolean;
 
@@ -270,7 +269,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: Object, computed: '_computeSizeBarLayout(_shownFiles.*)'})
   _sizeBarLayout: SizeBarLayout = createDefaultSizeBarLayout();
 
-  @property({type: Boolean, computed: '_computeShowSizeBars(_userPrefs)'})
+  @property({type: Boolean})
   _showSizeBars = true;
 
   // For merge commits vs Auto Merge, an extra file row is shown detailing the
@@ -320,6 +319,8 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   private readonly reporting = appContext.reportingService;
 
   private readonly restApiService = appContext.restApiService;
+
+  disconnected$ = new Subject();
 
   get keyBindings() {
     return {
@@ -411,6 +412,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   /** @override */
   disconnectedCallback() {
+    this.disconnected$.next();
     this.diffCursor.dispose();
     this.fileCursor.unsetCursor();
     this._cancelDiffs();
@@ -476,11 +478,9 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       })
     );
 
-    promises.push(
-      this._getPreferences().then(prefs => {
-        this._userPrefs = prefs;
-      })
-    );
+    preferences$.pipe(takeUntil(this.disconnected$)).subscribe(prefs => {
+      this._showSizeBars = !!prefs?.size_bar_in_change_table;
+    });
 
     return Promise.all(promises).then(() => {
       this._loading = false;
@@ -1721,10 +1721,6 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
    */
   _computeBarDeletionX(stats: SizeBarLayout) {
     return stats.deletionOffset;
-  }
-
-  _computeShowSizeBars(userPrefs?: PreferencesInfo) {
-    return !!userPrefs?.size_bar_in_change_table;
   }
 
   _computeSizeBarsClass(showSizeBars?: boolean, path?: string) {

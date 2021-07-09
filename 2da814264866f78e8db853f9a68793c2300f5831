@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45dce96d_c7b1cd56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-09T09:51:41Z",
+      "side": 1,
+      "message": "Still LGTM.",
+      "revId": "2da814264866f78e8db853f9a68793c2300f5831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef087e0c_620aca1a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3000,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-09T09:51:41Z",
+      "side": 1,
+      "message": "Should these lines be gone now?",
+      "range": {
+        "startLine": 3000,
+        "startChar": 49,
+        "endLine": 3000,
+        "endChar": 98
+      },
+      "revId": "2da814264866f78e8db853f9a68793c2300f5831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

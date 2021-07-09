@@ -76,7 +76,8 @@ public class PostPrivate
     SetPrivateOp op = setPrivateOpFactory.create(true, input);
     try (BatchUpdate u =
         updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
-      u.addOp(rsrc.getId(), op).execute();
+      u.addOp(rsrc.getId(), op);
+      u.execute();
     }
 
     return Response.created();

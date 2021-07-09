@@ -21,6 +21,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -43,11 +44,17 @@ import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -344,6 +351,169 @@ public class BatchUpdateTest {
     return id;
   }
 
+  @Test
+  public void batchUpdateWithBatchRefSize() throws Exception {
+    int sizeOfBatch = 6;
+    int numberOfChanges = 10;
+    Map<Change.Id, ObjectId> changeIdsToMeta = new HashMap<>();
+    for (int i = 0; i < numberOfChanges; i++) {
+      Change.Id changeId = createChangeWithUpdates(1);
+      changeIdsToMeta.put(changeId, getMetaId(changeId));
+    }
+
+    BatchUpdate bu = null;
+    List<ImmutableMap<String, Result>> updateResults = new ArrayList<>();
+    for (Change.Id changeId : changeIdsToMeta.keySet()) {
+      if (bu == null) {
+        bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs());
+      }
+      bu.addRepoOnlyOp(new UpdateRepoOnly(RefNames.changeMetaRef(changeId), getMetaId(changeId)));
+      if (bu.refsInUpdate() >= sizeOfBatch) {
+        bu.execute();
+        updateResults.add(
+            bu.getRefUpdates().entrySet().stream()
+                .collect(
+                    ImmutableMap.toImmutableMap(x -> x.getKey(), x -> x.getValue().getResult())));
+        bu.close();
+        bu = null;
+      }
+    }
+    if (bu != null) {
+      bu.execute();
+      updateResults.add(
+          bu.getRefUpdates().entrySet().stream()
+              .collect(
+                  ImmutableMap.toImmutableMap(x -> x.getKey(), x -> x.getValue().getResult())));
+      bu.close();
+      bu = null;
+    }
+    assertThat(updateResults).hasSize(2);
+    assertThat(updateResults.get(0).values()).hasSize(6);
+    assertThat(updateResults.get(1).values()).hasSize(4);
+    for (Map.Entry<Change.Id, ObjectId> changeIdAndOldMeta : changeIdsToMeta.entrySet()) {
+      // all changes were updated
+      assertThat(repo.getRepository().exactRef(RefNames.changeMetaRef(changeIdAndOldMeta.getKey())))
+          .isEqualTo(null);
+    }
+  }
+
+  @Test
+  public void batchChangesUpdateWithBatchRefSize() throws Exception {
+    int sizeOfBatch = 6;
+    int numberOfChanges = 10;
+    Map<Change.Id, ObjectId> changeIdsToMeta = new HashMap<>();
+    for (int i = 0; i < numberOfChanges; i++) {
+      Change.Id changeId = createChangeWithUpdates(1);
+      changeIdsToMeta.put(changeId, getMetaId(changeId));
+    }
+
+    BatchUpdate bu = null;
+    List<ImmutableMap<String, Result>> updateResults = new ArrayList<>();
+    for (Change.Id changeId : changeIdsToMeta.keySet()) {
+      if (bu == null) {
+        bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs());
+      }
+      bu.addOp(changeId, new UpdateChangeOp());
+      if (bu.refsInUpdate() >= sizeOfBatch) {
+        bu.execute();
+        updateResults.add(
+            bu.getRefUpdates().entrySet().stream()
+                .collect(
+                    ImmutableMap.toImmutableMap(x -> x.getKey(), x -> x.getValue().getResult())));
+        bu.close();
+        bu = null;
+      }
+    }
+    if (bu != null) {
+      bu.execute();
+      updateResults.add(
+          bu.getRefUpdates().entrySet().stream()
+              .collect(
+                  ImmutableMap.toImmutableMap(x -> x.getKey(), x -> x.getValue().getResult())));
+      bu.close();
+      bu = null;
+    }
+    assertThat(updateResults).hasSize(2);
+    assertThat(updateResults.get(0).values()).hasSize(6);
+    assertThat(updateResults.get(1).values()).hasSize(4);
+    for (Map.Entry<Change.Id, ObjectId> changeIdAndOldMeta : changeIdsToMeta.entrySet()) {
+      // all changes were updated
+      assertThat(getMetaId(changeIdAndOldMeta.getKey()))
+          .isNotEqualTo(changeIdAndOldMeta.getValue());
+    }
+  }
+
+  @Test
+  public void batchUpdateWithBatchRefSizeWithFailure() throws Exception {
+    RevCommit masterCommit = repo.branch("master").commit().create();
+    int sizeOfBatch = 6;
+    int numberOfChanges = 10;
+    Map<Change.Id, ObjectId> changeIdsToMeta = new HashMap<>();
+    for (int i = 0; i < numberOfChanges; i++) {
+      Change.Id changeId = createChangeWithUpdates(1);
+      changeIdsToMeta.put(changeId, getMetaId(changeId));
+    }
+
+    BatchUpdate bu = null;
+    List<ImmutableMap<String, Result>> updateResults = new ArrayList<>();
+    List<ImmutableMap<String, String>> updateMessages = new ArrayList<>();
+    for (Change.Id changeId : changeIdsToMeta.keySet()) {
+      if (bu == null) {
+        bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs());
+      }
+      bu.addRepoOnlyOp(new UpdateRepoOnly(RefNames.changeMetaRef(changeId), masterCommit.getId()));
+      if (bu.refsInUpdate() >= sizeOfBatch) {
+        try {
+          bu.execute();
+        } catch (Exception e) {
+          // log
+        }
+        updateResults.add(
+            bu.getRefUpdates().entrySet().stream()
+                .collect(
+                    ImmutableMap.toImmutableMap(x -> x.getKey(), x -> x.getValue().getResult())));
+        updateMessages.add(
+            bu.getRefUpdates().entrySet().stream()
+                .collect(
+                    ImmutableMap.toImmutableMap(
+                        x -> x.getKey(),
+                        x ->
+                            x.getValue().getMessage() != null
+                                ? x.getValue().getMessage()
+                                : "empty")));
+        bu.close();
+        bu = null;
+      }
+    }
+    if (bu != null) {
+      try {
+        bu.execute();
+      } catch (Exception e) {
+        // log
+      }
+      updateResults.add(
+          bu.getRefUpdates().entrySet().stream()
+              .collect(
+                  ImmutableMap.toImmutableMap(x -> x.getKey(), x -> x.getValue().getResult())));
+      bu.close();
+      bu = null;
+    }
+    ImmutableMap.Builder<String, Result> expectedResults = ImmutableMap.builder();
+    for (Map.Entry<Change.Id, ObjectId> changeIdAndOldMeta : changeIdsToMeta.entrySet()) {
+      expectedResults.put(RefNames.changeMetaRef(changeIdAndOldMeta.getKey()), Result.OK);
+    }
+    assertThat(updateResults).hasSize(2);
+    assertThat(updateResults.get(0).values()).hasSize(6);
+    assertThat(updateResults.get(1).values()).hasSize(4);
+    assertThat(updateMessages).isEmpty();
+    assertThat(updateResults.get(0).values()).isEqualTo(expectedResults);
+    for (Map.Entry<Change.Id, ObjectId> changeIdAndOldMeta : changeIdsToMeta.entrySet()) {
+      // all changes were updated
+      assertThat(repo.getRepository().exactRef(RefNames.changeMetaRef(changeIdAndOldMeta.getKey())))
+          .isEqualTo(null);
+    }
+  }
+
   private static class AddMessageOp implements BatchUpdateOp {
     private final String message;
     @Nullable private final PatchSet.Id psId;
@@ -395,6 +565,33 @@ public class BatchUpdateTest {
       ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
       update.merge(new SubmissionId(ctx.getChange()), ImmutableList.of(sr));
       update.setChangeMessage("Submitted");
+      return true;
+    }
+  }
+
+  private static class UpdateRepoOnly implements RepoOnlyOp {
+    private final String ref;
+
+    private final ObjectId oldTip;
+
+    UpdateRepoOnly(String ref, ObjectId oldTip) {
+      this.ref = ref;
+      this.oldTip = oldTip;
+    }
+
+    @Override
+    public void updateRepo(RepoContext ctx) throws IOException {
+      ctx.addRefUpdate(oldTip, ObjectId.zeroId(), ref);
+    }
+  }
+
+  private static class UpdateChangeOp implements BatchUpdateOp {
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws IOException {
+      ctx.getUpdate(ctx.getChange().currentPatchSetId())
+          .setChangeMessage("First change message in update");
+      ctx.getDistinctUpdate(ctx.getChange().currentPatchSetId())
+          .setChangeMessage("Second change message in update");
       return true;
     }
   }

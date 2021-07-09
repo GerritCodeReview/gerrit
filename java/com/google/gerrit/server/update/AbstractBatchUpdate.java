@@ -1,0 +1,495 @@
+// Copyright (C) 2017 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.update;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toMap;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSet.Id;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager;
+import com.google.gerrit.server.query.change.ChangeData;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TimeZone;
+import java.util.TreeMap;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushCertificate;
+import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.ReceiveCommand.Result;
+
+/**
+ * Helper for a set of change updates that should be applied to the NoteDb database.
+ *
+ * <p>An update operation can be divided into three phases:
+ *
+ * <ol>
+ *   <li>Git reference updates
+ *   <li>Review metadata updates
+ *   <li>Post-update steps
+ *   <li>
+ * </ol>
+ *
+ * A single conceptual operation, such as a REST API call or a merge operation, may make multiple
+ * changes at each step, which all need to be serialized relative to each other. Moreover, for
+ * consistency, the git ref updates must be visible to the review metadata updates, since for
+ * example the metadata might refer to newly-created patch set refs. In NoteDb, this is accomplished
+ * by combining these two phases into a single {@link BatchRefUpdate}.
+ *
+ * <p>Similarly, all post-update steps, such as sending email, must run only after all storage
+ * mutations have completed.
+ */
+public class AbstractBatchUpdate implements AutoCloseable {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  class ContextImpl implements Context {
+    @Override
+    public RepoView getRepoView() throws IOException {
+      return AbstractBatchUpdate.this.getRepoView();
+    }
+
+    @Override
+    public RevWalk getRevWalk() throws IOException {
+      return getRepoView().getRevWalk();
+    }
+
+    @Override
+    public Project.NameKey getProject() {
+      return project;
+    }
+
+    @Override
+    public Timestamp getWhen() {
+      return when;
+    }
+
+    @Override
+    public TimeZone getTimeZone() {
+      return tz;
+    }
+
+    @Override
+    public CurrentUser getUser() {
+      return user;
+    }
+
+    @Override
+    public NotifyResolver.Result getNotify(Change.Id changeId) {
+      NotifyHandling notifyHandling = perChangeNotifyHandling.get(changeId);
+      return notifyHandling != null ? notify.withHandling(notifyHandling) : notify;
+    }
+  }
+
+  protected class RepoContextImpl extends ContextImpl implements RepoContext {
+    @Override
+    public ObjectInserter getInserter() throws IOException {
+      return getRepoView().getInserterWrapper();
+    }
+
+    @Override
+    public void addRefUpdate(ReceiveCommand cmd) throws IOException {
+      getRepoView().getCommands().add(cmd);
+    }
+  }
+
+  protected class ChangeContextImpl extends ContextImpl implements ChangeContext {
+    private final ChangeNotes notes;
+
+    /**
+     * Updates where the caller instructed us to create one NoteDb commit per update. Keyed by
+     * PatchSet.Id only for convenience.
+     */
+    protected final Map<PatchSet.Id, ChangeUpdate> defaultUpdates;
+
+    /**
+     * Updates where the caller allowed us to combine potentially multiple adjustments into a single
+     * commit in NoteDb by re-using the same ChangeUpdate instance. Will still be one commit per
+     * patch set.
+     */
+    protected final ListMultimap<Id, ChangeUpdate> distinctUpdates;
+
+    protected boolean deleted;
+
+    ChangeContextImpl(ChangeNotes notes) {
+      this.notes = requireNonNull(notes);
+      defaultUpdates = new TreeMap<>(comparing(PatchSet.Id::get));
+      distinctUpdates = ArrayListMultimap.create();
+    }
+
+    @Override
+    public ChangeUpdate getUpdate(PatchSet.Id psId) {
+      ChangeUpdate u = defaultUpdates.get(psId);
+      if (u == null) {
+        u = getNewChangeUpdate(psId);
+        defaultUpdates.put(psId, u);
+      }
+      return u;
+    }
+
+    @Override
+    public ChangeUpdate getDistinctUpdate(PatchSet.Id psId) {
+      ChangeUpdate u = getNewChangeUpdate(psId);
+      distinctUpdates.put(psId, u);
+      return u;
+    }
+
+    private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId) {
+      ChangeUpdate u = changeUpdateFactory.create(notes, user, when);
+      if (newChanges.containsKey(notes.getChangeId())) {
+        u.setAllowWriteToNewRef(true);
+      }
+      u.setPatchSetId(psId);
+      return u;
+    }
+
+    @Override
+    public ChangeNotes getNotes() {
+      return notes;
+    }
+
+    @Override
+    public void deleteChange() {
+      deleted = true;
+    }
+  }
+
+  protected class PostUpdateContextImpl extends ContextImpl implements PostUpdateContext {
+    private final Map<Change.Id, ChangeData> changeDatas;
+
+    PostUpdateContextImpl(Map<Change.Id, ChangeData> changeDatas) {
+      this.changeDatas = changeDatas;
+    }
+
+    @Override
+    public ChangeData getChangeData(Change change) {
+      return changeDatas.computeIfAbsent(change.getId(), id -> changeDataFactory.create(change));
+    }
+  }
+
+  /** Per-change result status from {@link #executeChangeOps}. */
+  private enum ChangeResult {
+    SKIPPED,
+    UPSERTED,
+    DELETED
+  }
+
+  protected final GitRepositoryManager repoManager;
+  protected final ChangeData.Factory changeDataFactory;
+  protected final ChangeNotes.Factory changeNotesFactory;
+  protected final ChangeUpdate.Factory changeUpdateFactory;
+  protected final NoteDbUpdateManager.Factory updateManagerFactory;
+  protected final ChangeIndexer indexer;
+  protected final GitReferenceUpdated gitRefUpdated;
+
+  protected final Project.NameKey project;
+  protected final CurrentUser user;
+  protected final Timestamp when;
+  protected final TimeZone tz;
+
+  protected final ListMultimap<Change.Id, BatchUpdateOp> ops =
+      MultimapBuilder.linkedHashKeys().arrayListValues().build();
+  protected final Map<Change.Id, Change> newChanges = new HashMap<>();
+  protected final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
+  protected final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
+
+  protected RepoView repoView;
+  protected BatchRefUpdate batchRefUpdate;
+  protected boolean executed;
+  protected PushCertificate pushCert;
+  protected String refLogMessage;
+  protected NotifyResolver.Result notify = NotifyResolver.Result.all();
+
+  protected AbstractBatchUpdate(
+      GitRepositoryManager repoManager,
+      @GerritPersonIdent PersonIdent serverIdent,
+      ChangeData.Factory changeDataFactory,
+      ChangeNotes.Factory changeNotesFactory,
+      ChangeUpdate.Factory changeUpdateFactory,
+      NoteDbUpdateManager.Factory updateManagerFactory,
+      ChangeIndexer indexer,
+      GitReferenceUpdated gitRefUpdated,
+      Project.NameKey project,
+      CurrentUser user,
+      Timestamp when) {
+    this.repoManager = repoManager;
+    this.changeDataFactory = changeDataFactory;
+    this.changeNotesFactory = changeNotesFactory;
+    this.changeUpdateFactory = changeUpdateFactory;
+    this.updateManagerFactory = updateManagerFactory;
+    this.indexer = indexer;
+    this.gitRefUpdated = gitRefUpdated;
+    this.project = project;
+    this.user = user;
+    this.when = when;
+    tz = serverIdent.getTimeZone();
+  }
+
+  @Override
+  public void close() {
+    if (repoView != null) {
+      repoView.close();
+    }
+  }
+
+  public boolean isExecuted() {
+    return executed;
+  }
+
+  public void setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
+    checkState(this.repoView == null, "repo already set");
+    repoView = new RepoView(repo, revWalk, inserter);
+    // return this;
+  }
+
+  public void setPushCertificate(@Nullable PushCertificate pushCert) {
+    this.pushCert = pushCert;
+    // return this;
+  }
+
+  public void setRefLogMessage(@Nullable String refLogMessage) {
+    this.refLogMessage = refLogMessage;
+    // return this;
+  }
+
+  /**
+   * Set the default notification settings for all changes in the batch.
+   *
+   * @param notify notification settings.
+   * @return this.
+   */
+  public void setNotify(NotifyResolver.Result notify) {
+    this.notify = requireNonNull(notify);
+    // return this;
+  }
+
+  /**
+   * Override the {@link NotifyHandling} on a per-change basis.
+   *
+   * <p>Only the handling enum can be overridden; all changes share the same value for {@link
+   * com.google.gerrit.server.change.NotifyResolver.Result#accounts()}.
+   *
+   * @param changeId change ID.
+   * @param notifyHandling notify handling.
+   * @return this.
+   */
+  public void setNotifyHandling(Change.Id changeId, NotifyHandling notifyHandling) {
+    this.perChangeNotifyHandling.put(changeId, requireNonNull(notifyHandling));
+    // return this;
+  }
+
+  public Project.NameKey getProject() {
+    return project;
+  }
+
+  protected void initRepository() throws IOException {
+    if (repoView == null) {
+      repoView = new RepoView(repoManager, project);
+    }
+  }
+
+  protected RepoView getRepoView() throws IOException {
+    initRepository();
+    return repoView;
+  }
+
+  protected Optional<AccountState> getAccount() {
+    return user.isIdentifiedUser()
+        ? Optional.of(user.asIdentifiedUser().state())
+        : Optional.empty();
+  }
+
+  public Map<String, ReceiveCommand> getRefUpdates() {
+    return repoView != null ? repoView.getCommands().getCommands() : ImmutableMap.of();
+  }
+
+  /**
+   * Return the references successfully updated by this BatchUpdate with their command. In dryrun,
+   * we assume all updates were successful.
+   */
+  public Map<BranchNameKey, ReceiveCommand> getSuccessfullyUpdatedBranches(boolean dryrun) {
+    return getRefUpdates().entrySet().stream()
+        .filter(entry -> dryrun || entry.getValue().getResult() == Result.OK)
+        .collect(
+            toMap(entry -> BranchNameKey.create(project, entry.getKey()), Map.Entry::getValue));
+  }
+
+  public void addOp(Change.Id id, BatchUpdateOp op) {
+    checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
+    requireNonNull(op);
+    ops.put(id, op);
+  }
+
+  public void addRepoOnlyOp(RepoOnlyOp op) {
+    checkArgument(!(op instanceof BatchUpdateOp), "use addOp()");
+    repoOnlyOps.add(op);
+  }
+
+  public void insertChange(InsertChangeOp op) throws IOException {
+    Context ctx = new ContextImpl();
+    Change c = op.createChange(ctx);
+    checkArgument(
+        !newChanges.containsKey(c.getId()), "only one op allowed to create change %s", c.getId());
+    newChanges.put(c.getId(), c);
+    ops.get(c.getId()).add(0, op);
+  }
+
+  protected class ChangesHandle implements AutoCloseable {
+    private final NoteDbUpdateManager manager;
+    private final boolean dryrun;
+    private final Map<Change.Id, ChangeResult> results;
+
+    ChangesHandle(NoteDbUpdateManager manager, boolean dryrun) {
+      this.manager = manager;
+      this.dryrun = dryrun;
+      results = new HashMap<>();
+    }
+
+    @Override
+    public void close() {
+      manager.close();
+    }
+
+    void setResult(Change.Id id, ChangeResult result) {
+      ChangeResult old = results.putIfAbsent(id, result);
+      checkArgument(old == null, "result for change %s already set: %s", id, old);
+    }
+
+    void execute() throws IOException {
+      batchRefUpdate = manager.execute(dryrun);
+      executed = manager.isExecuted();
+    }
+
+    List<ListenableFuture<ChangeData>> startIndexFutures() {
+      if (dryrun) {
+        return ImmutableList.of();
+      }
+      logDebug("Reindexing %d changes", results.size());
+      List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>(results.size());
+      for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
+        Change.Id id = e.getKey();
+        switch (e.getValue()) {
+          case UPSERTED:
+            indexFutures.add(indexer.indexAsync(project, id));
+            break;
+          case DELETED:
+            indexFutures.add(indexer.deleteAsync(id));
+            break;
+          case SKIPPED:
+            break;
+          default:
+            throw new IllegalStateException("unexpected result: " + e.getValue());
+        }
+      }
+      return indexFutures;
+    }
+  }
+
+  protected ChangeContextImpl newChangeContext(Change.Id id) {
+    logDebug("Opening change %s for update", id);
+    Change c = newChanges.get(id);
+    boolean isNew = c != null;
+    if (!isNew) {
+      // Pass a synthetic change into ChangeNotes.Factory, which will take care of checking for
+      // existence and populating columns from the parsed notes state.
+      // TODO(dborowitz): This dance made more sense when using Reviewdb; consider a nicer way.
+      c = ChangeNotes.Factory.newChange(project, id);
+    } else {
+      logDebug("Change %s is new", id);
+    }
+    ChangeNotes notes = changeNotesFactory.createForBatchUpdate(c, !isNew);
+    return new ChangeContextImpl(notes);
+  }
+
+  private void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
+    PostUpdateContextImpl ctx = new PostUpdateContextImpl(changeDatas);
+    for (BatchUpdateOp op : ops.values()) {
+      try (TraceContext.TraceTimer ignored =
+          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+        op.postUpdate(ctx);
+      }
+    }
+
+    for (RepoOnlyOp op : repoOnlyOps) {
+      try (TraceContext.TraceTimer ignored =
+          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+        op.postUpdate(ctx);
+      }
+    }
+  }
+
+  protected static void logDebug(String msg) {
+    // Only log if there is a requestId assigned, since those are the
+    // expensive/complicated requests like MergeOp. Doing it every time would be
+    // noisy.
+    if (RequestId.isSet()) {
+      logger.atFine().log(msg);
+    }
+  }
+
+  protected static void logDebug(String msg, @Nullable Object arg) {
+    // Only log if there is a requestId assigned, since those are the
+    // expensive/complicated requests like MergeOp. Doing it every time would be
+    // noisy.
+    if (RequestId.isSet()) {
+      logger.atFine().log(msg, arg);
+    }
+  }
+
+  protected static void logDebug(
+      String msg, @Nullable Object arg1, @Nullable Object arg2, @Nullable Object arg3) {
+    // Only log if there is a requestId assigned, since those are the
+    // expensive/complicated requests like MergeOp. Doing it every time would be
+    // noisy.
+    if (RequestId.isSet()) {
+      logger.atFine().log(msg, arg1, arg2, arg3);
+    }
+  }
+}

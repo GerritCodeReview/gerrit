@@ -54,7 +54,7 @@ import {
   Subject,
   timer,
 } from 'rxjs';
-import {PatchSetNumber} from '../../types/common';
+import {ChangeInfo, PatchSetNumber} from '../../types/common';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {assertIsDefined} from '../../utils/common-util';
@@ -172,7 +172,7 @@ export class ChecksService {
               patchsetSha,
               repo: change.project,
               commmitMessage: getCurrentRevision(change)?.commit?.message,
-              changeInfo: change,
+              changeInfo: change as ChangeInfo,
             };
             return this.fetchResults(pluginName, data, patchset);
           }

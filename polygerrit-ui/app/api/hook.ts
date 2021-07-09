@@ -14,25 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {ChangeInfo, ConfigInfo, RevisionInfo} from './rest-api';
+
 interface GerritElementExtensions {
   content?: HTMLElement & {hidden?: boolean};
-  change?: unknown;
-  revision?: unknown;
+  change?: ChangeInfo;
+  revision?: RevisionInfo;
   token?: string;
   repoName?: string;
-  /**
-   * This is a ConfigInfo object as defined here:
-   * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-info
-   * We neither want to repeat it nor add a dependency on it here.
-   */
-  config?: unknown;
+  config?: ConfigInfo;
 }
 
 export type HookCallback = (el: HTMLElement & GerritElementExtensions) => void;
 
 export declare interface RegisterOptions {
   slot?: string;
-  replace: unknown;
+  replace: boolean;
 }
 
 export declare interface HookApi {

@@ -168,7 +168,7 @@ export class GrClaView extends PolymerElement {
 
   _hideAgreements(
     item: ContributorAgreementInfo,
-    groups: GroupInfo[],
+    groups?: GroupInfo[],
     signedAgreements?: ContributorAgreementInfo[]
   ) {
     return this._disableAgreements(item, groups, signedAgreements)
@@ -176,18 +176,18 @@ export class GrClaView extends PolymerElement {
       : 'hide';
   }
 
-  _disableAgreementsText(text: string) {
-    return text.toLowerCase() === 'i agree' ? false : true;
+  _disableAgreementsText(text?: string) {
+    return text?.toLowerCase() === 'i agree' ? false : true;
   }
 
   // This checks for auto_verify_group,
   // if specified it returns 'hideAgreementsTextBox' which
   // then hides the text box and submit button.
   _computeHideAgreementClass(
-    name: string,
+    name?: string,
     contributorAgreements?: ContributorAgreementInfo[]
   ) {
-    if (!contributorAgreements) return '';
+    if (!name || !contributorAgreements) return '';
     return contributorAgreements.some(
       (contributorAgreement: ContributorAgreementInfo) =>
         name === contributorAgreement.name &&

@@ -71,12 +71,10 @@ export const htmlTemplate = html`
                 checked$="[[item.preferred]]"
               >
                 <input
-                  is="iron-input"
                   class="preferredRadio"
                   type="radio"
                   on-change="_handlePreferredChange"
                   name="preferred"
-                  value="[[item.email]]"
                   checked$="[[item.preferred]]"
                 />
               </iron-input>
@@ -85,7 +83,7 @@ export const htmlTemplate = html`
               <gr-button
                 data-index$="[[index]]"
                 on-click="_handleDeleteButton"
-                disabled="[[item.preferred]]"
+                disabled="[[_checkPreferred(item.preferred)]]"
                 class="remove-button"
                 >Delete</gr-button
               >

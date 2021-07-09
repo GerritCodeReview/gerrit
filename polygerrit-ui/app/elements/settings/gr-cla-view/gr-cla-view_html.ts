@@ -104,12 +104,7 @@ export const htmlTemplate = html`
           bind-value="{{_agreementsText}}"
           placeholder="Enter 'I agree' here"
         >
-          <input
-            id="input-agreements"
-            is="iron-input"
-            bind-value="{{_agreementsText}}"
-            placeholder="Enter 'I agree' here"
-          />
+          <input id="input-agreements" placeholder="Enter 'I agree' here" />
         </iron-input>
         <gr-button
           on-click="_handleSaveAgreements"

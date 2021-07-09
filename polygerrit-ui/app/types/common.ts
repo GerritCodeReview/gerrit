@@ -17,7 +17,6 @@
 import {CommentRange} from '../api/core';
 import {
   ChangeStatus,
-  DefaultDisplayNameConfig,
   ProjectState,
   SubmitType,
   InheritedBooleanInfoConfiguredValue,
@@ -33,21 +32,21 @@ import {
   DraftsAction,
   NotifyType,
   EmailFormat,
-  AuthType,
   MergeStrategy,
-  EditableAccountField,
-  MergeabilityComputationBehavior,
 } from '../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   AccountId,
   AccountInfo,
+  AccountsConfigInfo,
   ActionInfo,
   ActionNameToActionInfoMap,
   ApprovalInfo,
+  AuthInfo,
   BasePatchSetNum,
   BranchName,
   BrandType,
+  ChangeConfigInfo,
   ChangeId,
   ChangeInfo,
   ChangeInfoId,
@@ -63,14 +62,22 @@ import {
   ConfigListParameterInfo,
   ConfigParameterInfo,
   ConfigParameterInfoBase,
+  ContributorAgreementInfo,
   DetailedLabelInfo,
+  DownloadInfo,
+  DownloadSchemeInfo,
   EmailAddress,
   FetchInfo,
   FileInfo,
+  GerritInfo,
   GitPersonInfo,
   GitRef,
   GpgKeyId,
   GpgKeyInfo,
+  GroupId,
+  GroupInfo,
+  GroupName,
+  GroupOptionsInfo,
   Hashtag,
   InheritedBooleanInfo,
   LabelInfo,
@@ -81,9 +88,11 @@ import {
   NumericChangeId,
   ParentCommitInfo,
   PatchSetNum,
+  PluginConfigInfo,
   PluginNameToPluginParametersMap,
   PluginParameterToConfigParameterInfoMap,
   QuickLabelInfo,
+  ReceiveInfo,
   RepoName,
   Requirement,
   RequirementType,
@@ -92,10 +101,14 @@ import {
   ReviewerUpdateInfo,
   Reviewers,
   RevisionInfo,
+  SchemesInfoMap,
+  ServerInfo,
   SubmitTypeInfo,
+  SuggestInfo,
   Timestamp,
   TimezoneOffset,
   TopicName,
+  UserConfigInfo,
   VotingRangeInfo,
   WebLinkInfo,
   isDetailedLabelInfo,
@@ -106,21 +119,24 @@ import {DiffInfo, IgnoreWhitespaceType} from './diff';
 export {
   AccountId,
   AccountInfo,
+  AccountsConfigInfo,
   ActionInfo,
   ActionNameToActionInfoMap,
   ApprovalInfo,
+  AuthInfo,
   BasePatchSetNum,
   BranchName,
   BrandType,
+  ChangeConfigInfo,
   ChangeId,
   ChangeInfo,
   ChangeInfoId,
   ChangeMessageId,
   ChangeMessageInfo,
   ChangeSubmissionId,
-  CommentRange,
   CommentLinkInfo,
   CommentLinks,
+  CommentRange,
   CommitId,
   CommitInfo,
   ConfigArrayParameterInfo,
@@ -128,13 +144,21 @@ export {
   ConfigListParameterInfo,
   ConfigParameterInfo,
   ConfigParameterInfoBase,
+  ContributorAgreementInfo,
   DetailedLabelInfo,
+  DownloadInfo,
+  DownloadSchemeInfo,
   EmailAddress,
   FileInfo,
+  GerritInfo,
   GitPersonInfo,
   GitRef,
   GpgKeyId,
   GpgKeyInfo,
+  GroupId,
+  GroupInfo,
+  GroupName,
+  GroupOptionsInfo,
   Hashtag,
   InheritedBooleanInfo,
   LabelInfo,
@@ -145,9 +169,11 @@ export {
   NumericChangeId,
   ParentCommitInfo,
   PatchSetNum,
+  PluginConfigInfo,
   PluginNameToPluginParametersMap,
   PluginParameterToConfigParameterInfoMap,
   QuickLabelInfo,
+  ReceiveInfo,
   RepoName,
   Requirement,
   RequirementType,
@@ -155,10 +181,14 @@ export {
   ReviewerUpdateInfo,
   Reviewers,
   RevisionInfo,
+  SchemesInfoMap,
+  ServerInfo,
   SubmitTypeInfo,
+  SuggestInfo,
   Timestamp,
   TimezoneOffset,
   TopicName,
+  UserConfigInfo,
   VotingRangeInfo,
   isDetailedLabelInfo,
   isQuickLabelInfo,
@@ -216,25 +246,12 @@ export type TagName = BrandType<string, '_tagName'>;
 
 export type LabelName = BrandType<string, '_labelName'>;
 
-export type GroupName = BrandType<string, '_groupName'>;
-
-// The UUID of the group
-export type GroupId = BrandType<string, '_groupId'>;
-
 // The Encoded UUID of the group
 export type EncodedGroupId = BrandType<string, '_encodedGroupId'>;
 
 // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-input
 export interface ContributorAgreementInput {
   name?: string;
-}
-
-// https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-info
-export interface ContributorAgreementInfo {
-  name: string;
-  description: string;
-  url: string;
-  auto_verify_group?: GroupInfo;
 }
 
 /**
@@ -332,26 +349,6 @@ export interface GroupBaseInfo {
   name: GroupName;
 }
 
-/**
- * The GroupInfo entity contains information about a group. This can be a
- * Gerrit internal group, or an external group that is known to Gerrit.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-info
- */
-export interface GroupInfo {
-  id: GroupId;
-  name?: GroupName;
-  url?: string;
-  options?: GroupOptionsInfo;
-  description?: string;
-  group_id?: string;
-  owner?: string;
-  owner_id?: string;
-  created_on?: string;
-  _more_groups?: boolean;
-  members?: AccountInfo[];
-  includes?: GroupInfo[];
-}
-
 export type GroupNameToGroupInfoMap = {[groupName: string]: GroupInfo};
 
 /**
@@ -366,14 +363,6 @@ export interface GroupInput {
   visible_to_all?: string;
   owner_id?: string;
   members?: string[];
-}
-
-/**
- * Options of the group.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
- */
-export interface GroupOptionsInfo {
-  visible_to_all: boolean;
 }
 
 /**
@@ -427,36 +416,6 @@ export interface GpgKeysInput {
 }
 
 /**
- * The AccountsConfigInfo entity contains information about Gerrit configuration
- * from the accounts section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#accounts-config-info
- */
-export interface AccountsConfigInfo {
-  visibility: string;
-  default_display_name: DefaultDisplayNameConfig;
-}
-
-/**
- * The AuthInfo entity contains information about the authentication
- * configuration of the Gerrit server.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#auth-info
- */
-export interface AuthInfo {
-  auth_type: AuthType; // docs incorrectly names it 'type'
-  use_contributor_agreements?: boolean;
-  contributor_agreements?: ContributorAgreementInfo[];
-  editable_account_fields: EditableAccountField[];
-  login_url?: string;
-  login_text?: string;
-  switch_account_url?: string;
-  register_url?: string;
-  register_text?: string;
-  edit_full_name_url?: string;
-  http_password_url?: string;
-  git_basic_auth_policy?: string;
-}
-
-/**
  * The CacheInfo entity contains information about a cache.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
  */
@@ -488,21 +447,6 @@ export interface CapabilityInfo {
 }
 
 export type CapabilityInfoMap = {[id: string]: CapabilityInfo};
-
-/**
- * The ChangeConfigInfo entity contains information about Gerrit configuration
- * from the change section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#change-config-info
- */
-export interface ChangeConfigInfo {
-  allow_blame?: boolean;
-  large_change: number;
-  update_delay: number;
-  submit_whole_topic?: boolean;
-  disable_private_changes?: boolean;
-  mergeability_computation_behavior: MergeabilityComputationBehavior;
-  enable_assignee: boolean;
-}
 
 /**
  * The ChangeIndexConfigInfo entity contains information about Gerrit
@@ -591,32 +535,6 @@ export interface ConfigUpdateEntryInfo {
   new_value: string;
 }
 
-export type SchemesInfoMap = {[name: string]: DownloadSchemeInfo};
-
-/**
- * The DownloadInfo entity contains information about supported download
- * options.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#download-info
- */
-export interface DownloadInfo {
-  schemes: SchemesInfoMap;
-  archives: string[];
-}
-
-export type CloneCommandMap = {[name: string]: string};
-/**
- * The DownloadSchemeInfo entity contains information about a supported download
- * scheme and its commands.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
- */
-export interface DownloadSchemeInfo {
-  url: string;
-  is_auth_required: boolean;
-  is_auth_supported: boolean;
-  commands: string;
-  clone_commands: CloneCommandMap;
-}
-
 /**
  * The EmailConfirmationInput entity contains information for confirming an
  * email address.
@@ -634,22 +552,6 @@ export interface EntriesInfo {
   mem?: string;
   disk?: string;
   space?: string;
-}
-
-/**
- * The GerritInfo entity contains information about Gerrit configuration from
- * the gerrit section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#gerrit-info
- */
-export interface GerritInfo {
-  all_projects: string; // Doc contains incorrect name
-  all_users: string; // Doc contains incorrect name
-  doc_search: boolean;
-  doc_url?: string;
-  edit_gpg_keys?: boolean;
-  report_bug_url?: string;
-  // The following property is missed in doc
-  primary_weblink_name?: string;
 }
 
 /**
@@ -707,65 +609,6 @@ export interface MemSummaryInfo {
   buffers: string;
   max: string;
   open_files?: string;
-}
-
-/**
- * The PluginConfigInfo entity contains information about Gerrit extensions by
- * plugins.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#plugin-config-info
- */
-export interface PluginConfigInfo {
-  has_avatars: boolean;
-  // Exists in Java class, but not mentioned in docs.
-  js_resource_paths: string[];
-}
-
-/**
- * The ReceiveInfo entity contains information about the configuration of
- * git-receive-pack behavior on the server.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#receive-info
- */
-export interface ReceiveInfo {
-  enable_signed_push?: string;
-}
-
-/**
- * The ServerInfo entity contains information about the configuration of the
- * Gerrit server.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#server-info
- */
-export interface ServerInfo {
-  accounts: AccountsConfigInfo;
-  auth: AuthInfo;
-  change: ChangeConfigInfo;
-  download: DownloadInfo;
-  gerrit: GerritInfo;
-  // docs mentions index property, but it doesn't exists in Java class
-  // index: IndexConfigInfo;
-  note_db_enabled?: boolean;
-  plugin: PluginConfigInfo;
-  receive?: ReceiveInfo;
-  sshd?: SshdInfo;
-  suggest: SuggestInfo;
-  user: UserConfigInfo;
-  default_theme?: string;
-}
-
-/**
- * The SshdInfo entity contains information about Gerrit configuration from the sshd section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#sshd-info
- * This entity doesn’t contain any data, but the presence of this (empty) entity
- * in the ServerInfo entity means that SSHD is enabled on the server.
- */
-export type SshdInfo = {};
-
-/**
- * The SuggestInfo entity contains information about Gerritconfiguration from
- * the suggest section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#suggest-info
- */
-export interface SuggestInfo {
-  from: number;
 }
 
 /**
@@ -838,15 +681,6 @@ export interface TopMenuItemInfo {
 }
 
 /**
- * The UserConfigInfo entity contains information about Gerrit configuration
- * from the user section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#user-config-info
- */
-export interface UserConfigInfo {
-  anonymous_coward_name: string;
-}
-
-/*
  * The CommentInfo entity contains information about an inline comment.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
  */

@@ -23,12 +23,16 @@ import {DiffPreferencesInfo} from '../types/diff';
 import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 import {
   AccountTag,
+  AuthType,
   ChangeStatus,
   ConfigParameterInfoType,
+  DefaultDisplayNameConfig,
+  EditableAccountField,
   FileInfoStatus,
   GpgKeyInfoStatus,
   HttpMethod,
   InheritedBooleanInfoConfiguredValue,
+  MergeabilityComputationBehavior,
   ProblemInfoStatus,
   ProjectState,
   RequirementStatus,
@@ -39,12 +43,16 @@ import {
 
 export {
   AccountTag,
+  AuthType,
   ChangeStatus,
   ConfigParameterInfoType,
+  DefaultDisplayNameConfig,
+  EditableAccountField,
   FileInfoStatus,
   GpgKeyInfoStatus,
   HttpMethod,
   InheritedBooleanInfoConfiguredValue,
+  MergeabilityComputationBehavior,
   ProblemInfoStatus,
   ProjectState,
   RequirementStatus,
@@ -113,15 +121,6 @@ export enum SpecialFilePath {
   PATCHSET_LEVEL_COMMENTS = '/PATCHSET_LEVEL',
   COMMIT_MESSAGE = '/COMMIT_MSG',
   MERGE_LIST = '/MERGE_LIST',
-}
-
-/**
- * @desc Used for server config of accounts
- */
-export enum DefaultDisplayNameConfig {
-  USERNAME = 'USERNAME',
-  FIRST_NAME = 'FIRST_NAME',
-  FULL_NAME = 'FULL_NAME',
 }
 
 export {Side} from '../api/diff';
@@ -247,23 +246,6 @@ export enum NotifyType {
 }
 
 /**
- * The authentication type that is configured on the server.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#auth-info
- */
-export enum AuthType {
-  OPENID = 'OPENID',
-  OPENID_SSO = 'OPENID_SSO',
-  OAUTH = 'OAUTH',
-  HTTP = 'HTTP',
-  HTTP_LDAP = 'HTTP_LDAP',
-  CLIENT_SSL_CERT_LDAP = 'CLIENT_SSL_CERT_LDAP',
-  LDAP = 'LDAP',
-  LDAP_BIND = 'LDAP_BIND',
-  CUSTOM_EXTENSION = 'CUSTOM_EXTENSION',
-  DEVELOPMENT_BECOME_ANY_ACCOUNT = 'DEVELOPMENT_BECOME_ANY_ACCOUNT',
-}
-
-/**
  * Controls visibility of other users' dashboard pages and completion suggestions to web users
  * https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#accounts.visibility
  */
@@ -272,26 +254,6 @@ export enum AccountsVisibility {
   SAME_GROUP = 'SAME_GROUP',
   VISIBLE_GROUP = 'VISIBLE_GROUP',
   NONE = 'NONE',
-}
-
-/**
- * Account fields that are editable
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#auth-info
- */
-export enum EditableAccountField {
-  FULL_NAME = 'FULL_NAME',
-  USER_NAME = 'USER_NAME',
-  REGISTER_NEW_EMAIL = 'REGISTER_NEW_EMAIL',
-}
-
-/**
- * This setting determines when Gerrit computes if a change is mergeable or not.
- * https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#change.mergeabilityComputationBehavior
- */
-export enum MergeabilityComputationBehavior {
-  API_REF_UPDATED_AND_CHANGE_REINDEX = 'API_REF_UPDATED_AND_CHANGE_REINDEX',
-  REF_UPDATED_AND_CHANGE_REINDEX = 'REF_UPDATED_AND_CHANGE_REINDEX',
-  NEVER = 'NEVER',
 }
 
 // TODO(TS): Many properties are omitted here, but they are required.

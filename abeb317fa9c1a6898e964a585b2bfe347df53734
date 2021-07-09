@@ -16,6 +16,24 @@
       "message": "Edwin, I removed the other footers, PTAL.",
       "revId": "abeb317fa9c1a6898e964a585b2bfe347df53734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e680c8a_e1e81be0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2021-07-09T10:26:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "726595e2_0d02d0ba",
+      "revId": "abeb317fa9c1a6898e964a585b2bfe347df53734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

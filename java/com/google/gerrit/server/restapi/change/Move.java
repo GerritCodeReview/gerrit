@@ -21,7 +21,6 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Strings;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -73,8 +72,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
 public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction<ChangeResource> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final PermissionBackend permissionBackend;
   private final BatchUpdate.Factory updateFactory;
   private final ChangeJson.Factory json;

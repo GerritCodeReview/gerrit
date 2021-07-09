@@ -56,7 +56,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
-import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.ValidationException;
@@ -80,8 +79,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Inject private DraftCommentNotes.Factory draftNotesFactory;
 
   @Inject private ChangeNoteJson changeNoteJson;
-
-  @Inject private @GerritServerId String serverId;
 
   @Test
   public void tagChangeMessage() throws Exception {

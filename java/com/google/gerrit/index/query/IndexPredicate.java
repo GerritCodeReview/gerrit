@@ -62,29 +62,28 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
    * integer, long) , the matching logic is consistent across this method and all known index
    * implementations. For text fields (i.e. prefix and full-text) the semantics vary between this
    * implementation and known index implementations:
-   * <li>Prefix: Lucene as well as {@link #match(I)} matches terms as true prefixes (prefix:foo ->
-   *     `foo bar` matches, but `baz foo bar` does not match). The index implementation at Google
+   * <li>Prefix: Lucene as well as {@link #match(Object)} matches terms as true prefixes (prefix:foo
+   *     -> `foo bar` matches, but `baz foo bar` does not match). The index implementation at Google
    *     tokenizes both the query and the indexed text and matches tokens individually (prefix:fo ba
    *     -> `baz foo bar` matches).
    * <li>Full text: Lucene uses a {@code PhraseQuery} to search for terms in full text fields
-   *     in-order. The index implementation at Google as well as {@link #match(I)} tokenizes both
-   *     the query and the indexed text and matches tokens individually.
+   *     in-order. The index implementation at Google as well as {@link #match(Object)} tokenizes
+   *     both the query and the indexed text and matches tokens individually.
    *
-   * @return true if the predicate matches the provided {@link I}.
+   * @return true if the predicate matches the provided {@code I}.
    */
   @Override
   public boolean match(I doc) {
     if (getField().isRepeatable()) {
-      Iterable<Object> values = (Iterable<Object>) getField().get(doc);
+      Iterable<?> values = (Iterable<?>) getField().get(doc);
       for (Object v : values) {
         if (matchesSingleObject(v)) {
           return true;
         }
       }
       return false;
-    } else {
-      return matchesSingleObject(getField().get(doc));
     }
+    return matchesSingleObject(getField().get(doc));
   }
 
   @Override

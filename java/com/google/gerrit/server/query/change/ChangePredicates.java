@@ -33,22 +33,24 @@ public class ChangePredicates {
   private ChangePredicates() {}
 
   /**
-   * Returns a predicate that matches changes where the provided {@link Account.Id} is in the
-   * attention set.
+   * Returns a predicate that matches changes where the provided {@link
+   * com.google.gerrit.entities.Account.Id} is in the attention set.
    */
   public static Predicate<ChangeData> attentionSet(Account.Id id) {
     return new ChangeIndexPredicate(ChangeField.ATTENTION_SET_USERS, id.toString());
   }
 
   /**
-   * Returns a predicate that matches changes that are assigned to the provided {@link Account.Id}.
+   * Returns a predicate that matches changes that are assigned to the provided {@link
+   * com.google.gerrit.entities.Account.Id}.
    */
   public static Predicate<ChangeData> assignee(Account.Id id) {
     return new ChangeIndexPredicate(ChangeField.ASSIGNEE, id.toString());
   }
 
   /**
-   * Returns a predicate that matches changes that are a revert of the provided {@link Change.Id}.
+   * Returns a predicate that matches changes that are a revert of the provided {@link
+   * com.google.gerrit.entities.Change.Id}.
    */
   public static Predicate<ChangeData> revertOf(Change.Id revertOf) {
     return new ChangeIndexPredicate(ChangeField.REVERT_OF, revertOf.toString());
@@ -56,23 +58,23 @@ public class ChangePredicates {
 
   /**
    * Returns a predicate that matches changes that have a comment authored by the provided {@link
-   * Account.Id}.
+   * com.google.gerrit.entities.Account.Id}.
    */
   public static Predicate<ChangeData> commentBy(Account.Id id) {
     return new ChangeIndexPredicate(ChangeField.COMMENTBY, id.toString());
   }
 
   /**
-   * Returns a predicate that matches changes where the provided {@link Account.Id} has a pending
-   * change edit.
+   * Returns a predicate that matches changes where the provided {@link
+   * com.google.gerrit.entities.Account.Id} has a pending change edit.
    */
   public static Predicate<ChangeData> editBy(Account.Id id) {
     return new ChangeIndexPredicate(ChangeField.EDITBY, id.toString());
   }
 
   /**
-   * Returns a predicate that matches changes where the provided {@link Account.Id} has a pending
-   * draft comment.
+   * Returns a predicate that matches changes where the provided {@link
+   * com.google.gerrit.entities.Account.Id} has a pending draft comment.
    */
   public static Predicate<ChangeData> draftBy(Account.Id id) {
     return new ChangeIndexPredicate(ChangeField.DRAFTBY, id.toString());
@@ -80,7 +82,7 @@ public class ChangePredicates {
 
   /**
    * Returns a predicate that matches changes that were reviewed by any of the provided {@link
-   * Account.Id}.
+   * com.google.gerrit.entities.Account.Id}.
    */
   public static Predicate<ChangeData> reviewedBy(Collection<Account.Id> ids) {
     List<Predicate<ChangeData>> predicates = new ArrayList<>(ids.size());
@@ -96,26 +98,35 @@ public class ChangePredicates {
         new ChangeIndexPredicate(ChangeField.REVIEWEDBY, ChangeField.NOT_REVIEWED.toString()));
   }
 
-  /** Returns a predicate that matches the change with the provided {@link Change.Id}. */
+  /**
+   * Returns a predicate that matches the change with the provided {@link
+   * com.google.gerrit.entities.Change.Id}.
+   */
   public static Predicate<ChangeData> id(Change.Id id) {
     return new ChangeIndexPredicate(
         ChangeField.LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
   }
 
-  /** Returns a predicate that matches the change with the provided {@link Change.Id}. */
+  /**
+   * Returns a predicate that matches the change with the provided {@link
+   * com.google.gerrit.entities.Change.Id}.
+   */
   public static Predicate<ChangeData> idStr(Change.Id id) {
     return new ChangeIndexPredicate(
         ChangeField.LEGACY_ID_STR, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
   }
 
-  /** Returns a predicate that matches changes owned by the provided {@link Account.Id}. */
+  /**
+   * Returns a predicate that matches changes owned by the provided {@link
+   * com.google.gerrit.entities.Account.Id}.
+   */
   public static Predicate<ChangeData> owner(Account.Id id) {
     return new ChangeIndexPredicate(ChangeField.OWNER, id.toString());
   }
 
   /**
    * Returns a predicate that matches changes that are a cherry pick of the provided {@link
-   * Change.Id}.
+   * com.google.gerrit.entities.Change.Id}.
    */
   public static Predicate<ChangeData> cherryPickOf(Change.Id id) {
     return new ChangeIndexPredicate(ChangeField.CHERRY_PICK_OF_CHANGE, id.toString());
@@ -123,7 +134,7 @@ public class ChangePredicates {
 
   /**
    * Returns a predicate that matches changes that are a cherry pick of the provided {@link
-   * PatchSet.Id}.
+   * com.google.gerrit.entities.PatchSet.Id}.
    */
   public static Predicate<ChangeData> cherryPickOf(PatchSet.Id psId) {
     return Predicate.and(
@@ -131,7 +142,10 @@ public class ChangePredicates {
         new ChangeIndexPredicate(ChangeField.CHERRY_PICK_OF_PATCHSET, String.valueOf(psId.get())));
   }
 
-  /** Returns a predicate that matches changes in the provided {@link Project.NameKey}. */
+  /**
+   * Returns a predicate that matches changes in the provided {@link
+   * com.google.gerrit.entities.Project.NameKey}.
+   */
   public static Predicate<ChangeData> project(Project.NameKey id) {
     return new ChangeIndexPredicate(ChangeField.PROJECT, id.get());
   }

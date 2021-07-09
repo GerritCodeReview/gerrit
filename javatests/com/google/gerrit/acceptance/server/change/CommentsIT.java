@@ -1386,11 +1386,10 @@ public class CommentsIT extends AbstractDaemonTest {
             r1.getCommit().getName(),
             CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(4, 10), "comment 1"));
 
-    CommentInfo draftPs2 =
-        addDraft(
-            r1.getChangeId(),
-            r2.getCommit().getName(),
-            CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(3, 12), "comment 3"));
+    addDraft(
+        r1.getChangeId(),
+        r2.getCommit().getName(),
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, createLineRange(3, 12), "comment 3"));
 
     ReviewInput reviewInput =
         createReviewInput(

@@ -103,8 +103,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Before
   public void addNonCommitHead() throws Exception {
-    try (Repository repo = repoManager.openRepository(project)) {
-      ObjectInserter ins = repo.newObjectInserter();
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter ins = repo.newObjectInserter()) {
       ObjectId answer = ins.insert(Constants.OBJ_BLOB, new byte[] {42});
       ins.flush();
       ins.close();

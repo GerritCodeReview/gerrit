@@ -18,7 +18,6 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -65,8 +64,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 public class Rebase
     implements RestModifyView<RevisionResource, RebaseInput>, UiAction<RevisionResource> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private static final ImmutableSet<ListChangesOption> OPTIONS =
       Sets.immutableEnumSet(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT);
 

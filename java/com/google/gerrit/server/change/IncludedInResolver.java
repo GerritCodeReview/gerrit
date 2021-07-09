@@ -27,7 +27,6 @@ import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -112,33 +111,6 @@ public class IncludedInResolver {
       }
     }
     return result;
-  }
-
-  /**
-   * Partition the reference tips into two sets:
-   *
-   * <ul>
-   *   <li>before = commits with time < target.getCommitTime()
-   *   <li>after = commits with time >= target.getCommitTime()
-   * </ul>
-   *
-   * Each of the before/after lists is sorted by the commit time.
-   *
-   * @param before
-   * @param after
-   */
-  private void partition(List<RevCommit> before, List<RevCommit> after) {
-    int insertionPoint =
-        Collections.binarySearch(tipsByCommitTime, target, comparing(RevCommit::getCommitTime));
-    if (insertionPoint < 0) {
-      insertionPoint = -(insertionPoint + 1);
-    }
-    if (0 < insertionPoint) {
-      before.addAll(tipsByCommitTime.subList(0, insertionPoint));
-    }
-    if (insertionPoint < tipsByCommitTime.size()) {
-      after.addAll(tipsByCommitTime.subList(insertionPoint, tipsByCommitTime.size()));
-    }
   }
 
   /**

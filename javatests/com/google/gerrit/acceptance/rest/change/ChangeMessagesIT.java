@@ -312,11 +312,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertThat(info.message).isEqualTo(expectedMessage);
     List<ChangeMessageInfo> messagesAfterDeletion = gApi.changes().id(changeNum).messages();
     assertMessagesAfterDeletion(
-        messagesBeforeDeletion,
-        messagesAfterDeletion,
-        deletedMessageIndex,
-        deletedBy,
-        expectedMessage);
+        messagesBeforeDeletion, messagesAfterDeletion, deletedMessageIndex, expectedMessage);
     assertCommentsAfterDeletion(changeNum, commentsBefore);
 
     // Verify change index is updated after deletion.
@@ -331,7 +327,6 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
       List<ChangeMessageInfo> messagesBeforeDeletion,
       List<ChangeMessageInfo> messagesAfterDeletion,
       int deletedMessageIndex,
-      TestAccount deletedBy,
       String expectedDeleteMessage) {
     assertWithMessage("after: %s; before: %s", messagesAfterDeletion, messagesBeforeDeletion)
         .that(messagesAfterDeletion)

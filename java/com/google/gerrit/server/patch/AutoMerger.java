@@ -142,7 +142,7 @@ public class AutoMerger {
     }
     counter.increment(OperationType.IN_MEMORY_WRITE);
     logger.atInfo().log("Computing in-memory AutoMerge for " + merge.name());
-    try (Timer1.Context ignored = latency.start(OperationType.IN_MEMORY_WRITE)) {
+    try (Timer1.Context<OperationType> ignored = latency.start(OperationType.IN_MEMORY_WRITE)) {
       return rw.parseCommit(createAutoMergeCommit(repo.getConfig(), rw, ins, merge, mergeStrategy));
     }
   }
@@ -171,7 +171,7 @@ public class AutoMerger {
     }
 
     ObjectId autoMerge;
-    try (Timer1.Context ignored = latency.start(OperationType.ON_DISK_WRITE)) {
+    try (Timer1.Context<OperationType> ignored = latency.start(OperationType.ON_DISK_WRITE)) {
       autoMerge =
           createAutoMergeCommit(
               repoView.getConfig(), rw, ins, maybeMergeCommit, configuredMergeStrategy);

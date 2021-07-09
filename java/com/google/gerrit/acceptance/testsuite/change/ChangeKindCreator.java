@@ -88,10 +88,10 @@ public class ChangeKindCreator {
       throws Exception {
     switch (changeKind) {
       case NO_CODE_CHANGE:
-        noCodeChange(changeId, testRepo, user, project);
+        noCodeChange(changeId, testRepo, user);
         return;
       case REWORK:
-        rework(changeId, testRepo, user, project);
+        rework(changeId, testRepo, user);
         return;
       case TRIVIAL_REBASE:
         trivialRebase(changeId, testRepo, user, project);
@@ -100,7 +100,7 @@ public class ChangeKindCreator {
         updateFirstParent(changeId, testRepo, user);
         return;
       case NO_CHANGE:
-        noChange(changeId, testRepo, user, project);
+        noChange(changeId, testRepo, user);
         return;
       default:
         assertWithMessage("unexpected change kind: " + changeKind).fail();
@@ -218,10 +218,7 @@ public class ChangeKindCreator {
   }
 
   private void noCodeChange(
-      String changeId,
-      TestRepository<InMemoryRepository> testRepo,
-      TestAccount user,
-      Project.NameKey project)
+      String changeId, TestRepository<InMemoryRepository> testRepo, TestAccount user)
       throws Exception {
     TestRepository<?>.CommitBuilder commitBuilder =
         testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
@@ -235,10 +232,7 @@ public class ChangeKindCreator {
   }
 
   private void noChange(
-      String changeId,
-      TestRepository<InMemoryRepository> testRepo,
-      TestAccount user,
-      Project.NameKey project)
+      String changeId, TestRepository<InMemoryRepository> testRepo, TestAccount user)
       throws Exception {
     ChangeInfo change = gApi.changes().id(changeId).get();
     String commitMessage = change.revisions.get(change.currentRevision).commit.message;
@@ -255,10 +249,7 @@ public class ChangeKindCreator {
   }
 
   private void rework(
-      String changeId,
-      TestRepository<InMemoryRepository> testRepo,
-      TestAccount user,
-      Project.NameKey project)
+      String changeId, TestRepository<InMemoryRepository> testRepo, TestAccount user)
       throws Exception {
     PushOneCommit push =
         pushFactory.create(

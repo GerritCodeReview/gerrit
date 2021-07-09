@@ -118,7 +118,6 @@ ignore_templates_list = [
     "elements/diff/gr-diff-view/gr-diff-view_html.ts",
     "elements/diff/gr-diff/gr-diff_html.ts",
     "elements/diff/gr-patch-range-select/gr-patch-range-select_html.ts",
-    "elements/documentation/gr-documentation-search/gr-documentation-search_html.ts",
     "elements/edit/gr-edit-controls/gr-edit-controls_html.ts",
     "elements/gr-app-element_html.ts",
     "elements/settings/gr-cla-view/gr-cla-view_html.ts",

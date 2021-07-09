@@ -45,20 +45,20 @@ suite('gr-edit-preferences tests', () => {
   setup(async () => {
     editPreferences = {
       auto_close_brackets: false,
-      cursor_blink_rate: 0,
+      cursor_blink_rate: '0',
       hide_line_numbers: false,
       hide_top_menu: false,
-      indent_unit: 2,
+      indent_unit: '2',
       indent_with_tabs: false,
       key_map_type: 'DEFAULT',
-      line_length: 100,
+      line_length: '100',
       line_wrapping: false,
       match_brackets: true,
       show_base: false,
       show_tabs: true,
       show_whitespace_errors: true,
       syntax_highlighting: true,
-      tab_size: 8,
+      tab_size: '8',
       theme: 'DEFAULT',
     };
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c46597a_aed6311d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2021-07-09T11:42:24Z",
+      "side": 1,
+      "message": "an easy mis-parsing of this would be \"Make conflicts cache-reentrant\". you could avoid this by enquoting \"conflicts\". alternatively, use singular \"conflict\", though that\u0027s inconsistent with the class naming. or maybe somebody has a better idea.",
+      "revId": "e7e40aa5e1d74bb15298988d2386cf92ef5378b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

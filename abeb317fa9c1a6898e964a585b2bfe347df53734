@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "726595e2_0d02d0ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2021-07-09T09:43:08Z",
+      "side": 1,
+      "message": "Edwin, I removed the other footers, PTAL.",
+      "revId": "abeb317fa9c1a6898e964a585b2bfe347df53734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

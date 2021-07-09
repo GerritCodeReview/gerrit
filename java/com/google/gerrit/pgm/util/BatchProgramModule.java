@@ -90,6 +90,7 @@ import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.SubmitRule;
+import com.google.gerrit.server.update.BatchOpsExecutor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Injector;
 import com.google.inject.Module;
@@ -116,6 +117,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(new DiffExecutorModule());
     modules.add(new SysExecutorModule());
     modules.add(BatchUpdate.module());
+    modules.add(BatchOpsExecutor.module());
     modules.add(PatchListCacheImpl.module());
     modules.add(new DefaultUrlFormatter.Module());
     modules.add(DiffOperationsImpl.module());

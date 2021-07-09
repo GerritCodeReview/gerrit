@@ -47,6 +47,7 @@ public class RepoView {
   private final RevWalk rw;
   private final ObjectInserter inserter;
   private final ObjectInserter inserterWrapper;
+  private final ChainedReceiveCommands baseCommands;
   private final ChainedReceiveCommands commands;
   private final boolean closeRepo;
 
@@ -55,7 +56,8 @@ public class RepoView {
     inserter = repo.newObjectInserter();
     inserterWrapper = new NonFlushingInserter(inserter);
     rw = new RevWalk(inserter.newReader());
-    commands = new ChainedReceiveCommands(repo);
+    baseCommands = new ChainedReceiveCommands(repo);
+    commands = new ChainedReceiveCommands(baseCommands.getRepoRefCache());
     closeRepo = true;
   }
 
@@ -69,7 +71,24 @@ public class RepoView {
     this.rw = requireNonNull(rw);
     this.inserter = requireNonNull(inserter);
     inserterWrapper = new NonFlushingInserter(inserter);
-    commands = new ChainedReceiveCommands(repo);
+    baseCommands = new ChainedReceiveCommands(repo);
+    commands = new ChainedReceiveCommands(baseCommands.getRepoRefCache());
+    closeRepo = false;
+  }
+
+  RepoView(
+      Repository repo, RevWalk rw, ObjectInserter inserter, ChainedReceiveCommands baseCommands) {
+    checkArgument(
+        rw.getObjectReader().getCreatedFromInserter() == inserter,
+        "expected RevWalk %s to be created by ObjectInserter %s",
+        rw,
+        inserter);
+    this.repo = requireNonNull(repo);
+    this.rw = requireNonNull(rw);
+    this.inserter = requireNonNull(inserter);
+    inserterWrapper = new NonFlushingInserter(inserter);
+    this.baseCommands = baseCommands;
+    this.commands = new ChainedReceiveCommands(baseCommands.getRepoRefCache());
     closeRepo = false;
   }
 
@@ -115,7 +134,11 @@ public class RepoView {
    * @throws IOException if an error occurred.
    */
   public Optional<ObjectId> getRef(String name) throws IOException {
-    return getCommands().get(name);
+    // Lookup in most recent update first
+    if (commands.getCommands().containsKey(name)) {
+      return getCommands().get(name);
+    }
+    return baseCommands.get(name);
   }
 
   /**
@@ -153,6 +176,14 @@ public class RepoView {
         .forEach((k, v) -> updateRefIfPrefixMatches(result, prefix, k, v));
 
     // Second, overwrite with any pending commands.
+    baseCommands
+        .getCommands()
+        .values()
+        .forEach(
+            c ->
+                updateRefIfPrefixMatches(result, prefix, c.getRefName(), toOptional(c.getNewId())));
+
+    // Second, overwrite with any pending updates
     commands
         .getCommands()
         .values()

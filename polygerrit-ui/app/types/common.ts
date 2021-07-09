@@ -1054,10 +1054,10 @@ export interface CommentInput {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#edit-preferences-info
  */
 export interface EditPreferencesInfo {
-  tab_size: number;
-  line_length: number;
-  indent_unit: number;
-  cursor_blink_rate: number;
+  tab_size?: string;
+  line_length?: string;
+  indent_unit?: string;
+  cursor_blink_rate?: string;
   hide_top_menu?: boolean;
   show_tabs?: boolean;
   show_whitespace_errors?: boolean;

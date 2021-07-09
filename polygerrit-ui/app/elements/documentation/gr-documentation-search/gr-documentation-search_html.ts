@@ -25,7 +25,6 @@ export const htmlTemplate = html`
   </style>
   <gr-list-view
     filter="[[_filter]]"
-    items="false"
     offset="0"
     loading="[[_loading]]"
     path="/Documentation"

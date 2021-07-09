@@ -445,6 +445,52 @@ public class CommentContextIT extends AbstractDaemonTest {
     assertThat(comments.get(0).sourceContentType).isEqualTo("text/x-c++src");
   }
 
+  @Test
+  public void listChangeCommentsWithContextEnabled_TwoRangeCommentsWithTheSameContext()
+      throws Exception {
+    PushOneCommit.Result r1 = createChange();
+
+    ImmutableList.Builder<String> content = ImmutableList.builder();
+    for (int i = 1; i <= 10; i++) {
+      content.add("line_" + i);
+    }
+
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                PushOneCommit.SUBJECT,
+                FILE_NAME,
+                content.build().stream().collect(Collectors.joining("\n")),
+                r1.getChangeId())
+            .to("refs/for/master");
+
+    CommentsUtil.addCommentOnRange(gApi, r2, "looks good", createCommentRange(2, 5));
+    CommentsUtil.addCommentOnRange(gApi, r2, "are you sure?", createCommentRange(2, 5));
+
+    List<CommentInfo> comments =
+        gApi.changes().id(r2.getChangeId()).commentsRequest().withContext(true).getAsList();
+
+    assertThat(comments).hasSize(2);
+
+    assertThat(
+            comments.stream()
+                .filter(c -> c.message.equals("looks good"))
+                .collect(MoreCollectors.onlyElement())
+                .contextLines)
+        .containsExactlyElementsIn(
+            createContextLines("2", "line_2", "3", "line_3", "4", "line_4", "5", "line_5"));
+
+    assertThat(
+            comments.stream()
+                .filter(c -> c.message.equals("are you sure?"))
+                .collect(MoreCollectors.onlyElement())
+                .contextLines)
+        .containsExactlyElementsIn(
+            createContextLines("2", "line_2", "3", "line_3", "4", "line_4", "5", "line_5"));
+  }
+
   private String createChangeWithContent(String fileName, String fileContent, int line)
       throws Exception {
     PushOneCommit.Result result =

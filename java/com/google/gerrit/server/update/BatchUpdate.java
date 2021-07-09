@@ -18,52 +18,29 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableMultiset.toImmutableMultiset;
 import static com.google.common.flogger.LazyArgs.lazy;
-import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multiset;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.PatchSet.Id;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.logging.Metadata;
-import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -72,22 +49,11 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.TimeZone;
-import java.util.TreeMap;
-import java.util.function.Function;
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.PushCertificate;
-import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.ReceiveCommand.Result;
 
 /**
  * Helper for a set of change updates that should be applied to the NoteDb database.
@@ -110,7 +76,7 @@ import org.eclipse.jgit.transport.ReceiveCommand.Result;
  * <p>Similarly, all post-update steps, such as sending email, must run only after all storage
  * mutations have completed.
  */
-public class BatchUpdate implements AutoCloseable {
+public class BatchUpdate extends AbstractBatchUpdate implements AutoCloseable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static Module module() {
@@ -158,23 +124,10 @@ public class BatchUpdate implements AutoCloseable {
           h.close();
         }
       }
-
-      Map<Change.Id, ChangeData> changeDatas =
-          Futures.allAsList(indexFutures).get().stream()
-              // filter out null values that were returned for change deletions
-              .filter(Objects::nonNull)
-              .collect(toMap(cd -> cd.change().getId(), Function.identity()));
-
       // Fire ref update events only after all mutations are finished, since callers may assume a
       // patch set ref being created means the change was created, or a branch advancing meaning
       // some changes were closed.
-      updates.forEach(BatchUpdate::fireRefChangeEvent);
-
-      if (!dryrun) {
-        for (BatchUpdate u : updates) {
-          u.executePostOps(changeDatas);
-        }
-      }
+      executePostSteps(updates, indexFutures, dryrun);
     } catch (Exception e) {
       wrapAndThrowException(e);
     }
@@ -210,189 +163,7 @@ public class BatchUpdate implements AutoCloseable {
         projectCounts);
   }
 
-  private static void wrapAndThrowException(Exception e) throws UpdateException, RestApiException {
-    // Convert common non-REST exception types with user-visible messages to corresponding REST
-    // exception types.
-    if (e instanceof InvalidChangeOperationException || e instanceof LimitExceededException) {
-      throw new ResourceConflictException(e.getMessage(), e);
-    } else if (e instanceof NoSuchChangeException
-        || e instanceof NoSuchRefException
-        || e instanceof NoSuchProjectException) {
-      throw new ResourceNotFoundException(e.getMessage(), e);
-    } else if (e instanceof CommentsRejectedException) {
-      // SC_BAD_REQUEST is not ideal because it's not a syntactic error, but there is no better
-      // status code and it's isolated in monitoring.
-      throw new BadRequestException(e.getMessage(), e);
-    }
-
-    Throwables.throwIfUnchecked(e);
-
-    // Propagate REST API exceptions thrown by operations; they commonly throw exceptions like
-    // ResourceConflictException to indicate an atomic update failure.
-    Throwables.throwIfInstanceOf(e, UpdateException.class);
-    Throwables.throwIfInstanceOf(e, RestApiException.class);
-
-    // Otherwise, wrap in a generic UpdateException, which does not include a user-visible message.
-    throw new UpdateException(e);
-  }
-
-  class ContextImpl implements Context {
-    @Override
-    public RepoView getRepoView() throws IOException {
-      return BatchUpdate.this.getRepoView();
-    }
-
-    @Override
-    public RevWalk getRevWalk() throws IOException {
-      return getRepoView().getRevWalk();
-    }
-
-    @Override
-    public Project.NameKey getProject() {
-      return project;
-    }
-
-    @Override
-    public Timestamp getWhen() {
-      return when;
-    }
-
-    @Override
-    public TimeZone getTimeZone() {
-      return tz;
-    }
-
-    @Override
-    public CurrentUser getUser() {
-      return user;
-    }
-
-    @Override
-    public NotifyResolver.Result getNotify(Change.Id changeId) {
-      NotifyHandling notifyHandling = perChangeNotifyHandling.get(changeId);
-      return notifyHandling != null ? notify.withHandling(notifyHandling) : notify;
-    }
-  }
-
-  private class RepoContextImpl extends ContextImpl implements RepoContext {
-    @Override
-    public ObjectInserter getInserter() throws IOException {
-      return getRepoView().getInserterWrapper();
-    }
-
-    @Override
-    public void addRefUpdate(ReceiveCommand cmd) throws IOException {
-      getRepoView().getCommands().add(cmd);
-    }
-  }
-
-  private class ChangeContextImpl extends ContextImpl implements ChangeContext {
-    private final ChangeNotes notes;
-
-    /**
-     * Updates where the caller instructed us to create one NoteDb commit per update. Keyed by
-     * PatchSet.Id only for convenience.
-     */
-    private final Map<PatchSet.Id, ChangeUpdate> defaultUpdates;
-
-    /**
-     * Updates where the caller allowed us to combine potentially multiple adjustments into a single
-     * commit in NoteDb by re-using the same ChangeUpdate instance. Will still be one commit per
-     * patch set.
-     */
-    private final ListMultimap<Id, ChangeUpdate> distinctUpdates;
-
-    private boolean deleted;
-
-    ChangeContextImpl(ChangeNotes notes) {
-      this.notes = requireNonNull(notes);
-      defaultUpdates = new TreeMap<>(comparing(PatchSet.Id::get));
-      distinctUpdates = ArrayListMultimap.create();
-    }
-
-    @Override
-    public ChangeUpdate getUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = defaultUpdates.get(psId);
-      if (u == null) {
-        u = getNewChangeUpdate(psId);
-        defaultUpdates.put(psId, u);
-      }
-      return u;
-    }
-
-    @Override
-    public ChangeUpdate getDistinctUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = getNewChangeUpdate(psId);
-      distinctUpdates.put(psId, u);
-      return u;
-    }
-
-    private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = changeUpdateFactory.create(notes, user, when);
-      if (newChanges.containsKey(notes.getChangeId())) {
-        u.setAllowWriteToNewRef(true);
-      }
-      u.setPatchSetId(psId);
-      return u;
-    }
-
-    @Override
-    public ChangeNotes getNotes() {
-      return notes;
-    }
-
-    @Override
-    public void deleteChange() {
-      deleted = true;
-    }
-  }
-
-  private class PostUpdateContextImpl extends ContextImpl implements PostUpdateContext {
-    private final Map<Change.Id, ChangeData> changeDatas;
-
-    PostUpdateContextImpl(Map<Change.Id, ChangeData> changeDatas) {
-      this.changeDatas = changeDatas;
-    }
-
-    @Override
-    public ChangeData getChangeData(Change change) {
-      return changeDatas.computeIfAbsent(change.getId(), id -> changeDataFactory.create(change));
-    }
-  }
-
-  /** Per-change result status from {@link #executeChangeOps}. */
-  private enum ChangeResult {
-    SKIPPED,
-    UPSERTED,
-    DELETED
-  }
-
-  private final GitRepositoryManager repoManager;
-  private final ChangeData.Factory changeDataFactory;
-  private final ChangeNotes.Factory changeNotesFactory;
-  private final ChangeUpdate.Factory changeUpdateFactory;
-  private final NoteDbUpdateManager.Factory updateManagerFactory;
-  private final ChangeIndexer indexer;
-  private final GitReferenceUpdated gitRefUpdated;
-
-  private final Project.NameKey project;
-  private final CurrentUser user;
-  private final Timestamp when;
-  private final TimeZone tz;
-
-  private final ListMultimap<Change.Id, BatchUpdateOp> ops =
-      MultimapBuilder.linkedHashKeys().arrayListValues().build();
-  private final Map<Change.Id, Change> newChanges = new HashMap<>();
-  private final List<RepoOnlyOp> repoOnlyOps = new ArrayList<>();
-  private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
-
-  private RepoView repoView;
-  private BatchRefUpdate batchRefUpdate;
-  private boolean executed;
   private OnSubmitValidators onSubmitValidators;
-  private PushCertificate pushCert;
-  private String refLogMessage;
-  private NotifyResolver.Result notify = NotifyResolver.Result.all();
 
   @Inject
   BatchUpdate(
@@ -407,17 +178,18 @@ public class BatchUpdate implements AutoCloseable {
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
-    this.repoManager = repoManager;
-    this.changeDataFactory = changeDataFactory;
-    this.changeNotesFactory = changeNotesFactory;
-    this.changeUpdateFactory = changeUpdateFactory;
-    this.updateManagerFactory = updateManagerFactory;
-    this.indexer = indexer;
-    this.gitRefUpdated = gitRefUpdated;
-    this.project = project;
-    this.user = user;
-    this.when = when;
-    tz = serverIdent.getTimeZone();
+    super(
+        repoManager,
+        serverIdent,
+        changeDataFactory,
+        changeNotesFactory,
+        changeUpdateFactory,
+        updateManagerFactory,
+        indexer,
+        gitRefUpdated,
+        project,
+        user,
+        when);
   }
 
   @Override
@@ -428,125 +200,43 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public void execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
+    checkNotExecuted();
     execute(ImmutableList.of(this), ImmutableList.of(listener), false);
   }
 
   public void execute() throws UpdateException, RestApiException {
+    checkNotExecuted();
     execute(ImmutableList.of(this), ImmutableList.of(), false);
-  }
-
-  public boolean isExecuted() {
-    return executed;
-  }
-
-  public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
-    checkState(this.repoView == null, "repo already set");
-    repoView = new RepoView(repo, revWalk, inserter);
-    return this;
-  }
-
-  public BatchUpdate setPushCertificate(@Nullable PushCertificate pushCert) {
-    this.pushCert = pushCert;
-    return this;
-  }
-
-  public BatchUpdate setRefLogMessage(@Nullable String refLogMessage) {
-    this.refLogMessage = refLogMessage;
-    return this;
-  }
-
-  /**
-   * Set the default notification settings for all changes in the batch.
-   *
-   * @param notify notification settings.
-   * @return this.
-   */
-  public BatchUpdate setNotify(NotifyResolver.Result notify) {
-    this.notify = requireNonNull(notify);
-    return this;
-  }
-
-  /**
-   * Override the {@link NotifyHandling} on a per-change basis.
-   *
-   * <p>Only the handling enum can be overridden; all changes share the same value for {@link
-   * com.google.gerrit.server.change.NotifyResolver.Result#accounts()}.
-   *
-   * @param changeId change ID.
-   * @param notifyHandling notify handling.
-   * @return this.
-   */
-  public BatchUpdate setNotifyHandling(Change.Id changeId, NotifyHandling notifyHandling) {
-    this.perChangeNotifyHandling.put(changeId, requireNonNull(notifyHandling));
-    return this;
   }
 
   /**
    * Add a validation step for intended ref operations, which will be performed at the end of {@link
    * RepoOnlyOp#updateRepo(RepoContext)} step.
    */
-  public BatchUpdate setOnSubmitValidators(OnSubmitValidators onSubmitValidators) {
+  public void setOnSubmitValidators(OnSubmitValidators onSubmitValidators) {
     this.onSubmitValidators = onSubmitValidators;
-    return this;
   }
 
-  public Project.NameKey getProject() {
-    return project;
-  }
-
-  private void initRepository() throws IOException {
-    if (repoView == null) {
-      repoView = new RepoView(repoManager, project);
-    }
-  }
-
-  private RepoView getRepoView() throws IOException {
-    initRepository();
-    return repoView;
-  }
-
-  private Optional<AccountState> getAccount() {
-    return user.isIdentifiedUser()
-        ? Optional.of(user.asIdentifiedUser().state())
-        : Optional.empty();
-  }
-
-  public Map<String, ReceiveCommand> getRefUpdates() {
-    return repoView != null ? repoView.getCommands().getCommands() : ImmutableMap.of();
-  }
-
-  /**
-   * Return the references successfully updated by this BatchUpdate with their command. In dryrun,
-   * we assume all updates were successful.
-   */
-  public Map<BranchNameKey, ReceiveCommand> getSuccessfullyUpdatedBranches(boolean dryrun) {
-    return getRefUpdates().entrySet().stream()
-        .filter(entry -> dryrun || entry.getValue().getResult() == Result.OK)
-        .collect(
-            toMap(entry -> BranchNameKey.create(project, entry.getKey()), Map.Entry::getValue));
-  }
-
-  public BatchUpdate addOp(Change.Id id, BatchUpdateOp op) {
+  @Override
+  public void addOp(Change.Id id, BatchUpdateOp op) {
     checkArgument(!(op instanceof InsertChangeOp), "use insertChange");
     requireNonNull(op);
     ops.put(id, op);
-    return this;
   }
 
-  public BatchUpdate addRepoOnlyOp(RepoOnlyOp op) {
+  @Override
+  public void addRepoOnlyOp(RepoOnlyOp op) {
     checkArgument(!(op instanceof BatchUpdateOp), "use addOp()");
     repoOnlyOps.add(op);
-    return this;
   }
 
-  public BatchUpdate insertChange(InsertChangeOp op) throws IOException {
+  public void insertChange(InsertChangeOp op) throws IOException {
     Context ctx = new ContextImpl();
     Change c = op.createChange(ctx);
     checkArgument(
         !newChanges.containsKey(c.getId()), "only one op allowed to create change %s", c.getId());
     newChanges.put(c.getId(), c);
     ops.get(c.getId()).add(0, op);
-    return this;
   }
 
   private void executeUpdateRepo() throws UpdateException, RestApiException {
@@ -580,63 +270,6 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void fireRefChangeEvent() {
-    if (batchRefUpdate != null) {
-      gitRefUpdated.fire(project, batchRefUpdate, getAccount().orElse(null));
-    }
-  }
-
-  private class ChangesHandle implements AutoCloseable {
-    private final NoteDbUpdateManager manager;
-    private final boolean dryrun;
-    private final Map<Change.Id, ChangeResult> results;
-
-    ChangesHandle(NoteDbUpdateManager manager, boolean dryrun) {
-      this.manager = manager;
-      this.dryrun = dryrun;
-      results = new HashMap<>();
-    }
-
-    @Override
-    public void close() {
-      manager.close();
-    }
-
-    void setResult(Change.Id id, ChangeResult result) {
-      ChangeResult old = results.putIfAbsent(id, result);
-      checkArgument(old == null, "result for change %s already set: %s", id, old);
-    }
-
-    void execute() throws IOException {
-      BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
-      BatchUpdate.this.executed = manager.isExecuted();
-    }
-
-    List<ListenableFuture<ChangeData>> startIndexFutures() {
-      if (dryrun) {
-        return ImmutableList.of();
-      }
-      logDebug("Reindexing %d changes", results.size());
-      List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>(results.size());
-      for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
-        Change.Id id = e.getKey();
-        switch (e.getValue()) {
-          case UPSERTED:
-            indexFutures.add(indexer.indexAsync(project, id));
-            break;
-          case DELETED:
-            indexFutures.add(indexer.deleteAsync(id));
-            break;
-          case SKIPPED:
-            break;
-          default:
-            throw new IllegalStateException("unexpected result: " + e.getValue());
-        }
-      }
-      return indexFutures;
-    }
-  }
-
   private ChangesHandle executeChangeOps(
       ImmutableList<BatchUpdateListener> batchUpdateListeners, boolean dryrun) throws Exception {
     logDebug("Executing change ops");
@@ -663,7 +296,6 @@ public class BatchUpdate implements AutoCloseable {
     for (Map.Entry<Change.Id, Collection<BatchUpdateOp>> e : ops.asMap().entrySet()) {
       Change.Id id = e.getKey();
       ChangeContextImpl ctx = newChangeContext(id);
-      boolean dirty = false;
       logDebug(
           "Applying %d ops for change %s: %s",
           e.getValue().size(),
@@ -673,85 +305,11 @@ public class BatchUpdate implements AutoCloseable {
         try (TraceContext.TraceTimer ignored =
             TraceContext.newTimer(
                 op.getClass().getSimpleName() + "#updateChange", Metadata.empty())) {
-          dirty |= op.updateChange(ctx);
+          ctx.dirty |= op.updateChange(ctx);
         }
       }
-      if (!dirty) {
-        logDebug("No ops reported dirty, short-circuiting");
-        handle.setResult(id, ChangeResult.SKIPPED);
-        continue;
-      }
-      ctx.defaultUpdates.values().forEach(handle.manager::add);
-      ctx.distinctUpdates.values().forEach(handle.manager::add);
-      if (ctx.deleted) {
-        logDebug("Change %s was deleted", id);
-        handle.manager.deleteChange(id);
-        handle.setResult(id, ChangeResult.DELETED);
-      } else {
-        handle.setResult(id, ChangeResult.UPSERTED);
-      }
+      handle.applyUpdates(id, ctx);
     }
     return handle;
-  }
-
-  private ChangeContextImpl newChangeContext(Change.Id id) {
-    logDebug("Opening change %s for update", id);
-    Change c = newChanges.get(id);
-    boolean isNew = c != null;
-    if (!isNew) {
-      // Pass a synthetic change into ChangeNotes.Factory, which will take care of checking for
-      // existence and populating columns from the parsed notes state.
-      // TODO(dborowitz): This dance made more sense when using Reviewdb; consider a nicer way.
-      c = ChangeNotes.Factory.newChange(project, id);
-    } else {
-      logDebug("Change %s is new", id);
-    }
-    ChangeNotes notes = changeNotesFactory.createForBatchUpdate(c, !isNew);
-    return new ChangeContextImpl(notes);
-  }
-
-  private void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
-    PostUpdateContextImpl ctx = new PostUpdateContextImpl(changeDatas);
-    for (BatchUpdateOp op : ops.values()) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
-      }
-    }
-
-    for (RepoOnlyOp op : repoOnlyOps) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
-      }
-    }
-  }
-
-  private static void logDebug(String msg) {
-    // Only log if there is a requestId assigned, since those are the
-    // expensive/complicated requests like MergeOp. Doing it every time would be
-    // noisy.
-    if (RequestId.isSet()) {
-      logger.atFine().log(msg);
-    }
-  }
-
-  private static void logDebug(String msg, @Nullable Object arg) {
-    // Only log if there is a requestId assigned, since those are the
-    // expensive/complicated requests like MergeOp. Doing it every time would be
-    // noisy.
-    if (RequestId.isSet()) {
-      logger.atFine().log(msg, arg);
-    }
-  }
-
-  private static void logDebug(
-      String msg, @Nullable Object arg1, @Nullable Object arg2, @Nullable Object arg3) {
-    // Only log if there is a requestId assigned, since those are the
-    // expensive/complicated requests like MergeOp. Doing it every time would be
-    // noisy.
-    if (RequestId.isSet()) {
-      logger.atFine().log(msg, arg1, arg2, arg3);
-    }
   }
 }

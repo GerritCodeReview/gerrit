@@ -103,6 +103,6 @@ public interface GroupCache {
    */
   void evict(AccountGroup.UUID groupUuid);
 
-  /** @see #evict(AccountGroup.UUID); */
+  /** @see #evict(AccountGroup.UUID) */
   void evict(Collection<AccountGroup.UUID> groupUuid);
 }

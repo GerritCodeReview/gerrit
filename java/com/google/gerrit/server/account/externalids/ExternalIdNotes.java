@@ -85,7 +85,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  *
  * <p>After committing the external IDs a cache update can be requested which also reindexes the
  * accounts for which external IDs have been updated (see {@link
- * ExternalIdNotesLoader#updateExternalIdCacheAndMaybeReindexAccounts)}).
+ * ExternalIdNotesLoader#updateExternalIdCacheAndMaybeReindexAccounts(ExternalIdNotes,
+ * Collection)}).
  */
 public class ExternalIdNotes extends VersionedMetaData {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

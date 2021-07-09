@@ -265,9 +265,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           // the results while rolling out the new diff cache.
           runOldDiffCacheAsyncAndExportMetrics(git, aId, bId, patchScript);
           return patchScript;
-        } else {
-          return getPatchScriptWithOldDiffCache(git, aId, bId);
         }
+        return getPatchScriptWithOldDiffCache(git, aId, bId);
       } catch (PatchListNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
       } catch (DiffNotAvailableException e) {

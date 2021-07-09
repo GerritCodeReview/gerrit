@@ -62,9 +62,8 @@ public class DeleteReviewersUtil {
             changeNotes.getChangeId(),
             deleteReviewerOpFactory.create(result.asUnique().account(), deleteReviewerInput));
         return;
-      } else {
-        return;
       }
+      return;
     } catch (AccountResolver.UnresolvableAccountException e) {
       if (e.isSelf()) {
         throw new AuthException(e.getMessage(), e);

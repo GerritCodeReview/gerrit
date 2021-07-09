@@ -1718,10 +1718,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     gApi.changes().id(changeId).current().submit(in);
   }
 
-  private void merge(String changeId, TestAccount by, TestAccount onBehalfOf) throws Exception {
-    merge(changeId, by, onBehalfOf, /*notify=*/ null);
-  }
-
   private void merge(
       String changeId, TestAccount by, TestAccount onBehalfOf, @Nullable NotifyHandling notify)
       throws Exception {

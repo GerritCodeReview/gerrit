@@ -16,7 +16,6 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
-import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import java.util.Optional;
 
 /** Result of evaluating a {@link SubmitRequirement} on a given Change. */

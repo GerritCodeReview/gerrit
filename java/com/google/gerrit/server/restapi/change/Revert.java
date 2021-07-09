@@ -19,7 +19,6 @@ import static com.google.gerrit.server.permissions.ChangePermission.REVERT;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.RevertInput;
@@ -54,8 +53,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class Revert
     implements RestModifyView<ChangeResource, RevertInput>, UiAction<ChangeResource> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final PermissionBackend permissionBackend;
   private final PatchSetUtil psUtil;
   private final ChangeJson.Factory json;

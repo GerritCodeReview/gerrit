@@ -89,7 +89,6 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
-      IdentifiedUser.GenericFactory userFactory,
       VoteDeleted voteDeleted,
       DeleteVoteSender.Factory deleteVoteSenderFactory,
       NotifyResolver notifyResolver,

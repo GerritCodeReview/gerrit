@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -44,8 +43,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class Abandon
     implements RestModifyView<ChangeResource, AbandonInput>, UiAction<ChangeResource> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final BatchUpdate.Factory updateFactory;
   private final ChangeJson.Factory json;
   private final AbandonOp.Factory abandonOpFactory;

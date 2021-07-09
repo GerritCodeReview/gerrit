@@ -17,16 +17,13 @@ package com.google.gerrit.server.rules;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,8 +39,6 @@ import java.util.Optional;
  */
 @Singleton
 public final class DefaultSubmitRule implements SubmitRule {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public static class Module extends FactoryModule {
     @Override
     public void configure() {
@@ -51,13 +46,6 @@ public final class DefaultSubmitRule implements SubmitRule {
           .annotatedWith(Exports.named("DefaultRules"))
           .to(DefaultSubmitRule.class);
     }
-  }
-
-  private final ProjectCache projectCache;
-
-  @Inject
-  DefaultSubmitRule(ProjectCache projectCache) {
-    this.projectCache = projectCache;
   }
 
   @Override

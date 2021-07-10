@@ -116,9 +116,9 @@ export const htmlTemplate = html`
         link=""
         aria-label="Remove user from attention set"
         on-click="_handleRemoveAttentionClick"
-        disabled="[[!_computeAttentionButtonEnabled(highlightAttention, account, change, _selfAccount, selected)]]"
-        has-tooltip="[[_computeAttentionButtonEnabled(highlightAttention, account, change, _selfAccount, false)]]"
-        title="[[_computeAttentionIconTitle(highlightAttention, account, change, _selfAccount, forceAttention, selected)]]"
+        disabled="[[!_computeAttentionButtonEnabled(highlightAttention, account, change, selected, _selfAccount)]]"
+        has-tooltip="[[_computeAttentionButtonEnabled(highlightAttention, account, change, false, _selfAccount)]]"
+        title="[[_computeAttentionIconTitle(highlightAttention, account, change, forceAttention, selected, _selfAccount)]]"
         ><iron-icon class="attention" icon="gr-icons:attention"></iron-icon>
       </gr-button>
     </template>
@@ -131,7 +131,7 @@ export const htmlTemplate = html`
       <gr-avatar account="[[account]]" imageSize="32"></gr-avatar>
     </template>
     <span class="text">
-      <span class="name">[[_computeName(account, _config, firstName)]]</span>
+      <span class="name">[[_computeName(account, firstName, _config)]]</span>
       <template is="dom-if" if="[[!hideStatus]]">
         <template is="dom-if" if="[[account.status]]">
           <iron-icon class="status" icon="gr-icons:calendar"></iron-icon>

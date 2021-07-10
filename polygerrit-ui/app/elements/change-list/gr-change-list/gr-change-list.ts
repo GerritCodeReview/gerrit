@@ -161,7 +161,9 @@ export class GrChangeList extends ChangeTableMixin(
     super();
     this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.cursor.focusOnMove = true;
-    this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
+    this.addEventListener('keydown', e =>
+      this._scopedKeydownHandler((e as unknown) as CustomKeyboardEvent)
+    );
   }
 
   /** @override */
@@ -197,10 +199,10 @@ export class GrChangeList extends ChangeTableMixin(
    *
    * Context: Issue 7294
    */
-  _scopedKeydownHandler(e: KeyboardEvent) {
+  _scopedKeydownHandler(e: CustomKeyboardEvent) {
     if (e.keyCode === 13) {
       // Enter.
-      this._openChange((e as unknown) as CustomKeyboardEvent);
+      this._openChange(e);
     }
   }
 

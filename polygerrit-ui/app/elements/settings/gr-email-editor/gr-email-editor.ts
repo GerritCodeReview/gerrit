@@ -31,7 +31,7 @@ export class GrEmailEditor extends PolymerElement {
   }
 
   @property({type: Boolean, notify: true})
-  hasUnsavedChanges = false;
+  hasUnsavedChanges? = false;
 
   @property({type: Array})
   _emails: EmailInfo[] = [];

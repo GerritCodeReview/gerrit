@@ -39,6 +39,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {PaperInputElementExt} from '../../../types/types';
 import {fireAlert} from '../../../utils/event-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
+import {KeydownEvent} from '../../../types/events';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -359,7 +360,7 @@ export class GrAccountList extends PolymerElement {
     }
   }
 
-  _handleChipKeydown(e: KeyboardEvent) {
+  _handleChipKeydown(e: KeydownEvent) {
     const chip = e.target as GrAccountChip;
     const chips = this.accountChips;
     const index = chips.indexOf(chip);

@@ -2250,7 +2250,7 @@ an account.
 |============================
 |Field Name        ||Description
 |`identity`        ||The account external id.
-|`email`           |optional|The email address for the external id.
+|`email_address`   |optional|The email address for the external id.
 |`trusted`         |not set if `false`|
 Whether the external id is trusted.
 |`can_delete`      |not set if `false`|

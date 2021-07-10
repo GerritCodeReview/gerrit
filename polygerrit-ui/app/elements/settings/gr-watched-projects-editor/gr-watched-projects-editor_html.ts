@@ -53,12 +53,7 @@ export const htmlTemplate = html`
         </tr>
       </thead>
       <tbody>
-        <template
-          is="dom-repeat"
-          items="[[_projects]]"
-          as="project"
-          index-as="projectIndex"
-        >
+        <template is="dom-repeat" items="[[_projects]]" as="project">
           <tr>
             <td>
               [[project.project]]
@@ -70,7 +65,7 @@ export const htmlTemplate = html`
               <td class="notifControl" on-click="_handleNotifCellClick">
                 <input
                   type="checkbox"
-                  data-index$="[[projectIndex]]"
+                  data-index$="[[_getIndexNumber(project.project)]]"
                   data-key$="[[type.key]]"
                   on-change="_handleCheckboxChange"
                   checked$="[[_computeCheckboxChecked(project, type.key)]]"
@@ -80,7 +75,7 @@ export const htmlTemplate = html`
             <td>
               <gr-button
                 link=""
-                data-index$="[[projectIndex]]"
+                data-index$="[[_getIndexNumber(project.project)]]"
                 on-click="_handleRemoveProject"
                 >Delete</gr-button
               >

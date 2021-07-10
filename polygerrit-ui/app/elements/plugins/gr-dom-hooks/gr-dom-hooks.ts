@@ -16,10 +16,10 @@
  */
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {PluginApi} from '../../../api/plugin';
-import {HookApi, HookCallback} from '../../../api/hook';
+import {HookApi, HookCallback, PluginElement} from '../../../api/hook';
 
 export class GrDomHooksManager {
-  private hooks: Record<string, GrDomHook>;
+  private hooks: Record<string, GrDomHook<PluginElement>>;
 
   private plugin: PluginApi;
 
@@ -41,23 +41,33 @@ export class GrDomHooksManager {
     }
   }
 
-  getDomHook(endpointName: string, moduleName?: string) {
+  getDomHook<T extends PluginElement>(
+    endpointName: string,
+    moduleName?: string
+  ): HookApi<T> {
     const hookName = this._getHookName(endpointName, moduleName);
     if (!this.hooks[hookName]) {
-      this.hooks[hookName] = new GrDomHook(hookName, moduleName);
+      this.hooks[hookName] = (new GrDomHook<T>(
+        hookName,
+        moduleName
+      ) as unknown) as GrDomHook<PluginElement>;
     }
-    return this.hooks[hookName];
+    return this.hooks[hookName] as unknown as GrDomHook<T>;
   }
 }
 
-export class GrDomHook implements HookApi {
+export class GrDomHook<T extends PluginElement> implements HookApi<T> {
   private instances: HTMLElement[] = [];
 
-  private attachCallbacks: HookCallback[] = [];
+  private attachCallbacks: HookCallback<T>[] = [];
 
-  private detachCallbacks: HookCallback[] = [];
+  private detachCallbacks: HookCallback<T>[] = [];
 
-  private moduleName: string;
+  /**
+   * The name of the (custom) element that is going to be created. Matches the T
+   * type parameter.
+   */
+  private readonly moduleName: string;
 
   private lastAttachedPromise: Promise<HTMLElement> | null = null;
 
@@ -87,7 +97,7 @@ export class GrDomHook implements HookApi {
     customElements.define(HookPlaceholder.is, HookPlaceholder);
   }
 
-  handleInstanceDetached(instance: HTMLElement) {
+  handleInstanceDetached(instance: T) {
     const index = this.instances.indexOf(instance);
     if (index !== -1) {
       this.instances.splice(index, 1);
@@ -95,7 +105,7 @@ export class GrDomHook implements HookApi {
     this.detachCallbacks.forEach(callback => callback(instance));
   }
 
-  handleInstanceAttached(instance: HTMLElement) {
+  handleInstanceAttached(instance: T) {
     this.instances.push(instance);
     this.attachCallbacks.forEach(callback => callback(instance));
   }
@@ -109,7 +119,7 @@ export class GrDomHook implements HookApi {
       return Promise.resolve(this.instances.slice(-1)[0]);
     }
     if (!this.lastAttachedPromise) {
-      let resolve: HookCallback;
+      let resolve: HookCallback<T>;
       const promise = new Promise<HTMLElement>(r => {
         resolve = r;
         this.attachCallbacks.push(resolve);
@@ -137,7 +147,7 @@ export class GrDomHook implements HookApi {
    * Install a new callback to invoke when a new instance of DOM hook element
    * is attached.
    */
-  onAttached(callback: HookCallback) {
+  onAttached(callback: HookCallback<T>) {
     this.attachCallbacks.push(callback);
     return this;
   }
@@ -147,7 +157,7 @@ export class GrDomHook implements HookApi {
    * is detached.
    *
    */
-  onDetached(callback: HookCallback) {
+  onDetached(callback: HookCallback<T>) {
     this.detachCallbacks.push(callback);
     return this;
   }

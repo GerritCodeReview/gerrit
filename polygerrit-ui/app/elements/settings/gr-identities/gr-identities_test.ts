@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-identities.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-identities';
+import {GrIdentities} from './gr-identities';
+import {stubRestApi} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-identities');
 
 suite('gr-identities tests', () => {
-  let element;
+  let element: GrIdentities;
 
   const ids = [
     {

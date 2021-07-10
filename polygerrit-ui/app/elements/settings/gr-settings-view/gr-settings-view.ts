@@ -62,10 +62,19 @@ import {
 import {GrSshEditor} from '../gr-ssh-editor/gr-ssh-editor';
 import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
-import {CustomKeyboardEvent} from '../../../types/events';
+import {KeydownEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {appContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {
+  DateFormat,
+  DefaultBase,
+  DiffViewMode,
+  EmailFormat,
+  EmailStrategy,
+  TimeFormat,
+} from '../../../constants/constants';
 
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',
@@ -461,7 +470,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     this.$.emailEditor.save();
   }
 
-  _handleNewEmailKeydown(e: CustomKeyboardEvent) {
+  _handleNewEmailKeydown(e: KeydownEvent) {
     if (e.keyCode === 13) {
       // Enter
       e.stopPropagation();
@@ -494,7 +503,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     });
   }
 
-  _getFilterDocsLink(docsBaseUrl?: string) {
+  _getFilterDocsLink(docsBaseUrl?: string | null) {
     let base = docsBaseUrl;
     if (!base || !ABSOLUTE_URL_PATTERN.test(base)) {
       base = GERRIT_DOCS_BASE_URL;
@@ -533,6 +542,68 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
    */
   _onTapDarkToggle(e: Event) {
     e.preventDefault();
+  }
+
+  _handleChangesPerPage(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    if (!el || !el.value) return;
+    this.set('_localPrefs.changes_per_page', Number(el.value));
+  }
+
+  _handleDateFormat(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    if (!el || !el.value) return;
+    this.set('_localPrefs.date_format', el.value as DateFormat);
+  }
+
+  _handleTimeFormat(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    if (!el || !el.value) return;
+    this.set('_localPrefs.time_format', el.value as TimeFormat);
+  }
+
+  _handleEmailStrategy(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    if (!el || !el.value) return;
+    this.set('_localPrefs.email_strategy', el.value as EmailStrategy);
+  }
+
+  _handleEmailFormat(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    if (!el || !el.value) return;
+    this.set('_localPrefs.email_format', el.value as EmailFormat);
+  }
+
+  _handleDefaultBaseForMerges(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    if (!el || !el.value) return;
+    this.set('_localPrefs.default_base_for_merges', String(el.value));
+  }
+
+  _handleDiffView(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLOptionElement;
+    if (!el || !el.value) return;
+    this.set('_localPrefs.diff_view', el.value as DiffViewMode);
+  }
+
+  /**
+   * bind-value has type string so we have to convert
+   * anything inputed to string.
+   *
+   * This is so typescript checker doesn't fail.
+   */
+  _convertToString(
+    key?:
+      | DateFormat
+      | DefaultBase
+      | DiffViewMode
+      | EmailFormat
+      | EmailStrategy
+      | TimeFormat
+      | number
+  ) {
+    if (!key) return '';
+    return String(key);
   }
 }
 

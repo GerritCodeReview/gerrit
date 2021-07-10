@@ -75,12 +75,7 @@ export const htmlTemplate = html`
         <span class="title">Full Name</span>
         <span class="value">
           <iron-input bind-value="{{_account.name}}">
-            <input
-              is="iron-input"
-              id="name"
-              bind-value="{{_account.name}}"
-              disabled="[[_saving]]"
-            />
+            <input id="name" disabled="[[_saving]]" />
           </iron-input>
         </span>
       </section>
@@ -92,12 +87,7 @@ export const htmlTemplate = html`
           >
           <span hidden$="[[!_usernameMutable]]" class="value">
             <iron-input bind-value="{{_username}}">
-              <input
-                is="iron-input"
-                id="username"
-                bind-value="{{_username}}"
-                disabled="[[_saving]]"
-              />
+              <input id="username" disabled="[[_saving]]" />
             </iron-input>
           </span>
         </section>

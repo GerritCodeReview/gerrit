@@ -136,7 +136,10 @@ export const htmlTemplate = html`
             >Changes per page</label
           >
           <span class="value">
-            <gr-select bind-value="{{_localPrefs.changes_per_page}}">
+            <gr-select
+              bind-value="[[_convertToString(_localPrefs.changes_per_page)]]"
+              on-change="_handleChangesPerPage"
+            >
               <select id="changesPerPageSelect">
                 <option value="10">10 rows per page</option>
                 <option value="25">25 rows per page</option>
@@ -151,7 +154,10 @@ export const htmlTemplate = html`
             >Date/time format</label
           >
           <span class="value">
-            <gr-select bind-value="{{_localPrefs.date_format}}">
+            <gr-select
+              bind-value="[[_convertToString(_localPrefs.date_format)]]"
+              on-change="_handleDateFormat"
+            >
               <select id="dateTimeFormatSelect">
                 <option value="STD">Jun 3 ; Jun 3, 2016</option>
                 <option value="US">06/03 ; 06/03/16</option>
@@ -161,8 +167,9 @@ export const htmlTemplate = html`
               </select>
             </gr-select>
             <gr-select
-              bind-value="{{_localPrefs.time_format}}"
+              bind-value="[[_convertToString(_localPrefs.time_format)]]"
               aria-label="Time Format"
+              on-change="_handleTimeFormat"
             >
               <select>
                 <option value="HHMM_12">4:10 PM</option>
@@ -176,7 +183,10 @@ export const htmlTemplate = html`
             >Email notifications</label
           >
           <span class="value">
-            <gr-select bind-value="{{_localPrefs.email_strategy}}">
+            <gr-select
+              bind-value="[[_convertToString(_localPrefs.email_strategy)]]"
+              on-change="_handleEmailStrategy"
+            >
               <select id="emailNotificationsSelect">
                 <option value="CC_ON_OWN_COMMENTS">Every comment</option>
                 <option value="ENABLED">Only comments left by others</option>
@@ -188,10 +198,13 @@ export const htmlTemplate = html`
             </gr-select>
           </span>
         </section>
-        <section hidden$="[[!_localPrefs.email_format]]">
+        <section hidden$="[[!_convertToString(_localPrefs.email_format)]]">
           <label class="title" for="emailFormatSelect">Email format</label>
           <span class="value">
-            <gr-select bind-value="{{_localPrefs.email_format}}">
+            <gr-select
+              bind-value="[[_convertToString(_localPrefs.email_format)]]"
+              on-change="_handleEmailFormat"
+            >
               <select id="emailFormatSelect">
                 <option value="HTML_PLAINTEXT">HTML and plaintext</option>
                 <option value="PLAINTEXT">Plaintext only</option>
@@ -202,7 +215,10 @@ export const htmlTemplate = html`
         <section hidden$="[[!_localPrefs.default_base_for_merges]]">
           <span class="title">Default Base For Merges</span>
           <span class="value">
-            <gr-select bind-value="{{_localPrefs.default_base_for_merges}}">
+            <gr-select
+              bind-value="[[_convertToString(_localPrefs.default_base_for_merges)]]"
+              on-change="_handleDefaultBaseForMerges"
+            >
               <select>
                 <option value="AUTO_MERGE">Auto Merge</option>
                 <option value="FIRST_PARENT">First Parent</option>
@@ -226,7 +242,10 @@ export const htmlTemplate = html`
         <section>
           <span class="title">Diff view</span>
           <span class="value">
-            <gr-select bind-value="{{_localPrefs.diff_view}}">
+            <gr-select
+              bind-value="[[_convertToString(_localPrefs.diff_view)]]"
+              on-change="_handleDiffView"
+            >
               <select>
                 <option value="SIDE_BY_SIDE">Side by side</option>
                 <option value="UNIFIED_DIFF">Unified diff</option>
@@ -418,8 +437,6 @@ export const htmlTemplate = html`
             >
               <input
                 class="newEmailInput"
-                bind-value="{{_newEmail}}"
-                is="iron-input"
                 type="text"
                 disabled="[[_addingEmail]]"
                 on-keydown="_handleNewEmailKeydown"

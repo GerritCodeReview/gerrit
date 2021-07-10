@@ -1156,6 +1156,7 @@ export interface QueryLimitInfo {
  * The PreferencesInfo entity contains information about a user’s preferences
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-info
  */
+
 export interface PreferencesInfo {
   changes_per_page: 10 | 25 | 50 | 100;
   theme: AppTheme;

@@ -15,14 +15,18 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-watched-projects-editor.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import './gr-watched-projects-editor';
+import {GrWatchedProjectsEditor} from './gr-watched-projects-editor';
+import {stubRestApi} from '../../../test/test-utils';
+import {ProjectWatchInfo} from '../../../types/common';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const basicFixture = fixtureFromElement('gr-watched-projects-editor');
 
 suite('gr-watched-projects-editor tests', () => {
-  let element;
+  let element: GrWatchedProjectsEditor;
 
   setup(done => {
     const projects = [
@@ -30,29 +34,34 @@ suite('gr-watched-projects-editor tests', () => {
         project: 'project a',
         notify_submitted_changes: true,
         notify_abandoned_changes: true,
-      }, {
+      },
+      {
         project: 'project b',
         filter: 'filter 1',
         notify_new_changes: true,
-      }, {
+      },
+      {
         project: 'project b',
         filter: 'filter 2',
-      }, {
+      },
+      {
         project: 'project c',
         notify_new_changes: true,
         notify_new_patch_sets: true,
         notify_all_comments: true,
       },
-    ];
+    ] as ProjectWatchInfo[];
 
     stubRestApi('getWatchedProjects').returns(Promise.resolve(projects));
     stubRestApi('getSuggestedProjects').callsFake(input => {
       if (input.startsWith('th')) {
-        return Promise.resolve({'the project': {
-          id: 'the project',
-          state: 'ACTIVE',
-          web_links: [],
-        }});
+        return Promise.resolve({
+          'the project': {
+            id: 'the project',
+            state: 'ACTIVE',
+            web_links: [],
+          },
+        });
       } else {
         return Promise.resolve({});
       }
@@ -60,18 +69,18 @@ suite('gr-watched-projects-editor tests', () => {
 
     element = basicFixture.instantiate();
 
-    element.loadData().then(() => { flush(done); });
+    element.loadData().then(() => {
+      flush(done);
+    });
   });
 
   test('renders', () => {
-    const rows = element.shadowRoot
-        .querySelector('table').querySelectorAll('tbody tr');
+    const rows = queryAndAssert(element, 'table').querySelectorAll('tbody tr');
     assert.equal(rows.length, 4);
 
-    function getKeysOfRow(row) {
-      const boxes = rows[row].querySelectorAll('input[checked]');
-      return Array.prototype.map.call(boxes,
-          e => e.getAttribute('data-key'));
+    function getKeysOfRow(row: number) {
+      const boxes = queryAll(rows[row], 'input[checked]');
+      return Array.prototype.map.call(boxes, e => e.getAttribute('data-key'));
     }
 
     let checkedKeys = getKeysOfRow(0);
@@ -157,41 +166,44 @@ suite('gr-watched-projects-editor tests', () => {
   test('_handleAddProject', () => {
     element.$.newProject.value = 'project d';
     element.$.newProject.setText('project d');
-    element.$.newFilter.bindValue = '';
+    element.$.newFilterInput.bindValue = '';
 
     element._handleAddProject();
 
-    assert.equal(element._projects.length, 5);
-    assert.equal(element._projects[4].project, 'project d');
-    assert.isNotOk(element._projects[4].filter);
-    assert.isTrue(element._projects[4]._is_local);
+    const projects = element._projects!;
+    assert.equal(projects.length, 5);
+    assert.equal(projects[4].project, 'project d');
+    assert.isNotOk(projects[4].filter);
+    assert.isTrue(projects[4]._is_local);
   });
 
   test('_handleAddProject with invalid inputs', () => {
     element.$.newProject.value = 'project b';
     element.$.newProject.setText('project b');
-    element.$.newFilter.bindValue = 'filter 1';
+    element.$.newFilterInput.bindValue = 'filter 1';
     element.$.newFilter.value = 'filter 1';
 
     element._handleAddProject();
 
-    assert.equal(element._projects.length, 4);
+    assert.equal(element._projects!.length, 4);
   });
 
   test('_handleRemoveProject', () => {
-    assert.equal(element._projectsToRemove, 0);
-    const button = element.shadowRoot
-        .querySelector('table tbody tr:nth-child(2) gr-button');
+    assert.deepEqual(element._projectsToRemove, []);
+
+    const button = queryAndAssert(
+      element,
+      'table tbody tr:nth-child(2) gr-button'
+    );
     MockInteractions.tap(button);
 
     flush();
 
-    const rows = element.shadowRoot
-        .querySelector('table tbody').querySelectorAll('tr');
+    const rows = queryAndAssert(element, 'table tbody').querySelectorAll('tr');
+
     assert.equal(rows.length, 3);
 
     assert.equal(element._projectsToRemove.length, 1);
     assert.equal(element._projectsToRemove[0].project, 'project b');
   });
 });
-

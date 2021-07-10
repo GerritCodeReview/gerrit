@@ -120,7 +120,6 @@ ignore_templates_list = [
     "elements/diff/gr-patch-range-select/gr-patch-range-select_html.ts",
     "elements/gr-app-element_html.ts",
     "elements/settings/gr-settings-view/gr-settings-view_html.ts",
-    "elements/shared/gr-account-label/gr-account-label_html.ts",
     "elements/shared/gr-account-list/gr-account-list_html.ts",
     "elements/shared/gr-autocomplete/gr-autocomplete_html.ts",
     "elements/shared/gr-change-status/gr-change-status_html.ts",
